@@ -22,6 +22,9 @@ import com.rwproto.WorshipServiceProtos.WorshipInfo;
 import com.rwproto.WorshipServiceProtos.WorshipRewardData;
 
 public class WorshipUtils {
+	
+	public static final int UpperWorshipNum = 20;//发送给前端膜拜者数量
+	
 	/***/
 	public static WorshipItemData getRandomRewardData(int scheme) {
 		CfgWorshipRankdomScheme schemeCfg = CfgWorshipRankdomSchemeHelper.getInstance().getWorshipRewardCfg(scheme);
