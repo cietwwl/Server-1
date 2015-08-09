@@ -9,11 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
@@ -255,9 +253,13 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	}
 	
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+	public void updateRedPoint(Player player, String eNum) {
 		ActivityRateTypeItemHolder activityCountTypeItemHolder = new ActivityRateTypeItemHolder();
-		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(eNum.getCfgId());
+		ActivityRateTypeCfg cfg = ActivityRateTypeCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
 		if(rateEnum == null){
 			GameLog.error(LogModule.ComActivityRate, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

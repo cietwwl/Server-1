@@ -3,14 +3,14 @@ package com.playerdata.activity.countType;
 import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityCountTypeEnum{	// implements TypeIdentification
-	Login("11"),
-	GoldSpending("12"),
-	CopyWin("13"),
-	ElityCopyWin("14"),
-	BattleTower("15"),
-	GambleCoin("16"),
-	Charge("17"),
-	GambleGold("18");
+	Login("1"),
+	GoldSpending("2"),
+	CopyWin("3"),
+	ElityCopyWin("4"),
+	BattleTower("5"),
+	GambleCoin("6"),
+	Charge("7"),
+	GambleGold("8");
 
 	
 	

@@ -14,11 +14,9 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
@@ -295,9 +293,14 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 
 
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+	public void updateRedPoint(Player player, String eNum) {
 		ActivityRankTypeItemHolder activityCountTypeItemHolder = new ActivityRankTypeItemHolder();
-		ActivityRankTypeEnum rankEnum = ActivityRankTypeEnum.getById(eNum.getCfgId());
+		
+		ActivityRankTypeCfg cfg = ActivityRankTypeCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		ActivityRankTypeEnum rankEnum = ActivityRankTypeEnum.getById(eNum);//cfg
 		if(rankEnum == null){
 			GameLog.error(LogModule.ComActivityRank, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

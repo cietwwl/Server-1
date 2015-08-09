@@ -95,13 +95,13 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}
 			if(!targetItem.isTouchRedPoint()){
-				activityList.add(cfg.getEnumId());
+				activityList.add(cfg.getId());
 				continue;
 			}
 			List<ActivityCountTypeSubItem> subitemlist = targetItem.getSubItemList();
 			for(ActivityCountTypeSubItem subitem:subitemlist){
 				if(subitem.getCount()<=targetItem.getCount()&&!subitem.isTaken()){
-					activityList.add(cfg.getEnumId());
+					activityList.add(cfg.getId());
 					break;
 				}
 			}				
@@ -114,18 +114,18 @@ public class ActivityCollector implements RedPointCollector{
 			
 		}else{		
 			ActivityDailyTypeCfg activityDailyTypeCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(dailyTargetItem.getCfgid());
-			if(activityDailyTypeCfg != null){
+			if(activityDailyTypeCfg != null&&ActivityDailyTypeMgr.getInstance().isOpen(activityDailyTypeCfg)){
 				if(!dailyTargetItem.isTouchRedPoint()){
-					activityList.add(activityDailyTypeCfg.getEnumId());
-				}else if(ActivityDailyTypeMgr.getInstance().isOpen(activityDailyTypeCfg)){
+					activityList.add(activityDailyTypeCfg.getId());
+				}else {
 					for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
 						ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
 						if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
-							activityList.add(activityDailyTypeCfg.getEnumId());
+							activityList.add(activityDailyTypeCfg.getId());
 							break;
 						}
 					}		
-				}
+				}				
 			}
 			
 		}
@@ -150,7 +150,7 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}
 			if(!rateItem.isTouchRedPoint()){
-				activityList.add(cfg.getEnumId());
+				activityList.add(cfg.getId());
 				continue;
 			}
 		}
@@ -181,7 +181,7 @@ public class ActivityCollector implements RedPointCollector{
 					continue;
 				}
 				if(!subitem.isTaken()&&timeCountTargetItem.getCount()>subcfg.getCount()){
-					activityList.add(ActivityTimeCountTypeEnum.role_online.getCfgId());
+//					activityList.add(ActivityTimeCountTypeEnum.role_online.getCfgId());
 					break;
 				}
 			}
@@ -195,7 +195,7 @@ public class ActivityCollector implements RedPointCollector{
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : vitalityItemList) {// 每种活动
 			if (!ActivityVitalityTypeMgr.getInstance().isClose(activityVitalityTypeItem)) {
 				if(!activityVitalityTypeItem.isTouchRedPoint()){
-					activityList.add(activityVitalityTypeItem.getCfgId());
+					activityList.add(activityVitalityTypeItem.getId());
 					continue;
 				}
 				
@@ -207,7 +207,7 @@ public class ActivityCollector implements RedPointCollector{
 					}
 					if (subItem.getCount() >= subItemCfg.getCount()
 							&& !subItem.isTaken()) {
-						activityList.add(activityVitalityTypeItem.getCfgId());
+						activityList.add(activityVitalityTypeItem.getId());
 						break;
 					}
 				}

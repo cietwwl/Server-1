@@ -16,11 +16,9 @@ import com.playerdata.activity.ActivityComResult;
 
 
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -323,9 +321,13 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+	public void updateRedPoint(Player player, String eNum) {
 		ActivityExchangeTypeItemHolder activityCountTypeItemHolder = new ActivityExchangeTypeItemHolder();
-		ActivityExChangeTypeEnum exchangeEnum = ActivityExChangeTypeEnum.getById(eNum.getCfgId());
+		ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		ActivityExChangeTypeEnum exchangeEnum = ActivityExChangeTypeEnum.getById(eNum);//cfg
 		if(exchangeEnum == null){
 			GameLog.error(LogModule.ComActivityExchange, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

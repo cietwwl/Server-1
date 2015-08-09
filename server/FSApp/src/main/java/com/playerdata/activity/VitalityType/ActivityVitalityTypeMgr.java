@@ -12,7 +12,6 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
@@ -24,12 +23,8 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
-import com.rw.fsutil.util.DateUtils;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 
 
 public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
@@ -438,9 +433,13 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+	public void updateRedPoint(Player player, String eNum) {
 		ActivityVitalityItemHolder activityCountTypeItemHolder = new ActivityVitalityItemHolder();
-		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(eNum.getCfgId());
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(eNum);//cfg
 		if(vitalityEnum == null){
 			GameLog.error(LogModule.ComActivityVitality, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

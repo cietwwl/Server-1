@@ -10,7 +10,6 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
@@ -259,9 +258,13 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate{
 
 
 	
-	public void updateRedPoint(Player player, ActivityRedPointEnum target) {
+	public void updateRedPoint(Player player, String target) {
 		ActivityCountTypeItemHolder activityCountTypeItemHolder = new ActivityCountTypeItemHolder();
-		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(target.getCfgId());
+		ActivityCountTypeCfg cfg = ActivityCountTypeCfgDAO.getInstance().getCfgById(target);
+		if(cfg == null ){
+			return;
+		}
+		ActivityCountTypeEnum eNum = ActivityCountTypeEnum.getById(cfg.getEnumId());
 		if(eNum == null){
 			GameLog.error(LogModule.ComActivityCount, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

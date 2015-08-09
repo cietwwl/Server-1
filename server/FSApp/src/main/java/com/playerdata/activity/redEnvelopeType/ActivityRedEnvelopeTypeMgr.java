@@ -14,12 +14,10 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
@@ -250,9 +248,14 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum target) {
+	public void updateRedPoint(Player player, String target) {
 		ActivityRedEnvelopeItemHolder activityRedEnvelopeTypeItemHolder = new ActivityRedEnvelopeItemHolder();
-		ActivityRedEnvelopeTypeEnum redEnvelopeEnum = ActivityRedEnvelopeTypeEnum.getById(target.getCfgId());
+		ActivityRedEnvelopeTypeCfg cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(target);
+		if(cfg == null ){
+			return;
+		}
+		
+		ActivityRedEnvelopeTypeEnum redEnvelopeEnum = ActivityRedEnvelopeTypeEnum.getById(target);//cfg.getEnumId()
 		if(redEnvelopeEnum == null){
 			GameLog.error(LogModule.ComActivityRedEnvelope, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;
