@@ -48,7 +48,7 @@ public class MultiRecordEvent implements RecordEvent<MultiRecordEvent> {
 					if (setImpl == null) {
 						setImpl = new ChangeInfoSetImpl(key);
 					}
-					setImpl.recordDelJson(k, newJSON);
+					setImpl.recordDelJson(k, entry.getValue());
 				} else {
 					Map<String, ChangedRecord> pairMap = jsonComparator.compareJSON(entry.getValue(), newJSON);
 					if (pairMap != null) {

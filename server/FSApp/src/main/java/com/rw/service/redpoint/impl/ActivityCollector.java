@@ -108,24 +108,40 @@ public class ActivityCollector implements RedPointCollector{
 
 		//------------------------------			
 		ActivityDailyTypeItemHolder dailyDataHolder = ActivityDailyTypeItemHolder.getInstance();
-		ActivityDailyTypeCfg activityCountTypeCfg = ActivityDailyTypeMgr.getInstance().getparentCfg();
-		ActivityDailyTypeItem dailyTargetItem = dailyDataHolder.getItem(player.getUserId());		
-		if(activityCountTypeCfg != null&&dailyTargetItem!=null){
-			if(!dailyTargetItem.isTouchRedPoint()){
-				activityList.add(activityCountTypeCfg.getId());
-			}else if(ActivityDailyTypeMgr.getInstance().isOpen(activityCountTypeCfg)){
-				for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
-					ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
-					if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
-						activityList.add(activityCountTypeCfg.getId());
-						break;
-					}
-				}		
-			}
+		ActivityDailyTypeCfg activityCountTypeCfg = ActivityDailyTypeMgr.getInstance().getparentCfg();		
+		ActivityDailyTypeItem dailyTargetItem = dailyDataHolder.getItem(player.getUserId());	
+		if(dailyTargetItem == null){
 			
-			
-					
+		}else{
+			if(activityCountTypeCfg!=null&&ActivityDailyTypeMgr.getInstance().isOpen(activityCountTypeCfg)){
+				if(!dailyTargetItem.isTouchRedPoint()){
+					activityList.add(activityCountTypeCfg.getId());
+				}else{
+					for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
+						ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
+						if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
+							activityList.add(activityCountTypeCfg.getId());
+							break;
+						}
+					}		
+				}				
+			}			
 		}
+		
+		
+//		if(activityCountTypeCfg != null&&dailyTargetItem!=null){
+//			if(!dailyTargetItem.isTouchRedPoint()){
+//				activityList.add(activityCountTypeCfg.getId());
+//			}else if(ActivityDailyTypeMgr.getInstance().isOpen(activityCountTypeCfg)){
+//				for(ActivityDailyTypeSubItem subitem:dailyTargetItem.getSubItemList()){
+//					ActivityDailyTypeSubCfg subItemCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(subitem.getCfgId());
+//					if(subitem.getCount()>=subItemCfg.getCount()&&!subitem.isTaken()){
+//						activityList.add(activityCountTypeCfg.getId());
+//						break;
+//					}
+//				}		
+//			}					
+//		}
 
 		//------------------------------
 		ActivityRateTypeItemHolder datarateholder = new ActivityRateTypeItemHolder();

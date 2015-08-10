@@ -60,7 +60,8 @@ public class MultiChangedResult implements CacheRecordEvent, ChangeInfoSet {
 			sb.append(lineSeparator);
 			JsonInfo jsonInfo = list.get(i);
 			sb.append(jsonInfo.key);
-			sb.append(jsonInfo.json.toJSONString());
+			JSONObject json = jsonInfo.json;
+			sb.append(json == null ? "null": json.toJSONString());
 		}
 	}
 

@@ -63,7 +63,7 @@ public class MapItemRecord<T> implements RecordEvent<MapItemRecord<T>> {
 						setImpl = new ChangeInfoSetImpl(key);
 					}
 					// TODO null 也先设置
-					setImpl.recordDelJson(k, parser.toJson(newJSON));
+					setImpl.recordDelJson(k, parser.toJson(entry.getValue()));
 				} else {
 					Map<String, ChangedRecord> pairMap = parser.compareDiff(entry.getValue(), newJSON);
 					if (pairMap != null) {
