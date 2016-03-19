@@ -8,14 +8,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.arena.ArenaBM;
-import com.bm.arena.PeakArenaBM;
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
-import com.bm.rank.RankType;
-import com.bm.rank.arena.ArenaSettleComparable;
-import com.bm.rank.arena.ArenaSettlement;
 import com.common.Action;
+import com.common.TimeAction;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.assistant.AssistantMgr;
@@ -26,8 +23,6 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.fsutil.ranking.Ranking;
-import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
@@ -498,65 +493,33 @@ public class Player implements PlayerIF {
 		UserChannelMgr.kickoffDisconnect(getUserId());
 	}
 
-	//
-	// public void onUpdate() {
-	// Iterator<Entry<ChannelHandlerContext, Long>> iter =
-	// m_KickPlayerMap.entrySet().iterator();
-	// while (iter.hasNext()) {
-	// Map.Entry<ChannelHandlerContext, Long> entry = iter.next();
-	// long lastTime = System.currentTimeMillis() - entry.getValue();
-	// if (lastTime > 0) {
-	// // TODO 临时补丁，之后整块重构，这里需要通过userId去移除
-	// ChannelHandlerContext context = entry.getKey();
-	// if (context != null) {
-	// UserChannelMgr.remove(context);
-	// context.channel().close();
-	// GameLog.error("关闭连接" + getUserId() + "," + getUserName() + "," +
-	// context);
-	// // System.err.println("关闭连接" + getUserId() + "," +
-	// // getUserName() + "," + context);
-	// // m_KickPlayerMap.remove(entry.getKey());
-	// }
-	// iter.remove();
-	// GameLog.error("消息跟踪@Kick Player Success" + getUserId() + "," +
-	// getUserName() + "," + context);
-	// // System.err.println("Kick Player Success" + getUserId() + ","
-	// // + getUserName() + "," + context);
-	// break;
-	// }
-	// }
-	// }
 
+	private TimeAction onMinutesTimeAction;
 	/** 每分钟执行 */
 	public synchronized void onMinutes() {
-		try {
-			// 体力更新
-			int level = getLevel();
-			getUserGameDataMgr().addPowerByTime(level);
-			// 商店
-			getStoreMgr().onMinutes();
-			// 时装
-			m_FashionMgr.onMinutes();
-		} catch (Exception e) {
+		
+		if(onMinutesTimeAction == null){
+			onMinutesTimeAction = PlayerTimeActionHelper.onMinutes(this);
 		}
+		
+		onMinutesTimeAction.doAction();
 	}
 
+	private TimeAction onNewDayZeroTimeAction;
 	/** 0点刷新 */
 	public synchronized void onNewDayZero() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDayZero()", "机器人不进行重置", null);
 			return;
 		}
+		if(onNewDayZeroTimeAction == null){
+			onNewDayZeroTimeAction = PlayerTimeActionHelper.onNewDayZero(this);
+		}
+		
 		if (isNewDayHour(0, userGameDataMgr.getLastResetTime())) {
-			userGameDataMgr.setLastResetTime(System.currentTimeMillis());
-
-			userGameDataMgr.setFreeChat(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_CHAT_FREE_COUNT));
-			getCopyDataMgr().resetDataInNewDay();
-			// m_ArenaMgr.resetDataInNewDay();
-			// String userId = getUserId();
-			ArenaBM.getInstance().resetDataInNewDay(this);
-			// m_PeakArenaMgr.resetDataInNewDay();
-			PeakArenaBM.getInstance().resetDataInNewDay(this);
+			long now = System.currentTimeMillis();
+			getUserGameDataMgr().setLastResetTime(now);
+			onNewDayZeroTimeAction.doAction();
 		}
 	}
 
@@ -564,44 +527,37 @@ public class Player implements PlayerIF {
 		return DateUtils.getCurrentHour() >= hour && DateUtils.dayChanged(lastResetTime);
 	}
 
+	private TimeAction onNewDay5ClockTimeAction;
 	/** 早点５点刷新 */
 	public synchronized void onNewDay5Clock() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDay5Clock()", "机器人不进行重置", null);
 			return;
 		}
+		
+		if(onNewDay5ClockTimeAction == null){
+			onNewDay5ClockTimeAction = PlayerTimeActionHelper.onNewDay5ClockTimeAction(this);
+		}
+		
 		if (isNewDayHour(5, userGameDataMgr.getLastResetTime5Clock())) {
 			long now = System.currentTimeMillis();
-			userGameDataMgr.setLastResetTime5Clock(now);
-
-			userGameDataMgr.onNewDay5Clock();
-			getFriendMgr().onNewDay5Clock();
-			getDailyActivityMgr().ChangeRefreshVar();
-			getDailyActivityMgr().UpdateTaskList();
-			getEmailMgr().checkRemoveOverdue();
-			getGambleMgr().resetDestinyHot();
-			getCopyRecordMgr().resetAllCopyRecord();
-			getUnendingWarMgr().refreshConst();
-
-			// getTowerMgr().resetDataInNewDay();
-			// 重置七日礼包
-			getDailyGifMgr().updataCount(this);
-
-			// 重置商店刷新次数
-			getStoreMgr().resetRefreshNum();
-			// 试练塔次数重置
-			getBattleTowerMgr().resetBattleTowerResetTimes(now);
+			getUserGameDataMgr().setLastResetTime5Clock(now);
+			onNewDay5ClockTimeAction.doAction();
 		}
 	}
 
+	private TimeAction onNewHourTimeAction;
 	public synchronized void onNewHour() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewHour()", "机器人不进行重置", null);
 			return;
 		}
-		getDailyActivityMgr().resRed();
-		// TODO　HC 每个小时都检查一下是否需要重置万仙阵的匹配数据
-		getTowerMgr().checkAndResetMatchData(this);
+		
+		if(onNewHourTimeAction == null){
+			onNewHourTimeAction = PlayerTimeActionHelper.onNewHour(this);
+		}
+		onNewHourTimeAction.doAction();
+		
 	}
 
 	/**

@@ -10,6 +10,7 @@ public enum LogModule {
 	Util("工具类"),
 	GM("GM"),
 	BILOG("银汉对接日志"),
+	TimeAction("时效任务"),
 	GroupSystem("帮派系统"),
 	GroupSkill("帮派技能");
 	

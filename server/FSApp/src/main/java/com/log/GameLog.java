@@ -45,6 +45,16 @@ public class GameLog {
 	 * @param errorReason:失败原因
 	 * @param throwableP:捕获的异常，没有则传空
 	 */	
+	public static void error(final LogModule module,final String id, final String errorReason, final Throwable throwableP){
+		error(module.getName(), id, errorReason, throwableP);
+	}
+	/***
+	 * 
+	 * @param module:所属模块
+	 * @param id:发起者ID，如果是系统则为system
+	 * @param errorReason:失败原因
+	 * @param throwableP:捕获的异常，没有则传空
+	 */	
 	public static void error(final String module,final String id, final String errorReason, final Throwable throwableP){
 		
 		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
