@@ -113,6 +113,7 @@ public class BattleTowerMgr implements BattleTowerMgrIF {
 			return;
 		}
 
+		tableBattleTower.setCurBossTimes(0);
 		tableBattleTower.setResetTimes(0);
 		tableBattleTower.setResetTime(now);
 		TableBattleTowerDao.getDao().update(tableBattleTower);
