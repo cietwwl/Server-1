@@ -2,9 +2,12 @@ package com.bm.serverStatus;
 
 import java.util.List;
 
+import javax.print.attribute.standard.Severity;
+
 import com.gm.task.GmEmailAll;
 import com.rwbase.dao.serverData.ServerDataHolder;
 import com.rwbase.dao.serverData.ServerGmEmail;
+import com.rwbase.dao.serverData.ServerGmEmailHolder;
 
 
 public class ServerStatusMgr {
@@ -15,6 +18,7 @@ public class ServerStatusMgr {
 	private static boolean whiteListOn = true;
 	
 	private static ServerDataHolder dataHolder = new ServerDataHolder();
+	private static ServerGmEmailHolder mailHolder = new ServerGmEmailHolder();
 
 	public static ServerStatus getStatus() {
 		return status;
@@ -68,18 +72,26 @@ public class ServerStatusMgr {
 	}
 	
 	public static void addGmMail(ServerGmEmail gmEmail){
-		dataHolder.addGmMail(gmEmail);
+		mailHolder.addGmMail(gmEmail);
 	}
 	
 	public static ServerGmEmail getGmMail(long taskId){
-		return dataHolder.getGmMailByTaskId(taskId);
+		return mailHolder.getGmMailByTaskId(taskId);
 	}
 	
 	public static void updateGmMail(ServerGmEmail gmEmail){
-		dataHolder.updateGmMail(gmEmail);
+		mailHolder.updateGmMail(gmEmail);
 	}
 	
 	public static List<ServerGmEmail> getGmMails(){
-		return dataHolder.getGmMailList();
+		return mailHolder.getGmMailList();
+	}
+	
+	public static long getTaskId(){
+		return dataHolder.getTaskId();
+	}
+	
+	public static void setTaskId(long taskId){
+		dataHolder.setTaskId(taskId);
 	}
 }

@@ -11,7 +11,6 @@ import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.UserGameDataHolder;
-import com.rwbase.dao.user.UserGameExtendInfo;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
 public class UserGameDataMgr {
@@ -172,25 +171,63 @@ public class UserGameDataMgr {
 	public int getGold() {
 		return userGameDataHolder.get().getGold();
 	}
+	public int getGiftGold() {
+		return userGameDataHolder.get().getGiftGold();
+	}
+	public int getChargeGold() {
+		return userGameDataHolder.get().getChargeGold();
+	}
 
 	public int addGold(int value) {
 		UserGameData tableUserOther = userGameDataHolder.get();
-		int left = tableUserOther.getGold() + value;
-		if (left >= 0) {
-			tableUserOther.setGold(left);
-			if (value > 0) {
-				UserGameExtendInfo extendInfo = tableUserOther.getExtendInfo();
-				extendInfo.addSendGold(value);
-			}
-			userGameDataHolder.update(player);
-
-			// 消耗日常任务
-			if (value < 0) {
+		int result = 0;
+		if(value >= 0){
+			//加钻石
+			result = incrGold(tableUserOther, value);
+		}else{
+			//扣钻石
+			result = decrGold(tableUserOther, value);
+			//消耗日常任务
+			if(result == 0){
 				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CONST, Math.abs(value));
 			}
-			return 0;
 		}
-		return -1;
+	
+		if(result == 0){
+			userGameDataHolder.update(player);
+		}
+		
+		
+		return result;
+	}
+	
+	//增加钻石
+	private int incrGold(UserGameData tableUserOther,int value){
+		
+		tableUserOther.setGiftGold(tableUserOther.getGiftGold()+value);
+		tableUserOther.updateGold();
+		return 0;
+	}
+	//消费钻石
+	private int decrGold(UserGameData tableUserOther,int value){
+		//先消费赠送货币，再消费充值货币
+		int giftGold = tableUserOther.getGiftGold();		
+		int chargeGold = tableUserOther.getChargeGold();
+		boolean hasEngoughGold = giftGold + chargeGold + value >= 0 ;
+		if(hasEngoughGold){
+			if(giftGold+value>=0){
+				tableUserOther.setGiftGold(giftGold+value);
+			}else{
+				tableUserOther.setGiftGold(0);
+				int chargeLeft = giftGold + chargeGold + value;
+				tableUserOther.setChargeGold(chargeLeft);
+			}	
+			tableUserOther.updateGold();
+			return 0;
+		}else{
+			return -1;
+		}
+		
 	}
 
 	public void setRecharge(int nValue) {

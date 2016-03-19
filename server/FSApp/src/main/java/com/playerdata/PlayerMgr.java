@@ -306,7 +306,7 @@ public class PlayerMgr {
 			public void doCallBack(Player player) {
 				boolean filted = false;
 				for (PlayerFilterCondition conTmp : conditionList) {
-					if (PlayerFilter.isInRange(player, conTmp)) {
+					if (!PlayerFilter.isInRange(player, conTmp)) {
 						filted = true;
 						break;
 					}

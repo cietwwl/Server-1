@@ -11,7 +11,6 @@ import com.common.Weight;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossCfg;
-import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossTemplate;
 
 /*
  * @author HC
@@ -30,33 +29,26 @@ public class BattleTowerBossCfgDao extends CfgCsvDao<BattleTowerBossCfg> {
 	}
 
 	/** Boss按照等级排序,有特殊需求 */
-	private TreeMap<Integer, List<Integer>> bossTreeMap;
-	private Map<Integer, BattleTowerBossTemplate> bossTmpMap;
+	private TreeMap<Integer, List<String>> bossTreeMap;
 
 	@Override
 	public Map<String, BattleTowerBossCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("battleTower/BattleTowerBossCfg.csv", BattleTowerBossCfg.class);
-
-		TreeMap<Integer, List<Integer>> bossTreeMap = new TreeMap<Integer, List<Integer>>();
-		Map<Integer, BattleTowerBossTemplate> bossTmpMap = new HashMap<Integer, BattleTowerBossTemplate>();
+		bossTreeMap = new TreeMap<Integer, List<String>>();
 
 		for (Entry<String, BattleTowerBossCfg> e : cfgCacheMap.entrySet()) {
+			String key = e.getKey();
 			BattleTowerBossCfg bossCfg = (BattleTowerBossCfg) e.getValue();
 			int level = bossCfg.getLevelLimit();
 
-			List<Integer> list = bossTreeMap.get(level);
+			List<String> list = bossTreeMap.get(level);
 			if (list == null) {
-				list = new ArrayList<Integer>();
+				list = new ArrayList<String>();
 				bossTreeMap.put(level, list);
 			}
 
-			list.add(bossCfg.getBossId());
-
-			bossTmpMap.put(bossCfg.getBossId(), new BattleTowerBossTemplate(bossCfg));
+			list.add(key);
 		}
-
-		this.bossTreeMap = bossTreeMap;
-		this.bossTmpMap = bossTmpMap;
 
 		return cfgCacheMap;
 	}
@@ -64,11 +56,10 @@ public class BattleTowerBossCfgDao extends CfgCsvDao<BattleTowerBossCfg> {
 	/**
 	 * 通过角色等级获取随机出来的Boss信息
 	 * 
-	 * @param pLevel
-	 *            角色等级
+	 * @param pLevel 角色等级
 	 * @return
 	 */
-	public BattleTowerBossTemplate ranBossInfo(int pLevel) {
+	public BattleTowerBossCfg ranBossInfo(int pLevel) {
 		if (bossTreeMap == null) {
 			initJsonCfg();
 		}
@@ -77,46 +68,24 @@ public class BattleTowerBossCfgDao extends CfgCsvDao<BattleTowerBossCfg> {
 			return null;
 		}
 
-		if (bossTmpMap == null) {
-			return null;
-		}
-
-		Entry<Integer, List<Integer>> e = bossTreeMap.floorEntry(pLevel);
+		Entry<Integer, List<String>> e = bossTreeMap.floorEntry(pLevel);
 		if (e == null) {
 			return null;
 		}
 
-		List<Integer> list = e.getValue();
+		List<String> list = e.getValue();
 		if (list == null || list.isEmpty()) {
 			return null;
 		}
 
-		Map<BattleTowerBossTemplate, Integer> proMap = new HashMap<BattleTowerBossTemplate, Integer>();
+		Map<BattleTowerBossCfg, Integer> proMap = new HashMap<BattleTowerBossCfg, Integer>();
 		for (int i = 0, size = list.size(); i < size; i++) {
-			Integer bossId = list.get(i);
-			BattleTowerBossTemplate battleTowerBossTemplate = bossTmpMap.get(bossId);
-			if (battleTowerBossTemplate == null) {
-				continue;
-			}
-
-			proMap.put(battleTowerBossTemplate, battleTowerBossTemplate.getPro());
+			String bossId = list.get(i);
+			BattleTowerBossCfg bossCfg = (BattleTowerBossCfg) getCfgById(bossId);
+			proMap.put(bossCfg, bossCfg.getPro());
 		}
 
-		Weight<BattleTowerBossTemplate> weight = new Weight<BattleTowerBossTemplate>(proMap);
+		Weight<BattleTowerBossCfg> weight = new Weight<BattleTowerBossCfg>(proMap);
 		return weight.getRanResult();
-	}
-
-	/**
-	 * 获取试练塔Boss的模版
-	 * 
-	 * @param bossId
-	 * @return
-	 */
-	public BattleTowerBossTemplate getBossTemplate(int bossId) {
-		if (bossTmpMap == null) {
-			return null;
-		}
-
-		return bossTmpMap.get(bossId);
 	}
 }

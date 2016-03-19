@@ -25,7 +25,7 @@ public final class MagicServiceProtos {
      * <code>Magic_FORGE = 1;</code>
      *
      * <pre>
-     * 锻造
+     * 锻造，CriticalForgeType指定每个材料的暴击强化种类，兼容旧客户端不填的情况（即是没有暴击），不论成功还是失败都会返回criticalRamdom用于下一次的强化数值验证，如果autoForge设置为true，那么忽略客户端传递的CriticalForgeType参数，服务端进行是否暴击的计算
      * </pre>
      */
     Magic_FORGE(1, 1),
@@ -37,6 +37,22 @@ public final class MagicServiceProtos {
      * </pre>
      */
     Magic_SMELT(2, 2),
+    /**
+     * <code>Magic_Upgrade = 3;</code>
+     *
+     * <pre>
+     *法宝进阶，指定法宝id即可，进阶失败通过resultTip返回失败原因
+     * </pre>
+     */
+    Magic_Upgrade(3, 3),
+    /**
+     * <code>Magic_Ramdom = 4;</code>
+     *
+     * <pre>
+     *获取强化的随机参数，不需要其他参数，返回criticalRamdom
+     * </pre>
+     */
+    Magic_Ramdom(4, 4),
     ;
 
     /**
@@ -51,7 +67,7 @@ public final class MagicServiceProtos {
      * <code>Magic_FORGE = 1;</code>
      *
      * <pre>
-     * 锻造
+     * 锻造，CriticalForgeType指定每个材料的暴击强化种类，兼容旧客户端不填的情况（即是没有暴击），不论成功还是失败都会返回criticalRamdom用于下一次的强化数值验证，如果autoForge设置为true，那么忽略客户端传递的CriticalForgeType参数，服务端进行是否暴击的计算
      * </pre>
      */
     public static final int Magic_FORGE_VALUE = 1;
@@ -63,6 +79,22 @@ public final class MagicServiceProtos {
      * </pre>
      */
     public static final int Magic_SMELT_VALUE = 2;
+    /**
+     * <code>Magic_Upgrade = 3;</code>
+     *
+     * <pre>
+     *法宝进阶，指定法宝id即可，进阶失败通过resultTip返回失败原因
+     * </pre>
+     */
+    public static final int Magic_Upgrade_VALUE = 3;
+    /**
+     * <code>Magic_Ramdom = 4;</code>
+     *
+     * <pre>
+     *获取强化的随机参数，不需要其他参数，返回criticalRamdom
+     * </pre>
+     */
+    public static final int Magic_Ramdom_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -72,6 +104,8 @@ public final class MagicServiceProtos {
         case 0: return Magic_TAKE;
         case 1: return Magic_FORGE;
         case 2: return Magic_SMELT;
+        case 3: return Magic_Upgrade;
+        case 4: return Magic_Ramdom;
         default: return null;
       }
     }
@@ -248,6 +282,24 @@ public final class MagicServiceProtos {
      * <code>required int32 Count = 2;</code>
      */
     int getCount();
+
+    // optional int32 CriticalForgeType = 3;
+    /**
+     * <code>optional int32 CriticalForgeType = 3;</code>
+     *
+     * <pre>
+     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     * </pre>
+     */
+    boolean hasCriticalForgeType();
+    /**
+     * <code>optional int32 CriticalForgeType = 3;</code>
+     *
+     * <pre>
+     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     * </pre>
+     */
+    int getCriticalForgeType();
   }
   /**
    * Protobuf type {@code MagicItemData}
@@ -308,6 +360,11 @@ public final class MagicServiceProtos {
             case 16: {
               bitField0_ |= 0x00000002;
               count_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              criticalForgeType_ = input.readInt32();
               break;
             }
           }
@@ -409,9 +466,34 @@ public final class MagicServiceProtos {
       return count_;
     }
 
+    // optional int32 CriticalForgeType = 3;
+    public static final int CRITICALFORGETYPE_FIELD_NUMBER = 3;
+    private int criticalForgeType_;
+    /**
+     * <code>optional int32 CriticalForgeType = 3;</code>
+     *
+     * <pre>
+     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     * </pre>
+     */
+    public boolean hasCriticalForgeType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 CriticalForgeType = 3;</code>
+     *
+     * <pre>
+     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     * </pre>
+     */
+    public int getCriticalForgeType() {
+      return criticalForgeType_;
+    }
+
     private void initFields() {
       id_ = "";
       count_ = 0;
+      criticalForgeType_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -439,6 +521,9 @@ public final class MagicServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, count_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, criticalForgeType_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -455,6 +540,10 @@ public final class MagicServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, count_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, criticalForgeType_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -576,6 +665,8 @@ public final class MagicServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         count_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        criticalForgeType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -612,6 +703,10 @@ public final class MagicServiceProtos {
           to_bitField0_ |= 0x00000002;
         }
         result.count_ = count_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.criticalForgeType_ = criticalForgeType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -635,6 +730,9 @@ public final class MagicServiceProtos {
         }
         if (other.hasCount()) {
           setCount(other.getCount());
+        }
+        if (other.hasCriticalForgeType()) {
+          setCriticalForgeType(other.getCriticalForgeType());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -778,6 +876,55 @@ public final class MagicServiceProtos {
         return this;
       }
 
+      // optional int32 CriticalForgeType = 3;
+      private int criticalForgeType_ ;
+      /**
+       * <code>optional int32 CriticalForgeType = 3;</code>
+       *
+       * <pre>
+       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       * </pre>
+       */
+      public boolean hasCriticalForgeType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 CriticalForgeType = 3;</code>
+       *
+       * <pre>
+       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       * </pre>
+       */
+      public int getCriticalForgeType() {
+        return criticalForgeType_;
+      }
+      /**
+       * <code>optional int32 CriticalForgeType = 3;</code>
+       *
+       * <pre>
+       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       * </pre>
+       */
+      public Builder setCriticalForgeType(int value) {
+        bitField0_ |= 0x00000004;
+        criticalForgeType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 CriticalForgeType = 3;</code>
+       *
+       * <pre>
+       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       * </pre>
+       */
+      public Builder clearCriticalForgeType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        criticalForgeType_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MagicItemData)
     }
 
@@ -891,6 +1038,24 @@ public final class MagicServiceProtos {
      */
     com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder getMagicItemDataOrBuilder(
         int index);
+
+    // optional bool autoForge = 5;
+    /**
+     * <code>optional bool autoForge = 5;</code>
+     *
+     * <pre>
+     *是否自动强化
+     * </pre>
+     */
+    boolean hasAutoForge();
+    /**
+     * <code>optional bool autoForge = 5;</code>
+     *
+     * <pre>
+     *是否自动强化
+     * </pre>
+     */
+    boolean getAutoForge();
   }
   /**
    * Protobuf type {@code MsgMagicRequest}
@@ -970,6 +1135,11 @@ public final class MagicServiceProtos {
                 mutable_bitField0_ |= 0x00000008;
               }
               magicItemData_.add(input.readMessage(com.rwproto.MagicServiceProtos.MagicItemData.PARSER, extensionRegistry));
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              autoForge_ = input.readBool();
               break;
             }
           }
@@ -1166,11 +1336,36 @@ public final class MagicServiceProtos {
       return magicItemData_.get(index);
     }
 
+    // optional bool autoForge = 5;
+    public static final int AUTOFORGE_FIELD_NUMBER = 5;
+    private boolean autoForge_;
+    /**
+     * <code>optional bool autoForge = 5;</code>
+     *
+     * <pre>
+     *是否自动强化
+     * </pre>
+     */
+    public boolean hasAutoForge() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bool autoForge = 5;</code>
+     *
+     * <pre>
+     *是否自动强化
+     * </pre>
+     */
+    public boolean getAutoForge() {
+      return autoForge_;
+    }
+
     private void initFields() {
       magicType_ = com.rwproto.MagicServiceProtos.eMagicType.Magic_TAKE;
       id_ = "";
       state_ = 0;
       magicItemData_ = java.util.Collections.emptyList();
+      autoForge_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1206,6 +1401,9 @@ public final class MagicServiceProtos {
       for (int i = 0; i < magicItemData_.size(); i++) {
         output.writeMessage(4, magicItemData_.get(i));
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(5, autoForge_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1230,6 +1428,10 @@ public final class MagicServiceProtos {
       for (int i = 0; i < magicItemData_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, magicItemData_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, autoForge_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1360,6 +1562,8 @@ public final class MagicServiceProtos {
         } else {
           magicItemDataBuilder_.clear();
         }
+        autoForge_ = false;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1409,6 +1613,10 @@ public final class MagicServiceProtos {
         } else {
           result.magicItemData_ = magicItemDataBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.autoForge_ = autoForge_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1461,6 +1669,9 @@ public final class MagicServiceProtos {
               magicItemDataBuilder_.addAllMessages(other.magicItemData_);
             }
           }
+        }
+        if (other.hasAutoForge()) {
+          setAutoForge(other.getAutoForge());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1994,6 +2205,55 @@ public final class MagicServiceProtos {
         return magicItemDataBuilder_;
       }
 
+      // optional bool autoForge = 5;
+      private boolean autoForge_ ;
+      /**
+       * <code>optional bool autoForge = 5;</code>
+       *
+       * <pre>
+       *是否自动强化
+       * </pre>
+       */
+      public boolean hasAutoForge() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bool autoForge = 5;</code>
+       *
+       * <pre>
+       *是否自动强化
+       * </pre>
+       */
+      public boolean getAutoForge() {
+        return autoForge_;
+      }
+      /**
+       * <code>optional bool autoForge = 5;</code>
+       *
+       * <pre>
+       *是否自动强化
+       * </pre>
+       */
+      public Builder setAutoForge(boolean value) {
+        bitField0_ |= 0x00000010;
+        autoForge_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool autoForge = 5;</code>
+       *
+       * <pre>
+       *是否自动强化
+       * </pre>
+       */
+      public Builder clearAutoForge() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        autoForge_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgMagicRequest)
     }
 
@@ -2037,6 +2297,51 @@ public final class MagicServiceProtos {
      * <code>optional int32 newMagicModelId = 3;</code>
      */
     int getNewMagicModelId();
+
+    // optional int32 criticalRamdom = 4;
+    /**
+     * <code>optional int32 criticalRamdom = 4;</code>
+     *
+     * <pre>
+     *强化暴击需要的随机参数
+     * </pre>
+     */
+    boolean hasCriticalRamdom();
+    /**
+     * <code>optional int32 criticalRamdom = 4;</code>
+     *
+     * <pre>
+     *强化暴击需要的随机参数
+     * </pre>
+     */
+    int getCriticalRamdom();
+
+    // optional string resultTip = 5;
+    /**
+     * <code>optional string resultTip = 5;</code>
+     *
+     * <pre>
+     *如果可能，服务端会定义一个成功或者失败的提示信息
+     * </pre>
+     */
+    boolean hasResultTip();
+    /**
+     * <code>optional string resultTip = 5;</code>
+     *
+     * <pre>
+     *如果可能，服务端会定义一个成功或者失败的提示信息
+     * </pre>
+     */
+    java.lang.String getResultTip();
+    /**
+     * <code>optional string resultTip = 5;</code>
+     *
+     * <pre>
+     *如果可能，服务端会定义一个成功或者失败的提示信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getResultTipBytes();
   }
   /**
    * Protobuf type {@code MsgMagicResponse}
@@ -2114,6 +2419,16 @@ public final class MagicServiceProtos {
             case 24: {
               bitField0_ |= 0x00000004;
               newMagicModelId_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              criticalRamdom_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              resultTip_ = input.readBytes();
               break;
             }
           }
@@ -2204,10 +2519,91 @@ public final class MagicServiceProtos {
       return newMagicModelId_;
     }
 
+    // optional int32 criticalRamdom = 4;
+    public static final int CRITICALRAMDOM_FIELD_NUMBER = 4;
+    private int criticalRamdom_;
+    /**
+     * <code>optional int32 criticalRamdom = 4;</code>
+     *
+     * <pre>
+     *强化暴击需要的随机参数
+     * </pre>
+     */
+    public boolean hasCriticalRamdom() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 criticalRamdom = 4;</code>
+     *
+     * <pre>
+     *强化暴击需要的随机参数
+     * </pre>
+     */
+    public int getCriticalRamdom() {
+      return criticalRamdom_;
+    }
+
+    // optional string resultTip = 5;
+    public static final int RESULTTIP_FIELD_NUMBER = 5;
+    private java.lang.Object resultTip_;
+    /**
+     * <code>optional string resultTip = 5;</code>
+     *
+     * <pre>
+     *如果可能，服务端会定义一个成功或者失败的提示信息
+     * </pre>
+     */
+    public boolean hasResultTip() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string resultTip = 5;</code>
+     *
+     * <pre>
+     *如果可能，服务端会定义一个成功或者失败的提示信息
+     * </pre>
+     */
+    public java.lang.String getResultTip() {
+      java.lang.Object ref = resultTip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          resultTip_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string resultTip = 5;</code>
+     *
+     * <pre>
+     *如果可能，服务端会定义一个成功或者失败的提示信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getResultTipBytes() {
+      java.lang.Object ref = resultTip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        resultTip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       magicType_ = com.rwproto.MagicServiceProtos.eMagicType.Magic_TAKE;
       eMagicResultType_ = com.rwproto.MagicServiceProtos.eMagicResultType.SUCCESS;
       newMagicModelId_ = 0;
+      criticalRamdom_ = 0;
+      resultTip_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2234,6 +2630,12 @@ public final class MagicServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, newMagicModelId_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, criticalRamdom_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getResultTipBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2254,6 +2656,14 @@ public final class MagicServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, newMagicModelId_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, criticalRamdom_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getResultTipBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2377,6 +2787,10 @@ public final class MagicServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         newMagicModelId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
+        criticalRamdom_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        resultTip_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2417,6 +2831,14 @@ public final class MagicServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.newMagicModelId_ = newMagicModelId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.criticalRamdom_ = criticalRamdom_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.resultTip_ = resultTip_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2441,6 +2863,14 @@ public final class MagicServiceProtos {
         }
         if (other.hasNewMagicModelId()) {
           setNewMagicModelId(other.getNewMagicModelId());
+        }
+        if (other.hasCriticalRamdom()) {
+          setCriticalRamdom(other.getCriticalRamdom());
+        }
+        if (other.hasResultTip()) {
+          bitField0_ |= 0x00000010;
+          resultTip_ = other.resultTip_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2578,6 +3008,153 @@ public final class MagicServiceProtos {
         return this;
       }
 
+      // optional int32 criticalRamdom = 4;
+      private int criticalRamdom_ ;
+      /**
+       * <code>optional int32 criticalRamdom = 4;</code>
+       *
+       * <pre>
+       *强化暴击需要的随机参数
+       * </pre>
+       */
+      public boolean hasCriticalRamdom() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 criticalRamdom = 4;</code>
+       *
+       * <pre>
+       *强化暴击需要的随机参数
+       * </pre>
+       */
+      public int getCriticalRamdom() {
+        return criticalRamdom_;
+      }
+      /**
+       * <code>optional int32 criticalRamdom = 4;</code>
+       *
+       * <pre>
+       *强化暴击需要的随机参数
+       * </pre>
+       */
+      public Builder setCriticalRamdom(int value) {
+        bitField0_ |= 0x00000008;
+        criticalRamdom_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 criticalRamdom = 4;</code>
+       *
+       * <pre>
+       *强化暴击需要的随机参数
+       * </pre>
+       */
+      public Builder clearCriticalRamdom() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        criticalRamdom_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string resultTip = 5;
+      private java.lang.Object resultTip_ = "";
+      /**
+       * <code>optional string resultTip = 5;</code>
+       *
+       * <pre>
+       *如果可能，服务端会定义一个成功或者失败的提示信息
+       * </pre>
+       */
+      public boolean hasResultTip() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string resultTip = 5;</code>
+       *
+       * <pre>
+       *如果可能，服务端会定义一个成功或者失败的提示信息
+       * </pre>
+       */
+      public java.lang.String getResultTip() {
+        java.lang.Object ref = resultTip_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          resultTip_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string resultTip = 5;</code>
+       *
+       * <pre>
+       *如果可能，服务端会定义一个成功或者失败的提示信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getResultTipBytes() {
+        java.lang.Object ref = resultTip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          resultTip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string resultTip = 5;</code>
+       *
+       * <pre>
+       *如果可能，服务端会定义一个成功或者失败的提示信息
+       * </pre>
+       */
+      public Builder setResultTip(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        resultTip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string resultTip = 5;</code>
+       *
+       * <pre>
+       *如果可能，服务端会定义一个成功或者失败的提示信息
+       * </pre>
+       */
+      public Builder clearResultTip() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        resultTip_ = getDefaultInstance().getResultTip();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string resultTip = 5;</code>
+       *
+       * <pre>
+       *如果可能，服务端会定义一个成功或者失败的提示信息
+       * </pre>
+       */
+      public Builder setResultTipBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        resultTip_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgMagicResponse)
     }
 
@@ -2613,18 +3190,21 @@ public final class MagicServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022MagicService.proto\"*\n\rMagicItemData\022\n\n" +
-      "\002Id\030\001 \002(\t\022\r\n\005Count\030\002 \002(\005\"s\n\017MsgMagicRequ" +
-      "est\022\036\n\tMagicType\030\001 \002(\0162\013.eMagicType\022\n\n\002i" +
-      "d\030\002 \001(\t\022\r\n\005state\030\003 \001(\005\022%\n\rmagicItemData\030" +
-      "\004 \003(\0132\016.MagicItemData\"x\n\020MsgMagicRespons" +
-      "e\022\036\n\tmagicType\030\001 \002(\0162\013.eMagicType\022+\n\020eMa" +
-      "gicResultType\030\002 \001(\0162\021.eMagicResultType\022\027" +
-      "\n\017newMagicModelId\030\003 \001(\005*>\n\neMagicType\022\016\n" +
-      "\nMagic_TAKE\020\000\022\017\n\013Magic_FORGE\020\001\022\017\n\013Magic_" +
-      "SMELT\020\002*)\n\020eMagicResultType\022\013\n\007SUCCESS\020\001",
-      "\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022MagicServiceP" +
-      "rotos"
+      "\n\022MagicService.proto\"E\n\rMagicItemData\022\n\n" +
+      "\002Id\030\001 \002(\t\022\r\n\005Count\030\002 \002(\005\022\031\n\021CriticalForg" +
+      "eType\030\003 \001(\005\"\206\001\n\017MsgMagicRequest\022\036\n\tMagic" +
+      "Type\030\001 \002(\0162\013.eMagicType\022\n\n\002id\030\002 \001(\t\022\r\n\005s" +
+      "tate\030\003 \001(\005\022%\n\rmagicItemData\030\004 \003(\0132\016.Magi" +
+      "cItemData\022\021\n\tautoForge\030\005 \001(\010\"\243\001\n\020MsgMagi" +
+      "cResponse\022\036\n\tmagicType\030\001 \002(\0162\013.eMagicTyp" +
+      "e\022+\n\020eMagicResultType\030\002 \001(\0162\021.eMagicResu" +
+      "ltType\022\027\n\017newMagicModelId\030\003 \001(\005\022\026\n\016criti" +
+      "calRamdom\030\004 \001(\005\022\021\n\tresultTip\030\005 \001(\t*c\n\neM",
+      "agicType\022\016\n\nMagic_TAKE\020\000\022\017\n\013Magic_FORGE\020" +
+      "\001\022\017\n\013Magic_SMELT\020\002\022\021\n\rMagic_Upgrade\020\003\022\020\n" +
+      "\014Magic_Ramdom\020\004*)\n\020eMagicResultType\022\013\n\007S" +
+      "UCCESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022Magic" +
+      "ServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2636,19 +3216,19 @@ public final class MagicServiceProtos {
           internal_static_MagicItemData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MagicItemData_descriptor,
-              new java.lang.String[] { "Id", "Count", });
+              new java.lang.String[] { "Id", "Count", "CriticalForgeType", });
           internal_static_MsgMagicRequest_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_MsgMagicRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgMagicRequest_descriptor,
-              new java.lang.String[] { "MagicType", "Id", "State", "MagicItemData", });
+              new java.lang.String[] { "MagicType", "Id", "State", "MagicItemData", "AutoForge", });
           internal_static_MsgMagicResponse_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_MsgMagicResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgMagicResponse_descriptor,
-              new java.lang.String[] { "MagicType", "EMagicResultType", "NewMagicModelId", });
+              new java.lang.String[] { "MagicType", "EMagicResultType", "NewMagicModelId", "CriticalRamdom", "ResultTip", });
           return null;
         }
       };

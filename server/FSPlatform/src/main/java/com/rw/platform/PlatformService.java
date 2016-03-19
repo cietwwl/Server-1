@@ -96,6 +96,8 @@ public class PlatformService {
 			ZoneInfoCache zoneInfoCache = ZoneMap.get(tableZoneInfo.getZoneId());
 			if(zoneInfoCache == null){
 				zoneInfoCache = new ZoneInfoCache(tableZoneInfo);
+			}else{
+				zoneInfoCache.updateZoneCache(tableZoneInfo);
 			}
 			ZoneMap.put(tableZoneInfo.getZoneId(), zoneInfoCache);
 			if (tableZoneInfo.getRecommand() == PlatformService.SERVER_RECOMMAND) {
@@ -214,8 +216,9 @@ public class PlatformService {
 	public void updateZoneInfo(ZoneInfoCache cache){
 		for (TableZoneInfo zoneInfo : allZoneList) {
 			if(zoneInfo.getZoneId() == cache.getZoneId()){
-				zoneInfo.setStatus(cache.getStatus());
-				zoneDataHolder.updateZoneInfo(zoneInfo);
+				TableZoneInfo zone = TableZoneInfoDAO.getInstance().getByKey(zoneInfo.getZoneId());
+				zone.setStatus(cache.getStatus());
+				zoneDataHolder.updateZoneInfo(zone);
 				initZoneCache();
 				break;
 			}

@@ -6,7 +6,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.playerFilter.PlayerFilterCondition;
+import com.gm.GmResultStatusCode;
 import com.gm.util.GmUtils;
+import com.playerdata.EmailMgr;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.email.EEmailDeleteType;
@@ -34,7 +36,7 @@ public class GmEmailHelper{
 		GmEmailHelper.conditionList = conditionList;
 	}
 
-	public static EmailData getEmailData(Map<String, Object> args){
+	public static EmailData getEmailData(Map<String, Object> args) throws Exception {
 		EmailData emailData = new EmailData();
 		emailData.setSender("GM");
 		if (args.get("taskId") != null) {
@@ -55,6 +57,8 @@ public class GmEmailHelper{
 			}
 			emailData.setEmailAttachment(attachment.toString());
 			emailData.setDeleteType(EEmailDeleteType.GET_DELETE);
+		}else{
+			emailData.setDeleteType(EEmailDeleteType.DELAY_TIME);
 		}
 		
 		int coolTimeInMinute = GmUtils.parseInt(args, "coolTime");
@@ -63,11 +67,15 @@ public class GmEmailHelper{
 		
 		emailData.setCoolTime(currentTimeMillis+coolTimeInMinute*minuteSpanInMilli);
 		int expireTimeInday = GmUtils.parseInt(args, "expireTime");
-		emailData.setDeleteType(EEmailDeleteType.DELAY_TIME);
+		
 		emailData.setExpireTime(expireTimeInday);
 		
 		final int daySpanInSecond = 24*60*60;
 		if (expireTimeInday != 0) {
+			int delayTime = expireTimeInday * daySpanInSecond;
+			if(delayTime > 604800){
+				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_INVALID_DALAY_TIME.getStatus()));
+			}
 			emailData.setDelayTime(expireTimeInday * daySpanInSecond);
 		}
 		if (args.get("beginTime") != null && args.get("endTime") != null) {

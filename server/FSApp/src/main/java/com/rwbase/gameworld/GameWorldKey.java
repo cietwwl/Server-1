@@ -11,5 +11,9 @@ public enum GameWorldKey {
 	 * 帮派解散倒计时
 	 */
 	GROUP_DISMISS,
+	/**
+	 * 竞技场结算
+	 */
+	ARENA_CALCULATE
 	
 }

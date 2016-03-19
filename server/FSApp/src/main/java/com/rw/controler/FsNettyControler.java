@@ -330,10 +330,10 @@ public class FsNettyControler {
 			UserThreadLocal.set(pPlayer);
 			try {
 				pPlayer.onBSStart();
+				resultContent = getSerivice(command).doTask(exRequest, pPlayer);
 				if (command != Command.MSG_Rs_DATA) {
 					pPlayer.getAssistantMgr().doCheck();
 				}
-				resultContent = getSerivice(command).doTask(exRequest, pPlayer);
 
 				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++" + command);
 			} finally {

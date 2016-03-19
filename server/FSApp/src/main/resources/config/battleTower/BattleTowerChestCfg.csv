@@ -1,4 +1,4 @@
 key,Remarks,Id,Icon,NameIcon,Quality,Name,Desc,chestType
-101,,101,ect_ShiLianTa_07,ZT_TongBaoZha,item/ect_ShiLianTa_09,铜宝匣,铜宝匣有几率开出强化石,KEY_COPPER
-102,,102,ect_ShiLianTa_04,ZT_YinBaoZha,item/ect_ShiLianTa_06,银宝匣,银宝匣有几率开出宝石与强化石,KEY_SILVER
-103,,103,ect_ShiLianTa_01,ZT_JinBaoZha,item/ect_ShiLianTa_03,金宝匣,金宝匣有几率开出高级宝石与高级强化石,KEY_GOLD
+101,,101,ect_ShiLianTa_07,ZT_TongBaoZha,ect_ShiLianTa_09,铜宝匣,铜宝匣有几率开出强化石,KEY_COPPER
+102,,102,ect_ShiLianTa_04,ZT_YinBaoZha,ect_ShiLianTa_06,银宝匣,银宝匣有几率开出宝石与强化石,KEY_SILVER
+103,,103,ect_ShiLianTa_01,ZT_JinBaoZha,ect_ShiLianTa_03,金宝匣,金宝匣有几率开出高级宝石与高级强化石,KEY_GOLD

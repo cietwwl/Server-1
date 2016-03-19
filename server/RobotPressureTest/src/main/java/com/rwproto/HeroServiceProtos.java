@@ -234,6 +234,38 @@ public final class HeroServiceProtos {
      * </pre>
      */
     UPDATE_HERO(9, 10),
+    /**
+     * <code>HERO_NOT_EXIST = 11;</code>
+     *
+     * <pre>
+     *英雄不存在
+     * </pre>
+     */
+    HERO_NOT_EXIST(10, 11),
+    /**
+     * <code>DATA_ERROR = 12;</code>
+     *
+     * <pre>
+     *数据异常
+     * </pre>
+     */
+    DATA_ERROR(11, 12),
+    /**
+     * <code>HERO_EXP_FULL = 13;</code>
+     *
+     * <pre>
+     *佣兵经验已满
+     * </pre>
+     */
+    HERO_EXP_FULL(12, 13),
+    /**
+     * <code>EXP_ITEM_NOT_EXIST = 14;</code>
+     *
+     * <pre>
+     *没有对应的道具
+     * </pre>
+     */
+    EXP_ITEM_NOT_EXIST(13, 14),
     ;
 
     /**
@@ -312,6 +344,38 @@ public final class HeroServiceProtos {
      * </pre>
      */
     public static final int UPDATE_HERO_VALUE = 10;
+    /**
+     * <code>HERO_NOT_EXIST = 11;</code>
+     *
+     * <pre>
+     *英雄不存在
+     * </pre>
+     */
+    public static final int HERO_NOT_EXIST_VALUE = 11;
+    /**
+     * <code>DATA_ERROR = 12;</code>
+     *
+     * <pre>
+     *数据异常
+     * </pre>
+     */
+    public static final int DATA_ERROR_VALUE = 12;
+    /**
+     * <code>HERO_EXP_FULL = 13;</code>
+     *
+     * <pre>
+     *佣兵经验已满
+     * </pre>
+     */
+    public static final int HERO_EXP_FULL_VALUE = 13;
+    /**
+     * <code>EXP_ITEM_NOT_EXIST = 14;</code>
+     *
+     * <pre>
+     *没有对应的道具
+     * </pre>
+     */
+    public static final int EXP_ITEM_NOT_EXIST_VALUE = 14;
 
 
     public final int getNumber() { return value; }
@@ -328,6 +392,10 @@ public final class HeroServiceProtos {
         case 8: return ALL_HERO;
         case 9: return ADD_HERO;
         case 10: return UPDATE_HERO;
+        case 11: return HERO_NOT_EXIST;
+        case 12: return DATA_ERROR;
+        case 13: return HERO_EXP_FULL;
+        case 14: return EXP_ITEM_NOT_EXIST;
         default: return null;
       }
     }
@@ -536,6 +604,24 @@ public final class HeroServiceProtos {
      */
     com.rwproto.HeroServiceProtos.TagUseItemOrBuilder getTagUseItemOrBuilder(
         int index);
+
+    // optional bool isAddBtnUse = 9;
+    /**
+     * <code>optional bool isAddBtnUse = 9;</code>
+     *
+     * <pre>
+     *是否是添加按钮消耗
+     * </pre>
+     */
+    boolean hasIsAddBtnUse();
+    /**
+     * <code>optional bool isAddBtnUse = 9;</code>
+     *
+     * <pre>
+     *是否是添加按钮消耗
+     * </pre>
+     */
+    boolean getIsAddBtnUse();
   }
   /**
    * Protobuf type {@code MsgHeroRequest}
@@ -630,6 +716,11 @@ public final class HeroServiceProtos {
                 mutable_bitField0_ |= 0x00000040;
               }
               tagUseItem_.add(input.readMessage(com.rwproto.HeroServiceProtos.TagUseItem.PARSER, extensionRegistry));
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000040;
+              isAddBtnUse_ = input.readBool();
               break;
             }
           }
@@ -921,6 +1012,30 @@ public final class HeroServiceProtos {
       return tagUseItem_.get(index);
     }
 
+    // optional bool isAddBtnUse = 9;
+    public static final int ISADDBTNUSE_FIELD_NUMBER = 9;
+    private boolean isAddBtnUse_;
+    /**
+     * <code>optional bool isAddBtnUse = 9;</code>
+     *
+     * <pre>
+     *是否是添加按钮消耗
+     * </pre>
+     */
+    public boolean hasIsAddBtnUse() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool isAddBtnUse = 9;</code>
+     *
+     * <pre>
+     *是否是添加按钮消耗
+     * </pre>
+     */
+    public boolean getIsAddBtnUse() {
+      return isAddBtnUse_;
+    }
+
     private void initFields() {
       heroType_ = com.rwproto.HeroServiceProtos.eHeroType.UPGRADE_QUALITY;
       heroId_ = "";
@@ -929,6 +1044,7 @@ public final class HeroServiceProtos {
       soltId_ = 0;
       heroModelId_ = "";
       tagUseItem_ = java.util.Collections.emptyList();
+      isAddBtnUse_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -967,6 +1083,9 @@ public final class HeroServiceProtos {
       for (int i = 0; i < tagUseItem_.size(); i++) {
         output.writeMessage(8, tagUseItem_.get(i));
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(9, isAddBtnUse_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1003,6 +1122,10 @@ public final class HeroServiceProtos {
       for (int i = 0; i < tagUseItem_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, tagUseItem_.get(i));
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(9, isAddBtnUse_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1139,6 +1262,8 @@ public final class HeroServiceProtos {
         } else {
           tagUseItemBuilder_.clear();
         }
+        isAddBtnUse_ = false;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -1200,6 +1325,10 @@ public final class HeroServiceProtos {
         } else {
           result.tagUseItem_ = tagUseItemBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.isAddBtnUse_ = isAddBtnUse_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1263,6 +1392,9 @@ public final class HeroServiceProtos {
               tagUseItemBuilder_.addAllMessages(other.tagUseItem_);
             }
           }
+        }
+        if (other.hasIsAddBtnUse()) {
+          setIsAddBtnUse(other.getIsAddBtnUse());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1968,6 +2100,55 @@ public final class HeroServiceProtos {
           tagUseItem_ = null;
         }
         return tagUseItemBuilder_;
+      }
+
+      // optional bool isAddBtnUse = 9;
+      private boolean isAddBtnUse_ ;
+      /**
+       * <code>optional bool isAddBtnUse = 9;</code>
+       *
+       * <pre>
+       *是否是添加按钮消耗
+       * </pre>
+       */
+      public boolean hasIsAddBtnUse() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional bool isAddBtnUse = 9;</code>
+       *
+       * <pre>
+       *是否是添加按钮消耗
+       * </pre>
+       */
+      public boolean getIsAddBtnUse() {
+        return isAddBtnUse_;
+      }
+      /**
+       * <code>optional bool isAddBtnUse = 9;</code>
+       *
+       * <pre>
+       *是否是添加按钮消耗
+       * </pre>
+       */
+      public Builder setIsAddBtnUse(boolean value) {
+        bitField0_ |= 0x00000080;
+        isAddBtnUse_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isAddBtnUse = 9;</code>
+       *
+       * <pre>
+       *是否是添加按钮消耗
+       * </pre>
+       */
+      public Builder clearIsAddBtnUse() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        isAddBtnUse_ = false;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgHeroRequest)
@@ -10260,44 +10441,46 @@ public final class HeroServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021HeroService.proto\"\244\001\n\016MsgHeroRequest\022\034" +
+      "\n\021HeroService.proto\"\271\001\n\016MsgHeroRequest\022\034" +
       "\n\010heroType\030\001 \002(\0162\n.eHeroType\022\016\n\006heroId\030\003" +
       " \001(\t\022\017\n\007equipId\030\004 \001(\005\022\r\n\005order\030\005 \001(\005\022\016\n\006" +
       "soltId\030\006 \001(\005\022\023\n\013heroModelId\030\007 \001(\t\022\037\n\ntag" +
-      "UseItem\030\010 \003(\0132\013.TagUseItem\"\237\002\n\017MsgHeroRe" +
-      "sponse\022\'\n\016msgHeroRequest\030\001 \001(\0132\017.MsgHero" +
-      "Request\022)\n\017eHeroResultType\030\002 \001(\0162\020.eHero" +
-      "ResultType\022/\n\022arrtTypeAndValeBuf\030\003 \003(\0132\023" +
-      ".ArrtTypeAndValeBuf\022#\n\014qualityAttri\030\004 \003(" +
-      "\0132\r.QualityAttri\022\017\n\007skillId\030\005 \001(\t\022!\n\013tag",
-      "UserHero\030\006 \001(\0132\014.TagUserHero\022\017\n\007moderId\030" +
-      "\007 \001(\t\022\035\n\teventType\030\010 \001(\0162\n.eHeroType\"1\n\022" +
-      "ArrtTypeAndValeBuf\022\014\n\004type\030\001 \001(\005\022\r\n\005valu" +
-      "e\030\002 \001(\001\"E\n\014QualityAttri\022\014\n\004type\030\001 \001(\005\022\023\n" +
-      "\013beforeValue\030\002 \001(\001\022\022\n\nafterValue\030\003 \001(\001\"a" +
-      "\n\013TagUserHero\022!\n\013tagHeroInfo\030\001 \003(\0132\014.Tag" +
-      "HeroInfo\022\022\n\nskillCount\030\002 \001(\005\022\033\n\023lastSkil" +
-      "lUpdateTime\030\003 \001(\003\"\325\001\n\013TagHeroInfo\022\020\n\010her" +
-      "oUUID\030\001 \002(\t\022\016\n\006heroId\030\002 \001(\t\022\013\n\003exp\030\003 \001(\005" +
-      "\022\r\n\005level\030\004 \001(\005\022\021\n\tqualityId\030\005 \001(\t\022\021\n\tst",
-      "arLevel\030\006 \001(\005\022\020\n\010fighting\030\007 \001(\005\022\'\n\016tagSk" +
-      "illRecord\030\010 \003(\0132\017.TagSkillRecord\022\'\n\016tagE" +
-      "quipRecord\030\t \003(\0132\017.TagEquipRecord\"?\n\016Tag" +
-      "EquipRecord\022\017\n\007equipId\030\001 \001(\005\022\017\n\007levelId\030" +
-      "\002 \001(\005\022\013\n\003exp\030\003 \001(\005\"?\n\016TagSkillRecord\022\017\n\007" +
-      "skillId\030\001 \001(\t\022\r\n\005level\030\002 \001(\005\022\r\n\005order\030\003 " +
-      "\001(\005\",\n\nTagUseItem\022\016\n\006soltId\030\001 \001(\005\022\016\n\006num" +
-      "ber\030\002 \001(\005*\266\001\n\teHeroType\022\023\n\017UPGRADE_QUALI" +
-      "TY\020\001\022\022\n\016EQUIP_STRENGTH\020\002\022\021\n\rUSE_EQUIPMEN" +
-      "T\020\003\022\017\n\013SUMMON_HERO\020\004\022\022\n\016EVOLUTION_HERO\020\005",
-      "\022\023\n\017ONEKEY_STRENGTH\020\006\022\013\n\007USE_EXP\020\007\022\023\n\017BU" +
-      "Y_SKILL_POINT\020\010\022\021\n\rHERO_LEVEL_UP\020\t*\270\001\n\017e" +
-      "HeroResultType\022\013\n\007SUCCESS\020\001\022\013\n\007LOW_VIP\020\002" +
-      "\022\023\n\017NOT_ENOUGH_COIN\020\003\022\r\n\tLOW_LEVEL\020\004\022\030\n\024" +
-      "NOT_ENOUGH_SOULSTONE\020\005\022\023\n\017NOT_ENOUGH_GOL" +
-      "D\020\006\022\013\n\007LOW_EXP\020\007\022\014\n\010ALL_HERO\020\010\022\014\n\010ADD_HE" +
-      "RO\020\t\022\017\n\013UPDATE_HERO\020\nB \n\013com.rwprotoB\021He" +
-      "roServiceProtos"
+      "UseItem\030\010 \003(\0132\013.TagUseItem\022\023\n\013isAddBtnUs" +
+      "e\030\t \001(\010\"\237\002\n\017MsgHeroResponse\022\'\n\016msgHeroRe" +
+      "quest\030\001 \001(\0132\017.MsgHeroRequest\022)\n\017eHeroRes" +
+      "ultType\030\002 \001(\0162\020.eHeroResultType\022/\n\022arrtT" +
+      "ypeAndValeBuf\030\003 \003(\0132\023.ArrtTypeAndValeBuf" +
+      "\022#\n\014qualityAttri\030\004 \003(\0132\r.QualityAttri\022\017\n",
+      "\007skillId\030\005 \001(\t\022!\n\013tagUserHero\030\006 \001(\0132\014.Ta" +
+      "gUserHero\022\017\n\007moderId\030\007 \001(\t\022\035\n\teventType\030" +
+      "\010 \001(\0162\n.eHeroType\"1\n\022ArrtTypeAndValeBuf\022" +
+      "\014\n\004type\030\001 \001(\005\022\r\n\005value\030\002 \001(\001\"E\n\014QualityA" +
+      "ttri\022\014\n\004type\030\001 \001(\005\022\023\n\013beforeValue\030\002 \001(\001\022" +
+      "\022\n\nafterValue\030\003 \001(\001\"a\n\013TagUserHero\022!\n\013ta" +
+      "gHeroInfo\030\001 \003(\0132\014.TagHeroInfo\022\022\n\nskillCo" +
+      "unt\030\002 \001(\005\022\033\n\023lastSkillUpdateTime\030\003 \001(\003\"\325" +
+      "\001\n\013TagHeroInfo\022\020\n\010heroUUID\030\001 \002(\t\022\016\n\006hero" +
+      "Id\030\002 \001(\t\022\013\n\003exp\030\003 \001(\005\022\r\n\005level\030\004 \001(\005\022\021\n\t",
+      "qualityId\030\005 \001(\t\022\021\n\tstarLevel\030\006 \001(\005\022\020\n\010fi" +
+      "ghting\030\007 \001(\005\022\'\n\016tagSkillRecord\030\010 \003(\0132\017.T" +
+      "agSkillRecord\022\'\n\016tagEquipRecord\030\t \003(\0132\017." +
+      "TagEquipRecord\"?\n\016TagEquipRecord\022\017\n\007equi" +
+      "pId\030\001 \001(\005\022\017\n\007levelId\030\002 \001(\005\022\013\n\003exp\030\003 \001(\005\"" +
+      "?\n\016TagSkillRecord\022\017\n\007skillId\030\001 \001(\t\022\r\n\005le" +
+      "vel\030\002 \001(\005\022\r\n\005order\030\003 \001(\005\",\n\nTagUseItem\022\016" +
+      "\n\006soltId\030\001 \001(\005\022\016\n\006number\030\002 \001(\005*\266\001\n\teHero" +
+      "Type\022\023\n\017UPGRADE_QUALITY\020\001\022\022\n\016EQUIP_STREN" +
+      "GTH\020\002\022\021\n\rUSE_EQUIPMENT\020\003\022\017\n\013SUMMON_HERO\020",
+      "\004\022\022\n\016EVOLUTION_HERO\020\005\022\023\n\017ONEKEY_STRENGTH" +
+      "\020\006\022\013\n\007USE_EXP\020\007\022\023\n\017BUY_SKILL_POINT\020\010\022\021\n\r" +
+      "HERO_LEVEL_UP\020\t*\207\002\n\017eHeroResultType\022\013\n\007S" +
+      "UCCESS\020\001\022\013\n\007LOW_VIP\020\002\022\023\n\017NOT_ENOUGH_COIN" +
+      "\020\003\022\r\n\tLOW_LEVEL\020\004\022\030\n\024NOT_ENOUGH_SOULSTON" +
+      "E\020\005\022\023\n\017NOT_ENOUGH_GOLD\020\006\022\013\n\007LOW_EXP\020\007\022\014\n" +
+      "\010ALL_HERO\020\010\022\014\n\010ADD_HERO\020\t\022\017\n\013UPDATE_HERO" +
+      "\020\n\022\022\n\016HERO_NOT_EXIST\020\013\022\016\n\nDATA_ERROR\020\014\022\021" +
+      "\n\rHERO_EXP_FULL\020\r\022\026\n\022EXP_ITEM_NOT_EXIST\020" +
+      "\016B \n\013com.rwprotoB\021HeroServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -10309,7 +10492,7 @@ public final class HeroServiceProtos {
           internal_static_MsgHeroRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgHeroRequest_descriptor,
-              new java.lang.String[] { "HeroType", "HeroId", "EquipId", "Order", "SoltId", "HeroModelId", "TagUseItem", });
+              new java.lang.String[] { "HeroType", "HeroId", "EquipId", "Order", "SoltId", "HeroModelId", "TagUseItem", "IsAddBtnUse", });
           internal_static_MsgHeroResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_MsgHeroResponse_fieldAccessorTable = new

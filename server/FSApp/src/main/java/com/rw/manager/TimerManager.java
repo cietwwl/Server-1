@@ -12,13 +12,13 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.GambleMgr;
 import com.playerdata.PlayerMgr;
+import com.playerdata.RankingMgr;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rwbase.dao.Army.UserArmyDataDAO;
 import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
 import com.rwbase.dao.group.GroupCheckDismissTask;
-import com.rwbase.dao.guildSecretArea.SecretAreaInfoDAO;
 import com.rwbase.dao.gulid.faction.GuildDAO;
 
 public class TimerManager {
@@ -31,7 +31,7 @@ public class TimerManager {
 	private static TimeSpanOpHelper timeHourOp;
 	private static DayOpOnHour dayOpOnZero;
 	private static DayOpOnHour dayOpOn5Am;
-
+	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1);
@@ -81,10 +81,18 @@ public class TimerManager {
 			public void doTask() {
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
 				// 初始化万仙阵匹配的数据缓存
-				//AngleArrayMatchHelper.resetMatchData();
+				AngleArrayMatchHelper.resetMatchData();
 			}
 		}, 5);
 
+		dayOpOn9Pm = new DayOpOnHour(new ITimeOp() {
+
+			@Override
+			public void doTask() {
+				RankingMgr.getInstance().arenaCalculate();
+			}
+		}, 9);
+		
 		timeService.scheduleAtFixedRate(new Runnable() {
 
 			@Override
@@ -111,8 +119,8 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				Map<String, AtomicInteger> subChannelCount = UserChannelMgr.getSubChannelCount();
-				for (String subChannelId : subChannelCount.keySet()) {
-					BILogMgr.getInstance().logOnlineCount(subChannelId, subChannelCount.get(subChannelId));
+				for (String regSubChannelId : subChannelCount.keySet()) {
+					BILogMgr.getInstance().logOnlineCount(regSubChannelId, subChannelCount.get(regSubChannelId));
 				}
 
 			}
@@ -134,6 +142,7 @@ public class TimerManager {
 					dayOpOn23h50m4Bilog.tryRun();
 					biTime10MinuteOp.tryRun();
 					biTimeMinuteOp.tryRun();
+					dayOpOn9Pm.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[biTimeService]", e);
 				}

@@ -96,6 +96,14 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     GET_HURT_VALUE(11, 11),
+    /**
+     * <code>BUY_TIMES = 12;</code>
+     *
+     * <pre>
+     *购买竞技场次数
+     * </pre>
+     */
+    BUY_TIMES(12, 12),
     ;
 
     /**
@@ -181,6 +189,14 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     public static final int GET_HURT_VALUE_VALUE = 11;
+    /**
+     * <code>BUY_TIMES = 12;</code>
+     *
+     * <pre>
+     *购买竞技场次数
+     * </pre>
+     */
+    public static final int BUY_TIMES_VALUE = 12;
 
 
     public final int getNumber() { return value; }
@@ -199,6 +215,7 @@ public final class ArenaServiceProtos {
         case 9: return SYNC_RECORD;
         case 10: return GET_PLACE;
         case 11: return GET_HURT_VALUE;
+        case 12: return BUY_TIMES;
         default: return null;
       }
     }
@@ -5428,6 +5445,24 @@ public final class ArenaServiceProtos {
      */
     com.google.protobuf.ByteString
         getHeroImagesBytes(int index);
+
+    // optional int32 modelId = 11;
+    /**
+     * <code>optional int32 modelId = 11;</code>
+     *
+     * <pre>
+     *模型id，应该是required，为了调试方便先用optional
+     * </pre>
+     */
+    boolean hasModelId();
+    /**
+     * <code>optional int32 modelId = 11;</code>
+     *
+     * <pre>
+     *模型id，应该是required，为了调试方便先用optional
+     * </pre>
+     */
+    int getModelId();
   }
   /**
    * Protobuf type {@code ArenaInfo}
@@ -5526,6 +5561,11 @@ public final class ArenaServiceProtos {
                 mutable_bitField0_ |= 0x00000100;
               }
               heroImages_.add(input.readBytes());
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000100;
+              modelId_ = input.readInt32();
               break;
             }
           }
@@ -5810,6 +5850,30 @@ public final class ArenaServiceProtos {
       return heroImages_.getByteString(index);
     }
 
+    // optional int32 modelId = 11;
+    public static final int MODELID_FIELD_NUMBER = 11;
+    private int modelId_;
+    /**
+     * <code>optional int32 modelId = 11;</code>
+     *
+     * <pre>
+     *模型id，应该是required，为了调试方便先用optional
+     * </pre>
+     */
+    public boolean hasModelId() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 modelId = 11;</code>
+     *
+     * <pre>
+     *模型id，应该是required，为了调试方便先用optional
+     * </pre>
+     */
+    public int getModelId() {
+      return modelId_;
+    }
+
     private void initFields() {
       userId_ = "";
       career_ = 0;
@@ -5820,6 +5884,7 @@ public final class ArenaServiceProtos {
       fighting_ = 0;
       name_ = "";
       heroImages_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      modelId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5863,6 +5928,9 @@ public final class ArenaServiceProtos {
       }
       for (int i = 0; i < heroImages_.size(); i++) {
         output.writeBytes(10, heroImages_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(11, modelId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5913,6 +5981,10 @@ public final class ArenaServiceProtos {
         }
         size += dataSize;
         size += 1 * getHeroImagesList().size();
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, modelId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6048,6 +6120,8 @@ public final class ArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         heroImages_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000100);
+        modelId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -6114,6 +6188,10 @@ public final class ArenaServiceProtos {
           bitField0_ = (bitField0_ & ~0x00000100);
         }
         result.heroImages_ = heroImages_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.modelId_ = modelId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6169,6 +6247,9 @@ public final class ArenaServiceProtos {
             heroImages_.addAll(other.heroImages_);
           }
           onChanged();
+        }
+        if (other.hasModelId()) {
+          setModelId(other.getModelId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6677,6 +6758,55 @@ public final class ArenaServiceProtos {
   }
   ensureHeroImagesIsMutable();
         heroImages_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional int32 modelId = 11;
+      private int modelId_ ;
+      /**
+       * <code>optional int32 modelId = 11;</code>
+       *
+       * <pre>
+       *模型id，应该是required，为了调试方便先用optional
+       * </pre>
+       */
+      public boolean hasModelId() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 modelId = 11;</code>
+       *
+       * <pre>
+       *模型id，应该是required，为了调试方便先用optional
+       * </pre>
+       */
+      public int getModelId() {
+        return modelId_;
+      }
+      /**
+       * <code>optional int32 modelId = 11;</code>
+       *
+       * <pre>
+       *模型id，应该是required，为了调试方便先用optional
+       * </pre>
+       */
+      public Builder setModelId(int value) {
+        bitField0_ |= 0x00000200;
+        modelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 modelId = 11;</code>
+       *
+       * <pre>
+       *模型id，应该是required，为了调试方便先用optional
+       * </pre>
+       */
+      public Builder clearModelId() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        modelId_ = 0;
         onChanged();
         return this;
       }
@@ -11780,6 +11910,60 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     com.rwproto.ArenaServiceProtos.HistoryRankingRiseOrBuilder getHistoryOrBuilder();
+
+    // optional int32 resetCost = 10;
+    /**
+     * <code>optional int32 resetCost = 10;</code>
+     *
+     * <pre>
+     *重置冷却时间所需的钻石
+     * </pre>
+     */
+    boolean hasResetCost();
+    /**
+     * <code>optional int32 resetCost = 10;</code>
+     *
+     * <pre>
+     *重置冷却时间所需的钻石
+     * </pre>
+     */
+    int getResetCost();
+
+    // optional int32 buyTimesCost = 11;
+    /**
+     * <code>optional int32 buyTimesCost = 11;</code>
+     *
+     * <pre>
+     *购买挑战次数所需的钻石
+     * </pre>
+     */
+    boolean hasBuyTimesCost();
+    /**
+     * <code>optional int32 buyTimesCost = 11;</code>
+     *
+     * <pre>
+     *购买挑战次数所需的钻石
+     * </pre>
+     */
+    int getBuyTimesCost();
+
+    // optional int32 buyTimes = 12;
+    /**
+     * <code>optional int32 buyTimes = 12;</code>
+     *
+     * <pre>
+     *当前购买的次数
+     * </pre>
+     */
+    boolean hasBuyTimes();
+    /**
+     * <code>optional int32 buyTimes = 12;</code>
+     *
+     * <pre>
+     *当前购买的次数
+     * </pre>
+     */
+    int getBuyTimes();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -11915,6 +12099,21 @@ public final class ArenaServiceProtos {
                 history_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000020;
+              resetCost_ = input.readInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000040;
+              buyTimesCost_ = input.readInt32();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000080;
+              buyTimes_ = input.readInt32();
               break;
             }
           }
@@ -12247,6 +12446,78 @@ public final class ArenaServiceProtos {
       return history_;
     }
 
+    // optional int32 resetCost = 10;
+    public static final int RESETCOST_FIELD_NUMBER = 10;
+    private int resetCost_;
+    /**
+     * <code>optional int32 resetCost = 10;</code>
+     *
+     * <pre>
+     *重置冷却时间所需的钻石
+     * </pre>
+     */
+    public boolean hasResetCost() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 resetCost = 10;</code>
+     *
+     * <pre>
+     *重置冷却时间所需的钻石
+     * </pre>
+     */
+    public int getResetCost() {
+      return resetCost_;
+    }
+
+    // optional int32 buyTimesCost = 11;
+    public static final int BUYTIMESCOST_FIELD_NUMBER = 11;
+    private int buyTimesCost_;
+    /**
+     * <code>optional int32 buyTimesCost = 11;</code>
+     *
+     * <pre>
+     *购买挑战次数所需的钻石
+     * </pre>
+     */
+    public boolean hasBuyTimesCost() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 buyTimesCost = 11;</code>
+     *
+     * <pre>
+     *购买挑战次数所需的钻石
+     * </pre>
+     */
+    public int getBuyTimesCost() {
+      return buyTimesCost_;
+    }
+
+    // optional int32 buyTimes = 12;
+    public static final int BUYTIMES_FIELD_NUMBER = 12;
+    private int buyTimes_;
+    /**
+     * <code>optional int32 buyTimes = 12;</code>
+     *
+     * <pre>
+     *当前购买的次数
+     * </pre>
+     */
+    public boolean hasBuyTimes() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 buyTimes = 12;</code>
+     *
+     * <pre>
+     *当前购买的次数
+     * </pre>
+     */
+    public int getBuyTimes() {
+      return buyTimes_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.ArenaServiceProtos.eArenaType.GET_INFO;
       arenaResultType_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -12257,6 +12528,9 @@ public final class ArenaServiceProtos {
       hurtValue_ = java.util.Collections.emptyList();
       atkList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       history_ = com.rwproto.ArenaServiceProtos.HistoryRankingRise.getDefaultInstance();
+      resetCost_ = 0;
+      buyTimesCost_ = 0;
+      buyTimes_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12331,6 +12605,15 @@ public final class ArenaServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(9, history_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(10, resetCost_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(11, buyTimesCost_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(12, buyTimes_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12380,6 +12663,18 @@ public final class ArenaServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, history_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, resetCost_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, buyTimesCost_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, buyTimes_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12540,6 +12835,12 @@ public final class ArenaServiceProtos {
           historyBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000100);
+        resetCost_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        buyTimesCost_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        buyTimes_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -12629,6 +12930,18 @@ public final class ArenaServiceProtos {
         } else {
           result.history_ = historyBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.resetCost_ = resetCost_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.buyTimesCost_ = buyTimesCost_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.buyTimes_ = buyTimes_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12747,6 +13060,15 @@ public final class ArenaServiceProtos {
         }
         if (other.hasHistory()) {
           mergeHistory(other.getHistory());
+        }
+        if (other.hasResetCost()) {
+          setResetCost(other.getResetCost());
+        }
+        if (other.hasBuyTimesCost()) {
+          setBuyTimesCost(other.getBuyTimesCost());
+        }
+        if (other.hasBuyTimes()) {
+          setBuyTimes(other.getBuyTimes());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -14105,6 +14427,153 @@ public final class ArenaServiceProtos {
         return historyBuilder_;
       }
 
+      // optional int32 resetCost = 10;
+      private int resetCost_ ;
+      /**
+       * <code>optional int32 resetCost = 10;</code>
+       *
+       * <pre>
+       *重置冷却时间所需的钻石
+       * </pre>
+       */
+      public boolean hasResetCost() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 resetCost = 10;</code>
+       *
+       * <pre>
+       *重置冷却时间所需的钻石
+       * </pre>
+       */
+      public int getResetCost() {
+        return resetCost_;
+      }
+      /**
+       * <code>optional int32 resetCost = 10;</code>
+       *
+       * <pre>
+       *重置冷却时间所需的钻石
+       * </pre>
+       */
+      public Builder setResetCost(int value) {
+        bitField0_ |= 0x00000200;
+        resetCost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 resetCost = 10;</code>
+       *
+       * <pre>
+       *重置冷却时间所需的钻石
+       * </pre>
+       */
+      public Builder clearResetCost() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        resetCost_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 buyTimesCost = 11;
+      private int buyTimesCost_ ;
+      /**
+       * <code>optional int32 buyTimesCost = 11;</code>
+       *
+       * <pre>
+       *购买挑战次数所需的钻石
+       * </pre>
+       */
+      public boolean hasBuyTimesCost() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional int32 buyTimesCost = 11;</code>
+       *
+       * <pre>
+       *购买挑战次数所需的钻石
+       * </pre>
+       */
+      public int getBuyTimesCost() {
+        return buyTimesCost_;
+      }
+      /**
+       * <code>optional int32 buyTimesCost = 11;</code>
+       *
+       * <pre>
+       *购买挑战次数所需的钻石
+       * </pre>
+       */
+      public Builder setBuyTimesCost(int value) {
+        bitField0_ |= 0x00000400;
+        buyTimesCost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 buyTimesCost = 11;</code>
+       *
+       * <pre>
+       *购买挑战次数所需的钻石
+       * </pre>
+       */
+      public Builder clearBuyTimesCost() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        buyTimesCost_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 buyTimes = 12;
+      private int buyTimes_ ;
+      /**
+       * <code>optional int32 buyTimes = 12;</code>
+       *
+       * <pre>
+       *当前购买的次数
+       * </pre>
+       */
+      public boolean hasBuyTimes() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional int32 buyTimes = 12;</code>
+       *
+       * <pre>
+       *当前购买的次数
+       * </pre>
+       */
+      public int getBuyTimes() {
+        return buyTimes_;
+      }
+      /**
+       * <code>optional int32 buyTimes = 12;</code>
+       *
+       * <pre>
+       *当前购买的次数
+       * </pre>
+       */
+      public Builder setBuyTimes(int value) {
+        bitField0_ |= 0x00000800;
+        buyTimes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 buyTimes = 12;</code>
+       *
+       * <pre>
+       *当前购买的次数
+       * </pre>
+       */
+      public Builder clearBuyTimes() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        buyTimes_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
     }
 
@@ -14981,43 +15450,45 @@ public final class ArenaServiceProtos {
       "(\005\022-\n\troleSkill\030\017 \003(\0132\032.SkillService.Tag" +
       "SkillData\022)\n\010roleAttr\030\020 \003(\0132\027.SyncAttri." +
       "TagAttriData\022\022\n\ntempleteId\030\021 \001(\t\022\020\n\010winC" +
-      "ount\030\022 \001(\005\022\020\n\010armyInfo\030\023 \001(\t\"\237\001\n\tArenaIn" +
+      "ount\030\022 \001(\005\022\020\n\010armyInfo\030\023 \001(\t\"\260\001\n\tArenaIn" +
       "fo\022\016\n\006userId\030\002 \002(\t\022\016\n\006career\030\003 \001(\005\022\r\n\005pl" +
       "ace\030\004 \001(\005\022\r\n\005state\030\005 \001(\005\022\021\n\theadImage\030\006 ",
       "\001(\t\022\r\n\005level\030\007 \001(\005\022\020\n\010fighting\030\010 \001(\005\022\014\n\004" +
-      "name\030\t \001(\t\022\022\n\nheroImages\030\n \003(\t\"\236\001\n\013Arena" +
-      "Record\022\020\n\010recordId\030\001 \002(\005\022\016\n\006userId\030\002 \002(\t" +
-      "\022\013\n\003win\030\003 \001(\005\022\017\n\007placeUp\030\004 \001(\005\022\014\n\004name\030\005" +
-      " \001(\t\022\021\n\theadImage\030\006 \001(\t\022\r\n\005level\030\007 \001(\005\022\014" +
-      "\n\004time\030\010 \001(\003\022\021\n\tchallenge\030\t \001(\005\"\276\001\n\017MsgA" +
-      "renaRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaT" +
-      "ype\022\016\n\006userId\030\002 \001(\t\022\017\n\007heroIds\030\003 \003(\t\022\031\n\005" +
-      "enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\005\022\035\n\t" +
-      "hurtValue\030\006 \003(\0132\n.HurtValue\022\020\n\010recordId\030",
-      "\007 \001(\005\022\021\n\tatkIdList\030\010 \003(\t\"\301\001\n\tHurtValue\022\016" +
-      "\n\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\002\022\014\n\004icon\030\003 " +
-      "\002(\t\022\022\n\nstartlevel\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\016" +
-      "\n\006isDead\030\006 \002(\010\022 \n\nplayerType\030\007 \002(\0162\014.ePl" +
-      "ayerType\022\032\n\004camp\030\010 \002(\0162\014.ePlayerCamp\022\n\n\002" +
-      "Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002\"\242\002\n\020MsgArenaRespons" +
-      "e\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017are" +
-      "naResultType\030\002 \001(\0162\021.eArenaResultType\022\035\n" +
-      "\tarenaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo" +
-      "\030\004 \003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014",
-      ".ArenaRecord\022\r\n\005place\030\006 \001(\005\022\035\n\thurtValue" +
-      "\030\007 \003(\0132\n.HurtValue\022\017\n\007atkList\030\010 \003(\t\022$\n\007h" +
-      "istory\030\t \001(\0132\023.HistoryRankingRise\"j\n\022His" +
-      "toryRankingRise\022\026\n\016historyRanking\030\001 \002(\005\022" +
-      "\026\n\016currentRanking\030\002 \002(\005\022\021\n\tgoldAward\030\003 \001" +
-      "(\005\022\021\n\trankingUp\030\004 \002(\005*\353\001\n\neArenaType\022\014\n\010" +
-      "GET_INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_H" +
-      "ERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022" +
-      "\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006" +
-      "\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_F",
-      "INISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022" +
-      "\022\n\016GET_HURT_VALUE\020\013*5\n\020eArenaResultType\022" +
-      "\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B!\n\013co" +
-      "m.rwprotoB\022ArenaServiceProtos"
+      "name\030\t \001(\t\022\022\n\nheroImages\030\n \003(\t\022\017\n\007modelI" +
+      "d\030\013 \001(\005\"\236\001\n\013ArenaRecord\022\020\n\010recordId\030\001 \002(" +
+      "\005\022\016\n\006userId\030\002 \002(\t\022\013\n\003win\030\003 \001(\005\022\017\n\007placeU" +
+      "p\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\022\021\n\theadImage\030\006 \001(\t" +
+      "\022\r\n\005level\030\007 \001(\005\022\014\n\004time\030\010 \001(\003\022\021\n\tchallen" +
+      "ge\030\t \001(\005\"\276\001\n\017MsgArenaRequest\022\036\n\tarenaTyp" +
+      "e\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(\t\022\017\n\007" +
+      "heroIds\030\003 \003(\t\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo" +
+      "\022\013\n\003win\030\005 \001(\005\022\035\n\thurtValue\030\006 \003(\0132\n.HurtV",
+      "alue\022\020\n\010recordId\030\007 \001(\005\022\021\n\tatkIdList\030\010 \003(" +
+      "\t\"\301\001\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value" +
+      "\030\002 \002(\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nstartlevel\030\004 \002(\005" +
+      "\022\r\n\005level\030\005 \002(\005\022\016\n\006isDead\030\006 \002(\010\022 \n\nplaye" +
+      "rType\030\007 \002(\0162\014.ePlayerType\022\032\n\004camp\030\010 \002(\0162" +
+      "\014.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002\"\335\002" +
+      "\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\0162\013." +
+      "eArenaType\022*\n\017arenaResultType\030\002 \001(\0162\021.eA" +
+      "renaResultType\022\035\n\tarenaData\030\003 \001(\0132\n.Aren" +
+      "aData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n\nl",
+      "istRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place\030\006" +
+      " \001(\005\022\035\n\thurtValue\030\007 \003(\0132\n.HurtValue\022\017\n\007a" +
+      "tkList\030\010 \003(\t\022$\n\007history\030\t \001(\0132\023.HistoryR" +
+      "ankingRise\022\021\n\tresetCost\030\n \001(\005\022\024\n\014buyTime" +
+      "sCost\030\013 \001(\005\022\020\n\010buyTimes\030\014 \001(\005\"j\n\022History" +
+      "RankingRise\022\026\n\016historyRanking\030\001 \002(\005\022\026\n\016c" +
+      "urrentRanking\030\002 \002(\005\022\021\n\tgoldAward\030\003 \001(\005\022\021" +
+      "\n\trankingUp\030\004 \002(\005*\372\001\n\neArenaType\022\014\n\010GET_" +
+      "INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020" +
+      "\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nC",
+      "LEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021" +
+      "ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINIS" +
+      "H\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\022\n\016G" +
+      "ET_HURT_VALUE\020\013\022\r\n\tBUY_TIMES\020\014*5\n\020eArena" +
+      "ResultType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_F" +
+      "AIL\020\002B!\n\013com.rwprotoB\022ArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15041,7 +15512,7 @@ public final class ArenaServiceProtos {
           internal_static_ArenaInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaInfo_descriptor,
-              new java.lang.String[] { "UserId", "Career", "Place", "State", "HeadImage", "Level", "Fighting", "Name", "HeroImages", });
+              new java.lang.String[] { "UserId", "Career", "Place", "State", "HeadImage", "Level", "Fighting", "Name", "HeroImages", "ModelId", });
           internal_static_ArenaRecord_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaRecord_fieldAccessorTable = new
@@ -15065,7 +15536,7 @@ public final class ArenaServiceProtos {
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "HurtValue", "AtkList", "History", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "HurtValue", "AtkList", "History", "ResetCost", "BuyTimesCost", "BuyTimes", });
           internal_static_HistoryRankingRise_descriptor =
             getDescriptor().getMessageTypes().get(7);
           internal_static_HistoryRankingRise_fieldAccessorTable = new

@@ -76,7 +76,7 @@ public class GameLoginHandler {
 		}
 		if (GameManager.isOnlineLimit()) {
 			response.setError("该区人气火爆，请稍后尝试，或者选择推荐新区。");
-			response.setResultType(eLoginResultType.FAIL);
+			response.setResultType(eLoginResultType.ServerMainTain);
 			return response.build().toByteString();
 		}
 

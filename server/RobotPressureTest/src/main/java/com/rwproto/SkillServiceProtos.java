@@ -14,65 +14,64 @@ public final class SkillServiceProtos {
   public enum SkillEventType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>Skill_Upgrade = 0;</code>
-     */
-    Skill_Upgrade(0, 0),
-    /**
-     * <code>Skill_Sync = 1;</code>
+     * <code>Skill_Upgrade = 1;</code>
      *
      * <pre>
-     *��½����
+     *升级技能
      * </pre>
      */
-    Skill_Sync(1, 1),
+    Skill_Upgrade(0, 1),
     /**
      * <code>Buy_Skill_Point = 2;</code>
      *
      * <pre>
-     *�����ܵ�
+     *购买技能点
      * </pre>
      */
-    Buy_Skill_Point(2, 2),
+    Buy_Skill_Point(1, 2),
     /**
-     * <code>Skill_Open = 3;</code>
+     * <code>QUERY_SKILL_INFO = 3;</code>
+     *
+     * <pre>
+     *请求技能信息
+     * </pre>
      */
-    Skill_Open(3, 3),
+    QUERY_SKILL_INFO(2, 3),
     ;
 
     /**
-     * <code>Skill_Upgrade = 0;</code>
-     */
-    public static final int Skill_Upgrade_VALUE = 0;
-    /**
-     * <code>Skill_Sync = 1;</code>
+     * <code>Skill_Upgrade = 1;</code>
      *
      * <pre>
-     *��½����
+     *升级技能
      * </pre>
      */
-    public static final int Skill_Sync_VALUE = 1;
+    public static final int Skill_Upgrade_VALUE = 1;
     /**
      * <code>Buy_Skill_Point = 2;</code>
      *
      * <pre>
-     *�����ܵ�
+     *购买技能点
      * </pre>
      */
     public static final int Buy_Skill_Point_VALUE = 2;
     /**
-     * <code>Skill_Open = 3;</code>
+     * <code>QUERY_SKILL_INFO = 3;</code>
+     *
+     * <pre>
+     *请求技能信息
+     * </pre>
      */
-    public static final int Skill_Open_VALUE = 3;
+    public static final int QUERY_SKILL_INFO_VALUE = 3;
 
 
     public final int getNumber() { return value; }
 
     public static SkillEventType valueOf(int value) {
       switch (value) {
-        case 0: return Skill_Upgrade;
-        case 1: return Skill_Sync;
+        case 1: return Skill_Upgrade;
         case 2: return Buy_Skill_Point;
-        case 3: return Skill_Open;
+        case 3: return QUERY_SKILL_INFO;
         default: return null;
       }
     }
@@ -124,88 +123,6 @@ public final class SkillServiceProtos {
     // @@protoc_insertion_point(enum_scope:SkillService.SkillEventType)
   }
 
-  /**
-   * Protobuf enum {@code SkillService.SkillResultType}
-   */
-  public enum SkillResultType
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>succeed = 0;</code>
-     */
-    succeed(0, 0),
-    /**
-     * <code>fail = 1;</code>
-     */
-    fail(1, 1),
-    ;
-
-    /**
-     * <code>succeed = 0;</code>
-     */
-    public static final int succeed_VALUE = 0;
-    /**
-     * <code>fail = 1;</code>
-     */
-    public static final int fail_VALUE = 1;
-
-
-    public final int getNumber() { return value; }
-
-    public static SkillResultType valueOf(int value) {
-      switch (value) {
-        case 0: return succeed;
-        case 1: return fail;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<SkillResultType>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<SkillResultType>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<SkillResultType>() {
-            public SkillResultType findValueByNumber(int number) {
-              return SkillResultType.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.rwproto.SkillServiceProtos.getDescriptor().getEnumTypes().get(1);
-    }
-
-    private static final SkillResultType[] VALUES = values();
-
-    public static SkillResultType valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private SkillResultType(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:SkillService.SkillResultType)
-  }
-
   public interface TagSkillDataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -214,7 +131,7 @@ public final class SkillServiceProtos {
      * <code>optional string Id = 1;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     boolean hasId();
@@ -222,7 +139,7 @@ public final class SkillServiceProtos {
      * <code>optional string Id = 1;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     java.lang.String getId();
@@ -230,7 +147,7 @@ public final class SkillServiceProtos {
      * <code>optional string Id = 1;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -241,7 +158,7 @@ public final class SkillServiceProtos {
      * <code>optional string ownerId = 2;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     boolean hasOwnerId();
@@ -249,7 +166,7 @@ public final class SkillServiceProtos {
      * <code>optional string ownerId = 2;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     java.lang.String getOwnerId();
@@ -257,7 +174,7 @@ public final class SkillServiceProtos {
      * <code>optional string ownerId = 2;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -268,7 +185,7 @@ public final class SkillServiceProtos {
      * <code>optional string skillId = 3;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     boolean hasSkillId();
@@ -276,7 +193,7 @@ public final class SkillServiceProtos {
      * <code>optional string skillId = 3;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     java.lang.String getSkillId();
@@ -284,7 +201,7 @@ public final class SkillServiceProtos {
      * <code>optional string skillId = 3;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -295,7 +212,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 level = 4;</code>
      *
      * <pre>
-     *���ܵȼ�
+     *技能等级
      * </pre>
      */
     boolean hasLevel();
@@ -303,7 +220,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 level = 4;</code>
      *
      * <pre>
-     *���ܵȼ�
+     *技能等级
      * </pre>
      */
     int getLevel();
@@ -313,7 +230,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 order = 5;</code>
      *
      * <pre>
-     *λ��
+     *位置
      * </pre>
      */
     boolean hasOrder();
@@ -321,7 +238,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 order = 5;</code>
      *
      * <pre>
-     *λ��
+     *位置
      * </pre>
      */
     int getOrder();
@@ -517,7 +434,7 @@ public final class SkillServiceProtos {
      * <code>optional string Id = 1;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public boolean hasId() {
@@ -527,7 +444,7 @@ public final class SkillServiceProtos {
      * <code>optional string Id = 1;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public java.lang.String getId() {
@@ -548,7 +465,7 @@ public final class SkillServiceProtos {
      * <code>optional string Id = 1;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -572,7 +489,7 @@ public final class SkillServiceProtos {
      * <code>optional string ownerId = 2;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public boolean hasOwnerId() {
@@ -582,7 +499,7 @@ public final class SkillServiceProtos {
      * <code>optional string ownerId = 2;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public java.lang.String getOwnerId() {
@@ -603,7 +520,7 @@ public final class SkillServiceProtos {
      * <code>optional string ownerId = 2;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -627,7 +544,7 @@ public final class SkillServiceProtos {
      * <code>optional string skillId = 3;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public boolean hasSkillId() {
@@ -637,7 +554,7 @@ public final class SkillServiceProtos {
      * <code>optional string skillId = 3;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public java.lang.String getSkillId() {
@@ -658,7 +575,7 @@ public final class SkillServiceProtos {
      * <code>optional string skillId = 3;</code>
      *
      * <pre>
-     *����
+     *技能
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -682,7 +599,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 level = 4;</code>
      *
      * <pre>
-     *���ܵȼ�
+     *技能等级
      * </pre>
      */
     public boolean hasLevel() {
@@ -692,7 +609,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 level = 4;</code>
      *
      * <pre>
-     *���ܵȼ�
+     *技能等级
      * </pre>
      */
     public int getLevel() {
@@ -706,7 +623,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 order = 5;</code>
      *
      * <pre>
-     *λ��
+     *位置
      * </pre>
      */
     public boolean hasOrder() {
@@ -716,7 +633,7 @@ public final class SkillServiceProtos {
      * <code>optional int32 order = 5;</code>
      *
      * <pre>
-     *λ��
+     *位置
      * </pre>
      */
     public int getOrder() {
@@ -1149,7 +1066,7 @@ public final class SkillServiceProtos {
        * <code>optional string Id = 1;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public boolean hasId() {
@@ -1159,7 +1076,7 @@ public final class SkillServiceProtos {
        * <code>optional string Id = 1;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public java.lang.String getId() {
@@ -1177,7 +1094,7 @@ public final class SkillServiceProtos {
        * <code>optional string Id = 1;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1197,7 +1114,7 @@ public final class SkillServiceProtos {
        * <code>optional string Id = 1;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder setId(
@@ -1214,7 +1131,7 @@ public final class SkillServiceProtos {
        * <code>optional string Id = 1;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder clearId() {
@@ -1227,7 +1144,7 @@ public final class SkillServiceProtos {
        * <code>optional string Id = 1;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder setIdBytes(
@@ -1247,7 +1164,7 @@ public final class SkillServiceProtos {
        * <code>optional string ownerId = 2;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public boolean hasOwnerId() {
@@ -1257,7 +1174,7 @@ public final class SkillServiceProtos {
        * <code>optional string ownerId = 2;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public java.lang.String getOwnerId() {
@@ -1275,7 +1192,7 @@ public final class SkillServiceProtos {
        * <code>optional string ownerId = 2;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1295,7 +1212,7 @@ public final class SkillServiceProtos {
        * <code>optional string ownerId = 2;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder setOwnerId(
@@ -1312,7 +1229,7 @@ public final class SkillServiceProtos {
        * <code>optional string ownerId = 2;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder clearOwnerId() {
@@ -1325,7 +1242,7 @@ public final class SkillServiceProtos {
        * <code>optional string ownerId = 2;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder setOwnerIdBytes(
@@ -1345,7 +1262,7 @@ public final class SkillServiceProtos {
        * <code>optional string skillId = 3;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public boolean hasSkillId() {
@@ -1355,7 +1272,7 @@ public final class SkillServiceProtos {
        * <code>optional string skillId = 3;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public java.lang.String getSkillId() {
@@ -1373,7 +1290,7 @@ public final class SkillServiceProtos {
        * <code>optional string skillId = 3;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1393,7 +1310,7 @@ public final class SkillServiceProtos {
        * <code>optional string skillId = 3;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder setSkillId(
@@ -1410,7 +1327,7 @@ public final class SkillServiceProtos {
        * <code>optional string skillId = 3;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder clearSkillId() {
@@ -1423,7 +1340,7 @@ public final class SkillServiceProtos {
        * <code>optional string skillId = 3;</code>
        *
        * <pre>
-       *����
+       *技能
        * </pre>
        */
       public Builder setSkillIdBytes(
@@ -1443,7 +1360,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 level = 4;</code>
        *
        * <pre>
-       *���ܵȼ�
+       *技能等级
        * </pre>
        */
       public boolean hasLevel() {
@@ -1453,7 +1370,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 level = 4;</code>
        *
        * <pre>
-       *���ܵȼ�
+       *技能等级
        * </pre>
        */
       public int getLevel() {
@@ -1463,7 +1380,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 level = 4;</code>
        *
        * <pre>
-       *���ܵȼ�
+       *技能等级
        * </pre>
        */
       public Builder setLevel(int value) {
@@ -1476,7 +1393,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 level = 4;</code>
        *
        * <pre>
-       *���ܵȼ�
+       *技能等级
        * </pre>
        */
       public Builder clearLevel() {
@@ -1492,7 +1409,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 order = 5;</code>
        *
        * <pre>
-       *λ��
+       *位置
        * </pre>
        */
       public boolean hasOrder() {
@@ -1502,7 +1419,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 order = 5;</code>
        *
        * <pre>
-       *λ��
+       *位置
        * </pre>
        */
       public int getOrder() {
@@ -1512,7 +1429,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 order = 5;</code>
        *
        * <pre>
-       *λ��
+       *位置
        * </pre>
        */
       public Builder setOrder(int value) {
@@ -1525,7 +1442,7 @@ public final class SkillServiceProtos {
        * <code>optional int32 order = 5;</code>
        *
        * <pre>
-       *λ��
+       *位置
        * </pre>
        */
       public Builder clearOrder() {
@@ -1678,58 +1595,655 @@ public final class SkillServiceProtos {
     // @@protoc_insertion_point(class_scope:SkillService.TagSkillData)
   }
 
+  public interface SkillDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 skillId = 1;
+    /**
+     * <code>required int32 skillId = 1;</code>
+     *
+     * <pre>
+     *升级的技能cfgId
+     * </pre>
+     */
+    boolean hasSkillId();
+    /**
+     * <code>required int32 skillId = 1;</code>
+     *
+     * <pre>
+     *升级的技能cfgId
+     * </pre>
+     */
+    int getSkillId();
+
+    // required int32 additiveLevel = 2;
+    /**
+     * <code>required int32 additiveLevel = 2;</code>
+     *
+     * <pre>
+     *升级增加的技能点数
+     * </pre>
+     */
+    boolean hasAdditiveLevel();
+    /**
+     * <code>required int32 additiveLevel = 2;</code>
+     *
+     * <pre>
+     *升级增加的技能点数
+     * </pre>
+     */
+    int getAdditiveLevel();
+  }
+  /**
+   * Protobuf type {@code SkillService.SkillData}
+   */
+  public static final class SkillData extends
+      com.google.protobuf.GeneratedMessage
+      implements SkillDataOrBuilder {
+    // Use SkillData.newBuilder() to construct.
+    private SkillData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SkillData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SkillData defaultInstance;
+    public static SkillData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SkillData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SkillData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              skillId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              additiveLevel_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.SkillServiceProtos.internal_static_SkillService_SkillData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.SkillServiceProtos.internal_static_SkillService_SkillData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.SkillServiceProtos.SkillData.class, com.rwproto.SkillServiceProtos.SkillData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SkillData> PARSER =
+        new com.google.protobuf.AbstractParser<SkillData>() {
+      public SkillData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SkillData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SkillData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 skillId = 1;
+    public static final int SKILLID_FIELD_NUMBER = 1;
+    private int skillId_;
+    /**
+     * <code>required int32 skillId = 1;</code>
+     *
+     * <pre>
+     *升级的技能cfgId
+     * </pre>
+     */
+    public boolean hasSkillId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 skillId = 1;</code>
+     *
+     * <pre>
+     *升级的技能cfgId
+     * </pre>
+     */
+    public int getSkillId() {
+      return skillId_;
+    }
+
+    // required int32 additiveLevel = 2;
+    public static final int ADDITIVELEVEL_FIELD_NUMBER = 2;
+    private int additiveLevel_;
+    /**
+     * <code>required int32 additiveLevel = 2;</code>
+     *
+     * <pre>
+     *升级增加的技能点数
+     * </pre>
+     */
+    public boolean hasAdditiveLevel() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 additiveLevel = 2;</code>
+     *
+     * <pre>
+     *升级增加的技能点数
+     * </pre>
+     */
+    public int getAdditiveLevel() {
+      return additiveLevel_;
+    }
+
+    private void initFields() {
+      skillId_ = 0;
+      additiveLevel_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasSkillId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAdditiveLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, skillId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, additiveLevel_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, skillId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, additiveLevel_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.SkillServiceProtos.SkillData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.SkillServiceProtos.SkillData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code SkillService.SkillData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.SkillServiceProtos.SkillDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.SkillServiceProtos.internal_static_SkillService_SkillData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.SkillServiceProtos.internal_static_SkillService_SkillData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.SkillServiceProtos.SkillData.class, com.rwproto.SkillServiceProtos.SkillData.Builder.class);
+      }
+
+      // Construct using com.rwproto.SkillServiceProtos.SkillData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        skillId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        additiveLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.SkillServiceProtos.internal_static_SkillService_SkillData_descriptor;
+      }
+
+      public com.rwproto.SkillServiceProtos.SkillData getDefaultInstanceForType() {
+        return com.rwproto.SkillServiceProtos.SkillData.getDefaultInstance();
+      }
+
+      public com.rwproto.SkillServiceProtos.SkillData build() {
+        com.rwproto.SkillServiceProtos.SkillData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.SkillServiceProtos.SkillData buildPartial() {
+        com.rwproto.SkillServiceProtos.SkillData result = new com.rwproto.SkillServiceProtos.SkillData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.skillId_ = skillId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.additiveLevel_ = additiveLevel_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.SkillServiceProtos.SkillData) {
+          return mergeFrom((com.rwproto.SkillServiceProtos.SkillData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.SkillServiceProtos.SkillData other) {
+        if (other == com.rwproto.SkillServiceProtos.SkillData.getDefaultInstance()) return this;
+        if (other.hasSkillId()) {
+          setSkillId(other.getSkillId());
+        }
+        if (other.hasAdditiveLevel()) {
+          setAdditiveLevel(other.getAdditiveLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasSkillId()) {
+          
+          return false;
+        }
+        if (!hasAdditiveLevel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.SkillServiceProtos.SkillData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.SkillServiceProtos.SkillData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 skillId = 1;
+      private int skillId_ ;
+      /**
+       * <code>required int32 skillId = 1;</code>
+       *
+       * <pre>
+       *升级的技能cfgId
+       * </pre>
+       */
+      public boolean hasSkillId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 skillId = 1;</code>
+       *
+       * <pre>
+       *升级的技能cfgId
+       * </pre>
+       */
+      public int getSkillId() {
+        return skillId_;
+      }
+      /**
+       * <code>required int32 skillId = 1;</code>
+       *
+       * <pre>
+       *升级的技能cfgId
+       * </pre>
+       */
+      public Builder setSkillId(int value) {
+        bitField0_ |= 0x00000001;
+        skillId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 skillId = 1;</code>
+       *
+       * <pre>
+       *升级的技能cfgId
+       * </pre>
+       */
+      public Builder clearSkillId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        skillId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 additiveLevel = 2;
+      private int additiveLevel_ ;
+      /**
+       * <code>required int32 additiveLevel = 2;</code>
+       *
+       * <pre>
+       *升级增加的技能点数
+       * </pre>
+       */
+      public boolean hasAdditiveLevel() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 additiveLevel = 2;</code>
+       *
+       * <pre>
+       *升级增加的技能点数
+       * </pre>
+       */
+      public int getAdditiveLevel() {
+        return additiveLevel_;
+      }
+      /**
+       * <code>required int32 additiveLevel = 2;</code>
+       *
+       * <pre>
+       *升级增加的技能点数
+       * </pre>
+       */
+      public Builder setAdditiveLevel(int value) {
+        bitField0_ |= 0x00000002;
+        additiveLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 additiveLevel = 2;</code>
+       *
+       * <pre>
+       *升级增加的技能点数
+       * </pre>
+       */
+      public Builder clearAdditiveLevel() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        additiveLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:SkillService.SkillData)
+    }
+
+    static {
+      defaultInstance = new SkillData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:SkillService.SkillData)
+  }
+
   public interface SkillRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // required .SkillService.SkillEventType eventType = 1;
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *客户端请求类型
+     * </pre>
      */
     boolean hasEventType();
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *客户端请求类型
+     * </pre>
      */
     com.rwproto.SkillServiceProtos.SkillEventType getEventType();
 
-    // optional string roleId = 4;
+    // optional string heroId = 2;
     /**
-     * <code>optional string roleId = 4;</code>
+     * <code>optional string heroId = 2;</code>
+     *
+     * <pre>
+     *英雄id
+     * </pre>
      */
-    boolean hasRoleId();
+    boolean hasHeroId();
     /**
-     * <code>optional string roleId = 4;</code>
+     * <code>optional string heroId = 2;</code>
+     *
+     * <pre>
+     *英雄id
+     * </pre>
      */
-    java.lang.String getRoleId();
+    java.lang.String getHeroId();
     /**
-     * <code>optional string roleId = 4;</code>
-     */
-    com.google.protobuf.ByteString
-        getRoleIdBytes();
-
-    // optional string skillId = 2;
-    /**
-     * <code>optional string skillId = 2;</code>
-     */
-    boolean hasSkillId();
-    /**
-     * <code>optional string skillId = 2;</code>
-     */
-    java.lang.String getSkillId();
-    /**
-     * <code>optional string skillId = 2;</code>
+     * <code>optional string heroId = 2;</code>
+     *
+     * <pre>
+     *英雄id
+     * </pre>
      */
     com.google.protobuf.ByteString
-        getSkillIdBytes();
+        getHeroIdBytes();
 
-    // optional int32 order = 3;
+    // repeated .SkillService.SkillData updateSkillList = 3;
     /**
-     * <code>optional int32 order = 3;</code>
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
      */
-    boolean hasOrder();
+    java.util.List<com.rwproto.SkillServiceProtos.SkillData> 
+        getUpdateSkillListList();
     /**
-     * <code>optional int32 order = 3;</code>
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
      */
-    int getOrder();
+    com.rwproto.SkillServiceProtos.SkillData getUpdateSkillList(int index);
+    /**
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
+     */
+    int getUpdateSkillListCount();
+    /**
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.SkillServiceProtos.SkillDataOrBuilder> 
+        getUpdateSkillListOrBuilderList();
+    /**
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
+     */
+    com.rwproto.SkillServiceProtos.SkillDataOrBuilder getUpdateSkillListOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code SkillService.SkillRequest}
@@ -1794,18 +2308,16 @@ public final class SkillServiceProtos {
               break;
             }
             case 18: {
-              bitField0_ |= 0x00000004;
-              skillId_ = input.readBytes();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000008;
-              order_ = input.readInt32();
-              break;
-            }
-            case 34: {
               bitField0_ |= 0x00000002;
-              roleId_ = input.readBytes();
+              heroId_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                updateSkillList_ = new java.util.ArrayList<com.rwproto.SkillServiceProtos.SkillData>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              updateSkillList_.add(input.readMessage(com.rwproto.SkillServiceProtos.SkillData.PARSER, extensionRegistry));
               break;
             }
           }
@@ -1816,6 +2328,9 @@ public final class SkillServiceProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          updateSkillList_ = java.util.Collections.unmodifiableList(updateSkillList_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1853,31 +2368,47 @@ public final class SkillServiceProtos {
     private com.rwproto.SkillServiceProtos.SkillEventType eventType_;
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *客户端请求类型
+     * </pre>
      */
     public boolean hasEventType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *客户端请求类型
+     * </pre>
      */
     public com.rwproto.SkillServiceProtos.SkillEventType getEventType() {
       return eventType_;
     }
 
-    // optional string roleId = 4;
-    public static final int ROLEID_FIELD_NUMBER = 4;
-    private java.lang.Object roleId_;
+    // optional string heroId = 2;
+    public static final int HEROID_FIELD_NUMBER = 2;
+    private java.lang.Object heroId_;
     /**
-     * <code>optional string roleId = 4;</code>
+     * <code>optional string heroId = 2;</code>
+     *
+     * <pre>
+     *英雄id
+     * </pre>
      */
-    public boolean hasRoleId() {
+    public boolean hasHeroId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string roleId = 4;</code>
+     * <code>optional string heroId = 2;</code>
+     *
+     * <pre>
+     *英雄id
+     * </pre>
      */
-    public java.lang.String getRoleId() {
-      java.lang.Object ref = roleId_;
+    public java.lang.String getHeroId() {
+      java.lang.Object ref = heroId_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -1885,92 +2416,92 @@ public final class SkillServiceProtos {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          roleId_ = s;
+          heroId_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string roleId = 4;</code>
+     * <code>optional string heroId = 2;</code>
+     *
+     * <pre>
+     *英雄id
+     * </pre>
      */
     public com.google.protobuf.ByteString
-        getRoleIdBytes() {
-      java.lang.Object ref = roleId_;
+        getHeroIdBytes() {
+      java.lang.Object ref = heroId_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        roleId_ = b;
+        heroId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    // optional string skillId = 2;
-    public static final int SKILLID_FIELD_NUMBER = 2;
-    private java.lang.Object skillId_;
+    // repeated .SkillService.SkillData updateSkillList = 3;
+    public static final int UPDATESKILLLIST_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.SkillServiceProtos.SkillData> updateSkillList_;
     /**
-     * <code>optional string skillId = 2;</code>
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
      */
-    public boolean hasSkillId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public java.util.List<com.rwproto.SkillServiceProtos.SkillData> getUpdateSkillListList() {
+      return updateSkillList_;
     }
     /**
-     * <code>optional string skillId = 2;</code>
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
      */
-    public java.lang.String getSkillId() {
-      java.lang.Object ref = skillId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          skillId_ = s;
-        }
-        return s;
-      }
+    public java.util.List<? extends com.rwproto.SkillServiceProtos.SkillDataOrBuilder> 
+        getUpdateSkillListOrBuilderList() {
+      return updateSkillList_;
     }
     /**
-     * <code>optional string skillId = 2;</code>
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
      */
-    public com.google.protobuf.ByteString
-        getSkillIdBytes() {
-      java.lang.Object ref = skillId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        skillId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // optional int32 order = 3;
-    public static final int ORDER_FIELD_NUMBER = 3;
-    private int order_;
-    /**
-     * <code>optional int32 order = 3;</code>
-     */
-    public boolean hasOrder() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+    public int getUpdateSkillListCount() {
+      return updateSkillList_.size();
     }
     /**
-     * <code>optional int32 order = 3;</code>
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
      */
-    public int getOrder() {
-      return order_;
+    public com.rwproto.SkillServiceProtos.SkillData getUpdateSkillList(int index) {
+      return updateSkillList_.get(index);
+    }
+    /**
+     * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+     *
+     * <pre>
+     *升级技能数据
+     * </pre>
+     */
+    public com.rwproto.SkillServiceProtos.SkillDataOrBuilder getUpdateSkillListOrBuilder(
+        int index) {
+      return updateSkillList_.get(index);
     }
 
     private void initFields() {
       eventType_ = com.rwproto.SkillServiceProtos.SkillEventType.Skill_Upgrade;
-      roleId_ = "";
-      skillId_ = "";
-      order_ = 0;
+      heroId_ = "";
+      updateSkillList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1980,6 +2511,12 @@ public final class SkillServiceProtos {
       if (!hasEventType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getUpdateSkillListCount(); i++) {
+        if (!getUpdateSkillList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1991,14 +2528,11 @@ public final class SkillServiceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, eventType_.getNumber());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(2, getSkillIdBytes());
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(3, order_);
-      }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(4, getRoleIdBytes());
+        output.writeBytes(2, getHeroIdBytes());
+      }
+      for (int i = 0; i < updateSkillList_.size(); i++) {
+        output.writeMessage(3, updateSkillList_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2013,17 +2547,13 @@ public final class SkillServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, eventType_.getNumber());
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getSkillIdBytes());
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, order_);
-      }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getRoleIdBytes());
+          .computeBytesSize(2, getHeroIdBytes());
+      }
+      for (int i = 0; i < updateSkillList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, updateSkillList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2133,6 +2663,7 @@ public final class SkillServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getUpdateSkillListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2143,12 +2674,14 @@ public final class SkillServiceProtos {
         super.clear();
         eventType_ = com.rwproto.SkillServiceProtos.SkillEventType.Skill_Upgrade;
         bitField0_ = (bitField0_ & ~0x00000001);
-        roleId_ = "";
+        heroId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        skillId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000004);
-        order_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
+        if (updateSkillListBuilder_ == null) {
+          updateSkillList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          updateSkillListBuilder_.clear();
+        }
         return this;
       }
 
@@ -2184,15 +2717,16 @@ public final class SkillServiceProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.roleId_ = roleId_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
+        result.heroId_ = heroId_;
+        if (updateSkillListBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            updateSkillList_ = java.util.Collections.unmodifiableList(updateSkillList_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.updateSkillList_ = updateSkillList_;
+        } else {
+          result.updateSkillList_ = updateSkillListBuilder_.build();
         }
-        result.skillId_ = skillId_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.order_ = order_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2212,18 +2746,36 @@ public final class SkillServiceProtos {
         if (other.hasEventType()) {
           setEventType(other.getEventType());
         }
-        if (other.hasRoleId()) {
+        if (other.hasHeroId()) {
           bitField0_ |= 0x00000002;
-          roleId_ = other.roleId_;
+          heroId_ = other.heroId_;
           onChanged();
         }
-        if (other.hasSkillId()) {
-          bitField0_ |= 0x00000004;
-          skillId_ = other.skillId_;
-          onChanged();
-        }
-        if (other.hasOrder()) {
-          setOrder(other.getOrder());
+        if (updateSkillListBuilder_ == null) {
+          if (!other.updateSkillList_.isEmpty()) {
+            if (updateSkillList_.isEmpty()) {
+              updateSkillList_ = other.updateSkillList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureUpdateSkillListIsMutable();
+              updateSkillList_.addAll(other.updateSkillList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.updateSkillList_.isEmpty()) {
+            if (updateSkillListBuilder_.isEmpty()) {
+              updateSkillListBuilder_.dispose();
+              updateSkillListBuilder_ = null;
+              updateSkillList_ = other.updateSkillList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              updateSkillListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getUpdateSkillListFieldBuilder() : null;
+            } else {
+              updateSkillListBuilder_.addAllMessages(other.updateSkillList_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2233,6 +2785,12 @@ public final class SkillServiceProtos {
         if (!hasEventType()) {
           
           return false;
+        }
+        for (int i = 0; i < getUpdateSkillListCount(); i++) {
+          if (!getUpdateSkillList(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -2260,18 +2818,30 @@ public final class SkillServiceProtos {
       private com.rwproto.SkillServiceProtos.SkillEventType eventType_ = com.rwproto.SkillServiceProtos.SkillEventType.Skill_Upgrade;
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *客户端请求类型
+       * </pre>
        */
       public boolean hasEventType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *客户端请求类型
+       * </pre>
        */
       public com.rwproto.SkillServiceProtos.SkillEventType getEventType() {
         return eventType_;
       }
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *客户端请求类型
+       * </pre>
        */
       public Builder setEventType(com.rwproto.SkillServiceProtos.SkillEventType value) {
         if (value == null) {
@@ -2284,6 +2854,10 @@ public final class SkillServiceProtos {
       }
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *客户端请求类型
+       * </pre>
        */
       public Builder clearEventType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2292,185 +2866,414 @@ public final class SkillServiceProtos {
         return this;
       }
 
-      // optional string roleId = 4;
-      private java.lang.Object roleId_ = "";
+      // optional string heroId = 2;
+      private java.lang.Object heroId_ = "";
       /**
-       * <code>optional string roleId = 4;</code>
+       * <code>optional string heroId = 2;</code>
+       *
+       * <pre>
+       *英雄id
+       * </pre>
        */
-      public boolean hasRoleId() {
+      public boolean hasHeroId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string roleId = 4;</code>
+       * <code>optional string heroId = 2;</code>
+       *
+       * <pre>
+       *英雄id
+       * </pre>
        */
-      public java.lang.String getRoleId() {
-        java.lang.Object ref = roleId_;
+      public java.lang.String getHeroId() {
+        java.lang.Object ref = heroId_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          roleId_ = s;
+          heroId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string roleId = 4;</code>
+       * <code>optional string heroId = 2;</code>
+       *
+       * <pre>
+       *英雄id
+       * </pre>
        */
       public com.google.protobuf.ByteString
-          getRoleIdBytes() {
-        java.lang.Object ref = roleId_;
+          getHeroIdBytes() {
+        java.lang.Object ref = heroId_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          roleId_ = b;
+          heroId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string roleId = 4;</code>
+       * <code>optional string heroId = 2;</code>
+       *
+       * <pre>
+       *英雄id
+       * </pre>
        */
-      public Builder setRoleId(
+      public Builder setHeroId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        roleId_ = value;
+        heroId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string roleId = 4;</code>
+       * <code>optional string heroId = 2;</code>
+       *
+       * <pre>
+       *英雄id
+       * </pre>
        */
-      public Builder clearRoleId() {
+      public Builder clearHeroId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        roleId_ = getDefaultInstance().getRoleId();
+        heroId_ = getDefaultInstance().getHeroId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string roleId = 4;</code>
+       * <code>optional string heroId = 2;</code>
+       *
+       * <pre>
+       *英雄id
+       * </pre>
        */
-      public Builder setRoleIdBytes(
+      public Builder setHeroIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        roleId_ = value;
+        heroId_ = value;
         onChanged();
         return this;
       }
 
-      // optional string skillId = 2;
-      private java.lang.Object skillId_ = "";
-      /**
-       * <code>optional string skillId = 2;</code>
-       */
-      public boolean hasSkillId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional string skillId = 2;</code>
-       */
-      public java.lang.String getSkillId() {
-        java.lang.Object ref = skillId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          skillId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string skillId = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getSkillIdBytes() {
-        java.lang.Object ref = skillId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          skillId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string skillId = 2;</code>
-       */
-      public Builder setSkillId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        skillId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string skillId = 2;</code>
-       */
-      public Builder clearSkillId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        skillId_ = getDefaultInstance().getSkillId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string skillId = 2;</code>
-       */
-      public Builder setSkillIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        skillId_ = value;
-        onChanged();
-        return this;
+      // repeated .SkillService.SkillData updateSkillList = 3;
+      private java.util.List<com.rwproto.SkillServiceProtos.SkillData> updateSkillList_ =
+        java.util.Collections.emptyList();
+      private void ensureUpdateSkillListIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          updateSkillList_ = new java.util.ArrayList<com.rwproto.SkillServiceProtos.SkillData>(updateSkillList_);
+          bitField0_ |= 0x00000004;
+         }
       }
 
-      // optional int32 order = 3;
-      private int order_ ;
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.SkillServiceProtos.SkillData, com.rwproto.SkillServiceProtos.SkillData.Builder, com.rwproto.SkillServiceProtos.SkillDataOrBuilder> updateSkillListBuilder_;
+
       /**
-       * <code>optional int32 order = 3;</code>
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
        */
-      public boolean hasOrder() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+      public java.util.List<com.rwproto.SkillServiceProtos.SkillData> getUpdateSkillListList() {
+        if (updateSkillListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(updateSkillList_);
+        } else {
+          return updateSkillListBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>optional int32 order = 3;</code>
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
        */
-      public int getOrder() {
-        return order_;
+      public int getUpdateSkillListCount() {
+        if (updateSkillListBuilder_ == null) {
+          return updateSkillList_.size();
+        } else {
+          return updateSkillListBuilder_.getCount();
+        }
       }
       /**
-       * <code>optional int32 order = 3;</code>
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
        */
-      public Builder setOrder(int value) {
-        bitField0_ |= 0x00000008;
-        order_ = value;
-        onChanged();
+      public com.rwproto.SkillServiceProtos.SkillData getUpdateSkillList(int index) {
+        if (updateSkillListBuilder_ == null) {
+          return updateSkillList_.get(index);
+        } else {
+          return updateSkillListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder setUpdateSkillList(
+          int index, com.rwproto.SkillServiceProtos.SkillData value) {
+        if (updateSkillListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUpdateSkillListIsMutable();
+          updateSkillList_.set(index, value);
+          onChanged();
+        } else {
+          updateSkillListBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>optional int32 order = 3;</code>
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
        */
-      public Builder clearOrder() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        order_ = 0;
-        onChanged();
+      public Builder setUpdateSkillList(
+          int index, com.rwproto.SkillServiceProtos.SkillData.Builder builderForValue) {
+        if (updateSkillListBuilder_ == null) {
+          ensureUpdateSkillListIsMutable();
+          updateSkillList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          updateSkillListBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder addUpdateSkillList(com.rwproto.SkillServiceProtos.SkillData value) {
+        if (updateSkillListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUpdateSkillListIsMutable();
+          updateSkillList_.add(value);
+          onChanged();
+        } else {
+          updateSkillListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder addUpdateSkillList(
+          int index, com.rwproto.SkillServiceProtos.SkillData value) {
+        if (updateSkillListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUpdateSkillListIsMutable();
+          updateSkillList_.add(index, value);
+          onChanged();
+        } else {
+          updateSkillListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder addUpdateSkillList(
+          com.rwproto.SkillServiceProtos.SkillData.Builder builderForValue) {
+        if (updateSkillListBuilder_ == null) {
+          ensureUpdateSkillListIsMutable();
+          updateSkillList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          updateSkillListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder addUpdateSkillList(
+          int index, com.rwproto.SkillServiceProtos.SkillData.Builder builderForValue) {
+        if (updateSkillListBuilder_ == null) {
+          ensureUpdateSkillListIsMutable();
+          updateSkillList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          updateSkillListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder addAllUpdateSkillList(
+          java.lang.Iterable<? extends com.rwproto.SkillServiceProtos.SkillData> values) {
+        if (updateSkillListBuilder_ == null) {
+          ensureUpdateSkillListIsMutable();
+          super.addAll(values, updateSkillList_);
+          onChanged();
+        } else {
+          updateSkillListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder clearUpdateSkillList() {
+        if (updateSkillListBuilder_ == null) {
+          updateSkillList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          updateSkillListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public Builder removeUpdateSkillList(int index) {
+        if (updateSkillListBuilder_ == null) {
+          ensureUpdateSkillListIsMutable();
+          updateSkillList_.remove(index);
+          onChanged();
+        } else {
+          updateSkillListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public com.rwproto.SkillServiceProtos.SkillData.Builder getUpdateSkillListBuilder(
+          int index) {
+        return getUpdateSkillListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public com.rwproto.SkillServiceProtos.SkillDataOrBuilder getUpdateSkillListOrBuilder(
+          int index) {
+        if (updateSkillListBuilder_ == null) {
+          return updateSkillList_.get(index);  } else {
+          return updateSkillListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.SkillServiceProtos.SkillDataOrBuilder> 
+           getUpdateSkillListOrBuilderList() {
+        if (updateSkillListBuilder_ != null) {
+          return updateSkillListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(updateSkillList_);
+        }
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public com.rwproto.SkillServiceProtos.SkillData.Builder addUpdateSkillListBuilder() {
+        return getUpdateSkillListFieldBuilder().addBuilder(
+            com.rwproto.SkillServiceProtos.SkillData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public com.rwproto.SkillServiceProtos.SkillData.Builder addUpdateSkillListBuilder(
+          int index) {
+        return getUpdateSkillListFieldBuilder().addBuilder(
+            index, com.rwproto.SkillServiceProtos.SkillData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .SkillService.SkillData updateSkillList = 3;</code>
+       *
+       * <pre>
+       *升级技能数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.SkillServiceProtos.SkillData.Builder> 
+           getUpdateSkillListBuilderList() {
+        return getUpdateSkillListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.SkillServiceProtos.SkillData, com.rwproto.SkillServiceProtos.SkillData.Builder, com.rwproto.SkillServiceProtos.SkillDataOrBuilder> 
+          getUpdateSkillListFieldBuilder() {
+        if (updateSkillListBuilder_ == null) {
+          updateSkillListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.SkillServiceProtos.SkillData, com.rwproto.SkillServiceProtos.SkillData.Builder, com.rwproto.SkillServiceProtos.SkillDataOrBuilder>(
+                  updateSkillList_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          updateSkillList_ = null;
+        }
+        return updateSkillListBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:SkillService.SkillRequest)
@@ -2490,72 +3293,101 @@ public final class SkillServiceProtos {
     // required .SkillService.SkillEventType eventType = 1;
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *技能操作类型
+     * </pre>
      */
     boolean hasEventType();
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *技能操作类型
+     * </pre>
      */
     com.rwproto.SkillServiceProtos.SkillEventType getEventType();
 
-    // optional int32 order = 7;
+    // optional string failReason = 2;
     /**
-     * <code>optional int32 order = 7;</code>
+     * <code>optional string failReason = 2;</code>
+     *
+     * <pre>
+     *失败原因，为null表示操作成功
+     * </pre>
      */
-    boolean hasOrder();
+    boolean hasFailReason();
     /**
-     * <code>optional int32 order = 7;</code>
+     * <code>optional string failReason = 2;</code>
+     *
+     * <pre>
+     *失败原因，为null表示操作成功
+     * </pre>
      */
-    int getOrder();
-
-    // optional string roleId = 8;
+    java.lang.String getFailReason();
     /**
-     * <code>optional string roleId = 8;</code>
-     */
-    boolean hasRoleId();
-    /**
-     * <code>optional string roleId = 8;</code>
-     */
-    java.lang.String getRoleId();
-    /**
-     * <code>optional string roleId = 8;</code>
+     * <code>optional string failReason = 2;</code>
+     *
+     * <pre>
+     *失败原因，为null表示操作成功
+     * </pre>
      */
     com.google.protobuf.ByteString
-        getRoleIdBytes();
+        getFailReasonBytes();
 
-    // repeated .SkillService.TagSkillData skillData = 9;
+    // required int32 remainSkillPoints = 3;
     /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+     * <code>required int32 remainSkillPoints = 3;</code>
+     *
+     * <pre>
+     *剩余技能点数
+     * </pre>
      */
-    java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> 
-        getSkillDataList();
+    boolean hasRemainSkillPoints();
     /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+     * <code>required int32 remainSkillPoints = 3;</code>
+     *
+     * <pre>
+     *剩余技能点数
+     * </pre>
      */
-    com.rwproto.SkillServiceProtos.TagSkillData getSkillData(int index);
-    /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-     */
-    int getSkillDataCount();
-    /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-     */
-    java.util.List<? extends com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> 
-        getSkillDataOrBuilderList();
-    /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-     */
-    com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getSkillDataOrBuilder(
-        int index);
+    int getRemainSkillPoints();
 
-    // optional .SkillService.SkillResultType resultType = 2;
+    // required int32 remainSeconds = 4;
     /**
-     * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+     * <code>required int32 remainSeconds = 4;</code>
+     *
+     * <pre>
+     *剩余倒计时的秒数
+     * </pre>
      */
-    boolean hasResultType();
+    boolean hasRemainSeconds();
     /**
-     * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+     * <code>required int32 remainSeconds = 4;</code>
+     *
+     * <pre>
+     *剩余倒计时的秒数
+     * </pre>
      */
-    com.rwproto.SkillServiceProtos.SkillResultType getResultType();
+    int getRemainSeconds();
+
+    // required int32 recoverSkillPoints = 5;
+    /**
+     * <code>required int32 recoverSkillPoints = 5;</code>
+     *
+     * <pre>
+     *剩余恢复技能点数
+     * </pre>
+     */
+    boolean hasRecoverSkillPoints();
+    /**
+     * <code>required int32 recoverSkillPoints = 5;</code>
+     *
+     * <pre>
+     *剩余恢复技能点数
+     * </pre>
+     */
+    int getRecoverSkillPoints();
   }
   /**
    * Protobuf type {@code SkillService.SkillResponse}
@@ -2619,33 +3451,24 @@ public final class SkillServiceProtos {
               }
               break;
             }
-            case 16: {
-              int rawValue = input.readEnum();
-              com.rwproto.SkillServiceProtos.SkillResultType value = com.rwproto.SkillServiceProtos.SkillResultType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(2, rawValue);
-              } else {
-                bitField0_ |= 0x00000008;
-                resultType_ = value;
-              }
-              break;
-            }
-            case 56: {
+            case 18: {
               bitField0_ |= 0x00000002;
-              order_ = input.readInt32();
+              failReason_ = input.readBytes();
               break;
             }
-            case 66: {
+            case 24: {
               bitField0_ |= 0x00000004;
-              roleId_ = input.readBytes();
+              remainSkillPoints_ = input.readInt32();
               break;
             }
-            case 74: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                skillData_ = new java.util.ArrayList<com.rwproto.SkillServiceProtos.TagSkillData>();
-                mutable_bitField0_ |= 0x00000008;
-              }
-              skillData_.add(input.readMessage(com.rwproto.SkillServiceProtos.TagSkillData.PARSER, extensionRegistry));
+            case 32: {
+              bitField0_ |= 0x00000008;
+              remainSeconds_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              recoverSkillPoints_ = input.readInt32();
               break;
             }
           }
@@ -2656,9 +3479,6 @@ public final class SkillServiceProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          skillData_ = java.util.Collections.unmodifiableList(skillData_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -2696,47 +3516,47 @@ public final class SkillServiceProtos {
     private com.rwproto.SkillServiceProtos.SkillEventType eventType_;
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *技能操作类型
+     * </pre>
      */
     public boolean hasEventType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required .SkillService.SkillEventType eventType = 1;</code>
+     *
+     * <pre>
+     *技能操作类型
+     * </pre>
      */
     public com.rwproto.SkillServiceProtos.SkillEventType getEventType() {
       return eventType_;
     }
 
-    // optional int32 order = 7;
-    public static final int ORDER_FIELD_NUMBER = 7;
-    private int order_;
+    // optional string failReason = 2;
+    public static final int FAILREASON_FIELD_NUMBER = 2;
+    private java.lang.Object failReason_;
     /**
-     * <code>optional int32 order = 7;</code>
+     * <code>optional string failReason = 2;</code>
+     *
+     * <pre>
+     *失败原因，为null表示操作成功
+     * </pre>
      */
-    public boolean hasOrder() {
+    public boolean hasFailReason() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 order = 7;</code>
+     * <code>optional string failReason = 2;</code>
+     *
+     * <pre>
+     *失败原因，为null表示操作成功
+     * </pre>
      */
-    public int getOrder() {
-      return order_;
-    }
-
-    // optional string roleId = 8;
-    public static final int ROLEID_FIELD_NUMBER = 8;
-    private java.lang.Object roleId_;
-    /**
-     * <code>optional string roleId = 8;</code>
-     */
-    public boolean hasRoleId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional string roleId = 8;</code>
-     */
-    public java.lang.String getRoleId() {
-      java.lang.Object ref = roleId_;
+    public java.lang.String getFailReason() {
+      java.lang.Object ref = failReason_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -2744,86 +3564,110 @@ public final class SkillServiceProtos {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          roleId_ = s;
+          failReason_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string roleId = 8;</code>
+     * <code>optional string failReason = 2;</code>
+     *
+     * <pre>
+     *失败原因，为null表示操作成功
+     * </pre>
      */
     public com.google.protobuf.ByteString
-        getRoleIdBytes() {
-      java.lang.Object ref = roleId_;
+        getFailReasonBytes() {
+      java.lang.Object ref = failReason_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        roleId_ = b;
+        failReason_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    // repeated .SkillService.TagSkillData skillData = 9;
-    public static final int SKILLDATA_FIELD_NUMBER = 9;
-    private java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> skillData_;
+    // required int32 remainSkillPoints = 3;
+    public static final int REMAINSKILLPOINTS_FIELD_NUMBER = 3;
+    private int remainSkillPoints_;
     /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+     * <code>required int32 remainSkillPoints = 3;</code>
+     *
+     * <pre>
+     *剩余技能点数
+     * </pre>
      */
-    public java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> getSkillDataList() {
-      return skillData_;
+    public boolean hasRemainSkillPoints() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+     * <code>required int32 remainSkillPoints = 3;</code>
+     *
+     * <pre>
+     *剩余技能点数
+     * </pre>
      */
-    public java.util.List<? extends com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> 
-        getSkillDataOrBuilderList() {
-      return skillData_;
-    }
-    /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-     */
-    public int getSkillDataCount() {
-      return skillData_.size();
-    }
-    /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-     */
-    public com.rwproto.SkillServiceProtos.TagSkillData getSkillData(int index) {
-      return skillData_.get(index);
-    }
-    /**
-     * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-     */
-    public com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getSkillDataOrBuilder(
-        int index) {
-      return skillData_.get(index);
+    public int getRemainSkillPoints() {
+      return remainSkillPoints_;
     }
 
-    // optional .SkillService.SkillResultType resultType = 2;
-    public static final int RESULTTYPE_FIELD_NUMBER = 2;
-    private com.rwproto.SkillServiceProtos.SkillResultType resultType_;
+    // required int32 remainSeconds = 4;
+    public static final int REMAINSECONDS_FIELD_NUMBER = 4;
+    private int remainSeconds_;
     /**
-     * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+     * <code>required int32 remainSeconds = 4;</code>
+     *
+     * <pre>
+     *剩余倒计时的秒数
+     * </pre>
      */
-    public boolean hasResultType() {
+    public boolean hasRemainSeconds() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+     * <code>required int32 remainSeconds = 4;</code>
+     *
+     * <pre>
+     *剩余倒计时的秒数
+     * </pre>
      */
-    public com.rwproto.SkillServiceProtos.SkillResultType getResultType() {
-      return resultType_;
+    public int getRemainSeconds() {
+      return remainSeconds_;
+    }
+
+    // required int32 recoverSkillPoints = 5;
+    public static final int RECOVERSKILLPOINTS_FIELD_NUMBER = 5;
+    private int recoverSkillPoints_;
+    /**
+     * <code>required int32 recoverSkillPoints = 5;</code>
+     *
+     * <pre>
+     *剩余恢复技能点数
+     * </pre>
+     */
+    public boolean hasRecoverSkillPoints() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 recoverSkillPoints = 5;</code>
+     *
+     * <pre>
+     *剩余恢复技能点数
+     * </pre>
+     */
+    public int getRecoverSkillPoints() {
+      return recoverSkillPoints_;
     }
 
     private void initFields() {
       eventType_ = com.rwproto.SkillServiceProtos.SkillEventType.Skill_Upgrade;
-      order_ = 0;
-      roleId_ = "";
-      skillData_ = java.util.Collections.emptyList();
-      resultType_ = com.rwproto.SkillServiceProtos.SkillResultType.succeed;
+      failReason_ = "";
+      remainSkillPoints_ = 0;
+      remainSeconds_ = 0;
+      recoverSkillPoints_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2831,6 +3675,18 @@ public final class SkillServiceProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasEventType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainSkillPoints()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRemainSeconds()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRecoverSkillPoints()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -2844,17 +3700,17 @@ public final class SkillServiceProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, eventType_.getNumber());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeEnum(2, resultType_.getNumber());
-      }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(7, order_);
+        output.writeBytes(2, getFailReasonBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(8, getRoleIdBytes());
+        output.writeInt32(3, remainSkillPoints_);
       }
-      for (int i = 0; i < skillData_.size(); i++) {
-        output.writeMessage(9, skillData_.get(i));
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, remainSeconds_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, recoverSkillPoints_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2869,21 +3725,21 @@ public final class SkillServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, eventType_.getNumber());
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(2, resultType_.getNumber());
-      }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(7, order_);
+          .computeBytesSize(2, getFailReasonBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(8, getRoleIdBytes());
+          .computeInt32Size(3, remainSkillPoints_);
       }
-      for (int i = 0; i < skillData_.size(); i++) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, skillData_.get(i));
+          .computeInt32Size(4, remainSeconds_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, recoverSkillPoints_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2993,7 +3849,6 @@ public final class SkillServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getSkillDataFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3004,17 +3859,13 @@ public final class SkillServiceProtos {
         super.clear();
         eventType_ = com.rwproto.SkillServiceProtos.SkillEventType.Skill_Upgrade;
         bitField0_ = (bitField0_ & ~0x00000001);
-        order_ = 0;
+        failReason_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        roleId_ = "";
+        remainSkillPoints_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        if (skillDataBuilder_ == null) {
-          skillData_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-        } else {
-          skillDataBuilder_.clear();
-        }
-        resultType_ = com.rwproto.SkillServiceProtos.SkillResultType.succeed;
+        remainSeconds_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        recoverSkillPoints_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
@@ -3051,24 +3902,19 @@ public final class SkillServiceProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.order_ = order_;
+        result.failReason_ = failReason_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.roleId_ = roleId_;
-        if (skillDataBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
-            skillData_ = java.util.Collections.unmodifiableList(skillData_);
-            bitField0_ = (bitField0_ & ~0x00000008);
-          }
-          result.skillData_ = skillData_;
-        } else {
-          result.skillData_ = skillDataBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        result.remainSkillPoints_ = remainSkillPoints_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.resultType_ = resultType_;
+        result.remainSeconds_ = remainSeconds_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.recoverSkillPoints_ = recoverSkillPoints_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3088,42 +3934,19 @@ public final class SkillServiceProtos {
         if (other.hasEventType()) {
           setEventType(other.getEventType());
         }
-        if (other.hasOrder()) {
-          setOrder(other.getOrder());
-        }
-        if (other.hasRoleId()) {
-          bitField0_ |= 0x00000004;
-          roleId_ = other.roleId_;
+        if (other.hasFailReason()) {
+          bitField0_ |= 0x00000002;
+          failReason_ = other.failReason_;
           onChanged();
         }
-        if (skillDataBuilder_ == null) {
-          if (!other.skillData_.isEmpty()) {
-            if (skillData_.isEmpty()) {
-              skillData_ = other.skillData_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-            } else {
-              ensureSkillDataIsMutable();
-              skillData_.addAll(other.skillData_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.skillData_.isEmpty()) {
-            if (skillDataBuilder_.isEmpty()) {
-              skillDataBuilder_.dispose();
-              skillDataBuilder_ = null;
-              skillData_ = other.skillData_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-              skillDataBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getSkillDataFieldBuilder() : null;
-            } else {
-              skillDataBuilder_.addAllMessages(other.skillData_);
-            }
-          }
+        if (other.hasRemainSkillPoints()) {
+          setRemainSkillPoints(other.getRemainSkillPoints());
         }
-        if (other.hasResultType()) {
-          setResultType(other.getResultType());
+        if (other.hasRemainSeconds()) {
+          setRemainSeconds(other.getRemainSeconds());
+        }
+        if (other.hasRecoverSkillPoints()) {
+          setRecoverSkillPoints(other.getRecoverSkillPoints());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3131,6 +3954,18 @@ public final class SkillServiceProtos {
 
       public final boolean isInitialized() {
         if (!hasEventType()) {
+          
+          return false;
+        }
+        if (!hasRemainSkillPoints()) {
+          
+          return false;
+        }
+        if (!hasRemainSeconds()) {
+          
+          return false;
+        }
+        if (!hasRecoverSkillPoints()) {
           
           return false;
         }
@@ -3160,18 +3995,30 @@ public final class SkillServiceProtos {
       private com.rwproto.SkillServiceProtos.SkillEventType eventType_ = com.rwproto.SkillServiceProtos.SkillEventType.Skill_Upgrade;
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *技能操作类型
+       * </pre>
        */
       public boolean hasEventType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *技能操作类型
+       * </pre>
        */
       public com.rwproto.SkillServiceProtos.SkillEventType getEventType() {
         return eventType_;
       }
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *技能操作类型
+       * </pre>
        */
       public Builder setEventType(com.rwproto.SkillServiceProtos.SkillEventType value) {
         if (value == null) {
@@ -3184,6 +4031,10 @@ public final class SkillServiceProtos {
       }
       /**
        * <code>required .SkillService.SkillEventType eventType = 1;</code>
+       *
+       * <pre>
+       *技能操作类型
+       * </pre>
        */
       public Builder clearEventType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -3192,385 +4043,247 @@ public final class SkillServiceProtos {
         return this;
       }
 
-      // optional int32 order = 7;
-      private int order_ ;
+      // optional string failReason = 2;
+      private java.lang.Object failReason_ = "";
       /**
-       * <code>optional int32 order = 7;</code>
+       * <code>optional string failReason = 2;</code>
+       *
+       * <pre>
+       *失败原因，为null表示操作成功
+       * </pre>
        */
-      public boolean hasOrder() {
+      public boolean hasFailReason() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 order = 7;</code>
+       * <code>optional string failReason = 2;</code>
+       *
+       * <pre>
+       *失败原因，为null表示操作成功
+       * </pre>
        */
-      public int getOrder() {
-        return order_;
-      }
-      /**
-       * <code>optional int32 order = 7;</code>
-       */
-      public Builder setOrder(int value) {
-        bitField0_ |= 0x00000002;
-        order_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 order = 7;</code>
-       */
-      public Builder clearOrder() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        order_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional string roleId = 8;
-      private java.lang.Object roleId_ = "";
-      /**
-       * <code>optional string roleId = 8;</code>
-       */
-      public boolean hasRoleId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional string roleId = 8;</code>
-       */
-      public java.lang.String getRoleId() {
-        java.lang.Object ref = roleId_;
+      public java.lang.String getFailReason() {
+        java.lang.Object ref = failReason_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          roleId_ = s;
+          failReason_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string roleId = 8;</code>
+       * <code>optional string failReason = 2;</code>
+       *
+       * <pre>
+       *失败原因，为null表示操作成功
+       * </pre>
        */
       public com.google.protobuf.ByteString
-          getRoleIdBytes() {
-        java.lang.Object ref = roleId_;
+          getFailReasonBytes() {
+        java.lang.Object ref = failReason_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          roleId_ = b;
+          failReason_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string roleId = 8;</code>
+       * <code>optional string failReason = 2;</code>
+       *
+       * <pre>
+       *失败原因，为null表示操作成功
+       * </pre>
        */
-      public Builder setRoleId(
+      public Builder setFailReason(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
-        roleId_ = value;
+  bitField0_ |= 0x00000002;
+        failReason_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string roleId = 8;</code>
+       * <code>optional string failReason = 2;</code>
+       *
+       * <pre>
+       *失败原因，为null表示操作成功
+       * </pre>
        */
-      public Builder clearRoleId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        roleId_ = getDefaultInstance().getRoleId();
+      public Builder clearFailReason() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        failReason_ = getDefaultInstance().getFailReason();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string roleId = 8;</code>
+       * <code>optional string failReason = 2;</code>
+       *
+       * <pre>
+       *失败原因，为null表示操作成功
+       * </pre>
        */
-      public Builder setRoleIdBytes(
+      public Builder setFailReasonBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
-        roleId_ = value;
+  bitField0_ |= 0x00000002;
+        failReason_ = value;
         onChanged();
         return this;
       }
 
-      // repeated .SkillService.TagSkillData skillData = 9;
-      private java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> skillData_ =
-        java.util.Collections.emptyList();
-      private void ensureSkillDataIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          skillData_ = new java.util.ArrayList<com.rwproto.SkillServiceProtos.TagSkillData>(skillData_);
-          bitField0_ |= 0x00000008;
-         }
+      // required int32 remainSkillPoints = 3;
+      private int remainSkillPoints_ ;
+      /**
+       * <code>required int32 remainSkillPoints = 3;</code>
+       *
+       * <pre>
+       *剩余技能点数
+       * </pre>
+       */
+      public boolean hasRemainSkillPoints() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 remainSkillPoints = 3;</code>
+       *
+       * <pre>
+       *剩余技能点数
+       * </pre>
+       */
+      public int getRemainSkillPoints() {
+        return remainSkillPoints_;
+      }
+      /**
+       * <code>required int32 remainSkillPoints = 3;</code>
+       *
+       * <pre>
+       *剩余技能点数
+       * </pre>
+       */
+      public Builder setRemainSkillPoints(int value) {
+        bitField0_ |= 0x00000004;
+        remainSkillPoints_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 remainSkillPoints = 3;</code>
+       *
+       * <pre>
+       *剩余技能点数
+       * </pre>
+       */
+      public Builder clearRemainSkillPoints() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        remainSkillPoints_ = 0;
+        onChanged();
+        return this;
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.SkillServiceProtos.TagSkillData, com.rwproto.SkillServiceProtos.TagSkillData.Builder, com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> skillDataBuilder_;
-
+      // required int32 remainSeconds = 4;
+      private int remainSeconds_ ;
       /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+       * <code>required int32 remainSeconds = 4;</code>
+       *
+       * <pre>
+       *剩余倒计时的秒数
+       * </pre>
        */
-      public java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> getSkillDataList() {
-        if (skillDataBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(skillData_);
-        } else {
-          return skillDataBuilder_.getMessageList();
-        }
+      public boolean hasRemainSeconds() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+       * <code>required int32 remainSeconds = 4;</code>
+       *
+       * <pre>
+       *剩余倒计时的秒数
+       * </pre>
        */
-      public int getSkillDataCount() {
-        if (skillDataBuilder_ == null) {
-          return skillData_.size();
-        } else {
-          return skillDataBuilder_.getCount();
-        }
+      public int getRemainSeconds() {
+        return remainSeconds_;
       }
       /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+       * <code>required int32 remainSeconds = 4;</code>
+       *
+       * <pre>
+       *剩余倒计时的秒数
+       * </pre>
        */
-      public com.rwproto.SkillServiceProtos.TagSkillData getSkillData(int index) {
-        if (skillDataBuilder_ == null) {
-          return skillData_.get(index);
-        } else {
-          return skillDataBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder setSkillData(
-          int index, com.rwproto.SkillServiceProtos.TagSkillData value) {
-        if (skillDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSkillDataIsMutable();
-          skillData_.set(index, value);
-          onChanged();
-        } else {
-          skillDataBuilder_.setMessage(index, value);
-        }
+      public Builder setRemainSeconds(int value) {
+        bitField0_ |= 0x00000008;
+        remainSeconds_ = value;
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
+       * <code>required int32 remainSeconds = 4;</code>
+       *
+       * <pre>
+       *剩余倒计时的秒数
+       * </pre>
        */
-      public Builder setSkillData(
-          int index, com.rwproto.SkillServiceProtos.TagSkillData.Builder builderForValue) {
-        if (skillDataBuilder_ == null) {
-          ensureSkillDataIsMutable();
-          skillData_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          skillDataBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder clearRemainSeconds() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        remainSeconds_ = 0;
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder addSkillData(com.rwproto.SkillServiceProtos.TagSkillData value) {
-        if (skillDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSkillDataIsMutable();
-          skillData_.add(value);
-          onChanged();
-        } else {
-          skillDataBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder addSkillData(
-          int index, com.rwproto.SkillServiceProtos.TagSkillData value) {
-        if (skillDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSkillDataIsMutable();
-          skillData_.add(index, value);
-          onChanged();
-        } else {
-          skillDataBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder addSkillData(
-          com.rwproto.SkillServiceProtos.TagSkillData.Builder builderForValue) {
-        if (skillDataBuilder_ == null) {
-          ensureSkillDataIsMutable();
-          skillData_.add(builderForValue.build());
-          onChanged();
-        } else {
-          skillDataBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder addSkillData(
-          int index, com.rwproto.SkillServiceProtos.TagSkillData.Builder builderForValue) {
-        if (skillDataBuilder_ == null) {
-          ensureSkillDataIsMutable();
-          skillData_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          skillDataBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder addAllSkillData(
-          java.lang.Iterable<? extends com.rwproto.SkillServiceProtos.TagSkillData> values) {
-        if (skillDataBuilder_ == null) {
-          ensureSkillDataIsMutable();
-          super.addAll(values, skillData_);
-          onChanged();
-        } else {
-          skillDataBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder clearSkillData() {
-        if (skillDataBuilder_ == null) {
-          skillData_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-        } else {
-          skillDataBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public Builder removeSkillData(int index) {
-        if (skillDataBuilder_ == null) {
-          ensureSkillDataIsMutable();
-          skillData_.remove(index);
-          onChanged();
-        } else {
-          skillDataBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public com.rwproto.SkillServiceProtos.TagSkillData.Builder getSkillDataBuilder(
-          int index) {
-        return getSkillDataFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getSkillDataOrBuilder(
-          int index) {
-        if (skillDataBuilder_ == null) {
-          return skillData_.get(index);  } else {
-          return skillDataBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public java.util.List<? extends com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> 
-           getSkillDataOrBuilderList() {
-        if (skillDataBuilder_ != null) {
-          return skillDataBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(skillData_);
-        }
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public com.rwproto.SkillServiceProtos.TagSkillData.Builder addSkillDataBuilder() {
-        return getSkillDataFieldBuilder().addBuilder(
-            com.rwproto.SkillServiceProtos.TagSkillData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public com.rwproto.SkillServiceProtos.TagSkillData.Builder addSkillDataBuilder(
-          int index) {
-        return getSkillDataFieldBuilder().addBuilder(
-            index, com.rwproto.SkillServiceProtos.TagSkillData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .SkillService.TagSkillData skillData = 9;</code>
-       */
-      public java.util.List<com.rwproto.SkillServiceProtos.TagSkillData.Builder> 
-           getSkillDataBuilderList() {
-        return getSkillDataFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.SkillServiceProtos.TagSkillData, com.rwproto.SkillServiceProtos.TagSkillData.Builder, com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> 
-          getSkillDataFieldBuilder() {
-        if (skillDataBuilder_ == null) {
-          skillDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.SkillServiceProtos.TagSkillData, com.rwproto.SkillServiceProtos.TagSkillData.Builder, com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder>(
-                  skillData_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
-                  getParentForChildren(),
-                  isClean());
-          skillData_ = null;
-        }
-        return skillDataBuilder_;
       }
 
-      // optional .SkillService.SkillResultType resultType = 2;
-      private com.rwproto.SkillServiceProtos.SkillResultType resultType_ = com.rwproto.SkillServiceProtos.SkillResultType.succeed;
+      // required int32 recoverSkillPoints = 5;
+      private int recoverSkillPoints_ ;
       /**
-       * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+       * <code>required int32 recoverSkillPoints = 5;</code>
+       *
+       * <pre>
+       *剩余恢复技能点数
+       * </pre>
        */
-      public boolean hasResultType() {
+      public boolean hasRecoverSkillPoints() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+       * <code>required int32 recoverSkillPoints = 5;</code>
+       *
+       * <pre>
+       *剩余恢复技能点数
+       * </pre>
        */
-      public com.rwproto.SkillServiceProtos.SkillResultType getResultType() {
-        return resultType_;
+      public int getRecoverSkillPoints() {
+        return recoverSkillPoints_;
       }
       /**
-       * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+       * <code>required int32 recoverSkillPoints = 5;</code>
+       *
+       * <pre>
+       *剩余恢复技能点数
+       * </pre>
        */
-      public Builder setResultType(com.rwproto.SkillServiceProtos.SkillResultType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
+      public Builder setRecoverSkillPoints(int value) {
         bitField0_ |= 0x00000010;
-        resultType_ = value;
+        recoverSkillPoints_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional .SkillService.SkillResultType resultType = 2;</code>
+       * <code>required int32 recoverSkillPoints = 5;</code>
+       *
+       * <pre>
+       *剩余恢复技能点数
+       * </pre>
        */
-      public Builder clearResultType() {
+      public Builder clearRecoverSkillPoints() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        resultType_ = com.rwproto.SkillServiceProtos.SkillResultType.succeed;
+        recoverSkillPoints_ = 0;
         onChanged();
         return this;
       }
@@ -3592,6 +4305,11 @@ public final class SkillServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_SkillService_TagSkillData_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_SkillService_SkillData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SkillService_SkillData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_SkillService_SkillRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -3610,23 +4328,23 @@ public final class SkillServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022SkillService.proto\022\014SkillService\"\222\001\n\014T" +
-      "agSkillData\022\n\n\002Id\030\001 \001(\t\022\017\n\007ownerId\030\002 \001(\t" +
-      "\022\017\n\007skillId\030\003 \001(\t\022\r\n\005level\030\004 \001(\005\022\r\n\005orde" +
-      "r\030\005 \001(\005\022\016\n\006buffId\030\006 \003(\005\022\021\n\tskillRate\030\007 \001" +
-      "(\002\022\023\n\013extraDamage\030\010 \001(\005\"o\n\014SkillRequest\022" +
-      "/\n\teventType\030\001 \002(\0162\034.SkillService.SkillE" +
-      "ventType\022\016\n\006roleId\030\004 \001(\t\022\017\n\007skillId\030\002 \001(" +
-      "\t\022\r\n\005order\030\003 \001(\005\"\301\001\n\rSkillResponse\022/\n\tev" +
-      "entType\030\001 \002(\0162\034.SkillService.SkillEventT" +
-      "ype\022\r\n\005order\030\007 \001(\005\022\016\n\006roleId\030\010 \001(\t\022-\n\tsk",
-      "illData\030\t \003(\0132\032.SkillService.TagSkillDat" +
-      "a\0221\n\nresultType\030\002 \001(\0162\035.SkillService.Ski" +
-      "llResultType*X\n\016SkillEventType\022\021\n\rSkill_" +
-      "Upgrade\020\000\022\016\n\nSkill_Sync\020\001\022\023\n\017Buy_Skill_P" +
-      "oint\020\002\022\016\n\nSkill_Open\020\003*(\n\017SkillResultTyp" +
-      "e\022\013\n\007succeed\020\000\022\010\n\004fail\020\001B!\n\013com.rwprotoB" +
-      "\022SkillServiceProtos"
+      "\n\022SkillService.proto\022\014SkillService\032\022Erro" +
+      "rService.proto\"\222\001\n\014TagSkillData\022\n\n\002Id\030\001 " +
+      "\001(\t\022\017\n\007ownerId\030\002 \001(\t\022\017\n\007skillId\030\003 \001(\t\022\r\n" +
+      "\005level\030\004 \001(\005\022\r\n\005order\030\005 \001(\005\022\016\n\006buffId\030\006 " +
+      "\003(\005\022\021\n\tskillRate\030\007 \001(\002\022\023\n\013extraDamage\030\010 " +
+      "\001(\005\"3\n\tSkillData\022\017\n\007skillId\030\001 \002(\005\022\025\n\radd" +
+      "itiveLevel\030\002 \002(\005\"\201\001\n\014SkillRequest\022/\n\teve" +
+      "ntType\030\001 \002(\0162\034.SkillService.SkillEventTy" +
+      "pe\022\016\n\006heroId\030\002 \001(\t\0220\n\017updateSkillList\030\003 " +
+      "\003(\0132\027.SkillService.SkillData\"\242\001\n\rSkillRe",
+      "sponse\022/\n\teventType\030\001 \002(\0162\034.SkillService" +
+      ".SkillEventType\022\022\n\nfailReason\030\002 \001(\t\022\031\n\021r" +
+      "emainSkillPoints\030\003 \002(\005\022\025\n\rremainSeconds\030" +
+      "\004 \002(\005\022\032\n\022recoverSkillPoints\030\005 \002(\005*N\n\016Ski" +
+      "llEventType\022\021\n\rSkill_Upgrade\020\001\022\023\n\017Buy_Sk" +
+      "ill_Point\020\002\022\024\n\020QUERY_SKILL_INFO\020\003B!\n\013com" +
+      ".rwprotoB\022SkillServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3639,24 +4357,31 @@ public final class SkillServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SkillService_TagSkillData_descriptor,
               new java.lang.String[] { "Id", "OwnerId", "SkillId", "Level", "Order", "BuffId", "SkillRate", "ExtraDamage", });
-          internal_static_SkillService_SkillRequest_descriptor =
+          internal_static_SkillService_SkillData_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_SkillService_SkillData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_SkillService_SkillData_descriptor,
+              new java.lang.String[] { "SkillId", "AdditiveLevel", });
+          internal_static_SkillService_SkillRequest_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_SkillService_SkillRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SkillService_SkillRequest_descriptor,
-              new java.lang.String[] { "EventType", "RoleId", "SkillId", "Order", });
+              new java.lang.String[] { "EventType", "HeroId", "UpdateSkillList", });
           internal_static_SkillService_SkillResponse_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_SkillService_SkillResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SkillService_SkillResponse_descriptor,
-              new java.lang.String[] { "EventType", "Order", "RoleId", "SkillData", "ResultType", });
+              new java.lang.String[] { "EventType", "FailReason", "RemainSkillPoints", "RemainSeconds", "RecoverSkillPoints", });
           return null;
         }
       };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.ErrorService.getDescriptor(),
         }, assigner);
   }
 

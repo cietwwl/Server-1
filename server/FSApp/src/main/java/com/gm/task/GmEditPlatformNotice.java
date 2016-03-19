@@ -24,6 +24,10 @@ public class GmEditPlatformNotice implements IGmTask {
 			if (StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));
 			}
+			
+			if(title.length() > 30){
+				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_INVALID_NOTICE_HEAD.getStatus()));
+			}
 
 			content = content.replace("<br>", "*");
 			PlatformNoticeBaseDataResponse platformNoticeBaseDataResponse = new PlatformNoticeBaseDataResponse();

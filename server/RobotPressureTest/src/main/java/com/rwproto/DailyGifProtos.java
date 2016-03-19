@@ -17,7 +17,7 @@ public final class DailyGifProtos {
      * <code>InfoMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *»ù±¾ÐÅÏ¢
      * </pre>
      */
     InfoMsg(0, 0),
@@ -25,7 +25,7 @@ public final class DailyGifProtos {
      * <code>GetGif = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½È¡ï¿½ï¿½ï¿½
+     *ÁîÈ¡Àñ°ü
      * </pre>
      */
     GetGif(1, 1),
@@ -35,7 +35,7 @@ public final class DailyGifProtos {
      * <code>InfoMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *»ù±¾ÐÅÏ¢
      * </pre>
      */
     public static final int InfoMsg_VALUE = 0;
@@ -43,7 +43,7 @@ public final class DailyGifProtos {
      * <code>GetGif = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½È¡ï¿½ï¿½ï¿½
+     *ÁîÈ¡Àñ°ü
      * </pre>
      */
     public static final int GetGif_VALUE = 1;
@@ -124,7 +124,7 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+     * ÉÏÏß´ÎÊý
      * </pre>
      */
     boolean hasCount();
@@ -132,28 +132,36 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+     * ÉÏÏß´ÎÊý
      * </pre>
      */
     int getCount();
 
-    // optional int32 getCount = 3;
+    // repeated int32 getCount = 3;
     /**
-     * <code>optional int32 getCount = 3;</code>
+     * <code>repeated int32 getCount = 3;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ÒÑÁì´ÎÊý
      * </pre>
      */
-    boolean hasGetCount();
+    java.util.List<java.lang.Integer> getGetCountList();
     /**
-     * <code>optional int32 getCount = 3;</code>
+     * <code>repeated int32 getCount = 3;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ÒÑÁì´ÎÊý
      * </pre>
      */
-    int getGetCount();
+    int getGetCountCount();
+    /**
+     * <code>repeated int32 getCount = 3;</code>
+     *
+     * <pre>
+     * ÒÑÁì´ÎÊý
+     * </pre>
+     */
+    int getGetCount(int index);
   }
   /**
    * Protobuf type {@code DailyGifResponse}
@@ -223,8 +231,24 @@ public final class DailyGifProtos {
               break;
             }
             case 24: {
-              bitField0_ |= 0x00000004;
-              getCount_ = input.readInt32();
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                getCount_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              getCount_.add(input.readInt32());
+              break;
+            }
+            case 26: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
+                getCount_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                getCount_.add(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
           }
@@ -235,6 +259,9 @@ public final class DailyGifProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          getCount_ = java.util.Collections.unmodifiableList(getCount_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -290,7 +317,7 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+     * ÉÏÏß´ÎÊý
      * </pre>
      */
     public boolean hasCount() {
@@ -300,41 +327,52 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+     * ÉÏÏß´ÎÊý
      * </pre>
      */
     public int getCount() {
       return count_;
     }
 
-    // optional int32 getCount = 3;
+    // repeated int32 getCount = 3;
     public static final int GETCOUNT_FIELD_NUMBER = 3;
-    private int getCount_;
+    private java.util.List<java.lang.Integer> getCount_;
     /**
-     * <code>optional int32 getCount = 3;</code>
+     * <code>repeated int32 getCount = 3;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ÒÑÁì´ÎÊý
      * </pre>
      */
-    public boolean hasGetCount() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public java.util.List<java.lang.Integer>
+        getGetCountList() {
+      return getCount_;
     }
     /**
-     * <code>optional int32 getCount = 3;</code>
+     * <code>repeated int32 getCount = 3;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ÒÑÁì´ÎÊý
      * </pre>
      */
-    public int getGetCount() {
-      return getCount_;
+    public int getGetCountCount() {
+      return getCount_.size();
+    }
+    /**
+     * <code>repeated int32 getCount = 3;</code>
+     *
+     * <pre>
+     * ÒÑÁì´ÎÊý
+     * </pre>
+     */
+    public int getGetCount(int index) {
+      return getCount_.get(index);
     }
 
     private void initFields() {
       type_ = com.rwproto.DailyGifProtos.EType.InfoMsg;
       count_ = 0;
-      getCount_ = 0;
+      getCount_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -354,8 +392,8 @@ public final class DailyGifProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeInt32(2, count_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, getCount_);
+      for (int i = 0; i < getCount_.size(); i++) {
+        output.writeInt32(3, getCount_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -374,9 +412,14 @@ public final class DailyGifProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, count_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, getCount_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < getCount_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(getCount_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getGetCountList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -498,7 +541,7 @@ public final class DailyGifProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         count_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        getCount_ = 0;
+        getCount_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -536,8 +579,9 @@ public final class DailyGifProtos {
           to_bitField0_ |= 0x00000002;
         }
         result.count_ = count_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          getCount_ = java.util.Collections.unmodifiableList(getCount_);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.getCount_ = getCount_;
         result.bitField0_ = to_bitField0_;
@@ -562,8 +606,15 @@ public final class DailyGifProtos {
         if (other.hasCount()) {
           setCount(other.getCount());
         }
-        if (other.hasGetCount()) {
-          setGetCount(other.getGetCount());
+        if (!other.getCount_.isEmpty()) {
+          if (getCount_.isEmpty()) {
+            getCount_ = other.getCount_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureGetCountIsMutable();
+            getCount_.addAll(other.getCount_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -634,7 +685,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+       * ÉÏÏß´ÎÊý
        * </pre>
        */
       public boolean hasCount() {
@@ -644,7 +695,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+       * ÉÏÏß´ÎÊý
        * </pre>
        */
       public int getCount() {
@@ -654,7 +705,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+       * ÉÏÏß´ÎÊý
        * </pre>
        */
       public Builder setCount(int value) {
@@ -667,7 +718,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½
+       * ÉÏÏß´ÎÊý
        * </pre>
        */
       public Builder clearCount() {
@@ -677,51 +728,96 @@ public final class DailyGifProtos {
         return this;
       }
 
-      // optional int32 getCount = 3;
-      private int getCount_ ;
-      /**
-       * <code>optional int32 getCount = 3;</code>
-       *
-       * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-       * </pre>
-       */
-      public boolean hasGetCount() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+      // repeated int32 getCount = 3;
+      private java.util.List<java.lang.Integer> getCount_ = java.util.Collections.emptyList();
+      private void ensureGetCountIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          getCount_ = new java.util.ArrayList<java.lang.Integer>(getCount_);
+          bitField0_ |= 0x00000004;
+         }
       }
       /**
-       * <code>optional int32 getCount = 3;</code>
+       * <code>repeated int32 getCount = 3;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       * ÒÑÁì´ÎÊý
        * </pre>
        */
-      public int getGetCount() {
-        return getCount_;
+      public java.util.List<java.lang.Integer>
+          getGetCountList() {
+        return java.util.Collections.unmodifiableList(getCount_);
       }
       /**
-       * <code>optional int32 getCount = 3;</code>
+       * <code>repeated int32 getCount = 3;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       * ÒÑÁì´ÎÊý
        * </pre>
        */
-      public Builder setGetCount(int value) {
-        bitField0_ |= 0x00000004;
-        getCount_ = value;
+      public int getGetCountCount() {
+        return getCount_.size();
+      }
+      /**
+       * <code>repeated int32 getCount = 3;</code>
+       *
+       * <pre>
+       * ÒÑÁì´ÎÊý
+       * </pre>
+       */
+      public int getGetCount(int index) {
+        return getCount_.get(index);
+      }
+      /**
+       * <code>repeated int32 getCount = 3;</code>
+       *
+       * <pre>
+       * ÒÑÁì´ÎÊý
+       * </pre>
+       */
+      public Builder setGetCount(
+          int index, int value) {
+        ensureGetCountIsMutable();
+        getCount_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 getCount = 3;</code>
+       * <code>repeated int32 getCount = 3;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       * ÒÑÁì´ÎÊý
+       * </pre>
+       */
+      public Builder addGetCount(int value) {
+        ensureGetCountIsMutable();
+        getCount_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getCount = 3;</code>
+       *
+       * <pre>
+       * ÒÑÁì´ÎÊý
+       * </pre>
+       */
+      public Builder addAllGetCount(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureGetCountIsMutable();
+        super.addAll(values, getCount_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getCount = 3;</code>
+       *
+       * <pre>
+       * ÒÑÁì´ÎÊý
        * </pre>
        */
       public Builder clearGetCount() {
+        getCount_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000004);
-        getCount_ = 0;
         onChanged();
         return this;
       }
@@ -755,7 +851,7 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½
+     * ´ÎÊý
      * </pre>
      */
     boolean hasCount();
@@ -763,7 +859,7 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½
+     * ´ÎÊý
      * </pre>
      */
     int getCount();
@@ -898,7 +994,7 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½
+     * ´ÎÊý
      * </pre>
      */
     public boolean hasCount() {
@@ -908,7 +1004,7 @@ public final class DailyGifProtos {
      * <code>optional int32 count = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½
+     * ´ÎÊý
      * </pre>
      */
     public int getCount() {
@@ -1201,7 +1297,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½
+       * ´ÎÊý
        * </pre>
        */
       public boolean hasCount() {
@@ -1211,7 +1307,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½
+       * ´ÎÊý
        * </pre>
        */
       public int getCount() {
@@ -1221,7 +1317,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½
+       * ´ÎÊý
        * </pre>
        */
       public Builder setCount(int value) {
@@ -1234,7 +1330,7 @@ public final class DailyGifProtos {
        * <code>optional int32 count = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½
+       * ´ÎÊý
        * </pre>
        */
       public Builder clearCount() {
@@ -1276,7 +1372,7 @@ public final class DailyGifProtos {
     java.lang.String[] descriptorData = {
       "\n\016DailyGif.proto\"I\n\020DailyGifResponse\022\024\n\004" +
       "type\030\001 \001(\0162\006.EType\022\r\n\005count\030\002 \001(\005\022\020\n\010get" +
-      "Count\030\003 \001(\005\"6\n\017DailyGifRequest\022\024\n\004type\030\001" +
+      "Count\030\003 \003(\005\"6\n\017DailyGifRequest\022\024\n\004type\030\001" +
       " \001(\0162\006.EType\022\r\n\005count\030\002 \001(\005* \n\005EType\022\013\n\007" +
       "InfoMsg\020\000\022\n\n\006GetGif\020\001B\035\n\013com.rwprotoB\016Da" +
       "ilyGifProtos"

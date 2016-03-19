@@ -85,7 +85,7 @@ public final class BattleTowerServiceProtos {
      * <code>RESET_BATTLE_TOWER_DATA = 9;</code>
      *
      * <pre>
-     *重置试练塔数据
+     *重置试练塔数据,不需要请求参数，结果没有额外信息
      * </pre>
      */
     RESET_BATTLE_TOWER_DATA(8, 9),
@@ -191,7 +191,7 @@ public final class BattleTowerServiceProtos {
      * <code>RESET_BATTLE_TOWER_DATA = 9;</code>
      *
      * <pre>
-     *重置试练塔数据
+     *重置试练塔数据,不需要请求参数，结果没有额外信息
      * </pre>
      */
     public static final int RESET_BATTLE_TOWER_DATA_VALUE = 9;
@@ -510,6 +510,646 @@ public final class BattleTowerServiceProtos {
     // @@protoc_insertion_point(enum_scope:EKeyType)
   }
 
+  public interface BattleTowerConfigOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 EveryFloorSweepTime = 1;
+    /**
+     * <code>optional int32 EveryFloorSweepTime = 1;</code>
+     *
+     * <pre>
+     *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+     * </pre>
+     */
+    boolean hasEveryFloorSweepTime();
+    /**
+     * <code>optional int32 EveryFloorSweepTime = 1;</code>
+     *
+     * <pre>
+     *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+     * </pre>
+     */
+    int getEveryFloorSweepTime();
+
+    // optional string ChestDescription = 2;
+    /**
+     * <code>optional string ChestDescription = 2;</code>
+     *
+     * <pre>
+     *宝箱说明信息
+     * </pre>
+     */
+    boolean hasChestDescription();
+    /**
+     * <code>optional string ChestDescription = 2;</code>
+     *
+     * <pre>
+     *宝箱说明信息
+     * </pre>
+     */
+    java.lang.String getChestDescription();
+    /**
+     * <code>optional string ChestDescription = 2;</code>
+     *
+     * <pre>
+     *宝箱说明信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getChestDescriptionBytes();
+  }
+  /**
+   * Protobuf type {@code BattleTowerConfig}
+   *
+   * <pre>
+   *&#47;///////////////////////////请求消息&amp;响应通用消息区//////////////////////////////
+   * </pre>
+   */
+  public static final class BattleTowerConfig extends
+      com.google.protobuf.GeneratedMessage
+      implements BattleTowerConfigOrBuilder {
+    // Use BattleTowerConfig.newBuilder() to construct.
+    private BattleTowerConfig(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BattleTowerConfig(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BattleTowerConfig defaultInstance;
+    public static BattleTowerConfig getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BattleTowerConfig getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BattleTowerConfig(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              everyFloorSweepTime_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              chestDescription_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleTowerServiceProtos.internal_static_BattleTowerConfig_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleTowerServiceProtos.internal_static_BattleTowerConfig_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.class, com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BattleTowerConfig> PARSER =
+        new com.google.protobuf.AbstractParser<BattleTowerConfig>() {
+      public BattleTowerConfig parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BattleTowerConfig(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BattleTowerConfig> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 EveryFloorSweepTime = 1;
+    public static final int EVERYFLOORSWEEPTIME_FIELD_NUMBER = 1;
+    private int everyFloorSweepTime_;
+    /**
+     * <code>optional int32 EveryFloorSweepTime = 1;</code>
+     *
+     * <pre>
+     *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+     * </pre>
+     */
+    public boolean hasEveryFloorSweepTime() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 EveryFloorSweepTime = 1;</code>
+     *
+     * <pre>
+     *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+     * </pre>
+     */
+    public int getEveryFloorSweepTime() {
+      return everyFloorSweepTime_;
+    }
+
+    // optional string ChestDescription = 2;
+    public static final int CHESTDESCRIPTION_FIELD_NUMBER = 2;
+    private java.lang.Object chestDescription_;
+    /**
+     * <code>optional string ChestDescription = 2;</code>
+     *
+     * <pre>
+     *宝箱说明信息
+     * </pre>
+     */
+    public boolean hasChestDescription() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string ChestDescription = 2;</code>
+     *
+     * <pre>
+     *宝箱说明信息
+     * </pre>
+     */
+    public java.lang.String getChestDescription() {
+      java.lang.Object ref = chestDescription_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          chestDescription_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ChestDescription = 2;</code>
+     *
+     * <pre>
+     *宝箱说明信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getChestDescriptionBytes() {
+      java.lang.Object ref = chestDescription_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        chestDescription_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      everyFloorSweepTime_ = 0;
+      chestDescription_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, everyFloorSweepTime_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getChestDescriptionBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, everyFloorSweepTime_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getChestDescriptionBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleTowerServiceProtos.BattleTowerConfig prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BattleTowerConfig}
+     *
+     * <pre>
+     *&#47;///////////////////////////请求消息&amp;响应通用消息区//////////////////////////////
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleTowerServiceProtos.BattleTowerConfigOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_BattleTowerConfig_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_BattleTowerConfig_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.class, com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        everyFloorSweepTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        chestDescription_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_BattleTowerConfig_descriptor;
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.BattleTowerConfig getDefaultInstanceForType() {
+        return com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.BattleTowerConfig build() {
+        com.rwproto.BattleTowerServiceProtos.BattleTowerConfig result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.BattleTowerConfig buildPartial() {
+        com.rwproto.BattleTowerServiceProtos.BattleTowerConfig result = new com.rwproto.BattleTowerServiceProtos.BattleTowerConfig(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.everyFloorSweepTime_ = everyFloorSweepTime_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.chestDescription_ = chestDescription_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleTowerServiceProtos.BattleTowerConfig) {
+          return mergeFrom((com.rwproto.BattleTowerServiceProtos.BattleTowerConfig)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleTowerServiceProtos.BattleTowerConfig other) {
+        if (other == com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.getDefaultInstance()) return this;
+        if (other.hasEveryFloorSweepTime()) {
+          setEveryFloorSweepTime(other.getEveryFloorSweepTime());
+        }
+        if (other.hasChestDescription()) {
+          bitField0_ |= 0x00000002;
+          chestDescription_ = other.chestDescription_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleTowerServiceProtos.BattleTowerConfig parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleTowerServiceProtos.BattleTowerConfig) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 EveryFloorSweepTime = 1;
+      private int everyFloorSweepTime_ ;
+      /**
+       * <code>optional int32 EveryFloorSweepTime = 1;</code>
+       *
+       * <pre>
+       *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+       * </pre>
+       */
+      public boolean hasEveryFloorSweepTime() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 EveryFloorSweepTime = 1;</code>
+       *
+       * <pre>
+       *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+       * </pre>
+       */
+      public int getEveryFloorSweepTime() {
+        return everyFloorSweepTime_;
+      }
+      /**
+       * <code>optional int32 EveryFloorSweepTime = 1;</code>
+       *
+       * <pre>
+       *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+       * </pre>
+       */
+      public Builder setEveryFloorSweepTime(int value) {
+        bitField0_ |= 0x00000001;
+        everyFloorSweepTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 EveryFloorSweepTime = 1;</code>
+       *
+       * <pre>
+       *默认每层需要的扫荡时间,BattleTowerConfigCfg.battleTowerConfigKey.theSweepTime4PerFloor
+       * </pre>
+       */
+      public Builder clearEveryFloorSweepTime() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        everyFloorSweepTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string ChestDescription = 2;
+      private java.lang.Object chestDescription_ = "";
+      /**
+       * <code>optional string ChestDescription = 2;</code>
+       *
+       * <pre>
+       *宝箱说明信息
+       * </pre>
+       */
+      public boolean hasChestDescription() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string ChestDescription = 2;</code>
+       *
+       * <pre>
+       *宝箱说明信息
+       * </pre>
+       */
+      public java.lang.String getChestDescription() {
+        java.lang.Object ref = chestDescription_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chestDescription_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ChestDescription = 2;</code>
+       *
+       * <pre>
+       *宝箱说明信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getChestDescriptionBytes() {
+        java.lang.Object ref = chestDescription_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          chestDescription_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ChestDescription = 2;</code>
+       *
+       * <pre>
+       *宝箱说明信息
+       * </pre>
+       */
+      public Builder setChestDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        chestDescription_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ChestDescription = 2;</code>
+       *
+       * <pre>
+       *宝箱说明信息
+       * </pre>
+       */
+      public Builder clearChestDescription() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        chestDescription_ = getDefaultInstance().getChestDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ChestDescription = 2;</code>
+       *
+       * <pre>
+       *宝箱说明信息
+       * </pre>
+       */
+      public Builder setChestDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        chestDescription_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BattleTowerConfig)
+    }
+
+    static {
+      defaultInstance = new BattleTowerConfig(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BattleTowerConfig)
+  }
+
   public interface BattleTowerCommonReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -536,7 +1176,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes reqBody = 2;</code>
      *
      * <pre>
-     *请求消息主体序列化
+     *对应请求需要的参数的序列化字节数组
      * </pre>
      */
     boolean hasReqBody();
@@ -544,16 +1184,33 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes reqBody = 2;</code>
      *
      * <pre>
-     *请求消息主体序列化
+     *对应请求需要的参数的序列化字节数组
      * </pre>
      */
     com.google.protobuf.ByteString getReqBody();
+
+    // optional bool needConfig = 3;
+    /**
+     * <code>optional bool needConfig = 3;</code>
+     *
+     * <pre>
+     *请求服务器返回配置信息
+     * </pre>
+     */
+    boolean hasNeedConfig();
+    /**
+     * <code>optional bool needConfig = 3;</code>
+     *
+     * <pre>
+     *请求服务器返回配置信息
+     * </pre>
+     */
+    boolean getNeedConfig();
   }
   /**
    * Protobuf type {@code BattleTowerCommonReqMsg}
    *
    * <pre>
-   *&#47;///////////////////////////请求消息&amp;响应通用消息区//////////////////////////////
    *试练塔模块通用请求消息
    * </pre>
    */
@@ -619,6 +1276,11 @@ public final class BattleTowerServiceProtos {
             case 18: {
               bitField0_ |= 0x00000002;
               reqBody_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              needConfig_ = input.readBool();
               break;
             }
           }
@@ -692,7 +1354,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes reqBody = 2;</code>
      *
      * <pre>
-     *请求消息主体序列化
+     *对应请求需要的参数的序列化字节数组
      * </pre>
      */
     public boolean hasReqBody() {
@@ -702,16 +1364,41 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes reqBody = 2;</code>
      *
      * <pre>
-     *请求消息主体序列化
+     *对应请求需要的参数的序列化字节数组
      * </pre>
      */
     public com.google.protobuf.ByteString getReqBody() {
       return reqBody_;
     }
 
+    // optional bool needConfig = 3;
+    public static final int NEEDCONFIG_FIELD_NUMBER = 3;
+    private boolean needConfig_;
+    /**
+     * <code>optional bool needConfig = 3;</code>
+     *
+     * <pre>
+     *请求服务器返回配置信息
+     * </pre>
+     */
+    public boolean hasNeedConfig() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bool needConfig = 3;</code>
+     *
+     * <pre>
+     *请求服务器返回配置信息
+     * </pre>
+     */
+    public boolean getNeedConfig() {
+      return needConfig_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.BattleTowerServiceProtos.ERequestType.OPEN_MAIN_VIEW;
       reqBody_ = com.google.protobuf.ByteString.EMPTY;
+      needConfig_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -735,6 +1422,9 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, reqBody_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, needConfig_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -751,6 +1441,10 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, reqBody_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, needConfig_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -834,7 +1528,6 @@ public final class BattleTowerServiceProtos {
      * Protobuf type {@code BattleTowerCommonReqMsg}
      *
      * <pre>
-     *&#47;///////////////////////////请求消息&amp;响应通用消息区//////////////////////////////
      *试练塔模块通用请求消息
      * </pre>
      */
@@ -877,6 +1570,8 @@ public final class BattleTowerServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         reqBody_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        needConfig_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -913,6 +1608,10 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000002;
         }
         result.reqBody_ = reqBody_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.needConfig_ = needConfig_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -934,6 +1633,9 @@ public final class BattleTowerServiceProtos {
         }
         if (other.hasReqBody()) {
           setReqBody(other.getReqBody());
+        }
+        if (other.hasNeedConfig()) {
+          setNeedConfig(other.getNeedConfig());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1024,7 +1726,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes reqBody = 2;</code>
        *
        * <pre>
-       *请求消息主体序列化
+       *对应请求需要的参数的序列化字节数组
        * </pre>
        */
       public boolean hasReqBody() {
@@ -1034,7 +1736,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes reqBody = 2;</code>
        *
        * <pre>
-       *请求消息主体序列化
+       *对应请求需要的参数的序列化字节数组
        * </pre>
        */
       public com.google.protobuf.ByteString getReqBody() {
@@ -1044,7 +1746,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes reqBody = 2;</code>
        *
        * <pre>
-       *请求消息主体序列化
+       *对应请求需要的参数的序列化字节数组
        * </pre>
        */
       public Builder setReqBody(com.google.protobuf.ByteString value) {
@@ -1060,12 +1762,61 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes reqBody = 2;</code>
        *
        * <pre>
-       *请求消息主体序列化
+       *对应请求需要的参数的序列化字节数组
        * </pre>
        */
       public Builder clearReqBody() {
         bitField0_ = (bitField0_ & ~0x00000002);
         reqBody_ = getDefaultInstance().getReqBody();
+        onChanged();
+        return this;
+      }
+
+      // optional bool needConfig = 3;
+      private boolean needConfig_ ;
+      /**
+       * <code>optional bool needConfig = 3;</code>
+       *
+       * <pre>
+       *请求服务器返回配置信息
+       * </pre>
+       */
+      public boolean hasNeedConfig() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bool needConfig = 3;</code>
+       *
+       * <pre>
+       *请求服务器返回配置信息
+       * </pre>
+       */
+      public boolean getNeedConfig() {
+        return needConfig_;
+      }
+      /**
+       * <code>optional bool needConfig = 3;</code>
+       *
+       * <pre>
+       *请求服务器返回配置信息
+       * </pre>
+       */
+      public Builder setNeedConfig(boolean value) {
+        bitField0_ |= 0x00000004;
+        needConfig_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool needConfig = 3;</code>
+       *
+       * <pre>
+       *请求服务器返回配置信息
+       * </pre>
+       */
+      public Builder clearNeedConfig() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        needConfig_ = false;
         onChanged();
         return this;
       }
@@ -1125,7 +1876,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes rspBody = 3;</code>
      *
      * <pre>
-     *响应消息主体序列化
+     *对应请求类型的特定返回信息（序列化字节数）
      * </pre>
      */
     boolean hasRspBody();
@@ -1133,10 +1884,63 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes rspBody = 3;</code>
      *
      * <pre>
-     *响应消息主体序列化
+     *对应请求类型的特定返回信息（序列化字节数）
      * </pre>
      */
     com.google.protobuf.ByteString getRspBody();
+
+    // optional .BattleTowerConfig config = 4;
+    /**
+     * <code>optional .BattleTowerConfig config = 4;</code>
+     *
+     * <pre>
+     *配置信息
+     * </pre>
+     */
+    boolean hasConfig();
+    /**
+     * <code>optional .BattleTowerConfig config = 4;</code>
+     *
+     * <pre>
+     *配置信息
+     * </pre>
+     */
+    com.rwproto.BattleTowerServiceProtos.BattleTowerConfig getConfig();
+    /**
+     * <code>optional .BattleTowerConfig config = 4;</code>
+     *
+     * <pre>
+     *配置信息
+     * </pre>
+     */
+    com.rwproto.BattleTowerServiceProtos.BattleTowerConfigOrBuilder getConfigOrBuilder();
+
+    // optional string tips = 5;
+    /**
+     * <code>optional string tips = 5;</code>
+     *
+     * <pre>
+     *正常或者错误的提示
+     * </pre>
+     */
+    boolean hasTips();
+    /**
+     * <code>optional string tips = 5;</code>
+     *
+     * <pre>
+     *正常或者错误的提示
+     * </pre>
+     */
+    java.lang.String getTips();
+    /**
+     * <code>optional string tips = 5;</code>
+     *
+     * <pre>
+     *正常或者错误的提示
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipsBytes();
   }
   /**
    * Protobuf type {@code BattleTowerCommonRspMsg}
@@ -1218,6 +2022,24 @@ public final class BattleTowerServiceProtos {
             case 26: {
               bitField0_ |= 0x00000004;
               rspBody_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = config_.toBuilder();
+              }
+              config_ = input.readMessage(com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(config_);
+                config_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              tips_ = input.readBytes();
               break;
             }
           }
@@ -1315,7 +2137,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes rspBody = 3;</code>
      *
      * <pre>
-     *响应消息主体序列化
+     *对应请求类型的特定返回信息（序列化字节数）
      * </pre>
      */
     public boolean hasRspBody() {
@@ -1325,17 +2147,108 @@ public final class BattleTowerServiceProtos {
      * <code>optional bytes rspBody = 3;</code>
      *
      * <pre>
-     *响应消息主体序列化
+     *对应请求类型的特定返回信息（序列化字节数）
      * </pre>
      */
     public com.google.protobuf.ByteString getRspBody() {
       return rspBody_;
     }
 
+    // optional .BattleTowerConfig config = 4;
+    public static final int CONFIG_FIELD_NUMBER = 4;
+    private com.rwproto.BattleTowerServiceProtos.BattleTowerConfig config_;
+    /**
+     * <code>optional .BattleTowerConfig config = 4;</code>
+     *
+     * <pre>
+     *配置信息
+     * </pre>
+     */
+    public boolean hasConfig() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .BattleTowerConfig config = 4;</code>
+     *
+     * <pre>
+     *配置信息
+     * </pre>
+     */
+    public com.rwproto.BattleTowerServiceProtos.BattleTowerConfig getConfig() {
+      return config_;
+    }
+    /**
+     * <code>optional .BattleTowerConfig config = 4;</code>
+     *
+     * <pre>
+     *配置信息
+     * </pre>
+     */
+    public com.rwproto.BattleTowerServiceProtos.BattleTowerConfigOrBuilder getConfigOrBuilder() {
+      return config_;
+    }
+
+    // optional string tips = 5;
+    public static final int TIPS_FIELD_NUMBER = 5;
+    private java.lang.Object tips_;
+    /**
+     * <code>optional string tips = 5;</code>
+     *
+     * <pre>
+     *正常或者错误的提示
+     * </pre>
+     */
+    public boolean hasTips() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string tips = 5;</code>
+     *
+     * <pre>
+     *正常或者错误的提示
+     * </pre>
+     */
+    public java.lang.String getTips() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tips_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tips = 5;</code>
+     *
+     * <pre>
+     *正常或者错误的提示
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipsBytes() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tips_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.BattleTowerServiceProtos.ERequestType.OPEN_MAIN_VIEW;
       rspState_ = com.rwproto.BattleTowerServiceProtos.EResponseState.RSP_SUCESS;
       rspBody_ = com.google.protobuf.ByteString.EMPTY;
+      config_ = com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.getDefaultInstance();
+      tips_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1366,6 +2279,12 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, rspBody_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, config_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getTipsBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1386,6 +2305,14 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, rspBody_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, config_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getTipsBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1499,6 +2426,7 @@ public final class BattleTowerServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getConfigFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1513,6 +2441,14 @@ public final class BattleTowerServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         rspBody_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (configBuilder_ == null) {
+          config_ = com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.getDefaultInstance();
+        } else {
+          configBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        tips_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1553,6 +2489,18 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.rspBody_ = rspBody_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (configBuilder_ == null) {
+          result.config_ = config_;
+        } else {
+          result.config_ = configBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.tips_ = tips_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1577,6 +2525,14 @@ public final class BattleTowerServiceProtos {
         }
         if (other.hasRspBody()) {
           setRspBody(other.getRspBody());
+        }
+        if (other.hasConfig()) {
+          mergeConfig(other.getConfig());
+        }
+        if (other.hasTips()) {
+          bitField0_ |= 0x00000010;
+          tips_ = other.tips_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1723,7 +2679,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes rspBody = 3;</code>
        *
        * <pre>
-       *响应消息主体序列化
+       *对应请求类型的特定返回信息（序列化字节数）
        * </pre>
        */
       public boolean hasRspBody() {
@@ -1733,7 +2689,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes rspBody = 3;</code>
        *
        * <pre>
-       *响应消息主体序列化
+       *对应请求类型的特定返回信息（序列化字节数）
        * </pre>
        */
       public com.google.protobuf.ByteString getRspBody() {
@@ -1743,7 +2699,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes rspBody = 3;</code>
        *
        * <pre>
-       *响应消息主体序列化
+       *对应请求类型的特定返回信息（序列化字节数）
        * </pre>
        */
       public Builder setRspBody(com.google.protobuf.ByteString value) {
@@ -1759,12 +2715,263 @@ public final class BattleTowerServiceProtos {
        * <code>optional bytes rspBody = 3;</code>
        *
        * <pre>
-       *响应消息主体序列化
+       *对应请求类型的特定返回信息（序列化字节数）
        * </pre>
        */
       public Builder clearRspBody() {
         bitField0_ = (bitField0_ & ~0x00000004);
         rspBody_ = getDefaultInstance().getRspBody();
+        onChanged();
+        return this;
+      }
+
+      // optional .BattleTowerConfig config = 4;
+      private com.rwproto.BattleTowerServiceProtos.BattleTowerConfig config_ = com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.BattleTowerServiceProtos.BattleTowerConfig, com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder, com.rwproto.BattleTowerServiceProtos.BattleTowerConfigOrBuilder> configBuilder_;
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public boolean hasConfig() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BattleTowerConfig getConfig() {
+        if (configBuilder_ == null) {
+          return config_;
+        } else {
+          return configBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public Builder setConfig(com.rwproto.BattleTowerServiceProtos.BattleTowerConfig value) {
+        if (configBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          config_ = value;
+          onChanged();
+        } else {
+          configBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public Builder setConfig(
+          com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder builderForValue) {
+        if (configBuilder_ == null) {
+          config_ = builderForValue.build();
+          onChanged();
+        } else {
+          configBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public Builder mergeConfig(com.rwproto.BattleTowerServiceProtos.BattleTowerConfig value) {
+        if (configBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              config_ != com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.getDefaultInstance()) {
+            config_ =
+              com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.newBuilder(config_).mergeFrom(value).buildPartial();
+          } else {
+            config_ = value;
+          }
+          onChanged();
+        } else {
+          configBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public Builder clearConfig() {
+        if (configBuilder_ == null) {
+          config_ = com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.getDefaultInstance();
+          onChanged();
+        } else {
+          configBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder getConfigBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getConfigFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BattleTowerConfigOrBuilder getConfigOrBuilder() {
+        if (configBuilder_ != null) {
+          return configBuilder_.getMessageOrBuilder();
+        } else {
+          return config_;
+        }
+      }
+      /**
+       * <code>optional .BattleTowerConfig config = 4;</code>
+       *
+       * <pre>
+       *配置信息
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.BattleTowerServiceProtos.BattleTowerConfig, com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder, com.rwproto.BattleTowerServiceProtos.BattleTowerConfigOrBuilder> 
+          getConfigFieldBuilder() {
+        if (configBuilder_ == null) {
+          configBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.BattleTowerServiceProtos.BattleTowerConfig, com.rwproto.BattleTowerServiceProtos.BattleTowerConfig.Builder, com.rwproto.BattleTowerServiceProtos.BattleTowerConfigOrBuilder>(
+                  config_,
+                  getParentForChildren(),
+                  isClean());
+          config_ = null;
+        }
+        return configBuilder_;
+      }
+
+      // optional string tips = 5;
+      private java.lang.Object tips_ = "";
+      /**
+       * <code>optional string tips = 5;</code>
+       *
+       * <pre>
+       *正常或者错误的提示
+       * </pre>
+       */
+      public boolean hasTips() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string tips = 5;</code>
+       *
+       * <pre>
+       *正常或者错误的提示
+       * </pre>
+       */
+      public java.lang.String getTips() {
+        java.lang.Object ref = tips_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tips_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 5;</code>
+       *
+       * <pre>
+       *正常或者错误的提示
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipsBytes() {
+        java.lang.Object ref = tips_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tips_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 5;</code>
+       *
+       * <pre>
+       *正常或者错误的提示
+       * </pre>
+       */
+      public Builder setTips(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 5;</code>
+       *
+       * <pre>
+       *正常或者错误的提示
+       * </pre>
+       */
+      public Builder clearTips() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        tips_ = getDefaultInstance().getTips();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 5;</code>
+       *
+       * <pre>
+       *正常或者错误的提示
+       * </pre>
+       */
+      public Builder setTipsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        tips_ = value;
         onChanged();
         return this;
       }
@@ -1778,6 +2985,444 @@ public final class BattleTowerServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:BattleTowerCommonRspMsg)
+  }
+
+  public interface ResetRspMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 defaultChanllengeCount = 1;
+    /**
+     * <code>optional int32 defaultChanllengeCount = 1;</code>
+     *
+     * <pre>
+     *重置后的默认挑战次数
+     * </pre>
+     */
+    boolean hasDefaultChanllengeCount();
+    /**
+     * <code>optional int32 defaultChanllengeCount = 1;</code>
+     *
+     * <pre>
+     *重置后的默认挑战次数
+     * </pre>
+     */
+    int getDefaultChanllengeCount();
+  }
+  /**
+   * Protobuf type {@code ResetRspMsg}
+   *
+   * <pre>
+   *&#47;///////////////////////////分类型协议对象结构区//////////////////////////////
+   *RESET_BATTLE_TOWER_DATA
+   * </pre>
+   */
+  public static final class ResetRspMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements ResetRspMsgOrBuilder {
+    // Use ResetRspMsg.newBuilder() to construct.
+    private ResetRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ResetRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ResetRspMsg defaultInstance;
+    public static ResetRspMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ResetRspMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResetRspMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              defaultChanllengeCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleTowerServiceProtos.internal_static_ResetRspMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleTowerServiceProtos.internal_static_ResetRspMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleTowerServiceProtos.ResetRspMsg.class, com.rwproto.BattleTowerServiceProtos.ResetRspMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ResetRspMsg> PARSER =
+        new com.google.protobuf.AbstractParser<ResetRspMsg>() {
+      public ResetRspMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResetRspMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResetRspMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 defaultChanllengeCount = 1;
+    public static final int DEFAULTCHANLLENGECOUNT_FIELD_NUMBER = 1;
+    private int defaultChanllengeCount_;
+    /**
+     * <code>optional int32 defaultChanllengeCount = 1;</code>
+     *
+     * <pre>
+     *重置后的默认挑战次数
+     * </pre>
+     */
+    public boolean hasDefaultChanllengeCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 defaultChanllengeCount = 1;</code>
+     *
+     * <pre>
+     *重置后的默认挑战次数
+     * </pre>
+     */
+    public int getDefaultChanllengeCount() {
+      return defaultChanllengeCount_;
+    }
+
+    private void initFields() {
+      defaultChanllengeCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, defaultChanllengeCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, defaultChanllengeCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleTowerServiceProtos.ResetRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleTowerServiceProtos.ResetRspMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ResetRspMsg}
+     *
+     * <pre>
+     *&#47;///////////////////////////分类型协议对象结构区//////////////////////////////
+     *RESET_BATTLE_TOWER_DATA
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleTowerServiceProtos.ResetRspMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_ResetRspMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_ResetRspMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleTowerServiceProtos.ResetRspMsg.class, com.rwproto.BattleTowerServiceProtos.ResetRspMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleTowerServiceProtos.ResetRspMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        defaultChanllengeCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleTowerServiceProtos.internal_static_ResetRspMsg_descriptor;
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.ResetRspMsg getDefaultInstanceForType() {
+        return com.rwproto.BattleTowerServiceProtos.ResetRspMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.ResetRspMsg build() {
+        com.rwproto.BattleTowerServiceProtos.ResetRspMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleTowerServiceProtos.ResetRspMsg buildPartial() {
+        com.rwproto.BattleTowerServiceProtos.ResetRspMsg result = new com.rwproto.BattleTowerServiceProtos.ResetRspMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.defaultChanllengeCount_ = defaultChanllengeCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleTowerServiceProtos.ResetRspMsg) {
+          return mergeFrom((com.rwproto.BattleTowerServiceProtos.ResetRspMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleTowerServiceProtos.ResetRspMsg other) {
+        if (other == com.rwproto.BattleTowerServiceProtos.ResetRspMsg.getDefaultInstance()) return this;
+        if (other.hasDefaultChanllengeCount()) {
+          setDefaultChanllengeCount(other.getDefaultChanllengeCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleTowerServiceProtos.ResetRspMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleTowerServiceProtos.ResetRspMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 defaultChanllengeCount = 1;
+      private int defaultChanllengeCount_ ;
+      /**
+       * <code>optional int32 defaultChanllengeCount = 1;</code>
+       *
+       * <pre>
+       *重置后的默认挑战次数
+       * </pre>
+       */
+      public boolean hasDefaultChanllengeCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 defaultChanllengeCount = 1;</code>
+       *
+       * <pre>
+       *重置后的默认挑战次数
+       * </pre>
+       */
+      public int getDefaultChanllengeCount() {
+        return defaultChanllengeCount_;
+      }
+      /**
+       * <code>optional int32 defaultChanllengeCount = 1;</code>
+       *
+       * <pre>
+       *重置后的默认挑战次数
+       * </pre>
+       */
+      public Builder setDefaultChanllengeCount(int value) {
+        bitField0_ |= 0x00000001;
+        defaultChanllengeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 defaultChanllengeCount = 1;</code>
+       *
+       * <pre>
+       *重置后的默认挑战次数
+       * </pre>
+       */
+      public Builder clearDefaultChanllengeCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        defaultChanllengeCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ResetRspMsg)
+    }
+
+    static {
+      defaultInstance = new ResetRspMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ResetRspMsg)
   }
 
   public interface OpenMainViewRspMsgOrBuilder
@@ -1949,7 +3594,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg> 
@@ -1958,7 +3603,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     com.rwproto.BattleTowerServiceProtos.RewardInfoMsg getRewardInfoMsg(int index);
@@ -1966,7 +3611,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     int getRewardInfoMsgCount();
@@ -1974,7 +3619,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     java.util.List<? extends com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder> 
@@ -1983,7 +3628,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
@@ -1993,8 +3638,7 @@ public final class BattleTowerServiceProtos {
    * Protobuf type {@code OpenMainViewRspMsg}
    *
    * <pre>
-   *&#47;///////////////////////////分类型协议对象结构区//////////////////////////////
-   *[OPEN_MAIN_VIEW]不需要请求消息，请求打开主界面响应消息
+   *[OPEN_MAIN_VIEW]不需要填请求参数，请求打开主界面响应消息
    * </pre>
    */
   public static final class OpenMainViewRspMsg extends
@@ -2362,7 +4006,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     public java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg> getRewardInfoMsgList() {
@@ -2372,7 +4016,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     public java.util.List<? extends com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder> 
@@ -2383,7 +4027,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     public int getRewardInfoMsgCount() {
@@ -2393,7 +4037,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg getRewardInfoMsg(int index) {
@@ -2403,7 +4047,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
      *
      * <pre>
-     *扫荡奖励的数据
+     *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
      * </pre>
      */
     public com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
@@ -2606,8 +4250,7 @@ public final class BattleTowerServiceProtos {
      * Protobuf type {@code OpenMainViewRspMsg}
      *
      * <pre>
-     *&#47;///////////////////////////分类型协议对象结构区//////////////////////////////
-     *[OPEN_MAIN_VIEW]不需要请求消息，请求打开主界面响应消息
+     *[OPEN_MAIN_VIEW]不需要填请求参数，请求打开主界面响应消息
      * </pre>
      */
     public static final class Builder extends
@@ -3616,7 +5259,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg> getRewardInfoMsgList() {
@@ -3630,7 +5273,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public int getRewardInfoMsgCount() {
@@ -3644,7 +5287,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg getRewardInfoMsg(int index) {
@@ -3658,7 +5301,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder setRewardInfoMsg(
@@ -3679,7 +5322,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder setRewardInfoMsg(
@@ -3697,7 +5340,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder addRewardInfoMsg(com.rwproto.BattleTowerServiceProtos.RewardInfoMsg value) {
@@ -3717,7 +5360,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder addRewardInfoMsg(
@@ -3738,7 +5381,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder addRewardInfoMsg(
@@ -3756,7 +5399,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder addRewardInfoMsg(
@@ -3774,7 +5417,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder addAllRewardInfoMsg(
@@ -3792,7 +5435,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder clearRewardInfoMsg() {
@@ -3809,7 +5452,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public Builder removeRewardInfoMsg(int index) {
@@ -3826,7 +5469,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder getRewardInfoMsgBuilder(
@@ -3837,7 +5480,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
@@ -3851,7 +5494,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public java.util.List<? extends com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder> 
@@ -3866,7 +5509,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder addRewardInfoMsgBuilder() {
@@ -3877,7 +5520,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder addRewardInfoMsgBuilder(
@@ -3889,7 +5532,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 8;</code>
        *
        * <pre>
-       *扫荡奖励的数据
+       *扫荡奖励的数据：扫荡倒计时已经结束但客户端还没有发送SweepEnd到服务端，服务端就会发送奖励
        * </pre>
        */
       public java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder> 
@@ -4005,12 +5648,30 @@ public final class BattleTowerServiceProtos {
      */
     com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
         int index);
+
+    // required int32 copyId = 4;
+    /**
+     * <code>required int32 copyId = 4;</code>
+     *
+     * <pre>
+     *战斗ID
+     * </pre>
+     */
+    boolean hasCopyId();
+    /**
+     * <code>required int32 copyId = 4;</code>
+     *
+     * <pre>
+     *战斗ID
+     * </pre>
+     */
+    int getCopyId();
   }
   /**
    * Protobuf type {@code OpenChallengeViewRspMsg}
    *
    * <pre>
-   *[OPEN_CHALLENGE_VIEW]不需要请求消息，请求打开挑战界面响应消息
+   *[OPEN_CHALLENGE_VIEW]不需要填请求参数，请求打开挑战界面响应消息
    * </pre>
    */
   public static final class OpenChallengeViewRspMsg extends
@@ -4077,6 +5738,11 @@ public final class BattleTowerServiceProtos {
                 mutable_bitField0_ |= 0x00000004;
               }
               rewardInfoMsg_.add(input.readMessage(com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.PARSER, extensionRegistry));
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              copyId_ = input.readInt32();
               break;
             }
           }
@@ -4226,10 +5892,35 @@ public final class BattleTowerServiceProtos {
       return rewardInfoMsg_.get(index);
     }
 
+    // required int32 copyId = 4;
+    public static final int COPYID_FIELD_NUMBER = 4;
+    private int copyId_;
+    /**
+     * <code>required int32 copyId = 4;</code>
+     *
+     * <pre>
+     *战斗ID
+     * </pre>
+     */
+    public boolean hasCopyId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 copyId = 4;</code>
+     *
+     * <pre>
+     *战斗ID
+     * </pre>
+     */
+    public int getCopyId() {
+      return copyId_;
+    }
+
     private void initFields() {
       groupId_ = 0;
       isFirst_ = false;
       rewardInfoMsg_ = java.util.Collections.emptyList();
+      copyId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4241,6 +5932,10 @@ public final class BattleTowerServiceProtos {
         return false;
       }
       if (!hasIsFirst()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCopyId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -4266,6 +5961,9 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rewardInfoMsg_.size(); i++) {
         output.writeMessage(3, rewardInfoMsg_.get(i));
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(4, copyId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4286,6 +5984,10 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rewardInfoMsg_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, rewardInfoMsg_.get(i));
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, copyId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4369,7 +6071,7 @@ public final class BattleTowerServiceProtos {
      * Protobuf type {@code OpenChallengeViewRspMsg}
      *
      * <pre>
-     *[OPEN_CHALLENGE_VIEW]不需要请求消息，请求打开挑战界面响应消息
+     *[OPEN_CHALLENGE_VIEW]不需要填请求参数，请求打开挑战界面响应消息
      * </pre>
      */
     public static final class Builder extends
@@ -4418,6 +6120,8 @@ public final class BattleTowerServiceProtos {
         } else {
           rewardInfoMsgBuilder_.clear();
         }
+        copyId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -4463,6 +6167,10 @@ public final class BattleTowerServiceProtos {
         } else {
           result.rewardInfoMsg_ = rewardInfoMsgBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.copyId_ = copyId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4511,6 +6219,9 @@ public final class BattleTowerServiceProtos {
             }
           }
         }
+        if (other.hasCopyId()) {
+          setCopyId(other.getCopyId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4521,6 +6232,10 @@ public final class BattleTowerServiceProtos {
           return false;
         }
         if (!hasIsFirst()) {
+          
+          return false;
+        }
+        if (!hasCopyId()) {
           
           return false;
         }
@@ -4960,6 +6675,55 @@ public final class BattleTowerServiceProtos {
           rewardInfoMsg_ = null;
         }
         return rewardInfoMsgBuilder_;
+      }
+
+      // required int32 copyId = 4;
+      private int copyId_ ;
+      /**
+       * <code>required int32 copyId = 4;</code>
+       *
+       * <pre>
+       *战斗ID
+       * </pre>
+       */
+      public boolean hasCopyId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 copyId = 4;</code>
+       *
+       * <pre>
+       *战斗ID
+       * </pre>
+       */
+      public int getCopyId() {
+        return copyId_;
+      }
+      /**
+       * <code>required int32 copyId = 4;</code>
+       *
+       * <pre>
+       *战斗ID
+       * </pre>
+       */
+      public Builder setCopyId(int value) {
+        bitField0_ |= 0x00000008;
+        copyId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 copyId = 4;</code>
+       *
+       * <pre>
+       *战斗ID
+       * </pre>
+       */
+      public Builder clearCopyId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        copyId_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:OpenChallengeViewRspMsg)
@@ -5420,20 +7184,20 @@ public final class BattleTowerServiceProtos {
   public interface GetFriendBattleTowerRankInfoRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 friendSize = 1;
+    // optional int32 friendSize = 1;
     /**
-     * <code>required int32 friendSize = 1;</code>
+     * <code>optional int32 friendSize = 1;</code>
      *
      * <pre>
-     *好友数量
+     *当前好友总数
      * </pre>
      */
     boolean hasFriendSize();
     /**
-     * <code>required int32 friendSize = 1;</code>
+     * <code>optional int32 friendSize = 1;</code>
      *
      * <pre>
-     *好友数量
+     *当前好友总数
      * </pre>
      */
     int getFriendSize();
@@ -5482,6 +7246,24 @@ public final class BattleTowerServiceProtos {
      */
     com.rwproto.BattleTowerServiceProtos.RankingRoleInfoMsgOrBuilder getRankingRoleInfoMsgOrBuilder(
         int index);
+
+    // required int32 pageIndex = 3;
+    /**
+     * <code>required int32 pageIndex = 3;</code>
+     *
+     * <pre>
+     *页号
+     * </pre>
+     */
+    boolean hasPageIndex();
+    /**
+     * <code>required int32 pageIndex = 3;</code>
+     *
+     * <pre>
+     *页号
+     * </pre>
+     */
+    int getPageIndex();
   }
   /**
    * Protobuf type {@code GetFriendBattleTowerRankInfoRspMsg}
@@ -5551,6 +7333,11 @@ public final class BattleTowerServiceProtos {
               rankingRoleInfoMsg_.add(input.readMessage(com.rwproto.BattleTowerServiceProtos.RankingRoleInfoMsg.PARSER, extensionRegistry));
               break;
             }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              pageIndex_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5594,24 +7381,24 @@ public final class BattleTowerServiceProtos {
     }
 
     private int bitField0_;
-    // required int32 friendSize = 1;
+    // optional int32 friendSize = 1;
     public static final int FRIENDSIZE_FIELD_NUMBER = 1;
     private int friendSize_;
     /**
-     * <code>required int32 friendSize = 1;</code>
+     * <code>optional int32 friendSize = 1;</code>
      *
      * <pre>
-     *好友数量
+     *当前好友总数
      * </pre>
      */
     public boolean hasFriendSize() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 friendSize = 1;</code>
+     * <code>optional int32 friendSize = 1;</code>
      *
      * <pre>
-     *好友数量
+     *当前好友总数
      * </pre>
      */
     public int getFriendSize() {
@@ -5674,16 +7461,41 @@ public final class BattleTowerServiceProtos {
       return rankingRoleInfoMsg_.get(index);
     }
 
+    // required int32 pageIndex = 3;
+    public static final int PAGEINDEX_FIELD_NUMBER = 3;
+    private int pageIndex_;
+    /**
+     * <code>required int32 pageIndex = 3;</code>
+     *
+     * <pre>
+     *页号
+     * </pre>
+     */
+    public boolean hasPageIndex() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 pageIndex = 3;</code>
+     *
+     * <pre>
+     *页号
+     * </pre>
+     */
+    public int getPageIndex() {
+      return pageIndex_;
+    }
+
     private void initFields() {
       friendSize_ = 0;
       rankingRoleInfoMsg_ = java.util.Collections.emptyList();
+      pageIndex_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasFriendSize()) {
+      if (!hasPageIndex()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -5706,6 +7518,9 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rankingRoleInfoMsg_.size(); i++) {
         output.writeMessage(2, rankingRoleInfoMsg_.get(i));
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, pageIndex_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -5722,6 +7537,10 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rankingRoleInfoMsg_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, rankingRoleInfoMsg_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, pageIndex_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5852,6 +7671,8 @@ public final class BattleTowerServiceProtos {
         } else {
           rankingRoleInfoMsgBuilder_.clear();
         }
+        pageIndex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -5893,6 +7714,10 @@ public final class BattleTowerServiceProtos {
         } else {
           result.rankingRoleInfoMsg_ = rankingRoleInfoMsgBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.pageIndex_ = pageIndex_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5938,12 +7763,15 @@ public final class BattleTowerServiceProtos {
             }
           }
         }
+        if (other.hasPageIndex()) {
+          setPageIndex(other.getPageIndex());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasFriendSize()) {
+        if (!hasPageIndex()) {
           
           return false;
         }
@@ -5975,33 +7803,33 @@ public final class BattleTowerServiceProtos {
       }
       private int bitField0_;
 
-      // required int32 friendSize = 1;
+      // optional int32 friendSize = 1;
       private int friendSize_ ;
       /**
-       * <code>required int32 friendSize = 1;</code>
+       * <code>optional int32 friendSize = 1;</code>
        *
        * <pre>
-       *好友数量
+       *当前好友总数
        * </pre>
        */
       public boolean hasFriendSize() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 friendSize = 1;</code>
+       * <code>optional int32 friendSize = 1;</code>
        *
        * <pre>
-       *好友数量
+       *当前好友总数
        * </pre>
        */
       public int getFriendSize() {
         return friendSize_;
       }
       /**
-       * <code>required int32 friendSize = 1;</code>
+       * <code>optional int32 friendSize = 1;</code>
        *
        * <pre>
-       *好友数量
+       *当前好友总数
        * </pre>
        */
       public Builder setFriendSize(int value) {
@@ -6011,10 +7839,10 @@ public final class BattleTowerServiceProtos {
         return this;
       }
       /**
-       * <code>required int32 friendSize = 1;</code>
+       * <code>optional int32 friendSize = 1;</code>
        *
        * <pre>
-       *好友数量
+       *当前好友总数
        * </pre>
        */
       public Builder clearFriendSize() {
@@ -6334,6 +8162,55 @@ public final class BattleTowerServiceProtos {
           rankingRoleInfoMsg_ = null;
         }
         return rankingRoleInfoMsgBuilder_;
+      }
+
+      // required int32 pageIndex = 3;
+      private int pageIndex_ ;
+      /**
+       * <code>required int32 pageIndex = 3;</code>
+       *
+       * <pre>
+       *页号
+       * </pre>
+       */
+      public boolean hasPageIndex() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 pageIndex = 3;</code>
+       *
+       * <pre>
+       *页号
+       * </pre>
+       */
+      public int getPageIndex() {
+        return pageIndex_;
+      }
+      /**
+       * <code>required int32 pageIndex = 3;</code>
+       *
+       * <pre>
+       *页号
+       * </pre>
+       */
+      public Builder setPageIndex(int value) {
+        bitField0_ |= 0x00000004;
+        pageIndex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 pageIndex = 3;</code>
+       *
+       * <pre>
+       *页号
+       * </pre>
+       */
+      public Builder clearPageIndex() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        pageIndex_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:GetFriendBattleTowerRankInfoRspMsg)
@@ -7658,7 +9535,7 @@ public final class BattleTowerServiceProtos {
    * Protobuf type {@code OpenTryLuckViewRspMsg}
    *
    * <pre>
-   *[OPEN_TRY_LUCK_VIEW]无需请求协议，响应获取试手气界面
+   *[OPEN_TRY_LUCK_VIEW]不需要填请求参数，响应获取试手气界面
    * </pre>
    */
   public static final class OpenTryLuckViewRspMsg extends
@@ -7977,7 +9854,7 @@ public final class BattleTowerServiceProtos {
      * Protobuf type {@code OpenTryLuckViewRspMsg}
      *
      * <pre>
-     *[OPEN_TRY_LUCK_VIEW]无需请求协议，响应获取试手气界面
+     *[OPEN_TRY_LUCK_VIEW]不需要填请求参数，响应获取试手气界面
      * </pre>
      */
     public static final class Builder extends
@@ -12163,593 +14040,6 @@ public final class BattleTowerServiceProtos {
     // @@protoc_insertion_point(class_scope:ChallengeStartReqMsg)
   }
 
-  public interface ChallengeStartRspMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional .BossInfoMsg bossInfoMsg = 1;
-    /**
-     * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-     *
-     * <pre>
-     *产生的Boss的信息
-     * </pre>
-     */
-    boolean hasBossInfoMsg();
-    /**
-     * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-     *
-     * <pre>
-     *产生的Boss的信息
-     * </pre>
-     */
-    com.rwproto.BattleTowerServiceProtos.BossInfoMsg getBossInfoMsg();
-    /**
-     * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-     *
-     * <pre>
-     *产生的Boss的信息
-     * </pre>
-     */
-    com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder();
-  }
-  /**
-   * Protobuf type {@code ChallengeStartRspMsg}
-   *
-   * <pre>
-   *[CHALLENGE_START]挑战某一层的响应协议
-   * </pre>
-   */
-  public static final class ChallengeStartRspMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements ChallengeStartRspMsgOrBuilder {
-    // Use ChallengeStartRspMsg.newBuilder() to construct.
-    private ChallengeStartRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ChallengeStartRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ChallengeStartRspMsg defaultInstance;
-    public static ChallengeStartRspMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ChallengeStartRspMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ChallengeStartRspMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                subBuilder = bossInfoMsg_.toBuilder();
-              }
-              bossInfoMsg_ = input.readMessage(com.rwproto.BattleTowerServiceProtos.BossInfoMsg.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(bossInfoMsg_);
-                bossInfoMsg_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.class, com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ChallengeStartRspMsg> PARSER =
-        new com.google.protobuf.AbstractParser<ChallengeStartRspMsg>() {
-      public ChallengeStartRspMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ChallengeStartRspMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ChallengeStartRspMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional .BossInfoMsg bossInfoMsg = 1;
-    public static final int BOSSINFOMSG_FIELD_NUMBER = 1;
-    private com.rwproto.BattleTowerServiceProtos.BossInfoMsg bossInfoMsg_;
-    /**
-     * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-     *
-     * <pre>
-     *产生的Boss的信息
-     * </pre>
-     */
-    public boolean hasBossInfoMsg() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-     *
-     * <pre>
-     *产生的Boss的信息
-     * </pre>
-     */
-    public com.rwproto.BattleTowerServiceProtos.BossInfoMsg getBossInfoMsg() {
-      return bossInfoMsg_;
-    }
-    /**
-     * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-     *
-     * <pre>
-     *产生的Boss的信息
-     * </pre>
-     */
-    public com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder() {
-      return bossInfoMsg_;
-    }
-
-    private void initFields() {
-      bossInfoMsg_ = com.rwproto.BattleTowerServiceProtos.BossInfoMsg.getDefaultInstance();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (hasBossInfoMsg()) {
-        if (!getBossInfoMsg().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, bossInfoMsg_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, bossInfoMsg_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code ChallengeStartRspMsg}
-     *
-     * <pre>
-     *[CHALLENGE_START]挑战某一层的响应协议
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.class, com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getBossInfoMsgFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (bossInfoMsgBuilder_ == null) {
-          bossInfoMsg_ = com.rwproto.BattleTowerServiceProtos.BossInfoMsg.getDefaultInstance();
-        } else {
-          bossInfoMsgBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.BattleTowerServiceProtos.internal_static_ChallengeStartRspMsg_descriptor;
-      }
-
-      public com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg getDefaultInstanceForType() {
-        return com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg build() {
-        com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg buildPartial() {
-        com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg result = new com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        if (bossInfoMsgBuilder_ == null) {
-          result.bossInfoMsg_ = bossInfoMsg_;
-        } else {
-          result.bossInfoMsg_ = bossInfoMsgBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg) {
-          return mergeFrom((com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg other) {
-        if (other == com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg.getDefaultInstance()) return this;
-        if (other.hasBossInfoMsg()) {
-          mergeBossInfoMsg(other.getBossInfoMsg());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (hasBossInfoMsg()) {
-          if (!getBossInfoMsg().isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.BattleTowerServiceProtos.ChallengeStartRspMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional .BossInfoMsg bossInfoMsg = 1;
-      private com.rwproto.BattleTowerServiceProtos.BossInfoMsg bossInfoMsg_ = com.rwproto.BattleTowerServiceProtos.BossInfoMsg.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.BattleTowerServiceProtos.BossInfoMsg, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder, com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder> bossInfoMsgBuilder_;
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public boolean hasBossInfoMsg() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public com.rwproto.BattleTowerServiceProtos.BossInfoMsg getBossInfoMsg() {
-        if (bossInfoMsgBuilder_ == null) {
-          return bossInfoMsg_;
-        } else {
-          return bossInfoMsgBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public Builder setBossInfoMsg(com.rwproto.BattleTowerServiceProtos.BossInfoMsg value) {
-        if (bossInfoMsgBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          bossInfoMsg_ = value;
-          onChanged();
-        } else {
-          bossInfoMsgBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public Builder setBossInfoMsg(
-          com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder builderForValue) {
-        if (bossInfoMsgBuilder_ == null) {
-          bossInfoMsg_ = builderForValue.build();
-          onChanged();
-        } else {
-          bossInfoMsgBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public Builder mergeBossInfoMsg(com.rwproto.BattleTowerServiceProtos.BossInfoMsg value) {
-        if (bossInfoMsgBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              bossInfoMsg_ != com.rwproto.BattleTowerServiceProtos.BossInfoMsg.getDefaultInstance()) {
-            bossInfoMsg_ =
-              com.rwproto.BattleTowerServiceProtos.BossInfoMsg.newBuilder(bossInfoMsg_).mergeFrom(value).buildPartial();
-          } else {
-            bossInfoMsg_ = value;
-          }
-          onChanged();
-        } else {
-          bossInfoMsgBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public Builder clearBossInfoMsg() {
-        if (bossInfoMsgBuilder_ == null) {
-          bossInfoMsg_ = com.rwproto.BattleTowerServiceProtos.BossInfoMsg.getDefaultInstance();
-          onChanged();
-        } else {
-          bossInfoMsgBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder getBossInfoMsgBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getBossInfoMsgFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      public com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder() {
-        if (bossInfoMsgBuilder_ != null) {
-          return bossInfoMsgBuilder_.getMessageOrBuilder();
-        } else {
-          return bossInfoMsg_;
-        }
-      }
-      /**
-       * <code>optional .BossInfoMsg bossInfoMsg = 1;</code>
-       *
-       * <pre>
-       *产生的Boss的信息
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.BattleTowerServiceProtos.BossInfoMsg, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder, com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder> 
-          getBossInfoMsgFieldBuilder() {
-        if (bossInfoMsgBuilder_ == null) {
-          bossInfoMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.BattleTowerServiceProtos.BossInfoMsg, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder, com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder>(
-                  bossInfoMsg_,
-                  getParentForChildren(),
-                  isClean());
-          bossInfoMsg_ = null;
-        }
-        return bossInfoMsgBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:ChallengeStartRspMsg)
-    }
-
-    static {
-      defaultInstance = new ChallengeStartRspMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:ChallengeStartRspMsg)
-  }
-
   public interface ChallengeEndReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -13811,7 +15101,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg> 
@@ -13820,7 +15110,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     com.rwproto.BattleTowerServiceProtos.RewardInfoMsg getRewardInfoMsg(int index);
@@ -13828,7 +15118,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     int getRewardInfoMsgCount();
@@ -13836,7 +15126,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     java.util.List<? extends com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder> 
@@ -13845,10 +15135,55 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
+        int index);
+
+    // repeated .BossInfoMsg bossInfoMsg = 2;
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    java.util.List<com.rwproto.BattleTowerServiceProtos.BossInfoMsg> 
+        getBossInfoMsgList();
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    com.rwproto.BattleTowerServiceProtos.BossInfoMsg getBossInfoMsg(int index);
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    int getBossInfoMsgCount();
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder> 
+        getBossInfoMsgOrBuilderList();
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder(
         int index);
   }
   /**
@@ -13914,6 +15249,14 @@ public final class BattleTowerServiceProtos {
               rewardInfoMsg_.add(input.readMessage(com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.PARSER, extensionRegistry));
               break;
             }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                bossInfoMsg_ = new java.util.ArrayList<com.rwproto.BattleTowerServiceProtos.BossInfoMsg>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              bossInfoMsg_.add(input.readMessage(com.rwproto.BattleTowerServiceProtos.BossInfoMsg.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -13924,6 +15267,9 @@ public final class BattleTowerServiceProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           rewardInfoMsg_ = java.util.Collections.unmodifiableList(rewardInfoMsg_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          bossInfoMsg_ = java.util.Collections.unmodifiableList(bossInfoMsg_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -13963,7 +15309,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     public java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg> getRewardInfoMsgList() {
@@ -13973,7 +15319,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     public java.util.List<? extends com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder> 
@@ -13984,7 +15330,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     public int getRewardInfoMsgCount() {
@@ -13994,7 +15340,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg getRewardInfoMsg(int index) {
@@ -14004,7 +15350,7 @@ public final class BattleTowerServiceProtos {
      * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
      *
      * <pre>
-     *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+     *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
      * </pre>
      */
     public com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
@@ -14012,8 +15358,65 @@ public final class BattleTowerServiceProtos {
       return rewardInfoMsg_.get(index);
     }
 
+    // repeated .BossInfoMsg bossInfoMsg = 2;
+    public static final int BOSSINFOMSG_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.BattleTowerServiceProtos.BossInfoMsg> bossInfoMsg_;
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    public java.util.List<com.rwproto.BattleTowerServiceProtos.BossInfoMsg> getBossInfoMsgList() {
+      return bossInfoMsg_;
+    }
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder> 
+        getBossInfoMsgOrBuilderList() {
+      return bossInfoMsg_;
+    }
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    public int getBossInfoMsgCount() {
+      return bossInfoMsg_.size();
+    }
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    public com.rwproto.BattleTowerServiceProtos.BossInfoMsg getBossInfoMsg(int index) {
+      return bossInfoMsg_.get(index);
+    }
+    /**
+     * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+     *
+     * <pre>
+     *产生的Boss的信息
+     * </pre>
+     */
+    public com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder(
+        int index) {
+      return bossInfoMsg_.get(index);
+    }
+
     private void initFields() {
       rewardInfoMsg_ = java.util.Collections.emptyList();
+      bossInfoMsg_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -14022,6 +15425,12 @@ public final class BattleTowerServiceProtos {
 
       for (int i = 0; i < getRewardInfoMsgCount(); i++) {
         if (!getRewardInfoMsg(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getBossInfoMsgCount(); i++) {
+        if (!getBossInfoMsg(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -14036,6 +15445,9 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rewardInfoMsg_.size(); i++) {
         output.writeMessage(1, rewardInfoMsg_.get(i));
       }
+      for (int i = 0; i < bossInfoMsg_.size(); i++) {
+        output.writeMessage(2, bossInfoMsg_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -14048,6 +15460,10 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rewardInfoMsg_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, rewardInfoMsg_.get(i));
+      }
+      for (int i = 0; i < bossInfoMsg_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, bossInfoMsg_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -14162,6 +15578,7 @@ public final class BattleTowerServiceProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getRewardInfoMsgFieldBuilder();
+          getBossInfoMsgFieldBuilder();
         }
       }
       private static Builder create() {
@@ -14175,6 +15592,12 @@ public final class BattleTowerServiceProtos {
           bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           rewardInfoMsgBuilder_.clear();
+        }
+        if (bossInfoMsgBuilder_ == null) {
+          bossInfoMsg_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          bossInfoMsgBuilder_.clear();
         }
         return this;
       }
@@ -14211,6 +15634,15 @@ public final class BattleTowerServiceProtos {
           result.rewardInfoMsg_ = rewardInfoMsg_;
         } else {
           result.rewardInfoMsg_ = rewardInfoMsgBuilder_.build();
+        }
+        if (bossInfoMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            bossInfoMsg_ = java.util.Collections.unmodifiableList(bossInfoMsg_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.bossInfoMsg_ = bossInfoMsg_;
+        } else {
+          result.bossInfoMsg_ = bossInfoMsgBuilder_.build();
         }
         onBuilt();
         return result;
@@ -14253,6 +15685,32 @@ public final class BattleTowerServiceProtos {
             }
           }
         }
+        if (bossInfoMsgBuilder_ == null) {
+          if (!other.bossInfoMsg_.isEmpty()) {
+            if (bossInfoMsg_.isEmpty()) {
+              bossInfoMsg_ = other.bossInfoMsg_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureBossInfoMsgIsMutable();
+              bossInfoMsg_.addAll(other.bossInfoMsg_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.bossInfoMsg_.isEmpty()) {
+            if (bossInfoMsgBuilder_.isEmpty()) {
+              bossInfoMsgBuilder_.dispose();
+              bossInfoMsgBuilder_ = null;
+              bossInfoMsg_ = other.bossInfoMsg_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              bossInfoMsgBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getBossInfoMsgFieldBuilder() : null;
+            } else {
+              bossInfoMsgBuilder_.addAllMessages(other.bossInfoMsg_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -14260,6 +15718,12 @@ public final class BattleTowerServiceProtos {
       public final boolean isInitialized() {
         for (int i = 0; i < getRewardInfoMsgCount(); i++) {
           if (!getRewardInfoMsg(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getBossInfoMsgCount(); i++) {
+          if (!getBossInfoMsg(i).isInitialized()) {
             
             return false;
           }
@@ -14303,7 +15767,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg> getRewardInfoMsgList() {
@@ -14317,7 +15781,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public int getRewardInfoMsgCount() {
@@ -14331,7 +15795,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg getRewardInfoMsg(int index) {
@@ -14345,7 +15809,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder setRewardInfoMsg(
@@ -14366,7 +15830,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder setRewardInfoMsg(
@@ -14384,7 +15848,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder addRewardInfoMsg(com.rwproto.BattleTowerServiceProtos.RewardInfoMsg value) {
@@ -14404,7 +15868,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder addRewardInfoMsg(
@@ -14425,7 +15889,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder addRewardInfoMsg(
@@ -14443,7 +15907,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder addRewardInfoMsg(
@@ -14461,7 +15925,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder addAllRewardInfoMsg(
@@ -14479,7 +15943,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder clearRewardInfoMsg() {
@@ -14496,7 +15960,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public Builder removeRewardInfoMsg(int index) {
@@ -14513,7 +15977,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder getRewardInfoMsgBuilder(
@@ -14524,7 +15988,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
@@ -14538,7 +16002,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public java.util.List<? extends com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder> 
@@ -14553,7 +16017,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder addRewardInfoMsgBuilder() {
@@ -14564,7 +16028,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder addRewardInfoMsgBuilder(
@@ -14576,7 +16040,7 @@ public final class BattleTowerServiceProtos {
        * <code>repeated .RewardInfoMsg rewardInfoMsg = 1;</code>
        *
        * <pre>
-       *战斗结束之后获得的奖励物品[只有在某一层的最后一组才会发]
+       *战斗结束之后获得的奖励物品【未打过整组的情况下不发送】
        * </pre>
        */
       public java.util.List<com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.Builder> 
@@ -14596,6 +16060,318 @@ public final class BattleTowerServiceProtos {
           rewardInfoMsg_ = null;
         }
         return rewardInfoMsgBuilder_;
+      }
+
+      // repeated .BossInfoMsg bossInfoMsg = 2;
+      private java.util.List<com.rwproto.BattleTowerServiceProtos.BossInfoMsg> bossInfoMsg_ =
+        java.util.Collections.emptyList();
+      private void ensureBossInfoMsgIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          bossInfoMsg_ = new java.util.ArrayList<com.rwproto.BattleTowerServiceProtos.BossInfoMsg>(bossInfoMsg_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleTowerServiceProtos.BossInfoMsg, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder, com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder> bossInfoMsgBuilder_;
+
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleTowerServiceProtos.BossInfoMsg> getBossInfoMsgList() {
+        if (bossInfoMsgBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(bossInfoMsg_);
+        } else {
+          return bossInfoMsgBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public int getBossInfoMsgCount() {
+        if (bossInfoMsgBuilder_ == null) {
+          return bossInfoMsg_.size();
+        } else {
+          return bossInfoMsgBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BossInfoMsg getBossInfoMsg(int index) {
+        if (bossInfoMsgBuilder_ == null) {
+          return bossInfoMsg_.get(index);
+        } else {
+          return bossInfoMsgBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder setBossInfoMsg(
+          int index, com.rwproto.BattleTowerServiceProtos.BossInfoMsg value) {
+        if (bossInfoMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBossInfoMsgIsMutable();
+          bossInfoMsg_.set(index, value);
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder setBossInfoMsg(
+          int index, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder builderForValue) {
+        if (bossInfoMsgBuilder_ == null) {
+          ensureBossInfoMsgIsMutable();
+          bossInfoMsg_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder addBossInfoMsg(com.rwproto.BattleTowerServiceProtos.BossInfoMsg value) {
+        if (bossInfoMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBossInfoMsgIsMutable();
+          bossInfoMsg_.add(value);
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder addBossInfoMsg(
+          int index, com.rwproto.BattleTowerServiceProtos.BossInfoMsg value) {
+        if (bossInfoMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBossInfoMsgIsMutable();
+          bossInfoMsg_.add(index, value);
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder addBossInfoMsg(
+          com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder builderForValue) {
+        if (bossInfoMsgBuilder_ == null) {
+          ensureBossInfoMsgIsMutable();
+          bossInfoMsg_.add(builderForValue.build());
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder addBossInfoMsg(
+          int index, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder builderForValue) {
+        if (bossInfoMsgBuilder_ == null) {
+          ensureBossInfoMsgIsMutable();
+          bossInfoMsg_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder addAllBossInfoMsg(
+          java.lang.Iterable<? extends com.rwproto.BattleTowerServiceProtos.BossInfoMsg> values) {
+        if (bossInfoMsgBuilder_ == null) {
+          ensureBossInfoMsgIsMutable();
+          super.addAll(values, bossInfoMsg_);
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder clearBossInfoMsg() {
+        if (bossInfoMsgBuilder_ == null) {
+          bossInfoMsg_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public Builder removeBossInfoMsg(int index) {
+        if (bossInfoMsgBuilder_ == null) {
+          ensureBossInfoMsgIsMutable();
+          bossInfoMsg_.remove(index);
+          onChanged();
+        } else {
+          bossInfoMsgBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder getBossInfoMsgBuilder(
+          int index) {
+        return getBossInfoMsgFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder(
+          int index) {
+        if (bossInfoMsgBuilder_ == null) {
+          return bossInfoMsg_.get(index);  } else {
+          return bossInfoMsgBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder> 
+           getBossInfoMsgOrBuilderList() {
+        if (bossInfoMsgBuilder_ != null) {
+          return bossInfoMsgBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(bossInfoMsg_);
+        }
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder addBossInfoMsgBuilder() {
+        return getBossInfoMsgFieldBuilder().addBuilder(
+            com.rwproto.BattleTowerServiceProtos.BossInfoMsg.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder addBossInfoMsgBuilder(
+          int index) {
+        return getBossInfoMsgFieldBuilder().addBuilder(
+            index, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BossInfoMsg bossInfoMsg = 2;</code>
+       *
+       * <pre>
+       *产生的Boss的信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder> 
+           getBossInfoMsgBuilderList() {
+        return getBossInfoMsgFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleTowerServiceProtos.BossInfoMsg, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder, com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder> 
+          getBossInfoMsgFieldBuilder() {
+        if (bossInfoMsgBuilder_ == null) {
+          bossInfoMsgBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleTowerServiceProtos.BossInfoMsg, com.rwproto.BattleTowerServiceProtos.BossInfoMsg.Builder, com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder>(
+                  bossInfoMsg_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          bossInfoMsg_ = null;
+        }
+        return bossInfoMsgBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ChallengeEndRspMsg)
@@ -20767,6 +22543,24 @@ public final class BattleTowerServiceProtos {
      * </pre>
      */
     int getLevel();
+
+    // optional bool isMainRole = 5;
+    /**
+     * <code>optional bool isMainRole = 5;</code>
+     *
+     * <pre>
+     *是否是主角
+     * </pre>
+     */
+    boolean hasIsMainRole();
+    /**
+     * <code>optional bool isMainRole = 5;</code>
+     *
+     * <pre>
+     *是否是主角
+     * </pre>
+     */
+    boolean getIsMainRole();
   }
   /**
    * Protobuf type {@code RankingHeroInfoMsg}
@@ -20841,6 +22635,11 @@ public final class BattleTowerServiceProtos {
             case 32: {
               bitField0_ |= 0x00000008;
               level_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              isMainRole_ = input.readBool();
               break;
             }
           }
@@ -21010,11 +22809,36 @@ public final class BattleTowerServiceProtos {
       return level_;
     }
 
+    // optional bool isMainRole = 5;
+    public static final int ISMAINROLE_FIELD_NUMBER = 5;
+    private boolean isMainRole_;
+    /**
+     * <code>optional bool isMainRole = 5;</code>
+     *
+     * <pre>
+     *是否是主角
+     * </pre>
+     */
+    public boolean hasIsMainRole() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bool isMainRole = 5;</code>
+     *
+     * <pre>
+     *是否是主角
+     * </pre>
+     */
+    public boolean getIsMainRole() {
+      return isMainRole_;
+    }
+
     private void initFields() {
       heroId_ = "";
       starNum_ = 0;
       quality_ = 0;
       level_ = 0;
+      isMainRole_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -21052,6 +22876,9 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, level_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBool(5, isMainRole_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -21076,6 +22903,10 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, level_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, isMainRole_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -21205,6 +23036,8 @@ public final class BattleTowerServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         level_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        isMainRole_ = false;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -21249,6 +23082,10 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.level_ = level_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.isMainRole_ = isMainRole_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -21278,6 +23115,9 @@ public final class BattleTowerServiceProtos {
         }
         if (other.hasLevel()) {
           setLevel(other.getLevel());
+        }
+        if (other.hasIsMainRole()) {
+          setIsMainRole(other.getIsMainRole());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -21563,6 +23403,55 @@ public final class BattleTowerServiceProtos {
         return this;
       }
 
+      // optional bool isMainRole = 5;
+      private boolean isMainRole_ ;
+      /**
+       * <code>optional bool isMainRole = 5;</code>
+       *
+       * <pre>
+       *是否是主角
+       * </pre>
+       */
+      public boolean hasIsMainRole() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional bool isMainRole = 5;</code>
+       *
+       * <pre>
+       *是否是主角
+       * </pre>
+       */
+      public boolean getIsMainRole() {
+        return isMainRole_;
+      }
+      /**
+       * <code>optional bool isMainRole = 5;</code>
+       *
+       * <pre>
+       *是否是主角
+       * </pre>
+       */
+      public Builder setIsMainRole(boolean value) {
+        bitField0_ |= 0x00000010;
+        isMainRole_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isMainRole = 5;</code>
+       *
+       * <pre>
+       *是否是主角
+       * </pre>
+       */
+      public Builder clearIsMainRole() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        isMainRole_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:RankingHeroInfoMsg)
     }
 
@@ -21575,6 +23464,11 @@ public final class BattleTowerServiceProtos {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BattleTowerConfig_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BattleTowerConfig_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_BattleTowerCommonReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -21584,6 +23478,11 @@ public final class BattleTowerServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_BattleTowerCommonRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ResetRspMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ResetRspMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_OpenMainViewRspMsg_descriptor;
   private static
@@ -21650,11 +23549,6 @@ public final class BattleTowerServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ChallengeStartReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_ChallengeStartRspMsg_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ChallengeStartRspMsg_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_ChallengeEndReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -21713,234 +23607,245 @@ public final class BattleTowerServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\027BattleTowerServer.proto\"J\n\027BattleTower" +
-      "CommonReqMsg\022\036\n\007reqType\030\001 \002(\0162\r.ERequest" +
-      "Type\022\017\n\007reqBody\030\002 \001(\014\"m\n\027BattleTowerComm" +
-      "onRspMsg\022\036\n\007reqType\030\001 \002(\0162\r.ERequestType" +
-      "\022!\n\010rspState\030\002 \002(\0162\017.EResponseState\022\017\n\007r" +
-      "spBody\030\003 \001(\014\"\207\002\n\022OpenMainViewRspMsg\022-\n\021o" +
-      "verFriendInfoMsg\030\001 \001(\0132\022.OverFriendInfoM" +
-      "sg\022\026\n\016leftResetTimes\030\002 \002(\005\022\024\n\014highestFlo" +
-      "or\030\003 \002(\005\022!\n\013bossInfoMsg\030\004 \003(\0132\014.BossInfo" +
-      "Msg\022\032\n\022sweepLeftTotalTime\030\005 \001(\005\022\022\n\nsweep",
-      "Floor\030\006 \001(\005\022\032\n\022sweepFloorLeftTime\030\007 \001(\005\022" +
-      "%\n\rrewardInfoMsg\030\010 \003(\0132\016.RewardInfoMsg\"b" +
-      "\n\027OpenChallengeViewRspMsg\022\017\n\007groupId\030\001 \002" +
-      "(\005\022\017\n\007isFirst\030\002 \002(\010\022%\n\rrewardInfoMsg\030\003 \003" +
-      "(\0132\016.RewardInfoMsg\"7\n\"GetFriendBattleTow" +
-      "erRankInfoReqMsg\022\021\n\tpageIndex\030\001 \002(\005\"i\n\"G" +
-      "etFriendBattleTowerRankInfoRspMsg\022\022\n\nfri" +
-      "endSize\030\001 \002(\005\022/\n\022rankingRoleInfoMsg\030\002 \003(" +
-      "\0132\023.RankingRoleInfoMsg\"&\n\025GetStrategyLis" +
-      "tReqMsg\022\r\n\005floor\030\001 \002(\005\"H\n\025GetStrategyLis",
-      "tRspMsg\022/\n\022rankingRoleInfoMsg\030\001 \003(\0132\023.Ra" +
-      "nkingRoleInfoMsg\"W\n\025OpenTryLuckViewRspMs" +
-      "g\022\024\n\014copperKeyNum\030\001 \002(\005\022\024\n\014silverKeyNum\030" +
-      "\002 \002(\005\022\022\n\ngoldKeyNum\030\003 \002(\005\"!\n\020SweepStartR" +
-      "eqMsg\022\r\n\005floor\030\001 \002(\005\"5\n\020SweepStartRspMsg" +
-      "\022!\n\013bossInfoMsg\030\001 \003(\0132\014.BossInfoMsg\"7\n\016S" +
-      "weepEndRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.R" +
-      "ewardInfoMsg\"?\n\021UseLuckyKeyReqMsg\022\032\n\007key" +
-      "Type\030\001 \002(\0162\t.EKeyType\022\016\n\006useNum\030\002 \002(\005\":\n" +
-      "\021UseLuckyKeyRspMsg\022%\n\rrewardInfoMsg\030\001 \003(",
-      "\0132\016.RewardInfoMsg\"%\n\024ChallengeStartReqMs" +
-      "g\022\r\n\005floor\030\001 \002(\005\"9\n\024ChallengeStartRspMsg" +
-      "\022!\n\013bossInfoMsg\030\001 \001(\0132\014.BossInfoMsg\"d\n\022C" +
-      "hallengeEndReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n\006resu" +
-      "lt\030\002 \002(\010\022/\n\022rankingHeroInfoMsg\030\003 \003(\0132\023.R" +
-      "ankingHeroInfoMsg\";\n\022ChallengeEndRspMsg\022" +
-      "%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardInfoMsg\"*" +
-      "\n\030ChallengeBossStartReqMsg\022\016\n\006bossId\030\001 \002" +
-      "(\005\"8\n\026ChallengeBossEndReqMsg\022\016\n\006bossId\030\001" +
-      " \002(\005\022\016\n\006result\030\002 \002(\010\"?\n\026ChallengeBossEnd",
-      "RspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardIn" +
-      "foMsg\"T\n\021OverFriendInfoMsg\022\020\n\010headIcon\030\001" +
-      " \002(\t\022\r\n\005level\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\020\n\010flo" +
-      "orGap\030\004 \002(\005\"]\n\013BossInfoMsg\022\016\n\006bossId\030\001 \002" +
-      "(\005\022\021\n\tbossCfgId\030\002 \002(\005\022\026\n\016bossRemainTime\030" +
-      "\003 \002(\003\022\023\n\013bossInFloor\030\004 \001(\005\",\n\rRewardInfo" +
-      "Msg\022\014\n\004type\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"\302\001\n\022Ran" +
-      "kingRoleInfoMsg\022\021\n\trankIndex\030\001 \001(\005\022\014\n\004na" +
-      "me\030\002 \002(\t\022\020\n\010headIcon\030\003 \002(\t\022\024\n\014highestFlo" +
-      "or\030\004 \001(\005\022\r\n\005level\030\005 \002(\005\022\021\n\tmagicIcon\030\006 \002",
-      "(\t\022/\n\022rankingHeroInfoMsg\030\007 \003(\0132\023.Ranking" +
-      "HeroInfoMsg\022\020\n\010isMyself\030\010 \001(\010\"U\n\022Ranking" +
-      "HeroInfoMsg\022\016\n\006heroId\030\001 \002(\t\022\017\n\007starNum\030\002" +
-      " \002(\005\022\017\n\007quality\030\003 \001(\005\022\r\n\005level\030\004 \002(\005*\256\002\n" +
-      "\014ERequestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPE" +
-      "N_CHALLENGE_VIEW\020\002\022\030\n\024GET_FRIEND_RANK_LI" +
-      "ST\020\003\022\025\n\021GET_STRATEGY_LIST\020\004\022\026\n\022OPEN_TRY_" +
-      "LUCK_VIEW\020\005\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEEP_EN" +
-      "D\020\007\022\021\n\rUSE_LUCKY_KEY\020\010\022\033\n\027RESET_BATTLE_T" +
-      "OWER_DATA\020\t\022\023\n\017CHALLENGE_START\020\n\022\021\n\rCHAL",
-      "LENGE_END\020\013\022\030\n\024CHALLENGE_BOSS_START\020\014\022\026\n" +
-      "\022CHALLENGE_BOSS_END\020\r*.\n\016EResponseState\022" +
-      "\016\n\nRSP_SUCESS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyTyp" +
-      "e\022\016\n\nKEY_COPPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY" +
-      "_GOLD\020\003B\'\n\013com.rwprotoB\030BattleTowerServi" +
-      "ceProtos"
+      "\n\027BattleTowerServer.proto\"J\n\021BattleTower" +
+      "Config\022\033\n\023EveryFloorSweepTime\030\001 \001(\005\022\030\n\020C" +
+      "hestDescription\030\002 \001(\t\"^\n\027BattleTowerComm" +
+      "onReqMsg\022\036\n\007reqType\030\001 \002(\0162\r.ERequestType" +
+      "\022\017\n\007reqBody\030\002 \001(\014\022\022\n\nneedConfig\030\003 \001(\010\"\237\001" +
+      "\n\027BattleTowerCommonRspMsg\022\036\n\007reqType\030\001 \002" +
+      "(\0162\r.ERequestType\022!\n\010rspState\030\002 \002(\0162\017.ER" +
+      "esponseState\022\017\n\007rspBody\030\003 \001(\014\022\"\n\006config\030" +
+      "\004 \001(\0132\022.BattleTowerConfig\022\014\n\004tips\030\005 \001(\t\"" +
+      "-\n\013ResetRspMsg\022\036\n\026defaultChanllengeCount",
+      "\030\001 \001(\005\"\207\002\n\022OpenMainViewRspMsg\022-\n\021overFri" +
+      "endInfoMsg\030\001 \001(\0132\022.OverFriendInfoMsg\022\026\n\016" +
+      "leftResetTimes\030\002 \002(\005\022\024\n\014highestFloor\030\003 \002" +
+      "(\005\022!\n\013bossInfoMsg\030\004 \003(\0132\014.BossInfoMsg\022\032\n" +
+      "\022sweepLeftTotalTime\030\005 \001(\005\022\022\n\nsweepFloor\030" +
+      "\006 \001(\005\022\032\n\022sweepFloorLeftTime\030\007 \001(\005\022%\n\rrew" +
+      "ardInfoMsg\030\010 \003(\0132\016.RewardInfoMsg\"r\n\027Open" +
+      "ChallengeViewRspMsg\022\017\n\007groupId\030\001 \002(\005\022\017\n\007" +
+      "isFirst\030\002 \002(\010\022%\n\rrewardInfoMsg\030\003 \003(\0132\016.R" +
+      "ewardInfoMsg\022\016\n\006copyId\030\004 \002(\005\"7\n\"GetFrien",
+      "dBattleTowerRankInfoReqMsg\022\021\n\tpageIndex\030" +
+      "\001 \002(\005\"|\n\"GetFriendBattleTowerRankInfoRsp" +
+      "Msg\022\022\n\nfriendSize\030\001 \001(\005\022/\n\022rankingRoleIn" +
+      "foMsg\030\002 \003(\0132\023.RankingRoleInfoMsg\022\021\n\tpage" +
+      "Index\030\003 \002(\005\"&\n\025GetStrategyListReqMsg\022\r\n\005" +
+      "floor\030\001 \002(\005\"H\n\025GetStrategyListRspMsg\022/\n\022" +
+      "rankingRoleInfoMsg\030\001 \003(\0132\023.RankingRoleIn" +
+      "foMsg\"W\n\025OpenTryLuckViewRspMsg\022\024\n\014copper" +
+      "KeyNum\030\001 \002(\005\022\024\n\014silverKeyNum\030\002 \002(\005\022\022\n\ngo" +
+      "ldKeyNum\030\003 \002(\005\"!\n\020SweepStartReqMsg\022\r\n\005fl",
+      "oor\030\001 \002(\005\"5\n\020SweepStartRspMsg\022!\n\013bossInf" +
+      "oMsg\030\001 \003(\0132\014.BossInfoMsg\"7\n\016SweepEndRspM" +
+      "sg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardInfoMs" +
+      "g\"?\n\021UseLuckyKeyReqMsg\022\032\n\007keyType\030\001 \002(\0162" +
+      "\t.EKeyType\022\016\n\006useNum\030\002 \002(\005\":\n\021UseLuckyKe" +
+      "yRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardI" +
+      "nfoMsg\"%\n\024ChallengeStartReqMsg\022\r\n\005floor\030" +
+      "\001 \002(\005\"d\n\022ChallengeEndReqMsg\022\r\n\005floor\030\001 \002" +
+      "(\005\022\016\n\006result\030\002 \002(\010\022/\n\022rankingHeroInfoMsg" +
+      "\030\003 \003(\0132\023.RankingHeroInfoMsg\"^\n\022Challenge",
+      "EndRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.Rewar" +
+      "dInfoMsg\022!\n\013bossInfoMsg\030\002 \003(\0132\014.BossInfo" +
+      "Msg\"*\n\030ChallengeBossStartReqMsg\022\016\n\006bossI" +
+      "d\030\001 \002(\005\"8\n\026ChallengeBossEndReqMsg\022\016\n\006bos" +
+      "sId\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\"?\n\026ChallengeBo" +
+      "ssEndRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.Rew" +
+      "ardInfoMsg\"T\n\021OverFriendInfoMsg\022\020\n\010headI" +
+      "con\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\020" +
+      "\n\010floorGap\030\004 \002(\005\"]\n\013BossInfoMsg\022\016\n\006bossI" +
+      "d\030\001 \002(\005\022\021\n\tbossCfgId\030\002 \002(\005\022\026\n\016bossRemain",
+      "Time\030\003 \002(\003\022\023\n\013bossInFloor\030\004 \001(\005\",\n\rRewar" +
+      "dInfoMsg\022\014\n\004type\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"\302\001" +
+      "\n\022RankingRoleInfoMsg\022\021\n\trankIndex\030\001 \001(\005\022" +
+      "\014\n\004name\030\002 \002(\t\022\020\n\010headIcon\030\003 \002(\t\022\024\n\014highe" +
+      "stFloor\030\004 \001(\005\022\r\n\005level\030\005 \002(\005\022\021\n\tmagicIco" +
+      "n\030\006 \002(\t\022/\n\022rankingHeroInfoMsg\030\007 \003(\0132\023.Ra" +
+      "nkingHeroInfoMsg\022\020\n\010isMyself\030\010 \001(\010\"i\n\022Ra" +
+      "nkingHeroInfoMsg\022\016\n\006heroId\030\001 \002(\t\022\017\n\007star" +
+      "Num\030\002 \002(\005\022\017\n\007quality\030\003 \001(\005\022\r\n\005level\030\004 \002(" +
+      "\005\022\022\n\nisMainRole\030\005 \001(\010*\256\002\n\014ERequestType\022\022",
+      "\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPEN_CHALLENGE_VIE" +
+      "W\020\002\022\030\n\024GET_FRIEND_RANK_LIST\020\003\022\025\n\021GET_STR" +
+      "ATEGY_LIST\020\004\022\026\n\022OPEN_TRY_LUCK_VIEW\020\005\022\017\n\013" +
+      "SWEEP_START\020\006\022\r\n\tSWEEP_END\020\007\022\021\n\rUSE_LUCK" +
+      "Y_KEY\020\010\022\033\n\027RESET_BATTLE_TOWER_DATA\020\t\022\023\n\017" +
+      "CHALLENGE_START\020\n\022\021\n\rCHALLENGE_END\020\013\022\030\n\024" +
+      "CHALLENGE_BOSS_START\020\014\022\026\n\022CHALLENGE_BOSS" +
+      "_END\020\r*.\n\016EResponseState\022\016\n\nRSP_SUCESS\020\001" +
+      "\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyType\022\016\n\nKEY_COPPER" +
+      "\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY_GOLD\020\003B\'\n\013com.",
+      "rwprotoB\030BattleTowerServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_BattleTowerCommonReqMsg_descriptor =
+          internal_static_BattleTowerConfig_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_BattleTowerConfig_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BattleTowerConfig_descriptor,
+              new java.lang.String[] { "EveryFloorSweepTime", "ChestDescription", });
+          internal_static_BattleTowerCommonReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_BattleTowerCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BattleTowerCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "ReqBody", });
+              new java.lang.String[] { "ReqType", "ReqBody", "NeedConfig", });
           internal_static_BattleTowerCommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_BattleTowerCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BattleTowerCommonRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RspState", "RspBody", });
+              new java.lang.String[] { "ReqType", "RspState", "RspBody", "Config", "Tips", });
+          internal_static_ResetRspMsg_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_ResetRspMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ResetRspMsg_descriptor,
+              new java.lang.String[] { "DefaultChanllengeCount", });
           internal_static_OpenMainViewRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_OpenMainViewRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OpenMainViewRspMsg_descriptor,
               new java.lang.String[] { "OverFriendInfoMsg", "LeftResetTimes", "HighestFloor", "BossInfoMsg", "SweepLeftTotalTime", "SweepFloor", "SweepFloorLeftTime", "RewardInfoMsg", });
           internal_static_OpenChallengeViewRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_OpenChallengeViewRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OpenChallengeViewRspMsg_descriptor,
-              new java.lang.String[] { "GroupId", "IsFirst", "RewardInfoMsg", });
+              new java.lang.String[] { "GroupId", "IsFirst", "RewardInfoMsg", "CopyId", });
           internal_static_GetFriendBattleTowerRankInfoReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_GetFriendBattleTowerRankInfoReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetFriendBattleTowerRankInfoReqMsg_descriptor,
               new java.lang.String[] { "PageIndex", });
           internal_static_GetFriendBattleTowerRankInfoRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_GetFriendBattleTowerRankInfoRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetFriendBattleTowerRankInfoRspMsg_descriptor,
-              new java.lang.String[] { "FriendSize", "RankingRoleInfoMsg", });
+              new java.lang.String[] { "FriendSize", "RankingRoleInfoMsg", "PageIndex", });
           internal_static_GetStrategyListReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_GetStrategyListReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetStrategyListReqMsg_descriptor,
               new java.lang.String[] { "Floor", });
           internal_static_GetStrategyListRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_GetStrategyListRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GetStrategyListRspMsg_descriptor,
               new java.lang.String[] { "RankingRoleInfoMsg", });
           internal_static_OpenTryLuckViewRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_OpenTryLuckViewRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OpenTryLuckViewRspMsg_descriptor,
               new java.lang.String[] { "CopperKeyNum", "SilverKeyNum", "GoldKeyNum", });
           internal_static_SweepStartReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_SweepStartReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SweepStartReqMsg_descriptor,
               new java.lang.String[] { "Floor", });
           internal_static_SweepStartRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_SweepStartRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SweepStartRspMsg_descriptor,
               new java.lang.String[] { "BossInfoMsg", });
           internal_static_SweepEndRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(13);
           internal_static_SweepEndRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SweepEndRspMsg_descriptor,
               new java.lang.String[] { "RewardInfoMsg", });
           internal_static_UseLuckyKeyReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(14);
           internal_static_UseLuckyKeyReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UseLuckyKeyReqMsg_descriptor,
               new java.lang.String[] { "KeyType", "UseNum", });
           internal_static_UseLuckyKeyRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(13);
+            getDescriptor().getMessageTypes().get(15);
           internal_static_UseLuckyKeyRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UseLuckyKeyRspMsg_descriptor,
               new java.lang.String[] { "RewardInfoMsg", });
           internal_static_ChallengeStartReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(14);
+            getDescriptor().getMessageTypes().get(16);
           internal_static_ChallengeStartReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeStartReqMsg_descriptor,
               new java.lang.String[] { "Floor", });
-          internal_static_ChallengeStartRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(15);
-          internal_static_ChallengeStartRspMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ChallengeStartRspMsg_descriptor,
-              new java.lang.String[] { "BossInfoMsg", });
           internal_static_ChallengeEndReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(16);
+            getDescriptor().getMessageTypes().get(17);
           internal_static_ChallengeEndReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeEndReqMsg_descriptor,
               new java.lang.String[] { "Floor", "Result", "RankingHeroInfoMsg", });
           internal_static_ChallengeEndRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(17);
+            getDescriptor().getMessageTypes().get(18);
           internal_static_ChallengeEndRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeEndRspMsg_descriptor,
-              new java.lang.String[] { "RewardInfoMsg", });
+              new java.lang.String[] { "RewardInfoMsg", "BossInfoMsg", });
           internal_static_ChallengeBossStartReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(18);
+            getDescriptor().getMessageTypes().get(19);
           internal_static_ChallengeBossStartReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeBossStartReqMsg_descriptor,
               new java.lang.String[] { "BossId", });
           internal_static_ChallengeBossEndReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(19);
+            getDescriptor().getMessageTypes().get(20);
           internal_static_ChallengeBossEndReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeBossEndReqMsg_descriptor,
               new java.lang.String[] { "BossId", "Result", });
           internal_static_ChallengeBossEndRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(20);
+            getDescriptor().getMessageTypes().get(21);
           internal_static_ChallengeBossEndRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChallengeBossEndRspMsg_descriptor,
               new java.lang.String[] { "RewardInfoMsg", });
           internal_static_OverFriendInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(21);
+            getDescriptor().getMessageTypes().get(22);
           internal_static_OverFriendInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OverFriendInfoMsg_descriptor,
               new java.lang.String[] { "HeadIcon", "Level", "Name", "FloorGap", });
           internal_static_BossInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(22);
+            getDescriptor().getMessageTypes().get(23);
           internal_static_BossInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BossInfoMsg_descriptor,
               new java.lang.String[] { "BossId", "BossCfgId", "BossRemainTime", "BossInFloor", });
           internal_static_RewardInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(23);
+            getDescriptor().getMessageTypes().get(24);
           internal_static_RewardInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RewardInfoMsg_descriptor,
               new java.lang.String[] { "Type", "Count", });
           internal_static_RankingRoleInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(24);
+            getDescriptor().getMessageTypes().get(25);
           internal_static_RankingRoleInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingRoleInfoMsg_descriptor,
               new java.lang.String[] { "RankIndex", "Name", "HeadIcon", "HighestFloor", "Level", "MagicIcon", "RankingHeroInfoMsg", "IsMyself", });
           internal_static_RankingHeroInfoMsg_descriptor =
-            getDescriptor().getMessageTypes().get(25);
+            getDescriptor().getMessageTypes().get(26);
           internal_static_RankingHeroInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingHeroInfoMsg_descriptor,
-              new java.lang.String[] { "HeroId", "StarNum", "Quality", "Level", });
+              new java.lang.String[] { "HeroId", "StarNum", "Quality", "Level", "IsMainRole", });
           return null;
         }
       };

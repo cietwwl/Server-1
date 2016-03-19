@@ -577,6 +577,24 @@ public final class GuidanceProgressProtos {
      * <code>required .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 1;</code>
      */
     com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType getRequestType();
+
+    // optional bool debugMode = 2;
+    /**
+     * <code>optional bool debugMode = 2;</code>
+     *
+     * <pre>
+     *调试模式下允许从服务端发送最新的配置文件到客户端
+     * </pre>
+     */
+    boolean hasDebugMode();
+    /**
+     * <code>optional bool debugMode = 2;</code>
+     *
+     * <pre>
+     *调试模式下允许从服务端发送最新的配置文件到客户端
+     * </pre>
+     */
+    boolean getDebugMode();
   }
   /**
    * Protobuf type {@code GuidanceService.GuidanceRequest}
@@ -638,6 +656,11 @@ public final class GuidanceProgressProtos {
                 bitField0_ |= 0x00000001;
                 requestType_ = value;
               }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              debugMode_ = input.readBool();
               break;
             }
           }
@@ -769,8 +792,33 @@ public final class GuidanceProgressProtos {
       return requestType_;
     }
 
+    // optional bool debugMode = 2;
+    public static final int DEBUGMODE_FIELD_NUMBER = 2;
+    private boolean debugMode_;
+    /**
+     * <code>optional bool debugMode = 2;</code>
+     *
+     * <pre>
+     *调试模式下允许从服务端发送最新的配置文件到客户端
+     * </pre>
+     */
+    public boolean hasDebugMode() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bool debugMode = 2;</code>
+     *
+     * <pre>
+     *调试模式下允许从服务端发送最新的配置文件到客户端
+     * </pre>
+     */
+    public boolean getDebugMode() {
+      return debugMode_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
+      debugMode_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -791,6 +839,9 @@ public final class GuidanceProgressProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, requestType_.getNumber());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, debugMode_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -803,6 +854,10 @@ public final class GuidanceProgressProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, requestType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, debugMode_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -922,6 +977,8 @@ public final class GuidanceProgressProtos {
         super.clear();
         requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
         bitField0_ = (bitField0_ & ~0x00000001);
+        debugMode_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -954,6 +1011,10 @@ public final class GuidanceProgressProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.requestType_ = requestType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.debugMode_ = debugMode_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -972,6 +1033,9 @@ public final class GuidanceProgressProtos {
         if (other == com.rwproto.GuidanceProgressProtos.GuidanceRequest.getDefaultInstance()) return this;
         if (other.hasRequestType()) {
           setRequestType(other.getRequestType());
+        }
+        if (other.hasDebugMode()) {
+          setDebugMode(other.getDebugMode());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1040,6 +1104,55 @@ public final class GuidanceProgressProtos {
         return this;
       }
 
+      // optional bool debugMode = 2;
+      private boolean debugMode_ ;
+      /**
+       * <code>optional bool debugMode = 2;</code>
+       *
+       * <pre>
+       *调试模式下允许从服务端发送最新的配置文件到客户端
+       * </pre>
+       */
+      public boolean hasDebugMode() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bool debugMode = 2;</code>
+       *
+       * <pre>
+       *调试模式下允许从服务端发送最新的配置文件到客户端
+       * </pre>
+       */
+      public boolean getDebugMode() {
+        return debugMode_;
+      }
+      /**
+       * <code>optional bool debugMode = 2;</code>
+       *
+       * <pre>
+       *调试模式下允许从服务端发送最新的配置文件到客户端
+       * </pre>
+       */
+      public Builder setDebugMode(boolean value) {
+        bitField0_ |= 0x00000002;
+        debugMode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool debugMode = 2;</code>
+       *
+       * <pre>
+       *调试模式下允许从服务端发送最新的配置文件到客户端
+       * </pre>
+       */
+      public Builder clearDebugMode() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        debugMode_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GuidanceService.GuidanceRequest)
     }
 
@@ -1078,6 +1191,24 @@ public final class GuidanceProgressProtos {
      */
     com.rwproto.GuidanceProgressProtos.GuidanceProgressOrBuilder getSavedProgressOrBuilder(
         int index);
+
+    // optional bytes configdata = 2;
+    /**
+     * <code>optional bytes configdata = 2;</code>
+     *
+     * <pre>
+     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+     * </pre>
+     */
+    boolean hasConfigdata();
+    /**
+     * <code>optional bytes configdata = 2;</code>
+     *
+     * <pre>
+     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+     * </pre>
+     */
+    com.google.protobuf.ByteString getConfigdata();
   }
   /**
    * Protobuf type {@code GuidanceService.GuidanceResponse}
@@ -1138,6 +1269,11 @@ public final class GuidanceProgressProtos {
               savedProgress_.add(input.readMessage(com.rwproto.GuidanceProgressProtos.GuidanceProgress.PARSER, extensionRegistry));
               break;
             }
+            case 18: {
+              bitField0_ |= 0x00000001;
+              configdata_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1180,6 +1316,7 @@ public final class GuidanceProgressProtos {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .GuidanceService.GuidanceProgress savedProgress = 1;
     public static final int SAVEDPROGRESS_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.GuidanceProgressProtos.GuidanceProgress> savedProgress_;
@@ -1216,8 +1353,33 @@ public final class GuidanceProgressProtos {
       return savedProgress_.get(index);
     }
 
+    // optional bytes configdata = 2;
+    public static final int CONFIGDATA_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString configdata_;
+    /**
+     * <code>optional bytes configdata = 2;</code>
+     *
+     * <pre>
+     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+     * </pre>
+     */
+    public boolean hasConfigdata() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional bytes configdata = 2;</code>
+     *
+     * <pre>
+     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getConfigdata() {
+      return configdata_;
+    }
+
     private void initFields() {
       savedProgress_ = java.util.Collections.emptyList();
+      configdata_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1240,6 +1402,9 @@ public final class GuidanceProgressProtos {
       for (int i = 0; i < savedProgress_.size(); i++) {
         output.writeMessage(1, savedProgress_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(2, configdata_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1252,6 +1417,10 @@ public final class GuidanceProgressProtos {
       for (int i = 0; i < savedProgress_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, savedProgress_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, configdata_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1376,6 +1545,8 @@ public final class GuidanceProgressProtos {
         } else {
           savedProgressBuilder_.clear();
         }
+        configdata_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1403,6 +1574,7 @@ public final class GuidanceProgressProtos {
       public com.rwproto.GuidanceProgressProtos.GuidanceResponse buildPartial() {
         com.rwproto.GuidanceProgressProtos.GuidanceResponse result = new com.rwproto.GuidanceProgressProtos.GuidanceResponse(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (savedProgressBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             savedProgress_ = java.util.Collections.unmodifiableList(savedProgress_);
@@ -1412,6 +1584,11 @@ public final class GuidanceProgressProtos {
         } else {
           result.savedProgress_ = savedProgressBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.configdata_ = configdata_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1452,6 +1629,9 @@ public final class GuidanceProgressProtos {
               savedProgressBuilder_.addAllMessages(other.savedProgress_);
             }
           }
+        }
+        if (other.hasConfigdata()) {
+          setConfigdata(other.getConfigdata());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1726,6 +1906,58 @@ public final class GuidanceProgressProtos {
         return savedProgressBuilder_;
       }
 
+      // optional bytes configdata = 2;
+      private com.google.protobuf.ByteString configdata_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes configdata = 2;</code>
+       *
+       * <pre>
+       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+       * </pre>
+       */
+      public boolean hasConfigdata() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bytes configdata = 2;</code>
+       *
+       * <pre>
+       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getConfigdata() {
+        return configdata_;
+      }
+      /**
+       * <code>optional bytes configdata = 2;</code>
+       *
+       * <pre>
+       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+       * </pre>
+       */
+      public Builder setConfigdata(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        configdata_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes configdata = 2;</code>
+       *
+       * <pre>
+       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
+       * </pre>
+       */
+      public Builder clearConfigdata() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        configdata_ = getDefaultInstance().getConfigdata();
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GuidanceService.GuidanceResponse)
     }
 
@@ -1735,793 +1967,6 @@ public final class GuidanceProgressProtos {
     }
 
     // @@protoc_insertion_point(class_scope:GuidanceService.GuidanceResponse)
-  }
-
-  public interface GuidanceConfigsOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional bytes GuidanceData = 1;
-    /**
-     * <code>optional bytes GuidanceData = 1;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    boolean hasGuidanceData();
-    /**
-     * <code>optional bytes GuidanceData = 1;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    com.google.protobuf.ByteString getGuidanceData();
-
-    // optional bytes ActionsData = 2;
-    /**
-     * <code>optional bytes ActionsData = 2;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    boolean hasActionsData();
-    /**
-     * <code>optional bytes ActionsData = 2;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    com.google.protobuf.ByteString getActionsData();
-
-    // optional bytes ConditionalsData = 3;
-    /**
-     * <code>optional bytes ConditionalsData = 3;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    boolean hasConditionalsData();
-    /**
-     * <code>optional bytes ConditionalsData = 3;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    com.google.protobuf.ByteString getConditionalsData();
-
-    // optional bytes ConductressData = 4;
-    /**
-     * <code>optional bytes ConductressData = 4;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    boolean hasConductressData();
-    /**
-     * <code>optional bytes ConductressData = 4;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    com.google.protobuf.ByteString getConductressData();
-  }
-  /**
-   * Protobuf type {@code GuidanceService.GuidanceConfigs}
-   *
-   * <pre>
-   *调试模式下允许从服务端发送最新的配置文件到客户端
-   * </pre>
-   */
-  public static final class GuidanceConfigs extends
-      com.google.protobuf.GeneratedMessage
-      implements GuidanceConfigsOrBuilder {
-    // Use GuidanceConfigs.newBuilder() to construct.
-    private GuidanceConfigs(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GuidanceConfigs(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GuidanceConfigs defaultInstance;
-    public static GuidanceConfigs getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GuidanceConfigs getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GuidanceConfigs(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              guidanceData_ = input.readBytes();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              actionsData_ = input.readBytes();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
-              conditionalsData_ = input.readBytes();
-              break;
-            }
-            case 34: {
-              bitField0_ |= 0x00000008;
-              conductressData_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GuidanceProgressProtos.internal_static_GuidanceService_GuidanceConfigs_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GuidanceProgressProtos.internal_static_GuidanceService_GuidanceConfigs_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GuidanceProgressProtos.GuidanceConfigs.class, com.rwproto.GuidanceProgressProtos.GuidanceConfigs.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GuidanceConfigs> PARSER =
-        new com.google.protobuf.AbstractParser<GuidanceConfigs>() {
-      public GuidanceConfigs parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GuidanceConfigs(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GuidanceConfigs> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional bytes GuidanceData = 1;
-    public static final int GUIDANCEDATA_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString guidanceData_;
-    /**
-     * <code>optional bytes GuidanceData = 1;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public boolean hasGuidanceData() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional bytes GuidanceData = 1;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getGuidanceData() {
-      return guidanceData_;
-    }
-
-    // optional bytes ActionsData = 2;
-    public static final int ACTIONSDATA_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString actionsData_;
-    /**
-     * <code>optional bytes ActionsData = 2;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public boolean hasActionsData() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional bytes ActionsData = 2;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getActionsData() {
-      return actionsData_;
-    }
-
-    // optional bytes ConditionalsData = 3;
-    public static final int CONDITIONALSDATA_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString conditionalsData_;
-    /**
-     * <code>optional bytes ConditionalsData = 3;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public boolean hasConditionalsData() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional bytes ConditionalsData = 3;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getConditionalsData() {
-      return conditionalsData_;
-    }
-
-    // optional bytes ConductressData = 4;
-    public static final int CONDUCTRESSDATA_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString conductressData_;
-    /**
-     * <code>optional bytes ConductressData = 4;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public boolean hasConductressData() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional bytes ConductressData = 4;</code>
-     *
-     * <pre>
-     *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getConductressData() {
-      return conductressData_;
-    }
-
-    private void initFields() {
-      guidanceData_ = com.google.protobuf.ByteString.EMPTY;
-      actionsData_ = com.google.protobuf.ByteString.EMPTY;
-      conditionalsData_ = com.google.protobuf.ByteString.EMPTY;
-      conductressData_ = com.google.protobuf.ByteString.EMPTY;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, guidanceData_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, actionsData_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, conditionalsData_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, conductressData_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, guidanceData_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, actionsData_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, conditionalsData_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, conductressData_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GuidanceProgressProtos.GuidanceConfigs parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GuidanceProgressProtos.GuidanceConfigs prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code GuidanceService.GuidanceConfigs}
-     *
-     * <pre>
-     *调试模式下允许从服务端发送最新的配置文件到客户端
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GuidanceProgressProtos.GuidanceConfigsOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GuidanceProgressProtos.internal_static_GuidanceService_GuidanceConfigs_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GuidanceProgressProtos.internal_static_GuidanceService_GuidanceConfigs_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GuidanceProgressProtos.GuidanceConfigs.class, com.rwproto.GuidanceProgressProtos.GuidanceConfigs.Builder.class);
-      }
-
-      // Construct using com.rwproto.GuidanceProgressProtos.GuidanceConfigs.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        guidanceData_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        actionsData_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        conditionalsData_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        conductressData_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GuidanceProgressProtos.internal_static_GuidanceService_GuidanceConfigs_descriptor;
-      }
-
-      public com.rwproto.GuidanceProgressProtos.GuidanceConfigs getDefaultInstanceForType() {
-        return com.rwproto.GuidanceProgressProtos.GuidanceConfigs.getDefaultInstance();
-      }
-
-      public com.rwproto.GuidanceProgressProtos.GuidanceConfigs build() {
-        com.rwproto.GuidanceProgressProtos.GuidanceConfigs result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GuidanceProgressProtos.GuidanceConfigs buildPartial() {
-        com.rwproto.GuidanceProgressProtos.GuidanceConfigs result = new com.rwproto.GuidanceProgressProtos.GuidanceConfigs(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.guidanceData_ = guidanceData_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.actionsData_ = actionsData_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.conditionalsData_ = conditionalsData_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.conductressData_ = conductressData_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GuidanceProgressProtos.GuidanceConfigs) {
-          return mergeFrom((com.rwproto.GuidanceProgressProtos.GuidanceConfigs)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GuidanceProgressProtos.GuidanceConfigs other) {
-        if (other == com.rwproto.GuidanceProgressProtos.GuidanceConfigs.getDefaultInstance()) return this;
-        if (other.hasGuidanceData()) {
-          setGuidanceData(other.getGuidanceData());
-        }
-        if (other.hasActionsData()) {
-          setActionsData(other.getActionsData());
-        }
-        if (other.hasConditionalsData()) {
-          setConditionalsData(other.getConditionalsData());
-        }
-        if (other.hasConductressData()) {
-          setConductressData(other.getConductressData());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GuidanceProgressProtos.GuidanceConfigs parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GuidanceProgressProtos.GuidanceConfigs) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional bytes GuidanceData = 1;
-      private com.google.protobuf.ByteString guidanceData_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes GuidanceData = 1;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public boolean hasGuidanceData() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional bytes GuidanceData = 1;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public com.google.protobuf.ByteString getGuidanceData() {
-        return guidanceData_;
-      }
-      /**
-       * <code>optional bytes GuidanceData = 1;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder setGuidanceData(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        guidanceData_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes GuidanceData = 1;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder clearGuidanceData() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        guidanceData_ = getDefaultInstance().getGuidanceData();
-        onChanged();
-        return this;
-      }
-
-      // optional bytes ActionsData = 2;
-      private com.google.protobuf.ByteString actionsData_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes ActionsData = 2;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public boolean hasActionsData() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional bytes ActionsData = 2;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public com.google.protobuf.ByteString getActionsData() {
-        return actionsData_;
-      }
-      /**
-       * <code>optional bytes ActionsData = 2;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder setActionsData(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        actionsData_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes ActionsData = 2;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder clearActionsData() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        actionsData_ = getDefaultInstance().getActionsData();
-        onChanged();
-        return this;
-      }
-
-      // optional bytes ConditionalsData = 3;
-      private com.google.protobuf.ByteString conditionalsData_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes ConditionalsData = 3;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public boolean hasConditionalsData() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional bytes ConditionalsData = 3;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public com.google.protobuf.ByteString getConditionalsData() {
-        return conditionalsData_;
-      }
-      /**
-       * <code>optional bytes ConditionalsData = 3;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder setConditionalsData(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        conditionalsData_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes ConditionalsData = 3;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder clearConditionalsData() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        conditionalsData_ = getDefaultInstance().getConditionalsData();
-        onChanged();
-        return this;
-      }
-
-      // optional bytes ConductressData = 4;
-      private com.google.protobuf.ByteString conductressData_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes ConductressData = 4;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public boolean hasConductressData() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional bytes ConductressData = 4;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public com.google.protobuf.ByteString getConductressData() {
-        return conductressData_;
-      }
-      /**
-       * <code>optional bytes ConductressData = 4;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder setConductressData(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000008;
-        conductressData_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bytes ConductressData = 4;</code>
-       *
-       * <pre>
-       *仅在调试模式下有效，客户端可以更新配置，方便策划调试
-       * </pre>
-       */
-      public Builder clearConductressData() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        conductressData_ = getDefaultInstance().getConductressData();
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:GuidanceService.GuidanceConfigs)
-    }
-
-    static {
-      defaultInstance = new GuidanceConfigs(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:GuidanceService.GuidanceConfigs)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -2539,11 +1984,6 @@ public final class GuidanceProgressProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GuidanceService_GuidanceResponse_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_GuidanceService_GuidanceConfigs_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_GuidanceService_GuidanceConfigs_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2555,16 +1995,14 @@ public final class GuidanceProgressProtos {
     java.lang.String[] descriptorData = {
       "\n\025GuidanceService.proto\022\017GuidanceService" +
       "\"5\n\020GuidanceProgress\022\017\n\007GuideID\030\001 \002(\005\022\020\n" +
-      "\010Progress\030\002 \002(\005\"\205\001\n\017GuidanceRequest\022I\n\013r" +
+      "\010Progress\030\002 \002(\005\"\230\001\n\017GuidanceRequest\022I\n\013r" +
       "equestType\030\001 \002(\01624.GuidanceService.Guida" +
-      "nceRequest.GuidanceRequestType\"\'\n\023Guidan" +
-      "ceRequestType\022\020\n\014LoadProgress\020\001\"L\n\020Guida" +
-      "nceResponse\0228\n\rsavedProgress\030\001 \003(\0132!.Gui" +
-      "danceService.GuidanceProgress\"o\n\017Guidanc" +
-      "eConfigs\022\024\n\014GuidanceData\030\001 \001(\014\022\023\n\013Action" +
-      "sData\030\002 \001(\014\022\030\n\020ConditionalsData\030\003 \001(\014\022\027\n",
-      "\017ConductressData\030\004 \001(\014B%\n\013com.rwprotoB\026G" +
-      "uidanceProgressProtos"
+      "nceRequest.GuidanceRequestType\022\021\n\tdebugM" +
+      "ode\030\002 \001(\010\"\'\n\023GuidanceRequestType\022\020\n\014Load" +
+      "Progress\020\001\"`\n\020GuidanceResponse\0228\n\rsavedP" +
+      "rogress\030\001 \003(\0132!.GuidanceService.Guidance" +
+      "Progress\022\022\n\nconfigdata\030\002 \001(\014B%\n\013com.rwpr" +
+      "otoB\026GuidanceProgressProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2582,19 +2020,13 @@ public final class GuidanceProgressProtos {
           internal_static_GuidanceService_GuidanceRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GuidanceService_GuidanceRequest_descriptor,
-              new java.lang.String[] { "RequestType", });
+              new java.lang.String[] { "RequestType", "DebugMode", });
           internal_static_GuidanceService_GuidanceResponse_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_GuidanceService_GuidanceResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GuidanceService_GuidanceResponse_descriptor,
-              new java.lang.String[] { "SavedProgress", });
-          internal_static_GuidanceService_GuidanceConfigs_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_GuidanceService_GuidanceConfigs_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_GuidanceService_GuidanceConfigs_descriptor,
-              new java.lang.String[] { "GuidanceData", "ActionsData", "ConditionalsData", "ConductressData", });
+              new java.lang.String[] { "SavedProgress", "Configdata", });
           return null;
         }
       };

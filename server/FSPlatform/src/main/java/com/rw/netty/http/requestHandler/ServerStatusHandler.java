@@ -29,12 +29,6 @@ public class ServerStatusHandler {
 		}
 		zoneInfo.setOnlineNum(onlineNum);
 		zoneInfo.setStatus(status);
-//		eServerStatusType type = eServerStatusType.valueOf(status);
-//		if(type.equals(eServerStatusType.SERVER_OPEN)){
-//			zoneInfo.setIsOpen(PlatformService.SERVER_STATUS_OPEN);
-//		}else{
-//			zoneInfo.setIsOpen(PlatformService.SERVER_STATUS_SHUTDOWN);
-//		}
 		zoneInfo.setNotifyTime(System.currentTimeMillis());
 	}
 }

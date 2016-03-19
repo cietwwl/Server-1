@@ -6,6 +6,7 @@ import java.util.Map;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 
 public class GmOnlineLimitModify implements IGmTask{
 
@@ -13,7 +14,7 @@ public class GmOnlineLimitModify implements IGmTask{
 	public GmResponse doTask(GmRequest request) {
 		GmResponse response = new GmResponse();
 		
-		int limit = (Integer)request.getArgs().get("value");
+		int limit = GmUtils.parseInt(request.getArgs(), "value");
 		if(limit > 0){//开启
 			ServerStatusMgr.setOnlineLimit(limit);
 		}

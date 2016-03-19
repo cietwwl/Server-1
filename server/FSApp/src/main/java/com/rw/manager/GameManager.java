@@ -128,7 +128,7 @@ public class GameManager {
 		AngleArrayMatchHelper.resetMatchData();
 		long end = System.currentTimeMillis();
 		System.err.println("万仙阵初始化匹配数据花费时间：" + (end - start) + "毫秒");
-		GameLog.debug("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
+		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
 
 	private static void initServerProperties() {
@@ -222,8 +222,13 @@ public class GameManager {
 		RankDataMgr.getInstance().flushData();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public static boolean isOnlineLimit() {
-		return ServerStatusMgr.getOnlineLimit() < UserChannelMgr.getCount();
+		//没有计算当前请求登陆的人，只能手动加1了
+		return ServerStatusMgr.getOnlineLimit() < (UserChannelMgr.getCount()+1);
 	}
 
 	public static boolean isWhiteListLimit(String accountId) {

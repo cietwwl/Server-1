@@ -5,13 +5,14 @@ import com.common.HPCUtil;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.ListRankingConfig;
 import com.rw.fsutil.ranking.ListRankingExtension;
+import com.rwbase.common.enu.ECareer;
 
 public enum ListRankingType implements TypeIdentification, ListRankingConfig {
 
-	WARRIOR_ARENA(1, 100000, "力士竞技场", 0, ArenaExtension.class), 
-	SWORDMAN_ARENA(2, 100000, "剑士竞技场", 0, ArenaExtension.class), 
-	MAGICAN_ARENA(3, 100000, "术士竞技场", 0, ArenaExtension.class), 
-	PRIEST_ARENA(4, 100000, "祭祀竞技场", 0, ArenaExtension.class), 
+	WARRIOR_ARENA(ECareer.Warrior.getValue(), 100000, "力士竞技场", 0, ArenaExtension.class), 
+	SWORDMAN_ARENA(ECareer.SwordsMan.getValue(), 100000, "剑士竞技场", 0, ArenaExtension.class), 
+	MAGICAN_ARENA(ECareer.Magican.getValue(), 100000, "术士竞技场", 0, ArenaExtension.class), 
+	PRIEST_ARENA(ECareer.Priest.getValue(), 100000, "祭祀竞技场", 0, ArenaExtension.class), 
 	
 	WARRIOR_ARENA_DAILY(11, 100000, "全日力士竞技场", 0, ArenaExtension.class), 
 	SWORDMAN_ARENA_DAILY(12, 100000, "全日剑士竞技场", 0, ArenaExtension.class), 

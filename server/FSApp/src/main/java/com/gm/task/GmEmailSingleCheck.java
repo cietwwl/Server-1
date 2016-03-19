@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.SocketHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -17,37 +18,41 @@ import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.email.EmailItem;
 
-public class GmEmailSingleCheck implements IGmTask{
+public class GmEmailSingleCheck implements IGmTask {
 
-	
-	
-	
 	@Override
 	public GmResponse doTask(GmRequest request) {
 		GmResponse response = new GmResponse();
-		response.setStatus(0);
-		response.setCount(1);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		
-		Map<String, Object> args = request.getArgs();
-		final EmailData emailData = GmEmailHelper.getEmailData(args);
-		
-		String roleId = (String)args.get("roleId");
-		Player targetPlayer = PlayerMgr.getInstance().find(roleId);
-		long taskId = emailData.getTaskId();
-		if(targetPlayer!=null){
-			List<EmailItem> allEmail = targetPlayer.getEmailMgr().getAllEmail();
-			List<GmEmailRepItem> repItemList = new ArrayList<GmEmailRepItem>();
-			for (EmailItem emailItem : allEmail) {
-				repItemList.add(toRepItem(emailItem));
-			}
-			resultMap.put("value", repItemList);
-			
-		}else{
-			GameLog.info(LogModule.GM.getName(), "GmEmailSingleSend", "GmEmailSingleSend[doTask] 没有找到用户 userId:"+roleId, null);
-		}
+		try {
+			response.setStatus(0);
+			response.setCount(1);
+			Map<String, Object> resultMap = new HashMap<String, Object>();
 
-		response.addResult(resultMap );
+			Map<String, Object> args = request.getArgs();
+			final EmailData emailData = GmEmailHelper.getEmailData(args);
+
+			String roleId = (String) args.get("roleId");
+			Player targetPlayer = PlayerMgr.getInstance().find(roleId);
+			long taskId = emailData.getTaskId();
+			if (targetPlayer != null) {
+				List<EmailItem> allEmail = targetPlayer.getEmailMgr()
+						.getAllEmail();
+				List<GmEmailRepItem> repItemList = new ArrayList<GmEmailRepItem>();
+				for (EmailItem emailItem : allEmail) {
+					repItemList.add(toRepItem(emailItem));
+				}
+				resultMap.put("value", repItemList);
+
+			} else {
+				GameLog.info(LogModule.GM.getName(), "GmEmailSingleSend",
+						"GmEmailSingleSend[doTask] 没有找到用户 userId:" + roleId,
+						null);
+			}
+
+			response.addResult(resultMap);
+		} catch (Exception ex) {
+			SocketHelper.processException(ex, response);
+		}
 		return response;
 	}
 
@@ -57,26 +62,26 @@ public class GmEmailSingleCheck implements IGmTask{
 		repItem.setTitle(emailItem.getTitle());
 		repItem.setContent(emailItem.getContent());
 		repItem.setTaskId(emailItem.getTaskId());
-		
+
 		repItem.setBeginTime(emailItem.getBeginTime());
 		repItem.setEndTime(emailItem.getEndTime());
 		repItem.setCoolTime(emailItem.getCoolTime());
 		repItem.setExpireTime(emailItem.getDeadlineTimeInMill());
-		
+
 		handleAttachment(emailItem, repItem);
-		
+
 		return repItem;
 	}
 
 	private void handleAttachment(EmailItem emailItem, GmEmailRepItem repItem) {
 		String attachment = emailItem.getEmailAttachment();
-		if(StringUtils.isNotBlank(attachment)){
+		if (StringUtils.isNotBlank(attachment)) {
 			String[] split = attachment.split(",");
 			List<GmItem> itemList = new ArrayList<GmItem>();
 			for (String itemTmp : split) {
 				String[] itemTmpSplit = itemTmp.split("~");
-				if(itemTmpSplit.length == 2){
-					GmItem gmItem =  new GmItem();
+				if (itemTmpSplit.length == 2) {
+					GmItem gmItem = new GmItem();
 					gmItem.setCode(Integer.valueOf(itemTmpSplit[0]));
 					gmItem.setAmount(Integer.valueOf(itemTmpSplit[1]));
 				}
@@ -84,8 +89,5 @@ public class GmEmailSingleCheck implements IGmTask{
 			repItem.setToolList(itemList);
 		}
 	}
-
-
-	
 
 }

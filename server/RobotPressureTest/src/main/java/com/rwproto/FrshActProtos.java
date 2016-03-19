@@ -422,7 +422,7 @@ public final class FrshActProtos {
      * <code>optional int32 result = 2;</code>
      *
      * <pre>
-     *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+     *0 Ê§°Ü  1 ³É¹¦
      * </pre>
      */
     boolean hasResult();
@@ -430,7 +430,7 @@ public final class FrshActProtos {
      * <code>optional int32 result = 2;</code>
      *
      * <pre>
-     *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+     *0 Ê§°Ü  1 ³É¹¦
      * </pre>
      */
     int getResult();
@@ -579,7 +579,7 @@ public final class FrshActProtos {
      * <code>optional int32 result = 2;</code>
      *
      * <pre>
-     *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+     *0 Ê§°Ü  1 ³É¹¦
      * </pre>
      */
     public boolean hasResult() {
@@ -589,7 +589,7 @@ public final class FrshActProtos {
      * <code>optional int32 result = 2;</code>
      *
      * <pre>
-     *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+     *0 Ê§°Ü  1 ³É¹¦
      * </pre>
      */
     public int getResult() {
@@ -941,7 +941,7 @@ public final class FrshActProtos {
        * <code>optional int32 result = 2;</code>
        *
        * <pre>
-       *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+       *0 Ê§°Ü  1 ³É¹¦
        * </pre>
        */
       public boolean hasResult() {
@@ -951,7 +951,7 @@ public final class FrshActProtos {
        * <code>optional int32 result = 2;</code>
        *
        * <pre>
-       *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+       *0 Ê§°Ü  1 ³É¹¦
        * </pre>
        */
       public int getResult() {
@@ -961,7 +961,7 @@ public final class FrshActProtos {
        * <code>optional int32 result = 2;</code>
        *
        * <pre>
-       *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+       *0 Ê§°Ü  1 ³É¹¦
        * </pre>
        */
       public Builder setResult(int value) {
@@ -974,7 +974,7 @@ public final class FrshActProtos {
        * <code>optional int32 result = 2;</code>
        *
        * <pre>
-       *0 Ê§ï¿½ï¿½  1 ï¿½É¹ï¿½
+       *0 Ê§°Ü  1 ³É¹¦
        * </pre>
        */
       public Builder clearResult() {

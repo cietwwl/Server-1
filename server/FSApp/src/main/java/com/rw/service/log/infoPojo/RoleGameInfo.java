@@ -25,8 +25,10 @@ public class RoleGameInfo {
 	
 	private String userCreatedTime;
 	
-	private String onlineTime;
+//	private String onlineTime;
 	
+	//统计信息
+	private String statInfo;
 	
 	
 	final private static Field[] fieldList;
@@ -73,7 +75,18 @@ public class RoleGameInfo {
 		}
 		if(player.getZoneLoginInfo()!=null){
 			long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
-			roleGameInfo.setOnlineTime(""+onlineTime);
+			StringBuilder statInfo = new StringBuilder();
+			
+			
+			int giftGold = player.getUserGameDataMgr().getGiftGold();
+			int chargeGold = player.getUserGameDataMgr().getChargeGold();
+			long coin = player.getUserGameDataMgr().getCoin();			
+			
+			statInfo.append("online_time:").append(onlineTime).append("#")
+					.append("main_coin:").append(chargeGold).append("#")
+					.append("gift_coin:").append(giftGold).append("#")
+					.append("sub_coin:").append(coin);
+			roleGameInfo.setStatInfo(statInfo.toString());
 		}
 		
 		return roleGameInfo;
@@ -127,13 +140,23 @@ public class RoleGameInfo {
 	public void setRoleCreatedTime(String roleCreatedTime) {
 		this.roleCreatedTime = roleCreatedTime;
 	}
+	
+	
 
-	public String getOnlineTime() {
-		return onlineTime;
+//	public String getOnlineTime() {
+//		return onlineTime;
+//	}
+//
+//	public void setOnlineTime(String onlineTime) {
+//		this.onlineTime = onlineTime;
+//	}
+
+	public String getStatInfo() {
+		return statInfo;
 	}
 
-	public void setOnlineTime(String onlineTime) {
-		this.onlineTime = onlineTime;
+	public void setStatInfo(String statInfo) {
+		this.statInfo = statInfo;
 	}
 
 	public String getUserCreatedTime() {

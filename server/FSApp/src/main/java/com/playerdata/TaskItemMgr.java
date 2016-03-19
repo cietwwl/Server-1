@@ -151,9 +151,10 @@ public class TaskItemMgr implements TaskMgrIF {
 					task.setCurProgress(curProgress);
 					if (task.getCurProgress() >= task.getTotalProgress()) {
 						task.setDrawState(1);
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main);
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,true);
 					} else {
 						task.setDrawState(0);
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,false);
 					}
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
@@ -169,9 +170,10 @@ public class TaskItemMgr implements TaskMgrIF {
 				task.setCurProgress(count + task.getCurProgress());
 				if (task.getCurProgress() >= task.getTotalProgress()) {
 					task.setDrawState(1);
-					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main);
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,true);
 				} else {
 					task.setDrawState(0);
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,false);
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
 				break;

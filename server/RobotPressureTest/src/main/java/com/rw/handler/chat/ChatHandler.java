@@ -33,7 +33,7 @@ public class ChatHandler {
 		MsgChatRequest.Builder req = MsgChatRequest.newBuilder();
 		req.setChatType(eChatType.CHAT_WORLD);
 
-		MessageUserInfo sendUserInfo = MessageUserInfo.newBuilder().setUserId(client.getAccountId()).setUserName(client.getAccountId()).setLevel(60).build();
+		MessageUserInfo sendUserInfo = MessageUserInfo.newBuilder().setUserId(client.getAccountId()).setUserName(client.getAccountId()).setLevel(30).build();
 		ChatMessageData messageData = ChatMessageData.newBuilder().setSendMessageUserInfo(sendUserInfo).setMessage(message).build();
 
 		req.setChatMessageData(messageData);
@@ -58,7 +58,7 @@ public class ChatHandler {
 
 					eChatResultType result = rsp.getChatResultType();
 					if (result == eChatResultType.FAIL) {
-						RobotLog.fail("ChatHandler[send] 服务器处理消息失败 "+result);
+						RobotLog.fail("ChatHandler[send] 服务器处理消息失败 " + result);
 						return false;
 					}
 

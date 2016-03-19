@@ -1,19 +1,12 @@
 package com.common.playerFilter;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PlayerFilterCondition {
 
-	public enum FilterType{
-		LEVEL_SPAN,  //按等级赛选
-		CREATE_TIME; //按角色创建时间赛选
-		
-		
-		public static FilterType valueOf(int ordinal){
-			return values()[ordinal];
-		}
-	}
 	
 	private int type; //1 等级区间 2 角色创建时间区间
 	private long maxValue;
@@ -36,6 +29,4 @@ public class PlayerFilterCondition {
 	public void setMinValue(long minValue) {
 		this.minValue = minValue;
 	}
-	
-	
 }

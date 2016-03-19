@@ -17,7 +17,7 @@ public final class PlatformGSMsg {
      * <code>USER_INFO = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *Íæ¼ÒÐÅÏ¢
      * </pre>
      */
     USER_INFO(0, 1),
@@ -25,7 +25,7 @@ public final class PlatformGSMsg {
      * <code>USER_STATUS = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½×´Ì¬
+     *Íæ¼Ò×´Ì¬
      * </pre>
      */
     USER_STATUS(1, 2),
@@ -33,7 +33,7 @@ public final class PlatformGSMsg {
      * <code>GAME_SERVER_STATUS = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
+     *ÓÎÏ··þÎñÆ÷×´Ì¬
      * </pre>
      */
     GAME_SERVER_STATUS(2, 3),
@@ -43,7 +43,7 @@ public final class PlatformGSMsg {
      * <code>USER_INFO = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *Íæ¼ÒÐÅÏ¢
      * </pre>
      */
     public static final int USER_INFO_VALUE = 1;
@@ -51,7 +51,7 @@ public final class PlatformGSMsg {
      * <code>USER_STATUS = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½×´Ì¬
+     *Íæ¼Ò×´Ì¬
      * </pre>
      */
     public static final int USER_STATUS_VALUE = 2;
@@ -59,7 +59,7 @@ public final class PlatformGSMsg {
      * <code>GAME_SERVER_STATUS = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
+     *ÓÎÏ··þÎñÆ÷×´Ì¬
      * </pre>
      */
     public static final int GAME_SERVER_STATUS_VALUE = 3;

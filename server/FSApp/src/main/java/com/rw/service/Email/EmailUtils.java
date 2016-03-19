@@ -84,13 +84,35 @@ public class EmailUtils {
     	emailData.replaceContent(args);
     	return sendEmail(userId, emailData);
     }
+	
+	public static boolean sendEmail(String userId, String cfgId, String attachment,long sendTime){
+    	EmailData emailData = new EmailData();
+    	
+    	EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(cfgId);    	
+    	if(!StringUtils.isEmpty(attachment)){
+    		emailData.setEmailAttachment(attachment);
+    	}else{
+    		emailData.setEmailAttachment(cfg.getAttachment());
+    	}
+    	emailData.setTitle(cfg.getTitle());
+    	emailData.setContent(cfg.getContent());
+    	emailData.setSender(cfg.getSender());
+    	emailData.setCheckIcon(cfg.getCheckIcon());
+    	emailData.setSubjectIcon(cfg.getSubjectIcon());
+    	emailData.setDeleteType(EEmailDeleteType.valueOf(cfg.getDeleteType()));
+    	emailData.setDelayTime(cfg.getDelayTime());
+    	emailData.setDeadlineTime(cfg.getDeadlineTime());    	
+
+    	emailData.replaceContent(new ArrayList<String>());
+    	return sendEmail(userId, emailData,sendTime);
+    }
     
-    /**
+	   /**
      * 发送邮件
      * @param userId 收件人
      * @param emailData 邮件数据
      * */
-	public static boolean sendEmail(String userId, EmailData emailData){
+	public static boolean sendEmail(String userId, EmailData emailData, long sendTime){
     	TableEmail otherTable = getOtherTableFriend(userId);
     	if(otherTable == null){
     		return false;
@@ -106,7 +128,7 @@ public class EmailUtils {
     	item.setCheckIcon(emailData.getCheckIcon());
     	item.setSubjectIcon(emailData.getSubjectIcon());
     	item.setDeleteType(emailData.getDeleteType().getValue());
-    	item.setSendTime(Calendar.getInstance().getTimeInMillis());
+    	item.setSendTime(sendTime);
     	item.setCoolTime(emailData.getCoolTime());
     	item.setBeginTime(emailData.getBeginTime());
     	item.setEndTime(emailData.getEndTime());
@@ -121,10 +143,18 @@ public class EmailUtils {
 		}else{
 			item.setDeadlineTimeInMill(System.currentTimeMillis() + emailData.getDelayTime() * 1000L);
 		}
-    	HotPointMgr.changeHotPointState(userId, EHotPointType.Email, true);
     	otherTable.addEmail(item);
     	TableEmailDAO.getInstance().update(otherTable);
     	return true;
+    }
+	
+    /**
+     * 发送邮件
+     * @param userId 收件人
+     * @param emailData 邮件数据
+     * */
+	public static boolean sendEmail(String userId, EmailData emailData){
+    	return sendEmail(userId, emailData, Calendar.getInstance().getTimeInMillis());
     }
 	
 	/**

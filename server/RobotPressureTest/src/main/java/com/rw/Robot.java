@@ -1,13 +1,12 @@
 package com.rw;
 
-import java.util.Collections;
-
 import org.apache.log4j.PropertyConfigurator;
 
 import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
 import com.rw.handler.battle.PVEHandler;
 import com.rw.handler.battle.PVPHandler;
+import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.email.EmailHandler;
@@ -16,7 +15,9 @@ import com.rw.handler.friend.FriendHandler;
 import com.rw.handler.gamble.GambleHandler;
 import com.rw.handler.gameLogin.GameLoginHandler;
 import com.rw.handler.gameLogin.SelectCareerHandler;
+import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
+import com.rw.handler.magic.MagicHandler;
 import com.rw.handler.platform.PlatformHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.task.TaskHandler;
@@ -81,15 +82,15 @@ public class Robot {
 		try {
 			if (client == null) {
 				client = PlatformHandler.instance().login(accountId);
-				if(client!=null){
+				if (client != null) {
 					loadZoneListSuccess = PlatformHandler.instance().loadZoneAndRoleList(client);
 				}
 			}
 			if (client == null) {
 				return false;
 			}
-			
-			loadZoneListSuccess = client.getServerList()!=null && !client.getServerList().isEmpty();
+
+			loadZoneListSuccess = client.getServerList() != null && !client.getServerList().isEmpty();
 
 		} catch (Throwable e) {
 			RobotLog.fail("loginPlatform error", e);
@@ -103,8 +104,7 @@ public class Robot {
 			return false;
 		}
 		int zoneId = getTargetZoneId();
-		boolean createSuccess = GameLoginHandler.instance().createRole(client,
-				zoneId);
+		boolean createSuccess = GameLoginHandler.instance().createRole(client, zoneId);
 
 		return createSuccess;
 	}
@@ -117,9 +117,8 @@ public class Robot {
 		int zoneId = getTargetZoneId();
 		boolean createSuccess = false;
 		try {
-			
-			createSuccess = GameLoginHandler.instance().loginGame(client,
-					zoneId);
+
+			createSuccess = GameLoginHandler.instance().loginGame(client, zoneId);
 		} catch (Exception e) {
 			RobotLog.fail("loginGame error", e);
 		}
@@ -172,8 +171,35 @@ public class Robot {
 
 	public boolean gainItem(int modelId) {
 		// 803004
-		boolean sendSuccess = GmHandler.instance().send(client,
-				"* additem " + modelId + " 1");
+		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + modelId + " 1");
+		return sendSuccess;
+	}
+
+	public boolean gainItem(int modelId, int count) {
+		// 803004
+		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + modelId + " " + count);
+		return sendSuccess;
+	}
+
+	/**
+	 * 作弊添加装备
+	 * 
+	 * @param heroModelId 如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
+	 * @return
+	 */
+	public boolean gmGainHeroEquip(int heroModelId) {
+		boolean sendSuccess = GmHandler.instance().send(client, "* gainHeroEquip " + heroModelId);
+		return sendSuccess;
+	}
+
+	/**
+	 * 作弊穿装备
+	 * 
+	 * @param heroModelId 如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
+	 * @return
+	 */
+	public boolean gmWearEquip(int heroModelId) {
+		boolean sendSuccess = GmHandler.instance().send(client, "* wearEquip " + heroModelId);
 		return sendSuccess;
 	}
 
@@ -186,21 +212,94 @@ public class Robot {
 		return sendSuccess;
 	}
 
+	/**
+	 * 穿装备
+	 * 
+	 * @return
+	 */
+	public boolean wearEquip() {
+		// 作弊添加装备
+		gmGainHeroEquip(0);
+		// 穿装备
+		return EquipHandler.instance().wearEquip(client);
+	}
+
+	/**
+	 * 装备附灵
+	 * 
+	 * @return
+	 */
+	public boolean equipAttach() {
+		// gainItem(804001, 30);
+		return EquipHandler.instance().equipAttach(client);
+	}
+
+	/**
+	 * 英雄进阶
+	 * 
+	 * @return
+	 */
+	public boolean heroAdvance() {
+		// 全部穿上装备
+		gmWearEquip(0);
+		return EquipHandler.instance().heroAdvance(client);
+	}
+
+	/**
+	 * 英雄升星
+	 * 
+	 * @return
+	 */
+	public boolean heroUpgrade() {
+		// 获取魂石
+		gainItem(708001, 10);
+		return HeroHandler.getHandler().heroUpgrade(client);
+	}
+
+	/**
+	 * 法宝强化
+	 * 
+	 * @return
+	 */
+	public boolean magicForge() {
+		// 添加一个法宝
+		// gainItem(602003);
+		// 添加材料
+		// gainItem(801001, 1000);
+		return MagicHandler.getHandler().magicForge(client);
+	}
+
+	public boolean givePowerAll() {
+		return FriendHandler.instance().givePowerAll(client);
+	}
+
+	public boolean receivePowerAll() {
+		return FriendHandler.instance().receivePowerAll(client);
+	}
+
+	// 100100001542-(3013) 100100000309-(HC) 100100001561-(3012)
+	private static final String friendUserId = "100100000309";
+
+	public boolean givePower() {
+		return FriendHandler.instance().givePowerOne(client, friendUserId);
+	}
+
+	public boolean receivePower() {
+		return FriendHandler.instance().receivePowerOne(client, friendUserId);
+	}
+
 	public boolean addCoin(int coin) {
-		boolean sendSuccess = GmHandler.instance().send(client,
-				"* addCoin " + coin);
+		boolean sendSuccess = GmHandler.instance().send(client, "* addCoin " + coin);
 		return sendSuccess;
 	}
 
 	public boolean addPower(int power) {
-		boolean sendSuccess = GmHandler.instance().send(client,
-				"* addPower " + power);
+		boolean sendSuccess = GmHandler.instance().send(client, "* addPower " + power);
 		return sendSuccess;
 	}
 
 	public boolean addGold(int gold) {
-		boolean sendSuccess = GmHandler.instance().send(client,
-				"* addGold " + gold);
+		boolean sendSuccess = GmHandler.instance().send(client, "* addGold " + gold);
 		return sendSuccess;
 	}
 
@@ -222,8 +321,7 @@ public class Robot {
 
 	// 获取测试邮件，包含道具金钱等
 	public boolean getTestGift() {
-		boolean sendSuccess = GmHandler.instance().send(client,
-				"* sendtestemail 1");
+		boolean sendSuccess = GmHandler.instance().send(client, "* sendtestemail 1");
 		boolean takeSuccess = EmailHandler.instance().openEmailList(client);
 		return sendSuccess && takeSuccess;
 	}
@@ -234,8 +332,7 @@ public class Robot {
 	 * @return
 	 */
 	public boolean addFriend(String friendUserId) {
-		boolean sendSuccess = FriendHandler.instance()
-				.add(client, friendUserId);
+		boolean sendSuccess = FriendHandler.instance().add(client, friendUserId);
 		return sendSuccess;
 	}
 
@@ -245,8 +342,7 @@ public class Robot {
 	 * @return
 	 */
 	public boolean removeFriend(String friendUserId) {
-		boolean sendSuccess = FriendHandler.instance().remove(client,
-				friendUserId);
+		boolean sendSuccess = FriendHandler.instance().remove(client, friendUserId);
 		return sendSuccess;
 	}
 
@@ -298,7 +394,7 @@ public class Robot {
 
 	public void close() {
 		if (client != null) {
-//			ClientPool.remove(client.getAccountId());
+			// ClientPool.remove(client.getAccountId());
 			try {
 				client.closeConnect();
 			} catch (Exception e) {
@@ -306,8 +402,8 @@ public class Robot {
 			}
 		}
 	}
-	
-	public void quitPlatForm(){
+
+	public void quitPlatForm() {
 		if (client != null) {
 			ClientPool.remove(client.getAccountId());
 			try {
@@ -315,9 +411,12 @@ public class Robot {
 			} catch (Exception e) {
 				// donothing
 			}
-			client= null;
+			client = null;
 		}
 	}
-	
+
+	public BattleTowerHandler getBattleTowerHandler() {
+		return new BattleTowerHandler(client);
+	}
 
 }

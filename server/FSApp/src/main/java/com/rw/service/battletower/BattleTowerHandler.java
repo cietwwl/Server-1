@@ -21,13 +21,11 @@ import com.rwbase.dao.battletower.pojo.BattleTowerHeroInfo;
 import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
 import com.rwbase.dao.battletower.pojo.BossCacheInfo;
 import com.rwbase.dao.battletower.pojo.BossInfo;
-import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossTemplate;
-import com.rwbase.dao.battletower.pojo.cfg.BattleTowerCommonCfg;
+import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossCfg;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerConfigCfg;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerFloorCfg;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerRewardCfg;
 import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerBossCfgDao;
-import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerCommonCfgConfig;
 import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao;
 import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao;
 import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao;
@@ -79,7 +77,6 @@ import com.rwproto.BattleTowerServiceProtos.UseLuckyKeyRspMsg;
  * @Description 试练塔处理的Handler
  */
 public class BattleTowerHandler {
-	private static final int BOSS_RANDOM_RATE = 10000;
 
 	/**
 	 * 打开角色的试练塔主界面
@@ -204,12 +201,7 @@ public class BattleTowerHandler {
 			}
 		}
 
-		// 发送宝匣配置给客户端
-		BattleTowerCommonCfgConfig commonCfgHelper = BattleTowerCommonCfgConfig.getInstance();
-		rsp.setOpenBoxTip(commonCfgHelper.getOpenboxtip());
-		rsp.setUseKeyCount(commonCfgHelper.getUsekeycount());
-		
-		System.err.println(rsp.build());
+		// System.err.println(rsp.build());
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		// 更新数据到数据库
@@ -286,8 +278,6 @@ public class BattleTowerHandler {
 		}
 
 		rsp.setCopyId(rewardCfg.getCopyId());
-		boolean isBreak = tableBattleTower.isBreak();// 是否被中断
-		rsp.setIsBreak(isBreak);
 
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
@@ -537,9 +527,9 @@ public class BattleTowerHandler {
 				BattleTowerFloorCfg cfg0 = allCfg.get(i);
 				int floor = cfg0.getFloor();
 				if (floor >= startFloor && floor <= highestFloor && cfg0.getBossPro() > 0) {
-					int rNum = r.nextInt(BOSS_RANDOM_RATE);// 100中随机
+					int rNum = r.nextInt(100);// 100中随机
 					if (rNum >= 0 && rNum < cfg0.getBossPro()) {// 随机到了
-						BattleTowerBossTemplate boss = bossCfgDao.ranBossInfo(player.getLevel());
+						BattleTowerBossCfg boss = bossCfgDao.ranBossInfo(player.getLevel());
 						if (boss != null) {
 							// Boss信息
 							BossInfo bossInfo = new BossInfo();
@@ -570,7 +560,7 @@ public class BattleTowerHandler {
 					// 如果是报底层
 					if (cfg0.getBossBreakEvenNum() > 0) {// 确定是保底层，已经产出了一个
 						if (!tableBattleTower.hasBossInfoInMark(cfg0.getMarkId())) {// 已经有了
-							BattleTowerBossTemplate boss = bossCfgDao.ranBossInfo(player.getLevel());
+							BattleTowerBossCfg boss = bossCfgDao.ranBossInfo(player.getLevel());
 							if (boss != null) {
 								// Boss信息
 								BossInfo bossInfo = new BossInfo();
@@ -704,8 +694,7 @@ public class BattleTowerHandler {
 		Map<Integer, Integer> rewardItemMap = new HashMap<Integer, Integer>();// 奖励的Map
 		if (keyType == EKeyType.KEY_COPPER) {// 铜
 			if (useNum > tableBattleTower.getCopper_key()) {
-				SetFail(commonRsp, "试练塔试手气", userId, String.format("钥匙类型是%s，钥匙数量是%s，现有数量%s，数量不足", keyType, useNum, tableBattleTower.getCopper_key()),
-						"钥匙数量不足");
+				SetFail(commonRsp, "试练塔试手气", userId, String.format("钥匙类型是%s，钥匙数量是%s，现有数量%s，数量不足", keyType, useNum, tableBattleTower.getCopper_key()), "钥匙数量不足");
 				return;
 			}
 
@@ -713,8 +702,7 @@ public class BattleTowerHandler {
 			dropArr = uniqueCfg.getCopperKeyDropIdArr();
 		} else if (keyType == EKeyType.KEY_SILVER) {// 银
 			if (useNum > tableBattleTower.getSilver_key()) {
-				SetFail(commonRsp, "试练塔试手气", userId, String.format("钥匙类型是%s，钥匙数量是%s，现有数量%s，数量不足", keyType, useNum, tableBattleTower.getSilver_key()),
-						"钥匙数量不足");
+				SetFail(commonRsp, "试练塔试手气", userId, String.format("钥匙类型是%s，钥匙数量是%s，现有数量%s，数量不足", keyType, useNum, tableBattleTower.getSilver_key()), "钥匙数量不足");
 				return;
 			}
 
@@ -722,8 +710,7 @@ public class BattleTowerHandler {
 			dropArr = uniqueCfg.getSilverKeyDropIdArr();
 		} else if (keyType == EKeyType.KEY_GOLD) {// 金
 			if (useNum > tableBattleTower.getGold_key()) {
-				SetFail(commonRsp, "试练塔试手气", userId, String.format("钥匙类型是%s，钥匙数量是%s，现有数量%s，数量不足", keyType, useNum, tableBattleTower.getGold_key()),
-						"钥匙数量不足");
+				SetFail(commonRsp, "试练塔试手气", userId, String.format("钥匙类型是%s，钥匙数量是%s，现有数量%s，数量不足", keyType, useNum, tableBattleTower.getGold_key()), "钥匙数量不足");
 				return;
 			}
 
@@ -1073,7 +1060,6 @@ public class BattleTowerHandler {
 		BattleTowerConfigCfg configCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();
 		int perDayBossSize = configCfg.getPerDayBossSize();// 当天可以产生的Boss数量
 
-		Random r = new Random();
 		Integer startFloor = floorList.get(0);
 		for (int i = 0, end = floorList.size(); i < end; i++) {
 			boolean canBoss = false;// 是否可以产生Boss
@@ -1085,7 +1071,8 @@ public class BattleTowerHandler {
 					continue;
 				}
 
-				int rNum = r.nextInt(BOSS_RANDOM_RATE);
+				Random r = new Random();
+				int rNum = r.nextInt(100);
 				if (rNum >= 0 && rNum < floorCfg.getBossPro()) {
 					canBoss = true;
 				}
@@ -1103,7 +1090,7 @@ public class BattleTowerHandler {
 
 			// 产生Boss
 			if (canBoss) {
-				BattleTowerBossTemplate ranBossInfo = BattleTowerBossCfgDao.getCfgDao().ranBossInfo(player.getLevel());
+				BattleTowerBossCfg ranBossInfo = BattleTowerBossCfgDao.getCfgDao().ranBossInfo(player.getLevel());
 				if (ranBossInfo != null) {
 					BossInfo bossInfo = new BossInfo();
 					bossInfo.setBossId(ranBossInfo.getBossId());// Boss的模版Id
@@ -1124,7 +1111,6 @@ public class BattleTowerHandler {
 		}
 
 		dao.update(tableBattleTower);
-		System.err.println(rsp.build());
 		commonRsp.setRspBody(rsp.build().toByteString());
 	}
 
@@ -1211,7 +1197,7 @@ public class BattleTowerHandler {
 
 		// 开始准备处理Boss的奖励
 		BattleTowerBossCfgDao bossCfgDao = BattleTowerBossCfgDao.getCfgDao();
-		BattleTowerBossTemplate bossCfg = bossCfgDao.getBossTemplate(bossInfo.getBossId());
+		BattleTowerBossCfg bossCfg = (BattleTowerBossCfg) bossCfgDao.getCfgById(String.valueOf(bossInfo.getBossId()));
 		if (bossCfg == null) {
 			SetFail(commonRsp, "挑战Boss结束", userId, String.format("对应的Boss模版Id为%s的BossCfg模版不存在", bossInfo.getBossId()), "Boss不存在");
 			return;
@@ -1272,8 +1258,7 @@ public class BattleTowerHandler {
 	 * @param tableBattleTower
 	 * @return
 	 */
-	private static List<RewardInfoMsg> reward(Player player, int sweepStartFloor, int highestFloor, TableBattleTower tableBattleTower,
-			List<Integer> groupIdList) {
+	private static List<RewardInfoMsg> reward(Player player, int sweepStartFloor, int highestFloor, TableBattleTower tableBattleTower, List<Integer> groupIdList) {
 		// 获取要奖励的物品
 		BattleTowerFloorCfgDao cfgDao = BattleTowerFloorCfgDao.getCfgDao();
 		// List<Integer> groupIdList = new ArrayList<Integer>();// 可以获取奖励的组Id

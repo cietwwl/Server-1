@@ -17,7 +17,7 @@ public final class EmailProtos {
      * <code>Email_List = 1;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þÁÐ±íÇëÇó
      * </pre>
      */
     Email_List(0, 1),
@@ -25,7 +25,7 @@ public final class EmailProtos {
      * <code>Email_Check = 2;</code>
      *
      * <pre>
-     *ï¿½é¿´ï¿½Ê¼ï¿½
+     *²é¿´ÓÊ¼þ
      * </pre>
      */
     Email_Check(1, 2),
@@ -33,7 +33,7 @@ public final class EmailProtos {
      * <code>Email_GetAttachment = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+     *ÌáÈ¡¸½¼þ
      * </pre>
      */
     Email_GetAttachment(2, 3),
@@ -43,7 +43,7 @@ public final class EmailProtos {
      * <code>Email_List = 1;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þÁÐ±íÇëÇó
      * </pre>
      */
     public static final int Email_List_VALUE = 1;
@@ -51,7 +51,7 @@ public final class EmailProtos {
      * <code>Email_Check = 2;</code>
      *
      * <pre>
-     *ï¿½é¿´ï¿½Ê¼ï¿½
+     *²é¿´ÓÊ¼þ
      * </pre>
      */
     public static final int Email_Check_VALUE = 2;
@@ -59,7 +59,7 @@ public final class EmailProtos {
      * <code>Email_GetAttachment = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
+     *ÌáÈ¡¸½¼þ
      * </pre>
      */
     public static final int Email_GetAttachment_VALUE = 3;
@@ -223,7 +223,7 @@ public final class EmailProtos {
      * <code>optional string emailId = 2;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ID
+     *ÓÊ¼þID
      * </pre>
      */
     boolean hasEmailId();
@@ -231,7 +231,7 @@ public final class EmailProtos {
      * <code>optional string emailId = 2;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ID
+     *ÓÊ¼þID
      * </pre>
      */
     java.lang.String getEmailId();
@@ -239,7 +239,7 @@ public final class EmailProtos {
      * <code>optional string emailId = 2;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ID
+     *ÓÊ¼þID
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -375,7 +375,7 @@ public final class EmailProtos {
      * <code>optional string emailId = 2;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ID
+     *ÓÊ¼þID
      * </pre>
      */
     public boolean hasEmailId() {
@@ -385,7 +385,7 @@ public final class EmailProtos {
      * <code>optional string emailId = 2;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ID
+     *ÓÊ¼þID
      * </pre>
      */
     public java.lang.String getEmailId() {
@@ -406,7 +406,7 @@ public final class EmailProtos {
      * <code>optional string emailId = 2;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ID
+     *ÓÊ¼þID
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -719,7 +719,7 @@ public final class EmailProtos {
        * <code>optional string emailId = 2;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ID
+       *ÓÊ¼þID
        * </pre>
        */
       public boolean hasEmailId() {
@@ -729,7 +729,7 @@ public final class EmailProtos {
        * <code>optional string emailId = 2;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ID
+       *ÓÊ¼þID
        * </pre>
        */
       public java.lang.String getEmailId() {
@@ -747,7 +747,7 @@ public final class EmailProtos {
        * <code>optional string emailId = 2;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ID
+       *ÓÊ¼þID
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -767,7 +767,7 @@ public final class EmailProtos {
        * <code>optional string emailId = 2;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ID
+       *ÓÊ¼þID
        * </pre>
        */
       public Builder setEmailId(
@@ -784,7 +784,7 @@ public final class EmailProtos {
        * <code>optional string emailId = 2;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ID
+       *ÓÊ¼þID
        * </pre>
        */
       public Builder clearEmailId() {
@@ -797,7 +797,7 @@ public final class EmailProtos {
        * <code>optional string emailId = 2;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ID
+       *ÓÊ¼þID
        * </pre>
        */
       public Builder setEmailIdBytes(
@@ -830,7 +830,7 @@ public final class EmailProtos {
      * <code>required .EmailRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     boolean hasRequestType();
@@ -838,7 +838,7 @@ public final class EmailProtos {
      * <code>required .EmailRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     com.rwproto.EmailProtos.EmailRequestType getRequestType();
@@ -848,7 +848,7 @@ public final class EmailProtos {
      * <code>required .EmailResultType resultType = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *½á¹ûÀàÐÍ
      * </pre>
      */
     boolean hasResultType();
@@ -856,7 +856,7 @@ public final class EmailProtos {
      * <code>required .EmailResultType resultType = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *½á¹ûÀàÐÍ
      * </pre>
      */
     com.rwproto.EmailProtos.EmailResultType getResultType();
@@ -866,7 +866,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     java.util.List<com.rwproto.EmailProtos.EmailInfo> 
@@ -875,7 +875,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     com.rwproto.EmailProtos.EmailInfo getEmailList(int index);
@@ -883,7 +883,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     int getEmailListCount();
@@ -891,7 +891,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     java.util.List<? extends com.rwproto.EmailProtos.EmailInfoOrBuilder> 
@@ -900,7 +900,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     com.rwproto.EmailProtos.EmailInfoOrBuilder getEmailListOrBuilder(
@@ -911,7 +911,7 @@ public final class EmailProtos {
      * <code>optional .EmailInfo emailInfo = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸öÓÊ¼þÐÅÏ¢
      * </pre>
      */
     boolean hasEmailInfo();
@@ -919,7 +919,7 @@ public final class EmailProtos {
      * <code>optional .EmailInfo emailInfo = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸öÓÊ¼þÐÅÏ¢
      * </pre>
      */
     com.rwproto.EmailProtos.EmailInfo getEmailInfo();
@@ -927,10 +927,37 @@ public final class EmailProtos {
      * <code>optional .EmailInfo emailInfo = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸öÓÊ¼þÐÅÏ¢
      * </pre>
      */
     com.rwproto.EmailProtos.EmailInfoOrBuilder getEmailInfoOrBuilder();
+
+    // optional string failResult = 5;
+    /**
+     * <code>optional string failResult = 5;</code>
+     *
+     * <pre>
+     *½á¹û
+     * </pre>
+     */
+    boolean hasFailResult();
+    /**
+     * <code>optional string failResult = 5;</code>
+     *
+     * <pre>
+     *½á¹û
+     * </pre>
+     */
+    java.lang.String getFailResult();
+    /**
+     * <code>optional string failResult = 5;</code>
+     *
+     * <pre>
+     *½á¹û
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getFailResultBytes();
   }
   /**
    * Protobuf type {@code EmailResponse}
@@ -1026,6 +1053,11 @@ public final class EmailProtos {
               bitField0_ |= 0x00000004;
               break;
             }
+            case 42: {
+              bitField0_ |= 0x00000008;
+              failResult_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1076,7 +1108,7 @@ public final class EmailProtos {
      * <code>required .EmailRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     public boolean hasRequestType() {
@@ -1086,7 +1118,7 @@ public final class EmailProtos {
      * <code>required .EmailRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     public com.rwproto.EmailProtos.EmailRequestType getRequestType() {
@@ -1100,7 +1132,7 @@ public final class EmailProtos {
      * <code>required .EmailResultType resultType = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *½á¹ûÀàÐÍ
      * </pre>
      */
     public boolean hasResultType() {
@@ -1110,7 +1142,7 @@ public final class EmailProtos {
      * <code>required .EmailResultType resultType = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *½á¹ûÀàÐÍ
      * </pre>
      */
     public com.rwproto.EmailProtos.EmailResultType getResultType() {
@@ -1124,7 +1156,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     public java.util.List<com.rwproto.EmailProtos.EmailInfo> getEmailListList() {
@@ -1134,7 +1166,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     public java.util.List<? extends com.rwproto.EmailProtos.EmailInfoOrBuilder> 
@@ -1145,7 +1177,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     public int getEmailListCount() {
@@ -1155,7 +1187,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     public com.rwproto.EmailProtos.EmailInfo getEmailList(int index) {
@@ -1165,7 +1197,7 @@ public final class EmailProtos {
      * <code>repeated .EmailInfo emailList = 3;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+     *ÓÊ¼þÁÐ±í
      * </pre>
      */
     public com.rwproto.EmailProtos.EmailInfoOrBuilder getEmailListOrBuilder(
@@ -1180,7 +1212,7 @@ public final class EmailProtos {
      * <code>optional .EmailInfo emailInfo = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸öÓÊ¼þÐÅÏ¢
      * </pre>
      */
     public boolean hasEmailInfo() {
@@ -1190,7 +1222,7 @@ public final class EmailProtos {
      * <code>optional .EmailInfo emailInfo = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸öÓÊ¼þÐÅÏ¢
      * </pre>
      */
     public com.rwproto.EmailProtos.EmailInfo getEmailInfo() {
@@ -1200,11 +1232,66 @@ public final class EmailProtos {
      * <code>optional .EmailInfo emailInfo = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸öÓÊ¼þÐÅÏ¢
      * </pre>
      */
     public com.rwproto.EmailProtos.EmailInfoOrBuilder getEmailInfoOrBuilder() {
       return emailInfo_;
+    }
+
+    // optional string failResult = 5;
+    public static final int FAILRESULT_FIELD_NUMBER = 5;
+    private java.lang.Object failResult_;
+    /**
+     * <code>optional string failResult = 5;</code>
+     *
+     * <pre>
+     *½á¹û
+     * </pre>
+     */
+    public boolean hasFailResult() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string failResult = 5;</code>
+     *
+     * <pre>
+     *½á¹û
+     * </pre>
+     */
+    public java.lang.String getFailResult() {
+      java.lang.Object ref = failResult_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          failResult_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string failResult = 5;</code>
+     *
+     * <pre>
+     *½á¹û
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getFailResultBytes() {
+      java.lang.Object ref = failResult_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        failResult_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
@@ -1212,6 +1299,7 @@ public final class EmailProtos {
       resultType_ = com.rwproto.EmailProtos.EmailResultType.SUCCESS;
       emailList_ = java.util.Collections.emptyList();
       emailInfo_ = com.rwproto.EmailProtos.EmailInfo.getDefaultInstance();
+      failResult_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1257,6 +1345,9 @@ public final class EmailProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(4, emailInfo_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(5, getFailResultBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1281,6 +1372,10 @@ public final class EmailProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, emailInfo_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getFailResultBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1416,6 +1511,8 @@ public final class EmailProtos {
           emailInfoBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        failResult_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1469,6 +1566,10 @@ public final class EmailProtos {
         } else {
           result.emailInfo_ = emailInfoBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.failResult_ = failResult_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1519,6 +1620,11 @@ public final class EmailProtos {
         }
         if (other.hasEmailInfo()) {
           mergeEmailInfo(other.getEmailInfo());
+        }
+        if (other.hasFailResult()) {
+          bitField0_ |= 0x00000010;
+          failResult_ = other.failResult_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1573,7 +1679,7 @@ public final class EmailProtos {
        * <code>required .EmailRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public boolean hasRequestType() {
@@ -1583,7 +1689,7 @@ public final class EmailProtos {
        * <code>required .EmailRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailRequestType getRequestType() {
@@ -1593,7 +1699,7 @@ public final class EmailProtos {
        * <code>required .EmailRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public Builder setRequestType(com.rwproto.EmailProtos.EmailRequestType value) {
@@ -1609,7 +1715,7 @@ public final class EmailProtos {
        * <code>required .EmailRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public Builder clearRequestType() {
@@ -1625,7 +1731,7 @@ public final class EmailProtos {
        * <code>required .EmailResultType resultType = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *½á¹ûÀàÐÍ
        * </pre>
        */
       public boolean hasResultType() {
@@ -1635,7 +1741,7 @@ public final class EmailProtos {
        * <code>required .EmailResultType resultType = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *½á¹ûÀàÐÍ
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailResultType getResultType() {
@@ -1645,7 +1751,7 @@ public final class EmailProtos {
        * <code>required .EmailResultType resultType = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *½á¹ûÀàÐÍ
        * </pre>
        */
       public Builder setResultType(com.rwproto.EmailProtos.EmailResultType value) {
@@ -1661,7 +1767,7 @@ public final class EmailProtos {
        * <code>required .EmailResultType resultType = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *½á¹ûÀàÐÍ
        * </pre>
        */
       public Builder clearResultType() {
@@ -1688,7 +1794,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public java.util.List<com.rwproto.EmailProtos.EmailInfo> getEmailListList() {
@@ -1702,7 +1808,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public int getEmailListCount() {
@@ -1716,7 +1822,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfo getEmailList(int index) {
@@ -1730,7 +1836,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder setEmailList(
@@ -1751,7 +1857,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder setEmailList(
@@ -1769,7 +1875,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder addEmailList(com.rwproto.EmailProtos.EmailInfo value) {
@@ -1789,7 +1895,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder addEmailList(
@@ -1810,7 +1916,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder addEmailList(
@@ -1828,7 +1934,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder addEmailList(
@@ -1846,7 +1952,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder addAllEmailList(
@@ -1864,7 +1970,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder clearEmailList() {
@@ -1881,7 +1987,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public Builder removeEmailList(int index) {
@@ -1898,7 +2004,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfo.Builder getEmailListBuilder(
@@ -1909,7 +2015,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfoOrBuilder getEmailListOrBuilder(
@@ -1923,7 +2029,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public java.util.List<? extends com.rwproto.EmailProtos.EmailInfoOrBuilder> 
@@ -1938,7 +2044,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfo.Builder addEmailListBuilder() {
@@ -1949,7 +2055,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfo.Builder addEmailListBuilder(
@@ -1961,7 +2067,7 @@ public final class EmailProtos {
        * <code>repeated .EmailInfo emailList = 3;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½Ð±ï¿½
+       *ÓÊ¼þÁÐ±í
        * </pre>
        */
       public java.util.List<com.rwproto.EmailProtos.EmailInfo.Builder> 
@@ -1991,7 +2097,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public boolean hasEmailInfo() {
@@ -2001,7 +2107,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfo getEmailInfo() {
@@ -2015,7 +2121,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public Builder setEmailInfo(com.rwproto.EmailProtos.EmailInfo value) {
@@ -2035,7 +2141,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public Builder setEmailInfo(
@@ -2053,7 +2159,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public Builder mergeEmailInfo(com.rwproto.EmailProtos.EmailInfo value) {
@@ -2076,7 +2182,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public Builder clearEmailInfo() {
@@ -2093,7 +2199,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfo.Builder getEmailInfoBuilder() {
@@ -2105,7 +2211,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EmailProtos.EmailInfoOrBuilder getEmailInfoOrBuilder() {
@@ -2119,7 +2225,7 @@ public final class EmailProtos {
        * <code>optional .EmailInfo emailInfo = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸öÓÊ¼þÐÅÏ¢
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -2134,6 +2240,104 @@ public final class EmailProtos {
           emailInfo_ = null;
         }
         return emailInfoBuilder_;
+      }
+
+      // optional string failResult = 5;
+      private java.lang.Object failResult_ = "";
+      /**
+       * <code>optional string failResult = 5;</code>
+       *
+       * <pre>
+       *½á¹û
+       * </pre>
+       */
+      public boolean hasFailResult() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string failResult = 5;</code>
+       *
+       * <pre>
+       *½á¹û
+       * </pre>
+       */
+      public java.lang.String getFailResult() {
+        java.lang.Object ref = failResult_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          failResult_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string failResult = 5;</code>
+       *
+       * <pre>
+       *½á¹û
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getFailResultBytes() {
+        java.lang.Object ref = failResult_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          failResult_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string failResult = 5;</code>
+       *
+       * <pre>
+       *½á¹û
+       * </pre>
+       */
+      public Builder setFailResult(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        failResult_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string failResult = 5;</code>
+       *
+       * <pre>
+       *½á¹û
+       * </pre>
+       */
+      public Builder clearFailResult() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        failResult_ = getDefaultInstance().getFailResult();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string failResult = 5;</code>
+       *
+       * <pre>
+       *½á¹û
+       * </pre>
+       */
+      public Builder setFailResultBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        failResult_ = value;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:EmailResponse)
@@ -2182,7 +2386,7 @@ public final class EmailProtos {
      * <code>required bool isReceive = 3;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
      * </pre>
      */
     boolean hasIsReceive();
@@ -2190,7 +2394,7 @@ public final class EmailProtos {
      * <code>required bool isReceive = 3;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
      * </pre>
      */
     boolean getIsReceive();
@@ -2200,7 +2404,7 @@ public final class EmailProtos {
      * <code>required bool isChecked = 4;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+     *ÊÇ·ñÎªÒÑ¶Á
      * </pre>
      */
     boolean hasIsChecked();
@@ -2208,7 +2412,7 @@ public final class EmailProtos {
      * <code>required bool isChecked = 4;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+     *ÊÇ·ñÎªÒÑ¶Á
      * </pre>
      */
     boolean getIsChecked();
@@ -2218,7 +2422,7 @@ public final class EmailProtos {
      * <code>required int64 sendTime = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÈÕÆÚ
      * </pre>
      */
     boolean hasSendTime();
@@ -2226,7 +2430,7 @@ public final class EmailProtos {
      * <code>required int64 sendTime = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÈÕÆÚ
      * </pre>
      */
     long getSendTime();
@@ -2236,7 +2440,7 @@ public final class EmailProtos {
      * <code>required string title = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *±êÌâ
      * </pre>
      */
     boolean hasTitle();
@@ -2244,7 +2448,7 @@ public final class EmailProtos {
      * <code>required string title = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *±êÌâ
      * </pre>
      */
     java.lang.String getTitle();
@@ -2252,7 +2456,7 @@ public final class EmailProtos {
      * <code>required string title = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *±êÌâ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2263,7 +2467,7 @@ public final class EmailProtos {
      * <code>required string content = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÄÚÈÝ
      * </pre>
      */
     boolean hasContent();
@@ -2271,7 +2475,7 @@ public final class EmailProtos {
      * <code>required string content = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÄÚÈÝ
      * </pre>
      */
     java.lang.String getContent();
@@ -2279,7 +2483,7 @@ public final class EmailProtos {
      * <code>required string content = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÄÚÈÝ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2290,7 +2494,7 @@ public final class EmailProtos {
      * <code>required string sender = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÕß
      * </pre>
      */
     boolean hasSender();
@@ -2298,7 +2502,7 @@ public final class EmailProtos {
      * <code>required string sender = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÕß
      * </pre>
      */
     java.lang.String getSender();
@@ -2306,7 +2510,7 @@ public final class EmailProtos {
      * <code>required string sender = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÕß
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2317,7 +2521,7 @@ public final class EmailProtos {
      * <code>required string checkIcon = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+     *ÒÑ¶ÁÍ¼±ê
      * </pre>
      */
     boolean hasCheckIcon();
@@ -2325,7 +2529,7 @@ public final class EmailProtos {
      * <code>required string checkIcon = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+     *ÒÑ¶ÁÍ¼±ê
      * </pre>
      */
     java.lang.String getCheckIcon();
@@ -2333,7 +2537,7 @@ public final class EmailProtos {
      * <code>required string checkIcon = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+     *ÒÑ¶ÁÍ¼±ê
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2344,7 +2548,7 @@ public final class EmailProtos {
      * <code>required string subjectIcon = 10;</code>
      *
      * <pre>
-     *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+     *Î´¶ÁÍ¼±ê
      * </pre>
      */
     boolean hasSubjectIcon();
@@ -2352,7 +2556,7 @@ public final class EmailProtos {
      * <code>required string subjectIcon = 10;</code>
      *
      * <pre>
-     *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+     *Î´¶ÁÍ¼±ê
      * </pre>
      */
     java.lang.String getSubjectIcon();
@@ -2360,7 +2564,7 @@ public final class EmailProtos {
      * <code>required string subjectIcon = 10;</code>
      *
      * <pre>
-     *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+     *Î´¶ÁÍ¼±ê
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2371,7 +2575,7 @@ public final class EmailProtos {
      * <code>optional string emailAttachment = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þ¸½¼þ
      * </pre>
      */
     boolean hasEmailAttachment();
@@ -2379,7 +2583,7 @@ public final class EmailProtos {
      * <code>optional string emailAttachment = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þ¸½¼þ
      * </pre>
      */
     java.lang.String getEmailAttachment();
@@ -2387,7 +2591,7 @@ public final class EmailProtos {
      * <code>optional string emailAttachment = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þ¸½¼þ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2398,7 +2602,7 @@ public final class EmailProtos {
      * <code>optional string expirationTime = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     *¹ýÆÚÊ±¼ä
      * </pre>
      */
     boolean hasExpirationTime();
@@ -2406,7 +2610,7 @@ public final class EmailProtos {
      * <code>optional string expirationTime = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     *¹ýÆÚÊ±¼ä
      * </pre>
      */
     java.lang.String getExpirationTime();
@@ -2414,7 +2618,7 @@ public final class EmailProtos {
      * <code>optional string expirationTime = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     *¹ýÆÚÊ±¼ä
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2424,7 +2628,7 @@ public final class EmailProtos {
    * Protobuf type {@code EmailInfo}
    *
    * <pre>
-   *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+   *ÓÊ¼þÊý¾Ý
    * </pre>
    */
   public static final class EmailInfo extends
@@ -2632,7 +2836,7 @@ public final class EmailProtos {
      * <code>required bool isReceive = 3;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
      * </pre>
      */
     public boolean hasIsReceive() {
@@ -2642,7 +2846,7 @@ public final class EmailProtos {
      * <code>required bool isReceive = 3;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
      * </pre>
      */
     public boolean getIsReceive() {
@@ -2656,7 +2860,7 @@ public final class EmailProtos {
      * <code>required bool isChecked = 4;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+     *ÊÇ·ñÎªÒÑ¶Á
      * </pre>
      */
     public boolean hasIsChecked() {
@@ -2666,7 +2870,7 @@ public final class EmailProtos {
      * <code>required bool isChecked = 4;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+     *ÊÇ·ñÎªÒÑ¶Á
      * </pre>
      */
     public boolean getIsChecked() {
@@ -2680,7 +2884,7 @@ public final class EmailProtos {
      * <code>required int64 sendTime = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÈÕÆÚ
      * </pre>
      */
     public boolean hasSendTime() {
@@ -2690,7 +2894,7 @@ public final class EmailProtos {
      * <code>required int64 sendTime = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÈÕÆÚ
      * </pre>
      */
     public long getSendTime() {
@@ -2704,7 +2908,7 @@ public final class EmailProtos {
      * <code>required string title = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *±êÌâ
      * </pre>
      */
     public boolean hasTitle() {
@@ -2714,7 +2918,7 @@ public final class EmailProtos {
      * <code>required string title = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *±êÌâ
      * </pre>
      */
     public java.lang.String getTitle() {
@@ -2735,7 +2939,7 @@ public final class EmailProtos {
      * <code>required string title = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *±êÌâ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2759,7 +2963,7 @@ public final class EmailProtos {
      * <code>required string content = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÄÚÈÝ
      * </pre>
      */
     public boolean hasContent() {
@@ -2769,7 +2973,7 @@ public final class EmailProtos {
      * <code>required string content = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÄÚÈÝ
      * </pre>
      */
     public java.lang.String getContent() {
@@ -2790,7 +2994,7 @@ public final class EmailProtos {
      * <code>required string content = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÄÚÈÝ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2814,7 +3018,7 @@ public final class EmailProtos {
      * <code>required string sender = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÕß
      * </pre>
      */
     public boolean hasSender() {
@@ -2824,7 +3028,7 @@ public final class EmailProtos {
      * <code>required string sender = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÕß
      * </pre>
      */
     public java.lang.String getSender() {
@@ -2845,7 +3049,7 @@ public final class EmailProtos {
      * <code>required string sender = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·¢ËÍÕß
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2869,7 +3073,7 @@ public final class EmailProtos {
      * <code>required string checkIcon = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+     *ÒÑ¶ÁÍ¼±ê
      * </pre>
      */
     public boolean hasCheckIcon() {
@@ -2879,7 +3083,7 @@ public final class EmailProtos {
      * <code>required string checkIcon = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+     *ÒÑ¶ÁÍ¼±ê
      * </pre>
      */
     public java.lang.String getCheckIcon() {
@@ -2900,7 +3104,7 @@ public final class EmailProtos {
      * <code>required string checkIcon = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+     *ÒÑ¶ÁÍ¼±ê
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2924,7 +3128,7 @@ public final class EmailProtos {
      * <code>required string subjectIcon = 10;</code>
      *
      * <pre>
-     *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+     *Î´¶ÁÍ¼±ê
      * </pre>
      */
     public boolean hasSubjectIcon() {
@@ -2934,7 +3138,7 @@ public final class EmailProtos {
      * <code>required string subjectIcon = 10;</code>
      *
      * <pre>
-     *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+     *Î´¶ÁÍ¼±ê
      * </pre>
      */
     public java.lang.String getSubjectIcon() {
@@ -2955,7 +3159,7 @@ public final class EmailProtos {
      * <code>required string subjectIcon = 10;</code>
      *
      * <pre>
-     *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+     *Î´¶ÁÍ¼±ê
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2979,7 +3183,7 @@ public final class EmailProtos {
      * <code>optional string emailAttachment = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þ¸½¼þ
      * </pre>
      */
     public boolean hasEmailAttachment() {
@@ -2989,7 +3193,7 @@ public final class EmailProtos {
      * <code>optional string emailAttachment = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þ¸½¼þ
      * </pre>
      */
     public java.lang.String getEmailAttachment() {
@@ -3010,7 +3214,7 @@ public final class EmailProtos {
      * <code>optional string emailAttachment = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þ¸½¼þ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3034,7 +3238,7 @@ public final class EmailProtos {
      * <code>optional string expirationTime = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     *¹ýÆÚÊ±¼ä
      * </pre>
      */
     public boolean hasExpirationTime() {
@@ -3044,7 +3248,7 @@ public final class EmailProtos {
      * <code>optional string expirationTime = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     *¹ýÆÚÊ±¼ä
      * </pre>
      */
     public java.lang.String getExpirationTime() {
@@ -3065,7 +3269,7 @@ public final class EmailProtos {
      * <code>optional string expirationTime = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+     *¹ýÆÚÊ±¼ä
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3311,7 +3515,7 @@ public final class EmailProtos {
      * Protobuf type {@code EmailInfo}
      *
      * <pre>
-     *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÓÊ¼þÊý¾Ý
      * </pre>
      */
     public static final class Builder extends
@@ -3675,7 +3879,7 @@ public final class EmailProtos {
        * <code>required bool isReceive = 3;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
        * </pre>
        */
       public boolean hasIsReceive() {
@@ -3685,7 +3889,7 @@ public final class EmailProtos {
        * <code>required bool isReceive = 3;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
        * </pre>
        */
       public boolean getIsReceive() {
@@ -3695,7 +3899,7 @@ public final class EmailProtos {
        * <code>required bool isReceive = 3;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
        * </pre>
        */
       public Builder setIsReceive(boolean value) {
@@ -3708,7 +3912,7 @@ public final class EmailProtos {
        * <code>required bool isReceive = 3;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑÁìÈ¡¹ý¸½¼þ
        * </pre>
        */
       public Builder clearIsReceive() {
@@ -3724,7 +3928,7 @@ public final class EmailProtos {
        * <code>required bool isChecked = 4;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+       *ÊÇ·ñÎªÒÑ¶Á
        * </pre>
        */
       public boolean hasIsChecked() {
@@ -3734,7 +3938,7 @@ public final class EmailProtos {
        * <code>required bool isChecked = 4;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+       *ÊÇ·ñÎªÒÑ¶Á
        * </pre>
        */
       public boolean getIsChecked() {
@@ -3744,7 +3948,7 @@ public final class EmailProtos {
        * <code>required bool isChecked = 4;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+       *ÊÇ·ñÎªÒÑ¶Á
        * </pre>
        */
       public Builder setIsChecked(boolean value) {
@@ -3757,7 +3961,7 @@ public final class EmailProtos {
        * <code>required bool isChecked = 4;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Îªï¿½Ñ¶ï¿½
+       *ÊÇ·ñÎªÒÑ¶Á
        * </pre>
        */
       public Builder clearIsChecked() {
@@ -3773,7 +3977,7 @@ public final class EmailProtos {
        * <code>required int64 sendTime = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÈÕÆÚ
        * </pre>
        */
       public boolean hasSendTime() {
@@ -3783,7 +3987,7 @@ public final class EmailProtos {
        * <code>required int64 sendTime = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÈÕÆÚ
        * </pre>
        */
       public long getSendTime() {
@@ -3793,7 +3997,7 @@ public final class EmailProtos {
        * <code>required int64 sendTime = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÈÕÆÚ
        * </pre>
        */
       public Builder setSendTime(long value) {
@@ -3806,7 +4010,7 @@ public final class EmailProtos {
        * <code>required int64 sendTime = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÈÕÆÚ
        * </pre>
        */
       public Builder clearSendTime() {
@@ -3822,7 +4026,7 @@ public final class EmailProtos {
        * <code>required string title = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *±êÌâ
        * </pre>
        */
       public boolean hasTitle() {
@@ -3832,7 +4036,7 @@ public final class EmailProtos {
        * <code>required string title = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *±êÌâ
        * </pre>
        */
       public java.lang.String getTitle() {
@@ -3850,7 +4054,7 @@ public final class EmailProtos {
        * <code>required string title = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *±êÌâ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3870,7 +4074,7 @@ public final class EmailProtos {
        * <code>required string title = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *±êÌâ
        * </pre>
        */
       public Builder setTitle(
@@ -3887,7 +4091,7 @@ public final class EmailProtos {
        * <code>required string title = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *±êÌâ
        * </pre>
        */
       public Builder clearTitle() {
@@ -3900,7 +4104,7 @@ public final class EmailProtos {
        * <code>required string title = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *±êÌâ
        * </pre>
        */
       public Builder setTitleBytes(
@@ -3920,7 +4124,7 @@ public final class EmailProtos {
        * <code>required string content = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *ÄÚÈÝ
        * </pre>
        */
       public boolean hasContent() {
@@ -3930,7 +4134,7 @@ public final class EmailProtos {
        * <code>required string content = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *ÄÚÈÝ
        * </pre>
        */
       public java.lang.String getContent() {
@@ -3948,7 +4152,7 @@ public final class EmailProtos {
        * <code>required string content = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *ÄÚÈÝ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3968,7 +4172,7 @@ public final class EmailProtos {
        * <code>required string content = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *ÄÚÈÝ
        * </pre>
        */
       public Builder setContent(
@@ -3985,7 +4189,7 @@ public final class EmailProtos {
        * <code>required string content = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *ÄÚÈÝ
        * </pre>
        */
       public Builder clearContent() {
@@ -3998,7 +4202,7 @@ public final class EmailProtos {
        * <code>required string content = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *ÄÚÈÝ
        * </pre>
        */
       public Builder setContentBytes(
@@ -4018,7 +4222,7 @@ public final class EmailProtos {
        * <code>required string sender = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÕß
        * </pre>
        */
       public boolean hasSender() {
@@ -4028,7 +4232,7 @@ public final class EmailProtos {
        * <code>required string sender = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÕß
        * </pre>
        */
       public java.lang.String getSender() {
@@ -4046,7 +4250,7 @@ public final class EmailProtos {
        * <code>required string sender = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÕß
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4066,7 +4270,7 @@ public final class EmailProtos {
        * <code>required string sender = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÕß
        * </pre>
        */
       public Builder setSender(
@@ -4083,7 +4287,7 @@ public final class EmailProtos {
        * <code>required string sender = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÕß
        * </pre>
        */
       public Builder clearSender() {
@@ -4096,7 +4300,7 @@ public final class EmailProtos {
        * <code>required string sender = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·¢ËÍÕß
        * </pre>
        */
       public Builder setSenderBytes(
@@ -4116,7 +4320,7 @@ public final class EmailProtos {
        * <code>required string checkIcon = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+       *ÒÑ¶ÁÍ¼±ê
        * </pre>
        */
       public boolean hasCheckIcon() {
@@ -4126,7 +4330,7 @@ public final class EmailProtos {
        * <code>required string checkIcon = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+       *ÒÑ¶ÁÍ¼±ê
        * </pre>
        */
       public java.lang.String getCheckIcon() {
@@ -4144,7 +4348,7 @@ public final class EmailProtos {
        * <code>required string checkIcon = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+       *ÒÑ¶ÁÍ¼±ê
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4164,7 +4368,7 @@ public final class EmailProtos {
        * <code>required string checkIcon = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+       *ÒÑ¶ÁÍ¼±ê
        * </pre>
        */
       public Builder setCheckIcon(
@@ -4181,7 +4385,7 @@ public final class EmailProtos {
        * <code>required string checkIcon = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+       *ÒÑ¶ÁÍ¼±ê
        * </pre>
        */
       public Builder clearCheckIcon() {
@@ -4194,7 +4398,7 @@ public final class EmailProtos {
        * <code>required string checkIcon = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ¶ï¿½Í¼ï¿½ï¿½
+       *ÒÑ¶ÁÍ¼±ê
        * </pre>
        */
       public Builder setCheckIconBytes(
@@ -4214,7 +4418,7 @@ public final class EmailProtos {
        * <code>required string subjectIcon = 10;</code>
        *
        * <pre>
-       *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+       *Î´¶ÁÍ¼±ê
        * </pre>
        */
       public boolean hasSubjectIcon() {
@@ -4224,7 +4428,7 @@ public final class EmailProtos {
        * <code>required string subjectIcon = 10;</code>
        *
        * <pre>
-       *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+       *Î´¶ÁÍ¼±ê
        * </pre>
        */
       public java.lang.String getSubjectIcon() {
@@ -4242,7 +4446,7 @@ public final class EmailProtos {
        * <code>required string subjectIcon = 10;</code>
        *
        * <pre>
-       *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+       *Î´¶ÁÍ¼±ê
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4262,7 +4466,7 @@ public final class EmailProtos {
        * <code>required string subjectIcon = 10;</code>
        *
        * <pre>
-       *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+       *Î´¶ÁÍ¼±ê
        * </pre>
        */
       public Builder setSubjectIcon(
@@ -4279,7 +4483,7 @@ public final class EmailProtos {
        * <code>required string subjectIcon = 10;</code>
        *
        * <pre>
-       *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+       *Î´¶ÁÍ¼±ê
        * </pre>
        */
       public Builder clearSubjectIcon() {
@@ -4292,7 +4496,7 @@ public final class EmailProtos {
        * <code>required string subjectIcon = 10;</code>
        *
        * <pre>
-       *Î´ï¿½ï¿½Í¼ï¿½ï¿½
+       *Î´¶ÁÍ¼±ê
        * </pre>
        */
       public Builder setSubjectIconBytes(
@@ -4312,7 +4516,7 @@ public final class EmailProtos {
        * <code>optional string emailAttachment = 11;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÓÊ¼þ¸½¼þ
        * </pre>
        */
       public boolean hasEmailAttachment() {
@@ -4322,7 +4526,7 @@ public final class EmailProtos {
        * <code>optional string emailAttachment = 11;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÓÊ¼þ¸½¼þ
        * </pre>
        */
       public java.lang.String getEmailAttachment() {
@@ -4340,7 +4544,7 @@ public final class EmailProtos {
        * <code>optional string emailAttachment = 11;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÓÊ¼þ¸½¼þ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4360,7 +4564,7 @@ public final class EmailProtos {
        * <code>optional string emailAttachment = 11;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÓÊ¼þ¸½¼þ
        * </pre>
        */
       public Builder setEmailAttachment(
@@ -4377,7 +4581,7 @@ public final class EmailProtos {
        * <code>optional string emailAttachment = 11;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÓÊ¼þ¸½¼þ
        * </pre>
        */
       public Builder clearEmailAttachment() {
@@ -4390,7 +4594,7 @@ public final class EmailProtos {
        * <code>optional string emailAttachment = 11;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÓÊ¼þ¸½¼þ
        * </pre>
        */
       public Builder setEmailAttachmentBytes(
@@ -4410,7 +4614,7 @@ public final class EmailProtos {
        * <code>optional string expirationTime = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+       *¹ýÆÚÊ±¼ä
        * </pre>
        */
       public boolean hasExpirationTime() {
@@ -4420,7 +4624,7 @@ public final class EmailProtos {
        * <code>optional string expirationTime = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+       *¹ýÆÚÊ±¼ä
        * </pre>
        */
       public java.lang.String getExpirationTime() {
@@ -4438,7 +4642,7 @@ public final class EmailProtos {
        * <code>optional string expirationTime = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+       *¹ýÆÚÊ±¼ä
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4458,7 +4662,7 @@ public final class EmailProtos {
        * <code>optional string expirationTime = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+       *¹ýÆÚÊ±¼ä
        * </pre>
        */
       public Builder setExpirationTime(
@@ -4475,7 +4679,7 @@ public final class EmailProtos {
        * <code>optional string expirationTime = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+       *¹ýÆÚÊ±¼ä
        * </pre>
        */
       public Builder clearExpirationTime() {
@@ -4488,7 +4692,7 @@ public final class EmailProtos {
        * <code>optional string expirationTime = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+       *¹ýÆÚÊ±¼ä
        * </pre>
        */
       public Builder setExpirationTimeBytes(
@@ -4539,20 +4743,21 @@ public final class EmailProtos {
     java.lang.String[] descriptorData = {
       "\n\021EmailProtos.proto\"G\n\014EmailRequest\022&\n\013r" +
       "equestType\030\001 \002(\0162\021.EmailRequestType\022\017\n\007e" +
-      "mailId\030\002 \001(\t\"\233\001\n\rEmailResponse\022&\n\013reques" +
+      "mailId\030\002 \001(\t\"\257\001\n\rEmailResponse\022&\n\013reques" +
       "tType\030\001 \002(\0162\021.EmailRequestType\022$\n\nresult" +
       "Type\030\002 \002(\0162\020.EmailResultType\022\035\n\temailLis" +
       "t\030\003 \003(\0132\n.EmailInfo\022\035\n\temailInfo\030\004 \001(\0132\n" +
-      ".EmailInfo\"\335\001\n\tEmailInfo\022\017\n\007emailId\030\001 \002(" +
-      "\t\022\021\n\tisReceive\030\003 \002(\010\022\021\n\tisChecked\030\004 \002(\010\022" +
-      "\020\n\010sendTime\030\005 \002(\003\022\r\n\005title\030\006 \002(\t\022\017\n\007cont" +
-      "ent\030\007 \002(\t\022\016\n\006sender\030\010 \002(\t\022\021\n\tcheckIcon\030\t",
-      " \002(\t\022\023\n\013subjectIcon\030\n \002(\t\022\027\n\017emailAttach" +
-      "ment\030\013 \001(\t\022\026\n\016expirationTime\030\014 \001(\t*L\n\020Em" +
-      "ailRequestType\022\016\n\nEmail_List\020\001\022\017\n\013Email_" +
-      "Check\020\002\022\027\n\023Email_GetAttachment\020\003*(\n\017Emai" +
-      "lResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B\032\n\013co" +
-      "m.rwprotoB\013EmailProtos"
+      ".EmailInfo\022\022\n\nfailResult\030\005 \001(\t\"\335\001\n\tEmail" +
+      "Info\022\017\n\007emailId\030\001 \002(\t\022\021\n\tisReceive\030\003 \002(\010" +
+      "\022\021\n\tisChecked\030\004 \002(\010\022\020\n\010sendTime\030\005 \002(\003\022\r\n" +
+      "\005title\030\006 \002(\t\022\017\n\007content\030\007 \002(\t\022\016\n\006sender\030",
+      "\010 \002(\t\022\021\n\tcheckIcon\030\t \002(\t\022\023\n\013subjectIcon\030" +
+      "\n \002(\t\022\027\n\017emailAttachment\030\013 \001(\t\022\026\n\016expira" +
+      "tionTime\030\014 \001(\t*L\n\020EmailRequestType\022\016\n\nEm" +
+      "ail_List\020\001\022\017\n\013Email_Check\020\002\022\027\n\023Email_Get" +
+      "Attachment\020\003*(\n\017EmailResultType\022\013\n\007SUCCE" +
+      "SS\020\001\022\010\n\004FAIL\020\002B\032\n\013com.rwprotoB\013EmailProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4570,7 +4775,7 @@ public final class EmailProtos {
           internal_static_EmailResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_EmailResponse_descriptor,
-              new java.lang.String[] { "RequestType", "ResultType", "EmailList", "EmailInfo", });
+              new java.lang.String[] { "RequestType", "ResultType", "EmailList", "EmailInfo", "FailResult", });
           internal_static_EmailInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_EmailInfo_fieldAccessorTable = new

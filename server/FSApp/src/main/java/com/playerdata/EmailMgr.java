@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.druid.util.StringUtils;
 import com.playerdata.common.PlayerEventListener;
@@ -66,8 +67,14 @@ public class EmailMgr implements PlayerEventListener {
 	}
 
 	public boolean hasEmail() {
-		return getTableEmail().getEmailList().size() > 0;
+		for(EmailItem item: getTableEmail().getEmailList().values()){
+			if(!item.isChecked()){
+				return true;
+			}
+		}
+		return false;
 	}
+	
 
 	public boolean containsEmailWithTaskId(long taskId) {
 		boolean contains = false;
@@ -89,7 +96,7 @@ public class EmailMgr implements PlayerEventListener {
 	public boolean checkEmail(String id) {
 		EmailItem data = getTableEmail().getEmailList().get(id);
 		if (data != null) {
-			if (!data.isChecked() && StringUtils.isEmpty(data.getEmailAttachment())) {
+			if (!data.isChecked() /*&& StringUtils.isEmpty(data.getEmailAttachment())*/) {
 				data.setChecked(true);
 			}
 			checkUnread();

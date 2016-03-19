@@ -61,6 +61,14 @@ public final class ItemBagProtos {
      * </pre>
      */
     ItemBag_Sync(5, 5),
+    /**
+     * <code>UseItem = 6;</code>
+     *
+     * <pre>
+     *使用道具
+     * </pre>
+     */
+    UseItem(6, 6),
     ;
 
     /**
@@ -111,6 +119,14 @@ public final class ItemBagProtos {
      * </pre>
      */
     public static final int ItemBag_Sync_VALUE = 5;
+    /**
+     * <code>UseItem = 6;</code>
+     *
+     * <pre>
+     *使用道具
+     * </pre>
+     */
+    public static final int UseItem_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -123,6 +139,7 @@ public final class ItemBagProtos {
         case 3: return ItemBag_Sell;
         case 4: return ItemBag_Drop;
         case 5: return ItemBag_Sync;
+        case 6: return UseItem;
         default: return null;
       }
     }
@@ -2892,6 +2909,1302 @@ public final class ItemBagProtos {
     // @@protoc_insertion_point(class_scope:TagItemData)
   }
 
+  public interface UseItemInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string dbId = 1;
+    /**
+     * <code>required string dbId = 1;</code>
+     *
+     * <pre>
+     *使用的道具数据Id
+     * </pre>
+     */
+    boolean hasDbId();
+    /**
+     * <code>required string dbId = 1;</code>
+     *
+     * <pre>
+     *使用的道具数据Id
+     * </pre>
+     */
+    java.lang.String getDbId();
+    /**
+     * <code>required string dbId = 1;</code>
+     *
+     * <pre>
+     *使用的道具数据Id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getDbIdBytes();
+
+    // required int32 count = 2;
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *使用数量
+     * </pre>
+     */
+    boolean hasCount();
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *使用数量
+     * </pre>
+     */
+    int getCount();
+  }
+  /**
+   * Protobuf type {@code UseItemInfo}
+   */
+  public static final class UseItemInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements UseItemInfoOrBuilder {
+    // Use UseItemInfo.newBuilder() to construct.
+    private UseItemInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private UseItemInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final UseItemInfo defaultInstance;
+    public static UseItemInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public UseItemInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private UseItemInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              dbId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              count_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ItemBagProtos.internal_static_UseItemInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ItemBagProtos.internal_static_UseItemInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ItemBagProtos.UseItemInfo.class, com.rwproto.ItemBagProtos.UseItemInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<UseItemInfo> PARSER =
+        new com.google.protobuf.AbstractParser<UseItemInfo>() {
+      public UseItemInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new UseItemInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UseItemInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string dbId = 1;
+    public static final int DBID_FIELD_NUMBER = 1;
+    private java.lang.Object dbId_;
+    /**
+     * <code>required string dbId = 1;</code>
+     *
+     * <pre>
+     *使用的道具数据Id
+     * </pre>
+     */
+    public boolean hasDbId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string dbId = 1;</code>
+     *
+     * <pre>
+     *使用的道具数据Id
+     * </pre>
+     */
+    public java.lang.String getDbId() {
+      java.lang.Object ref = dbId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          dbId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string dbId = 1;</code>
+     *
+     * <pre>
+     *使用的道具数据Id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getDbIdBytes() {
+      java.lang.Object ref = dbId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dbId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 count = 2;
+    public static final int COUNT_FIELD_NUMBER = 2;
+    private int count_;
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *使用数量
+     * </pre>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *使用数量
+     * </pre>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    private void initFields() {
+      dbId_ = "";
+      count_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasDbId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getDbIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, count_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getDbIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, count_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.UseItemInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ItemBagProtos.UseItemInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code UseItemInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ItemBagProtos.UseItemInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ItemBagProtos.internal_static_UseItemInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ItemBagProtos.internal_static_UseItemInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ItemBagProtos.UseItemInfo.class, com.rwproto.ItemBagProtos.UseItemInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.ItemBagProtos.UseItemInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        dbId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        count_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ItemBagProtos.internal_static_UseItemInfo_descriptor;
+      }
+
+      public com.rwproto.ItemBagProtos.UseItemInfo getDefaultInstanceForType() {
+        return com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.ItemBagProtos.UseItemInfo build() {
+        com.rwproto.ItemBagProtos.UseItemInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ItemBagProtos.UseItemInfo buildPartial() {
+        com.rwproto.ItemBagProtos.UseItemInfo result = new com.rwproto.ItemBagProtos.UseItemInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.dbId_ = dbId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.count_ = count_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ItemBagProtos.UseItemInfo) {
+          return mergeFrom((com.rwproto.ItemBagProtos.UseItemInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ItemBagProtos.UseItemInfo other) {
+        if (other == com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance()) return this;
+        if (other.hasDbId()) {
+          bitField0_ |= 0x00000001;
+          dbId_ = other.dbId_;
+          onChanged();
+        }
+        if (other.hasCount()) {
+          setCount(other.getCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasDbId()) {
+          
+          return false;
+        }
+        if (!hasCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ItemBagProtos.UseItemInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ItemBagProtos.UseItemInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string dbId = 1;
+      private java.lang.Object dbId_ = "";
+      /**
+       * <code>required string dbId = 1;</code>
+       *
+       * <pre>
+       *使用的道具数据Id
+       * </pre>
+       */
+      public boolean hasDbId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string dbId = 1;</code>
+       *
+       * <pre>
+       *使用的道具数据Id
+       * </pre>
+       */
+      public java.lang.String getDbId() {
+        java.lang.Object ref = dbId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          dbId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string dbId = 1;</code>
+       *
+       * <pre>
+       *使用的道具数据Id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getDbIdBytes() {
+        java.lang.Object ref = dbId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dbId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string dbId = 1;</code>
+       *
+       * <pre>
+       *使用的道具数据Id
+       * </pre>
+       */
+      public Builder setDbId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        dbId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string dbId = 1;</code>
+       *
+       * <pre>
+       *使用的道具数据Id
+       * </pre>
+       */
+      public Builder clearDbId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        dbId_ = getDefaultInstance().getDbId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string dbId = 1;</code>
+       *
+       * <pre>
+       *使用的道具数据Id
+       * </pre>
+       */
+      public Builder setDbIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        dbId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 count = 2;
+      private int count_ ;
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *使用数量
+       * </pre>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *使用数量
+       * </pre>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *使用数量
+       * </pre>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000002;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *使用数量
+       * </pre>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:UseItemInfo)
+    }
+
+    static {
+      defaultInstance = new UseItemInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:UseItemInfo)
+  }
+
+  public interface ResponseInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required bool success = 1;
+    /**
+     * <code>required bool success = 1;</code>
+     *
+     * <pre>
+     *是否成功
+     * </pre>
+     */
+    boolean hasSuccess();
+    /**
+     * <code>required bool success = 1;</code>
+     *
+     * <pre>
+     *是否成功
+     * </pre>
+     */
+    boolean getSuccess();
+
+    // required string tipMsg = 2;
+    /**
+     * <code>required string tipMsg = 2;</code>
+     *
+     * <pre>
+     *响应的提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>required string tipMsg = 2;</code>
+     *
+     * <pre>
+     *响应的提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>required string tipMsg = 2;</code>
+     *
+     * <pre>
+     *响应的提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
+  }
+  /**
+   * Protobuf type {@code ResponseInfo}
+   */
+  public static final class ResponseInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements ResponseInfoOrBuilder {
+    // Use ResponseInfo.newBuilder() to construct.
+    private ResponseInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ResponseInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ResponseInfo defaultInstance;
+    public static ResponseInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ResponseInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ResponseInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              success_ = input.readBool();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              tipMsg_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ItemBagProtos.internal_static_ResponseInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ItemBagProtos.internal_static_ResponseInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ItemBagProtos.ResponseInfo.class, com.rwproto.ItemBagProtos.ResponseInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ResponseInfo> PARSER =
+        new com.google.protobuf.AbstractParser<ResponseInfo>() {
+      public ResponseInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ResponseInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ResponseInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required bool success = 1;
+    public static final int SUCCESS_FIELD_NUMBER = 1;
+    private boolean success_;
+    /**
+     * <code>required bool success = 1;</code>
+     *
+     * <pre>
+     *是否成功
+     * </pre>
+     */
+    public boolean hasSuccess() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bool success = 1;</code>
+     *
+     * <pre>
+     *是否成功
+     * </pre>
+     */
+    public boolean getSuccess() {
+      return success_;
+    }
+
+    // required string tipMsg = 2;
+    public static final int TIPMSG_FIELD_NUMBER = 2;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>required string tipMsg = 2;</code>
+     *
+     * <pre>
+     *响应的提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string tipMsg = 2;</code>
+     *
+     * <pre>
+     *响应的提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string tipMsg = 2;</code>
+     *
+     * <pre>
+     *响应的提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      success_ = false;
+      tipMsg_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasSuccess()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTipMsg()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBool(1, success_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTipMsgBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, success_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTipMsgBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.ResponseInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ItemBagProtos.ResponseInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ResponseInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ItemBagProtos.ResponseInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ItemBagProtos.internal_static_ResponseInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ItemBagProtos.internal_static_ResponseInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ItemBagProtos.ResponseInfo.class, com.rwproto.ItemBagProtos.ResponseInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.ItemBagProtos.ResponseInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        success_ = false;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ItemBagProtos.internal_static_ResponseInfo_descriptor;
+      }
+
+      public com.rwproto.ItemBagProtos.ResponseInfo getDefaultInstanceForType() {
+        return com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.ItemBagProtos.ResponseInfo build() {
+        com.rwproto.ItemBagProtos.ResponseInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ItemBagProtos.ResponseInfo buildPartial() {
+        com.rwproto.ItemBagProtos.ResponseInfo result = new com.rwproto.ItemBagProtos.ResponseInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.success_ = success_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tipMsg_ = tipMsg_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ItemBagProtos.ResponseInfo) {
+          return mergeFrom((com.rwproto.ItemBagProtos.ResponseInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ItemBagProtos.ResponseInfo other) {
+        if (other == com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance()) return this;
+        if (other.hasSuccess()) {
+          setSuccess(other.getSuccess());
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000002;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasSuccess()) {
+          
+          return false;
+        }
+        if (!hasTipMsg()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ItemBagProtos.ResponseInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ItemBagProtos.ResponseInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required bool success = 1;
+      private boolean success_ ;
+      /**
+       * <code>required bool success = 1;</code>
+       *
+       * <pre>
+       *是否成功
+       * </pre>
+       */
+      public boolean hasSuccess() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bool success = 1;</code>
+       *
+       * <pre>
+       *是否成功
+       * </pre>
+       */
+      public boolean getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>required bool success = 1;</code>
+       *
+       * <pre>
+       *是否成功
+       * </pre>
+       */
+      public Builder setSuccess(boolean value) {
+        bitField0_ |= 0x00000001;
+        success_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool success = 1;</code>
+       *
+       * <pre>
+       *是否成功
+       * </pre>
+       */
+      public Builder clearSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        success_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required string tipMsg = 2;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>required string tipMsg = 2;</code>
+       *
+       * <pre>
+       *响应的提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string tipMsg = 2;</code>
+       *
+       * <pre>
+       *响应的提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string tipMsg = 2;</code>
+       *
+       * <pre>
+       *响应的提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string tipMsg = 2;</code>
+       *
+       * <pre>
+       *响应的提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string tipMsg = 2;</code>
+       *
+       * <pre>
+       *响应的提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string tipMsg = 2;</code>
+       *
+       * <pre>
+       *响应的提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ResponseInfo)
+    }
+
+    static {
+      defaultInstance = new ResponseInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ResponseInfo)
+  }
+
   public interface MsgItemBagRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -2954,6 +4267,32 @@ public final class ItemBagProtos {
      */
     com.rwproto.ItemBagProtos.TagComposeOrBuilder getComposeOrBuilder(
         int index);
+
+    // optional .UseItemInfo useItemInfo = 4;
+    /**
+     * <code>optional .UseItemInfo useItemInfo = 4;</code>
+     *
+     * <pre>
+     *使用道具的信息
+     * </pre>
+     */
+    boolean hasUseItemInfo();
+    /**
+     * <code>optional .UseItemInfo useItemInfo = 4;</code>
+     *
+     * <pre>
+     *使用道具的信息
+     * </pre>
+     */
+    com.rwproto.ItemBagProtos.UseItemInfo getUseItemInfo();
+    /**
+     * <code>optional .UseItemInfo useItemInfo = 4;</code>
+     *
+     * <pre>
+     *使用道具的信息
+     * </pre>
+     */
+    com.rwproto.ItemBagProtos.UseItemInfoOrBuilder getUseItemInfoOrBuilder();
   }
   /**
    * Protobuf type {@code MsgItemBagRequest}
@@ -3031,6 +4370,19 @@ public final class ItemBagProtos {
                 mutable_bitField0_ |= 0x00000004;
               }
               compose_.add(input.readMessage(com.rwproto.ItemBagProtos.TagCompose.PARSER, extensionRegistry));
+              break;
+            }
+            case 34: {
+              com.rwproto.ItemBagProtos.UseItemInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = useItemInfo_.toBuilder();
+              }
+              useItemInfo_ = input.readMessage(com.rwproto.ItemBagProtos.UseItemInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(useItemInfo_);
+                useItemInfo_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
               break;
             }
           }
@@ -3167,10 +4519,45 @@ public final class ItemBagProtos {
       return compose_.get(index);
     }
 
+    // optional .UseItemInfo useItemInfo = 4;
+    public static final int USEITEMINFO_FIELD_NUMBER = 4;
+    private com.rwproto.ItemBagProtos.UseItemInfo useItemInfo_;
+    /**
+     * <code>optional .UseItemInfo useItemInfo = 4;</code>
+     *
+     * <pre>
+     *使用道具的信息
+     * </pre>
+     */
+    public boolean hasUseItemInfo() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .UseItemInfo useItemInfo = 4;</code>
+     *
+     * <pre>
+     *使用道具的信息
+     * </pre>
+     */
+    public com.rwproto.ItemBagProtos.UseItemInfo getUseItemInfo() {
+      return useItemInfo_;
+    }
+    /**
+     * <code>optional .UseItemInfo useItemInfo = 4;</code>
+     *
+     * <pre>
+     *使用道具的信息
+     * </pre>
+     */
+    public com.rwproto.ItemBagProtos.UseItemInfoOrBuilder getUseItemInfoOrBuilder() {
+      return useItemInfo_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.ItemBagProtos.EItemBagEventType.ItemBag_Index;
       itemUpdateData_ = java.util.Collections.emptyList();
       compose_ = java.util.Collections.emptyList();
+      useItemInfo_ = com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3183,6 +4570,12 @@ public final class ItemBagProtos {
       }
       for (int i = 0; i < getItemUpdateDataCount(); i++) {
         if (!getItemUpdateData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasUseItemInfo()) {
+        if (!getUseItemInfo().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -3202,6 +4595,9 @@ public final class ItemBagProtos {
       }
       for (int i = 0; i < compose_.size(); i++) {
         output.writeMessage(3, compose_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(4, useItemInfo_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3223,6 +4619,10 @@ public final class ItemBagProtos {
       for (int i = 0; i < compose_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, compose_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, useItemInfo_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3334,6 +4734,7 @@ public final class ItemBagProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getItemUpdateDataFieldBuilder();
           getComposeFieldBuilder();
+          getUseItemInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3356,6 +4757,12 @@ public final class ItemBagProtos {
         } else {
           composeBuilder_.clear();
         }
+        if (useItemInfoBuilder_ == null) {
+          useItemInfo_ = com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance();
+        } else {
+          useItemInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -3405,6 +4812,14 @@ public final class ItemBagProtos {
           result.compose_ = compose_;
         } else {
           result.compose_ = composeBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (useItemInfoBuilder_ == null) {
+          result.useItemInfo_ = useItemInfo_;
+        } else {
+          result.useItemInfo_ = useItemInfoBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -3477,6 +4892,9 @@ public final class ItemBagProtos {
             }
           }
         }
+        if (other.hasUseItemInfo()) {
+          mergeUseItemInfo(other.getUseItemInfo());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3488,6 +4906,12 @@ public final class ItemBagProtos {
         }
         for (int i = 0; i < getItemUpdateDataCount(); i++) {
           if (!getItemUpdateData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasUseItemInfo()) {
+          if (!getUseItemInfo().isInitialized()) {
             
             return false;
           }
@@ -4030,6 +5454,159 @@ public final class ItemBagProtos {
         return composeBuilder_;
       }
 
+      // optional .UseItemInfo useItemInfo = 4;
+      private com.rwproto.ItemBagProtos.UseItemInfo useItemInfo_ = com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ItemBagProtos.UseItemInfo, com.rwproto.ItemBagProtos.UseItemInfo.Builder, com.rwproto.ItemBagProtos.UseItemInfoOrBuilder> useItemInfoBuilder_;
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public boolean hasUseItemInfo() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.UseItemInfo getUseItemInfo() {
+        if (useItemInfoBuilder_ == null) {
+          return useItemInfo_;
+        } else {
+          return useItemInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public Builder setUseItemInfo(com.rwproto.ItemBagProtos.UseItemInfo value) {
+        if (useItemInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          useItemInfo_ = value;
+          onChanged();
+        } else {
+          useItemInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public Builder setUseItemInfo(
+          com.rwproto.ItemBagProtos.UseItemInfo.Builder builderForValue) {
+        if (useItemInfoBuilder_ == null) {
+          useItemInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          useItemInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public Builder mergeUseItemInfo(com.rwproto.ItemBagProtos.UseItemInfo value) {
+        if (useItemInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              useItemInfo_ != com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance()) {
+            useItemInfo_ =
+              com.rwproto.ItemBagProtos.UseItemInfo.newBuilder(useItemInfo_).mergeFrom(value).buildPartial();
+          } else {
+            useItemInfo_ = value;
+          }
+          onChanged();
+        } else {
+          useItemInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public Builder clearUseItemInfo() {
+        if (useItemInfoBuilder_ == null) {
+          useItemInfo_ = com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          useItemInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.UseItemInfo.Builder getUseItemInfoBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getUseItemInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.UseItemInfoOrBuilder getUseItemInfoOrBuilder() {
+        if (useItemInfoBuilder_ != null) {
+          return useItemInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return useItemInfo_;
+        }
+      }
+      /**
+       * <code>optional .UseItemInfo useItemInfo = 4;</code>
+       *
+       * <pre>
+       *使用道具的信息
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ItemBagProtos.UseItemInfo, com.rwproto.ItemBagProtos.UseItemInfo.Builder, com.rwproto.ItemBagProtos.UseItemInfoOrBuilder> 
+          getUseItemInfoFieldBuilder() {
+        if (useItemInfoBuilder_ == null) {
+          useItemInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.ItemBagProtos.UseItemInfo, com.rwproto.ItemBagProtos.UseItemInfo.Builder, com.rwproto.ItemBagProtos.UseItemInfoOrBuilder>(
+                  useItemInfo_,
+                  getParentForChildren(),
+                  isClean());
+          useItemInfo_ = null;
+        }
+        return useItemInfoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgItemBagRequest)
     }
 
@@ -4078,6 +5655,32 @@ public final class ItemBagProtos {
      */
     com.rwproto.ItemBagProtos.TagItemDataOrBuilder getItemSyncDatasOrBuilder(
         int index);
+
+    // optional .ResponseInfo rspInfo = 3;
+    /**
+     * <code>optional .ResponseInfo rspInfo = 3;</code>
+     *
+     * <pre>
+     *协议处理的响应状态
+     * </pre>
+     */
+    boolean hasRspInfo();
+    /**
+     * <code>optional .ResponseInfo rspInfo = 3;</code>
+     *
+     * <pre>
+     *协议处理的响应状态
+     * </pre>
+     */
+    com.rwproto.ItemBagProtos.ResponseInfo getRspInfo();
+    /**
+     * <code>optional .ResponseInfo rspInfo = 3;</code>
+     *
+     * <pre>
+     *协议处理的响应状态
+     * </pre>
+     */
+    com.rwproto.ItemBagProtos.ResponseInfoOrBuilder getRspInfoOrBuilder();
   }
   /**
    * Protobuf type {@code MsgItemBagResponse}
@@ -4147,6 +5750,19 @@ public final class ItemBagProtos {
                 mutable_bitField0_ |= 0x00000002;
               }
               itemSyncDatas_.add(input.readMessage(com.rwproto.ItemBagProtos.TagItemData.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              com.rwproto.ItemBagProtos.ResponseInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = rspInfo_.toBuilder();
+              }
+              rspInfo_ = input.readMessage(com.rwproto.ItemBagProtos.ResponseInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(rspInfo_);
+                rspInfo_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
               break;
             }
           }
@@ -4244,9 +5860,44 @@ public final class ItemBagProtos {
       return itemSyncDatas_.get(index);
     }
 
+    // optional .ResponseInfo rspInfo = 3;
+    public static final int RSPINFO_FIELD_NUMBER = 3;
+    private com.rwproto.ItemBagProtos.ResponseInfo rspInfo_;
+    /**
+     * <code>optional .ResponseInfo rspInfo = 3;</code>
+     *
+     * <pre>
+     *协议处理的响应状态
+     * </pre>
+     */
+    public boolean hasRspInfo() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .ResponseInfo rspInfo = 3;</code>
+     *
+     * <pre>
+     *协议处理的响应状态
+     * </pre>
+     */
+    public com.rwproto.ItemBagProtos.ResponseInfo getRspInfo() {
+      return rspInfo_;
+    }
+    /**
+     * <code>optional .ResponseInfo rspInfo = 3;</code>
+     *
+     * <pre>
+     *协议处理的响应状态
+     * </pre>
+     */
+    public com.rwproto.ItemBagProtos.ResponseInfoOrBuilder getRspInfoOrBuilder() {
+      return rspInfo_;
+    }
+
     private void initFields() {
       eventType_ = com.rwproto.ItemBagProtos.EItemBagEventType.ItemBag_Index;
       itemSyncDatas_ = java.util.Collections.emptyList();
+      rspInfo_ = com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4259,6 +5910,12 @@ public final class ItemBagProtos {
       }
       for (int i = 0; i < getItemSyncDatasCount(); i++) {
         if (!getItemSyncDatas(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRspInfo()) {
+        if (!getRspInfo().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -4276,6 +5933,9 @@ public final class ItemBagProtos {
       for (int i = 0; i < itemSyncDatas_.size(); i++) {
         output.writeMessage(2, itemSyncDatas_.get(i));
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(3, rspInfo_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4292,6 +5952,10 @@ public final class ItemBagProtos {
       for (int i = 0; i < itemSyncDatas_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, itemSyncDatas_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, rspInfo_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4402,6 +6066,7 @@ public final class ItemBagProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getItemSyncDatasFieldBuilder();
+          getRspInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4418,6 +6083,12 @@ public final class ItemBagProtos {
         } else {
           itemSyncDatasBuilder_.clear();
         }
+        if (rspInfoBuilder_ == null) {
+          rspInfo_ = com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance();
+        } else {
+          rspInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -4458,6 +6129,14 @@ public final class ItemBagProtos {
           result.itemSyncDatas_ = itemSyncDatas_;
         } else {
           result.itemSyncDatas_ = itemSyncDatasBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (rspInfoBuilder_ == null) {
+          result.rspInfo_ = rspInfo_;
+        } else {
+          result.rspInfo_ = rspInfoBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -4504,6 +6183,9 @@ public final class ItemBagProtos {
             }
           }
         }
+        if (other.hasRspInfo()) {
+          mergeRspInfo(other.getRspInfo());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4515,6 +6197,12 @@ public final class ItemBagProtos {
         }
         for (int i = 0; i < getItemSyncDatasCount(); i++) {
           if (!getItemSyncDatas(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRspInfo()) {
+          if (!getRspInfo().isInitialized()) {
             
             return false;
           }
@@ -4817,6 +6505,159 @@ public final class ItemBagProtos {
         return itemSyncDatasBuilder_;
       }
 
+      // optional .ResponseInfo rspInfo = 3;
+      private com.rwproto.ItemBagProtos.ResponseInfo rspInfo_ = com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ItemBagProtos.ResponseInfo, com.rwproto.ItemBagProtos.ResponseInfo.Builder, com.rwproto.ItemBagProtos.ResponseInfoOrBuilder> rspInfoBuilder_;
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public boolean hasRspInfo() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.ResponseInfo getRspInfo() {
+        if (rspInfoBuilder_ == null) {
+          return rspInfo_;
+        } else {
+          return rspInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public Builder setRspInfo(com.rwproto.ItemBagProtos.ResponseInfo value) {
+        if (rspInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          rspInfo_ = value;
+          onChanged();
+        } else {
+          rspInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public Builder setRspInfo(
+          com.rwproto.ItemBagProtos.ResponseInfo.Builder builderForValue) {
+        if (rspInfoBuilder_ == null) {
+          rspInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          rspInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public Builder mergeRspInfo(com.rwproto.ItemBagProtos.ResponseInfo value) {
+        if (rspInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              rspInfo_ != com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance()) {
+            rspInfo_ =
+              com.rwproto.ItemBagProtos.ResponseInfo.newBuilder(rspInfo_).mergeFrom(value).buildPartial();
+          } else {
+            rspInfo_ = value;
+          }
+          onChanged();
+        } else {
+          rspInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public Builder clearRspInfo() {
+        if (rspInfoBuilder_ == null) {
+          rspInfo_ = com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          rspInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.ResponseInfo.Builder getRspInfoBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getRspInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.ResponseInfoOrBuilder getRspInfoOrBuilder() {
+        if (rspInfoBuilder_ != null) {
+          return rspInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return rspInfo_;
+        }
+      }
+      /**
+       * <code>optional .ResponseInfo rspInfo = 3;</code>
+       *
+       * <pre>
+       *协议处理的响应状态
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ItemBagProtos.ResponseInfo, com.rwproto.ItemBagProtos.ResponseInfo.Builder, com.rwproto.ItemBagProtos.ResponseInfoOrBuilder> 
+          getRspInfoFieldBuilder() {
+        if (rspInfoBuilder_ == null) {
+          rspInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.ItemBagProtos.ResponseInfo, com.rwproto.ItemBagProtos.ResponseInfo.Builder, com.rwproto.ItemBagProtos.ResponseInfoOrBuilder>(
+                  rspInfo_,
+                  getParentForChildren(),
+                  isClean());
+          rspInfo_ = null;
+        }
+        return rspInfoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgItemBagResponse)
     }
 
@@ -4844,6 +6685,16 @@ public final class ItemBagProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_TagItemData_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_UseItemInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_UseItemInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ResponseInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ResponseInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgItemBagRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4867,25 +6718,29 @@ public final class ItemBagProtos {
       "ose\022\016\n\006mateId\030\001 \001(\005\022\024\n\014composeCount\030\002 \001(" +
       "\005\"b\n\013TagItemData\022\017\n\007modelId\030\001 \002(\005\022\r\n\005cou" +
       "nt\030\002 \002(\005\022\014\n\004dbId\030\003 \002(\t\022%\n\nExtendAttr\030\004 \003" +
-      "(\0132\021.TagItemAttriData\"\200\001\n\021MsgItemBagRequ" +
-      "est\022\'\n\013requestType\030\001 \002(\0162\022.EItemBagEvent" +
-      "Type\022$\n\016itemUpdateData\030\002 \003(\0132\014.TagItemDa" +
-      "ta\022\034\n\007compose\030\003 \003(\0132\013.TagCompose\"`\n\022MsgI" +
-      "temBagResponse\022%\n\teventType\030\001 \002(\0162\022.EIte",
-      "mBagEventType\022#\n\ritemSyncDatas\030\002 \003(\0132\014.T" +
-      "agItemData*\202\001\n\021EItemBagEventType\022\021\n\rItem" +
-      "Bag_Index\020\000\022\023\n\017ItemBag_Compose\020\001\022\017\n\013Item" +
-      "Bag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003\022\020\n\014ItemBag_D" +
-      "rop\020\004\022\020\n\014ItemBag_Sync\020\005*\267\001\n\014EItemTypeDef" +
-      "\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRoleEquip\020\001\022\r\n\tHe" +
-      "roEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005Piece\020\004\022\t\n\005Mag" +
-      "ic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003Gem\020\007\022\013\n\007Consum" +
-      "e\020\010\022\r\n\tSoulStone\020\t\022\014\n\010HeroItem\020\n\022\017\n\013Spec" +
-      "ialItem\020\013*\202\001\n\022EItemAttributeType\022\r\n\tMagi",
-      "c_Exp\020\001\022\017\n\013Magic_Level\020\002\022\017\n\013Magic_State\020" +
-      "\003\022\017\n\013Equip_Level\020\004\022\023\n\017Equip_AttachExp\020\005\022" +
-      "\025\n\021Equip_AttachLevel\020\006B\034\n\013com.rwprotoB\rI" +
-      "temBagProtos"
+      "(\0132\021.TagItemAttriData\"*\n\013UseItemInfo\022\014\n\004" +
+      "dbId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005\"/\n\014ResponseInf" +
+      "o\022\017\n\007success\030\001 \002(\010\022\016\n\006tipMsg\030\002 \002(\t\"\243\001\n\021M" +
+      "sgItemBagRequest\022\'\n\013requestType\030\001 \002(\0162\022." +
+      "EItemBagEventType\022$\n\016itemUpdateData\030\002 \003(",
+      "\0132\014.TagItemData\022\034\n\007compose\030\003 \003(\0132\013.TagCo" +
+      "mpose\022!\n\013useItemInfo\030\004 \001(\0132\014.UseItemInfo" +
+      "\"\200\001\n\022MsgItemBagResponse\022%\n\teventType\030\001 \002" +
+      "(\0162\022.EItemBagEventType\022#\n\ritemSyncDatas\030" +
+      "\002 \003(\0132\014.TagItemData\022\036\n\007rspInfo\030\003 \001(\0132\r.R" +
+      "esponseInfo*\217\001\n\021EItemBagEventType\022\021\n\rIte" +
+      "mBag_Index\020\000\022\023\n\017ItemBag_Compose\020\001\022\017\n\013Ite" +
+      "mBag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003\022\020\n\014ItemBag_" +
+      "Drop\020\004\022\020\n\014ItemBag_Sync\020\005\022\013\n\007UseItem\020\006*\267\001" +
+      "\n\014EItemTypeDef\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRol",
+      "eEquip\020\001\022\r\n\tHeroEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005" +
+      "Piece\020\004\022\t\n\005Magic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003G" +
+      "em\020\007\022\013\n\007Consume\020\010\022\r\n\tSoulStone\020\t\022\014\n\010Hero" +
+      "Item\020\n\022\017\n\013SpecialItem\020\013*\202\001\n\022EItemAttribu" +
+      "teType\022\r\n\tMagic_Exp\020\001\022\017\n\013Magic_Level\020\002\022\017" +
+      "\n\013Magic_State\020\003\022\017\n\013Equip_Level\020\004\022\023\n\017Equi" +
+      "p_AttachExp\020\005\022\025\n\021Equip_AttachLevel\020\006B\034\n\013" +
+      "com.rwprotoB\rItemBagProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4910,18 +6765,30 @@ public final class ItemBagProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagItemData_descriptor,
               new java.lang.String[] { "ModelId", "Count", "DbId", "ExtendAttr", });
-          internal_static_MsgItemBagRequest_descriptor =
+          internal_static_UseItemInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
+          internal_static_UseItemInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_UseItemInfo_descriptor,
+              new java.lang.String[] { "DbId", "Count", });
+          internal_static_ResponseInfo_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_ResponseInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ResponseInfo_descriptor,
+              new java.lang.String[] { "Success", "TipMsg", });
+          internal_static_MsgItemBagRequest_descriptor =
+            getDescriptor().getMessageTypes().get(5);
           internal_static_MsgItemBagRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgItemBagRequest_descriptor,
-              new java.lang.String[] { "RequestType", "ItemUpdateData", "Compose", });
+              new java.lang.String[] { "RequestType", "ItemUpdateData", "Compose", "UseItemInfo", });
           internal_static_MsgItemBagResponse_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_MsgItemBagResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgItemBagResponse_descriptor,
-              new java.lang.String[] { "EventType", "ItemSyncDatas", });
+              new java.lang.String[] { "EventType", "ItemSyncDatas", "RspInfo", });
           return null;
         }
       };

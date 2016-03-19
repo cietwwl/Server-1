@@ -126,50 +126,59 @@ public class BILogMgr {
 		logPlayer(eBILogType.RoleLogout, player, null);
 	}
 	
-	public void logOnlineCount(String regChannelId, AtomicInteger onlineCount){
+	public void logOnlineCount(String regSubChannelId, AtomicInteger onlineCount){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("onlineCount", ""+onlineCount.get());
 		moreInfo.put("loginZoneId", ""+ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regChannelId", regChannelId);
+		moreInfo.put("regSubChannelId", regSubChannelId);
 		
 		log(eBILogType.OnlineCount, null, null, null, moreInfo);
 	}
-	public void logZoneCountCoin(String regChannelId, long zoneCoinRemain){
+	public void logZoneCountCoin(String regSubChannelId, long zoneCoinRemain, String clientPlatForm){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
+		
+		moreInfo.put("threadId", ""+Thread.currentThread().getId());
 		moreInfo.put("zoneCoinRemain", ""+zoneCoinRemain);
 		moreInfo.put("loginZoneId", ""+ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regChannelId", regChannelId);
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
 		
 		log(eBILogType.ZoneCountCoin, null, null, null, moreInfo);
 	}
-	public void logZoneCountLevelSpread(String regChannelId, String level, long levelCount){
+	public void logZoneCountLevelSpread(String regSubChannelId, String level, long levelCount, String clientPlatForm){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("threadId", ""+Thread.currentThread().getId());
 		moreInfo.put("level", level);
 		moreInfo.put("levelCount", ""+levelCount);
 		moreInfo.put("loginZoneId", ""+ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regChannelId", regChannelId);
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
 		
 		log(eBILogType.LevelSpread, null, null, null, moreInfo);
 	}
-	public void logZoneCountVipSpread(String regChannelId, String vipLevel, long count){
+	public void logZoneCountVipSpread(String regSubChannelId, String vipLevel, long count, String clientPlatForm){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("threadId", ""+Thread.currentThread().getId());
 		moreInfo.put("totalAccount", ""+count);
 		moreInfo.put("vip", ""+vipLevel);
 		moreInfo.put("loginZoneId", ""+ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regChannelId", regChannelId);
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
 		
 		log(eBILogType.VipSpread, null, null, null, moreInfo);
 	}
-	public void logZoneCountTotalAccount(String regChannelId, long totalAccount){
+	public void logZoneCountTotalAccount(String regSubChannelId, long totalAccount, String clientPlatForm){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("threadId", ""+Thread.currentThread().getId());
 		moreInfo.put("totalAccount", ""+totalAccount);
 		moreInfo.put("loginZoneId", ""+ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regChannelId", regChannelId);
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
 		
 		log(eBILogType.TotalAccount, null, null, null, moreInfo);
 	}
@@ -222,6 +231,7 @@ public class BILogMgr {
 		Map<String,String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("taskId", taskId.toString());
 		moreInfo.put("result", "1");
+		moreInfo.put("optype", "task_start");
 		moreInfo.put("biTaskType", ""+biTaskType.getTypeNo());
 		
 		logPlayer(eBILogType.TaskBegin, player, moreInfo);
@@ -232,8 +242,15 @@ public class BILogMgr {
 	 * @param taskId
 	 * @param biTaskType
 	 */
-	public void logTaskEnd(Player player, Integer taskId, BITaskType biTaskType){
+	public void logTaskEnd(Player player, Integer taskId, BITaskType biTaskType, boolean success){
 		Map<String,String> moreInfo = new HashMap<String, String>();
+		
+		if(success){
+			moreInfo.put("optype", "task_win");
+		}else{
+			moreInfo.put("optype", "task_fail");
+			
+		}
 		moreInfo.put("taskId", taskId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("biTaskType", ""+biTaskType.getTypeNo());

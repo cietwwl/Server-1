@@ -17,7 +17,7 @@ public final class OtherRoleAttrProtos {
      * <code>BaseMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *»ù±¾ÐÅÏ¢
      * </pre>
      */
     BaseMsg(0, 0),
@@ -25,7 +25,7 @@ public final class OtherRoleAttrProtos {
      * <code>OtherMsg = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *ÆäËüÐÅÏ¢
      * </pre>
      */
     OtherMsg(1, 1),
@@ -35,7 +35,7 @@ public final class OtherRoleAttrProtos {
      * <code>BaseMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *»ù±¾ÐÅÏ¢
      * </pre>
      */
     public static final int BaseMsg_VALUE = 0;
@@ -43,7 +43,7 @@ public final class OtherRoleAttrProtos {
      * <code>OtherMsg = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *ÆäËüÐÅÏ¢
      * </pre>
      */
     public static final int OtherMsg_VALUE = 1;
@@ -723,7 +723,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 1;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     boolean hasUserId();
@@ -731,7 +731,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 1;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     java.lang.String getUserId();
@@ -739,7 +739,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 1;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -869,7 +869,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 1;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     public boolean hasUserId() {
@@ -879,7 +879,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 1;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     public java.lang.String getUserId() {
@@ -900,7 +900,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 1;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1185,7 +1185,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 1;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public boolean hasUserId() {
@@ -1195,7 +1195,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 1;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public java.lang.String getUserId() {
@@ -1213,7 +1213,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 1;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1233,7 +1233,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 1;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public Builder setUserId(
@@ -1250,7 +1250,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 1;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public Builder clearUserId() {
@@ -1263,7 +1263,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 1;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public Builder setUserIdBytes(
@@ -1357,7 +1357,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 2;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     boolean hasUserId();
@@ -1365,7 +1365,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 2;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     java.lang.String getUserId();
@@ -1373,7 +1373,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 2;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1384,7 +1384,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userName = 3;</code>
      *
      * <pre>
-     *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+     *  ÓÃ»§êÇ³Æ
      * </pre>
      */
     boolean hasUserName();
@@ -1392,7 +1392,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userName = 3;</code>
      *
      * <pre>
-     *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+     *  ÓÃ»§êÇ³Æ
      * </pre>
      */
     java.lang.String getUserName();
@@ -1400,7 +1400,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userName = 3;</code>
      *
      * <pre>
-     *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+     *  ÓÃ»§êÇ³Æ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1411,7 +1411,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 sex = 4;</code>
      *
      * <pre>
-     *0Å®1ï¿½ï¿½
+     *0Å®1ÄÐ
      * </pre>
      */
     boolean hasSex();
@@ -1419,7 +1419,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 sex = 4;</code>
      *
      * <pre>
-     *0Å®1ï¿½ï¿½
+     *0Å®1ÄÐ
      * </pre>
      */
     int getSex();
@@ -1429,7 +1429,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     boolean hasLevel();
@@ -1437,7 +1437,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     int getLevel();
@@ -1447,7 +1447,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string headImage = 6;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     boolean hasHeadImage();
@@ -1455,7 +1455,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string headImage = 6;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     java.lang.String getHeadImage();
@@ -1463,7 +1463,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string headImage = 6;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1474,7 +1474,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string templateId = 7;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     boolean hasTemplateId();
@@ -1482,7 +1482,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string templateId = 7;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     java.lang.String getTemplateId();
@@ -1490,7 +1490,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string templateId = 7;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1501,7 +1501,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo> 
@@ -1510,7 +1510,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     com.rwproto.OtherRoleAttrProtos.SkillInfo getSkillInfo(int index);
@@ -1518,7 +1518,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     int getSkillInfoCount();
@@ -1526,7 +1526,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     java.util.List<? extends com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder> 
@@ -1535,7 +1535,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder getSkillInfoOrBuilder(
@@ -1546,7 +1546,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     java.util.List<com.rwproto.EquipProtos.EquipData> 
@@ -1555,7 +1555,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     com.rwproto.EquipProtos.EquipData getEquipInfo(int index);
@@ -1563,7 +1563,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     int getEquipInfoCount();
@@ -1571,7 +1571,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     java.util.List<? extends com.rwproto.EquipProtos.EquipDataOrBuilder> 
@@ -1580,7 +1580,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     com.rwproto.EquipProtos.EquipDataOrBuilder getEquipInfoOrBuilder(
@@ -1591,7 +1591,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 11;</code>
      *
      * <pre>
-     *Õ½ï¿½ï¿½ï¿½ï¿½
+     *Õ½¶·Á¦
      * </pre>
      */
     boolean hasFighting();
@@ -1599,7 +1599,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 11;</code>
      *
      * <pre>
-     *Õ½ï¿½ï¿½ï¿½ï¿½
+     *Õ½¶·Á¦
      * </pre>
      */
     int getFighting();
@@ -1806,7 +1806,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 2;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     public boolean hasUserId() {
@@ -1816,7 +1816,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 2;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     public java.lang.String getUserId() {
@@ -1837,7 +1837,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userId = 2;</code>
      *
      * <pre>
-     * ï¿½Ã»ï¿½ID
+     * ÓÃ»§ID
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1861,7 +1861,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userName = 3;</code>
      *
      * <pre>
-     *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+     *  ÓÃ»§êÇ³Æ
      * </pre>
      */
     public boolean hasUserName() {
@@ -1871,7 +1871,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userName = 3;</code>
      *
      * <pre>
-     *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+     *  ÓÃ»§êÇ³Æ
      * </pre>
      */
     public java.lang.String getUserName() {
@@ -1892,7 +1892,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string userName = 3;</code>
      *
      * <pre>
-     *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+     *  ÓÃ»§êÇ³Æ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1916,7 +1916,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 sex = 4;</code>
      *
      * <pre>
-     *0Å®1ï¿½ï¿½
+     *0Å®1ÄÐ
      * </pre>
      */
     public boolean hasSex() {
@@ -1926,7 +1926,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 sex = 4;</code>
      *
      * <pre>
-     *0Å®1ï¿½ï¿½
+     *0Å®1ÄÐ
      * </pre>
      */
     public int getSex() {
@@ -1940,7 +1940,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     public boolean hasLevel() {
@@ -1950,7 +1950,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     public int getLevel() {
@@ -1964,7 +1964,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string headImage = 6;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     public boolean hasHeadImage() {
@@ -1974,7 +1974,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string headImage = 6;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     public java.lang.String getHeadImage() {
@@ -1995,7 +1995,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string headImage = 6;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2019,7 +2019,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string templateId = 7;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     public boolean hasTemplateId() {
@@ -2029,7 +2029,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string templateId = 7;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     public java.lang.String getTemplateId() {
@@ -2050,7 +2050,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string templateId = 7;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2074,7 +2074,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo> getSkillInfoList() {
@@ -2084,7 +2084,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public java.util.List<? extends com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder> 
@@ -2095,7 +2095,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public int getSkillInfoCount() {
@@ -2105,7 +2105,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public com.rwproto.OtherRoleAttrProtos.SkillInfo getSkillInfo(int index) {
@@ -2115,7 +2115,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder getSkillInfoOrBuilder(
@@ -2130,7 +2130,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public java.util.List<com.rwproto.EquipProtos.EquipData> getEquipInfoList() {
@@ -2140,7 +2140,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public java.util.List<? extends com.rwproto.EquipProtos.EquipDataOrBuilder> 
@@ -2151,7 +2151,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public int getEquipInfoCount() {
@@ -2161,7 +2161,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public com.rwproto.EquipProtos.EquipData getEquipInfo(int index) {
@@ -2171,7 +2171,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public com.rwproto.EquipProtos.EquipDataOrBuilder getEquipInfoOrBuilder(
@@ -2186,7 +2186,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 11;</code>
      *
      * <pre>
-     *Õ½ï¿½ï¿½ï¿½ï¿½
+     *Õ½¶·Á¦
      * </pre>
      */
     public boolean hasFighting() {
@@ -2196,7 +2196,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 11;</code>
      *
      * <pre>
-     *Õ½ï¿½ï¿½ï¿½ï¿½
+     *Õ½¶·Á¦
      * </pre>
      */
     public int getFighting() {
@@ -2960,7 +2960,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 2;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public boolean hasUserId() {
@@ -2970,7 +2970,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 2;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public java.lang.String getUserId() {
@@ -2988,7 +2988,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 2;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3008,7 +3008,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 2;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public Builder setUserId(
@@ -3025,7 +3025,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 2;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public Builder clearUserId() {
@@ -3038,7 +3038,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userId = 2;</code>
        *
        * <pre>
-       * ï¿½Ã»ï¿½ID
+       * ÓÃ»§ID
        * </pre>
        */
       public Builder setUserIdBytes(
@@ -3058,7 +3058,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userName = 3;</code>
        *
        * <pre>
-       *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+       *  ÓÃ»§êÇ³Æ
        * </pre>
        */
       public boolean hasUserName() {
@@ -3068,7 +3068,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userName = 3;</code>
        *
        * <pre>
-       *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+       *  ÓÃ»§êÇ³Æ
        * </pre>
        */
       public java.lang.String getUserName() {
@@ -3086,7 +3086,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userName = 3;</code>
        *
        * <pre>
-       *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+       *  ÓÃ»§êÇ³Æ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3106,7 +3106,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userName = 3;</code>
        *
        * <pre>
-       *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+       *  ÓÃ»§êÇ³Æ
        * </pre>
        */
       public Builder setUserName(
@@ -3123,7 +3123,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userName = 3;</code>
        *
        * <pre>
-       *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+       *  ÓÃ»§êÇ³Æ
        * </pre>
        */
       public Builder clearUserName() {
@@ -3136,7 +3136,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string userName = 3;</code>
        *
        * <pre>
-       *  ï¿½Ã»ï¿½ï¿½Ç³ï¿½
+       *  ÓÃ»§êÇ³Æ
        * </pre>
        */
       public Builder setUserNameBytes(
@@ -3156,7 +3156,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 sex = 4;</code>
        *
        * <pre>
-       *0Å®1ï¿½ï¿½
+       *0Å®1ÄÐ
        * </pre>
        */
       public boolean hasSex() {
@@ -3166,7 +3166,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 sex = 4;</code>
        *
        * <pre>
-       *0Å®1ï¿½ï¿½
+       *0Å®1ÄÐ
        * </pre>
        */
       public int getSex() {
@@ -3176,7 +3176,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 sex = 4;</code>
        *
        * <pre>
-       *0Å®1ï¿½ï¿½
+       *0Å®1ÄÐ
        * </pre>
        */
       public Builder setSex(int value) {
@@ -3189,7 +3189,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 sex = 4;</code>
        *
        * <pre>
-       *0Å®1ï¿½ï¿½
+       *0Å®1ÄÐ
        * </pre>
        */
       public Builder clearSex() {
@@ -3205,7 +3205,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public boolean hasLevel() {
@@ -3215,7 +3215,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public int getLevel() {
@@ -3225,7 +3225,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public Builder setLevel(int value) {
@@ -3238,7 +3238,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public Builder clearLevel() {
@@ -3254,7 +3254,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string headImage = 6;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public boolean hasHeadImage() {
@@ -3264,7 +3264,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string headImage = 6;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public java.lang.String getHeadImage() {
@@ -3282,7 +3282,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string headImage = 6;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3302,7 +3302,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string headImage = 6;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public Builder setHeadImage(
@@ -3319,7 +3319,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string headImage = 6;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public Builder clearHeadImage() {
@@ -3332,7 +3332,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string headImage = 6;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public Builder setHeadImageBytes(
@@ -3352,7 +3352,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string templateId = 7;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public boolean hasTemplateId() {
@@ -3362,7 +3362,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string templateId = 7;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public java.lang.String getTemplateId() {
@@ -3380,7 +3380,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string templateId = 7;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3400,7 +3400,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string templateId = 7;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public Builder setTemplateId(
@@ -3417,7 +3417,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string templateId = 7;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public Builder clearTemplateId() {
@@ -3430,7 +3430,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string templateId = 7;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public Builder setTemplateIdBytes(
@@ -3461,7 +3461,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo> getSkillInfoList() {
@@ -3475,7 +3475,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public int getSkillInfoCount() {
@@ -3489,7 +3489,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo getSkillInfo(int index) {
@@ -3503,7 +3503,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder setSkillInfo(
@@ -3524,7 +3524,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder setSkillInfo(
@@ -3542,7 +3542,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(com.rwproto.OtherRoleAttrProtos.SkillInfo value) {
@@ -3562,7 +3562,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(
@@ -3583,7 +3583,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(
@@ -3601,7 +3601,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(
@@ -3619,7 +3619,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addAllSkillInfo(
@@ -3637,7 +3637,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder clearSkillInfo() {
@@ -3654,7 +3654,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder removeSkillInfo(int index) {
@@ -3671,7 +3671,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder getSkillInfoBuilder(
@@ -3682,7 +3682,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder getSkillInfoOrBuilder(
@@ -3696,7 +3696,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public java.util.List<? extends com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder> 
@@ -3711,7 +3711,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder addSkillInfoBuilder() {
@@ -3722,7 +3722,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder addSkillInfoBuilder(
@@ -3734,7 +3734,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder> 
@@ -3773,7 +3773,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.EquipProtos.EquipData> getEquipInfoList() {
@@ -3787,7 +3787,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public int getEquipInfoCount() {
@@ -3801,7 +3801,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData getEquipInfo(int index) {
@@ -3815,7 +3815,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder setEquipInfo(
@@ -3836,7 +3836,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder setEquipInfo(
@@ -3854,7 +3854,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(com.rwproto.EquipProtos.EquipData value) {
@@ -3874,7 +3874,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(
@@ -3895,7 +3895,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(
@@ -3913,7 +3913,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(
@@ -3931,7 +3931,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addAllEquipInfo(
@@ -3949,7 +3949,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder clearEquipInfo() {
@@ -3966,7 +3966,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder removeEquipInfo(int index) {
@@ -3983,7 +3983,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData.Builder getEquipInfoBuilder(
@@ -3994,7 +3994,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipDataOrBuilder getEquipInfoOrBuilder(
@@ -4008,7 +4008,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public java.util.List<? extends com.rwproto.EquipProtos.EquipDataOrBuilder> 
@@ -4023,7 +4023,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData.Builder addEquipInfoBuilder() {
@@ -4034,7 +4034,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData.Builder addEquipInfoBuilder(
@@ -4046,7 +4046,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 10;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.EquipProtos.EquipData.Builder> 
@@ -4074,7 +4074,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 11;</code>
        *
        * <pre>
-       *Õ½ï¿½ï¿½ï¿½ï¿½
+       *Õ½¶·Á¦
        * </pre>
        */
       public boolean hasFighting() {
@@ -4084,7 +4084,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 11;</code>
        *
        * <pre>
-       *Õ½ï¿½ï¿½ï¿½ï¿½
+       *Õ½¶·Á¦
        * </pre>
        */
       public int getFighting() {
@@ -4094,7 +4094,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 11;</code>
        *
        * <pre>
-       *Õ½ï¿½ï¿½ï¿½ï¿½
+       *Õ½¶·Á¦
        * </pre>
        */
       public Builder setFighting(int value) {
@@ -4107,7 +4107,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 11;</code>
        *
        * <pre>
-       *Õ½ï¿½ï¿½ï¿½ï¿½
+       *Õ½¶·Á¦
        * </pre>
        */
       public Builder clearFighting() {
@@ -4136,7 +4136,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo> 
@@ -4145,7 +4145,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     com.rwproto.OtherRoleAttrProtos.SkillInfo getSkillInfo(int index);
@@ -4153,7 +4153,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     int getSkillInfoCount();
@@ -4161,7 +4161,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     java.util.List<? extends com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder> 
@@ -4170,7 +4170,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder getSkillInfoOrBuilder(
@@ -4181,7 +4181,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string id = 2;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     boolean hasId();
@@ -4189,7 +4189,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string id = 2;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     java.lang.String getId();
@@ -4197,7 +4197,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string id = 2;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -4208,7 +4208,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string name = 3;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     boolean hasName();
@@ -4216,7 +4216,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string name = 3;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     java.lang.String getName();
@@ -4224,7 +4224,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string name = 3;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -4235,7 +4235,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string icon = 4;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     boolean hasIcon();
@@ -4243,7 +4243,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string icon = 4;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     java.lang.String getIcon();
@@ -4251,7 +4251,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string icon = 4;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -4262,7 +4262,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     boolean hasLevel();
@@ -4270,7 +4270,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     int getLevel();
@@ -4280,7 +4280,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 starLevel = 6;</code>
      *
      * <pre>
-     *ï¿½Ç¼ï¿½
+     *ÐÇ¼¶
      * </pre>
      */
     boolean hasStarLevel();
@@ -4288,7 +4288,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 starLevel = 6;</code>
      *
      * <pre>
-     *ï¿½Ç¼ï¿½
+     *ÐÇ¼¶
      * </pre>
      */
     int getStarLevel();
@@ -4298,7 +4298,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string qualityId = 7;</code>
      *
      * <pre>
-     *Æ·ï¿½ï¿½Id
+     *Æ·½×Id
      * </pre>
      */
     boolean hasQualityId();
@@ -4306,7 +4306,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string qualityId = 7;</code>
      *
      * <pre>
-     *Æ·ï¿½ï¿½Id
+     *Æ·½×Id
      * </pre>
      */
     java.lang.String getQualityId();
@@ -4314,7 +4314,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string qualityId = 7;</code>
      *
      * <pre>
-     *Æ·ï¿½ï¿½Id
+     *Æ·½×Id
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -4325,7 +4325,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 8;</code>
      *
      * <pre>
-     *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+     *Ó¶±øÕ½¶·Á¦
      * </pre>
      */
     boolean hasFighting();
@@ -4333,7 +4333,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 8;</code>
      *
      * <pre>
-     *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+     *Ó¶±øÕ½¶·Á¦
      * </pre>
      */
     int getFighting();
@@ -4343,7 +4343,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string heroId = 9;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     boolean hasHeroId();
@@ -4351,7 +4351,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string heroId = 9;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     java.lang.String getHeroId();
@@ -4359,7 +4359,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string heroId = 9;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -4370,7 +4370,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string modeId = 10;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+     *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
      * </pre>
      */
     boolean hasModeId();
@@ -4378,7 +4378,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string modeId = 10;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+     *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
      * </pre>
      */
     java.lang.String getModeId();
@@ -4386,7 +4386,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string modeId = 10;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+     *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -4415,7 +4415,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     java.util.List<com.rwproto.EquipProtos.EquipData> 
@@ -4424,7 +4424,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     com.rwproto.EquipProtos.EquipData getEquipInfo(int index);
@@ -4432,7 +4432,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     int getEquipInfoCount();
@@ -4440,7 +4440,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     java.util.List<? extends com.rwproto.EquipProtos.EquipDataOrBuilder> 
@@ -4449,7 +4449,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     com.rwproto.EquipProtos.EquipDataOrBuilder getEquipInfoOrBuilder(
@@ -4625,7 +4625,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo> getSkillInfoList() {
@@ -4635,7 +4635,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public java.util.List<? extends com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder> 
@@ -4646,7 +4646,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public int getSkillInfoCount() {
@@ -4656,7 +4656,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public com.rwproto.OtherRoleAttrProtos.SkillInfo getSkillInfo(int index) {
@@ -4666,7 +4666,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .SkillInfo skillInfo = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¼¼ÄÜ
      * </pre>
      */
     public com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder getSkillInfoOrBuilder(
@@ -4681,7 +4681,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string id = 2;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     public boolean hasId() {
@@ -4691,7 +4691,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string id = 2;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     public java.lang.String getId() {
@@ -4712,7 +4712,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string id = 2;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4736,7 +4736,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string name = 3;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     public boolean hasName() {
@@ -4746,7 +4746,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string name = 3;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     public java.lang.String getName() {
@@ -4767,7 +4767,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string name = 3;</code>
      *
      * <pre>
-     *  ï¿½ï¿½ï¿½ï¿½
+     *  Ãû³Æ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4791,7 +4791,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string icon = 4;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     public boolean hasIcon() {
@@ -4801,7 +4801,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string icon = 4;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     public java.lang.String getIcon() {
@@ -4822,7 +4822,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string icon = 4;</code>
      *
      * <pre>
-     *  Í¼ï¿½ï¿½
+     *  Í¼±ê
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4846,7 +4846,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     public boolean hasLevel() {
@@ -4856,7 +4856,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 5;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     public int getLevel() {
@@ -4870,7 +4870,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 starLevel = 6;</code>
      *
      * <pre>
-     *ï¿½Ç¼ï¿½
+     *ÐÇ¼¶
      * </pre>
      */
     public boolean hasStarLevel() {
@@ -4880,7 +4880,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 starLevel = 6;</code>
      *
      * <pre>
-     *ï¿½Ç¼ï¿½
+     *ÐÇ¼¶
      * </pre>
      */
     public int getStarLevel() {
@@ -4894,7 +4894,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string qualityId = 7;</code>
      *
      * <pre>
-     *Æ·ï¿½ï¿½Id
+     *Æ·½×Id
      * </pre>
      */
     public boolean hasQualityId() {
@@ -4904,7 +4904,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string qualityId = 7;</code>
      *
      * <pre>
-     *Æ·ï¿½ï¿½Id
+     *Æ·½×Id
      * </pre>
      */
     public java.lang.String getQualityId() {
@@ -4925,7 +4925,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string qualityId = 7;</code>
      *
      * <pre>
-     *Æ·ï¿½ï¿½Id
+     *Æ·½×Id
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4949,7 +4949,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 8;</code>
      *
      * <pre>
-     *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+     *Ó¶±øÕ½¶·Á¦
      * </pre>
      */
     public boolean hasFighting() {
@@ -4959,7 +4959,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 fighting = 8;</code>
      *
      * <pre>
-     *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+     *Ó¶±øÕ½¶·Á¦
      * </pre>
      */
     public int getFighting() {
@@ -4973,7 +4973,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string heroId = 9;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     public boolean hasHeroId() {
@@ -4983,7 +4983,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string heroId = 9;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     public java.lang.String getHeroId() {
@@ -5004,7 +5004,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string heroId = 9;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+     *Ó¢ÐÛÄ£°åId
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -5028,7 +5028,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string modeId = 10;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+     *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
      * </pre>
      */
     public boolean hasModeId() {
@@ -5038,7 +5038,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string modeId = 10;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+     *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
      * </pre>
      */
     public java.lang.String getModeId() {
@@ -5059,7 +5059,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional string modeId = 10;</code>
      *
      * <pre>
-     *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+     *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -5107,7 +5107,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public java.util.List<com.rwproto.EquipProtos.EquipData> getEquipInfoList() {
@@ -5117,7 +5117,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public java.util.List<? extends com.rwproto.EquipProtos.EquipDataOrBuilder> 
@@ -5128,7 +5128,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public int getEquipInfoCount() {
@@ -5138,7 +5138,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public com.rwproto.EquipProtos.EquipData getEquipInfo(int index) {
@@ -5148,7 +5148,7 @@ public final class OtherRoleAttrProtos {
      * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
      *
      * <pre>
-     *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+     *×°±¸ÐÅÏ¢
      * </pre>
      */
     public com.rwproto.EquipProtos.EquipDataOrBuilder getEquipInfoOrBuilder(
@@ -5677,7 +5677,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo> getSkillInfoList() {
@@ -5691,7 +5691,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public int getSkillInfoCount() {
@@ -5705,7 +5705,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo getSkillInfo(int index) {
@@ -5719,7 +5719,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder setSkillInfo(
@@ -5740,7 +5740,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder setSkillInfo(
@@ -5758,7 +5758,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(com.rwproto.OtherRoleAttrProtos.SkillInfo value) {
@@ -5778,7 +5778,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(
@@ -5799,7 +5799,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(
@@ -5817,7 +5817,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addSkillInfo(
@@ -5835,7 +5835,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder addAllSkillInfo(
@@ -5853,7 +5853,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder clearSkillInfo() {
@@ -5870,7 +5870,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public Builder removeSkillInfo(int index) {
@@ -5887,7 +5887,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder getSkillInfoBuilder(
@@ -5898,7 +5898,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder getSkillInfoOrBuilder(
@@ -5912,7 +5912,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public java.util.List<? extends com.rwproto.OtherRoleAttrProtos.SkillInfoOrBuilder> 
@@ -5927,7 +5927,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder addSkillInfoBuilder() {
@@ -5938,7 +5938,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder addSkillInfoBuilder(
@@ -5950,7 +5950,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .SkillInfo skillInfo = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¼¼ÄÜ
        * </pre>
        */
       public java.util.List<com.rwproto.OtherRoleAttrProtos.SkillInfo.Builder> 
@@ -5978,7 +5978,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string id = 2;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public boolean hasId() {
@@ -5988,7 +5988,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string id = 2;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public java.lang.String getId() {
@@ -6006,7 +6006,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string id = 2;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6026,7 +6026,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string id = 2;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public Builder setId(
@@ -6043,7 +6043,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string id = 2;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public Builder clearId() {
@@ -6056,7 +6056,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string id = 2;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public Builder setIdBytes(
@@ -6076,7 +6076,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string name = 3;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public boolean hasName() {
@@ -6086,7 +6086,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string name = 3;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public java.lang.String getName() {
@@ -6104,7 +6104,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string name = 3;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6124,7 +6124,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string name = 3;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public Builder setName(
@@ -6141,7 +6141,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string name = 3;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public Builder clearName() {
@@ -6154,7 +6154,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string name = 3;</code>
        *
        * <pre>
-       *  ï¿½ï¿½ï¿½ï¿½
+       *  Ãû³Æ
        * </pre>
        */
       public Builder setNameBytes(
@@ -6174,7 +6174,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string icon = 4;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public boolean hasIcon() {
@@ -6184,7 +6184,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string icon = 4;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public java.lang.String getIcon() {
@@ -6202,7 +6202,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string icon = 4;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6222,7 +6222,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string icon = 4;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public Builder setIcon(
@@ -6239,7 +6239,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string icon = 4;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public Builder clearIcon() {
@@ -6252,7 +6252,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string icon = 4;</code>
        *
        * <pre>
-       *  Í¼ï¿½ï¿½
+       *  Í¼±ê
        * </pre>
        */
       public Builder setIconBytes(
@@ -6272,7 +6272,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public boolean hasLevel() {
@@ -6282,7 +6282,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public int getLevel() {
@@ -6292,7 +6292,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public Builder setLevel(int value) {
@@ -6305,7 +6305,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 5;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public Builder clearLevel() {
@@ -6321,7 +6321,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 starLevel = 6;</code>
        *
        * <pre>
-       *ï¿½Ç¼ï¿½
+       *ÐÇ¼¶
        * </pre>
        */
       public boolean hasStarLevel() {
@@ -6331,7 +6331,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 starLevel = 6;</code>
        *
        * <pre>
-       *ï¿½Ç¼ï¿½
+       *ÐÇ¼¶
        * </pre>
        */
       public int getStarLevel() {
@@ -6341,7 +6341,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 starLevel = 6;</code>
        *
        * <pre>
-       *ï¿½Ç¼ï¿½
+       *ÐÇ¼¶
        * </pre>
        */
       public Builder setStarLevel(int value) {
@@ -6354,7 +6354,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 starLevel = 6;</code>
        *
        * <pre>
-       *ï¿½Ç¼ï¿½
+       *ÐÇ¼¶
        * </pre>
        */
       public Builder clearStarLevel() {
@@ -6370,7 +6370,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string qualityId = 7;</code>
        *
        * <pre>
-       *Æ·ï¿½ï¿½Id
+       *Æ·½×Id
        * </pre>
        */
       public boolean hasQualityId() {
@@ -6380,7 +6380,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string qualityId = 7;</code>
        *
        * <pre>
-       *Æ·ï¿½ï¿½Id
+       *Æ·½×Id
        * </pre>
        */
       public java.lang.String getQualityId() {
@@ -6398,7 +6398,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string qualityId = 7;</code>
        *
        * <pre>
-       *Æ·ï¿½ï¿½Id
+       *Æ·½×Id
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6418,7 +6418,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string qualityId = 7;</code>
        *
        * <pre>
-       *Æ·ï¿½ï¿½Id
+       *Æ·½×Id
        * </pre>
        */
       public Builder setQualityId(
@@ -6435,7 +6435,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string qualityId = 7;</code>
        *
        * <pre>
-       *Æ·ï¿½ï¿½Id
+       *Æ·½×Id
        * </pre>
        */
       public Builder clearQualityId() {
@@ -6448,7 +6448,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string qualityId = 7;</code>
        *
        * <pre>
-       *Æ·ï¿½ï¿½Id
+       *Æ·½×Id
        * </pre>
        */
       public Builder setQualityIdBytes(
@@ -6468,7 +6468,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 8;</code>
        *
        * <pre>
-       *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+       *Ó¶±øÕ½¶·Á¦
        * </pre>
        */
       public boolean hasFighting() {
@@ -6478,7 +6478,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 8;</code>
        *
        * <pre>
-       *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+       *Ó¶±øÕ½¶·Á¦
        * </pre>
        */
       public int getFighting() {
@@ -6488,7 +6488,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 8;</code>
        *
        * <pre>
-       *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+       *Ó¶±øÕ½¶·Á¦
        * </pre>
        */
       public Builder setFighting(int value) {
@@ -6501,7 +6501,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 fighting = 8;</code>
        *
        * <pre>
-       *Ó¶ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
+       *Ó¶±øÕ½¶·Á¦
        * </pre>
        */
       public Builder clearFighting() {
@@ -6517,7 +6517,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string heroId = 9;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public boolean hasHeroId() {
@@ -6527,7 +6527,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string heroId = 9;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public java.lang.String getHeroId() {
@@ -6545,7 +6545,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string heroId = 9;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6565,7 +6565,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string heroId = 9;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public Builder setHeroId(
@@ -6582,7 +6582,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string heroId = 9;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public Builder clearHeroId() {
@@ -6595,7 +6595,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string heroId = 9;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Id
+       *Ó¢ÐÛÄ£°åId
        * </pre>
        */
       public Builder setHeroIdBytes(
@@ -6615,7 +6615,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string modeId = 10;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+       *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
        * </pre>
        */
       public boolean hasModeId() {
@@ -6625,7 +6625,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string modeId = 10;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+       *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
        * </pre>
        */
       public java.lang.String getModeId() {
@@ -6643,7 +6643,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string modeId = 10;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+       *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -6663,7 +6663,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string modeId = 10;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+       *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
        * </pre>
        */
       public Builder setModeId(
@@ -6680,7 +6680,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string modeId = 10;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+       *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
        * </pre>
        */
       public Builder clearModeId() {
@@ -6693,7 +6693,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional string modeId = 10;</code>
        *
        * <pre>
-       *Ó¢ï¿½ï¿½Ä£ï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½Ò¿ï¿½Óµï¿½Ðµï¿½Î¨Ò»Ó¢ï¿½ï¿½
+       *Ó¢ÐÛÄ£ÐÍId£¬±êÊ¶Íæ¼Ò¿ÉÓµÓÐµÄÎ¨Ò»Ó¢ÐÛ
        * </pre>
        */
       public Builder setModeIdBytes(
@@ -6773,7 +6773,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.EquipProtos.EquipData> getEquipInfoList() {
@@ -6787,7 +6787,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public int getEquipInfoCount() {
@@ -6801,7 +6801,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData getEquipInfo(int index) {
@@ -6815,7 +6815,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder setEquipInfo(
@@ -6836,7 +6836,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder setEquipInfo(
@@ -6854,7 +6854,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(com.rwproto.EquipProtos.EquipData value) {
@@ -6874,7 +6874,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(
@@ -6895,7 +6895,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(
@@ -6913,7 +6913,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addEquipInfo(
@@ -6931,7 +6931,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder addAllEquipInfo(
@@ -6949,7 +6949,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder clearEquipInfo() {
@@ -6966,7 +6966,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public Builder removeEquipInfo(int index) {
@@ -6983,7 +6983,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData.Builder getEquipInfoBuilder(
@@ -6994,7 +6994,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipDataOrBuilder getEquipInfoOrBuilder(
@@ -7008,7 +7008,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public java.util.List<? extends com.rwproto.EquipProtos.EquipDataOrBuilder> 
@@ -7023,7 +7023,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData.Builder addEquipInfoBuilder() {
@@ -7034,7 +7034,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public com.rwproto.EquipProtos.EquipData.Builder addEquipInfoBuilder(
@@ -7046,7 +7046,7 @@ public final class OtherRoleAttrProtos {
        * <code>repeated .EquipService.EquipData equipInfo = 12;</code>
        *
        * <pre>
-       *×°ï¿½ï¿½ï¿½ï¿½Ï¢
+       *×°±¸ÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.EquipProtos.EquipData.Builder> 
@@ -7111,7 +7111,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 2;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     boolean hasLevel();
@@ -7119,7 +7119,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 2;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     int getLevel();
@@ -7129,7 +7129,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 order = 3;</code>
      *
      * <pre>
-     *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *µÚ¼¸¸ö¼¼ÄÜ
      * </pre>
      */
     boolean hasOrder();
@@ -7137,7 +7137,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 order = 3;</code>
      *
      * <pre>
-     *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *µÚ¼¸¸ö¼¼ÄÜ
      * </pre>
      */
     int getOrder();
@@ -7307,7 +7307,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 2;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     public boolean hasLevel() {
@@ -7317,7 +7317,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 level = 2;</code>
      *
      * <pre>
-     *ï¿½È¼ï¿½
+     *µÈ¼¶
      * </pre>
      */
     public int getLevel() {
@@ -7331,7 +7331,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 order = 3;</code>
      *
      * <pre>
-     *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *µÚ¼¸¸ö¼¼ÄÜ
      * </pre>
      */
     public boolean hasOrder() {
@@ -7341,7 +7341,7 @@ public final class OtherRoleAttrProtos {
      * <code>optional int32 order = 3;</code>
      *
      * <pre>
-     *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *µÚ¼¸¸ö¼¼ÄÜ
      * </pre>
      */
     public int getOrder() {
@@ -7709,7 +7709,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 2;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public boolean hasLevel() {
@@ -7719,7 +7719,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 2;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public int getLevel() {
@@ -7729,7 +7729,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 2;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public Builder setLevel(int value) {
@@ -7742,7 +7742,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 level = 2;</code>
        *
        * <pre>
-       *ï¿½È¼ï¿½
+       *µÈ¼¶
        * </pre>
        */
       public Builder clearLevel() {
@@ -7758,7 +7758,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 order = 3;</code>
        *
        * <pre>
-       *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *µÚ¼¸¸ö¼¼ÄÜ
        * </pre>
        */
       public boolean hasOrder() {
@@ -7768,7 +7768,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 order = 3;</code>
        *
        * <pre>
-       *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *µÚ¼¸¸ö¼¼ÄÜ
        * </pre>
        */
       public int getOrder() {
@@ -7778,7 +7778,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 order = 3;</code>
        *
        * <pre>
-       *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *µÚ¼¸¸ö¼¼ÄÜ
        * </pre>
        */
       public Builder setOrder(int value) {
@@ -7791,7 +7791,7 @@ public final class OtherRoleAttrProtos {
        * <code>optional int32 order = 3;</code>
        *
        * <pre>
-       *ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *µÚ¼¸¸ö¼¼ÄÜ
        * </pre>
        */
       public Builder clearOrder() {

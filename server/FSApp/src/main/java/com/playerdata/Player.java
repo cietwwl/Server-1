@@ -12,6 +12,9 @@ import com.bm.arena.PeakArenaBM;
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
+import com.bm.rank.RankType;
+import com.bm.rank.arena.ArenaSettleComparable;
+import com.bm.rank.arena.ArenaSettlement;
 import com.common.Action;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -23,6 +26,8 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
@@ -30,6 +35,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
+import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
@@ -182,8 +188,8 @@ public class Player implements PlayerIF {
 			player.getMagicMgr().save();
 			savedCount.incrementAndGet();
 
-//			player.getFresherActivityMgr().save();
-//			savedCount.incrementAndGet();
+			// player.getFresherActivityMgr().save();
+			// savedCount.incrementAndGet();
 
 			if (m_CopyRecordMgr != null) {
 				player.getCopyRecordMgr().flush();
@@ -230,10 +236,10 @@ public class Player implements PlayerIF {
 				player.getDailyActivityMgr().save();
 				savedCount.incrementAndGet();
 			}
-//			if (m_TowerMgr != null) {
-//				player.getTowerMgr().save();
-//				savedCount.incrementAndGet();
-//			}
+			// if (m_TowerMgr != null) {
+			// player.getTowerMgr().save();
+			// savedCount.incrementAndGet();
+			// }
 		}
 	}
 
@@ -279,7 +285,7 @@ public class Player implements PlayerIF {
 			}
 		}
 	}
-	
+
 	private void notifyLogin() {
 		Field[] fields = Player.class.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
@@ -323,7 +329,6 @@ public class Player implements PlayerIF {
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
-		
 
 		if (initMgr) {
 			initMgr();
@@ -385,6 +390,7 @@ public class Player implements PlayerIF {
 				public void synAllData(Player player, int version) {
 
 					onMinutes();
+					onNewHour();
 					onNewDayZero();
 					onNewDay5Clock();
 
@@ -393,7 +399,8 @@ public class Player implements PlayerIF {
 					// 推送帮派的数据
 					getUserGroupAttributeDataMgr().synUserGroupData(player);
 					// // 推送个人的帮派技能数据
-					// getUserGroupAttributeDataMgr().synUserSkillData(player, -1);
+					// getUserGroupAttributeDataMgr().synUserSkillData(player,
+					// -1);
 					getGambleMgr().syncGamble();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
@@ -426,6 +433,7 @@ public class Player implements PlayerIF {
 		GroupMemberHelper.onPlayerLogin(this);
 		// TODO HC 登录之后检查一下万仙阵的数据
 		getTowerMgr().checkAndResetMatchData(this);
+		ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 	}
 
 	public void notifyMainRoleCreation() {
@@ -572,12 +580,10 @@ public class Player implements PlayerIF {
 			getDailyActivityMgr().UpdateTaskList();
 			getEmailMgr().checkRemoveOverdue();
 			getGambleMgr().resetDestinyHot();
-			// m_ArenaMgr.arenaDailyPrize();
-			ArenaBM.getInstance().arenaDailyPrize(this);
 			getCopyRecordMgr().resetAllCopyRecord();
 			getUnendingWarMgr().refreshConst();
 
-			//getTowerMgr().resetDataInNewDay();
+			// getTowerMgr().resetDataInNewDay();
 			// 重置七日礼包
 			getDailyGifMgr().updataCount(this);
 
@@ -605,6 +611,9 @@ public class Player implements PlayerIF {
 		// getSecretMgr().updateKeyNumByTime();
 		// getSecretMgr().updateSecretByTime();
 		getAssistantMgr().doCheck();
+		if (this.tempAttribute.checkAndResetRedPoint()) {
+			RedPointManager.getRedPointManager().checkRedPointVersion(this, this.redPointMgr.getVersion());
+		}
 	}
 
 	public int save(boolean immediately) {
@@ -1101,7 +1110,7 @@ public class Player implements PlayerIF {
 
 	public TowerMgr getTowerMgr() {
 		return m_TowerMgr;
-//		return null;
+		// return null;
 	}
 
 	public SecretAreaMgr getSecretMgr() {
@@ -1153,7 +1162,7 @@ public class Player implements PlayerIF {
 
 	public FresherActivityMgr getFresherActivityMgr() {
 		return m_FresherActivityMgr;
-//		return null;
+		// return null;
 	}
 
 	public FresherActivityMgrIF getFresherActivityMgrIF() {

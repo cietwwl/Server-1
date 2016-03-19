@@ -25,6 +25,8 @@ public class ServerData {
 	
 	private long lastBIStatLogTime;
 	
+	private long taskId;
+	
 	public String getServerId() {
 		return serverId;
 	}
@@ -60,5 +62,11 @@ public class ServerData {
 	}
 	public void setGmMailList(List<ServerGmEmail> gmMailList) {
 		this.gmMailList = gmMailList;
+	}
+	public long getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(long taskId) {
+		this.taskId = taskId;
 	}
 }

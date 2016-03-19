@@ -17,7 +17,7 @@ public final class MsgRsProtos {
      * <code>ServerMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·þÎñÆ÷·¢ËÍ
      * </pre>
      */
     ServerMsg(0, 0),
@@ -25,7 +25,7 @@ public final class MsgRsProtos {
      * <code>ClientMsg = 1;</code>
      *
      * <pre>
-     *ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½ï¿½
+     *¿Í»§¶Ë·¢ËÍ
      * </pre>
      */
     ClientMsg(1, 1),
@@ -35,7 +35,7 @@ public final class MsgRsProtos {
      * <code>ServerMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·þÎñÆ÷·¢ËÍ
      * </pre>
      */
     public static final int ServerMsg_VALUE = 0;
@@ -43,7 +43,7 @@ public final class MsgRsProtos {
      * <code>ClientMsg = 1;</code>
      *
      * <pre>
-     *ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½ï¿½
+     *¿Í»§¶Ë·¢ËÍ
      * </pre>
      */
     public static final int ClientMsg_VALUE = 1;

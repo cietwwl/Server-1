@@ -17,7 +17,7 @@ public final class UnendingWarProtos {
      * <code>BaseMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *»ù±¾ÐÅÏ¢
      * </pre>
      */
     BaseMsg(0, 0),
@@ -25,7 +25,7 @@ public final class UnendingWarProtos {
      * <code>OtherMsg = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *ÆäËüÐÅÏ¢
      * </pre>
      */
     OtherMsg(1, 1),
@@ -33,7 +33,7 @@ public final class UnendingWarProtos {
      * <code>AddMsg = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
+     *Ìí¼Ó²¨Êý
      * </pre>
      */
     AddMsg(2, 2),
@@ -41,7 +41,7 @@ public final class UnendingWarProtos {
      * <code>EndMsg = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *½áËÙ
      * </pre>
      */
     EndMsg(3, 3),
@@ -49,7 +49,7 @@ public final class UnendingWarProtos {
      * <code>ResetMsg = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÖØÖÃ
      * </pre>
      */
     ResetMsg(4, 4),
@@ -59,7 +59,7 @@ public final class UnendingWarProtos {
      * <code>BaseMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *»ù±¾ÐÅÏ¢
      * </pre>
      */
     public static final int BaseMsg_VALUE = 0;
@@ -67,7 +67,7 @@ public final class UnendingWarProtos {
      * <code>OtherMsg = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *ÆäËüÐÅÏ¢
      * </pre>
      */
     public static final int OtherMsg_VALUE = 1;
@@ -75,7 +75,7 @@ public final class UnendingWarProtos {
      * <code>AddMsg = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
+     *Ìí¼Ó²¨Êý
      * </pre>
      */
     public static final int AddMsg_VALUE = 2;
@@ -83,7 +83,7 @@ public final class UnendingWarProtos {
      * <code>EndMsg = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *½áËÙ
      * </pre>
      */
     public static final int EndMsg_VALUE = 3;
@@ -91,7 +91,7 @@ public final class UnendingWarProtos {
      * <code>ResetMsg = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÖØÖÃ
      * </pre>
      */
     public static final int ResetMsg_VALUE = 4;
@@ -175,7 +175,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 num = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ½øÈë´ÎÊý
      * </pre>
      */
     boolean hasNum();
@@ -183,7 +183,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 num = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ½øÈë´ÎÊý
      * </pre>
      */
     int getNum();
@@ -193,7 +193,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 zhCj = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ã³É¼ï¿½
+     *×îºÃ³É¼¨
      * </pre>
      */
     boolean hasZhCj();
@@ -201,7 +201,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 zhCj = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ã³É¼ï¿½
+     *×îºÃ³É¼¨
      * </pre>
      */
     int getZhCj();
@@ -211,7 +211,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 dqCj = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+     *µ±Ç°³É¼¨
      * </pre>
      */
     boolean hasDqCj();
@@ -219,7 +219,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 dqCj = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+     *µ±Ç°³É¼¨
      * </pre>
      */
     int getDqCj();
@@ -229,7 +229,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 resetNum = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+     *ÖØÖÃ´ÎÊý
      * </pre>
      */
     boolean hasResetNum();
@@ -237,7 +237,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 resetNum = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+     *ÖØÖÃ´ÎÊý
      * </pre>
      */
     int getResetNum();
@@ -247,7 +247,7 @@ public final class UnendingWarProtos {
      * <code>optional string cj = 6;</code>
      *
      * <pre>
-     *ï¿½É¼ï¿½
+     *³É¼¨
      * </pre>
      */
     boolean hasCj();
@@ -255,7 +255,7 @@ public final class UnendingWarProtos {
      * <code>optional string cj = 6;</code>
      *
      * <pre>
-     *ï¿½É¼ï¿½
+     *³É¼¨
      * </pre>
      */
     java.lang.String getCj();
@@ -263,7 +263,7 @@ public final class UnendingWarProtos {
      * <code>optional string cj = 6;</code>
      *
      * <pre>
-     *ï¿½É¼ï¿½
+     *³É¼¨
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -419,7 +419,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 num = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ½øÈë´ÎÊý
      * </pre>
      */
     public boolean hasNum() {
@@ -429,7 +429,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 num = 2;</code>
      *
      * <pre>
-     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * ½øÈë´ÎÊý
      * </pre>
      */
     public int getNum() {
@@ -443,7 +443,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 zhCj = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ã³É¼ï¿½
+     *×îºÃ³É¼¨
      * </pre>
      */
     public boolean hasZhCj() {
@@ -453,7 +453,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 zhCj = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ã³É¼ï¿½
+     *×îºÃ³É¼¨
      * </pre>
      */
     public int getZhCj() {
@@ -467,7 +467,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 dqCj = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+     *µ±Ç°³É¼¨
      * </pre>
      */
     public boolean hasDqCj() {
@@ -477,7 +477,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 dqCj = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+     *µ±Ç°³É¼¨
      * </pre>
      */
     public int getDqCj() {
@@ -491,7 +491,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 resetNum = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+     *ÖØÖÃ´ÎÊý
      * </pre>
      */
     public boolean hasResetNum() {
@@ -501,7 +501,7 @@ public final class UnendingWarProtos {
      * <code>optional int32 resetNum = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+     *ÖØÖÃ´ÎÊý
      * </pre>
      */
     public int getResetNum() {
@@ -515,7 +515,7 @@ public final class UnendingWarProtos {
      * <code>optional string cj = 6;</code>
      *
      * <pre>
-     *ï¿½É¼ï¿½
+     *³É¼¨
      * </pre>
      */
     public boolean hasCj() {
@@ -525,7 +525,7 @@ public final class UnendingWarProtos {
      * <code>optional string cj = 6;</code>
      *
      * <pre>
-     *ï¿½É¼ï¿½
+     *³É¼¨
      * </pre>
      */
     public java.lang.String getCj() {
@@ -546,7 +546,7 @@ public final class UnendingWarProtos {
      * <code>optional string cj = 6;</code>
      *
      * <pre>
-     *ï¿½É¼ï¿½
+     *³É¼¨
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -919,7 +919,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 num = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       * ½øÈë´ÎÊý
        * </pre>
        */
       public boolean hasNum() {
@@ -929,7 +929,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 num = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       * ½øÈë´ÎÊý
        * </pre>
        */
       public int getNum() {
@@ -939,7 +939,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 num = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       * ½øÈë´ÎÊý
        * </pre>
        */
       public Builder setNum(int value) {
@@ -952,7 +952,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 num = 2;</code>
        *
        * <pre>
-       * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       * ½øÈë´ÎÊý
        * </pre>
        */
       public Builder clearNum() {
@@ -968,7 +968,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 zhCj = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ã³É¼ï¿½
+       *×îºÃ³É¼¨
        * </pre>
        */
       public boolean hasZhCj() {
@@ -978,7 +978,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 zhCj = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ã³É¼ï¿½
+       *×îºÃ³É¼¨
        * </pre>
        */
       public int getZhCj() {
@@ -988,7 +988,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 zhCj = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ã³É¼ï¿½
+       *×îºÃ³É¼¨
        * </pre>
        */
       public Builder setZhCj(int value) {
@@ -1001,7 +1001,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 zhCj = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ã³É¼ï¿½
+       *×îºÃ³É¼¨
        * </pre>
        */
       public Builder clearZhCj() {
@@ -1017,7 +1017,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 dqCj = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+       *µ±Ç°³É¼¨
        * </pre>
        */
       public boolean hasDqCj() {
@@ -1027,7 +1027,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 dqCj = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+       *µ±Ç°³É¼¨
        * </pre>
        */
       public int getDqCj() {
@@ -1037,7 +1037,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 dqCj = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+       *µ±Ç°³É¼¨
        * </pre>
        */
       public Builder setDqCj(int value) {
@@ -1050,7 +1050,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 dqCj = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½É¼ï¿½
+       *µ±Ç°³É¼¨
        * </pre>
        */
       public Builder clearDqCj() {
@@ -1066,7 +1066,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 resetNum = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+       *ÖØÖÃ´ÎÊý
        * </pre>
        */
       public boolean hasResetNum() {
@@ -1076,7 +1076,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 resetNum = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+       *ÖØÖÃ´ÎÊý
        * </pre>
        */
       public int getResetNum() {
@@ -1086,7 +1086,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 resetNum = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+       *ÖØÖÃ´ÎÊý
        * </pre>
        */
       public Builder setResetNum(int value) {
@@ -1099,7 +1099,7 @@ public final class UnendingWarProtos {
        * <code>optional int32 resetNum = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
+       *ÖØÖÃ´ÎÊý
        * </pre>
        */
       public Builder clearResetNum() {
@@ -1115,7 +1115,7 @@ public final class UnendingWarProtos {
        * <code>optional string cj = 6;</code>
        *
        * <pre>
-       *ï¿½É¼ï¿½
+       *³É¼¨
        * </pre>
        */
       public boolean hasCj() {
@@ -1125,7 +1125,7 @@ public final class UnendingWarProtos {
        * <code>optional string cj = 6;</code>
        *
        * <pre>
-       *ï¿½É¼ï¿½
+       *³É¼¨
        * </pre>
        */
       public java.lang.String getCj() {
@@ -1143,7 +1143,7 @@ public final class UnendingWarProtos {
        * <code>optional string cj = 6;</code>
        *
        * <pre>
-       *ï¿½É¼ï¿½
+       *³É¼¨
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1163,7 +1163,7 @@ public final class UnendingWarProtos {
        * <code>optional string cj = 6;</code>
        *
        * <pre>
-       *ï¿½É¼ï¿½
+       *³É¼¨
        * </pre>
        */
       public Builder setCj(
@@ -1180,7 +1180,7 @@ public final class UnendingWarProtos {
        * <code>optional string cj = 6;</code>
        *
        * <pre>
-       *ï¿½É¼ï¿½
+       *³É¼¨
        * </pre>
        */
       public Builder clearCj() {
@@ -1193,7 +1193,7 @@ public final class UnendingWarProtos {
        * <code>optional string cj = 6;</code>
        *
        * <pre>
-       *ï¿½É¼ï¿½
+       *³É¼¨
        * </pre>
        */
       public Builder setCjBytes(

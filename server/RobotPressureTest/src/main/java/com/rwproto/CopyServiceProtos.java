@@ -225,6 +225,10 @@ public final class CopyServiceProtos {
      * <code>NULL = 3;</code>
      */
     NULL(2, 3),
+    /**
+     * <code>FAIL = 4;</code>
+     */
+    FAIL(3, 4),
     ;
 
     /**
@@ -239,6 +243,10 @@ public final class CopyServiceProtos {
      * <code>NULL = 3;</code>
      */
     public static final int NULL_VALUE = 3;
+    /**
+     * <code>FAIL = 4;</code>
+     */
+    public static final int FAIL_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -248,6 +256,7 @@ public final class CopyServiceProtos {
         case 1: return WIN;
         case 2: return TIMES_UP;
         case 3: return NULL;
+        case 4: return FAIL;
         default: return null;
       }
     }
@@ -5437,6 +5446,42 @@ public final class CopyServiceProtos {
      * </pre>
      */
     com.rwproto.CopyServiceProtos.EBattleStatus getBattleStatus();
+
+    // optional int32 fightTime = 6;
+    /**
+     * <code>optional int32 fightTime = 6;</code>
+     *
+     * <pre>
+     *战斗时常
+     * </pre>
+     */
+    boolean hasFightTime();
+    /**
+     * <code>optional int32 fightTime = 6;</code>
+     *
+     * <pre>
+     *战斗时常
+     * </pre>
+     */
+    int getFightTime();
+
+    // optional .EBattleStatus fightResult = 7;
+    /**
+     * <code>optional .EBattleStatus fightResult = 7;</code>
+     *
+     * <pre>
+     *战斗结果
+     * </pre>
+     */
+    boolean hasFightResult();
+    /**
+     * <code>optional .EBattleStatus fightResult = 7;</code>
+     *
+     * <pre>
+     *战斗结果
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.EBattleStatus getFightResult();
   }
   /**
    * Protobuf type {@code TagBattleData}
@@ -5520,6 +5565,22 @@ public final class CopyServiceProtos {
               } else {
                 bitField0_ |= 0x00000008;
                 battleStatus_ = value;
+              }
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              fightTime_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              int rawValue = input.readEnum();
+              com.rwproto.CopyServiceProtos.EBattleStatus value = com.rwproto.CopyServiceProtos.EBattleStatus.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(7, rawValue);
+              } else {
+                bitField0_ |= 0x00000020;
+                fightResult_ = value;
               }
               break;
             }
@@ -5700,12 +5761,62 @@ public final class CopyServiceProtos {
       return battleStatus_;
     }
 
+    // optional int32 fightTime = 6;
+    public static final int FIGHTTIME_FIELD_NUMBER = 6;
+    private int fightTime_;
+    /**
+     * <code>optional int32 fightTime = 6;</code>
+     *
+     * <pre>
+     *战斗时常
+     * </pre>
+     */
+    public boolean hasFightTime() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 fightTime = 6;</code>
+     *
+     * <pre>
+     *战斗时常
+     * </pre>
+     */
+    public int getFightTime() {
+      return fightTime_;
+    }
+
+    // optional .EBattleStatus fightResult = 7;
+    public static final int FIGHTRESULT_FIELD_NUMBER = 7;
+    private com.rwproto.CopyServiceProtos.EBattleStatus fightResult_;
+    /**
+     * <code>optional .EBattleStatus fightResult = 7;</code>
+     *
+     * <pre>
+     *战斗结果
+     * </pre>
+     */
+    public boolean hasFightResult() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .EBattleStatus fightResult = 7;</code>
+     *
+     * <pre>
+     *战斗结果
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.EBattleStatus getFightResult() {
+      return fightResult_;
+    }
+
     private void initFields() {
       battleClearingTime_ = 0;
       levelId_ = 0;
       heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       starLevel_ = 0;
       battleStatus_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
+      fightTime_ = 0;
+      fightResult_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5742,6 +5853,12 @@ public final class CopyServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeEnum(5, battleStatus_.getNumber());
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(6, fightTime_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeEnum(7, fightResult_.getNumber());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -5775,6 +5892,14 @@ public final class CopyServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, battleStatus_.getNumber());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, fightTime_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(7, fightResult_.getNumber());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5902,6 +6027,10 @@ public final class CopyServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         battleStatus_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
         bitField0_ = (bitField0_ & ~0x00000010);
+        fightTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        fightResult_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -5952,6 +6081,14 @@ public final class CopyServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.battleStatus_ = battleStatus_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.fightTime_ = fightTime_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.fightResult_ = fightResult_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5989,6 +6126,12 @@ public final class CopyServiceProtos {
         }
         if (other.hasBattleStatus()) {
           setBattleStatus(other.getBattleStatus());
+        }
+        if (other.hasFightTime()) {
+          setFightTime(other.getFightTime());
+        }
+        if (other.hasFightResult()) {
+          setFightResult(other.getFightResult());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6333,6 +6476,107 @@ public final class CopyServiceProtos {
       public Builder clearBattleStatus() {
         bitField0_ = (bitField0_ & ~0x00000010);
         battleStatus_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 fightTime = 6;
+      private int fightTime_ ;
+      /**
+       * <code>optional int32 fightTime = 6;</code>
+       *
+       * <pre>
+       *战斗时常
+       * </pre>
+       */
+      public boolean hasFightTime() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 fightTime = 6;</code>
+       *
+       * <pre>
+       *战斗时常
+       * </pre>
+       */
+      public int getFightTime() {
+        return fightTime_;
+      }
+      /**
+       * <code>optional int32 fightTime = 6;</code>
+       *
+       * <pre>
+       *战斗时常
+       * </pre>
+       */
+      public Builder setFightTime(int value) {
+        bitField0_ |= 0x00000020;
+        fightTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 fightTime = 6;</code>
+       *
+       * <pre>
+       *战斗时常
+       * </pre>
+       */
+      public Builder clearFightTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        fightTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional .EBattleStatus fightResult = 7;
+      private com.rwproto.CopyServiceProtos.EBattleStatus fightResult_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
+      /**
+       * <code>optional .EBattleStatus fightResult = 7;</code>
+       *
+       * <pre>
+       *战斗结果
+       * </pre>
+       */
+      public boolean hasFightResult() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional .EBattleStatus fightResult = 7;</code>
+       *
+       * <pre>
+       *战斗结果
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.EBattleStatus getFightResult() {
+        return fightResult_;
+      }
+      /**
+       * <code>optional .EBattleStatus fightResult = 7;</code>
+       *
+       * <pre>
+       *战斗结果
+       * </pre>
+       */
+      public Builder setFightResult(com.rwproto.CopyServiceProtos.EBattleStatus value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000040;
+        fightResult_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .EBattleStatus fightResult = 7;</code>
+       *
+       * <pre>
+       *战斗结果
+       * </pre>
+       */
+      public Builder clearFightResult() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        fightResult_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
         onChanged();
         return this;
       }
@@ -7174,25 +7418,27 @@ public final class CopyServiceProtos {
       "unt\030\n \001(\005\022\023\n\013unendingWar\030\013 \001(\005\"2\n\014TagSwe" +
       "epInfo\022\r\n\005times\030\001 \002(\005\022\023\n\013tagItemList\030\002 \003" +
       "(\t\".\n\016MapGiftRequest\022\r\n\005mapId\030\001 \002(\005\022\r\n\005i" +
-      "ndex\030\002 \002(\005\"\205\001\n\rTagBattleData\022\032\n\022battleCl" +
+      "ndex\030\002 \002(\005\"\275\001\n\rTagBattleData\022\032\n\022battleCl" +
       "earingTime\030\001 \002(\005\022\017\n\007levelId\030\002 \002(\005\022\016\n\006her" +
       "oId\030\003 \003(\t\022\021\n\tstarLevel\030\004 \001(\005\022$\n\014battleSt" +
-      "atus\030\005 \001(\0162\016.EBattleStatus\"B\n\027TagBattleC" +
-      "learingResult\022\020\n\010upHeroId\030\001 \003(\t\022\025\n\rtagCo",
-      "pyRecord\030\002 \001(\t*\267\001\n\014ERequestType\022\026\n\022SWEEP" +
-      "_LEVEL_TICKET\020\001\022\027\n\023SWEEP_LEVEL_DIAMOND\020\002" +
-      "\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_USER_CHECKPOINT_I" +
-      "NFO\020\004\022\023\n\017BATTLE_CLEARING\020\005\022\025\n\021BATTLE_ITE" +
-      "MS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GET_GIFT\020\010" +
-      "*0\n\rEBattleStatus\022\007\n\003WIN\020\001\022\014\n\010TIMES_UP\020\002" +
-      "\022\010\n\004NULL\020\003*\213\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020" +
-      "PURCHASE_SUCCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_E" +
-      "NOUGH_DIAMOND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NO" +
-      "T_OPEN\020\006\022\025\n\021NOT_ENOUGH_TICKET\020\007\022\024\n\020NOT_E",
-      "NOUGH_TIMES\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK" +
-      "\020\n\022\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022" +
-      "\021\n\rSWEEP_SUCCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016" +
-      "B \n\013com.rwprotoB\021CopyServiceProtos"
+      "atus\030\005 \001(\0162\016.EBattleStatus\022\021\n\tfightTime\030" +
+      "\006 \001(\005\022#\n\013fightResult\030\007 \001(\0162\016.EBattleStat",
+      "us\"B\n\027TagBattleClearingResult\022\020\n\010upHeroI" +
+      "d\030\001 \003(\t\022\025\n\rtagCopyRecord\030\002 \001(\t*\267\001\n\014ERequ" +
+      "estType\022\026\n\022SWEEP_LEVEL_TICKET\020\001\022\027\n\023SWEEP" +
+      "_LEVEL_DIAMOND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_U" +
+      "SER_CHECKPOINT_INFO\020\004\022\023\n\017BATTLE_CLEARING" +
+      "\020\005\022\025\n\021BATTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL" +
+      "\020\007\022\014\n\010GET_GIFT\020\010*:\n\rEBattleStatus\022\007\n\003WIN" +
+      "\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*\213\002\n" +
+      "\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SUCCE" +
+      "SS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMOND\020",
+      "\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n\021NO" +
+      "T_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOUGH_TIMES\020\010\022" +
+      "\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTLE_C" +
+      "LEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\rSWEEP_SUCCE" +
+      "SS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016B \n\013com.rwprot" +
+      "oB\021CopyServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7228,7 +7474,7 @@ public final class CopyServiceProtos {
           internal_static_TagBattleData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagBattleData_descriptor,
-              new java.lang.String[] { "BattleClearingTime", "LevelId", "HeroId", "StarLevel", "BattleStatus", });
+              new java.lang.String[] { "BattleClearingTime", "LevelId", "HeroId", "StarLevel", "BattleStatus", "FightTime", "FightResult", });
           internal_static_TagBattleClearingResult_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_TagBattleClearingResult_fieldAccessorTable = new

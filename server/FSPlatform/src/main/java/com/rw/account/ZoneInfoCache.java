@@ -7,7 +7,7 @@ import com.rwbase.dao.zone.TableZoneInfo;
 
 public class ZoneInfoCache {
 	
-	private final static long SHUTDOWNTIME = 5*1000;
+	private final static long SHUTDOWNTIME = 10*1000;
 	
 	private int zoneId;
 	private String zoneName;
@@ -38,13 +38,23 @@ public class ZoneInfoCache {
 		this.enabled = tableZoneInfo.getEnabled();
 		this.status = tableZoneInfo.getStatus();
 		this.recommand = tableZoneInfo.getRecommand();
-//		this.startTime = tableZoneInfo.getIsOpen();
-//		this.chargeOpen = tableZoneInfo.getChargeOpen();
 		this.isSubZone = tableZoneInfo.getIsSubZone();
 		this.serverIp = tableZoneInfo.getServerIp();
 		this.port = tableZoneInfo.getPort();
 	}
 
+	public void updateZoneCache(TableZoneInfo tableZoneInfo){
+		this.zoneId = tableZoneInfo.getZoneId();
+		this.zoneName = tableZoneInfo.getZoneName();
+		this.channelId = tableZoneInfo.getChannelId();
+		this.subZone = tableZoneInfo.getSubZone();
+		this.enabled = tableZoneInfo.getEnabled();
+		this.recommand = tableZoneInfo.getRecommand();
+		this.isSubZone = tableZoneInfo.getIsSubZone();
+		this.serverIp = tableZoneInfo.getServerIp();
+		this.port = tableZoneInfo.getPort();
+	}
+	
 
 	public boolean getIsOpen(int status) {
 		return EServerStatus.isOpen(status);
@@ -58,6 +68,66 @@ public class ZoneInfoCache {
 
 	public int getOnlineNum() {
 		return onlineNum;
+	}
+
+
+	public void setZoneId(int zoneId) {
+		this.zoneId = zoneId;
+	}
+
+
+	public void setZoneName(String zoneName) {
+		this.zoneName = zoneName;
+	}
+
+
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
+	}
+
+
+	public void setSubZone(String subZone) {
+		this.subZone = subZone;
+	}
+
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+
+
+	public void setRecommand(int recommand) {
+		this.recommand = recommand;
+	}
+
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+
+	public void setChargeOpen(int chargeOpen) {
+		this.chargeOpen = chargeOpen;
+	}
+
+
+	public void setIsSubZone(int isSubZone) {
+		this.isSubZone = isSubZone;
+	}
+
+
+	public void setServerIp(String serverIp) {
+		this.serverIp = serverIp;
+	}
+
+
+	public void setPort(String port) {
+		this.port = port;
 	}
 
 

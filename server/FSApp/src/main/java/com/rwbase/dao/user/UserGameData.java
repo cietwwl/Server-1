@@ -19,7 +19,11 @@ public class UserGameData implements TableUserOtherIF {
 	private long version; // 数据版本
 	private boolean iphone;
 	private long coin;// 铜钱
-	private int gold;// 金钱
+	
+	private int gold;// 赠送金钱,展示用
+	private int giftGold;//赠送金钱
+	private int chargeGold;//充值金钱
+	
 	private int power;// 体力
 	private int maxPower;// 最大体力
 	private long upgradeExp;// 升级经验
@@ -150,6 +154,10 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setGold(int gold) {
 		this.gold = gold;
+	}
+	
+	public void updateGold(){
+		this.gold = this.giftGold+this.chargeGold;
 	}
 
 	public int getRookieFlag() {
@@ -305,7 +313,22 @@ public class UserGameData implements TableUserOtherIF {
 	public void setExtendInfo(UserGameExtendInfo extendInfo) {
 		this.extendInfo = extendInfo;
 	}
-	
+
+	public int getChargeGold() {
+		return chargeGold;
+	}
+
+	public void setChargeGold(int chargeGold) {
+		this.chargeGold = chargeGold;
+	}
+
+	public int getGiftGold() {
+		return giftGold;
+	}
+
+	public void setGiftGold(int giftGold) {
+		this.giftGold = giftGold;
+	}
 	
 
 }

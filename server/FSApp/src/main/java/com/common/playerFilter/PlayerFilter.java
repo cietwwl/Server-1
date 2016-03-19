@@ -1,6 +1,5 @@
 package com.common.playerFilter;
 
-import com.common.playerFilter.PlayerFilterCondition.FilterType;
 import com.playerdata.Player;
 
 public class PlayerFilter {
@@ -9,7 +8,7 @@ public class PlayerFilter {
 		
 		int type = condition.getType();
 		
-		PlayerFilterCondition.FilterType filterType = FilterType.valueOf(type);
+		FilterType filterType = FilterType.valueOf(type);
 		
 		boolean isInRange = false;
 		switch (filterType) {
@@ -30,7 +29,7 @@ public class PlayerFilter {
 	}
 	
 	private static boolean isValueInRange(PlayerFilterCondition condition, long value){
-		return condition.getMinValue() < value && value < condition.getMaxValue();
+		return condition.getMinValue() <= value && value <= condition.getMaxValue();
 	}
 	
 }

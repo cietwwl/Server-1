@@ -67,12 +67,15 @@ public class BIStatLogMgr {
 
 			@Override
 			public void doCount(BIUser user) {
-				String regChannelId = null;
+				String regSubChannelId = null;
+				String clientPlatForm = null;
 				if(user.getZoneRegInfo()!=null){
-					regChannelId = user.getZoneRegInfo().getRegChannelId();
+					regSubChannelId = user.getZoneRegInfo().getRegSubChannelId();
+					clientPlatForm = user.getZoneRegInfo().getRegClientPlatForm();
 				}
+				
 				long coin = user.getDbvalue().getCoin();
-				getCounter(coinAccount, regChannelId, "totalCount").add(coin);
+				getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm).add(coin);
 				
 			}
 
@@ -83,7 +86,7 @@ public class BIStatLogMgr {
 	
 	private void logCoin(Map<String, BICounter> coinAccount) {
 		for (BICounter biCounterTmp : coinAccount.values()) {
-			BILogMgr.getInstance().logZoneCountCoin(biCounterTmp.getRegChannelId(), biCounterTmp.getCount());
+			BILogMgr.getInstance().logZoneCountCoin(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
 		}
 	}
 
@@ -98,16 +101,19 @@ public class BIStatLogMgr {
 
 			@Override
 			public void doCount(BIUser user) {
-				String regChannelId = null;
+				String regSubChannelId = null;
+				String clientPlatForm = null;
 				if(user.getZoneRegInfo()!=null){
-					regChannelId = user.getZoneRegInfo().getRegChannelId();
+					regSubChannelId = user.getZoneRegInfo().getRegSubChannelId();
+					clientPlatForm = user.getZoneRegInfo().getRegClientPlatForm();
 				}
+				
 				
 				String level = String.valueOf(user.getLevel());
 				String vip = String.valueOf(user.getVip());
-				getCounter(levelSpread,regChannelId, level).incr();
-				getCounter(vipSpread, regChannelId, vip).incr();
-				getCounter(totalAccount, regChannelId, "totalCount").incr();
+				getCounter(levelSpread,regSubChannelId, level, clientPlatForm).incr();
+				getCounter(vipSpread, regSubChannelId, vip, clientPlatForm).incr();
+				getCounter(totalAccount, regSubChannelId, "totalCount", clientPlatForm).incr();
 				
 			}
 
@@ -135,9 +141,8 @@ public class BIStatLogMgr {
 	
 	private void logTotalAccount(Map<String, BICounter> totalAccount) {
 		for (BICounter biCounterTmp : totalAccount.values()) {
-			BILogMgr.getInstance().logZoneCountTotalAccount(biCounterTmp.getRegChannelId(), biCounterTmp.getCount());
-		}
-		
+			BILogMgr.getInstance().logZoneCountTotalAccount(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
+		}		
 		
 	}
 
@@ -145,7 +150,7 @@ public class BIStatLogMgr {
 
 	private void logVipSpread(Map<String, BICounter> vipSpread) {
 		for (BICounter biCounterTmp : vipSpread.values()) {
-			BILogMgr.getInstance().logZoneCountVipSpread(biCounterTmp.getRegChannelId(), biCounterTmp.getSpreadId(), biCounterTmp.getCount());
+			BILogMgr.getInstance().logZoneCountVipSpread(biCounterTmp.getRegSubChannelId(), biCounterTmp.getSpreadId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
 		}
 		
 	}
@@ -154,22 +159,25 @@ public class BIStatLogMgr {
 
 	private void logLevelSpread(Map<String, BICounter> levelSpread) {
 		for (BICounter biCounterTmp : levelSpread.values()) {
-			BILogMgr.getInstance().logZoneCountLevelSpread(biCounterTmp.getRegChannelId(), biCounterTmp.getSpreadId(), biCounterTmp.getCount());
+			BILogMgr.getInstance().logZoneCountLevelSpread(biCounterTmp.getRegSubChannelId(), biCounterTmp.getSpreadId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
 		}
 	}
 
 
 
-	private BICounter getCounter(Map<String,BICounter> countMap,  String regChannelId, String spreadId){
+	private BICounter getCounter(Map<String,BICounter> countMap,  String regSubChannelId, String spreadId, String clientPlatForm){
 		
-		if(StringUtils.isBlank(regChannelId)){
-			regChannelId = "empty";
+		if(StringUtils.isBlank(regSubChannelId)){
+			regSubChannelId = "empty";
+		}
+		if(StringUtils.isBlank(clientPlatForm)){
+			clientPlatForm = "empty";
 		}
 		
-		String counterId = makeId(regChannelId,spreadId);
+		String counterId = makeId(regSubChannelId,spreadId,clientPlatForm);
 		BICounter counter = countMap.get(counterId);
 		if(counter==null){
-			counter = new BICounter(regChannelId,spreadId);
+			counter = new BICounter(regSubChannelId,spreadId, clientPlatForm);
 			countMap.put(counterId, counter);
 		}
 		return counter;
@@ -179,21 +187,24 @@ public class BIStatLogMgr {
 		public void doCount(BIUser user);
 	}
 	
-	private String makeId(String regChannelId, String spreadId){
-		return regChannelId+"_"+spreadId;
+	private String makeId(String regChannelId, String spreadId, String clientPlatFormP){
+		return regChannelId+"_"+spreadId+"_"+clientPlatFormP;
 	}
 	
 	private class BICounter{
 		
-		private String regChannelId;
+		private String regSubChannelId;
 		//分布id 比如等级
 		private String spreadId;
 		
+		private String clientPlatForm;
+		
 		private AtomicLong count = new AtomicLong();
 		
-		public BICounter(String regChannelIdP,  String spreadIdP){
-			this.regChannelId = regChannelIdP;
+		public BICounter(String regSubChannelIdP,  String spreadIdP, String clientPlatFormP){
+			this.regSubChannelId = regSubChannelIdP;
 			this.spreadId = spreadIdP;
+			this.clientPlatForm = clientPlatFormP;
 		}
 		public void add(long count){
 			this.count.addAndGet(count);
@@ -203,15 +214,18 @@ public class BIStatLogMgr {
 		}
 		public long getCount(){
 			return this.count.get();
-		}
+		}		
 
-		public String getRegChannelId() {
-			return regChannelId;
+		public String getRegSubChannelId() {
+			return regSubChannelId;
 		}
-
 		public String getSpreadId() {
 			return spreadId;
 		}
+		public String getClientPlatForm() {
+			return clientPlatForm;
+		}
+		
 		
 	}
 	

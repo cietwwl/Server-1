@@ -2,6 +2,8 @@ package com.rw.service.log.template;
 
 import java.util.Set;
 
+import com.rw.service.log.template.maker.LogTemplate;
+
 /**
  * 库存游戏币
  * @author allen
@@ -10,8 +12,9 @@ import java.util.Set;
 public class ZoneCountCoinLogTemplate extends BILogTemplate{
 
 	
-	final private String template="$logTime$|core_stat_1|$loginZoneId$|$logTime$|stat_sub_coin|$loginZoneId$|$regChannelId$|$zoneCoinRemain$|$loginClientPlatForm$";
+//	final private String template="$logTime$|core_stat_1|$loginZoneId$|$logTime$|stat_sub_coin|$loginZoneId$|$regChannelId$|$zoneCoinRemain$|$loginClientPlatForm$";
 	
+	final private String template=LogTemplate.ZoneCountCoinLogTemplate;
 	final private Set<String> infoNameSet = BILogTemplateHelper.getInfoNameSet(template);
 
 	
@@ -25,7 +28,7 @@ public class ZoneCountCoinLogTemplate extends BILogTemplate{
 	}
 	
 	public static void main(String[] args) {
-		String onlineCount = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_sub_coin|用户登录区ID|注册渠道ID|游戏币余额|4=安卓/5=ios/7=wm";
-		BILogTemplateHelper.toTemplate(onlineCount);
+		String ZoneCountCoinLogTemplate = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_sub_coin|用户登录区ID|注册渠道ID|游戏币余额|4=安卓/5=ios/7=wm";
+		BILogTemplateHelper.toTemplate(ZoneCountCoinLogTemplate);
 	}
 }

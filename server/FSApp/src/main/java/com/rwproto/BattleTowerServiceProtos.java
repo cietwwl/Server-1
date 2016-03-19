@@ -3558,7 +3558,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 sweepFloor = 6;</code>
      *
      * <pre>
-     *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+     *当前已经扫荡到第几层
      * </pre>
      */
     boolean hasSweepFloor();
@@ -3566,7 +3566,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 sweepFloor = 6;</code>
      *
      * <pre>
-     *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+     *当前已经扫荡到第几层
      * </pre>
      */
     int getSweepFloor();
@@ -3633,51 +3633,6 @@ public final class BattleTowerServiceProtos {
      */
     com.rwproto.BattleTowerServiceProtos.RewardInfoMsgOrBuilder getRewardInfoMsgOrBuilder(
         int index);
-
-    // optional string OpenBoxTip = 9;
-    /**
-     * <code>optional string OpenBoxTip = 9;</code>
-     *
-     * <pre>
-     *打开宝箱的提示语
-     * </pre>
-     */
-    boolean hasOpenBoxTip();
-    /**
-     * <code>optional string OpenBoxTip = 9;</code>
-     *
-     * <pre>
-     *打开宝箱的提示语
-     * </pre>
-     */
-    java.lang.String getOpenBoxTip();
-    /**
-     * <code>optional string OpenBoxTip = 9;</code>
-     *
-     * <pre>
-     *打开宝箱的提示语
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getOpenBoxTipBytes();
-
-    // optional int32 UseKeyCount = 10;
-    /**
-     * <code>optional int32 UseKeyCount = 10;</code>
-     *
-     * <pre>
-     *一次可以使用的钥匙数量
-     * </pre>
-     */
-    boolean hasUseKeyCount();
-    /**
-     * <code>optional int32 UseKeyCount = 10;</code>
-     *
-     * <pre>
-     *一次可以使用的钥匙数量
-     * </pre>
-     */
-    int getUseKeyCount();
   }
   /**
    * Protobuf type {@code OpenMainViewRspMsg}
@@ -3786,16 +3741,6 @@ public final class BattleTowerServiceProtos {
                 mutable_bitField0_ |= 0x00000080;
               }
               rewardInfoMsg_.add(input.readMessage(com.rwproto.BattleTowerServiceProtos.RewardInfoMsg.PARSER, extensionRegistry));
-              break;
-            }
-            case 74: {
-              bitField0_ |= 0x00000040;
-              openBoxTip_ = input.readBytes();
-              break;
-            }
-            case 80: {
-              bitField0_ |= 0x00000080;
-              useKeyCount_ = input.readInt32();
               break;
             }
           }
@@ -4013,7 +3958,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 sweepFloor = 6;</code>
      *
      * <pre>
-     *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+     *当前已经扫荡到第几层
      * </pre>
      */
     public boolean hasSweepFloor() {
@@ -4023,7 +3968,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 sweepFloor = 6;</code>
      *
      * <pre>
-     *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+     *当前已经扫荡到第几层
      * </pre>
      */
     public int getSweepFloor() {
@@ -4110,85 +4055,6 @@ public final class BattleTowerServiceProtos {
       return rewardInfoMsg_.get(index);
     }
 
-    // optional string OpenBoxTip = 9;
-    public static final int OPENBOXTIP_FIELD_NUMBER = 9;
-    private java.lang.Object openBoxTip_;
-    /**
-     * <code>optional string OpenBoxTip = 9;</code>
-     *
-     * <pre>
-     *打开宝箱的提示语
-     * </pre>
-     */
-    public boolean hasOpenBoxTip() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
-    }
-    /**
-     * <code>optional string OpenBoxTip = 9;</code>
-     *
-     * <pre>
-     *打开宝箱的提示语
-     * </pre>
-     */
-    public java.lang.String getOpenBoxTip() {
-      java.lang.Object ref = openBoxTip_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          openBoxTip_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string OpenBoxTip = 9;</code>
-     *
-     * <pre>
-     *打开宝箱的提示语
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getOpenBoxTipBytes() {
-      java.lang.Object ref = openBoxTip_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        openBoxTip_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // optional int32 UseKeyCount = 10;
-    public static final int USEKEYCOUNT_FIELD_NUMBER = 10;
-    private int useKeyCount_;
-    /**
-     * <code>optional int32 UseKeyCount = 10;</code>
-     *
-     * <pre>
-     *一次可以使用的钥匙数量
-     * </pre>
-     */
-    public boolean hasUseKeyCount() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
-    }
-    /**
-     * <code>optional int32 UseKeyCount = 10;</code>
-     *
-     * <pre>
-     *一次可以使用的钥匙数量
-     * </pre>
-     */
-    public int getUseKeyCount() {
-      return useKeyCount_;
-    }
-
     private void initFields() {
       overFriendInfoMsg_ = com.rwproto.BattleTowerServiceProtos.OverFriendInfoMsg.getDefaultInstance();
       leftResetTimes_ = 0;
@@ -4198,8 +4064,6 @@ public final class BattleTowerServiceProtos {
       sweepFloor_ = 0;
       sweepFloorLeftTime_ = 0;
       rewardInfoMsg_ = java.util.Collections.emptyList();
-      openBoxTip_ = "";
-      useKeyCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4263,12 +4127,6 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rewardInfoMsg_.size(); i++) {
         output.writeMessage(8, rewardInfoMsg_.get(i));
       }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBytes(9, getOpenBoxTipBytes());
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(10, useKeyCount_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4309,14 +4167,6 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < rewardInfoMsg_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, rewardInfoMsg_.get(i));
-      }
-      if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(9, getOpenBoxTipBytes());
-      }
-      if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, useKeyCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4469,10 +4319,6 @@ public final class BattleTowerServiceProtos {
         } else {
           rewardInfoMsgBuilder_.clear();
         }
-        openBoxTip_ = "";
-        bitField0_ = (bitField0_ & ~0x00000100);
-        useKeyCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -4547,14 +4393,6 @@ public final class BattleTowerServiceProtos {
         } else {
           result.rewardInfoMsg_ = rewardInfoMsgBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
-          to_bitField0_ |= 0x00000040;
-        }
-        result.openBoxTip_ = openBoxTip_;
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
-          to_bitField0_ |= 0x00000080;
-        }
-        result.useKeyCount_ = useKeyCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4640,14 +4478,6 @@ public final class BattleTowerServiceProtos {
               rewardInfoMsgBuilder_.addAllMessages(other.rewardInfoMsg_);
             }
           }
-        }
-        if (other.hasOpenBoxTip()) {
-          bitField0_ |= 0x00000100;
-          openBoxTip_ = other.openBoxTip_;
-          onChanged();
-        }
-        if (other.hasUseKeyCount()) {
-          setUseKeyCount(other.getUseKeyCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5320,7 +5150,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 sweepFloor = 6;</code>
        *
        * <pre>
-       *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+       *当前已经扫荡到第几层
        * </pre>
        */
       public boolean hasSweepFloor() {
@@ -5330,7 +5160,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 sweepFloor = 6;</code>
        *
        * <pre>
-       *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+       *当前已经扫荡到第几层
        * </pre>
        */
       public int getSweepFloor() {
@@ -5340,7 +5170,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 sweepFloor = 6;</code>
        *
        * <pre>
-       *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+       *当前已经扫荡到第几层
        * </pre>
        */
       public Builder setSweepFloor(int value) {
@@ -5353,7 +5183,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 sweepFloor = 6;</code>
        *
        * <pre>
-       *如果不是扫荡状态，就是最后一次挑战通过的层数。如果是扫荡，就是当前扫荡到了第几次
+       *当前已经扫荡到第几层
        * </pre>
        */
       public Builder clearSweepFloor() {
@@ -5724,153 +5554,6 @@ public final class BattleTowerServiceProtos {
         return rewardInfoMsgBuilder_;
       }
 
-      // optional string OpenBoxTip = 9;
-      private java.lang.Object openBoxTip_ = "";
-      /**
-       * <code>optional string OpenBoxTip = 9;</code>
-       *
-       * <pre>
-       *打开宝箱的提示语
-       * </pre>
-       */
-      public boolean hasOpenBoxTip() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
-      }
-      /**
-       * <code>optional string OpenBoxTip = 9;</code>
-       *
-       * <pre>
-       *打开宝箱的提示语
-       * </pre>
-       */
-      public java.lang.String getOpenBoxTip() {
-        java.lang.Object ref = openBoxTip_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          openBoxTip_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string OpenBoxTip = 9;</code>
-       *
-       * <pre>
-       *打开宝箱的提示语
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getOpenBoxTipBytes() {
-        java.lang.Object ref = openBoxTip_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          openBoxTip_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string OpenBoxTip = 9;</code>
-       *
-       * <pre>
-       *打开宝箱的提示语
-       * </pre>
-       */
-      public Builder setOpenBoxTip(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000100;
-        openBoxTip_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string OpenBoxTip = 9;</code>
-       *
-       * <pre>
-       *打开宝箱的提示语
-       * </pre>
-       */
-      public Builder clearOpenBoxTip() {
-        bitField0_ = (bitField0_ & ~0x00000100);
-        openBoxTip_ = getDefaultInstance().getOpenBoxTip();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string OpenBoxTip = 9;</code>
-       *
-       * <pre>
-       *打开宝箱的提示语
-       * </pre>
-       */
-      public Builder setOpenBoxTipBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000100;
-        openBoxTip_ = value;
-        onChanged();
-        return this;
-      }
-
-      // optional int32 UseKeyCount = 10;
-      private int useKeyCount_ ;
-      /**
-       * <code>optional int32 UseKeyCount = 10;</code>
-       *
-       * <pre>
-       *一次可以使用的钥匙数量
-       * </pre>
-       */
-      public boolean hasUseKeyCount() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
-      }
-      /**
-       * <code>optional int32 UseKeyCount = 10;</code>
-       *
-       * <pre>
-       *一次可以使用的钥匙数量
-       * </pre>
-       */
-      public int getUseKeyCount() {
-        return useKeyCount_;
-      }
-      /**
-       * <code>optional int32 UseKeyCount = 10;</code>
-       *
-       * <pre>
-       *一次可以使用的钥匙数量
-       * </pre>
-       */
-      public Builder setUseKeyCount(int value) {
-        bitField0_ |= 0x00000200;
-        useKeyCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 UseKeyCount = 10;</code>
-       *
-       * <pre>
-       *一次可以使用的钥匙数量
-       * </pre>
-       */
-      public Builder clearUseKeyCount() {
-        bitField0_ = (bitField0_ & ~0x00000200);
-        useKeyCount_ = 0;
-        onChanged();
-        return this;
-      }
-
       // @@protoc_insertion_point(builder_scope:OpenMainViewRspMsg)
     }
 
@@ -5983,24 +5666,6 @@ public final class BattleTowerServiceProtos {
      * </pre>
      */
     int getCopyId();
-
-    // optional bool isBreak = 5;
-    /**
-     * <code>optional bool isBreak = 5;</code>
-     *
-     * <pre>
-     *上次挑战失败，挑战过程已中断
-     * </pre>
-     */
-    boolean hasIsBreak();
-    /**
-     * <code>optional bool isBreak = 5;</code>
-     *
-     * <pre>
-     *上次挑战失败，挑战过程已中断
-     * </pre>
-     */
-    boolean getIsBreak();
   }
   /**
    * Protobuf type {@code OpenChallengeViewRspMsg}
@@ -6078,11 +5743,6 @@ public final class BattleTowerServiceProtos {
             case 32: {
               bitField0_ |= 0x00000004;
               copyId_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000008;
-              isBreak_ = input.readBool();
               break;
             }
           }
@@ -6256,36 +5916,11 @@ public final class BattleTowerServiceProtos {
       return copyId_;
     }
 
-    // optional bool isBreak = 5;
-    public static final int ISBREAK_FIELD_NUMBER = 5;
-    private boolean isBreak_;
-    /**
-     * <code>optional bool isBreak = 5;</code>
-     *
-     * <pre>
-     *上次挑战失败，挑战过程已中断
-     * </pre>
-     */
-    public boolean hasIsBreak() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional bool isBreak = 5;</code>
-     *
-     * <pre>
-     *上次挑战失败，挑战过程已中断
-     * </pre>
-     */
-    public boolean getIsBreak() {
-      return isBreak_;
-    }
-
     private void initFields() {
       groupId_ = 0;
       isFirst_ = false;
       rewardInfoMsg_ = java.util.Collections.emptyList();
       copyId_ = 0;
-      isBreak_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6329,9 +5964,6 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(4, copyId_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(5, isBreak_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6356,10 +5988,6 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, copyId_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(5, isBreak_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6494,8 +6122,6 @@ public final class BattleTowerServiceProtos {
         }
         copyId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
-        isBreak_ = false;
-        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -6545,10 +6171,6 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.copyId_ = copyId_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.isBreak_ = isBreak_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6599,9 +6221,6 @@ public final class BattleTowerServiceProtos {
         }
         if (other.hasCopyId()) {
           setCopyId(other.getCopyId());
-        }
-        if (other.hasIsBreak()) {
-          setIsBreak(other.getIsBreak());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7103,55 +6722,6 @@ public final class BattleTowerServiceProtos {
       public Builder clearCopyId() {
         bitField0_ = (bitField0_ & ~0x00000008);
         copyId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional bool isBreak = 5;
-      private boolean isBreak_ ;
-      /**
-       * <code>optional bool isBreak = 5;</code>
-       *
-       * <pre>
-       *上次挑战失败，挑战过程已中断
-       * </pre>
-       */
-      public boolean hasIsBreak() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional bool isBreak = 5;</code>
-       *
-       * <pre>
-       *上次挑战失败，挑战过程已中断
-       * </pre>
-       */
-      public boolean getIsBreak() {
-        return isBreak_;
-      }
-      /**
-       * <code>optional bool isBreak = 5;</code>
-       *
-       * <pre>
-       *上次挑战失败，挑战过程已中断
-       * </pre>
-       */
-      public Builder setIsBreak(boolean value) {
-        bitField0_ |= 0x00000010;
-        isBreak_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool isBreak = 5;</code>
-       *
-       * <pre>
-       *上次挑战失败，挑战过程已中断
-       * </pre>
-       */
-      public Builder clearIsBreak() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        isBreak_ = false;
         onChanged();
         return this;
       }
@@ -24047,69 +23617,67 @@ public final class BattleTowerServiceProtos {
       "esponseState\022\017\n\007rspBody\030\003 \001(\014\022\"\n\006config\030" +
       "\004 \001(\0132\022.BattleTowerConfig\022\014\n\004tips\030\005 \001(\t\"" +
       "-\n\013ResetRspMsg\022\036\n\026defaultChanllengeCount",
-      "\030\001 \001(\005\"\260\002\n\022OpenMainViewRspMsg\022-\n\021overFri" +
+      "\030\001 \001(\005\"\207\002\n\022OpenMainViewRspMsg\022-\n\021overFri" +
       "endInfoMsg\030\001 \001(\0132\022.OverFriendInfoMsg\022\026\n\016" +
       "leftResetTimes\030\002 \002(\005\022\024\n\014highestFloor\030\003 \002" +
       "(\005\022!\n\013bossInfoMsg\030\004 \003(\0132\014.BossInfoMsg\022\032\n" +
       "\022sweepLeftTotalTime\030\005 \001(\005\022\022\n\nsweepFloor\030" +
       "\006 \001(\005\022\032\n\022sweepFloorLeftTime\030\007 \001(\005\022%\n\rrew" +
-      "ardInfoMsg\030\010 \003(\0132\016.RewardInfoMsg\022\022\n\nOpen" +
-      "BoxTip\030\t \001(\t\022\023\n\013UseKeyCount\030\n \001(\005\"\203\001\n\027Op" +
-      "enChallengeViewRspMsg\022\017\n\007groupId\030\001 \002(\005\022\017" +
-      "\n\007isFirst\030\002 \002(\010\022%\n\rrewardInfoMsg\030\003 \003(\0132\016",
-      ".RewardInfoMsg\022\016\n\006copyId\030\004 \002(\005\022\017\n\007isBrea" +
-      "k\030\005 \001(\010\"7\n\"GetFriendBattleTowerRankInfoR" +
-      "eqMsg\022\021\n\tpageIndex\030\001 \002(\005\"|\n\"GetFriendBat" +
-      "tleTowerRankInfoRspMsg\022\022\n\nfriendSize\030\001 \001" +
-      "(\005\022/\n\022rankingRoleInfoMsg\030\002 \003(\0132\023.Ranking" +
-      "RoleInfoMsg\022\021\n\tpageIndex\030\003 \002(\005\"&\n\025GetStr" +
-      "ategyListReqMsg\022\r\n\005floor\030\001 \002(\005\"H\n\025GetStr" +
-      "ategyListRspMsg\022/\n\022rankingRoleInfoMsg\030\001 " +
-      "\003(\0132\023.RankingRoleInfoMsg\"W\n\025OpenTryLuckV" +
-      "iewRspMsg\022\024\n\014copperKeyNum\030\001 \002(\005\022\024\n\014silve",
-      "rKeyNum\030\002 \002(\005\022\022\n\ngoldKeyNum\030\003 \002(\005\"!\n\020Swe" +
-      "epStartReqMsg\022\r\n\005floor\030\001 \002(\005\"5\n\020SweepSta" +
-      "rtRspMsg\022!\n\013bossInfoMsg\030\001 \003(\0132\014.BossInfo" +
-      "Msg\"7\n\016SweepEndRspMsg\022%\n\rrewardInfoMsg\030\001" +
-      " \003(\0132\016.RewardInfoMsg\"?\n\021UseLuckyKeyReqMs" +
-      "g\022\032\n\007keyType\030\001 \002(\0162\t.EKeyType\022\016\n\006useNum\030" +
-      "\002 \002(\005\":\n\021UseLuckyKeyRspMsg\022%\n\rrewardInfo" +
-      "Msg\030\001 \003(\0132\016.RewardInfoMsg\"%\n\024ChallengeSt" +
-      "artReqMsg\022\r\n\005floor\030\001 \002(\005\"d\n\022ChallengeEnd" +
-      "ReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\022/\n",
-      "\022rankingHeroInfoMsg\030\003 \003(\0132\023.RankingHeroI" +
-      "nfoMsg\"^\n\022ChallengeEndRspMsg\022%\n\rrewardIn" +
-      "foMsg\030\001 \003(\0132\016.RewardInfoMsg\022!\n\013bossInfoM" +
-      "sg\030\002 \003(\0132\014.BossInfoMsg\"*\n\030ChallengeBossS" +
-      "tartReqMsg\022\016\n\006bossId\030\001 \002(\005\"8\n\026ChallengeB" +
-      "ossEndReqMsg\022\016\n\006bossId\030\001 \002(\005\022\016\n\006result\030\002" +
-      " \002(\010\"?\n\026ChallengeBossEndRspMsg\022%\n\rreward" +
-      "InfoMsg\030\001 \003(\0132\016.RewardInfoMsg\"T\n\021OverFri" +
-      "endInfoMsg\022\020\n\010headIcon\030\001 \002(\t\022\r\n\005level\030\002 " +
-      "\002(\005\022\014\n\004name\030\003 \002(\t\022\020\n\010floorGap\030\004 \002(\005\"]\n\013B",
-      "ossInfoMsg\022\016\n\006bossId\030\001 \002(\005\022\021\n\tbossCfgId\030" +
-      "\002 \002(\005\022\026\n\016bossRemainTime\030\003 \002(\003\022\023\n\013bossInF" +
-      "loor\030\004 \001(\005\",\n\rRewardInfoMsg\022\014\n\004type\030\001 \002(" +
-      "\005\022\r\n\005count\030\002 \002(\005\"\302\001\n\022RankingRoleInfoMsg\022" +
-      "\021\n\trankIndex\030\001 \001(\005\022\014\n\004name\030\002 \002(\t\022\020\n\010head" +
-      "Icon\030\003 \002(\t\022\024\n\014highestFloor\030\004 \001(\005\022\r\n\005leve" +
-      "l\030\005 \002(\005\022\021\n\tmagicIcon\030\006 \002(\t\022/\n\022rankingHer" +
-      "oInfoMsg\030\007 \003(\0132\023.RankingHeroInfoMsg\022\020\n\010i" +
-      "sMyself\030\010 \001(\010\"i\n\022RankingHeroInfoMsg\022\016\n\006h" +
-      "eroId\030\001 \002(\t\022\017\n\007starNum\030\002 \002(\005\022\017\n\007quality\030",
-      "\003 \001(\005\022\r\n\005level\030\004 \002(\005\022\022\n\nisMainRole\030\005 \001(\010" +
-      "*\256\002\n\014ERequestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n" +
-      "\023OPEN_CHALLENGE_VIEW\020\002\022\030\n\024GET_FRIEND_RAN" +
-      "K_LIST\020\003\022\025\n\021GET_STRATEGY_LIST\020\004\022\026\n\022OPEN_" +
-      "TRY_LUCK_VIEW\020\005\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEE" +
-      "P_END\020\007\022\021\n\rUSE_LUCKY_KEY\020\010\022\033\n\027RESET_BATT" +
-      "LE_TOWER_DATA\020\t\022\023\n\017CHALLENGE_START\020\n\022\021\n\r" +
-      "CHALLENGE_END\020\013\022\030\n\024CHALLENGE_BOSS_START\020" +
-      "\014\022\026\n\022CHALLENGE_BOSS_END\020\r*.\n\016EResponseSt" +
-      "ate\022\016\n\nRSP_SUCESS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKe",
-      "yType\022\016\n\nKEY_COPPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n" +
-      "\010KEY_GOLD\020\003B\'\n\013com.rwprotoB\030BattleTowerS" +
-      "erviceProtos"
+      "ardInfoMsg\030\010 \003(\0132\016.RewardInfoMsg\"r\n\027Open" +
+      "ChallengeViewRspMsg\022\017\n\007groupId\030\001 \002(\005\022\017\n\007" +
+      "isFirst\030\002 \002(\010\022%\n\rrewardInfoMsg\030\003 \003(\0132\016.R" +
+      "ewardInfoMsg\022\016\n\006copyId\030\004 \002(\005\"7\n\"GetFrien",
+      "dBattleTowerRankInfoReqMsg\022\021\n\tpageIndex\030" +
+      "\001 \002(\005\"|\n\"GetFriendBattleTowerRankInfoRsp" +
+      "Msg\022\022\n\nfriendSize\030\001 \001(\005\022/\n\022rankingRoleIn" +
+      "foMsg\030\002 \003(\0132\023.RankingRoleInfoMsg\022\021\n\tpage" +
+      "Index\030\003 \002(\005\"&\n\025GetStrategyListReqMsg\022\r\n\005" +
+      "floor\030\001 \002(\005\"H\n\025GetStrategyListRspMsg\022/\n\022" +
+      "rankingRoleInfoMsg\030\001 \003(\0132\023.RankingRoleIn" +
+      "foMsg\"W\n\025OpenTryLuckViewRspMsg\022\024\n\014copper" +
+      "KeyNum\030\001 \002(\005\022\024\n\014silverKeyNum\030\002 \002(\005\022\022\n\ngo" +
+      "ldKeyNum\030\003 \002(\005\"!\n\020SweepStartReqMsg\022\r\n\005fl",
+      "oor\030\001 \002(\005\"5\n\020SweepStartRspMsg\022!\n\013bossInf" +
+      "oMsg\030\001 \003(\0132\014.BossInfoMsg\"7\n\016SweepEndRspM" +
+      "sg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardInfoMs" +
+      "g\"?\n\021UseLuckyKeyReqMsg\022\032\n\007keyType\030\001 \002(\0162" +
+      "\t.EKeyType\022\016\n\006useNum\030\002 \002(\005\":\n\021UseLuckyKe" +
+      "yRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardI" +
+      "nfoMsg\"%\n\024ChallengeStartReqMsg\022\r\n\005floor\030" +
+      "\001 \002(\005\"d\n\022ChallengeEndReqMsg\022\r\n\005floor\030\001 \002" +
+      "(\005\022\016\n\006result\030\002 \002(\010\022/\n\022rankingHeroInfoMsg" +
+      "\030\003 \003(\0132\023.RankingHeroInfoMsg\"^\n\022Challenge",
+      "EndRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.Rewar" +
+      "dInfoMsg\022!\n\013bossInfoMsg\030\002 \003(\0132\014.BossInfo" +
+      "Msg\"*\n\030ChallengeBossStartReqMsg\022\016\n\006bossI" +
+      "d\030\001 \002(\005\"8\n\026ChallengeBossEndReqMsg\022\016\n\006bos" +
+      "sId\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\"?\n\026ChallengeBo" +
+      "ssEndRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.Rew" +
+      "ardInfoMsg\"T\n\021OverFriendInfoMsg\022\020\n\010headI" +
+      "con\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\020" +
+      "\n\010floorGap\030\004 \002(\005\"]\n\013BossInfoMsg\022\016\n\006bossI" +
+      "d\030\001 \002(\005\022\021\n\tbossCfgId\030\002 \002(\005\022\026\n\016bossRemain",
+      "Time\030\003 \002(\003\022\023\n\013bossInFloor\030\004 \001(\005\",\n\rRewar" +
+      "dInfoMsg\022\014\n\004type\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"\302\001" +
+      "\n\022RankingRoleInfoMsg\022\021\n\trankIndex\030\001 \001(\005\022" +
+      "\014\n\004name\030\002 \002(\t\022\020\n\010headIcon\030\003 \002(\t\022\024\n\014highe" +
+      "stFloor\030\004 \001(\005\022\r\n\005level\030\005 \002(\005\022\021\n\tmagicIco" +
+      "n\030\006 \002(\t\022/\n\022rankingHeroInfoMsg\030\007 \003(\0132\023.Ra" +
+      "nkingHeroInfoMsg\022\020\n\010isMyself\030\010 \001(\010\"i\n\022Ra" +
+      "nkingHeroInfoMsg\022\016\n\006heroId\030\001 \002(\t\022\017\n\007star" +
+      "Num\030\002 \002(\005\022\017\n\007quality\030\003 \001(\005\022\r\n\005level\030\004 \002(" +
+      "\005\022\022\n\nisMainRole\030\005 \001(\010*\256\002\n\014ERequestType\022\022",
+      "\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPEN_CHALLENGE_VIE" +
+      "W\020\002\022\030\n\024GET_FRIEND_RANK_LIST\020\003\022\025\n\021GET_STR" +
+      "ATEGY_LIST\020\004\022\026\n\022OPEN_TRY_LUCK_VIEW\020\005\022\017\n\013" +
+      "SWEEP_START\020\006\022\r\n\tSWEEP_END\020\007\022\021\n\rUSE_LUCK" +
+      "Y_KEY\020\010\022\033\n\027RESET_BATTLE_TOWER_DATA\020\t\022\023\n\017" +
+      "CHALLENGE_START\020\n\022\021\n\rCHALLENGE_END\020\013\022\030\n\024" +
+      "CHALLENGE_BOSS_START\020\014\022\026\n\022CHALLENGE_BOSS" +
+      "_END\020\r*.\n\016EResponseState\022\016\n\nRSP_SUCESS\020\001" +
+      "\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyType\022\016\n\nKEY_COPPER" +
+      "\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY_GOLD\020\003B\'\n\013com.",
+      "rwprotoB\030BattleTowerServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -24145,13 +23713,13 @@ public final class BattleTowerServiceProtos {
           internal_static_OpenMainViewRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OpenMainViewRspMsg_descriptor,
-              new java.lang.String[] { "OverFriendInfoMsg", "LeftResetTimes", "HighestFloor", "BossInfoMsg", "SweepLeftTotalTime", "SweepFloor", "SweepFloorLeftTime", "RewardInfoMsg", "OpenBoxTip", "UseKeyCount", });
+              new java.lang.String[] { "OverFriendInfoMsg", "LeftResetTimes", "HighestFloor", "BossInfoMsg", "SweepLeftTotalTime", "SweepFloor", "SweepFloorLeftTime", "RewardInfoMsg", });
           internal_static_OpenChallengeViewRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_OpenChallengeViewRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OpenChallengeViewRspMsg_descriptor,
-              new java.lang.String[] { "GroupId", "IsFirst", "RewardInfoMsg", "CopyId", "IsBreak", });
+              new java.lang.String[] { "GroupId", "IsFirst", "RewardInfoMsg", "CopyId", });
           internal_static_GetFriendBattleTowerRankInfoReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_GetFriendBattleTowerRankInfoReqMsg_fieldAccessorTable = new

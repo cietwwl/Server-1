@@ -17,7 +17,7 @@ public final class DailyActivityProtos {
      * <code>Task_List = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     Task_List(0, 0),
@@ -25,7 +25,7 @@ public final class DailyActivityProtos {
      * <code>Task_Finish = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÍê³ÉÈÎÎñ
      * </pre>
      */
     Task_Finish(1, 1),
@@ -35,7 +35,7 @@ public final class DailyActivityProtos {
      * <code>Task_List = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     public static final int Task_List_VALUE = 0;
@@ -43,7 +43,7 @@ public final class DailyActivityProtos {
      * <code>Task_Finish = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÍê³ÉÈÎÎñ
      * </pre>
      */
     public static final int Task_Finish_VALUE = 1;
@@ -196,7 +196,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     boolean hasRequestType();
@@ -204,7 +204,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     com.rwproto.DailyActivityProtos.EDailyActivityRequestType getRequestType();
@@ -214,7 +214,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     boolean hasTaskId();
@@ -222,7 +222,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     int getTaskId();
@@ -341,7 +341,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     public boolean hasRequestType() {
@@ -351,7 +351,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType requestType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÇëÇóÀàÐÍ
      * </pre>
      */
     public com.rwproto.DailyActivityProtos.EDailyActivityRequestType getRequestType() {
@@ -365,7 +365,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     public boolean hasTaskId() {
@@ -375,7 +375,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     public int getTaskId() {
@@ -640,7 +640,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public boolean hasRequestType() {
@@ -650,7 +650,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.EDailyActivityRequestType getRequestType() {
@@ -660,7 +660,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public Builder setRequestType(com.rwproto.DailyActivityProtos.EDailyActivityRequestType value) {
@@ -676,7 +676,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType requestType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÇëÇóÀàÐÍ
        * </pre>
        */
       public Builder clearRequestType() {
@@ -692,7 +692,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public boolean hasTaskId() {
@@ -702,7 +702,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public int getTaskId() {
@@ -712,7 +712,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public Builder setTaskId(int value) {
@@ -725,7 +725,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public Builder clearTaskId() {
@@ -754,7 +754,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType responseType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØÀàÐÍ
      * </pre>
      */
     boolean hasResponseType();
@@ -762,7 +762,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType responseType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØÀàÐÍ
      * </pre>
      */
     com.rwproto.DailyActivityProtos.EDailyActivityRequestType getResponseType();
@@ -772,7 +772,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     java.util.List<com.rwproto.DailyActivityProtos.DailyActivityInfo> 
@@ -781,7 +781,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     com.rwproto.DailyActivityProtos.DailyActivityInfo getTaskList(int index);
@@ -789,7 +789,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     int getTaskListCount();
@@ -797,7 +797,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     java.util.List<? extends com.rwproto.DailyActivityProtos.DailyActivityInfoOrBuilder> 
@@ -806,7 +806,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     com.rwproto.DailyActivityProtos.DailyActivityInfoOrBuilder getTaskListOrBuilder(
@@ -817,7 +817,7 @@ public final class DailyActivityProtos {
      * <code>optional .eDailyActivityResultType resultType = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØµÄ½á¹ûÀàÐÍ
      * </pre>
      */
     boolean hasResultType();
@@ -825,7 +825,7 @@ public final class DailyActivityProtos {
      * <code>optional .eDailyActivityResultType resultType = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØµÄ½á¹ûÀàÐÍ
      * </pre>
      */
     com.rwproto.DailyActivityProtos.eDailyActivityResultType getResultType();
@@ -835,7 +835,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     boolean hasTaskId();
@@ -843,7 +843,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     int getTaskId();
@@ -984,7 +984,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType responseType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØÀàÐÍ
      * </pre>
      */
     public boolean hasResponseType() {
@@ -994,7 +994,7 @@ public final class DailyActivityProtos {
      * <code>required .EDailyActivityRequestType responseType = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØÀàÐÍ
      * </pre>
      */
     public com.rwproto.DailyActivityProtos.EDailyActivityRequestType getResponseType() {
@@ -1008,7 +1008,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     public java.util.List<com.rwproto.DailyActivityProtos.DailyActivityInfo> getTaskListList() {
@@ -1018,7 +1018,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     public java.util.List<? extends com.rwproto.DailyActivityProtos.DailyActivityInfoOrBuilder> 
@@ -1029,7 +1029,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     public int getTaskListCount() {
@@ -1039,7 +1039,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     public com.rwproto.DailyActivityProtos.DailyActivityInfo getTaskList(int index) {
@@ -1049,7 +1049,7 @@ public final class DailyActivityProtos {
      * <code>repeated .DailyActivityInfo taskList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *ÈÎÎñÁÐ±í
      * </pre>
      */
     public com.rwproto.DailyActivityProtos.DailyActivityInfoOrBuilder getTaskListOrBuilder(
@@ -1064,7 +1064,7 @@ public final class DailyActivityProtos {
      * <code>optional .eDailyActivityResultType resultType = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØµÄ½á¹ûÀàÐÍ
      * </pre>
      */
     public boolean hasResultType() {
@@ -1074,7 +1074,7 @@ public final class DailyActivityProtos {
      * <code>optional .eDailyActivityResultType resultType = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *·µ»ØµÄ½á¹ûÀàÐÍ
      * </pre>
      */
     public com.rwproto.DailyActivityProtos.eDailyActivityResultType getResultType() {
@@ -1088,7 +1088,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     public boolean hasTaskId() {
@@ -1098,7 +1098,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 TaskId = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     public int getTaskId() {
@@ -1442,7 +1442,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType responseType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØÀàÐÍ
        * </pre>
        */
       public boolean hasResponseType() {
@@ -1452,7 +1452,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType responseType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØÀàÐÍ
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.EDailyActivityRequestType getResponseType() {
@@ -1462,7 +1462,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType responseType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØÀàÐÍ
        * </pre>
        */
       public Builder setResponseType(com.rwproto.DailyActivityProtos.EDailyActivityRequestType value) {
@@ -1478,7 +1478,7 @@ public final class DailyActivityProtos {
        * <code>required .EDailyActivityRequestType responseType = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØÀàÐÍ
        * </pre>
        */
       public Builder clearResponseType() {
@@ -1505,7 +1505,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public java.util.List<com.rwproto.DailyActivityProtos.DailyActivityInfo> getTaskListList() {
@@ -1519,7 +1519,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public int getTaskListCount() {
@@ -1533,7 +1533,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.DailyActivityInfo getTaskList(int index) {
@@ -1547,7 +1547,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder setTaskList(
@@ -1568,7 +1568,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder setTaskList(
@@ -1586,7 +1586,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder addTaskList(com.rwproto.DailyActivityProtos.DailyActivityInfo value) {
@@ -1606,7 +1606,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder addTaskList(
@@ -1627,7 +1627,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder addTaskList(
@@ -1645,7 +1645,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder addTaskList(
@@ -1663,7 +1663,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder addAllTaskList(
@@ -1681,7 +1681,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder clearTaskList() {
@@ -1698,7 +1698,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public Builder removeTaskList(int index) {
@@ -1715,7 +1715,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.DailyActivityInfo.Builder getTaskListBuilder(
@@ -1726,7 +1726,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.DailyActivityInfoOrBuilder getTaskListOrBuilder(
@@ -1740,7 +1740,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public java.util.List<? extends com.rwproto.DailyActivityProtos.DailyActivityInfoOrBuilder> 
@@ -1755,7 +1755,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.DailyActivityInfo.Builder addTaskListBuilder() {
@@ -1766,7 +1766,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.DailyActivityInfo.Builder addTaskListBuilder(
@@ -1778,7 +1778,7 @@ public final class DailyActivityProtos {
        * <code>repeated .DailyActivityInfo taskList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *ÈÎÎñÁÐ±í
        * </pre>
        */
       public java.util.List<com.rwproto.DailyActivityProtos.DailyActivityInfo.Builder> 
@@ -1806,7 +1806,7 @@ public final class DailyActivityProtos {
        * <code>optional .eDailyActivityResultType resultType = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØµÄ½á¹ûÀàÐÍ
        * </pre>
        */
       public boolean hasResultType() {
@@ -1816,7 +1816,7 @@ public final class DailyActivityProtos {
        * <code>optional .eDailyActivityResultType resultType = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØµÄ½á¹ûÀàÐÍ
        * </pre>
        */
       public com.rwproto.DailyActivityProtos.eDailyActivityResultType getResultType() {
@@ -1826,7 +1826,7 @@ public final class DailyActivityProtos {
        * <code>optional .eDailyActivityResultType resultType = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØµÄ½á¹ûÀàÐÍ
        * </pre>
        */
       public Builder setResultType(com.rwproto.DailyActivityProtos.eDailyActivityResultType value) {
@@ -1842,7 +1842,7 @@ public final class DailyActivityProtos {
        * <code>optional .eDailyActivityResultType resultType = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ØµÄ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *·µ»ØµÄ½á¹ûÀàÐÍ
        * </pre>
        */
       public Builder clearResultType() {
@@ -1858,7 +1858,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public boolean hasTaskId() {
@@ -1868,7 +1868,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public int getTaskId() {
@@ -1878,7 +1878,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public Builder setTaskId(int value) {
@@ -1891,7 +1891,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 TaskId = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public Builder clearTaskId() {
@@ -1920,7 +1920,7 @@ public final class DailyActivityProtos {
      * <code>required int32 taskId = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     boolean hasTaskId();
@@ -1928,7 +1928,7 @@ public final class DailyActivityProtos {
      * <code>required int32 taskId = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     int getTaskId();
@@ -1938,7 +1938,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 canGetReward = 2;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+     *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
      * </pre>
      */
     boolean hasCanGetReward();
@@ -1946,7 +1946,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 canGetReward = 2;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+     *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
      * </pre>
      */
     int getCanGetReward();
@@ -1956,7 +1956,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 currentProgress = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+     *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
      * </pre>
      */
     boolean hasCurrentProgress();
@@ -1964,7 +1964,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 currentProgress = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+     *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
      * </pre>
      */
     int getCurrentProgress();
@@ -2082,7 +2082,7 @@ public final class DailyActivityProtos {
      * <code>required int32 taskId = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     public boolean hasTaskId() {
@@ -2092,7 +2092,7 @@ public final class DailyActivityProtos {
      * <code>required int32 taskId = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *ÈÎÎñid
      * </pre>
      */
     public int getTaskId() {
@@ -2106,7 +2106,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 canGetReward = 2;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+     *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
      * </pre>
      */
     public boolean hasCanGetReward() {
@@ -2116,7 +2116,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 canGetReward = 2;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+     *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
      * </pre>
      */
     public int getCanGetReward() {
@@ -2130,7 +2130,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 currentProgress = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+     *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
      * </pre>
      */
     public boolean hasCurrentProgress() {
@@ -2140,7 +2140,7 @@ public final class DailyActivityProtos {
      * <code>optional int32 currentProgress = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+     *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
      * </pre>
      */
     public int getCurrentProgress() {
@@ -2422,7 +2422,7 @@ public final class DailyActivityProtos {
        * <code>required int32 taskId = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public boolean hasTaskId() {
@@ -2432,7 +2432,7 @@ public final class DailyActivityProtos {
        * <code>required int32 taskId = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public int getTaskId() {
@@ -2442,7 +2442,7 @@ public final class DailyActivityProtos {
        * <code>required int32 taskId = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public Builder setTaskId(int value) {
@@ -2455,7 +2455,7 @@ public final class DailyActivityProtos {
        * <code>required int32 taskId = 1;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *ÈÎÎñid
        * </pre>
        */
       public Builder clearTaskId() {
@@ -2471,7 +2471,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 canGetReward = 2;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+       *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
        * </pre>
        */
       public boolean hasCanGetReward() {
@@ -2481,7 +2481,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 canGetReward = 2;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+       *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
        * </pre>
        */
       public int getCanGetReward() {
@@ -2491,7 +2491,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 canGetReward = 2;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+       *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
        * </pre>
        */
       public Builder setCanGetReward(int value) {
@@ -2504,7 +2504,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 canGetReward = 2;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ì½±(1ï¿½Ç¿ï¿½ï¿½Ô£ï¿½0ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½)
+       *ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
        * </pre>
        */
       public Builder clearCanGetReward() {
@@ -2520,7 +2520,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 currentProgress = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+       *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
        * </pre>
        */
       public boolean hasCurrentProgress() {
@@ -2530,7 +2530,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 currentProgress = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+       *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
        * </pre>
        */
       public int getCurrentProgress() {
@@ -2540,7 +2540,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 currentProgress = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+       *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
        * </pre>
        */
       public Builder setCurrentProgress(int value) {
@@ -2553,7 +2553,7 @@ public final class DailyActivityProtos {
        * <code>optional int32 currentProgress = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ê¾)
+       *µ±Ç°½ø¶È(ÓÃÊý×Ö±íÊ¾)
        * </pre>
        */
       public Builder clearCurrentProgress() {

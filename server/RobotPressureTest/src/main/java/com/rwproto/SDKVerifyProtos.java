@@ -17,7 +17,7 @@ public final class SDKVerifyProtos {
      * <code>SUCCESS = 1;</code>
      *
      * <pre>
-     *ï¿½É¹ï¿½
+     *³É¹¦
      * </pre>
      */
     SUCCESS(0, 1),
@@ -25,7 +25,7 @@ public final class SDKVerifyProtos {
      * <code>FAIL = 2;</code>
      *
      * <pre>
-     *Ê§ï¿½ï¿½
+     *Ê§°Ü
      * </pre>
      */
     FAIL(1, 2),
@@ -35,7 +35,7 @@ public final class SDKVerifyProtos {
      * <code>SUCCESS = 1;</code>
      *
      * <pre>
-     *ï¿½É¹ï¿½
+     *³É¹¦
      * </pre>
      */
     public static final int SUCCESS_VALUE = 1;
@@ -43,7 +43,7 @@ public final class SDKVerifyProtos {
      * <code>FAIL = 2;</code>
      *
      * <pre>
-     *Ê§ï¿½ï¿½
+     *Ê§°Ü
      * </pre>
      */
     public static final int FAIL_VALUE = 2;

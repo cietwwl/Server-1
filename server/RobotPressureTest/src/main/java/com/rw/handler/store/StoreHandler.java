@@ -1,7 +1,5 @@
 package com.rw.handler.store;
 
-import java.util.List;
-
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
@@ -17,42 +15,40 @@ import com.rwproto.StoreProtos.tagCommodity;
 
 public class StoreHandler {
 
-	
 	private static StoreHandler instance = new StoreHandler();
-	public static StoreHandler instance(){
+
+	public static StoreHandler instance() {
 		return instance;
 	}
 
 	/**
-	 * 创建角色
+	 * 随机购买物品
 	 * 
 	 * @param serverId
 	 * @param accountId
 	 */
 	public boolean buyRandom(Client client) {
-		
 
 		CommodityData target = client.getStoreItemHolder().getRandom(eStoreType.General);
 		int commodity = target.getId();
-		
+
 		StoreRequest.Builder req = StoreRequest.newBuilder();
 		req.setRequestType(eStoreRequestType.BuyCommodity);
 		tagCommodity vo = tagCommodity.newBuilder().setCount(1).setId(commodity).build();
 		req.setCommodity(vo);
-		
-		
-		boolean success = client.getMsgHandler().sendMsg( Command.MSG_STORE, req.build().toByteString(), new MsgReciver() {
-			
+
+		boolean success = client.getMsgHandler().sendMsg(Command.MSG_STORE, req.build().toByteString(), new MsgReciver() {
+
 			@Override
 			public Command getCmd() {
 				return Command.MSG_STORE;
 			}
-			
+
 			@Override
 			public boolean execute(Client client, Response response) {
 				ByteString serializedContent = response.getSerializedContent();
 				try {
-					
+
 					StoreResponse rsp = StoreResponse.parseFrom(serializedContent);
 					if (rsp == null) {
 						RobotLog.fail("StoreHandler[buyRandom] 转换响应消息为null");
@@ -63,10 +59,10 @@ public class StoreHandler {
 					if (result == eStoreResultType.SUCCESS) {
 						RobotLog.info("StoreHandler[buyRandom] 购买成功");
 						return true;
-					}else{
-						RobotLog.fail("StoreHandler[buyRandom] 服务器处理消息失败 "+result);
+					} else {
+						RobotLog.fail("StoreHandler[buyRandom] 服务器处理消息失败 " + result);
 						return false;
-						
+
 					}
 
 				} catch (InvalidProtocolBufferException e) {
@@ -78,5 +74,4 @@ public class StoreHandler {
 		});
 		return success;
 	}
-
 }

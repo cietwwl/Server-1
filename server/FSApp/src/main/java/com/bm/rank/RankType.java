@@ -3,6 +3,7 @@ package com.bm.rank;
 import java.util.HashMap;
 
 import com.bm.rank.arena.ArenaDailyExtension;
+import com.bm.rank.arena.ArenaSettleExtension;
 import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
@@ -35,7 +36,8 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	PRIEST_ARENA_DAILY(16, 5000,"全日祭祀竞技场",1,ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	GROUP_BASE_RANK(17, 99, "帮派排行榜", 1, GroupBaseRankExtension.class),
 	GROUP_MEMBER_NUM_RANK(18, 5000, "帮派成员排行榜", 1, GroupMemberNumRankExtension.class),
-	GROUP_CREATE_TIME_RANK(19, 10, "帮派创建排行榜", 1, GroupCreateTimeRankExtension.class)
+	GROUP_CREATE_TIME_RANK(19, 10, "帮派创建排行榜", 1, GroupCreateTimeRankExtension.class),
+	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class)
 	;
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz,RankingEntityCopyer copyer) {

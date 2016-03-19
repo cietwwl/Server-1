@@ -2,6 +2,8 @@ package com.rw.service.log.template;
 
 import java.util.Set;
 
+import com.rw.service.log.template.maker.LogTemplate;
+
 /**
  * 总帐号数
  * @author allen
@@ -10,8 +12,9 @@ import java.util.Set;
 public class ZoneCountTotalAccountLogTemplate extends BILogTemplate{
 
 	
-	final private String template="$logTime$|core_stat_1|$loginZoneId$|$logTime$|stat_account|$loginZoneId$|$regChannelId$|$totalAccount$|$loginClientPlatForm$";
+//	final private String template="$logTime$|core_stat_1|$loginZoneId$|$logTime$|stat_account|$loginZoneId$|$regChannelId$|$totalAccount$|$loginClientPlatForm$";
 	
+	final private String template=LogTemplate.ZoneCountTotalAccountLogTemplate;
 	final private Set<String> infoNameSet = BILogTemplateHelper.getInfoNameSet(template);
 
 	
@@ -25,8 +28,8 @@ public class ZoneCountTotalAccountLogTemplate extends BILogTemplate{
 	}
 	
 	public static void main(String[] args) {
-		String onlineCount = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_account|用户登录区ID|注册渠道ID|总账号统计|4=安卓/5=ios/7=wm";
+		String ZoneCountTotalAccountLogTemplate = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_account|用户登录区ID|注册渠道ID|总账号统计|4=安卓/5=ios/7=wm";
 		
-		BILogTemplateHelper.toTemplate(onlineCount);
+		BILogTemplateHelper.toTemplate(ZoneCountTotalAccountLogTemplate);
 	}
 }

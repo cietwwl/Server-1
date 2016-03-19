@@ -68,7 +68,7 @@ public class SocketHelper {
 	public static void processException(Exception ex, GmResponse response) {
 		int status;
 		try {
-			status = Integer.getInteger(ex.getMessage());
+			status = Integer.parseInt(ex.getMessage());
 		} catch (Exception ex1) {
 			status = GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus();
 		}

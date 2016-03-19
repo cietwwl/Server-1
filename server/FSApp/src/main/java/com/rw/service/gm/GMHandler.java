@@ -14,7 +14,6 @@ import com.playerdata.Player;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.gm.hero.GMHeroProcesser;
-import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
@@ -29,7 +28,6 @@ import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
-import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
 import com.rwproto.MsgDef.Command;
 
 public class GMHandler {
@@ -85,35 +83,8 @@ public class GMHandler {
 		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
-		
-		//引导
-		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
-		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
 	}
-	
-	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player){
-		System.out.println("ReadNewGuideConfig command");
-		DebugNewGuideData debugSupport = DebugNewGuideData.getInstance();
-		debugSupport.ClearData();
-		boolean result = debugSupport.RefreshConfig();
-		return result;
-	}
-	
-	public boolean UpdateNewGuideConfig(String[] arrCommandContents, Player player) {
-		System.out.println("UpdateNewGuideConfig command");
-		DebugNewGuideData debugSupport = DebugNewGuideData.getInstance();
-		boolean result = debugSupport.RefreshConfig();
-		if (result){
-			GuidanceConfigs.Builder configfiles = GuidanceConfigs.newBuilder();
-			configfiles.setGuidanceData(debugSupport.getGuidanceData());
-			configfiles.setActionsData(debugSupport.getActionsData());
-			configfiles.setConditionalsData(debugSupport.getConditionalsData());
-			configfiles.setConductressData(debugSupport.getConductressData());
-			player.SendMsg(Command.MSG_NEW_GUIDE, configfiles.build().toByteString());
-		}
-		return result;
-	}
-	
+
 	public boolean isActive() {
 		return active;
 	}

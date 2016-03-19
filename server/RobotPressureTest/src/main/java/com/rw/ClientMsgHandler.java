@@ -28,41 +28,40 @@ import com.rwproto.ResponseProtos.ResponseHeader;
  * @Description 
  */
 public abstract class ClientMsgHandler {
-	
-	
+
 	private BlockingQueue<Response> resultQueue = new LinkedBlockingQueue<Response>(1);
-	
+
 	private MsgReciver msgReciver;
-	
+
 	private Response getResp() {
 		Response resp = null;
 		long maxTime = 30L;
-		//超过十秒拿不到认为超时。
+		// 超过十秒拿不到认为超时。
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
-			RobotLog.fail("ServerResp[getResp] 服务器响应超时",e);
+			RobotLog.fail("ServerResp[getResp] 服务器响应超时", e);
 		}
 		return resp;
-		
+
 	}
 
 	public void setResp(Response resp) {
-		if(msgReciver!=null && msgReciver.getCmd() == resp.getHeader().getCommand()){
-			
-			if(resultQueue.isEmpty()){
+		if (msgReciver != null && msgReciver.getCmd() == resp.getHeader().getCommand()) {
+
+			if (resultQueue.isEmpty()) {
 				resultQueue.add(resp);
 			}
 		}
 	}
-	
-	public void dataSyn(Response resp){
-		if(Command.MSG_DATA_SYN == resp.getHeader().getCommand()){
+
+	public void dataSyn(Response resp) {
+		if (Command.MSG_DATA_SYN == resp.getHeader().getCommand()) {
 			try {
 				MsgDataSynList datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
 				for (MsgDataSyn msgDataSyn : datasynList.getMsgDataSynList()) {
 					eSynType synType = msgDataSyn.getSynType();
-					
+
 					switch (synType) {
 					case Store_Data:
 						getClient().getStoreItemHolder().syn(msgDataSyn);
@@ -77,16 +76,14 @@ public abstract class ClientMsgHandler {
 					default:
 						break;
 					}
-					
+
 				}
-				
-				
+
 			} catch (InvalidProtocolBufferException e) {
-				throw(new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
+				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 			}
 		}
 	}
-	
 
 	/**
 	 * 发送消息
@@ -99,7 +96,7 @@ public abstract class ClientMsgHandler {
 	 */
 	public boolean sendMsg(Command command, ByteString bytes, MsgReciver msgReciverP) {
 		msgReciver = msgReciverP;
-		
+
 		boolean success = false;
 		Client client = getClient();
 		RequestHeader.Builder header = RequestHeader.newBuilder();
@@ -120,51 +117,49 @@ public abstract class ClientMsgHandler {
 		Request.Builder request = Request.newBuilder();
 		request.setHeader(header);
 		request.setBody(body);
-		
 
 		try {
-			
+
 			Channel channel = ChannelServer.getInstance().getChannel(client);
-			
+
 			channel.writeAndFlush(request);
-			MsgLog.info("发送消息 客户端Id：" + client.getAccountId()+" cmd:" + command);
-			if(msgReciver!=null){
+			MsgLog.info("发送消息 客户端Id：" + client.getAccountId() + " cmd:" + command);
+			if (msgReciver != null) {
 				success = handleResp(msgReciverP, client);
 				msgReciver = null;
-			}else{
+			} else {
 				success = true;
 			}
 		} catch (Exception e) {
-			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:"+client.getAccountId(), e);
+			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId(), e);
 			success = false;
 		}
 		return success;
-		
-		
+
 	}
 
 	private boolean handleResp(MsgReciver msgReciverP, Client client) {
 		boolean success = true;
 		Response rsp = getResp();
-		if(rsp == null){
-			RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:"+client.getAccountId()+" cmd:"+msgReciverP.getCmd());
+		if (rsp == null) {
+			RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
 			success = false;
-		}else{
-			
+		} else {
+
 			ResponseHeader headerTmp = rsp.getHeader();
 			if (headerTmp == null) {
-				RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:"+client.getAccountId());
+				RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:" + client.getAccountId());
 				success = false;
-			}else{
+			} else {
 				Command commandTmp = headerTmp.getCommand();
-				if(msgReciverP!=null && msgReciverP.getCmd() == commandTmp){
+				if (msgReciverP != null && msgReciverP.getCmd() == commandTmp) {
 					success = msgReciverP.execute(client, rsp);
 				}
 			}
-			
+
 		}
 		return success;
 	}
-	
+
 	public abstract Client getClient();
 }

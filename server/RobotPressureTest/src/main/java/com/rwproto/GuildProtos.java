@@ -17,7 +17,7 @@ public final class GuildProtos {
      * <code>SelectMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *²éÕÒ¹«»áÐÅÏ¢
      * </pre>
      */
     SelectMsg(0, 0),
@@ -25,7 +25,7 @@ public final class GuildProtos {
      * <code>CreateMsg = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *´´½¨¹«»á
      * </pre>
      */
     CreateMsg(1, 1),
@@ -33,7 +33,7 @@ public final class GuildProtos {
      * <code>MyMsg = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ï¢
+     *×ÔÒÑ¹«»áÏêÏ¸ÐÅÏ¢
      * </pre>
      */
     MyMsg(2, 2),
@@ -41,7 +41,7 @@ public final class GuildProtos {
      * <code>Join = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ë¹«ï¿½ï¿½
+     *¼ÓÈë¹«»á
      * </pre>
      */
     Join(3, 3),
@@ -49,7 +49,7 @@ public final class GuildProtos {
      * <code>exit = 4;</code>
      *
      * <pre>
-     *ï¿½Ë³ï¿½
+     *ÍË³ö
      * </pre>
      */
     exit(4, 4),
@@ -61,7 +61,7 @@ public final class GuildProtos {
      * <code>promote = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö°
+     *ÉýÖ°
      * </pre>
      */
     promote(6, 6),
@@ -69,7 +69,7 @@ public final class GuildProtos {
      * <code>demotion = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö°
+     *½«Ö°
      * </pre>
      */
     demotion(7, 7),
@@ -77,7 +77,7 @@ public final class GuildProtos {
      * <code>updataNotice = 8;</code>
      *
      * <pre>
-     *ï¿½Ä¹ï¿½ï¿½ï¿½
+     *¸Ä¹«¸æ
      * </pre>
      */
     updataNotice(8, 8),
@@ -85,7 +85,7 @@ public final class GuildProtos {
      * <code>updataName = 9;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¸ÄÃû×Ö
      * </pre>
      */
     updataName(9, 9),
@@ -93,7 +93,7 @@ public final class GuildProtos {
      * <code>updataIcon = 10;</code>
      *
      * <pre>
-     *ï¿½ï¿½Í¼ï¿½ï¿½
+     *¸ÄÍ¼±ê
      * </pre>
      */
     updataIcon(10, 10),
@@ -101,7 +101,7 @@ public final class GuildProtos {
      * <code>setEmail = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     setEmail(11, 11),
@@ -109,7 +109,7 @@ public final class GuildProtos {
      * <code>donate = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¾èÏ×
      * </pre>
      */
     donate(12, 12),
@@ -117,7 +117,7 @@ public final class GuildProtos {
      * <code>dismiss = 13;</code>
      *
      * <pre>
-     *ï¿½ï¿½É¢
+     *½âÉ¢
      * </pre>
      */
     dismiss(13, 13),
@@ -125,7 +125,7 @@ public final class GuildProtos {
      * <code>assignment = 14;</code>
      *
      * <pre>
-     *×ªï¿½ï¿½
+     *×ªÈÃ
      * </pre>
      */
     assignment(14, 14),
@@ -133,7 +133,7 @@ public final class GuildProtos {
      * <code>apply = 15;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÉêÇë
      * </pre>
      */
     apply(15, 15),
@@ -141,7 +141,7 @@ public final class GuildProtos {
      * <code>ignore = 16;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ºöÂÔ
      * </pre>
      */
     ignore(16, 16),
@@ -149,7 +149,7 @@ public final class GuildProtos {
      * <code>pass = 17;</code>
      *
      * <pre>
-     *Í¨ï¿½ï¿½
+     *Í¨¹ý
      * </pre>
      */
     pass(17, 17),
@@ -157,7 +157,7 @@ public final class GuildProtos {
      * <code>updataType = 18;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¸ÄÀàÐÍ
      * </pre>
      */
     updataType(18, 18),
@@ -165,7 +165,7 @@ public final class GuildProtos {
      * <code>updataUnlevel = 19;</code>
      *
      * <pre>
-     *ï¿½Ä¼ï¿½ï¿½ï¿½È¼ï¿½
+     *¸Ä¼ÓÈëµÈ¼¶
      * </pre>
      */
     updataUnlevel(19, 19),
@@ -173,7 +173,7 @@ public final class GuildProtos {
      * <code>uplevel = 20;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½È¼ï¿½
+     *ÉýµÈ¼¶
      * </pre>
      */
     uplevel(20, 20),
@@ -181,7 +181,7 @@ public final class GuildProtos {
      * <code>log = 21;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ö¾
+     *ÄÃÈÕÖ¾
      * </pre>
      */
     log(21, 21),
@@ -191,7 +191,7 @@ public final class GuildProtos {
      * <code>SelectMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *²éÕÒ¹«»áÐÅÏ¢
      * </pre>
      */
     public static final int SelectMsg_VALUE = 0;
@@ -199,7 +199,7 @@ public final class GuildProtos {
      * <code>CreateMsg = 1;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *´´½¨¹«»á
      * </pre>
      */
     public static final int CreateMsg_VALUE = 1;
@@ -207,7 +207,7 @@ public final class GuildProtos {
      * <code>MyMsg = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ï¢
+     *×ÔÒÑ¹«»áÏêÏ¸ÐÅÏ¢
      * </pre>
      */
     public static final int MyMsg_VALUE = 2;
@@ -215,7 +215,7 @@ public final class GuildProtos {
      * <code>Join = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ë¹«ï¿½ï¿½
+     *¼ÓÈë¹«»á
      * </pre>
      */
     public static final int Join_VALUE = 3;
@@ -223,7 +223,7 @@ public final class GuildProtos {
      * <code>exit = 4;</code>
      *
      * <pre>
-     *ï¿½Ë³ï¿½
+     *ÍË³ö
      * </pre>
      */
     public static final int exit_VALUE = 4;
@@ -235,7 +235,7 @@ public final class GuildProtos {
      * <code>promote = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö°
+     *ÉýÖ°
      * </pre>
      */
     public static final int promote_VALUE = 6;
@@ -243,7 +243,7 @@ public final class GuildProtos {
      * <code>demotion = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö°
+     *½«Ö°
      * </pre>
      */
     public static final int demotion_VALUE = 7;
@@ -251,7 +251,7 @@ public final class GuildProtos {
      * <code>updataNotice = 8;</code>
      *
      * <pre>
-     *ï¿½Ä¹ï¿½ï¿½ï¿½
+     *¸Ä¹«¸æ
      * </pre>
      */
     public static final int updataNotice_VALUE = 8;
@@ -259,7 +259,7 @@ public final class GuildProtos {
      * <code>updataName = 9;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¸ÄÃû×Ö
      * </pre>
      */
     public static final int updataName_VALUE = 9;
@@ -267,7 +267,7 @@ public final class GuildProtos {
      * <code>updataIcon = 10;</code>
      *
      * <pre>
-     *ï¿½ï¿½Í¼ï¿½ï¿½
+     *¸ÄÍ¼±ê
      * </pre>
      */
     public static final int updataIcon_VALUE = 10;
@@ -275,7 +275,7 @@ public final class GuildProtos {
      * <code>setEmail = 11;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     public static final int setEmail_VALUE = 11;
@@ -283,7 +283,7 @@ public final class GuildProtos {
      * <code>donate = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¾èÏ×
      * </pre>
      */
     public static final int donate_VALUE = 12;
@@ -291,7 +291,7 @@ public final class GuildProtos {
      * <code>dismiss = 13;</code>
      *
      * <pre>
-     *ï¿½ï¿½É¢
+     *½âÉ¢
      * </pre>
      */
     public static final int dismiss_VALUE = 13;
@@ -299,7 +299,7 @@ public final class GuildProtos {
      * <code>assignment = 14;</code>
      *
      * <pre>
-     *×ªï¿½ï¿½
+     *×ªÈÃ
      * </pre>
      */
     public static final int assignment_VALUE = 14;
@@ -307,7 +307,7 @@ public final class GuildProtos {
      * <code>apply = 15;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ÉêÇë
      * </pre>
      */
     public static final int apply_VALUE = 15;
@@ -315,7 +315,7 @@ public final class GuildProtos {
      * <code>ignore = 16;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *ºöÂÔ
      * </pre>
      */
     public static final int ignore_VALUE = 16;
@@ -323,7 +323,7 @@ public final class GuildProtos {
      * <code>pass = 17;</code>
      *
      * <pre>
-     *Í¨ï¿½ï¿½
+     *Í¨¹ý
      * </pre>
      */
     public static final int pass_VALUE = 17;
@@ -331,7 +331,7 @@ public final class GuildProtos {
      * <code>updataType = 18;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¸ÄÀàÐÍ
      * </pre>
      */
     public static final int updataType_VALUE = 18;
@@ -339,7 +339,7 @@ public final class GuildProtos {
      * <code>updataUnlevel = 19;</code>
      *
      * <pre>
-     *ï¿½Ä¼ï¿½ï¿½ï¿½È¼ï¿½
+     *¸Ä¼ÓÈëµÈ¼¶
      * </pre>
      */
     public static final int updataUnlevel_VALUE = 19;
@@ -347,7 +347,7 @@ public final class GuildProtos {
      * <code>uplevel = 20;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½È¼ï¿½
+     *ÉýµÈ¼¶
      * </pre>
      */
     public static final int uplevel_VALUE = 20;
@@ -355,7 +355,7 @@ public final class GuildProtos {
      * <code>log = 21;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ö¾
+     *ÄÃÈÕÖ¾
      * </pre>
      */
     public static final int log_VALUE = 21;
@@ -456,7 +456,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     java.util.List<com.rwproto.GuildProtos.GuildBaseInfo> 
@@ -465,7 +465,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     com.rwproto.GuildProtos.GuildBaseInfo getGuildList(int index);
@@ -473,7 +473,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     int getGuildListCount();
@@ -481,7 +481,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     java.util.List<? extends com.rwproto.GuildProtos.GuildBaseInfoOrBuilder> 
@@ -490,7 +490,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     com.rwproto.GuildProtos.GuildBaseInfoOrBuilder getGuildListOrBuilder(
@@ -501,7 +501,7 @@ public final class GuildProtos {
      * <code>optional .GuildBaseInfo guildInfo = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
      * </pre>
      */
     boolean hasGuildInfo();
@@ -509,7 +509,7 @@ public final class GuildProtos {
      * <code>optional .GuildBaseInfo guildInfo = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
      * </pre>
      */
     com.rwproto.GuildProtos.GuildBaseInfo getGuildInfo();
@@ -517,7 +517,7 @@ public final class GuildProtos {
      * <code>optional .GuildBaseInfo guildInfo = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
      * </pre>
      */
     com.rwproto.GuildProtos.GuildBaseInfoOrBuilder getGuildInfoOrBuilder();
@@ -527,7 +527,7 @@ public final class GuildProtos {
      * <code>optional string nameList = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *¹«»áÃû×ÖÁÐ±í
      * </pre>
      */
     boolean hasNameList();
@@ -535,7 +535,7 @@ public final class GuildProtos {
      * <code>optional string nameList = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *¹«»áÃû×ÖÁÐ±í
      * </pre>
      */
     java.lang.String getNameList();
@@ -543,7 +543,7 @@ public final class GuildProtos {
      * <code>optional string nameList = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *¹«»áÃû×ÖÁÐ±í
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -703,7 +703,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     public java.util.List<com.rwproto.GuildProtos.GuildBaseInfo> getGuildListList() {
@@ -713,7 +713,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     public java.util.List<? extends com.rwproto.GuildProtos.GuildBaseInfoOrBuilder> 
@@ -724,7 +724,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     public int getGuildListCount() {
@@ -734,7 +734,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildBaseInfo getGuildList(int index) {
@@ -744,7 +744,7 @@ public final class GuildProtos {
      * <code>repeated .GuildBaseInfo guildList = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+     *¹«»áÁÐ±íÐÅÏ¢ 0
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildBaseInfoOrBuilder getGuildListOrBuilder(
@@ -759,7 +759,7 @@ public final class GuildProtos {
      * <code>optional .GuildBaseInfo guildInfo = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
      * </pre>
      */
     public boolean hasGuildInfo() {
@@ -769,7 +769,7 @@ public final class GuildProtos {
      * <code>optional .GuildBaseInfo guildInfo = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildBaseInfo getGuildInfo() {
@@ -779,7 +779,7 @@ public final class GuildProtos {
      * <code>optional .GuildBaseInfo guildInfo = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildBaseInfoOrBuilder getGuildInfoOrBuilder() {
@@ -793,7 +793,7 @@ public final class GuildProtos {
      * <code>optional string nameList = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *¹«»áÃû×ÖÁÐ±í
      * </pre>
      */
     public boolean hasNameList() {
@@ -803,7 +803,7 @@ public final class GuildProtos {
      * <code>optional string nameList = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *¹«»áÃû×ÖÁÐ±í
      * </pre>
      */
     public java.lang.String getNameList() {
@@ -824,7 +824,7 @@ public final class GuildProtos {
      * <code>optional string nameList = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+     *¹«»áÃû×ÖÁÐ±í
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1216,7 +1216,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildBaseInfo> getGuildListList() {
@@ -1230,7 +1230,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public int getGuildListCount() {
@@ -1244,7 +1244,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfo getGuildList(int index) {
@@ -1258,7 +1258,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder setGuildList(
@@ -1279,7 +1279,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder setGuildList(
@@ -1297,7 +1297,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder addGuildList(com.rwproto.GuildProtos.GuildBaseInfo value) {
@@ -1317,7 +1317,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder addGuildList(
@@ -1338,7 +1338,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder addGuildList(
@@ -1356,7 +1356,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder addGuildList(
@@ -1374,7 +1374,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder addAllGuildList(
@@ -1392,7 +1392,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder clearGuildList() {
@@ -1409,7 +1409,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public Builder removeGuildList(int index) {
@@ -1426,7 +1426,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfo.Builder getGuildListBuilder(
@@ -1437,7 +1437,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfoOrBuilder getGuildListOrBuilder(
@@ -1451,7 +1451,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public java.util.List<? extends com.rwproto.GuildProtos.GuildBaseInfoOrBuilder> 
@@ -1466,7 +1466,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfo.Builder addGuildListBuilder() {
@@ -1477,7 +1477,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfo.Builder addGuildListBuilder(
@@ -1489,7 +1489,7 @@ public final class GuildProtos {
        * <code>repeated .GuildBaseInfo guildList = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢ 0
+       *¹«»áÁÐ±íÐÅÏ¢ 0
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildBaseInfo.Builder> 
@@ -1519,7 +1519,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public boolean hasGuildInfo() {
@@ -1529,7 +1529,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfo getGuildInfo() {
@@ -1543,7 +1543,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder setGuildInfo(com.rwproto.GuildProtos.GuildBaseInfo value) {
@@ -1563,7 +1563,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder setGuildInfo(
@@ -1581,7 +1581,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder mergeGuildInfo(com.rwproto.GuildProtos.GuildBaseInfo value) {
@@ -1604,7 +1604,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder clearGuildInfo() {
@@ -1621,7 +1621,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfo.Builder getGuildInfoBuilder() {
@@ -1633,7 +1633,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildBaseInfoOrBuilder getGuildInfoOrBuilder() {
@@ -1647,7 +1647,7 @@ public final class GuildProtos {
        * <code>optional .GuildBaseInfo guildInfo = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *µ¥¸ö¹«»áÁÐ±íÐÅÏ¢
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -1670,7 +1670,7 @@ public final class GuildProtos {
        * <code>optional string nameList = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *¹«»áÃû×ÖÁÐ±í
        * </pre>
        */
       public boolean hasNameList() {
@@ -1680,7 +1680,7 @@ public final class GuildProtos {
        * <code>optional string nameList = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *¹«»áÃû×ÖÁÐ±í
        * </pre>
        */
       public java.lang.String getNameList() {
@@ -1698,7 +1698,7 @@ public final class GuildProtos {
        * <code>optional string nameList = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *¹«»áÃû×ÖÁÐ±í
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1718,7 +1718,7 @@ public final class GuildProtos {
        * <code>optional string nameList = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *¹«»áÃû×ÖÁÐ±í
        * </pre>
        */
       public Builder setNameList(
@@ -1735,7 +1735,7 @@ public final class GuildProtos {
        * <code>optional string nameList = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *¹«»áÃû×ÖÁÐ±í
        * </pre>
        */
       public Builder clearNameList() {
@@ -1748,7 +1748,7 @@ public final class GuildProtos {
        * <code>optional string nameList = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+       *¹«»áÃû×ÖÁÐ±í
        * </pre>
        */
       public Builder setNameListBytes(
@@ -1791,7 +1791,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     boolean hasGuildName();
@@ -1799,7 +1799,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     java.lang.String getGuildName();
@@ -1807,7 +1807,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1818,7 +1818,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *´´½¨ÓÃ
      * </pre>
      */
     boolean hasIcon();
@@ -1826,7 +1826,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *´´½¨ÓÃ
      * </pre>
      */
     int getIcon();
@@ -1836,7 +1836,7 @@ public final class GuildProtos {
      * <code>optional string uid = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+     *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
      * </pre>
      */
     boolean hasUid();
@@ -1844,7 +1844,7 @@ public final class GuildProtos {
      * <code>optional string uid = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+     *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
      * </pre>
      */
     java.lang.String getUid();
@@ -1852,7 +1852,7 @@ public final class GuildProtos {
      * <code>optional string uid = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+     *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1863,7 +1863,7 @@ public final class GuildProtos {
      * <code>optional string title = 5;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     boolean hasTitle();
@@ -1871,7 +1871,7 @@ public final class GuildProtos {
      * <code>optional string title = 5;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     java.lang.String getTitle();
@@ -1879,7 +1879,7 @@ public final class GuildProtos {
      * <code>optional string title = 5;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1890,7 +1890,7 @@ public final class GuildProtos {
      * <code>optional string content = 6;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     boolean hasContent();
@@ -1898,7 +1898,7 @@ public final class GuildProtos {
      * <code>optional string content = 6;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     java.lang.String getContent();
@@ -1906,7 +1906,7 @@ public final class GuildProtos {
      * <code>optional string content = 6;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1917,7 +1917,7 @@ public final class GuildProtos {
      * <code>optional int32 num = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¾èÏ×
      * </pre>
      */
     boolean hasNum();
@@ -1925,7 +1925,7 @@ public final class GuildProtos {
      * <code>optional int32 num = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¾èÏ×
      * </pre>
      */
     int getNum();
@@ -1935,7 +1935,7 @@ public final class GuildProtos {
      * <code>optional int32 upType = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÉýµÈ¼¶ÀàÐÍ
      * </pre>
      */
     boolean hasUpType();
@@ -1943,7 +1943,7 @@ public final class GuildProtos {
      * <code>optional int32 upType = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÉýµÈ¼¶ÀàÐÍ
      * </pre>
      */
     int getUpType();
@@ -2108,7 +2108,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     public boolean hasGuildName() {
@@ -2118,7 +2118,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     public java.lang.String getGuildName() {
@@ -2139,7 +2139,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2163,7 +2163,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *´´½¨ÓÃ
      * </pre>
      */
     public boolean hasIcon() {
@@ -2173,7 +2173,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *´´½¨ÓÃ
      * </pre>
      */
     public int getIcon() {
@@ -2187,7 +2187,7 @@ public final class GuildProtos {
      * <code>optional string uid = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+     *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
      * </pre>
      */
     public boolean hasUid() {
@@ -2197,7 +2197,7 @@ public final class GuildProtos {
      * <code>optional string uid = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+     *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
      * </pre>
      */
     public java.lang.String getUid() {
@@ -2218,7 +2218,7 @@ public final class GuildProtos {
      * <code>optional string uid = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+     *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2242,7 +2242,7 @@ public final class GuildProtos {
      * <code>optional string title = 5;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     public boolean hasTitle() {
@@ -2252,7 +2252,7 @@ public final class GuildProtos {
      * <code>optional string title = 5;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     public java.lang.String getTitle() {
@@ -2273,7 +2273,7 @@ public final class GuildProtos {
      * <code>optional string title = 5;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2297,7 +2297,7 @@ public final class GuildProtos {
      * <code>optional string content = 6;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     public boolean hasContent() {
@@ -2307,7 +2307,7 @@ public final class GuildProtos {
      * <code>optional string content = 6;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     public java.lang.String getContent() {
@@ -2328,7 +2328,7 @@ public final class GuildProtos {
      * <code>optional string content = 6;</code>
      *
      * <pre>
-     *ï¿½Ê¼ï¿½
+     *ÓÊ¼þ
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2352,7 +2352,7 @@ public final class GuildProtos {
      * <code>optional int32 num = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¾èÏ×
      * </pre>
      */
     public boolean hasNum() {
@@ -2362,7 +2362,7 @@ public final class GuildProtos {
      * <code>optional int32 num = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½
+     *¾èÏ×
      * </pre>
      */
     public int getNum() {
@@ -2376,7 +2376,7 @@ public final class GuildProtos {
      * <code>optional int32 upType = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÉýµÈ¼¶ÀàÐÍ
      * </pre>
      */
     public boolean hasUpType() {
@@ -2386,7 +2386,7 @@ public final class GuildProtos {
      * <code>optional int32 upType = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÉýµÈ¼¶ÀàÐÍ
      * </pre>
      */
     public int getUpType() {
@@ -2789,7 +2789,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public boolean hasGuildName() {
@@ -2799,7 +2799,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public java.lang.String getGuildName() {
@@ -2817,7 +2817,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2837,7 +2837,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public Builder setGuildName(
@@ -2854,7 +2854,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public Builder clearGuildName() {
@@ -2867,7 +2867,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public Builder setGuildNameBytes(
@@ -2887,7 +2887,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *´´½¨ÓÃ
        * </pre>
        */
       public boolean hasIcon() {
@@ -2897,7 +2897,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *´´½¨ÓÃ
        * </pre>
        */
       public int getIcon() {
@@ -2907,7 +2907,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *´´½¨ÓÃ
        * </pre>
        */
       public Builder setIcon(int value) {
@@ -2920,7 +2920,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *´´½¨ÓÃ
        * </pre>
        */
       public Builder clearIcon() {
@@ -2936,7 +2936,7 @@ public final class GuildProtos {
        * <code>optional string uid = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+       *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
        * </pre>
        */
       public boolean hasUid() {
@@ -2946,7 +2946,7 @@ public final class GuildProtos {
        * <code>optional string uid = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+       *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
        * </pre>
        */
       public java.lang.String getUid() {
@@ -2964,7 +2964,7 @@ public final class GuildProtos {
        * <code>optional string uid = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+       *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2984,7 +2984,7 @@ public final class GuildProtos {
        * <code>optional string uid = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+       *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
        * </pre>
        */
       public Builder setUid(
@@ -3001,7 +3001,7 @@ public final class GuildProtos {
        * <code>optional string uid = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+       *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
        * </pre>
        */
       public Builder clearUid() {
@@ -3014,7 +3014,7 @@ public final class GuildProtos {
        * <code>optional string uid = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+       *¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
        * </pre>
        */
       public Builder setUidBytes(
@@ -3034,7 +3034,7 @@ public final class GuildProtos {
        * <code>optional string title = 5;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public boolean hasTitle() {
@@ -3044,7 +3044,7 @@ public final class GuildProtos {
        * <code>optional string title = 5;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public java.lang.String getTitle() {
@@ -3062,7 +3062,7 @@ public final class GuildProtos {
        * <code>optional string title = 5;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3082,7 +3082,7 @@ public final class GuildProtos {
        * <code>optional string title = 5;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public Builder setTitle(
@@ -3099,7 +3099,7 @@ public final class GuildProtos {
        * <code>optional string title = 5;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public Builder clearTitle() {
@@ -3112,7 +3112,7 @@ public final class GuildProtos {
        * <code>optional string title = 5;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public Builder setTitleBytes(
@@ -3132,7 +3132,7 @@ public final class GuildProtos {
        * <code>optional string content = 6;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public boolean hasContent() {
@@ -3142,7 +3142,7 @@ public final class GuildProtos {
        * <code>optional string content = 6;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public java.lang.String getContent() {
@@ -3160,7 +3160,7 @@ public final class GuildProtos {
        * <code>optional string content = 6;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3180,7 +3180,7 @@ public final class GuildProtos {
        * <code>optional string content = 6;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public Builder setContent(
@@ -3197,7 +3197,7 @@ public final class GuildProtos {
        * <code>optional string content = 6;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public Builder clearContent() {
@@ -3210,7 +3210,7 @@ public final class GuildProtos {
        * <code>optional string content = 6;</code>
        *
        * <pre>
-       *ï¿½Ê¼ï¿½
+       *ÓÊ¼þ
        * </pre>
        */
       public Builder setContentBytes(
@@ -3230,7 +3230,7 @@ public final class GuildProtos {
        * <code>optional int32 num = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¾èÏ×
        * </pre>
        */
       public boolean hasNum() {
@@ -3240,7 +3240,7 @@ public final class GuildProtos {
        * <code>optional int32 num = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¾èÏ×
        * </pre>
        */
       public int getNum() {
@@ -3250,7 +3250,7 @@ public final class GuildProtos {
        * <code>optional int32 num = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¾èÏ×
        * </pre>
        */
       public Builder setNum(int value) {
@@ -3263,7 +3263,7 @@ public final class GuildProtos {
        * <code>optional int32 num = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½
+       *¾èÏ×
        * </pre>
        */
       public Builder clearNum() {
@@ -3279,7 +3279,7 @@ public final class GuildProtos {
        * <code>optional int32 upType = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÉýµÈ¼¶ÀàÐÍ
        * </pre>
        */
       public boolean hasUpType() {
@@ -3289,7 +3289,7 @@ public final class GuildProtos {
        * <code>optional int32 upType = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÉýµÈ¼¶ÀàÐÍ
        * </pre>
        */
       public int getUpType() {
@@ -3299,7 +3299,7 @@ public final class GuildProtos {
        * <code>optional int32 upType = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÉýµÈ¼¶ÀàÐÍ
        * </pre>
        */
       public Builder setUpType(int value) {
@@ -3312,7 +3312,7 @@ public final class GuildProtos {
        * <code>optional int32 upType = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÉýµÈ¼¶ÀàÐÍ
        * </pre>
        */
       public Builder clearUpType() {
@@ -3365,7 +3365,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     boolean hasGuildName();
@@ -3373,7 +3373,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     java.lang.String getGuildName();
@@ -3381,7 +3381,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -3392,7 +3392,7 @@ public final class GuildProtos {
      * <code>optional int32 guildId = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *¹«»áid
      * </pre>
      */
     boolean hasGuildId();
@@ -3400,7 +3400,7 @@ public final class GuildProtos {
      * <code>optional int32 guildId = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *¹«»áid
      * </pre>
      */
     int getGuildId();
@@ -3410,7 +3410,7 @@ public final class GuildProtos {
      * <code>optional string des = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+     *¹«»áËµÃ÷
      * </pre>
      */
     boolean hasDes();
@@ -3418,7 +3418,7 @@ public final class GuildProtos {
      * <code>optional string des = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+     *¹«»áËµÃ÷
      * </pre>
      */
     java.lang.String getDes();
@@ -3426,7 +3426,7 @@ public final class GuildProtos {
      * <code>optional string des = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+     *¹«»áËµÃ÷
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -3437,7 +3437,7 @@ public final class GuildProtos {
      * <code>optional int32 size = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÈËÊý
      * </pre>
      */
     boolean hasSize();
@@ -3445,7 +3445,7 @@ public final class GuildProtos {
      * <code>optional int32 size = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÈËÊý
      * </pre>
      */
     int getSize();
@@ -3455,7 +3455,7 @@ public final class GuildProtos {
      * <code>optional int32 level = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+     *¹«»áµÈ¼¶
      * </pre>
      */
     boolean hasLevel();
@@ -3463,7 +3463,7 @@ public final class GuildProtos {
      * <code>optional int32 level = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+     *¹«»áµÈ¼¶
      * </pre>
      */
     int getLevel();
@@ -3473,7 +3473,7 @@ public final class GuildProtos {
      * <code>optional int32 unLevel = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+     *¹«»áÏÞÖÆµÈ¼¶
      * </pre>
      */
     boolean hasUnLevel();
@@ -3481,7 +3481,7 @@ public final class GuildProtos {
      * <code>optional int32 unLevel = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+     *¹«»áÏÞÖÆµÈ¼¶
      * </pre>
      */
     int getUnLevel();
@@ -3491,7 +3491,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     java.util.List<com.rwproto.GuildProtos.GuildMemberInfo> 
@@ -3500,7 +3500,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     com.rwproto.GuildProtos.GuildMemberInfo getMemberList(int index);
@@ -3508,7 +3508,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     int getMemberListCount();
@@ -3516,7 +3516,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     java.util.List<? extends com.rwproto.GuildProtos.GuildMemberInfoOrBuilder> 
@@ -3525,7 +3525,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     com.rwproto.GuildProtos.GuildMemberInfoOrBuilder getMemberListOrBuilder(
@@ -3536,7 +3536,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 9;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     boolean hasContribute();
@@ -3544,7 +3544,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 9;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     int getContribute();
@@ -3554,7 +3554,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 10;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     boolean hasTotalContribute();
@@ -3562,7 +3562,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 10;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     int getTotalContribute();
@@ -3572,7 +3572,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     java.util.List<com.rwproto.GuildProtos.GuildApply> 
@@ -3581,7 +3581,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     com.rwproto.GuildProtos.GuildApply getApplyList(int index);
@@ -3589,7 +3589,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     int getApplyListCount();
@@ -3597,7 +3597,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     java.util.List<? extends com.rwproto.GuildProtos.GuildApplyOrBuilder> 
@@ -3606,7 +3606,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     com.rwproto.GuildProtos.GuildApplyOrBuilder getApplyListOrBuilder(
@@ -3617,7 +3617,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     java.util.List<com.rwproto.GuildProtos.GuildLog> 
@@ -3626,7 +3626,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     com.rwproto.GuildProtos.GuildLog getLogList(int index);
@@ -3634,7 +3634,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     int getLogListCount();
@@ -3642,7 +3642,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     java.util.List<? extends com.rwproto.GuildProtos.GuildLogOrBuilder> 
@@ -3651,7 +3651,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     com.rwproto.GuildProtos.GuildLogOrBuilder getLogListOrBuilder(
@@ -3662,7 +3662,7 @@ public final class GuildProtos {
      * <code>optional int64 dismissTimer = 13;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+     *½â³ýµ¹¼ÆÊ±
      * </pre>
      */
     boolean hasDismissTimer();
@@ -3670,7 +3670,7 @@ public final class GuildProtos {
      * <code>optional int64 dismissTimer = 13;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+     *½â³ýµ¹¼ÆÊ±
      * </pre>
      */
     long getDismissTimer();
@@ -3680,7 +3680,7 @@ public final class GuildProtos {
      * <code>optional int32 changeName = 14;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñ¸Ä¹ýÃû
      * </pre>
      */
     boolean hasChangeName();
@@ -3688,7 +3688,7 @@ public final class GuildProtos {
      * <code>optional int32 changeName = 14;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñ¸Ä¹ýÃû
      * </pre>
      */
     int getChangeName();
@@ -3698,7 +3698,7 @@ public final class GuildProtos {
      * <code>optional int32 unType = 15;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÏÞÀàÐÎ
      * </pre>
      */
     boolean hasUnType();
@@ -3706,7 +3706,7 @@ public final class GuildProtos {
      * <code>optional int32 unType = 15;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÏÞÀàÐÎ
      * </pre>
      */
     int getUnType();
@@ -3716,7 +3716,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 16;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½
+     *Í¼±ê
      * </pre>
      */
     boolean hasIcon();
@@ -3724,7 +3724,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 16;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½
+     *Í¼±ê
      * </pre>
      */
     int getIcon();
@@ -3734,7 +3734,7 @@ public final class GuildProtos {
      * <code>optional int32 iconBox = 17;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½2
+     *Í¼±ê2
      * </pre>
      */
     boolean hasIconBox();
@@ -3742,7 +3742,7 @@ public final class GuildProtos {
      * <code>optional int32 iconBox = 17;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½2
+     *Í¼±ê2
      * </pre>
      */
     int getIconBox();
@@ -3752,7 +3752,7 @@ public final class GuildProtos {
      * <code>optional int32 activeValue = 18;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô¾Öµ
+     *»îÔ¾Öµ
      * </pre>
      */
     boolean hasActiveValue();
@@ -3760,7 +3760,7 @@ public final class GuildProtos {
      * <code>optional int32 activeValue = 18;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô¾Öµ
+     *»îÔ¾Öµ
      * </pre>
      */
     int getActiveValue();
@@ -4023,7 +4023,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     public boolean hasGuildName() {
@@ -4033,7 +4033,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     public java.lang.String getGuildName() {
@@ -4054,7 +4054,7 @@ public final class GuildProtos {
      * <code>optional string guildName = 2;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÃû×Ö
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4078,7 +4078,7 @@ public final class GuildProtos {
      * <code>optional int32 guildId = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *¹«»áid
      * </pre>
      */
     public boolean hasGuildId() {
@@ -4088,7 +4088,7 @@ public final class GuildProtos {
      * <code>optional int32 guildId = 3;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½id
+     *¹«»áid
      * </pre>
      */
     public int getGuildId() {
@@ -4102,7 +4102,7 @@ public final class GuildProtos {
      * <code>optional string des = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+     *¹«»áËµÃ÷
      * </pre>
      */
     public boolean hasDes() {
@@ -4112,7 +4112,7 @@ public final class GuildProtos {
      * <code>optional string des = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+     *¹«»áËµÃ÷
      * </pre>
      */
     public java.lang.String getDes() {
@@ -4133,7 +4133,7 @@ public final class GuildProtos {
      * <code>optional string des = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+     *¹«»áËµÃ÷
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4157,7 +4157,7 @@ public final class GuildProtos {
      * <code>optional int32 size = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÈËÊý
      * </pre>
      */
     public boolean hasSize() {
@@ -4167,7 +4167,7 @@ public final class GuildProtos {
      * <code>optional int32 size = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *¹«»áÈËÊý
      * </pre>
      */
     public int getSize() {
@@ -4181,7 +4181,7 @@ public final class GuildProtos {
      * <code>optional int32 level = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+     *¹«»áµÈ¼¶
      * </pre>
      */
     public boolean hasLevel() {
@@ -4191,7 +4191,7 @@ public final class GuildProtos {
      * <code>optional int32 level = 6;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+     *¹«»áµÈ¼¶
      * </pre>
      */
     public int getLevel() {
@@ -4205,7 +4205,7 @@ public final class GuildProtos {
      * <code>optional int32 unLevel = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+     *¹«»áÏÞÖÆµÈ¼¶
      * </pre>
      */
     public boolean hasUnLevel() {
@@ -4215,7 +4215,7 @@ public final class GuildProtos {
      * <code>optional int32 unLevel = 7;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+     *¹«»áÏÞÖÆµÈ¼¶
      * </pre>
      */
     public int getUnLevel() {
@@ -4229,7 +4229,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     public java.util.List<com.rwproto.GuildProtos.GuildMemberInfo> getMemberListList() {
@@ -4239,7 +4239,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     public java.util.List<? extends com.rwproto.GuildProtos.GuildMemberInfoOrBuilder> 
@@ -4250,7 +4250,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     public int getMemberListCount() {
@@ -4260,7 +4260,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildMemberInfo getMemberList(int index) {
@@ -4270,7 +4270,7 @@ public final class GuildProtos {
      * <code>repeated .GuildMemberInfo MemberList = 8;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildMemberInfoOrBuilder getMemberListOrBuilder(
@@ -4285,7 +4285,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 9;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     public boolean hasContribute() {
@@ -4295,7 +4295,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 9;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     public int getContribute() {
@@ -4309,7 +4309,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 10;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     public boolean hasTotalContribute() {
@@ -4319,7 +4319,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 10;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     public int getTotalContribute() {
@@ -4333,7 +4333,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     public java.util.List<com.rwproto.GuildProtos.GuildApply> getApplyListList() {
@@ -4343,7 +4343,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     public java.util.List<? extends com.rwproto.GuildProtos.GuildApplyOrBuilder> 
@@ -4354,7 +4354,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     public int getApplyListCount() {
@@ -4364,7 +4364,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildApply getApplyList(int index) {
@@ -4374,7 +4374,7 @@ public final class GuildProtos {
      * <code>repeated .GuildApply applyList = 11;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+     *ÉêÇëÁÐ±íÐÅÏ¢
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildApplyOrBuilder getApplyListOrBuilder(
@@ -4389,7 +4389,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     public java.util.List<com.rwproto.GuildProtos.GuildLog> getLogListList() {
@@ -4399,7 +4399,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     public java.util.List<? extends com.rwproto.GuildProtos.GuildLogOrBuilder> 
@@ -4410,7 +4410,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     public int getLogListCount() {
@@ -4420,7 +4420,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildLog getLogList(int index) {
@@ -4430,7 +4430,7 @@ public final class GuildProtos {
      * <code>repeated .GuildLog logList = 12;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ö¾
+     *ÈÕÖ¾
      * </pre>
      */
     public com.rwproto.GuildProtos.GuildLogOrBuilder getLogListOrBuilder(
@@ -4445,7 +4445,7 @@ public final class GuildProtos {
      * <code>optional int64 dismissTimer = 13;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+     *½â³ýµ¹¼ÆÊ±
      * </pre>
      */
     public boolean hasDismissTimer() {
@@ -4455,7 +4455,7 @@ public final class GuildProtos {
      * <code>optional int64 dismissTimer = 13;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+     *½â³ýµ¹¼ÆÊ±
      * </pre>
      */
     public long getDismissTimer() {
@@ -4469,7 +4469,7 @@ public final class GuildProtos {
      * <code>optional int32 changeName = 14;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñ¸Ä¹ýÃû
      * </pre>
      */
     public boolean hasChangeName() {
@@ -4479,7 +4479,7 @@ public final class GuildProtos {
      * <code>optional int32 changeName = 14;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñ¸Ä¹ýÃû
      * </pre>
      */
     public int getChangeName() {
@@ -4493,7 +4493,7 @@ public final class GuildProtos {
      * <code>optional int32 unType = 15;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÏÞÀàÐÎ
      * </pre>
      */
     public boolean hasUnType() {
@@ -4503,7 +4503,7 @@ public final class GuildProtos {
      * <code>optional int32 unType = 15;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÏÞÀàÐÎ
      * </pre>
      */
     public int getUnType() {
@@ -4517,7 +4517,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 16;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½
+     *Í¼±ê
      * </pre>
      */
     public boolean hasIcon() {
@@ -4527,7 +4527,7 @@ public final class GuildProtos {
      * <code>optional int32 icon = 16;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½
+     *Í¼±ê
      * </pre>
      */
     public int getIcon() {
@@ -4541,7 +4541,7 @@ public final class GuildProtos {
      * <code>optional int32 iconBox = 17;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½2
+     *Í¼±ê2
      * </pre>
      */
     public boolean hasIconBox() {
@@ -4551,7 +4551,7 @@ public final class GuildProtos {
      * <code>optional int32 iconBox = 17;</code>
      *
      * <pre>
-     *Í¼ï¿½ï¿½2
+     *Í¼±ê2
      * </pre>
      */
     public int getIconBox() {
@@ -4565,7 +4565,7 @@ public final class GuildProtos {
      * <code>optional int32 activeValue = 18;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô¾Öµ
+     *»îÔ¾Öµ
      * </pre>
      */
     public boolean hasActiveValue() {
@@ -4575,7 +4575,7 @@ public final class GuildProtos {
      * <code>optional int32 activeValue = 18;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô¾Öµ
+     *»îÔ¾Öµ
      * </pre>
      */
     public int getActiveValue() {
@@ -5301,7 +5301,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public boolean hasGuildName() {
@@ -5311,7 +5311,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public java.lang.String getGuildName() {
@@ -5329,7 +5329,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -5349,7 +5349,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public Builder setGuildName(
@@ -5366,7 +5366,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public Builder clearGuildName() {
@@ -5379,7 +5379,7 @@ public final class GuildProtos {
        * <code>optional string guildName = 2;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÃû×Ö
        * </pre>
        */
       public Builder setGuildNameBytes(
@@ -5399,7 +5399,7 @@ public final class GuildProtos {
        * <code>optional int32 guildId = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *¹«»áid
        * </pre>
        */
       public boolean hasGuildId() {
@@ -5409,7 +5409,7 @@ public final class GuildProtos {
        * <code>optional int32 guildId = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *¹«»áid
        * </pre>
        */
       public int getGuildId() {
@@ -5419,7 +5419,7 @@ public final class GuildProtos {
        * <code>optional int32 guildId = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *¹«»áid
        * </pre>
        */
       public Builder setGuildId(int value) {
@@ -5432,7 +5432,7 @@ public final class GuildProtos {
        * <code>optional int32 guildId = 3;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½id
+       *¹«»áid
        * </pre>
        */
       public Builder clearGuildId() {
@@ -5448,7 +5448,7 @@ public final class GuildProtos {
        * <code>optional string des = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+       *¹«»áËµÃ÷
        * </pre>
        */
       public boolean hasDes() {
@@ -5458,7 +5458,7 @@ public final class GuildProtos {
        * <code>optional string des = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+       *¹«»áËµÃ÷
        * </pre>
        */
       public java.lang.String getDes() {
@@ -5476,7 +5476,7 @@ public final class GuildProtos {
        * <code>optional string des = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+       *¹«»áËµÃ÷
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -5496,7 +5496,7 @@ public final class GuildProtos {
        * <code>optional string des = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+       *¹«»áËµÃ÷
        * </pre>
        */
       public Builder setDes(
@@ -5513,7 +5513,7 @@ public final class GuildProtos {
        * <code>optional string des = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+       *¹«»áËµÃ÷
        * </pre>
        */
       public Builder clearDes() {
@@ -5526,7 +5526,7 @@ public final class GuildProtos {
        * <code>optional string des = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½
+       *¹«»áËµÃ÷
        * </pre>
        */
       public Builder setDesBytes(
@@ -5546,7 +5546,7 @@ public final class GuildProtos {
        * <code>optional int32 size = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÈËÊý
        * </pre>
        */
       public boolean hasSize() {
@@ -5556,7 +5556,7 @@ public final class GuildProtos {
        * <code>optional int32 size = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÈËÊý
        * </pre>
        */
       public int getSize() {
@@ -5566,7 +5566,7 @@ public final class GuildProtos {
        * <code>optional int32 size = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÈËÊý
        * </pre>
        */
       public Builder setSize(int value) {
@@ -5579,7 +5579,7 @@ public final class GuildProtos {
        * <code>optional int32 size = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *¹«»áÈËÊý
        * </pre>
        */
       public Builder clearSize() {
@@ -5595,7 +5595,7 @@ public final class GuildProtos {
        * <code>optional int32 level = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+       *¹«»áµÈ¼¶
        * </pre>
        */
       public boolean hasLevel() {
@@ -5605,7 +5605,7 @@ public final class GuildProtos {
        * <code>optional int32 level = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+       *¹«»áµÈ¼¶
        * </pre>
        */
       public int getLevel() {
@@ -5615,7 +5615,7 @@ public final class GuildProtos {
        * <code>optional int32 level = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+       *¹«»áµÈ¼¶
        * </pre>
        */
       public Builder setLevel(int value) {
@@ -5628,7 +5628,7 @@ public final class GuildProtos {
        * <code>optional int32 level = 6;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½È¼ï¿½
+       *¹«»áµÈ¼¶
        * </pre>
        */
       public Builder clearLevel() {
@@ -5644,7 +5644,7 @@ public final class GuildProtos {
        * <code>optional int32 unLevel = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+       *¹«»áÏÞÖÆµÈ¼¶
        * </pre>
        */
       public boolean hasUnLevel() {
@@ -5654,7 +5654,7 @@ public final class GuildProtos {
        * <code>optional int32 unLevel = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+       *¹«»áÏÞÖÆµÈ¼¶
        * </pre>
        */
       public int getUnLevel() {
@@ -5664,7 +5664,7 @@ public final class GuildProtos {
        * <code>optional int32 unLevel = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+       *¹«»áÏÞÖÆµÈ¼¶
        * </pre>
        */
       public Builder setUnLevel(int value) {
@@ -5677,7 +5677,7 @@ public final class GuildProtos {
        * <code>optional int32 unLevel = 7;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÈ¼ï¿½
+       *¹«»áÏÞÖÆµÈ¼¶
        * </pre>
        */
       public Builder clearUnLevel() {
@@ -5704,7 +5704,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildMemberInfo> getMemberListList() {
@@ -5718,7 +5718,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public int getMemberListCount() {
@@ -5732,7 +5732,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildMemberInfo getMemberList(int index) {
@@ -5746,7 +5746,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder setMemberList(
@@ -5767,7 +5767,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder setMemberList(
@@ -5785,7 +5785,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addMemberList(com.rwproto.GuildProtos.GuildMemberInfo value) {
@@ -5805,7 +5805,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addMemberList(
@@ -5826,7 +5826,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addMemberList(
@@ -5844,7 +5844,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addMemberList(
@@ -5862,7 +5862,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addAllMemberList(
@@ -5880,7 +5880,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder clearMemberList() {
@@ -5897,7 +5897,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder removeMemberList(int index) {
@@ -5914,7 +5914,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildMemberInfo.Builder getMemberListBuilder(
@@ -5925,7 +5925,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildMemberInfoOrBuilder getMemberListOrBuilder(
@@ -5939,7 +5939,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public java.util.List<? extends com.rwproto.GuildProtos.GuildMemberInfoOrBuilder> 
@@ -5954,7 +5954,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildMemberInfo.Builder addMemberListBuilder() {
@@ -5965,7 +5965,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildMemberInfo.Builder addMemberListBuilder(
@@ -5977,7 +5977,7 @@ public final class GuildProtos {
        * <code>repeated .GuildMemberInfo MemberList = 8;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *¹«»á³ÉÔ±ÁÐ±íÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildMemberInfo.Builder> 
@@ -6005,7 +6005,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 9;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public boolean hasContribute() {
@@ -6015,7 +6015,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 9;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public int getContribute() {
@@ -6025,7 +6025,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 9;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public Builder setContribute(int value) {
@@ -6038,7 +6038,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 9;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public Builder clearContribute() {
@@ -6054,7 +6054,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 10;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public boolean hasTotalContribute() {
@@ -6064,7 +6064,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 10;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public int getTotalContribute() {
@@ -6074,7 +6074,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 10;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public Builder setTotalContribute(int value) {
@@ -6087,7 +6087,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 10;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public Builder clearTotalContribute() {
@@ -6114,7 +6114,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildApply> getApplyListList() {
@@ -6128,7 +6128,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public int getApplyListCount() {
@@ -6142,7 +6142,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildApply getApplyList(int index) {
@@ -6156,7 +6156,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder setApplyList(
@@ -6177,7 +6177,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder setApplyList(
@@ -6195,7 +6195,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addApplyList(com.rwproto.GuildProtos.GuildApply value) {
@@ -6215,7 +6215,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addApplyList(
@@ -6236,7 +6236,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addApplyList(
@@ -6254,7 +6254,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addApplyList(
@@ -6272,7 +6272,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder addAllApplyList(
@@ -6290,7 +6290,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder clearApplyList() {
@@ -6307,7 +6307,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public Builder removeApplyList(int index) {
@@ -6324,7 +6324,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildApply.Builder getApplyListBuilder(
@@ -6335,7 +6335,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildApplyOrBuilder getApplyListOrBuilder(
@@ -6349,7 +6349,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public java.util.List<? extends com.rwproto.GuildProtos.GuildApplyOrBuilder> 
@@ -6364,7 +6364,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildApply.Builder addApplyListBuilder() {
@@ -6375,7 +6375,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildApply.Builder addApplyListBuilder(
@@ -6387,7 +6387,7 @@ public final class GuildProtos {
        * <code>repeated .GuildApply applyList = 11;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ï¢
+       *ÉêÇëÁÐ±íÐÅÏ¢
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildApply.Builder> 
@@ -6426,7 +6426,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildLog> getLogListList() {
@@ -6440,7 +6440,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public int getLogListCount() {
@@ -6454,7 +6454,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildLog getLogList(int index) {
@@ -6468,7 +6468,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder setLogList(
@@ -6489,7 +6489,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder setLogList(
@@ -6507,7 +6507,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder addLogList(com.rwproto.GuildProtos.GuildLog value) {
@@ -6527,7 +6527,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder addLogList(
@@ -6548,7 +6548,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder addLogList(
@@ -6566,7 +6566,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder addLogList(
@@ -6584,7 +6584,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder addAllLogList(
@@ -6602,7 +6602,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder clearLogList() {
@@ -6619,7 +6619,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public Builder removeLogList(int index) {
@@ -6636,7 +6636,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildLog.Builder getLogListBuilder(
@@ -6647,7 +6647,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildLogOrBuilder getLogListOrBuilder(
@@ -6661,7 +6661,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public java.util.List<? extends com.rwproto.GuildProtos.GuildLogOrBuilder> 
@@ -6676,7 +6676,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildLog.Builder addLogListBuilder() {
@@ -6687,7 +6687,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public com.rwproto.GuildProtos.GuildLog.Builder addLogListBuilder(
@@ -6699,7 +6699,7 @@ public final class GuildProtos {
        * <code>repeated .GuildLog logList = 12;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ö¾
+       *ÈÕÖ¾
        * </pre>
        */
       public java.util.List<com.rwproto.GuildProtos.GuildLog.Builder> 
@@ -6727,7 +6727,7 @@ public final class GuildProtos {
        * <code>optional int64 dismissTimer = 13;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+       *½â³ýµ¹¼ÆÊ±
        * </pre>
        */
       public boolean hasDismissTimer() {
@@ -6737,7 +6737,7 @@ public final class GuildProtos {
        * <code>optional int64 dismissTimer = 13;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+       *½â³ýµ¹¼ÆÊ±
        * </pre>
        */
       public long getDismissTimer() {
@@ -6747,7 +6747,7 @@ public final class GuildProtos {
        * <code>optional int64 dismissTimer = 13;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+       *½â³ýµ¹¼ÆÊ±
        * </pre>
        */
       public Builder setDismissTimer(long value) {
@@ -6760,7 +6760,7 @@ public final class GuildProtos {
        * <code>optional int64 dismissTimer = 13;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
+       *½â³ýµ¹¼ÆÊ±
        * </pre>
        */
       public Builder clearDismissTimer() {
@@ -6776,7 +6776,7 @@ public final class GuildProtos {
        * <code>optional int32 changeName = 14;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñ¸Ä¹ýÃû
        * </pre>
        */
       public boolean hasChangeName() {
@@ -6786,7 +6786,7 @@ public final class GuildProtos {
        * <code>optional int32 changeName = 14;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñ¸Ä¹ýÃû
        * </pre>
        */
       public int getChangeName() {
@@ -6796,7 +6796,7 @@ public final class GuildProtos {
        * <code>optional int32 changeName = 14;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñ¸Ä¹ýÃû
        * </pre>
        */
       public Builder setChangeName(int value) {
@@ -6809,7 +6809,7 @@ public final class GuildProtos {
        * <code>optional int32 changeName = 14;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½Ä¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñ¸Ä¹ýÃû
        * </pre>
        */
       public Builder clearChangeName() {
@@ -6825,7 +6825,7 @@ public final class GuildProtos {
        * <code>optional int32 unType = 15;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÏÞÀàÐÎ
        * </pre>
        */
       public boolean hasUnType() {
@@ -6835,7 +6835,7 @@ public final class GuildProtos {
        * <code>optional int32 unType = 15;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÏÞÀàÐÎ
        * </pre>
        */
       public int getUnType() {
@@ -6845,7 +6845,7 @@ public final class GuildProtos {
        * <code>optional int32 unType = 15;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÏÞÀàÐÎ
        * </pre>
        */
       public Builder setUnType(int value) {
@@ -6858,7 +6858,7 @@ public final class GuildProtos {
        * <code>optional int32 unType = 15;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+       *ÏÞÀàÐÎ
        * </pre>
        */
       public Builder clearUnType() {
@@ -6874,7 +6874,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 16;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½
+       *Í¼±ê
        * </pre>
        */
       public boolean hasIcon() {
@@ -6884,7 +6884,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 16;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½
+       *Í¼±ê
        * </pre>
        */
       public int getIcon() {
@@ -6894,7 +6894,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 16;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½
+       *Í¼±ê
        * </pre>
        */
       public Builder setIcon(int value) {
@@ -6907,7 +6907,7 @@ public final class GuildProtos {
        * <code>optional int32 icon = 16;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½
+       *Í¼±ê
        * </pre>
        */
       public Builder clearIcon() {
@@ -6923,7 +6923,7 @@ public final class GuildProtos {
        * <code>optional int32 iconBox = 17;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½2
+       *Í¼±ê2
        * </pre>
        */
       public boolean hasIconBox() {
@@ -6933,7 +6933,7 @@ public final class GuildProtos {
        * <code>optional int32 iconBox = 17;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½2
+       *Í¼±ê2
        * </pre>
        */
       public int getIconBox() {
@@ -6943,7 +6943,7 @@ public final class GuildProtos {
        * <code>optional int32 iconBox = 17;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½2
+       *Í¼±ê2
        * </pre>
        */
       public Builder setIconBox(int value) {
@@ -6956,7 +6956,7 @@ public final class GuildProtos {
        * <code>optional int32 iconBox = 17;</code>
        *
        * <pre>
-       *Í¼ï¿½ï¿½2
+       *Í¼±ê2
        * </pre>
        */
       public Builder clearIconBox() {
@@ -6972,7 +6972,7 @@ public final class GuildProtos {
        * <code>optional int32 activeValue = 18;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô¾Öµ
+       *»îÔ¾Öµ
        * </pre>
        */
       public boolean hasActiveValue() {
@@ -6982,7 +6982,7 @@ public final class GuildProtos {
        * <code>optional int32 activeValue = 18;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô¾Öµ
+       *»îÔ¾Öµ
        * </pre>
        */
       public int getActiveValue() {
@@ -6992,7 +6992,7 @@ public final class GuildProtos {
        * <code>optional int32 activeValue = 18;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô¾Öµ
+       *»îÔ¾Öµ
        * </pre>
        */
       public Builder setActiveValue(int value) {
@@ -7005,7 +7005,7 @@ public final class GuildProtos {
        * <code>optional int32 activeValue = 18;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô¾Öµ
+       *»îÔ¾Öµ
        * </pre>
        */
       public Builder clearActiveValue() {
@@ -8883,7 +8883,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     boolean hasContribute();
@@ -8891,7 +8891,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     int getContribute();
@@ -8901,7 +8901,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ô´
+     *×Ü×ÊÔ´
      * </pre>
      */
     boolean hasTotalContribute();
@@ -8909,7 +8909,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ô´
+     *×Ü×ÊÔ´
      * </pre>
      */
     int getTotalContribute();
@@ -8949,7 +8949,7 @@ public final class GuildProtos {
      * <code>optional int32 tempContribute = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+     *ÒÑ»»×ÊÔ´
      * </pre>
      */
     boolean hasTempContribute();
@@ -8957,7 +8957,7 @@ public final class GuildProtos {
      * <code>optional int32 tempContribute = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+     *ÒÑ»»×ÊÔ´
      * </pre>
      */
     int getTempContribute();
@@ -8967,7 +8967,7 @@ public final class GuildProtos {
      * <code>optional bool isDonate = 10;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑ¹±Ï×
      * </pre>
      */
     boolean hasIsDonate();
@@ -8975,7 +8975,7 @@ public final class GuildProtos {
      * <code>optional bool isDonate = 10;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑ¹±Ï×
      * </pre>
      */
     boolean getIsDonate();
@@ -9280,7 +9280,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     public boolean hasContribute() {
@@ -9290,7 +9290,7 @@ public final class GuildProtos {
      * <code>optional int32 contribute = 4;</code>
      *
      * <pre>
-     *ï¿½ï¿½Ô´
+     *×ÊÔ´
      * </pre>
      */
     public int getContribute() {
@@ -9304,7 +9304,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ô´
+     *×Ü×ÊÔ´
      * </pre>
      */
     public boolean hasTotalContribute() {
@@ -9314,7 +9314,7 @@ public final class GuildProtos {
      * <code>optional int32 totalContribute = 5;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½Ô´
+     *×Ü×ÊÔ´
      * </pre>
      */
     public int getTotalContribute() {
@@ -9376,7 +9376,7 @@ public final class GuildProtos {
      * <code>optional int32 tempContribute = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+     *ÒÑ»»×ÊÔ´
      * </pre>
      */
     public boolean hasTempContribute() {
@@ -9386,7 +9386,7 @@ public final class GuildProtos {
      * <code>optional int32 tempContribute = 9;</code>
      *
      * <pre>
-     *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+     *ÒÑ»»×ÊÔ´
      * </pre>
      */
     public int getTempContribute() {
@@ -9400,7 +9400,7 @@ public final class GuildProtos {
      * <code>optional bool isDonate = 10;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑ¹±Ï×
      * </pre>
      */
     public boolean hasIsDonate() {
@@ -9410,7 +9410,7 @@ public final class GuildProtos {
      * <code>optional bool isDonate = 10;</code>
      *
      * <pre>
-     *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+     *ÊÇ·ñÒÑ¹±Ï×
      * </pre>
      */
     public boolean getIsDonate() {
@@ -10116,7 +10116,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public boolean hasContribute() {
@@ -10126,7 +10126,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public int getContribute() {
@@ -10136,7 +10136,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public Builder setContribute(int value) {
@@ -10149,7 +10149,7 @@ public final class GuildProtos {
        * <code>optional int32 contribute = 4;</code>
        *
        * <pre>
-       *ï¿½ï¿½Ô´
+       *×ÊÔ´
        * </pre>
        */
       public Builder clearContribute() {
@@ -10165,7 +10165,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ô´
+       *×Ü×ÊÔ´
        * </pre>
        */
       public boolean hasTotalContribute() {
@@ -10175,7 +10175,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ô´
+       *×Ü×ÊÔ´
        * </pre>
        */
       public int getTotalContribute() {
@@ -10185,7 +10185,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ô´
+       *×Ü×ÊÔ´
        * </pre>
        */
       public Builder setTotalContribute(int value) {
@@ -10198,7 +10198,7 @@ public final class GuildProtos {
        * <code>optional int32 totalContribute = 5;</code>
        *
        * <pre>
-       *ï¿½ï¿½ï¿½ï¿½Ô´
+       *×Ü×ÊÔ´
        * </pre>
        */
       public Builder clearTotalContribute() {
@@ -10313,7 +10313,7 @@ public final class GuildProtos {
        * <code>optional int32 tempContribute = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+       *ÒÑ»»×ÊÔ´
        * </pre>
        */
       public boolean hasTempContribute() {
@@ -10323,7 +10323,7 @@ public final class GuildProtos {
        * <code>optional int32 tempContribute = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+       *ÒÑ»»×ÊÔ´
        * </pre>
        */
       public int getTempContribute() {
@@ -10333,7 +10333,7 @@ public final class GuildProtos {
        * <code>optional int32 tempContribute = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+       *ÒÑ»»×ÊÔ´
        * </pre>
        */
       public Builder setTempContribute(int value) {
@@ -10346,7 +10346,7 @@ public final class GuildProtos {
        * <code>optional int32 tempContribute = 9;</code>
        *
        * <pre>
-       *ï¿½Ñ»ï¿½ï¿½ï¿½Ô´
+       *ÒÑ»»×ÊÔ´
        * </pre>
        */
       public Builder clearTempContribute() {
@@ -10362,7 +10362,7 @@ public final class GuildProtos {
        * <code>optional bool isDonate = 10;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑ¹±Ï×
        * </pre>
        */
       public boolean hasIsDonate() {
@@ -10372,7 +10372,7 @@ public final class GuildProtos {
        * <code>optional bool isDonate = 10;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑ¹±Ï×
        * </pre>
        */
       public boolean getIsDonate() {
@@ -10382,7 +10382,7 @@ public final class GuildProtos {
        * <code>optional bool isDonate = 10;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑ¹±Ï×
        * </pre>
        */
       public Builder setIsDonate(boolean value) {
@@ -10395,7 +10395,7 @@ public final class GuildProtos {
        * <code>optional bool isDonate = 10;</code>
        *
        * <pre>
-       *ï¿½Ç·ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½
+       *ÊÇ·ñÒÑ¹±Ï×
        * </pre>
        */
       public Builder clearIsDonate() {

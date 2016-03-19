@@ -16,11 +16,13 @@ public class PlayerTempAttribute {
 	private final AtomicBoolean expChanged;
 	private final AtomicBoolean levelChanged;
 	private final AtomicBoolean heroFightingChanged;
-
+	private final AtomicBoolean checkRedPoint;
+	
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
 		this.levelChanged = new AtomicBoolean();
 		this.heroFightingChanged = new AtomicBoolean();
+		this.checkRedPoint = new AtomicBoolean();
 	}
 
 	public void setExpChanged() {
@@ -33,6 +35,10 @@ public class PlayerTempAttribute {
 
 	public void setHeroFightingChanged() {
 		this.heroFightingChanged.set(true);
+	}
+	
+	public void setRedPointChanged(){
+		this.checkRedPoint.set(true);
 	}
 
 	/**
@@ -59,6 +65,10 @@ public class PlayerTempAttribute {
 		return getBooleanAndReset(heroFightingChanged);
 	}
 
+	public boolean checkAndResetRedPoint(){
+		return getBooleanAndReset(checkRedPoint);
+	}
+	
 	private boolean getBooleanAndReset(AtomicBoolean atomicBool) {
 		boolean current = atomicBool.get();
 		if (!current) {

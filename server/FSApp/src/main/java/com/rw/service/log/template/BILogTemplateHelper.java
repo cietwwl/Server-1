@@ -39,6 +39,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("wifi（2g/3g/4g/wifi等）", "$loginNetType$");
 		addTemplateToken("wifi(2g/3g/4g/wifi等)", "$loginNetType$");
 		addTemplateToken("4（4=安卓/5=ios/7=wm）", "$loginClientPlatForm$");
+		addTemplateToken("参考操作码对照表对应统计信息", "");
 		addTemplateToken("4=安卓/5=ios/7=wm", "$loginClientPlatForm$");
 		addTemplateToken("1=普通关卡/2=精英关卡", "$copyLevel$");
 		addTemplateToken("2g/3g/4g/wifi等", "$loginNetType$");
@@ -50,9 +51,10 @@ public class BILogTemplateHelper {
 		addTemplateToken("场景id/地图id", "$scenceId$");
 		addTemplateToken("当前游戏客户端版本", "$clientVersion$");
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
-		addTemplateToken("online_time", "online_time:$onlineTime$");
+		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
 		addTemplateToken("1=主线/2=支线", "$biTaskType$");
+		addTemplateToken("参考操作码对照表", "$optype$");
 		addTemplateToken("区UID创建时间", "$userCreatedTime$");
 		addTemplateToken("账号唯一识别符", "$regChannelId_uid$");
 		addTemplateToken("用户注册子渠道", "$regSubChannelId$");
@@ -64,7 +66,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("二级变动原因", "$ItemChangedEventType_2$");
 		addTemplateToken("用户登录渠道", "$loginChannelId$");
 		addTemplateToken("角色创建时间", "$roleCreatedTime$");
-		addTemplateToken("注册渠道ID", "$regChannelId$");
+		addTemplateToken("注册渠道ID", "$regSubChannelId$");
 		addTemplateToken("用户VIP等级", "$vip$");
 		addTemplateToken("用户角色等级", "$level$");
 		addTemplateToken("客户端版本", "$clientVersion$");
@@ -86,13 +88,14 @@ public class BILogTemplateHelper {
 		addTemplateToken("sdk_id", "");
 		addTemplateToken("此处为空", "");
 		addTemplateToken("此处留空", "");
-		addTemplateToken("职业等级", "$level$");		
+		addTemplateToken("职业等级", "");		
+		addTemplateToken("进程id", "$threadId$");		
 		addTemplateToken("用户战力", "$fighting$");		
 		addTemplateToken("角色ID", "$userId$");
 		addTemplateToken("职业ID", "$careerType$");
 		addTemplateToken("操作码", "$operationCode$");		
 		addTemplateToken("UID", "$userId$");
-		addTemplateToken("职级", "$level$");
+		addTemplateToken("职级", "");
 		addTemplateToken("为空", "");
 		addTemplateToken("空", "");
 		
@@ -104,13 +107,14 @@ public class BILogTemplateHelper {
 	}
 	
 	//文档到可处理template的转换
-	public static void toTemplate(String original){
+	public static String toTemplate(String original){
 		String template = original;
 		for (String nameTmp : repalceOrderList) {
 			template = template.replace(nameTmp, docToTemplateMap.get(nameTmp));
 		}
 		
-		System.out.println(template);
+//		System.out.println(template);
+		return template;
 		
 	}
 	

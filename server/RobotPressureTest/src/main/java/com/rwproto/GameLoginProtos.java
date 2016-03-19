@@ -161,6 +161,14 @@ public final class GameLoginProtos {
      * </pre>
      */
     RepeatSUCCESS(3, 4),
+    /**
+     * <code>ServerMainTain = 5;</code>
+     *
+     * <pre>
+     *服务器维护
+     * </pre>
+     */
+    ServerMainTain(4, 5),
     ;
 
     /**
@@ -191,6 +199,14 @@ public final class GameLoginProtos {
      * </pre>
      */
     public static final int RepeatSUCCESS_VALUE = 4;
+    /**
+     * <code>ServerMainTain = 5;</code>
+     *
+     * <pre>
+     *服务器维护
+     * </pre>
+     */
+    public static final int ServerMainTain_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -201,6 +217,7 @@ public final class GameLoginProtos {
         case 2: return FAIL;
         case 3: return NO_ROLE;
         case 4: return RepeatSUCCESS;
+        case 5: return ServerMainTain;
         default: return null;
       }
     }
@@ -329,6 +346,21 @@ public final class GameLoginProtos {
      * <code>optional int32 sex = 6;</code>
      */
     int getSex();
+
+    // optional string clientInfoJson = 7;
+    /**
+     * <code>optional string clientInfoJson = 7;</code>
+     */
+    boolean hasClientInfoJson();
+    /**
+     * <code>optional string clientInfoJson = 7;</code>
+     */
+    java.lang.String getClientInfoJson();
+    /**
+     * <code>optional string clientInfoJson = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getClientInfoJsonBytes();
   }
   /**
    * Protobuf type {@code GameLoginRequest}
@@ -415,6 +447,11 @@ public final class GameLoginProtos {
             case 48: {
               bitField0_ |= 0x00000020;
               sex_ = input.readInt32();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000040;
+              clientInfoJson_ = input.readBytes();
               break;
             }
           }
@@ -634,6 +671,49 @@ public final class GameLoginProtos {
       return sex_;
     }
 
+    // optional string clientInfoJson = 7;
+    public static final int CLIENTINFOJSON_FIELD_NUMBER = 7;
+    private java.lang.Object clientInfoJson_;
+    /**
+     * <code>optional string clientInfoJson = 7;</code>
+     */
+    public boolean hasClientInfoJson() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string clientInfoJson = 7;</code>
+     */
+    public java.lang.String getClientInfoJson() {
+      java.lang.Object ref = clientInfoJson_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          clientInfoJson_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string clientInfoJson = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getClientInfoJsonBytes() {
+      java.lang.Object ref = clientInfoJson_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        clientInfoJson_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       loginType_ = com.rwproto.GameLoginProtos.eGameLoginType.GAME_LOGIN;
       accountId_ = "";
@@ -641,6 +721,7 @@ public final class GameLoginProtos {
       zoneId_ = 0;
       nick_ = "";
       sex_ = 0;
+      clientInfoJson_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -676,6 +757,9 @@ public final class GameLoginProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(6, sex_);
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getClientInfoJsonBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -708,6 +792,10 @@ public final class GameLoginProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, sex_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getClientInfoJsonBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -837,6 +925,8 @@ public final class GameLoginProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         sex_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        clientInfoJson_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -889,6 +979,10 @@ public final class GameLoginProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.sex_ = sex_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.clientInfoJson_ = clientInfoJson_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -928,6 +1022,11 @@ public final class GameLoginProtos {
         }
         if (other.hasSex()) {
           setSex(other.getSex());
+        }
+        if (other.hasClientInfoJson()) {
+          bitField0_ |= 0x00000040;
+          clientInfoJson_ = other.clientInfoJson_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1280,6 +1379,80 @@ public final class GameLoginProtos {
       public Builder clearSex() {
         bitField0_ = (bitField0_ & ~0x00000020);
         sex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string clientInfoJson = 7;
+      private java.lang.Object clientInfoJson_ = "";
+      /**
+       * <code>optional string clientInfoJson = 7;</code>
+       */
+      public boolean hasClientInfoJson() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string clientInfoJson = 7;</code>
+       */
+      public java.lang.String getClientInfoJson() {
+        java.lang.Object ref = clientInfoJson_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          clientInfoJson_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string clientInfoJson = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getClientInfoJsonBytes() {
+        java.lang.Object ref = clientInfoJson_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          clientInfoJson_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string clientInfoJson = 7;</code>
+       */
+      public Builder setClientInfoJson(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        clientInfoJson_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string clientInfoJson = 7;</code>
+       */
+      public Builder clearClientInfoJson() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        clientInfoJson_ = getDefaultInstance().getClientInfoJson();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string clientInfoJson = 7;</code>
+       */
+      public Builder setClientInfoJsonBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        clientInfoJson_ = value;
         onChanged();
         return this;
       }
@@ -2717,21 +2890,22 @@ public final class GameLoginProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\017GameLogin.proto\032\025GuidanceService.proto" +
-      "\032\016PlotView.proto\"\206\001\n\020GameLoginRequest\022\"\n" +
+      "\032\016PlotView.proto\"\236\001\n\020GameLoginRequest\022\"\n" +
       "\tloginType\030\001 \002(\0162\017.eGameLoginType\022\021\n\tacc" +
       "ountId\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\016\n\006zoneId" +
-      "\030\004 \001(\005\022\014\n\004nick\030\005 \001(\t\022\013\n\003sex\030\006 \001(\005\"\331\001\n\021Ga" +
-      "meLoginResponse\022%\n\nresultType\030\001 \002(\0162\021.eL" +
-      "oginResultType\022\016\n\006userId\030\002 \001(\t\022\r\n\005error\030" +
-      "\003 \001(\t\022\017\n\007version\030\004 \001(\t\022\022\n\nserverTime\030\005 \001" +
-      "(\003\0223\n\010guidance\030\006 \001(\0132!.GuidanceService.G" +
-      "uidanceResponse\022$\n\004plot\030\007 \001(\0132\026.PlotView",
-      ".PlotResponse*P\n\016eGameLoginType\022\016\n\nGAME_" +
-      "LOGIN\020\001\022\021\n\rLOAD_MAINCITY\020\002\022\017\n\013CREATE_ROL" +
-      "E\020\003\022\n\n\006repeat\020\004*I\n\020eLoginResultType\022\013\n\007S" +
-      "UCCESS\020\001\022\010\n\004FAIL\020\002\022\013\n\007NO_ROLE\020\003\022\021\n\rRepea" +
-      "tSUCCESS\020\004B\036\n\013com.rwprotoB\017GameLoginProt" +
-      "os"
+      "\030\004 \001(\005\022\014\n\004nick\030\005 \001(\t\022\013\n\003sex\030\006 \001(\005\022\026\n\016cli" +
+      "entInfoJson\030\007 \001(\t\"\331\001\n\021GameLoginResponse\022" +
+      "%\n\nresultType\030\001 \002(\0162\021.eLoginResultType\022\016" +
+      "\n\006userId\030\002 \001(\t\022\r\n\005error\030\003 \001(\t\022\017\n\007version" +
+      "\030\004 \001(\t\022\022\n\nserverTime\030\005 \001(\003\0223\n\010guidance\030\006" +
+      " \001(\0132!.GuidanceService.GuidanceResponse\022",
+      "$\n\004plot\030\007 \001(\0132\026.PlotView.PlotResponse*P\n" +
+      "\016eGameLoginType\022\016\n\nGAME_LOGIN\020\001\022\021\n\rLOAD_" +
+      "MAINCITY\020\002\022\017\n\013CREATE_ROLE\020\003\022\n\n\006repeat\020\004*" +
+      "]\n\020eLoginResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL" +
+      "\020\002\022\013\n\007NO_ROLE\020\003\022\021\n\rRepeatSUCCESS\020\004\022\022\n\016Se" +
+      "rverMainTain\020\005B\036\n\013com.rwprotoB\017GameLogin" +
+      "Protos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2743,7 +2917,7 @@ public final class GameLoginProtos {
           internal_static_GameLoginRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GameLoginRequest_descriptor,
-              new java.lang.String[] { "LoginType", "AccountId", "Password", "ZoneId", "Nick", "Sex", });
+              new java.lang.String[] { "LoginType", "AccountId", "Password", "ZoneId", "Nick", "Sex", "ClientInfoJson", });
           internal_static_GameLoginResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GameLoginResponse_fieldAccessorTable = new

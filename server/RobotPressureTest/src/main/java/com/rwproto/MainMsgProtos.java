@@ -17,7 +17,7 @@ public final class MainMsgProtos {
      * <code>PmdMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÅÜÂëµÆ
      * </pre>
      */
     PmdMsg(0, 0),
@@ -34,7 +34,7 @@ public final class MainMsgProtos {
      * <code>PmdMsg = 0;</code>
      *
      * <pre>
-     *ï¿½ï¿½ï¿½ï¿½ï¿½
+     *ÅÜÂëµÆ
      * </pre>
      */
     public static final int PmdMsg_VALUE = 0;

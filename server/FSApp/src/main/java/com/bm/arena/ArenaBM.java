@@ -1,20 +1,27 @@
 package com.bm.arena;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.bm.rank.ListRankingType;
+import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.bm.rank.arena.ArenaSettleComparable;
+import com.bm.rank.arena.ArenaSettlement;
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.ranking.exception.RankingCapacityNotEougthException;
 import com.rw.service.Email.EmailUtils;
@@ -101,14 +108,14 @@ public class ArenaBM {
 
 	public static final int ARENA_SIZE = 3;
 
-	public ArenaExtAttribute createArenaExt(Player player){
+	public ArenaExtAttribute createArenaExt(Player player) {
 		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
 		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
 		return arenaExt;
 	}
-	
+
 	/**
 	 * 增加竞技场玩家数据 此方法相对安全，如果玩家已拥有竞技场数据，是不会执行增加操作
 	 * 
@@ -178,7 +185,7 @@ public class ArenaBM {
 	}
 
 	// 删除竞技场数据
-	public void deleteArenaData(Player player,int carerr) {
+	public void deleteArenaData(Player player, int carerr) {
 		String userId = player.getUserId();
 		ListRanking<String, ArenaExtAttribute> ranking = getRanking(carerr);
 		if (ranking != null) {
@@ -187,9 +194,9 @@ public class ArenaBM {
 			GameLog.error("删除竞技场数据时找不到Ranking:" + userId + "," + player.getCareer());
 		}
 		TableArenaData arena = tableArenaDataDAO.get(userId);
-		if(arena == null){
-			GameLog.error("arena", "转职", "转职时找不到ArenaData:"+player);
-		}else{
+		if (arena == null) {
+			GameLog.error("arena", "转职", "转职时找不到ArenaData:" + player);
+		} else {
 			arena.setCareer(player.getCareer());
 		}
 	}
@@ -261,15 +268,24 @@ public class ArenaBM {
 	}
 
 	// 奖励结算
-	public void arenaDailyPrize(Player player) {
-		TableUserIF tableUser = player.getTableUser();
-		String userId = tableUser.getUserId();
-		TableArenaData tableArenaData = TableArenaDataDAO.getInstance().get(userId);
-		if (tableArenaData == null) {
+	public void arenaDailyPrize(String userId, Ranking<ArenaSettleComparable, ArenaSettlement> ranking) {
+		if (ranking == null) {
+			ranking = RankingFactory.getRanking(RankType.ARENA_SETTLEMENT);
+		}
+		RankingEntry<ArenaSettleComparable, ArenaSettlement> entry = ranking.getRankingEntry(userId);
+		if (entry == null) {
 			return;
 		}
-		String strPrize = ArenaPrizeCfgDAO.getInstance().getArenaPrizeCfgByPlace(getArenaPlace(player));
-		EmailUtils.sendEmail(tableArenaData.getUserId(), ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize);
+		ArenaSettlement settle = entry.getExtendedAttribute();
+		if (settle.getGetRewardMillis() > 0) {
+			return;
+		}
+		settle.setGetRewardMillis(System.currentTimeMillis());
+		ranking.subimitUpdatedTask(entry);
+		String strPrize = ArenaPrizeCfgDAO.getInstance().getArenaPrizeCfgByPlace(entry.getComparable().getRanking());
+		EmailUtils.sendEmail(userId, ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize, settle.getSettleMillis());
+		Player player = PlayerMgr.getInstance().find(userId);
+		player.getTempAttribute().setRedPointChanged();
 	}
 
 	// 筛选玩家
@@ -509,7 +525,7 @@ public class ArenaBM {
 			ArenaExtAttribute arenaExt = entry.getExtension();
 			arenaExt.setCareer(career);
 			arenaExt.setLevel(level);
-				// TODO 出问题的时候不更新战力，后面改
+			// TODO 出问题的时候不更新战力，后面改
 			arenaExt.setFighting(fighting);
 			arenaExt.setHeadImage(headImage);
 			arenaExt.setName(userName);

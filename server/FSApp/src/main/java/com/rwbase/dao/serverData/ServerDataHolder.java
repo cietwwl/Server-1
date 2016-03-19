@@ -119,41 +119,14 @@ public class ServerDataHolder{
 		}
 	}
 
-	public List<ServerGmEmail> getGmMailList(){
+	public long getTaskId(){
 		ServerData serverData = getServerData();
-		List<ServerGmEmail> gmMailList = serverData.getGmMailList();
-		return gmMailList;
+		return serverData.getTaskId();
 	}
 	
-	public void addGmMail(ServerGmEmail mail){
-		writeLock.lock();
-
+	public void setTaskId(long taskId){
 		ServerData serverData = getServerData();
-		try {
-			List<ServerGmEmail> gmMailList = serverData.getGmMailList();
-			EmailData emailData = mail.getSendToAllEmailData();
-			emailData.setTaskId(gmMailList.size() + 1);
-			gmMailList.add(mail);
-			serverData.setGmMailList(gmMailList);
-			update(serverData);
-		} catch (Exception ex) {
-			writeLock.unlock();
-		}
-	}
-	
-	public void updateGmMail(ServerGmEmail mail){
-		ServerData serverData = getServerData();
+		serverData.setTaskId(taskId);
 		update(serverData);
-	}
-	
-	public ServerGmEmail getGmMailByTaskId(long taskId){
-		ServerData serverData = getServerData();
-		List<ServerGmEmail> gmMailList = serverData.getGmMailList();
-		for (ServerGmEmail serverGmEmail : gmMailList) {
-			if(serverGmEmail.getEmailTaskId() == taskId){
-				return serverGmEmail;
-			}
-		}
-		return null;
 	}
 }

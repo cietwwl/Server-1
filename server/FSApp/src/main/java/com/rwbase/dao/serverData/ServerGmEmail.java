@@ -3,14 +3,23 @@ package com.rwbase.dao.serverData;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.playerFilter.PlayerFilterCondition;
+import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwbase.dao.email.EmailData;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "server_gm_email")
 public class ServerGmEmail {
+	@Id
+	private long id;
+	@SaveAsJson
 	private EmailData sendToAllEmailData;
+	@SaveAsJson
 	private List<PlayerFilterCondition> conditionList = new ArrayList<PlayerFilterCondition>();
 	private int status;
 	
