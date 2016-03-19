@@ -1,0 +1,4 @@
+Name,Remarks,Value
+defaultChanllengeCount,,1
+OpenBoxTip,,点击宝匣，一次性可使用{0}把钥匙，则全部使用!
+UseKeyCount,,10

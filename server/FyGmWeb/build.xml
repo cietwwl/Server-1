@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="mole" default='copy'>
+	<property name="xtolBase.proto.dir"   value="D:\allen\dx\xtol\xtolCode\server\XtolBase\src\main\java\com\xtol\proto"/>
+	<property name="xtolProto.java.dir"   value="D:\allen\dx\xtol\公网\XTOL_Protobuf\src\com\xtol\proto"/>
+	
+	
+	<target name="clean">
+	    <delete failonerror="true" includeemptydirs="true">
+	      <fileset dir="${xtolBase.proto.dir}">
+	        <include name="**/*"/>
+	        <exclude name="**/eclipse/**/*"/>
+	      </fileset>
+	    </delete>
+	</target>
+	
+	<target name="copy" depends="clean">
+
+		   <copy todir="${xtolBase.proto.dir}">
+			<fileset dir="${xtolProto.java.dir}" />
+		   </copy>
+	 </target>
+	
+</project>

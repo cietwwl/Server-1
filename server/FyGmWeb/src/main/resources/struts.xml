@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="dx-admin-default" extends="struts-default">
+		<interceptors>
+			<interceptor name="dxInterceptor" class="DXInterceptor"></interceptor>
+			<interceptor-stack name="dxDefaultStack">
+				<interceptor-ref name="dxInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref> 
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="loginDefaultStack"></default-interceptor-ref>
+ 	</package>
+ 	<constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" /> 
+ 	<constant name="struts.action.extension" value="action,a" />  	
+	<constant name="struts.multipart.maxSize" value="20000000000" />
+ 	<include file="strutsAdmin.xml"></include>
+ 	<include file="struts-default.xml"></include>
+
+</struts>    

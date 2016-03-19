@@ -1,0 +1,37 @@
+{
+    "204005_1": {
+        "heroId": "204005_1", 
+        "texture": "Head_org_GaoYouGan", 
+        "name": "ZT_GaoYouGan", 
+        "gainWay": "", 
+        "weight": 50
+    }, 
+    "202004_2": {
+        "heroId": "202004_2", 
+        "texture": "Head_org_LeiZhenZi", 
+        "name": "ZT_LeiZhenZi", 
+        "gainWay": "", 
+        "weight": 50
+    }, 
+    "203002_1": {
+        "heroId": "203002_1", 
+        "texture": "Head_org_LiXingBa", 
+        "name": "ZT_LiXingBa", 
+        "gainWay": "", 
+        "weight": 50
+    }, 
+    "204001_1": {
+        "heroId": "204001_1", 
+        "texture": "Head_org_LongJiGongZhu", 
+        "name": "ZT_LongJiGongZhu", 
+        "gainWay": "", 
+        "weight": 50
+    }, 
+    "204003_2": {
+        "heroId": "204003_2", 
+        "texture": "Head_org_WuJi", 
+        "name": "ZT_WuJi", 
+        "gainWay": "", 
+        "weight": 50
+    }
+}

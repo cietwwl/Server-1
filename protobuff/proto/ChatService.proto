@@ -1,0 +1,47 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ChatServiceProtos";
+
+enum eChatType {
+	CHAT_WORLD = 1;//世界
+	CHAT_FAMILY = 2; // 公会
+	CHAT_PERSON = 3; // 私聊
+	CHAT_TREASURE = 4;//秘境分享
+}
+enum eChatResultType {
+	SUCCESS = 1;//成功
+	FAIL = 2;//失败
+}
+
+message MessageUserInfo{
+	required string userId = 1;//角色Id
+	optional string userName = 2;//角色名字
+	optional string headImage = 3;//头像
+	optional int32 level = 4;//角色等级
+	optional string familyId = 5;//帮会Id
+	optional string familyName = 6;//帮会名字
+}
+
+message ChatMessageData{
+	required MessageUserInfo sendMessageUserInfo = 1;//发送消息的人的信息
+	optional MessageUserInfo receiveMessageUserInfo = 2;//接收消息的人的信息
+	required string message = 3;//消息内容
+	optional string time = 4;//时间
+	optional string treasureName = 5;//密境的名字
+	optional int32 treasureDefNum = 6;//密境邀请的人数
+	optional string treasureId = 7;//密境Id
+	optional int32 treasureType = 8;//密境的类型
+	optional bool isRead = 9;//是否读取过
+}
+
+message MsgChatRequest{
+    required eChatType ChatType = 1;
+	optional ChatMessageData chatMessageData = 2;//
+}
+
+message MsgChatResponse{
+	required eChatType chatType = 1;
+	optional eChatResultType chatResultType = 2;
+	repeated ChatMessageData listMessage = 3;
+	optional bool onLogin = 5;//是否是登录
+}

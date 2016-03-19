@@ -1,0 +1,128 @@
+{
+    "0": {
+        "id": "0", 
+        "name": "", 
+        "qualityBg": "bg_head_BaiSe", 
+        "maxAttachLevel": 0, 
+        "attachId": 0, 
+        "careerName": "新手,力士,行者,术士,符师,祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_01,JiaoBiao_XingZhe_01,JiaoBiao_ShuShi_01,JiaoBiao_FuShi_01,JiaoBiao_JiSi_01"
+    }, 
+    "1": {
+        "id": "1", 
+        "name": "", 
+        "qualityBg": "bg_head_LvSe_01", 
+        "maxAttachLevel": 2, 
+        "attachId": 1000, 
+        "careerName": "新手,力士,行者,术士,符师,祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_01,JiaoBiao_XingZhe_01,JiaoBiao_ShuShi_01,JiaoBiao_FuShi_01,JiaoBiao_JiSi_01"
+    }, 
+    "2": {
+        "id": "2", 
+        "name": "", 
+        "qualityBg": "bg_head_LvSe_02", 
+        "maxAttachLevel": 2, 
+        "attachId": 1000, 
+        "careerName": "新手,力士,行者,术士,符师,祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_01,JiaoBiao_XingZhe_01,JiaoBiao_ShuShi_01,JiaoBiao_FuShi_01,JiaoBiao_JiSi_01"
+    }, 
+    "3": {
+        "id": "3", 
+        "name": "", 
+        "qualityBg": "bg_head_LanSe_01", 
+        "maxAttachLevel": 3, 
+        "attachId": 2000, 
+        "careerName": "新手,金刚力士,修罗行者,地元术士,灵符师,大祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_02,JiaoBiao_XingZhe_02,JiaoBiao_ShuShi_02,JiaoBiao_FuShi_02,JiaoBiao_JiSi_02"
+    }, 
+    "4": {
+        "id": "4", 
+        "name": "", 
+        "qualityBg": "bg_head_LanSe_02", 
+        "maxAttachLevel": 3, 
+        "attachId": 2000, 
+        "careerName": "新手,金刚力士,修罗行者,地元术士,灵符师,大祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_02,JiaoBiao_XingZhe_02,JiaoBiao_ShuShi_02,JiaoBiao_FuShi_02,JiaoBiao_JiSi_02"
+    }, 
+    "5": {
+        "id": "5", 
+        "name": "", 
+        "qualityBg": "bg_head_LanSe_03", 
+        "maxAttachLevel": 3, 
+        "attachId": 2000, 
+        "careerName": "新手,金刚力士,修罗行者,地元术士,灵符师,大祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_02,JiaoBiao_XingZhe_02,JiaoBiao_ShuShi_02,JiaoBiao_FuShi_02,JiaoBiao_JiSi_02"
+    }, 
+    "6": {
+        "id": "6", 
+        "name": "", 
+        "qualityBg": "bg_head_ZiSe_01", 
+        "maxAttachLevel": 5, 
+        "attachId": 3000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_03,JiaoBiao_JiSi_03"
+    }, 
+    "7": {
+        "id": "7", 
+        "name": "", 
+        "qualityBg": "bg_head_ZiSe_02", 
+        "maxAttachLevel": 5, 
+        "attachId": 3000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_03,JiaoBiao_JiSi_03"
+    }, 
+    "8": {
+        "id": "8", 
+        "name": "", 
+        "qualityBg": "bg_head_ZiSe_03", 
+        "maxAttachLevel": 5, 
+        "attachId": 3000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_03,JiaoBiao_JiSi_03"
+    }, 
+    "9": {
+        "id": "9", 
+        "name": "", 
+        "qualityBg": "bg_head_ZiSe_03", 
+        "maxAttachLevel": 5, 
+        "attachId": 3000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_03,JiaoBiao_JiSi_03"
+    }, 
+    "10": {
+        "id": "10", 
+        "name": "", 
+        "qualityBg": "bg_head_ZiSe_03", 
+        "maxAttachLevel": 5, 
+        "attachId": 3000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_04,JiaoBiao_JiSi_03"
+    }, 
+    "11": {
+        "id": "11", 
+        "name": "", 
+        "qualityBg": "bg_head_HuangSe", 
+        "maxAttachLevel": 5, 
+        "attachId": 4000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_05,JiaoBiao_JiSi_03"
+    }, 
+    "12": {
+        "id": "12", 
+        "name": "", 
+        "qualityBg": "bg_head_HuangSe", 
+        "maxAttachLevel": 5, 
+        "attachId": 4000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_06,JiaoBiao_JiSi_03"
+    }, 
+    "13": {
+        "id": "13", 
+        "name": "", 
+        "qualityBg": "bg_head_HuangSe", 
+        "maxAttachLevel": 5, 
+        "attachId": 4000, 
+        "careerName": "新手,神武力士,碎空行者,天元术士,天符师,天命祭祀", 
+        "careerIcon": "JiaoBiao_Chu,JiaoBiao_LiShi_03,JiaoBiao_XingZhe_03,JiaoBiao_ShuShi_03,JiaoBiao_FuShi_07,JiaoBiao_JiSi_03"
+    }
+}

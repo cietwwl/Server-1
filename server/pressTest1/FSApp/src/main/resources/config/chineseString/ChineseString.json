@@ -1,0 +1,314 @@
+{
+    "NET_ERROR": {
+        "cnKey": "NET_ERROR", 
+        "value": "网络错误,请重新注册"
+    }, 
+    "LOGIN_ERROR": {
+        "cnKey": "LOGIN_ERROR", 
+        "value": "登录失败"
+    }, 
+    "EQUIP": {
+        "cnKey": "EQUIP", 
+        "value": "装备"
+    }, 
+    "DETAIL": {
+        "cnKey": "DETAIL", 
+        "value": "详情"
+    }, 
+    "USE": {
+        "cnKey": "USE", 
+        "value": "使用"
+    }, 
+    "COMPOSE": {
+        "cnKey": "COMPOSE", 
+        "value": "合成"
+    }, 
+    "BATCH_COMPOSE": {
+        "cnKey": "BATCH_COMPOSE", 
+        "value": "批量合成"
+    }, 
+    "HP_MAX": {
+        "cnKey": "HP_MAX", 
+        "value": "最大生命值提升"
+    }, 
+    "MAGIC_ENHANCE_ADD_EXP": {
+        "cnKey": "MAGIC_ENHANCE_ADD_EXP", 
+        "value": "法宝锻造提供经验"
+    }, 
+    "LESS_ITEM_NUM_CANNOT_COMPOSE": {
+        "cnKey": "LESS_ITEM_NUM_CANNOT_COMPOSE", 
+        "value": "合成材料不足"
+    }, 
+    "LESS_COIN_USE_GOLDHAND": {
+        "cnKey": "LESS_COIN_USE_GOLDHAND", 
+        "value": "金币不足,是否使用点金手"
+    }, 
+    "SELL_ITEM_SUCCESS": {
+        "cnKey": "SELL_ITEM_SUCCESS", 
+        "value": "出售成功"
+    }, 
+    "COMPOSE_ITEM_SUCCESS": {
+        "cnKey": "COMPOSE_ITEM_SUCCESS", 
+        "value": "合成成功"
+    }, 
+    "CHANGE_INLAY_GEM": {
+        "cnKey": "CHANGE_INLAY_GEM", 
+        "value": "更换宝石会摧毁已镶嵌宝石，你确定要这么做吗？"
+    }, 
+    "INLAY_GEM_SUCCESS": {
+        "cnKey": "INLAY_GEM_SUCCESS", 
+        "value": "镶嵌成功"
+    }, 
+    "ENHANCE_SUCCESS": {
+        "cnKey": "ENHANCE_SUCCESS", 
+        "value": "强化成功"
+    }, 
+    "COMPOSE_NEED_PIECE": {
+        "cnKey": "COMPOSE_NEED_PIECE", 
+        "value": "合成需要碎片"
+    }, 
+    "COMPOSE_ERROR": {
+        "cnKey": "COMPOSE_ERROR", 
+        "value": "该物品不能合成新物品"
+    }, 
+    "FUNCTION_NOT_OPEN": {
+        "cnKey": "FUNCTION_NOT_OPEN", 
+        "value": "技术玩命开发中"
+    }, 
+    "NOT_EQUIP": {
+        "cnKey": "NOT_EQUIP", 
+        "value": "主角等级{0}开启该装备"
+    }, 
+    "MESSAGE_TITLE": {
+        "cnKey": "MESSAGE_TITLE", 
+        "value": "提示"
+    }, 
+    "CHAT_COST_TIPS": {
+        "cnKey": "CHAT_COST_TIPS", 
+        "value": "在世界频道发言将花费{1}钻石，是否继续"
+    }, 
+    "CHAT_FREE": {
+        "cnKey": "CHAT_FREE", 
+        "value": "免费"
+    }, 
+    "CHAT_SELECT_PERSON": {
+        "cnKey": "CHAT_SELECT_PERSON", 
+        "value": "请先选择私聊对象"
+    }, 
+    "CHAT_SPEAK_FAST": {
+        "cnKey": "CHAT_SPEAK_FAST", 
+        "value": "发言太快"
+    }, 
+    "CHAT_NO_MESSAGE": {
+        "cnKey": "CHAT_NO_MESSAGE", 
+        "value": "请输入内容"
+    }, 
+    "CHAT_NOT_ENOURGH_CRYSTAL": {
+        "cnKey": "CHAT_NOT_ENOURGH_CRYSTAL", 
+        "value": "钻石不足"
+    }, 
+    "MAGIC_NO_ITEM": {
+        "cnKey": "MAGIC_NO_ITEM", 
+        "value": "此材料已用完"
+    }, 
+    "MAGIC_MAX_EXP": {
+        "cnKey": "MAGIC_MAX_EXP", 
+        "value": "经验已满"
+    }, 
+    "MAGIC_LESS_ITEM": {
+        "cnKey": "MAGIC_LESS_ITEM", 
+        "value": "材料不足"
+    }, 
+    "MAGIC_ENOURGH_ITEM": {
+        "cnKey": "MAGIC_ENOURGH_ITEM", 
+        "value": "材料已够，请熔炼"
+    }, 
+    "MAGIC_SMELT_NEED": {
+        "cnKey": "MAGIC_SMELT_NEED", 
+        "value": "还需要{1}个{2}级法宝熔炼"
+    }, 
+    "MAGIC_SMELT_GET": {
+        "cnKey": "MAGIC_SMELT_GET", 
+        "value": "熔炼获得{1}级法宝"
+    }, 
+    "LACK_OF_ITEM": {
+        "cnKey": "LACK_OF_ITEM", 
+        "value": "配置表没有此物品"
+    }, 
+    "FREE_TIME": {
+        "cnKey": "FREE_TIME", 
+        "value": "免费"
+    }, 
+    "CHANGE_INFO_SUCCEED": {
+        "cnKey": "CHANGE_INFO_SUCCEED", 
+        "value": "变更成功"
+    }, 
+    "48": {
+        "cnKey": "48", 
+        "value": "拥有{1}件"
+    }, 
+    "49": {
+        "cnKey": "49", 
+        "value": "放入材料熔炼得{1}级法宝"
+    }, 
+    "50": {
+        "cnKey": "50", 
+        "value": "50~60PVE活动"
+    }, 
+    "51": {
+        "cnKey": "51", 
+        "value": "主角{1}级开启"
+    }, 
+    "52": {
+        "cnKey": "52", 
+        "value": "重置关卡进入次数需要花费{1}钻石\n是否继续？（今日已重置{2}次）"
+    }, 
+    "53": {
+        "cnKey": "53", 
+        "value": "今日已重置{1}次，重置次数不足，提升VIP等级可获得更多次数"
+    }, 
+    "54": {
+        "cnKey": "54", 
+        "value": "今日次数耗尽"
+    }, 
+    "61": {
+        "cnKey": "61", 
+        "value": "61~70邮件相关"
+    }, 
+    "62": {
+        "cnKey": "62", 
+        "value": "关闭"
+    }, 
+    "63": {
+        "cnKey": "63", 
+        "value": "领取成功"
+    }, 
+    "VIP_DESC": {
+        "cnKey": "VIP_DESC", 
+        "value": "累计充值[1]钻石即可享受该级特权。包含[2]等级所有特权。"
+    }, 
+    "CHOOSE_FULIN_MATERIAL": {
+        "cnKey": "CHOOSE_FULIN_MATERIAL", 
+        "value": "请选择附灵材料"
+    }, 
+    "FULIN_LEVEL_UPMAX": {
+        "cnKey": "FULIN_LEVEL_UPMAX", 
+        "value": "已附灵至顶级"
+    }, 
+    "WHITE_EQUIP_CANNOT_FULIN": {
+        "cnKey": "WHITE_EQUIP_CANNOT_FULIN", 
+        "value": "白色品质装备不能附灵"
+    }, 
+    "CHOOSE_EQUIP_TIPS": {
+        "cnKey": "CHOOSE_EQUIP_TIPS", 
+        "value": "请选择装备"
+    }, 
+    "HAS_NOT_MATERIAL": {
+        "cnKey": "HAS_NOT_MATERIAL", 
+        "value": "此材料已用完"
+    }, 
+    "GOLD_NOT_ENOUGH": {
+        "cnKey": "GOLD_NOT_ENOUGH", 
+        "value": "金币不足"
+    }, 
+    "NOT_CHOOSE_MAT": {
+        "cnKey": "NOT_CHOOSE_MAT", 
+        "value": "未添加材料"
+    }, 
+    "SKILL_POINT_FULL": {
+        "cnKey": "SKILL_POINT_FULL", 
+        "value": "（点数已满）"
+    }, 
+    "JINHUA_LIFE_ADD": {
+        "cnKey": "JINHUA_LIFE_ADD", 
+        "value": "（生命+"
+    }, 
+    "JINHUA_ATTACK_ADD": {
+        "cnKey": "JINHUA_ATTACK_ADD", 
+        "value": "（攻击+"
+    }, 
+    "JINHUA_TIPO_ADD": {
+        "cnKey": "JINHUA_TIPO_ADD", 
+        "value": "（物理+"
+    }, 
+    "JINHUA_JINGSHEN_ADD": {
+        "cnKey": "JINHUA_JINGSHEN_ADD", 
+        "value": "（法术+"
+    }, 
+    "FAN_KUO_HAO": {
+        "cnKey": "FAN_KUO_HAO", 
+        "value": "）"
+    }, 
+    "VIP_NOT_ENOUGH": {
+        "cnKey": "VIP_NOT_ENOUGH", 
+        "value": "vip等级不足"
+    }, 
+    "CAN_EQUIP": {
+        "cnKey": "CAN_EQUIP", 
+        "value": "可装备"
+    }, 
+    "CAN_COMPOSE": {
+        "cnKey": "CAN_COMPOSE", 
+        "value": "可合成"
+    }, 
+    "CANNOT_EQUIP": {
+        "cnKey": "CANNOT_EQUIP", 
+        "value": "未装备"
+    }, 
+    "HAS_NOT_EQUIP": {
+        "cnKey": "HAS_NOT_EQUIP", 
+        "value": "无装备"
+    }, 
+    "BUY_HERO_SKILL": {
+        "cnKey": "BUY_HERO_SKILL", 
+        "value": "购买{1}技能点需花费{2}钻石，是否继续"
+    }, 
+    "WORSHIP_RULE": {
+        "cnKey": "WORSHIP_RULE", 
+        "value": "1、膜拜者列表显示膜拜者信息，有膜拜者才有奖励\n2、一个膜拜者对应一份奖励，领取的奖励有上限值\n3、奖励跟随竞技场排名的刷新时间，每天下午5点重置奖励\n4、每隔一段时间会更换奖励类型"
+    }, 
+    "WORSHIP_INTRO": {
+        "cnKey": "WORSHIP_INTRO", 
+        "value": "成为竞技场职业排名第一就可让全服玩家膜拜，被膜拜的玩家收到来自膜拜者的奖励。"
+    }, 
+    "SECRET_INTRODUCE": {
+        "cnKey": "SECRET_INTRODUCE", 
+        "value": "1，在帮派秘境，你可以选择探索多个秘境，也能搜索并掠夺被人的秘境。\n2，你需要派遣佣兵防守自己的秘境，驻守佣兵战斗力越高，探索资源的速度越快\n3，秘境可以探索到帮派建筑资源，用于帮派建筑升级，该资源的获取与战斗力无关\n4，每个秘境最多可以容纳3名帮派成员共同防守，你可以通过邀请来得到帮派成员的帮助，所有防御者都可以探索资源\n5，主角可以同时驻守多个秘境，你可以随时更换每个秘境的驻守佣兵\n6，所有秘境都可以探索1至10小时，全部探索完毕后，佣兵会将未被掠夺的资源运回你的仓库\n7，所有秘境探索完成后，都有可能遭到一些钻石宝箱，让探索者获得一些钻石\n8，如果在限定时间内击败所有防守者，就可以掠夺对方已探索的部分资源\n9，如果探索过程中遭到袭击并防守失败，你会损失一部分已经探索的资源，但不会失去这个秘境\n10，被敌人掠夺后的秘境会得到一定保护时间，在保护时间内，其他玩家无法搜索到以及进攻这个秘境\n11，你也可以搜索别人的秘境，并向这些秘境发起多次攻击。所有战斗结束之前，攻守双方的佣兵与能量值不会重置\n12，主角无法单独发起攻击，我方主角死亡后会在下一场战斗时恢复部分血量\n13，每次攻击其他玩家的秘境都需要消耗2块秘境钥石，秘境钥石会根据时间恢复\n14，每当自己的秘境被攻击，都能根据防守战斗场次数获得一定的秘境钥石。通过这种方式每天最多能获得20块秘境钥石"
+    }, 
+    "SECRET_INTRODUCE_TITLE": {
+        "cnKey": "SECRET_INTRODUCE_TITLE", 
+        "value": "远古文明开创了这个不为人知的地下秘境，无尽的虚空入口犹如宇宙中的繁星，有人认为早在盘古开天之前，秘境世界就已经存在。当这些沉寂了亿万年的宝藏重见天日，探索者们惊奇地发现，远古人们的黄金与砖石依然历久弥新，一尘不染。但与黄金一样永恒不变的，是人的贪婪。"
+    }, 
+    "SECRET_RECORD_CONTENT": {
+        "cnKey": "SECRET_RECORD_CONTENT", 
+        "value": "你的队伍抵御了敌人{1}波攻击，为你赢得了秘境钥石的奖励"
+    }, 
+    "WORSHIP_REWARD_TIME": {
+        "cnKey": "WORSHIP_REWARD_TIME", 
+        "value": "每天上午5点发放奖励至邮箱"
+    }, 
+    "WORSHIP_POWER_SPILL": {
+        "cnKey": "WORSHIP_POWER_SPILL", 
+        "value": "你的体力已达到上限，是否继续领取奖励"
+    }, 
+    "64": {
+        "cnKey": "64", 
+        "value": "花费[1]钻石，变更性别。是否继续？"
+    }, 
+    "65": {
+        "cnKey": "65", 
+        "value": "花费[1]钻石，变更职业。变更后返还已穿装备和一定数量的附灵材料。是否继续？"
+    }, 
+    "66": {
+        "cnKey": "66", 
+        "value": "花费[1]钻石，变更性别与职业。变更后返还已穿装备和一定数量的附灵材料。是否继续？"
+    }, 
+    "SECRET_ENTER_LIMIT": {
+        "cnKey": "SECRET_ENTER_LIMIT", 
+        "value": "加入帮派才能进入帮派秘境"
+    }, 
+    "INLAY_Level": {
+        "cnKey": "INLAY_Level", 
+        "value": "英雄等级不足"
+    }
+}

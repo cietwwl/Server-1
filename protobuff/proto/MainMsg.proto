@@ -1,0 +1,24 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "MainMsgProtos";
+
+enum EMsgType {
+	PmdMsg = 0;//≈‹¬Îµ∆
+	OtherMsg = 1;//
+
+}
+
+message MainMsgResponse {
+   optional int32 id = 1;
+   optional EMsgType type = 2;
+   optional string info1 = 3;
+   optional string info2 = 4;
+   optional string info3 = 5;
+   optional string info4 = 6;
+   optional string info5 = 7;
+}
+
+message MainMsgRequest {
+	optional int32 id = 1;
+	optional EMsgType type = 2;
+}

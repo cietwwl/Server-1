@@ -1,0 +1,2 @@
+key,Remarks,WaitAfterBorn,RunSpeed,DistanceForReady,DistanceToEnemy,DistanceInFront,DistanceInBack,HurtColor,CriticalColor,SpColor,HpColor,BattleCameraXOffset,SlowDownTime,SlowDownRate,CameraZoomingParam
+battle,,1,1,8,4,4,8,ff2e14ff,f8e7d2ff,ffcc00ff,72ff00ff,3,1.5,0.3,"1,0,25,-2,2,1.5,0.15,0.6,0.15,0.6"

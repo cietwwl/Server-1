@@ -1,0 +1,27 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "RedPointProtos";
+
+message RedPointPushMsg{
+	//两个optional最少存在一个
+	optional DisplayRedPoint allRedPoints = 1;
+	optional RedPointModification modification = 2;
+}
+
+//所有需要显示的红点
+message DisplayRedPoint{
+	repeated RedPoint redPoints = 1;	//红点集合
+	required int32 version = 2;		//当前红点版本号
+}
+
+message RedPointModification{
+
+	repeated RedPoint newlyAddedRedPoints = 1; //新增加的红点
+	repeated RedPoint deletedRedPoints = 2;	//删除的红点
+	required int32 version = 3;				//当前红点版本号
+}
+message RedPoint{
+	required int32 type = 1;				//红点类型
+	repeated string functionIdList = 2;		//功能ID列表，比如武将id列表
+}
+

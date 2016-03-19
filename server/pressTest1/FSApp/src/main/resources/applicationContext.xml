@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+				<value>classpath:server.properties</value>
+				<value>classpath:serverversion.properties</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="false" />
+	</bean>
+	
+	<bean id="springContextUtil" class="com.rw.fsutil.util.SpringContextUtil" />
+	
+	<import resource="applicationContextCfgDaoServices.xml" />
+	<import resource="applicationContextDataSources.xml" />
+	<import resource="applicationContextServices.xml" />
+
+		
+	
+</beans>

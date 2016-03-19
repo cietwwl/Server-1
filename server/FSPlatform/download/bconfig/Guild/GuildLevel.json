@@ -1,0 +1,37 @@
+{
+    "1": {
+        "functionID": 1, 
+        "level": 1, 
+        "num": 0
+    }, 
+    "2": {
+        "functionID": 1, 
+        "level": 2, 
+        "num": 1000
+    }, 
+    "3": {
+        "functionID": 1, 
+        "level": 3, 
+        "num": 2000
+    }, 
+    "4": {
+        "functionID": 1, 
+        "level": 4, 
+        "num": 3000
+    }, 
+    "5": {
+        "functionID": 1, 
+        "level": 5, 
+        "num": 4000
+    }, 
+    "6": {
+        "functionID": 1, 
+        "level": 6, 
+        "num": 5000
+    }, 
+    "7": {
+        "functionID": 1, 
+        "level": 7, 
+        "num": 6000
+    }
+}

@@ -1,0 +1,28 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "SDKVerifyProtos";
+
+
+enum eSDKVerifyResultType {
+	SUCCESS = 1;//³É¹¦
+	FAIL = 2;//Ê§°Ü
+}
+
+message SDKVerifyRequest{
+	required int32 sdkType = 1;
+	required string gameId = 2;
+	required string channel = 3;
+	required string userId = 4;
+	required string sid = 5;
+	required string ext = 6;
+	required string version = 7;
+	required string sign = 8;
+}
+
+message SDKVerifyResponse{
+	required eSDKVerifyResultType resultType = 1;
+	required string msg = 2;
+	optional string userId = 3;
+	optional string accountId = 4;
+	optional string password = 5;
+}

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="false" />
+	</bean>
+
+	<bean id="gmAdminDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="${jdbc_admin.url}"></property>
+		<property name="username" value="${jdbc_admin.username}"></property>
+		<property name="password" value="${jdbc_admin.password}"></property>
+
+		<!-- MaxActive连接池的最大数据库连接数。设为0表示无限制 -->
+		<property name="maxActive" value="50"></property>
+		<!-- maxWait最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。 -->
+		<property name="maxWait" value="60000"></property>
+		<!-- maxIdle最大空闲数，数据库连接的最大空闲时间。超过空闲时间，数据库连接将被标记为不可用，然后被释放。设为0表示无限制。 -->
+		<property name="maxIdle" value="2"></property>
+		<property name="validationQuery" value="SELECT 1"></property>
+		<property name="testOnBorrow" value="true"></property>
+		<property name="testOnReturn" value="true"></property>
+		<property name="testWhileIdle" value="true"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
+		<!-- Supported UTF-8 character set -->
+	</bean>
+
+	<bean id="gmAdminJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="gmAdminDataSource" />
+	</bean>
+
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="20000000000" />
+	</bean>
+
+	<bean id="DXInterceptor" class="com.dx.gods.controller.admin.common.DXAdminInterceptor">
+	    <property name="actionAuthsBLL" ref="actionAuthsBLL" />
+	</bean>
+
+	
+	<bean id="logAction" class="com.dx.gods.controller.admin.common.DevelopLogController" scope="prototype">
+	</bean>
+
+
+	<bean id="adminUserControlerAction" class="com.dx.gods.controller.admin.sec.AdminUserController" scope="prototype">
+		<property name="md5Encoder" ref="passwordEncoder"/>
+	    <property name="userDetailsService" ref="userDetailsService"/>
+	</bean>
+	
+	<bean id="actionAuthsBLL" class="com.dx.gods.controller.admin.sec.ActionAuthsBLL">
+		<property name="jdbcTemplate" ref="gmAdminJdbcTemplate" />
+	</bean>
+	
+	<bean id="actionAuthsController" class="com.dx.gods.controller.admin.sec.ActionAuthsController" scope="prototype">
+		<property name="actionAuthsBLL" ref="actionAuthsBLL" />
+	</bean>
+
+	<bean id="actionFileUploadController" class="com.dx.gods.service.fileupload.FileUploadController" scope="prototype">
+	</bean>
+	
+	<bean id="actionSVNController" class="com.dx.gods.service.tools.controller.SVNController" scope="prototype">
+	</bean>
+	
+	<bean id="actionSVNControllerByStringResult" class="com.dx.gods.service.tools.controller.SVNControllerByStringResult" scope="prototype">
+	</bean>
+	
+	<bean id="actionSyncResController" class="com.dx.gods.service.sycnres.SycnresController" scope="prototype">
+	</bean>
+	
+	<bean id="actionGenerateJsonController" class="com.dx.gods.service.tools.controller.GenerateJsonController" scope="prototype">
+	</bean>
+	
+	<bean id="actionGenerateCSVController" class="com.dx.gods.service.tools.controller.GenerateCSVController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionShowSVNListController" class="com.dx.gods.service.tools.controller.ShowSVNIndexController" scope="prototype">
+	</bean>
+	
+	<bean id="actionCommitJsonToSVNController" class="com.dx.gods.service.tools.controller.CommitJsonToSVNController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionSVNUploadServerController" class="com.dx.gods.service.tools.controller.SVNUploadServerController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionSyncClassController" class="com.dx.gods.service.tools.controller.SyncClassController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionGameServerManagerController" class="com.dx.gods.service.tools.controller.GameServerManagerController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionCompileClassAndUploadController" class="com.dx.gods.service.tools.controller.CompileClassAndUploadController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionAutoController" class="com.dx.gods.service.tools.controller.AutoController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionIncrementalResController" class="com.dx.gods.service.tools.controller.IncrementalResController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionGameServerRegisteredController" class="com.dx.gods.service.gameserver.statistics.controller.GameServerRegisteredController"  scope="prototype">
+	</bean>
+	
+	<bean id="actionClearClientCacheController" class="com.dx.gods.service.tools.controller.ClearClientCacheController"  scope="prototype">
+	</bean>
+	
+</beans>

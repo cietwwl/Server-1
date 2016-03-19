@@ -1,0 +1,16 @@
+key,remarks,attrName,weight
+1,,attack,1.71
+2,,physiqueDef,0.74
+3,,spiritDef,0.74
+4,,life,0.03
+5,,attackVampire,3.28
+6,,critical,3.28
+7,,criticalHurt,3.28
+8,,attackSpeed,3.28
+9,,toughness,3.28
+10,,lifeReceive,0.67
+11,,energyReceive,0.4
+12,,attackHurt,1.71
+13,,cutHurt,1.71
+14,,skillLevel,20
+15,,magicLevel,20

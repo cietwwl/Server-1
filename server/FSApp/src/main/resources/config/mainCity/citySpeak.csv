@@ -1,0 +1,5 @@
+key,Remarks,cityType,direction,minSpeedTime,maxSpeedTime,continueTime,offsetX,offsetY
+103,,103,1,10,50,5,342.2,276.8
+106,,106,2,10,50,5,-204.9,437.09
+113,,113,1,10,30,5,223.81,-128.11
+114,,114,1,10,30,5,178.42,-66.43

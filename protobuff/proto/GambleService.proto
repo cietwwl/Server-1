@@ -1,0 +1,52 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GambleServiceProtos";
+
+enum EGambleRequestType{
+	GAMBLE = 1;	//垂钓
+	GAMBLE_GET = 2;//请求垂钓数据
+	GAMBLE_DATA = 3;//垂钓数据
+}
+
+enum EGambleResultType{
+	SUCCESS = 1;	//请求成功
+	FAIL = 2;		//失败
+}
+
+enum EGambleType{
+	PRIMARY = 1;//初级
+	MIDDLE = 2;//中级
+	ADVANCED = 3;//高级
+}
+
+enum ELotteryType{
+	ONE = 1;//单抽
+	SIX = 2;//6连
+	TEN = 3;//10连
+}
+
+message GambleRequest{
+    required EGambleRequestType requestType = 1;	//请求类型
+	optional EGambleType gambleType = 2;			//垂钓类型
+	optional ELotteryType lotteryType = 3;			//抽奖类型
+}
+
+message GambleResponse{
+	required EGambleResultType resultType= 1;	//结果类型
+	optional GambleRequest request = 2;//请求信息	
+	repeated GambleRewardData itemList = 3;	//奖励列表
+	repeated string heroList = 4;				//热点英雄
+	optional GambleData gambleData = 5;//垂钓数据
+}
+
+message GambleRewardData{
+	required string itemId = 1;	//物品ID
+	required int32 itemNum = 2;	//物品数量
+}
+
+message GambleData{
+	optional int32 primaryTime = 1;			//初级祈祷免费剩余时间(秒)
+	optional int32 primaryCount = 2;		//初级祈祷免费已用次数
+ 	optional int32 middleTime = 3;			//中级祈祷免费剩余时间(秒)
+}
+

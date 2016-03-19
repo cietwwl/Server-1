@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 
+	<bean id="dataSourceAdmin" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="${jdbc_admin.url}"></property>
+		<property name="username" value="${jdbc_admin.username}"></property>
+		<property name="password" value="${jdbc_admin.password}"></property>
+
+		<MaxActive连接池的最大数据库连接数。设为0表示无限制 >
+		<property name="maxActive" value="50"></property>
+		<maxWait最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。>
+		<property name="maxWait" value="60000"></property>
+		<maxIdle最大空闲数，数据库连接的最大空闲时间。超过空闲时间，数据库连接将被标记为不可用，然后被释放。设为0表示无限制。>
+		<property name="maxIdle" value="2"></property>
+		<property name="validationQuery" value="SELECT 1"></property>
+		<property name="testOnBorrow" value="true"></property>
+		<property name="testOnReturn" value="true"></property>
+		<property name="testWhileIdle" value="true"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
+		<Supported UTF-8 character set>
+	</bean>
+	 -->
+	<!-- 
+	<bean id="druidStatUtil" class="com.rw.fsutil.util.DruidStatUtil" init-method="init">
+		<property name="sqlStatOutPutDirPath" value="D:\\dump\\sqlstat"/>
+		<property name="outFilePrefix" value="game"/>
+	</bean>
+	 -->
+
+
+
+
+	<bean id="dataSourceMT" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="${jdbc_data_mt.url}" />
+		<property name="username" value="${jdbc_data_mt.username}" />
+		<property name="password" value="${jdbc_data_mt.password}" />
+		
+		<!-- MaxActive连接池的最大数据库连接数。设为0表示无限制 -->
+		<property name="maxActive" value="100"></property>
+		<!-- maxWait最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。 -->
+		<property name="maxWait" value="60000"></property>
+		<!-- maxIdle最大空闲数，数据库连接的最大空闲时间。超过空闲时间，数据库连接将被标记为不可用，然后被释放。设为0表示无限制。 -->
+		<property name="maxIdle" value="2"></property>
+		<property name="validationQuery" value="SELECT 1"></property>
+		<property name="testOnBorrow" value="true"></property>
+		<property name="testOnReturn" value="true"></property>
+		<property name="testWhileIdle" value="true"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
+		<!-- Supported UTF-8 character set -->
+	</bean>
+
+
+		
+	<bean id="dataSourcePF" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="${jdbc_platform.url}"></property>
+		<property name="username" value="${jdbc_platform.username}"></property>
+		<property name="password" value="${jdbc_platform.password}"></property>
+
+	
+		<property name="maxActive" value="100"></property>
+
+		<property name="maxWait" value="60000"></property>
+		
+		<property name="maxIdle" value="2"></property>
+		<property name="validationQuery" value="SELECT 1"></property>
+		<property name="testOnBorrow" value="true"></property>
+		<property name="testOnReturn" value="true"></property>
+		<property name="testWhileIdle" value="true"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
+	</bean>	
+	
+
+	
+</beans>

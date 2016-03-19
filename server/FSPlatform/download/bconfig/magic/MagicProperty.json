@@ -1,0 +1,56 @@
+{
+    "1": {
+        "property": 1, 
+        "description": "对迟缓和冰冻状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_1", 
+        "name": "金"
+    }, 
+    "2": {
+        "property": 2, 
+        "description": "对眩晕和燃烧状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_2", 
+        "name": "木"
+    }, 
+    "3": {
+        "property": 3, 
+        "description": "对燃烧和迟缓状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_3", 
+        "name": "水"
+    }, 
+    "4": {
+        "property": 4, 
+        "description": "对虚弱和眩晕状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_4", 
+        "name": "火"
+    }, 
+    "5": {
+        "property": 5, 
+        "description": "对冰冻和虚弱状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_5", 
+        "name": "土"
+    }, 
+    "6": {
+        "property": 6, 
+        "description": "对沉默和燃烧状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_6", 
+        "name": "风"
+    }, 
+    "7": {
+        "property": 7, 
+        "description": "对浮空和虚弱状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_7", 
+        "name": "雷"
+    }, 
+    "8": {
+        "property": 8, 
+        "description": "对混乱和冰冻状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_8", 
+        "name": "光"
+    }, 
+    "9": {
+        "property": 9, 
+        "description": "对失明和眩晕状态下的目标造成额外伤害", 
+        "propertyIcon": "JiaoBiao_9", 
+        "name": "暗"
+    }
+}

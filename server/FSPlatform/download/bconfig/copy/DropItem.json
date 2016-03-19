@@ -1,0 +1,2352 @@
+{
+    "10010": {
+        "id": "10010", 
+        "max": 1, 
+        "noItemProb": 50, 
+        "whiteProb": 50, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90001": {
+        "id": "90001", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90002": {
+        "id": "90002", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90003": {
+        "id": "90003", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90004": {
+        "id": "90004", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90005": {
+        "id": "90005", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90006": {
+        "id": "90006", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90007": {
+        "id": "90007", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90008": {
+        "id": "90008", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90009": {
+        "id": "90009", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90010": {
+        "id": "90010", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90011": {
+        "id": "90011", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90012": {
+        "id": "90012", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90013": {
+        "id": "90013", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90014": {
+        "id": "90014", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90015": {
+        "id": "90015", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90016": {
+        "id": "90016", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90017": {
+        "id": "90017", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90018": {
+        "id": "90018", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90019": {
+        "id": "90019", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90020": {
+        "id": "90020", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90021": {
+        "id": "90021", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90022": {
+        "id": "90022", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90023": {
+        "id": "90023", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90024": {
+        "id": "90024", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90025": {
+        "id": "90025", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90026": {
+        "id": "90026", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90027": {
+        "id": "90027", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90028": {
+        "id": "90028", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90029": {
+        "id": "90029", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90030": {
+        "id": "90030", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90031": {
+        "id": "90031", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90032": {
+        "id": "90032", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90033": {
+        "id": "90033", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90034": {
+        "id": "90034", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90035": {
+        "id": "90035", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90036": {
+        "id": "90036", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90037": {
+        "id": "90037", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90038": {
+        "id": "90038", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90039": {
+        "id": "90039", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90040": {
+        "id": "90040", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90041": {
+        "id": "90041", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90042": {
+        "id": "90042", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90043": {
+        "id": "90043", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90044": {
+        "id": "90044", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90045": {
+        "id": "90045", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90046": {
+        "id": "90046", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90047": {
+        "id": "90047", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90048": {
+        "id": "90048", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90049": {
+        "id": "90049", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90050": {
+        "id": "90050", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90051": {
+        "id": "90051", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90052": {
+        "id": "90052", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90053": {
+        "id": "90053", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90054": {
+        "id": "90054", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90055": {
+        "id": "90055", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90056": {
+        "id": "90056", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90057": {
+        "id": "90057", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90058": {
+        "id": "90058", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90059": {
+        "id": "90059", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90060": {
+        "id": "90060", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90061": {
+        "id": "90061", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90062": {
+        "id": "90062", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90063": {
+        "id": "90063", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90064": {
+        "id": "90064", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90065": {
+        "id": "90065", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90066": {
+        "id": "90066", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90067": {
+        "id": "90067", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90068": {
+        "id": "90068", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90069": {
+        "id": "90069", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90070": {
+        "id": "90070", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90071": {
+        "id": "90071", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90072": {
+        "id": "90072", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90073": {
+        "id": "90073", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90074": {
+        "id": "90074", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90075": {
+        "id": "90075", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90076": {
+        "id": "90076", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90077": {
+        "id": "90077", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90078": {
+        "id": "90078", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90079": {
+        "id": "90079", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90080": {
+        "id": "90080", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90081": {
+        "id": "90081", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90082": {
+        "id": "90082", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90083": {
+        "id": "90083", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90084": {
+        "id": "90084", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90085": {
+        "id": "90085", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90086": {
+        "id": "90086", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90087": {
+        "id": "90087", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90088": {
+        "id": "90088", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90089": {
+        "id": "90089", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90090": {
+        "id": "90090", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90091": {
+        "id": "90091", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90092": {
+        "id": "90092", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90093": {
+        "id": "90093", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90094": {
+        "id": "90094", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90095": {
+        "id": "90095", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90096": {
+        "id": "90096", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90097": {
+        "id": "90097", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90098": {
+        "id": "90098", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90099": {
+        "id": "90099", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90100": {
+        "id": "90100", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90101": {
+        "id": "90101", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90102": {
+        "id": "90102", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90103": {
+        "id": "90103", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90104": {
+        "id": "90104", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90105": {
+        "id": "90105", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90106": {
+        "id": "90106", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90107": {
+        "id": "90107", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90108": {
+        "id": "90108", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90109": {
+        "id": "90109", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90110": {
+        "id": "90110", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90111": {
+        "id": "90111", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90112": {
+        "id": "90112", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90113": {
+        "id": "90113", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90114": {
+        "id": "90114", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90115": {
+        "id": "90115", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90116": {
+        "id": "90116", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90117": {
+        "id": "90117", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90118": {
+        "id": "90118", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90119": {
+        "id": "90119", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90120": {
+        "id": "90120", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90121": {
+        "id": "90121", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90122": {
+        "id": "90122", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90123": {
+        "id": "90123", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90124": {
+        "id": "90124", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90125": {
+        "id": "90125", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90126": {
+        "id": "90126", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90127": {
+        "id": "90127", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90128": {
+        "id": "90128", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90129": {
+        "id": "90129", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90130": {
+        "id": "90130", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90131": {
+        "id": "90131", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90132": {
+        "id": "90132", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90133": {
+        "id": "90133", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90134": {
+        "id": "90134", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90135": {
+        "id": "90135", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90136": {
+        "id": "90136", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90137": {
+        "id": "90137", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90138": {
+        "id": "90138", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90139": {
+        "id": "90139", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90140": {
+        "id": "90140", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90141": {
+        "id": "90141", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90142": {
+        "id": "90142", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90143": {
+        "id": "90143", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90144": {
+        "id": "90144", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90145": {
+        "id": "90145", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90146": {
+        "id": "90146", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90147": {
+        "id": "90147", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90148": {
+        "id": "90148", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90149": {
+        "id": "90149", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90150": {
+        "id": "90150", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90151": {
+        "id": "90151", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90152": {
+        "id": "90152", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90153": {
+        "id": "90153", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90154": {
+        "id": "90154", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90155": {
+        "id": "90155", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90156": {
+        "id": "90156", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90157": {
+        "id": "90157", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90158": {
+        "id": "90158", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90159": {
+        "id": "90159", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90160": {
+        "id": "90160", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90161": {
+        "id": "90161", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90162": {
+        "id": "90162", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90163": {
+        "id": "90163", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90164": {
+        "id": "90164", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90165": {
+        "id": "90165", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 40, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90166": {
+        "id": "90166", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 40, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90167": {
+        "id": "90167", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 40, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90168": {
+        "id": "90168", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 40, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90169": {
+        "id": "90169", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90170": {
+        "id": "90170", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 30, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90171": {
+        "id": "90171", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90172": {
+        "id": "90172", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 5, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90173": {
+        "id": "90173", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 5, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90174": {
+        "id": "90174", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90175": {
+        "id": "90175", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90176": {
+        "id": "90176", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 5, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90177": {
+        "id": "90177", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 5, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90178": {
+        "id": "90178", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 5, 
+        "goldProb": 0
+    }, 
+    "90179": {
+        "id": "90179", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 5, 
+        "goldProb": 0
+    }, 
+    "90180": {
+        "id": "90180", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90181": {
+        "id": "90181", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90182": {
+        "id": "90182", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90183": {
+        "id": "90183", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90184": {
+        "id": "90184", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90185": {
+        "id": "90185", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90186": {
+        "id": "90186", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 5, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90187": {
+        "id": "90187", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 5, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90188": {
+        "id": "90188", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 5, 
+        "goldProb": 0
+    }, 
+    "90189": {
+        "id": "90189", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 5, 
+        "goldProb": 0
+    }, 
+    "90190": {
+        "id": "90190", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90191": {
+        "id": "90191", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 5, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90192": {
+        "id": "90192", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90193": {
+        "id": "90193", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90194": {
+        "id": "90194", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90195": {
+        "id": "90195", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90196": {
+        "id": "90196", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90197": {
+        "id": "90197", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90198": {
+        "id": "90198", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90199": {
+        "id": "90199", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90200": {
+        "id": "90200", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90201": {
+        "id": "90201", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90202": {
+        "id": "90202", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90203": {
+        "id": "90203", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90204": {
+        "id": "90204", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90205": {
+        "id": "90205", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 3, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90206": {
+        "id": "90206", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 3, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "90207": {
+        "id": "90207", 
+        "max": 1, 
+        "noItemProb": 30, 
+        "whiteProb": 70, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "4032": {
+        "id": "4032", 
+        "max": 1, 
+        "noItemProb": 0, 
+        "whiteProb": 1, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "4033": {
+        "id": "4033", 
+        "max": 1, 
+        "noItemProb": 0, 
+        "whiteProb": 1, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "4034": {
+        "id": "4034", 
+        "max": 2, 
+        "noItemProb": 1, 
+        "whiteProb": 0, 
+        "greenProb": 0, 
+        "blueProb": 3, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "4035": {
+        "id": "4035", 
+        "max": 2, 
+        "noItemProb": 1, 
+        "whiteProb": 0, 
+        "greenProb": 0, 
+        "blueProb": 3, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2001": {
+        "id": "2001", 
+        "max": 3, 
+        "noItemProb": 40, 
+        "whiteProb": 60, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2002": {
+        "id": "2002", 
+        "max": 3, 
+        "noItemProb": 40, 
+        "whiteProb": 60, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2003": {
+        "id": "2003", 
+        "max": 3, 
+        "noItemProb": 40, 
+        "whiteProb": 60, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2004": {
+        "id": "2004", 
+        "max": 3, 
+        "noItemProb": 40, 
+        "whiteProb": 60, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2005": {
+        "id": "2005", 
+        "max": 3, 
+        "noItemProb": 40, 
+        "whiteProb": 60, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2006": {
+        "id": "2006", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2007": {
+        "id": "2007", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2008": {
+        "id": "2008", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2009": {
+        "id": "2009", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2010": {
+        "id": "2010", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2011": {
+        "id": "2011", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2012": {
+        "id": "2012", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2013": {
+        "id": "2013", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2014": {
+        "id": "2014", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "2015": {
+        "id": "2015", 
+        "max": 3, 
+        "noItemProb": 10, 
+        "whiteProb": 20, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30001": {
+        "id": "30001", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30002": {
+        "id": "30002", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30003": {
+        "id": "30003", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30004": {
+        "id": "30004", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30005": {
+        "id": "30005", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30006": {
+        "id": "30006", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30007": {
+        "id": "30007", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }, 
+    "30008": {
+        "id": "30008", 
+        "max": 1, 
+        "noItemProb": 20, 
+        "whiteProb": 80, 
+        "greenProb": 0, 
+        "blueProb": 0, 
+        "purpleProb": 0, 
+        "goldProb": 0
+    }
+}

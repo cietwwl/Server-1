@@ -1,0 +1,722 @@
+{
+    "1": {
+        "level": 1, 
+        "maxPower": 60, 
+        "recoverPower": 5, 
+        "potential": 10, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "2": {
+        "level": 2, 
+        "maxPower": 62, 
+        "recoverPower": 5, 
+        "potential": 50, 
+        "mostPower": 1000, 
+        "openFun": "主角技能升级"
+    }, 
+    "3": {
+        "level": 3, 
+        "maxPower": 63, 
+        "recoverPower": 5, 
+        "potential": 100, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "4": {
+        "level": 4, 
+        "maxPower": 64, 
+        "recoverPower": 5, 
+        "potential": 150, 
+        "mostPower": 1000, 
+        "openFun": "主角装备强化"
+    }, 
+    "5": {
+        "level": 5, 
+        "maxPower": 65, 
+        "recoverPower": 10, 
+        "potential": 200, 
+        "mostPower": 1000, 
+        "openFun": "点金手"
+    }, 
+    "6": {
+        "level": 6, 
+        "maxPower": 66, 
+        "recoverPower": 10, 
+        "potential": 250, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "7": {
+        "level": 7, 
+        "maxPower": 67, 
+        "recoverPower": 10, 
+        "potential": 300, 
+        "mostPower": 1000, 
+        "openFun": "伙伴技能升级"
+    }, 
+    "8": {
+        "level": 8, 
+        "maxPower": 68, 
+        "recoverPower": 10, 
+        "potential": 350, 
+        "mostPower": 1000, 
+        "openFun": "商业"
+    }, 
+    "9": {
+        "level": 9, 
+        "maxPower": 69, 
+        "recoverPower": 20, 
+        "potential": 400, 
+        "mostPower": 1000, 
+        "openFun": "获得新佣兵"
+    }, 
+    "10": {
+        "level": 10, 
+        "maxPower": 70, 
+        "recoverPower": 20, 
+        "potential": 450, 
+        "mostPower": 1000, 
+        "openFun": "职业查看、竞技场"
+    }, 
+    "11": {
+        "level": 11, 
+        "maxPower": 71, 
+        "recoverPower": 20, 
+        "potential": 500, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "12": {
+        "level": 12, 
+        "maxPower": 72, 
+        "recoverPower": 30, 
+        "potential": 550, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "13": {
+        "level": 13, 
+        "maxPower": 73, 
+        "recoverPower": 30, 
+        "potential": 600, 
+        "mostPower": 1000, 
+        "openFun": "精英副本开启"
+    }, 
+    "14": {
+        "level": 14, 
+        "maxPower": 74, 
+        "recoverPower": 30, 
+        "potential": 650, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "15": {
+        "level": 15, 
+        "maxPower": 75, 
+        "recoverPower": 30, 
+        "potential": 700, 
+        "mostPower": 1000, 
+        "openFun": "试练者之路、法宝强化"
+    }, 
+    "16": {
+        "level": 16, 
+        "maxPower": 76, 
+        "recoverPower": 30, 
+        "potential": 750, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "17": {
+        "level": 17, 
+        "maxPower": 77, 
+        "recoverPower": 30, 
+        "potential": 800, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "18": {
+        "level": 18, 
+        "maxPower": 78, 
+        "recoverPower": 30, 
+        "potential": 850, 
+        "mostPower": 1000, 
+        "openFun": "伙伴装备附灵"
+    }, 
+    "19": {
+        "level": 19, 
+        "maxPower": 79, 
+        "recoverPower": 30, 
+        "potential": 900, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "20": {
+        "level": 20, 
+        "maxPower": 80, 
+        "recoverPower": 30, 
+        "potential": 950, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "21": {
+        "level": 21, 
+        "maxPower": 81, 
+        "recoverPower": 30, 
+        "potential": 1000, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "22": {
+        "level": 22, 
+        "maxPower": 82, 
+        "recoverPower": 30, 
+        "potential": 1050, 
+        "mostPower": 1000, 
+        "openFun": "英雄难度、主角装备镶嵌"
+    }, 
+    "23": {
+        "level": 23, 
+        "maxPower": 83, 
+        "recoverPower": 30, 
+        "potential": 1100, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "24": {
+        "level": 24, 
+        "maxPower": 84, 
+        "recoverPower": 30, 
+        "potential": 1150, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "25": {
+        "level": 25, 
+        "maxPower": 85, 
+        "recoverPower": 30, 
+        "potential": 1200, 
+        "mostPower": 1000, 
+        "openFun": "生存幻境、法宝镶嵌"
+    }, 
+    "26": {
+        "level": 26, 
+        "maxPower": 86, 
+        "recoverPower": 30, 
+        "potential": 1250, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "27": {
+        "level": 27, 
+        "maxPower": 87, 
+        "recoverPower": 30, 
+        "potential": 1300, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "28": {
+        "level": 28, 
+        "maxPower": 88, 
+        "recoverPower": 30, 
+        "potential": 1350, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "29": {
+        "level": 29, 
+        "maxPower": 89, 
+        "recoverPower": 30, 
+        "potential": 1400, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "30": {
+        "level": 30, 
+        "maxPower": 90, 
+        "recoverPower": 30, 
+        "potential": 1450, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "31": {
+        "level": 31, 
+        "maxPower": 91, 
+        "recoverPower": 30, 
+        "potential": 1500, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "32": {
+        "level": 32, 
+        "maxPower": 92, 
+        "recoverPower": 30, 
+        "potential": 1550, 
+        "mostPower": 1000, 
+        "openFun": "帮派"
+    }, 
+    "33": {
+        "level": 33, 
+        "maxPower": 93, 
+        "recoverPower": 30, 
+        "potential": 1600, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "34": {
+        "level": 34, 
+        "maxPower": 94, 
+        "recoverPower": 30, 
+        "potential": 1650, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "35": {
+        "level": 35, 
+        "maxPower": 95, 
+        "recoverPower": 30, 
+        "potential": 1700, 
+        "mostPower": 1000, 
+        "openFun": "无畏之塔、法宝熔炼"
+    }, 
+    "36": {
+        "level": 36, 
+        "maxPower": 96, 
+        "recoverPower": 30, 
+        "potential": 1750, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "37": {
+        "level": 37, 
+        "maxPower": 97, 
+        "recoverPower": 30, 
+        "potential": 1800, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "38": {
+        "level": 38, 
+        "maxPower": 98, 
+        "recoverPower": 30, 
+        "potential": 1850, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "39": {
+        "level": 39, 
+        "maxPower": 99, 
+        "recoverPower": 30, 
+        "potential": 1900, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "40": {
+        "level": 40, 
+        "maxPower": 100, 
+        "recoverPower": 30, 
+        "potential": 1950, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "41": {
+        "level": 41, 
+        "maxPower": 101, 
+        "recoverPower": 30, 
+        "potential": 2000, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "42": {
+        "level": 42, 
+        "maxPower": 102, 
+        "recoverPower": 30, 
+        "potential": 2100, 
+        "mostPower": 1000, 
+        "openFun": "帮派秘境"
+    }, 
+    "43": {
+        "level": 43, 
+        "maxPower": 103, 
+        "recoverPower": 30, 
+        "potential": 2200, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "44": {
+        "level": 44, 
+        "maxPower": 104, 
+        "recoverPower": 30, 
+        "potential": 2300, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "45": {
+        "level": 45, 
+        "maxPower": 105, 
+        "recoverPower": 30, 
+        "potential": 2400, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "46": {
+        "level": 46, 
+        "maxPower": 106, 
+        "recoverPower": 30, 
+        "potential": 2500, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "47": {
+        "level": 47, 
+        "maxPower": 107, 
+        "recoverPower": 30, 
+        "potential": 2600, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "48": {
+        "level": 48, 
+        "maxPower": 108, 
+        "recoverPower": 30, 
+        "potential": 2700, 
+        "mostPower": 1000, 
+        "openFun": "荣耀山谷"
+    }, 
+    "49": {
+        "level": 49, 
+        "maxPower": 109, 
+        "recoverPower": 30, 
+        "potential": 2800, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "50": {
+        "level": 50, 
+        "maxPower": 110, 
+        "recoverPower": 30, 
+        "potential": 2900, 
+        "mostPower": 1000, 
+        "openFun": "无尽的战火"
+    }, 
+    "51": {
+        "level": 51, 
+        "maxPower": 111, 
+        "recoverPower": 30, 
+        "potential": 3000, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "52": {
+        "level": 52, 
+        "maxPower": 112, 
+        "recoverPower": 30, 
+        "potential": 3100, 
+        "mostPower": 1000, 
+        "openFun": "帮派副本"
+    }, 
+    "53": {
+        "level": 53, 
+        "maxPower": 113, 
+        "recoverPower": 30, 
+        "potential": 3200, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "54": {
+        "level": 54, 
+        "maxPower": 114, 
+        "recoverPower": 30, 
+        "potential": 3300, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "55": {
+        "level": 55, 
+        "maxPower": 115, 
+        "recoverPower": 30, 
+        "potential": 3400, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "56": {
+        "level": 56, 
+        "maxPower": 116, 
+        "recoverPower": 30, 
+        "potential": 3500, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "57": {
+        "level": 57, 
+        "maxPower": 117, 
+        "recoverPower": 30, 
+        "potential": 3600, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "58": {
+        "level": 58, 
+        "maxPower": 118, 
+        "recoverPower": 30, 
+        "potential": 3700, 
+        "mostPower": 1000, 
+        "openFun": "巅峰战场"
+    }, 
+    "59": {
+        "level": 59, 
+        "maxPower": 119, 
+        "recoverPower": 30, 
+        "potential": 3800, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "60": {
+        "level": 60, 
+        "maxPower": 120, 
+        "recoverPower": 30, 
+        "potential": 3900, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "61": {
+        "level": 61, 
+        "maxPower": 121, 
+        "recoverPower": 30, 
+        "potential": 4000, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "62": {
+        "level": 62, 
+        "maxPower": 122, 
+        "recoverPower": 30, 
+        "potential": 4100, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "63": {
+        "level": 63, 
+        "maxPower": 123, 
+        "recoverPower": 30, 
+        "potential": 4200, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "64": {
+        "level": 64, 
+        "maxPower": 124, 
+        "recoverPower": 30, 
+        "potential": 4300, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "65": {
+        "level": 65, 
+        "maxPower": 125, 
+        "recoverPower": 30, 
+        "potential": 4400, 
+        "mostPower": 1000, 
+        "openFun": "帮派争霸"
+    }, 
+    "66": {
+        "level": 66, 
+        "maxPower": 126, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "67": {
+        "level": 67, 
+        "maxPower": 127, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "68": {
+        "level": 68, 
+        "maxPower": 128, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "69": {
+        "level": 69, 
+        "maxPower": 129, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "70": {
+        "level": 70, 
+        "maxPower": 130, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "71": {
+        "level": 71, 
+        "maxPower": 131, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "72": {
+        "level": 72, 
+        "maxPower": 132, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "73": {
+        "level": 73, 
+        "maxPower": 133, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "74": {
+        "level": 74, 
+        "maxPower": 134, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "75": {
+        "level": 75, 
+        "maxPower": 135, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "76": {
+        "level": 76, 
+        "maxPower": 136, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "77": {
+        "level": 77, 
+        "maxPower": 137, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "78": {
+        "level": 78, 
+        "maxPower": 138, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "79": {
+        "level": 79, 
+        "maxPower": 139, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "80": {
+        "level": 80, 
+        "maxPower": 140, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "81": {
+        "level": 81, 
+        "maxPower": 141, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "82": {
+        "level": 82, 
+        "maxPower": 142, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "83": {
+        "level": 83, 
+        "maxPower": 143, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "84": {
+        "level": 84, 
+        "maxPower": 144, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "85": {
+        "level": 85, 
+        "maxPower": 145, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "86": {
+        "level": 86, 
+        "maxPower": 146, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "87": {
+        "level": 87, 
+        "maxPower": 147, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "88": {
+        "level": 88, 
+        "maxPower": 148, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "89": {
+        "level": 89, 
+        "maxPower": 149, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }, 
+    "90": {
+        "level": 90, 
+        "maxPower": 150, 
+        "recoverPower": 30, 
+        "potential": 0, 
+        "mostPower": 1000, 
+        "openFun": ""
+    }
+}

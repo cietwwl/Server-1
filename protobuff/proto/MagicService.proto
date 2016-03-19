@@ -1,0 +1,38 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "MagicServiceProtos";
+
+enum eMagicType {
+	Magic_TAKE = 0;//Magic 装备
+	Magic_FORGE = 1; // 锻造，CriticalForgeType指定每个材料的暴击强化种类，兼容旧客户端不填的情况（即是没有暴击），不论成功还是失败都会返回criticalRamdom用于下一次的强化数值验证，如果autoForge设置为true，那么忽略客户端传递的CriticalForgeType参数，服务端进行是否暴击的计算
+	Magic_SMELT = 2; // 熔炼
+	Magic_Upgrade = 3;//法宝进阶，指定法宝id即可，进阶失败通过resultTip返回失败原因
+	Magic_Random = 4;//获取强化的随机参数，不需要其他参数，返回criticalRamdom
+}
+
+enum eMagicResultType {
+	SUCCESS = 1;//成功
+	FAIL = 2;//失败
+}
+
+message MagicItemData{
+	required string Id =1;
+	required int32 Count = 2;
+	optional int32 CriticalForgeType = 3;//暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
+}
+
+message MsgMagicRequest{
+    required eMagicType MagicType = 1;
+    optional string id = 2;//法宝ID
+    optional int32 state = 3;//法宝状态，是否装备中
+	repeated MagicItemData magicItemData = 4;//材料
+	optional bool autoForge = 5;//是否自动强化
+}
+
+message MsgMagicResponse{
+    required eMagicType magicType = 1;
+	optional eMagicResultType eMagicResultType = 2;
+	optional int32 newMagicModelId = 3;
+	optional int32 criticalRamdom = 4;//强化暴击需要的随机参数
+	optional string resultTip = 5;//如果可能，服务端会定义一个成功或者失败的提示信息
+}

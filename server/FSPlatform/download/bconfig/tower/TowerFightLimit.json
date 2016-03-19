@@ -1,0 +1,107 @@
+{
+    "1": {
+        "towerId": 1, 
+        "levelLow": -8, 
+        "levelUp": 0, 
+        "fightLow": -2080, 
+        "fightUp": -1080
+    }, 
+    "2": {
+        "towerId": 2, 
+        "levelLow": -8, 
+        "levelUp": 0, 
+        "fightLow": -1860, 
+        "fightUp": -860
+    }, 
+    "3": {
+        "towerId": 3, 
+        "levelLow": -8, 
+        "levelUp": 0, 
+        "fightLow": -1640, 
+        "fightUp": -640
+    }, 
+    "4": {
+        "towerId": 4, 
+        "levelLow": -5, 
+        "levelUp": 0, 
+        "fightLow": -1420, 
+        "fightUp": -420
+    }, 
+    "5": {
+        "towerId": 5, 
+        "levelLow": -5, 
+        "levelUp": 0, 
+        "fightLow": -1200, 
+        "fightUp": -200
+    }, 
+    "6": {
+        "towerId": 6, 
+        "levelLow": -5, 
+        "levelUp": 0, 
+        "fightLow": -980, 
+        "fightUp": 20
+    }, 
+    "7": {
+        "towerId": 7, 
+        "levelLow": -2, 
+        "levelUp": 2, 
+        "fightLow": -760, 
+        "fightUp": 240
+    }, 
+    "8": {
+        "towerId": 8, 
+        "levelLow": -2, 
+        "levelUp": 2, 
+        "fightLow": -540, 
+        "fightUp": 460
+    }, 
+    "9": {
+        "towerId": 9, 
+        "levelLow": -2, 
+        "levelUp": 2, 
+        "fightLow": -320, 
+        "fightUp": 680
+    }, 
+    "10": {
+        "towerId": 10, 
+        "levelLow": -1, 
+        "levelUp": 3, 
+        "fightLow": -100, 
+        "fightUp": 900
+    }, 
+    "11": {
+        "towerId": 11, 
+        "levelLow": -1, 
+        "levelUp": 3, 
+        "fightLow": 120, 
+        "fightUp": 1120
+    }, 
+    "12": {
+        "towerId": 12, 
+        "levelLow": -1, 
+        "levelUp": 3, 
+        "fightLow": 340, 
+        "fightUp": 1340
+    }, 
+    "13": {
+        "towerId": 13, 
+        "levelLow": 0, 
+        "levelUp": 5, 
+        "fightLow": 560, 
+        "fightUp": 1560
+    }, 
+    "14": {
+        "towerId": 14, 
+        "levelLow": 0, 
+        "levelUp": 5, 
+        "fightLow": 780, 
+        "fightUp": 1780
+    }, 
+    "15": {
+        "towerId": 15, 
+        "levelLow": 0, 
+        "levelUp": 5, 
+        "fightLow": 1000, 
+        "fightUp": 2000
+    }
+}

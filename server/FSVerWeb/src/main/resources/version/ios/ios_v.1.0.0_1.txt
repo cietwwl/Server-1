@@ -1,0 +1,7 @@
+name=ios_v.1.0.0_0
+location=ios/ios_v.1.0.0_1.zip
+md5=5459B1099F0EC55E07043E59AFF51CCF
+size=32768
+loginServerDomain=192.168.4.230:8081
+cdnDomain=http://192.168.2.240:8085/download
+cdnBackUpDomain=http://192.168.2.240:8085/download

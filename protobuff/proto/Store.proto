@@ -1,0 +1,53 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "StoreProtos";
+
+enum eStoreRequestType {
+	BuyCommodity = 1;
+	RefreshStore = 2;
+	OpenStore = 3;  
+	SyncStore=4;
+	ProbStore = 5;
+}
+
+enum eProbType{
+	Open = 1;
+	Close = 2;
+}
+
+enum eStoreResultType {
+	SUCCESS=0;
+	FAIL=1;
+	HasTip = 2;
+	NoTip = 3;
+}
+
+message tagCommodity{
+	optional int32 id = 1;
+	optional int32 count = 2;
+	optional int32 solt = 3;
+}
+message tagStore{
+	optional int32 type = 1;
+	optional int32 refreshNum = 2;
+	optional int64 retime = 3;
+	optional int32 existType = 5;
+	repeated tagCommodity commodity = 4;
+}
+
+message StoreRequest {
+	required eStoreRequestType requestType = 1;
+    optional int32 storeType = 2;
+    optional tagCommodity commodity = 3;
+}
+
+message StoreResponse {
+	optional eStoreRequestType requestType = 1;
+	optional eStoreResultType reslutType = 2;
+	optional string reslutValue = 3;
+	optional tagCommodity commodity = 4;
+	repeated tagStore store = 5;
+	optional int32 storeType = 6;
+	optional eProbType probType = 7;
+	optional int32 costType = 8;
+}

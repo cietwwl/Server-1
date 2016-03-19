@@ -1,0 +1,36 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "RoleServiceProtos";
+
+enum RoleRequestType {
+	CREATE_ROLE = 1;//创建角色
+	SELECT_CAREER = 2;//转职
+	CHANGE_ROLE = 3;//改变（职业和性别）
+	CAREER_ADVANCE = 4;//职业进阶  
+}
+
+enum RoleResultType {
+	SUCCESS=0;//
+	FAIL=1;//
+	REPEATENICK = 2;
+}
+
+message TagAttr{
+	optional int32 attrType = 1;//属性类型
+	optional double attrValue = 2;//属性值
+}
+	
+message RoleRequest {
+	required RoleRequestType requestType = 1;
+    optional string nick = 2;//昵称
+    optional int32 sex = 3;//性别
+    optional string playerId = 4;
+    optional int32 careerType = 5;
+	}
+
+message RoleResponse {
+	optional RoleRequestType type = 1;
+	optional RoleResultType result = 2;
+	optional string resultReason = 3;
+	repeated TagAttr attrArr = 4;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-init-method="init">
+
+	<!-- controller for actions -->
+	<bean id="fsNettyControler" class="com.rw.controler.FsNettyControler" >
+
+		<property name="commandMap">
+			<map key-type="com.rwproto.MsgDef$Command">
+			    <entry key="MSG_LOGIN_PLATFORM" value-ref="platformService" />
+			    <entry key="MSG_SDK_VERIFY" value-ref="sdkVerifyService" />
+			    <entry key="MSG_NOTICE" value-ref="noticeService" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="platformService" class="com.rw.service.login.account.AccountLoginService"  />
+	<bean id="sdkVerifyService" class="com.rw.service.sdkVerifyToken.SDKVerifyService"  />
+	<bean id="noticeService" class="com.rw.service.platformNotice.PlatformNoticeService" />
+	
+	<bean id="responseNettyControler" class="com.rw.controler.ResponseNettyControler" >
+		<property name="commandMap">
+			<map key-type="com.rwproto.MsgDef$Command">
+				<entry key="MSG_PLATFORMGS" value-ref="platformgsService" />
+				
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="platformgsService" class="com.rw.service.platformgs.PlatformGSService" />
+</beans>  

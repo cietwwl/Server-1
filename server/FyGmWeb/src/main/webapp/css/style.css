@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+body {font-size: 14px; padding-left:20px; padding-right:10px;font-family: Verdana, Helvetica, Sans-Serif;margin: 0;padding: 5px;text-align: left;}
+div.comlink{line-height: 25px;}
+div.comlink a:link {color: #3b5998;text-decoration: none;}
+div.comlink a:hover {color: #006699;text-decoration: underline;}
+
+table.comtable {border-left: 1px #666666 solid;border-top: 1px #666666 solid; line-height: 25px;}
+table.comtable td{border-right: 1px #666666 solid;border-bottom: 1px #666666 solid;}
+table.comtable th{border-right: 1px #666666 solid;border-bottom: 1px #666666 solid;background-color: #ADD8E6;text-align: center;}
+#table.comtable tr:nth-child (even){background: #F5FFFA;}
+#table.comtable tr:nth-child(odd) {background: #FFF;  }
+
+div.comul {line-height: 30px;padding: 0px;margin: 0px;}
+div.comul ul{margin: 0px;padding: 0px; display: block; list-style: none;}
+div.comul ul li{margin: 0px;padding: 0px; display: block; list-style: none;}
+

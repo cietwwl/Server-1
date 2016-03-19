@@ -1,0 +1,12 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "PlayerLogoutProtos";
+package PlayerLogoutService;
+
+message PlayerLogoutRequest{
+
+}
+
+message PlayerLogoutResponse{
+
+}

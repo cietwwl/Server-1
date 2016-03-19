@@ -1,0 +1,22 @@
+{
+    "1001": {
+        "id": "1001", 
+        "texture": "Background_F", 
+        "weight": 50
+    }, 
+    "1002": {
+        "id": "1002", 
+        "texture": "Background_F", 
+        "weight": 50
+    }, 
+    "1003": {
+        "id": "1003", 
+        "texture": "Background_F", 
+        "weight": 50
+    }, 
+    "1004": {
+        "id": "1004", 
+        "texture": "Background_F", 
+        "weight": 50
+    }
+}

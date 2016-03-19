@@ -1,0 +1,2 @@
+[INFO ] 2016-03-09 18:16:39,168 failLog GameLoginHandler[loginGame] 角色的登录失败，服务器处理消息失败 result:NO_ROLE
+[INFO ] 2016-03-09 18:17:18,955 failLog PVPHandler[before] 返回的竞技对手列表为空

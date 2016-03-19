@@ -1,0 +1,21 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GMServiceProtos";
+
+enum eGMType {
+	GM_COMMAND = 0;//gm指令
+}
+enum eGMResultType {
+	SUCCESS = 1;//成功
+	FAIL = 2;//失败
+}
+
+message MsgGMRequest{
+    required eGMType gMType = 1;
+    optional string content = 2;//指令内容
+}
+
+message MsgGMResponse{
+    required MsgGMRequest msgGMRequest = 1;//
+	optional eGMResultType eGMResultType = 2;
+}

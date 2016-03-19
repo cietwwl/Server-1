@@ -1,0 +1,51 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "WorshipServiceProtos";
+
+enum EWorshipRequestType{
+	WORSHIP = 1;//膜拜
+	BY_WORSHIPPED_LIST = 2;//被膜拜者列表
+	WORSHIP_STATE = 3;//请求膜拜状态
+	PUSH_WORSHIP_LIST = 4;//推送的膜拜列表
+}
+
+enum EWorshipResultType{
+	SUCCESS = 0;//成功
+	FAIL = 1;//失败
+}
+
+message WorshipRequest{
+	required EWorshipRequestType requestType = 1;//前端请求信息类型
+	required int32 worshipCareer = 2;//职业类型
+}
+
+message WorshipResponse{
+	required EWorshipRequestType requestType = 1;
+	required EWorshipResultType resultType = 2;//返回结果	
+	repeated WorshipInfo worshipList = 3;//膜拜者列表
+	repeated WorshipInfo byWorshippedList = 4;//被膜拜者列表(4个)
+	optional string rewardList = 5;//膜拜奖励列表
+	optional bool canWorship = 6;//是否可以膜拜
+	optional int32 worshipCareer = 7;//职业类型
+}
+
+message WorshipInfo{
+	required string userId = 1;//玩家ID
+	required string userName = 2;//玩家名字
+	required int32 level = 3;//玩家等级
+	required string imageId = 4;//头像ID
+	required int32 career = 5;//职业
+	required int32 sex = 6;//性别
+	required int32 careerLevel = 7;//职业等级
+	required int32 fightingAll = 8;//总战斗力
+	optional bool canReceive = 9;//是否有奖励可领取	
+	optional WorshipRewardData randomRward = 10;//随机奖励
+	optional string time = 11;//膜拜时间
+	optional int32 modelId = 12;//模型ID
+	optional string swingID = 13;//被膜拜玩家是否有翅膀，有则发送对应的ID
+}
+
+message WorshipRewardData{
+	required string itemId = 1;//物品id
+	required int32 count = 2;//物品数量
+}

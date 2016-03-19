@@ -1,0 +1,8642 @@
+{
+    "0_0_1": {
+        "id": "0_0_1", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 0
+    }, 
+    "0_0_2": {
+        "id": "0_0_2", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 0
+    }, 
+    "0_0_3": {
+        "id": "0_0_3", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 0
+    }, 
+    "0_0_4": {
+        "id": "0_0_4", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 0
+    }, 
+    "0_0_5": {
+        "id": "0_0_5", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 0
+    }, 
+    "0_0_6": {
+        "id": "0_0_6", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 0
+    }, 
+    "0_0_7": {
+        "id": "0_0_7", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 0
+    }, 
+    "0_0_8": {
+        "id": "0_0_8", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 0
+    }, 
+    "0_0_9": {
+        "id": "0_0_9", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 0
+    }, 
+    "0_0_10": {
+        "id": "0_0_10", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 0
+    }, 
+    "0_0_11": {
+        "id": "0_0_11", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 0
+    }, 
+    "0_0_12": {
+        "id": "0_0_12", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 0
+    }, 
+    "0_0_13": {
+        "id": "0_0_13", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 0
+    }, 
+    "0_0_14": {
+        "id": "0_0_14", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 0
+    }, 
+    "0_0_15": {
+        "id": "0_0_15", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 0
+    }, 
+    "0_0_16": {
+        "id": "0_0_16", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 0
+    }, 
+    "0_0_17": {
+        "id": "0_0_17", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 0
+    }, 
+    "0_0_18": {
+        "id": "0_0_18", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 0
+    }, 
+    "0_0_19": {
+        "id": "0_0_19", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 0
+    }, 
+    "0_0_20": {
+        "id": "0_0_20", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 0
+    }, 
+    "0_0_21": {
+        "id": "0_0_21", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 0
+    }, 
+    "0_0_22": {
+        "id": "0_0_22", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 0
+    }, 
+    "0_0_23": {
+        "id": "0_0_23", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 0
+    }, 
+    "0_0_24": {
+        "id": "0_0_24", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 0
+    }, 
+    "0_0_25": {
+        "id": "0_0_25", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 0
+    }, 
+    "0_0_26": {
+        "id": "0_0_26", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 0
+    }, 
+    "0_0_27": {
+        "id": "0_0_27", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 0
+    }, 
+    "0_0_28": {
+        "id": "0_0_28", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 0
+    }, 
+    "0_0_29": {
+        "id": "0_0_29", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 0
+    }, 
+    "0_0_30": {
+        "id": "0_0_30", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 0
+    }, 
+    "0_0_31": {
+        "id": "0_0_31", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 0
+    }, 
+    "0_0_32": {
+        "id": "0_0_32", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 0
+    }, 
+    "0_0_33": {
+        "id": "0_0_33", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 0
+    }, 
+    "0_0_34": {
+        "id": "0_0_34", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 0
+    }, 
+    "0_0_35": {
+        "id": "0_0_35", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 0
+    }, 
+    "0_0_36": {
+        "id": "0_0_36", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 0
+    }, 
+    "0_0_37": {
+        "id": "0_0_37", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 0
+    }, 
+    "0_0_38": {
+        "id": "0_0_38", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 0
+    }, 
+    "0_0_39": {
+        "id": "0_0_39", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 0
+    }, 
+    "0_0_40": {
+        "id": "0_0_40", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 0
+    }, 
+    "0_0_41": {
+        "id": "0_0_41", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 0
+    }, 
+    "0_0_42": {
+        "id": "0_0_42", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 0
+    }, 
+    "0_0_43": {
+        "id": "0_0_43", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 0
+    }, 
+    "0_0_44": {
+        "id": "0_0_44", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 0
+    }, 
+    "0_0_45": {
+        "id": "0_0_45", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 0
+    }, 
+    "0_0_46": {
+        "id": "0_0_46", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 0
+    }, 
+    "0_0_47": {
+        "id": "0_0_47", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 0
+    }, 
+    "0_0_48": {
+        "id": "0_0_48", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 0
+    }, 
+    "0_0_49": {
+        "id": "0_0_49", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 0
+    }, 
+    "0_0_50": {
+        "id": "0_0_50", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 0
+    }, 
+    "0_0_51": {
+        "id": "0_0_51", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 0
+    }, 
+    "0_0_52": {
+        "id": "0_0_52", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 0
+    }, 
+    "0_0_53": {
+        "id": "0_0_53", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 0
+    }, 
+    "0_0_54": {
+        "id": "0_0_54", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 0
+    }, 
+    "0_0_55": {
+        "id": "0_0_55", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 0
+    }, 
+    "0_0_56": {
+        "id": "0_0_56", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 0
+    }, 
+    "0_0_57": {
+        "id": "0_0_57", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 0
+    }, 
+    "0_0_58": {
+        "id": "0_0_58", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 0
+    }, 
+    "0_0_59": {
+        "id": "0_0_59", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 0
+    }, 
+    "0_0_60": {
+        "id": "0_0_60", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 0
+    }, 
+    "0_0_61": {
+        "id": "0_0_61", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 0
+    }, 
+    "0_0_62": {
+        "id": "0_0_62", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_0_63": {
+        "id": "0_0_63", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_0_64": {
+        "id": "0_0_64", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 0
+    }, 
+    "0_0_65": {
+        "id": "0_0_65", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 0
+    }, 
+    "0_0_66": {
+        "id": "0_0_66", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_0_67": {
+        "id": "0_0_67", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_0_68": {
+        "id": "0_0_68", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 0
+    }, 
+    "0_0_69": {
+        "id": "0_0_69", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 0
+    }, 
+    "0_0_70": {
+        "id": "0_0_70", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 0
+    }, 
+    "0_0_71": {
+        "id": "0_0_71", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 0
+    }, 
+    "0_0_72": {
+        "id": "0_0_72", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 0
+    }, 
+    "0_0_73": {
+        "id": "0_0_73", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 0
+    }, 
+    "0_0_74": {
+        "id": "0_0_74", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 0
+    }, 
+    "0_0_75": {
+        "id": "0_0_75", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 0
+    }, 
+    "0_0_76": {
+        "id": "0_0_76", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 0
+    }, 
+    "0_0_77": {
+        "id": "0_0_77", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 0
+    }, 
+    "0_0_78": {
+        "id": "0_0_78", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 0
+    }, 
+    "0_0_79": {
+        "id": "0_0_79", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 0
+    }, 
+    "0_0_80": {
+        "id": "0_0_80", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 0
+    }, 
+    "0_0_81": {
+        "id": "0_0_81", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 0
+    }, 
+    "0_0_82": {
+        "id": "0_0_82", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 0
+    }, 
+    "0_0_83": {
+        "id": "0_0_83", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 0
+    }, 
+    "0_0_84": {
+        "id": "0_0_84", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 0
+    }, 
+    "0_0_85": {
+        "id": "0_0_85", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 0
+    }, 
+    "0_0_86": {
+        "id": "0_0_86", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 0
+    }, 
+    "0_0_87": {
+        "id": "0_0_87", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 0
+    }, 
+    "0_0_88": {
+        "id": "0_0_88", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 0
+    }, 
+    "0_0_89": {
+        "id": "0_0_89", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 0
+    }, 
+    "0_0_90": {
+        "id": "0_0_90", 
+        "isPlayer": 0, 
+        "order": 0, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 0
+    }, 
+    "0_1_1": {
+        "id": "0_1_1", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 0
+    }, 
+    "0_1_2": {
+        "id": "0_1_2", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 0
+    }, 
+    "0_1_3": {
+        "id": "0_1_3", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 0
+    }, 
+    "0_1_4": {
+        "id": "0_1_4", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 0
+    }, 
+    "0_1_5": {
+        "id": "0_1_5", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 0
+    }, 
+    "0_1_6": {
+        "id": "0_1_6", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 0
+    }, 
+    "0_1_7": {
+        "id": "0_1_7", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 0
+    }, 
+    "0_1_8": {
+        "id": "0_1_8", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 0
+    }, 
+    "0_1_9": {
+        "id": "0_1_9", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 0
+    }, 
+    "0_1_10": {
+        "id": "0_1_10", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 0
+    }, 
+    "0_1_11": {
+        "id": "0_1_11", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 0
+    }, 
+    "0_1_12": {
+        "id": "0_1_12", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 0
+    }, 
+    "0_1_13": {
+        "id": "0_1_13", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 0
+    }, 
+    "0_1_14": {
+        "id": "0_1_14", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 0
+    }, 
+    "0_1_15": {
+        "id": "0_1_15", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 0
+    }, 
+    "0_1_16": {
+        "id": "0_1_16", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 0
+    }, 
+    "0_1_17": {
+        "id": "0_1_17", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 0
+    }, 
+    "0_1_18": {
+        "id": "0_1_18", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 0
+    }, 
+    "0_1_19": {
+        "id": "0_1_19", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 0
+    }, 
+    "0_1_20": {
+        "id": "0_1_20", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 0
+    }, 
+    "0_1_21": {
+        "id": "0_1_21", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 0
+    }, 
+    "0_1_22": {
+        "id": "0_1_22", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 0
+    }, 
+    "0_1_23": {
+        "id": "0_1_23", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 0
+    }, 
+    "0_1_24": {
+        "id": "0_1_24", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 0
+    }, 
+    "0_1_25": {
+        "id": "0_1_25", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 0
+    }, 
+    "0_1_26": {
+        "id": "0_1_26", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 0
+    }, 
+    "0_1_27": {
+        "id": "0_1_27", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 0
+    }, 
+    "0_1_28": {
+        "id": "0_1_28", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 0
+    }, 
+    "0_1_29": {
+        "id": "0_1_29", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 0
+    }, 
+    "0_1_30": {
+        "id": "0_1_30", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 0
+    }, 
+    "0_1_31": {
+        "id": "0_1_31", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 0
+    }, 
+    "0_1_32": {
+        "id": "0_1_32", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 0
+    }, 
+    "0_1_33": {
+        "id": "0_1_33", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 0
+    }, 
+    "0_1_34": {
+        "id": "0_1_34", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 0
+    }, 
+    "0_1_35": {
+        "id": "0_1_35", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 0
+    }, 
+    "0_1_36": {
+        "id": "0_1_36", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 0
+    }, 
+    "0_1_37": {
+        "id": "0_1_37", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 0
+    }, 
+    "0_1_38": {
+        "id": "0_1_38", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 0
+    }, 
+    "0_1_39": {
+        "id": "0_1_39", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 0
+    }, 
+    "0_1_40": {
+        "id": "0_1_40", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 0
+    }, 
+    "0_1_41": {
+        "id": "0_1_41", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 0
+    }, 
+    "0_1_42": {
+        "id": "0_1_42", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 0
+    }, 
+    "0_1_43": {
+        "id": "0_1_43", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 0
+    }, 
+    "0_1_44": {
+        "id": "0_1_44", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 0
+    }, 
+    "0_1_45": {
+        "id": "0_1_45", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 0
+    }, 
+    "0_1_46": {
+        "id": "0_1_46", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 0
+    }, 
+    "0_1_47": {
+        "id": "0_1_47", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 0
+    }, 
+    "0_1_48": {
+        "id": "0_1_48", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 0
+    }, 
+    "0_1_49": {
+        "id": "0_1_49", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 0
+    }, 
+    "0_1_50": {
+        "id": "0_1_50", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 0
+    }, 
+    "0_1_51": {
+        "id": "0_1_51", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 0
+    }, 
+    "0_1_52": {
+        "id": "0_1_52", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 0
+    }, 
+    "0_1_53": {
+        "id": "0_1_53", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 0
+    }, 
+    "0_1_54": {
+        "id": "0_1_54", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 0
+    }, 
+    "0_1_55": {
+        "id": "0_1_55", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 0
+    }, 
+    "0_1_56": {
+        "id": "0_1_56", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 0
+    }, 
+    "0_1_57": {
+        "id": "0_1_57", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 0
+    }, 
+    "0_1_58": {
+        "id": "0_1_58", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 0
+    }, 
+    "0_1_59": {
+        "id": "0_1_59", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 0
+    }, 
+    "0_1_60": {
+        "id": "0_1_60", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 0
+    }, 
+    "0_1_61": {
+        "id": "0_1_61", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 0
+    }, 
+    "0_1_62": {
+        "id": "0_1_62", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_1_63": {
+        "id": "0_1_63", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_1_64": {
+        "id": "0_1_64", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 0
+    }, 
+    "0_1_65": {
+        "id": "0_1_65", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 0
+    }, 
+    "0_1_66": {
+        "id": "0_1_66", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_1_67": {
+        "id": "0_1_67", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_1_68": {
+        "id": "0_1_68", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 0
+    }, 
+    "0_1_69": {
+        "id": "0_1_69", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 0
+    }, 
+    "0_1_70": {
+        "id": "0_1_70", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 0
+    }, 
+    "0_1_71": {
+        "id": "0_1_71", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 0
+    }, 
+    "0_1_72": {
+        "id": "0_1_72", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 0
+    }, 
+    "0_1_73": {
+        "id": "0_1_73", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 0
+    }, 
+    "0_1_74": {
+        "id": "0_1_74", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 0
+    }, 
+    "0_1_75": {
+        "id": "0_1_75", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 0
+    }, 
+    "0_1_76": {
+        "id": "0_1_76", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 0
+    }, 
+    "0_1_77": {
+        "id": "0_1_77", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 0
+    }, 
+    "0_1_78": {
+        "id": "0_1_78", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 0
+    }, 
+    "0_1_79": {
+        "id": "0_1_79", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 0
+    }, 
+    "0_1_80": {
+        "id": "0_1_80", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 0
+    }, 
+    "0_1_81": {
+        "id": "0_1_81", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 0
+    }, 
+    "0_1_82": {
+        "id": "0_1_82", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 0
+    }, 
+    "0_1_83": {
+        "id": "0_1_83", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 0
+    }, 
+    "0_1_84": {
+        "id": "0_1_84", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 0
+    }, 
+    "0_1_85": {
+        "id": "0_1_85", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 0
+    }, 
+    "0_1_86": {
+        "id": "0_1_86", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 0
+    }, 
+    "0_1_87": {
+        "id": "0_1_87", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 0
+    }, 
+    "0_1_88": {
+        "id": "0_1_88", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 0
+    }, 
+    "0_1_89": {
+        "id": "0_1_89", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 0
+    }, 
+    "0_1_90": {
+        "id": "0_1_90", 
+        "isPlayer": 0, 
+        "order": 1, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 0
+    }, 
+    "0_2_1": {
+        "id": "0_2_1", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 0
+    }, 
+    "0_2_2": {
+        "id": "0_2_2", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 0
+    }, 
+    "0_2_3": {
+        "id": "0_2_3", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 0
+    }, 
+    "0_2_4": {
+        "id": "0_2_4", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 0
+    }, 
+    "0_2_5": {
+        "id": "0_2_5", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 0
+    }, 
+    "0_2_6": {
+        "id": "0_2_6", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 0
+    }, 
+    "0_2_7": {
+        "id": "0_2_7", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 0
+    }, 
+    "0_2_8": {
+        "id": "0_2_8", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 0
+    }, 
+    "0_2_9": {
+        "id": "0_2_9", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 0
+    }, 
+    "0_2_10": {
+        "id": "0_2_10", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 0
+    }, 
+    "0_2_11": {
+        "id": "0_2_11", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 0
+    }, 
+    "0_2_12": {
+        "id": "0_2_12", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 0
+    }, 
+    "0_2_13": {
+        "id": "0_2_13", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 0
+    }, 
+    "0_2_14": {
+        "id": "0_2_14", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 0
+    }, 
+    "0_2_15": {
+        "id": "0_2_15", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 0
+    }, 
+    "0_2_16": {
+        "id": "0_2_16", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 0
+    }, 
+    "0_2_17": {
+        "id": "0_2_17", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 0
+    }, 
+    "0_2_18": {
+        "id": "0_2_18", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 0
+    }, 
+    "0_2_19": {
+        "id": "0_2_19", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 0
+    }, 
+    "0_2_20": {
+        "id": "0_2_20", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 0
+    }, 
+    "0_2_21": {
+        "id": "0_2_21", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 0
+    }, 
+    "0_2_22": {
+        "id": "0_2_22", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 0
+    }, 
+    "0_2_23": {
+        "id": "0_2_23", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 0
+    }, 
+    "0_2_24": {
+        "id": "0_2_24", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 0
+    }, 
+    "0_2_25": {
+        "id": "0_2_25", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 0
+    }, 
+    "0_2_26": {
+        "id": "0_2_26", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 0
+    }, 
+    "0_2_27": {
+        "id": "0_2_27", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 0
+    }, 
+    "0_2_28": {
+        "id": "0_2_28", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 0
+    }, 
+    "0_2_29": {
+        "id": "0_2_29", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 0
+    }, 
+    "0_2_30": {
+        "id": "0_2_30", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 0
+    }, 
+    "0_2_31": {
+        "id": "0_2_31", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 0
+    }, 
+    "0_2_32": {
+        "id": "0_2_32", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 0
+    }, 
+    "0_2_33": {
+        "id": "0_2_33", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 0
+    }, 
+    "0_2_34": {
+        "id": "0_2_34", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 0
+    }, 
+    "0_2_35": {
+        "id": "0_2_35", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 0
+    }, 
+    "0_2_36": {
+        "id": "0_2_36", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 0
+    }, 
+    "0_2_37": {
+        "id": "0_2_37", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 0
+    }, 
+    "0_2_38": {
+        "id": "0_2_38", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 0
+    }, 
+    "0_2_39": {
+        "id": "0_2_39", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 0
+    }, 
+    "0_2_40": {
+        "id": "0_2_40", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 0
+    }, 
+    "0_2_41": {
+        "id": "0_2_41", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 0
+    }, 
+    "0_2_42": {
+        "id": "0_2_42", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 0
+    }, 
+    "0_2_43": {
+        "id": "0_2_43", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 0
+    }, 
+    "0_2_44": {
+        "id": "0_2_44", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 0
+    }, 
+    "0_2_45": {
+        "id": "0_2_45", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 0
+    }, 
+    "0_2_46": {
+        "id": "0_2_46", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 0
+    }, 
+    "0_2_47": {
+        "id": "0_2_47", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 0
+    }, 
+    "0_2_48": {
+        "id": "0_2_48", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 0
+    }, 
+    "0_2_49": {
+        "id": "0_2_49", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 0
+    }, 
+    "0_2_50": {
+        "id": "0_2_50", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 0
+    }, 
+    "0_2_51": {
+        "id": "0_2_51", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 0
+    }, 
+    "0_2_52": {
+        "id": "0_2_52", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 0
+    }, 
+    "0_2_53": {
+        "id": "0_2_53", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 0
+    }, 
+    "0_2_54": {
+        "id": "0_2_54", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 0
+    }, 
+    "0_2_55": {
+        "id": "0_2_55", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 0
+    }, 
+    "0_2_56": {
+        "id": "0_2_56", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 0
+    }, 
+    "0_2_57": {
+        "id": "0_2_57", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 0
+    }, 
+    "0_2_58": {
+        "id": "0_2_58", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 0
+    }, 
+    "0_2_59": {
+        "id": "0_2_59", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 0
+    }, 
+    "0_2_60": {
+        "id": "0_2_60", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 0
+    }, 
+    "0_2_61": {
+        "id": "0_2_61", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 0
+    }, 
+    "0_2_62": {
+        "id": "0_2_62", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_2_63": {
+        "id": "0_2_63", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_2_64": {
+        "id": "0_2_64", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 0
+    }, 
+    "0_2_65": {
+        "id": "0_2_65", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 0
+    }, 
+    "0_2_66": {
+        "id": "0_2_66", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_2_67": {
+        "id": "0_2_67", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_2_68": {
+        "id": "0_2_68", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 0
+    }, 
+    "0_2_69": {
+        "id": "0_2_69", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 0
+    }, 
+    "0_2_70": {
+        "id": "0_2_70", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 0
+    }, 
+    "0_2_71": {
+        "id": "0_2_71", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 0
+    }, 
+    "0_2_72": {
+        "id": "0_2_72", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 0
+    }, 
+    "0_2_73": {
+        "id": "0_2_73", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 0
+    }, 
+    "0_2_74": {
+        "id": "0_2_74", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 0
+    }, 
+    "0_2_75": {
+        "id": "0_2_75", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 0
+    }, 
+    "0_2_76": {
+        "id": "0_2_76", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 0
+    }, 
+    "0_2_77": {
+        "id": "0_2_77", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 0
+    }, 
+    "0_2_78": {
+        "id": "0_2_78", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 0
+    }, 
+    "0_2_79": {
+        "id": "0_2_79", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 0
+    }, 
+    "0_2_80": {
+        "id": "0_2_80", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 0
+    }, 
+    "0_2_81": {
+        "id": "0_2_81", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 0
+    }, 
+    "0_2_82": {
+        "id": "0_2_82", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 0
+    }, 
+    "0_2_83": {
+        "id": "0_2_83", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 0
+    }, 
+    "0_2_84": {
+        "id": "0_2_84", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 0
+    }, 
+    "0_2_85": {
+        "id": "0_2_85", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 0
+    }, 
+    "0_2_86": {
+        "id": "0_2_86", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 0
+    }, 
+    "0_2_87": {
+        "id": "0_2_87", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 0
+    }, 
+    "0_2_88": {
+        "id": "0_2_88", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 0
+    }, 
+    "0_2_89": {
+        "id": "0_2_89", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 0
+    }, 
+    "0_2_90": {
+        "id": "0_2_90", 
+        "isPlayer": 0, 
+        "order": 2, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 0
+    }, 
+    "0_3_1": {
+        "id": "0_3_1", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 0
+    }, 
+    "0_3_2": {
+        "id": "0_3_2", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 0
+    }, 
+    "0_3_3": {
+        "id": "0_3_3", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 0
+    }, 
+    "0_3_4": {
+        "id": "0_3_4", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 0
+    }, 
+    "0_3_5": {
+        "id": "0_3_5", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 0
+    }, 
+    "0_3_6": {
+        "id": "0_3_6", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 0
+    }, 
+    "0_3_7": {
+        "id": "0_3_7", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 0
+    }, 
+    "0_3_8": {
+        "id": "0_3_8", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 0
+    }, 
+    "0_3_9": {
+        "id": "0_3_9", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 0
+    }, 
+    "0_3_10": {
+        "id": "0_3_10", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 0
+    }, 
+    "0_3_11": {
+        "id": "0_3_11", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 0
+    }, 
+    "0_3_12": {
+        "id": "0_3_12", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 0
+    }, 
+    "0_3_13": {
+        "id": "0_3_13", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 0
+    }, 
+    "0_3_14": {
+        "id": "0_3_14", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 0
+    }, 
+    "0_3_15": {
+        "id": "0_3_15", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 0
+    }, 
+    "0_3_16": {
+        "id": "0_3_16", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 0
+    }, 
+    "0_3_17": {
+        "id": "0_3_17", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 0
+    }, 
+    "0_3_18": {
+        "id": "0_3_18", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 0
+    }, 
+    "0_3_19": {
+        "id": "0_3_19", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 0
+    }, 
+    "0_3_20": {
+        "id": "0_3_20", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 0
+    }, 
+    "0_3_21": {
+        "id": "0_3_21", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 0
+    }, 
+    "0_3_22": {
+        "id": "0_3_22", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 0
+    }, 
+    "0_3_23": {
+        "id": "0_3_23", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 0
+    }, 
+    "0_3_24": {
+        "id": "0_3_24", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 0
+    }, 
+    "0_3_25": {
+        "id": "0_3_25", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 0
+    }, 
+    "0_3_26": {
+        "id": "0_3_26", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 0
+    }, 
+    "0_3_27": {
+        "id": "0_3_27", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 0
+    }, 
+    "0_3_28": {
+        "id": "0_3_28", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 0
+    }, 
+    "0_3_29": {
+        "id": "0_3_29", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 0
+    }, 
+    "0_3_30": {
+        "id": "0_3_30", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 0
+    }, 
+    "0_3_31": {
+        "id": "0_3_31", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 0
+    }, 
+    "0_3_32": {
+        "id": "0_3_32", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 0
+    }, 
+    "0_3_33": {
+        "id": "0_3_33", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 0
+    }, 
+    "0_3_34": {
+        "id": "0_3_34", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 0
+    }, 
+    "0_3_35": {
+        "id": "0_3_35", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 0
+    }, 
+    "0_3_36": {
+        "id": "0_3_36", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 0
+    }, 
+    "0_3_37": {
+        "id": "0_3_37", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 0
+    }, 
+    "0_3_38": {
+        "id": "0_3_38", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 0
+    }, 
+    "0_3_39": {
+        "id": "0_3_39", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 0
+    }, 
+    "0_3_40": {
+        "id": "0_3_40", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 0
+    }, 
+    "0_3_41": {
+        "id": "0_3_41", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 0
+    }, 
+    "0_3_42": {
+        "id": "0_3_42", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 0
+    }, 
+    "0_3_43": {
+        "id": "0_3_43", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 0
+    }, 
+    "0_3_44": {
+        "id": "0_3_44", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 0
+    }, 
+    "0_3_45": {
+        "id": "0_3_45", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 0
+    }, 
+    "0_3_46": {
+        "id": "0_3_46", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 0
+    }, 
+    "0_3_47": {
+        "id": "0_3_47", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 0
+    }, 
+    "0_3_48": {
+        "id": "0_3_48", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 0
+    }, 
+    "0_3_49": {
+        "id": "0_3_49", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 0
+    }, 
+    "0_3_50": {
+        "id": "0_3_50", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 0
+    }, 
+    "0_3_51": {
+        "id": "0_3_51", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 0
+    }, 
+    "0_3_52": {
+        "id": "0_3_52", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 0
+    }, 
+    "0_3_53": {
+        "id": "0_3_53", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 0
+    }, 
+    "0_3_54": {
+        "id": "0_3_54", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 0
+    }, 
+    "0_3_55": {
+        "id": "0_3_55", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 0
+    }, 
+    "0_3_56": {
+        "id": "0_3_56", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 0
+    }, 
+    "0_3_57": {
+        "id": "0_3_57", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 0
+    }, 
+    "0_3_58": {
+        "id": "0_3_58", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 0
+    }, 
+    "0_3_59": {
+        "id": "0_3_59", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 0
+    }, 
+    "0_3_60": {
+        "id": "0_3_60", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 0
+    }, 
+    "0_3_61": {
+        "id": "0_3_61", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 0
+    }, 
+    "0_3_62": {
+        "id": "0_3_62", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_3_63": {
+        "id": "0_3_63", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_3_64": {
+        "id": "0_3_64", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 0
+    }, 
+    "0_3_65": {
+        "id": "0_3_65", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 0
+    }, 
+    "0_3_66": {
+        "id": "0_3_66", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_3_67": {
+        "id": "0_3_67", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_3_68": {
+        "id": "0_3_68", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 0
+    }, 
+    "0_3_69": {
+        "id": "0_3_69", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 0
+    }, 
+    "0_3_70": {
+        "id": "0_3_70", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 0
+    }, 
+    "0_3_71": {
+        "id": "0_3_71", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 0
+    }, 
+    "0_3_72": {
+        "id": "0_3_72", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 0
+    }, 
+    "0_3_73": {
+        "id": "0_3_73", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 0
+    }, 
+    "0_3_74": {
+        "id": "0_3_74", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 0
+    }, 
+    "0_3_75": {
+        "id": "0_3_75", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 0
+    }, 
+    "0_3_76": {
+        "id": "0_3_76", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 0
+    }, 
+    "0_3_77": {
+        "id": "0_3_77", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 0
+    }, 
+    "0_3_78": {
+        "id": "0_3_78", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 0
+    }, 
+    "0_3_79": {
+        "id": "0_3_79", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 0
+    }, 
+    "0_3_80": {
+        "id": "0_3_80", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 0
+    }, 
+    "0_3_81": {
+        "id": "0_3_81", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 0
+    }, 
+    "0_3_82": {
+        "id": "0_3_82", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 0
+    }, 
+    "0_3_83": {
+        "id": "0_3_83", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 0
+    }, 
+    "0_3_84": {
+        "id": "0_3_84", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 0
+    }, 
+    "0_3_85": {
+        "id": "0_3_85", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 0
+    }, 
+    "0_3_86": {
+        "id": "0_3_86", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 0
+    }, 
+    "0_3_87": {
+        "id": "0_3_87", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 0
+    }, 
+    "0_3_88": {
+        "id": "0_3_88", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 0
+    }, 
+    "0_3_89": {
+        "id": "0_3_89", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 0
+    }, 
+    "0_3_90": {
+        "id": "0_3_90", 
+        "isPlayer": 0, 
+        "order": 3, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 0
+    }, 
+    "0_4_1": {
+        "id": "0_4_1", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 0
+    }, 
+    "0_4_2": {
+        "id": "0_4_2", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 0
+    }, 
+    "0_4_3": {
+        "id": "0_4_3", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 0
+    }, 
+    "0_4_4": {
+        "id": "0_4_4", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 0
+    }, 
+    "0_4_5": {
+        "id": "0_4_5", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 0
+    }, 
+    "0_4_6": {
+        "id": "0_4_6", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 0
+    }, 
+    "0_4_7": {
+        "id": "0_4_7", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 0
+    }, 
+    "0_4_8": {
+        "id": "0_4_8", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 0
+    }, 
+    "0_4_9": {
+        "id": "0_4_9", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 0
+    }, 
+    "0_4_10": {
+        "id": "0_4_10", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 0
+    }, 
+    "0_4_11": {
+        "id": "0_4_11", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 0
+    }, 
+    "0_4_12": {
+        "id": "0_4_12", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 0
+    }, 
+    "0_4_13": {
+        "id": "0_4_13", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 0
+    }, 
+    "0_4_14": {
+        "id": "0_4_14", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 0
+    }, 
+    "0_4_15": {
+        "id": "0_4_15", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 0
+    }, 
+    "0_4_16": {
+        "id": "0_4_16", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 0
+    }, 
+    "0_4_17": {
+        "id": "0_4_17", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 0
+    }, 
+    "0_4_18": {
+        "id": "0_4_18", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 0
+    }, 
+    "0_4_19": {
+        "id": "0_4_19", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 0
+    }, 
+    "0_4_20": {
+        "id": "0_4_20", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 0
+    }, 
+    "0_4_21": {
+        "id": "0_4_21", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 0
+    }, 
+    "0_4_22": {
+        "id": "0_4_22", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 0
+    }, 
+    "0_4_23": {
+        "id": "0_4_23", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 0
+    }, 
+    "0_4_24": {
+        "id": "0_4_24", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 0
+    }, 
+    "0_4_25": {
+        "id": "0_4_25", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 0
+    }, 
+    "0_4_26": {
+        "id": "0_4_26", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 0
+    }, 
+    "0_4_27": {
+        "id": "0_4_27", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 0
+    }, 
+    "0_4_28": {
+        "id": "0_4_28", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 0
+    }, 
+    "0_4_29": {
+        "id": "0_4_29", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 0
+    }, 
+    "0_4_30": {
+        "id": "0_4_30", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 0
+    }, 
+    "0_4_31": {
+        "id": "0_4_31", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 0
+    }, 
+    "0_4_32": {
+        "id": "0_4_32", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 0
+    }, 
+    "0_4_33": {
+        "id": "0_4_33", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 0
+    }, 
+    "0_4_34": {
+        "id": "0_4_34", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 0
+    }, 
+    "0_4_35": {
+        "id": "0_4_35", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 0
+    }, 
+    "0_4_36": {
+        "id": "0_4_36", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 0
+    }, 
+    "0_4_37": {
+        "id": "0_4_37", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 0
+    }, 
+    "0_4_38": {
+        "id": "0_4_38", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 0
+    }, 
+    "0_4_39": {
+        "id": "0_4_39", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 0
+    }, 
+    "0_4_40": {
+        "id": "0_4_40", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 0
+    }, 
+    "0_4_41": {
+        "id": "0_4_41", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 0
+    }, 
+    "0_4_42": {
+        "id": "0_4_42", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 0
+    }, 
+    "0_4_43": {
+        "id": "0_4_43", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 0
+    }, 
+    "0_4_44": {
+        "id": "0_4_44", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 0
+    }, 
+    "0_4_45": {
+        "id": "0_4_45", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 0
+    }, 
+    "0_4_46": {
+        "id": "0_4_46", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 0
+    }, 
+    "0_4_47": {
+        "id": "0_4_47", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 0
+    }, 
+    "0_4_48": {
+        "id": "0_4_48", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 0
+    }, 
+    "0_4_49": {
+        "id": "0_4_49", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 0
+    }, 
+    "0_4_50": {
+        "id": "0_4_50", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 0
+    }, 
+    "0_4_51": {
+        "id": "0_4_51", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 0
+    }, 
+    "0_4_52": {
+        "id": "0_4_52", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 0
+    }, 
+    "0_4_53": {
+        "id": "0_4_53", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 0
+    }, 
+    "0_4_54": {
+        "id": "0_4_54", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 0
+    }, 
+    "0_4_55": {
+        "id": "0_4_55", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 0
+    }, 
+    "0_4_56": {
+        "id": "0_4_56", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 0
+    }, 
+    "0_4_57": {
+        "id": "0_4_57", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 0
+    }, 
+    "0_4_58": {
+        "id": "0_4_58", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 0
+    }, 
+    "0_4_59": {
+        "id": "0_4_59", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 0
+    }, 
+    "0_4_60": {
+        "id": "0_4_60", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 0
+    }, 
+    "0_4_61": {
+        "id": "0_4_61", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 0
+    }, 
+    "0_4_62": {
+        "id": "0_4_62", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_4_63": {
+        "id": "0_4_63", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_4_64": {
+        "id": "0_4_64", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 0
+    }, 
+    "0_4_65": {
+        "id": "0_4_65", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 0
+    }, 
+    "0_4_66": {
+        "id": "0_4_66", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_4_67": {
+        "id": "0_4_67", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_4_68": {
+        "id": "0_4_68", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 0
+    }, 
+    "0_4_69": {
+        "id": "0_4_69", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 0
+    }, 
+    "0_4_70": {
+        "id": "0_4_70", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 0
+    }, 
+    "0_4_71": {
+        "id": "0_4_71", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 0
+    }, 
+    "0_4_72": {
+        "id": "0_4_72", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 0
+    }, 
+    "0_4_73": {
+        "id": "0_4_73", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 0
+    }, 
+    "0_4_74": {
+        "id": "0_4_74", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 0
+    }, 
+    "0_4_75": {
+        "id": "0_4_75", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 0
+    }, 
+    "0_4_76": {
+        "id": "0_4_76", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 0
+    }, 
+    "0_4_77": {
+        "id": "0_4_77", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 0
+    }, 
+    "0_4_78": {
+        "id": "0_4_78", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 0
+    }, 
+    "0_4_79": {
+        "id": "0_4_79", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 0
+    }, 
+    "0_4_80": {
+        "id": "0_4_80", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 0
+    }, 
+    "0_4_81": {
+        "id": "0_4_81", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 0
+    }, 
+    "0_4_82": {
+        "id": "0_4_82", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 0
+    }, 
+    "0_4_83": {
+        "id": "0_4_83", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 0
+    }, 
+    "0_4_84": {
+        "id": "0_4_84", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 0
+    }, 
+    "0_4_85": {
+        "id": "0_4_85", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 0
+    }, 
+    "0_4_86": {
+        "id": "0_4_86", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 0
+    }, 
+    "0_4_87": {
+        "id": "0_4_87", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 0
+    }, 
+    "0_4_88": {
+        "id": "0_4_88", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 0
+    }, 
+    "0_4_89": {
+        "id": "0_4_89", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 0
+    }, 
+    "0_4_90": {
+        "id": "0_4_90", 
+        "isPlayer": 0, 
+        "order": 4, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 0
+    }, 
+    "0_5_1": {
+        "id": "0_5_1", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 0
+    }, 
+    "0_5_2": {
+        "id": "0_5_2", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 0
+    }, 
+    "0_5_3": {
+        "id": "0_5_3", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 0
+    }, 
+    "0_5_4": {
+        "id": "0_5_4", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 0
+    }, 
+    "0_5_5": {
+        "id": "0_5_5", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 0
+    }, 
+    "0_5_6": {
+        "id": "0_5_6", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 0
+    }, 
+    "0_5_7": {
+        "id": "0_5_7", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 0
+    }, 
+    "0_5_8": {
+        "id": "0_5_8", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 0
+    }, 
+    "0_5_9": {
+        "id": "0_5_9", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 0
+    }, 
+    "0_5_10": {
+        "id": "0_5_10", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 0
+    }, 
+    "0_5_11": {
+        "id": "0_5_11", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 0
+    }, 
+    "0_5_12": {
+        "id": "0_5_12", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 0
+    }, 
+    "0_5_13": {
+        "id": "0_5_13", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 0
+    }, 
+    "0_5_14": {
+        "id": "0_5_14", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 0
+    }, 
+    "0_5_15": {
+        "id": "0_5_15", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 0
+    }, 
+    "0_5_16": {
+        "id": "0_5_16", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 0
+    }, 
+    "0_5_17": {
+        "id": "0_5_17", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 0
+    }, 
+    "0_5_18": {
+        "id": "0_5_18", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 0
+    }, 
+    "0_5_19": {
+        "id": "0_5_19", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 0
+    }, 
+    "0_5_20": {
+        "id": "0_5_20", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 0
+    }, 
+    "0_5_21": {
+        "id": "0_5_21", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 0
+    }, 
+    "0_5_22": {
+        "id": "0_5_22", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 0
+    }, 
+    "0_5_23": {
+        "id": "0_5_23", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 0
+    }, 
+    "0_5_24": {
+        "id": "0_5_24", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 0
+    }, 
+    "0_5_25": {
+        "id": "0_5_25", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 0
+    }, 
+    "0_5_26": {
+        "id": "0_5_26", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 0
+    }, 
+    "0_5_27": {
+        "id": "0_5_27", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 0
+    }, 
+    "0_5_28": {
+        "id": "0_5_28", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 0
+    }, 
+    "0_5_29": {
+        "id": "0_5_29", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 0
+    }, 
+    "0_5_30": {
+        "id": "0_5_30", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 0
+    }, 
+    "0_5_31": {
+        "id": "0_5_31", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 0
+    }, 
+    "0_5_32": {
+        "id": "0_5_32", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 0
+    }, 
+    "0_5_33": {
+        "id": "0_5_33", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 0
+    }, 
+    "0_5_34": {
+        "id": "0_5_34", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 0
+    }, 
+    "0_5_35": {
+        "id": "0_5_35", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 0
+    }, 
+    "0_5_36": {
+        "id": "0_5_36", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 0
+    }, 
+    "0_5_37": {
+        "id": "0_5_37", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 0
+    }, 
+    "0_5_38": {
+        "id": "0_5_38", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 0
+    }, 
+    "0_5_39": {
+        "id": "0_5_39", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 0
+    }, 
+    "0_5_40": {
+        "id": "0_5_40", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 0
+    }, 
+    "0_5_41": {
+        "id": "0_5_41", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 0
+    }, 
+    "0_5_42": {
+        "id": "0_5_42", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 0
+    }, 
+    "0_5_43": {
+        "id": "0_5_43", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 0
+    }, 
+    "0_5_44": {
+        "id": "0_5_44", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 0
+    }, 
+    "0_5_45": {
+        "id": "0_5_45", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 0
+    }, 
+    "0_5_46": {
+        "id": "0_5_46", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 0
+    }, 
+    "0_5_47": {
+        "id": "0_5_47", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 0
+    }, 
+    "0_5_48": {
+        "id": "0_5_48", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 0
+    }, 
+    "0_5_49": {
+        "id": "0_5_49", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 0
+    }, 
+    "0_5_50": {
+        "id": "0_5_50", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 0
+    }, 
+    "0_5_51": {
+        "id": "0_5_51", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 0
+    }, 
+    "0_5_52": {
+        "id": "0_5_52", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 0
+    }, 
+    "0_5_53": {
+        "id": "0_5_53", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 0
+    }, 
+    "0_5_54": {
+        "id": "0_5_54", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 0
+    }, 
+    "0_5_55": {
+        "id": "0_5_55", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 0
+    }, 
+    "0_5_56": {
+        "id": "0_5_56", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 0
+    }, 
+    "0_5_57": {
+        "id": "0_5_57", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 0
+    }, 
+    "0_5_58": {
+        "id": "0_5_58", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 0
+    }, 
+    "0_5_59": {
+        "id": "0_5_59", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 0
+    }, 
+    "0_5_60": {
+        "id": "0_5_60", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 0
+    }, 
+    "0_5_61": {
+        "id": "0_5_61", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 0
+    }, 
+    "0_5_62": {
+        "id": "0_5_62", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_5_63": {
+        "id": "0_5_63", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 0
+    }, 
+    "0_5_64": {
+        "id": "0_5_64", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 0
+    }, 
+    "0_5_65": {
+        "id": "0_5_65", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 0
+    }, 
+    "0_5_66": {
+        "id": "0_5_66", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_5_67": {
+        "id": "0_5_67", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 0
+    }, 
+    "0_5_68": {
+        "id": "0_5_68", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 0
+    }, 
+    "0_5_69": {
+        "id": "0_5_69", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 0
+    }, 
+    "0_5_70": {
+        "id": "0_5_70", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 0
+    }, 
+    "0_5_71": {
+        "id": "0_5_71", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 0
+    }, 
+    "0_5_72": {
+        "id": "0_5_72", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 0
+    }, 
+    "0_5_73": {
+        "id": "0_5_73", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 0
+    }, 
+    "0_5_74": {
+        "id": "0_5_74", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 0
+    }, 
+    "0_5_75": {
+        "id": "0_5_75", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 0
+    }, 
+    "0_5_76": {
+        "id": "0_5_76", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 0
+    }, 
+    "0_5_77": {
+        "id": "0_5_77", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 0
+    }, 
+    "0_5_78": {
+        "id": "0_5_78", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 0
+    }, 
+    "0_5_79": {
+        "id": "0_5_79", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 0
+    }, 
+    "0_5_80": {
+        "id": "0_5_80", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 0
+    }, 
+    "0_5_81": {
+        "id": "0_5_81", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 0
+    }, 
+    "0_5_82": {
+        "id": "0_5_82", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 0
+    }, 
+    "0_5_83": {
+        "id": "0_5_83", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 0
+    }, 
+    "0_5_84": {
+        "id": "0_5_84", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 0
+    }, 
+    "0_5_85": {
+        "id": "0_5_85", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 0
+    }, 
+    "0_5_86": {
+        "id": "0_5_86", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 0
+    }, 
+    "0_5_87": {
+        "id": "0_5_87", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 0
+    }, 
+    "0_5_88": {
+        "id": "0_5_88", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 0
+    }, 
+    "0_5_89": {
+        "id": "0_5_89", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 0
+    }, 
+    "0_5_90": {
+        "id": "0_5_90", 
+        "isPlayer": 0, 
+        "order": 5, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 0
+    }, 
+    "1_0_1": {
+        "id": "1_0_1", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 10
+    }, 
+    "1_0_2": {
+        "id": "1_0_2", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 50
+    }, 
+    "1_0_3": {
+        "id": "1_0_3", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 100
+    }, 
+    "1_0_4": {
+        "id": "1_0_4", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 150
+    }, 
+    "1_0_5": {
+        "id": "1_0_5", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 200
+    }, 
+    "1_0_6": {
+        "id": "1_0_6", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 250
+    }, 
+    "1_0_7": {
+        "id": "1_0_7", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 300
+    }, 
+    "1_0_8": {
+        "id": "1_0_8", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 350
+    }, 
+    "1_0_9": {
+        "id": "1_0_9", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 400
+    }, 
+    "1_0_10": {
+        "id": "1_0_10", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 450
+    }, 
+    "1_0_11": {
+        "id": "1_0_11", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 500
+    }, 
+    "1_0_12": {
+        "id": "1_0_12", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 550
+    }, 
+    "1_0_13": {
+        "id": "1_0_13", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 600
+    }, 
+    "1_0_14": {
+        "id": "1_0_14", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 650
+    }, 
+    "1_0_15": {
+        "id": "1_0_15", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 700
+    }, 
+    "1_0_16": {
+        "id": "1_0_16", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 750
+    }, 
+    "1_0_17": {
+        "id": "1_0_17", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 800
+    }, 
+    "1_0_18": {
+        "id": "1_0_18", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 850
+    }, 
+    "1_0_19": {
+        "id": "1_0_19", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 900
+    }, 
+    "1_0_20": {
+        "id": "1_0_20", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 950
+    }, 
+    "1_0_21": {
+        "id": "1_0_21", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 1000
+    }, 
+    "1_0_22": {
+        "id": "1_0_22", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 1050
+    }, 
+    "1_0_23": {
+        "id": "1_0_23", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 1100
+    }, 
+    "1_0_24": {
+        "id": "1_0_24", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 1150
+    }, 
+    "1_0_25": {
+        "id": "1_0_25", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 1200
+    }, 
+    "1_0_26": {
+        "id": "1_0_26", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 1250
+    }, 
+    "1_0_27": {
+        "id": "1_0_27", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 1300
+    }, 
+    "1_0_28": {
+        "id": "1_0_28", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 1350
+    }, 
+    "1_0_29": {
+        "id": "1_0_29", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 1400
+    }, 
+    "1_0_30": {
+        "id": "1_0_30", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 1450
+    }, 
+    "1_0_31": {
+        "id": "1_0_31", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 1500
+    }, 
+    "1_0_32": {
+        "id": "1_0_32", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 1550
+    }, 
+    "1_0_33": {
+        "id": "1_0_33", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 1600
+    }, 
+    "1_0_34": {
+        "id": "1_0_34", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 1650
+    }, 
+    "1_0_35": {
+        "id": "1_0_35", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 1700
+    }, 
+    "1_0_36": {
+        "id": "1_0_36", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 1750
+    }, 
+    "1_0_37": {
+        "id": "1_0_37", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 1800
+    }, 
+    "1_0_38": {
+        "id": "1_0_38", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 1850
+    }, 
+    "1_0_39": {
+        "id": "1_0_39", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 1900
+    }, 
+    "1_0_40": {
+        "id": "1_0_40", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 1950
+    }, 
+    "1_0_41": {
+        "id": "1_0_41", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 2000
+    }, 
+    "1_0_42": {
+        "id": "1_0_42", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 2100
+    }, 
+    "1_0_43": {
+        "id": "1_0_43", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 2200
+    }, 
+    "1_0_44": {
+        "id": "1_0_44", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 2300
+    }, 
+    "1_0_45": {
+        "id": "1_0_45", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 2400
+    }, 
+    "1_0_46": {
+        "id": "1_0_46", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 2500
+    }, 
+    "1_0_47": {
+        "id": "1_0_47", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 2600
+    }, 
+    "1_0_48": {
+        "id": "1_0_48", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 2700
+    }, 
+    "1_0_49": {
+        "id": "1_0_49", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 2800
+    }, 
+    "1_0_50": {
+        "id": "1_0_50", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 2900
+    }, 
+    "1_0_51": {
+        "id": "1_0_51", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 3000
+    }, 
+    "1_0_52": {
+        "id": "1_0_52", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 3100
+    }, 
+    "1_0_53": {
+        "id": "1_0_53", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 3200
+    }, 
+    "1_0_54": {
+        "id": "1_0_54", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 3300
+    }, 
+    "1_0_55": {
+        "id": "1_0_55", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 3400
+    }, 
+    "1_0_56": {
+        "id": "1_0_56", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 3500
+    }, 
+    "1_0_57": {
+        "id": "1_0_57", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 3600
+    }, 
+    "1_0_58": {
+        "id": "1_0_58", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 3700
+    }, 
+    "1_0_59": {
+        "id": "1_0_59", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 3800
+    }, 
+    "1_0_60": {
+        "id": "1_0_60", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 3900
+    }, 
+    "1_0_61": {
+        "id": "1_0_61", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 4000
+    }, 
+    "1_0_62": {
+        "id": "1_0_62", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 4100
+    }, 
+    "1_0_63": {
+        "id": "1_0_63", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 4200
+    }, 
+    "1_0_64": {
+        "id": "1_0_64", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 4300
+    }, 
+    "1_0_65": {
+        "id": "1_0_65", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 4400
+    }, 
+    "1_0_66": {
+        "id": "1_0_66", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 4500
+    }, 
+    "1_0_67": {
+        "id": "1_0_67", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 4600
+    }, 
+    "1_0_68": {
+        "id": "1_0_68", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 4700
+    }, 
+    "1_0_69": {
+        "id": "1_0_69", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 4800
+    }, 
+    "1_0_70": {
+        "id": "1_0_70", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 4900
+    }, 
+    "1_0_71": {
+        "id": "1_0_71", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 5000
+    }, 
+    "1_0_72": {
+        "id": "1_0_72", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 5100
+    }, 
+    "1_0_73": {
+        "id": "1_0_73", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 5200
+    }, 
+    "1_0_74": {
+        "id": "1_0_74", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 5300
+    }, 
+    "1_0_75": {
+        "id": "1_0_75", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 5400
+    }, 
+    "1_0_76": {
+        "id": "1_0_76", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 5500
+    }, 
+    "1_0_77": {
+        "id": "1_0_77", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 5600
+    }, 
+    "1_0_78": {
+        "id": "1_0_78", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 5700
+    }, 
+    "1_0_79": {
+        "id": "1_0_79", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 5800
+    }, 
+    "1_0_80": {
+        "id": "1_0_80", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 5900
+    }, 
+    "1_0_81": {
+        "id": "1_0_81", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 6000
+    }, 
+    "1_0_82": {
+        "id": "1_0_82", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 6100
+    }, 
+    "1_0_83": {
+        "id": "1_0_83", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 6200
+    }, 
+    "1_0_84": {
+        "id": "1_0_84", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 6300
+    }, 
+    "1_0_85": {
+        "id": "1_0_85", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 6400
+    }, 
+    "1_0_86": {
+        "id": "1_0_86", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 6500
+    }, 
+    "1_0_87": {
+        "id": "1_0_87", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 6600
+    }, 
+    "1_0_88": {
+        "id": "1_0_88", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 6700
+    }, 
+    "1_0_89": {
+        "id": "1_0_89", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 6800
+    }, 
+    "1_0_90": {
+        "id": "1_0_90", 
+        "isPlayer": 1, 
+        "order": 0, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 6900
+    }, 
+    "1_1_1": {
+        "id": "1_1_1", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 10
+    }, 
+    "1_1_2": {
+        "id": "1_1_2", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 50
+    }, 
+    "1_1_3": {
+        "id": "1_1_3", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 100
+    }, 
+    "1_1_4": {
+        "id": "1_1_4", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 150
+    }, 
+    "1_1_5": {
+        "id": "1_1_5", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 200
+    }, 
+    "1_1_6": {
+        "id": "1_1_6", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 250
+    }, 
+    "1_1_7": {
+        "id": "1_1_7", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 300
+    }, 
+    "1_1_8": {
+        "id": "1_1_8", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 350
+    }, 
+    "1_1_9": {
+        "id": "1_1_9", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 400
+    }, 
+    "1_1_10": {
+        "id": "1_1_10", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 450
+    }, 
+    "1_1_11": {
+        "id": "1_1_11", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 500
+    }, 
+    "1_1_12": {
+        "id": "1_1_12", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 550
+    }, 
+    "1_1_13": {
+        "id": "1_1_13", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 600
+    }, 
+    "1_1_14": {
+        "id": "1_1_14", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 650
+    }, 
+    "1_1_15": {
+        "id": "1_1_15", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 700
+    }, 
+    "1_1_16": {
+        "id": "1_1_16", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 750
+    }, 
+    "1_1_17": {
+        "id": "1_1_17", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 800
+    }, 
+    "1_1_18": {
+        "id": "1_1_18", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 850
+    }, 
+    "1_1_19": {
+        "id": "1_1_19", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 900
+    }, 
+    "1_1_20": {
+        "id": "1_1_20", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 950
+    }, 
+    "1_1_21": {
+        "id": "1_1_21", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 1000
+    }, 
+    "1_1_22": {
+        "id": "1_1_22", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 1050
+    }, 
+    "1_1_23": {
+        "id": "1_1_23", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 1100
+    }, 
+    "1_1_24": {
+        "id": "1_1_24", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 1150
+    }, 
+    "1_1_25": {
+        "id": "1_1_25", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 1200
+    }, 
+    "1_1_26": {
+        "id": "1_1_26", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 1250
+    }, 
+    "1_1_27": {
+        "id": "1_1_27", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 1300
+    }, 
+    "1_1_28": {
+        "id": "1_1_28", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 1350
+    }, 
+    "1_1_29": {
+        "id": "1_1_29", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 1400
+    }, 
+    "1_1_30": {
+        "id": "1_1_30", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 1450
+    }, 
+    "1_1_31": {
+        "id": "1_1_31", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 1500
+    }, 
+    "1_1_32": {
+        "id": "1_1_32", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 1550
+    }, 
+    "1_1_33": {
+        "id": "1_1_33", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 1600
+    }, 
+    "1_1_34": {
+        "id": "1_1_34", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 1650
+    }, 
+    "1_1_35": {
+        "id": "1_1_35", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 1700
+    }, 
+    "1_1_36": {
+        "id": "1_1_36", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 1750
+    }, 
+    "1_1_37": {
+        "id": "1_1_37", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 1800
+    }, 
+    "1_1_38": {
+        "id": "1_1_38", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 1850
+    }, 
+    "1_1_39": {
+        "id": "1_1_39", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 1900
+    }, 
+    "1_1_40": {
+        "id": "1_1_40", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 1950
+    }, 
+    "1_1_41": {
+        "id": "1_1_41", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 2000
+    }, 
+    "1_1_42": {
+        "id": "1_1_42", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 2100
+    }, 
+    "1_1_43": {
+        "id": "1_1_43", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 2200
+    }, 
+    "1_1_44": {
+        "id": "1_1_44", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 2300
+    }, 
+    "1_1_45": {
+        "id": "1_1_45", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 2400
+    }, 
+    "1_1_46": {
+        "id": "1_1_46", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 2500
+    }, 
+    "1_1_47": {
+        "id": "1_1_47", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 2600
+    }, 
+    "1_1_48": {
+        "id": "1_1_48", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 2700
+    }, 
+    "1_1_49": {
+        "id": "1_1_49", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 2800
+    }, 
+    "1_1_50": {
+        "id": "1_1_50", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 2900
+    }, 
+    "1_1_51": {
+        "id": "1_1_51", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 3000
+    }, 
+    "1_1_52": {
+        "id": "1_1_52", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 3100
+    }, 
+    "1_1_53": {
+        "id": "1_1_53", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 3200
+    }, 
+    "1_1_54": {
+        "id": "1_1_54", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 3300
+    }, 
+    "1_1_55": {
+        "id": "1_1_55", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 3400
+    }, 
+    "1_1_56": {
+        "id": "1_1_56", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 3500
+    }, 
+    "1_1_57": {
+        "id": "1_1_57", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 3600
+    }, 
+    "1_1_58": {
+        "id": "1_1_58", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 3700
+    }, 
+    "1_1_59": {
+        "id": "1_1_59", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 3800
+    }, 
+    "1_1_60": {
+        "id": "1_1_60", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 3900
+    }, 
+    "1_1_61": {
+        "id": "1_1_61", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 4000
+    }, 
+    "1_1_62": {
+        "id": "1_1_62", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 4100
+    }, 
+    "1_1_63": {
+        "id": "1_1_63", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 4200
+    }, 
+    "1_1_64": {
+        "id": "1_1_64", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 4300
+    }, 
+    "1_1_65": {
+        "id": "1_1_65", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 4400
+    }, 
+    "1_1_66": {
+        "id": "1_1_66", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 4500
+    }, 
+    "1_1_67": {
+        "id": "1_1_67", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 4600
+    }, 
+    "1_1_68": {
+        "id": "1_1_68", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 4700
+    }, 
+    "1_1_69": {
+        "id": "1_1_69", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 4800
+    }, 
+    "1_1_70": {
+        "id": "1_1_70", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 4900
+    }, 
+    "1_1_71": {
+        "id": "1_1_71", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 5000
+    }, 
+    "1_1_72": {
+        "id": "1_1_72", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 5100
+    }, 
+    "1_1_73": {
+        "id": "1_1_73", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 5200
+    }, 
+    "1_1_74": {
+        "id": "1_1_74", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 5300
+    }, 
+    "1_1_75": {
+        "id": "1_1_75", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 5400
+    }, 
+    "1_1_76": {
+        "id": "1_1_76", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 5500
+    }, 
+    "1_1_77": {
+        "id": "1_1_77", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 5600
+    }, 
+    "1_1_78": {
+        "id": "1_1_78", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 5700
+    }, 
+    "1_1_79": {
+        "id": "1_1_79", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 5800
+    }, 
+    "1_1_80": {
+        "id": "1_1_80", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 5900
+    }, 
+    "1_1_81": {
+        "id": "1_1_81", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 6000
+    }, 
+    "1_1_82": {
+        "id": "1_1_82", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 6100
+    }, 
+    "1_1_83": {
+        "id": "1_1_83", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 6200
+    }, 
+    "1_1_84": {
+        "id": "1_1_84", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 6300
+    }, 
+    "1_1_85": {
+        "id": "1_1_85", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 6400
+    }, 
+    "1_1_86": {
+        "id": "1_1_86", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 6500
+    }, 
+    "1_1_87": {
+        "id": "1_1_87", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 6600
+    }, 
+    "1_1_88": {
+        "id": "1_1_88", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 6700
+    }, 
+    "1_1_89": {
+        "id": "1_1_89", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 6800
+    }, 
+    "1_1_90": {
+        "id": "1_1_90", 
+        "isPlayer": 1, 
+        "order": 1, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 6900
+    }, 
+    "1_2_1": {
+        "id": "1_2_1", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 10
+    }, 
+    "1_2_2": {
+        "id": "1_2_2", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 50
+    }, 
+    "1_2_3": {
+        "id": "1_2_3", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 100
+    }, 
+    "1_2_4": {
+        "id": "1_2_4", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 150
+    }, 
+    "1_2_5": {
+        "id": "1_2_5", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 200
+    }, 
+    "1_2_6": {
+        "id": "1_2_6", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 250
+    }, 
+    "1_2_7": {
+        "id": "1_2_7", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 300
+    }, 
+    "1_2_8": {
+        "id": "1_2_8", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 350
+    }, 
+    "1_2_9": {
+        "id": "1_2_9", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 400
+    }, 
+    "1_2_10": {
+        "id": "1_2_10", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 450
+    }, 
+    "1_2_11": {
+        "id": "1_2_11", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 500
+    }, 
+    "1_2_12": {
+        "id": "1_2_12", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 550
+    }, 
+    "1_2_13": {
+        "id": "1_2_13", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 600
+    }, 
+    "1_2_14": {
+        "id": "1_2_14", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 650
+    }, 
+    "1_2_15": {
+        "id": "1_2_15", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 700
+    }, 
+    "1_2_16": {
+        "id": "1_2_16", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 750
+    }, 
+    "1_2_17": {
+        "id": "1_2_17", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 800
+    }, 
+    "1_2_18": {
+        "id": "1_2_18", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 850
+    }, 
+    "1_2_19": {
+        "id": "1_2_19", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 900
+    }, 
+    "1_2_20": {
+        "id": "1_2_20", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 950
+    }, 
+    "1_2_21": {
+        "id": "1_2_21", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 1000
+    }, 
+    "1_2_22": {
+        "id": "1_2_22", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 1050
+    }, 
+    "1_2_23": {
+        "id": "1_2_23", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 1100
+    }, 
+    "1_2_24": {
+        "id": "1_2_24", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 1150
+    }, 
+    "1_2_25": {
+        "id": "1_2_25", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 1200
+    }, 
+    "1_2_26": {
+        "id": "1_2_26", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 1250
+    }, 
+    "1_2_27": {
+        "id": "1_2_27", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 1300
+    }, 
+    "1_2_28": {
+        "id": "1_2_28", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 1350
+    }, 
+    "1_2_29": {
+        "id": "1_2_29", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 1400
+    }, 
+    "1_2_30": {
+        "id": "1_2_30", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 1450
+    }, 
+    "1_2_31": {
+        "id": "1_2_31", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 1500
+    }, 
+    "1_2_32": {
+        "id": "1_2_32", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 1550
+    }, 
+    "1_2_33": {
+        "id": "1_2_33", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 1600
+    }, 
+    "1_2_34": {
+        "id": "1_2_34", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 1650
+    }, 
+    "1_2_35": {
+        "id": "1_2_35", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 1700
+    }, 
+    "1_2_36": {
+        "id": "1_2_36", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 1750
+    }, 
+    "1_2_37": {
+        "id": "1_2_37", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 1800
+    }, 
+    "1_2_38": {
+        "id": "1_2_38", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 1850
+    }, 
+    "1_2_39": {
+        "id": "1_2_39", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 1900
+    }, 
+    "1_2_40": {
+        "id": "1_2_40", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 1950
+    }, 
+    "1_2_41": {
+        "id": "1_2_41", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 2000
+    }, 
+    "1_2_42": {
+        "id": "1_2_42", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 2100
+    }, 
+    "1_2_43": {
+        "id": "1_2_43", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 2200
+    }, 
+    "1_2_44": {
+        "id": "1_2_44", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 2300
+    }, 
+    "1_2_45": {
+        "id": "1_2_45", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 2400
+    }, 
+    "1_2_46": {
+        "id": "1_2_46", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 2500
+    }, 
+    "1_2_47": {
+        "id": "1_2_47", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 2600
+    }, 
+    "1_2_48": {
+        "id": "1_2_48", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 2700
+    }, 
+    "1_2_49": {
+        "id": "1_2_49", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 2800
+    }, 
+    "1_2_50": {
+        "id": "1_2_50", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 2900
+    }, 
+    "1_2_51": {
+        "id": "1_2_51", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 3000
+    }, 
+    "1_2_52": {
+        "id": "1_2_52", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 3100
+    }, 
+    "1_2_53": {
+        "id": "1_2_53", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 3200
+    }, 
+    "1_2_54": {
+        "id": "1_2_54", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 3300
+    }, 
+    "1_2_55": {
+        "id": "1_2_55", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 3400
+    }, 
+    "1_2_56": {
+        "id": "1_2_56", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 3500
+    }, 
+    "1_2_57": {
+        "id": "1_2_57", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 3600
+    }, 
+    "1_2_58": {
+        "id": "1_2_58", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 3700
+    }, 
+    "1_2_59": {
+        "id": "1_2_59", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 3800
+    }, 
+    "1_2_60": {
+        "id": "1_2_60", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 3900
+    }, 
+    "1_2_61": {
+        "id": "1_2_61", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 4000
+    }, 
+    "1_2_62": {
+        "id": "1_2_62", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 4100
+    }, 
+    "1_2_63": {
+        "id": "1_2_63", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 4200
+    }, 
+    "1_2_64": {
+        "id": "1_2_64", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 4300
+    }, 
+    "1_2_65": {
+        "id": "1_2_65", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 4400
+    }, 
+    "1_2_66": {
+        "id": "1_2_66", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 4500
+    }, 
+    "1_2_67": {
+        "id": "1_2_67", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 4600
+    }, 
+    "1_2_68": {
+        "id": "1_2_68", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 4700
+    }, 
+    "1_2_69": {
+        "id": "1_2_69", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 4800
+    }, 
+    "1_2_70": {
+        "id": "1_2_70", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 4900
+    }, 
+    "1_2_71": {
+        "id": "1_2_71", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 5000
+    }, 
+    "1_2_72": {
+        "id": "1_2_72", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 5100
+    }, 
+    "1_2_73": {
+        "id": "1_2_73", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 5200
+    }, 
+    "1_2_74": {
+        "id": "1_2_74", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 5300
+    }, 
+    "1_2_75": {
+        "id": "1_2_75", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 5400
+    }, 
+    "1_2_76": {
+        "id": "1_2_76", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 5500
+    }, 
+    "1_2_77": {
+        "id": "1_2_77", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 5600
+    }, 
+    "1_2_78": {
+        "id": "1_2_78", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 5700
+    }, 
+    "1_2_79": {
+        "id": "1_2_79", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 5800
+    }, 
+    "1_2_80": {
+        "id": "1_2_80", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 5900
+    }, 
+    "1_2_81": {
+        "id": "1_2_81", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 6000
+    }, 
+    "1_2_82": {
+        "id": "1_2_82", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 6100
+    }, 
+    "1_2_83": {
+        "id": "1_2_83", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 6200
+    }, 
+    "1_2_84": {
+        "id": "1_2_84", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 6300
+    }, 
+    "1_2_85": {
+        "id": "1_2_85", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 6400
+    }, 
+    "1_2_86": {
+        "id": "1_2_86", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 6500
+    }, 
+    "1_2_87": {
+        "id": "1_2_87", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 6600
+    }, 
+    "1_2_88": {
+        "id": "1_2_88", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 6700
+    }, 
+    "1_2_89": {
+        "id": "1_2_89", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 6800
+    }, 
+    "1_2_90": {
+        "id": "1_2_90", 
+        "isPlayer": 1, 
+        "order": 2, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 6900
+    }, 
+    "1_3_1": {
+        "id": "1_3_1", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 10
+    }, 
+    "1_3_2": {
+        "id": "1_3_2", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 50
+    }, 
+    "1_3_3": {
+        "id": "1_3_3", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 100
+    }, 
+    "1_3_4": {
+        "id": "1_3_4", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 150
+    }, 
+    "1_3_5": {
+        "id": "1_3_5", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 200
+    }, 
+    "1_3_6": {
+        "id": "1_3_6", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 250
+    }, 
+    "1_3_7": {
+        "id": "1_3_7", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 300
+    }, 
+    "1_3_8": {
+        "id": "1_3_8", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 350
+    }, 
+    "1_3_9": {
+        "id": "1_3_9", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 400
+    }, 
+    "1_3_10": {
+        "id": "1_3_10", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 450
+    }, 
+    "1_3_11": {
+        "id": "1_3_11", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 500
+    }, 
+    "1_3_12": {
+        "id": "1_3_12", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 550
+    }, 
+    "1_3_13": {
+        "id": "1_3_13", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 600
+    }, 
+    "1_3_14": {
+        "id": "1_3_14", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 650
+    }, 
+    "1_3_15": {
+        "id": "1_3_15", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 700
+    }, 
+    "1_3_16": {
+        "id": "1_3_16", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 750
+    }, 
+    "1_3_17": {
+        "id": "1_3_17", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 800
+    }, 
+    "1_3_18": {
+        "id": "1_3_18", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 850
+    }, 
+    "1_3_19": {
+        "id": "1_3_19", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 900
+    }, 
+    "1_3_20": {
+        "id": "1_3_20", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 950
+    }, 
+    "1_3_21": {
+        "id": "1_3_21", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 1000
+    }, 
+    "1_3_22": {
+        "id": "1_3_22", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 1050
+    }, 
+    "1_3_23": {
+        "id": "1_3_23", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 1100
+    }, 
+    "1_3_24": {
+        "id": "1_3_24", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 1150
+    }, 
+    "1_3_25": {
+        "id": "1_3_25", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 1200
+    }, 
+    "1_3_26": {
+        "id": "1_3_26", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 1250
+    }, 
+    "1_3_27": {
+        "id": "1_3_27", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 1300
+    }, 
+    "1_3_28": {
+        "id": "1_3_28", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 1350
+    }, 
+    "1_3_29": {
+        "id": "1_3_29", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 1400
+    }, 
+    "1_3_30": {
+        "id": "1_3_30", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 1450
+    }, 
+    "1_3_31": {
+        "id": "1_3_31", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 1500
+    }, 
+    "1_3_32": {
+        "id": "1_3_32", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 1550
+    }, 
+    "1_3_33": {
+        "id": "1_3_33", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 1600
+    }, 
+    "1_3_34": {
+        "id": "1_3_34", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 1650
+    }, 
+    "1_3_35": {
+        "id": "1_3_35", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 1700
+    }, 
+    "1_3_36": {
+        "id": "1_3_36", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 1750
+    }, 
+    "1_3_37": {
+        "id": "1_3_37", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 1800
+    }, 
+    "1_3_38": {
+        "id": "1_3_38", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 1850
+    }, 
+    "1_3_39": {
+        "id": "1_3_39", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 1900
+    }, 
+    "1_3_40": {
+        "id": "1_3_40", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 1950
+    }, 
+    "1_3_41": {
+        "id": "1_3_41", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 2000
+    }, 
+    "1_3_42": {
+        "id": "1_3_42", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 2100
+    }, 
+    "1_3_43": {
+        "id": "1_3_43", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 2200
+    }, 
+    "1_3_44": {
+        "id": "1_3_44", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 2300
+    }, 
+    "1_3_45": {
+        "id": "1_3_45", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 2400
+    }, 
+    "1_3_46": {
+        "id": "1_3_46", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 2500
+    }, 
+    "1_3_47": {
+        "id": "1_3_47", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 2600
+    }, 
+    "1_3_48": {
+        "id": "1_3_48", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 2700
+    }, 
+    "1_3_49": {
+        "id": "1_3_49", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 2800
+    }, 
+    "1_3_50": {
+        "id": "1_3_50", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 2900
+    }, 
+    "1_3_51": {
+        "id": "1_3_51", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 3000
+    }, 
+    "1_3_52": {
+        "id": "1_3_52", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 3100
+    }, 
+    "1_3_53": {
+        "id": "1_3_53", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 3200
+    }, 
+    "1_3_54": {
+        "id": "1_3_54", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 3300
+    }, 
+    "1_3_55": {
+        "id": "1_3_55", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 3400
+    }, 
+    "1_3_56": {
+        "id": "1_3_56", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 3500
+    }, 
+    "1_3_57": {
+        "id": "1_3_57", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 3600
+    }, 
+    "1_3_58": {
+        "id": "1_3_58", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 3700
+    }, 
+    "1_3_59": {
+        "id": "1_3_59", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 3800
+    }, 
+    "1_3_60": {
+        "id": "1_3_60", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 3900
+    }, 
+    "1_3_61": {
+        "id": "1_3_61", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 4000
+    }, 
+    "1_3_62": {
+        "id": "1_3_62", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 4100
+    }, 
+    "1_3_63": {
+        "id": "1_3_63", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 4200
+    }, 
+    "1_3_64": {
+        "id": "1_3_64", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 4300
+    }, 
+    "1_3_65": {
+        "id": "1_3_65", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 4400
+    }, 
+    "1_3_66": {
+        "id": "1_3_66", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 4500
+    }, 
+    "1_3_67": {
+        "id": "1_3_67", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 4600
+    }, 
+    "1_3_68": {
+        "id": "1_3_68", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 4700
+    }, 
+    "1_3_69": {
+        "id": "1_3_69", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 4800
+    }, 
+    "1_3_70": {
+        "id": "1_3_70", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 4900
+    }, 
+    "1_3_71": {
+        "id": "1_3_71", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 5000
+    }, 
+    "1_3_72": {
+        "id": "1_3_72", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 5100
+    }, 
+    "1_3_73": {
+        "id": "1_3_73", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 5200
+    }, 
+    "1_3_74": {
+        "id": "1_3_74", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 5300
+    }, 
+    "1_3_75": {
+        "id": "1_3_75", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 5400
+    }, 
+    "1_3_76": {
+        "id": "1_3_76", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 5500
+    }, 
+    "1_3_77": {
+        "id": "1_3_77", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 5600
+    }, 
+    "1_3_78": {
+        "id": "1_3_78", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 5700
+    }, 
+    "1_3_79": {
+        "id": "1_3_79", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 5800
+    }, 
+    "1_3_80": {
+        "id": "1_3_80", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 5900
+    }, 
+    "1_3_81": {
+        "id": "1_3_81", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 6000
+    }, 
+    "1_3_82": {
+        "id": "1_3_82", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 6100
+    }, 
+    "1_3_83": {
+        "id": "1_3_83", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 6200
+    }, 
+    "1_3_84": {
+        "id": "1_3_84", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 6300
+    }, 
+    "1_3_85": {
+        "id": "1_3_85", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 6400
+    }, 
+    "1_3_86": {
+        "id": "1_3_86", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 6500
+    }, 
+    "1_3_87": {
+        "id": "1_3_87", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 6600
+    }, 
+    "1_3_88": {
+        "id": "1_3_88", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 6700
+    }, 
+    "1_3_89": {
+        "id": "1_3_89", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 6800
+    }, 
+    "1_3_90": {
+        "id": "1_3_90", 
+        "isPlayer": 1, 
+        "order": 3, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 6900
+    }, 
+    "1_4_1": {
+        "id": "1_4_1", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 10
+    }, 
+    "1_4_2": {
+        "id": "1_4_2", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 50
+    }, 
+    "1_4_3": {
+        "id": "1_4_3", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 100
+    }, 
+    "1_4_4": {
+        "id": "1_4_4", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 150
+    }, 
+    "1_4_5": {
+        "id": "1_4_5", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 200
+    }, 
+    "1_4_6": {
+        "id": "1_4_6", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 250
+    }, 
+    "1_4_7": {
+        "id": "1_4_7", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 300
+    }, 
+    "1_4_8": {
+        "id": "1_4_8", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 350
+    }, 
+    "1_4_9": {
+        "id": "1_4_9", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 400
+    }, 
+    "1_4_10": {
+        "id": "1_4_10", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 450
+    }, 
+    "1_4_11": {
+        "id": "1_4_11", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 500
+    }, 
+    "1_4_12": {
+        "id": "1_4_12", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 550
+    }, 
+    "1_4_13": {
+        "id": "1_4_13", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 600
+    }, 
+    "1_4_14": {
+        "id": "1_4_14", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 650
+    }, 
+    "1_4_15": {
+        "id": "1_4_15", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 700
+    }, 
+    "1_4_16": {
+        "id": "1_4_16", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 750
+    }, 
+    "1_4_17": {
+        "id": "1_4_17", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 800
+    }, 
+    "1_4_18": {
+        "id": "1_4_18", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 850
+    }, 
+    "1_4_19": {
+        "id": "1_4_19", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 900
+    }, 
+    "1_4_20": {
+        "id": "1_4_20", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 950
+    }, 
+    "1_4_21": {
+        "id": "1_4_21", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 1000
+    }, 
+    "1_4_22": {
+        "id": "1_4_22", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 1050
+    }, 
+    "1_4_23": {
+        "id": "1_4_23", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 1100
+    }, 
+    "1_4_24": {
+        "id": "1_4_24", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 1150
+    }, 
+    "1_4_25": {
+        "id": "1_4_25", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 1200
+    }, 
+    "1_4_26": {
+        "id": "1_4_26", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 1250
+    }, 
+    "1_4_27": {
+        "id": "1_4_27", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 1300
+    }, 
+    "1_4_28": {
+        "id": "1_4_28", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 1350
+    }, 
+    "1_4_29": {
+        "id": "1_4_29", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 1400
+    }, 
+    "1_4_30": {
+        "id": "1_4_30", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 1450
+    }, 
+    "1_4_31": {
+        "id": "1_4_31", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 1500
+    }, 
+    "1_4_32": {
+        "id": "1_4_32", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 1550
+    }, 
+    "1_4_33": {
+        "id": "1_4_33", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 1600
+    }, 
+    "1_4_34": {
+        "id": "1_4_34", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 1650
+    }, 
+    "1_4_35": {
+        "id": "1_4_35", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 1700
+    }, 
+    "1_4_36": {
+        "id": "1_4_36", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 1750
+    }, 
+    "1_4_37": {
+        "id": "1_4_37", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 1800
+    }, 
+    "1_4_38": {
+        "id": "1_4_38", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 1850
+    }, 
+    "1_4_39": {
+        "id": "1_4_39", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 1900
+    }, 
+    "1_4_40": {
+        "id": "1_4_40", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 1950
+    }, 
+    "1_4_41": {
+        "id": "1_4_41", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 2000
+    }, 
+    "1_4_42": {
+        "id": "1_4_42", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 2100
+    }, 
+    "1_4_43": {
+        "id": "1_4_43", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 2200
+    }, 
+    "1_4_44": {
+        "id": "1_4_44", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 2300
+    }, 
+    "1_4_45": {
+        "id": "1_4_45", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 2400
+    }, 
+    "1_4_46": {
+        "id": "1_4_46", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 2500
+    }, 
+    "1_4_47": {
+        "id": "1_4_47", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 2600
+    }, 
+    "1_4_48": {
+        "id": "1_4_48", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 2700
+    }, 
+    "1_4_49": {
+        "id": "1_4_49", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 2800
+    }, 
+    "1_4_50": {
+        "id": "1_4_50", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 2900
+    }, 
+    "1_4_51": {
+        "id": "1_4_51", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 3000
+    }, 
+    "1_4_52": {
+        "id": "1_4_52", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 3100
+    }, 
+    "1_4_53": {
+        "id": "1_4_53", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 3200
+    }, 
+    "1_4_54": {
+        "id": "1_4_54", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 3300
+    }, 
+    "1_4_55": {
+        "id": "1_4_55", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 3400
+    }, 
+    "1_4_56": {
+        "id": "1_4_56", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 3500
+    }, 
+    "1_4_57": {
+        "id": "1_4_57", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 3600
+    }, 
+    "1_4_58": {
+        "id": "1_4_58", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 3700
+    }, 
+    "1_4_59": {
+        "id": "1_4_59", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 3800
+    }, 
+    "1_4_60": {
+        "id": "1_4_60", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 3900
+    }, 
+    "1_4_61": {
+        "id": "1_4_61", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 4000
+    }, 
+    "1_4_62": {
+        "id": "1_4_62", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 4100
+    }, 
+    "1_4_63": {
+        "id": "1_4_63", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 4200
+    }, 
+    "1_4_64": {
+        "id": "1_4_64", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 4300
+    }, 
+    "1_4_65": {
+        "id": "1_4_65", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 4400
+    }, 
+    "1_4_66": {
+        "id": "1_4_66", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 4500
+    }, 
+    "1_4_67": {
+        "id": "1_4_67", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 4600
+    }, 
+    "1_4_68": {
+        "id": "1_4_68", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 4700
+    }, 
+    "1_4_69": {
+        "id": "1_4_69", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 4800
+    }, 
+    "1_4_70": {
+        "id": "1_4_70", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 4900
+    }, 
+    "1_4_71": {
+        "id": "1_4_71", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 5000
+    }, 
+    "1_4_72": {
+        "id": "1_4_72", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 5100
+    }, 
+    "1_4_73": {
+        "id": "1_4_73", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 5200
+    }, 
+    "1_4_74": {
+        "id": "1_4_74", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 5300
+    }, 
+    "1_4_75": {
+        "id": "1_4_75", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 5400
+    }, 
+    "1_4_76": {
+        "id": "1_4_76", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 5500
+    }, 
+    "1_4_77": {
+        "id": "1_4_77", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 5600
+    }, 
+    "1_4_78": {
+        "id": "1_4_78", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 5700
+    }, 
+    "1_4_79": {
+        "id": "1_4_79", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 5800
+    }, 
+    "1_4_80": {
+        "id": "1_4_80", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 5900
+    }, 
+    "1_4_81": {
+        "id": "1_4_81", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 6000
+    }, 
+    "1_4_82": {
+        "id": "1_4_82", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 6100
+    }, 
+    "1_4_83": {
+        "id": "1_4_83", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 6200
+    }, 
+    "1_4_84": {
+        "id": "1_4_84", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 6300
+    }, 
+    "1_4_85": {
+        "id": "1_4_85", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 6400
+    }, 
+    "1_4_86": {
+        "id": "1_4_86", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 6500
+    }, 
+    "1_4_87": {
+        "id": "1_4_87", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 6600
+    }, 
+    "1_4_88": {
+        "id": "1_4_88", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 6700
+    }, 
+    "1_4_89": {
+        "id": "1_4_89", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 6800
+    }, 
+    "1_4_90": {
+        "id": "1_4_90", 
+        "isPlayer": 1, 
+        "order": 4, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 6900
+    }, 
+    "1_5_1": {
+        "id": "1_5_1", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 1, 
+        "coin": 100, 
+        "potential": 10
+    }, 
+    "1_5_2": {
+        "id": "1_5_2", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 2, 
+        "coin": 200, 
+        "potential": 50
+    }, 
+    "1_5_3": {
+        "id": "1_5_3", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 3, 
+        "coin": 300, 
+        "potential": 100
+    }, 
+    "1_5_4": {
+        "id": "1_5_4", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 4, 
+        "coin": 400, 
+        "potential": 150
+    }, 
+    "1_5_5": {
+        "id": "1_5_5", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 5, 
+        "coin": 500, 
+        "potential": 200
+    }, 
+    "1_5_6": {
+        "id": "1_5_6", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 6, 
+        "coin": 600, 
+        "potential": 250
+    }, 
+    "1_5_7": {
+        "id": "1_5_7", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 7, 
+        "coin": 700, 
+        "potential": 300
+    }, 
+    "1_5_8": {
+        "id": "1_5_8", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 8, 
+        "coin": 800, 
+        "potential": 350
+    }, 
+    "1_5_9": {
+        "id": "1_5_9", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 9, 
+        "coin": 900, 
+        "potential": 400
+    }, 
+    "1_5_10": {
+        "id": "1_5_10", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 10, 
+        "coin": 1000, 
+        "potential": 450
+    }, 
+    "1_5_11": {
+        "id": "1_5_11", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 11, 
+        "coin": 1100, 
+        "potential": 500
+    }, 
+    "1_5_12": {
+        "id": "1_5_12", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 12, 
+        "coin": 1200, 
+        "potential": 550
+    }, 
+    "1_5_13": {
+        "id": "1_5_13", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 13, 
+        "coin": 1300, 
+        "potential": 600
+    }, 
+    "1_5_14": {
+        "id": "1_5_14", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 14, 
+        "coin": 1400, 
+        "potential": 650
+    }, 
+    "1_5_15": {
+        "id": "1_5_15", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 15, 
+        "coin": 1500, 
+        "potential": 700
+    }, 
+    "1_5_16": {
+        "id": "1_5_16", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 16, 
+        "coin": 1600, 
+        "potential": 750
+    }, 
+    "1_5_17": {
+        "id": "1_5_17", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 17, 
+        "coin": 1700, 
+        "potential": 800
+    }, 
+    "1_5_18": {
+        "id": "1_5_18", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 18, 
+        "coin": 1800, 
+        "potential": 850
+    }, 
+    "1_5_19": {
+        "id": "1_5_19", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 19, 
+        "coin": 1900, 
+        "potential": 900
+    }, 
+    "1_5_20": {
+        "id": "1_5_20", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 20, 
+        "coin": 2000, 
+        "potential": 950
+    }, 
+    "1_5_21": {
+        "id": "1_5_21", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 21, 
+        "coin": 2100, 
+        "potential": 1000
+    }, 
+    "1_5_22": {
+        "id": "1_5_22", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 22, 
+        "coin": 2200, 
+        "potential": 1050
+    }, 
+    "1_5_23": {
+        "id": "1_5_23", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 23, 
+        "coin": 2300, 
+        "potential": 1100
+    }, 
+    "1_5_24": {
+        "id": "1_5_24", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 24, 
+        "coin": 2500, 
+        "potential": 1150
+    }, 
+    "1_5_25": {
+        "id": "1_5_25", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 25, 
+        "coin": 2800, 
+        "potential": 1200
+    }, 
+    "1_5_26": {
+        "id": "1_5_26", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 26, 
+        "coin": 3200, 
+        "potential": 1250
+    }, 
+    "1_5_27": {
+        "id": "1_5_27", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 27, 
+        "coin": 3700, 
+        "potential": 1300
+    }, 
+    "1_5_28": {
+        "id": "1_5_28", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 28, 
+        "coin": 4200, 
+        "potential": 1350
+    }, 
+    "1_5_29": {
+        "id": "1_5_29", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 29, 
+        "coin": 4700, 
+        "potential": 1400
+    }, 
+    "1_5_30": {
+        "id": "1_5_30", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 30, 
+        "coin": 6900, 
+        "potential": 1450
+    }, 
+    "1_5_31": {
+        "id": "1_5_31", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 31, 
+        "coin": 7800, 
+        "potential": 1500
+    }, 
+    "1_5_32": {
+        "id": "1_5_32", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 32, 
+        "coin": 9200, 
+        "potential": 1550
+    }, 
+    "1_5_33": {
+        "id": "1_5_33", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 33, 
+        "coin": 10000, 
+        "potential": 1600
+    }, 
+    "1_5_34": {
+        "id": "1_5_34", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 34, 
+        "coin": 11000, 
+        "potential": 1650
+    }, 
+    "1_5_35": {
+        "id": "1_5_35", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 35, 
+        "coin": 13000, 
+        "potential": 1700
+    }, 
+    "1_5_36": {
+        "id": "1_5_36", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 36, 
+        "coin": 14000, 
+        "potential": 1750
+    }, 
+    "1_5_37": {
+        "id": "1_5_37", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 37, 
+        "coin": 15000, 
+        "potential": 1800
+    }, 
+    "1_5_38": {
+        "id": "1_5_38", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 38, 
+        "coin": 17000, 
+        "potential": 1850
+    }, 
+    "1_5_39": {
+        "id": "1_5_39", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 39, 
+        "coin": 19000, 
+        "potential": 1900
+    }, 
+    "1_5_40": {
+        "id": "1_5_40", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 40, 
+        "coin": 20000, 
+        "potential": 1950
+    }, 
+    "1_5_41": {
+        "id": "1_5_41", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 41, 
+        "coin": 22000, 
+        "potential": 2000
+    }, 
+    "1_5_42": {
+        "id": "1_5_42", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 42, 
+        "coin": 24000, 
+        "potential": 2100
+    }, 
+    "1_5_43": {
+        "id": "1_5_43", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 43, 
+        "coin": 27000, 
+        "potential": 2200
+    }, 
+    "1_5_44": {
+        "id": "1_5_44", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 44, 
+        "coin": 29000, 
+        "potential": 2300
+    }, 
+    "1_5_45": {
+        "id": "1_5_45", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 45, 
+        "coin": 32000, 
+        "potential": 2400
+    }, 
+    "1_5_46": {
+        "id": "1_5_46", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 46, 
+        "coin": 34000, 
+        "potential": 2500
+    }, 
+    "1_5_47": {
+        "id": "1_5_47", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 47, 
+        "coin": 37000, 
+        "potential": 2600
+    }, 
+    "1_5_48": {
+        "id": "1_5_48", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 48, 
+        "coin": 40000, 
+        "potential": 2700
+    }, 
+    "1_5_49": {
+        "id": "1_5_49", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 49, 
+        "coin": 43000, 
+        "potential": 2800
+    }, 
+    "1_5_50": {
+        "id": "1_5_50", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 50, 
+        "coin": 47000, 
+        "potential": 2900
+    }, 
+    "1_5_51": {
+        "id": "1_5_51", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 51, 
+        "coin": 50000, 
+        "potential": 3000
+    }, 
+    "1_5_52": {
+        "id": "1_5_52", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 52, 
+        "coin": 54000, 
+        "potential": 3100
+    }, 
+    "1_5_53": {
+        "id": "1_5_53", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 53, 
+        "coin": 58000, 
+        "potential": 3200
+    }, 
+    "1_5_54": {
+        "id": "1_5_54", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 54, 
+        "coin": 63000, 
+        "potential": 3300
+    }, 
+    "1_5_55": {
+        "id": "1_5_55", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 55, 
+        "coin": 67000, 
+        "potential": 3400
+    }, 
+    "1_5_56": {
+        "id": "1_5_56", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 56, 
+        "coin": 72000, 
+        "potential": 3500
+    }, 
+    "1_5_57": {
+        "id": "1_5_57", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 57, 
+        "coin": 77000, 
+        "potential": 3600
+    }, 
+    "1_5_58": {
+        "id": "1_5_58", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 58, 
+        "coin": 82000, 
+        "potential": 3700
+    }, 
+    "1_5_59": {
+        "id": "1_5_59", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 59, 
+        "coin": 88000, 
+        "potential": 3800
+    }, 
+    "1_5_60": {
+        "id": "1_5_60", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 60, 
+        "coin": 94000, 
+        "potential": 3900
+    }, 
+    "1_5_61": {
+        "id": "1_5_61", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 61, 
+        "coin": 100000, 
+        "potential": 4000
+    }, 
+    "1_5_62": {
+        "id": "1_5_62", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 62, 
+        "coin": 110000, 
+        "potential": 4100
+    }, 
+    "1_5_63": {
+        "id": "1_5_63", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 63, 
+        "coin": 110000, 
+        "potential": 4200
+    }, 
+    "1_5_64": {
+        "id": "1_5_64", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 64, 
+        "coin": 120000, 
+        "potential": 4300
+    }, 
+    "1_5_65": {
+        "id": "1_5_65", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 65, 
+        "coin": 130000, 
+        "potential": 4400
+    }, 
+    "1_5_66": {
+        "id": "1_5_66", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 66, 
+        "coin": 140000, 
+        "potential": 4500
+    }, 
+    "1_5_67": {
+        "id": "1_5_67", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 67, 
+        "coin": 140000, 
+        "potential": 4600
+    }, 
+    "1_5_68": {
+        "id": "1_5_68", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 68, 
+        "coin": 150000, 
+        "potential": 4700
+    }, 
+    "1_5_69": {
+        "id": "1_5_69", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 69, 
+        "coin": 160000, 
+        "potential": 4800
+    }, 
+    "1_5_70": {
+        "id": "1_5_70", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 70, 
+        "coin": 170000, 
+        "potential": 4900
+    }, 
+    "1_5_71": {
+        "id": "1_5_71", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 71, 
+        "coin": 180000, 
+        "potential": 5000
+    }, 
+    "1_5_72": {
+        "id": "1_5_72", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 72, 
+        "coin": 190000, 
+        "potential": 5100
+    }, 
+    "1_5_73": {
+        "id": "1_5_73", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 73, 
+        "coin": 200000, 
+        "potential": 5200
+    }, 
+    "1_5_74": {
+        "id": "1_5_74", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 74, 
+        "coin": 210000, 
+        "potential": 5300
+    }, 
+    "1_5_75": {
+        "id": "1_5_75", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 75, 
+        "coin": 230000, 
+        "potential": 5400
+    }, 
+    "1_5_76": {
+        "id": "1_5_76", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 76, 
+        "coin": 240000, 
+        "potential": 5500
+    }, 
+    "1_5_77": {
+        "id": "1_5_77", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 77, 
+        "coin": 250000, 
+        "potential": 5600
+    }, 
+    "1_5_78": {
+        "id": "1_5_78", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 78, 
+        "coin": 260000, 
+        "potential": 5700
+    }, 
+    "1_5_79": {
+        "id": "1_5_79", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 79, 
+        "coin": 280000, 
+        "potential": 5800
+    }, 
+    "1_5_80": {
+        "id": "1_5_80", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 80, 
+        "coin": 290000, 
+        "potential": 5900
+    }, 
+    "1_5_81": {
+        "id": "1_5_81", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 81, 
+        "coin": 310000, 
+        "potential": 6000
+    }, 
+    "1_5_82": {
+        "id": "1_5_82", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 82, 
+        "coin": 320000, 
+        "potential": 6100
+    }, 
+    "1_5_83": {
+        "id": "1_5_83", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 83, 
+        "coin": 340000, 
+        "potential": 6200
+    }, 
+    "1_5_84": {
+        "id": "1_5_84", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 84, 
+        "coin": 360000, 
+        "potential": 6300
+    }, 
+    "1_5_85": {
+        "id": "1_5_85", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 85, 
+        "coin": 370000, 
+        "potential": 6400
+    }, 
+    "1_5_86": {
+        "id": "1_5_86", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 86, 
+        "coin": 390000, 
+        "potential": 6500
+    }, 
+    "1_5_87": {
+        "id": "1_5_87", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 87, 
+        "coin": 410000, 
+        "potential": 6600
+    }, 
+    "1_5_88": {
+        "id": "1_5_88", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 88, 
+        "coin": 430000, 
+        "potential": 6700
+    }, 
+    "1_5_89": {
+        "id": "1_5_89", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 89, 
+        "coin": 450000, 
+        "potential": 6800
+    }, 
+    "1_5_90": {
+        "id": "1_5_90", 
+        "isPlayer": 1, 
+        "order": 5, 
+        "level": 90, 
+        "coin": 470000, 
+        "potential": 6900
+    }
+}

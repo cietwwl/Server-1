@@ -1,0 +1,26 @@
+{
+    "1": {
+        "slot": 2, 
+        "moneyCount": 6, 
+        "title": "60钻石", 
+        "giveCount": 0, 
+        "daysDraw": 0, 
+        "goldCount": 60, 
+        "extraGive": 0, 
+        "recommend": 0, 
+        "icon": "", 
+        "desc": ""
+    }, 
+    "0": {
+        "slot": 1, 
+        "moneyCount": 30, 
+        "title": "100钻石", 
+        "giveCount": 1, 
+        "daysDraw": 0, 
+        "goldCount": 300, 
+        "extraGive": 300, 
+        "recommend": 1, 
+        "icon": "", 
+        "desc": "另赠送160钻石"
+    }
+}

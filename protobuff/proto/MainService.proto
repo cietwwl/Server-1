@@ -1,0 +1,64 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "MainServiceProtos";
+
+enum EMainServiceType {
+		GET_MAIN = 0;//获取首页信息
+		BUY_COIN = 1;//购买铜钱
+		TO_BUY_POWER = 2;
+		BUY_POWER = 3;//购买体力
+		CONTINUOUS_BUY_COIN = 4;//连续购买金币
+		TO_CONTINUOUS_BUY_COIN = 5;
+		GET_POWER_INFO = 6;//获取体力信息
+}
+enum EMainResultType {
+	SUCCESS = 1;//成功
+	LOW_VIP = 2;//Vip等级不足
+	NOT_ENOUGH_GOLD =3 ;//金钱不足
+	POWER_LIMIT = 4;//体力已达上限
+}
+
+message MsgMainRequest{
+    required EMainServiceType requestType = 1;
+    optional int32 times = 2;
+}
+
+message MsgMainResponse{
+    required MsgMainRequest request = 1;//
+	optional TagIndexInfo indexInfo = 2;//首页返回
+	optional TagCfgBuyCoin tagCfgBuyCoin = 3;
+	optional TagCfgBuyPower tagCfgBuyPower =4;
+	optional EMainResultType eMainResultType = 5;
+	repeated TagCfgBuyCoin allTagCfgBuyCoin = 6;//连续请求列表
+	optional PowerInfo powerInfo = 7;//体力信息
+}
+
+message TagIndexInfo{
+	optional int32 level =2;//用户等级
+	optional int32 vipLevel =3 ;//用户vip
+	optional int64 coin =4;//铜钱
+	optional int32 diamond =5;//钻石
+	optional int32 power =6;//体力
+	optional int32 maxPower =7;//最大体力
+	optional string headIamgeId =8;//用户头像id
+}
+
+message TagCfgBuyCoin{
+	optional int32 times =1;//购买次数
+	optional int32 needPurse =2 ;//花费水晶
+	optional int32 coin = 3;//单倍获得的金币
+	optional int32 cityMultiple = 4;//暴击倍数
+}
+
+message TagCfgBuyPower{
+	optional int32 times = 1;//今日购买次数
+	optional int32 needPurse = 2;//本次购买需花费
+	optional int32 power = 3;//本次购买可获得体力
+}
+
+message PowerInfo{
+	required int32 buyCount = 1;//购买次数
+	required int64 lastRecoverTime = 2;//上次恢复时间戳
+}
+
+

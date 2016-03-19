@@ -1,0 +1,126 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.rw</groupId>
+	<artifactId>FSAPP</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>FSBase</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
+
+ 	<build>
+		<plugins>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-assembly-plugin</artifactId>
+			    
+				<executions>  <!--执行器 mvn assembly:assembly-->
+					<execution>
+						<id>make-zip</id><!--名字任意 -->  
+						<phase>package</phase><!-- 绑定到package生命周期阶段上 -->  
+						<goals>  
+						   <goal>single</goal><!-- 只运行一次 -->  
+						</goals>  
+						<configuration>
+								 <descriptors> <!--描述文件路径-->
+									  <descriptor>src/main/resources/zip.xml</descriptor>
+								</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			 </plugin>
+		</plugins>
+	</build>
+	
+
+	<dependencies>
+		<dependency>
+			<groupId>com.rw</groupId>
+			<artifactId>FSUtil</artifactId>
+			<version>0.0.1-SNAPSHOT11</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+			<version>2.3.14.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-test</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-spring-plugin</artifactId>
+			<version>2.3.14.3</version>
+		</dependency>
+
+		<!-- for netty -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.0.23.Final</version>
+		</dependency>
+		<!-- for http -->
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
+
+		<!--这里下面的两个dependency, servlet-api与jsp-api所需 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>4.11</version>
+	      <scope>test</scope>
+	    </dependency>
+		
+	 	<dependency>
+		   	<groupId>org.springframework</groupId>
+		   	<artifactId>spring-test</artifactId>
+		   	<version>3.0.2.RELEASE</version>
+		   	<scope>test</scope>
+		 </dependency>
+
+
+	 	<dependency>
+	 		<groupId>org.apache.commons</groupId>
+	 		<artifactId>csv</artifactId>
+	 		<version>1.2</version>
+	 	</dependency>
+	 	<dependency>
+	 		<groupId>jutils</groupId>
+	 		<artifactId>jutils</artifactId>
+	 		<version>1.0.2</version>
+	 	</dependency>
+	</dependencies>
+
+
+</project>

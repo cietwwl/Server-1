@@ -1,0 +1,7 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "TimeStampServiceProtos";
+
+message TimeStampResponse {
+	optional int64 time = 1;
+}

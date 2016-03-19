@@ -1,0 +1,112 @@
+{
+    "1": {
+        "times": 1, 
+        "needPurse": 10, 
+        "skillpoint": 10
+    }, 
+    "2": {
+        "times": 2, 
+        "needPurse": 10, 
+        "skillpoint": 10
+    }, 
+    "3": {
+        "times": 3, 
+        "needPurse": 40, 
+        "skillpoint": 10
+    }, 
+    "4": {
+        "times": 4, 
+        "needPurse": 40, 
+        "skillpoint": 10
+    }, 
+    "5": {
+        "times": 5, 
+        "needPurse": 100, 
+        "skillpoint": 10
+    }, 
+    "6": {
+        "times": 6, 
+        "needPurse": 100, 
+        "skillpoint": 10
+    }, 
+    "7": {
+        "times": 7, 
+        "needPurse": 200, 
+        "skillpoint": 10
+    }, 
+    "8": {
+        "times": 8, 
+        "needPurse": 200, 
+        "skillpoint": 10
+    }, 
+    "9": {
+        "times": 9, 
+        "needPurse": 400, 
+        "skillpoint": 10
+    }, 
+    "10": {
+        "times": 10, 
+        "needPurse": 400, 
+        "skillpoint": 10
+    }, 
+    "11": {
+        "times": 11, 
+        "needPurse": 800, 
+        "skillpoint": 10
+    }, 
+    "12": {
+        "times": 12, 
+        "needPurse": 800, 
+        "skillpoint": 10
+    }, 
+    "13": {
+        "times": 13, 
+        "needPurse": 1000, 
+        "skillpoint": 10
+    }, 
+    "14": {
+        "times": 14, 
+        "needPurse": 1000, 
+        "skillpoint": 10
+    }, 
+    "15": {
+        "times": 15, 
+        "needPurse": 1500, 
+        "skillpoint": 10
+    }, 
+    "16": {
+        "times": 16, 
+        "needPurse": 1500, 
+        "skillpoint": 10
+    }, 
+    "17": {
+        "times": 17, 
+        "needPurse": 2000, 
+        "skillpoint": 10
+    }, 
+    "18": {
+        "times": 18, 
+        "needPurse": 2000, 
+        "skillpoint": 10
+    }, 
+    "19": {
+        "times": 19, 
+        "needPurse": 2500, 
+        "skillpoint": 10
+    }, 
+    "20": {
+        "times": 20, 
+        "needPurse": 2500, 
+        "skillpoint": 10
+    }, 
+    "21": {
+        "times": 21, 
+        "needPurse": 3000, 
+        "skillpoint": 10
+    }, 
+    "22": {
+        "times": 22, 
+        "needPurse": 3000, 
+        "skillpoint": 10
+    }
+}

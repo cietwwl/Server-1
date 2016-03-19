@@ -1,0 +1,34 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "TaskProtos";
+
+enum eTaskRequestType {
+	GetReward = 1;  
+	SyncTask=2;
+}
+
+enum eTaskResultType {
+	SUCCESS=0;
+	FAIL=1;
+}
+
+message tagTask{
+	optional int32 id = 1;
+	optional int32 finishType = 2;
+	optional int32 drawState = 3;
+	optional int32 curProgress =4;
+	optional int32 totalProgress =5;
+}
+
+message TaskRequest {
+	required eTaskRequestType requestType = 1;
+    optional int32 id = 2;
+}
+
+message TaskResponse {
+	optional eTaskRequestType responseType = 1;
+	optional eTaskResultType reslutType = 2;
+	optional string reslutValue = 3;
+	repeated tagTask task = 5;
+	optional int32 id = 6;
+}

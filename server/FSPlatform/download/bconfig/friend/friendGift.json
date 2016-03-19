@@ -1,0 +1,402 @@
+{
+    "24": {
+        "receiveLimit": 20, 
+        "level": 24
+    }, 
+    "25": {
+        "receiveLimit": 20, 
+        "level": 25
+    }, 
+    "26": {
+        "receiveLimit": 20, 
+        "level": 26
+    }, 
+    "27": {
+        "receiveLimit": 20, 
+        "level": 27
+    }, 
+    "20": {
+        "receiveLimit": 10, 
+        "level": 20
+    }, 
+    "21": {
+        "receiveLimit": 20, 
+        "level": 21
+    }, 
+    "22": {
+        "receiveLimit": 20, 
+        "level": 22
+    }, 
+    "23": {
+        "receiveLimit": 20, 
+        "level": 23
+    }, 
+    "28": {
+        "receiveLimit": 20, 
+        "level": 28
+    }, 
+    "29": {
+        "receiveLimit": 20, 
+        "level": 29
+    }, 
+    "4": {
+        "receiveLimit": 5, 
+        "level": 4
+    }, 
+    "8": {
+        "receiveLimit": 5, 
+        "level": 8
+    }, 
+    "59": {
+        "receiveLimit": 20, 
+        "level": 59
+    }, 
+    "58": {
+        "receiveLimit": 20, 
+        "level": 58
+    }, 
+    "55": {
+        "receiveLimit": 20, 
+        "level": 55
+    }, 
+    "54": {
+        "receiveLimit": 20, 
+        "level": 54
+    }, 
+    "57": {
+        "receiveLimit": 20, 
+        "level": 57
+    }, 
+    "56": {
+        "receiveLimit": 20, 
+        "level": 56
+    }, 
+    "51": {
+        "receiveLimit": 20, 
+        "level": 51
+    }, 
+    "50": {
+        "receiveLimit": 20, 
+        "level": 50
+    }, 
+    "53": {
+        "receiveLimit": 20, 
+        "level": 53
+    }, 
+    "52": {
+        "receiveLimit": 20, 
+        "level": 52
+    }, 
+    "88": {
+        "receiveLimit": 20, 
+        "level": 88
+    }, 
+    "89": {
+        "receiveLimit": 20, 
+        "level": 89
+    }, 
+    "82": {
+        "receiveLimit": 20, 
+        "level": 82
+    }, 
+    "83": {
+        "receiveLimit": 20, 
+        "level": 83
+    }, 
+    "80": {
+        "receiveLimit": 20, 
+        "level": 80
+    }, 
+    "81": {
+        "receiveLimit": 20, 
+        "level": 81
+    }, 
+    "86": {
+        "receiveLimit": 20, 
+        "level": 86
+    }, 
+    "87": {
+        "receiveLimit": 20, 
+        "level": 87
+    }, 
+    "84": {
+        "receiveLimit": 20, 
+        "level": 84
+    }, 
+    "85": {
+        "receiveLimit": 20, 
+        "level": 85
+    }, 
+    "3": {
+        "receiveLimit": 5, 
+        "level": 3
+    }, 
+    "7": {
+        "receiveLimit": 5, 
+        "level": 7
+    }, 
+    "100": {
+        "receiveLimit": 20, 
+        "level": 100
+    }, 
+    "39": {
+        "receiveLimit": 20, 
+        "level": 39
+    }, 
+    "38": {
+        "receiveLimit": 20, 
+        "level": 38
+    }, 
+    "33": {
+        "receiveLimit": 20, 
+        "level": 33
+    }, 
+    "32": {
+        "receiveLimit": 20, 
+        "level": 32
+    }, 
+    "31": {
+        "receiveLimit": 20, 
+        "level": 31
+    }, 
+    "30": {
+        "receiveLimit": 20, 
+        "level": 30
+    }, 
+    "37": {
+        "receiveLimit": 20, 
+        "level": 37
+    }, 
+    "36": {
+        "receiveLimit": 20, 
+        "level": 36
+    }, 
+    "35": {
+        "receiveLimit": 20, 
+        "level": 35
+    }, 
+    "34": {
+        "receiveLimit": 20, 
+        "level": 34
+    }, 
+    "60": {
+        "receiveLimit": 20, 
+        "level": 60
+    }, 
+    "61": {
+        "receiveLimit": 20, 
+        "level": 61
+    }, 
+    "62": {
+        "receiveLimit": 20, 
+        "level": 62
+    }, 
+    "63": {
+        "receiveLimit": 20, 
+        "level": 63
+    }, 
+    "64": {
+        "receiveLimit": 20, 
+        "level": 64
+    }, 
+    "65": {
+        "receiveLimit": 20, 
+        "level": 65
+    }, 
+    "66": {
+        "receiveLimit": 20, 
+        "level": 66
+    }, 
+    "67": {
+        "receiveLimit": 20, 
+        "level": 67
+    }, 
+    "68": {
+        "receiveLimit": 20, 
+        "level": 68
+    }, 
+    "69": {
+        "receiveLimit": 20, 
+        "level": 69
+    }, 
+    "2": {
+        "receiveLimit": 5, 
+        "level": 2
+    }, 
+    "6": {
+        "receiveLimit": 5, 
+        "level": 6
+    }, 
+    "99": {
+        "receiveLimit": 20, 
+        "level": 99
+    }, 
+    "98": {
+        "receiveLimit": 20, 
+        "level": 98
+    }, 
+    "91": {
+        "receiveLimit": 20, 
+        "level": 91
+    }, 
+    "90": {
+        "receiveLimit": 20, 
+        "level": 90
+    }, 
+    "93": {
+        "receiveLimit": 20, 
+        "level": 93
+    }, 
+    "92": {
+        "receiveLimit": 20, 
+        "level": 92
+    }, 
+    "95": {
+        "receiveLimit": 20, 
+        "level": 95
+    }, 
+    "94": {
+        "receiveLimit": 20, 
+        "level": 94
+    }, 
+    "97": {
+        "receiveLimit": 20, 
+        "level": 97
+    }, 
+    "96": {
+        "receiveLimit": 20, 
+        "level": 96
+    }, 
+    "11": {
+        "receiveLimit": 10, 
+        "level": 11
+    }, 
+    "10": {
+        "receiveLimit": 5, 
+        "level": 10
+    }, 
+    "13": {
+        "receiveLimit": 10, 
+        "level": 13
+    }, 
+    "12": {
+        "receiveLimit": 10, 
+        "level": 12
+    }, 
+    "15": {
+        "receiveLimit": 10, 
+        "level": 15
+    }, 
+    "14": {
+        "receiveLimit": 10, 
+        "level": 14
+    }, 
+    "17": {
+        "receiveLimit": 10, 
+        "level": 17
+    }, 
+    "16": {
+        "receiveLimit": 10, 
+        "level": 16
+    }, 
+    "19": {
+        "receiveLimit": 10, 
+        "level": 19
+    }, 
+    "18": {
+        "receiveLimit": 10, 
+        "level": 18
+    }, 
+    "48": {
+        "receiveLimit": 20, 
+        "level": 48
+    }, 
+    "49": {
+        "receiveLimit": 20, 
+        "level": 49
+    }, 
+    "46": {
+        "receiveLimit": 20, 
+        "level": 46
+    }, 
+    "47": {
+        "receiveLimit": 20, 
+        "level": 47
+    }, 
+    "44": {
+        "receiveLimit": 20, 
+        "level": 44
+    }, 
+    "45": {
+        "receiveLimit": 20, 
+        "level": 45
+    }, 
+    "42": {
+        "receiveLimit": 20, 
+        "level": 42
+    }, 
+    "43": {
+        "receiveLimit": 20, 
+        "level": 43
+    }, 
+    "40": {
+        "receiveLimit": 20, 
+        "level": 40
+    }, 
+    "41": {
+        "receiveLimit": 20, 
+        "level": 41
+    }, 
+    "1": {
+        "receiveLimit": 5, 
+        "level": 1
+    }, 
+    "5": {
+        "receiveLimit": 5, 
+        "level": 5
+    }, 
+    "9": {
+        "receiveLimit": 5, 
+        "level": 9
+    }, 
+    "77": {
+        "receiveLimit": 20, 
+        "level": 77
+    }, 
+    "76": {
+        "receiveLimit": 20, 
+        "level": 76
+    }, 
+    "75": {
+        "receiveLimit": 20, 
+        "level": 75
+    }, 
+    "74": {
+        "receiveLimit": 20, 
+        "level": 74
+    }, 
+    "73": {
+        "receiveLimit": 20, 
+        "level": 73
+    }, 
+    "72": {
+        "receiveLimit": 20, 
+        "level": 72
+    }, 
+    "71": {
+        "receiveLimit": 20, 
+        "level": 71
+    }, 
+    "70": {
+        "receiveLimit": 20, 
+        "level": 70
+    }, 
+    "79": {
+        "receiveLimit": 20, 
+        "level": 79
+    }, 
+    "78": {
+        "receiveLimit": 20, 
+        "level": 78
+    }
+}

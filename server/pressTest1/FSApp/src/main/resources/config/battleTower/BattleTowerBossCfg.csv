@@ -1,0 +1,5 @@
+key,Remarks,bossId,pro,levelLimit,rewardInfo,dropIds,bossName,bossIcon,bossDesc
+1,,160102,10,1,"602001:1,1:20000","90009,90011,90014,10001",深渊统帅,Hero_head/head_ShenYuanTongShuai,怪物强化计划的材料
+2,,160103,50,1,"602001:1,1:20001","90009,90011,90014,10001",暗蚀魔神,Hero_head/head_AnShiMoShen,怪物强化计划的失败产物
+4,,160104,10,45,"602001:1,1:20003","90009,90011,90014,10001",苍穹守卫,Hero_head/head_CangQiongShouWei,怪物强化计划研究社的门卫首领
+8,,160105,90,60,"602001:1,1:20007","90009,90011,90014,10001",三头龙魇,Hero_head/head_SanTouLongYan,怪物合成计划的产物

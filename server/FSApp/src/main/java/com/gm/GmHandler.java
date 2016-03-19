@@ -1,0 +1,194 @@
+package com.gm;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.gm.task.GmBlockPlayer;
+import com.gm.task.GmBlockRelease;
+import com.gm.task.GmChargeSwitch;
+import com.gm.task.GmChatBanPlayer;
+import com.gm.task.GmChatBanRelease;
+import com.gm.task.GmCheckBag;
+import com.gm.task.GmCheckDataOpProgress;
+import com.gm.task.GmDeleteBag;
+import com.gm.task.GmDeleteGameNotice;
+import com.gm.task.GmEditGameNotice;
+import com.gm.task.GmEditPlatformNotice;
+import com.gm.task.GmEmailAll;
+import com.gm.task.GmEmailSingleCheck;
+import com.gm.task.GmEmailSingleDelete;
+import com.gm.task.GmEmailSingleSend;
+import com.gm.task.GmEmailWhiteList;
+import com.gm.task.GmExecuteGMCommand;
+import com.gm.task.GmForClassLoad;
+import com.gm.task.GmKickOffPlayer;
+import com.gm.task.GmOnlineCount;
+import com.gm.task.GmOnlineLimitModify;
+import com.gm.task.GmOpCoin;
+import com.gm.task.GmOpGold;
+import com.gm.task.GmSavePlayer;
+import com.gm.task.GmServerInfo;
+import com.gm.task.GmServerStatus;
+import com.gm.task.GmServerSwitch;
+import com.gm.task.GmStartRobotCreation;
+import com.gm.task.GmSwitchBIGm;
+import com.gm.task.GmUserDetailInfo;
+import com.gm.task.GmUserInfo;
+import com.gm.task.GmViewEmailList;
+import com.gm.task.GmViewEquipments;
+import com.gm.task.GmViewFriends;
+import com.gm.task.GmViewGameNotice;
+import com.gm.task.GmViewPlatformNotice;
+import com.gm.task.GmWhiteListModify;
+import com.gm.task.GmWhiteListSwitch;
+import com.gm.task.IGmTask;
+import com.gm.util.SocketHelper;
+import com.log.GameLog;
+import com.log.LogModule;
+import com.rw.fsutil.log.GmLog;
+
+public class GmHandler {
+	
+	private String gmAccount = "gm";
+	
+	private String gmPassword = "passwd";
+	
+	private Map<Integer, IGmTask> taskMap = new HashMap<Integer, IGmTask>();
+	
+	public GmHandler(String account, String password){
+		this.gmAccount = account;
+		this.gmPassword = password;
+		
+		//运维功能
+		taskMap.put(1001, new GmServerSwitch());
+		taskMap.put(1002, new GmKickOffPlayer());
+		taskMap.put(1003, new GmSavePlayer());
+		taskMap.put(1004, new GmOnlineCount());
+		taskMap.put(1005, new GmWhiteListSwitch());
+		taskMap.put(1006, new GmWhiteListModify());
+		taskMap.put(1007, new GmOnlineLimitModify());
+		taskMap.put(1008, new GmChargeSwitch());
+		taskMap.put(1009, new GmServerInfo());				
+		taskMap.put(1010, new GmCheckDataOpProgress());
+		
+		//机器人
+		taskMap.put(3001, new GmStartRobotCreation());
+		//开启和关闭游戏内的gm指令
+		taskMap.put(4001, new GmSwitchBIGm());
+		//for class load by classname
+		taskMap.put(888888, new GmForClassLoad());
+		
+		//运营功能
+		taskMap.put(20001, new GmUserInfo());
+		taskMap.put(20002, new GmServerStatus());
+		taskMap.put(20030, new GmUserDetailInfo());
+		taskMap.put(20014, new GmEmailWhiteList());
+		taskMap.put(20015, new GmEmailAll());
+		taskMap.put(20016, new GmEmailSingleSend());
+		taskMap.put(20021, new GmEmailSingleCheck());
+		taskMap.put(20022, new GmEmailSingleDelete());
+		
+		taskMap.put(20023, new GmBlockPlayer());
+		taskMap.put(20024, new GmBlockRelease());
+		taskMap.put(20025, new GmChatBanPlayer());
+		taskMap.put(20026, new GmChatBanRelease());
+		taskMap.put(20027, new GmOpGold());
+		taskMap.put(20028, new GmOpCoin());
+		
+		taskMap.put(20035, new GmCheckBag());
+		taskMap.put(20036, new GmDeleteBag());
+		taskMap.put(20003, new GmEditPlatformNotice());
+		taskMap.put(20004, new GmViewPlatformNotice());
+		taskMap.put(20005, new GmEditGameNotice());
+		taskMap.put(20006, new GmViewGameNotice());
+		taskMap.put(20007, new GmDeleteGameNotice());
+		taskMap.put(20032, new GmViewFriends());
+		taskMap.put(20037, new GmViewEquipments());
+		taskMap.put(20040, new GmViewEmailList());
+		taskMap.put(99999, new GmExecuteGMCommand());
+	}
+
+	
+	public void handle(Socket socket){
+		try {
+			// 读取客户端数据
+			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+			DataInputStream input = new DataInputStream(socket.getInputStream());
+
+			GmRequest gmRequest = SocketHelper.read(input, GmRequest.class);
+			GmResponse gmResponse = null;
+			if (gmRequest == null) {
+				gmResponse = new GmResponse();
+				gmResponse.setStatus(2);
+				gmResponse.setCount(0);
+				Map<String, Object> resultMap = new HashMap<String, Object>();
+				resultMap.put("value", "Can not find the gm command.");
+				gmResponse.addResult(resultMap );
+			} else {
+				if (unAuthorize(gmRequest)) {
+
+					gmResponse = new GmResponse();
+					gmResponse.setStatus(2);
+					gmResponse.setCount(0);
+					Map<String, Object> resultMap = new HashMap<String, Object>();
+					resultMap.put("value", "account unauthorized.");
+					gmResponse.addResult(resultMap);
+					GameLog.info(LogModule.GM.getName(), "gmId", "GmHandler[handle] 账户或密码不对", null);
+
+				} else if (gmRequest != null) {
+					IGmTask gmTask = taskMap.get(gmRequest.getOpType());
+					if (gmTask != null) {
+						GmLog.info("GmHandler[handle] GmTask found:" + gmTask.getClass() + " optype:" + gmRequest.getOpType());
+						gmResponse = gmTask.doTask(gmRequest);
+					} else {
+						GmLog.info("GmHandler[handle] GmTask not found," + " optype:" + gmRequest.getOpType());
+
+					}
+				}
+			}
+			
+			SocketHelper.write(output, gmResponse);
+			output.flush();
+			GameLog.info(LogModule.GM.getName(), "gmId", "GmHandler[handle] 消息发送成功", null);
+			
+			output.close();
+			input.close();
+			
+		} catch (Exception e) {			
+			GameLog.error(LogModule.GM.getName(), "gmId", "GmHandler[handle] gm处理异常", e);
+		} finally {
+			if (socket != null) {
+				try {
+					socket.close();
+				} catch (Exception e) {
+					socket = null;
+					GameLog.error(LogModule.GM.getName(), "gmId", "GmHandler[handle] finally socket关闭异常", e);
+				}
+			}
+		}
+	}
+
+
+	private boolean unAuthorize(GmRequest gmRequest) {
+		String account = gmRequest.getAccount();
+		String password = gmRequest.getPassword();		
+		return !StringUtils.equals(gmAccount, account) || !StringUtils.equals(gmPassword, password);
+	}
+
+
+	public void setGmAccount(String gmAccount) {
+		this.gmAccount = gmAccount;
+	}
+
+
+	public void setGmPassword(String gmPassword) {
+		this.gmPassword = gmPassword;
+	}
+	
+	
+}

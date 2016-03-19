@@ -1,0 +1,33 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "CopyTrialServiceProtos";
+
+enum eTrialType {
+	TRIAL_TYPE_TRIAL = 0;//试炼之境
+	TRIAL_TYPE_CELESTIAL = 1; // 天界之轮
+	TRIAL_RESET_COUNT = 2; // 重置副本次数
+}
+enum eTrialResultType {
+	SUCCESS = 1;//成功
+	FAIL = 2;//失败
+}
+
+message TrialData{
+	required int32 infoId = 1;
+	required int32 copyCount = 2;
+	required int32 resetCount = 3;
+	optional int32 passStar = 4;
+	
+}
+
+message MsgTrialRequest{
+    required eTrialType trialType = 1;
+	optional int32 copyType = 2;
+	optional int32 infoId = 3;
+}
+
+message MsgTrialResponse{
+    required eTrialType trialType = 1;//
+	optional eTrialResultType trialResultType = 2;
+	repeated TrialData trialData = 3;
+}

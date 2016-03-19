@@ -1,0 +1,12 @@
+{
+    "worshippers": {
+        "rewardType": 3, 
+        "rewardCount": 30, 
+        "randomScheme": 1001
+    }, 
+    "byWorshippers": {
+        "rewardType": 1, 
+        "rewardCount": 30, 
+        "randomScheme": 1002
+    }
+}

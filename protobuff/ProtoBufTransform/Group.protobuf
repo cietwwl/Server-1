@@ -1,0 +1,363 @@
+
+///////////////////////////////////////////////////前后端公用的枚举类型区
+
+
+///////////////////////////////////////////////////协议中要用到的对象定义区
+
+//【帮派成员的信息】
+message MemberInfo{
+	required string headIcon = 1;//成员的头像Id
+	required int32 level = 2;//成员的等级
+	required int32 job = 3;//职业类型
+	required int32 vipLevel = 4;//Vip等级
+	required string memberName = 5;//成员的名字
+	required GroupPost memberPost = 6;//成员职位
+	required int32 privateContribution = 7;//个人贡献
+	required string memberId = 8;//成员的Id
+	optional int32 logoutTime = 9;//登出游戏的秒数，没有该字段就是在线
+}
+
+//【申请成员的信息】
+message ApplyMemberInfo{
+	required string headIcon = 1;//申请的成员头像Id
+	required int32 level = 2;//申请成员的等级
+	required string name = 3;//申请成员的名字
+	required int32 fighting = 4;//申请时的战斗力
+	required int64 applyTime = 5;//申请时间
+	required string memberId = 6;//申请成员的Id
+}
+
+//【帮派排行榜信息】
+message GroupRankEntryInfo{
+	required int32 rankIndex = 1;//排行榜中排名
+	required string groupIcon = 2;//帮派图标
+	required string groupName = 3;//帮派名字
+	required int32 groupLevel = 4;//帮派等级
+	required int32 groupExp = 5;//帮派经验
+	required int32 groupMemberNum = 6;//帮派成员的数量
+}
+
+//【帮派的简单信息】
+message GroupSimpleInfo{
+	required string groupId = 1;//帮派的Id
+	required string groupName = 2;//帮派的名字
+	required string headIcon = 3;//帮派的图标
+	required int32 groupLevel = 4;//帮派的等级
+	required int32 groupMemberNum = 5;//帮派成员的数量
+	required string groupDeclaration = 6;//帮派的宣言
+	optional int32 rankIndex = 7;//帮派的排行榜名次，如果没有这个字段或者是-1就代表未进榜
+}
+
+//【帮派日志要用到的参数】
+message GroupLogInfo{
+	required int64 logDistanceTime = 1;//日志发生距离现在过了过少秒（秒为单位）
+}
+
+///////////////////////////////////////////////////功能协议区
+
+//START-----------------------创建帮派的功能协议
+
+//【创建帮派请求的协议-CREATE_GROUP_TYPE】
+message CreateGroupReqMsg{
+	required string groupName = 1;//帮派的名字
+	required string icon = 2;//帮派的图标
+}
+
+//【创建帮派响应的协议-CREATE_GROUP_TYPE】
+message CreateGroupRspMsg{
+	required string groupName = 1;//帮派的名字
+	required string groupIcon = 2;//帮派的图标
+	required string groupId = 3;//帮派的编号
+	optional int32 groupRankIndex = 4;//帮派排行中的排名，如果没有这个字段或者是-1，表示当前未进榜
+	required int32 groupLevel = 5;//帮派的等级
+	required int32 groupExp = 6;//帮派的经验
+	required int32 groupMemberNum = 7;//帮派的成员数量
+	required int32 groupSupplies = 8;//帮派的物资
+	required string announcement = 9;//帮派的公告内容
+	repeated MemberInfo memberInfo = 10;//帮派的成员信息
+	required GroupPost post = 11;//成员在帮派中的职位
+	required GroupValidateType validateType = 12;//验证类型
+	required int32 applyLevel = 13;//验证等级
+}
+
+//START-----------------------获取帮派信息的功能协议
+
+//【获取帮派信息请求的协议-GET_GROUP_INFO_TYPE】
+
+
+//【获取帮派信息的响应消息-GET_GROUP_INFO_TYPE】
+message GetGroupInfoRspMsg{
+	required string groupName = 1;//帮派的名字
+	required string groupIcon = 2;//帮派的图标
+	required string groupId = 3;//帮派的编号
+	optional string groupRankIndex = 4;//帮派排行中的排名，如果没有这个字段，表示当前未进榜
+	required int32 groupLevel = 5;//帮派的等级
+	required int32 groupExp = 6;//帮派的经验
+	required int32 groupMemberNum = 7;//帮派的成员数量
+	required int32 groupSupplies = 8;//帮派的物资
+	required string announcement = 9;//帮派的公告内容
+	repeated MemberInfo memberInfo = 10;//帮派的成员信息
+	required GroupPost post = 11;//成员在帮派中的职位
+	required GroupValidateType validateType = 12;//验证类型
+	required int32 applyLevel = 13;//验证等级
+}
+
+//START-----------------------获取帮派排行榜信息的功能协议
+
+//【获取帮派信息的请求消息-GET_GROUP_RANK_INFO_TYPE】
+
+
+//【获取帮派信息的响应消息-GET_GROUP_RANK_INFO_TYPE】
+message GetGroupRankRspMsg{
+	repeated GroupRankEntryInfo groupRankEntryInfo = 1;//帮派排行中的排行数据
+}
+
+//START-----------------------修改帮派公告的功能协议
+
+//【修改帮派公告的请求消息-MODIFY_ANNOUNCEMENT_TYPE】
+message ModifyAnnouncementReqMsg{
+	required string announcement = 1;//修改的公告内容
+}
+
+//【修改帮派公告的响应消息-MODIFY_ANNOUNCEMENT_TYPE】
+message ModifyAnnouncementRspMsg{
+	required string announcement = 1;//新的公告内容
+}
+
+//START-----------------------修改帮派名字的功能协议
+
+//【修改帮派名字的请求消息-MODIFY_GROUP_NAME_TYPE】
+message ModifyGroupNameReqMsg{
+	required string groupName = 1;//修改的帮派名字
+}
+
+//【修改帮派名字的响应消息-MODIFY_GROUP_NAME_TYPE】
+
+
+
+//START-----------------------请求帮派设置的功能协议
+
+//【帮派设置的请求消息-GROUP_SETTING_TYPE】
+
+message GroupSettingReqMsg{
+	optional string groupIcon = 1;//帮派的图标
+	optional string declaration = 2;//帮派宣言
+	optional GroupValidateType validateType = 3;//验证类型
+	optional int32 applyLevel = 4;//验证等级
+}
+
+//【帮派设置的响应消息-GROUP_SETTING_TYPE】
+
+
+
+//START-----------------------查找帮派的功能协议
+
+//【查找帮派的请求消息-FIND_GROUP_TYPE】
+message FindGroupReqMsg{
+	required string groupId = 1;//要查找帮派的Id
+}
+
+//【查找帮派的响应消息-FIND_GROUP_TYPE】
+message FindGroupRspMsg{
+	required GroupSimpleInfo groupSimpleInfo = 1;//查找帮派的信息
+}
+
+//START-----------------------申请加入帮派的功能协议
+
+//【申请加入帮派的请求消息-APPLY_JOIN_GROUP_TYPE】
+message ApplyJoinGroupReqMsg{
+	required string groupId = 1;//申请加入的帮派Id
+}
+
+//【申请加入帮派的响应消息-APPLY_JOIN_GROUP_TYPE】
+
+
+//START-----------------------接受帮派成员的功能协议
+
+//【接受帮派成员的请求信息-GROUP_MEMBER_RECEIVE_TYPE】
+message GroupMemberReceiveReqMsg{
+	required bool isReceive = 1;//是否接受入帮申请
+	optional string applyMemberId = 2;//申请的成员的Id。【如果缺省就当作一键接受/拒绝】
+}
+
+//【接受帮派成员的响应信息-GROUP_MEMBER_RECEIVE_TYPE】
+message GroupMemberReceiveRspMsg{
+
+	repeated string removeMemberId = 1;//清除客户端那些界面上的记录
+}
+
+//START-----------------------成员任命的功能协议
+
+//【成员任命的请求协议-NOMINATE_POST_TYPE】
+message GroupNominatePostReqMsg{
+	required string memberId = 1;//要任命的角色Id
+	required GroupPost post = 2;//要任命的官职
+}
+
+//【成员任命的响应协议-NOMINATE_POST_TYPE】
+
+
+//START-----------------------成员任命取消的功能协议
+
+//【成员取消任命的请求协议-CANCEL_NOMINATE_TYPE】
+message GroupCancelNominatePostReqMsg{
+	required string memberId = 1;//要取消任命的角色Id
+}
+
+//【成员取消任命的响应协议-CANCEL_NOMINATE_TYPE】
+
+
+//START-----------------------打开帮派捐献界面的功能协议
+
+//【打开帮派捐献界面的请求协议-OPEN_DONATE_VIEW_TYPE】
+
+
+
+//【打开帮派捐献界面的响应协议-OPEN_DONATE_VIEW_TYPE】
+message OpenDonateViewRspMsg{
+	required int32 leftDonateTimes = 1;//当前剩余的捐献次数
+	required int32 privateContribution = 2;//个人贡献
+	repeated int32 openDonateId = 3;//解锁的捐献Id
+	required int32 totalDonateTimes = 4;//捐献的总次数
+}
+
+//START-----------------------帮派捐献的功能协议
+
+//【帮派捐献的请求协议-GROUP_DONATE_TYPE】
+message GroupDonateReqMsg{
+	required int32 donateId = 1;//捐献类型
+}
+
+//【帮派捐献的响应协议-GROUP_DONATE_TYPE】
+message GroupDonateRspMsg{
+	required int32 groupLevel = 1;//捐献之后帮派的等级
+	required int32 groupExp = 2;//捐献之后帮派的经验
+	required int32 groupSupplies = 3;//捐献之后帮派的物资
+	required int32 leftDonateTimes = 4;//剩下的捐献次数
+	required int32 privateContribution = 5;//捐献之后个人的贡献
+	required int32 totalDonateTimes = 6;//捐献的总次数
+}
+
+//START-----------------------转让帮主的功能协议
+
+//【转让帮主的请求协议-TRANSFER_LEADER_POST_TYPE】
+message TransferGroupLeaderPostReqMsg{
+	required string memberId = 1;//转让给哪个成员
+}
+
+//【转让帮主的响应协议-TRANSFER_LEADER_POST_TYPE】
+
+
+
+//START-----------------------全员邮件的功能协议
+
+//【全员邮件的请求协议-GROUP_EMAIL_FOR_ALL_TYPE】
+message GroupEmailForAllReqMsg{
+	required string emailTitle = 1;//邮件标题
+	required string emailContent = 2;//邮件内容
+}
+
+//【全员邮件的响应协议-GROUP_EMAIL_FOR_ALL_TYPE】
+
+
+//START-----------------------技能研发的功能协议
+
+//【技能研发的请求协议-RESEARCH_GROUP_SKILL_TYPE】
+message ResearchGroupSkillReqMsg{
+	required string skillId = 1;//研发的技能Id
+}
+
+//【技能研发的响应协议-RESEARCH_GROUP_SKILL_TYPE】
+message ResearchGroupSkillRspMsg{
+	required string skillId = 1;//研发的技能Id
+	required int32 skillLevel = 2;//研发的技能等级
+}
+
+//START-----------------------技能学习的功能协议
+
+//【技能学习的请求协议-STUDY_GROUP_SKILL_TYPE】
+message StudyGroupSkillReqMsg{
+	required string skillId = 1;//学习的技能Id
+	required int32 skillLevel = 2;//学习的技能等级
+}
+
+//【技能学习的响应协议-STUDY_GROUP_SKILL_TYPE】
+message StudyGroupSkillRspMsg{
+	required string skillId = 1;//学习的技能Id
+	required int32 skillLevel = 2;//学习的技能等级
+}
+
+//START-----------------------帮派日志的功能协议
+
+//【帮派日志的请求协议-THE_LOG_OF_GROUP_TYPE】
+
+
+
+//【帮派日志的响应协议-THE_LOG_OF_GROUP_TYPE】
+message GetLogOfGroupRspMsg{
+	repeated GroupLogInfo groupLog = 1;//帮派日志的所有数量
+}
+
+//START-----------------------退出帮派的功能协议
+
+//【退出帮派的请求协议-QUIT_GROUP_TYPE】
+
+
+//【退出帮派的响应协议-QUIT_GROUP_TYPE】
+
+
+//START-----------------------踢出帮派的功能协议
+
+//【踢出帮派的请求协议-KICK_MEMBER_TYPE】
+message KickMemberReqMsg{
+	required string memberId = 1;//请求踢出帮派的成员Id
+}
+
+//【提出帮派的响应协议-KICK_MEMBER_TYPE】
+message KickMemberRspMsg{
+	required string memberId = 1;//已经踢出帮派的成员的Id
+}
+
+//START-----------------------解散帮派的功能协议
+
+//【解散帮派的请求协议-DISMISS_THE_GROUP_TYPE】
+//发送通用请求消息*/
+
+//【解散帮派的响应协议-DISMISS_THE_GROUP_TYPE】
+//接收通用响应消息*/
+
+//START-----------------------取消解散帮派的功能协议
+
+//【解散帮派的请求协议-CANCEL_DISMISS_THE_GROUP_TYPE】
+//发送通用请求消息*/
+
+//【解散帮派的响应协议-CANCEL_DISMISS_THE_GROUP_TYPE】
+//接收通用响应消息*/
+
+//START-----------------------推荐帮派的功能协议
+
+//【排行榜推荐的请求协议-GROUP_RECOMMENT_TYPE】
+message GroupRecommentReqMsg{
+	required GroupRecommentType recommentType = 1;//推荐帮派类型
+}
+
+//【排行榜推荐的响应协议-GROUP_RECOMMENT_TYPE】
+message GroupRecommentRspMsg{
+	repeated GroupSimpleInfo groupSimpleInfo = 1;//帮派的信息
+}
+
+///////////////////////////////////////////////////通用收发协议区
+
+//【帮派的通用请求消息】
+message GroupCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional bytes reqBody = 2;//请求消息的内容
+}
+
+//【帮派的通用响应消息】
+message GroupCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional bytes rspBody = 4;//对应功能协议的应答内容
+}

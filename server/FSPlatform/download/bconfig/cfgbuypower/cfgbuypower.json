@@ -1,0 +1,597 @@
+{
+    "1": {
+        "times": 1, 
+        "needPurse": 50, 
+        "power": 120
+    }, 
+    "2": {
+        "times": 2, 
+        "needPurse": 50, 
+        "power": 120
+    }, 
+    "3": {
+        "times": 3, 
+        "needPurse": 100, 
+        "power": 120
+    }, 
+    "4": {
+        "times": 4, 
+        "needPurse": 100, 
+        "power": 120
+    }, 
+    "5": {
+        "times": 5, 
+        "needPurse": 100, 
+        "power": 120
+    }, 
+    "6": {
+        "times": 6, 
+        "needPurse": 100, 
+        "power": 120
+    }, 
+    "7": {
+        "times": 7, 
+        "needPurse": 200, 
+        "power": 120
+    }, 
+    "8": {
+        "times": 8, 
+        "needPurse": 200, 
+        "power": 120
+    }, 
+    "9": {
+        "times": 9, 
+        "needPurse": 200, 
+        "power": 120
+    }, 
+    "10": {
+        "times": 10, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "11": {
+        "times": 11, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "12": {
+        "times": 12, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "13": {
+        "times": 13, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "14": {
+        "times": 14, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "15": {
+        "times": 15, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "16": {
+        "times": 16, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "17": {
+        "times": 17, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "18": {
+        "times": 18, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "19": {
+        "times": 19, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "20": {
+        "times": 20, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "21": {
+        "times": 21, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "22": {
+        "times": 22, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "23": {
+        "times": 23, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "24": {
+        "times": 24, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "25": {
+        "times": 25, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "26": {
+        "times": 26, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "27": {
+        "times": 27, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "28": {
+        "times": 28, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "29": {
+        "times": 29, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "30": {
+        "times": 30, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "31": {
+        "times": 31, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "32": {
+        "times": 32, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "33": {
+        "times": 33, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "34": {
+        "times": 34, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "35": {
+        "times": 35, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "36": {
+        "times": 36, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "37": {
+        "times": 37, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "38": {
+        "times": 38, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "39": {
+        "times": 39, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "40": {
+        "times": 40, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "41": {
+        "times": 41, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "42": {
+        "times": 42, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "43": {
+        "times": 43, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "44": {
+        "times": 44, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "45": {
+        "times": 45, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "46": {
+        "times": 46, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "47": {
+        "times": 47, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "48": {
+        "times": 48, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "49": {
+        "times": 49, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "50": {
+        "times": 50, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "51": {
+        "times": 51, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "52": {
+        "times": 52, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "53": {
+        "times": 53, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "54": {
+        "times": 54, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "55": {
+        "times": 55, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "56": {
+        "times": 56, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "57": {
+        "times": 57, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "58": {
+        "times": 58, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "59": {
+        "times": 59, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "60": {
+        "times": 60, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "61": {
+        "times": 61, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "62": {
+        "times": 62, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "63": {
+        "times": 63, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "64": {
+        "times": 64, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "65": {
+        "times": 65, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "66": {
+        "times": 66, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "67": {
+        "times": 67, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "68": {
+        "times": 68, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "69": {
+        "times": 69, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "70": {
+        "times": 70, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "71": {
+        "times": 71, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "72": {
+        "times": 72, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "73": {
+        "times": 73, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "74": {
+        "times": 74, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "75": {
+        "times": 75, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "76": {
+        "times": 76, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "77": {
+        "times": 77, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "78": {
+        "times": 78, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "79": {
+        "times": 79, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "80": {
+        "times": 80, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "81": {
+        "times": 81, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "82": {
+        "times": 82, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "83": {
+        "times": 83, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "84": {
+        "times": 84, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "85": {
+        "times": 85, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "86": {
+        "times": 86, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "87": {
+        "times": 87, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "88": {
+        "times": 88, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "89": {
+        "times": 89, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "90": {
+        "times": 90, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "91": {
+        "times": 91, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "92": {
+        "times": 92, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "93": {
+        "times": 93, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "94": {
+        "times": 94, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "95": {
+        "times": 95, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "96": {
+        "times": 96, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "97": {
+        "times": 97, 
+        "needPurse": 400, 
+        "power": 120
+    }, 
+    "98": {
+        "times": 1, 
+        "needPurse": 10, 
+        "power": 0
+    }, 
+    "99": {
+        "times": 2, 
+        "needPurse": 10, 
+        "power": 0
+    }, 
+    "100": {
+        "times": 3, 
+        "needPurse": 40, 
+        "power": 0
+    }, 
+    "101": {
+        "times": 4, 
+        "needPurse": 40, 
+        "power": 0
+    }, 
+    "102": {
+        "times": 5, 
+        "needPurse": 100, 
+        "power": 0
+    }, 
+    "103": {
+        "times": 6, 
+        "needPurse": 100, 
+        "power": 0
+    }, 
+    "104": {
+        "times": 7, 
+        "needPurse": 200, 
+        "power": 0
+    }, 
+    "105": {
+        "times": 8, 
+        "needPurse": 200, 
+        "power": 0
+    }, 
+    "106": {
+        "times": 9, 
+        "needPurse": 400, 
+        "power": 0
+    }, 
+    "107": {
+        "times": 10, 
+        "needPurse": 400, 
+        "power": 0
+    }, 
+    "108": {
+        "times": 11, 
+        "needPurse": 800, 
+        "power": 0
+    }, 
+    "109": {
+        "times": 12, 
+        "needPurse": 800, 
+        "power": 0
+    }, 
+    "110": {
+        "times": 13, 
+        "needPurse": 1000, 
+        "power": 0
+    }, 
+    "111": {
+        "times": 14, 
+        "needPurse": 1000, 
+        "power": 0
+    }, 
+    "112": {
+        "times": 15, 
+        "needPurse": 1500, 
+        "power": 0
+    }, 
+    "113": {
+        "times": 16, 
+        "needPurse": 1500, 
+        "power": 0
+    }, 
+    "114": {
+        "times": 17, 
+        "needPurse": 2000, 
+        "power": 0
+    }, 
+    "115": {
+        "times": 18, 
+        "needPurse": 2000, 
+        "power": 0
+    }, 
+    "116": {
+        "times": 19, 
+        "needPurse": 2500, 
+        "power": 0
+    }, 
+    "117": {
+        "times": 20, 
+        "needPurse": 2500, 
+        "power": 0
+    }, 
+    "118": {
+        "times": 21, 
+        "needPurse": 3000, 
+        "power": 0
+    }, 
+    "119": {
+        "times": 22, 
+        "needPurse": 3000, 
+        "power": 0
+    }
+}

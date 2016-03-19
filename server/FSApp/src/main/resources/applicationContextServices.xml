@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-init-method="init">
+
+	<!-- controller for actions -->
+	<bean id="fsControlerHandler" class="com.rw.controler.FsControlerHandler" />
+	
+	<bean id="serverConfig" class="com.rw.netty.ServerConfig">
+		<property name="zoneId" value="${zoneId}" />
+	</bean>
+	
+	<bean id="gmServer" class="com.gm.GmServer" depends-on="serverConfig">
+		<property name="gmAccount" value="${gmAccount}" />
+		<property name="gmPassword" value="${gmPassword}" />
+	</bean>
+	
+	<bean id="serverVersionConfig" class="com.rw.manager.ServerVersionConfig">
+		<property name="version" value="${version}" />
+	</bean>
+
+
+	<bean id="fsNettyControler" class="com.rw.controler.FsNettyControler" >
+
+		<property name="commandMap">
+			<map key-type="com.rwproto.MsgDef$Command">
+			    <entry key="MSG_MainService" value-ref="mainService" />
+			    <entry key="MSG_SKILL" value-ref="skillSerice" />
+			    <entry key="MSG_CopyService" value-ref="copySerice" />
+			    <entry key="MSG_Hero" value-ref="heroService" />
+			    <entry key="MSG_GM" value-ref="gmService"/>
+			    <entry key="MSG_ItemBag" value-ref="itemBagService"/>
+			    <entry key="MSG_MAGIC" value-ref="magicService" />
+			    <entry key="MSG_ROLE" value-ref="roleService" />
+			    <entry key="MSG_GAMBLE" value-ref="gambleService" />
+			    <entry key="MSG_CHAT" value-ref="chatService" />
+			    <entry key="MSG_EMAIL" value-ref="emailService" />
+			    <entry key="MSG_TRIAL" value-ref="copyTrialService" />
+			    <entry key="MSG_EQUIP" value-ref="equipService" />
+			    <entry key="MSG_RANKING" value-ref="rankingService" />
+			    <entry key="MSG_DAILY_ACTIVITY" value-ref="dailyActivityService" />
+			    <entry key="MSG_ARENA" value-ref="arenaService" />
+			    <entry key="MSG_FRIEND" value-ref="friendService" />
+			    <entry key="MSG_SIGN" value-ref="signService" />
+			    <entry key="MSG_VIP" value-ref="vipService" />
+			    <entry key="MSG_HOT_POINT" value-ref="hotPointService" />
+			    <entry key="MSG_SETTING" value-ref="settingService" />
+			    <entry key="MSG_OtherRoleAttr" value-ref="otherRoleAttrService" />
+			    <entry key="MSG_TOWER" value-ref="towerService" />
+			    <entry key="MSG_STORE" value-ref="storeService" />
+			    <entry key="MSG_Worship" value-ref="worshipService" />
+			    <entry key="MSG_UnendingWar" value-ref="unendingWarService" />
+			    <entry key="MSG_TASK" value-ref="taskService" />
+			    <entry key="MSG_PEAK_ARENA" value-ref="peakArenaService" />
+			     <!--entry key="MSG_GUIDE" value-ref="guideService" /-->
+			     <entry key="MSG_SECRET_AREA" value-ref="secretService" />
+			     <entry key="MSG_ERRORINFO" value-ref="errorInfoService" />
+			     <entry key="MSG_Inlay" value-ref="inlayService" />
+			     <entry key="MSG_MainMsg" value-ref="mainMsgService" />
+			     <entry key="MSG_SECRET_MEMBER" value-ref="secretService" />
+			     <entry key="MSG_BATTLE_TOWER" value-ref="battleTowerService" />
+			     <entry key="MSG_FASHION" value-ref="fashionService" />
+			     <entry key="MSG_NEW_GUIDE" value-ref="newGuideService"/>
+			     <entry key="MSG_PLOT" value-ref="plotService"/>
+			     <entry key="MSG_PLAYER_LOGOUT" value-ref="playerLogoutService"/>
+			     <entry key="MSG_DailyGif" value-ref="dailyGifService"/>
+			     <entry key="MSG_FRSH_ACT" value-ref="fresherActivityService"/>
+			     <entry key="MSG_PVE_INFO" value-ref="pveInfo"/>
+			     <entry key="MSG_NOTICE" value-ref="gameNotice"/>
+			     
+			     <entry key="MSG_GROUP" value-ref="groupBaseManagerService" />
+			     <entry key="MSG_GROUP_MEMBER_MANAGER" value-ref="groupMemberManagerService" />
+			     <entry key="MSG_GROUP_PERSONAL" value-ref="groupPersonalService" />
+			     <entry key="MSG_GROUP_SKILL" value-ref="groupSkillService" />
+			</map>
+		</property>
+	</bean>
+	<bean id="newGuideService" class="com.rw.service.guide.NewGuideService"/>
+	<bean id="plotService" class="com.rw.service.plot.PlotService"/>
+	<bean id="playerLogoutService" class="com.rw.service.player.PlayerService"/>
+	<bean id="mainService" class="com.rw.service.main.MainService"  />
+	<bean id="skillSerice" class="com.rw.service.skill.SkillService"  />
+	<bean id="copySerice" class="com.rw.service.copy.CopyService"  />
+	<bean id="heroService" class="com.rw.service.hero.HeroService"  />
+	<bean id="gmService" class="com.rw.service.gm.GMService"  />
+	<bean id="itemBagService" class="com.rw.service.item.ItemBagService"  />
+	
+	<bean id="magicService" class="com.rw.service.magic.MagicService"  />
+	<bean id="roleService" class="com.rw.service.role.RoleService"  />
+	<bean id="gambleService" class="com.rw.service.gamble.GambleService"  />
+	<bean id="chatService" class="com.rw.service.chat.ChatService" />
+	<bean id="emailService" class="com.rw.service.Email.EmailService" />
+	<bean id="copyTrialService" class="com.rw.service.copypve.CopyTrialService"  />
+	<bean id="equipService" class="com.rw.service.Equip.EquipService"  />
+	<bean id="rankingService" class="com.rw.service.ranking.RankingService"  />
+	<bean id="dailyActivityService" class="com.rw.service.dailyActivity.DailyActivityService"  />
+	
+	<bean id="peakArenaService" class="com.rw.service.arena.PeakArenaService"  />
+	<bean id="arenaService" class="com.rw.service.arena.ArenaService"  />
+	<bean id="towerService" class="com.rw.service.tower.TowerService"  />
+	
+	<bean id="friendService" class="com.rw.service.friend.FriendService"  />
+	<bean id="signService" class="com.rw.service.sign.SignService"  />
+	<bean id="vipService" class="com.rw.service.vip.VipService"  />
+	<bean id="hotPointService" class="com.rw.service.hotPoint.HotPointService"  />
+	<bean id="settingService" class="com.rw.service.setting.SettingService"  />
+	<bean id="otherRoleAttrService" class="com.rw.service.role.OtherRoleAttrService"  />
+	<bean id="storeService" class="com.rw.service.store.StoreService"  />
+	<bean id="worshipService" class="com.rw.service.worship.WorshipService"  />
+	<bean id="unendingWarService" class="com.rw.service.unendingwar.UnendingWarService"  />
+	<bean id="taskService" class="com.rw.service.task.TaskService"  />
+	<!--  bean id="guideService" class="com.rw.service.guide.GuideService"  /-->
+	<bean id="secretService" class="com.rw.service.GuildSecretArea.SecretService"  />
+	<bean id="errorInfoService" class="com.rw.service.gm.ErrorInfoService"  />
+	<bean id="inlayService" class="com.rw.service.inlay.InlayService"  />
+	<bean id="mainMsgService" class="com.rw.service.role.MainMsgService"  />
+	<bean id="dailyGifService" class="com.rw.service.dailygif.DailyGifService"  />
+	<bean id="battleTowerService" class="com.rw.service.battletower.BattleTowerService"/>
+	<bean id="fashionService" class="com.rw.service.fashion.FashionService"  />
+	<bean id="fresherActivityService" class="com.rw.service.FresherActivity.FresherActivityService"  />
+	<bean id="pveInfo" class="com.rw.service.pve.PveService"/>
+	<bean id="gameNotice" class="com.rw.service.gamenotice.GameNoticeService"/>
+	
+	<bean id="groupBaseManagerService" class="com.rw.service.group.GroupBaseManagerService"  />
+	<bean id="groupMemberManagerService" class="com.rw.service.group.GroupMemberManagerService"  />
+	<bean id="groupPersonalService" class="com.rw.service.group.GroupPersonalService"  />
+	<bean id="groupSkillService" class="com.rw.service.group.GroupSkillService"  />
+</beans>  

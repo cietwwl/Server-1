@@ -1,0 +1,113 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCommonProto";
+package groupproto;
+/**
+* 文档简单说明
+* 1、多个长'/'代表的是区域划分（包括公用枚举类型区，通用收发协议定义区，对应功能协议定义区）
+* 2、多个长'-'代表的是一个小区域类型的分界（比如创建帮派的Req和Rsp定义前后，都会用这个隔开其他）
+* 3、中文符号的【】主要是着重显示描述，明确看到内容的开头位置
+* '/'的模版：///////////////////////////////////////////////////
+* '-'的模版：-----------------------
+*/
+
+///////////////////////////////////////////////////前后端公用的枚举类型区
+
+//【加入帮派的验证类型】
+enum GroupValidateType{
+	NON = 0;//不是一个验证类型，仅仅只是为了生成CS文件的时候能有个默认值
+	FIRST_VALIDATE = 1;//验证通过
+	NON_VALIDATE = 2;//毋须验证
+	JOIN_REFUSED = 3;//拒绝加入
+}
+
+//【帮派中的职位】
+enum GroupPost{
+	LEADER = 1;//帮主
+	ASSISTANT_LEADER = 2;//副帮主
+	OFFICEHOLDER = 3;//官员
+	MEMBER = 4;//成员
+}
+
+//【帮派状态】
+enum GroupState{
+	NORMAL = 0;//正常状态
+	DISOLUTION = 1;//解散状态
+}
+
+//【帮派推荐类型】
+enum GroupRecommentType{
+	RANK_RECOMMENT = 1;//排行榜推荐
+	RANDOM_RECOMMENT = 2;//随机推荐
+}
+
+//【帮派技能的类型】
+enum GroupSkillType{
+	ATTACK = 1;//攻击系
+	DEFENCE = 2;//防御系
+	UNIVERSAL = 3;//通用系
+}
+
+//【帮派日志的类型】
+enum GroupLogType{
+	NEW_JOIN_GROUP = 1;//新加入帮派
+	QUIT_GROUP = 2;//退去帮派
+	CHANGE_POST = 3;//职位变动
+	GROUP_UPGRADE = 4;//帮派等级提升
+	GROUP_SKILL_REASERCH = 5;//技能研发
+}
+
+//【帮派功能的枚举】
+enum GroupFunction{
+	TRANSFER_LEADER_POST = 1;//转让帮主
+	NOMINATE_ASSISTANT_LEADER = 2;//任命副帮主
+	NOMINATE_OFFICEHOLDER = 3;//任命官员
+	CANCEL_NOMINATE = 4;//取消任命
+	KICK_OF_GROUP = 5;//踢出帮派
+	MODIFY_ANNOUNCEMENT = 6;//修改帮派公告
+	GROUP_SETTING = 7;//帮派设置
+	GROUP_EMAIL_ALL = 8;//全员帮派邮件
+	MEMBER_RECEIVE = 9;//成员接受
+	GROUP_DONATE = 10;//帮派贡献
+	RESEARCH_GROUP_SKILL = 11;//研发帮派技能
+	STUDY_GROUP_SKILL = 12;//学习帮派技能
+	GROUP_STORE = 13;//帮派商店
+	JOIN_SECERT_AREA = 14;//参加帮派密境
+	OPEN_GROUP_DUPLICATE = 15;//开启帮派副本
+	JOIN_GROUP_DUPLICATE = 16;//参加帮派副本
+	JOIN_GROUP_BATTLE = 17;//参加帮派战
+	MODIFY_GROUP_NAME = 18;//修改帮派名字
+	DISMISS_THE_GROUP = 19;//解散帮派
+	CANCEL_DISMISS_THE_GROUP = 20;//取消解散帮派
+}
+
+//-----------------------【功能协议类型枚举】-----------------------
+enum RequestType{
+	CREATE_GROUP_TYPE = 1;//创建帮派
+	GET_GROUP_INFO_TYPE = 2;//获取帮派的信息
+	GET_GROUP_RANK_INFO_TYPE = 3;//获取帮派排行榜信息
+	MODIFY_ANNOUNCEMENT_TYPE = 4;//修改帮派公告
+	MODIFY_GROUP_NAME_TYPE = 5;//修改帮派名字
+	GROUP_SETTING_TYPE = 6;//帮派设置
+	FIND_GROUP_TYPE = 7;//查找帮派
+	APPLY_JOIN_GROUP_TYPE = 8;//申请加入帮派
+	GROUP_MEMBER_RECEIVE_TYPE = 9;//接受帮派成员
+	NOMINATE_POST_TYPE = 10;//成员任命
+	CANCEL_NOMINATE_TYPE = 11;//任命取消
+	OPEN_DONATE_VIEW_TYPE = 12;//打开捐献界面
+	GROUP_DONATE_TYPE = 13;//帮派捐献
+	TRANSFER_LEADER_POST_TYPE = 14;//转让帮主
+	GROUP_EMAIL_FOR_ALL_TYPE = 15;//全员邮件
+	RESEARCH_GROUP_SKILL_TYPE = 16;//技能研发
+	STUDY_GROUP_SKILL_TYPE = 17;//学习技能
+	THE_LOG_OF_GROUP_TYPE = 18;//帮派日志
+	QUIT_GROUP_TYPE = 19;//退出帮派
+	KICK_MEMBER_TYPE = 20;//踢出帮派成员
+	DISMISS_THE_GROUP_TYPE = 21;//解散帮派
+	CANCEL_DISMISS_THE_GROUP_TYPE = 22;//取消解散帮派
+	GROUP_RECOMMENT_TYPE = 23;//帮派推荐
+	GET_APPLY_MEMBER_LIST_TYPE = 24;//获取帮派申请成员列表
+	CHECK_GROUP_DATA_TYPE = 25;//打开帮派建筑就请求这个信息
+	OPEN_RESEARCH_SKILL_VIEW_TYPE = 26;//打开研发帮派技能界面
+	OPEN_STUDY_SKILL_VIEW_TYPE = 27;//打开学习帮派技能界面
+}

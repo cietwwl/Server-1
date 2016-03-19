@@ -1,0 +1,104 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupBaseMgrProto";
+
+
+package groupproto;
+import "GroupCommon.proto";
+
+/**
+* 文档简单说明
+* 1、多个长'/'代表的是区域划分（包括公用枚举类型区，通用收发协议定义区，对应功能协议定义区）
+* 2、多个长'-'代表的是一个小区域类型的分界（比如创建帮派的Req和Rsp定义前后，都会用这个隔开其他）
+* 3、中文符号的【】主要是着重显示描述，明确看到内容的开头位置
+* '/'的模版：///////////////////////////////////////////////////
+* '-'的模版：-----------------------
+*/
+
+//START-----------------------创建帮派的功能协议
+
+//【创建帮派请求的协议-CREATE_GROUP_TYPE】
+message CreateGroupReqMsg{
+	required string groupName = 1;//帮派的名字
+	required string icon = 2;//帮派的图标
+}
+
+//【创建帮派响应的协议-CREATE_GROUP_TYPE】
+message CreateGroupRspMsg{
+	optional int32 rankIndex = 1;//帮派的排名
+}
+
+//START-----------------------修改帮派名字的功能协议
+
+//【修改帮派名字的请求消息-MODIFY_GROUP_NAME_TYPE】
+message ModifyGroupNameReqMsg{
+	required string groupName = 1;//修改的帮派名字
+}
+
+//START-----------------------修改帮派公告的功能协议
+
+//【修改帮派公告的请求消息-MODIFY_ANNOUNCEMENT_TYPE】
+message ModifyAnnouncementReqMsg{
+	required string announcement = 1;//修改的公告内容
+}
+
+//START-----------------------请求帮派设置的功能协议
+
+//【帮派设置的请求消息-GROUP_SETTING_TYPE】
+/**
+* 请求协议里所有的都是optional，如果客户端控制的设置中只是改了一个点，就只
+* 发修改的点到服务器验证就行了。减少流量浪费
+*/
+message GroupSettingReqMsg{
+	optional string groupIcon = 1;//帮派的图标
+	optional string declaration = 2;//帮派宣言
+	optional GroupValidateType validateType = 3 [default = NON];//验证类型
+	optional int32 applyLevel = 4;//验证等级
+}
+
+//【帮派设置的响应消息-GROUP_SETTING_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------解散帮派的功能协议
+
+//【解散帮派的请求协议-DISMISS_THE_GROUP_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【解散帮派的响应协议-DISMISS_THE_GROUP_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------取消解散帮派的功能协议
+
+//【解散帮派的请求协议-CANCEL_DISMISS_THE_GROUP_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【解散帮派的响应协议-CANCEL_DISMISS_THE_GROUP_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------帮派日志的功能协议
+
+//【帮派日志的请求协议-THE_LOG_OF_GROUP_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【帮派日志的响应协议-THE_LOG_OF_GROUP_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+///////////////////////////////////////////////////通用收发协议区
+
+//【帮派的通用请求消息】
+message GroupBaseMgrCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional string version = 2;//版本号
+	optional CreateGroupReqMsg createGroupReq = 3;//创建帮派协议
+	optional ModifyGroupNameReqMsg modifyGroupNameReq = 4;//修改帮派名字协议
+	optional ModifyAnnouncementReqMsg modifyAnnouncementReq = 5;//修改帮派公告协议
+	optional GroupSettingReqMsg groupSettingReq = 6;//修改帮派设置协议
+}
+
+//【帮派的通用响应消息】
+message GroupBaseMgrCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional CreateGroupRspMsg createGroupRsp = 4;//创建帮派协议
+}

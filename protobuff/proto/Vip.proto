@@ -1,0 +1,12 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "VipProtos";
+
+message MsgVipResponse {
+	repeated tagPrivilege privilege = 1;
+}
+
+message tagPrivilege{
+	optional int32 key = 1;
+	optional int32 value =2 ;
+}

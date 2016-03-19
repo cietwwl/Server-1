@@ -1,0 +1,34 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "SignServiceProtos";
+
+enum ERequestType	//请求
+{
+	SIGN = 1;
+	SIGNDATA_BACK = 2;
+}
+
+enum EResultType	//结果
+{
+	SUCCESS = 1;			//签到成功
+	NOT_ENOUGH_DIAMOND = 2;	//钻石不足
+	INIT_DATA = 3;			//数据回传
+	NEED_REFRESH = 4;		//需要刷新数据
+	NULL = 5;				//数据为空，需要重新申请
+}
+
+message MsgSignRequest
+{
+    required ERequestType requestType = 1;		//请求类型
+	optional string signId = 2;					//所请求的Id
+}
+
+message MsgSignResponse
+{
+    required EResultType resultype = 1;			//结果类型
+	optional ERequestType requestType = 2;		//请求类型
+	optional int32 reSignCount = 3;				//补签次数
+	optional int32 year = 4;					//年份
+	optional int32 month = 5;					//月份
+	repeated string tagSignData = 6;			//签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
+}

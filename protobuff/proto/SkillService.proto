@@ -1,0 +1,46 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "SkillServiceProtos";
+package SkillService;
+import "ErrorService.proto";
+
+enum SkillEventType {
+	Skill_Upgrade = 1;	//升级技能
+	Buy_Skill_Point= 2; //购买技能点
+	QUERY_SKILL_INFO = 3;//请求技能信息
+}
+
+message TagSkillData{
+	optional string Id = 1;//技能
+	optional string ownerId = 2;//技能
+	optional string skillId = 3;//技能
+	optional int32 level =4;//技能等级
+	optional int32 order = 5;//位置
+	repeated int32 buffId	= 6;
+	optional float skillRate =7;
+	optional int32 extraDamage = 8;
+}
+
+message SkillData{
+	required int32 skillId = 1;	//升级的技能cfgId
+	required int32 additiveLevel = 2;	//升级增加的技能点数
+}
+
+message SkillRequest {
+	required SkillEventType eventType = 1;		//客户端请求类型
+	optional string heroId = 2;					//英雄id
+	repeated SkillData updateSkillList =  3;	//升级技能数据
+}
+
+
+message SkillResponse {
+
+	required SkillEventType eventType = 1;	//技能操作类型
+	optional string failReason = 2;			//失败原因，为null表示操作成功
+	required int32 remainSkillPoints =3 ;	//剩余技能点数
+	required int32 remainSeconds = 4;		//剩余倒计时的秒数
+	required int32 recoverSkillPoints = 5;	//剩余恢复技能点数
+
+}
+
+

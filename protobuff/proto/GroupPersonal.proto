@@ -1,0 +1,165 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupPersonalProto";
+package groupproto;
+import "GroupCommon.proto";
+
+/**
+* 文档简单说明
+* 1、多个长'/'代表的是区域划分（包括公用枚举类型区，通用收发协议定义区，对应功能协议定义区）
+* 2、多个长'-'代表的是一个小区域类型的分界（比如创建帮派的Req和Rsp定义前后，都会用这个隔开其他）
+* 3、中文符号的【】主要是着重显示描述，明确看到内容的开头位置
+* '/'的模版：///////////////////////////////////////////////////
+* '-'的模版：-----------------------
+*/
+
+///////////////////////////////////////////////////协议中要用到的对象定义区
+
+//【帮派的简单信息】
+message GroupSimpleInfo{
+	required string groupId = 1;//帮派的Id
+	required string groupName = 2;//帮派的名字
+	required string headIcon = 3;//帮派的图标
+	required int32 groupLevel = 4;//帮派的等级
+	required int32 groupMemberNum = 5;//帮派成员的数量
+	required string groupDeclaration = 6;//帮派的宣言
+	optional int32 rankIndex = 7;//帮派的排行榜名次，如果没有这个字段或者是-1就代表未进榜
+}
+
+//【帮派排行榜信息】
+message GroupRankEntryInfo{
+	required int32 rankIndex = 1;//排行榜中排名
+	required string groupIcon = 2;//帮派图标
+	required string groupName = 3;//帮派名字
+	required int32 groupLevel = 4;//帮派等级
+	required int32 groupExp = 5;//帮派经验
+	required int32 groupMemberNum = 6;//帮派成员的数量
+}
+
+///////////////////////////////////////////////////功能协议区
+
+//START-----------------------获取帮派信息的功能协议
+
+//【获取帮派信息请求的协议-GET_GROUP_INFO_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【获取帮派信息的响应消息-GET_GROUP_INFO_TYPE】
+message GetGroupInfoRspMsg{
+	optional int32 rankIndex = 1;//帮派的排名
+}
+
+//START-----------------------查找帮派的功能协议
+
+//【查找帮派的请求消息-FIND_GROUP_TYPE】
+message FindGroupReqMsg{
+	required string groupId = 1;//要查找帮派的Id
+}
+
+//【查找帮派的响应消息-FIND_GROUP_TYPE】
+message FindGroupRspMsg{
+	required GroupSimpleInfo groupSimpleInfo = 1;//查找帮派的信息
+}
+
+//START-----------------------获取帮派排行榜信息的功能协议
+
+//【获取帮派信息的请求消息-GET_GROUP_RANK_INFO_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【获取帮派信息的响应消息-GET_GROUP_RANK_INFO_TYPE】
+message GetGroupRankRspMsg{
+	repeated GroupRankEntryInfo groupRankEntryInfo = 1;//帮派排行中的排行数据
+	optional int32 rankIndex = 2 ;//自己帮派的排行
+}
+
+//START-----------------------申请加入帮派的功能协议
+
+//【申请加入帮派的请求消息-APPLY_JOIN_GROUP_TYPE】
+message ApplyJoinGroupReqMsg{
+	required string groupId = 1;//申请加入的帮派Id
+}
+
+//【申请加入帮派的响应消息-APPLY_JOIN_GROUP_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------打开帮派捐献界面的功能协议
+
+//【打开帮派捐献界面的请求协议-OPEN_DONATE_VIEW_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【打开帮派捐献界面的响应协议-OPEN_DONATE_VIEW_TYPE】
+message OpenDonateViewRspMsg{
+	required int32 leftDonateTimes = 1;//当前剩余的捐献次数
+	required int32 privateContribution = 2;//个人贡献
+	repeated int32 openDonateId = 3;//解锁的捐献Id
+	required int32 totalDonateTimes = 4;//捐献的总次数
+}
+
+//START-----------------------帮派捐献的功能协议
+
+//【帮派捐献的请求协议-GROUP_DONATE_TYPE】
+message GroupDonateReqMsg{
+	required int32 donateId = 1;//捐献类型
+}
+
+//【帮派捐献的响应协议-GROUP_DONATE_TYPE】
+message GroupDonateRspMsg{
+	required int32 leftDonateTimes = 1;//剩下的捐献次数
+	required int32 privateContribution = 2;//捐献之后个人的贡献
+	required int32 totalDonateTimes = 3;//捐献的总次数
+}
+
+//START-----------------------转让帮主的功能协议
+
+//【转让帮主的请求协议-TRANSFER_LEADER_POST_TYPE】
+message TransferGroupLeaderPostReqMsg{
+	required string memberId = 1;//转让给哪个成员
+}
+
+//【转让帮主的响应协议-TRANSFER_LEADER_POST_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------退出帮派的功能协议
+
+//【退出帮派的请求协议-QUIT_GROUP_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【退出帮派的响应协议-QUIT_GROUP_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------推荐帮派的功能协议
+
+//【排行榜推荐的请求协议-GROUP_RECOMMENT_TYPE】
+message GroupRecommentReqMsg{
+	required GroupRecommentType recommentType = 1;//推荐帮派类型
+}
+
+//【排行榜推荐的响应协议-GROUP_RECOMMENT_TYPE】
+message GroupRecommentRspMsg{
+	repeated GroupSimpleInfo groupSimpleInfo = 1;//帮派的信息
+}
+
+///////////////////////////////////////////////////通用收发协议区
+
+//【帮派的通用请求消息】
+message GroupPersonalCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional string version = 2;//版本号
+	optional FindGroupReqMsg findGroupReq = 3;//查找帮派协议
+	optional ApplyJoinGroupReqMsg applyJoinGroupReq = 4;//申请加入帮派协议
+	optional GroupDonateReqMsg groupDonateReq = 5;//打开帮派捐献界面协议
+	optional TransferGroupLeaderPostReqMsg transferLeaderPostReq = 6;//转让帮主协议
+	optional GroupRecommentReqMsg groupRecommentReq = 7;//获取帮派推荐协议
+}
+
+//【帮派的通用响应消息】
+message GroupPersonalCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional GetGroupInfoRspMsg getGroupInfoRsp = 4;//获取帮派信息协议
+	optional FindGroupRspMsg findGroupRsp = 5;//查找帮派协议
+	optional GetGroupRankRspMsg getGroupRankRsp = 6;//获取帮派排行榜协议
+	optional OpenDonateViewRspMsg openDonateViewRsp = 7;//打开帮派捐献界面的协议
+	optional GroupDonateRspMsg groupDonateRsp = 8;//捐献协议
+	optional GroupRecommentRspMsg groupRecommentRsp = 9;//推荐帮派协议
+}

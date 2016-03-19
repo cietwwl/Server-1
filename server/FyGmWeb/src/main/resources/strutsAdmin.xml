@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="dx-admin" extends="struts-default" namespace="/admin">
+		<interceptors>
+			<interceptor name="dxAdminInterceptor" class="DXInterceptor"></interceptor>
+			<interceptor-stack name="commonsStack">
+				<interceptor-ref name="dxAdminInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+			<interceptor-stack name="uploadStack">
+				<interceptor-ref name="fileUpload">
+					<!-- 配置允许上传的文件类型 -->
+					<param name="allowedTypes">application/octet-stream</param>
+					<!-- 配置允许上传的文件大小 -->
+					<param name="maximumSize">20000000000</param>
+					<!-- 100M=50*1024*1024 byte -->
+				</interceptor-ref>
+				<interceptor-ref name="commonsStack" />
+			</interceptor-stack>
+		</interceptors>
+		<!-- 默认拦截器 -->
+		<default-interceptor-ref name="commonsStack" />
+		<global-results>
+			<result name="error">/admin/common/error.jsp</result>
+			<result name="input">/admin/common/unapproved.jsp</result>
+			<result name="message">/admin/common/message.jsp</result>
+		</global-results>
+
+		<!-- 修改密码 -->
+		<action name="cpwd" class="adminUserControlerAction" method="cpwd">
+			<result name="success">/login.jsp</result>
+		</action>
+
+		<!-- 用户管理 -->
+		<action name="_list" class="adminUserControlerAction" method="listUser">
+			<result name="success">/admin/user/list.jsp</result>
+		</action>
+		<action name="_add" class="adminUserControlerAction" method="addUser">
+			<result name="success" type="redirect">/admin/_list.a</result>
+		</action>
+		<action name="_tedit" class="adminUserControlerAction" method="toEdit">
+			<result name="success">/admin/user/toEdit.jsp</result>
+		</action>
+		<action name="_edit" class="adminUserControlerAction" method="editUser">
+			<result name="success" type="redirect">/admin/_list.a</result>
+		</action>
+		<action name="_delete" class="adminUserControlerAction" method="deleteUser">
+			<result name="success" type="redirect">/admin/_list.a</result>
+		</action>
+
+		<!-- 权限分配 -->
+		<action name="a_list" class="actionAuthsController" method="getActionList">
+			<result name="success">/admin/act/list.jsp</result>
+		</action>
+		<action name="a_update" class="actionAuthsController" method="update">
+			<result name="success" type="redirect">/admin/a_list.a</result>
+		</action>
+
+		<!-- 后台操作记录 -->
+		<action name="getLogList" class="logAction" method="getLogList">
+			<result name="success">/admin/common/logList.jsp</result>
+		</action>
+		<action name="readLogFile" class="logAction" method="readFile">
+			<result name="success">/admin/common/logFile.jsp</result>
+		</action>
+
+		<!-- 上传文件 -->
+		<!-- 服务器资源上传 -->
+		<action name="upload" class="actionFileUploadController"
+			method="handlerFileUpload">
+			<result name="success">/admin/gameserver/updateres/fileupload.jsp</result>
+		</action>
+		<action name="update_list" class="actionFileUploadController"
+			method="listUpdateServer">
+			<result name="success">/admin/gameserver/updateres/updateGameServer.jsp</result>
+		</action>
+		<action name="_updateres" class="actionFileUploadController"
+			method="patchServerResource">
+		</action>
+		<action name="rollback_list" class="actionFileUploadController" method="listUpdateServer">
+			<result name="success">/admin/gameserver/updateres/rollbackGameServer.jsp</result>
+		</action>
+		<action name="rollbackserverres" class="actionFileUploadController" method="rollBackServerResource">
+		</action>
+		<!-- 客户端资源上传 -->
+		<action name="clientupload" class="actionFileUploadController"
+			method="handlerClientFileUpload">
+		</action>
+		<!-- 客户端回滚资源 -->
+		<action name="clientrollback" class="actionFileUploadController"
+			method="rollBackClientResource">
+		</action>
+		<!-- svn上传 -->
+		<action name="svnlist" class="actionSVNController" method="listSVNList">
+			<result name="success">/admin/tool/commitSVN.jsp</result>
+		</action>
+		
+		<action name="updatesvn" class="actionSVNController" method="handlerCommitJsonFile">
+		</action>
+
+		<action name="syncres" class="actionSyncResController" method="handleSyncRes">
+		</action>
+		<!-- svn上传Excel -->
+		<action name="commitExcel" class="actionSVNController" method="listSVNList">
+			<result name="success">/admin/tool/commitExcelToSVN.jsp</result>
+		</action>
+		<action name="handlerCommitExcel" class="actionSVNControllerByStringResult" method="handlerExcelCommitSVN">
+			<result name="result" type="stream">
+				<param name="contentType">text/html;charset=UTF-8</param>
+				<param name="inputName">result</param>
+			</result>
+		</action>
+		<action name="handlerCommitClass" class="actionSVNControllerByStringResult" method="handlerClassesCommitFtp">
+			<result name="result" type="stream">
+				<param name="contentType">text/html;charset=UTF-8</param>
+				<param name="inputName">result</param>
+			</result>
+		</action>
+		<action name="showsvnlist" class="actionShowSVNListController" method="getSVNList">
+			<result name="success">/admin/tool/svn/configcontrol.jsp</result>
+		</action>
+		<action name="svnupdate" class="actionSVNController" method="handlerUpdateSVNFile">
+			<result name="success">/admin/tool/svn/updateSvn.jsp</result>
+		</action>
+		<action name="showgeneratelist" class="actionGenerateJsonController" method="getNeedGenerateList">
+			<result name="success">/admin/tool/svn/generateList.jsp</result>
+		</action>
+		<action name="generatejson" class="actionGenerateJsonController" method="handlerGenerateExcels">
+		</action>
+		<action name="generatesinglejson" class="actionGenerateJsonController" method="handlerGenerateSingleExcel">
+		</action>
+		<action name="showgeneratecsvlist" class="actionGenerateCSVController" method="getNeedGenerateList">
+			<result name="success">/admin/tool/svn/generateCSVList.jsp</result>
+		</action>
+		<action name="generatecsv" class="actionGenerateCSVController" method="handlerGenerateExcelsToCSV">
+		</action>
+		<action name="generatesinglecsv" class="actionGenerateCSVController" method="handlerGenerateSingleExcelToCSV">
+		</action>
+		<action name="commitjson" class="actionCommitJsonToSVNController" method="handlerCommitJsonToSVN">
+		</action>
+		<action name="svnuploadjson" class="actionSVNUploadServerController" method="handlerUploadSVNFile">
+		</action>
+		<action name="svnuploadclientjson" class="actionSVNUploadServerController" method="handlerUploadClientSVNFile">
+		</action>
+		<action name="syncclass" class="actionSyncClassController" method="handlerSyncClass">
+		</action>
+		<action name="server_list" class="actionGameServerManagerController" method="listWindowsServer">
+			<result name="success">/admin/tool/server/shutdownServer.jsp</result>
+		</action>
+		<action name="shutdownServer" class="actionGameServerManagerController" method="shutdownServer">
+		</action>
+		<action name="linuxserver_sdlist" class="actionGameServerManagerController" method="listLinuxServer">
+			<result name="success">/admin/tool/server/shutdownLinuxServer.jsp</result>
+		</action>
+		<action name="shutdownLinuxServer" class="actionGameServerManagerController" method="shutdownLinuxServer">
+		</action>
+		<action name="linuxserver_ulist" class="actionGameServerManagerController" method="listLinuxServer">
+			<result name="success">/admin/tool/server/updateLinuxServer.jsp</result>
+		</action>
+		<action name="updateLinuxServer" class="actionGameServerManagerController" method="updateLinuxServer">
+		</action>
+		<action name="linuxserver_stlist" class="actionGameServerManagerController" method="listLinuxServer">
+			<result name="success">/admin/tool/server/startLinuxServer.jsp</result>
+		</action>
+		<action name="startLinuxServer" class="actionGameServerManagerController" method="startLinuxServer">
+		</action>
+		<action name="showLogList" class="actionGameServerManagerController" method="showLogList">
+			<result name="success">/admin/tool/server/serverModuleLog.jsp</result>
+		</action>
+		<action name="showClassList" class="actionShowSVNListController" method="getSVNList">
+			<result name="success">/admin/tool/easyUploadClass.jsp</result>
+		</action>
+		<action name="processCompileAndUpload" class="actionCompileClassAndUploadController" method="processCompileAndUpload">
+		</action>
+		<action name="autoupdate" class="actionSVNController" method="handlerUpdateSVNFile">
+			<result name="success">/admin/tool/svn/autoGenUpload.jsp</result>
+		</action>
+		<action name="processAutoGenUpload" class="actionAutoController" method="handlerCompileAndUpload">
+		</action>
+		<action name="processIncrementalRes" class="actionIncrementalResController" method="incrementalResHandler">
+		</action>
+		
+		<!-- server statistics -->
+		<action name="serverstatisticssvnlist" class="actionShowSVNListController" method="getSVNList">
+			<result name="success">/admin/gameserver/statistics/statisticsMenuList.jsp</result>
+		</action>
+		<action name="registeredserverlist" class="actionGameServerRegisteredController" method="ServerList">
+			<result name="success">/admin/gameserver/statistics/registeredStatistics.jsp</result>
+		</action>
+		<action name="levelspreadserverlist" class="actionGameServerRegisteredController" method="ServerList">
+			<result name="success">/admin/gameserver/statistics/levelSpreadStatistics.jsp</result>
+		</action>
+		<action name="activeuserserverlist" class="actionGameServerRegisteredController" method="ServerList">
+			<result name="success">/admin/gameserver/statistics/activeUserStatistics.jsp</result>
+		</action>
+		<action name="retaineduserserverlist" class="actionGameServerRegisteredController" method="ServerList">
+			<result name="success">/admin/gameserver/statistics/retainedUserStatistics.jsp</result>
+		</action>
+		<action name="clearclientcache" class="actionClearClientCacheController" method="handlerClearClientCache">
+		</action>
+		
+	</package>
+</struts>

@@ -1,0 +1,67 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "FriendServiceProtos";
+
+enum EFriendRequestType{
+	NONE = 0;//空
+	FRIEND_LIST = 1;//好友列表
+	BLACK_LIST = 2;//黑名单列表	
+	REQUEST_LIST = 3;//请求列表
+	SEARCH_FRIEND = 4;//搜索玩家
+	GIVE_POWER = 5;//赠送体力
+	RECEIVE_POWER = 6;//领取体力
+	GIVE_POWER_ALL = 7;//一键赠送体力
+	RECEIVE_POWER_ALL = 8;//一键领取体力
+	REQUEST_ADD_FRIEND = 9;//请求添加好友
+	REMOVE_FRIEND = 10;//删除好友
+	ADD_BLACK = 11;//加入黑名单
+	REMOVE_BLACK = 12;//移出黑名单
+	CONSENT_ADD_FRIEND = 13;//同意添加好友
+	REFUSED_ADD_FRIEND = 14;//拒绝添加好友
+	CONSENT_ADD_FRIEND_ALL = 15;//同意添加好友(全部)
+	REFUSED_ADD_FRIEND_ALL = 16;//拒绝添加好友(全部)	
+	ALL_LIST = 17;//请求所有列表
+}
+
+enum EFriendResultType{
+	SUCCESS = 0;//成功	
+	FAIL = 1;//操作失败
+	FAIL_2 = 2;//操作失败情况2
+	SUCCESS_MSG = 3;//返回消息
+}
+
+message FriendRequest{
+	required EFriendRequestType requestType = 1;//前端请求信息类型
+	optional string otherUserId = 2;//玩家id
+	optional string searchKey = 3;//搜索玩家字符
+}
+
+message FriendResponse{
+	required EFriendRequestType requestType = 1;//请求类型
+	required EFriendResultType resultType = 2;//结果类型
+	optional string otherUserId = 3;//请求时的玩家id
+	repeated FriendInfo list = 4;//推送列表
+	optional AllList allList = 5;//全部列表
+	repeated FriendInfo updateList = 6;//更新列表(根据请求类型返回)
+	optional string resultMsg = 7;//返回结果消息
+	optional bool isSearchValue = 8;//是否搜索到玩家
+}
+
+message AllList{
+	repeated FriendInfo friendList = 1;//好友列表
+	repeated FriendInfo requestList = 2;//请求列表
+	repeated FriendInfo blackList = 3;//黑名单列表
+}
+
+message FriendInfo{
+	required string userId = 1;//玩家ID
+	required string userName = 2;//玩家名字
+	required string headImage = 3;//玩家头像
+	required int32 career = 4;//玩家职业
+	required string lastLoginTip = 5;//上次登陆提示语
+	required float lastLoginTime = 6;//上次登陆时间
+	required int32 level = 7;//玩家等级
+	required string unionName = 8;//帮派名字
+	optional bool giveState = 9;//赠送状态  false:不可赠送，true:可赠送
+	optional bool receiveState = 10;//领取状态  false:不可领取 true:可领取
+}

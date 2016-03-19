@@ -1,0 +1,52 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "FishingServiceProtos";
+
+enum EFishingRequestType{
+	FISHING = 1;	//垂钓
+	FISHING_DATA = 2;//垂钓数据
+}
+
+enum EFishingResultType{
+	SUCCESS = 1;	//请求成功
+	FAIL = 2;		//失败
+}
+
+enum EFishingType{
+	PRIMARY = 1;//普通祭坛
+	ADVANCED = 2;//高级祭坛
+	DIVINE = 3;//神圣祭坛
+}
+
+enum ELotteryType{
+	ONE = 1;//单抽
+	SIX = 2;//6连
+	TEN = 3;//10连
+}
+
+message FishingRequest{
+    required EFishingRequestType requestType = 1;	//请求类型
+	optional EFishingType fishingType = 2;			//垂钓类型
+	optional ELotteryType lotteryType = 3;			//抽奖类型
+}
+
+message FishingResponse{
+	required EFishingResultType resultType= 1;	//结果类型
+	optional EFishingRequestType requestType = 2;//请求信息	
+	repeated FishingRewardData itemList = 3;	//奖励列表
+	repeated string heroList = 4;				//热点英雄
+	optional FishingData fishingData = 5;//垂钓数据
+}
+
+message FishingRewardData{
+	required string itemId = 1;	//物品ID
+	required int32 itemNum = 2;	//物品数量
+}
+
+message FishingData{
+	optional int32 ordinaryTime = 1;		//普通祈祷免费剩余时间
+	optional int32 ordinaryCount = 2;		//普通祈祷免费已用次数
+ 	optional int32 prayTime = 3;			//高级祈祷免费剩余时间
+ 	optional int32 prayCount = 4;			//高级祈祷免费已用次数
+}
+

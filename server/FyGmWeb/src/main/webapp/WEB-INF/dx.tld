@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>2.2.3</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>dx</short-name>
+	<uri>/WEB-INF/dx</uri>
+	<tag>
+		<name>times</name>
+		<tag-class>com.dx.gods.common.tag.TimeTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>timeleft</name>
+		<tag-class>com.dx.gods.common.tag.TimeLeftFromNowTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>fromnow</name>
+		<tag-class>com.dx.gods.common.tag.TimeIntervalFromNow</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>minute</name>
+		<tag-class>com.dx.gods.common.tag.TimeExactToMinute</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>doubleCardLeftTime</name>
+		<tag-class>com.dx.gods.common.tag.DoubleCardLeftTimeTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>page</name>
+		<tag-class>com.dx.gods.common.tag.WapPageTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>encode</name>
+			<rtexprvalue>false</rtexprvalue>
+			<description>Whether to encode parameters</description>
+		</attribute>
+		<attribute>
+			<name>escapeAmp</name>
+			<rtexprvalue>false</rtexprvalue>
+			<description>Specifies whether to escape ampersand (&amp;amp;) to
+				(&amp;amp;amp;) or not</description>
+		</attribute>
+	</tag>
+	<tag>
+		<name>icon</name>
+		<tag-class>com.dx.gods.common.tag.IconTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<!-- rtexprvalue如果为false,则你需要用EL来做,比如 "${user.icons} " -->
+			<rtexprvalue>true</rtexprvalue>
+			<description>The list of icons</description>
+		</attribute>
+		<attribute>
+			<name>catalog</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>图片所在目录，例如: image/icon（默认 : ../image/icon）</description>
+		</attribute>
+		<attribute>
+			<name>exclude</name>
+			<rtexprvalue>true</rtexprvalue>
+			<description>不显示图片index,多个用逗号隔开</description>
+		</attribute>
+	</tag>
+	<tag>
+		<name>base64</name>
+		<tag-class>com.dx.gods.common.tag.EncodeParamTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

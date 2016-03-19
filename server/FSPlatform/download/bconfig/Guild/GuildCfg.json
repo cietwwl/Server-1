@@ -1,0 +1,58 @@
+{
+    "1": {
+        "level": 1, 
+        "num": 20, 
+        "position1": 1, 
+        "position2": 1, 
+        "position3": 1, 
+        "funId": "1"
+    }, 
+    "2": {
+        "level": 2, 
+        "num": 30, 
+        "position1": 1, 
+        "position2": 1, 
+        "position3": 2, 
+        "funId": "2|3"
+    }, 
+    "3": {
+        "level": 3, 
+        "num": 40, 
+        "position1": 1, 
+        "position2": 1, 
+        "position3": 2, 
+        "funId": "4|5"
+    }, 
+    "4": {
+        "level": 4, 
+        "num": 40, 
+        "position1": 1, 
+        "position2": 2, 
+        "position3": 3, 
+        "funId": "6"
+    }, 
+    "5": {
+        "level": 5, 
+        "num": 50, 
+        "position1": 1, 
+        "position2": 2, 
+        "position3": 3, 
+        "funId": ""
+    }, 
+    "6": {
+        "level": 6, 
+        "num": 50, 
+        "position1": 1, 
+        "position2": 2, 
+        "position3": 4, 
+        "funId": ""
+    }, 
+    "7": {
+        "level": 7, 
+        "num": 50, 
+        "position1": 1, 
+        "position2": 2, 
+        "position3": 5, 
+        "funId": ""
+    }
+}

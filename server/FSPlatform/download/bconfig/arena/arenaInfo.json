@@ -1,0 +1,26 @@
+{
+    "21": {
+        "id": 21, 
+        "copyId": "190001", 
+        "copyType": 21, 
+        "name": "竞技场", 
+        "count": 6, 
+        "openLv": 10, 
+        "cost": 30, 
+        "cdTime": 300, 
+        "maxScore": 0, 
+        "describe": "场竞技场竞技场竞技场竞技场竞技场竞技场竞技场竞场竞技场竞技场竞场竞技场"
+    }, 
+    "22": {
+        "id": 22, 
+        "copyId": "190003", 
+        "copyType": 22, 
+        "name": "竞技场", 
+        "count": 6, 
+        "openLv": 10, 
+        "cost": 30, 
+        "cdTime": 300, 
+        "maxScore": 10000, 
+        "describe": "场竞技场竞技场竞技场竞技场竞技场竞技场竞技场竞场竞技场竞技场竞场竞技场"
+    }
+}

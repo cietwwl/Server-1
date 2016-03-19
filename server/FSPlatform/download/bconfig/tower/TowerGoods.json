@@ -1,0 +1,5007 @@
+{
+    "1": {
+        "itemid": 700007, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "2": {
+        "itemid": 700008, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "3": {
+        "itemid": 700009, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "4": {
+        "itemid": 700010, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "5": {
+        "itemid": 700011, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "6": {
+        "itemid": 700012, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "7": {
+        "itemid": 700013, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "8": {
+        "itemid": 700014, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "9": {
+        "itemid": 700015, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "10": {
+        "itemid": 700016, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "11": {
+        "itemid": 700017, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "12": {
+        "itemid": 700018, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "13": {
+        "itemid": 700019, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "14": {
+        "itemid": 700020, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "15": {
+        "itemid": 700021, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "16": {
+        "itemid": 700022, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "17": {
+        "itemid": 700023, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "18": {
+        "itemid": 700024, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "19": {
+        "itemid": 700025, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "20": {
+        "itemid": 700026, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "21": {
+        "itemid": 700027, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "22": {
+        "itemid": 700028, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "23": {
+        "itemid": 700029, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "24": {
+        "itemid": 700030, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "25": {
+        "itemid": 700031, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "26": {
+        "itemid": 700043, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "27": {
+        "itemid": 700044, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "28": {
+        "itemid": 700045, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "29": {
+        "itemid": 700046, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "30": {
+        "itemid": 700047, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "31": {
+        "itemid": 700048, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "32": {
+        "itemid": 700049, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "33": {
+        "itemid": 700050, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "34": {
+        "itemid": 700051, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "35": {
+        "itemid": 700052, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "36": {
+        "itemid": 700059, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "37": {
+        "itemid": 700060, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "38": {
+        "itemid": 700061, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "39": {
+        "itemid": 700062, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "40": {
+        "itemid": 700063, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "41": {
+        "itemid": 700064, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "42": {
+        "itemid": 700065, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "43": {
+        "itemid": 700066, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "44": {
+        "itemid": 700067, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "45": {
+        "itemid": 700068, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "46": {
+        "itemid": 700075, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "47": {
+        "itemid": 700076, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "48": {
+        "itemid": 700077, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "49": {
+        "itemid": 700078, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "50": {
+        "itemid": 700079, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "51": {
+        "itemid": 700080, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "52": {
+        "itemid": 700081, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "53": {
+        "itemid": 700082, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "54": {
+        "itemid": 700083, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "55": {
+        "itemid": 700084, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "56": {
+        "itemid": 700096, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "57": {
+        "itemid": 700097, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "58": {
+        "itemid": 700098, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "59": {
+        "itemid": 700099, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "60": {
+        "itemid": 700100, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "61": {
+        "itemid": 700101, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "62": {
+        "itemid": 700102, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "63": {
+        "itemid": 700103, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "64": {
+        "itemid": 700104, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "65": {
+        "itemid": 700105, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "66": {
+        "itemid": 700114, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "67": {
+        "itemid": 700115, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "68": {
+        "itemid": 700116, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "69": {
+        "itemid": 700117, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "70": {
+        "itemid": 700118, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "71": {
+        "itemid": 702001, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "72": {
+        "itemid": 702002, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "73": {
+        "itemid": 702003, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "74": {
+        "itemid": 702004, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "75": {
+        "itemid": 702005, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "76": {
+        "itemid": 702006, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "77": {
+        "itemid": 702007, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "78": {
+        "itemid": 702008, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "79": {
+        "itemid": 702009, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "80": {
+        "itemid": 702010, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43001
+    }, 
+    "81": {
+        "itemid": 702016, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "82": {
+        "itemid": 702017, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "83": {
+        "itemid": 702018, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "84": {
+        "itemid": 702019, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "85": {
+        "itemid": 702020, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "86": {
+        "itemid": 702021, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "87": {
+        "itemid": 702022, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "88": {
+        "itemid": 702023, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "89": {
+        "itemid": 702024, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "90": {
+        "itemid": 702025, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "91": {
+        "itemid": 702026, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "92": {
+        "itemid": 702027, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "93": {
+        "itemid": 702028, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "94": {
+        "itemid": 702029, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "95": {
+        "itemid": 702030, 
+        "weight": 80, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "96": {
+        "itemid": 202001, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "97": {
+        "itemid": 204001, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "98": {
+        "itemid": 201002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "99": {
+        "itemid": 201003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "100": {
+        "itemid": 202003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "101": {
+        "itemid": 201005, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "102": {
+        "itemid": 201004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "103": {
+        "itemid": 202004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "104": {
+        "itemid": 204004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "105": {
+        "itemid": 204003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "106": {
+        "itemid": 203002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "107": {
+        "itemid": 203003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "108": {
+        "itemid": 200002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "109": {
+        "itemid": 204006, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "110": {
+        "itemid": 200001, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "111": {
+        "itemid": 200003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "112": {
+        "itemid": 202005, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "113": {
+        "itemid": 200009, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "114": {
+        "itemid": 200004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "115": {
+        "itemid": 200010, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "116": {
+        "itemid": 204005, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "117": {
+        "itemid": 201007, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "118": {
+        "itemid": 203010, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "119": {
+        "itemid": 204002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "120": {
+        "itemid": 704001, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "121": {
+        "itemid": 704004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "122": {
+        "itemid": 704006, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "123": {
+        "itemid": 704007, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "124": {
+        "itemid": 704999, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "125": {
+        "itemid": 704008, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "126": {
+        "itemid": 704009, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "127": {
+        "itemid": 704010, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "128": {
+        "itemid": 704011, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "129": {
+        "itemid": 704013, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "130": {
+        "itemid": 704014, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "131": {
+        "itemid": 704015, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "132": {
+        "itemid": 704016, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "133": {
+        "itemid": 704017, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "134": {
+        "itemid": 704018, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "135": {
+        "itemid": 704019, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "136": {
+        "itemid": 704020, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "137": {
+        "itemid": 704021, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "138": {
+        "itemid": 704022, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "139": {
+        "itemid": 704023, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "140": {
+        "itemid": 704024, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "141": {
+        "itemid": 704025, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "142": {
+        "itemid": 704026, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43001
+    }, 
+    "143": {
+        "itemid": 704027, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43001
+    }, 
+    "144": {
+        "itemid": 700007, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "145": {
+        "itemid": 700008, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "146": {
+        "itemid": 700009, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "147": {
+        "itemid": 700010, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "148": {
+        "itemid": 700011, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "149": {
+        "itemid": 700012, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "150": {
+        "itemid": 700013, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "151": {
+        "itemid": 700014, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "152": {
+        "itemid": 700015, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "153": {
+        "itemid": 700016, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "154": {
+        "itemid": 700017, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "155": {
+        "itemid": 700018, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "156": {
+        "itemid": 700019, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "157": {
+        "itemid": 700020, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "158": {
+        "itemid": 700021, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "159": {
+        "itemid": 700022, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "160": {
+        "itemid": 700023, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "161": {
+        "itemid": 700024, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "162": {
+        "itemid": 700025, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "163": {
+        "itemid": 700026, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "164": {
+        "itemid": 700027, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "165": {
+        "itemid": 700028, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "166": {
+        "itemid": 700029, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "167": {
+        "itemid": 700030, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "168": {
+        "itemid": 700031, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "169": {
+        "itemid": 700043, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "170": {
+        "itemid": 700044, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "171": {
+        "itemid": 700045, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "172": {
+        "itemid": 700046, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "173": {
+        "itemid": 700047, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "174": {
+        "itemid": 700048, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "175": {
+        "itemid": 700049, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "176": {
+        "itemid": 700050, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "177": {
+        "itemid": 700051, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "178": {
+        "itemid": 700052, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "179": {
+        "itemid": 700059, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "180": {
+        "itemid": 700060, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "181": {
+        "itemid": 700061, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "182": {
+        "itemid": 700062, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "183": {
+        "itemid": 700063, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "184": {
+        "itemid": 700064, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "185": {
+        "itemid": 700065, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "186": {
+        "itemid": 700066, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "187": {
+        "itemid": 700067, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "188": {
+        "itemid": 700068, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "189": {
+        "itemid": 700075, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "190": {
+        "itemid": 700076, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "191": {
+        "itemid": 700077, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "192": {
+        "itemid": 700078, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "193": {
+        "itemid": 700079, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "194": {
+        "itemid": 700080, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "195": {
+        "itemid": 700081, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "196": {
+        "itemid": 700082, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "197": {
+        "itemid": 700083, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "198": {
+        "itemid": 700084, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "199": {
+        "itemid": 700096, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "200": {
+        "itemid": 700097, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "201": {
+        "itemid": 700098, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "202": {
+        "itemid": 700099, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "203": {
+        "itemid": 700100, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "204": {
+        "itemid": 700101, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "205": {
+        "itemid": 700102, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "206": {
+        "itemid": 700103, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "207": {
+        "itemid": 700104, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "208": {
+        "itemid": 700105, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "209": {
+        "itemid": 700114, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "210": {
+        "itemid": 700115, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "211": {
+        "itemid": 700116, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "212": {
+        "itemid": 700117, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "213": {
+        "itemid": 700118, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "214": {
+        "itemid": 702001, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "215": {
+        "itemid": 702002, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "216": {
+        "itemid": 702003, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "217": {
+        "itemid": 702004, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "218": {
+        "itemid": 702005, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "219": {
+        "itemid": 702006, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "220": {
+        "itemid": 702007, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "221": {
+        "itemid": 702008, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "222": {
+        "itemid": 702009, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "223": {
+        "itemid": 702010, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43002
+    }, 
+    "224": {
+        "itemid": 702016, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "225": {
+        "itemid": 702017, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "226": {
+        "itemid": 702018, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "227": {
+        "itemid": 702019, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "228": {
+        "itemid": 702020, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "229": {
+        "itemid": 702021, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "230": {
+        "itemid": 702022, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "231": {
+        "itemid": 702023, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "232": {
+        "itemid": 702024, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "233": {
+        "itemid": 702025, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "234": {
+        "itemid": 702026, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "235": {
+        "itemid": 702027, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "236": {
+        "itemid": 702028, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "237": {
+        "itemid": 702029, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "238": {
+        "itemid": 702030, 
+        "weight": 60, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "239": {
+        "itemid": 202001, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "240": {
+        "itemid": 204001, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "241": {
+        "itemid": 201002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "242": {
+        "itemid": 201003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "243": {
+        "itemid": 202003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "244": {
+        "itemid": 201005, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "245": {
+        "itemid": 201004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "246": {
+        "itemid": 202004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "247": {
+        "itemid": 204004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "248": {
+        "itemid": 204003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "249": {
+        "itemid": 203002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "250": {
+        "itemid": 203003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "251": {
+        "itemid": 200002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "252": {
+        "itemid": 204006, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "253": {
+        "itemid": 200001, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "254": {
+        "itemid": 200003, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "255": {
+        "itemid": 202005, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "256": {
+        "itemid": 200009, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "257": {
+        "itemid": 200004, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "258": {
+        "itemid": 200010, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "259": {
+        "itemid": 204005, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "260": {
+        "itemid": 201007, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "261": {
+        "itemid": 203010, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "262": {
+        "itemid": 204002, 
+        "weight": 0, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "263": {
+        "itemid": 704001, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "264": {
+        "itemid": 704004, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "265": {
+        "itemid": 704006, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "266": {
+        "itemid": 704007, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "267": {
+        "itemid": 704999, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "268": {
+        "itemid": 704008, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "269": {
+        "itemid": 704009, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "270": {
+        "itemid": 704010, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "271": {
+        "itemid": 704011, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "272": {
+        "itemid": 704013, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "273": {
+        "itemid": 704014, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "274": {
+        "itemid": 704015, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "275": {
+        "itemid": 704016, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "276": {
+        "itemid": 704017, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "277": {
+        "itemid": 704018, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "278": {
+        "itemid": 704019, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "279": {
+        "itemid": 704020, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "280": {
+        "itemid": 704021, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "281": {
+        "itemid": 704022, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "282": {
+        "itemid": 704023, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "283": {
+        "itemid": 704024, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "284": {
+        "itemid": 704025, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "285": {
+        "itemid": 704026, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43002
+    }, 
+    "286": {
+        "itemid": 704027, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43002
+    }, 
+    "287": {
+        "itemid": 700007, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "288": {
+        "itemid": 700008, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "289": {
+        "itemid": 700009, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "290": {
+        "itemid": 700010, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "291": {
+        "itemid": 700011, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "292": {
+        "itemid": 700012, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "293": {
+        "itemid": 700013, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "294": {
+        "itemid": 700014, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "295": {
+        "itemid": 700015, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "296": {
+        "itemid": 700016, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "297": {
+        "itemid": 700017, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "298": {
+        "itemid": 700018, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "299": {
+        "itemid": 700019, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "300": {
+        "itemid": 700020, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "301": {
+        "itemid": 700021, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "302": {
+        "itemid": 700022, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "303": {
+        "itemid": 700023, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "304": {
+        "itemid": 700024, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "305": {
+        "itemid": 700025, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "306": {
+        "itemid": 700026, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "307": {
+        "itemid": 700027, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "308": {
+        "itemid": 700028, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "309": {
+        "itemid": 700029, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "310": {
+        "itemid": 700030, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "311": {
+        "itemid": 700031, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "312": {
+        "itemid": 700043, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "313": {
+        "itemid": 700044, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "314": {
+        "itemid": 700045, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "315": {
+        "itemid": 700046, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "316": {
+        "itemid": 700047, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "317": {
+        "itemid": 700048, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "318": {
+        "itemid": 700049, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "319": {
+        "itemid": 700050, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "320": {
+        "itemid": 700051, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "321": {
+        "itemid": 700052, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "322": {
+        "itemid": 700059, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "323": {
+        "itemid": 700060, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "324": {
+        "itemid": 700061, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "325": {
+        "itemid": 700062, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "326": {
+        "itemid": 700063, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "327": {
+        "itemid": 700064, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "328": {
+        "itemid": 700065, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "329": {
+        "itemid": 700066, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "330": {
+        "itemid": 700067, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "331": {
+        "itemid": 700068, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "332": {
+        "itemid": 700075, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "333": {
+        "itemid": 700076, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "334": {
+        "itemid": 700077, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "335": {
+        "itemid": 700078, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "336": {
+        "itemid": 700079, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "337": {
+        "itemid": 700080, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "338": {
+        "itemid": 700081, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "339": {
+        "itemid": 700082, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "340": {
+        "itemid": 700083, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "341": {
+        "itemid": 700084, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "342": {
+        "itemid": 700096, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "343": {
+        "itemid": 700097, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "344": {
+        "itemid": 700098, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "345": {
+        "itemid": 700099, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "346": {
+        "itemid": 700100, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "347": {
+        "itemid": 700101, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "348": {
+        "itemid": 700102, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "349": {
+        "itemid": 700103, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "350": {
+        "itemid": 700104, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "351": {
+        "itemid": 700105, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "352": {
+        "itemid": 700114, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "353": {
+        "itemid": 700115, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "354": {
+        "itemid": 700116, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "355": {
+        "itemid": 700117, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "356": {
+        "itemid": 700118, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "357": {
+        "itemid": 702001, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "358": {
+        "itemid": 702002, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "359": {
+        "itemid": 702003, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "360": {
+        "itemid": 702004, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "361": {
+        "itemid": 702005, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "362": {
+        "itemid": 702006, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "363": {
+        "itemid": 702007, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "364": {
+        "itemid": 702008, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "365": {
+        "itemid": 702009, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "366": {
+        "itemid": 702010, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43003
+    }, 
+    "367": {
+        "itemid": 702016, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "368": {
+        "itemid": 702017, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "369": {
+        "itemid": 702018, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "370": {
+        "itemid": 702019, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "371": {
+        "itemid": 702020, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "372": {
+        "itemid": 702021, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "373": {
+        "itemid": 702022, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "374": {
+        "itemid": 702023, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "375": {
+        "itemid": 702024, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "376": {
+        "itemid": 702025, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "377": {
+        "itemid": 702026, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "378": {
+        "itemid": 702027, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "379": {
+        "itemid": 702028, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "380": {
+        "itemid": 702029, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "381": {
+        "itemid": 702030, 
+        "weight": 50, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "382": {
+        "itemid": 202001, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "383": {
+        "itemid": 204001, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "384": {
+        "itemid": 201002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "385": {
+        "itemid": 201003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "386": {
+        "itemid": 202003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "387": {
+        "itemid": 201005, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "388": {
+        "itemid": 201004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "389": {
+        "itemid": 202004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "390": {
+        "itemid": 204004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "391": {
+        "itemid": 204003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "392": {
+        "itemid": 203002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "393": {
+        "itemid": 203003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "394": {
+        "itemid": 200002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "395": {
+        "itemid": 204006, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "396": {
+        "itemid": 200001, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "397": {
+        "itemid": 200003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "398": {
+        "itemid": 202005, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "399": {
+        "itemid": 200009, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "400": {
+        "itemid": 200004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "401": {
+        "itemid": 200010, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "402": {
+        "itemid": 204005, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "403": {
+        "itemid": 201007, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "404": {
+        "itemid": 203010, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "405": {
+        "itemid": 204002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "406": {
+        "itemid": 704001, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "407": {
+        "itemid": 704004, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "408": {
+        "itemid": 704006, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "409": {
+        "itemid": 704007, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "410": {
+        "itemid": 704999, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "411": {
+        "itemid": 704008, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "412": {
+        "itemid": 704009, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "413": {
+        "itemid": 704010, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "414": {
+        "itemid": 704011, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "415": {
+        "itemid": 704013, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "416": {
+        "itemid": 704014, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "417": {
+        "itemid": 704015, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "418": {
+        "itemid": 704016, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "419": {
+        "itemid": 704017, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "420": {
+        "itemid": 704018, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "421": {
+        "itemid": 704019, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "422": {
+        "itemid": 704020, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "423": {
+        "itemid": 704021, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "424": {
+        "itemid": 704022, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "425": {
+        "itemid": 704023, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "426": {
+        "itemid": 704024, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "427": {
+        "itemid": 704025, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "428": {
+        "itemid": 704026, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43003
+    }, 
+    "429": {
+        "itemid": 704027, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43003
+    }, 
+    "430": {
+        "itemid": 700007, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "431": {
+        "itemid": 700008, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "432": {
+        "itemid": 700009, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "433": {
+        "itemid": 700010, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "434": {
+        "itemid": 700011, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "435": {
+        "itemid": 700012, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "436": {
+        "itemid": 700013, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "437": {
+        "itemid": 700014, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "438": {
+        "itemid": 700015, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "439": {
+        "itemid": 700016, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "440": {
+        "itemid": 700017, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "441": {
+        "itemid": 700018, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "442": {
+        "itemid": 700019, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "443": {
+        "itemid": 700020, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "444": {
+        "itemid": 700021, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "445": {
+        "itemid": 700022, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "446": {
+        "itemid": 700023, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "447": {
+        "itemid": 700024, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "448": {
+        "itemid": 700025, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "449": {
+        "itemid": 700026, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "450": {
+        "itemid": 700027, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "451": {
+        "itemid": 700028, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "452": {
+        "itemid": 700029, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "453": {
+        "itemid": 700030, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "454": {
+        "itemid": 700031, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "455": {
+        "itemid": 700043, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "456": {
+        "itemid": 700044, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "457": {
+        "itemid": 700045, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "458": {
+        "itemid": 700046, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "459": {
+        "itemid": 700047, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "460": {
+        "itemid": 700048, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "461": {
+        "itemid": 700049, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "462": {
+        "itemid": 700050, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "463": {
+        "itemid": 700051, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "464": {
+        "itemid": 700052, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "465": {
+        "itemid": 700059, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "466": {
+        "itemid": 700060, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "467": {
+        "itemid": 700061, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "468": {
+        "itemid": 700062, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "469": {
+        "itemid": 700063, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "470": {
+        "itemid": 700064, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "471": {
+        "itemid": 700065, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "472": {
+        "itemid": 700066, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "473": {
+        "itemid": 700067, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "474": {
+        "itemid": 700068, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "475": {
+        "itemid": 700075, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "476": {
+        "itemid": 700076, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "477": {
+        "itemid": 700077, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "478": {
+        "itemid": 700078, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "479": {
+        "itemid": 700079, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "480": {
+        "itemid": 700080, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "481": {
+        "itemid": 700081, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "482": {
+        "itemid": 700082, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "483": {
+        "itemid": 700083, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "484": {
+        "itemid": 700084, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "485": {
+        "itemid": 700096, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "486": {
+        "itemid": 700097, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "487": {
+        "itemid": 700098, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "488": {
+        "itemid": 700099, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "489": {
+        "itemid": 700100, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "490": {
+        "itemid": 700101, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "491": {
+        "itemid": 700102, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "492": {
+        "itemid": 700103, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "493": {
+        "itemid": 700104, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "494": {
+        "itemid": 700105, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "495": {
+        "itemid": 700114, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "496": {
+        "itemid": 700115, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "497": {
+        "itemid": 700116, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "498": {
+        "itemid": 700117, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "499": {
+        "itemid": 700118, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "500": {
+        "itemid": 702001, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "501": {
+        "itemid": 702002, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "502": {
+        "itemid": 702003, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "503": {
+        "itemid": 702004, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "504": {
+        "itemid": 702005, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "505": {
+        "itemid": 702006, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "506": {
+        "itemid": 702007, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "507": {
+        "itemid": 702008, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "508": {
+        "itemid": 702009, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "509": {
+        "itemid": 702010, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43004
+    }, 
+    "510": {
+        "itemid": 702016, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "511": {
+        "itemid": 702017, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "512": {
+        "itemid": 702018, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "513": {
+        "itemid": 702019, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "514": {
+        "itemid": 702020, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "515": {
+        "itemid": 702021, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "516": {
+        "itemid": 702022, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "517": {
+        "itemid": 702023, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "518": {
+        "itemid": 702024, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "519": {
+        "itemid": 702025, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "520": {
+        "itemid": 702026, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "521": {
+        "itemid": 702027, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "522": {
+        "itemid": 702028, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "523": {
+        "itemid": 702029, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "524": {
+        "itemid": 702030, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "525": {
+        "itemid": 202001, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "526": {
+        "itemid": 204001, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "527": {
+        "itemid": 201002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "528": {
+        "itemid": 201003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "529": {
+        "itemid": 202003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "530": {
+        "itemid": 201005, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "531": {
+        "itemid": 201004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "532": {
+        "itemid": 202004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "533": {
+        "itemid": 204004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "534": {
+        "itemid": 204003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "535": {
+        "itemid": 203002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "536": {
+        "itemid": 203003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "537": {
+        "itemid": 200002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "538": {
+        "itemid": 204006, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "539": {
+        "itemid": 200001, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "540": {
+        "itemid": 200003, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "541": {
+        "itemid": 202005, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "542": {
+        "itemid": 200009, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "543": {
+        "itemid": 200004, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "544": {
+        "itemid": 200010, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "545": {
+        "itemid": 204005, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "546": {
+        "itemid": 201007, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "547": {
+        "itemid": 203010, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "548": {
+        "itemid": 204002, 
+        "weight": 5, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "549": {
+        "itemid": 704001, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "550": {
+        "itemid": 704004, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "551": {
+        "itemid": 704006, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "552": {
+        "itemid": 704007, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "553": {
+        "itemid": 704999, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "554": {
+        "itemid": 704008, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "555": {
+        "itemid": 704009, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "556": {
+        "itemid": 704010, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "557": {
+        "itemid": 704011, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "558": {
+        "itemid": 704013, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "559": {
+        "itemid": 704014, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "560": {
+        "itemid": 704015, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "561": {
+        "itemid": 704016, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "562": {
+        "itemid": 704017, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "563": {
+        "itemid": 704018, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "564": {
+        "itemid": 704019, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "565": {
+        "itemid": 704020, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "566": {
+        "itemid": 704021, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "567": {
+        "itemid": 704022, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "568": {
+        "itemid": 704023, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "569": {
+        "itemid": 704024, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "570": {
+        "itemid": 704025, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "571": {
+        "itemid": 704026, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43004
+    }, 
+    "572": {
+        "itemid": 704027, 
+        "weight": 25, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43004
+    }, 
+    "573": {
+        "itemid": 700007, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "574": {
+        "itemid": 700008, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "575": {
+        "itemid": 700009, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "576": {
+        "itemid": 700010, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "577": {
+        "itemid": 700011, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "578": {
+        "itemid": 700012, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "579": {
+        "itemid": 700013, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "580": {
+        "itemid": 700014, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "581": {
+        "itemid": 700015, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "582": {
+        "itemid": 700016, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "583": {
+        "itemid": 700017, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "584": {
+        "itemid": 700018, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "585": {
+        "itemid": 700019, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "586": {
+        "itemid": 700020, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "587": {
+        "itemid": 700021, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "588": {
+        "itemid": 700022, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "589": {
+        "itemid": 700023, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "590": {
+        "itemid": 700024, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "591": {
+        "itemid": 700025, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "592": {
+        "itemid": 700026, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "593": {
+        "itemid": 700027, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "594": {
+        "itemid": 700028, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "595": {
+        "itemid": 700029, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "596": {
+        "itemid": 700030, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "597": {
+        "itemid": 700031, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "598": {
+        "itemid": 700043, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "599": {
+        "itemid": 700044, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "600": {
+        "itemid": 700045, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "601": {
+        "itemid": 700046, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "602": {
+        "itemid": 700047, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "603": {
+        "itemid": 700048, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "604": {
+        "itemid": 700049, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "605": {
+        "itemid": 700050, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "606": {
+        "itemid": 700051, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "607": {
+        "itemid": 700052, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "608": {
+        "itemid": 700059, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "609": {
+        "itemid": 700060, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "610": {
+        "itemid": 700061, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "611": {
+        "itemid": 700062, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "612": {
+        "itemid": 700063, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "613": {
+        "itemid": 700064, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "614": {
+        "itemid": 700065, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "615": {
+        "itemid": 700066, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "616": {
+        "itemid": 700067, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "617": {
+        "itemid": 700068, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "618": {
+        "itemid": 700075, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "619": {
+        "itemid": 700076, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "620": {
+        "itemid": 700077, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "621": {
+        "itemid": 700078, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "622": {
+        "itemid": 700079, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "623": {
+        "itemid": 700080, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "624": {
+        "itemid": 700081, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "625": {
+        "itemid": 700082, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "626": {
+        "itemid": 700083, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "627": {
+        "itemid": 700084, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "628": {
+        "itemid": 700096, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "629": {
+        "itemid": 700097, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "630": {
+        "itemid": 700098, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "631": {
+        "itemid": 700099, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "632": {
+        "itemid": 700100, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "633": {
+        "itemid": 700101, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "634": {
+        "itemid": 700102, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "635": {
+        "itemid": 700103, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "636": {
+        "itemid": 700104, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "637": {
+        "itemid": 700105, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "638": {
+        "itemid": 700114, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "639": {
+        "itemid": 700115, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "640": {
+        "itemid": 700116, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "641": {
+        "itemid": 700117, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "642": {
+        "itemid": 700118, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "643": {
+        "itemid": 702001, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "644": {
+        "itemid": 702002, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "645": {
+        "itemid": 702003, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "646": {
+        "itemid": 702004, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "647": {
+        "itemid": 702005, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "648": {
+        "itemid": 702006, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "649": {
+        "itemid": 702007, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "650": {
+        "itemid": 702008, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "651": {
+        "itemid": 702009, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "652": {
+        "itemid": 702010, 
+        "weight": 40, 
+        "leastNum": 1, 
+        "maxNum": 3, 
+        "formatId": 43005
+    }, 
+    "653": {
+        "itemid": 702016, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "654": {
+        "itemid": 702017, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "655": {
+        "itemid": 702018, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "656": {
+        "itemid": 702019, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "657": {
+        "itemid": 702020, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "658": {
+        "itemid": 702021, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "659": {
+        "itemid": 702022, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "660": {
+        "itemid": 702023, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "661": {
+        "itemid": 702024, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "662": {
+        "itemid": 702025, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "663": {
+        "itemid": 702026, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "664": {
+        "itemid": 702027, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "665": {
+        "itemid": 702028, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "666": {
+        "itemid": 702029, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "667": {
+        "itemid": 702030, 
+        "weight": 30, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "668": {
+        "itemid": 202001, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "669": {
+        "itemid": 204001, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "670": {
+        "itemid": 201002, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "671": {
+        "itemid": 201003, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "672": {
+        "itemid": 202003, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "673": {
+        "itemid": 201005, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "674": {
+        "itemid": 201004, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "675": {
+        "itemid": 202004, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "676": {
+        "itemid": 204004, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "677": {
+        "itemid": 204003, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "678": {
+        "itemid": 203002, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "679": {
+        "itemid": 203003, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "680": {
+        "itemid": 200002, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "681": {
+        "itemid": 204006, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "682": {
+        "itemid": 200001, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "683": {
+        "itemid": 200003, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "684": {
+        "itemid": 202005, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "685": {
+        "itemid": 200009, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "686": {
+        "itemid": 200004, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "687": {
+        "itemid": 200010, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "688": {
+        "itemid": 204005, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "689": {
+        "itemid": 201007, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "690": {
+        "itemid": 203010, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "691": {
+        "itemid": 204002, 
+        "weight": 10, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "692": {
+        "itemid": 704001, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "693": {
+        "itemid": 704004, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "694": {
+        "itemid": 704006, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "695": {
+        "itemid": 704007, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "696": {
+        "itemid": 704999, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "697": {
+        "itemid": 704008, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "698": {
+        "itemid": 704009, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "699": {
+        "itemid": 704010, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "700": {
+        "itemid": 704011, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "701": {
+        "itemid": 704013, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "702": {
+        "itemid": 704014, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "703": {
+        "itemid": 704015, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "704": {
+        "itemid": 704016, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "705": {
+        "itemid": 704017, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "706": {
+        "itemid": 704018, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "707": {
+        "itemid": 704019, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "708": {
+        "itemid": 704020, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "709": {
+        "itemid": 704021, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "710": {
+        "itemid": 704022, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "711": {
+        "itemid": 704023, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "712": {
+        "itemid": 704024, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "713": {
+        "itemid": 704025, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }, 
+    "714": {
+        "itemid": 704026, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 1, 
+        "formatId": 43005
+    }, 
+    "715": {
+        "itemid": 704027, 
+        "weight": 20, 
+        "leastNum": 1, 
+        "maxNum": 2, 
+        "formatId": 43005
+    }
+}

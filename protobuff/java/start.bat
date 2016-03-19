@@ -1,0 +1,1 @@
+protoc.exe --java_out=../../../Server/FSApp/src1 ../proto/ChatService.proto

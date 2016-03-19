@@ -1,0 +1,298 @@
+package com.rwbase.dao.group.pojo.db;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.SaveAsJson;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.groupSkill.db.GroupSkillItem;
+
+/*
+ * @author HC
+ * @date 2016年1月19日 上午11:58:12
+ * @Description 成员的帮派数据信息
+ */
+@SynClass
+@Table(name = "user_group_attribute")
+public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapItem {
+	@Id
+	private String userId;// 角色Id
+	private String groupId;// 角色加入帮派的Id，如果没有帮派的时候是空
+	private long quitGroupTime;// 退出帮派的时间，包括被踢出帮派的时间
+	private long sendEmailTime;// 发送邮件的时间
+	@IgnoreSynField
+	private int groupApplySize;// 今天已经申请的帮派数量
+	@IgnoreSynField
+	private long lastResetApplyTime;// 上次重置申请队列长度的时间
+	@IgnoreSynField
+	@SaveAsJson
+	private Map<Integer, GroupSkillItem> studySkill;// 已经学习了的帮派技能列表
+	@IgnoreSynField
+	@SaveAsJson
+	private List<String> applyGroupIdList;// 申请的列表
+
+	public UserGroupAttributeData() {
+		studySkill = new HashMap<Integer, GroupSkillItem>();
+		applyGroupIdList = new ArrayList<String>();
+	}
+
+	// ///////////////////////////////////////////////GET区域
+	/**
+	 * 获取角色的Id
+	 * 
+	 * @return
+	 */
+	@Override
+	public String getId() {
+		return userId;
+	}
+
+	/**
+	 * 获取加入帮派的Id
+	 * 
+	 * @return
+	 */
+	@Override
+	public String getGroupId() {
+		return groupId;
+	}
+
+	/**
+	 * 获取退出帮派的时间
+	 * 
+	 * @return
+	 */
+	@Override
+	public long getQuitGroupTime() {
+		return quitGroupTime;
+	}
+
+	/**
+	 * 获取发送邮件的时间
+	 * 
+	 * @return
+	 */
+	@Override
+	public long getSendEmailTime() {
+		return sendEmailTime;
+	}
+
+	/**
+	 * 获取已经申请的帮派的Id列表
+	 * 
+	 * @return
+	 */
+	@Override
+	public List<String> getApplyGroupIdList() {
+		return applyGroupIdList == null || applyGroupIdList.isEmpty() ? new ArrayList<String>() : new ArrayList<String>(applyGroupIdList);
+	}
+
+	/**
+	 * 获取今天已经申请的帮派次数
+	 * 
+	 * @return
+	 */
+	@Override
+	public int getGroupApplySize() {
+		return groupApplySize;
+	}
+
+	/**
+	 * 获取上次请求重置申请帮派数量的时间
+	 * 
+	 * @return
+	 */
+	@Override
+	public long getLastResetApplyTime() {
+		return lastResetApplyTime;
+	}
+
+	/**
+	 * 获取个人学习帮派技能的数据
+	 * 
+	 * @return
+	 */
+	public List<GroupSkillItem> getSkillItemList() {
+		return new ArrayList<GroupSkillItem>(studySkill.values());
+	}
+
+	// ///////////////////////////////////////////////SET区域
+	/**
+	 * 设置角色Id
+	 * 
+	 * @param userId
+	 */
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * 设置帮派的Id
+	 * 
+	 * @param groupId
+	 */
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	/**
+	 * 设置退出帮派的时间
+	 * 
+	 * @param quitGroupTime
+	 */
+	public void setQuitGroupTime(long quitGroupTime) {
+		this.quitGroupTime = quitGroupTime;
+	}
+
+	/**
+	 * 设置发送帮派邮件的时间
+	 * 
+	 * @param sendEmailTime
+	 */
+	public void setSendEmailTime(long sendEmailTime) {
+		this.sendEmailTime = sendEmailTime;
+	}
+
+	/**
+	 * 设置当前已经申请的帮派列表
+	 * 
+	 * @param applyGroupIdList
+	 */
+	public void setApplyGroupIdList(List<String> applyGroupIdList) {
+		this.applyGroupIdList = applyGroupIdList;
+	}
+
+	/**
+	 * 设置当天已经申请的帮派个数
+	 */
+	public void setGroupApplySize(int groupApplySize) {
+		this.groupApplySize = groupApplySize;
+	}
+
+	/**
+	 * 设置上次重置申请帮派数量的时间
+	 * 
+	 * @param lastResetApplyTime
+	 */
+	public void setLastResetApplyTime(long lastResetApplyTime) {
+		this.lastResetApplyTime = lastResetApplyTime;
+	}
+
+	// ///////////////////////////////////////////////逻辑处理区域
+	/**
+	 * 增加申请的帮派Id
+	 * 
+	 * @param applyGroupId
+	 */
+	public void addApplyGroupId(String applyGroupId) {
+		if (applyGroupIdList == null) {
+			applyGroupIdList = new ArrayList<String>();
+		}
+
+		applyGroupIdList.add(applyGroupId);
+	}
+
+	/**
+	 * 当被通过之后就删除已经申请的帮派Id列表中的数据
+	 * 
+	 * @param applyGroupId
+	 */
+	public void removeApplyGroupId(String applyGroupId) {
+		if (applyGroupIdList == null || applyGroupIdList.isEmpty()) {
+			return;
+		}
+
+		applyGroupIdList.remove(applyGroupId);
+	}
+
+	/**
+	 * 清除所有请求的帮派信息
+	 */
+	public void clearApplyGroupIdList() {
+		if (applyGroupIdList == null || applyGroupIdList.isEmpty()) {
+			return;
+		}
+
+		applyGroupIdList.clear();
+	}
+
+	/**
+	 * 是否有学习过当前这个技能
+	 * 
+	 * @param skillId 技能的Id
+	 * @param skillLevel 技能的等级
+	 * @return
+	 */
+	public boolean hasStudySkill(int skillId, int skillLevel) {
+		GroupSkillItem hasValue = studySkill.get(skillId);
+		return hasValue == null ? false : hasValue.getLevel() >= skillLevel;
+	}
+
+	/**
+	 * 增加或者更新新学习的技能数据
+	 * 
+	 * @param skillId
+	 * @param skillLevel
+	 * @param time <b>【注】如果不设置这个数据，就填入-1</b>
+	 * @param state <b>【注】如果不设置这个数据，就填入-1</b>
+	 */
+	public void addOrUpdateStudySkill(int skillId, int skillLevel, long time, int state) {
+		GroupSkillItem skillItem = studySkill.get(skillId);
+		if (skillItem == null) {
+			skillItem = new GroupSkillItem();
+			skillItem.setId(skillId);
+			studySkill.put(skillId, skillItem);
+		}
+
+		skillItem.setLevel(skillLevel);
+		if (time != -1) {
+			skillItem.setTime(time);
+		}
+
+		if (state != -1) {
+			skillItem.setState(state);
+		}
+	}
+
+	/**
+	 * 获取已经学习的帮派技能等级
+	 * 
+	 * @param skillId
+	 * @return
+	 */
+	public int getStudySkillLevel(int skillId) {
+		GroupSkillItem hasValue = studySkill.get(skillId);
+		return hasValue == null ? 0 : hasValue.getLevel();
+	}
+
+	/**
+	 * 获取已经学习过的帮派技能数据
+	 * 
+	 * @return
+	 */
+	public Map<Integer, GroupSkillItem> getStudySkillMap() {
+		return new HashMap<Integer, GroupSkillItem>(studySkill);
+	}
+
+	/**
+	 * 返回是否已经申请该帮派
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	@Override
+	public boolean hasApplyGroup(String groupId) {
+		if (applyGroupIdList == null) {
+			return false;
+		}
+		return applyGroupIdList.contains(groupId);
+	}
+}

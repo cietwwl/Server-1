@@ -1,0 +1,29 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "DailyGifProtos";
+
+
+enum EType {
+	InfoMsg = 0;//基本信息
+	GetGif = 1;//令取礼包
+}
+
+message DailyGifResponse {
+ optional EType type = 1;
+ optional int32 count = 2;// 上线次数
+ repeated int32 getCount = 3;// 已领次数
+}
+
+message DailyGifRequest {
+  optional EType type = 1;
+  optional int32 count = 2;// 次数
+
+}
+
+
+
+
+
+
+
+

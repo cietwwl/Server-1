@@ -1,0 +1,9 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "RoleAttrProtos";
+
+message TagRoleAttrData{
+	required string heroUUID = 1;//佣兵ID
+	optional int32 attrType = 2;//属性类型
+	optional double attrValue =3;//属性值
+}

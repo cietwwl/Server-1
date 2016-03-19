@@ -1,0 +1,39 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "UnendingWarProtos";
+
+
+enum EUnendingWarType {
+	BaseMsg = 0;//基本信息
+	OtherMsg = 1;//其它信息
+	AddMsg= 2;//添加波数
+	EndMsg= 3;//结速
+    ResetMsg= 4;//重置
+
+}
+
+message UnendingWarResponse {
+optional EUnendingWarType type = 1;
+optional int32 num = 2;// 进入次数
+optional int32 zhCj=3;//最好成绩
+optional int32 dqCj=4;//当前成绩
+optional int32 resetNum=5;//重置次数
+optional string cj=6;//成绩
+
+
+ 
+}
+
+message UnendingWarRequest {
+   optional int32 num = 1;// 
+   optional EUnendingWarType type = 2;
+   
+}
+
+
+
+
+
+
+
+

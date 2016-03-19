@@ -1,0 +1,11 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ClientViewProtos";
+import "GuidanceService.proto";
+import "PlotView.proto";
+package ClientView;
+
+message ClientViewData{
+	repeated GuidanceService.GuidanceProgress guideProg = 1;//新手引导进度
+	repeated PlotView.PlotProgress plotProg = 2;//剧情进度
+}

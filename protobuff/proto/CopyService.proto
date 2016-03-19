@@ -1,0 +1,90 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "CopyServiceProtos";
+
+enum ERequestType	//请求
+{
+	SWEEP_LEVEL_TICKET = 1;			//扫荡券扫荡关卡
+	SWEEP_LEVEL_DIAMOND = 2;		//钻石扫荡关卡
+	BUY_LEVEL = 3;					//购买关卡
+	GET_USER_CHECKPOINT_INFO = 4;	//获取关卡信息
+	BATTLE_CLEARING = 5;			//战斗结算
+	BATTLE_ITEMS_BACK = 6; 			//战斗物品结算
+	GM_SETLEVEL = 7;				//GM设定关卡命令
+	GET_GIFT = 8;				//领取宝箱
+}
+
+enum EBattleStatus	//战斗状态
+{
+	WIN = 1;
+	TIMES_UP = 2;
+	NULL = 3; 		
+}
+
+enum EResultType	//结果
+{
+	NONE = 1;		//服务器出错
+	PURCHASE_SUCCESS = 2;	//购买成功
+	LOW_VIP = 3;			//Vip等级不足
+	NOT_ENOUGH_DIAMOND =4 ;	//钻石不足
+	NOT_ENOUGH_HP = 5;		//体力不足
+	NOT_OPEN = 6;			//未开放
+	NOT_ENOUGH_TICKET = 7 ;	//扫荡券不足
+	NOT_ENOUGH_TIMES = 8; 	//次数不足
+	INIT_MAP = 9;			//初始化地图
+	ITEM_BACK = 10;			//结算前物品返回成功
+	BATTLE_CLEAR = 11;		//战斗结算
+	GM_SETSUCCESS = 12;		//GM命令成功
+	SWEEP_SUCCESS = 13;//
+	GET_GIFT_SUCCESS = 14;
+}
+
+message MsgCopyRequest
+{
+    required ERequestType requestType = 1;
+    optional int32 levelId = 2;							//关卡ID
+    optional TagBattleData tagBattleData = 3;				//副本战斗结算数据块
+	optional MapGiftRequest mapGiftRequest = 4;				//副本宝箱	
+}
+
+message MsgCopyResponse
+{
+	optional EResultType eResultType = 1;								//请求结果
+    optional ERequestType requestType = 2;								//请求类型
+	optional TagBattleClearingResult tagBattleClearingResult = 3;		//战斗结算结果
+	optional int32 levelId = 4;										//扫荡关卡Id	
+	optional int32 clearCount = 5;										//结算次数
+	repeated TagSweepInfo tagSweepInfoList = 6;							//扫荡结果
+	repeated string tagMapRecord = 7;									//地图记录 
+	repeated string tagCopyLevelRecord = 8;								//新增的关卡记录,以"id_100010,3,3,0"的形式记录下"关卡id,通关星级,今天打的次数,购买次数"的信息
+	repeated string tagItemList = 9; 									//战前所获得的物品结果返回，以"806001,20"的形式记录下"物品id,物品数量"
+	optional int32 copyCount = 10;										//剩余次数
+	optional int32 unendingWar = 11;									//战绩点 
+}
+
+message TagSweepInfo	//扫荡结果数据类
+{
+	required int32 times = 1; 				//扫荡次序...
+	repeated string tagItemList = 2; 		//扫荡结果...
+}
+message MapGiftRequest	//地图宝箱类,客户端发送所用
+{
+	required int32 mapId = 1;
+	required int32 index = 2;
+}
+message TagBattleData	//结算数据类,客户端发送所用
+{
+	required int32 battleClearingTime = 1;
+	required int32 levelId = 2;				//关卡Id
+	repeated string heroId = 3;					//英雄ID
+	optional int32 starLevel = 4;				//星级
+	optional EBattleStatus battleStatus = 5; 	//战斗状态
+	optional int32 fightTime = 6; //战斗时间
+	optional EBattleStatus fightResult = 7; //战斗结果
+}
+
+message TagBattleClearingResult		//结算结果数据类,服务端返回所用
+{
+	repeated string upHeroId = 1;			//升级英雄ID列表
+	optional string tagCopyRecord = 2; //关卡记录
+}

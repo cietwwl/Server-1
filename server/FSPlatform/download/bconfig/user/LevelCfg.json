@@ -1,0 +1,452 @@
+{
+    "1": {
+        "level": 1, 
+        "playerUpgradeExp": 45, 
+        "heroUpgradeExp": 45
+    }, 
+    "2": {
+        "level": 2, 
+        "playerUpgradeExp": 50, 
+        "heroUpgradeExp": 50
+    }, 
+    "3": {
+        "level": 3, 
+        "playerUpgradeExp": 55, 
+        "heroUpgradeExp": 55
+    }, 
+    "4": {
+        "level": 4, 
+        "playerUpgradeExp": 60, 
+        "heroUpgradeExp": 60
+    }, 
+    "5": {
+        "level": 5, 
+        "playerUpgradeExp": 65, 
+        "heroUpgradeExp": 65
+    }, 
+    "6": {
+        "level": 6, 
+        "playerUpgradeExp": 70, 
+        "heroUpgradeExp": 70
+    }, 
+    "7": {
+        "level": 7, 
+        "playerUpgradeExp": 130, 
+        "heroUpgradeExp": 150
+    }, 
+    "8": {
+        "level": 8, 
+        "playerUpgradeExp": 190, 
+        "heroUpgradeExp": 230
+    }, 
+    "9": {
+        "level": 9, 
+        "playerUpgradeExp": 220, 
+        "heroUpgradeExp": 360
+    }, 
+    "10": {
+        "level": 10, 
+        "playerUpgradeExp": 260, 
+        "heroUpgradeExp": 490
+    }, 
+    "11": {
+        "level": 11, 
+        "playerUpgradeExp": 300, 
+        "heroUpgradeExp": 640
+    }, 
+    "12": {
+        "level": 12, 
+        "playerUpgradeExp": 350, 
+        "heroUpgradeExp": 750
+    }, 
+    "13": {
+        "level": 13, 
+        "playerUpgradeExp": 400, 
+        "heroUpgradeExp": 880
+    }, 
+    "14": {
+        "level": 14, 
+        "playerUpgradeExp": 460, 
+        "heroUpgradeExp": 1020
+    }, 
+    "15": {
+        "level": 15, 
+        "playerUpgradeExp": 500, 
+        "heroUpgradeExp": 1200
+    }, 
+    "16": {
+        "level": 16, 
+        "playerUpgradeExp": 600, 
+        "heroUpgradeExp": 1400
+    }, 
+    "17": {
+        "level": 17, 
+        "playerUpgradeExp": 700, 
+        "heroUpgradeExp": 1600
+    }, 
+    "18": {
+        "level": 18, 
+        "playerUpgradeExp": 800, 
+        "heroUpgradeExp": 1800
+    }, 
+    "19": {
+        "level": 19, 
+        "playerUpgradeExp": 900, 
+        "heroUpgradeExp": 2000
+    }, 
+    "20": {
+        "level": 20, 
+        "playerUpgradeExp": 1000, 
+        "heroUpgradeExp": 2300
+    }, 
+    "21": {
+        "level": 21, 
+        "playerUpgradeExp": 1100, 
+        "heroUpgradeExp": 2600
+    }, 
+    "22": {
+        "level": 22, 
+        "playerUpgradeExp": 1200, 
+        "heroUpgradeExp": 3000
+    }, 
+    "23": {
+        "level": 23, 
+        "playerUpgradeExp": 1300, 
+        "heroUpgradeExp": 3400
+    }, 
+    "24": {
+        "level": 24, 
+        "playerUpgradeExp": 1500, 
+        "heroUpgradeExp": 3800
+    }, 
+    "25": {
+        "level": 25, 
+        "playerUpgradeExp": 1600, 
+        "heroUpgradeExp": 4300
+    }, 
+    "26": {
+        "level": 26, 
+        "playerUpgradeExp": 1800, 
+        "heroUpgradeExp": 4800
+    }, 
+    "27": {
+        "level": 27, 
+        "playerUpgradeExp": 2000, 
+        "heroUpgradeExp": 5300
+    }, 
+    "28": {
+        "level": 28, 
+        "playerUpgradeExp": 2100, 
+        "heroUpgradeExp": 6000
+    }, 
+    "29": {
+        "level": 29, 
+        "playerUpgradeExp": 2300, 
+        "heroUpgradeExp": 7000
+    }, 
+    "30": {
+        "level": 30, 
+        "playerUpgradeExp": 2500, 
+        "heroUpgradeExp": 7000
+    }, 
+    "31": {
+        "level": 31, 
+        "playerUpgradeExp": 2800, 
+        "heroUpgradeExp": 8000
+    }, 
+    "32": {
+        "level": 32, 
+        "playerUpgradeExp": 3000, 
+        "heroUpgradeExp": 9000
+    }, 
+    "33": {
+        "level": 33, 
+        "playerUpgradeExp": 3200, 
+        "heroUpgradeExp": 10000
+    }, 
+    "34": {
+        "level": 34, 
+        "playerUpgradeExp": 3500, 
+        "heroUpgradeExp": 11000
+    }, 
+    "35": {
+        "level": 35, 
+        "playerUpgradeExp": 3800, 
+        "heroUpgradeExp": 12000
+    }, 
+    "36": {
+        "level": 36, 
+        "playerUpgradeExp": 4100, 
+        "heroUpgradeExp": 13000
+    }, 
+    "37": {
+        "level": 37, 
+        "playerUpgradeExp": 4400, 
+        "heroUpgradeExp": 14000
+    }, 
+    "38": {
+        "level": 38, 
+        "playerUpgradeExp": 4700, 
+        "heroUpgradeExp": 16000
+    }, 
+    "39": {
+        "level": 39, 
+        "playerUpgradeExp": 5000, 
+        "heroUpgradeExp": 17000
+    }, 
+    "40": {
+        "level": 40, 
+        "playerUpgradeExp": 5400, 
+        "heroUpgradeExp": 19000
+    }, 
+    "41": {
+        "level": 41, 
+        "playerUpgradeExp": 6000, 
+        "heroUpgradeExp": 20000
+    }, 
+    "42": {
+        "level": 42, 
+        "playerUpgradeExp": 6000, 
+        "heroUpgradeExp": 22000
+    }, 
+    "43": {
+        "level": 43, 
+        "playerUpgradeExp": 7000, 
+        "heroUpgradeExp": 24000
+    }, 
+    "44": {
+        "level": 44, 
+        "playerUpgradeExp": 7000, 
+        "heroUpgradeExp": 26000
+    }, 
+    "45": {
+        "level": 45, 
+        "playerUpgradeExp": 7000, 
+        "heroUpgradeExp": 28000
+    }, 
+    "46": {
+        "level": 46, 
+        "playerUpgradeExp": 8000, 
+        "heroUpgradeExp": 30000
+    }, 
+    "47": {
+        "level": 47, 
+        "playerUpgradeExp": 8000, 
+        "heroUpgradeExp": 32000
+    }, 
+    "48": {
+        "level": 48, 
+        "playerUpgradeExp": 9000, 
+        "heroUpgradeExp": 35000
+    }, 
+    "49": {
+        "level": 49, 
+        "playerUpgradeExp": 9000, 
+        "heroUpgradeExp": 38000
+    }, 
+    "50": {
+        "level": 50, 
+        "playerUpgradeExp": 10000, 
+        "heroUpgradeExp": 40000
+    }, 
+    "51": {
+        "level": 51, 
+        "playerUpgradeExp": 11000, 
+        "heroUpgradeExp": 43000
+    }, 
+    "52": {
+        "level": 52, 
+        "playerUpgradeExp": 11000, 
+        "heroUpgradeExp": 47000
+    }, 
+    "53": {
+        "level": 53, 
+        "playerUpgradeExp": 12000, 
+        "heroUpgradeExp": 50000
+    }, 
+    "54": {
+        "level": 54, 
+        "playerUpgradeExp": 12000, 
+        "heroUpgradeExp": 53000
+    }, 
+    "55": {
+        "level": 55, 
+        "playerUpgradeExp": 13000, 
+        "heroUpgradeExp": 60000
+    }, 
+    "56": {
+        "level": 56, 
+        "playerUpgradeExp": 14000, 
+        "heroUpgradeExp": 60000
+    }, 
+    "57": {
+        "level": 57, 
+        "playerUpgradeExp": 15000, 
+        "heroUpgradeExp": 70000
+    }, 
+    "58": {
+        "level": 58, 
+        "playerUpgradeExp": 15000, 
+        "heroUpgradeExp": 70000
+    }, 
+    "59": {
+        "level": 59, 
+        "playerUpgradeExp": 16000, 
+        "heroUpgradeExp": 70000
+    }, 
+    "60": {
+        "level": 60, 
+        "playerUpgradeExp": 17000, 
+        "heroUpgradeExp": 80000
+    }, 
+    "61": {
+        "level": 61, 
+        "playerUpgradeExp": 18000, 
+        "heroUpgradeExp": 80000
+    }, 
+    "62": {
+        "level": 62, 
+        "playerUpgradeExp": 19000, 
+        "heroUpgradeExp": 90000
+    }, 
+    "63": {
+        "level": 63, 
+        "playerUpgradeExp": 19000, 
+        "heroUpgradeExp": 90000
+    }, 
+    "64": {
+        "level": 64, 
+        "playerUpgradeExp": 20000, 
+        "heroUpgradeExp": 100000
+    }, 
+    "65": {
+        "level": 65, 
+        "playerUpgradeExp": 21000, 
+        "heroUpgradeExp": 110000
+    }, 
+    "66": {
+        "level": 66, 
+        "playerUpgradeExp": 22000, 
+        "heroUpgradeExp": 110000
+    }, 
+    "67": {
+        "level": 67, 
+        "playerUpgradeExp": 23000, 
+        "heroUpgradeExp": 120000
+    }, 
+    "68": {
+        "level": 68, 
+        "playerUpgradeExp": 24000, 
+        "heroUpgradeExp": 130000
+    }, 
+    "69": {
+        "level": 69, 
+        "playerUpgradeExp": 25000, 
+        "heroUpgradeExp": 130000
+    }, 
+    "70": {
+        "level": 70, 
+        "playerUpgradeExp": 27000, 
+        "heroUpgradeExp": 140000
+    }, 
+    "71": {
+        "level": 71, 
+        "playerUpgradeExp": 28000, 
+        "heroUpgradeExp": 150000
+    }, 
+    "72": {
+        "level": 72, 
+        "playerUpgradeExp": 29000, 
+        "heroUpgradeExp": 160000
+    }, 
+    "73": {
+        "level": 73, 
+        "playerUpgradeExp": 30000, 
+        "heroUpgradeExp": 170000
+    }, 
+    "74": {
+        "level": 74, 
+        "playerUpgradeExp": 31000, 
+        "heroUpgradeExp": 180000
+    }, 
+    "75": {
+        "level": 75, 
+        "playerUpgradeExp": 33000, 
+        "heroUpgradeExp": 190000
+    }, 
+    "76": {
+        "level": 76, 
+        "playerUpgradeExp": 34000, 
+        "heroUpgradeExp": 200000
+    }, 
+    "77": {
+        "level": 77, 
+        "playerUpgradeExp": 35000, 
+        "heroUpgradeExp": 210000
+    }, 
+    "78": {
+        "level": 78, 
+        "playerUpgradeExp": 37000, 
+        "heroUpgradeExp": 220000
+    }, 
+    "79": {
+        "level": 79, 
+        "playerUpgradeExp": 38000, 
+        "heroUpgradeExp": 230000
+    }, 
+    "80": {
+        "level": 80, 
+        "playerUpgradeExp": 40000, 
+        "heroUpgradeExp": 240000
+    }, 
+    "81": {
+        "level": 81, 
+        "playerUpgradeExp": 41000, 
+        "heroUpgradeExp": 250000
+    }, 
+    "82": {
+        "level": 82, 
+        "playerUpgradeExp": 43000, 
+        "heroUpgradeExp": 260000
+    }, 
+    "83": {
+        "level": 83, 
+        "playerUpgradeExp": 45000, 
+        "heroUpgradeExp": 280000
+    }, 
+    "84": {
+        "level": 84, 
+        "playerUpgradeExp": 46000, 
+        "heroUpgradeExp": 290000
+    }, 
+    "85": {
+        "level": 85, 
+        "playerUpgradeExp": 48000, 
+        "heroUpgradeExp": 300000
+    }, 
+    "86": {
+        "level": 86, 
+        "playerUpgradeExp": 50000, 
+        "heroUpgradeExp": 320000
+    }, 
+    "87": {
+        "level": 87, 
+        "playerUpgradeExp": 52000, 
+        "heroUpgradeExp": 330000
+    }, 
+    "88": {
+        "level": 88, 
+        "playerUpgradeExp": 54000, 
+        "heroUpgradeExp": 350000
+    }, 
+    "89": {
+        "level": 89, 
+        "playerUpgradeExp": 56000, 
+        "heroUpgradeExp": 360000
+    }, 
+    "90": {
+        "level": 90, 
+        "playerUpgradeExp": 57000, 
+        "heroUpgradeExp": 380000
+    }
+}

@@ -1,0 +1,20 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "HotPointServiceProtos";
+enum EHotPointRequestType{
+	CHANGE_HOT_POINT = 1;//设置红点
+}
+
+message HotPointRequest{
+	required EHotPointRequestType requestType = 1;//请求类型
+	required HotPointInfo hotPointInfo = 2;//设置红点状态
+}
+
+message HotPointResponse{
+	repeated HotPointInfo hotPointList = 1;//推送红点列表
+}
+
+message HotPointInfo{
+	required int32 type = 1;//红点类型
+	required bool value = 2;//红点值
+}

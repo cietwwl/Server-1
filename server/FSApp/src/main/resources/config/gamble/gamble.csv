@@ -1,0 +1,4 @@
+key,Remarks,id,moneyType,moneyNum,probability,freeFirst,firstCount,firstTenCount,tenCount,appearFactor,refreshTime,dayFreeCount,rewardItem
+1,,1,1,10000,"1_4030,2_1950,3_1460,6_100,7_10",,,,,"0,0",600,5,803001
+2,,2,2,248,"1_1000,3_3389,4_500,6_4500,7_1111",1,,2,1,"0,0",165600,1,803002
+3,,3,2,388,"1_6,2_4",,,,,"0,11",,,803003

@@ -1,0 +1,182 @@
+{
+    "1000": {
+        "id": 1000, 
+        "preId": 0, 
+        "nextId": 1001, 
+        "quality": 1, 
+        "needExp": 50, 
+        "needCoin": 100, 
+        "attriPercent": 0, 
+        "starLevel": 0
+    }, 
+    "1001": {
+        "id": 1001, 
+        "preId": 1000, 
+        "nextId": 0, 
+        "quality": 1, 
+        "needExp": 0, 
+        "needCoin": 0, 
+        "attriPercent": 20, 
+        "starLevel": 1
+    }, 
+    "2000": {
+        "id": 2000, 
+        "preId": 0, 
+        "nextId": 2001, 
+        "quality": 2, 
+        "needExp": 100, 
+        "needCoin": 100, 
+        "attriPercent": 0, 
+        "starLevel": 0
+    }, 
+    "2001": {
+        "id": 2001, 
+        "preId": 2000, 
+        "nextId": 2002, 
+        "quality": 2, 
+        "needExp": 200, 
+        "needCoin": 100, 
+        "attriPercent": 20, 
+        "starLevel": 1
+    }, 
+    "2002": {
+        "id": 2002, 
+        "preId": 2001, 
+        "nextId": 2003, 
+        "quality": 2, 
+        "needExp": 300, 
+        "needCoin": 100, 
+        "attriPercent": 40, 
+        "starLevel": 2
+    }, 
+    "2003": {
+        "id": 2003, 
+        "preId": 2002, 
+        "nextId": 0, 
+        "quality": 2, 
+        "needExp": 0, 
+        "needCoin": 0, 
+        "attriPercent": 60, 
+        "starLevel": 3
+    }, 
+    "3000": {
+        "id": 3000, 
+        "preId": 0, 
+        "nextId": 3001, 
+        "quality": 3, 
+        "needExp": 100, 
+        "needCoin": 100, 
+        "attriPercent": 0, 
+        "starLevel": 0
+    }, 
+    "3001": {
+        "id": 3001, 
+        "preId": 3000, 
+        "nextId": 3002, 
+        "quality": 3, 
+        "needExp": 200, 
+        "needCoin": 100, 
+        "attriPercent": 20, 
+        "starLevel": 1
+    }, 
+    "3002": {
+        "id": 3002, 
+        "preId": 3001, 
+        "nextId": 3003, 
+        "quality": 3, 
+        "needExp": 300, 
+        "needCoin": 100, 
+        "attriPercent": 40, 
+        "starLevel": 2
+    }, 
+    "3003": {
+        "id": 3003, 
+        "preId": 3002, 
+        "nextId": 3004, 
+        "quality": 3, 
+        "needExp": 500, 
+        "needCoin": 100, 
+        "attriPercent": 60, 
+        "starLevel": 3
+    }, 
+    "3004": {
+        "id": 3004, 
+        "preId": 3003, 
+        "nextId": 3005, 
+        "quality": 3, 
+        "needExp": 800, 
+        "needCoin": 100, 
+        "attriPercent": 80, 
+        "starLevel": 4
+    }, 
+    "3005": {
+        "id": 3005, 
+        "preId": 3004, 
+        "nextId": 0, 
+        "quality": 3, 
+        "needExp": 0, 
+        "needCoin": 0, 
+        "attriPercent": 100, 
+        "starLevel": 5
+    }, 
+    "4000": {
+        "id": 4000, 
+        "preId": 0, 
+        "nextId": 4001, 
+        "quality": 4, 
+        "needExp": 300, 
+        "needCoin": 100, 
+        "attriPercent": 0, 
+        "starLevel": 0
+    }, 
+    "4001": {
+        "id": 4001, 
+        "preId": 4000, 
+        "nextId": 4002, 
+        "quality": 4, 
+        "needExp": 500, 
+        "needCoin": 100, 
+        "attriPercent": 20, 
+        "starLevel": 1
+    }, 
+    "4002": {
+        "id": 4002, 
+        "preId": 4001, 
+        "nextId": 4003, 
+        "quality": 4, 
+        "needExp": 800, 
+        "needCoin": 100, 
+        "attriPercent": 40, 
+        "starLevel": 2
+    }, 
+    "4003": {
+        "id": 4003, 
+        "preId": 4002, 
+        "nextId": 4004, 
+        "quality": 4, 
+        "needExp": 1000, 
+        "needCoin": 100, 
+        "attriPercent": 60, 
+        "starLevel": 3
+    }, 
+    "4004": {
+        "id": 4004, 
+        "preId": 4003, 
+        "nextId": 4005, 
+        "quality": 4, 
+        "needExp": 1500, 
+        "needCoin": 100, 
+        "attriPercent": 80, 
+        "starLevel": 4
+    }, 
+    "4005": {
+        "id": 4005, 
+        "preId": 4004, 
+        "nextId": 0, 
+        "quality": 4, 
+        "needExp": 0, 
+        "needCoin": 0, 
+        "attriPercent": 100, 
+        "starLevel": 5
+    }
+}

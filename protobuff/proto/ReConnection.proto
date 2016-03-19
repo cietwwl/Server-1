@@ -1,0 +1,27 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ReConnectionProtos";
+
+import "DataSyn.proto";
+message ReConnectRequest{
+
+	required string accountId = 1;			//账号ID(后面可能会改)
+	required int32 zoneId = 2;				//所有游戏区(后面可能会改)
+	repeated SyncVersion versionList = 3;	//版本验证列表
+
+}
+message SyncVersion{
+
+	required DataSyn.eSynType type = 1;	//同步数据的类型
+	required int32 version = 2;			//同步数据的版本号
+}
+
+enum ReConnectResultType{
+	RETURN_GAME_LOGIN = 1;	//返回登录界面
+	RECONNECT_SUCCESS = 2;  //同步数据
+}
+
+message ReConnectResponse{
+	required ReConnectResultType resultType = 1;	//重连结果
+
+}

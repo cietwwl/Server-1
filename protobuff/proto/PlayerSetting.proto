@@ -1,0 +1,35 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "PlayerSettingProtos";
+
+enum eSettingRequestType
+{
+	RENAME = 1;				//重命名
+	CHANGE_HEAD = 2; 		//更换头像
+	CHANGE_HEADBOX = 3; 	//更换头像框
+	EXCHANGE_CODE = 4;		//兑换码
+	GET_DATA = 5;			//获取设置的一些信息
+}
+
+enum eSettingResultType
+{
+	SUCCESS = 1;	//请求成功
+	FAIL = 2;		//请求失败
+}
+
+message MsgSettingRequest
+{
+    required eSettingRequestType requestType = 1;	//请求类型
+	optional string content = 2;					//请求的信息
+}
+
+message MsgSettingResponse
+{
+	required eSettingResultType resultType= 1;			//结果类型
+    required eSettingRequestType requestType = 2;		//请求类型
+	optional int32 timeLeft = 3;						//距离下一次可用修改名字剩余的时间
+	repeated string headNameList = 4;					//拥有的头像列表
+	repeated string headBoxNameList = 5;				//拥有的头像框列表
+	optional string info = 6;							//需要返回的信息
+}
+

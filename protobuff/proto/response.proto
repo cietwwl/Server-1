@@ -1,0 +1,18 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ResponseProtos";
+import "MsgDef.proto";
+
+message Response {
+	required ResponseHeader header = 1;
+	optional bytes serialized_content = 2;
+	optional int32 num = 3;
+}
+
+message ResponseHeader {
+	required string token = 1;	//客户验证
+	required MsgDef.Command command  = 2; //代表哪个请求
+	required int32 StatusCode = 3;
+	optional int32 seqID = 4;
+	optional string ErrorMsg = 5;
+}

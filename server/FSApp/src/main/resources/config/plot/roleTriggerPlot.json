@@ -1,0 +1,82 @@
+{
+    "110000": {
+        "LevelId": 110000, 
+        "RoundCount": "0,0,0,0,0,0", 
+        "RoleModelId": "202002,201001,301099,204001,202001,301099", 
+        "SkillId": "20200201,20100101,30109901,20400101,20200101,30109909", 
+        "PlayerCamp": "0,0,1,0,0,1", 
+        "DelayTime": "2,2,0.5,2,2,0", 
+        "PlotPoints": "110010,110020,110030,110050,110040,110000_2", 
+        "PlotTypes": "0,0,0,0,0,0"
+    }, 
+    "110101": {
+        "LevelId": 110101, 
+        "RoundCount": "0", 
+        "RoleModelId": "203013", 
+        "SkillId": "40301311", 
+        "PlayerCamp": "1", 
+        "DelayTime": "0", 
+        "PlotPoints": "110101_9", 
+        "PlotTypes": "0"
+    }, 
+    "110106": {
+        "LevelId": 110106, 
+        "RoundCount": "0", 
+        "RoleModelId": "301007", 
+        "SkillId": "30100708", 
+        "PlayerCamp": "1", 
+        "DelayTime": "0", 
+        "PlotPoints": "110106_1", 
+        "PlotTypes": "0"
+    }, 
+    "110209": {
+        "LevelId": 110209, 
+        "RoundCount": "0", 
+        "RoleModelId": "301001", 
+        "SkillId": "30110108", 
+        "PlayerCamp": "1", 
+        "DelayTime": "0", 
+        "PlotPoints": "110209_1", 
+        "PlotTypes": "0"
+    }, 
+    "110318": {
+        "LevelId": 110318, 
+        "RoundCount": "0", 
+        "RoleModelId": "301006", 
+        "SkillId": "30100608", 
+        "PlayerCamp": "1", 
+        "DelayTime": "0", 
+        "PlotPoints": "110318_1", 
+        "PlotTypes": "0"
+    }, 
+    "110421": {
+        "LevelId": 110421, 
+        "RoundCount": "0", 
+        "RoleModelId": "301011", 
+        "SkillId": "30101108", 
+        "PlayerCamp": "1", 
+        "DelayTime": "0", 
+        "PlotPoints": "110421_1", 
+        "PlotTypes": "0"
+    }, 
+    "110521": {
+        "LevelId": 110521, 
+        "RoundCount": "0", 
+        "RoleModelId": "301008", 
+        "SkillId": "30100808", 
+        "PlayerCamp": "1", 
+        "DelayTime": "0", 
+        "PlotPoints": "110521_1", 
+        "PlotTypes": "0"
+    }, 
+    "110621": {
+        "LevelId": 110621, 
+        "RoundCount": "0", 
+        "RoleModelId": "301009", 
+        "SkillId": "30100908", 
+        "PlayerCamp": "1", 
+        "DelayTime": "0", 
+        "PlotPoints": "110621_1", 
+        "PlotTypes": "0"
+    }
+}

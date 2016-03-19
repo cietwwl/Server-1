@@ -1,0 +1,10 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "CommonMsgProtos";
+import "ErrorService.proto";
+
+message CommonMsgResponse {
+	optional int32 type = 1; 
+	optional string message = 2;
+	required ErrorService.ErrorType error = 3 ;
+}

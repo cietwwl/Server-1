@@ -1,0 +1,21 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "PlotViewProtos";
+package PlotView;
+
+message PlotProgress {
+	required string PlotID = 1; //剧情ID
+	required int32 Progress = 2; //进度计数值
+}
+
+message PlotRequest {
+	enum PlotRequestType {
+		LoadProgress = 1;
+	}
+
+	required PlotRequestType requestType = 1;
+}
+
+message PlotResponse {
+	repeated PlotProgress savedProgress = 1;
+}

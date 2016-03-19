@@ -1,0 +1,102 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupMemberMgrProto";
+package groupproto;
+import "GroupCommon.proto";
+
+/**
+* 文档简单说明
+* 1、多个长'/'代表的是区域划分（包括公用枚举类型区，通用收发协议定义区，对应功能协议定义区）
+* 2、多个长'-'代表的是一个小区域类型的分界（比如创建帮派的Req和Rsp定义前后，都会用这个隔开其他）
+* 3、中文符号的【】主要是着重显示描述，明确看到内容的开头位置
+* '/'的模版：///////////////////////////////////////////////////
+* '-'的模版：-----------------------
+*/
+
+//START-----------------------获取帮派申请列表的功能协议
+
+//【获取帮派申请列表的请求协议-GET_APPLY_MEMBER_LIST_TYPE】
+/**发送GroupCommon中的通用请求消息-GroupCommonReqMsg*/
+
+//【获取帮派申请列表的响应协议-GET_APPLY_MEMBER_LIST_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------接受帮派成员的功能协议
+
+//【接受帮派成员的请求信息-GROUP_MEMBER_RECEIVE_TYPE】
+message GroupMemberReceiveReqMsg{
+	required bool isReceive = 1;//是否接受入帮申请
+	optional string applyMemberId = 2;//申请的成员的Id。【如果缺省就当作一键接受/拒绝】
+}
+
+//【接受帮派成员的响应信息-GROUP_MEMBER_RECEIVE_TYPE】
+message GroupMemberReceiveRspMsg{
+	/**
+	* 有可能在一键接受的时候，会成员满，那这个时候需要移除那些记录就通过这个通知。
+	* 如果客户端接收到的GroupCommonRspMsg中的rspBody是null的时候，就清除客户端的请求列表数据
+	*/
+	repeated string removeMemberId = 1;//清除客户端那些界面上的记录
+}
+
+//START-----------------------成员任命的功能协议
+
+//【成员任命的请求协议-NOMINATE_POST_TYPE】
+message GroupNominatePostReqMsg{
+	required string memberId = 1;//要任命的角色Id
+	required GroupPost post = 2;//要任命的官职
+}
+
+//【成员任命的响应协议-NOMINATE_POST_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------成员任命取消的功能协议
+
+//【成员取消任命的请求协议-CANCEL_NOMINATE_TYPE】
+message GroupCancelNominatePostReqMsg{
+	required string memberId = 1;//要取消任命的角色Id
+}
+
+//【成员取消任命的响应协议-CANCEL_NOMINATE_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------全员邮件的功能协议
+
+//【全员邮件的请求协议-GROUP_EMAIL_FOR_ALL_TYPE】
+message GroupEmailForAllReqMsg{
+	required string emailTitle = 1;//邮件标题
+	required string emailContent = 2;//邮件内容
+}
+
+//【全员邮件的响应协议-GROUP_EMAIL_FOR_ALL_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+//START-----------------------踢出帮派的功能协议
+
+//【踢出帮派的请求协议-KICK_MEMBER_TYPE】
+message KickMemberReqMsg{
+	required string memberId = 1;//请求踢出帮派的成员Id
+}
+
+//【提出帮派的响应协议-KICK_MEMBER_TYPE】
+/**接收GroupCommon中的通用响应消息-GroupCommonRspMsg*/
+
+///////////////////////////////////////////////////通用收发协议区
+
+//【帮派的通用请求消息】
+message GroupMemberMgrCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional string version = 2;//版本号
+	optional GroupMemberReceiveReqMsg groupMemberReceiveReq = 3;//成员接受协议
+	optional GroupNominatePostReqMsg groupNominatePostReq = 4;//成员任命协议
+	optional GroupCancelNominatePostReqMsg groupCancelNominatePostReq = 5;//成员取消任命协议
+	optional GroupEmailForAllReqMsg groupEmailForAllReq = 6;//全员邮件的请求协议
+	optional KickMemberReqMsg kickMemberReq = 7;//踢出成员的协议
+}
+
+//【帮派的通用响应消息】
+message GroupMemberMgrCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional GroupMemberReceiveRspMsg groupMemberReceiveRsp = 4;//成员接受协议
+}

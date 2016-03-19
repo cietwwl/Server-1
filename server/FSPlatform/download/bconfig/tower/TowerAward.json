@@ -1,0 +1,1562 @@
+{
+    "1": {
+        "level": 30, 
+        "towerId": 1, 
+        "gold": 1400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "2": {
+        "level": 30, 
+        "towerId": 2, 
+        "gold": 2000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "3": {
+        "level": 30, 
+        "towerId": 3, 
+        "gold": 2700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "4": {
+        "level": 30, 
+        "towerId": 4, 
+        "gold": 3400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "5": {
+        "level": 30, 
+        "towerId": 5, 
+        "gold": 4100, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "6": {
+        "level": 30, 
+        "towerId": 6, 
+        "gold": 4700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "7": {
+        "level": 30, 
+        "towerId": 7, 
+        "gold": 5400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "8": {
+        "level": 30, 
+        "towerId": 8, 
+        "gold": 6100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "9": {
+        "level": 30, 
+        "towerId": 9, 
+        "gold": 6800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "10": {
+        "level": 30, 
+        "towerId": 10, 
+        "gold": 7400, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "11": {
+        "level": 30, 
+        "towerId": 11, 
+        "gold": 8100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "12": {
+        "level": 30, 
+        "towerId": 12, 
+        "gold": 8800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "13": {
+        "level": 30, 
+        "towerId": 13, 
+        "gold": 9500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "14": {
+        "level": 30, 
+        "towerId": 14, 
+        "gold": 10000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "15": {
+        "level": 30, 
+        "towerId": 15, 
+        "gold": 11000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "16": {
+        "level": 35, 
+        "towerId": 1, 
+        "gold": 1600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "17": {
+        "level": 35, 
+        "towerId": 2, 
+        "gold": 2300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "18": {
+        "level": 35, 
+        "towerId": 3, 
+        "gold": 3100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "19": {
+        "level": 35, 
+        "towerId": 4, 
+        "gold": 3900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "20": {
+        "level": 35, 
+        "towerId": 5, 
+        "gold": 4700, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "21": {
+        "level": 35, 
+        "towerId": 6, 
+        "gold": 5400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "22": {
+        "level": 35, 
+        "towerId": 7, 
+        "gold": 6200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "23": {
+        "level": 35, 
+        "towerId": 8, 
+        "gold": 7000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "24": {
+        "level": 35, 
+        "towerId": 9, 
+        "gold": 7800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "25": {
+        "level": 35, 
+        "towerId": 10, 
+        "gold": 8500, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "26": {
+        "level": 35, 
+        "towerId": 11, 
+        "gold": 9300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "27": {
+        "level": 35, 
+        "towerId": 12, 
+        "gold": 10100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "28": {
+        "level": 35, 
+        "towerId": 13, 
+        "gold": 10900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "29": {
+        "level": 35, 
+        "towerId": 14, 
+        "gold": 12000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "30": {
+        "level": 35, 
+        "towerId": 15, 
+        "gold": 12000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "31": {
+        "level": 40, 
+        "towerId": 1, 
+        "gold": 1800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "32": {
+        "level": 40, 
+        "towerId": 2, 
+        "gold": 2600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "33": {
+        "level": 40, 
+        "towerId": 3, 
+        "gold": 3500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "34": {
+        "level": 40, 
+        "towerId": 4, 
+        "gold": 4400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "35": {
+        "level": 40, 
+        "towerId": 5, 
+        "gold": 5300, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "36": {
+        "level": 40, 
+        "towerId": 6, 
+        "gold": 6100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "37": {
+        "level": 40, 
+        "towerId": 7, 
+        "gold": 7000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "38": {
+        "level": 40, 
+        "towerId": 8, 
+        "gold": 7900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "39": {
+        "level": 40, 
+        "towerId": 9, 
+        "gold": 8800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "40": {
+        "level": 40, 
+        "towerId": 10, 
+        "gold": 9600, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "41": {
+        "level": 40, 
+        "towerId": 11, 
+        "gold": 10500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "42": {
+        "level": 40, 
+        "towerId": 12, 
+        "gold": 11400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "43": {
+        "level": 40, 
+        "towerId": 13, 
+        "gold": 12300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "44": {
+        "level": 40, 
+        "towerId": 14, 
+        "gold": 13000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "45": {
+        "level": 40, 
+        "towerId": 15, 
+        "gold": 14000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "46": {
+        "level": 45, 
+        "towerId": 1, 
+        "gold": 2000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "47": {
+        "level": 45, 
+        "towerId": 2, 
+        "gold": 2900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "48": {
+        "level": 45, 
+        "towerId": 3, 
+        "gold": 3900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "49": {
+        "level": 45, 
+        "towerId": 4, 
+        "gold": 4900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "50": {
+        "level": 45, 
+        "towerId": 5, 
+        "gold": 5900, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "51": {
+        "level": 45, 
+        "towerId": 6, 
+        "gold": 6800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "52": {
+        "level": 45, 
+        "towerId": 7, 
+        "gold": 7800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "53": {
+        "level": 45, 
+        "towerId": 8, 
+        "gold": 8800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "54": {
+        "level": 45, 
+        "towerId": 9, 
+        "gold": 9800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "55": {
+        "level": 45, 
+        "towerId": 10, 
+        "gold": 10700, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "56": {
+        "level": 45, 
+        "towerId": 11, 
+        "gold": 11700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "57": {
+        "level": 45, 
+        "towerId": 12, 
+        "gold": 12700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "58": {
+        "level": 45, 
+        "towerId": 13, 
+        "gold": 13700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "59": {
+        "level": 45, 
+        "towerId": 14, 
+        "gold": 15000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "60": {
+        "level": 45, 
+        "towerId": 15, 
+        "gold": 16000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "61": {
+        "level": 50, 
+        "towerId": 1, 
+        "gold": 2200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "62": {
+        "level": 50, 
+        "towerId": 2, 
+        "gold": 3200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "63": {
+        "level": 50, 
+        "towerId": 3, 
+        "gold": 4300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "64": {
+        "level": 50, 
+        "towerId": 4, 
+        "gold": 5400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "65": {
+        "level": 50, 
+        "towerId": 5, 
+        "gold": 6500, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "66": {
+        "level": 50, 
+        "towerId": 6, 
+        "gold": 7500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "67": {
+        "level": 50, 
+        "towerId": 7, 
+        "gold": 8600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "68": {
+        "level": 50, 
+        "towerId": 8, 
+        "gold": 9700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "69": {
+        "level": 50, 
+        "towerId": 9, 
+        "gold": 10800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "70": {
+        "level": 50, 
+        "towerId": 10, 
+        "gold": 11800, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "71": {
+        "level": 50, 
+        "towerId": 11, 
+        "gold": 12900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "72": {
+        "level": 50, 
+        "towerId": 12, 
+        "gold": 14000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "73": {
+        "level": 50, 
+        "towerId": 13, 
+        "gold": 15100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "74": {
+        "level": 50, 
+        "towerId": 14, 
+        "gold": 16000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "75": {
+        "level": 50, 
+        "towerId": 15, 
+        "gold": 17000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "76": {
+        "level": 55, 
+        "towerId": 1, 
+        "gold": 2300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "77": {
+        "level": 55, 
+        "towerId": 2, 
+        "gold": 3500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "78": {
+        "level": 55, 
+        "towerId": 3, 
+        "gold": 4700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "79": {
+        "level": 55, 
+        "towerId": 4, 
+        "gold": 5900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "80": {
+        "level": 55, 
+        "towerId": 5, 
+        "gold": 7000, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "81": {
+        "level": 55, 
+        "towerId": 6, 
+        "gold": 8200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "82": {
+        "level": 55, 
+        "towerId": 7, 
+        "gold": 9400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "83": {
+        "level": 55, 
+        "towerId": 8, 
+        "gold": 10600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "84": {
+        "level": 55, 
+        "towerId": 9, 
+        "gold": 11700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "85": {
+        "level": 55, 
+        "towerId": 10, 
+        "gold": 12900, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "86": {
+        "level": 55, 
+        "towerId": 11, 
+        "gold": 14100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "87": {
+        "level": 55, 
+        "towerId": 12, 
+        "gold": 15300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "88": {
+        "level": 55, 
+        "towerId": 13, 
+        "gold": 16400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "89": {
+        "level": 55, 
+        "towerId": 14, 
+        "gold": 18000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "90": {
+        "level": 55, 
+        "towerId": 15, 
+        "gold": 19000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "91": {
+        "level": 60, 
+        "towerId": 1, 
+        "gold": 2500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "92": {
+        "level": 60, 
+        "towerId": 2, 
+        "gold": 3800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "93": {
+        "level": 60, 
+        "towerId": 3, 
+        "gold": 5100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "94": {
+        "level": 60, 
+        "towerId": 4, 
+        "gold": 6400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "95": {
+        "level": 60, 
+        "towerId": 5, 
+        "gold": 7600, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "96": {
+        "level": 60, 
+        "towerId": 6, 
+        "gold": 8900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "97": {
+        "level": 60, 
+        "towerId": 7, 
+        "gold": 10200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "98": {
+        "level": 60, 
+        "towerId": 8, 
+        "gold": 11500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "99": {
+        "level": 60, 
+        "towerId": 9, 
+        "gold": 12700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "100": {
+        "level": 60, 
+        "towerId": 10, 
+        "gold": 14000, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "101": {
+        "level": 60, 
+        "towerId": 11, 
+        "gold": 15300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "102": {
+        "level": 60, 
+        "towerId": 12, 
+        "gold": 16600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "103": {
+        "level": 60, 
+        "towerId": 13, 
+        "gold": 17800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "104": {
+        "level": 60, 
+        "towerId": 14, 
+        "gold": 19000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "105": {
+        "level": 60, 
+        "towerId": 15, 
+        "gold": 20000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "106": {
+        "level": 65, 
+        "towerId": 1, 
+        "gold": 2700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "107": {
+        "level": 65, 
+        "towerId": 2, 
+        "gold": 4100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "108": {
+        "level": 65, 
+        "towerId": 3, 
+        "gold": 5500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "109": {
+        "level": 65, 
+        "towerId": 4, 
+        "gold": 6900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "110": {
+        "level": 65, 
+        "towerId": 5, 
+        "gold": 8200, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "111": {
+        "level": 65, 
+        "towerId": 6, 
+        "gold": 9600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "112": {
+        "level": 65, 
+        "towerId": 7, 
+        "gold": 11000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "113": {
+        "level": 65, 
+        "towerId": 8, 
+        "gold": 12400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "114": {
+        "level": 65, 
+        "towerId": 9, 
+        "gold": 13700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "115": {
+        "level": 65, 
+        "towerId": 10, 
+        "gold": 15100, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "116": {
+        "level": 65, 
+        "towerId": 11, 
+        "gold": 16500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "117": {
+        "level": 65, 
+        "towerId": 12, 
+        "gold": 17900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "118": {
+        "level": 65, 
+        "towerId": 13, 
+        "gold": 19200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "119": {
+        "level": 65, 
+        "towerId": 14, 
+        "gold": 21000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "120": {
+        "level": 65, 
+        "towerId": 15, 
+        "gold": 22000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "121": {
+        "level": 70, 
+        "towerId": 1, 
+        "gold": 2900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "122": {
+        "level": 70, 
+        "towerId": 2, 
+        "gold": 4400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "123": {
+        "level": 70, 
+        "towerId": 3, 
+        "gold": 5900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "124": {
+        "level": 70, 
+        "towerId": 4, 
+        "gold": 7400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "125": {
+        "level": 70, 
+        "towerId": 5, 
+        "gold": 8800, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "126": {
+        "level": 70, 
+        "towerId": 6, 
+        "gold": 10300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "127": {
+        "level": 70, 
+        "towerId": 7, 
+        "gold": 11800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "128": {
+        "level": 70, 
+        "towerId": 8, 
+        "gold": 13300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "129": {
+        "level": 70, 
+        "towerId": 9, 
+        "gold": 14700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "130": {
+        "level": 70, 
+        "towerId": 10, 
+        "gold": 16200, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "131": {
+        "level": 70, 
+        "towerId": 11, 
+        "gold": 17700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "132": {
+        "level": 70, 
+        "towerId": 12, 
+        "gold": 19200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "133": {
+        "level": 70, 
+        "towerId": 13, 
+        "gold": 20600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "134": {
+        "level": 70, 
+        "towerId": 14, 
+        "gold": 22000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "135": {
+        "level": 70, 
+        "towerId": 15, 
+        "gold": 24000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "136": {
+        "level": 75, 
+        "towerId": 1, 
+        "gold": 3100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "137": {
+        "level": 75, 
+        "towerId": 2, 
+        "gold": 4700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "138": {
+        "level": 75, 
+        "towerId": 3, 
+        "gold": 6300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "139": {
+        "level": 75, 
+        "towerId": 4, 
+        "gold": 7900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "140": {
+        "level": 75, 
+        "towerId": 5, 
+        "gold": 9400, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "141": {
+        "level": 75, 
+        "towerId": 6, 
+        "gold": 11000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "142": {
+        "level": 75, 
+        "towerId": 7, 
+        "gold": 12600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "143": {
+        "level": 75, 
+        "towerId": 8, 
+        "gold": 14200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "144": {
+        "level": 75, 
+        "towerId": 9, 
+        "gold": 15700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "145": {
+        "level": 75, 
+        "towerId": 10, 
+        "gold": 17300, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "146": {
+        "level": 75, 
+        "towerId": 11, 
+        "gold": 18900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "147": {
+        "level": 75, 
+        "towerId": 12, 
+        "gold": 20400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "148": {
+        "level": 75, 
+        "towerId": 13, 
+        "gold": 22000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "149": {
+        "level": 75, 
+        "towerId": 14, 
+        "gold": 24000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "150": {
+        "level": 75, 
+        "towerId": 15, 
+        "gold": 25000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "151": {
+        "level": 80, 
+        "towerId": 1, 
+        "gold": 3300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "152": {
+        "level": 80, 
+        "towerId": 2, 
+        "gold": 5000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "153": {
+        "level": 80, 
+        "towerId": 3, 
+        "gold": 6700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "154": {
+        "level": 80, 
+        "towerId": 4, 
+        "gold": 8400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "155": {
+        "level": 80, 
+        "towerId": 5, 
+        "gold": 10000, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "156": {
+        "level": 80, 
+        "towerId": 6, 
+        "gold": 11700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "157": {
+        "level": 80, 
+        "towerId": 7, 
+        "gold": 13400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "158": {
+        "level": 80, 
+        "towerId": 8, 
+        "gold": 15100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "159": {
+        "level": 80, 
+        "towerId": 9, 
+        "gold": 16700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "160": {
+        "level": 80, 
+        "towerId": 10, 
+        "gold": 18400, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "161": {
+        "level": 80, 
+        "towerId": 11, 
+        "gold": 20100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "162": {
+        "level": 80, 
+        "towerId": 12, 
+        "gold": 21700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "163": {
+        "level": 80, 
+        "towerId": 13, 
+        "gold": 23400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "164": {
+        "level": 80, 
+        "towerId": 14, 
+        "gold": 25000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "165": {
+        "level": 80, 
+        "towerId": 15, 
+        "gold": 27000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "166": {
+        "level": 85, 
+        "towerId": 1, 
+        "gold": 3500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "167": {
+        "level": 85, 
+        "towerId": 2, 
+        "gold": 5300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "168": {
+        "level": 85, 
+        "towerId": 3, 
+        "gold": 7100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "169": {
+        "level": 85, 
+        "towerId": 4, 
+        "gold": 8900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "170": {
+        "level": 85, 
+        "towerId": 5, 
+        "gold": 10600, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "171": {
+        "level": 85, 
+        "towerId": 6, 
+        "gold": 12400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "172": {
+        "level": 85, 
+        "towerId": 7, 
+        "gold": 14200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "173": {
+        "level": 85, 
+        "towerId": 8, 
+        "gold": 15900, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "174": {
+        "level": 85, 
+        "towerId": 9, 
+        "gold": 17700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "175": {
+        "level": 85, 
+        "towerId": 10, 
+        "gold": 19500, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "176": {
+        "level": 85, 
+        "towerId": 11, 
+        "gold": 21300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "177": {
+        "level": 85, 
+        "towerId": 12, 
+        "gold": 23000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "178": {
+        "level": 85, 
+        "towerId": 13, 
+        "gold": 24800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "179": {
+        "level": 85, 
+        "towerId": 14, 
+        "gold": 27000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "180": {
+        "level": 85, 
+        "towerId": 15, 
+        "gold": 28000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "181": {
+        "level": 90, 
+        "towerId": 1, 
+        "gold": 3700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "182": {
+        "level": 90, 
+        "towerId": 2, 
+        "gold": 5600, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "183": {
+        "level": 90, 
+        "towerId": 3, 
+        "gold": 7500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43001
+    }, 
+    "184": {
+        "level": 90, 
+        "towerId": 4, 
+        "gold": 9400, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "185": {
+        "level": 90, 
+        "towerId": 5, 
+        "gold": 11200, 
+        "towerCoin": 200, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "186": {
+        "level": 90, 
+        "towerId": 6, 
+        "gold": 13100, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43002
+    }, 
+    "187": {
+        "level": 90, 
+        "towerId": 7, 
+        "gold": 15000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "188": {
+        "level": 90, 
+        "towerId": 8, 
+        "gold": 16800, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "189": {
+        "level": 90, 
+        "towerId": 9, 
+        "gold": 18700, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43003
+    }, 
+    "190": {
+        "level": 90, 
+        "towerId": 10, 
+        "gold": 20600, 
+        "towerCoin": 300, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "191": {
+        "level": 90, 
+        "towerId": 11, 
+        "gold": 22500, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "192": {
+        "level": 90, 
+        "towerId": 12, 
+        "gold": 24300, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43004
+    }, 
+    "193": {
+        "level": 90, 
+        "towerId": 13, 
+        "gold": 26200, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "194": {
+        "level": 90, 
+        "towerId": 14, 
+        "gold": 28000, 
+        "towerCoin": 0, 
+        "count": 1, 
+        "formatId": 43005
+    }, 
+    "195": {
+        "level": 90, 
+        "towerId": 15, 
+        "gold": 30000, 
+        "towerCoin": 500, 
+        "count": 1, 
+        "formatId": 43005
+    }
+}

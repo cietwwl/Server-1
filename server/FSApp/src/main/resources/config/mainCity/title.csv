@@ -1,0 +1,14 @@
+key,Remarks,cityType,titleName,picture,picturePath,show,offsetX,offsetY
+101,,101,帮派,1,ShouYe/ZT_BangPai,1,-0.31,-197.83
+102,,102,秘境,1,ShouYe/ZT_MiJing,1,-20.1,327.2
+103,,103,商店,1,ShouYe/ZT_ShangDian,1,119,403
+106,,106,垂钓,1,ShouYe/ZT_DiaoYuDao,1,36,284
+107,,107,活动,1,ShouYe/ZT_LiLian,1,9,-83
+108,,108,竞技场,1,ShouYe/ZT_JingJiChang,1,14,473.2
+109,,109,力士,1,ShouYe/ZT_XuWeiYiDai,1,-71.7,467.7
+110,,110,行者,1,ShouYe/ZT_XuWeiYiDai,1,-63.4,482
+111,,111,术士,1,ShouYe/ZT_XuWeiYiDai,1,-46.6,488.3
+112,,112,祭祀,1,ShouYe/ZT_XuWeiYiDai,1,-49.2,467.5
+113,,113,神秘商人,1,ShouYe/ZT_ShenMiShangRen,1,,
+114,,114,黑市商人,1,ShouYe/ZT_HeiShiShangRen,1,,19
+115,,115,帮派boss,1,,1,,

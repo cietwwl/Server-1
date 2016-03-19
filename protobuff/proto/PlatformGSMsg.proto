@@ -1,0 +1,40 @@
+syntax="proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "PlatformGSMsg";
+
+enum ePlatformGSMsgType{
+	USER_INFO = 1;         //玩家信息
+	USER_STATUS = 2;       //玩家状态
+	GAME_SERVER_STATUS = 3;//游戏服务器状态
+}
+
+enum eServerStatusType{
+	SERVER_OPEN = 1;
+	SERVER_SHUTDOWN = 2;
+}
+
+message UserInfoRequest{
+	required ePlatformGSMsgType platformGSMsgType = 1;
+	optional string userId = 2;
+	optional string accountId = 3;
+}
+
+message UserInfoResponse{
+	required ePlatformGSMsgType platformGSMsgType = 1;
+	optional string accountId = 2;
+	optional int32 level = 3;
+	optional int32 vipLevel = 4;
+	optional string headImage = 5;
+	optional int32 career = 6;
+	optional string userName = 7;
+	optional int64 lastLoginTime = 8;
+}
+
+message UserStatusRequest{
+	required ePlatformGSMsgType platformGSMsgType = 1;
+	optional int32 userId = 2;
+}
+
+message UserStatusResponse{
+	required ePlatformGSMsgType platformGSMsgType = 1;
+}

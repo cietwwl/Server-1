@@ -1,0 +1,112 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "PeakArenaServiceProtos";
+import "SkillService.proto";
+import "SyncAttri.proto";
+
+enum eArenaType {
+	GET_DATA = 0;     //
+	CHANGE_ENEMY = 1; // 
+	CHANGE_HERO = 2;  //
+	ARENA_RECORD = 3; //
+	ENEMY_INFO = 4;   //
+	CLEAR_TIME = 5;	  //
+	ARENA_FIGHT_PREPARE = 6;//
+	ARENA_FIGHT_START = 7;  //
+	ARENA_FIGHT_FINISH = 8;//
+	SYNC_RECORD = 9;//
+	GET_PLACE = 10;
+	GET_SCORE = 11;//
+	SWITCH_OVER = 12;
+}
+
+enum eArenaResultType {
+	ARENA_SUCCESS = 1;//成功
+	ARENA_FAIL = 2;//失败
+}
+
+message HeroData{
+	required string heroId = 1;
+	required string templeteId = 2;
+	optional int32 level = 3;
+	optional int32 starLevel = 4;
+	optional int32 fighting = 5;
+	optional string qualityId = 6;
+	optional int64 exp = 7;
+	repeated SkillService.TagSkillData skills = 8;
+	repeated SyncAttri.TagAttriData attrs = 9;
+	optional int32 teamId = 10;
+}
+
+message TeamInfo{
+	required int32 teamId = 1;
+	repeated HeroData heros = 2;
+	repeated string heroIds = 3;
+	optional int32 magicId = 4;
+	optional int32 magicLevel = 5;
+}
+
+message ArenaData{
+	required string userId = 1;
+	optional int32 score = 2;
+	optional int32 gainScore = 3;
+	optional int32 scoreLv = 4;
+	optional int32 place = 5;
+	optional int32 maxPlace = 6;
+	optional int32 winningStreak = 7;
+	optional int32 winCount = 8;
+	optional int32 remainCount = 9;
+	optional int64 cdTime = 10;
+	optional int32 career = 11;
+	optional string name = 12;
+	optional int32 level = 13;
+	optional string headImage = 14;
+	optional string templeteId = 15;
+	optional int32 fighting = 16;
+	repeated SkillService.TagSkillData roleSkill = 17;
+	repeated SyncAttri.TagAttriData roleAttr = 18;
+	repeated TeamInfo teams = 19;
+	optional int64 lastFightTime = 20;
+	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
+	optional string scoreLvName = 22;			//段位名称
+}
+
+message ArenaInfo{
+	required string userId =1;
+	optional int32 score = 2;
+	optional int32 scoreLv = 3;
+	optional int32 place = 4;
+	optional int32 winCount = 5;
+	optional int32 level = 6;
+	optional string name = 7;
+	optional string headImage = 8;
+	optional int32 fighting = 9;
+}
+
+message ArenaRecord{
+	required string userId = 1;
+	optional int32 win = 2;//0是输，1是赢
+	optional int32 placeUp = 3;
+	optional string name = 4;
+	optional string headImage = 5;
+	optional int32 level = 6;
+	optional int64 time = 7;
+	optional int32 challenge = 8;
+}
+
+message MsgArenaRequest{
+    required eArenaType arenaType = 1;
+	optional string userId = 2;
+	repeated TeamInfo teams = 3;
+	optional ArenaInfo enemy = 4;
+	optional int32 win = 5;
+}
+
+message MsgArenaResponse{
+	required eArenaType arenaType = 1;
+	optional eArenaResultType arenaResultType = 2;
+	optional ArenaData arenaData = 3;
+	repeated ArenaInfo listInfo = 4;
+	repeated ArenaRecord listRecord = 5;
+	optional int32 place = 6;
+}

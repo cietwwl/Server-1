@@ -1,0 +1,91 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "HeroServiceProtos";
+
+enum eHeroType {
+		UPGRADE_QUALITY = 1;
+		EQUIP_STRENGTH = 2 ;
+		USE_EQUIPMENT = 3;
+		SUMMON_HERO = 4;
+		EVOLUTION_HERO = 5;
+		ONEKEY_STRENGTH = 6 ;
+		USE_EXP = 7;
+		BUY_SKILL_POINT = 8;
+		HERO_LEVEL_UP = 9;
+}
+enum eHeroResultType {
+	SUCCESS = 1;//成功
+	LOW_VIP = 2;//Vip等级不足
+	NOT_ENOUGH_COIN = 3 ;//铜钱不足
+	LOW_LEVEL = 4;//等级不足
+	NOT_ENOUGH_SOULSTONE =5;
+	NOT_ENOUGH_GOLD =6;//金钱不足
+	LOW_EXP = 7;//经验值不足
+	ALL_HERO = 8;//所用佣兵信息
+	ADD_HERO =9;//添加佣兵
+	UPDATE_HERO =10;//更新佣兵
+}
+
+message MsgHeroRequest{
+    required eHeroType heroType = 1;
+    optional string heroId = 3;//英雄ID
+    optional int32 equipId = 4;//装备ID
+    optional int32 order = 5;//位置
+    optional int32 soltId = 6;
+    optional string heroModelId = 7;//英雄模板ID
+    repeated TagUseItem tagUseItem = 8;//消耗物品
+}
+
+message MsgHeroResponse{
+    optional MsgHeroRequest msgHeroRequest = 1;//
+	optional eHeroResultType eHeroResultType = 2;
+	repeated ArrtTypeAndValeBuf arrtTypeAndValeBuf = 3;
+	repeated QualityAttri qualityAttri = 4;
+	optional string skillId = 5;//开放技能ID
+	optional TagUserHero tagUserHero = 6;
+	optional string moderId = 7;//英雄ID
+	optional eHeroType eventType = 8;
+}
+message ArrtTypeAndValeBuf {
+	optional int32 type = 1;
+	optional double value = 2;
+}
+message QualityAttri{
+	optional int32 type = 1;
+	optional double beforeValue = 2;
+	optional double afterValue = 3;
+}
+
+message TagUserHero{
+	repeated TagHeroInfo tagHeroInfo = 1;
+	optional int32 skillCount = 2;
+	optional int64 lastSkillUpdateTime = 3;//技能最后更新时间
+}
+
+message TagHeroInfo{
+	required string heroUUID = 1;//英雄ID
+	optional string heroId = 2;//英雄模板ID
+	optional int32 exp = 3;//经验
+	optional int32 level  = 4;//等级
+	optional string qualityId = 5;
+	optional int32 starLevel = 6;//星级
+	optional int32 fighting = 7;//战斗力
+	repeated TagSkillRecord tagSkillRecord = 8;//技能记录
+	repeated TagEquipRecord tagEquipRecord = 9;//装备..
+}
+message TagEquipRecord{
+	optional int32 equipId = 1;//装备ID
+	optional int32 levelId = 2;//装备附魔等级ID
+	optional int32 exp= 3;//装备附魔等级
+}
+
+message TagSkillRecord{
+	optional string skillId = 1;//技能
+	optional int32 level =2;//技能等级
+	optional int32 order = 3;//位置
+}
+
+message TagUseItem{
+	optional int32 soltId = 1;//物品背包的Id
+	optional int32 number = 2;//数量
+}

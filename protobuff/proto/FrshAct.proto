@@ -1,0 +1,13 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "FrshActProtos";
+
+message FrshActRequest{
+	optional int32 cfgId = 1;
+}
+
+message FrshActResponse{
+	optional int32 cfgId = 1;
+	optional int32 result = 2;  //0 Ê§°Ü  1 ³É¹¦
+	optional string resultValue = 3;
+}

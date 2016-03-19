@@ -1,0 +1,50 @@
+{
+    "1": {
+        "type": 1, 
+        "info": "[MyName]加入帮派."
+    }, 
+    "2": {
+        "type": 2, 
+        "info": "[MyName]退出帮派"
+    }, 
+    "3": {
+        "type": 3, 
+        "info": "[MyName]把[OtherName]踢出帮派"
+    }, 
+    "4": {
+        "type": 4, 
+        "info": "[MyName]把[OtherName]职位调整为[des]"
+    }, 
+    "5": {
+        "type": 5, 
+        "info": "[MyName]帮派宣言更新"
+    }, 
+    "6": {
+        "type": 6, 
+        "info": "帮派活动重置"
+    }, 
+    "7": {
+        "type": 7, 
+        "info": "帮派活动结果"
+    }, 
+    "8": {
+        "type": 8, 
+        "info": "[MyName]把帮派或功能升级[des]"
+    }, 
+    "9": {
+        "type": 9, 
+        "info": "帮派设置变更"
+    }, 
+    "10": {
+        "type": 10, 
+        "info": "帮派活动开放"
+    }, 
+    "11": {
+        "type": 11, 
+        "info": "[MyName]把帮主职位转让给[OtherName]"
+    }, 
+    "12": {
+        "type": 12, 
+        "info": "[MyName]创建[des]"
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "1": {
+        "scoreLv": 1, 
+        "range": "0,999", 
+        "score": 1, 
+        "maxScore": 120, 
+        "name": "青铜", 
+        "icon": "", 
+        "kuang": ""
+    }, 
+    "2": {
+        "scoreLv": 2, 
+        "range": "1000,2999", 
+        "score": 2, 
+        "maxScore": 192, 
+        "name": "白银", 
+        "icon": "", 
+        "kuang": ""
+    }, 
+    "3": {
+        "scoreLv": 3, 
+        "range": "3000,4999", 
+        "score": 3, 
+        "maxScore": 288, 
+        "name": "黄金", 
+        "icon": "", 
+        "kuang": ""
+    }, 
+    "4": {
+        "scoreLv": 4, 
+        "range": "5000,6999", 
+        "score": 4, 
+        "maxScore": 384, 
+        "name": "钻石", 
+        "icon": "", 
+        "kuang": ""
+    }, 
+    "5": {
+        "scoreLv": 5, 
+        "range": "7000,9999", 
+        "score": 5, 
+        "maxScore": 480, 
+        "name": "王者", 
+        "icon": "", 
+        "kuang": ""
+    }, 
+    "6": {
+        "scoreLv": 6, 
+        "range": "10000,1000000", 
+        "score": 6, 
+        "maxScore": 600, 
+        "name": "封神", 
+        "icon": "", 
+        "kuang": ""
+    }
+}

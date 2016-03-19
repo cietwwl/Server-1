@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="mole" default='copy'>
+	<property name="FSApp.proto.dir"   value="D:\fengshen\FSApp\src\main\java\com\rwproto"/>
+	<property name="FS.Proto.java.dir"   value="D:\fengshen\FSProtobuf\src-gen\com\rwproto"/>
+   <tstamp>
+   		<format property="nowTime" pattern="yyyy-MM-dd-HH-mm-ss" />
+   </tstamp>
+	
+	
+	<target name="clean">
+	    <delete failonerror="true" includeemptydirs="true">
+	      <fileset dir="${FSApp.proto.dir}">
+	        <include name="**/*"/>
+	        <exclude name="**/eclipse/**/*"/>
+	      </fileset>
+	    </delete>
+	</target>
+	
+	<target name="copy" depends="clean">
+		    <copy todir="${FSApp.proto.dir}">
+			<fileset dir="${FS.Proto.java.dir}" />
+		   </copy>
+	 </target>
+	
+	
+	<target name="backup">
+		
+		<sshexec host="42.62.40.73"
+		         username="root"
+		         password="dx+-1qaz(159)"
+		         trust="true"
+				 failonerror="true"
+		         command="mkdir /data/allen/bak/${nowTime};
+						  cp -r /usr/local/resin/webapps/XtolApp /data/allen/bak/${nowTime}/XtolApp ;
+			
+						  rm -rf /data/allen/new/*;
+						  cp -r /usr/local/resin/webapps/XtolApp /data/allen/new/XtolApp ;
+						  "/>
+		<sshexec host="42.62.40.184"
+		         username="root"
+		         password="dx+-1qaz(160)"
+		         trust="true"
+				 failonerror="true"
+		         command="mkdir /data/allen/bak/${nowTime};
+						  cp -r /usr/local/resin/webapps/XtolApp /data/allen/bak/${nowTime}/XtolApp ;
+			
+						  rm -rf /data/allen/new/*;
+						  cp -r /usr/local/resin/webapps/XtolApp /data/allen/new/XtolApp ;
+						  "/>
+	 </target>
+	
+	<property name="version"   value="1.0.0.4.4"/>
+	<target name="fd118">
+		<sshexec host="121.12.118.18"
+		         username="root"
+		         password="dingxiang2013"
+		         trust="true"
+				 failonerror="true"
+		         command="	mkdir /usr/local/resin-4.0.30/webapps/xtol/source/10001/${version};
+						  	mkdir /usr/local/resin-4.0.30/webapps/xtol/source/DT001/${version};
+							mkdir /usr/local/resin-4.0.30/webapps/xtol/source/DT001_dl/${version};
+							mkdir /usr/local/resin-4.0.30/webapps/xtol/source/DT001_uc/${version};
+							mkdir /usr/local/resin-4.0.30/webapps/xtol/source/DT001_xm/${version};
+						  "/>
+		
+	 </target>
+	
+	<property name="username"   value="root"/>
+	<property name="password"   value="dx+-1qaz(159)"/>
+	
+	<target name="upload"> 
+	    <scp todir="${username}@42.62.40.73:/data/allen/new/" password="${password}" sftp="true" trust="true" > 
+	        <fileset dir="D:\\allen\\tmp\\localsql"> 
+	        </fileset>    
+	    </scp> 
+	</target>
+	
+	
+	<target name="dbbak">  
+	    <exec executable="mysqldump" output="database-dump.sql">  
+	       
+	    	
+	    	<arg line="-h 127.0.0.1 -u root -p123456 gods_cfg_bak clique_level_cfg soul_building_level_cfg "/>
+	    </exec>  
+	</target>
+	
+</project>

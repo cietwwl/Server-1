@@ -1,0 +1,2 @@
+key,Remarks,id,groupId,checkConditionType,compareType,conditionValue,percentage,priority,cd,actionTypeA,actionAId,weighteA,actionTypeB,actionBId,weighteB,groupdIdToChange,changePercentage
+10000,,10000,10000,,,80,100,,10,1,,800,,,,,

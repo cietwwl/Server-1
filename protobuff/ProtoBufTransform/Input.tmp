@@ -1,0 +1,4 @@
+message GetFriendBattleTowerRankInfoReqMsg{
+	required int32 pageIndex = 1;//获取第几页好友的信息
+	optional Another param = 2;/*test*/
+}

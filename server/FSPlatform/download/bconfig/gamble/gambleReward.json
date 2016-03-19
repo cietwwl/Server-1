@@ -1,0 +1,3002 @@
+{
+    "1": {
+        "weightGroup": 6, 
+        "itemID": "704001", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "1,2,0", 
+        "order": 0
+    }, 
+    "2": {
+        "weightGroup": 6, 
+        "itemID": "704013", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "1,2,0", 
+        "order": 0
+    }, 
+    "3": {
+        "weightGroup": 6, 
+        "itemID": "704007", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "1,2,0", 
+        "order": 0
+    }, 
+    "4": {
+        "weightGroup": 6, 
+        "itemID": "704009", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "1,2,0", 
+        "order": 0
+    }, 
+    "5": {
+        "weightGroup": 6, 
+        "itemID": "704008", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "1,2,0", 
+        "order": 0
+    }, 
+    "6": {
+        "weightGroup": 6, 
+        "itemID": "704002", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "7": {
+        "weightGroup": 6, 
+        "itemID": "704004", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "8": {
+        "weightGroup": 6, 
+        "itemID": "704011", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "9": {
+        "weightGroup": 6, 
+        "itemID": "704005", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "10": {
+        "weightGroup": 6, 
+        "itemID": "704003", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "11": {
+        "weightGroup": 6, 
+        "itemID": "704010", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "12": {
+        "weightGroup": 7, 
+        "itemID": "704012", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "13": {
+        "weightGroup": 7, 
+        "itemID": "204003_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,2,4", 
+        "order": 0
+    }, 
+    "14": {
+        "weightGroup": 7, 
+        "itemID": "201003_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,2,5", 
+        "order": 0
+    }, 
+    "15": {
+        "weightGroup": 7, 
+        "itemID": "201004_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,2,6", 
+        "order": 0
+    }, 
+    "16": {
+        "weightGroup": 7, 
+        "itemID": "201005_2", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,2,7", 
+        "order": 0
+    }, 
+    "17": {
+        "weightGroup": 7, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,2,8", 
+        "order": 0
+    }, 
+    "18": {
+        "weightGroup": 7, 
+        "itemID": "204001_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "19": {
+        "weightGroup": 8, 
+        "itemID": "700007", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "20": {
+        "weightGroup": 8, 
+        "itemID": "700008", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "21": {
+        "weightGroup": 8, 
+        "itemID": "700009", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "22": {
+        "weightGroup": 8, 
+        "itemID": "700010", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "23": {
+        "weightGroup": 8, 
+        "itemID": "700011", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "24": {
+        "weightGroup": 8, 
+        "itemID": "700012", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "25": {
+        "weightGroup": 8, 
+        "itemID": "700013", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "26": {
+        "weightGroup": 8, 
+        "itemID": "700014", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "27": {
+        "weightGroup": 8, 
+        "itemID": "700015", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "28": {
+        "weightGroup": 8, 
+        "itemID": "700016", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "29": {
+        "weightGroup": 8, 
+        "itemID": "700043", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "30": {
+        "weightGroup": 8, 
+        "itemID": "700044", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "31": {
+        "weightGroup": 8, 
+        "itemID": "700045", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "32": {
+        "weightGroup": 8, 
+        "itemID": "700046", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "33": {
+        "weightGroup": 8, 
+        "itemID": "700047", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "34": {
+        "weightGroup": 8, 
+        "itemID": "700059", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "35": {
+        "weightGroup": 8, 
+        "itemID": "700060", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "36": {
+        "weightGroup": 8, 
+        "itemID": "700061", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "37": {
+        "weightGroup": 8, 
+        "itemID": "700062", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "38": {
+        "weightGroup": 8, 
+        "itemID": "700063", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "39": {
+        "weightGroup": 8, 
+        "itemID": "700075", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "40": {
+        "weightGroup": 8, 
+        "itemID": "700076", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "41": {
+        "weightGroup": 8, 
+        "itemID": "700077", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "42": {
+        "weightGroup": 8, 
+        "itemID": "700078", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "43": {
+        "weightGroup": 8, 
+        "itemID": "700079", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "44": {
+        "weightGroup": 8, 
+        "itemID": "700096", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "45": {
+        "weightGroup": 8, 
+        "itemID": "700097", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "46": {
+        "weightGroup": 8, 
+        "itemID": "700098", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "47": {
+        "weightGroup": 8, 
+        "itemID": "700099", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "48": {
+        "weightGroup": 8, 
+        "itemID": "700100", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "49": {
+        "weightGroup": 8, 
+        "itemID": "700114", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "50": {
+        "weightGroup": 8, 
+        "itemID": "700115", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "51": {
+        "weightGroup": 8, 
+        "itemID": "700116", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "52": {
+        "weightGroup": 8, 
+        "itemID": "700117", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "53": {
+        "weightGroup": 8, 
+        "itemID": "700118", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "54": {
+        "weightGroup": 8, 
+        "itemID": "800002", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "55": {
+        "weightGroup": 8, 
+        "itemID": "800012", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "56": {
+        "weightGroup": 8, 
+        "itemID": "800022", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "57": {
+        "weightGroup": 8, 
+        "itemID": "800032", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "58": {
+        "weightGroup": 8, 
+        "itemID": "801003", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "59": {
+        "weightGroup": 8, 
+        "itemID": "803003", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "60": {
+        "weightGroup": 8, 
+        "itemID": "202001_2", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "61": {
+        "weightGroup": 8, 
+        "itemID": "204003_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "62": {
+        "weightGroup": 8, 
+        "itemID": "201003_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "63": {
+        "weightGroup": 8, 
+        "itemID": "201004_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "64": {
+        "weightGroup": 8, 
+        "itemID": "201005_2", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "65": {
+        "weightGroup": 8, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "66": {
+        "weightGroup": 8, 
+        "itemID": "204001_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 0
+    }, 
+    "67": {
+        "weightGroup": 9, 
+        "itemID": "202001_2", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 1
+    }, 
+    "68": {
+        "weightGroup": 9, 
+        "itemID": "204003_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 1
+    }, 
+    "69": {
+        "weightGroup": 9, 
+        "itemID": "201003_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 2
+    }, 
+    "70": {
+        "weightGroup": 9, 
+        "itemID": "201004_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 2
+    }, 
+    "71": {
+        "weightGroup": 9, 
+        "itemID": "201005_2", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 3
+    }, 
+    "72": {
+        "weightGroup": 9, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 3
+    }, 
+    "73": {
+        "weightGroup": 9, 
+        "itemID": "204001_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 3
+    }, 
+    "74": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "75": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "76": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "77": {
+        "weightGroup": 10, 
+        "itemID": "202006_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "78": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "79": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "80": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "81": {
+        "weightGroup": 10, 
+        "itemID": "202006_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "82": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "83": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "84": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "85": {
+        "weightGroup": 10, 
+        "itemID": "202006_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "86": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "87": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "88": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "89": {
+        "weightGroup": 10, 
+        "itemID": "202006_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "90": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "91": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "92": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "93": {
+        "weightGroup": 10, 
+        "itemID": "202006_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "94": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "95": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "96": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "97": {
+        "weightGroup": 10, 
+        "itemID": "202006_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "98": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "99": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "100": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "101": {
+        "weightGroup": 10, 
+        "itemID": "202006_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "102": {
+        "weightGroup": 10, 
+        "itemID": "203001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "103": {
+        "weightGroup": 10, 
+        "itemID": "201001_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "104": {
+        "weightGroup": 10, 
+        "itemID": "202002_3", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "105": {
+        "weightGroup": 11, 
+        "itemID": "704001", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "106": {
+        "weightGroup": 11, 
+        "itemID": "704008", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "107": {
+        "weightGroup": 11, 
+        "itemID": "704002", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "108": {
+        "weightGroup": 11, 
+        "itemID": "704004", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "109": {
+        "weightGroup": 11, 
+        "itemID": "704011", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "110": {
+        "weightGroup": 11, 
+        "itemID": "704005", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "111": {
+        "weightGroup": 11, 
+        "itemID": "704003", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "112": {
+        "weightGroup": 11, 
+        "itemID": "704010", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "113": {
+        "weightGroup": 11, 
+        "itemID": "704012", 
+        "weight": 1, 
+        "max": 5, 
+        "belong": "0,0,3", 
+        "order": 0
+    }, 
+    "114": {
+        "weightGroup": 12, 
+        "itemID": "202004_2", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 1
+    }, 
+    "115": {
+        "weightGroup": 13, 
+        "itemID": "204001_1", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "0,2,0", 
+        "order": 1
+    }, 
+    "116": {
+        "weightGroup": 1, 
+        "itemID": "700001", 
+        "weight": 5, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "117": {
+        "weightGroup": 1, 
+        "itemID": "700013", 
+        "weight": 5, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "118": {
+        "weightGroup": 1, 
+        "itemID": "700025", 
+        "weight": 5, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "119": {
+        "weightGroup": 1, 
+        "itemID": "700037", 
+        "weight": 5, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "120": {
+        "weightGroup": 1, 
+        "itemID": "700066", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "121": {
+        "weightGroup": 1, 
+        "itemID": "700078", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "122": {
+        "weightGroup": 1, 
+        "itemID": "700096", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "123": {
+        "weightGroup": 1, 
+        "itemID": "700112", 
+        "weight": 3, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "124": {
+        "weightGroup": 1, 
+        "itemID": "700124", 
+        "weight": 3, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "125": {
+        "weightGroup": 1, 
+        "itemID": "700136", 
+        "weight": 3, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "126": {
+        "weightGroup": 1, 
+        "itemID": "700148", 
+        "weight": 3, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "127": {
+        "weightGroup": 1, 
+        "itemID": "700167", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "128": {
+        "weightGroup": 1, 
+        "itemID": "700177", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "129": {
+        "weightGroup": 1, 
+        "itemID": "700187", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "130": {
+        "weightGroup": 1, 
+        "itemID": "700204", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "131": {
+        "weightGroup": 1, 
+        "itemID": "700212", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "132": {
+        "weightGroup": 1, 
+        "itemID": "700221", 
+        "weight": 2, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "133": {
+        "weightGroup": 1, 
+        "itemID": "801001", 
+        "weight": 4, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "134": {
+        "weightGroup": 1, 
+        "itemID": "803001", 
+        "weight": 4, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "135": {
+        "weightGroup": 2, 
+        "itemID": "700002", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "136": {
+        "weightGroup": 2, 
+        "itemID": "700003", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "137": {
+        "weightGroup": 2, 
+        "itemID": "700014", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "138": {
+        "weightGroup": 2, 
+        "itemID": "700015", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "139": {
+        "weightGroup": 2, 
+        "itemID": "700026", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "140": {
+        "weightGroup": 2, 
+        "itemID": "700027", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "141": {
+        "weightGroup": 2, 
+        "itemID": "700038", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "142": {
+        "weightGroup": 2, 
+        "itemID": "700039", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "143": {
+        "weightGroup": 2, 
+        "itemID": "700049", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "144": {
+        "weightGroup": 2, 
+        "itemID": "700067", 
+        "weight": 10, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "145": {
+        "weightGroup": 2, 
+        "itemID": "700068", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "146": {
+        "weightGroup": 2, 
+        "itemID": "700079", 
+        "weight": 10, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "147": {
+        "weightGroup": 2, 
+        "itemID": "700080", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "148": {
+        "weightGroup": 2, 
+        "itemID": "700113", 
+        "weight": 12, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "149": {
+        "weightGroup": 2, 
+        "itemID": "700114", 
+        "weight": 18, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "150": {
+        "weightGroup": 2, 
+        "itemID": "700125", 
+        "weight": 12, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "151": {
+        "weightGroup": 2, 
+        "itemID": "700126", 
+        "weight": 18, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "152": {
+        "weightGroup": 2, 
+        "itemID": "700137", 
+        "weight": 12, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "153": {
+        "weightGroup": 2, 
+        "itemID": "700138", 
+        "weight": 18, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "154": {
+        "weightGroup": 2, 
+        "itemID": "700149", 
+        "weight": 12, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "155": {
+        "weightGroup": 2, 
+        "itemID": "700150", 
+        "weight": 18, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "156": {
+        "weightGroup": 2, 
+        "itemID": "700168", 
+        "weight": 10, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "157": {
+        "weightGroup": 2, 
+        "itemID": "700178", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "158": {
+        "weightGroup": 2, 
+        "itemID": "700188", 
+        "weight": 10, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "159": {
+        "weightGroup": 2, 
+        "itemID": "700205", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "160": {
+        "weightGroup": 2, 
+        "itemID": "700213", 
+        "weight": 15, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "161": {
+        "weightGroup": 2, 
+        "itemID": "700222", 
+        "weight": 10, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "162": {
+        "weightGroup": 2, 
+        "itemID": "801002", 
+        "weight": 16, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "163": {
+        "weightGroup": 2, 
+        "itemID": "803002", 
+        "weight": 16, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "164": {
+        "weightGroup": 3, 
+        "itemID": "700004", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "165": {
+        "weightGroup": 3, 
+        "itemID": "700005", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "166": {
+        "weightGroup": 3, 
+        "itemID": "700006", 
+        "weight": 35, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "167": {
+        "weightGroup": 3, 
+        "itemID": "700016", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "168": {
+        "weightGroup": 3, 
+        "itemID": "700017", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "169": {
+        "weightGroup": 3, 
+        "itemID": "700018", 
+        "weight": 35, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "170": {
+        "weightGroup": 3, 
+        "itemID": "700028", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "171": {
+        "weightGroup": 3, 
+        "itemID": "700029", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "172": {
+        "weightGroup": 3, 
+        "itemID": "700030", 
+        "weight": 35, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "173": {
+        "weightGroup": 3, 
+        "itemID": "700040", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "174": {
+        "weightGroup": 3, 
+        "itemID": "700041", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "175": {
+        "weightGroup": 3, 
+        "itemID": "700042", 
+        "weight": 35, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "176": {
+        "weightGroup": 3, 
+        "itemID": "700050", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "177": {
+        "weightGroup": 3, 
+        "itemID": "700051", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "178": {
+        "weightGroup": 3, 
+        "itemID": "700052", 
+        "weight": 35, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "179": {
+        "weightGroup": 3, 
+        "itemID": "700059", 
+        "weight": 35, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "180": {
+        "weightGroup": 3, 
+        "itemID": "700069", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "181": {
+        "weightGroup": 3, 
+        "itemID": "700070", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "182": {
+        "weightGroup": 3, 
+        "itemID": "700071", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "183": {
+        "weightGroup": 3, 
+        "itemID": "700081", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "184": {
+        "weightGroup": 3, 
+        "itemID": "700082", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "185": {
+        "weightGroup": 3, 
+        "itemID": "700083", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "186": {
+        "weightGroup": 3, 
+        "itemID": "700097", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "187": {
+        "weightGroup": 3, 
+        "itemID": "700101", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "188": {
+        "weightGroup": 3, 
+        "itemID": "700115", 
+        "weight": 22, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "189": {
+        "weightGroup": 3, 
+        "itemID": "700116", 
+        "weight": 28, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "190": {
+        "weightGroup": 3, 
+        "itemID": "700117", 
+        "weight": 33, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "191": {
+        "weightGroup": 3, 
+        "itemID": "700127", 
+        "weight": 22, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "192": {
+        "weightGroup": 3, 
+        "itemID": "700128", 
+        "weight": 28, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "193": {
+        "weightGroup": 3, 
+        "itemID": "700129", 
+        "weight": 33, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "194": {
+        "weightGroup": 3, 
+        "itemID": "700139", 
+        "weight": 22, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "195": {
+        "weightGroup": 3, 
+        "itemID": "700140", 
+        "weight": 28, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "196": {
+        "weightGroup": 3, 
+        "itemID": "700141", 
+        "weight": 33, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "197": {
+        "weightGroup": 3, 
+        "itemID": "700151", 
+        "weight": 22, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "198": {
+        "weightGroup": 3, 
+        "itemID": "700152", 
+        "weight": 28, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "199": {
+        "weightGroup": 3, 
+        "itemID": "700153", 
+        "weight": 33, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "200": {
+        "weightGroup": 3, 
+        "itemID": "700160", 
+        "weight": 33, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "201": {
+        "weightGroup": 3, 
+        "itemID": "700169", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "202": {
+        "weightGroup": 3, 
+        "itemID": "700170", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "203": {
+        "weightGroup": 3, 
+        "itemID": "700171", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "204": {
+        "weightGroup": 3, 
+        "itemID": "700179", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "205": {
+        "weightGroup": 3, 
+        "itemID": "700180", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "206": {
+        "weightGroup": 3, 
+        "itemID": "700189", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "207": {
+        "weightGroup": 3, 
+        "itemID": "700190", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "208": {
+        "weightGroup": 3, 
+        "itemID": "700191", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "209": {
+        "weightGroup": 3, 
+        "itemID": "700198", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "210": {
+        "weightGroup": 3, 
+        "itemID": "700206", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "211": {
+        "weightGroup": 3, 
+        "itemID": "700214", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "212": {
+        "weightGroup": 3, 
+        "itemID": "700215", 
+        "weight": 30, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "213": {
+        "weightGroup": 3, 
+        "itemID": "700223", 
+        "weight": 20, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "214": {
+        "weightGroup": 3, 
+        "itemID": "700224", 
+        "weight": 25, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "215": {
+        "weightGroup": 3, 
+        "itemID": "801003", 
+        "weight": 30, 
+        "max": 3, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "216": {
+        "weightGroup": 3, 
+        "itemID": "803003", 
+        "weight": 30, 
+        "max": 3, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "217": {
+        "weightGroup": 4, 
+        "itemID": "700007", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "218": {
+        "weightGroup": 4, 
+        "itemID": "700008", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "219": {
+        "weightGroup": 4, 
+        "itemID": "700009", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "220": {
+        "weightGroup": 4, 
+        "itemID": "700010", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "221": {
+        "weightGroup": 4, 
+        "itemID": "700011", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "222": {
+        "weightGroup": 4, 
+        "itemID": "700019", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "223": {
+        "weightGroup": 4, 
+        "itemID": "700020", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "224": {
+        "weightGroup": 4, 
+        "itemID": "700021", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "225": {
+        "weightGroup": 4, 
+        "itemID": "700022", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "226": {
+        "weightGroup": 4, 
+        "itemID": "700023", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "227": {
+        "weightGroup": 4, 
+        "itemID": "700031", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "228": {
+        "weightGroup": 4, 
+        "itemID": "700032", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "229": {
+        "weightGroup": 4, 
+        "itemID": "700033", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "230": {
+        "weightGroup": 4, 
+        "itemID": "700034", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "231": {
+        "weightGroup": 4, 
+        "itemID": "700035", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "232": {
+        "weightGroup": 4, 
+        "itemID": "700043", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "233": {
+        "weightGroup": 4, 
+        "itemID": "700044", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "234": {
+        "weightGroup": 4, 
+        "itemID": "700045", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "235": {
+        "weightGroup": 4, 
+        "itemID": "700046", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "236": {
+        "weightGroup": 4, 
+        "itemID": "700047", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "237": {
+        "weightGroup": 4, 
+        "itemID": "700053", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "238": {
+        "weightGroup": 4, 
+        "itemID": "700054", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "239": {
+        "weightGroup": 4, 
+        "itemID": "700055", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "240": {
+        "weightGroup": 4, 
+        "itemID": "700056", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "241": {
+        "weightGroup": 4, 
+        "itemID": "700057", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "242": {
+        "weightGroup": 4, 
+        "itemID": "700060", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "243": {
+        "weightGroup": 4, 
+        "itemID": "700061", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "244": {
+        "weightGroup": 4, 
+        "itemID": "700062", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "245": {
+        "weightGroup": 4, 
+        "itemID": "700063", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "246": {
+        "weightGroup": 4, 
+        "itemID": "700064", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "247": {
+        "weightGroup": 4, 
+        "itemID": "700072", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "248": {
+        "weightGroup": 4, 
+        "itemID": "700073", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "249": {
+        "weightGroup": 4, 
+        "itemID": "700074", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "250": {
+        "weightGroup": 4, 
+        "itemID": "700075", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "251": {
+        "weightGroup": 4, 
+        "itemID": "700076", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "252": {
+        "weightGroup": 4, 
+        "itemID": "700084", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "253": {
+        "weightGroup": 4, 
+        "itemID": "700085", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "254": {
+        "weightGroup": 4, 
+        "itemID": "700086", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "255": {
+        "weightGroup": 4, 
+        "itemID": "700087", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "256": {
+        "weightGroup": 4, 
+        "itemID": "700088", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "257": {
+        "weightGroup": 4, 
+        "itemID": "700090", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "258": {
+        "weightGroup": 4, 
+        "itemID": "700091", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "259": {
+        "weightGroup": 4, 
+        "itemID": "700092", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "260": {
+        "weightGroup": 4, 
+        "itemID": "700093", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "261": {
+        "weightGroup": 4, 
+        "itemID": "700094", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "262": {
+        "weightGroup": 4, 
+        "itemID": "700098", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "263": {
+        "weightGroup": 4, 
+        "itemID": "700099", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "264": {
+        "weightGroup": 4, 
+        "itemID": "700102", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "265": {
+        "weightGroup": 4, 
+        "itemID": "700103", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "266": {
+        "weightGroup": 4, 
+        "itemID": "700118", 
+        "weight": 45, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "267": {
+        "weightGroup": 4, 
+        "itemID": "700119", 
+        "weight": 55, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "268": {
+        "weightGroup": 4, 
+        "itemID": "700120", 
+        "weight": 65, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "269": {
+        "weightGroup": 4, 
+        "itemID": "700121", 
+        "weight": 75, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "270": {
+        "weightGroup": 4, 
+        "itemID": "700122", 
+        "weight": 85, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "271": {
+        "weightGroup": 4, 
+        "itemID": "700130", 
+        "weight": 45, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "272": {
+        "weightGroup": 4, 
+        "itemID": "700131", 
+        "weight": 55, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "273": {
+        "weightGroup": 4, 
+        "itemID": "700132", 
+        "weight": 65, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "274": {
+        "weightGroup": 4, 
+        "itemID": "700133", 
+        "weight": 75, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "275": {
+        "weightGroup": 4, 
+        "itemID": "700134", 
+        "weight": 85, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "276": {
+        "weightGroup": 4, 
+        "itemID": "700142", 
+        "weight": 45, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "277": {
+        "weightGroup": 4, 
+        "itemID": "700143", 
+        "weight": 55, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "278": {
+        "weightGroup": 4, 
+        "itemID": "700144", 
+        "weight": 65, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "279": {
+        "weightGroup": 4, 
+        "itemID": "700145", 
+        "weight": 75, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "280": {
+        "weightGroup": 4, 
+        "itemID": "700146", 
+        "weight": 85, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "281": {
+        "weightGroup": 4, 
+        "itemID": "700154", 
+        "weight": 45, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "282": {
+        "weightGroup": 4, 
+        "itemID": "700155", 
+        "weight": 55, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "283": {
+        "weightGroup": 4, 
+        "itemID": "700156", 
+        "weight": 65, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "284": {
+        "weightGroup": 4, 
+        "itemID": "700157", 
+        "weight": 75, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "285": {
+        "weightGroup": 4, 
+        "itemID": "700158", 
+        "weight": 85, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "286": {
+        "weightGroup": 4, 
+        "itemID": "700161", 
+        "weight": 45, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "287": {
+        "weightGroup": 4, 
+        "itemID": "700162", 
+        "weight": 55, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "288": {
+        "weightGroup": 4, 
+        "itemID": "700163", 
+        "weight": 65, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "289": {
+        "weightGroup": 4, 
+        "itemID": "700164", 
+        "weight": 75, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "290": {
+        "weightGroup": 4, 
+        "itemID": "700165", 
+        "weight": 85, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "291": {
+        "weightGroup": 4, 
+        "itemID": "700172", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "292": {
+        "weightGroup": 4, 
+        "itemID": "700173", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "293": {
+        "weightGroup": 4, 
+        "itemID": "700174", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "294": {
+        "weightGroup": 4, 
+        "itemID": "700175", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "295": {
+        "weightGroup": 4, 
+        "itemID": "700181", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "296": {
+        "weightGroup": 4, 
+        "itemID": "700182", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "297": {
+        "weightGroup": 4, 
+        "itemID": "700183", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "298": {
+        "weightGroup": 4, 
+        "itemID": "700184", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "299": {
+        "weightGroup": 4, 
+        "itemID": "700185", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "300": {
+        "weightGroup": 4, 
+        "itemID": "700192", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "301": {
+        "weightGroup": 4, 
+        "itemID": "700193", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "302": {
+        "weightGroup": 4, 
+        "itemID": "700194", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "303": {
+        "weightGroup": 4, 
+        "itemID": "700195", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "304": {
+        "weightGroup": 4, 
+        "itemID": "700196", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "305": {
+        "weightGroup": 4, 
+        "itemID": "700199", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "306": {
+        "weightGroup": 4, 
+        "itemID": "700200", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "307": {
+        "weightGroup": 4, 
+        "itemID": "700201", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "308": {
+        "weightGroup": 4, 
+        "itemID": "700202", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "309": {
+        "weightGroup": 4, 
+        "itemID": "700207", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "310": {
+        "weightGroup": 4, 
+        "itemID": "700208", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "311": {
+        "weightGroup": 4, 
+        "itemID": "700209", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "312": {
+        "weightGroup": 4, 
+        "itemID": "700210", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "313": {
+        "weightGroup": 4, 
+        "itemID": "700216", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "314": {
+        "weightGroup": 4, 
+        "itemID": "700217", 
+        "weight": 60, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "315": {
+        "weightGroup": 4, 
+        "itemID": "700218", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "316": {
+        "weightGroup": 4, 
+        "itemID": "700219", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "317": {
+        "weightGroup": 4, 
+        "itemID": "700225", 
+        "weight": 40, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "318": {
+        "weightGroup": 4, 
+        "itemID": "700226", 
+        "weight": 50, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "319": {
+        "weightGroup": 4, 
+        "itemID": "700227", 
+        "weight": 70, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "320": {
+        "weightGroup": 4, 
+        "itemID": "700228", 
+        "weight": 80, 
+        "max": 1, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "321": {
+        "weightGroup": 4, 
+        "itemID": "801004", 
+        "weight": 80, 
+        "max": 3, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "322": {
+        "weightGroup": 4, 
+        "itemID": "803004", 
+        "weight": 80, 
+        "max": 3, 
+        "belong": "1,2,3", 
+        "order": 0
+    }, 
+    "323": {
+        "weightGroup": 5, 
+        "itemID": "700012", 
+        "weight": 100, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "324": {
+        "weightGroup": 5, 
+        "itemID": "700024", 
+        "weight": 100, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "325": {
+        "weightGroup": 5, 
+        "itemID": "700036", 
+        "weight": 100, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "326": {
+        "weightGroup": 5, 
+        "itemID": "700048", 
+        "weight": 100, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "327": {
+        "weightGroup": 5, 
+        "itemID": "700058", 
+        "weight": 100, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "328": {
+        "weightGroup": 5, 
+        "itemID": "700065", 
+        "weight": 100, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "329": {
+        "weightGroup": 5, 
+        "itemID": "700077", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "330": {
+        "weightGroup": 5, 
+        "itemID": "700089", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "331": {
+        "weightGroup": 5, 
+        "itemID": "700095", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "332": {
+        "weightGroup": 5, 
+        "itemID": "700100", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "333": {
+        "weightGroup": 5, 
+        "itemID": "700104", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "334": {
+        "weightGroup": 5, 
+        "itemID": "700105", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "335": {
+        "weightGroup": 5, 
+        "itemID": "700106", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "336": {
+        "weightGroup": 5, 
+        "itemID": "700107", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "337": {
+        "weightGroup": 5, 
+        "itemID": "700108", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "338": {
+        "weightGroup": 5, 
+        "itemID": "700109", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "339": {
+        "weightGroup": 5, 
+        "itemID": "700110", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "340": {
+        "weightGroup": 5, 
+        "itemID": "700111", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "341": {
+        "weightGroup": 5, 
+        "itemID": "700123", 
+        "weight": 95, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "342": {
+        "weightGroup": 5, 
+        "itemID": "700135", 
+        "weight": 95, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "343": {
+        "weightGroup": 5, 
+        "itemID": "700147", 
+        "weight": 95, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "344": {
+        "weightGroup": 5, 
+        "itemID": "700159", 
+        "weight": 95, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "345": {
+        "weightGroup": 5, 
+        "itemID": "700166", 
+        "weight": 95, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "346": {
+        "weightGroup": 5, 
+        "itemID": "700176", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "347": {
+        "weightGroup": 5, 
+        "itemID": "700186", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "348": {
+        "weightGroup": 5, 
+        "itemID": "700197", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "349": {
+        "weightGroup": 5, 
+        "itemID": "700203", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "350": {
+        "weightGroup": 5, 
+        "itemID": "700211", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "351": {
+        "weightGroup": 5, 
+        "itemID": "700220", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "352": {
+        "weightGroup": 5, 
+        "itemID": "700229", 
+        "weight": 90, 
+        "max": 1, 
+        "belong": "0,2,3", 
+        "order": 0
+    }, 
+    "353": {
+        "weightGroup": 8, 
+        "itemID": "801003", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "354": {
+        "weightGroup": 8, 
+        "itemID": "803003", 
+        "weight": 1, 
+        "max": 3, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "355": {
+        "weightGroup": 8, 
+        "itemID": "700145", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "356": {
+        "weightGroup": 8, 
+        "itemID": "700150", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "357": {
+        "weightGroup": 8, 
+        "itemID": "700155", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "358": {
+        "weightGroup": 8, 
+        "itemID": "700160", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "359": {
+        "weightGroup": 8, 
+        "itemID": "700165", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "360": {
+        "weightGroup": 8, 
+        "itemID": "700096", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "361": {
+        "weightGroup": 8, 
+        "itemID": "700101", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "362": {
+        "weightGroup": 8, 
+        "itemID": "700106", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "363": {
+        "weightGroup": 8, 
+        "itemID": "700111", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "364": {
+        "weightGroup": 8, 
+        "itemID": "700116", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "365": {
+        "weightGroup": 8, 
+        "itemID": "700121", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "366": {
+        "weightGroup": 8, 
+        "itemID": "700126", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "367": {
+        "weightGroup": 8, 
+        "itemID": "700131", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "368": {
+        "weightGroup": 8, 
+        "itemID": "700136", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "369": {
+        "weightGroup": 8, 
+        "itemID": "700174", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "370": {
+        "weightGroup": 8, 
+        "itemID": "700179", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "371": {
+        "weightGroup": 8, 
+        "itemID": "700184", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "372": {
+        "weightGroup": 8, 
+        "itemID": "700188", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "373": {
+        "weightGroup": 8, 
+        "itemID": "700196", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "374": {
+        "weightGroup": 8, 
+        "itemID": "700141", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }, 
+    "375": {
+        "weightGroup": 8, 
+        "itemID": "700143", 
+        "weight": 1, 
+        "max": 1, 
+        "belong": "1,0,0", 
+        "order": 0
+    }
+}

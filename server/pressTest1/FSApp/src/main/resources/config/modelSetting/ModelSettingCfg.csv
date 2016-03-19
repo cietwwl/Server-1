@@ -1,0 +1,7 @@
+key,remarks,id,cameraDepth,cameraSize,cameraPosX,cameraPosY,bgName,bg2Name
+1,,1,-0.5,1.7,,0.93,Assets/Textures/PackIn/ModelBg/zhiyegenghuan.png,
+2,,2,-0.5,1.7,-1.18,0.93,Assets/Textures/PackIn/ModelBg/Background_D.png,
+3,,3,-0.5,1.7,,0.93,,bg_Kuang_02
+4,,4,2,1.7,-1.18,0.93,,
+5,,5,2,1.7,-1.18,0.93,,
+6,,6,-0.5,1.7,-1.18,0.93,Assets/Textures/PackIn/ModelBg/Background_D.png,

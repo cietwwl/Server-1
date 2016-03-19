@@ -1,0 +1,28 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GuidanceProgressProtos";
+package GuidanceService;
+
+message GuidanceProgress {
+	required int32 GuideID = 1; //引导ID
+	required int32 Progress = 2; //进度计数值
+}
+
+message GuidanceRequest {
+	enum GuidanceRequestType {
+		LoadProgress = 1;
+	}
+	required GuidanceRequestType requestType = 1;
+}
+
+message GuidanceResponse {
+	repeated GuidanceProgress savedProgress = 1;
+}
+
+//调试模式下允许从服务端发送最新的配置文件到客户端
+message GuidanceConfigs{
+	optional bytes GuidanceData = 1;//仅在调试模式下有效，客户端可以更新配置，方便策划调试
+	optional bytes ActionsData = 2;//仅在调试模式下有效，客户端可以更新配置，方便策划调试
+	optional bytes ConditionalsData = 3;//仅在调试模式下有效，客户端可以更新配置，方便策划调试
+	optional bytes ConductressData = 4;//仅在调试模式下有效，客户端可以更新配置，方便策划调试
+}

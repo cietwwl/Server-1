@@ -1,0 +1,124 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GuildProtos";
+
+
+enum EGuildType {
+	SelectMsg = 0;//查找公会信息
+    CreateMsg = 1;//创建公会
+	MyMsg = 2;//自已公会详细信息
+	Join=3;//加入公会
+	exit=4;//退出
+	kick=5;
+	promote=6;//升职
+	demotion=7;//将职
+	updataNotice=8;//改公告
+	updataName=9;//改名字
+	updataIcon=10;//改图标
+	setEmail=11;//邮件
+	donate=12;//捐献
+	dismiss=13;//解散
+	assignment=14;//转让
+	apply=15;//申请
+	ignore=16;//忽略
+	pass=17;//通过
+	updataType=18;//改类型
+	updataUnlevel=19;//改加入等级
+	uplevel=20;//升等级
+	log=21;//拿日志
+	
+
+	
+
+
+}
+
+message GuildResponse {
+optional EGuildType type = 1;
+repeated GuildBaseInfo guildList = 2;//公会列表信息 0
+optional GuildBaseInfo guildInfo = 3;//单个公会列表信息
+optional string nameList=4;//公会名字列表
+ 
+}
+
+message GuildRequest {
+  optional EGuildType type = 1;
+  optional string guildName=2;//公会名字
+  optional int32 icon=3;//创建用
+  optional string uid=4;//公会id加入或查的时候用
+  optional string title=5;//邮件
+  optional string content=6;//邮件
+  optional int32 num=7;//捐献
+  optional int32 upType=8;//升等级类型
+  
+ 
+   
+}
+
+
+
+
+
+message GuildBaseInfo
+{
+optional string uid=1;//
+optional string guildName=2;//公会名字
+optional int32  guildId=3;//公会id
+optional string des=4;//公会说明
+optional int32 size=5;//公会人数
+optional int32 level=6;//公会等级
+optional int32 unLevel=7;//公会限制等级
+repeated GuildMemberInfo MemberList = 8;//公会成员列表信息
+optional int32 contribute=9;//资源
+optional int32 totalContribute=10;//资源
+repeated GuildApply applyList = 11;//申请列表信息
+repeated GuildLog logList = 12;//日志
+optional int64 dismissTimer = 13;//解除倒计时
+optional int32 changeName=14;//是否改过名
+optional int32 unType=15;//限类形
+optional int32 icon=16;//图标
+optional int32 iconBox=17;//图标2
+optional int32 activeValue=18;//活跃值
+
+
+
+
+
+
+}
+
+message GuildApply
+{
+optional string playerId=1;
+optional string playerName=2;
+optional int32 level=3;
+optional string iconId=4;
+}
+
+message GuildLog
+{
+optional string myName=1;
+optional string otherName=2;
+optional string des=3;
+optional int64 cTimer=4;
+optional int32 type=5;
+}
+
+
+
+message GuildMemberInfo
+{
+optional string playerId=1;
+optional string playerName=2;
+optional int32 position=3;
+optional int32 contribute=4;//资源
+optional int32 totalContribute=5;//总资源
+optional bool onLine=6;
+optional int64 joinTimer=7;
+optional int64 loginTimer=8;
+optional int32 tempContribute=9;//已换资源
+optional bool isDonate=10;//是否已贡献
+optional int32 level=11;
+optional string iconId=12;
+optional int64 sendEmailTimer=13;
+}

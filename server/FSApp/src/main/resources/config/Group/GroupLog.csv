@@ -1,0 +1,6 @@
+key,Remarks,type,info
+1,,1,{time}，{name}加入了帮派。
+2,,2,{time}，{name}离开了帮派。
+3,,3,{time}，{name}的职位提升到{post}。
+4,,4,{time}，帮派的等级提升到{groupLevel}。
+5,,5,{time}，帮派将技能{skillName}研发到{skillLevel}。

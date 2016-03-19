@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- 配置后台用到路径常量 -->
+	<UPLOAD_SAVE_PATH>D:/GM/Upload</UPLOAD_SAVE_PATH>
+	<UPLOAD_CLASS_SAVE_PATH>D:/GM/clsses</UPLOAD_CLASS_SAVE_PATH>
+	<COMPARE_FOLDER_PATH>D:/GM/compare/new</COMPARE_FOLDER_PATH>
+	<CURRENT_FOLDER_PATH>D:/test/compare/current</CURRENT_FOLDER_PATH>
+	<COMPARE_PATCH_PATH>D:/GM/compare/patch</COMPARE_PATCH_PATH>
+	<SERVER_FTP_PATH>/patch/server</SERVER_FTP_PATH>
+	<CLIENT_FTP_PATH>/patch/client</CLIENT_FTP_PATH>
+	<CLASSES_FTP_PATH>/patch/classes</CLASSES_FTP_PATH>
+	<VERSION_FILE_FTP_PATH>/patch/versionfile</VERSION_FILE_FTP_PATH>
+	<VERSION_CONFIG_PATH>D:/GM/Config</VERSION_CONFIG_PATH>
+	<FTP_ROOT_PATH>/patch</FTP_ROOT_PATH>
+	
+	
+	<!-- 内网ftp配置 -->
+	<FTP_HOSTNAME>192.168.2.137</FTP_HOSTNAME>
+	<FTP_PORT>21</FTP_PORT>
+	<FTP_LOGIN_NAME>wfb</FTP_LOGIN_NAME>
+	<FTP_LOGIN_PWD>qwe123</FTP_LOGIN_PWD>
+	<!-- 外网ftp配置 -->
+	<SUB_FTP_HOSTNAME>192.168.2.137</SUB_FTP_HOSTNAME>
+	<SUB_FTP_PORT>21</SUB_FTP_PORT>
+	<SUB_FTP_LOGIN_NAME>wfb</SUB_FTP_LOGIN_NAME>
+	<SUB_FTP_LOGIN_PWD>qwe123</SUB_FTP_LOGIN_PWD>
+	<VERSION_CONFIG_FILE_NAME>resourceconfig.xml</VERSION_CONFIG_FILE_NAME>
+	<GM_TYPE>1</GM_TYPE><!-- 1内网 2外网 -->
+	<!-- 后台用到脚本工具路径 -->
+	<CONVERT_PY_PATH>D:/rainwings/gmserver/FyGmWeb/src/main/webapp/WEB-INF/tools/convert.py</CONVERT_PY_PATH>
+	<CONVERT_PY_RUN_PATH>D:/rainwings/gmserver/FyGmWeb/src/main/webapp/WEB-INF/tools/run.bat</CONVERT_PY_RUN_PATH>
+	<CONVERT_PY_CSV_PATH>D:/rainwings/gmserver/FyGmWeb/src/main/webapp/WEB-INF/tools/convertcsv.jar</CONVERT_PY_CSV_PATH>
+	<CONVERT_PY_RUN_TOOL_CSV_PATH>D:/rainwings/gmserver/FyGmWeb/src/main/webapp/WEB-INF/tools/runcsv.bat</CONVERT_PY_RUN_TOOL_CSV_PATH>
+	<COMPILE_CLASS_BAT_PATH>D:/rainwings/gmserver/FyGmWeb/src/main/webapp/WEB-INF/tools/compileClass.bat</COMPILE_CLASS_BAT_PATH>
+	<CLIENT_DIFF_TOOL_PATH>D:/rainwings/gmserver/FyGmWeb/src/main/webapp/WEB-INF/tools/difftool/BsDiff.exe</CLIENT_DIFF_TOOL_PATH>
+	<GSService address="http://192.168.2.137" port="10001" />
+	<ServerList>
+		<Server id="101" name="lida" ip="192.168.2.137" port="8010" httpurl="http://192.168.2.137" httpport="8090" islinux="false" versionId = "0"/>
+	</ServerList>
+ 	<SVNList>
+		<svn svnID="-3" loginName="lida" loginPwd="lida"  svnPath="svn://192.168.2.240/fy/fs/Development/Temp/empt y" workCopyPath="D:\rainwings\Temp\empt y" svnName="test_excel"></svn>
+		<svn svnID="-4" loginName="lida" loginPwd="lida"  svnPath="svn://192.168.2.240/fy/fs/Development/Temp/t t t/server" workCopyPath="D:/rainwings/Temp/t t t/server" svnName="test_server"></svn>
+		<svn svnID="-5" loginName="lida" loginPwd="lida"  svnPath="svn://192.168.2.240/fy/fs/Development/Temp/client" workCopyPath="D:/rainwings/Temp/client" svnName="test_client"></svn>
+		<svn svnID="-6" loginName="lida" loginPwd="lida"  svnPath="svn://192.168.2.240/fy/fs/Development/Temp/client" workCopyPath="D:/FS/client" svnName="test_client_update"></svn>
+		<svn svnID="-7" loginName="lida" loginPwd="lida"  svnPath="svn://192.168.2.240/fy/fs/Development/Server/FSApp" workCopyPath="D:/rainwings/Server/FSApp" svnName="test_class"></svn>
+		<svn svnID="-8" loginName="lida" loginPwd="lida"  svnPath="svn://192.168.2.240/fy/fs/Development/Server/FSUtil" workCopyPath="D:/rainwings/Server/FSUtil" svnName="test_util"></svn>
+		<svn svnID="-9" loginName="lida" loginPwd="lida"  svnPath="svn://192.168.2.240/fy/fs/Development/Client/trunk/Unity3D/RXFS/Assets/StreamingAssets" workCopyPath="D:/test/t t t/Patch" svnName="test_client_res"></svn>
+	</SVNList>
+	 <Versions>
+	 	<Version versionId="0" versionName="test" excel_svnId = "-3" client_svnId="-5" server_svnId="-4"  client_update_svnId="-6" class_svnId="-7" util_svnId="-8" client_res_svnId="-9" />
+	 </Versions>
+	 <!-- 更新服务器需要更新的文件 如果有其他文件增加 则需要配置添加上去-->
+	 <UpdateClass>
+		<classes>
+			<Path value="/target/classes/com" />
+			<Path value="/target/classes/config" />
+			<Path value="/target/classes/applicationContextServices.xml" />
+		</classes>
+		<lib>
+			<Path value="/target/FSUtil-0.0.1-SNAPSHOT.jar" />
+		</lib>
+	</UpdateClass>
+	 
+</config>

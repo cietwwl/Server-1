@@ -1,0 +1,65 @@
+{
+    "1": {
+        "id": 1, 
+        "name": "金币", 
+        "icon": "ect_gold", 
+        "atlas": "Common", 
+        "description": "金币是封神游戏中最容易获得的货币"
+    }, 
+    "2": {
+        "id": 2, 
+        "name": "钻石", 
+        "icon": "ect_diamonds", 
+        "atlas": "Common", 
+        "description": "钻石是封神游戏中最通用的货币"
+    }, 
+    "3": {
+        "id": 3, 
+        "name": "体力", 
+        "icon": "ect_physical", 
+        "atlas": "Common", 
+        "description": "体力是封神游戏中闯关必须的资源"
+    }, 
+    "4": {
+        "id": 4, 
+        "name": "经验值", 
+        "icon": "ect_exp", 
+        "atlas": "Common", 
+        "description": "经验值是提高人物等级的必要资源"
+    }, 
+    "5": {
+        "id": 5, 
+        "name": "竞技点", 
+        "icon": "ect_JingJiChang", 
+        "atlas": "Common", 
+        "description": "可兑换竞技场商店货物"
+    }, 
+    "6": {
+        "id": 6, 
+        "name": "勇者徽记", 
+        "icon": "ect_WuJingZhanHuo", 
+        "atlas": "Common", 
+        "description": "可兑换无畏之塔商店货物"
+    }, 
+    "7": {
+        "id": 7, 
+        "name": "个人贡献", 
+        "icon": "ect_BangGong", 
+        "atlas": "Common", 
+        "description": "可兑换帮派商店货物"
+    }, 
+    "8": {
+        "id": 8, 
+        "name": "战争古币", 
+        "icon": "ect_JianYin", 
+        "atlas": "Common", 
+        "description": "可兑换剑印商店中的货物"
+    }, 
+    "9": {
+        "id": 9, 
+        "name": "战场积分", 
+        "icon": "ect_DianFengJingJiChang", 
+        "atlas": "Common", 
+        "description": "可兑换巅峰竞技场商店中的货物"
+    }
+}

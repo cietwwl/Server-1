@@ -1,0 +1,43 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GameLoginProtos";
+import "GuidanceService.proto";
+import "PlotView.proto";
+
+
+enum eGameLoginType {
+	GAME_LOGIN = 1;//
+	LOAD_MAINCITY = 2;//
+	CREATE_ROLE = 3;
+	repeat=4;//重连
+}
+
+enum eLoginResultType {
+	SUCCESS = 1;//成功
+	FAIL = 2;//失败
+	NO_ROLE = 3;
+	RepeatSUCCESS = 4;//重连成功
+	ServerMainTain = 5;//服务器维护
+}
+
+message GameLoginRequest{
+	required eGameLoginType loginType = 1;
+    optional string accountId = 2;
+	optional string password = 3;
+	optional int32 zoneId = 4;
+	optional string nick = 5;
+	optional int32 sex = 6;
+	optional string clientInfoJson = 7;
+}
+
+message GameLoginResponse{
+
+	required eLoginResultType resultType = 1;
+	optional string userId = 2;
+	optional string error = 3;
+	optional string version = 4;
+	optional int64 serverTime = 5;//服务器时间，用来客户端倒计时
+	optional GuidanceService.GuidanceResponse guidance = 6;
+	optional PlotView.PlotResponse plot = 7;
+	
+}

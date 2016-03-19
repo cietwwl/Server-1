@@ -1,0 +1,32 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupSkillServiceProto";
+
+package groupproto;
+import "GroupCommon.proto";
+
+/**
+* 文档简单说明
+* 1、多个长'/'代表的是区域划分（包括公用枚举类型区，通用收发协议定义区，对应功能协议定义区）
+* 2、多个长'-'代表的是一个小区域类型的分界（比如创建帮派的Req和Rsp定义前后，都会用这个隔开其他）
+* 3、中文符号的【】主要是着重显示描述，明确看到内容的开头位置
+* '/'的模版：///////////////////////////////////////////////////
+* '-'的模版：-----------------------
+*/
+
+///////////////////////////////////////////////////通用收发协议区
+
+//【帮派技能的通用请求消息】
+message GroupSkillCommonReqMsg{
+	required RequestType reqType = 1;//请求协议类型
+	optional string version = 2;//版本号
+	required int32 skillId = 3;//技能Id
+	required int32 skillLevel = 4;//技能等级
+}
+
+//【帮派技能的通用请求消息】
+message GroupSkillCommonRspMsg{
+	required RequestType reqType = 1;//请求协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+}

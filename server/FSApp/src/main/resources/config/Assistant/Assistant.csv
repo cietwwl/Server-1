@@ -1,0 +1,10 @@
+EventID,Remarks,priority,BtnIconName,Title,Content,OpenCondition,CloseCondition
+Invaild,,,,,,,
+Sign,,1,Helper/Helper_1001,签到,每天登陆游戏，签到获得大量奖励。,,
+GetItem,,2,Helper/Helper_1002,钓鱼台,钓鱼台现在可以免费开启宝箱，几率获得装备和英雄。,,
+HeroAdvance,,3,Helper/Helper_1003,升星,当前有英雄的魂石数量满足升星条件，升星后英雄属性将获得提升。,,
+TakeUpEquip,,4,Helper/Helper_1004,穿装备,当前有装备尚未穿戴，穿戴装备提升英雄属性。,,
+UpdateSkill,,5,Helper/Helper_1006,升技能,当前尚有剩余的技能点可以学习，升级技能提升英雄实力吧。,,
+HeroLevelUp,,6,Helper/Helper_1007,英雄升级,当前尚未英雄可以提升等级，使用经验丹快速增加英雄经验吧。,,
+DailyQuest,,7,Helper/Helper_1005,日常,完成日常可以获得大量经验值，快速提升等级，还有经验丹、金币奖励。,,
+GotoCopy,,8,Helper/Helper_1008,打战役,当前还有体力剩余，快去挑战战役，获得装备和经验丹吧。,,

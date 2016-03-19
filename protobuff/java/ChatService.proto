@@ -1,0 +1,37 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ChatServiceProtos";
+
+enum eChatType {
+	CHAT_WORLD = 1;//世界
+	CHAT_FAMILY = 2; // 公会
+	CHAT_PERSON = 3; // 私聊
+}
+enum eChatResultType {
+	SUCCESS = 1;//成功
+	FAIL = 2;//失败
+}
+
+message ChatMessageData{
+	required string userId =1;
+	optional string familyId = 2;//
+    optional string toUserId = 3;//
+	optional string nick = 4;
+	optional string headImage = 5;
+	optional int32 level = 6;
+	optional string time = 7;
+	required string message = 8;
+	optional string familyName = 9;
+	optional string toUserName = 10;
+}
+
+message MsgChatRequest{
+    required eChatType ChatType = 1;
+	optional ChatMessageData chatMessageData = 2;//
+}
+
+message MsgChatResponse{
+    required MsgChatRequest msgChatRequest = 1;//
+	optional eChatResultType chatResultType = 2;
+	repeated ChatMessageData listMessage = 3;
+}

@@ -1,0 +1,300 @@
+#region Auto Generated: Readonly Interfaces Exposion
+IBattleTowerConfig BattleTowerConfig_{get;}
+
+IBattleTowerCommonRspMsg BattleTowerCommonRspMsg_{get;}
+
+IResetRspMsg ResetRspMsg_{get;}
+
+IOpenMainViewRspMsg OpenMainViewRspMsg_{get;}
+
+IOpenChallengeViewRspMsg OpenChallengeViewRspMsg_{get;}
+
+IGetFriendBattleTowerRankInfoRspMsg GetFriendBattleTowerRankInfoRspMsg_{get;}
+
+IGetStrategyListRspMsg GetStrategyListRspMsg_{get;}
+
+IOpenTryLuckViewRspMsg OpenTryLuckViewRspMsg_{get;}
+
+ISweepStartRspMsg SweepStartRspMsg_{get;}
+
+ISweepEndRspMsg SweepEndRspMsg_{get;}
+
+IUseLuckyKeyRspMsg UseLuckyKeyRspMsg_{get;}
+
+IChallengeStartRspMsg ChallengeStartRspMsg_{get;}
+
+IChallengeEndRspMsg ChallengeEndRspMsg_{get;}
+
+IChallengeBossEndRspMsg ChallengeBossEndRspMsg_{get;}
+
+IOverFriendInfoMsg OverFriendInfoMsg_{get;}
+
+IBossInfoMsg BossInfoMsg_{get;}
+
+IRewardInfoMsg RewardInfoMsg_{get;}
+
+IRankingRoleInfoMsg RankingRoleInfoMsg_{get;}
+
+IRankingHeroInfoMsg RankingHeroInfoMsg_{get;}
+
+#endregion
+#region Auto Generated: Implement Exposion using _ServerData
+public IBattleTowerConfig BattleTowerConfig_{get{return this._ServerData._BattleTowerConfig;}}
+
+public IBattleTowerCommonRspMsg BattleTowerCommonRspMsg_{get{return this._ServerData._BattleTowerCommonRspMsg;}}
+
+public IResetRspMsg ResetRspMsg_{get{return this._ServerData._ResetRspMsg;}}
+
+public IOpenMainViewRspMsg OpenMainViewRspMsg_{get{return this._ServerData._OpenMainViewRspMsg;}}
+
+public IOpenChallengeViewRspMsg OpenChallengeViewRspMsg_{get{return this._ServerData._OpenChallengeViewRspMsg;}}
+
+public IGetFriendBattleTowerRankInfoRspMsg GetFriendBattleTowerRankInfoRspMsg_{get{return this._ServerData._GetFriendBattleTowerRankInfoRspMsg;}}
+
+public IGetStrategyListRspMsg GetStrategyListRspMsg_{get{return this._ServerData._GetStrategyListRspMsg;}}
+
+public IOpenTryLuckViewRspMsg OpenTryLuckViewRspMsg_{get{return this._ServerData._OpenTryLuckViewRspMsg;}}
+
+public ISweepStartRspMsg SweepStartRspMsg_{get{return this._ServerData._SweepStartRspMsg;}}
+
+public ISweepEndRspMsg SweepEndRspMsg_{get{return this._ServerData._SweepEndRspMsg;}}
+
+public IUseLuckyKeyRspMsg UseLuckyKeyRspMsg_{get{return this._ServerData._UseLuckyKeyRspMsg;}}
+
+public IChallengeStartRspMsg ChallengeStartRspMsg_{get{return this._ServerData._ChallengeStartRspMsg;}}
+
+public IChallengeEndRspMsg ChallengeEndRspMsg_{get{return this._ServerData._ChallengeEndRspMsg;}}
+
+public IChallengeBossEndRspMsg ChallengeBossEndRspMsg_{get{return this._ServerData._ChallengeBossEndRspMsg;}}
+
+public IOverFriendInfoMsg OverFriendInfoMsg_{get{return this._ServerData._OverFriendInfoMsg;}}
+
+public IBossInfoMsg BossInfoMsg_{get{return this._ServerData._BossInfoMsg;}}
+
+public IRewardInfoMsg RewardInfoMsg_{get{return this._ServerData._RewardInfoMsg;}}
+
+public IRankingRoleInfoMsg RankingRoleInfoMsg_{get{return this._ServerData._RankingRoleInfoMsg;}}
+
+public IRankingHeroInfoMsg RankingHeroInfoMsg_{get{return this._ServerData._RankingHeroInfoMsg;}}
+
+#endregion
+#region Auto Generated: Update Data From Server Responses
+	public void Update(BattleTowerConfig resp){
+		if (resp == null) return;
+		_ServerData._BattleTowerConfig = resp;
+	}
+
+	public void Update(BattleTowerCommonRspMsg resp){
+		if (resp == null) return;
+		_ServerData._BattleTowerCommonRspMsg = resp;
+	}
+
+	public void Update(ResetRspMsg resp){
+		if (resp == null) return;
+		_ServerData._ResetRspMsg = resp;
+	}
+
+	public void Update(OpenMainViewRspMsg resp){
+		if (resp == null) return;
+		_ServerData._OpenMainViewRspMsg = resp;
+	}
+
+	public void Update(OpenChallengeViewRspMsg resp){
+		if (resp == null) return;
+		_ServerData._OpenChallengeViewRspMsg = resp;
+	}
+
+	public void Update(GetFriendBattleTowerRankInfoRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GetFriendBattleTowerRankInfoRspMsg = resp;
+	}
+
+	public void Update(GetStrategyListRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GetStrategyListRspMsg = resp;
+	}
+
+	public void Update(OpenTryLuckViewRspMsg resp){
+		if (resp == null) return;
+		_ServerData._OpenTryLuckViewRspMsg = resp;
+	}
+
+	public void Update(SweepStartRspMsg resp){
+		if (resp == null) return;
+		_ServerData._SweepStartRspMsg = resp;
+	}
+
+	public void Update(SweepEndRspMsg resp){
+		if (resp == null) return;
+		_ServerData._SweepEndRspMsg = resp;
+	}
+
+	public void Update(UseLuckyKeyRspMsg resp){
+		if (resp == null) return;
+		_ServerData._UseLuckyKeyRspMsg = resp;
+	}
+
+	public void Update(ChallengeStartRspMsg resp){
+		if (resp == null) return;
+		_ServerData._ChallengeStartRspMsg = resp;
+	}
+
+	public void Update(ChallengeEndRspMsg resp){
+		if (resp == null) return;
+		_ServerData._ChallengeEndRspMsg = resp;
+	}
+
+	public void Update(ChallengeBossEndRspMsg resp){
+		if (resp == null) return;
+		_ServerData._ChallengeBossEndRspMsg = resp;
+	}
+
+	public void Update(OverFriendInfoMsg resp){
+		if (resp == null) return;
+		_ServerData._OverFriendInfoMsg = resp;
+	}
+
+	public void Update(BossInfoMsg resp){
+		if (resp == null) return;
+		_ServerData._BossInfoMsg = resp;
+	}
+
+	public void Update(RewardInfoMsg resp){
+		if (resp == null) return;
+		_ServerData._RewardInfoMsg = resp;
+	}
+
+	public void Update(RankingRoleInfoMsg resp){
+		if (resp == null) return;
+		_ServerData._RankingRoleInfoMsg = resp;
+	}
+
+	public void Update(RankingHeroInfoMsg resp){
+		if (resp == null) return;
+		_ServerData._RankingHeroInfoMsg = resp;
+	}
+
+#endregion
+#region Auto Generated: Store Server Responses
+public sealed partial class ServerState{
+	public BattleTowerConfig _BattleTowerConfig;
+	public BattleTowerCommonRspMsg _BattleTowerCommonRspMsg;
+	public ResetRspMsg _ResetRspMsg;
+	public OpenMainViewRspMsg _OpenMainViewRspMsg;
+	public OpenChallengeViewRspMsg _OpenChallengeViewRspMsg;
+	public GetFriendBattleTowerRankInfoRspMsg _GetFriendBattleTowerRankInfoRspMsg;
+	public GetStrategyListRspMsg _GetStrategyListRspMsg;
+	public OpenTryLuckViewRspMsg _OpenTryLuckViewRspMsg;
+	public SweepStartRspMsg _SweepStartRspMsg;
+	public SweepEndRspMsg _SweepEndRspMsg;
+	public UseLuckyKeyRspMsg _UseLuckyKeyRspMsg;
+	public ChallengeStartRspMsg _ChallengeStartRspMsg;
+	public ChallengeEndRspMsg _ChallengeEndRspMsg;
+	public ChallengeBossEndRspMsg _ChallengeBossEndRspMsg;
+	public OverFriendInfoMsg _OverFriendInfoMsg;
+	public BossInfoMsg _BossInfoMsg;
+	public RewardInfoMsg _RewardInfoMsg;
+	public RankingRoleInfoMsg _RankingRoleInfoMsg;
+	public RankingHeroInfoMsg _RankingHeroInfoMsg;
+}
+#endregion
+#region Auto Generated: Data Manager Storing Methods
+public sealed partial class BattleTowerServerDataMgr{
+	private BattleTowerServerData _BattleTowerServerData;
+	public void UpdateBattleTowerServerData(BattleTowerConfig resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(BattleTowerCommonRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(ResetRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(OpenMainViewRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(OpenChallengeViewRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(GetFriendBattleTowerRankInfoRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(GetStrategyListRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(OpenTryLuckViewRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(SweepStartRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(SweepEndRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(UseLuckyKeyRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(ChallengeStartRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(ChallengeEndRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(ChallengeBossEndRspMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(OverFriendInfoMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(BossInfoMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(RewardInfoMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(RankingRoleInfoMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+	public void UpdateBattleTowerServerData(RankingHeroInfoMsg resp){
+		_BattleTowerServerData.Update(resp);
+		_dataStream.FireNonNull(_BattleTowerServerData);
+	}
+
+}
+#endregion

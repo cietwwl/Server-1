@@ -1,0 +1,105 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ItemBagProtos";
+
+enum EItemBagEventType {
+	ItemBag_Index = 0;//请求全部背包列表
+	ItemBag_Compose = 1;//合成
+	ItemBag_Buy = 2;//购买
+	ItemBag_Sell = 3;//出售
+	ItemBag_Drop = 4;//丢掉
+	ItemBag_Sync = 5;//同步背包数据
+	UseItem = 6;//使用道具
+	ItemBag_MagicWeapon_Decompose = 7;//分解法宝或者法宝碎片，useItemInfo指定碎片的id和数量，分解法宝的时候只需要指定id，服务端会忽略数量字段，通过ResponseInfo返回操作结果
+	ItemBag_MagicForgeMat_Buy = 8;//购买法宝强化物品,指定需要购买的强化物品模板id和数量(BuyItemInfo)
+}
+
+//道具类型
+enum EItemTypeDef{
+	None = -1;//没有类型
+	RoleEquip = 1; // 角色装备
+	HeroEquip = 2; // 佣兵装备
+	Fashion = 3;// 时装
+	Piece = 4; // 卷轴和碎片
+	Magic = 5;// 法宝
+	Magic_Piece = 6; // 法宝碎片
+	Gem = 7; // 镶嵌宝石
+	Consume = 8;// 消耗品
+	SoulStone = 9;// 灵魂石
+	HeroItem = 10;// 英雄物品
+	SpecialItem = 11;//特殊物品
+}
+
+//item.xlsx Consume表的consumeType定义
+enum ConsumeTypeDef{
+	Consume_RoleEquip = 1;//主角装备
+	Consume_Magic = 2;//法宝
+	Consume_Fashion = 3;//时装
+	Consume_HeroEquip = 4;//佣兵装备
+	Consume_Magic_Piece = 5;//装备碎片
+	Consume_EquipScroll = 6;//装备卷轴
+	Consume_SoulStone = 7;//佣兵灵魂石
+	Consume_Gem = 8;//宝石
+	Consume_EquipEhanceMat = 9;//主角装备强化材料
+	Consume_MagicForgeMat = 10;//法宝锻造材料
+	Consume_ExpItem = 11;//经验道具
+	Consume_AttachSoul = 12;//附灵材料
+	Consume_PowerItem = 13;//体力道具
+	Consume_ScanTicket = 14;//扫荡券&门票
+}
+
+//物品的属性
+enum EItemAttributeType{
+	Magic_Exp = 1; //法宝经验，不是总经验，仅仅是当前等级的！
+	Magic_Level = 2; //法宝等级
+	Magic_State = 3;//法宝状态，0是背包，1是装备状态
+	Equip_Level = 4;//装备等级
+	Equip_AttachExp = 5;//装备附灵经验
+	Equip_AttachLevel = 6;//装备附灵等级
+}
+
+message TagItemAttriData{
+	required int32 AttrId = 1;//背包扩展属性
+	required string AttValue = 2;//扩展属性值
+}
+
+message TagCompose{
+	optional int32 mateId = 1;
+	optional int32 composeCount = 2;
+}
+
+message TagItemData{//背包数据
+	required int32 modelId = 1;//id
+	required int32 count = 2;//数量
+	required string dbId = 3;//道具的Id
+	repeated TagItemAttriData ExtendAttr = 4;
+}
+
+message UseItemInfo{
+	required string dbId = 1;//使用的道具数据Id
+	required int32 count = 2;//使用数量
+}
+
+message BuyItemInfo{
+	required string modelId = 1;//物品的模板ID
+	required int32 count = 2; //数量
+}
+
+message ResponseInfo{
+	required bool success = 1;//是否成功
+	required string tipMsg = 2;//响应的提示消息
+}
+
+message MsgItemBagRequest {
+	required EItemBagEventType requestType = 1;
+	repeated TagItemData itemUpdateData = 2;
+	repeated TagCompose compose = 3;
+	optional UseItemInfo useItemInfo = 4;//使用道具的信息
+	optional BuyItemInfo buyItemInfo = 5;//购买物品信息
+}
+
+message MsgItemBagResponse {
+	required EItemBagEventType eventType = 1;
+	repeated TagItemData itemSyncDatas = 2;
+	optional ResponseInfo rspInfo = 3;//协议处理的响应状态
+}

@@ -1,0 +1,14 @@
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/jquery-1.7.2.min.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/bootstrap.min.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/datetimepicker/bootstrap-datetimepicker.min.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/data_table/jquery.dataTables.min.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/data_table/TableTools.min.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/chart/highcharts.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/chart/exporting.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/main.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/chart/chart-line.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/chart/chart-column.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/chart/chart-pie.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/js/html5.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/dwr/engine.js")%>"></script>
+<script type="text/javascript" src="<%=response.encodeURL(request.getContextPath()+"/dwr/util.js")%>"></script>

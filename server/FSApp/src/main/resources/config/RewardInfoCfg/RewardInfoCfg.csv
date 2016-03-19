@@ -1,0 +1,12 @@
+RewardID,Remarks,titleAtlas,titleIcon,title,bottomTip,backTip
+Daily,,Copy,ZT_GongXiHuoDe,完成日常：{0},,
+Task,,Copy,ZT_GongXiHuoDe,完成任务：{0},,
+Sign,,Copy,ZT_GongXiHuoDe,恭喜您获得签到奖励,VIP{0}可获得双倍奖励,已到达VIP{0}获得双倍奖励
+Tower,,Copy,ZT_GongXiHuoDe,,,
+EquipAttach,,Copy,ZT_GongXiHuoDe,装备上的附灵材料已返还,,
+SelectCareer,,Copy,ZT_GongXiHuoDe,转职前装备已返还,,
+Copy,,Copy,ZT_GongXiHuoDe,恭喜您获得星级宝箱奖励,达到{0},
+FresherActivity,,Copy,ZT_GongXiHuoDe,,,
+worship,,Copy,ZT_GongXiHuoDe,,,
+DailyGift,,Copy,ZT_GongXiHuoDe,,,
+battleTower,,Copy,ZT_GongXiHuoDe,,,

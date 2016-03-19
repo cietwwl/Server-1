@@ -1,0 +1,11 @@
+package google.protobuf;
+option java_package = "com.google.protobuf";
+option java_outer_classname = "DescriptorProtos";
+
+option optimize_for = SPEED;
+
+// Describes a value within an enum.
+message EnumValueDescriptorProto {
+  optional string name = 1;
+  optional int32 number = 2;
+}

@@ -1,0 +1,82 @@
+{
+    "1": {
+        "rankId": 1, 
+        "parentId": 0, 
+        "title": "竞技", 
+        "accountTime": "5_0", 
+        "limitLevel": 5, 
+        "rankNum": 0
+    }, 
+    "2": {
+        "rankId": 2, 
+        "parentId": 0, 
+        "title": "战斗力", 
+        "accountTime": "5_0", 
+        "limitLevel": 5, 
+        "rankNum": 0
+    }, 
+    "3": {
+        "rankId": 3, 
+        "parentId": 0, 
+        "title": "等级", 
+        "accountTime": "5_0", 
+        "limitLevel": 5, 
+        "rankNum": 0
+    }, 
+    "101": {
+        "rankId": 101, 
+        "parentId": 1, 
+        "title": "力士排行(每日)", 
+        "accountTime": "5_0", 
+        "limitLevel": 10, 
+        "rankNum": 50
+    }, 
+    "102": {
+        "rankId": 102, 
+        "parentId": 1, 
+        "title": "行者排行(每日)", 
+        "accountTime": "5_0", 
+        "limitLevel": 10, 
+        "rankNum": 50
+    }, 
+    "103": {
+        "rankId": 103, 
+        "parentId": 1, 
+        "title": "术士排行(每日)", 
+        "accountTime": "5_0", 
+        "limitLevel": 10, 
+        "rankNum": 50
+    }, 
+    "104": {
+        "rankId": 104, 
+        "parentId": 1, 
+        "title": "祭祀排行(每日)", 
+        "accountTime": "5_0", 
+        "limitLevel": 10, 
+        "rankNum": 50
+    }, 
+    "201": {
+        "rankId": 201, 
+        "parentId": 2, 
+        "title": "全员战斗力排行", 
+        "accountTime": "5_0", 
+        "limitLevel": 5, 
+        "rankNum": 50
+    }, 
+    "203": {
+        "rankId": 203, 
+        "parentId": 2, 
+        "title": "五人小队战斗力排行", 
+        "accountTime": "5_0", 
+        "limitLevel": 5, 
+        "rankNum": 50
+    }, 
+    "301": {
+        "rankId": 301, 
+        "parentId": 3, 
+        "title": "主角等级排行", 
+        "accountTime": "5_0", 
+        "limitLevel": 5, 
+        "rankNum": 50
+    }
+}

@@ -1,0 +1,50 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "EquipProtos";
+import "ErrorService.proto";
+package EquipService;
+
+enum EquipEventType {
+	Equip_Sync = 1;//装备同步
+	Equip_Compose = 2;//装备合成
+	Wear_Equip = 3;//穿上装备
+	Advance = 4;//进阶
+	Equip_Attach = 5;//装备附灵
+	Equip_OnekeyAttach = 6;//装备一键附灵
+}
+
+message TagMate{
+	optional string id = 1;//物品背包的Id
+	optional int32 count = 2;//数量
+}
+
+message EquipAttrData{
+	required int32 AttrId = 1;//装备扩展属性
+	required string AttValue = 2;//扩展属性值
+}
+
+message EquipData{//装备数据
+	required int32 Id = 1;//id
+	required int32 Count = 2;//数量
+	required int32 Solt = 3;//装备位置
+	repeated EquipAttrData ExtendAttr = 4;
+}
+
+message EquipRequest {
+	required EquipEventType eventType = 1;
+	optional string roleId = 2;
+	repeated EquipData equipData = 3;
+	optional int32 equipIndex = 4;//操作的装备	
+	optional int32 equipId = 5;
+	optional int32 bagSlotId = 7;
+	repeated TagMate mate = 6;//附灵材料
+}
+
+message EquipResponse {
+	required EquipEventType eventType = 1;
+	optional string roleId = 2;
+	repeated EquipData equipData = 3;//法宝的数据将不在包含在装备的数据结构中了
+	required ErrorService.ErrorType error = 4;
+	optional int32 equipIndex = 5;//操作的装备
+}
+

@@ -1,0 +1,11 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GamePressProtos";
+
+message GamePressRequest{
+	optional string content = 1;
+}
+
+message GamePressResponse{
+	optional string content = 1;
+}

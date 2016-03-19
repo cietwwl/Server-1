@@ -1,0 +1,555 @@
+#region Auto Generated: Readonly Interfaces Exposion
+IMemberInfo MemberInfo_{get;}
+
+IApplyMemberInfo ApplyMemberInfo_{get;}
+
+IGroupRankEntryInfo GroupRankEntryInfo_{get;}
+
+IGroupSimpleInfo GroupSimpleInfo_{get;}
+
+IGroupLogInfo GroupLogInfo_{get;}
+
+ICreateGroupReqMsg CreateGroupReqMsg_{get;}
+
+ICreateGroupRspMsg CreateGroupRspMsg_{get;}
+
+IGetGroupInfoRspMsg GetGroupInfoRspMsg_{get;}
+
+IGetGroupRankRspMsg GetGroupRankRspMsg_{get;}
+
+IModifyAnnouncementReqMsg ModifyAnnouncementReqMsg_{get;}
+
+IModifyAnnouncementRspMsg ModifyAnnouncementRspMsg_{get;}
+
+IModifyGroupNameReqMsg ModifyGroupNameReqMsg_{get;}
+
+IGroupSettingReqMsg GroupSettingReqMsg_{get;}
+
+IFindGroupReqMsg FindGroupReqMsg_{get;}
+
+IFindGroupRspMsg FindGroupRspMsg_{get;}
+
+IApplyJoinGroupReqMsg ApplyJoinGroupReqMsg_{get;}
+
+IGroupMemberReceiveReqMsg GroupMemberReceiveReqMsg_{get;}
+
+IGroupMemberReceiveRspMsg GroupMemberReceiveRspMsg_{get;}
+
+IGroupNominatePostReqMsg GroupNominatePostReqMsg_{get;}
+
+IGroupCancelNominatePostReqMsg GroupCancelNominatePostReqMsg_{get;}
+
+IOpenDonateViewRspMsg OpenDonateViewRspMsg_{get;}
+
+IGroupDonateReqMsg GroupDonateReqMsg_{get;}
+
+IGroupDonateRspMsg GroupDonateRspMsg_{get;}
+
+ITransferGroupLeaderPostReqMsg TransferGroupLeaderPostReqMsg_{get;}
+
+IGroupEmailForAllReqMsg GroupEmailForAllReqMsg_{get;}
+
+IResearchGroupSkillReqMsg ResearchGroupSkillReqMsg_{get;}
+
+IResearchGroupSkillRspMsg ResearchGroupSkillRspMsg_{get;}
+
+IStudyGroupSkillReqMsg StudyGroupSkillReqMsg_{get;}
+
+IStudyGroupSkillRspMsg StudyGroupSkillRspMsg_{get;}
+
+IGetLogOfGroupRspMsg GetLogOfGroupRspMsg_{get;}
+
+IKickMemberReqMsg KickMemberReqMsg_{get;}
+
+IKickMemberRspMsg KickMemberRspMsg_{get;}
+
+IGroupRecommentReqMsg GroupRecommentReqMsg_{get;}
+
+IGroupRecommentRspMsg GroupRecommentRspMsg_{get;}
+
+IGroupCommonReqMsg GroupCommonReqMsg_{get;}
+
+IGroupCommonRspMsg GroupCommonRspMsg_{get;}
+
+#endregion
+#region Auto Generated: Implement Exposion using _ServerData
+public IMemberInfo MemberInfo_{get{return this._ServerData._MemberInfo;}}
+
+public IApplyMemberInfo ApplyMemberInfo_{get{return this._ServerData._ApplyMemberInfo;}}
+
+public IGroupRankEntryInfo GroupRankEntryInfo_{get{return this._ServerData._GroupRankEntryInfo;}}
+
+public IGroupSimpleInfo GroupSimpleInfo_{get{return this._ServerData._GroupSimpleInfo;}}
+
+public IGroupLogInfo GroupLogInfo_{get{return this._ServerData._GroupLogInfo;}}
+
+public ICreateGroupReqMsg CreateGroupReqMsg_{get{return this._ServerData._CreateGroupReqMsg;}}
+
+public ICreateGroupRspMsg CreateGroupRspMsg_{get{return this._ServerData._CreateGroupRspMsg;}}
+
+public IGetGroupInfoRspMsg GetGroupInfoRspMsg_{get{return this._ServerData._GetGroupInfoRspMsg;}}
+
+public IGetGroupRankRspMsg GetGroupRankRspMsg_{get{return this._ServerData._GetGroupRankRspMsg;}}
+
+public IModifyAnnouncementReqMsg ModifyAnnouncementReqMsg_{get{return this._ServerData._ModifyAnnouncementReqMsg;}}
+
+public IModifyAnnouncementRspMsg ModifyAnnouncementRspMsg_{get{return this._ServerData._ModifyAnnouncementRspMsg;}}
+
+public IModifyGroupNameReqMsg ModifyGroupNameReqMsg_{get{return this._ServerData._ModifyGroupNameReqMsg;}}
+
+public IGroupSettingReqMsg GroupSettingReqMsg_{get{return this._ServerData._GroupSettingReqMsg;}}
+
+public IFindGroupReqMsg FindGroupReqMsg_{get{return this._ServerData._FindGroupReqMsg;}}
+
+public IFindGroupRspMsg FindGroupRspMsg_{get{return this._ServerData._FindGroupRspMsg;}}
+
+public IApplyJoinGroupReqMsg ApplyJoinGroupReqMsg_{get{return this._ServerData._ApplyJoinGroupReqMsg;}}
+
+public IGroupMemberReceiveReqMsg GroupMemberReceiveReqMsg_{get{return this._ServerData._GroupMemberReceiveReqMsg;}}
+
+public IGroupMemberReceiveRspMsg GroupMemberReceiveRspMsg_{get{return this._ServerData._GroupMemberReceiveRspMsg;}}
+
+public IGroupNominatePostReqMsg GroupNominatePostReqMsg_{get{return this._ServerData._GroupNominatePostReqMsg;}}
+
+public IGroupCancelNominatePostReqMsg GroupCancelNominatePostReqMsg_{get{return this._ServerData._GroupCancelNominatePostReqMsg;}}
+
+public IOpenDonateViewRspMsg OpenDonateViewRspMsg_{get{return this._ServerData._OpenDonateViewRspMsg;}}
+
+public IGroupDonateReqMsg GroupDonateReqMsg_{get{return this._ServerData._GroupDonateReqMsg;}}
+
+public IGroupDonateRspMsg GroupDonateRspMsg_{get{return this._ServerData._GroupDonateRspMsg;}}
+
+public ITransferGroupLeaderPostReqMsg TransferGroupLeaderPostReqMsg_{get{return this._ServerData._TransferGroupLeaderPostReqMsg;}}
+
+public IGroupEmailForAllReqMsg GroupEmailForAllReqMsg_{get{return this._ServerData._GroupEmailForAllReqMsg;}}
+
+public IResearchGroupSkillReqMsg ResearchGroupSkillReqMsg_{get{return this._ServerData._ResearchGroupSkillReqMsg;}}
+
+public IResearchGroupSkillRspMsg ResearchGroupSkillRspMsg_{get{return this._ServerData._ResearchGroupSkillRspMsg;}}
+
+public IStudyGroupSkillReqMsg StudyGroupSkillReqMsg_{get{return this._ServerData._StudyGroupSkillReqMsg;}}
+
+public IStudyGroupSkillRspMsg StudyGroupSkillRspMsg_{get{return this._ServerData._StudyGroupSkillRspMsg;}}
+
+public IGetLogOfGroupRspMsg GetLogOfGroupRspMsg_{get{return this._ServerData._GetLogOfGroupRspMsg;}}
+
+public IKickMemberReqMsg KickMemberReqMsg_{get{return this._ServerData._KickMemberReqMsg;}}
+
+public IKickMemberRspMsg KickMemberRspMsg_{get{return this._ServerData._KickMemberRspMsg;}}
+
+public IGroupRecommentReqMsg GroupRecommentReqMsg_{get{return this._ServerData._GroupRecommentReqMsg;}}
+
+public IGroupRecommentRspMsg GroupRecommentRspMsg_{get{return this._ServerData._GroupRecommentRspMsg;}}
+
+public IGroupCommonReqMsg GroupCommonReqMsg_{get{return this._ServerData._GroupCommonReqMsg;}}
+
+public IGroupCommonRspMsg GroupCommonRspMsg_{get{return this._ServerData._GroupCommonRspMsg;}}
+
+#endregion
+#region Auto Generated: Update Data From Server Responses
+	public void Update(MemberInfo resp){
+		if (resp == null) return;
+		_ServerData._MemberInfo = resp;
+	}
+
+	public void Update(ApplyMemberInfo resp){
+		if (resp == null) return;
+		_ServerData._ApplyMemberInfo = resp;
+	}
+
+	public void Update(GroupRankEntryInfo resp){
+		if (resp == null) return;
+		_ServerData._GroupRankEntryInfo = resp;
+	}
+
+	public void Update(GroupSimpleInfo resp){
+		if (resp == null) return;
+		_ServerData._GroupSimpleInfo = resp;
+	}
+
+	public void Update(GroupLogInfo resp){
+		if (resp == null) return;
+		_ServerData._GroupLogInfo = resp;
+	}
+
+	public void Update(CreateGroupReqMsg resp){
+		if (resp == null) return;
+		_ServerData._CreateGroupReqMsg = resp;
+	}
+
+	public void Update(CreateGroupRspMsg resp){
+		if (resp == null) return;
+		_ServerData._CreateGroupRspMsg = resp;
+	}
+
+	public void Update(GetGroupInfoRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GetGroupInfoRspMsg = resp;
+	}
+
+	public void Update(GetGroupRankRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GetGroupRankRspMsg = resp;
+	}
+
+	public void Update(ModifyAnnouncementReqMsg resp){
+		if (resp == null) return;
+		_ServerData._ModifyAnnouncementReqMsg = resp;
+	}
+
+	public void Update(ModifyAnnouncementRspMsg resp){
+		if (resp == null) return;
+		_ServerData._ModifyAnnouncementRspMsg = resp;
+	}
+
+	public void Update(ModifyGroupNameReqMsg resp){
+		if (resp == null) return;
+		_ServerData._ModifyGroupNameReqMsg = resp;
+	}
+
+	public void Update(GroupSettingReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupSettingReqMsg = resp;
+	}
+
+	public void Update(FindGroupReqMsg resp){
+		if (resp == null) return;
+		_ServerData._FindGroupReqMsg = resp;
+	}
+
+	public void Update(FindGroupRspMsg resp){
+		if (resp == null) return;
+		_ServerData._FindGroupRspMsg = resp;
+	}
+
+	public void Update(ApplyJoinGroupReqMsg resp){
+		if (resp == null) return;
+		_ServerData._ApplyJoinGroupReqMsg = resp;
+	}
+
+	public void Update(GroupMemberReceiveReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupMemberReceiveReqMsg = resp;
+	}
+
+	public void Update(GroupMemberReceiveRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupMemberReceiveRspMsg = resp;
+	}
+
+	public void Update(GroupNominatePostReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupNominatePostReqMsg = resp;
+	}
+
+	public void Update(GroupCancelNominatePostReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupCancelNominatePostReqMsg = resp;
+	}
+
+	public void Update(OpenDonateViewRspMsg resp){
+		if (resp == null) return;
+		_ServerData._OpenDonateViewRspMsg = resp;
+	}
+
+	public void Update(GroupDonateReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupDonateReqMsg = resp;
+	}
+
+	public void Update(GroupDonateRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupDonateRspMsg = resp;
+	}
+
+	public void Update(TransferGroupLeaderPostReqMsg resp){
+		if (resp == null) return;
+		_ServerData._TransferGroupLeaderPostReqMsg = resp;
+	}
+
+	public void Update(GroupEmailForAllReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupEmailForAllReqMsg = resp;
+	}
+
+	public void Update(ResearchGroupSkillReqMsg resp){
+		if (resp == null) return;
+		_ServerData._ResearchGroupSkillReqMsg = resp;
+	}
+
+	public void Update(ResearchGroupSkillRspMsg resp){
+		if (resp == null) return;
+		_ServerData._ResearchGroupSkillRspMsg = resp;
+	}
+
+	public void Update(StudyGroupSkillReqMsg resp){
+		if (resp == null) return;
+		_ServerData._StudyGroupSkillReqMsg = resp;
+	}
+
+	public void Update(StudyGroupSkillRspMsg resp){
+		if (resp == null) return;
+		_ServerData._StudyGroupSkillRspMsg = resp;
+	}
+
+	public void Update(GetLogOfGroupRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GetLogOfGroupRspMsg = resp;
+	}
+
+	public void Update(KickMemberReqMsg resp){
+		if (resp == null) return;
+		_ServerData._KickMemberReqMsg = resp;
+	}
+
+	public void Update(KickMemberRspMsg resp){
+		if (resp == null) return;
+		_ServerData._KickMemberRspMsg = resp;
+	}
+
+	public void Update(GroupRecommentReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupRecommentReqMsg = resp;
+	}
+
+	public void Update(GroupRecommentRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupRecommentRspMsg = resp;
+	}
+
+	public void Update(GroupCommonReqMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupCommonReqMsg = resp;
+	}
+
+	public void Update(GroupCommonRspMsg resp){
+		if (resp == null) return;
+		_ServerData._GroupCommonRspMsg = resp;
+	}
+
+#endregion
+#region Auto Generated: Store Server Responses
+public sealed partial class ServerState{
+	public MemberInfo _MemberInfo;
+	public ApplyMemberInfo _ApplyMemberInfo;
+	public GroupRankEntryInfo _GroupRankEntryInfo;
+	public GroupSimpleInfo _GroupSimpleInfo;
+	public GroupLogInfo _GroupLogInfo;
+	public CreateGroupReqMsg _CreateGroupReqMsg;
+	public CreateGroupRspMsg _CreateGroupRspMsg;
+	public GetGroupInfoRspMsg _GetGroupInfoRspMsg;
+	public GetGroupRankRspMsg _GetGroupRankRspMsg;
+	public ModifyAnnouncementReqMsg _ModifyAnnouncementReqMsg;
+	public ModifyAnnouncementRspMsg _ModifyAnnouncementRspMsg;
+	public ModifyGroupNameReqMsg _ModifyGroupNameReqMsg;
+	public GroupSettingReqMsg _GroupSettingReqMsg;
+	public FindGroupReqMsg _FindGroupReqMsg;
+	public FindGroupRspMsg _FindGroupRspMsg;
+	public ApplyJoinGroupReqMsg _ApplyJoinGroupReqMsg;
+	public GroupMemberReceiveReqMsg _GroupMemberReceiveReqMsg;
+	public GroupMemberReceiveRspMsg _GroupMemberReceiveRspMsg;
+	public GroupNominatePostReqMsg _GroupNominatePostReqMsg;
+	public GroupCancelNominatePostReqMsg _GroupCancelNominatePostReqMsg;
+	public OpenDonateViewRspMsg _OpenDonateViewRspMsg;
+	public GroupDonateReqMsg _GroupDonateReqMsg;
+	public GroupDonateRspMsg _GroupDonateRspMsg;
+	public TransferGroupLeaderPostReqMsg _TransferGroupLeaderPostReqMsg;
+	public GroupEmailForAllReqMsg _GroupEmailForAllReqMsg;
+	public ResearchGroupSkillReqMsg _ResearchGroupSkillReqMsg;
+	public ResearchGroupSkillRspMsg _ResearchGroupSkillRspMsg;
+	public StudyGroupSkillReqMsg _StudyGroupSkillReqMsg;
+	public StudyGroupSkillRspMsg _StudyGroupSkillRspMsg;
+	public GetLogOfGroupRspMsg _GetLogOfGroupRspMsg;
+	public KickMemberReqMsg _KickMemberReqMsg;
+	public KickMemberRspMsg _KickMemberRspMsg;
+	public GroupRecommentReqMsg _GroupRecommentReqMsg;
+	public GroupRecommentRspMsg _GroupRecommentRspMsg;
+	public GroupCommonReqMsg _GroupCommonReqMsg;
+	public GroupCommonRspMsg _GroupCommonRspMsg;
+}
+#endregion
+#region Auto Generated: Data Manager Storing Methods
+public sealed partial class GroupDataMgr{
+	private GroupData _GroupData;
+	public void UpdateGroupData(MemberInfo resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(ApplyMemberInfo resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupRankEntryInfo resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupSimpleInfo resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupLogInfo resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(CreateGroupReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(CreateGroupRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GetGroupInfoRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GetGroupRankRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(ModifyAnnouncementReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(ModifyAnnouncementRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(ModifyGroupNameReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupSettingReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(FindGroupReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(FindGroupRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(ApplyJoinGroupReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupMemberReceiveReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupMemberReceiveRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupNominatePostReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupCancelNominatePostReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(OpenDonateViewRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupDonateReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupDonateRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(TransferGroupLeaderPostReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupEmailForAllReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(ResearchGroupSkillReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(ResearchGroupSkillRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(StudyGroupSkillReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(StudyGroupSkillRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GetLogOfGroupRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(KickMemberReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(KickMemberRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupRecommentReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupRecommentRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupCommonReqMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+	public void UpdateGroupData(GroupCommonRspMsg resp){
+		_GroupData.Update(resp);
+		_dataStream.FireNonNull(_GroupData);
+	}
+
+}
+#endregion

@@ -1,0 +1,13 @@
+key,Remarks,type,info
+1,,1,[MyName]加入帮派.
+2,,2,[MyName]退出帮派
+3,,3,[MyName]把[OtherName]踢出帮派
+4,,4,[MyName]把[OtherName]职位调整为[des]
+5,,5,[MyName]帮派宣言更新
+6,,6,帮派活动重置
+7,,7,帮派活动结果
+8,,8,[MyName]把帮派或功能升级[des]
+9,,9,帮派设置变更
+10,,10,帮派活动开放
+11,,11,[MyName]把帮主职位转让给[OtherName]
+12,,12,[MyName]创建[des]

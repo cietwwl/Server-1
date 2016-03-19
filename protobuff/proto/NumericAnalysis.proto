@@ -1,0 +1,40 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "NumericAnalysisProtos";
+
+message NumericAnalysisData
+{
+	optional int32 camp = 1;
+	optional int32 position = 2;
+	optional int32 roleId = 3;
+	optional string name = 4;
+	optional int32 level = 5;
+	optional int32 starLevel = 6;
+	optional string quality = 7;
+	optional int32 equip1 = 8;
+	optional int32 equip2 = 9;
+	optional int32 equip3 = 10;
+	optional int32 equip4 = 11;
+	optional int32 equip5 = 12;
+	optional int32 equip6 = 13;
+	optional int32 gem1 = 14;
+	optional int32 gem2 = 15;
+	optional int32 gem3 = 16;
+	optional int32 gem4 = 17;
+	optional int32 gem5 = 18;
+	optional int32 gem6 = 19;
+	optional string ghostLevel = 20;
+	optional int32 magic = 21;
+	optional int32 magicLevel = 22;
+	optional string skillLevels = 23;
+}
+
+message NumericAnalysisRequest
+{
+	repeated NumericAnalysisData dataList = 1;
+}	
+
+message NumericAnalysisResponse
+{
+	repeated string armyInfos = 1;
+}

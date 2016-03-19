@@ -1,0 +1,59 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "AccountLoginProtos";
+
+enum eAccountLoginType {
+	ACCOUNT_LOGIN = 1;//登录平台
+	ZONE_LIST = 2;//选区列表
+	REFRESH_ZONE_STATUS = 3;//刷新服务器状态
+}
+
+enum eLoginResultType {
+	SUCCESS = 1;//成功
+	FAIL = 2;//失败
+}
+
+message AccountInfo{
+	optional string accountId = 1;
+	optional string password = 2;
+	optional string openAccountId = 3; // 第三方账号
+	optional int32 logType = 4;       //日志类型
+	optional string phoneInfo = 5;     //手机信息 弃用
+	optional string clientInfoJson = 6;     //客户端信息
+}
+
+message ZoneInfo{
+	required int32 zoneId = 1;
+	required string zoneName = 2;
+	optional string serverIp = 3;
+	optional string port = 4;
+	optional string status = 5;
+	optional int32 recommand = 6;
+	optional int32 isOpen = 7;
+	optional int32 color = 8;
+}
+
+message UserInfo{
+	required ZoneInfo zoneInfo = 1;
+	optional string headImage = 2;
+	optional int32 vipLv = 3;
+	optional int32 career = 4;
+	optional int32 lv = 5;
+	optional string name = 6;
+}
+
+message AccountLoginRequest{
+	required eAccountLoginType loginType = 1;
+    required AccountInfo account = 2;
+	optional ZoneInfo zone = 3;
+}
+
+message AccountLoginResponse{
+	required eAccountLoginType loginType = 1;
+	required eLoginResultType resultType = 2;
+	optional AccountInfo account = 3;
+	optional string error = 4;
+	optional ZoneInfo lastZone = 5;
+	repeated ZoneInfo zoneList = 6;
+	repeated UserInfo userList = 7;
+}

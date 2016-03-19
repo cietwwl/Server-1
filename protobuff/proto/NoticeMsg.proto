@@ -1,0 +1,23 @@
+syntax="proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "NoticeProtos";
+
+enum ENoticeType{
+	PlatformNotice = 0;  //平台公告
+	GameNotice = 1;		 //游戏公告
+}
+
+message tagNoticeInfo{
+	required string title = 1;
+	required string content = 2;
+
+}
+
+message NoticeResponse{
+	required ENoticeType type = 1;
+	repeated tagNoticeInfo notice = 2;
+}
+
+message NoticeRequest{
+	required ENoticeType type = 1;
+}

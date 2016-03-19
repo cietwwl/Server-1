@@ -1,0 +1,15 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "SyncAttriProtos";
+package SyncAttri;
+
+message TagAttriData{
+	required int32 AttrId = 1;//属性ID
+	optional string AttValueStr = 2;//属性值
+	optional double AttValue = 3;//属性值
+}
+
+message MsgSyncAttriResponse {
+	optional string roleId = 1;
+	repeated TagAttriData syncDatas = 2;
+}

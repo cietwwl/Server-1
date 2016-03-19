@@ -1,0 +1,24 @@
+option java_package = "com.rwproto";
+option java_outer_classname = "ErrorService";
+package ErrorService;
+enum ErrorType {
+	SUCCESS = 0;
+	FAIL = -1;//失败
+	NOT_ENOUGH_VIP = -2;//Vip等级不足
+	NOT_ENOUGH_COIN = -3 ;//铜钱不足
+	NOT_ENOUGH_LEVEL = -4;//等级不足
+	NOT_ENOUGH_GOLD = -5;//钻石不足
+	NOT_ROLE = -6;//角色不存在
+	NOT_EQUIP = -7;//没有装备
+	NONE_NEXT_QUALITY = -8;//没有下一阶角色品质
+	NOT_EQUIP_ADVANCE = -9;//装备未满6个不能进阶
+	NOT_ENOUGH_MATE = -10;//材料不足
+	NOT_SKILL = -11;//技能不存在
+	NOT_ENOUGH_SKILL_LEVEL = -12;//技能等级不够
+	NOT_OPEN_SKILL = -13;//技能未开启
+	IS_MAX_SKILL_LEVEL = -14;//技能最高等级
+	SKILL_LEVEL_EQUAL_ROLE_LEVEL = -15;//技能等级大于等于人物特级
+	CONFIG_ERROR = -16;//配置错误
+	NOT_ENOUGH_SKILL_POINT = -17;//技能点不足
+	NOT_CONFORM_CONDITIONS = -18;//条件不符合
+}

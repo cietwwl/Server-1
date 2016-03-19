@@ -1,0 +1,192 @@
+{
+    "1": {
+        "time": 30, 
+        "jobCost": 130, 
+        "sexCost": 130
+    }, 
+    "2": {
+        "time": 60, 
+        "jobCost": 140, 
+        "sexCost": 140
+    }, 
+    "3": {
+        "time": 120, 
+        "jobCost": 150, 
+        "sexCost": 150
+    }, 
+    "4": {
+        "time": 180, 
+        "jobCost": 160, 
+        "sexCost": 160
+    }, 
+    "5": {
+        "time": 240, 
+        "jobCost": 170, 
+        "sexCost": 170
+    }, 
+    "6": {
+        "time": 300, 
+        "jobCost": 180, 
+        "sexCost": 180
+    }, 
+    "7": {
+        "time": 360, 
+        "jobCost": 190, 
+        "sexCost": 190
+    }, 
+    "8": {
+        "time": 420, 
+        "jobCost": 200, 
+        "sexCost": 200
+    }, 
+    "9": {
+        "time": 480, 
+        "jobCost": 210, 
+        "sexCost": 210
+    }, 
+    "10": {
+        "time": 540, 
+        "jobCost": 220, 
+        "sexCost": 220
+    }, 
+    "11": {
+        "time": 600, 
+        "jobCost": 230, 
+        "sexCost": 230
+    }, 
+    "12": {
+        "time": 660, 
+        "jobCost": 240, 
+        "sexCost": 240
+    }, 
+    "13": {
+        "time": 720, 
+        "jobCost": 250, 
+        "sexCost": 250
+    }, 
+    "14": {
+        "time": 780, 
+        "jobCost": 260, 
+        "sexCost": 260
+    }, 
+    "15": {
+        "time": 840, 
+        "jobCost": 270, 
+        "sexCost": 270
+    }, 
+    "16": {
+        "time": 900, 
+        "jobCost": 280, 
+        "sexCost": 280
+    }, 
+    "17": {
+        "time": 960, 
+        "jobCost": 290, 
+        "sexCost": 290
+    }, 
+    "18": {
+        "time": 1020, 
+        "jobCost": 300, 
+        "sexCost": 300
+    }, 
+    "19": {
+        "time": 1080, 
+        "jobCost": 310, 
+        "sexCost": 310
+    }, 
+    "20": {
+        "time": 1140, 
+        "jobCost": 320, 
+        "sexCost": 320
+    }, 
+    "21": {
+        "time": 1200, 
+        "jobCost": 330, 
+        "sexCost": 330
+    }, 
+    "22": {
+        "time": 1260, 
+        "jobCost": 340, 
+        "sexCost": 340
+    }, 
+    "23": {
+        "time": 1320, 
+        "jobCost": 350, 
+        "sexCost": 350
+    }, 
+    "24": {
+        "time": 1380, 
+        "jobCost": 360, 
+        "sexCost": 360
+    }, 
+    "25": {
+        "time": 1440, 
+        "jobCost": 370, 
+        "sexCost": 370
+    }, 
+    "26": {
+        "time": 1500, 
+        "jobCost": 380, 
+        "sexCost": 380
+    }, 
+    "27": {
+        "time": 1560, 
+        "jobCost": 390, 
+        "sexCost": 390
+    }, 
+    "28": {
+        "time": 1620, 
+        "jobCost": 400, 
+        "sexCost": 400
+    }, 
+    "29": {
+        "time": 1680, 
+        "jobCost": 410, 
+        "sexCost": 410
+    }, 
+    "30": {
+        "time": 1740, 
+        "jobCost": 420, 
+        "sexCost": 420
+    }, 
+    "31": {
+        "time": 1800, 
+        "jobCost": 430, 
+        "sexCost": 430
+    }, 
+    "32": {
+        "time": 1860, 
+        "jobCost": 440, 
+        "sexCost": 440
+    }, 
+    "33": {
+        "time": 1920, 
+        "jobCost": 450, 
+        "sexCost": 450
+    }, 
+    "34": {
+        "time": 1980, 
+        "jobCost": 460, 
+        "sexCost": 460
+    }, 
+    "35": {
+        "time": 2040, 
+        "jobCost": 470, 
+        "sexCost": 470
+    }, 
+    "36": {
+        "time": 2100, 
+        "jobCost": 480, 
+        "sexCost": 480
+    }, 
+    "37": {
+        "time": 2160, 
+        "jobCost": 490, 
+        "sexCost": 490
+    }, 
+    "38": {
+        "time": 2220, 
+        "jobCost": 500, 
+        "sexCost": 500
+    }
+}

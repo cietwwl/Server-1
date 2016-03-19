@@ -1,0 +1,104 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "TowerServiceProtos";
+import "SkillService.proto";
+import "SyncAttri.proto";
+package TowerService;
+import "DataSyn.proto";
+
+enum eTowerType {
+	TOWER_PANEL_INFO = 0;     //面板信息
+	TOWER_START_FIGHT = 1; // 开始战斗
+	TOWER_END_FIGHT = 2;  //结束战斗
+	TOWER_GET_REWARD= 3; //获取奖励
+	TOWER_RESET_DATA = 4;   //重置数据
+	TOWER_REQUIRE_ENEMY = 5;	  //请求某3关的对战数据 0~2 3~5
+}
+enum eTowerResultType {
+	TOWER_SUCCESS = 1;//成功
+	TOWER_FAIL = 2;//失败
+}
+enum eTowerDeadType {
+	TOWER_DEAD = 0;//死亡
+	TOWER_LIVING = 1;//活着
+}
+
+message TagHeroTowerData{//佣兵数据
+	required string heroId = 1;
+	required string templeteId = 2;
+	optional int32 level = 3;
+	optional int32 starLevel = 4;
+	optional int32 fighting = 5;
+	optional string qualityId = 6;
+	//optional string career = 7;//@@@
+	repeated SkillService.TagSkillData skills = 8;
+	repeated SyncAttri.TagAttriData attrs = 9;
+}
+message TagTowerHeadInfo{//塔层数据
+	required string userId = 1;
+	required string templeteId = 2;
+	optional string headImage = 3;
+	optional int32 towerId = 5;
+	optional int32 level = 6;
+	optional string name = 7;
+
+	optional bool isDead = 8;
+}
+message TagTowerEnemyInfo{//塔层数据
+	required string userId = 1;
+	required string templeteId = 2;
+	optional string headImage = 3;
+	optional string career = 4;
+	optional int32 towerId = 5;
+	optional int32 level = 6;
+	optional string name = 7;
+	optional int32 magicId = 8;
+	optional int32 magicLevel = 9;
+	optional int32 fightValue = 10;
+	
+	repeated TagHeroTowerData heros = 14;
+	repeated SkillService.TagSkillData skills = 15;
+	repeated SyncAttri.TagAttriData attrs = 16;
+}
+message TagTowerHeroChange{//玩家血量变化
+	required string userId = 1;//主角或佣兵id
+	optional eTowerDeadType isDead = 2;//是否死亡
+	optional int32 reduceLife = 3;//减少血量
+	optional int32 reduceEnegy = 4;//减少能量
+}
+message TagTowerData{
+	required string userId = 1;
+	
+	optional int32 currTowerID = 2;//当前开放的关卡
+	optional int32 refreshTimes = 3;//重置次数
+	
+	
+	repeated TagTowerEnemyInfo enemys = 4;//敌方数据 XX
+	repeated TagTowerHeroChange heroChageMap = 5;//玩家血量改变
+	repeated bool towerOpenList = 6;//塔层开放状态
+	repeated bool towerFirstList = 7;//是否领取第一次奖励状态
+	repeated bool towerGetArardList = 8;//是否领取过关奖励状态
+	repeated bool towerBeatList = 9;//是否打败关卡
+	repeated TagTowerHeadInfo headInfos = 10;//敌方关卡展示数据
+	
+	optional int32 enemyTowerID = 11;//敌方所属塔层
+	optional string enemyArmyInfo=12; //敌方属性数据
+}
+
+message MsgTowerRequest{
+    required eTowerType towerType = 1;
+	optional TagTowerData towerData = 2;
+	optional int32 win = 3;
+	repeated TagTowerHeroChange enemyHeroChangeList = 4;//敌方数据改变
+	optional int32 towerID =6;//塔层
+}
+
+message MsgTowerResponse{
+	required eTowerType towerType = 1;
+	optional eTowerResultType towerResultType = 2;
+	optional TagTowerData towerData = 3;
+	repeated TagTowerHeroChange enemyHeroChangeList = 4;//敌方血量变化
+	optional string awardListStr =5;//奖品数据700001_1,70002_3
+	optional int32 towerID =6;//塔层
+	optional string armyInfo=7; //秘境信息
+}

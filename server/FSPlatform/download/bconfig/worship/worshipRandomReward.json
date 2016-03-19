@@ -1,0 +1,72 @@
+{
+    "1": {
+        "scheme": 1001, 
+        "weightGroup": 1, 
+        "itemID": "700001", 
+        "weight": 5, 
+        "max": 3
+    }, 
+    "2": {
+        "scheme": 1001, 
+        "weightGroup": 2, 
+        "itemID": "700002", 
+        "weight": 3, 
+        "max": 3
+    }, 
+    "3": {
+        "scheme": 1002, 
+        "weightGroup": 1, 
+        "itemID": "700003", 
+        "weight": 2, 
+        "max": 3
+    }, 
+    "4": {
+        "scheme": 1002, 
+        "weightGroup": 2, 
+        "itemID": "700007", 
+        "weight": 12, 
+        "max": 3
+    }, 
+    "5": {
+        "scheme": 1002, 
+        "weightGroup": 2, 
+        "itemID": "700008", 
+        "weight": 6, 
+        "max": 3
+    }, 
+    "6": {
+        "scheme": 1001, 
+        "weightGroup": 1, 
+        "itemID": "700009", 
+        "weight": 6, 
+        "max": 3
+    }, 
+    "7": {
+        "scheme": 1002, 
+        "weightGroup": 1, 
+        "itemID": "700010", 
+        "weight": 12, 
+        "max": 3
+    }, 
+    "8": {
+        "scheme": 1002, 
+        "weightGroup": 2, 
+        "itemID": "700011", 
+        "weight": 2, 
+        "max": 3
+    }, 
+    "9": {
+        "scheme": 1001, 
+        "weightGroup": 2, 
+        "itemID": "700012", 
+        "weight": 10, 
+        "max": 3
+    }, 
+    "10": {
+        "scheme": 1001, 
+        "weightGroup": 2, 
+        "itemID": "700013", 
+        "weight": 10, 
+        "max": 3
+    }
+}

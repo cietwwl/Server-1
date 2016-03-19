@@ -1,0 +1,27 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "RequestProtos";
+import "ClientView.proto";
+import "MsgDef.proto";
+
+//代表客户端的一个请求
+message Request {
+	required RequestHeader header = 1;
+	required RequestBody body = 2;
+	optional int32 num = 3;
+}
+
+//消息头
+message RequestHeader {
+	required MsgDef.Command command = 1; //对应的命令
+	optional string userId = 2; //用户验证用户合法性
+	optional string token = 3; //用户验证用户合法性
+	optional int32 seqID = 4;
+	optional ClientView.ClientViewData clientGenerated = 6;//客户端产生的数据，需要保存到服务端
+	optional int32 redpointVersion = 7;	//红点版本号
+}
+
+
+message RequestBody {
+	optional bytes serialized_content = 1;
+}
