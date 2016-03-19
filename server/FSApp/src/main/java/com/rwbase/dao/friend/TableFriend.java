@@ -108,10 +108,10 @@ public class TableFriend implements TableFriendIF {
 				giveState.setGiveState(true);
 				changed = true;
 			}
-			if (giveState.isReceiveState()) {
-				giveState.setReceiveState(false);
-				changed = true;
-			}
+//			if (giveState.isReceiveState()) {
+//				giveState.setReceiveState(false);
+//				changed = true;
+//			}
 		}
 		return changed;
 	}
