@@ -38,6 +38,8 @@ public class Version {
 	private String cdnBackUpDomain;
 	
 	private String logServerAddress;
+	
+	private String patchInstall = "0";
 
 	public void setLogServerAddress(String logServerAddress) {
 		this.logServerAddress = logServerAddress;
@@ -142,6 +144,14 @@ public class Version {
 
 	public void setLoginServerDomain(String loginServerDomain) {
 		this.loginServerDomain = loginServerDomain;
+	}
+
+	public String getPatchInstall() {
+		return patchInstall;
+	}
+
+	public void setPatchInstall(String patchInstall) {
+		this.patchInstall = patchInstall;
 	}
 
 	public boolean targetIsVerPatch(Version target) {

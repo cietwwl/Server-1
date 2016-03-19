@@ -196,7 +196,15 @@ public class DataKVDao<T> {
 		}
 	}
 
-
+	/**
+	 * 尝试从内存获取对象
+	 * @param id
+	 * @return
+	 */
+	public T getFromMemory(String id){
+		return this.cache.getFromMemory(id);
+	}
+	
 	private String toJson(T t) {
 		String json = null;
 		

@@ -7,14 +7,11 @@ import com.rwbase.dao.peakArena.pojo.TablePeakArenaData;
 
 public class TablePeakArenaDataDAO extends DataKVDao<TablePeakArenaData> {
 
-	private static TablePeakArenaDataDAO instance;
+	private static TablePeakArenaDataDAO instance = new TablePeakArenaDataDAO();
 	private TablePeakArenaDataDAO(){}
 	
 	public static TablePeakArenaDataDAO getInstance()
 	{
-		if(instance == null){
-			instance = new TablePeakArenaDataDAO();
-		}
 		return instance;
 	}
 }
