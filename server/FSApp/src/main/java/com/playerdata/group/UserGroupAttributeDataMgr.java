@@ -28,7 +28,7 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
  * @date 2016年2月19日 上午10:19:46
  * @Description 个人的帮派数据
  */
-public class UserGroupAttributeDataMgr implements PlayerEventListener{
+public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	// private AttrData groupSkillAttrData;// 个人学习技能加成的属性，只存在于内存当中的简单对象
 	private UserGroupAttributeDataHolder holder;// 个人帮派数据的管理
 	private String userId;// 成员Id
@@ -37,7 +37,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 		this.userId = userId;
 		holder = new UserGroupAttributeDataHolder(userId);
 	}
-	
+
 	@Override
 	public void notifyPlayerCreated(Player player) {
 		UserGroupAttributeData data = new UserGroupAttributeData();
@@ -48,6 +48,23 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 
 	@Override
 	public void notifyPlayerLogin(Player player) {
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		String groupId = userGroupData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
+			return;
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			return;
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			return;
+		}
+
+		userGroupData.setGroupName(groupData.getGroupName());
 	}
 
 	@Override
@@ -112,11 +129,12 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 	 * @param player
 	 * @param groupId 有帮派的数据
 	 */
-	public void updateDataWhenHasGroup(Player player, String groupId) {
+	public void updateDataWhenHasGroup(Player player, String groupId, String groupName) {
 		UserGroupAttributeData baseData = holder.getUserGroupData();
 		baseData.setQuitGroupTime(0);
 		baseData.clearApplyGroupIdList();// 清除申请队列
 		baseData.setGroupId(groupId);
+		baseData.setGroupName(groupName);
 		// 同步数据
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
@@ -155,6 +173,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 	public void updateDataWhenQuitGroup(Player player, long quitTime) {
 		UserGroupAttributeData baseData = holder.getUserGroupData();
 		baseData.setGroupId("");
+		baseData.setGroupName("");
 		baseData.setQuitGroupTime(quitTime);
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
@@ -254,6 +273,18 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 
 			hero.getAttrMgr().reCal();
 		}
+	}
+
+	/**
+	 * 更新帮派的名字
+	 * 
+	 * @param player
+	 * @param groupName
+	 */
+	public void updateGroupName(Player player, String groupName) {
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		userGroupData.setGroupName(groupName);
+		holder.synData(player);
 	}
 
 	// /**

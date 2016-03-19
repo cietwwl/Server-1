@@ -250,6 +250,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			floorData.clearAllEnemyInfo();
 		}
 
+		List<String> allEnemyIdList = floorData.getAllEnemyIdList();
 		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
 		int size = floor + towerUpdateNum;
 		for (; floor < size; floor++) {
@@ -258,10 +259,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				continue;
 			}
 
-			int minFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
+			int minFighting = (int) (fighting * matchCfg.getMinFightingRatio());
 			int maxFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
 
-			ArmyInfo armyInfo = AngleArrayMatchHelper.getMatchArmyInfo(userId, level, minFighting, maxFighting);
+			ArmyInfo armyInfo = AngleArrayMatchHelper.getMatchArmyInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList);
 			if (armyInfo == null) {
 				armyInfo = AngleArrayMatchHelper.getRobotArmyInfo(matchCfg.getRobotId());
 			}
@@ -455,8 +456,14 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		TowerAwardCfg awardCfg = TowerAwardCfgDAO.getLevelTowerCfgByFloor(angleArrayData.getResetLevel(), floor);
 		if (awardCfg != null) {
 			// 过关奖励
-			dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(awardCfg.gold).append(",");
-			dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(awardCfg.towerCoin).append(",");
+			int gold = awardCfg.gold;
+			int towerCoin = awardCfg.towerCoin;
+			if (gold > 0) {
+				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold).append(",");
+			}
+			if (towerCoin > 0) {
+				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
+			}
 
 			List<TowerGoodsCfg> formatList = TowerGoodsCfgDAO.getInstance().getCfgsByFormatId(awardCfg.formatId);
 			if (formatList != null && !formatList.isEmpty()) {
@@ -473,7 +480,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 					int leastNum = goodCfg.getLeastNum();// 最小数量
 					int maxNum = goodCfg.getMaxNum();// 最大数量
 					int num = leastNum + (int) Math.random() * (maxNum - leastNum + 1);
-					dropReward.append(goodCfg.getItemId()).append("_").append(num).append(",");
+					if (num > 0) {
+						dropReward.append(goodCfg.getItemId()).append("_").append(num).append(",");
+					}
 				}
 			}
 		}

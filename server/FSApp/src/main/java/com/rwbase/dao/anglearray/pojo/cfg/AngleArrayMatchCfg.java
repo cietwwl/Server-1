@@ -8,6 +8,7 @@ package com.rwbase.dao.anglearray.pojo.cfg;
 public class AngleArrayMatchCfg {
 	private int uniqueId;// 单挑数据的唯一标识
 	private int level;// 匹配段的最低等级
+	private int maxLevel;// 匹配段位的最高等级（包含）
 	private int floor;// 层数
 	private float minFightingRatio;// 匹配最低战力下限
 	private float maxFightingRatio;// 匹配最高战力上限
@@ -39,6 +40,10 @@ public class AngleArrayMatchCfg {
 		return robotId;
 	}
 
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+
 	// //////////////////////////////////////////////SET区
 
 	public void setUniqueId(int uniqueId) {
@@ -63,5 +68,9 @@ public class AngleArrayMatchCfg {
 
 	public void setRobotId(int robotId) {
 		this.robotId = robotId;
+	}
+
+	public void setMaxLevel(int maxLevel) {
+		this.maxLevel = maxLevel;
 	}
 }

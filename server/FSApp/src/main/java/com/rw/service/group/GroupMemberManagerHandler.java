@@ -155,7 +155,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		final GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
 		if (groupData == null) {
 			GameLog.error("帮派成员接收", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -203,7 +203,7 @@ public class GroupMemberManagerHandler {
 				@Override
 				public void run(Player player) {
 					// 更新下个人的数据
-					player.getUserGroupAttributeDataMgr().updateDataWhenHasGroup(player, groupId);
+					player.getUserGroupAttributeDataMgr().updateDataWhenHasGroup(player, groupId, groupData.getGroupName());
 				}
 			};
 

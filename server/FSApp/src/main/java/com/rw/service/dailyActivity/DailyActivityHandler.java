@@ -64,7 +64,6 @@ public class DailyActivityHandler {
 		MsgDailyActivityResponse.Builder response = MsgDailyActivityResponse.newBuilder();
 		response.setResponseType(request.getRequestType());
 		response.setResultType(eDailyActivityResultType.SUCCESS);
-		response.setTaskId(request.getTaskId());
 		int taskId = request.getTaskId();
 		DailyActivityMgr activityMgr = player.getDailyActivityMgr();
 		//modify@2015-12-11 by Jamaz 增加领取日常任务的判断，防止被刷任务
@@ -74,17 +73,26 @@ public class DailyActivityHandler {
 			return returnFailResponse(response);
 		}
 		// 从任务列表中删除该任务
-		if(!activityMgr.RemoveTaskById(taskId)){
+//		if(!activityMgr.RemoveTaskById(taskId)){
+//			GameLog.error("daily", "takeFinish", player + "重复领取的日常任务：" + taskId, null);
+////			return returnFailResponse(response);
+//		}
+		
+		if(activityMgr.RemoveTaskById(taskId))
+		{
+			String[] reward = taskCfg.getReward().split(";");
+			for (int i = 0; i < reward.length; i++) {
+				String[] rewardItem = reward[i].split(":");
+				player.getItemBagMgr().addItem(Integer.parseInt(rewardItem[0]), Integer.parseInt(rewardItem[1]));
+			}
+			response.setTaskId(request.getTaskId());
+		}
+		else
+		{
 			GameLog.error("daily", "takeFinish", player + "重复领取的日常任务：" + taskId, null);
-			return returnFailResponse(response);
+			response.setResultType(eDailyActivityResultType.FAIL);
 		}
 		
-		String[] reward = taskCfg.getReward().split(";");
-		for (int i = 0; i < reward.length; i++) {
-			String[] rewardItem = reward[i].split(":");
-			player.getItemBagMgr().addItem(Integer.parseInt(rewardItem[0]), Integer.parseInt(rewardItem[1]));
-		}
-
 		// 返回任务列表
 		List<DailyActivityData> taskList = activityMgr.getAllTask();
 		for (DailyActivityData td : taskList) {

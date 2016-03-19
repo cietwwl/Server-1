@@ -11,12 +11,14 @@ import com.google.protobuf.ByteString;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.TowerMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
+import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
@@ -83,6 +85,7 @@ public class GMHandler {
 		funcCallBackMap.put("btreset", "clearBattleTowerResetTimes");
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
+		funcCallBackMap.put("reset", "resetTimes");
 	}
 
 	public boolean isActive() {
@@ -684,6 +687,39 @@ public class GMHandler {
 		}
 
 		hero.getEquipMgr().orderHeroWearEquip(hero);
+		return true;
+	}
+
+	public boolean resetTimes(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			return false;
+		}
+
+		if (player == null) {
+			return false;
+		}
+
+		String functionName = arrCommandContents[0];
+		if (functionName.equalsIgnoreCase("wx")) {
+			TowerMgr towerMgr = player.getTowerMgr();
+			TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
+			if (angleArrayData == null) {
+				return false;
+			}
+
+			angleArrayData.setResetTimes(0);
+			towerMgr.saveAngleArrayData();
+		} else if (functionName.equalsIgnoreCase("bt")) {
+			BattleTowerMgr battleTowerMgr = player.getBattleTowerMgr();
+			TableBattleTower tableBattleTower = battleTowerMgr.getTableBattleTower();
+			if (tableBattleTower == null) {
+				return false;
+			}
+
+			tableBattleTower.setResetTimes(0);
+			TableBattleTowerDao.getDao().update(tableBattleTower);
+		}
+
 		return true;
 	}
 }

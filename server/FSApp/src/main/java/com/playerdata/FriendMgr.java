@@ -1,6 +1,8 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -579,6 +581,19 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 		return friendItemToInfoList(map);
 	}
+	
+
+	private Comparator<FriendInfo> comparator = new Comparator<FriendInfo>() {
+
+		@Override
+		public int compare(FriendInfo o1, FriendInfo o2) {
+			if(o1.getLastLoginTime() - o2.getLastLoginTime() > 0){
+				return -1;
+			}else{
+				return 1;
+			}
+		}
+	};
 
 	private List<FriendInfo> friendItemToInfoList(Map<String, FriendItem> map) {
 		// 临时更改好友列表
@@ -593,6 +608,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			FriendItem item = it.next();
 			list.add(friendItemToInfo(item));
 		}
+		Collections.sort(list,comparator);
 		return list;
 	}
 

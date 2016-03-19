@@ -1,6 +1,9 @@
 package com.rwbase.dao.anglearray.pojo.db;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
@@ -125,5 +128,24 @@ public class TableAngleArrayFloorData {
 	@JsonIgnore
 	public Enumeration<ArmyInfo> getEnemyEnumeration() {
 		return this.enemyMap.elements();
+	}
+
+	/**
+	 * 获取匹配到的阵容的Id列表
+	 * 
+	 * @return
+	 */
+	@JsonIgnore
+	public List<String> getAllEnemyIdList() {
+		List<String> idList = new ArrayList<String>();
+		if (this.enemyMap == null) {
+			return idList;
+		}
+
+		for (Entry<Integer, ArmyInfo> e : enemyMap.entrySet()) {
+			idList.add(e.getValue().getPlayer().getRoleBaseInfo().getId());
+		}
+
+		return idList;
 	}
 }
