@@ -6,7 +6,6 @@ server/FSPlatform/log/
 server/FSPlatform/tmp/
 server/FSPlatform/.settings/
 
-*.project
 
 *.class
 .metadata/
