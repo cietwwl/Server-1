@@ -257,7 +257,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		CommodityCfg cfg = Commodity.get(index);
 		int prob = RandomUtil.nextInt(100);
 		if (prob > cfg.getProb()) {
-			getRandomCommondity(Commodity);
+			cfg = getRandomCommondity(Commodity);
 		}
 		return cfg;
 	}
@@ -344,7 +344,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		}
 		StoreData pStoreData = getStore(storeType);
 		eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
-		int refreshnum = pStoreData.getRefreshNum() + 1;
+		int refreshnum = pStoreData.getRefreshNum();
 		int cost = Integer.parseInt(cfg.getRefreshCost().split("_")[refreshnum]);
 		if (m_pPlayer.getReward(etype) < cost) {
 			return -2;
@@ -353,6 +353,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			return -3;
 		}
 		m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -cost);
+		refreshnum++;
 		pStoreData.setRefreshNum(refreshnum);
 		pStoreData.setCommodity(RandomList(storeType));
 		storeDataHolder.add(m_pPlayer, storeType);

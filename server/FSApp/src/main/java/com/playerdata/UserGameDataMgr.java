@@ -511,4 +511,12 @@ public class UserGameDataMgr {
 	public int getPeakArenaCoin() {
 		return this.userGameDataHolder.get().getPeakArenaCoin();
 	}
+	
+	public long getLastWorshipTime() {
+		return this.userGameDataHolder.get().getLastWorshipTime();
+	}
+
+	public void setLastWorshipTime(long lastWorshipTime) {
+		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
+	}
 }
