@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.protobuf.ByteString;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.worship.WorshipHandler;
@@ -120,25 +121,8 @@ public class WorshipMgr {
 	}
 	
 	/**是否可以膜拜*/
-	public boolean isWorship(String userId){
-		if(setWorship(ECareer.Warrior, userId) && setWorship(ECareer.SwordsMan, userId) &&
-				setWorship(ECareer.Magican, userId) && setWorship(ECareer.Priest, userId)){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	private boolean setWorship(ECareer career, String userId){
-		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		if(tableWorship == null){
-			tableWorship = new TableWorship();
-			tableWorship.setCareer(career.getValue());
-		}
-		if(tableWorship.getWorshippersList().contains(userId)){
-			return false;
-		}
-		return true;
+	public boolean isWorship(Player player){
+		return DateUtils.isResetTime(5, 0, 0, player.getUserGameDataMgr().getLastWorshipTime());
 	}
 	
 	/**添加膜拜者*/

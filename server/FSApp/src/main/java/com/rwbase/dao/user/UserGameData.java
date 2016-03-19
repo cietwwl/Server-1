@@ -19,11 +19,11 @@ public class UserGameData implements TableUserOtherIF {
 	private long version; // 数据版本
 	private boolean iphone;
 	private long coin;// 铜钱
-	
+
 	private int gold;// 赠送金钱,展示用
-	private int giftGold;//赠送金钱
-	private int chargeGold;//充值金钱
-	
+	private int giftGold;// 赠送金钱
+	private int chargeGold;// 充值金钱
+
 	private int power;// 体力
 	private int maxPower;// 最大体力
 	private long upgradeExp;// 升级经验
@@ -31,7 +31,6 @@ public class UserGameData implements TableUserOtherIF {
 	private int buyCoinTimes;// 当天购买铜钱次数
 	private int buySkillTimes;// 当天购买技能次数
 	private long lastLoginTime;// 登陆时间chuo
-
 
 	private int rookieFlag;// 新手标志
 	private int freeChat;// 免费聊天次数
@@ -50,14 +49,14 @@ public class UserGameData implements TableUserOtherIF {
 	private int unendingWarCoin;// 无尽战火;
 	private int towerCoin;// 无畏之塔币;
 
-
 	private int expCoin;// 秘境经验药;
 	private int strenCoin;// 秘境强化石;
 	private int peakArenaCoin;// 巅峰竞技场货币
 	private int arenaCoin; // 职业竞技场货币
-	
-	private long carrerChangeTime;//角色变换的时间
-	
+
+	private long carrerChangeTime;// 角色变换的时间
+	private volatile long lastWorshipTime;
+
 	private UserGameExtendInfo extendInfo;
 
 	public int getExpCoin() {
@@ -155,9 +154,9 @@ public class UserGameData implements TableUserOtherIF {
 	public void setGold(int gold) {
 		this.gold = gold;
 	}
-	
-	public void updateGold(){
-		this.gold = this.giftGold+this.chargeGold;
+
+	public void updateGold() {
+		this.gold = this.giftGold + this.chargeGold;
 	}
 
 	public int getRookieFlag() {
@@ -240,6 +239,7 @@ public class UserGameData implements TableUserOtherIF {
 	public void setLastLoginTime(long lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
+
 	public String getHeadFrame() {
 		return headFrame;
 	}
@@ -287,6 +287,7 @@ public class UserGameData implements TableUserOtherIF {
 	public void setArenaCoin(int arenaCoin) {
 		this.arenaCoin = arenaCoin;
 	}
+
 	public long getLastRecoverSkillPointTime() {
 		return lastRecoverSkillPointTime;
 	}
@@ -304,7 +305,7 @@ public class UserGameData implements TableUserOtherIF {
 	}
 
 	public UserGameExtendInfo getExtendInfo() {
-		if(extendInfo==null){
+		if (extendInfo == null) {
 			extendInfo = new UserGameExtendInfo();
 		}
 		return extendInfo;
@@ -329,6 +330,13 @@ public class UserGameData implements TableUserOtherIF {
 	public void setGiftGold(int giftGold) {
 		this.giftGold = giftGold;
 	}
-	
+
+	public long getLastWorshipTime() {
+		return lastWorshipTime;
+	}
+
+	public void setLastWorshipTime(long lastWorshipTime) {
+		this.lastWorshipTime = lastWorshipTime;
+	}
 
 }
