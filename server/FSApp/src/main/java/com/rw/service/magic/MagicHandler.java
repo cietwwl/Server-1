@@ -214,7 +214,18 @@ public class MagicHandler {
 			int useCount = Math.min(criticalEnhanceList.useCounts[k], matInfos.materialCounts[k]);
 			int unitExp = matInfos.unitExps[k];
 			String matId = matInfos.StoreIDs[k];
-			addedExp += (useCount+addedTime) * unitExp;
+			int increasedExp = (useCount+addedTime) * unitExp;
+			if (addedExp + increasedExp >= fullExp){
+				//调整使用数量,avExp是考虑暴击数量的平均经验
+				int avExp = (useCount+addedTime) * unitExp / useCount;
+				int newCount = (fullExp - addedExp) / avExp ;
+				if ((fullExp - addedExp) % avExp > 0){
+					newCount++;
+				}
+				useCount = newCount;
+				increasedExp = newCount * avExp;
+			}
+			addedExp += increasedExp;
 			if (useCount >0){
 				IUseItem useItem = new UseItem(matId, useCount);
 				useItemList.add(useItem);
