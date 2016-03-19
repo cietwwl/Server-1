@@ -31,7 +31,7 @@ public class CopyType {
 	 */
 	public final static int COPY_TYPE_WARFARE = 6;
 	/**
-	 * 试练塔
+	 * 封神台
 	 */
 	public final static int COPY_TYPE_BATTLETOWER = 7;
 	/**

@@ -8,6 +8,7 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.role.MainMsgHandler;
+import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.unendingwar.CfgUnendingWar;
@@ -90,14 +91,18 @@ public class UnendingWarHandler {
 	}
 
 	/*** 重置副本 ****/
-	public ByteString ResetNum(Player player) {
+	public ByteString ResetNum(Player player) 
+	{
+		int count =  player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);;
 		int num = player.unendingWarMgr.getTable().getResetNum();
-
-		player.unendingWarMgr.getTable().setResetNum(num + 1);
+		if(num<count)
+		{
+			player.unendingWarMgr.getTable().setResetNum(num + 1);
+		}
+		  
 		player.unendingWarMgr.getTable().setNum(0);
 
 		player.unendingWarMgr.save();
-
 		player.getUserGameDataMgr().addGold(-20);
 
 		// GameLog.debug("无尽战火结速");

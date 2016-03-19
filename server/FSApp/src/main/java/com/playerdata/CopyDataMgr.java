@@ -6,12 +6,11 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.log.GameLog;
-import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.CopyDataIF;
 import com.playerdata.readonly.CopyDataMgrIF;
 import com.playerdata.readonly.CopyInfoCfgIF;
 import com.playerdata.readonly.ItemInfoIF;
+import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyInfoCfgDAO;
 import com.rwbase.dao.copypve.CopyLevelCfgDAO;
@@ -22,69 +21,68 @@ import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
 import com.rwbase.dao.copypve.pojo.CopyLevelCfg;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 
-public class CopyDataMgr implements CopyDataMgrIF, PlayerEventListener {
+public class CopyDataMgr implements CopyDataMgrIF {
 
 	private TableCopyDataDAO tableCopyDataDAO = TableCopyDataDAO.getInstance();
+	private TableCopyData pTableCopyData;
 	private Player player;
-	private String userId;
-
-	private TableCopyData getTableCopyData() {
-		return tableCopyDataDAO.get(userId);
-	}
 
 	public void init(Player playerP) {
 		player = playerP;
-		this.userId = player.getUserId();
-	}
-
-	@Override
-	public void notifyPlayerCreated(Player player) {
+		pTableCopyData = tableCopyDataDAO.get(playerP.getUserId());
 		List<CopyInfoCfg> cfgList = CopyInfoCfgDAO.getInstance().getAllCfg();
-		// 角色第一次初始化
-		TableCopyData pTableCopyData = new TableCopyData();
-		pTableCopyData.setUserId(player.getUserId());
-		List<CopyData> copyList = new ArrayList<CopyData>();
-		for (CopyInfoCfgIF cfg : cfgList) {
-			CopyData data = new CopyData();
-			data.setCopyCount(cfg.getCount());
-			data.setResetCount(3);
-			data.setCopyType(cfg.getType());
-			data.setInfoId(cfg.getId());
-			data.setPassMap(getCelestialDegreeMap());
-			copyList.add(data);
-		}
-		pTableCopyData.setCopyList(copyList);
-		TableCopyDataDAO.getInstance().update(pTableCopyData);
-	}
-
-	@Override
-	public void notifyPlayerLogin(Player player) {
-		List<CopyInfoCfg> cfgList = CopyInfoCfgDAO.getInstance().getAllCfg();
-		List<CopyData> copyList = getTableCopyData().getCopyList();
-		for (CopyInfoCfgIF cfg : cfgList) {
-			// 调整bAdd位置
-			boolean bAdd = true;
-			for (CopyData data : copyList) {
-				if (data.getInfoId() == cfg.getId()) {
-					bAdd = false;
-					break;
-				}
-			}
-			if (bAdd) {
+		//角色第一次初始化
+		if (pTableCopyData == null) 
+		{
+			pTableCopyData = new TableCopyData();
+			pTableCopyData.setUserId(playerP.getUserId());
+			List<CopyData> copyList = new ArrayList<CopyData>();
+			for (CopyInfoCfgIF cfg : cfgList)
+			{
 				CopyData data = new CopyData();
 				data.setCopyCount(cfg.getCount());
-				data.setResetCount(3);
+//				data.setResetCount(getRestCountByCopyType(cfg.getType()));
 				data.setCopyType(cfg.getType());
 				data.setInfoId(cfg.getId());
 				data.setPassMap(getCelestialDegreeMap());
 				copyList.add(data);
 			}
+			pTableCopyData.setCopyList(copyList);
+		} 
+		else
+		{
+			List<CopyData> copyList = pTableCopyData.getCopyList();
+			for (CopyInfoCfgIF cfg : cfgList)
+			{
+				//调整bAdd位置
+				boolean bAdd = true;
+				for (CopyData data : copyList)
+				{
+					if (data.getInfoId() == cfg.getId()) 
+					{
+						bAdd = false;
+						break;
+					}
+				}
+				if (bAdd)
+				{
+					CopyData data = new CopyData();
+					data.setCopyCount(cfg.getCount());
+//					data.setResetCount(getRestCountByCopyType(cfg.getType()));
+					data.setCopyType(cfg.getType());
+					data.setInfoId(cfg.getId());
+					data.setPassMap(getCelestialDegreeMap());
+					copyList.add(data);
+				}
+			}
 		}
+		this.save();
 	}
 
 	public boolean save() {
-		tableCopyDataDAO.update(this.userId);
-		return true;
+		if (tableCopyDataDAO == null)
+			return false;
+		return tableCopyDataDAO.update(pTableCopyData);
 	}
 
 	public List<CopyInfoCfgIF> getTodayInfoCfg(int copyType) {
@@ -156,7 +154,7 @@ public class CopyDataMgr implements CopyDataMgrIF, PlayerEventListener {
 	 */
 
 	private CopyData getByInfoWithId(int infoId) {
-		List<CopyData> copyList = getTableCopyData().getCopyList();
+		List<CopyData> copyList = pTableCopyData.getCopyList();
 		CopyData data = null;
 		for (CopyData copy : copyList) {
 			if (copy.getInfoId() == infoId) {
@@ -203,45 +201,53 @@ public class CopyDataMgr implements CopyDataMgrIF, PlayerEventListener {
 			return;
 		}
 		data.setCopyCount(data.getCopyCount() - 1);
-		// modify@2015-12-28 增加挑战时间
+		//modify@2015-12-28 增加挑战时间
 		data.setLastChallengeTime(System.currentTimeMillis());
 		save();
 	}
 
 	// 重置次数
-	public CopyDataIF resetCopyCount(int infoId) {
+	public CopyDataIF resetCopyCount(int infoId,int copyType)
+	{
 		CopyData data = getByInfoWithId(infoId);
 		if (data == null)
 			return null;
-		if (data.getResetCount() <= 0) {
+		int count = getRestCountByCopyType(copyType);
+		if (data.getResetCount() >= count)
+		{
+			//重置次数达到上限
 			return null;
 		}
 		CopyInfoCfg cfg = (CopyInfoCfg) CopyInfoCfgDAO.getInstance().getCfgById(String.valueOf(infoId));
-		;
-		if (player.getUserGameDataMgr().addGold(-cfg.getCost()) < 0) {
+		
+		if (player.getUserGameDataMgr().addGold(-cfg.getCost()) < 0)
+		{
+			//重置钱不够
 			System.out.println("gold not enourgh...");
 			return null;
 		}
+		
 		data.setCopyCount(cfg.getCount());
-		data.setResetCount(data.getResetCount() - 1);
+		data.setResetCount(data.getResetCount() + 1);
 		save();
 		return data;
 	}
 
 	// 新的一天重置次数
 	public void resetDataInNewDay() {
-		TableCopyData pTableCopyData = getTableCopyData();
 		if (pTableCopyData == null) {
-			GameLog.error("CopyDataMgr", "#resetDataInNewDay()", "find TableCopyData fail:" + this.userId);
 			return;
 		}
 		List<CopyInfoCfgIF> cfgList = getSameDayInfoList();
 		List<CopyData> copyList = pTableCopyData.getCopyList();
-		for (CopyData data : copyList) {
-			for (CopyInfoCfgIF cfg : cfgList) {
-				if (data.getCopyType() == cfg.getType()) {
+		for (CopyData data : copyList)
+		{
+			for (CopyInfoCfgIF cfg : cfgList)
+			{
+				if (data.getCopyType() == cfg.getType()) 
+				{
 					data.setCopyCount(cfg.getCount());
-					data.setResetCount(3);
+					data.setResetCount(getRestCountByCopyType(cfg.getType()));
 					data.setLastFreeResetTime(System.currentTimeMillis());
 					break;
 				}
@@ -360,5 +366,37 @@ public class CopyDataMgr implements CopyDataMgrIF, PlayerEventListener {
 		}
 		return addList;
 	}
-
+	
+	private int getRestCountByCopyType(int copyType)
+	{
+		EPrivilegeDef vipType;
+		int count;
+		switch (copyType) 
+		{
+		case CopyType.COPY_TYPE_TRIAL_LQSG://练气山谷
+			vipType = EPrivilegeDef.TRIAL2_COPY_RESET_TIMES;
+			break;
+		case CopyType.COPY_TYPE_TRIAL_JBZD://聚宝之地
+			vipType = EPrivilegeDef.TRIAL1_COPY_RESET_TIMES;
+			break;
+		case CopyType.COPY_TYPE_CELESTIAL://生存幻境
+			vipType = EPrivilegeDef.COPY_CELESTAL;
+			break;
+		case CopyType.COPY_TYPE_WARFARE://无尽战火
+			vipType = EPrivilegeDef.WARFARE_COPY_RESET_TIMES;
+			break;
+		case CopyType.COPY_TYPE_TOWER://万仙阵
+			vipType = EPrivilegeDef.TOWER_RESET_TIMES;
+			break;
+		case CopyType.COPY_TYPE_BATTLETOWER://封神台
+			vipType = EPrivilegeDef.BATTLE_TOWER_TIMES;
+			break;
+		default:
+			vipType = EPrivilegeDef.TRIAL2_COPY_RESET_TIMES;
+			break;
+		}
+		
+		count = player.getVipMgr().GetMaxPrivilege(vipType);
+		return count;
+	}
 }
