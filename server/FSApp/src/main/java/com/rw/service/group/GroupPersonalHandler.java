@@ -401,7 +401,7 @@ public class GroupPersonalHandler {
 			group.getGroupLogMgr().addLog(player, log);
 
 			// 加入之后，设置加入的信息
-			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId);
+			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupData.getGroupName());
 
 			// 更新下排行榜成员
 			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
