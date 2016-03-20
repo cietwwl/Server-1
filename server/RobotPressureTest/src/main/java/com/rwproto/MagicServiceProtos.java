@@ -46,13 +46,13 @@ public final class MagicServiceProtos {
      */
     Magic_Upgrade(3, 3),
     /**
-     * <code>Magic_Ramdom = 4;</code>
+     * <code>Magic_Random = 4;</code>
      *
      * <pre>
      *获取强化的随机参数，不需要其他参数，返回criticalRamdom
      * </pre>
      */
-    Magic_Ramdom(4, 4),
+    Magic_Random(4, 4),
     ;
 
     /**
@@ -88,13 +88,13 @@ public final class MagicServiceProtos {
      */
     public static final int Magic_Upgrade_VALUE = 3;
     /**
-     * <code>Magic_Ramdom = 4;</code>
+     * <code>Magic_Random = 4;</code>
      *
      * <pre>
      *获取强化的随机参数，不需要其他参数，返回criticalRamdom
      * </pre>
      */
-    public static final int Magic_Ramdom_VALUE = 4;
+    public static final int Magic_Random_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -105,7 +105,7 @@ public final class MagicServiceProtos {
         case 1: return Magic_FORGE;
         case 2: return Magic_SMELT;
         case 3: return Magic_Upgrade;
-        case 4: return Magic_Ramdom;
+        case 4: return Magic_Random;
         default: return null;
       }
     }
@@ -288,7 +288,7 @@ public final class MagicServiceProtos {
      * <code>optional int32 CriticalForgeType = 3;</code>
      *
      * <pre>
-     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
      * </pre>
      */
     boolean hasCriticalForgeType();
@@ -296,7 +296,7 @@ public final class MagicServiceProtos {
      * <code>optional int32 CriticalForgeType = 3;</code>
      *
      * <pre>
-     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
      * </pre>
      */
     int getCriticalForgeType();
@@ -473,7 +473,7 @@ public final class MagicServiceProtos {
      * <code>optional int32 CriticalForgeType = 3;</code>
      *
      * <pre>
-     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
      * </pre>
      */
     public boolean hasCriticalForgeType() {
@@ -483,7 +483,7 @@ public final class MagicServiceProtos {
      * <code>optional int32 CriticalForgeType = 3;</code>
      *
      * <pre>
-     *强化暴击种类，0或者不指定这个值表示没有强化暴击
+     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
      * </pre>
      */
     public int getCriticalForgeType() {
@@ -882,7 +882,7 @@ public final class MagicServiceProtos {
        * <code>optional int32 CriticalForgeType = 3;</code>
        *
        * <pre>
-       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
        * </pre>
        */
       public boolean hasCriticalForgeType() {
@@ -892,7 +892,7 @@ public final class MagicServiceProtos {
        * <code>optional int32 CriticalForgeType = 3;</code>
        *
        * <pre>
-       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
        * </pre>
        */
       public int getCriticalForgeType() {
@@ -902,7 +902,7 @@ public final class MagicServiceProtos {
        * <code>optional int32 CriticalForgeType = 3;</code>
        *
        * <pre>
-       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
        * </pre>
        */
       public Builder setCriticalForgeType(int value) {
@@ -915,7 +915,7 @@ public final class MagicServiceProtos {
        * <code>optional int32 CriticalForgeType = 3;</code>
        *
        * <pre>
-       *强化暴击种类，0或者不指定这个值表示没有强化暴击
+       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
        * </pre>
        */
       public Builder clearCriticalForgeType() {
@@ -3202,7 +3202,7 @@ public final class MagicServiceProtos {
       "calRamdom\030\004 \001(\005\022\021\n\tresultTip\030\005 \001(\t*c\n\neM",
       "agicType\022\016\n\nMagic_TAKE\020\000\022\017\n\013Magic_FORGE\020" +
       "\001\022\017\n\013Magic_SMELT\020\002\022\021\n\rMagic_Upgrade\020\003\022\020\n" +
-      "\014Magic_Ramdom\020\004*)\n\020eMagicResultType\022\013\n\007S" +
+      "\014Magic_Random\020\004*)\n\020eMagicResultType\022\013\n\007S" +
       "UCCESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022Magic" +
       "ServiceProtos"
     };

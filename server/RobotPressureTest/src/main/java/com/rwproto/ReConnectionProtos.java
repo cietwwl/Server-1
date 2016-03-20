@@ -198,24 +198,6 @@ public final class ReConnectionProtos {
      */
     com.rwproto.ReConnectionProtos.SyncVersionOrBuilder getVersionListOrBuilder(
         int index);
-
-    // required int32 viewId = 4;
-    /**
-     * <code>required int32 viewId = 4;</code>
-     *
-     * <pre>
-     *客户端当前所在界面id
-     * </pre>
-     */
-    boolean hasViewId();
-    /**
-     * <code>required int32 viewId = 4;</code>
-     *
-     * <pre>
-     *客户端当前所在界面id
-     * </pre>
-     */
-    int getViewId();
   }
   /**
    * Protobuf type {@code ReConnectRequest}
@@ -284,11 +266,6 @@ public final class ReConnectionProtos {
                 mutable_bitField0_ |= 0x00000004;
               }
               versionList_.add(input.readMessage(com.rwproto.ReConnectionProtos.SyncVersion.PARSER, extensionRegistry));
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000004;
-              viewId_ = input.readInt32();
               break;
             }
           }
@@ -469,35 +446,10 @@ public final class ReConnectionProtos {
       return versionList_.get(index);
     }
 
-    // required int32 viewId = 4;
-    public static final int VIEWID_FIELD_NUMBER = 4;
-    private int viewId_;
-    /**
-     * <code>required int32 viewId = 4;</code>
-     *
-     * <pre>
-     *客户端当前所在界面id
-     * </pre>
-     */
-    public boolean hasViewId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 viewId = 4;</code>
-     *
-     * <pre>
-     *客户端当前所在界面id
-     * </pre>
-     */
-    public int getViewId() {
-      return viewId_;
-    }
-
     private void initFields() {
       accountId_ = "";
       zoneId_ = 0;
       versionList_ = java.util.Collections.emptyList();
-      viewId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -509,10 +461,6 @@ public final class ReConnectionProtos {
         return false;
       }
       if (!hasZoneId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasViewId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -538,9 +486,6 @@ public final class ReConnectionProtos {
       for (int i = 0; i < versionList_.size(); i++) {
         output.writeMessage(3, versionList_.get(i));
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(4, viewId_);
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -561,10 +506,6 @@ public final class ReConnectionProtos {
       for (int i = 0; i < versionList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, versionList_.get(i));
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, viewId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -693,8 +634,6 @@ public final class ReConnectionProtos {
         } else {
           versionListBuilder_.clear();
         }
-        viewId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -740,10 +679,6 @@ public final class ReConnectionProtos {
         } else {
           result.versionList_ = versionListBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.viewId_ = viewId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -794,9 +729,6 @@ public final class ReConnectionProtos {
             }
           }
         }
-        if (other.hasViewId()) {
-          setViewId(other.getViewId());
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -807,10 +739,6 @@ public final class ReConnectionProtos {
           return false;
         }
         if (!hasZoneId()) {
-          
-          return false;
-        }
-        if (!hasViewId()) {
           
           return false;
         }
@@ -1299,55 +1227,6 @@ public final class ReConnectionProtos {
           versionList_ = null;
         }
         return versionListBuilder_;
-      }
-
-      // required int32 viewId = 4;
-      private int viewId_ ;
-      /**
-       * <code>required int32 viewId = 4;</code>
-       *
-       * <pre>
-       *客户端当前所在界面id
-       * </pre>
-       */
-      public boolean hasViewId() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 viewId = 4;</code>
-       *
-       * <pre>
-       *客户端当前所在界面id
-       * </pre>
-       */
-      public int getViewId() {
-        return viewId_;
-      }
-      /**
-       * <code>required int32 viewId = 4;</code>
-       *
-       * <pre>
-       *客户端当前所在界面id
-       * </pre>
-       */
-      public Builder setViewId(int value) {
-        bitField0_ |= 0x00000008;
-        viewId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 viewId = 4;</code>
-       *
-       * <pre>
-       *客户端当前所在界面id
-       * </pre>
-       */
-      public Builder clearViewId() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        viewId_ = 0;
-        onChanged();
-        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ReConnectRequest)
@@ -2396,16 +2275,15 @@ public final class ReConnectionProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022ReConnection.proto\032\rDataSyn.proto\"h\n\020R" +
+      "\n\022ReConnection.proto\032\rDataSyn.proto\"X\n\020R" +
       "eConnectRequest\022\021\n\taccountId\030\001 \002(\t\022\016\n\006zo" +
       "neId\030\002 \002(\005\022!\n\013versionList\030\003 \003(\0132\014.SyncVe" +
-      "rsion\022\016\n\006viewId\030\004 \002(\005\"?\n\013SyncVersion\022\037\n\004" +
-      "type\030\001 \002(\0162\021.DataSyn.eSynType\022\017\n\007version" +
-      "\030\002 \002(\005\"=\n\021ReConnectResponse\022(\n\nresultTyp" +
-      "e\030\001 \002(\0162\024.ReConnectResultType*C\n\023ReConne" +
-      "ctResultType\022\025\n\021RETURN_GAME_LOGIN\020\001\022\025\n\021R" +
-      "ECONNECT_SUCCESS\020\002B!\n\013com.rwprotoB\022ReCon" +
-      "nectionProtos"
+      "rsion\"?\n\013SyncVersion\022\037\n\004type\030\001 \002(\0162\021.Dat" +
+      "aSyn.eSynType\022\017\n\007version\030\002 \002(\005\"=\n\021ReConn" +
+      "ectResponse\022(\n\nresultType\030\001 \002(\0162\024.ReConn" +
+      "ectResultType*C\n\023ReConnectResultType\022\025\n\021" +
+      "RETURN_GAME_LOGIN\020\001\022\025\n\021RECONNECT_SUCCESS" +
+      "\020\002B!\n\013com.rwprotoB\022ReConnectionProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2417,7 +2295,7 @@ public final class ReConnectionProtos {
           internal_static_ReConnectRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ReConnectRequest_descriptor,
-              new java.lang.String[] { "AccountId", "ZoneId", "VersionList", "ViewId", });
+              new java.lang.String[] { "AccountId", "ZoneId", "VersionList", });
           internal_static_SyncVersion_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_SyncVersion_fieldAccessorTable = new

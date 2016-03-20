@@ -605,9 +605,9 @@ public final class HeroServiceProtos {
     com.rwproto.HeroServiceProtos.TagUseItemOrBuilder getTagUseItemOrBuilder(
         int index);
 
-    // optional bool isAddBtnUse = 9;
+    // required bool isAddBtnUse = 9;
     /**
-     * <code>optional bool isAddBtnUse = 9;</code>
+     * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
      *是否是添加按钮消耗
@@ -615,7 +615,7 @@ public final class HeroServiceProtos {
      */
     boolean hasIsAddBtnUse();
     /**
-     * <code>optional bool isAddBtnUse = 9;</code>
+     * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
      *是否是添加按钮消耗
@@ -1012,11 +1012,11 @@ public final class HeroServiceProtos {
       return tagUseItem_.get(index);
     }
 
-    // optional bool isAddBtnUse = 9;
+    // required bool isAddBtnUse = 9;
     public static final int ISADDBTNUSE_FIELD_NUMBER = 9;
     private boolean isAddBtnUse_;
     /**
-     * <code>optional bool isAddBtnUse = 9;</code>
+     * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
      *是否是添加按钮消耗
@@ -1026,7 +1026,7 @@ public final class HeroServiceProtos {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional bool isAddBtnUse = 9;</code>
+     * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
      *是否是添加按钮消耗
@@ -1052,6 +1052,10 @@ public final class HeroServiceProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasHeroType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsAddBtnUse()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1402,6 +1406,10 @@ public final class HeroServiceProtos {
 
       public final boolean isInitialized() {
         if (!hasHeroType()) {
+          
+          return false;
+        }
+        if (!hasIsAddBtnUse()) {
           
           return false;
         }
@@ -2102,10 +2110,10 @@ public final class HeroServiceProtos {
         return tagUseItemBuilder_;
       }
 
-      // optional bool isAddBtnUse = 9;
+      // required bool isAddBtnUse = 9;
       private boolean isAddBtnUse_ ;
       /**
-       * <code>optional bool isAddBtnUse = 9;</code>
+       * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
        *是否是添加按钮消耗
@@ -2115,7 +2123,7 @@ public final class HeroServiceProtos {
         return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional bool isAddBtnUse = 9;</code>
+       * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
        *是否是添加按钮消耗
@@ -2125,7 +2133,7 @@ public final class HeroServiceProtos {
         return isAddBtnUse_;
       }
       /**
-       * <code>optional bool isAddBtnUse = 9;</code>
+       * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
        *是否是添加按钮消耗
@@ -2138,7 +2146,7 @@ public final class HeroServiceProtos {
         return this;
       }
       /**
-       * <code>optional bool isAddBtnUse = 9;</code>
+       * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
        *是否是添加按钮消耗
@@ -10446,7 +10454,7 @@ public final class HeroServiceProtos {
       " \001(\t\022\017\n\007equipId\030\004 \001(\005\022\r\n\005order\030\005 \001(\005\022\016\n\006" +
       "soltId\030\006 \001(\005\022\023\n\013heroModelId\030\007 \001(\t\022\037\n\ntag" +
       "UseItem\030\010 \003(\0132\013.TagUseItem\022\023\n\013isAddBtnUs" +
-      "e\030\t \001(\010\"\237\002\n\017MsgHeroResponse\022\'\n\016msgHeroRe" +
+      "e\030\t \002(\010\"\237\002\n\017MsgHeroResponse\022\'\n\016msgHeroRe" +
       "quest\030\001 \001(\0132\017.MsgHeroRequest\022)\n\017eHeroRes" +
       "ultType\030\002 \001(\0162\020.eHeroResultType\022/\n\022arrtT" +
       "ypeAndValeBuf\030\003 \003(\0132\023.ArrtTypeAndValeBuf" +
