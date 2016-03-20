@@ -860,6 +860,14 @@ public final class ItemBagProtos {
      * </pre>
      */
     Equip_AttachLevel(5, 6),
+    /**
+     * <code>Magic_Total_Exp = 7;</code>
+     *
+     * <pre>
+     *纪录法宝总经验，暂时用于服务端日志跟踪，其他逻辑不涉及，客户端不需要用
+     * </pre>
+     */
+    Magic_Total_Exp(6, 7),
     ;
 
     /**
@@ -910,6 +918,14 @@ public final class ItemBagProtos {
      * </pre>
      */
     public static final int Equip_AttachLevel_VALUE = 6;
+    /**
+     * <code>Magic_Total_Exp = 7;</code>
+     *
+     * <pre>
+     *纪录法宝总经验，暂时用于服务端日志跟踪，其他逻辑不涉及，客户端不需要用
+     * </pre>
+     */
+    public static final int Magic_Total_Exp_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -922,6 +938,7 @@ public final class ItemBagProtos {
         case 4: return Equip_Level;
         case 5: return Equip_AttachExp;
         case 6: return Equip_AttachLevel;
+        case 7: return Magic_Total_Exp;
         default: return null;
       }
     }
@@ -8005,11 +8022,12 @@ public final class ItemBagProtos {
       "_Gem\020\010\022\032\n\026Consume_EquipEhanceMat\020\t\022\031\n\025Co" +
       "nsume_MagicForgeMat\020\n\022\023\n\017Consume_ExpItem" +
       "\020\013\022\026\n\022Consume_AttachSoul\020\014\022\025\n\021Consume_Po" +
-      "werItem\020\r\022\026\n\022Consume_ScanTicket\020\016*\202\001\n\022EI" +
+      "werItem\020\r\022\026\n\022Consume_ScanTicket\020\016*\227\001\n\022EI" +
       "temAttributeType\022\r\n\tMagic_Exp\020\001\022\017\n\013Magic" +
       "_Level\020\002\022\017\n\013Magic_State\020\003\022\017\n\013Equip_Level" +
       "\020\004\022\023\n\017Equip_AttachExp\020\005\022\025\n\021Equip_AttachL" +
-      "evel\020\006B\034\n\013com.rwprotoB\rItemBagProtos"
+      "evel\020\006\022\023\n\017Magic_Total_Exp\020\007B\034\n\013com.rwpro",
+      "toB\rItemBagProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

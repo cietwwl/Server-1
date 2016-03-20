@@ -266,9 +266,22 @@ public class MagicHandler {
 			return SetReturnResponse(msgMagicResponse,"无法使用强化材料！");
 		}
 
-		itemData.setExtendAttr(EItemAttributeType.Magic_Exp_VALUE, "" + newExp);
-		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, "" + newLevel);
-
+		itemData.setExtendAttr(EItemAttributeType.Magic_Exp_VALUE, String.valueOf(newExp));
+		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(newLevel));
+		
+		{
+			String storeTotal = itemData.getExtendAttr(EItemAttributeType.Magic_Total_Exp_VALUE);
+			int storeTotalExp = newTotalExp;
+			if (!StringUtils.isBlank(storeTotal)){
+				try{
+					storeTotalExp = Integer.parseInt(storeTotal);
+					storeTotalExp += addedExp;
+				}catch(Exception ex){//忽略错误！
+				}
+			}
+			itemData.setExtendAttr(EItemAttributeType.Magic_Total_Exp_VALUE, String.valueOf(storeTotalExp));
+		}
+		
 		if (state == 1) {
 			player.getMagicMgr().updateMagic();
 		}
