@@ -250,8 +250,9 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查个人能不能修改帮派公告
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MODIFY_ANNOUNCEMENT_VALUE, memberData.getPost(), groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MODIFY_ANNOUNCEMENT_VALUE, memberData.getPost(), groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, tip);
 		}
 
 		// 屏蔽公告中的特殊字符
@@ -350,8 +351,9 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查个人权限能不能修改帮派名字
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MODIFY_GROUP_NAME_VALUE, memberData.getPost(), groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MODIFY_GROUP_NAME_VALUE, memberData.getPost(), groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, tip);
 		}
 
 		int[] price = gbct.getRenamePriceArr();
@@ -460,8 +462,9 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查个人能不能设置帮派
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.GROUP_SETTING_VALUE, memberData.getPost(), groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.GROUP_SETTING_VALUE, memberData.getPost(), groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, tip);
 		}
 
 		String newDeclaration = null;
@@ -558,8 +561,9 @@ public class GroupBaseManagerHandler {
 		int post = memberData.getPost();// 成员职位
 
 		// 检查个人权限能不能解散帮派
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.DISMISS_THE_GROUP_VALUE, post, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.DISMISS_THE_GROUP_VALUE, post, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, tip);
 		}
 
 		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
@@ -623,8 +627,9 @@ public class GroupBaseManagerHandler {
 		int post = memberData.getPost();// 成员职位
 
 		// 检查个人权限能不能取消解散帮派
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.CANCEL_DISMISS_THE_GROUP_VALUE, post, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.CANCEL_DISMISS_THE_GROUP_VALUE, post, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, tip);
 		}
 
 		// 移除需要解散列表中的数据

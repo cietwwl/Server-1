@@ -677,8 +677,9 @@ public class GroupPersonalHandler {
 
 		int post = memberData.getPost();
 		// 检查个人权限能不能转让帮主
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.TRANSFER_LEADER_POST_VALUE, post, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.TRANSFER_LEADER_POST_VALUE, post, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, tip);
 		}
 
 		if (playerId.equals(transferMemberId)) {// 转让给自己

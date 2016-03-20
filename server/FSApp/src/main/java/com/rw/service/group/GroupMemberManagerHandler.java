@@ -109,8 +109,9 @@ public class GroupMemberManagerHandler {
 		}
 
 		int post = memberData.getPost();
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MEMBER_RECEIVE_VALUE, post, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MEMBER_RECEIVE_VALUE, post, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
 
 		// 同步帮派的数据
@@ -184,8 +185,9 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 检查个人权限能不能接受成员
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MEMBER_RECEIVE_VALUE, memberData.getPost(), groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MEMBER_RECEIVE_VALUE, memberData.getPost(), groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
 
 		// 需要回应包含GroupMemberReceiveRsp消息
@@ -407,8 +409,9 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 检查修改官职的权限
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(functionType, selfPost, groupLevel)) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(functionType, selfPost, groupLevel);
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
 
 		if (playerId.equals(memberId)) {// 转让给自己
@@ -494,14 +497,15 @@ public class GroupMemberManagerHandler {
 		int selfPost = selfMemberData.getPost();
 
 		// 检查个人权限能不能踢出成员
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.CANCEL_NOMINATE_VALUE, selfPost, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.CANCEL_NOMINATE_VALUE, selfPost, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
 
 		int post = memberData.getPost();// 被取消任命的成员的当前职位
 		if (selfPost >= post) {// 自己的职位低于要操作的角色
 			GameLog.error("帮派取消任命", playerId, String.format("自己的职位[%s]，取消任命Id[%s]的职位[%s]，", selfPost, memberId, post));
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "权限不足");
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "不能对同职位或职位高的成员取消任命");
 		}
 
 		if (playerId.equals(memberId)) {// 转让给自己
@@ -579,8 +583,9 @@ public class GroupMemberManagerHandler {
 
 		int post = memberData.getPost();
 		// 检查个人权限能不能发送全员邮件
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.GROUP_EMAIL_ALL_VALUE, post, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.GROUP_EMAIL_ALL_VALUE, post, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
 
 		int emailTitleLength = gbct.getGroupEmailTitleCharLimit() * 2;// 邮件标题长度
@@ -705,8 +710,9 @@ public class GroupMemberManagerHandler {
 		int post = memberData.getPost();// 自己的职位
 
 		// 检查个人权限能不能踢出成员
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.KICK_OF_GROUP_VALUE, post, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.KICK_OF_GROUP_VALUE, post, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
 
 		int kickPost = kickMemberData.getPost();// 踢出成员的职位
