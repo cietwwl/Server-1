@@ -10,10 +10,12 @@
 	<bean class="com.rwbase.dao.arena.ArenaRobotCfgDAO"  init-method="initJsonCfg" />
 	<bean class="com.rwbase.dao.arena.ArenaRuleCfgDAO"  init-method="initJsonCfg" />
 	<bean class="com.rwbase.dao.arena.ArenaUpPrizeCfgDAO"  init-method="initJsonCfg" />
+	<!--
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerBossCfgDao"  init-method="initJsonCfg" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao"  init-method="initJsonCfg" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao"  init-method="initJsonCfg" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="initJsonCfg" />
+	-->
 	<bean class="com.rwbase.dao.business.SevenDayGifCfgDAO"  init-method="initJsonCfg" />
 	<bean class="com.rwbase.dao.copy.cfg.BuyLevelCfgDAO"  init-method="initJsonCfg" />
 	<bean class="com.rwbase.dao.copy.cfg.CopyCfgDAO"  init-method="initJsonCfg" />
