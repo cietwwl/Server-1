@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import com.common.Weight;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossCfg;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossTemplate;
@@ -19,14 +20,9 @@ import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossTemplate;
  * @Description 
  */
 public class BattleTowerBossCfgDao extends CfgCsvDao<BattleTowerBossCfg> {
-	private static BattleTowerBossCfgDao dao;
 
 	public static BattleTowerBossCfgDao getCfgDao() {
-		if (dao == null) {
-			dao = new BattleTowerBossCfgDao();
-		}
-
-		return dao;
+		return SpringContextUtil.getBean(BattleTowerBossCfgDao.class);
 	}
 
 	/** Boss按照等级排序,有特殊需求 */
@@ -64,8 +60,7 @@ public class BattleTowerBossCfgDao extends CfgCsvDao<BattleTowerBossCfg> {
 	/**
 	 * 通过角色等级获取随机出来的Boss信息
 	 * 
-	 * @param pLevel
-	 *            角色等级
+	 * @param pLevel 角色等级
 	 * @return
 	 */
 	public BattleTowerBossTemplate ranBossInfo(int pLevel) {

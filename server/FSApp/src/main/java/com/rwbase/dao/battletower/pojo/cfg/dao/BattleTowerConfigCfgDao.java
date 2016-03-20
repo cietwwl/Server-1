@@ -3,6 +3,7 @@ package com.rwbase.dao.battletower.pojo.cfg.dao;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerConfigCfg;
 
@@ -16,15 +17,11 @@ public class BattleTowerConfigCfgDao extends CfgCsvDao<BattleTowerConfigCfg> {
 	/** 整份配置的唯一标识Key */
 	private static final String UNIQUE_KEY = "battleTowerConfigKey";
 	private static BattleTowerConfigCfg unique_cfg;// 唯一的配置
+
 	// private static int strategy_cache_record_size;// 战略缓存记录长度
 
-	private static BattleTowerConfigCfgDao cfgDao;
-
 	public static BattleTowerConfigCfgDao getCfgDao() {
-		if (cfgDao == null) {
-			cfgDao = new BattleTowerConfigCfgDao();
-		}
-		return cfgDao;
+		return SpringContextUtil.getBean(BattleTowerConfigCfgDao.class);
 	}
 
 	@Override

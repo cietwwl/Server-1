@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerFloorCfg;
 
@@ -17,14 +18,10 @@ import com.rwbase.dao.battletower.pojo.cfg.BattleTowerFloorCfg;
  * @Description 试练塔层模版
  */
 public class BattleTowerFloorCfgDao extends CfgCsvDao<BattleTowerFloorCfg> {
-	private static BattleTowerFloorCfgDao cfgDao;
 	private Map<String, List<Integer>> groupMap;
 
 	public static BattleTowerFloorCfgDao getCfgDao() {
-		if (cfgDao == null) {
-			cfgDao = new BattleTowerFloorCfgDao();
-		}
-		return cfgDao;
+		return SpringContextUtil.getBean(BattleTowerFloorCfgDao.class);
 	}
 
 	@Override
