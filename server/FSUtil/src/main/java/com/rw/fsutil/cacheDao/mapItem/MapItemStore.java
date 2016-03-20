@@ -48,8 +48,7 @@ public class MapItemStore<T extends IMapItem> {
 		if (t == null) {
 			return false;
 		}
-		updater.submitUpdateTask(searchId);
-		return true;
+		return updateItem(t);
 	}
 
 	public boolean updateItem(final T item) {

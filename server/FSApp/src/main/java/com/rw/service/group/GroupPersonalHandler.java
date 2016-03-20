@@ -337,6 +337,10 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派不存在");
 		}
 
+		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派解散中，无法申请加入");
+		}
+
 		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
 		if (memberMgr.isAlreadyApply(playerId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您已经申请过该帮派");
