@@ -81,6 +81,9 @@ public class GameManager {
 		
 		/**** 服务器全启数据 ******/
 		GlobalDataMgr.init();
+		// 初始化 日志服务初始化
+		LogService.getInstance().init();
+
 		// 开服活动初始化
 		FresherActivityChecker.init();
 		/**** 公会数据 ******/
@@ -115,9 +118,6 @@ public class GameManager {
 
 		// author:lida 2015-09-23 启动游戏服通知平台服务器
 		PlatformGSService.init();
-
-		// 日志服务初始化
-		LogService.getInstance().initLogService();
 
 		// 初始化字符过滤
 		CharFilterFactory.init();
