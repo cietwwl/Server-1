@@ -23,7 +23,7 @@ public class ChatService implements FsService {
 				result = chatHandler.chatWorld(player, msgChatRequest);
 				break;
 			case CHAT_FAMILY:
-				result = chatHandler.chatInGruild(player, msgChatRequest);
+				result = chatHandler.chatInGroup(player, msgChatRequest);
 				break;
 			case CHAT_PERSON:
 				result = chatHandler.chatPerson(player, msgChatRequest);
