@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
+import com.bm.group.GroupBM;
 import com.bm.guild.GuildGTSMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.BattleTowerMgr;
@@ -24,6 +27,10 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
+import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -88,9 +95,11 @@ public class GMHandler {
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
-		//引导
+		// 引导
 		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
+		// 帮派作弊
+		funcCallBackMap.put("group", "groupChange");
 	}
 
 	public boolean isActive() {
@@ -102,20 +111,20 @@ public class GMHandler {
 	}
 
 	/** GM命令 */
-	
-	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player){
+
+	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
 		System.out.println("ReadNewGuideConfig command");
 		DebugNewGuideData debugSupport = DebugNewGuideData.getInstance();
 		debugSupport.ClearData();
 		boolean result = debugSupport.RefreshConfig();
 		return result;
 	}
-	
+
 	public boolean UpdateNewGuideConfig(String[] arrCommandContents, Player player) {
 		System.out.println("UpdateNewGuideConfig command");
 		DebugNewGuideData debugSupport = DebugNewGuideData.getInstance();
 		boolean result = debugSupport.RefreshConfig();
-		if (result){
+		if (result) {
 			GuidanceConfigs.Builder configfiles = GuidanceConfigs.newBuilder();
 			configfiles.setGuidanceData(debugSupport.getGuidanceData());
 			configfiles.setActionsData(debugSupport.getActionsData());
@@ -747,6 +756,59 @@ public class GMHandler {
 
 			tableBattleTower.setResetTimes(0);
 			TableBattleTowerDao.getDao().update(tableBattleTower);
+		}
+
+		return true;
+	}
+
+	public boolean groupChange(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			return false;
+		}
+
+		if (player == null) {
+			return false;
+		}
+
+		UserGroupAttributeDataIF baseGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String groupId = baseGroupData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
+			return false;
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			return false;
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			return false;
+		}
+
+		String userId = player.getUserId();
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
+		if (memberData == null) {
+			return false;
+		}
+
+		String functionName = arrCommandContents[0];
+		int value = Integer.parseInt(arrCommandContents[1]);
+
+		if (functionName.equalsIgnoreCase("gs")) {
+			int su = groupData.getSupplies() + value;
+			if (su < 0) {
+				return false;
+			}
+
+			group.getGroupBaseDataMgr().updateGroupDonate(player, group.getGroupLogMgr(), value, 0);
+		} else if (functionName.equalsIgnoreCase("pc")) {
+			int su = memberData.getContribution() + value;
+			if (su < 0) {
+				return false;
+			}
+
+			group.getGroupMemberMgr().updateMemberContribution(userId, value);
 		}
 
 		return true;
