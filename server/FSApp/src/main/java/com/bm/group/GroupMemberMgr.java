@@ -376,7 +376,7 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param headIcon
 	 */
-	public void updateMemberHeadIcon(String userId, String headIcon) {
+	public synchronized void updateMemberHeadIcon(String userId, String headIcon) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;

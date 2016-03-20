@@ -67,7 +67,7 @@ public class GroupListenerPlayerChange extends PlayerChangePopertySubscribe {
 
 			@Override
 			public void call(GroupMemberMgr memberMgr, String userId) {
-				memberMgr.updateMemberHeadIcon(userId, p.getTemplateId());
+				memberMgr.updateMemberTemplateId(userId, p.getTemplateId());
 			}
 		};
 
