@@ -178,6 +178,11 @@ public class GroupMemberHelper {
 			return "";
 		}
 
+		String groupName = groupBaseData.getGroupName();
+		if (!StringUtils.isEmpty(groupName)) {// 内存命中
+			return groupName;
+		}
+
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return "";
