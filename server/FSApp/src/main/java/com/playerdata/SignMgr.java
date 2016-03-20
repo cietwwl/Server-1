@@ -202,7 +202,7 @@ public class SignMgr implements PlayerEventListener {
 		TreeMap<String, SignData> signDataMap = signDataHolder.getSignDataMap();
 		if (signDataMap.size() < days) // 如果签到次数少于当前天数并且当前签到的数据不为双倍可用则为其添加补签的下一个数据...
 		{
-			if (signData.getLastSignDate() == null || signData.equals(signDataMap.lastEntry()))
+			if (signData.getLastSignDate() == null || signData.equals(getLastData()))
 				list.add(addRecord(true));
 		}
 
@@ -384,14 +384,14 @@ public class SignMgr implements PlayerEventListener {
 			data.setOpen(false);
 		}
 		signDataHolder.setCurrentResignCount(0);
-
 		if (isLastSignYet) {
 			addRecord(false);
 		} else {
-			map.lastEntry().getValue().setOpen(true);
-			map.lastEntry().getValue().setDouble(false);
-			map.lastEntry().getValue().setResign(false);
-			map.lastEntry().getValue().setOpenSignDate(Calendar.getInstance());
+			SignData lastData = getLastData();
+			lastData.setOpen(true);
+			lastData.setDouble(false);
+			lastData.setResign(false);
+			lastData.setOpenSignDate(Calendar.getInstance());
 			signDataHolder.setLastUpdate(Calendar.getInstance());
 		}
 	}
