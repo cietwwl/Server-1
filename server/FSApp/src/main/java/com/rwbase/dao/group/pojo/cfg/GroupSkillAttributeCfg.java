@@ -28,6 +28,16 @@ public class GroupSkillAttributeCfg {
 	private int moveSpeed;// 移动速度
 	private int addCure;// 受到治疗效果增加
 	private int cutCure;// 受到治疗效果减少
+	// ///////////////////////////////////////////百分比
+	private int attackPercent;// 攻击百分比
+	private int criticalHurtPercent;// 暴击伤害提升百分比
+	private int criticalPercent;// 暴击伤害提升百分比
+	private int attackVampirePercent; // 吸血百分比
+	private int spiritDefPercent;// 法术防御百分比
+	private int dodgePercent;// 闪避百分比
+	private int physiqueDefPercent;// 物理防御百分比
+	private int attackHurtPercent; // 伤害减免百分比
+	private int lifePercent;// 生命百分比
 
 	public int getId() {
 		return id;
@@ -115,5 +125,41 @@ public class GroupSkillAttributeCfg {
 
 	public int getCutCure() {
 		return cutCure;
+	}
+
+	public int getAttackPercent() {
+		return attackPercent;
+	}
+
+	public int getCriticalHurtPercent() {
+		return criticalHurtPercent;
+	}
+
+	public int getCriticalPercent() {
+		return criticalPercent;
+	}
+
+	public int getAttackVampirePercent() {
+		return attackVampirePercent;
+	}
+
+	public int getSpiritDefPercent() {
+		return spiritDefPercent;
+	}
+
+	public int getDodgePercent() {
+		return dodgePercent;
+	}
+
+	public int getPhysiqueDefPercent() {
+		return physiqueDefPercent;
+	}
+
+	public int getAttackHurtPercent() {
+		return attackHurtPercent;
+	}
+
+	public int getLifePercent() {
+		return lifePercent;
 	}
 }

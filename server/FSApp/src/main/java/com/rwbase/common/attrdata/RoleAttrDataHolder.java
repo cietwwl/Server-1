@@ -1,10 +1,13 @@
 package com.rwbase.common.attrdata;
 
+import java.util.Map;
+
 import com.common.BeanOperationHelper;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr.GroupSkillAttrType;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -85,8 +88,12 @@ public class RoleAttrDataHolder {
 		}
 
 		// 帮派技能属性加成
-		AttrData groupSkillAttrData = player.getUserGroupAttributeDataMgr().getGroupSkillAttrData();
+		Map<Integer, AttrData> groupSkillAttrDataMap = player.getUserGroupAttributeDataMgr().getGroupSkillAttrData();
+		AttrData groupSkillAttrData = groupSkillAttrDataMap.get(GroupSkillAttrType.GROUP_SKILL_ATTR.type);
+		AttrData groupSkillPercentAttrData = groupSkillAttrDataMap.get(GroupSkillAttrType.GROUP_SKILL_PRECENT_ATTR.type);
+		percentTotalData.plus(groupSkillPercentAttrData);
 		log += "[帮派技能（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(groupSkillAttrData) + "\n";
+		log += "[帮派技能（万份比值）]-" + BeanOperationHelper.getPositiveValueDiscription(groupSkillPercentAttrData) + "\n";
 
 		RoleAttrData roleAttrData = new RoleAttrData(pRole.getUUId(), equipTotalData, inlayTotalData, roleBaseTotalData, skillTotalData, fashionTotalData, groupSkillAttrData);
 		AttrData totalData = roleAttrData.getTotalData();
