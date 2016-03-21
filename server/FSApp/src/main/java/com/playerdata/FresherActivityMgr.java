@@ -85,6 +85,9 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		List<FresherActivityItem> fresherActivityItemList = fresherActivityItemHolder.getFresherActivityItemList();
 		
 		for (FresherActivityItem item : fresherActivityItemList) {
+			if(item.getType() == eActivityType.A_Final && item.getStartTime() <= System.currentTimeMillis() && !item.isGiftTaken()){
+				configList.add(String.valueOf(item.getCfgId()));
+			}
 			if (item.isFinish() && !item.isGiftTaken()) {
 				if (configList == null) {
 					configList = new ArrayList<String>();
