@@ -104,7 +104,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				json.put("patch", updateVersion.getPatch());
 				json.put("cdnDownloadUrl", updateVersion.getCdnDomain()
 						+ File.separator + updateVersion.getLocation());
-				json.put("cdnBackUpDownloadUrl",
+				json.put("cdnBackupDownloadUrl",
 						updateVersion.getCdnBackUpDomain() + File.separator
 								+ updateVersion.getLocation());
 				json.put("md5", updateVersion.getMd5());
