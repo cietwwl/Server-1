@@ -229,7 +229,7 @@ public class Robot {
 	 * @return
 	 */
 	public boolean equipAttach() {
-		gainItem(804001, 30);
+		// gainItem(804001, 30);
 		return EquipHandler.instance().equipAttach(client);
 	}
 
@@ -251,7 +251,7 @@ public class Robot {
 	 */
 	public boolean heroUpgrade() {
 		// 获取魂石
-		gainItem(708001, 10);
+		// gainItem(708001, 10);
 		return HeroHandler.getHandler().heroUpgrade(client);
 	}
 
@@ -414,53 +414,158 @@ public class Robot {
 		}
 	}
 
-	// // ////////////////////////////////////////////////////////////////////////试练塔
-	// private BattleTowerHandler battleTowerHandler = BattleTowerHandler.getHandler();
-	//
-	// /**
-	// * 打开试练塔主界面，这个是试练塔的第一步
-	// */
-	// public void openBattleTowerMainView() {
-	// battleTowerHandler.openMainView(client);
-	// }
-	//
-	// /**
-	// * 通知服务器挑战试练塔开始
-	// */
-	// public void battleTowerChallengeStart() {
-	// battleTowerHandler.challengeBattleStart(client);
-	// }
-	//
-	// /**
-	// * 通知服务器挑战试练塔层结束
-	// */
-	// public void battleTowerChallengeEnd() {
-	// battleTowerHandler.challengeBattleEnd(client);
-	// }
-	//
-	// /**
-	// * 通知服务器挑战试练塔Boss开始
-	// */
-	// public void battleTowerBossChallengeStart() {
-	// battleTowerHandler.challengeBossStart(client);
-	// }
-	//
-	// /**
-	// * 通知服务器挑战试练塔Boss结束
-	// */
-	// public void battleTowerBossChallengeEnd() {
-	// battleTowerHandler.challengeBossEnd(client);
-	// }
-	//
-	// /**
-	// * 使用幸运钥匙
-	// */
-	// public void battleTowerUseLuckyKey() {
-	// battleTowerHandler.useLuckyKey(client);
-	// }
-	//
-	// // ////////////////////////////////////////////////////////////////////////帮派
-	// public Client getClient() {
-	// return client;
-	// }
+//	// ////////////////////////////////////////////////////////////////////////试练塔
+//	private BattleTowerHandler battleTowerHandler = BattleTowerHandler.getHandler();
+//
+//	/**
+//	 * 打开试练塔主界面，这个是试练塔的第一步
+//	 */
+//	public void openBattleTowerMainView() {
+//		battleTowerHandler.openMainView(client);
+//	}
+//
+//	/**
+//	 * 通知服务器挑战试练塔开始
+//	 */
+//	public void battleTowerChallengeStart() {
+//		battleTowerHandler.challengeBattleStart(client);
+//	}
+//
+//	/**
+//	 * 通知服务器挑战试练塔层结束
+//	 */
+//	public void battleTowerChallengeEnd() {
+//		battleTowerHandler.challengeBattleEnd(client);
+//	}
+//
+//	/**
+//	 * 通知服务器挑战试练塔Boss开始
+//	 */
+//	public void battleTowerBossChallengeStart() {
+//		battleTowerHandler.challengeBossStart(client);
+//	}
+//
+//	/**
+//	 * 通知服务器挑战试练塔Boss结束
+//	 */
+//	public void battleTowerBossChallengeEnd() {
+//		battleTowerHandler.challengeBossEnd(client);
+//	}
+//
+//	/**
+//	 * 使用幸运钥匙
+//	 */
+//	public void battleTowerUseLuckyKey() {
+//		battleTowerHandler.useLuckyKey(client);
+//	}
+//
+//	// ////////////////////////////////////////////////////////////////////////帮派
+//	GroupBaseHandler groupBaseHandler = GroupBaseHandler.getHandler();
+//
+//	/**
+//	 * <pre>
+//	 * 创建帮派，帮派名字
+//	 * 名字要唯一，如果不唯一服务器会创建不成功
+//	 * </pre>
+//	 * 
+//	 * @param groupName
+//	 */
+//	public void createGroup(String groupName) {
+//		groupBaseHandler.createGorup(client, groupName);
+//	}
+//
+//	// ////////////////////////////////////////////////////////////////////////帮派个人
+//	GroupPersonalHandler groupPersonalHandler = GroupPersonalHandler.getHandler();
+//
+//	/**
+//	 * <pre>
+//	 * 如果想申请加入某个帮派，又不想输入帮派ID的话，最好调一下这个方法先
+//	 * 如果已经有了帮派的用户调用这个方法，会返回失败
+//	 * </pre>
+//	 */
+//	public void recommendGroup() {
+//		groupPersonalHandler.getRecommendGroup(client);
+//	}
+//
+//	/**
+//	 * <pre>
+//	 * 申请加入帮派，如果不知道帮派Id，就填入个null，<b>然后需要先调用{@link Robot#recommendGroup()}</b>
+//	 * </pre>
+//	 * 
+//	 * @param groupId
+//	 */
+//	public void applyGroup(String groupId) {
+//		groupPersonalHandler.applyJoinGroup(client, groupId);
+//	}
+//
+//	/**
+//	 * 获取个人的帮派数据，如果没有帮派会返回失败
+//	 * 
+//	 * @param groupId
+//	 */
+//	public void getGroupInfo(String groupId) {
+//		groupPersonalHandler.getGroupInfo(client);
+//	}
+//
+//	/**
+//	 * 帮派贡献，如果次数已经用完，或者没有帮派会返回失败
+//	 */
+//	public void groupDonate() {
+//		groupPersonalHandler.groupDonate(client);
+//	}
+//
+//	// ////////////////////////////////////////////////////////////////////////帮派成员管理
+//	GroupMemberHandler groupMemberHandler = GroupMemberHandler.getHandler();
+//
+//	/**
+//	 * <pre>
+//	 * 接受一个申请成员，都是从已经申请的列表中随机移除一个人
+//	 * 如果传入的userId是null，就会从申请列表中随机通过一个
+//	 * </pre>
+//	 * 
+//	 * @param userId 申请成员的Id
+//	 */
+//	public void receiveApplyMemberOne(String userId) {
+//		groupMemberHandler.memberReceive(client, userId);
+//	}
+//
+//	/**
+//	 * <pre>
+//	 * 接受一个申请成员，都是从已经申请的列表中随机移除一个人
+//	 * 如果传入的userId是null，就会从申请列表中随机拒绝一个
+//	 * </pre>
+//	 * 
+//	 * @param userId 要拒绝的申请成员的Id
+//	 */
+//	public void refuseApplyMemberOne(String userId) {
+//		groupMemberHandler.memberRefuse(client, userId);
+//	}
+//
+//	/**
+//	 * 接受所有的申请成员
+//	 */
+//	public void receiveApplyMemberAll() {
+//		groupMemberHandler.memberReceiveAll(client);
+//	}
+//
+//	/**
+//	 * 拒绝所有的申请成员
+//	 */
+//	public void refuseApplyMemberAll() {
+//		groupMemberHandler.memberRefuseAll(client);
+//	}
+//
+//	/**
+//	 * 成员任命
+//	 */
+//	public void memberNominate() {
+//		groupMemberHandler.memberNominate(client);
+//	}
+//
+//	/**
+//	 * 取消成员任命
+//	 */
+//	public void memberCancelNominate() {
+//		groupMemberHandler.memberCancelNominate(client);
+//	}
 }
