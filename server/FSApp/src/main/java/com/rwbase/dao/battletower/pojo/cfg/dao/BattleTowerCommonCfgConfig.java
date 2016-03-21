@@ -44,7 +44,7 @@ public class BattleTowerCommonCfgConfig extends ConfigMap<String, BattleTowerCom
 		openboxtip = boxtip;
 
 		BattleTowerCommonCfg useKeyCountCfg = this.getCfgById("UseKeyCount");
-		int useKeyCount = 10;
+		int useKeyCount = 3;
 		if (useKeyCountCfg != null) {
 			try {
 				useKeyCount = Integer.parseInt(useKeyCountCfg.getValue());
