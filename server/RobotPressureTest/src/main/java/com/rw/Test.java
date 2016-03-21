@@ -22,15 +22,75 @@ public class Test {
 		// handler.challengeBossEnd(client);
 		// }
 
-		// -------------------------------旧版本服务器机器人
-		Robot robot = loginRobot("hclovehf3013");
+		// ///////////////////////////////////////////试练塔
+		// Robot robot = loginRobot("hclovehf3013");
+		// robot.openBattleTowerMainView();
+		// robot.battleTowerResetData();
+		//
+		// for (int i = 0; i < 10; i++) {
+		// robot.battleTowerChallengeStart();
+		// robot.battleTowerChallengeEnd();
+		//
+		// robot.battleTowerBossChallengeStart();
+		// robot.battleTowerBossChallengeEnd();
+		//
+		// robot.battleTowerUseLuckyKey();
+		// }
+
+		// ///////////////////////////////////////////帮派
+		/**
+		 * <pre>
+		 * name:groupRobot1,id:100100001600 接受
+		 * name:groupRobot2,id:100100001601 接受
+		 * name:groupRobot3,id:100100001602 接受
+		 * name:groupRobot4,id:100100001603 接受
+		 * name:groupRobot5,id:100100001604 接受
+		 * name:groupRobot6,id:100100001605 接受
+		 * name:groupRobot7,id:100100001606 拒绝
+		 * name:groupRobot8,id:100100001607 拒绝
+		 * name:groupRobot9,id:100100001608 拒绝
+		 * name:groupRobot10,id:100100001609 接受
+		 * </pre>
+		 */
+
+		// String groupId = "100110033";
+		Robot robot = loginRobot("groupRobot9");
+		robot.addGold(1000);
+		robot.addCoin(100000);
+		robot.createGroup("作弊捡来的");
+		for (int i = 0; i < 2; i++) {
+			robot.groupDonate();
+		}
+
+		// robot.refuseApplyMemberAll();
+		// robot.getGroupInfo();
+		// robot.receiveApplyMemberAll();
+		// robot.memberNominate();
+		// robot.memberCancelNominate();
+		// robot.receiveApplyMemberOne("100100001609");
+		// robot.refuseApplyMemberOne("100100001607");
+		// robot.refuseApplyMemberOne("100100001606");
+
+		// StringBuilder sb = new StringBuilder();
+		// for (int i = 1; i < 11; i++) {
+		// // Robot robot = createRobot("groupRobot" + i);
+		// // robot.upgrade(22);
+		// // robot.applyGroup(groupId);
+		// String accountId = "groupRobot" + i;
+		// Robot robot = loginRobot(accountId);
+		// robot.applyGroup(groupId);
+		// // sb.append("name:").append(accountId).append(",id:").append(robot.getUserId()).append("\n");
+		// }
+		// System.err.println(sb.toString());
+
+		// ///////////////////////////////////////////旧服务器测试机器人
 		// robot.buyRandom();
 		// robot.wearEquip();
 		// robot.equipAttach();
 		// robot.upgrade(35);
-		// robot.heroAdvance();
+		// // robot.heroAdvance();
 		// robot.heroUpgrade();
-		robot.magicForge();
+		// robot.magicForge();
 
 		// handler.sweepStart(client);
 		// handler.sweepEnd(client);

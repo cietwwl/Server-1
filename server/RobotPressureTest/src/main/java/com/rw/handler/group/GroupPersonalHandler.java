@@ -6,6 +6,7 @@ import java.util.Random;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.group.data.UserGroupData;
 import com.rw.handler.group.msg.GroupPersonalMsgReceiver;
 import com.rwproto.GroupCommonProto.GroupRecommentType;
 import com.rwproto.GroupCommonProto.RequestType;
@@ -115,16 +116,23 @@ public class GroupPersonalHandler {
 	 * @param client
 	 * @return
 	 */
-	public boolean applyJoinGroup(Client client) {
-		List<GroupSimpleInfo> simpleInfoList = client.getGroupCacheData().getSimpleInfoList();
-		if (simpleInfoList == null || simpleInfoList.isEmpty()) {
-			RobotLog.info("申请加入帮派没有找到随机的帮派数据");
+	public boolean applyJoinGroup(Client client, String groupId) {
+		UserGroupData userGroupData = client.getUserGroupDataHolder().getUserGroupData();
+		String hasGroup = userGroupData.getGroupId();
+		if (hasGroup != null && !hasGroup.isEmpty()) {
+			RobotLog.info("客户端记录到用户用帮派，不用再申请");
 			return false;
 		}
 
-		int index = r.nextInt(simpleInfoList.size());
-
-		String groupId = simpleInfoList.get(index).getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			List<GroupSimpleInfo> simpleInfoList = client.getGroupCacheData().getSimpleInfoList();
+			if (simpleInfoList == null || simpleInfoList.isEmpty()) {
+				RobotLog.info("申请加入帮派没有找到随机的帮派数据");
+				return false;
+			}
+			int index = r.nextInt(simpleInfoList.size());
+			groupId = simpleInfoList.get(index).getGroupId();
+		}
 
 		GroupPersonalCommonReqMsg.Builder commonReq = GroupPersonalCommonReqMsg.newBuilder();
 		commonReq.setReqType(RequestType.APPLY_JOIN_GROUP_TYPE);
@@ -169,7 +177,7 @@ public class GroupPersonalHandler {
 	 */
 	public boolean transferGroupLeader(Client client) {
 		// 随机一个帮派成员
-		String memberId = client.getNormalMemberHolder().getRandomMemberId(r);
+		String memberId = client.getNormalMemberHolder().getRandomMemberId(r, r.nextBoolean());
 
 		GroupPersonalCommonReqMsg.Builder commonReq = GroupPersonalCommonReqMsg.newBuilder();
 		commonReq.setReqType(RequestType.TRANSFER_LEADER_POST_TYPE);

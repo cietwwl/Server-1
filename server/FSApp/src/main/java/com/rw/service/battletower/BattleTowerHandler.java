@@ -208,7 +208,7 @@ public class BattleTowerHandler {
 		rsp.setOpenBoxTip(commonCfgHelper.getOpenboxtip());
 		rsp.setUseKeyCount(commonCfgHelper.getUsekeycount());
 
-		System.err.println(rsp.build());
+		// System.err.println(rsp.build());
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		// 更新数据到数据库

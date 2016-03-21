@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.rw.Client;
 import com.rw.common.MsgReciver;
+import com.rw.common.RobotLog;
 import com.rw.handler.group.msg.GroupMemberMsgReceiver;
 import com.rwproto.GroupCommonProto.GroupPost;
 import com.rwproto.GroupCommonProto.RequestType;
@@ -53,12 +54,46 @@ public class GroupMemberHandler {
 	}
 
 	/**
-	 * 帮派成员接受或者拒绝
+	 * 接受一个申请成员
 	 * 
 	 * @param client
 	 * @return
 	 */
-	public boolean memberReceive(Client client) {
+	public boolean memberReceive(Client client, String userId) {
+		return memberReceiveOrRefuse(client, userId, true, false, "接受一个申请成员");
+	}
+
+	/**
+	 * 拒绝一个申请成员
+	 * 
+	 * @param client
+	 * @return
+	 */
+	public boolean memberRefuse(Client client, String userId) {
+		return memberReceiveOrRefuse(client, userId, false, false, "拒绝一个申请成员");
+	}
+
+	/**
+	 * 接受所有申请成员
+	 * 
+	 * @param client
+	 * @return
+	 */
+	public boolean memberReceiveAll(Client client) {
+		return memberReceiveOrRefuse(client, null, true, true, "接受所有申请成员");
+	}
+
+	/**
+	 * 拒绝所有申请成员
+	 * 
+	 * @param client
+	 * @return
+	 */
+	public boolean memberRefuseAll(Client client) {
+		return memberReceiveOrRefuse(client, null, false, true, "拒绝所有申请成员");
+	}
+
+	private boolean memberReceiveOrRefuse(Client client, String randomMemberId, boolean isReceive, boolean all, String protoType) {
 		GroupMemberMgrCommonReqMsg.Builder commonReq = GroupMemberMgrCommonReqMsg.newBuilder();
 		commonReq.setReqType(RequestType.GROUP_MEMBER_RECEIVE_TYPE);
 		String groupVersion = client.getGroupVersion();
@@ -67,18 +102,25 @@ public class GroupMemberHandler {
 		}
 
 		GroupMemberReceiveReqMsg.Builder req = GroupMemberReceiveReqMsg.newBuilder();
-		req.setIsReceive(r.nextBoolean());// 接受或者拒绝
-		boolean b = r.nextBoolean();
-		if (!b) {// 接受或者拒绝个人
-			req.setApplyMemberId(client.getApplyMemberHolder().getRandomMemberId(r));
+		req.setIsReceive(isReceive);// 接受或者拒绝
+		if (!all) {// 接受或者拒绝个人
+			if (randomMemberId == null || randomMemberId.isEmpty()) {
+				randomMemberId = client.getApplyMemberHolder().getRandomMemberId(r);
+				if (randomMemberId == null || randomMemberId.isEmpty()) {
+					RobotLog.info("没有任何申请成员！");
+					return false;
+				}
+			}
+
+			req.setApplyMemberId(randomMemberId);
 		}
 
 		commonReq.setGroupMemberReceiveReq(req);
 
-		return client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), getMsgReciver("接受或者拒绝申请"));
+		return client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), getMsgReciver(protoType));
 	}
 
-	private static final GroupPost[] post = new GroupPost[] { GroupPost.ASSISTANT_LEADER, GroupPost.LEADER, GroupPost.MEMBER, GroupPost.OFFICEHOLDER };
+	private static final GroupPost[] post = new GroupPost[] { GroupPost.ASSISTANT_LEADER, GroupPost.OFFICEHOLDER };
 
 	/**
 	 * 成员任命
@@ -95,7 +137,7 @@ public class GroupMemberHandler {
 		}
 
 		GroupNominatePostReqMsg.Builder req = GroupNominatePostReqMsg.newBuilder();
-		req.setMemberId(client.getNormalMemberHolder().getRandomMemberId(r));
+		req.setMemberId(client.getNormalMemberHolder().getRandomMemberId(r, false));
 		req.setPost(post[r.nextInt(post.length)]);
 
 		commonReq.setGroupNominatePostReq(req);
@@ -118,7 +160,7 @@ public class GroupMemberHandler {
 		}
 
 		GroupCancelNominatePostReqMsg.Builder req = GroupCancelNominatePostReqMsg.newBuilder();
-		req.setMemberId(client.getNormalMemberHolder().getRandomMemberId(r));
+		req.setMemberId(client.getNormalMemberHolder().getRandomMemberId(r, true));
 
 		commonReq.setGroupCancelNominatePostReq(req);
 
@@ -163,7 +205,7 @@ public class GroupMemberHandler {
 		}
 
 		KickMemberReqMsg.Builder req = KickMemberReqMsg.newBuilder();
-		req.setMemberId(client.getNormalMemberHolder().getRandomMemberId(r));
+		req.setMemberId(client.getNormalMemberHolder().getRandomMemberId(r, false));
 
 		commonReq.setKickMemberReq(req);
 
