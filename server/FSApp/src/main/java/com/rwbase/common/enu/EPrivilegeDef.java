@@ -51,5 +51,12 @@ public enum EPrivilegeDef {
 	/**时装购买*/
 	FASHION_BUY_OPEN,
 	/**签到补签开放*/
-	RESIGN_OPEN
+	RESIGN_OPEN,
+	
+	/**生存幻境重置次数*/
+	COPY_CELESTAL,
+	/**万仙阵重置次数*/
+	TOWER_RESET_TIMES,
+	/**封神台**/
+	BATTLE_TOWER_TIMES
 }

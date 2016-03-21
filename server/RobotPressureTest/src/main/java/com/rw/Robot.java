@@ -6,7 +6,6 @@ import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
 import com.rw.handler.battle.PVEHandler;
 import com.rw.handler.battle.PVPHandler;
-import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.email.EmailHandler;
@@ -230,7 +229,7 @@ public class Robot {
 	 * @return
 	 */
 	public boolean equipAttach() {
-		// gainItem(804001, 30);
+		gainItem(804001, 30);
 		return EquipHandler.instance().equipAttach(client);
 	}
 
@@ -278,13 +277,13 @@ public class Robot {
 	}
 
 	// 100100001542-(3013) 100100000309-(HC) 100100001561-(3012)
-	private static final String friendUserId = "100100000309";
+	// private static final String friendUserId = "100100000309";
 
-	public boolean givePower() {
+	public boolean givePower(String friendUserId) {
 		return FriendHandler.instance().givePowerOne(client, friendUserId);
 	}
 
-	public boolean receivePower() {
+	public boolean receivePower(String friendUserId) {
 		return FriendHandler.instance().receivePowerOne(client, friendUserId);
 	}
 
@@ -415,8 +414,53 @@ public class Robot {
 		}
 	}
 
-	public BattleTowerHandler getBattleTowerHandler() {
-		return new BattleTowerHandler(client);
-	}
-
+	// // ////////////////////////////////////////////////////////////////////////试练塔
+	// private BattleTowerHandler battleTowerHandler = BattleTowerHandler.getHandler();
+	//
+	// /**
+	// * 打开试练塔主界面，这个是试练塔的第一步
+	// */
+	// public void openBattleTowerMainView() {
+	// battleTowerHandler.openMainView(client);
+	// }
+	//
+	// /**
+	// * 通知服务器挑战试练塔开始
+	// */
+	// public void battleTowerChallengeStart() {
+	// battleTowerHandler.challengeBattleStart(client);
+	// }
+	//
+	// /**
+	// * 通知服务器挑战试练塔层结束
+	// */
+	// public void battleTowerChallengeEnd() {
+	// battleTowerHandler.challengeBattleEnd(client);
+	// }
+	//
+	// /**
+	// * 通知服务器挑战试练塔Boss开始
+	// */
+	// public void battleTowerBossChallengeStart() {
+	// battleTowerHandler.challengeBossStart(client);
+	// }
+	//
+	// /**
+	// * 通知服务器挑战试练塔Boss结束
+	// */
+	// public void battleTowerBossChallengeEnd() {
+	// battleTowerHandler.challengeBossEnd(client);
+	// }
+	//
+	// /**
+	// * 使用幸运钥匙
+	// */
+	// public void battleTowerUseLuckyKey() {
+	// battleTowerHandler.useLuckyKey(client);
+	// }
+	//
+	// // ////////////////////////////////////////////////////////////////////////帮派
+	// public Client getClient() {
+	// return client;
+	// }
 }

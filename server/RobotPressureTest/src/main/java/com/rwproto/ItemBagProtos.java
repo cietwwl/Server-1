@@ -69,6 +69,22 @@ public final class ItemBagProtos {
      * </pre>
      */
     UseItem(6, 6),
+    /**
+     * <code>ItemBag_MagicWeapon_Decompose = 7;</code>
+     *
+     * <pre>
+     *分解法宝或者法宝碎片，useItemInfo指定碎片的id和数量，分解法宝的时候只需要指定id，服务端会忽略数量字段，通过ResponseInfo返回操作结果
+     * </pre>
+     */
+    ItemBag_MagicWeapon_Decompose(7, 7),
+    /**
+     * <code>ItemBag_MagicForgeMat_Buy = 8;</code>
+     *
+     * <pre>
+     *购买法宝强化物品,指定需要购买的强化物品模板id和数量(BuyItemInfo)
+     * </pre>
+     */
+    ItemBag_MagicForgeMat_Buy(8, 8),
     ;
 
     /**
@@ -127,6 +143,22 @@ public final class ItemBagProtos {
      * </pre>
      */
     public static final int UseItem_VALUE = 6;
+    /**
+     * <code>ItemBag_MagicWeapon_Decompose = 7;</code>
+     *
+     * <pre>
+     *分解法宝或者法宝碎片，useItemInfo指定碎片的id和数量，分解法宝的时候只需要指定id，服务端会忽略数量字段，通过ResponseInfo返回操作结果
+     * </pre>
+     */
+    public static final int ItemBag_MagicWeapon_Decompose_VALUE = 7;
+    /**
+     * <code>ItemBag_MagicForgeMat_Buy = 8;</code>
+     *
+     * <pre>
+     *购买法宝强化物品,指定需要购买的强化物品模板id和数量(BuyItemInfo)
+     * </pre>
+     */
+    public static final int ItemBag_MagicForgeMat_Buy_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -140,6 +172,8 @@ public final class ItemBagProtos {
         case 4: return ItemBag_Drop;
         case 5: return ItemBag_Sync;
         case 6: return UseItem;
+        case 7: return ItemBag_MagicWeapon_Decompose;
+        case 8: return ItemBag_MagicForgeMat_Buy;
         default: return null;
       }
     }
@@ -464,6 +498,312 @@ public final class ItemBagProtos {
   }
 
   /**
+   * Protobuf enum {@code ConsumeTypeDef}
+   *
+   * <pre>
+   *item.xlsx Consume表的consumeType定义
+   * </pre>
+   */
+  public enum ConsumeTypeDef
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>Consume_RoleEquip = 1;</code>
+     *
+     * <pre>
+     *主角装备
+     * </pre>
+     */
+    Consume_RoleEquip(0, 1),
+    /**
+     * <code>Consume_Magic = 2;</code>
+     *
+     * <pre>
+     *法宝
+     * </pre>
+     */
+    Consume_Magic(1, 2),
+    /**
+     * <code>Consume_Fashion = 3;</code>
+     *
+     * <pre>
+     *时装
+     * </pre>
+     */
+    Consume_Fashion(2, 3),
+    /**
+     * <code>Consume_HeroEquip = 4;</code>
+     *
+     * <pre>
+     *佣兵装备
+     * </pre>
+     */
+    Consume_HeroEquip(3, 4),
+    /**
+     * <code>Consume_Magic_Piece = 5;</code>
+     *
+     * <pre>
+     *装备碎片
+     * </pre>
+     */
+    Consume_Magic_Piece(4, 5),
+    /**
+     * <code>Consume_EquipScroll = 6;</code>
+     *
+     * <pre>
+     *装备卷轴
+     * </pre>
+     */
+    Consume_EquipScroll(5, 6),
+    /**
+     * <code>Consume_SoulStone = 7;</code>
+     *
+     * <pre>
+     *佣兵灵魂石
+     * </pre>
+     */
+    Consume_SoulStone(6, 7),
+    /**
+     * <code>Consume_Gem = 8;</code>
+     *
+     * <pre>
+     *宝石
+     * </pre>
+     */
+    Consume_Gem(7, 8),
+    /**
+     * <code>Consume_EquipEhanceMat = 9;</code>
+     *
+     * <pre>
+     *主角装备强化材料
+     * </pre>
+     */
+    Consume_EquipEhanceMat(8, 9),
+    /**
+     * <code>Consume_MagicForgeMat = 10;</code>
+     *
+     * <pre>
+     *法宝锻造材料
+     * </pre>
+     */
+    Consume_MagicForgeMat(9, 10),
+    /**
+     * <code>Consume_ExpItem = 11;</code>
+     *
+     * <pre>
+     *经验道具
+     * </pre>
+     */
+    Consume_ExpItem(10, 11),
+    /**
+     * <code>Consume_AttachSoul = 12;</code>
+     *
+     * <pre>
+     *附灵材料
+     * </pre>
+     */
+    Consume_AttachSoul(11, 12),
+    /**
+     * <code>Consume_PowerItem = 13;</code>
+     *
+     * <pre>
+     *体力道具
+     * </pre>
+     */
+    Consume_PowerItem(12, 13),
+    /**
+     * <code>Consume_ScanTicket = 14;</code>
+     *
+     * <pre>
+     *扫荡券&amp;门票
+     * </pre>
+     */
+    Consume_ScanTicket(13, 14),
+    ;
+
+    /**
+     * <code>Consume_RoleEquip = 1;</code>
+     *
+     * <pre>
+     *主角装备
+     * </pre>
+     */
+    public static final int Consume_RoleEquip_VALUE = 1;
+    /**
+     * <code>Consume_Magic = 2;</code>
+     *
+     * <pre>
+     *法宝
+     * </pre>
+     */
+    public static final int Consume_Magic_VALUE = 2;
+    /**
+     * <code>Consume_Fashion = 3;</code>
+     *
+     * <pre>
+     *时装
+     * </pre>
+     */
+    public static final int Consume_Fashion_VALUE = 3;
+    /**
+     * <code>Consume_HeroEquip = 4;</code>
+     *
+     * <pre>
+     *佣兵装备
+     * </pre>
+     */
+    public static final int Consume_HeroEquip_VALUE = 4;
+    /**
+     * <code>Consume_Magic_Piece = 5;</code>
+     *
+     * <pre>
+     *装备碎片
+     * </pre>
+     */
+    public static final int Consume_Magic_Piece_VALUE = 5;
+    /**
+     * <code>Consume_EquipScroll = 6;</code>
+     *
+     * <pre>
+     *装备卷轴
+     * </pre>
+     */
+    public static final int Consume_EquipScroll_VALUE = 6;
+    /**
+     * <code>Consume_SoulStone = 7;</code>
+     *
+     * <pre>
+     *佣兵灵魂石
+     * </pre>
+     */
+    public static final int Consume_SoulStone_VALUE = 7;
+    /**
+     * <code>Consume_Gem = 8;</code>
+     *
+     * <pre>
+     *宝石
+     * </pre>
+     */
+    public static final int Consume_Gem_VALUE = 8;
+    /**
+     * <code>Consume_EquipEhanceMat = 9;</code>
+     *
+     * <pre>
+     *主角装备强化材料
+     * </pre>
+     */
+    public static final int Consume_EquipEhanceMat_VALUE = 9;
+    /**
+     * <code>Consume_MagicForgeMat = 10;</code>
+     *
+     * <pre>
+     *法宝锻造材料
+     * </pre>
+     */
+    public static final int Consume_MagicForgeMat_VALUE = 10;
+    /**
+     * <code>Consume_ExpItem = 11;</code>
+     *
+     * <pre>
+     *经验道具
+     * </pre>
+     */
+    public static final int Consume_ExpItem_VALUE = 11;
+    /**
+     * <code>Consume_AttachSoul = 12;</code>
+     *
+     * <pre>
+     *附灵材料
+     * </pre>
+     */
+    public static final int Consume_AttachSoul_VALUE = 12;
+    /**
+     * <code>Consume_PowerItem = 13;</code>
+     *
+     * <pre>
+     *体力道具
+     * </pre>
+     */
+    public static final int Consume_PowerItem_VALUE = 13;
+    /**
+     * <code>Consume_ScanTicket = 14;</code>
+     *
+     * <pre>
+     *扫荡券&amp;门票
+     * </pre>
+     */
+    public static final int Consume_ScanTicket_VALUE = 14;
+
+
+    public final int getNumber() { return value; }
+
+    public static ConsumeTypeDef valueOf(int value) {
+      switch (value) {
+        case 1: return Consume_RoleEquip;
+        case 2: return Consume_Magic;
+        case 3: return Consume_Fashion;
+        case 4: return Consume_HeroEquip;
+        case 5: return Consume_Magic_Piece;
+        case 6: return Consume_EquipScroll;
+        case 7: return Consume_SoulStone;
+        case 8: return Consume_Gem;
+        case 9: return Consume_EquipEhanceMat;
+        case 10: return Consume_MagicForgeMat;
+        case 11: return Consume_ExpItem;
+        case 12: return Consume_AttachSoul;
+        case 13: return Consume_PowerItem;
+        case 14: return Consume_ScanTicket;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<ConsumeTypeDef>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<ConsumeTypeDef>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ConsumeTypeDef>() {
+            public ConsumeTypeDef findValueByNumber(int number) {
+              return ConsumeTypeDef.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.ItemBagProtos.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final ConsumeTypeDef[] VALUES = values();
+
+    public static ConsumeTypeDef valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private ConsumeTypeDef(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ConsumeTypeDef)
+  }
+
+  /**
    * Protobuf enum {@code EItemAttributeType}
    *
    * <pre>
@@ -476,7 +816,7 @@ public final class ItemBagProtos {
      * <code>Magic_Exp = 1;</code>
      *
      * <pre>
-     *法宝经验
+     *法宝经验，不是总经验，仅仅是当前等级的！
      * </pre>
      */
     Magic_Exp(0, 1),
@@ -526,7 +866,7 @@ public final class ItemBagProtos {
      * <code>Magic_Exp = 1;</code>
      *
      * <pre>
-     *法宝经验
+     *法宝经验，不是总经验，仅仅是当前等级的！
      * </pre>
      */
     public static final int Magic_Exp_VALUE = 1;
@@ -608,7 +948,7 @@ public final class ItemBagProtos {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.ItemBagProtos.getDescriptor().getEnumTypes().get(2);
+      return com.rwproto.ItemBagProtos.getDescriptor().getEnumTypes().get(3);
     }
 
     private static final EItemAttributeType[] VALUES = values();
@@ -3557,6 +3897,654 @@ public final class ItemBagProtos {
     // @@protoc_insertion_point(class_scope:UseItemInfo)
   }
 
+  public interface BuyItemInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string modelId = 1;
+    /**
+     * <code>required string modelId = 1;</code>
+     *
+     * <pre>
+     *物品的模板ID
+     * </pre>
+     */
+    boolean hasModelId();
+    /**
+     * <code>required string modelId = 1;</code>
+     *
+     * <pre>
+     *物品的模板ID
+     * </pre>
+     */
+    java.lang.String getModelId();
+    /**
+     * <code>required string modelId = 1;</code>
+     *
+     * <pre>
+     *物品的模板ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getModelIdBytes();
+
+    // required int32 count = 2;
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *数量
+     * </pre>
+     */
+    boolean hasCount();
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *数量
+     * </pre>
+     */
+    int getCount();
+  }
+  /**
+   * Protobuf type {@code BuyItemInfo}
+   */
+  public static final class BuyItemInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements BuyItemInfoOrBuilder {
+    // Use BuyItemInfo.newBuilder() to construct.
+    private BuyItemInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BuyItemInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BuyItemInfo defaultInstance;
+    public static BuyItemInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BuyItemInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BuyItemInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              modelId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              count_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ItemBagProtos.internal_static_BuyItemInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ItemBagProtos.internal_static_BuyItemInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ItemBagProtos.BuyItemInfo.class, com.rwproto.ItemBagProtos.BuyItemInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BuyItemInfo> PARSER =
+        new com.google.protobuf.AbstractParser<BuyItemInfo>() {
+      public BuyItemInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BuyItemInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BuyItemInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string modelId = 1;
+    public static final int MODELID_FIELD_NUMBER = 1;
+    private java.lang.Object modelId_;
+    /**
+     * <code>required string modelId = 1;</code>
+     *
+     * <pre>
+     *物品的模板ID
+     * </pre>
+     */
+    public boolean hasModelId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string modelId = 1;</code>
+     *
+     * <pre>
+     *物品的模板ID
+     * </pre>
+     */
+    public java.lang.String getModelId() {
+      java.lang.Object ref = modelId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          modelId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string modelId = 1;</code>
+     *
+     * <pre>
+     *物品的模板ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getModelIdBytes() {
+      java.lang.Object ref = modelId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        modelId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 count = 2;
+    public static final int COUNT_FIELD_NUMBER = 2;
+    private int count_;
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *数量
+     * </pre>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *数量
+     * </pre>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    private void initFields() {
+      modelId_ = "";
+      count_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasModelId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getModelIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, count_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getModelIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, count_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.BuyItemInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ItemBagProtos.BuyItemInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BuyItemInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ItemBagProtos.BuyItemInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ItemBagProtos.internal_static_BuyItemInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ItemBagProtos.internal_static_BuyItemInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ItemBagProtos.BuyItemInfo.class, com.rwproto.ItemBagProtos.BuyItemInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.ItemBagProtos.BuyItemInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        modelId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        count_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ItemBagProtos.internal_static_BuyItemInfo_descriptor;
+      }
+
+      public com.rwproto.ItemBagProtos.BuyItemInfo getDefaultInstanceForType() {
+        return com.rwproto.ItemBagProtos.BuyItemInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.ItemBagProtos.BuyItemInfo build() {
+        com.rwproto.ItemBagProtos.BuyItemInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ItemBagProtos.BuyItemInfo buildPartial() {
+        com.rwproto.ItemBagProtos.BuyItemInfo result = new com.rwproto.ItemBagProtos.BuyItemInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.modelId_ = modelId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.count_ = count_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ItemBagProtos.BuyItemInfo) {
+          return mergeFrom((com.rwproto.ItemBagProtos.BuyItemInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ItemBagProtos.BuyItemInfo other) {
+        if (other == com.rwproto.ItemBagProtos.BuyItemInfo.getDefaultInstance()) return this;
+        if (other.hasModelId()) {
+          bitField0_ |= 0x00000001;
+          modelId_ = other.modelId_;
+          onChanged();
+        }
+        if (other.hasCount()) {
+          setCount(other.getCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasModelId()) {
+          
+          return false;
+        }
+        if (!hasCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ItemBagProtos.BuyItemInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ItemBagProtos.BuyItemInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string modelId = 1;
+      private java.lang.Object modelId_ = "";
+      /**
+       * <code>required string modelId = 1;</code>
+       *
+       * <pre>
+       *物品的模板ID
+       * </pre>
+       */
+      public boolean hasModelId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string modelId = 1;</code>
+       *
+       * <pre>
+       *物品的模板ID
+       * </pre>
+       */
+      public java.lang.String getModelId() {
+        java.lang.Object ref = modelId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          modelId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string modelId = 1;</code>
+       *
+       * <pre>
+       *物品的模板ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getModelIdBytes() {
+        java.lang.Object ref = modelId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          modelId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string modelId = 1;</code>
+       *
+       * <pre>
+       *物品的模板ID
+       * </pre>
+       */
+      public Builder setModelId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        modelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string modelId = 1;</code>
+       *
+       * <pre>
+       *物品的模板ID
+       * </pre>
+       */
+      public Builder clearModelId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        modelId_ = getDefaultInstance().getModelId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string modelId = 1;</code>
+       *
+       * <pre>
+       *物品的模板ID
+       * </pre>
+       */
+      public Builder setModelIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        modelId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 count = 2;
+      private int count_ ;
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *数量
+       * </pre>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *数量
+       * </pre>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *数量
+       * </pre>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000002;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *数量
+       * </pre>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BuyItemInfo)
+    }
+
+    static {
+      defaultInstance = new BuyItemInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BuyItemInfo)
+  }
+
   public interface ResponseInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -4293,6 +5281,32 @@ public final class ItemBagProtos {
      * </pre>
      */
     com.rwproto.ItemBagProtos.UseItemInfoOrBuilder getUseItemInfoOrBuilder();
+
+    // optional .BuyItemInfo buyItemInfo = 5;
+    /**
+     * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+     *
+     * <pre>
+     *购买物品信息
+     * </pre>
+     */
+    boolean hasBuyItemInfo();
+    /**
+     * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+     *
+     * <pre>
+     *购买物品信息
+     * </pre>
+     */
+    com.rwproto.ItemBagProtos.BuyItemInfo getBuyItemInfo();
+    /**
+     * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+     *
+     * <pre>
+     *购买物品信息
+     * </pre>
+     */
+    com.rwproto.ItemBagProtos.BuyItemInfoOrBuilder getBuyItemInfoOrBuilder();
   }
   /**
    * Protobuf type {@code MsgItemBagRequest}
@@ -4383,6 +5397,19 @@ public final class ItemBagProtos {
                 useItemInfo_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
+              break;
+            }
+            case 42: {
+              com.rwproto.ItemBagProtos.BuyItemInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = buyItemInfo_.toBuilder();
+              }
+              buyItemInfo_ = input.readMessage(com.rwproto.ItemBagProtos.BuyItemInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(buyItemInfo_);
+                buyItemInfo_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
               break;
             }
           }
@@ -4553,11 +5580,46 @@ public final class ItemBagProtos {
       return useItemInfo_;
     }
 
+    // optional .BuyItemInfo buyItemInfo = 5;
+    public static final int BUYITEMINFO_FIELD_NUMBER = 5;
+    private com.rwproto.ItemBagProtos.BuyItemInfo buyItemInfo_;
+    /**
+     * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+     *
+     * <pre>
+     *购买物品信息
+     * </pre>
+     */
+    public boolean hasBuyItemInfo() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+     *
+     * <pre>
+     *购买物品信息
+     * </pre>
+     */
+    public com.rwproto.ItemBagProtos.BuyItemInfo getBuyItemInfo() {
+      return buyItemInfo_;
+    }
+    /**
+     * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+     *
+     * <pre>
+     *购买物品信息
+     * </pre>
+     */
+    public com.rwproto.ItemBagProtos.BuyItemInfoOrBuilder getBuyItemInfoOrBuilder() {
+      return buyItemInfo_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.ItemBagProtos.EItemBagEventType.ItemBag_Index;
       itemUpdateData_ = java.util.Collections.emptyList();
       compose_ = java.util.Collections.emptyList();
       useItemInfo_ = com.rwproto.ItemBagProtos.UseItemInfo.getDefaultInstance();
+      buyItemInfo_ = com.rwproto.ItemBagProtos.BuyItemInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4580,6 +5642,12 @@ public final class ItemBagProtos {
           return false;
         }
       }
+      if (hasBuyItemInfo()) {
+        if (!getBuyItemInfo().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4598,6 +5666,9 @@ public final class ItemBagProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(4, useItemInfo_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(5, buyItemInfo_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4623,6 +5694,10 @@ public final class ItemBagProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, useItemInfo_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, buyItemInfo_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4735,6 +5810,7 @@ public final class ItemBagProtos {
           getItemUpdateDataFieldBuilder();
           getComposeFieldBuilder();
           getUseItemInfoFieldBuilder();
+          getBuyItemInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4763,6 +5839,12 @@ public final class ItemBagProtos {
           useItemInfoBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (buyItemInfoBuilder_ == null) {
+          buyItemInfo_ = com.rwproto.ItemBagProtos.BuyItemInfo.getDefaultInstance();
+        } else {
+          buyItemInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -4820,6 +5902,14 @@ public final class ItemBagProtos {
           result.useItemInfo_ = useItemInfo_;
         } else {
           result.useItemInfo_ = useItemInfoBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (buyItemInfoBuilder_ == null) {
+          result.buyItemInfo_ = buyItemInfo_;
+        } else {
+          result.buyItemInfo_ = buyItemInfoBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -4895,6 +5985,9 @@ public final class ItemBagProtos {
         if (other.hasUseItemInfo()) {
           mergeUseItemInfo(other.getUseItemInfo());
         }
+        if (other.hasBuyItemInfo()) {
+          mergeBuyItemInfo(other.getBuyItemInfo());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4912,6 +6005,12 @@ public final class ItemBagProtos {
         }
         if (hasUseItemInfo()) {
           if (!getUseItemInfo().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasBuyItemInfo()) {
+          if (!getBuyItemInfo().isInitialized()) {
             
             return false;
           }
@@ -5605,6 +6704,159 @@ public final class ItemBagProtos {
           useItemInfo_ = null;
         }
         return useItemInfoBuilder_;
+      }
+
+      // optional .BuyItemInfo buyItemInfo = 5;
+      private com.rwproto.ItemBagProtos.BuyItemInfo buyItemInfo_ = com.rwproto.ItemBagProtos.BuyItemInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ItemBagProtos.BuyItemInfo, com.rwproto.ItemBagProtos.BuyItemInfo.Builder, com.rwproto.ItemBagProtos.BuyItemInfoOrBuilder> buyItemInfoBuilder_;
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public boolean hasBuyItemInfo() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.BuyItemInfo getBuyItemInfo() {
+        if (buyItemInfoBuilder_ == null) {
+          return buyItemInfo_;
+        } else {
+          return buyItemInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public Builder setBuyItemInfo(com.rwproto.ItemBagProtos.BuyItemInfo value) {
+        if (buyItemInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          buyItemInfo_ = value;
+          onChanged();
+        } else {
+          buyItemInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public Builder setBuyItemInfo(
+          com.rwproto.ItemBagProtos.BuyItemInfo.Builder builderForValue) {
+        if (buyItemInfoBuilder_ == null) {
+          buyItemInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          buyItemInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public Builder mergeBuyItemInfo(com.rwproto.ItemBagProtos.BuyItemInfo value) {
+        if (buyItemInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              buyItemInfo_ != com.rwproto.ItemBagProtos.BuyItemInfo.getDefaultInstance()) {
+            buyItemInfo_ =
+              com.rwproto.ItemBagProtos.BuyItemInfo.newBuilder(buyItemInfo_).mergeFrom(value).buildPartial();
+          } else {
+            buyItemInfo_ = value;
+          }
+          onChanged();
+        } else {
+          buyItemInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public Builder clearBuyItemInfo() {
+        if (buyItemInfoBuilder_ == null) {
+          buyItemInfo_ = com.rwproto.ItemBagProtos.BuyItemInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          buyItemInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.BuyItemInfo.Builder getBuyItemInfoBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getBuyItemInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      public com.rwproto.ItemBagProtos.BuyItemInfoOrBuilder getBuyItemInfoOrBuilder() {
+        if (buyItemInfoBuilder_ != null) {
+          return buyItemInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return buyItemInfo_;
+        }
+      }
+      /**
+       * <code>optional .BuyItemInfo buyItemInfo = 5;</code>
+       *
+       * <pre>
+       *购买物品信息
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ItemBagProtos.BuyItemInfo, com.rwproto.ItemBagProtos.BuyItemInfo.Builder, com.rwproto.ItemBagProtos.BuyItemInfoOrBuilder> 
+          getBuyItemInfoFieldBuilder() {
+        if (buyItemInfoBuilder_ == null) {
+          buyItemInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.ItemBagProtos.BuyItemInfo, com.rwproto.ItemBagProtos.BuyItemInfo.Builder, com.rwproto.ItemBagProtos.BuyItemInfoOrBuilder>(
+                  buyItemInfo_,
+                  getParentForChildren(),
+                  isClean());
+          buyItemInfo_ = null;
+        }
+        return buyItemInfoBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgItemBagRequest)
@@ -6690,6 +7942,11 @@ public final class ItemBagProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UseItemInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BuyItemInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BuyItemInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_ResponseInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6719,28 +7976,40 @@ public final class ItemBagProtos {
       "\005\"b\n\013TagItemData\022\017\n\007modelId\030\001 \002(\005\022\r\n\005cou" +
       "nt\030\002 \002(\005\022\014\n\004dbId\030\003 \002(\t\022%\n\nExtendAttr\030\004 \003" +
       "(\0132\021.TagItemAttriData\"*\n\013UseItemInfo\022\014\n\004" +
-      "dbId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005\"/\n\014ResponseInf" +
-      "o\022\017\n\007success\030\001 \002(\010\022\016\n\006tipMsg\030\002 \002(\t\"\243\001\n\021M" +
-      "sgItemBagRequest\022\'\n\013requestType\030\001 \002(\0162\022." +
-      "EItemBagEventType\022$\n\016itemUpdateData\030\002 \003(",
-      "\0132\014.TagItemData\022\034\n\007compose\030\003 \003(\0132\013.TagCo" +
-      "mpose\022!\n\013useItemInfo\030\004 \001(\0132\014.UseItemInfo" +
-      "\"\200\001\n\022MsgItemBagResponse\022%\n\teventType\030\001 \002" +
-      "(\0162\022.EItemBagEventType\022#\n\ritemSyncDatas\030" +
-      "\002 \003(\0132\014.TagItemData\022\036\n\007rspInfo\030\003 \001(\0132\r.R" +
-      "esponseInfo*\217\001\n\021EItemBagEventType\022\021\n\rIte" +
-      "mBag_Index\020\000\022\023\n\017ItemBag_Compose\020\001\022\017\n\013Ite" +
-      "mBag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003\022\020\n\014ItemBag_" +
-      "Drop\020\004\022\020\n\014ItemBag_Sync\020\005\022\013\n\007UseItem\020\006*\267\001" +
-      "\n\014EItemTypeDef\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRol",
-      "eEquip\020\001\022\r\n\tHeroEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005" +
-      "Piece\020\004\022\t\n\005Magic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003G" +
-      "em\020\007\022\013\n\007Consume\020\010\022\r\n\tSoulStone\020\t\022\014\n\010Hero" +
-      "Item\020\n\022\017\n\013SpecialItem\020\013*\202\001\n\022EItemAttribu" +
-      "teType\022\r\n\tMagic_Exp\020\001\022\017\n\013Magic_Level\020\002\022\017" +
-      "\n\013Magic_State\020\003\022\017\n\013Equip_Level\020\004\022\023\n\017Equi" +
-      "p_AttachExp\020\005\022\025\n\021Equip_AttachLevel\020\006B\034\n\013" +
-      "com.rwprotoB\rItemBagProtos"
+      "dbId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005\"-\n\013BuyItemInfo" +
+      "\022\017\n\007modelId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005\"/\n\014Resp" +
+      "onseInfo\022\017\n\007success\030\001 \002(\010\022\016\n\006tipMsg\030\002 \002(" +
+      "\t\"\306\001\n\021MsgItemBagRequest\022\'\n\013requestType\030\001",
+      " \002(\0162\022.EItemBagEventType\022$\n\016itemUpdateDa" +
+      "ta\030\002 \003(\0132\014.TagItemData\022\034\n\007compose\030\003 \003(\0132" +
+      "\013.TagCompose\022!\n\013useItemInfo\030\004 \001(\0132\014.UseI" +
+      "temInfo\022!\n\013buyItemInfo\030\005 \001(\0132\014.BuyItemIn" +
+      "fo\"\200\001\n\022MsgItemBagResponse\022%\n\teventType\030\001" +
+      " \002(\0162\022.EItemBagEventType\022#\n\ritemSyncData" +
+      "s\030\002 \003(\0132\014.TagItemData\022\036\n\007rspInfo\030\003 \001(\0132\r" +
+      ".ResponseInfo*\321\001\n\021EItemBagEventType\022\021\n\rI" +
+      "temBag_Index\020\000\022\023\n\017ItemBag_Compose\020\001\022\017\n\013I" +
+      "temBag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003\022\020\n\014ItemBa",
+      "g_Drop\020\004\022\020\n\014ItemBag_Sync\020\005\022\013\n\007UseItem\020\006\022" +
+      "!\n\035ItemBag_MagicWeapon_Decompose\020\007\022\035\n\031It" +
+      "emBag_MagicForgeMat_Buy\020\010*\267\001\n\014EItemTypeD" +
+      "ef\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRoleEquip\020\001\022\r\n\t" +
+      "HeroEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005Piece\020\004\022\t\n\005M" +
+      "agic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003Gem\020\007\022\013\n\007Cons" +
+      "ume\020\010\022\r\n\tSoulStone\020\t\022\014\n\010HeroItem\020\n\022\017\n\013Sp" +
+      "ecialItem\020\013*\323\002\n\016ConsumeTypeDef\022\025\n\021Consum" +
+      "e_RoleEquip\020\001\022\021\n\rConsume_Magic\020\002\022\023\n\017Cons" +
+      "ume_Fashion\020\003\022\025\n\021Consume_HeroEquip\020\004\022\027\n\023",
+      "Consume_Magic_Piece\020\005\022\027\n\023Consume_EquipSc" +
+      "roll\020\006\022\025\n\021Consume_SoulStone\020\007\022\017\n\013Consume" +
+      "_Gem\020\010\022\032\n\026Consume_EquipEhanceMat\020\t\022\031\n\025Co" +
+      "nsume_MagicForgeMat\020\n\022\023\n\017Consume_ExpItem" +
+      "\020\013\022\026\n\022Consume_AttachSoul\020\014\022\025\n\021Consume_Po" +
+      "werItem\020\r\022\026\n\022Consume_ScanTicket\020\016*\202\001\n\022EI" +
+      "temAttributeType\022\r\n\tMagic_Exp\020\001\022\017\n\013Magic" +
+      "_Level\020\002\022\017\n\013Magic_State\020\003\022\017\n\013Equip_Level" +
+      "\020\004\022\023\n\017Equip_AttachExp\020\005\022\025\n\021Equip_AttachL" +
+      "evel\020\006B\034\n\013com.rwprotoB\rItemBagProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6771,20 +8040,26 @@ public final class ItemBagProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UseItemInfo_descriptor,
               new java.lang.String[] { "DbId", "Count", });
-          internal_static_ResponseInfo_descriptor =
+          internal_static_BuyItemInfo_descriptor =
             getDescriptor().getMessageTypes().get(4);
+          internal_static_BuyItemInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BuyItemInfo_descriptor,
+              new java.lang.String[] { "ModelId", "Count", });
+          internal_static_ResponseInfo_descriptor =
+            getDescriptor().getMessageTypes().get(5);
           internal_static_ResponseInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ResponseInfo_descriptor,
               new java.lang.String[] { "Success", "TipMsg", });
           internal_static_MsgItemBagRequest_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_MsgItemBagRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgItemBagRequest_descriptor,
-              new java.lang.String[] { "RequestType", "ItemUpdateData", "Compose", "UseItemInfo", });
+              new java.lang.String[] { "RequestType", "ItemUpdateData", "Compose", "UseItemInfo", "BuyItemInfo", });
           internal_static_MsgItemBagResponse_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_MsgItemBagResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgItemBagResponse_descriptor,

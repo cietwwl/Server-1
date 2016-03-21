@@ -12,7 +12,9 @@ public enum LogModule {
 	BILOG("银汉对接日志"),
 	TimeAction("时效任务"),
 	GroupSystem("帮派系统"),
-	GroupSkill("帮派技能");
+	GroupSkill("帮派技能"),
+	GmSender("gm对外请求"),
+	;
 	
 	private String name;
 	

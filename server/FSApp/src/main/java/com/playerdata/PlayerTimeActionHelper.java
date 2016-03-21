@@ -67,37 +67,6 @@ public class PlayerTimeActionHelper {
 	public static TimeAction onNewDayZero(final Player player) {
 		
 		TimeAction onNewDayZeroTimeAction = new TimeAction(player.getUserId());
-		
-		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {							
-				player.getUserGameDataMgr().setFreeChat(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_CHAT_FREE_COUNT));
-			}
-		});
-		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {							
-				player.getCopyDataMgr().resetDataInNewDay();
-			}
-		});
-		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {							
-				player.getCopyDataMgr().resetDataInNewDay();
-			}
-		});
-		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {							
-				ArenaBM.getInstance().resetDataInNewDay(player);
-			}
-		});
-		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {							
-				PeakArenaBM.getInstance().resetDataInNewDay(player);
-			}
-		});
 		return onNewDayZeroTimeAction;
 		
 //		RankingMgr.getInstance().resetUpdateState();
@@ -179,6 +148,32 @@ public class PlayerTimeActionHelper {
 				// 试练塔次数重置
 				long now = System.currentTimeMillis();
 				player.getBattleTowerMgr().resetBattleTowerResetTimes(now);
+			}
+		});
+		
+		//0点更改成5点
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {							
+				player.getUserGameDataMgr().setFreeChat(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_CHAT_FREE_COUNT));
+			}
+		});
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {							
+				player.getCopyDataMgr().resetDataInNewDay();
+			}
+		});
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {							
+				player.getCopyDataMgr().resetDataInNewDay();
+			}
+		});
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {							
+				ArenaBM.getInstance().resetDataInNewDay(player);
 			}
 		});
 		

@@ -161,4 +161,38 @@ public class GroupMemberHelper {
 		}
 	}
 
+	/**
+	 * 获取个人所在的帮派名字
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public static String getGroupName(Player player) {
+		UserGroupAttributeDataIF groupBaseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		if (groupBaseData == null) {
+			return "";
+		}
+
+		String groupId = groupBaseData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
+			return "";
+		}
+
+		String groupName = groupBaseData.getGroupName();
+		if (!StringUtils.isEmpty(groupName)) {// 内存命中
+			return groupName;
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			return "";
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			return "";
+		}
+
+		return groupData.getGroupName();
+	}
 }

@@ -10,9 +10,20 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
  * @Description 帮派基础数据的Holder
  */
 public class GroupBaseDataHolder {
+	private int version;
 	private SynDataListHolder<GroupBaseData> listHolder = new SynDataListHolder<GroupBaseData>(GroupBaseData.class);
 
 	public void syn(MsgDataSyn msgDataSyn) {
 		listHolder.Syn(msgDataSyn);
+		version = msgDataSyn.getVersion();
+	}
+
+	/**
+	 * 获取帮派基础数据的版本号
+	 * 
+	 * @return
+	 */
+	public int getVersion() {
+		return version;
 	}
 }

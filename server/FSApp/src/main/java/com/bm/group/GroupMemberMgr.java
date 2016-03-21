@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -336,6 +337,8 @@ public class GroupMemberMgr {
 		contribution += offsetContribution;
 		memberData.setContribution(contribution < 0 ? 0 : contribution);
 		holder.updateMemberData(memberData.getId());
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		holder.synMemberData(memberPlayer, false, -1);
 	}
 
 	/**
@@ -376,7 +379,7 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param headIcon
 	 */
-	public void updateMemberHeadIcon(String userId, String headIcon) {
+	public synchronized void updateMemberHeadIcon(String userId, String headIcon) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
 			return;

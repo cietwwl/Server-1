@@ -72,6 +72,25 @@ public abstract class ClientMsgHandler {
 					case TASK_DATA:
 						getClient().getTaskItemHolder().syn(msgDataSyn);
 						break;
+					// /////////////////////////////////////////////帮派数据
+					case GroupBaseData:
+						getClient().getGroupBaseDataHolder().syn(msgDataSyn);
+						break;
+					case GroupApplyMemberData:
+						getClient().getApplyMemberHolder().syn(msgDataSyn);
+						break;
+					case GroupMemberData:
+						getClient().getNormalMemberHolder().syn(msgDataSyn);
+						break;
+					case GroupResearchSkill:
+						getClient().getResearchSkillDataHolder().syn(msgDataSyn);
+						break;
+					case GroupLog:
+						getClient().getLogHolder().syn(msgDataSyn);
+						break;
+					case UserGroupAttributeData:
+						getClient().getUserGroupDataHolder().syn(msgDataSyn);
+						break;
 
 					default:
 						break;

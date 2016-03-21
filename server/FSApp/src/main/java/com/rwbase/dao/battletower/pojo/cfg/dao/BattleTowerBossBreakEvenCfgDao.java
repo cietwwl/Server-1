@@ -3,6 +3,7 @@ package com.rwbase.dao.battletower.pojo.cfg.dao;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossBreakEvenCfg;
 
@@ -12,13 +13,8 @@ import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBossBreakEvenCfg;
  * @Description 
  */
 public class BattleTowerBossBreakEvenCfgDao extends CfgCsvDao<BattleTowerBossBreakEvenCfg> {
-	private static BattleTowerBossBreakEvenCfgDao dao;// 通用Dao
-
 	public static BattleTowerBossBreakEvenCfgDao getCfgDao() {
-		if (dao == null) {
-			dao = new BattleTowerBossBreakEvenCfgDao();
-		}
-		return dao;
+		return SpringContextUtil.getBean(BattleTowerBossBreakEvenCfgDao.class);
 	}
 
 	@Override

@@ -18,6 +18,7 @@ public class UserGroupData implements SynItem {
 	private long sendEmailTime;// 发送邮件的时间
 	private Map<Integer, GroupSkillItem> studySkill;// 已经学习了的帮派技能列表
 	private List<String> applyGroupIdList;// 申请的列表
+	private String groupName;// 帮派的名字
 
 	@Override
 	public String getId() {
@@ -42,5 +43,9 @@ public class UserGroupData implements SynItem {
 
 	public List<String> getApplyGroupIdList() {
 		return applyGroupIdList;
+	}
+
+	public String getGroupName() {
+		return groupName;
 	}
 }

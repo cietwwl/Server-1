@@ -26,7 +26,7 @@ public class LogService {
 		return instance;
 	}
 	
-	public void initLogService(){
+	public void init(){
 		queue = new LoggerQueue("logger_record", "dataSourceMT", GameManager.getLogServerIp(), GameManager.getLogServerPort(), 20000);
 		
 		

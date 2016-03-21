@@ -6,10 +6,10 @@ import java.util.Map;
 
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.service.dropitem.DropItemManager;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerRewardCfg;
-import com.rwbase.dao.copy.cfg.ItemProbabilityCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 /*
@@ -18,13 +18,8 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
  * @Description 试练塔奖励物品的信息
  */
 public class BattleTowerRewardCfgDao extends CfgCsvDao<BattleTowerRewardCfg> {
-	private static BattleTowerRewardCfgDao dao;
-
 	public static BattleTowerRewardCfgDao getCfgDao() {
-		if (dao == null) {
-			dao = new BattleTowerRewardCfgDao();
-		}
-		return dao;
+		return SpringContextUtil.getBean(BattleTowerRewardCfgDao.class);
 	}
 
 	@Override
@@ -45,8 +40,8 @@ public class BattleTowerRewardCfgDao extends CfgCsvDao<BattleTowerRewardCfg> {
 			return new ArrayList<ItemInfo>();
 		}
 
-//		ItemProbabilityCfgDAO cfgDao = ItemProbabilityCfgDAO.getInstance();
-//		return cfgDao.getListItemInfo(dropIdArr, player);
+		// ItemProbabilityCfgDAO cfgDao = ItemProbabilityCfgDAO.getInstance();
+		// return cfgDao.getListItemInfo(dropIdArr, player);
 		return DropItemManager.getInstance().dropAndRecord(dropIdArr, player);
 	}
 }

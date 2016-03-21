@@ -76,6 +76,7 @@ public class HeroHandler {
 		MsgHeroRequest.Builder req = MsgHeroRequest.newBuilder();
 		req.setHeroType(eHeroType.SUMMON_HERO);
 		req.setHeroModelId("202001");
+		req.setIsAddBtnUse(false);
 
 		boolean success = client.getMsgHandler().sendMsg(command, req.build().toByteString(), new HeroMsgReceiver(command, functionName, "合成英雄"));
 		return success;
@@ -91,6 +92,7 @@ public class HeroHandler {
 		MsgHeroRequest.Builder req = MsgHeroRequest.newBuilder();
 		req.setHeroType(eHeroType.EVOLUTION_HERO);
 		req.setHeroId(client.getUserId());
+		req.setIsAddBtnUse(false);
 
 		boolean success = client.getMsgHandler().sendMsg(command, req.build().toByteString(), new HeroMsgReceiver(command, functionName, "英雄升星"));
 		return success;

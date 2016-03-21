@@ -3,6 +3,7 @@ package com.rwbase.dao.battletower.pojo.cfg.dao;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBoxCfg;
 
@@ -12,13 +13,9 @@ import com.rwbase.dao.battletower.pojo.cfg.BattleTowerBoxCfg;
  * @Description 
  */
 public class BattleTowerBoxCfgDao extends CfgCsvDao<BattleTowerBoxCfg> {
-	private static BattleTowerBoxCfgDao cfgDao;
 
 	public static BattleTowerBoxCfgDao getCfgDao() {
-		if (cfgDao == null) {
-			cfgDao = new BattleTowerBoxCfgDao();
-		}
-		return cfgDao;
+		return SpringContextUtil.getBean(BattleTowerBoxCfgDao.class);
 	}
 
 	@Override

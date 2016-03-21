@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 
@@ -35,6 +36,8 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	private Map<Integer, GroupSkillItem> studySkill;// 已经学习了的帮派技能列表
 	@SaveAsJson
 	private List<String> applyGroupIdList;// 申请的列表
+	@NonSave
+	private String groupName;// 帮派名字
 
 	public UserGroupAttributeData() {
 		studySkill = new HashMap<Integer, GroupSkillItem>();
@@ -121,6 +124,15 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 		return new ArrayList<GroupSkillItem>(studySkill.values());
 	}
 
+	/**
+	 * 获取帮派名字
+	 * 
+	 * @return
+	 */
+	public String getGroupName() {
+		return groupName;
+	}
+
 	// ///////////////////////////////////////////////SET区域
 	/**
 	 * 设置角色Id
@@ -181,6 +193,15 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	 */
 	public void setLastResetApplyTime(long lastResetApplyTime) {
 		this.lastResetApplyTime = lastResetApplyTime;
+	}
+
+	/**
+	 * 设置帮派名字
+	 * 
+	 * @param groupName
+	 */
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
 	// ///////////////////////////////////////////////逻辑处理区域

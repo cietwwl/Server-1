@@ -70,8 +70,17 @@ public class DailyActivityType
 	 * 练气山谷
 	 */
 	public static int Trial_LQSG = 17;
+	
 	/***
 	 * 每日登陆奖励
 	 */
 	public static int LOGIN_REWARD = 18;
+	/***
+	 * 登陆奖励
+	 */
+	public static int LOGIN_DAY = 19;
+	/***
+	 * 横扫千军
+	 */
+	public static int HSQJ = 20;
 }

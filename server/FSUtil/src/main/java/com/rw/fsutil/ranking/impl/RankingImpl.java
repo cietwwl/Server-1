@@ -2,6 +2,7 @@ package com.rw.fsutil.ranking.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -118,7 +119,8 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 	void updateEntityDataToDB() throws Throwable {
 		ArrayList<RankingEntryData> list = new ArrayList<RankingEntryData>(this.hashMap.size());
 		for (final RankingEntryImpl<C, E> entry : this.hashMap.values()) {
-			list.add(new RankingEntryData(entry.getUniqueId(), type, entry.getKey(), parser.encodeComparable(entry.getComparable()), parser.encodeExtendedAttribute(entry.getExtendedAttribute()).toString()));
+			list.add(new RankingEntryData(entry.getUniqueId(), type, entry.getKey(), parser.encodeComparable(entry.getComparable()), parser.encodeExtendedAttribute(entry.getExtendedAttribute())
+					.toString()));
 		}
 		if (list.isEmpty()) {
 			logger.info("排行榜数据没有数据仍然同步：" + RankingImpl.this.type);
@@ -297,11 +299,7 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 	private RankingEntryImpl<C, E> insertRanking(RankingEntryImpl<C, E> newEntry, C newComparable) {
 		RankingEntryImpl<C, E> evicted = null;
 		this.treeMap.put(newEntry, newComparable);
-		RankingEntryImpl<C, E> oldEntry = this.hashMap.put(newEntry.getKey(), newEntry);
-		if (oldEntry != null) {
-			// 只记录，不处理
-			logger.error("排行榜重复主键条目：" + oldEntry.getKey() + "," + oldEntry.getComparable());
-		}
+		this.hashMap.put(newEntry.getKey(), newEntry);
 		if (treeMap.size() > this.maxCapacity) {
 			evicted = treeMap.lastKey();
 			this.treeMap.remove(evicted);
@@ -316,6 +314,7 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		if (entry == null) {
 			throw new IllegalArgumentException("entry is null");
 		}
+		System.err.println("#updateRankingEntry() " + entry.getKey());
 		if (newComparable == null) {
 			throw new IllegalArgumentException("comparable is null");
 		}
@@ -333,6 +332,11 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 			C old = this.treeMap.remove(oldEntryImpl);
 			// 当排行榜不存在此条目时，先检查能不能重新加入排行榜
 			if (old == null) {
+				//删除失败时，检查是否需要进入安全删除模式
+				RankingEntryImpl<C, E> oldEntry = this.hashMap.get(key);
+				if (oldEntry != null) {
+					safeRemove(oldEntry, key);
+				}
 				// 当排行榜已满的时候，直接与最后一个比较
 				if (treeMap.size() >= this.maxCapacity) {
 					RankingEntryImpl<C, E> last = treeMap.lastKey();
@@ -354,6 +358,25 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		return newEntryImpl;
 	}
 
+	private void safeRemove(RankingEntryImpl<C, E> oldEntry,String key){
+		//可以用==先进行比较
+		int removePhase = 0;
+		C old = this.treeMap.remove(oldEntry);
+		if (old == null) {
+			for (Iterator<RankingEntryImpl<C, E>> it = treeMap.keySet().iterator(); it.hasNext();) {
+				RankingEntryImpl<C, E> e = it.next();
+				if (e.getKey().equals(key)) {
+					it.remove();
+					removePhase = 2;
+					break;
+				}
+			}
+		} else {
+			removePhase = 1;
+		}
+		logger.error("updateRankingEntry移除失败：" + oldEntry.getKey() + "," + oldEntry.getComparable() + ",removePhase:" + removePhase);
+	}
+	
 	@Override
 	public RankingEntry<C, E> removeRankingEntry(String entryKey) {
 		RankingEntryImpl<C, E> entry = null;
@@ -647,4 +670,67 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		}
 	}
 
+	@Override
+	public int higherRanking(C condition) {
+		if (condition == null) {
+			return -1;
+		}
+
+		RankingEntryImpl<C, E> entryDummpy = new RankingEntryImpl<C, E>(null, 0, condition, null);
+		RankingEntryImpl<C, E> entry;
+		ArrayList<MomentEntry<C, E>> list;
+		readLock.lock();
+		try {
+			list = getOrderList_();
+			int size = list.size();
+			if (size == 0) {
+				return -1;
+			}
+
+			// 比较条件比最大值还大，就说明没有可以大过它的排行
+			if (condition.compareTo(list.get(0).entryImpl.getComparable()) > 0) {
+				return -1;
+			}
+
+			entry = this.treeMap.floorKey(entryDummpy);
+			if (entry == null) {
+				return -1;
+			}
+		} finally {
+			readLock.unlock();
+		}
+		return getPosition(entry, list);
+	}
+
+	@Override
+	public int lowerRanking(C condition) {
+		if (condition == null) {
+			return -1;
+		}
+
+		RankingEntryImpl<C, E> entryDummpy = new RankingEntryImpl<C, E>(null, 0, condition, null);
+		RankingEntryImpl<C, E> entry;
+		ArrayList<MomentEntry<C, E>> list;
+		readLock.lock();
+		try {
+			list = getOrderList_();
+			int size = list.size();
+			if (size == 0) {
+				return -1;
+			}
+
+			// 比较条件比最低值还小，说明也找不到比它更小的值
+			if (condition.compareTo(list.get(list.size() - 1).entryImpl.getComparable()) < 0) {
+				return -1;
+			}
+
+			entry = this.treeMap.ceilingKey(entryDummpy);
+			if (entry == null) {
+				return -1;
+			}
+		} finally {
+			readLock.unlock();
+		}
+		return getPosition(entry, list);
+	}
 }

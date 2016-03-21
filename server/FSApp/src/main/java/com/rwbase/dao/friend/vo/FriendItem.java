@@ -1,9 +1,10 @@
 package com.rwbase.dao.friend.vo;
 
+import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.FriendItemIF;
 import com.playerdata.readonly.HeroIF;
-import com.playerdata.readonly.PlayerIF;
+import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
@@ -17,7 +18,7 @@ public class FriendItem implements FriendItemIF {
 	private long lastLoginTime;
 
 	public static FriendItem newInstance(String userId) {
-		PlayerIF player = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
+		Player player = PlayerMgr.getInstance().find(userId);
 		FriendItem newItem = new FriendItem();
 		if (player == null) {
 			return newItem;
@@ -45,7 +46,7 @@ public class FriendItem implements FriendItemIF {
 		newItem.setCareer(mainRoleHero.getCareer());
 		newItem.setLastLoginTime(tableUserOther.getLastLoginTime());
 		//TODO 帮派获取名字后再提供
-		newItem.setUnionName("");
+		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		return newItem;
 	}
 

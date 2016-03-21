@@ -28,8 +28,12 @@ public class GamePlayerOpHelper {
 	
 	private ExecutorService executorService;
 	
+	private ExecutorService monitorService;	
+	
 	public GamePlayerOpHelper(int workThreads){
 		executorService = Executors.newFixedThreadPool(workThreads);
+		monitorService = Executors.newFixedThreadPool(1);
+		 
 	}
 	
 	public int getProgress(){
@@ -41,7 +45,7 @@ public class GamePlayerOpHelper {
 		return progress;
 	}
 	
-	public synchronized int doTask(List<Player> playerList, PlayerTask playerTask){
+	public synchronized int addTask(final List<Player> playerList, PlayerTask playerTask){
 		int progress = 0;
 		if(ongoing){
 			progress =  getProgress();
@@ -49,50 +53,42 @@ public class GamePlayerOpHelper {
 				callBackList.add(playerTask);
 			}
 		}else{
+			
 			if(!callBackList.contains(playerTask)){
 				callBackList.add(playerTask);
 			}
-			List<PlayerTask> tempList = callBackList;
+			final List<PlayerTask> tempList = callBackList;
 			callBackList = new ArrayList<PlayerTask>();
 			ongoing = true;
-			finishCount.set(0);	
-			totalToDo = playerList.size()*tempList.size();
-			try {				
-				for (PlayerTask playerCallBack : tempList) {
-					doSingleTask(playerList, playerCallBack);
+			monitorService.submit(new Runnable() {
+				@Override
+				public void run() {
+					doTask(playerList, tempList);
 				}
-			} finally {
-				ongoing = false;
-			}
+			});
+			
 		}
 		return progress;
 	}
+
+	private void doTask(List<Player> playerList, List<PlayerTask> tempList) {
+		try {				
+			finishCount.set(0);	
+			totalToDo = playerList.size()*tempList.size();
+			for (PlayerTask playerCallBack : tempList) {
+				doSingleTask(playerList, playerCallBack);
+			}
+		} finally {
+			ongoing = false;
+		}
+	}
 	
-//	private void doSingleTask(List<Player> playerList, PlayerTask task){
-//		for (Player player : playerList) {
-//			if(player!=null){
-//				try {
-////					player.save(true);
-//					if(task!=null){
-//						task.doCallBack(player);
-//					}
-//				} catch (Throwable e) {
-//					GameLog.error(LogModule.COMMON.getName(), player.getUserId(), "GamePlayerOpHelper[doSingleTask] 户数操作错误 task："+task.getName(), e);
-//				}finally{
-//					finishCount.incrementAndGet();
-//				}
-//			}
-//		}		
-//	}
-//	
 	private void doSingleTask(final List<Player> playerList, final PlayerTask task) {
 		long start = System.currentTimeMillis();
 		final int taskNum = playerList.size();
 		final AtomicInteger taskfinishCount = new AtomicInteger(0);
 		for (final Player player : playerList) {
-			if(player.isRobot()){
-				return;
-			}
+			
 			executorService.submit(new Runnable() {
 				
 				@Override

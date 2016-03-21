@@ -337,6 +337,10 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派不存在");
 		}
 
+		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派解散中，无法申请加入");
+		}
+
 		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
 		if (memberMgr.isAlreadyApply(playerId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您已经申请过该帮派");
@@ -401,7 +405,7 @@ public class GroupPersonalHandler {
 			group.getGroupLogMgr().addLog(player, log);
 
 			// 加入之后，设置加入的信息
-			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId);
+			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupData.getGroupName());
 
 			// 更新下排行榜成员
 			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
@@ -673,8 +677,9 @@ public class GroupPersonalHandler {
 
 		int post = memberData.getPost();
 		// 检查个人权限能不能转让帮主
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.TRANSFER_LEADER_POST_VALUE, post, groupData.getGroupLevel())) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.TRANSFER_LEADER_POST_VALUE, post, groupData.getGroupLevel());
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, tip);
 		}
 
 		if (playerId.equals(transferMemberId)) {// 转让给自己

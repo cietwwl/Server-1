@@ -1,6 +1,8 @@
 package com.playerdata.group;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
@@ -28,7 +30,16 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
  * @date 2016年2月19日 上午10:19:46
  * @Description 个人的帮派数据
  */
-public class UserGroupAttributeDataMgr implements PlayerEventListener{
+public class UserGroupAttributeDataMgr implements PlayerEventListener {
+	public static enum GroupSkillAttrType {
+		GROUP_SKILL_ATTR(0), GROUP_SKILL_PRECENT_ATTR(1);
+		public final int type;// 属性类型对应的值
+
+		private GroupSkillAttrType(int type) {
+			this.type = type;
+		}
+	};
+
 	// private AttrData groupSkillAttrData;// 个人学习技能加成的属性，只存在于内存当中的简单对象
 	private UserGroupAttributeDataHolder holder;// 个人帮派数据的管理
 	private String userId;// 成员Id
@@ -37,7 +48,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 		this.userId = userId;
 		holder = new UserGroupAttributeDataHolder(userId);
 	}
-	
+
 	@Override
 	public void notifyPlayerCreated(Player player) {
 		UserGroupAttributeData data = new UserGroupAttributeData();
@@ -48,6 +59,23 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 
 	@Override
 	public void notifyPlayerLogin(Player player) {
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		String groupId = userGroupData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
+			return;
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			return;
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			return;
+		}
+
+		userGroupData.setGroupName(groupData.getGroupName());
 	}
 
 	@Override
@@ -112,11 +140,12 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 	 * @param player
 	 * @param groupId 有帮派的数据
 	 */
-	public void updateDataWhenHasGroup(Player player, String groupId) {
+	public void updateDataWhenHasGroup(Player player, String groupId, String groupName) {
 		UserGroupAttributeData baseData = holder.getUserGroupData();
 		baseData.setQuitGroupTime(0);
 		baseData.clearApplyGroupIdList();// 清除申请队列
 		baseData.setGroupId(groupId);
+		baseData.setGroupName(groupName);
 		// 同步数据
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
@@ -155,6 +184,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 	public void updateDataWhenQuitGroup(Player player, long quitTime) {
 		UserGroupAttributeData baseData = holder.getUserGroupData();
 		baseData.setGroupId("");
+		baseData.setGroupName("");
 		baseData.setQuitGroupTime(quitTime);
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
@@ -256,6 +286,18 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 		}
 	}
 
+	/**
+	 * 更新帮派的名字
+	 * 
+	 * @param player
+	 * @param groupName
+	 */
+	public void updateGroupName(Player player, String groupName) {
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		userGroupData.setGroupName(groupName);
+		holder.synData(player);
+	}
+
 	// /**
 	// *
 	// * @return
@@ -277,25 +319,25 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 	 * 
 	 * @return
 	 */
-	public AttrData getGroupSkillAttrData() {
-		AttrData attrData = new AttrData();
+	public Map<Integer, AttrData> getGroupSkillAttrData() {
+		Map<Integer, AttrData> attrMap = new HashMap<Integer, AttrData>(2);
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		if (userGroupData == null) {
-			return attrData;
+			return attrMap;
 		}
 
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {// 没有帮派
-			return attrData;
+			return attrMap;
 		}
 
 		if (!userGroupData.hasStudySkill()) {
-			return attrData;
+			return attrMap;
 		}
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			return attrData;
+			return attrMap;
 		}
 
 		int energy = 0;// 能量值
@@ -319,6 +361,15 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 		int moveSpeed = 0;// 移动速度
 		int addCure = 0;// 受到治疗效果增加
 		int cutCure = 0;// 受到治疗效果减少
+		int attackPercent = 0;// 攻击百分比
+		int criticalHurtPercent = 0;// 暴击伤害提升百分比
+		int criticalPercent = 0;// 暴击伤害提升百分比
+		int attackVampirePercent = 0; // 吸血百分比
+		int spiritDefPercent = 0;// 法术防御百分比
+		int dodgePercent = 0;// 闪避百分比
+		int physiqueDefPercent = 0;// 物理防御百分比
+		int attackHurtPercent = 0; // 伤害减免百分比
+		int lifePercent = 0;// 生命百分比
 
 		GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
 		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
@@ -365,8 +416,19 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 			moveSpeed += skillAttr.getMoveSpeed();// 移动速度
 			addCure += skillAttr.getAddCure();// 受到治疗效果增加
 			cutCure += skillAttr.getCutCure();// 受到治疗效果减少
+			// //////////////////////////////////////////////百分比
+			attackPercent += skillAttr.getAttackPercent();// 攻击百分比
+			criticalHurtPercent += skillAttr.getCriticalHurtPercent();// 暴击伤害提升百分比
+			criticalPercent += skillAttr.getCriticalPercent();// 暴击伤害提升百分比
+			attackVampirePercent += skillAttr.getAttackVampirePercent(); // 吸血百分比
+			spiritDefPercent += skillAttr.getSpiritDefPercent();// 法术防御百分比
+			dodgePercent += skillAttr.getDodgePercent();// 闪避百分比
+			physiqueDefPercent += skillAttr.getPhysiqueDefPercent();// 物理防御百分比
+			attackHurtPercent += skillAttr.getAttackHurtPercent(); // 伤害减免百分比
+			lifePercent += skillAttr.getLifePercent();// 生命百分比
 		}
 
+		AttrData attrData = new AttrData();
 		attrData.setEnergy(energy);
 		attrData.setLife(life);
 		attrData.setAttack(attack);
@@ -388,8 +450,21 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener{
 		attrData.setMoveSpeed(moveSpeed);
 		attrData.setAddCure(addCure);
 		attrData.setCutCure(cutCure);
+		attrMap.put(GroupSkillAttrType.GROUP_SKILL_ATTR.type, attrData);
 
-		return attrData;
+		AttrData precentAttrData = new AttrData();
+		precentAttrData.setAttack(attackPercent);
+		precentAttrData.setAttackHurt(attackHurtPercent);
+		precentAttrData.setAttackVampire(attackVampirePercent);
+		precentAttrData.setCritical(criticalPercent);
+		precentAttrData.setCriticalHurt(criticalHurtPercent);
+		precentAttrData.setSpiritDef(spiritDefPercent);
+		precentAttrData.setDodge(dodgePercent);
+		precentAttrData.setPhysiqueDef(physiqueDefPercent);
+		precentAttrData.setLife(lifePercent);
+		attrMap.put(GroupSkillAttrType.GROUP_SKILL_PRECENT_ATTR.type, precentAttrData);
+
+		return attrMap;
 	}
 	// /**
 	// * 推送个人帮派学习技能的数据

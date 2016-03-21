@@ -197,7 +197,7 @@ public class PlayerMgr {
 
 	public int saveAllPlayer() {
 		List<Player> playerList = new ArrayList<Player>(getAllPlayer().values());
-		int progress = gamePlayerOpHelper.doTask(playerList, saveTask);
+		int progress = gamePlayerOpHelper.addTask(playerList, saveTask);
 		CommonUpdateMgr.getInstance().flushData();
 		return progress;
 	}
@@ -221,7 +221,7 @@ public class PlayerMgr {
 		
 		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = cache.values();
-		return gamePlayerOpHelper.doTask(playerList, kickOffTask);
+		return gamePlayerOpHelper.addTask(playerList, kickOffTask);
 	}
 
 	private final PlayerTask minuteFuncTask = new PlayerTask() {
@@ -238,7 +238,7 @@ public class PlayerMgr {
 	public int minutesFunc4AllPlayer() {
 		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = cache.values();
-		return gamePlayerOpHelper.doTask(playerList, minuteFuncTask);
+		return gamePlayerOpHelper.addTask(playerList, minuteFuncTask);
 
 	}
 
@@ -257,7 +257,7 @@ public class PlayerMgr {
 	public int hourFunc4AllPlayer() {
 		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = cache.values();
-		return gamePlayerOpHelper.doTask(playerList, hourFuncTask);
+		return gamePlayerOpHelper.addTask(playerList, hourFuncTask);
 	}
 
 	private final PlayerTask day5pmFuncTask = new PlayerTask() {
@@ -275,7 +275,7 @@ public class PlayerMgr {
 	public int day5amFunc4AllPlayer() {
 		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = cache.values();
-		return gamePlayerOpHelper.doTask(playerList, day5pmFuncTask);
+		return gamePlayerOpHelper.addTask(playerList, day5pmFuncTask);
 	}
 
 	private final PlayerTask dayZero4FuncTask = new PlayerTask() {
@@ -293,7 +293,7 @@ public class PlayerMgr {
 	public int dayZero4Func4AllPlayer() {
 		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = cache.values();
-		return gamePlayerOpHelper.doTask(playerList, dayZero4FuncTask);
+		return gamePlayerOpHelper.addTask(playerList, dayZero4FuncTask);
 	}
 
 	public int getEmailSendProgress() {
@@ -323,7 +323,7 @@ public class PlayerMgr {
 				return "sendEmailToList";
 			}
 		};
-		return gamePlayerEmailHelper.doTask(playerList, playerTask);
+		return gamePlayerEmailHelper.addTask(playerList, playerTask);
 
 	}
 	
@@ -340,7 +340,7 @@ public class PlayerMgr {
 				return "sendEmailToList";
 			}
 		};
-		return gamePlayerEmailHelper.doTask(playerList, playerTask);
+		return gamePlayerEmailHelper.addTask(playerList, playerTask);
 
 	}
 

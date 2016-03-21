@@ -85,8 +85,9 @@ public class GroupSkillHandler {
 		int post = memberData.getPost();// 职位
 		int groupLevel = groupData.getGroupLevel();// 帮派等级
 
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.RESEARCH_GROUP_SKILL_VALUE, post, groupLevel)) {
-			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "权限不足");
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.RESEARCH_GROUP_SKILL_VALUE, post, groupLevel);
+		if (!StringUtils.isEmpty(tip)) {
+			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, tip);
 		}
 
 		// 检查技能的数据
@@ -109,8 +110,7 @@ public class GroupSkillHandler {
 		}
 
 		// 准备去扣钱以及升级帮派技能了
-		if (!groupBaseDataMgr.updateGroupDataWhenResearchSkill(player, skillLevelTemplate.getResearchNeedSupply(), skillId, skillLevel,
-				skillLevelTemplate.getResearchCondation())) {
+		if (!groupBaseDataMgr.updateGroupDataWhenResearchSkill(player, skillLevelTemplate.getResearchNeedSupply(), skillId, skillLevel, skillLevelTemplate.getResearchCondation())) {
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "研发技能失败");
 		}
 
@@ -164,9 +164,10 @@ public class GroupSkillHandler {
 		int post = memberData.getPost();// 职位
 		int groupLevel = groupData.getGroupLevel();// 帮派等级
 
-		if (!GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.STUDY_GROUP_SKILL_VALUE, post, groupLevel)) {
+		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.STUDY_GROUP_SKILL_VALUE, post, groupLevel);
+		if (!StringUtils.isEmpty(tip)) {
 			GameLog.error("学习帮派技能", userId, String.format("角色职位[%s],帮派等级[%s],权限不足", post, groupLevel));
-			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "当前无法学习技能");
+			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, tip);
 		}
 
 		// 检查技能的数据

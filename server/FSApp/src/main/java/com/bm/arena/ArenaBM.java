@@ -1,11 +1,11 @@
 package com.bm.arena;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.alibaba.druid.util.StringUtils;
 import com.bm.rank.ListRankingType;
 import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
@@ -283,6 +283,9 @@ public class ArenaBM {
 		settle.setGetRewardMillis(System.currentTimeMillis());
 		ranking.subimitUpdatedTask(entry);
 		String strPrize = ArenaPrizeCfgDAO.getInstance().getArenaPrizeCfgByPlace(entry.getComparable().getRanking());
+		if (StringUtils.isEmpty(strPrize)) {
+			GameLog.error("ArenaBM", "#arenaDailyPrize()", "获取奖励为空：" + userId + "," + entry.getComparable().getRanking());
+		}
 		EmailUtils.sendEmail(userId, ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize, settle.getSettleMillis());
 		Player player = PlayerMgr.getInstance().find(userId);
 		player.getTempAttribute().setRedPointChanged();
