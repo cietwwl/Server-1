@@ -424,50 +424,50 @@ public class Robot {
 	/**
 	 * 打开试练塔主界面，这个是试练塔的第一步
 	 */
-	public void openBattleTowerMainView() {
-		battleTowerHandler.openMainView(client);
+	public boolean openBattleTowerMainView() {
+		return battleTowerHandler.openMainView(client);
 	}
 
 	/**
 	 * 通知服务器挑战试练塔开始
 	 */
-	public void battleTowerChallengeStart() {
-		battleTowerHandler.challengeBattleStart(client);
+	public boolean battleTowerChallengeStart() {
+		return battleTowerHandler.challengeBattleStart(client);
 	}
 
 	/**
 	 * 通知服务器挑战试练塔层结束
 	 */
-	public void battleTowerChallengeEnd() {
-		battleTowerHandler.challengeBattleEnd(client);
+	public boolean battleTowerChallengeEnd() {
+		return battleTowerHandler.challengeBattleEnd(client);
 	}
 
 	/**
 	 * 通知服务器挑战试练塔Boss开始
 	 */
-	public void battleTowerBossChallengeStart() {
-		battleTowerHandler.challengeBossStart(client);
+	public boolean battleTowerBossChallengeStart() {
+		return battleTowerHandler.challengeBossStart(client);
 	}
 
 	/**
 	 * 通知服务器挑战试练塔Boss结束
 	 */
-	public void battleTowerBossChallengeEnd() {
-		battleTowerHandler.challengeBossEnd(client);
+	public boolean battleTowerBossChallengeEnd() {
+		return battleTowerHandler.challengeBossEnd(client);
 	}
 
 	/**
 	 * 使用幸运钥匙
 	 */
-	public void battleTowerUseLuckyKey() {
-		battleTowerHandler.useLuckyKey(client);
+	public boolean battleTowerUseLuckyKey() {
+		return battleTowerHandler.useLuckyKey(client);
 	}
 
 	/**
 	 * 试练塔数据重置
 	 */
-	public void battleTowerResetData() {
-		battleTowerHandler.resetData(client);
+	public boolean battleTowerResetData() {
+		return battleTowerHandler.resetData(client);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////帮派
@@ -481,8 +481,8 @@ public class Robot {
 	 * 
 	 * @param groupName
 	 */
-	public void createGroup(String groupName) {
-		groupBaseHandler.createGorup(client, groupName);
+	public boolean createGroup(String groupName) {
+		return groupBaseHandler.createGorup(client, groupName);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////帮派个人
@@ -494,8 +494,8 @@ public class Robot {
 	 * 如果已经有了帮派的用户调用这个方法，会返回失败
 	 * </pre>
 	 */
-	public void recommendGroup() {
-		groupPersonalHandler.getRecommendGroup(client);
+	public boolean recommendGroup() {
+		return groupPersonalHandler.getRecommendGroup(client);
 	}
 
 	/**
@@ -505,8 +505,8 @@ public class Robot {
 	 * 
 	 * @param groupId
 	 */
-	public void applyGroup(String groupId) {
-		groupPersonalHandler.applyJoinGroup(client, groupId);
+	public boolean applyGroup(String groupId) {
+		return groupPersonalHandler.applyJoinGroup(client, groupId);
 	}
 
 	/**
@@ -514,15 +514,15 @@ public class Robot {
 	 * 
 	 * @param groupId
 	 */
-	public void getGroupInfo() {
-		groupPersonalHandler.getGroupInfo(client);
+	public boolean getGroupInfo() {
+		return groupPersonalHandler.getGroupInfo(client);
 	}
 
 	/**
 	 * 帮派贡献，如果次数已经用完，或者没有帮派会返回失败
 	 */
-	public void groupDonate() {
-		groupPersonalHandler.groupDonate(client);
+	public boolean groupDonate() {
+		return groupPersonalHandler.groupDonate(client);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////帮派成员管理
@@ -536,8 +536,8 @@ public class Robot {
 	 * 
 	 * @param userId 申请成员的Id
 	 */
-	public void receiveApplyMemberOne(String userId) {
-		groupMemberHandler.memberReceive(client, userId);
+	public boolean receiveApplyMemberOne(String userId) {
+		return groupMemberHandler.memberReceive(client, userId);
 	}
 
 	/**
@@ -548,35 +548,35 @@ public class Robot {
 	 * 
 	 * @param userId 要拒绝的申请成员的Id
 	 */
-	public void refuseApplyMemberOne(String userId) {
-		groupMemberHandler.memberRefuse(client, userId);
+	public boolean refuseApplyMemberOne(String userId) {
+		return groupMemberHandler.memberRefuse(client, userId);
 	}
 
 	/**
 	 * 接受所有的申请成员
 	 */
-	public void receiveApplyMemberAll() {
-		groupMemberHandler.memberReceiveAll(client);
+	public boolean receiveApplyMemberAll() {
+		return groupMemberHandler.memberReceiveAll(client);
 	}
 
 	/**
 	 * 拒绝所有的申请成员
 	 */
-	public void refuseApplyMemberAll() {
-		groupMemberHandler.memberRefuseAll(client);
+	public boolean refuseApplyMemberAll() {
+		return groupMemberHandler.memberRefuseAll(client);
 	}
 
 	/**
 	 * 成员任命
 	 */
-	public void memberNominate() {
-		groupMemberHandler.memberNominate(client);
+	public boolean memberNominate() {
+		return groupMemberHandler.memberNominate(client);
 	}
 
 	/**
 	 * 取消成员任命
 	 */
-	public void memberCancelNominate() {
-		groupMemberHandler.memberCancelNominate(client);
+	public boolean memberCancelNominate() {
+		return groupMemberHandler.memberCancelNominate(client);
 	}
 }
