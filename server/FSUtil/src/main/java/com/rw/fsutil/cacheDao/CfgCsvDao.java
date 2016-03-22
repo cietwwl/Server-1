@@ -12,12 +12,11 @@ public abstract class CfgCsvDao<T> {
 	protected  Map<String, T> cfgCacheMap;
 	protected abstract Map<String, T> initJsonCfg();
 	
-	public Object getCfgById(String id){
-		if(CollectionUtils.isEmpty(cfgCacheMap)){
-			cfgCacheMap = getMaps();
-		}
-		return cfgCacheMap.get(id);
+	public void init(){
+		initJsonCfg();
+		CfgCsvReloader.addCfgDao(this);
 	}
+	
 	public  Map<String, T> getMaps(){
 		if(CollectionUtils.isEmpty(cfgCacheMap)){
 			initJsonCfg();
@@ -25,11 +24,14 @@ public abstract class CfgCsvDao<T> {
 		}
 		return cfgCacheMap;
 	}
-
-	public List<T> getAllCfg(){
+	public Object getCfgById(String id){
 		if(CollectionUtils.isEmpty(cfgCacheMap)){
 			cfgCacheMap = getMaps();
 		}
+		return cfgCacheMap.get(id);
+	}
+
+	public List<T> getAllCfg(){		
 		if(!CollectionUtils.isEmpty(cfgCacheMap)){
 			List<T> list = new ArrayList<T>();
 			Set<Entry<String, T>> entrySet = cfgCacheMap.entrySet();
@@ -46,6 +48,10 @@ public abstract class CfgCsvDao<T> {
 	
 	public void reload(){
 		initJsonCfg();		
+	}
+	
+	public void reverse(Map<String, T> lastCfgMap){
+		cfgCacheMap = lastCfgMap;
 	}
 	
 	

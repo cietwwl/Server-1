@@ -107,7 +107,7 @@ public class ManagerServerHandler {
 			}
 
 			// 覆盖文件 重新加载 该过程暂时不能登录
-			CfgCsvReloader.reload();
+			CfgCsvReloader.reloadAll();
 			return null;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -151,7 +151,7 @@ public class ManagerServerHandler {
 
 			// 覆盖文件 重新加载 该过程暂时不能登录
 			// 覆盖文件 重新加载 该过程暂时不能登录
-			CfgCsvReloader.reload();
+			CfgCsvReloader.reloadAll();
 			
 			return sb.toString();
 		} catch (Exception ex) {

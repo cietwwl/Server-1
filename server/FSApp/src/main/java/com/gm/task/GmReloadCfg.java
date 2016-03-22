@@ -15,7 +15,7 @@ public class GmReloadCfg implements IGmTask{
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
 			
-			CfgCsvReloader.reload();
+			CfgCsvReloader.reloadAll();
 			
 			response.setStatus(0);
 			response.setCount(1);
