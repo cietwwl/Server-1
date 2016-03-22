@@ -221,8 +221,8 @@ public class Robot {
 	 * @return
 	 */
 	public boolean wearEquip() {
-		// 作弊添加装备
-		gmGainHeroEquip(0);
+		// // 作弊添加装备
+		// gmGainHeroEquip(0);
 		// 穿装备
 		return EquipHandler.instance().wearEquip(client);
 	}
@@ -244,7 +244,7 @@ public class Robot {
 	 */
 	public boolean heroAdvance() {
 		// 全部穿上装备
-		gmWearEquip(0);
+		// gmWearEquip(0);
 		return EquipHandler.instance().heroAdvance(client);
 	}
 
