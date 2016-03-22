@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.util.DeCompressUtil;
 import com.rw.fsutil.util.FileUtil;
 import com.rw.fsutil.util.JsonCfgTransfer;
@@ -107,14 +107,7 @@ public class ManagerServerHandler {
 			}
 
 			// 覆盖文件 重新加载 该过程暂时不能登录
-			for (String className : CfgCsvDao.ReadyLoadConfigs) {
-				@SuppressWarnings("rawtypes")
-				Class tempClass = Class.forName(className);
-				Method method = tempClass.getMethod("getInstance", null);
-				CfgCsvDao instance = (CfgCsvDao) method.invoke(null, null);
-				instance.clearMap();
-				instance.initJsonCfg();
-			}
+			CfgCsvReloader.reload();
 			return null;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -157,13 +150,8 @@ public class ManagerServerHandler {
 			
 
 			// 覆盖文件 重新加载 该过程暂时不能登录
-			for (String className : CfgCsvDao.ReadyLoadConfigs) {
-				Class tempClass = Class.forName(className);
-				Method method = tempClass.getMethod("getInstance", null);
-				CfgCsvDao instance = (CfgCsvDao)method.invoke(null, null);
-				instance.clearMap();
-				instance.initJsonCfg();
-			}
+			// 覆盖文件 重新加载 该过程暂时不能登录
+			CfgCsvReloader.reload();
 			
 			return sb.toString();
 		} catch (Exception ex) {

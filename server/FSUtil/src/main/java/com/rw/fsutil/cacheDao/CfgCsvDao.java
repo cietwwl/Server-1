@@ -9,13 +9,8 @@ import java.util.Set;
 import org.springframework.util.CollectionUtils;
 
 public abstract class CfgCsvDao<T> {
-	public final static List<String> ReadyLoadConfigs = new ArrayList<String>();
 	protected  Map<String, T> cfgCacheMap;
-	public abstract Map<String, T> initJsonCfg();
-	
-	public CfgCsvDao(){
-		ReadyLoadConfigs.add(this.getClass().getName());
-	}
+	protected abstract Map<String, T> initJsonCfg();
 	
 	public Object getCfgById(String id){
 		if(CollectionUtils.isEmpty(cfgCacheMap)){
@@ -26,14 +21,9 @@ public abstract class CfgCsvDao<T> {
 	public  Map<String, T> getMaps(){
 		if(CollectionUtils.isEmpty(cfgCacheMap)){
 			initJsonCfg();
+			CfgCsvReloader.addCfgDao(this);
 		}
 		return cfgCacheMap;
-	}
-	
-	public void clearMap(){
-		if (cfgCacheMap != null) {
-			cfgCacheMap.clear();
-		}
 	}
 
 	public List<T> getAllCfg(){
@@ -53,6 +43,10 @@ public abstract class CfgCsvDao<T> {
 		return null;
 	}
 	
+	
+	public void reload(){
+		initJsonCfg();		
+	}
 	
 	
 }
