@@ -3,17 +3,13 @@ package com.rwbase.dao.worship;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.worship.pojo.CfgWorshipReward;
 
 public class CfgWorshipRewardHelper extends CfgCsvDao<CfgWorshipReward> {
-	private static CfgWorshipRewardHelper instance = new CfgWorshipRewardHelper();
-	private CfgWorshipRewardHelper() {
-		
-	}
-		
-	public static CfgWorshipRewardHelper getInstance(){
-		return instance;
+	public static CfgWorshipRewardHelper getInstance() {
+		return SpringContextUtil.getBean(CfgWorshipRewardHelper.class);
 	}
 	
 	public Map<String, CfgWorshipReward> initJsonCfg() {

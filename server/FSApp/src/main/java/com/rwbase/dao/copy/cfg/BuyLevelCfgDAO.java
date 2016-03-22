@@ -3,13 +3,13 @@ package com.rwbase.dao.copy.cfg;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.business.SevenDayGifCfgDAO;
 
 public class BuyLevelCfgDAO extends CfgCsvDao<BuyLevelCfg> {
-	private static BuyLevelCfgDAO instance = new BuyLevelCfgDAO();
-	private BuyLevelCfgDAO() {}
-	public static BuyLevelCfgDAO getInstance(){
-		return instance;
+	public static BuyLevelCfgDAO getInstance() {
+		return SpringContextUtil.getBean(BuyLevelCfgDAO.class);
 	}
 
 	@Override

@@ -3,15 +3,13 @@ package com.rwbase.dao.user;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.unendingwar.UnendingWarInfoCfgDAO;
 
 public class CfgBuyCoinDAO extends CfgCsvDao<CfgBuyCoin> {
-	private static CfgBuyCoinDAO instance = new CfgBuyCoinDAO();
-	private CfgBuyCoinDAO() {
-		
-	}
-	public static CfgBuyCoinDAO getInstance(){
-		return instance;
+	public static CfgBuyCoinDAO getInstance() {
+		return SpringContextUtil.getBean(CfgBuyCoinDAO.class);
 	}
 	@Override
 	public Map<String, CfgBuyCoin> initJsonCfg() {

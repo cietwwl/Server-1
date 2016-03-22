@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 
 public class RoleQualityCfgDAO extends CfgCsvDao<RoleQualityCfg>{
-	private static RoleQualityCfgDAO instance = new RoleQualityCfgDAO();
-	private RoleQualityCfgDAO(){}
-	public static RoleQualityCfgDAO getInstance(){
-		return instance;
+	public static RoleQualityCfgDAO getInstance() {
+		return SpringContextUtil.getBean(RoleQualityCfgDAO.class);
 	}
 	@Override
 	public Map<String, RoleQualityCfg> initJsonCfg() {

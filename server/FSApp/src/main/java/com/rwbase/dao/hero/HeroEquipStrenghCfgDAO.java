@@ -3,17 +3,16 @@ package com.rwbase.dao.hero;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.gulid.CfgGuildLogDAO;
 
 public class HeroEquipStrenghCfgDAO extends CfgCsvDao<HeroEquipStrenghCfg> {
 
-	private static HeroEquipStrenghCfgDAO instance = new HeroEquipStrenghCfgDAO();
-	private  HeroEquipStrenghCfgDAO() {
-		// TODO Auto-generated constructor stub
+	public static HeroEquipStrenghCfgDAO getInstance() {
+		return SpringContextUtil.getBean(HeroEquipStrenghCfgDAO.class);
 	}
-	public static HeroEquipStrenghCfgDAO getInstance(){
-		return instance;
-	}
+	
 	
 	@Override
 	public Map<String, HeroEquipStrenghCfg> initJsonCfg() {

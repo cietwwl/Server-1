@@ -3,18 +3,15 @@ package com.rwbase.dao.unendingwar;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.tower.TowerGoodsCfgDAO;
 
 public class CfgUnendingWarDAO extends CfgCsvDao<CfgUnendingWar> {
-	private static CfgUnendingWarDAO instance = new CfgUnendingWarDAO();
-	private CfgUnendingWarDAO() {
-		
+	public static CfgUnendingWarDAO getInstance() {
+		return SpringContextUtil.getBean(CfgUnendingWarDAO.class);
 	}
-	
-	public static CfgUnendingWarDAO getInstance(){
-		return instance;
-	}
-	
+
 	public Map<String, CfgUnendingWar> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("UnendingWar/UnendingWarCfg.csv",CfgUnendingWar.class);
 		return cfgCacheMap;

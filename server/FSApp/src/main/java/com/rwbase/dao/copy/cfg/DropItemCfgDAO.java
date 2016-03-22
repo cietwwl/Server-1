@@ -4,14 +4,13 @@ import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.JsonCfgTransfer;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class DropItemCfgDAO extends CfgCsvDao<DropItemCfg>{
 
-	public static DropItemCfgDAO instance = new DropItemCfgDAO();
-	private DropItemCfgDAO() {}
-	public static DropItemCfgDAO getInstance(){
-		return instance;
+	public static DropItemCfgDAO getInstance() {
+		return SpringContextUtil.getBean(DropItemCfgDAO.class);
 	}
 			
 	@Override

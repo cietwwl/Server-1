@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.vip.RechargeCfgDAO;
 import com.rwbase.dao.worship.pojo.CfgWorshipRandomReward;
 
 public class CfgWorshipRandomRewardHelper extends CfgCsvDao<CfgWorshipRandomReward>{
-	private static CfgWorshipRandomRewardHelper instance = new CfgWorshipRandomRewardHelper();
-	private CfgWorshipRandomRewardHelper() {
-		
+	public static CfgWorshipRandomRewardHelper getInstance() {
+		return SpringContextUtil.getBean(CfgWorshipRandomRewardHelper.class);
 	}
 	
 	private Map<String, List<CfgWorshipRandomReward>> weightMap = new HashMap<String, List<CfgWorshipRandomReward>>();
@@ -33,10 +34,6 @@ public class CfgWorshipRandomRewardHelper extends CfgCsvDao<CfgWorshipRandomRewa
 			}
 			weightMapTmp.get(key).add(cfg);
 		}
-	}
-	
-	public static CfgWorshipRandomRewardHelper getInstance(){
-		return instance;
 	}
 	
 	public Map<String, CfgWorshipRandomReward> initJsonCfg() {

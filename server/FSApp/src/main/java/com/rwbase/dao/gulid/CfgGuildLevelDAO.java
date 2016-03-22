@@ -4,17 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class CfgGuildLevelDAO extends CfgCsvDao<GuildLevelCfg> {
-	private static CfgGuildLevelDAO instance = new CfgGuildLevelDAO();
-	private CfgGuildLevelDAO() {
-		
+	public static CfgGuildLevelDAO getInstance() {
+		return SpringContextUtil.getBean(CfgGuildLevelDAO.class);
 	}
 	
-	public static CfgGuildLevelDAO getInstance(){
-		return instance;
-	}
 	
 	public Map<String, GuildLevelCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Guild/GuildLevel.csv",GuildLevelCfg.class);

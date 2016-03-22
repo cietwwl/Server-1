@@ -3,18 +3,14 @@ package com.rwbase.dao.fresherActivity;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityFinalRewardCfg;
 
 public class FresherActivityFinalRewardCfgDao  extends CfgCsvDao<FresherActivityFinalRewardCfg>{
-private static FresherActivityFinalRewardCfgDao instance = new FresherActivityFinalRewardCfgDao();
 	
-	private FresherActivityFinalRewardCfgDao() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public static FresherActivityFinalRewardCfgDao getInstance(){
-		return instance;
+	public static FresherActivityFinalRewardCfgDao getInstance() {
+		return SpringContextUtil.getBean(FresherActivityFinalRewardCfgDao.class);
 	}
 	
 	@Override

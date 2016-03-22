@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.common.enu.EPrivilegeDef;
+import com.rwbase.dao.version.VersionConfigDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 
 public class PrivilegeCfgDAO extends CfgCsvDao<PrivilegeCfg>{
 
-	private static PrivilegeCfgDAO instance = new PrivilegeCfgDAO();
-	private PrivilegeCfgDAO(){}
-	public static PrivilegeCfgDAO getInstance(){
-		return instance;
+	public static PrivilegeCfgDAO getInstance() {
+		return SpringContextUtil.getBean(PrivilegeCfgDAO.class);
 	}
 	@Override
 	public Map<String, PrivilegeCfg> initJsonCfg() {

@@ -5,17 +5,14 @@ import java.util.Map;
 import javax.print.DocFlavor.STRING;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class CfgBuySkillDAO extends CfgCsvDao<CfgBuySkill> {
 	
 	private static final String BUY_SKILL_CFG_PATH = "cfgbuySkill/cfgbuySkill.csv";
-	private static CfgBuySkillDAO instance = new CfgBuySkillDAO();
-	private CfgBuySkillDAO() {
-		
-	}
-	public static CfgBuySkillDAO getInstance(){
-		return instance;
+	public static CfgBuySkillDAO getInstance() {
+		return SpringContextUtil.getBean(CfgBuySkillDAO.class);
 	}
 	@Override
 	public Map<String, CfgBuySkill> initJsonCfg() {

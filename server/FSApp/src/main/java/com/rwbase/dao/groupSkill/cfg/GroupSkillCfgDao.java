@@ -3,13 +3,13 @@ package com.rwbase.dao.groupSkill.cfg;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 
 public class GroupSkillCfgDao extends CfgCsvDao<GroupSkillCfg> {
-	private static GroupSkillCfgDao instance = new GroupSkillCfgDao();
-	private GroupSkillCfgDao(){}
-	public static GroupSkillCfgDao getInstance(){
-		return instance;
+	public static GroupSkillCfgDao getInstance() {
+		return SpringContextUtil.getBean(GroupSkillCfgDao.class);
 	}
 	
 	@Override

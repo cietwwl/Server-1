@@ -3,14 +3,13 @@ package com.rwbase.dao.item;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.item.pojo.SoulStoneCfg;
 
 public class SoulStoneCfgDAO  extends CfgCsvDao<SoulStoneCfg>{
-	private static SoulStoneCfgDAO instance = new SoulStoneCfgDAO();
-	private SoulStoneCfgDAO(){}
-	public static SoulStoneCfgDAO getInstance(){
-		return instance;
+	public static SoulStoneCfgDAO getInstance() {
+		return SpringContextUtil.getBean(SoulStoneCfgDAO.class);
 	}
 
 	@Override

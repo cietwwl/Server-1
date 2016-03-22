@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.hero.HeroEquipStrenghCfgDAO;
 import com.rwbase.dao.item.pojo.ComposeCfg;
 
 public class ComposeCfgDAO extends CfgCsvDao<ComposeCfg> {
-	private static ComposeCfgDAO instance = new ComposeCfgDAO();
-	private ComposeCfgDAO(){}
-	public static ComposeCfgDAO getInstance(){
-		return instance;
+	public static ComposeCfgDAO getInstance() {
+		return SpringContextUtil.getBean(ComposeCfgDAO.class);
 	}
 
 	@Override

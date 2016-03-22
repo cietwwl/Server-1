@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.role.pojo.EquipAttachCfg;
 
 public class EquipAttachCfgDAO extends CfgCsvDao<EquipAttachCfg> {
 
-	private static EquipAttachCfgDAO instance = new EquipAttachCfgDAO();
-	private EquipAttachCfgDAO(){}
-	public static EquipAttachCfgDAO getInstance(){
-		return instance;
+	public static EquipAttachCfgDAO getInstance() {
+		return SpringContextUtil.getBean(EquipAttachCfgDAO.class);
 	}
 
 	@Override

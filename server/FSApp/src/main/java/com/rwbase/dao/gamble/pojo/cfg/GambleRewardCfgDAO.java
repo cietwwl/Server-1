@@ -7,18 +7,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.gamble.pojo.EGambleWeight;
 import com.rwproto.GambleServiceProtos.EGambleType;
 
 public class GambleRewardCfgDAO extends CfgCsvDao<GambleRewardCfg>{
-	private static GambleRewardCfgDAO m_instance;
-	public static GambleRewardCfgDAO getInstance(){
-		if(m_instance == null) {
-			m_instance = new GambleRewardCfgDAO();
-		}
-		return m_instance;
+	public static GambleRewardCfgDAO getInstance() {
+		return SpringContextUtil.getBean(GambleRewardCfgDAO.class);
 	}
+	
 	
 	private EGambleType gambleTypes[] = new EGambleType[]{EGambleType.PRIMARY, EGambleType.MIDDLE, EGambleType.ADVANCED};
 	private Map<EGambleWeight, Map<EGambleType, Map<Integer, List<GambleRewardCfg>>>> weightMap =null;

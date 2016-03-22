@@ -1,22 +1,19 @@
 package com.bm.arena;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.util.JsonCfgTransfer;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
-
-	private static RobotCfgDAO instance = new RobotCfgDAO();
-
+	
 	public static RobotCfgDAO getInstance() {
-		return instance;
-	}
+		return SpringContextUtil.getBean(RobotCfgDAO.class);
+	}	
+	
 
 	private TreeMap<Integer, RobotEntryCfg> arenaRobots;
 
@@ -61,5 +58,9 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 		}
 		return this.arenaRobots;
 	}
+
+
+
+	
 
 }

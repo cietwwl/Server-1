@@ -4,14 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.email.EmailCfgDAO;
 
 public class FashionCfgDao extends CfgCsvDao<FashionCfg> {
-	private static FashionCfgDao instance = new FashionCfgDao();
-	private FashionCfgDao(){}
-	public static FashionCfgDao getInstance(){
-		return instance;
+	public static FashionCfgDao getInstance() {
+		return SpringContextUtil.getBean(FashionCfgDao.class);
 	}
+
 	
 	@Override
 	public Map<String, FashionCfg> initJsonCfg() {

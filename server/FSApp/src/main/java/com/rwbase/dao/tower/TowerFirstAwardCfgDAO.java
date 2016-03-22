@@ -3,16 +3,12 @@ package com.rwbase.dao.tower;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class TowerFirstAwardCfgDAO extends CfgCsvDao<TowerFirstAwardCfg> {
-	private static TowerFirstAwardCfgDAO instance = new TowerFirstAwardCfgDAO();
-
-	private TowerFirstAwardCfgDAO() {
-	};
-
 	public static TowerFirstAwardCfgDAO getInstance() {
-		return instance;
+		return SpringContextUtil.getBean(TowerFirstAwardCfgDAO.class);
 	}
 
 	@Override

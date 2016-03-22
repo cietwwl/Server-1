@@ -3,18 +3,15 @@ package com.rwbase.dao.copypve;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.copy.cfg.MapCfgDAO;
 import com.rwbase.dao.copypve.pojo.CopyEntryCfg;
 
 public class CopyEntryCfgDAO extends CfgCsvDao<CopyEntryCfg>{
 
-	private static CopyEntryCfgDAO instance;
-	
-	public static CopyEntryCfgDAO getInstance(){
-		if(instance == null){
-			instance = new CopyEntryCfgDAO();
-		}
-		return instance;
+	public static CopyEntryCfgDAO getInstance() {
+		return SpringContextUtil.getBean(CopyEntryCfgDAO.class);
 	}
 	
 	@Override

@@ -3,13 +3,12 @@ package com.rwbase.dao.user;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class CfgBuyPowerDAO extends CfgCsvDao<CfgBuyPower> {
-	private static CfgBuyPowerDAO instance = new CfgBuyPowerDAO();
-	private CfgBuyPowerDAO(){}
-	public static CfgBuyPowerDAO getInstance(){
-		return instance;
+	public static CfgBuyPowerDAO getInstance() {
+		return SpringContextUtil.getBean(CfgBuyPowerDAO.class);
 	}
 	@Override
 	public Map<String, CfgBuyPower> initJsonCfg() {
