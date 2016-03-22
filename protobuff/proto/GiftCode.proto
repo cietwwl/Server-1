@@ -1,17 +1,18 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
-option java_outer_classname = "ActiveCodeProto";
+option java_outer_classname = "GiftCodeProto";
 
 enum ResultType{
 	FAIL = 1;//失败
 	SUCCESS = 2;//成功
+	WAIT = 3;//等待
 }
 
-message UseActiveCodeReqMsg{
+message UseGiftCodeReqMsg{
 	required string code = 1;//使用的码
 }
 
-message UseActiveCodeRspMsg{
+message UseGiftCodeRspMsg{
 	required ResultType resultType = 1;//响应状态
 	optional string tipMsg = 2;//提示消息
 }
