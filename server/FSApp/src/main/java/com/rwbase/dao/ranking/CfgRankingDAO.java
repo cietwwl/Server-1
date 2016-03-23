@@ -3,18 +3,16 @@ package com.rwbase.dao.ranking;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.platform.PlatformConfigDAO;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 
 public class CfgRankingDAO extends CfgCsvDao<CfgRanking> {
-	private static CfgRankingDAO instance = new CfgRankingDAO();
-	private CfgRankingDAO() {
-		
+	public static CfgRankingDAO getInstance() {
+		return SpringContextUtil.getBean(CfgRankingDAO.class);
 	}
-	
-	public static CfgRankingDAO getInstance(){
-		return instance;
-	}
+
 	
 	public Map<String, CfgRanking> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Ranking/ranking.csv",CfgRanking.class);

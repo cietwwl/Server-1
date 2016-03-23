@@ -22,10 +22,27 @@ public class PlayerFreshHelper {
 	 * @return
 	 */
 	public static boolean initFreshPlayer(Player player) {
+		return initFreshPlayer(player, null);
+	}
+
+	/**
+	 * <pre>
+	 * <b>注意有潜规则</b>
+	 * 创建角色添加初始物品，一定要把<b>【角色穿戴法宝】</b>这一步放在最前边
+	 * 这跟现在服务器的穿戴法宝的机制有关，具体也不是三两句话说的清，记住这句就行了
+	 * </pre>
+	 * 
+	 * @param player
+	 * @param user
+	 * @return
+	 */
+	public static boolean initFreshPlayer(Player player, RoleCfg playerCfg) {
 		// 初始主角英雄
 		int sex = player.getSex();
 		String roleId = sex == ESex.Women.getOrder() ? "101001_1" : "100001_1";
-		RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
+		if (playerCfg == null) {
+			playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
+		}
 		player.getHeroMgr().addMainRoleHero(player, playerCfg);
 		// // 初始佣兵
 		// initHeros(player);
@@ -83,10 +100,12 @@ public class PlayerFreshHelper {
 	// }
 	//
 	// private static void initItems(Player player) {
-	// List<PlayerInitialItemCfg> list = ItemCfgHelper.getPlayerInitialItemAllCfg();
+	// List<PlayerInitialItemCfg> list =
+	// ItemCfgHelper.getPlayerInitialItemAllCfg();
 	// if (list != null && list.size() > 0) {
 	// for (PlayerInitialItemCfg playerInitialItem : list) {
-	// player.getItemBagMgr().addItem(playerInitialItem.getId(), playerInitialItem.getCount());
+	// player.getItemBagMgr().addItem(playerInitialItem.getId(),
+	// playerInitialItem.getCount());
 	// }
 	// }
 	// }
@@ -95,7 +114,8 @@ public class PlayerFreshHelper {
 	// // HeroMgr heroMgr = player.getHeroMgr();
 	// // String[] arrHeroIds = { "202001" };// 需根据配置改变
 	// // for (int i = 0; i < arrHeroIds.length; i++) {
-	// // RoleCfg Herocfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgByModeID(arrHeroIds[i]);
+	// // RoleCfg Herocfg = (RoleCfg)
+	// RoleCfgDAO.getInstance().getCfgByModeID(arrHeroIds[i]);
 	// // heroMgr.addHeroWhenCreatUser(Herocfg.getRoleId());
 	// // }
 	// }

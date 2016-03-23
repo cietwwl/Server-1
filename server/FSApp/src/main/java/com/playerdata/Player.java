@@ -302,7 +302,7 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public Player(String userId, boolean initMgr) {
+	public Player(String userId, boolean initMgr,RoleCfg roleCfg) {
 		this.tempAttribute = new PlayerTempAttribute();
 		playerMsgMgr = new PlayerMsgMgr(userId);
 		userDataMgr = new UserDataMgr(this, userId);
@@ -313,7 +313,7 @@ public class Player implements PlayerIF {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 			this.getHeroMgr().notifyPlayerCreated(this);
 			this.getHeroMgr().init(this);
-			PlayerFreshHelper.initFreshPlayer(this);
+			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			notifyCreated();
 		}
 
@@ -328,6 +328,10 @@ public class Player implements PlayerIF {
 		if (initMgr) {
 			initMgr();
 		}
+	}
+	
+	public Player(String userId, boolean initMgr) {
+		this(userId, initMgr, null);
 	}
 
 	public void initMgr() {

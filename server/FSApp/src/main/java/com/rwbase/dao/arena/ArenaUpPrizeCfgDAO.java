@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.arena.pojo.ArenaUpPrizeCfg;
@@ -14,10 +15,8 @@ import com.rwbase.dao.arena.pojo.PrizeInfo;
 
 public class ArenaUpPrizeCfgDAO extends CfgCsvDao<ArenaUpPrizeCfg> {
 
-	private static ArenaUpPrizeCfgDAO instance = new ArenaUpPrizeCfgDAO();
-
 	public static ArenaUpPrizeCfgDAO getInstance() {
-		return instance;
+		return SpringContextUtil.getBean(ArenaUpPrizeCfgDAO.class);
 	}
 
 	private HashMap<Integer, List<PrizeInfo>> prizeMap;

@@ -1147,5 +1147,9 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	public CacheLogger getLogger() {
 		return this.logger;
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 }

@@ -5,20 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.setting.pojo.HeadCfg;
 import com.rwbase.dao.setting.pojo.HeadType;
 
 public class HeadCfgDAO  extends CfgCsvDao<HeadCfg>
 {
-	private static HeadCfgDAO m_instance = new HeadCfgDAO();
-	public static HeadCfgDAO getInstance()
-	{
-		if(m_instance == null) 
-		{
-			m_instance = new HeadCfgDAO();
-		}
-		return m_instance;
+	public static HeadCfgDAO getInstance() {
+		return SpringContextUtil.getBean(HeadCfgDAO.class);
 	}
 	
 	@Override

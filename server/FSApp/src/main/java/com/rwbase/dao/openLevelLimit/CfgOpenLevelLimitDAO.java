@@ -3,19 +3,15 @@ package com.rwbase.dao.openLevelLimit;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.mainmsg.CfgPmdDAO;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 
 public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 
-	private static CfgOpenLevelLimitDAO instance = new CfgOpenLevelLimitDAO();
-
-	private CfgOpenLevelLimitDAO() {
-
-	}
-
 	public static CfgOpenLevelLimitDAO getInstance() {
-		return instance;
+		return SpringContextUtil.getBean(CfgOpenLevelLimitDAO.class);
 	}
 
 	public Map<String, CfgOpenLevelLimit> initJsonCfg() {

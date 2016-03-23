@@ -135,7 +135,7 @@ public class DropItemManager {
 					if (adjustmentMap == null) {
 						adjustmentMap = new HashMap<Integer, DropAdjustmentState>();
 					}
-					DropAdjustmentState state = adjustmentMap.get(adjustmentCfg);
+					DropAdjustmentState state = adjustmentMap.get(dropRecordId);
 					// 已经触发的不再生效
 					if (state != null && state != DropAdjustmentState.FAIL) {
 						continue;

@@ -4,21 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
 
 public class DailyActivityCfgDAO extends CfgCsvDao<DailyActivityCfg>
 {
-	private static DailyActivityCfgDAO m_instance;
-	public static DailyActivityCfgDAO getInstance()
-	{
-		if(m_instance == null)
-		{
-			m_instance = new DailyActivityCfgDAO();
-		}
-		return m_instance;
+	public static DailyActivityCfgDAO getInstance() {
+		return SpringContextUtil.getBean(DailyActivityCfgDAO.class);
 	}
-
 	@Override
 	public Map<String, DailyActivityCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("dailyActivity/dailyActivity.csv",DailyActivityCfg.class);

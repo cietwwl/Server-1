@@ -68,51 +68,55 @@ public class RankingMgr {
 	 */
 	@SuppressWarnings("unchecked")
 	public void resetUpdateState() {
-		GameWorld world = GameWorldFactory.getGameWorld();
-		String lastResetText = world.getAttribute(GameWorldKey.DAILY_RANKING_RESET);
-		if (lastResetText != null && !lastResetText.isEmpty()) {
-			long lastResetTime = Long.parseLong(lastResetText);
-			if (!DateUtils.isResetTime(5, 0, 0, lastResetTime)) {
-				return;
+		try {
+			GameWorld world = GameWorldFactory.getGameWorld();
+			String lastResetText = world.getAttribute(GameWorldKey.DAILY_RANKING_RESET);
+			if (lastResetText != null && !lastResetText.isEmpty()) {
+				long lastResetTime = Long.parseLong(lastResetText);
+				if (!DateUtils.isResetTime(5, 0, 0, lastResetTime)) {
+					return;
+				}
 			}
-		}
 
-		// 第一次初始化的时候调用
-		if (lastResetText == null || lastResetText.isEmpty()) {
-			ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
-			list.addAll(RankingFactory.getSRanking(ListRankingType.WARRIOR_ARENA).getEntrysCopy());
-			list.addAll(RankingFactory.getSRanking(ListRankingType.SWORDMAN_ARENA).getEntrysCopy());
-			list.addAll(RankingFactory.getSRanking(ListRankingType.MAGICAN_ARENA).getEntrysCopy());
-			list.addAll(RankingFactory.getSRanking(ListRankingType.PRIEST_ARENA).getEntrysCopy());
+			// 第一次初始化的时候调用
+			if (lastResetText == null || lastResetText.isEmpty()) {
+				ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
+				list.addAll(RankingFactory.getSRanking(ListRankingType.WARRIOR_ARENA).getEntrysCopy());
+				list.addAll(RankingFactory.getSRanking(ListRankingType.SWORDMAN_ARENA).getEntrysCopy());
+				list.addAll(RankingFactory.getSRanking(ListRankingType.MAGICAN_ARENA).getEntrysCopy());
+				list.addAll(RankingFactory.getSRanking(ListRankingType.PRIEST_ARENA).getEntrysCopy());
 
-			Ranking<FightingComparable, RankingLevelData> fightingRanking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
-			Ranking<FightingComparable, RankingLevelData> fightingTeamRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
-			Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ALL);
-			for (ListRankingEntry<String, ArenaExtAttribute> m : list) {
-				RankingLevelData levelData = createRankingLevelData(m);
-				ArenaExtAttribute areanExt = m.getExtension();
-				String key = m.getKey();
-				FightingComparable fightingComparable = new FightingComparable();
-				fightingComparable.setFighting(areanExt.getFighting());
-				fightingRanking.addOrUpdateRankingEntry(key, fightingComparable, levelData);
+				Ranking<FightingComparable, RankingLevelData> fightingRanking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
+				Ranking<FightingComparable, RankingLevelData> fightingTeamRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
+				Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ALL);
+				for (ListRankingEntry<String, ArenaExtAttribute> m : list) {
+					RankingLevelData levelData = createRankingLevelData(m);
+					ArenaExtAttribute areanExt = m.getExtension();
+					String key = m.getKey();
+					FightingComparable fightingComparable = new FightingComparable();
+					fightingComparable.setFighting(areanExt.getFighting());
+					fightingRanking.addOrUpdateRankingEntry(key, fightingComparable, levelData);
 
-				fightingComparable = new FightingComparable();
-				fightingComparable.setFighting(areanExt.getFightingTeam());
-				fightingTeamRanking.addOrUpdateRankingEntry(key, fightingComparable, levelData);
-				LevelComparable lc = new LevelComparable();
-				lc.setLevel(areanExt.getLevel());
-				lc.setExp(0);
-				levelRanking.addOrUpdateRankingEntry(key, lc, levelData);
+					fightingComparable = new FightingComparable();
+					fightingComparable.setFighting(areanExt.getFightingTeam());
+					fightingTeamRanking.addOrUpdateRankingEntry(key, fightingComparable, levelData);
+					LevelComparable lc = new LevelComparable();
+					lc.setLevel(areanExt.getLevel());
+					lc.setExp(0);
+					levelRanking.addOrUpdateRankingEntry(key, lc, levelData);
+				}
 			}
+
+			changeDailyData(RankType.FIGHTING_ALL, RankType.FIGHTING_ALL_DAILY);
+			changeDailyData(RankType.TEAM_FIGHTING, RankType.TEAM_FIGHTING_DAILY);
+			changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ALL_DAILY);
+
+			// 初始化万仙阵数据
+			changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
+			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
+		} catch (Exception e) {
+			GameLog.error("RankingMgr", "#resetUpdateState()", "重置排行榜异常", e);
 		}
-
-		changeDailyData(RankType.FIGHTING_ALL, RankType.FIGHTING_ALL_DAILY);
-		changeDailyData(RankType.TEAM_FIGHTING, RankType.TEAM_FIGHTING_DAILY);
-		changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ALL_DAILY);
-
-		// 初始化万仙阵数据
-		changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
-		world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
 	}
 
 	public void arenaCalculate() {

@@ -3,16 +3,12 @@ package com.rwbase.dao.unendingwar;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class UnendingWarInfoCfgDAO extends CfgCsvDao<UnendingWarInfoCfg> {
-	private static UnendingWarInfoCfgDAO instance = new UnendingWarInfoCfgDAO();
-	private UnendingWarInfoCfgDAO() {
-		
-	}
-	
-	public static UnendingWarInfoCfgDAO getInstance(){
-		return instance;
+	public static UnendingWarInfoCfgDAO getInstance() {
+		return SpringContextUtil.getBean(UnendingWarInfoCfgDAO.class);
 	}
 	
 	public Map<String, UnendingWarInfoCfg> initJsonCfg() {

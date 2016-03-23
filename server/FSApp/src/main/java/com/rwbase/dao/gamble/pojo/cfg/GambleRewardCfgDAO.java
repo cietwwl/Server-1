@@ -7,45 +7,46 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.gamble.pojo.EGambleWeight;
 import com.rwproto.GambleServiceProtos.EGambleType;
 
 public class GambleRewardCfgDAO extends CfgCsvDao<GambleRewardCfg>{
-	private static GambleRewardCfgDAO m_instance;
-	public static GambleRewardCfgDAO getInstance(){
-		if(m_instance == null) {
-			m_instance = new GambleRewardCfgDAO();
-		}
-		return m_instance;
+	public static GambleRewardCfgDAO getInstance() {
+		return SpringContextUtil.getBean(GambleRewardCfgDAO.class);
 	}
 	
+	
 	private EGambleType gambleTypes[] = new EGambleType[]{EGambleType.PRIMARY, EGambleType.MIDDLE, EGambleType.ADVANCED};
-	private Map<EGambleWeight, Map<EGambleType, Map<Integer, List<GambleRewardCfg>>>> weightMap = new HashMap<EGambleWeight, Map<EGambleType,Map<Integer,List<GambleRewardCfg>>>>();
-	private void init(){
+	private Map<EGambleWeight, Map<EGambleType, Map<Integer, List<GambleRewardCfg>>>> weightMap =null;
+	private void initWeight( Map<String, GambleRewardCfg> cfgCacheMap){
+		
 		//author：lida 方便热加载改动一下这里的初始化
 		//initJsonCfg();
+		Map<EGambleWeight, Map<EGambleType, Map<Integer, List<GambleRewardCfg>>>> weightMapP= new HashMap<EGambleWeight, Map<EGambleType,Map<Integer,List<GambleRewardCfg>>>>();
 		getAllCfg();
 		
 		Iterator<GambleRewardCfg> it = cfgCacheMap.values().iterator();
 		while(it.hasNext()){
 			GambleRewardCfg cfg = (GambleRewardCfg)it.next();
 			EGambleWeight weightGroup = EGambleWeight.valueOf(cfg.getWeightGroup());
-			if(!weightMap.containsKey(weightGroup)){
-				weightMap.put(weightGroup, new HashMap<EGambleType, Map<Integer,List<GambleRewardCfg>>>());
+			if(!weightMapP.containsKey(weightGroup)){
+				weightMapP.put(weightGroup, new HashMap<EGambleType, Map<Integer,List<GambleRewardCfg>>>());
 			}
 			for(EGambleType gambleType : gambleTypes){
-				if(!weightMap.get(weightGroup).containsKey(gambleType)){
-					weightMap.get(weightGroup).put(gambleType, new HashMap<Integer, List<GambleRewardCfg>>());
+				if(!weightMapP.get(weightGroup).containsKey(gambleType)){
+					weightMapP.get(weightGroup).put(gambleType, new HashMap<Integer, List<GambleRewardCfg>>());
 				}
-				if(!weightMap.get(weightGroup).get(gambleType).containsKey(cfg.getOrder())){
-					weightMap.get(weightGroup).get(gambleType).put(cfg.getOrder(), new ArrayList<GambleRewardCfg>());
+				if(!weightMapP.get(weightGroup).get(gambleType).containsKey(cfg.getOrder())){
+					weightMapP.get(weightGroup).get(gambleType).put(cfg.getOrder(), new ArrayList<GambleRewardCfg>());
 				}
 				if(cfg.hasGambleType(gambleType)){
-					weightMap.get(weightGroup).get(gambleType).get(cfg.getOrder()).add(cfg);
+					weightMapP.get(weightGroup).get(gambleType).get(cfg.getOrder()).add(cfg);
 				}
 			}
 		}
+		weightMap = weightMapP;
 	}
 	
 	/**
@@ -64,11 +65,6 @@ public class GambleRewardCfgDAO extends CfgCsvDao<GambleRewardCfg>{
 	 * @return
 	 */
 	public  List<GambleRewardCfg> getWeightGroup(EGambleWeight group, EGambleType type, int count){
-		synchronized (this) {
-			if(weightMap.size() == 0){
-				init();			
-			}
-		}
 		if(weightMap.containsKey(group)){
 			if(weightMap.get(group).containsKey(type)){
 				if(weightMap.get(group).get(type).containsKey(count)){
@@ -82,7 +78,9 @@ public class GambleRewardCfgDAO extends CfgCsvDao<GambleRewardCfg>{
 	@Override
 	public Map<String, GambleRewardCfg> initJsonCfg() 
 	{
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("gamble/gambleReward.csv",GambleRewardCfg.class);		
+		Map<String, GambleRewardCfg> cfgCacheMapP = CfgCsvHelper.readCsv2Map("gamble/gambleReward.csv",GambleRewardCfg.class);	
+		initWeight(cfgCacheMapP);		
+		cfgCacheMap = cfgCacheMapP;		
 		return cfgCacheMap;
 	}
 }

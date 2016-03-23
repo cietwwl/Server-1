@@ -7,38 +7,39 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.vip.RechargeCfgDAO;
 import com.rwbase.dao.worship.pojo.CfgWorshipRandomReward;
 
 public class CfgWorshipRandomRewardHelper extends CfgCsvDao<CfgWorshipRandomReward>{
-	private static CfgWorshipRandomRewardHelper instance = new CfgWorshipRandomRewardHelper();
-	private CfgWorshipRandomRewardHelper() {
-		
+	public static CfgWorshipRandomRewardHelper getInstance() {
+		return SpringContextUtil.getBean(CfgWorshipRandomRewardHelper.class);
 	}
 	
 	private Map<String, List<CfgWorshipRandomReward>> weightMap = new HashMap<String, List<CfgWorshipRandomReward>>();
-	private void init(){
+	private void initWeight(Map<String, CfgWorshipRandomReward> cfgCacheMapTmp){
 		// author：lida 方便热加载改动一下这里的初始化
 		// initJsonCfg();
+		
+		Map<String, List<CfgWorshipRandomReward>> weightMapTmp = new HashMap<String, List<CfgWorshipRandomReward>>();
 		getAllCfg();
 				
-		Iterator<CfgWorshipRandomReward> it = cfgCacheMap.values().iterator();
+		Iterator<CfgWorshipRandomReward> it = cfgCacheMapTmp.values().iterator();
 		while(it.hasNext()){
 			CfgWorshipRandomReward cfg = it.next();
 			String key = cfg.getScheme() + "_" + cfg.getWeightGroup();
-			if(!weightMap.containsKey(key)){
-				weightMap.put(key, new ArrayList<CfgWorshipRandomReward>());
+			if(!weightMapTmp.containsKey(key)){
+				weightMapTmp.put(key, new ArrayList<CfgWorshipRandomReward>());
 			}
-			weightMap.get(key).add(cfg);
+			weightMapTmp.get(key).add(cfg);
 		}
 	}
 	
-	public static CfgWorshipRandomRewardHelper getInstance(){
-		return instance;
-	}
-	
 	public Map<String, CfgWorshipRandomReward> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("worship/worshipRandomReward.csv",CfgWorshipRandomReward.class);
+		Map<String, CfgWorshipRandomReward> cfgCacheMapTmp = CfgCsvHelper.readCsv2Map("worship/worshipRandomReward.csv",CfgWorshipRandomReward.class);
+		initWeight(cfgCacheMapTmp);
+		cfgCacheMap = cfgCacheMapTmp;
 		return cfgCacheMap;
 	}
 	
@@ -48,10 +49,7 @@ public class CfgWorshipRandomRewardHelper extends CfgCsvDao<CfgWorshipRandomRewa
 	 * @param weightGroup
 	 * @return
 	 */
-	public List<CfgWorshipRandomReward> getWorshipRewardCfg(int scheme, int weightGroup){
-		if(weightMap.size() == 0){
-			init();			
-		}
+	public List<CfgWorshipRandomReward> getWorshipRewardCfg(int scheme, int weightGroup){		
 		String key = scheme + "_" + weightGroup;
 		if(weightMap.containsKey(key)){
 			return weightMap.get(key);

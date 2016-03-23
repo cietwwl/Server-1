@@ -3,13 +3,12 @@ package com.rwbase.dao.copy.cfg;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class MapCfgDAO extends CfgCsvDao<MapCfg> {
-	private static MapCfgDAO instance = new MapCfgDAO();
-	private MapCfgDAO(){}
-	public static MapCfgDAO getInstance(){
-		return instance;
+	public static MapCfgDAO getInstance() {
+		return SpringContextUtil.getBean(MapCfgDAO.class);
 	}
 
 	@Override

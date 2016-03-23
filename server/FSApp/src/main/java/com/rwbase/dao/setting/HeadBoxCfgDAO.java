@@ -6,20 +6,16 @@ import java.util.Map;
 
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.secretArea.SecretFindExpendCfgDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxCfg;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
 
 public class HeadBoxCfgDAO extends CfgCsvDao<HeadBoxCfg>
 {
-	private static HeadBoxCfgDAO m_instance = new HeadBoxCfgDAO();
-	public static HeadBoxCfgDAO getInstance()
-	{
-		if(m_instance == null) 
-		{
-			m_instance = new HeadBoxCfgDAO();
-		}
-		return m_instance;
+	public static HeadBoxCfgDAO getInstance() {
+		return SpringContextUtil.getBean(HeadBoxCfgDAO.class);
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package com.rw.handler.battletower.data;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -35,10 +36,13 @@ public class BattleTowerData {
 		// }
 		//
 		// return r.nextInt(sweepFloor) + r.nextInt(5);
-		return ((sweepFloor / 3) * 3) + 1;
+		int floor = (((sweepFloor + 1) / 3) * 3) + 1;
+		// System.err.println("获取的值-------------" + floor);
+		return floor;
 	}
 
 	public void setSweepFloor(int sweepFloor) {
+		// System.err.println("修改的值啊啊啊啊-------------" + sweepFloor);
 		this.sweepFloor = sweepFloor;
 	}
 
@@ -73,5 +77,20 @@ public class BattleTowerData {
 
 	public int getBossId() {
 		return bossId;
+	}
+
+	public void removeBossInfo(int bossId) {
+		Iterator<BossInfoMsg> iterator = bossInfoMsg.iterator();
+		while (iterator.hasNext()) {
+			BossInfoMsg next = iterator.next();
+			if (next == null) {
+				continue;
+			}
+
+			if (next.getBossId() == bossId) {
+				iterator.remove();
+				break;
+			}
+		}
 	}
 }

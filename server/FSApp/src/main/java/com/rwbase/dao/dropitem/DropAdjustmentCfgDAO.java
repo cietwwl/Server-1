@@ -4,18 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.copypve.CopyLevelCfgDAO;
 
 public class DropAdjustmentCfgDAO extends CfgCsvDao<DropAdjustmentCfg>{
 	
-	private DropAdjustmentCfgDAO(){}
-	private static DropAdjustmentCfgDAO instance = new DropAdjustmentCfgDAO();
+	public static DropAdjustmentCfgDAO getInstance() {
+		return SpringContextUtil.getBean(DropAdjustmentCfgDAO.class);
+	}
 	
 	private HashMap<Integer, DropAdjustmentCfg> map;
-	
-	public static DropAdjustmentCfgDAO getInstance(){
-		return instance;
-	}
 	
 	@Override
 	public Map<String, DropAdjustmentCfg> initJsonCfg() {

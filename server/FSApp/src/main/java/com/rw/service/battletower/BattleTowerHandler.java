@@ -208,7 +208,7 @@ public class BattleTowerHandler {
 		rsp.setOpenBoxTip(commonCfgHelper.getOpenboxtip());
 		rsp.setUseKeyCount(commonCfgHelper.getUsekeycount());
 
-		System.err.println(rsp.build());
+		// System.err.println(rsp.build());
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		// 更新数据到数据库
@@ -953,6 +953,7 @@ public class BattleTowerHandler {
 
 		tableBattleTower.setResult(true);// 设置已经拿到战斗结果的标记
 		if (!result) {// 失败了
+			tableBattleTower.setCurFloor(floor - 1);// 设置当前新的层
 			tableBattleTower.setBreak(true);
 		} else {// 成功
 			if (floor < curFloor) {

@@ -3,17 +3,13 @@ package com.rwbase.dao.worship;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.worship.pojo.CfgWorshipRankdomScheme;
 
 public class CfgWorshipRankdomSchemeHelper extends CfgCsvDao<CfgWorshipRankdomScheme>{
-	private static CfgWorshipRankdomSchemeHelper instance = new CfgWorshipRankdomSchemeHelper();
-	private CfgWorshipRankdomSchemeHelper() {
-		
-	}
-	
-	public static CfgWorshipRankdomSchemeHelper getInstance(){
-		return instance;
+	public static CfgWorshipRankdomSchemeHelper getInstance() {
+		return SpringContextUtil.getBean(CfgWorshipRankdomSchemeHelper.class);
 	}
 	
 	public Map<String, CfgWorshipRankdomScheme> initJsonCfg() {

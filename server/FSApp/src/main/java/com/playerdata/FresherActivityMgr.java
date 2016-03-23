@@ -81,14 +81,14 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 	}
 
 	public List<String> getFresherActivityList() {
-		ArrayList<String> configList = null;
+		ArrayList<String> configList = new ArrayList<String>();
 		List<FresherActivityItem> fresherActivityItemList = fresherActivityItemHolder.getFresherActivityItemList();
 		
 		for (FresherActivityItem item : fresherActivityItemList) {
+			if(item.getType() == eActivityType.A_Final && item.getStartTime() <= System.currentTimeMillis() && !item.isGiftTaken()){
+				configList.add(String.valueOf(item.getCfgId()));
+			}
 			if (item.isFinish() && !item.isGiftTaken()) {
-				if (configList == null) {
-					configList = new ArrayList<String>();
-				}
 				configList.add(String.valueOf(item.getCfgId()));
 			}
 		}

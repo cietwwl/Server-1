@@ -3,13 +3,12 @@ package com.rwbase.dao.copy.cfg;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class GiftCfgDAO extends CfgCsvDao<GiftCfg> {
-	private static GiftCfgDAO instance = new GiftCfgDAO();
-	
-	public static GiftCfgDAO getInstance(){
-		return instance;
+	public static GiftCfgDAO getInstance() {
+		return SpringContextUtil.getBean(GiftCfgDAO.class);
 	}
 	
 	public Map<String, GiftCfg> initJsonCfg() {

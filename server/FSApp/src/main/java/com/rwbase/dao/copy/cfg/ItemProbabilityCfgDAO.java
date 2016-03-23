@@ -9,16 +9,15 @@ import java.util.Random;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.RandomUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class ItemProbabilityCfgDAO extends CfgCsvDao<ItemProbabilityCfg>{
 
-	public static ItemProbabilityCfgDAO instance = new ItemProbabilityCfgDAO();
-	private ItemProbabilityCfgDAO() {}
-	public static ItemProbabilityCfgDAO getInstance(){
-		return instance;
+	public static ItemProbabilityCfgDAO getInstance() {
+		return SpringContextUtil.getBean(ItemProbabilityCfgDAO.class);
 	}
 		
 	@Override

@@ -7,20 +7,19 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class DropCfgDAO extends CfgCsvDao<DropCfg> {
 
-	private DropCfgDAO() {
+	public static DropCfgDAO getInstance() {
+		return SpringContextUtil.getBean(DropCfgDAO.class);
 	}
+	
 
-	private static DropCfgDAO instance = new DropCfgDAO();
 	private HashMap<Integer, List<Integer>> allDropListMap;
 	private HashMap<Integer, List<DropCfg>> dropCfgMap;
 
-	public static DropCfgDAO getInstance() {
-		return instance;
-	}
 
 	@Override
 	public Map<String, DropCfg> initJsonCfg() {

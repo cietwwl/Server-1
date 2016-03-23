@@ -79,6 +79,7 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
+				RankingMgr.getInstance().resetUpdateState();
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
 				// 初始化万仙阵匹配的数据缓存
 				AngleArrayMatchHelper.resetMatchData();

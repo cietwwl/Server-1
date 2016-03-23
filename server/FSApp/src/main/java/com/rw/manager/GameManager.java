@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -25,6 +31,8 @@ import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.rw.fsutil.dao.cache.DataCache;
+import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
@@ -129,6 +137,7 @@ public class GameManager {
 		long end = System.currentTimeMillis();
 		System.err.println("万仙阵初始化匹配数据花费时间：" + (end - start) + "毫秒");
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
+		
 	}
 
 	private static void initServerProperties() {
@@ -217,9 +226,73 @@ public class GameManager {
 		GameLog.debug("服务器关闭完成...");
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
+		ExecutorService executor = Executors.newFixedThreadPool(50);
+		ArrayList<NameFuture> allTasks = new ArrayList<NameFuture>();
+		for (final DataCache dao : DataCacheFactory.getAllCaches()) {
+			final String name = dao.getName();
+			List<Runnable> tasks = dao.createUpdateTask();
+			int size = tasks.size();
+			GameLog.error(name + " 保存数据：" + size);
+			final AtomicInteger taskCount = new AtomicInteger(size);
+			for (int i = 0; i < size; i++) {
+				final Runnable task = tasks.get(i);
+				Future t = executor.submit(new Callable() {
+
+					@Override
+					public Object call() throws Exception {
+						task.run();
+						if (taskCount.decrementAndGet() == 0) {
+							GameLog.error(name + " 保存数据完毕");
+							//System.err.println(name + " 保存数据完毕");
+						}
+						return name;
+					}
+				});
+				allTasks.add(new NameFuture(t, name));
+			}
+		}
+		boolean interrupted = false;
+		if (Thread.interrupted()) {
+			interrupted = true;
+		}
+		int size = allTasks.size();
+		GameLog.error("保存数据总量：" + size);
+		//System.err.println("保存数据总量：" + size);
+		for (int i = 0; i < size; i++) {
+			NameFuture nameFuture = allTasks.get(i);
+			try {
+				nameFuture.future.get();
+			} catch (InterruptedException e) {
+				GameLog.error("保存数据时接收到inerruptException：" + nameFuture.name);
+				interrupted = true;
+			} catch (ExecutionException e) {
+				GameLog.error("保存数据ExecutionException：" + nameFuture.name + "," + e);
+			}
+		}
+		GameLog.error("停服保存数据完毕：" + size);
+		//System.err.println("停服保存数据完毕：" + size);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	static class NameFuture {
+		private final Future future;
+		private final String name;
+
+		public NameFuture(Future future, String name) {
+			super();
+			this.future = future;
+			this.name = name;
+		}
+
 	}
 
 	/**

@@ -3,13 +3,13 @@ package com.rwbase.dao.email;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.dropitem.DropCfgDAO;
 
 public class EmailCfgDAO  extends CfgCsvDao<EmailCfg>{
-	private static EmailCfgDAO instance = new EmailCfgDAO();
-	private EmailCfgDAO(){}
-	public static EmailCfgDAO getInstance(){
-		return instance;
+	public static EmailCfgDAO getInstance() {
+		return SpringContextUtil.getBean(EmailCfgDAO.class);
 	}
 
 	@Override
