@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.skill.SkillFeeCfgDAO;
 import com.rwbase.dao.store.pojo.CommodityCfg;
 
 public class CommodityCfgDAO extends CfgCsvDao<CommodityCfg> {
-	private static CommodityCfgDAO instance  =  new CommodityCfgDAO();
-	private CommodityCfgDAO(){};
-	public static CommodityCfgDAO getInstance(){
-		return instance;
+	public static CommodityCfgDAO getInstance() {
+		return SpringContextUtil.getBean(CommodityCfgDAO.class);
 	}
 	@Override
 	public Map<String, CommodityCfg> initJsonCfg() {

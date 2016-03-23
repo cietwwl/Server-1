@@ -3,15 +3,14 @@ package com.rwbase.dao.userrole;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.userrole.pojo.AdvanceCfg;
 
 public class AdvanceCfgDAO extends CfgCsvDao<AdvanceCfg> {
-	private AdvanceCfgDAO() {
-	}
-	private static AdvanceCfgDAO instance = new AdvanceCfgDAO();
 	public static AdvanceCfgDAO getInstance() {
-		return instance;
+		return SpringContextUtil.getBean(AdvanceCfgDAO.class);
 	}
 	@Override
 	public Map<String, AdvanceCfg> initJsonCfg() {

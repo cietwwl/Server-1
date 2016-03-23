@@ -3,14 +3,13 @@ package com.rwbase.dao.role;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.role.pojo.QualityTypeCfg;
 
 public class QualityTypeCfgDAO  extends CfgCsvDao<QualityTypeCfg> {
-	private static QualityTypeCfgDAO instance = new QualityTypeCfgDAO();
-	private QualityTypeCfgDAO(){}
-	public static QualityTypeCfgDAO getInstance(){ 
-		return instance;
+	public static QualityTypeCfgDAO getInstance() {
+		return SpringContextUtil.getBean(QualityTypeCfgDAO.class);
 	}
 
 	@Override

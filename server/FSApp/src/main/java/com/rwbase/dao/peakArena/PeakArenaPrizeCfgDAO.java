@@ -5,22 +5,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.peakArena.pojo.PeakArenaPrizeCfg;
 
 public class PeakArenaPrizeCfgDAO extends CfgCsvDao<PeakArenaPrizeCfg> {
 
 	
-	private static PeakArenaPrizeCfgDAO instance;
-	private PeakArenaPrizeCfgDAO(){}
-	
-	public static PeakArenaPrizeCfgDAO getInstance()
-	{
-		if(instance == null){
-			instance = new PeakArenaPrizeCfgDAO();
-		}
-		return instance;
+	public static PeakArenaPrizeCfgDAO getInstance() {
+		return SpringContextUtil.getBean(PeakArenaPrizeCfgDAO.class);
 	}
+
 	
 	@Override
 	public Map<String, PeakArenaPrizeCfg> initJsonCfg() {

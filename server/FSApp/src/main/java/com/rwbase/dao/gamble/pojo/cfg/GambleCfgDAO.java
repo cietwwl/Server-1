@@ -3,18 +3,17 @@ package com.rwbase.dao.gamble.pojo.cfg;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.friend.CfgFriendGiftDAO;
 import com.rwproto.GambleServiceProtos.EGambleType;
 
 public class GambleCfgDAO extends CfgCsvDao<GambleCfg>
 {
-	private static GambleCfgDAO m_instance = new GambleCfgDAO();
-	public static GambleCfgDAO getInstance(){
-		if(m_instance == null) {
-			m_instance = new GambleCfgDAO();
-		}
-		return m_instance;
+	public static GambleCfgDAO getInstance() {
+		return SpringContextUtil.getBean(GambleCfgDAO.class);
 	}
+	
 	
 	public GambleCfg getGambleCfg(EGambleType gambleType){
 		return (GambleCfg)getCfgById(String.valueOf(gambleType.getNumber()));

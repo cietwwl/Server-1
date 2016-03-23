@@ -3,17 +3,13 @@ package com.rwbase.dao.secretArea;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.secretArea.pojo.SecretBuyCoinCfg;
 
 public class SecretBuyCoinCfgDAO extends CfgCsvDao<SecretBuyCoinCfg>{//购买密钥花费配置
-	private static SecretBuyCoinCfgDAO instance = new SecretBuyCoinCfgDAO();
-	private SecretBuyCoinCfgDAO() {
-		
-	}
-	
-	public static SecretBuyCoinCfgDAO getInstance(){
-		return instance;
+	public static SecretBuyCoinCfgDAO getInstance() {
+		return SpringContextUtil.getBean(SecretBuyCoinCfgDAO.class);
 	}
 	
 	public Map<String, SecretBuyCoinCfg> initJsonCfg() {

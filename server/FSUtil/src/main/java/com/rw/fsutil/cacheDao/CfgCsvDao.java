@@ -10,24 +10,19 @@ import org.springframework.util.CollectionUtils;
 
 public abstract class CfgCsvDao<T> {
 	protected  Map<String, T> cfgCacheMap;
-	protected abstract Map<String, T> initJsonCfg();
+	protected abstract Map<String, T> initJsonCfg();	
+//	protected abstract void initSingleton();
 	
 	public void init(){
 		initJsonCfg();
 		CfgCsvReloader.addCfgDao(this);
+//		initSingleton();
 	}
 	
 	public  Map<String, T> getMaps(){
-		if(CollectionUtils.isEmpty(cfgCacheMap)){
-			initJsonCfg();
-			CfgCsvReloader.addCfgDao(this);
-		}
 		return cfgCacheMap;
 	}
 	public Object getCfgById(String id){
-		if(CollectionUtils.isEmpty(cfgCacheMap)){
-			cfgCacheMap = getMaps();
-		}
 		return cfgCacheMap.get(id);
 	}
 

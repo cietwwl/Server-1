@@ -4,7 +4,9 @@ import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.JsonCfgTransfer;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.fighting.FightingWeightCfgDAO;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
 
 /**
@@ -14,14 +16,8 @@ import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
  */
 public class FresherActivityCfgDao extends CfgCsvDao<FresherActivityCfg>{
 
-	private static FresherActivityCfgDao instance = new FresherActivityCfgDao();
-	
-	private FresherActivityCfgDao() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public static FresherActivityCfgDao getInstance(){
-		return instance;
+	public static FresherActivityCfgDao getInstance() {
+		return SpringContextUtil.getBean(FresherActivityCfgDao.class);
 	}
 	
 	@Override

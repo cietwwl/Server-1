@@ -3,17 +3,15 @@ package com.rwbase.dao.business;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.arena.ArenaUpPrizeCfgDAO;
 
 public class SevenDayGifCfgDAO extends CfgCsvDao<SevenDayGifCfg> {
-	private static SevenDayGifCfgDAO instance = new SevenDayGifCfgDAO();
-	private SevenDayGifCfgDAO() {
-		
+	public static SevenDayGifCfgDAO getInstance() {
+		return SpringContextUtil.getBean(SevenDayGifCfgDAO.class);
 	}
-	
-	public static SevenDayGifCfgDAO getInstance(){
-		return instance;
-	}
+
 	
 	public Map<String, SevenDayGifCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("mainmsg/DailyGifCfg.csv",SevenDayGifCfg.class);

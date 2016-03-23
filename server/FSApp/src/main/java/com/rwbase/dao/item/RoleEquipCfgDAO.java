@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.item.pojo.RoleEquipCfg;
 
 public class RoleEquipCfgDAO  extends CfgCsvDao<RoleEquipCfg>{
-	private static RoleEquipCfgDAO instance = new RoleEquipCfgDAO();
-	private RoleEquipCfgDAO(){}
-	public static RoleEquipCfgDAO getInstance(){
-		return instance;
+	public static RoleEquipCfgDAO getInstance() {
+		return SpringContextUtil.getBean(RoleEquipCfgDAO.class);
 	}
 
 	@Override

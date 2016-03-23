@@ -6,21 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.user.pojo.ChangeRoleInfoCfg;
 
 public class CfgChangeRoleInfoDAO extends  CfgCsvDao<ChangeRoleInfoCfg> {
 
-		private CfgChangeRoleInfoDAO()
-		{
-			
-		}
-		private static CfgChangeRoleInfoDAO instance = new CfgChangeRoleInfoDAO();
-		public static CfgChangeRoleInfoDAO getInstance() {
-			
-			return instance;
-		}
-		
+	public static CfgChangeRoleInfoDAO getInstance() {
+		return SpringContextUtil.getBean(CfgChangeRoleInfoDAO.class);
+	}
 		@Override
 		public Map<String, ChangeRoleInfoCfg> initJsonCfg() {
 			cfgCacheMap = CfgCsvHelper.readCsv2Map("PlayerCfg/ChangeRoleInfoCfg.csv",ChangeRoleInfoCfg.class);

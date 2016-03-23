@@ -3,13 +3,13 @@ package com.rwbase.dao.groupCopy.cfg;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.gamble.pojo.cfg.GambleRewardCfgDAO;
 
 public class GroupCopyLevelCfgDao extends CfgCsvDao<GroupCopyLevelCfg> {
-	private static GroupCopyLevelCfgDao instance = new GroupCopyLevelCfgDao();
-	private GroupCopyLevelCfgDao(){}
-	public static GroupCopyLevelCfgDao getInstance(){
-		return instance;
+	public static GroupCopyLevelCfgDao getInstance() {
+		return SpringContextUtil.getBean(GroupCopyLevelCfgDao.class);
 	}
 	
 	@Override

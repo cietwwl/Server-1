@@ -7,16 +7,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.util.JsonCfgTransfer;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class RobotHeroCfgDAO extends CfgCsvDao<RobotHeroCfg> {
 
-	private static RobotHeroCfgDAO instance = new RobotHeroCfgDAO();
-
 	public static RobotHeroCfgDAO getInstance() {
-		return instance;
-	}
+		return SpringContextUtil.getBean(RobotHeroCfgDAO.class);
+	}	
 
 	public HashMap<String, List<RobotHeroCfg>> map;
 

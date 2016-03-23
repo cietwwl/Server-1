@@ -23,11 +23,11 @@ public class Test {
 		// }
 
 		// ///////////////////////////////////////////试练塔
-		// Robot robot = loginRobot("hclovehf3013");
+		// Robot robot = loginRobot("hclovehf");
 		// robot.openBattleTowerMainView();
 		// robot.battleTowerResetData();
 		//
-		// for (int i = 0; i < 10; i++) {
+		// for (int i = 0; i < 8; i++) {
 		// robot.battleTowerChallengeStart();
 		// robot.battleTowerChallengeEnd();
 		//
@@ -54,13 +54,13 @@ public class Test {
 		 */
 
 		// String groupId = "100110033";
-		Robot robot = loginRobot("groupRobot9");
-		robot.addGold(1000);
-		robot.addCoin(100000);
-		robot.createGroup("作弊捡来的");
-		for (int i = 0; i < 2; i++) {
-			robot.groupDonate();
-		}
+		// Robot robot = loginRobot("groupRobot9");
+		// robot.addGold(1000);
+		// robot.addCoin(100000);
+		// robot.createGroup("作弊捡来的");
+		// for (int i = 0; i < 2; i++) {
+		// robot.groupDonate();
+		// }
 
 		// robot.refuseApplyMemberAll();
 		// robot.getGroupInfo();
