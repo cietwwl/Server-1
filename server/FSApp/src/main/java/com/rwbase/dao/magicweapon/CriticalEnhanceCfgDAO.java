@@ -6,15 +6,13 @@ import java.util.Map.Entry;
 
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.magicweapon.pojo.CriticalEnhanceCfg;
 
 public class CriticalEnhanceCfgDAO extends CfgCsvDao<CriticalEnhanceCfg> {
-			private static CriticalEnhanceCfgDAO instance = new CriticalEnhanceCfgDAO();
-			
-			private CriticalEnhanceCfgDAO(){}
 			public static CriticalEnhanceCfgDAO getInstance(){
-				return instance;
+				return SpringContextUtil.getBean(CriticalEnhanceCfgDAO.class);
 			}
 			
 			@Override

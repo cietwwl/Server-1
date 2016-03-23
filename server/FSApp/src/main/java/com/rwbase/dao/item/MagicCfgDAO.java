@@ -1,5 +1,6 @@
 package com.rwbase.dao.item;
 
+import java.util.Collection;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -21,4 +22,6 @@ public class MagicCfgDAO extends CfgCsvDao<MagicCfg> {
 		}
 		return cfgCacheMap;
 	}
+	
+// TODO 所有表加载完成后，应该检查decomposeGoodList里面的模板ID是否存在于Consume表
 }

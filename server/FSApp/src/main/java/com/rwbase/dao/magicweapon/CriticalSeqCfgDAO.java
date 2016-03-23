@@ -6,16 +6,14 @@ import java.util.Map.Entry;
 
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.magicweapon.pojo.CriticalEnhanceCfg;
 import com.rwbase.dao.magicweapon.pojo.CriticalSeqCfg;
 
 public class CriticalSeqCfgDAO extends CfgCsvDao<CriticalSeqCfg> {
-		private static CriticalSeqCfgDAO instance = new CriticalSeqCfgDAO();
-		
-		private CriticalSeqCfgDAO(){}
 		public static CriticalSeqCfgDAO getInstance(){
-			return instance;
+			return SpringContextUtil.getBean(CriticalSeqCfgDAO.class);
 		}
 		
 		@Override

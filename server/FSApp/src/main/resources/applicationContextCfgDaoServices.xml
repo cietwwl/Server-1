@@ -51,6 +51,10 @@
 	<bean class="com.rwbase.dao.item.SoulStoneCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicExpCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltCfgDAO"  init-method="init" />
+	
+	<bean class="com.rwbase.dao.magicweapon.CriticalEnhanceCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.magicweapon.CriticalSeqCfgDAO"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.mainmsg.CfgPmdDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.peakArena.PeakArenaPrizeCfgDAO"  init-method="init" />
