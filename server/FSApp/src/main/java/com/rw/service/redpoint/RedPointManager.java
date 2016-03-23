@@ -286,7 +286,7 @@ public class RedPointManager {
 
 		// 检查开服活动
 		List<String> fresherActivity = player.getFresherActivityMgr().getFresherActivityList();
-		if (fresherActivity != null) {
+		if (fresherActivity != null && !fresherActivity.isEmpty()) {
 			map.put(RedPointType.HOME_WINDOW_OPEN_GIGT, fresherActivity);
 		}
 		return map;
