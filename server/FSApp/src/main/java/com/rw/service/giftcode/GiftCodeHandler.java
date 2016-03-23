@@ -16,7 +16,6 @@ import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailData;
 import com.rwproto.GiftCodeProto.ResultType;
 import com.rwproto.GiftCodeProto.UseGiftCodeRspMsg;
-import com.rwproto.MsgDef.Command;
 
 /*
  * @author HC
@@ -62,7 +61,12 @@ public class GiftCodeHandler {
 
 			@Override
 			public void doCallBack(GiftCodeResponse gmResponse) {
-				ByteString bs = null;
+				if (gmResponse == null) {
+					rsp.setResultType(ResultType.FAIL);
+					rsp.setTipMsg("兑换失败");
+					return;
+				}
+
 				int type = gmResponse.getType();
 				if (type == CODE_STATE.CODE_SUCCESS.type) {// 兑换成功
 					// 发送邮件
@@ -74,52 +78,49 @@ public class GiftCodeHandler {
 					emailData.setDeleteType(EEmailDeleteType.GET_DELETE);
 
 					List<GiftItem> itemData = gmResponse.getItemData();
-					StringBuilder sb = new StringBuilder();
-					for (int i = 0, size = itemData.size(); i < size; i++) {
-						GiftItem item = itemData.get(i);
-						sb.append(item.getType()).append("~").append(item.getCount());
-						if (i < size - 1) {
-							sb.append(",");
+					if (itemData != null) {
+						StringBuilder sb = new StringBuilder();
+						for (int i = 0, size = itemData.size(); i < size; i++) {
+							GiftItem item = itemData.get(i);
+							sb.append(item.getType()).append("~").append(item.getCount());
+							if (i < size - 1) {
+								sb.append(",");
+							}
 						}
+						emailData.setEmailAttachment(sb.toString());
 					}
-
-					emailData.setEmailAttachment(sb.toString());
 
 					EmailUtils.sendEmail(player.getUserId(), emailData);
 
 					rsp.setResultType(ResultType.SUCCESS);
 					rsp.setTipMsg(CODE_STATE.CODE_SUCCESS.tip);
-					bs = rsp.build().toByteString();
 				} else if (type == CODE_STATE.CODE_USED.type) {// 已经被使用
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg(CODE_STATE.CODE_USED.tip);
-					bs = rsp.build().toByteString();
 				} else if (type == CODE_STATE.CODE_NOT_EXIST.type) {// 兑换码不存在
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg(CODE_STATE.CODE_NOT_EXIST.tip);
-					bs = rsp.build().toByteString();
 				} else if (type == CODE_STATE.CODE_USED_BY_PLAYER.type) {// 已经领取了这个激活码
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg(CODE_STATE.CODE_USED_BY_PLAYER.tip);
-					bs = rsp.build().toByteString();
 				} else if (type == CODE_STATE.CODE_TIME_OUT.type) {// 兑换码过期
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg(CODE_STATE.CODE_TIME_OUT.tip);
-					bs = rsp.build().toByteString();
 				} else {
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg("兑换失败");
-					bs = rsp.build().toByteString();
 				}
-
-				player.SendMsg(Command.MSG_GIFT_CODE, bs);
 			}
 		};
 
 		GiftCodeItem codeItem = new GiftCodeItem(code, player.getUserId(), callBack);
 		GiftCodeSenderBm.getInstance().add(codeItem);
 
-		rsp.setResultType(ResultType.WAIT);
+		if (!rsp.hasResultType()) {
+			rsp.setResultType(ResultType.WAIT);
+		} else {
+			System.err.println("已经获取了结果了！");
+		}
 		return rsp.build().toByteString();
 	}
 }
