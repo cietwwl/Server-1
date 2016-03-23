@@ -84,13 +84,14 @@ public class MagicHandler {
 		//请求不论成败都重置伪随机数列的种子
 		int oldSeed = RefreshSeed(player,msgMagicResponse);
 		
-		final int state = msgMagicRequest.getState();
+		int state = msgMagicRequest.getState();
 
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		ItemData itemData = itemBagMgr.findBySlotId(msgMagicRequest.getId());
 		if (itemData == null) {
 			return SetReturnResponse(msgMagicResponse,"找不到法宝！");
 		}
+		state = getItemMagicState(itemData);
 
 		List<MagicItemData> list = msgMagicRequest.getMagicItemDataList();
 		if (list.isEmpty()) {
@@ -817,7 +818,8 @@ public class MagicHandler {
 			updateItems.add(item);
 			bagMgr.syncItemData(updateItems);
 			
-			final int state = msgMagicRequest.getState();
+			int state = getItemMagicState(item);
+			
 			if (state == 1) {
 				player.getMagicMgr().updateMagic();
 			}
@@ -828,6 +830,18 @@ public class MagicHandler {
 		}while(true);
 		
 		return response.build().toByteString();
+	}
+
+	private int getItemMagicState(final ItemData item) {
+		int state = 0;//默认可以认为不是穿戴在身上的
+		try{
+			String stateStr=item.getExtendAttr(EItemAttributeType.Magic_State_VALUE);
+			if (!StringUtils.isBlank(stateStr)){
+				state = Integer.parseInt(stateStr);
+			}
+		}catch(Exception ex){
+		}
+		return state;
 	}
 	
 	
