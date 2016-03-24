@@ -8,3 +8,6 @@ Key,Remarks,id,name,icon,atlas,description
 7,,7,个人贡献,Item/ect_BangGong,Common,可兑换帮派商店货物
 8,,8,战争古币,Item/ect_JianYin,Common,可兑换战火商店中的货物
 9,,9,战场积分,Item/ect_DianFengJingJiChang,Common,可兑换巅峰竞技场商店中的货物
+10,,10,铜钥匙,Item/ect_ShiLianTa_09,Copy,可在试练塔抽取铜宝匣
+11,,11,银钥匙,Item/ect_ShiLianTa_06,Copy,可在试练塔抽取银宝匣
+12,,12,试练塔,Item/ect_ShiLianTa_03,Copy,可在试练塔抽取金宝匣
