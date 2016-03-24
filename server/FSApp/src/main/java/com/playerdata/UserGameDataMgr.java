@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.publicdata.PublicData;
@@ -122,14 +123,14 @@ public class UserGameDataMgr {
 		// userGameDataHolder.update(player);
 	}
 
-	public void addPower(int value, int level) {
+	public boolean addPower(int value, int level) {
 		UserGameData userGameData = userGameDataHolder.get();
 		int newPower = userGameData.getPower() + value;
 		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(level));
 		if (cfg == null) {
 			StringBuilder errorReason = new StringBuilder("UserGameDataMgr[addPower]缺少").append(level).append("级的配置，对应表名为：roleUpgrade");
 			GameLog.error(LogModule.UserGameData.getName(), userGameData.getUserId(), errorReason.toString(), null);
-			return;
+			return false;
 		}
 		newPower = newPower < cfg.getMostPower() ? newPower : cfg.getMostPower();
 		if (newPower < 0) {
@@ -137,6 +138,7 @@ public class UserGameDataMgr {
 		}
 		userGameData.setPower(newPower);
 		userGameDataHolder.update(player);
+		return true;
 	}
 
 	public int getBuyPowerTimes() {
@@ -518,5 +520,95 @@ public class UserGameDataMgr {
 
 	public void setLastWorshipTime(long lastWorshipTime) {
 		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
+	}
+
+	/**
+	 * 扣除某种货币
+	 * @param currencyType
+	 * 货币类型，参考 item.xlsx SpecialItem表
+	 * 不支持增加经验，因为需要额外增加英雄ID！
+	 * @param count
+	 * 扣除数量，必须是非负数
+	 * @return 操作成功还是失败
+	 */
+	public boolean deductCurrency(eSpecialItemId currencyType,int count){
+		boolean result = false;
+		if (count < 0 ) return result;
+		
+		long old = -1;
+
+		switch (currencyType) {
+		case Coin:
+			old  = this.getCoin();
+			break;
+		case Gold:
+			old = this.getGold();
+			break;
+		case Power:
+			old = this.getPower();
+			break;
+		case PlayerExp:
+			old = player.getExp();
+			break;
+		case ArenaCoin:
+			old = this.getArenaCoin();
+			break;
+		case BraveCoin:
+			old = this.getTowerCoin();
+			break;
+		case GuildCoin:
+			GuildUserMgr m_GuildUserMgr = player.getGuildUserMgr();
+			old = m_GuildUserMgr.getGuildCoin();
+			break;
+		case PeakArenaCoin:
+			old = this.getPeakArenaCoin();
+			break;
+		case UnendingWarCoin:
+			old = this.getUnendingWarCoin();
+			break;
+		default:
+			break;
+		}
+		if (old == -1) return result;
+		
+		if (old >= count){
+			//扣钱
+			int dec = -count;
+			switch (currencyType) {
+			case Coin:
+				result = this.addCoin(dec) == 0;
+				break;
+			case Gold:
+				result = this.addGold(dec) == 0;
+				break;
+			case Power:
+				result = player.addPower(dec);
+				break;
+			case PlayerExp:
+				result = false;
+				break;
+			case ArenaCoin:
+				result = this.addArenaCoin(dec) == 0;
+				break;
+			case BraveCoin:
+				result = this.addTowerCoin(dec) == 0;
+				break;
+			case GuildCoin:
+				GuildUserMgr m_GuildUserMgr = player.getGuildUserMgr();
+				result = m_GuildUserMgr.addGuildCoin(dec) == 1;
+				break;
+			case PeakArenaCoin:
+				old = this.getPeakArenaCoin();
+				result = this.addPeakArenaCoin(dec) == 0;
+				break;
+			case UnendingWarCoin:
+				result = this.addUnendingWarCoin(dec) == 0;
+				break;
+			default:
+				break;
+			}
+		}
+
+		return result;
 	}
 }

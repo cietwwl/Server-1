@@ -28,6 +28,12 @@ public class MagicService implements FsService {
 			case Magic_SMELT:
 				result = magicHandler.smeltMagicWeapon(player, msgMagicRequest);
 				break;
+			case Magic_Upgrade:
+				result = magicHandler.upgradeMagicWeapon(player, msgMagicRequest);
+				break;
+			case Magic_Random:
+				result = magicHandler.getRandomSeed(player, msgMagicRequest);
+				break;
 			default:
 				break;
 			}

@@ -951,8 +951,8 @@ public class Player implements PlayerIF {
 		return -1;
 	}
 
-	public void addPower(int value) {
-		userGameDataMgr.addPower(value, getLevel());
+	public boolean addPower(int value) {
+		return userGameDataMgr.addPower(value, getLevel());
 	}
 
 	public void AddBuyCoinTimes(int nValue) {
