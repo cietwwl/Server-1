@@ -84,6 +84,8 @@ key,Remarks,predDef,predName,desc
 1002501,,"isBattleLose(""110209"") & hasItem(""700037"") & !isEquipWith(""202001_3"",""700037"")",,
 1002502,,"isCurrentCheckpoint(""110301"",""0"")",,
 1002503,,"isAllWear(""202001_1"") | isAllWear(""202001_2"") | isAllWear(""202001_3"") | isAllWear(""202001_4"") | isAllWear(""202001_5"")",,
+1002601,,getGuideProgress(10001)=-1,,
+1002602,,player.level >=8,,
 2000001,,"!hasHero(""202001"",""Embattle_Copy"") & player.level =1",,
 2000002,,"hasHero(""202001"",""Embattle_Copy"") | player.level >=7",,
 2000101,,"hasHero(""202001"",""Embattle_Copy"") & player.level =1",,
