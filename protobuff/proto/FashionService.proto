@@ -3,18 +3,28 @@ option java_package = "com.rwproto";
 option java_outer_classname = "FashionServiceProtos";
 import "ErrorService.proto";
 enum FashionEventType {
-	buy = 1;//购买
+	buy = 1;//购买（不再包含续费）
 	on = 2;//穿上请求
 	off = 3;//脱下请求
+	extend = 4;//续费 传入id,extendPlanId
+	syn = 5;//同步数据FashionUsed
 }
 
 message FashionRequest {
 	required FashionEventType eventType = 1;
 	optional string id = 2;
+	optional int32 extendPlanId = 3;//续费方案ID
 }
 
 message FashionResponse {
 	//required FashionEventType eventType = 1;
 	optional string id = 2;
 	required ErrorService.ErrorType error = 3;
+}
+
+message FashionUsed{
+	optional string SuitId = 1;//服饰Id
+	optional string SwingId = 2;//翅膀Id
+	optional string PetId = 3;//宠物Id
+	optional int32 SpecialEffectId = 4;//特殊增益效果Id
 }
