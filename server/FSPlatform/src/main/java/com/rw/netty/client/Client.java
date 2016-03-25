@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.netty.FrameDecoder;
 import com.rw.netty.ProtobufFrameEncoder;
 import com.rwproto.ResponseProtos.Response;
@@ -78,7 +78,7 @@ public class Client  implements Runnable{
 			bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
 			channel = bootstrap.connect(host, port).sync().channel();
 		} catch (Exception ex) {
-			GameLog.error("创建游戏服客户端失败(host:" + host + ",port:" + port + ")"
+			PlatformLog.error("创建游戏服客户端失败(host:" + host + ",port:" + port + ")"
 					+ ex.getMessage());
 		}
 	}

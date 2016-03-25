@@ -49,6 +49,7 @@ public class GSRequestAction {
 			connection.setReadTimeout(1000);
 			connection.setDoOutput(true);
 			output = new ObjectOutputStream(connection.getOutputStream());
+			
 			output.writeObject(requestObject);
 			input = new ObjectInputStream(connection.getInputStream());
 			obj = input.readObject();

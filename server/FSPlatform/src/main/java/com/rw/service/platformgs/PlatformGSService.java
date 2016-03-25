@@ -1,6 +1,6 @@
 package com.rw.service.platformgs;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.service.ResponseService;
 import com.rwproto.PlatformGSMsg.UserInfoResponse;
 import com.rwproto.PlatformGSMsg.ePlatformGSMsgType;
@@ -31,7 +31,7 @@ public class PlatformGSService implements ResponseService {
 			}
 
 		} catch (Exception ex) {
-			GameLog.error("PlatformGSService", "PlatformGSService[processResponse]", "", ex);
+			PlatformLog.error("PlatformGSService", "PlatformGSService[processResponse]", "", ex);
 		}
 	}
 

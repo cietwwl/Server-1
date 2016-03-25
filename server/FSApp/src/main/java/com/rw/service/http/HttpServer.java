@@ -151,16 +151,4 @@ public class HttpServer {
 		}
 		return success;
 	}
-	
-	public static void SendResponse(String classPath, String methodName, Object object, Class<?> classValue){
-		for (String strUrl : GameManager.getPlatformUrls()) {
-			try {
-				GSRequestAction requestAction = new GSRequestAction();
-				requestAction.pushParams(classValue, object);
-				requestAction.remoteCall(strUrl, classPath, methodName);
-			} catch (Exception ex) {
-				continue;
-			}
-		}
-	}
 }

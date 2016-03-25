@@ -8,6 +8,7 @@ import com.gm.GmResultStatusCode;
 import com.gm.util.SocketHelper;
 import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.PlatformNoticeBaseDataResponse;
+import com.rw.service.platformService.PlatformService;
 
 public class GmEditPlatformNotice implements IGmTask {
 
@@ -36,7 +37,7 @@ public class GmEditPlatformNotice implements IGmTask {
 			platformNoticeBaseDataResponse.setStartTime(startTime);
 			platformNoticeBaseDataResponse.setEndTime(endTime);
 			
-			HttpServer.SendResponse("com.rw.netty.http.requestHandler.PlatformNoticeHandler", "updatePlatformNotice", platformNoticeBaseDataResponse, PlatformNoticeBaseDataResponse.class);
+			PlatformService.SendResponse("com.rw.netty.http.requestHandler.PlatformNoticeHandler", "updatePlatformNotice", platformNoticeBaseDataResponse, PlatformNoticeBaseDataResponse.class);
 			
 			response.setStatus(0);
 			response.setCount(1);

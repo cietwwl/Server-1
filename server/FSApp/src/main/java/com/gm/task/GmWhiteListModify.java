@@ -16,6 +16,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.WhiteListBaseDataResponse;
+import com.rw.service.platformService.PlatformService;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 
 public class GmWhiteListModify implements IGmTask{
@@ -60,7 +61,7 @@ public class GmWhiteListModify implements IGmTask{
 		}
 		
 		if (accountList.size() > 0) {
-			HttpServer.SendResponse("com.rw.netty.http.requestHandler.WhiteListHandler", "updateWhiteList", whiteListBaseDataResponse, WhiteListBaseDataResponse.class);
+			PlatformService.SendResponse("com.rw.netty.http.requestHandler.WhiteListHandler", "updateWhiteList", whiteListBaseDataResponse, WhiteListBaseDataResponse.class);
 		}
 		
 		response.setStatus(0);
