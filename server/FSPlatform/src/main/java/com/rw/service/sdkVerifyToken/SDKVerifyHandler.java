@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.bm.login.AccoutBM;
 import com.google.protobuf.ByteString;
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.service.sdkVerifyToken.handler.ISDKHandler;
 import com.rw.service.sdkVerifyToken.handler.YinHan.YinHanSDKHandler;
 import com.rwbase.dao.user.accountInfo.TableAccount;
@@ -57,7 +57,7 @@ public class SDKVerifyHandler {
 		} catch (Exception ex) {
 			response.setResultType(eSDKVerifyResultType.FAIL);
 			response.setMsg("服务器繁忙，请稍候尝试。");
-			GameLog.error("SDKVerifyHandler", "SDKVerifyHandler[processSDKVerifyHandler]", "", ex);
+			PlatformLog.error("SDKVerifyHandler", "SDKVerifyHandler[processSDKVerifyHandler]", "", ex);
 		}
 		return response.build().toByteString();
 	}

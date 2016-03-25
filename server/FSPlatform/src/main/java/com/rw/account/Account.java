@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.protobuf.ByteString;
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.common.GameUtil;
 import com.rw.netty.MsgSaveVO;
 import com.rw.netty.UserChannelMgr;
@@ -72,7 +72,7 @@ public class Account {
 		response.setType(type.getValue());
 		response.setMessage(message);
 		response.setError(ErrorType.SUCCESS);
-		GameLog.debug(message);
+		PlatformLog.debug(message);
 		// DevelopLogger.info("common message", "player", "", message, "");
 		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
 	}
@@ -99,7 +99,7 @@ public class Account {
 				return;
 			}
 			addMsgMap(Cmd, pBuffer, response);
-			GameLog.debug("发送消息" + "  " + response.getHeader().getCommand().toString() + "  Size:" + response.getSerializedContent().size());
+			PlatformLog.debug("发送消息" + "  " + response.getHeader().getCommand().toString() + "  Size:" + response.getSerializedContent().size());
 			ctx.channel().write(response.build());
 			ctx.channel().flush();
 

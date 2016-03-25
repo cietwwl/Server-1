@@ -1,6 +1,6 @@
 package com.rw.common;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.account.Account;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwproto.ResponseProtos;
@@ -17,11 +17,11 @@ public class GameUtil {
 		if(response.getSerializedContent().size() >= baseMsgSize){
 			String st="返回消息"+ response.getHeader().getCommand().toString()+ "长度大于"+(maxMsgSize/1000)+"K";
 			if(response.getSerializedContent().size() >= maxMsgSize){
-				GameLog.error(st);
+				PlatformLog.error(st);
 				return false;
 			}else
 			{
-				GameLog.debug(st);
+				PlatformLog.debug(st);
 			}
 		
 		}
@@ -38,7 +38,7 @@ public class GameUtil {
 			  return false;
 			}else
 			{
-				GameLog.debug(errorReason);
+				PlatformLog.debug(errorReason);
 			}
 		}
 		return true;

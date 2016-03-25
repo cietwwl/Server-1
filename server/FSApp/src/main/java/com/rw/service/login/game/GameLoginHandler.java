@@ -22,10 +22,12 @@ import com.rw.service.Email.EmailUtils;
 import com.rw.service.http.GSRequestAction;
 import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.UserBaseDataResponse;
+import com.rw.service.http.request.RequestObject;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rw.service.platformService.PlatformService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.guide.PlotProgressDAO;
@@ -288,7 +290,7 @@ public class GameLoginHandler {
 
 				@Override
 				public void run() {
-					if (HttpServer.checkConnectOpen(GameManager.getPlatformUrl())) {
+					if (PlatformService.checkPlatformOpen()) {
 						notifyPlatformPlayerLogin(zoneId, accountId, player, -1);
 					} else {
 						TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
@@ -380,10 +382,13 @@ public class GameLoginHandler {
 				userBaseDataResponse.setUserName(player.getUserName());
 				userBaseDataResponse.setLevel(player.getLevel());
 				userBaseDataResponse.setVipLevel(player.getVip());
-				GSRequestAction requestAction = new GSRequestAction();
-				requestAction.pushParams(UserBaseDataResponse.class, userBaseDataResponse);
-				Object result = requestAction.remoteCall(GameManager.getPlatformUrl(), "com.rw.netty.http.requestHandler.PlayerLoginHandler", "notifyPlayerLogin");
-				return Boolean.parseBoolean(result.toString());
+				RequestObject request = new RequestObject();
+				request.pushParam(UserBaseDataResponse.class, userBaseDataResponse);
+				request.setClassName("com.rw.netty.http.requestHandler.PlayerLoginHandler");
+				request.setMethodName("notifyPlayerLogin");
+				request.setBlnNotifySingle(true);
+				PlatformService.addRequest(request);
+				return true;
 			} else {
 				return false;
 			}

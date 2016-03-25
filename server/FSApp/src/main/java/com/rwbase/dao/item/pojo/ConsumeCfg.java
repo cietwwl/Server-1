@@ -1,7 +1,5 @@
 package com.rwbase.dao.item.pojo;
 
-import com.rwbase.common.enu.eConsumeTypeDef;
-
 public class ConsumeCfg extends ItemBaseCfg {
 //	private eConsumeTypeDef consumeType;            //道具类别
 	private int isUse;               //是否可使用
@@ -10,7 +8,12 @@ public class ConsumeCfg extends ItemBaseCfg {
     private int value;               //数值
     private String itemspit;			//物品吐槽
     
-    public String getItemspit() {
+    private int moneyType;
+    public int getMoneyType() {
+		return moneyType;
+	}
+
+	public String getItemspit() {
 		return itemspit;
 	}
 	public void setItemspit(String itemspit) {

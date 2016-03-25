@@ -1,5 +1,14 @@
 package com.rwbase.dao.item.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.log.GameLog;
+import com.rw.fsutil.common.Pair;
+
+
 public class MagicCfg extends ItemBaseCfg {
 	private int property; // 属性
 	private int smeltperc; // 熔炼生成概率
@@ -16,7 +25,128 @@ public class MagicCfg extends ItemBaseCfg {
 	private String inlayLimit;
 	private String hideAttr;
 	private int initialEnergy;// 初始能量值
+	
+	public void ExtraInitAfterLoad(){
+		ParseConversionGoods();
+		ParseDecomposeGoods();
+		ParseUpgradeNeedGoodList();
+	}
+	
+	// region 法宝进阶用到的属性
+	private String upMagic;
+	private int uplevel;
+	private String goods;
+	private int upMagicCost;
+	private int upMagicMoneyType;
+	public int getUpMagicMoneyType() {
+		return upMagicMoneyType;
+	}
 
+	public int getUpMagicCost() {
+		return upMagicCost;
+	}
+
+	private List<Pair<Integer,Integer>> upgradeNeedGoodList;
+
+	public List<Pair<Integer, Integer>> getUpgradeNeedGoodList() {
+		return upgradeNeedGoodList;
+	}
+	
+	private void ParseUpgradeNeedGoodList(){
+		if (upgradeNeedGoodList == null){
+			String module = "法宝";
+			String moduleID = "配置错误";
+			upgradeNeedGoodList = parsePairList(module, moduleID, ",","_",goods);
+		}
+	}
+	
+	public String getUpMagic() {
+		return upMagic;
+	}
+	public int getUplevel() {
+		return uplevel;
+	}
+	public String getGoods() {
+		return goods;
+	}
+	// end region
+	
+	// region 分解材料需要用到的属性
+	private String decomposeGoods;
+	private float coefficient;
+	private String conversionGoods;
+
+	//derived read only properties
+	private int convertedGoodModelId;
+	public int getConvertedGoodModelId() {
+		return convertedGoodModelId;
+	}
+	private void ParseConversionGoods(){
+		try{
+			if (!StringUtils.isBlank(conversionGoods))
+			convertedGoodModelId = Integer.parseInt(conversionGoods);
+		}catch(Exception ex){
+			GameLog.error("法宝", "配置错误", "无效ModelID:"+conversionGoods);
+		}
+	}
+
+	private List<Pair<Integer,Integer>> decomposeGoodList;
+	public List<Pair<Integer, Integer>> getDecomposeGoodList() {
+		return decomposeGoodList;
+	}
+
+	private void ParseDecomposeGoods(){
+		if (decomposeGoodList == null){
+			String module = "法宝";
+			String moduleID = "配置错误";
+			decomposeGoodList = parsePairList(module, moduleID, ",","_",decomposeGoods);
+		}
+	}
+
+	private List<Pair<Integer,Integer>> parsePairList(String module, String moduleID, 
+			String pairSeperator,String keyValueSeperator,String pairListStr) {
+		if (pairListStr == null) return new ArrayList<Pair<Integer,Integer>>();
+		String[] lst = pairListStr.split(pairSeperator);
+		ArrayList<Pair<Integer, Integer>> result = new ArrayList<Pair<Integer,Integer>>(lst.length);
+		for (int i = 0; i < lst.length; i++) {
+			String pairStr = lst[i];
+			String[] values = pairStr.split(keyValueSeperator);
+			if (values.length < 2){
+				GameLog.error(module, moduleID, pairStr);
+				continue;
+			}
+			Integer modelId = null;
+			try{
+				modelId = Integer.valueOf(values[0]);
+			}catch(Exception ex){
+				GameLog.error(module, moduleID, pairStr);
+				continue;
+			}
+			Integer val = null;
+			try{
+				val = Integer.valueOf(values[1]);
+			}catch(Exception ex){
+				GameLog.error(module, moduleID, pairStr);
+				continue;
+			}
+			result.add(Pair.Create(modelId,val));
+		}
+		return result;
+	}
+
+	public String getDecomposeGoods() {
+		return decomposeGoods;
+	}
+
+	public float getCoefficient() {
+		return coefficient;
+	}
+
+	public String getConversionGoods() {
+		return conversionGoods;
+	}
+	// end region
+	
 	public String getItemspit() {
 		return itemspit;
 	}
