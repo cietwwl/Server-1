@@ -35,6 +35,7 @@ public class BILogTemplateHelper {
 	static {
 		addTemplateToken("物品code1：数量1&物品code2：数量2: 物品code3：数量3…", "$itemList$");
 		addTemplateToken("activity_time:活动时长（单位秒）(整数)", "activity_time:$activityTime$");
+		addTemplateToken("online_time:本次在线时长（单位秒）(整数)", "online_time:$onlineTime$");
 		addTemplateToken("游戏币新增消耗数量（新增为正数，消耗为负数）", "$coinChanged$");
 		addTemplateToken("wifi（2g/3g/4g/wifi等）", "$loginNetType$");
 		addTemplateToken("wifi(2g/3g/4g/wifi等)", "$loginNetType$");
@@ -64,8 +65,10 @@ public class BILogTemplateHelper {
 		addTemplateToken("日志的触发时间", "$logTime$");
 		addTemplateToken("一级变动原因", "$ItemChangedEventType_1$");
 		addTemplateToken("二级变动原因", "$ItemChangedEventType_2$");
+		addTemplateToken("用户登录子渠道", "$loginChannelId$");
 		addTemplateToken("用户登录渠道", "$loginChannelId$");
 		addTemplateToken("角色创建时间", "$roleCreatedTime$");
+		addTemplateToken("注册子渠道ID", "$regSubChannelId$");
 		addTemplateToken("注册渠道ID", "$regSubChannelId$");
 		addTemplateToken("用户VIP等级", "$vip$");
 		addTemplateToken("用户角色等级", "$level$");
@@ -79,6 +82,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("活动code", "$activityCode$");
 		addTemplateToken("关卡状态", "$copyStatus$");		
 		addTemplateToken("打印时间", "$logTime$");
+		addTemplateToken("任务入口", "");
 		addTemplateToken("关卡入口", "$copyEntrance$");
 		addTemplateToken("角色统计", "$levelCount$");
 		addTemplateToken("手机型号", "$loginPhoneType$");

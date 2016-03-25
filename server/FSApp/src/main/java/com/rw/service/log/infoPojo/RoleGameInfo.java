@@ -30,6 +30,9 @@ public class RoleGameInfo {
 	//统计信息
 	private String statInfo;
 	
+	//在线时长
+	private String onlineTime;
+	
 	
 	final private static Field[] fieldList;
 	
@@ -87,6 +90,8 @@ public class RoleGameInfo {
 					.append("gift_coin:").append(giftGold).append("#")
 					.append("sub_coin:").append(coin);
 			roleGameInfo.setStatInfo(statInfo.toString());
+			
+			roleGameInfo.setOnlineTime("online_time:" + onlineTime);
 		}
 		
 		return roleGameInfo;
@@ -143,13 +148,13 @@ public class RoleGameInfo {
 	
 	
 
-//	public String getOnlineTime() {
-//		return onlineTime;
-//	}
-//
-//	public void setOnlineTime(String onlineTime) {
-//		this.onlineTime = onlineTime;
-//	}
+	public String getOnlineTime() {
+		return onlineTime;
+	}
+
+	public void setOnlineTime(String onlineTime) {
+		this.onlineTime = onlineTime;
+	}
 
 	public String getStatInfo() {
 		return statInfo;
