@@ -53,16 +53,12 @@ public class WarFareHandler {
 
 		int times = copyRequest.getTagBattleData().getBattleClearingTime();
 
-		ArrayList<ItemInfo> resultList = new ArrayList<ItemInfo>();
-		for (int i = 1; i < times; i++) {
-			List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, i, copyCfg.getLevelID());
-			resultList.addAll(addList);
-		}
+		List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, times-1, copyCfg.getLevelID());
 
 		List<String> itemList = new ArrayList<String>();
-		for (int i = 0; i < resultList.size(); i++) {
-			int itemId = resultList.get(i).getItemID();
-			int itemNum = resultList.get(i).getItemNum();
+		for (int i = 0; i < addList.size(); i++) {
+			int itemId = addList.get(i).getItemID();
+			int itemNum = addList.get(i).getItemNum();
 			String strItemInfo = itemId + "," + itemNum;
 			itemList.add(strItemInfo);
 		}

@@ -39,6 +39,12 @@ public class ItemBagService implements FsService {
 			case ItemBag_Buy:
 				responseData = itemBagHandler.buyItem(player, itembagRequest.getComposeList());
 				break;
+			case ItemBag_MagicForgeMat_Buy:
+				responseData = itemBagHandler.buyMagicForgeMaterial(player, itembagRequest.getBuyItemInfo());
+				break;
+			case ItemBag_MagicWeapon_Decompose:
+				responseData = itemBagHandler.decomposeMagicItem(player, itembagRequest.getUseItemInfo());
+				break;
 			default:
 				break;
 			}

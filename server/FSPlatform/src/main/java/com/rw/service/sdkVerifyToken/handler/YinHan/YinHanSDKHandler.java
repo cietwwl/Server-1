@@ -2,7 +2,7 @@ package com.rw.service.sdkVerifyToken.handler.YinHan;
 
 import java.io.InputStream;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.fsutil.json.JSONObject;
 import com.rw.fsutil.util.HttpUtils;
 import com.rw.fsutil.util.MD5;
@@ -42,7 +42,7 @@ public class YinHanSDKHandler implements ISDKHandler{
 		// TODO Auto-generated method stub
 		//组装json字符串
 		String para = parseToJson();
-		GameLog.info("YinHanSDKHandler", "YinHanSDKHandler[verifySDK]","............send json:" + para);
+		PlatformLog.info("YinHanSDKHandler", "YinHanSDKHandler[verifySDK]","............send json:" + para);
 		
 		
 		InputStream streamResult = HttpUtils.sentHttpPostMsg(URL, para);
@@ -74,7 +74,7 @@ public class YinHanSDKHandler implements ISDKHandler{
 	}
 	
 	private void decodeJson(String value) {
-		GameLog.info("YinHanSDKHandler", "YinHanSDKHandler[decodeJson]","json:" + value);
+		PlatformLog.info("YinHanSDKHandler", "YinHanSDKHandler[decodeJson]","json:" + value);
 		if (value == null || value.length() == 0) {
 			sdkVerifyResult.setBlnSuccess(false);
 			sdkVerifyResult.setMsg("exception!");

@@ -56,6 +56,7 @@ enum EItemAttributeType{
 	Equip_Level = 4;//装备等级
 	Equip_AttachExp = 5;//装备附灵经验
 	Equip_AttachLevel = 6;//装备附灵等级
+	Magic_Total_Exp=7;//纪录法宝总经验，暂时用于服务端日志跟踪，其他逻辑不涉及，客户端不需要用
 }
 
 message TagItemAttriData{

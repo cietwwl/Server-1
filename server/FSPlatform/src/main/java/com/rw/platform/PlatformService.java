@@ -26,6 +26,7 @@ import com.rw.netty.client.Client;
 import com.rw.netty.client.ClientManager;
 import com.rw.platform.data.PlatformNoticeDataHolder;
 import com.rw.platform.data.ZoneDataHolder;
+import com.rw.service.PlatformService.PlatformServer;
 import com.rwbase.dao.platformNotice.TablePlatformNotice;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwbase.dao.zone.TableZoneInfoDAO;
@@ -56,12 +57,16 @@ public class PlatformService {
 	private ZoneDataHolder zoneDataHolder;
 
 	private ScheduledThreadPoolExecutor checkExecutor;
+	
+	private PlatformServer platformServer;
 
 	public void init() {
 		platformNoticeDataHolder = new PlatformNoticeDataHolder();
 		zoneDataHolder = new ZoneDataHolder();
 		initZoneCache();
-
+		
+		platformServer = new PlatformServer(); 
+		platformServer.init();
 		checkExecutor = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("platform"));
 		checkExecutor.scheduleWithFixedDelay(new Runnable() {
 
