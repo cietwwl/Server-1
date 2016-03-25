@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.TableAccountDAO;
 
@@ -40,7 +40,7 @@ public class AccoutBM {
 	public int update(TableAccount account) {
 		
 		if (!tableAccountDAO.saveOrUpdate(account)) {
-			GameLog.info("userAccount", account.getAccount(), "userAccount 更新失败,res=-1", null);
+			PlatformLog.info("userAccount", account.getAccount(), "userAccount 更新失败,res=-1", null);
 			return -1;
 		}
 		return 0;

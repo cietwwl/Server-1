@@ -106,6 +106,9 @@ public class EquipHandler {
 		case 0:
 			response.setError(ErrorType.SUCCESS);
 			break;
+		case -3:
+			response.setError(ErrorType.CONFIG_ERROR);
+			break;
 		}
 
 		return response.build().toByteString();

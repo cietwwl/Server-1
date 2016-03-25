@@ -14,7 +14,7 @@ import com.rw.service.log.template.BILogTemplateHelper;
 public class LogTemplateMaker {
 
 	
-	final private String filePath="D:\\fsgit\\server\\FSApp\\src\\main\\java\\com\\rw\\service\\log\\template\\maker\\OriginalLogText";
+	final private String filePath="F:\\release\\server\\server\\server\\FSApp\\src\\main\\java\\com\\rw\\service\\log\\template\\maker\\OriginalLogText";
 	
 	public void doTask() throws Exception{
 		

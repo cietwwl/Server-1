@@ -4,7 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.controler.ResponseNettyControler;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
@@ -20,7 +20,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 			controler.doService((Response) msg,ctx);
 			UserChannelMgr.removeThreadLocalCTX();
 		} catch (Exception e) {
-			GameLog.error(e);
+			PlatformLog.error(e);
 			
 			
 		}finally{

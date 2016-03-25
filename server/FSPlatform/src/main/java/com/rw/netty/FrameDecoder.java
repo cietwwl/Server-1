@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.List;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 
 enum CLIENT_PROTOCOL_TYPE{
 	NOCOMP,//非加密，旧客户端: protocol v1:前四个字节是长度
@@ -89,7 +89,7 @@ public class FrameDecoder extends ByteToMessageDecoder {
 				EncryCompHelper.Print(arr,"received compressed data",4);
 				trans = EncryCompHelper.GZipDeComp(arr,4);
 				if (orgLen != trans.length){
-					GameLog.info("FrameDecoder", "FrameDecoder[decode]", "WARNING: decompressed size not consistent, client say is " + orgLen
+					PlatformLog.info("FrameDecoder", "FrameDecoder[decode]", "WARNING: decompressed size not consistent, client say is " + orgLen
 							+ ",server found is " + trans.length);
 				}
 			}else{

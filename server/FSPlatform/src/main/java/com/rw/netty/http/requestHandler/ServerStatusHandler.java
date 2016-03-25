@@ -4,10 +4,11 @@ import com.rw.account.ZoneInfoCache;
 import com.rw.platform.PlatformFactory;
 import com.rw.platform.PlatformService;
 import com.rw.service.http.platformResponse.ServerBaseDataResponse;
+import com.rw.service.http.request.ResponseObject;
 import com.rwproto.PlatformGSMsg.eServerStatusType;
 
 public class ServerStatusHandler {
-	public static boolean notifyServerData(ServerBaseDataResponse serverBaseDataResponse){
+	public static ResponseObject notifyServerData(ServerBaseDataResponse serverBaseDataResponse){
 		
 		int zoneId = serverBaseDataResponse.getZoneId();
 		int onlineNum = serverBaseDataResponse.getOnlineNum();
@@ -19,8 +20,9 @@ public class ServerStatusHandler {
 		}
 		
 		refreshZoneInfo(zoneInfo, onlineNum, status);
-		
-		return true;
+		ResponseObject result = new ResponseObject();
+		result.setSuccess(true);
+		return result;
 	}
 	
 	public static void refreshZoneInfo(ZoneInfoCache zoneInfo, int onlineNum, int status){
