@@ -9,7 +9,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import com.bm.login.AccoutBM;
 import com.google.protobuf.ByteString;
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.account.Account;
 import com.rw.account.ZoneInfoCache;
 import com.rw.fsutil.util.TextUtil;
@@ -58,7 +58,7 @@ public class AccountLoginHandler {
 		try {
 			handelLogin(request, account, response);
 		} catch (Exception e) {
-			GameLog.error("AccountLoginHandler", "AccountLoginHandler[accountLogin]", "", e);
+			PlatformLog.error("AccountLoginHandler", "AccountLoginHandler[accountLogin]", "", e);
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("服务器繁忙，请稍后尝试.");
 		}
@@ -76,7 +76,7 @@ public class AccountLoginHandler {
 		String phoneInfo = accountInfo.getPhoneInfo();
 		String clientInfoJson = accountInfo.getClientInfoJson();
 
-		GameLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId);
+		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId);
 
 		// 快速注册账号
 		if (accountId.equals("")) {
@@ -158,7 +158,7 @@ public class AccountLoginHandler {
 
 		}
 
-		GameLog.info("AccountLoginHandler", accountId, "Account Login Finish --> accountId:" + accountId);
+		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Finish --> accountId:" + accountId);
 	}
 
 	private void handleRegByAccountId(Account account,
@@ -280,7 +280,7 @@ public class AccountLoginHandler {
 		try {
 			handleZoneList(account, response, accountId);
 		} catch (Exception e) {
-			GameLog.error("AccountLoginHandler", accountId, "", e);
+			PlatformLog.error("AccountLoginHandler", accountId, "", e);
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("服务器繁忙，请稍候尝试。");
 		}
@@ -301,7 +301,7 @@ public class AccountLoginHandler {
 			ZoneInfo zone = request.getZone();
 			handleRefreshZoneInfo(account, response, accountId, zone);
 		} catch (Exception e) {
-			GameLog.error("AccountLoginHandler", accountId, "", e);
+			PlatformLog.error("AccountLoginHandler", accountId, "", e);
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("服务器繁忙，请稍候尝试。");
 		}

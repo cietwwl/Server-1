@@ -11,6 +11,7 @@ public class RequestObject implements Serializable{
 	
 	private String className;
 	private String methodName;
+	private boolean blnNotifySingle;
 	
 	private ArrayList<HashMap<Class, Object>> paramList = new ArrayList<HashMap<Class,Object>>();
 	
@@ -42,5 +43,13 @@ public class RequestObject implements Serializable{
 		map.put(key, value);
 		paramList.add(map);
 		return paramList;
+	}
+
+	public boolean isBlnNotifySingle() {
+		return blnNotifySingle;
+	}
+
+	public void setBlnNotifySingle(boolean blnNotifySingle) {
+		this.blnNotifySingle = blnNotifySingle;
 	}
 }
