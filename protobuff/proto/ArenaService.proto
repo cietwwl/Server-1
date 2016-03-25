@@ -19,6 +19,8 @@ enum eArenaType {
 	GET_PLACE = 10;
 	GET_HURT_VALUE = 11;//获取伤害统计
 	BUY_TIMES = 12;		//购买竞技场次数
+	SCORE=13;  //竞技场积分
+	GET_REWARD = 14;//领取奖励
 }
 enum eArenaResultType {
 	ARENA_SUCCESS = 1;//成功
@@ -93,6 +95,7 @@ message MsgArenaRequest{
 	repeated HurtValue hurtValue = 6;	//战斗伤害统计
 	optional int32 recordId = 7;		//请求的伤害统计id
 	repeated string atkIdList = 8;		//进攻阵容佣兵列表
+	optional int32 rewardId = 14;// 领取奖励
 }
 
 message HurtValue{
@@ -121,6 +124,8 @@ message MsgArenaResponse{
 	optional int32 resetCost = 10;			//重置冷却时间所需的钻石
 	optional int32 buyTimesCost = 11;		//购买挑战次数所需的钻石
 	optional int32 buyTimes = 12;			//当前购买的次数
+	optional int32 currentScore = 13;			//当前积分
+	repeated int32 getCount = 14;// 已领奖励次数
 }
 
 message HistoryRankingRise{//历史排名上升
