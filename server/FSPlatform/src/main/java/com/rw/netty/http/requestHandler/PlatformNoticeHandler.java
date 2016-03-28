@@ -2,10 +2,11 @@ package com.rw.netty.http.requestHandler;
 
 import com.rw.platform.PlatformFactory;
 import com.rw.service.http.platformResponse.PlatformNoticeBaseDataResponse;
+import com.rw.service.http.request.ResponseObject;
 import com.rwbase.dao.platformNotice.TablePlatformNotice;
 
 public class PlatformNoticeHandler {
-	public static boolean updatePlatformNotice(PlatformNoticeBaseDataResponse response){
+	public static ResponseObject updatePlatformNotice(PlatformNoticeBaseDataResponse response){
 		
 		TablePlatformNotice platformNotice = PlatformFactory.getPlatformService().getPlatformNotice();
 		boolean insert = false;
@@ -19,7 +20,8 @@ public class PlatformNoticeHandler {
 		platformNotice.setEndTime(response.getEndTime());
 		
 		PlatformFactory.getPlatformService().updatePlatformNotice(platformNotice, insert);
-		
-		return true;
+		ResponseObject result = new ResponseObject();
+		result.setSuccess(true);
+		return result;
 	}
 }

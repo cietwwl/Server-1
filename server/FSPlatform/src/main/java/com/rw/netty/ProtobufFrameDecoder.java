@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.List;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 
 
 public class ProtobufFrameDecoder extends ByteToMessageDecoder{
@@ -22,7 +22,7 @@ public class ProtobufFrameDecoder extends ByteToMessageDecoder{
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in,
 			List<Object> out) throws Exception {
-		GameLog.info("ProtobufFrameDecoder", "", ctx.channel().toString());
+		PlatformLog.info("ProtobufFrameDecoder", "", ctx.channel().toString());
 		if (in.readableBytes() < 4) {
 			return;
 		}

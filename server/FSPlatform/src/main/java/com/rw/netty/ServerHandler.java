@@ -3,7 +3,7 @@ package com.rw.netty;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.controler.FsNettyControler;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.platform.PlatformFactory;
@@ -26,7 +26,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 			
 			UserChannelMgr.removeThreadLocalCTX();
 		} catch (Exception e) {
-			GameLog.error("ServerHandler", "ServerHandler[channelRead]", "", e);
+			PlatformLog.error("ServerHandler", "ServerHandler[channelRead]", "", e);
 			
 		}
 	}
@@ -41,12 +41,12 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {
-		GameLog.error("ServerHandler", "ServerHandler[exceptionCaught]", "", cause);
+		PlatformLog.error("ServerHandler", "ServerHandler[exceptionCaught]", "", cause);
 	}
 
 	@Override
 	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-		GameLog.info("channelRegistered", "", "open connection", null);
+		PlatformLog.info("channelRegistered", "", "open connection", null);
 		super.channelRegistered(ctx);
 	}
 

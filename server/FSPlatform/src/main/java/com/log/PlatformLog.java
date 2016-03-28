@@ -8,7 +8,7 @@ import com.rw.common.SynTaskExecutor;
 
 
 
-public class GameLog {
+public class PlatformLog {
 
     private static Logger debugLog = Logger.getLogger("debugLog");
     
