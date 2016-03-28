@@ -4,22 +4,22 @@ option java_outer_classname = "FashionServiceProtos";
 import "ErrorService.proto";
 
 enum FashionEventType {
-	buy = 1;//购买（不再包含续费）
+	buy = 1;//购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
 	on = 2;//穿上请求
 	off = 3;//脱下请求
-	renew = 4;//续费 传入id,renewPlanId
+	renew = 4;//续费 传入fashionId,buyRenewPlanId
 	getFashiondata = 5;// 获取 FashionCommon
 }
 
 message FashionRequest {
 	required FashionEventType eventType = 1;
-	optional int32 id = 2;//策划配表(FashionCommonCfg)的ID
-	optional int32 renewPlanId = 3;//续费方案ID
+	optional int32 fashionId = 2;//策划配表(FashionCommonCfg)的ID
+	optional int32 buyRenewPlanId = 3;//购买或者续费方案ID
 }
 
 message FashionResponse {
 	optional FashionEventType eventType = 1;
-	optional int32 id = 2;
+	optional int32 fashionId = 2;
 	required ErrorService.ErrorType error = 3;
 	optional FashionCommon fashionCommon = 4;
 }
