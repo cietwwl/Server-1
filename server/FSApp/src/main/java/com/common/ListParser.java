@@ -18,7 +18,7 @@ public class ListParser {
 			}
 		}
 		if (hasError){
-			GameLog.error(module, errorId, tip + listStr);
+			GameLog.info(module, errorId, tip + listStr,null);
 		}
 
 		return result;
