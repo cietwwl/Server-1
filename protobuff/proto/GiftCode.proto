@@ -2,6 +2,11 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "GiftCodeProto";
 
+enum RequestType{
+	USE_CODE = 1;//使用兑换码
+	HAS_RESULT = 2;//有了结果
+}
+
 enum ResultType{
 	FAIL = 1;//失败
 	SUCCESS = 2;//成功
@@ -9,10 +14,12 @@ enum ResultType{
 }
 
 message UseGiftCodeReqMsg{
-	required string code = 1;//使用的码
+	required RequestType reqType = 1;//请求的类型
+	required string code = 2;//使用的码
 }
 
 message UseGiftCodeRspMsg{
-	required ResultType resultType = 1;//响应状态
-	optional string tipMsg = 2;//提示消息
+	required RequestType reqType = 1;//请求的类型
+	required ResultType resultType = 2;//响应状态
+	optional string tipMsg = 3;//提示消息
 }

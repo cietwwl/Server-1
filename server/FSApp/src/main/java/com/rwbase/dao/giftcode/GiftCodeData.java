@@ -1,5 +1,6 @@
 package com.rwbase.dao.giftcode;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /*
@@ -9,6 +10,7 @@ import javax.persistence.Table;
  */
 @Table(name = "gift_code")
 public class GiftCodeData {
+	@Id
 	private String code;// 兑换码数据
 	private String userId;// 兑换的角色Id
 	private long useTime;// 使用兑换码的时间

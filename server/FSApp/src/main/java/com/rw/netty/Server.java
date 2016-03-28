@@ -20,71 +20,71 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.log.GameLog;
 import com.rw.manager.GameManager;
-import com.rw.manager.PrintServerState;
 import com.rw.service.http.HttpServer;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
 
-
-
 public class Server {
-	public static final boolean isDebug=true;
-//	public static final boolean isDebug=false;
+	public static final boolean isDebug = true;
+
+	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		GameWorldFactory.init(64, 16);
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
-		
-    	new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml"});
-    	
+
+		GameManager.initServerProperties();
+
+		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
+
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
 		int ioThreads = Runtime.getRuntime().availableProcessors() * 4;
-//		new PrintServerState().startPrintState();
+		// new PrintServerState().startPrintState();
 		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(128);
-//		final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
+		// final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
 		try {
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
-			
-			//lida 2015-08-21 启动http通信端口
+
+			// lida 2015-08-21 启动http通信端口
 			int httpPort = GameManager.getHttpPort();
 			HttpServer.httpServerStart(httpPort);
-			
+
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
-			serverBootstrap.childOption( ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
+			serverBootstrap.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 			serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup);
 			serverBootstrap.channel(NioServerSocketChannel.class);
 			serverBootstrap.childHandler(new ChannelInitializer<Channel>() {
 				@Override
 				protected void initChannel(Channel ch) throws Exception {
 					ch.pipeline().addLast("idle", new IdleStateHandler(0, 0, 180));
-//					ch.pipeline().addLast("log1", new LoggingHandler());
-					//ch.pipeline().addLast("frameDecoder", new ProtobufFrameDecoder());
+					// ch.pipeline().addLast("log1", new LoggingHandler());
+					// ch.pipeline().addLast("frameDecoder", new ProtobufFrameDecoder());
 					ch.pipeline().addLast("frameDecoder", new FrameDecoder());
-					
-//					ch.pipeline().addLast("log2", new LoggingHandler());
-					//ch.pipeline().addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
+
+					// ch.pipeline().addLast("log2", new LoggingHandler());
+					// ch.pipeline().addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
 					// 构造函数传递要解码成的类型
 					ch.pipeline().addLast("protobufDecoder", new ProtobufDecoder(Request.getDefaultInstance()));
-					//handle in thread pool
-//					ch.pipeline().addLast(pool, new ServerHandler());
+					// handle in thread pool
+					// ch.pipeline().addLast(pool, new ServerHandler());
 					ch.pipeline().addLast("serverHandler", new ServerHandler());
 					// 编码
-					//ch.pipeline().addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
+					// ch.pipeline().addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
 					ch.pipeline().addLast("frameEncoder", new ProtobufFrameEncoder());
-//					ch.pipeline().addLast("log3", new LoggingHandler());
+					// ch.pipeline().addLast("log3", new LoggingHandler());
 					ch.pipeline().addLast("protobufEncoder", new ProtobufEncoder());
-//					ch.pipeline().addLast("log4", new LoggingHandler());
+					// ch.pipeline().addLast("log4", new LoggingHandler());
 				};
 			});
-			
+
 			serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 			int port = Integer.valueOf(ServerConfig.getInstance().getServeZoneInfo().getPort());
 			ChannelFuture channelFuture = serverBootstrap.bind(new InetSocketAddress(port)).sync();
 			channelFuture.channel().closeFuture().sync();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			GameLog.error("Server", "Server[]main", "", e);
 		} finally {
 			bossEventLoopGroup.shutdownGracefully();

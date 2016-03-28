@@ -20,60 +20,108 @@ public class GmSender {
 	private DataInputStream input;
 	private short protno;
 
-	public GmSender(GmSenderConfig senderConfig) throws IOException{
-			this.socket = new Socket(senderConfig.getHost(), senderConfig.getPort());
-			this.socket.setSoTimeout(senderConfig.getTimeoutMillis());
-			this.output = new DataOutputStream(socket.getOutputStream());			
-			this.input = new DataInputStream(socket.getInputStream());
-			this.protno = senderConfig.getProtno();
+	public GmSender(GmSenderConfig senderConfig) throws IOException {
+		this.socket = new Socket(senderConfig.getHost(), senderConfig.getPort());
+		this.socket.setSoTimeout(senderConfig.getTimeoutMillis());
+		this.output = new DataOutputStream(socket.getOutputStream());
+		this.input = new DataInputStream(socket.getInputStream());
+		this.protno = senderConfig.getProtno();
 	}
-	
-	public boolean isAvailable(){
+
+	public boolean isAvailable() {
 		return socket.isConnected() && !socket.isClosed();
 	}
 
-	public <T> T send(Map<String,Object> content, Class<T> clazz) throws IOException {
-		
-		String jsonContent = FastJsonUtil.serialize(content);
+	public <T> T send(Map<String, Object> content, Class<T> clazz) throws IOException {
+
+		GmSend gmSend = new GmSend();
+		gmSend.account = "gm";
+		gmSend.password = "123456";
+		gmSend.opType = 20039;
+		gmSend.args = content;
+
+		String jsonContent = FastJsonUtil.serialize(gmSend);
 		byte[] dataFormat = dataFormat(protno, jsonContent);
+		System.err.println(jsonContent);
 		output.write(dataFormat);
-		output.flush();		
-		
-		T gmResponse = SocketHelper.read(input, clazz);	//block
-	
+		output.flush();
+
+		// String readUTF = input.readUTF();
+		// T gmResponse = FastJsonUtil.deserialize(readUTF, clazz);
+		T gmResponse = SocketHelper.read(input, clazz); // block
+
 		return gmResponse;
 	}
-	
+
+	public class GmSend {
+		private String account;
+		private Map<String, Object> args;
+		private int opType;
+		private String password;
+
+		public String getAccount() {
+			return account;
+		}
+
+		public void setAccount(String account) {
+			this.account = account;
+		}
+
+		public Map<String, Object> getArgs() {
+			return args;
+		}
+
+		public void setArgs(Map<String, Object> args) {
+			this.args = args;
+		}
+
+		public int getOpType() {
+			return opType;
+		}
+
+		public void setOpType(int opType) {
+			this.opType = opType;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+	}
+
 	private byte[] dataFormat(short protno, String json) throws UnsupportedEncodingException {
 		// 包头计算：包头(short,4个字节) = 包体长度%255(1个字节) + 包体长度&0x00ffffff(3个字节)
-		byte[] jsonbytes= json.getBytes("utf-8");
+		byte[] jsonbytes = json.getBytes("utf-8");
 		short jsonLen = (short) jsonbytes.length;
 		int bodyLength = 2 + 2 + jsonLen;
 		bodyLength = 1;
-		
+
 		int header = ((bodyLength % 255) << 24) | (bodyLength & 0x00ffffff);
 		ByteBuffer dataInfo = ByteBuffer.allocate(8 + jsonLen);
 		// 转换为小端模式，默认为大端。
 		// dataInfo.order(ByteOrder.LITTLE_ENDIAN);
 		// 设置包头
 		dataInfo.putInt(header);
-//		System.out.println("header:" + header);
+		// System.out.println("header:" + header);
 		// 包体计算：包体=协议号(2个字节) + json字符串长度(2字节) + json字符串内容
 		dataInfo.putShort(protno);
 		dataInfo.putShort(jsonLen);
-//		System.out.println("jsonLen:" + jsonLen);
+		// System.out.println("jsonLen:" + jsonLen);
 		dataInfo.put(jsonbytes);
 		return dataInfo.array();
 	}
-	
-	public void destroy(){
-		if(socket!=null){
+
+	public void destroy() {
+		if (socket != null) {
 			try {
 				socket.close();
 			} catch (IOException e) {
-				GameLog.error(LogModule.GmSender, "GmSender[destroy]", "socket 关闭 出错",e);
+				GameLog.error(LogModule.GmSender, "GmSender[destroy]", "socket 关闭 出错", e);
 			}
 		}
 	}
-	
+
 }

@@ -12,6 +12,7 @@ import com.gm.gmsender.GmSenderPool;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.manager.GameManager;
 
 public class GiftCodeSenderBm {
 
@@ -27,13 +28,14 @@ public class GiftCodeSenderBm {
 	private GmSenderPool giftSenderPool;
 
 	public static GiftCodeSenderBm getInstance() {
-		return SpringContextUtil.getBean("GmSenderBm");
-
+		// return SpringContextUtil.getBean("GmSenderBm");
+		return SpringContextUtil.getBean(GiftCodeSenderBm.class);
 	}
 
 	public void init() {
 
-		GmSenderConfig senderConfig = null;
+		// GmSenderConfig senderConfig = null;
+		GmSenderConfig senderConfig = new GmSenderConfig(GameManager.getGiftCodeServerIp(), GameManager.getGiftCodeServerPort(), GameManager.getGiftCodeTimeOut(), (short) 10354);
 
 		giftSenderPool = new GmSenderPool(senderConfig);
 
@@ -76,8 +78,8 @@ public class GiftCodeSenderBm {
 					@Override
 					public void run() {
 						try {
-							GiftCodeResponse resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeResponse.class);
-							giftCodeItem.getGmCallBack().doCallBack(resopnse);
+							GiftCodeRsp resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeRsp.class);
+							giftCodeItem.getGmCallBack().doCallBack(resopnse == null ? null : resopnse.getResult().get(0));
 
 						} catch (Exception e) {
 							GameLog.error(LogModule.GmSender, "GiftCodeSenderBm[addSendTask]", "borrowSender.send error", e);

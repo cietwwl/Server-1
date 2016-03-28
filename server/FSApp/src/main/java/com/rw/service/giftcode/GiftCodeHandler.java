@@ -14,8 +14,12 @@ import com.playerdata.Player;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailData;
+import com.rwbase.dao.giftcode.GiftCodeData;
+import com.rwbase.dao.giftcode.dao.GiftCodeDataDAO;
+import com.rwproto.GiftCodeProto.RequestType;
 import com.rwproto.GiftCodeProto.ResultType;
 import com.rwproto.GiftCodeProto.UseGiftCodeRspMsg;
+import com.rwproto.MsgDef.Command;
 
 /*
  * @author HC
@@ -49,32 +53,39 @@ public class GiftCodeHandler {
 	 * @param code 兑换码
 	 * @return
 	 */
-	public ByteString useGiftCodeHandler(final Player player, String code) {
-		final UseGiftCodeRspMsg.Builder rsp = UseGiftCodeRspMsg.newBuilder();
+	public ByteString useGiftCodeHandler(final Player player, final String code) {
+		UseGiftCodeRspMsg.Builder rsp = UseGiftCodeRspMsg.newBuilder();
+		rsp.setReqType(RequestType.USE_CODE);
 		if (StringUtils.isEmpty(code)) {
 			rsp.setResultType(ResultType.FAIL);
 			rsp.setTipMsg("兑换码不能为空");
 			return rsp.build().toByteString();
 		}
 
+		final String userId = player.getUserId();
 		GmCallBack<GiftCodeResponse> callBack = new GmCallBack<GiftCodeResponse>() {
 
 			@Override
 			public void doCallBack(GiftCodeResponse gmResponse) {
+				UseGiftCodeRspMsg.Builder rsp = UseGiftCodeRspMsg.newBuilder();
+				rsp.setReqType(RequestType.HAS_RESULT);
+				System.err.println("操你妈现在进来了！" + gmResponse);
 				if (gmResponse == null) {
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg("兑换失败");
+					player.SendMsg(Command.MSG_GIFT_CODE, rsp.build().toByteString());
 					return;
 				}
 
 				int type = gmResponse.getType();
+				System.err.println("-------操你妈成功了啊！！！！" + type);
 				if (type == CODE_STATE.CODE_SUCCESS.type) {// 兑换成功
 					// 发送邮件
 					String mailContent = "兑换成功";
 					// 邮件内容
 					final EmailData emailData = new EmailData();
-					emailData.setTitle(gmResponse.getTitle());
-					emailData.setContent(mailContent);
+					emailData.setTitle(mailContent);
+					emailData.setContent(gmResponse.getTitle());
 					emailData.setDeleteType(EEmailDeleteType.GET_DELETE);
 
 					List<GiftItem> itemData = gmResponse.getItemData();
@@ -90,10 +101,18 @@ public class GiftCodeHandler {
 						emailData.setEmailAttachment(sb.toString());
 					}
 
-					EmailUtils.sendEmail(player.getUserId(), emailData);
+					EmailUtils.sendEmail(userId, emailData);
 
 					rsp.setResultType(ResultType.SUCCESS);
 					rsp.setTipMsg(CODE_STATE.CODE_SUCCESS.tip);
+
+					// 记录到数据库
+					GiftCodeData codeData = new GiftCodeData();
+					codeData.setCode(code);
+					codeData.setGiftId(gmResponse.getGift_id());
+					codeData.setUserId(userId);
+					codeData.setUseTime(System.currentTimeMillis());
+					GiftCodeDataDAO.getDAO().addGiftCodeData(codeData);
 				} else if (type == CODE_STATE.CODE_USED.type) {// 已经被使用
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg(CODE_STATE.CODE_USED.tip);
@@ -110,10 +129,12 @@ public class GiftCodeHandler {
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg("兑换失败");
 				}
+
+				player.SendMsg(Command.MSG_GIFT_CODE, rsp.build().toByteString());
 			}
 		};
 
-		GiftCodeItem codeItem = new GiftCodeItem(code, player.getUserId(), callBack);
+		GiftCodeItem codeItem = new GiftCodeItem(code, userId, callBack);
 		GiftCodeSenderBm.getInstance().add(codeItem);
 
 		if (!rsp.hasResultType()) {
@@ -121,6 +142,7 @@ public class GiftCodeHandler {
 		} else {
 			System.err.println("已经获取了结果了！");
 		}
+		System.err.println("先发送了结果");
 		return rsp.build().toByteString();
 	}
 }

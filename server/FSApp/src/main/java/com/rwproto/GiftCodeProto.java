@@ -9,6 +9,104 @@ public final class GiftCodeProto {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
+   * Protobuf enum {@code RequestType}
+   */
+  public enum RequestType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>USE_CODE = 1;</code>
+     *
+     * <pre>
+     *使用兑换码
+     * </pre>
+     */
+    USE_CODE(0, 1),
+    /**
+     * <code>HAS_RESULT = 2;</code>
+     *
+     * <pre>
+     *有了结果
+     * </pre>
+     */
+    HAS_RESULT(1, 2),
+    ;
+
+    /**
+     * <code>USE_CODE = 1;</code>
+     *
+     * <pre>
+     *使用兑换码
+     * </pre>
+     */
+    public static final int USE_CODE_VALUE = 1;
+    /**
+     * <code>HAS_RESULT = 2;</code>
+     *
+     * <pre>
+     *有了结果
+     * </pre>
+     */
+    public static final int HAS_RESULT_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static RequestType valueOf(int value) {
+      switch (value) {
+        case 1: return USE_CODE;
+        case 2: return HAS_RESULT;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
+            public RequestType findValueByNumber(int number) {
+              return RequestType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.GiftCodeProto.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final RequestType[] VALUES = values();
+
+    public static RequestType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private RequestType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:RequestType)
+  }
+
+  /**
    * Protobuf enum {@code ResultType}
    */
   public enum ResultType
@@ -98,7 +196,7 @@ public final class GiftCodeProto {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.GiftCodeProto.getDescriptor().getEnumTypes().get(0);
+      return com.rwproto.GiftCodeProto.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final ResultType[] VALUES = values();
@@ -126,9 +224,27 @@ public final class GiftCodeProto {
   public interface UseGiftCodeReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string code = 1;
+    // required .RequestType reqType = 1;
     /**
-     * <code>required string code = 1;</code>
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    com.rwproto.GiftCodeProto.RequestType getReqType();
+
+    // required string code = 2;
+    /**
+     * <code>required string code = 2;</code>
      *
      * <pre>
      *使用的码
@@ -136,7 +252,7 @@ public final class GiftCodeProto {
      */
     boolean hasCode();
     /**
-     * <code>required string code = 1;</code>
+     * <code>required string code = 2;</code>
      *
      * <pre>
      *使用的码
@@ -144,7 +260,7 @@ public final class GiftCodeProto {
      */
     java.lang.String getCode();
     /**
-     * <code>required string code = 1;</code>
+     * <code>required string code = 2;</code>
      *
      * <pre>
      *使用的码
@@ -204,8 +320,19 @@ public final class GiftCodeProto {
               }
               break;
             }
-            case 10: {
-              bitField0_ |= 0x00000001;
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GiftCodeProto.RequestType value = com.rwproto.GiftCodeProto.RequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
               code_ = input.readBytes();
               break;
             }
@@ -249,21 +376,45 @@ public final class GiftCodeProto {
     }
 
     private int bitField0_;
-    // required string code = 1;
-    public static final int CODE_FIELD_NUMBER = 1;
+    // required .RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GiftCodeProto.RequestType reqType_;
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    public com.rwproto.GiftCodeProto.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // required string code = 2;
+    public static final int CODE_FIELD_NUMBER = 2;
     private java.lang.Object code_;
     /**
-     * <code>required string code = 1;</code>
+     * <code>required string code = 2;</code>
      *
      * <pre>
      *使用的码
      * </pre>
      */
     public boolean hasCode() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string code = 1;</code>
+     * <code>required string code = 2;</code>
      *
      * <pre>
      *使用的码
@@ -284,7 +435,7 @@ public final class GiftCodeProto {
       }
     }
     /**
-     * <code>required string code = 1;</code>
+     * <code>required string code = 2;</code>
      *
      * <pre>
      *使用的码
@@ -305,6 +456,7 @@ public final class GiftCodeProto {
     }
 
     private void initFields() {
+      reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
       code_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -312,6 +464,10 @@ public final class GiftCodeProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasCode()) {
         memoizedIsInitialized = 0;
         return false;
@@ -324,7 +480,10 @@ public final class GiftCodeProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getCodeBytes());
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getCodeBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -337,7 +496,11 @@ public final class GiftCodeProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getCodeBytes());
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getCodeBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -455,8 +618,10 @@ public final class GiftCodeProto {
 
       public Builder clear() {
         super.clear();
-        code_ = "";
+        reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
         bitField0_ = (bitField0_ & ~0x00000001);
+        code_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -488,6 +653,10 @@ public final class GiftCodeProto {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
         result.code_ = code_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -505,8 +674,11 @@ public final class GiftCodeProto {
 
       public Builder mergeFrom(com.rwproto.GiftCodeProto.UseGiftCodeReqMsg other) {
         if (other == com.rwproto.GiftCodeProto.UseGiftCodeReqMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
         if (other.hasCode()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           code_ = other.code_;
           onChanged();
         }
@@ -515,6 +687,10 @@ public final class GiftCodeProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
         if (!hasCode()) {
           
           return false;
@@ -541,20 +717,72 @@ public final class GiftCodeProto {
       }
       private int bitField0_;
 
-      // required string code = 1;
+      // required .RequestType reqType = 1;
+      private com.rwproto.GiftCodeProto.RequestType reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public com.rwproto.GiftCodeProto.RequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GiftCodeProto.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
+        onChanged();
+        return this;
+      }
+
+      // required string code = 2;
       private java.lang.Object code_ = "";
       /**
-       * <code>required string code = 1;</code>
+       * <code>required string code = 2;</code>
        *
        * <pre>
        *使用的码
        * </pre>
        */
       public boolean hasCode() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string code = 1;</code>
+       * <code>required string code = 2;</code>
        *
        * <pre>
        *使用的码
@@ -572,7 +800,7 @@ public final class GiftCodeProto {
         }
       }
       /**
-       * <code>required string code = 1;</code>
+       * <code>required string code = 2;</code>
        *
        * <pre>
        *使用的码
@@ -592,7 +820,7 @@ public final class GiftCodeProto {
         }
       }
       /**
-       * <code>required string code = 1;</code>
+       * <code>required string code = 2;</code>
        *
        * <pre>
        *使用的码
@@ -603,26 +831,26 @@ public final class GiftCodeProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         code_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string code = 1;</code>
+       * <code>required string code = 2;</code>
        *
        * <pre>
        *使用的码
        * </pre>
        */
       public Builder clearCode() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         code_ = getDefaultInstance().getCode();
         onChanged();
         return this;
       }
       /**
-       * <code>required string code = 1;</code>
+       * <code>required string code = 2;</code>
        *
        * <pre>
        *使用的码
@@ -633,7 +861,7 @@ public final class GiftCodeProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         code_ = value;
         onChanged();
         return this;
@@ -653,9 +881,27 @@ public final class GiftCodeProto {
   public interface UseGiftCodeRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .ResultType resultType = 1;
+    // required .RequestType reqType = 1;
     /**
-     * <code>required .ResultType resultType = 1;</code>
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    com.rwproto.GiftCodeProto.RequestType getReqType();
+
+    // required .ResultType resultType = 2;
+    /**
+     * <code>required .ResultType resultType = 2;</code>
      *
      * <pre>
      *响应状态
@@ -663,7 +909,7 @@ public final class GiftCodeProto {
      */
     boolean hasResultType();
     /**
-     * <code>required .ResultType resultType = 1;</code>
+     * <code>required .ResultType resultType = 2;</code>
      *
      * <pre>
      *响应状态
@@ -671,9 +917,9 @@ public final class GiftCodeProto {
      */
     com.rwproto.GiftCodeProto.ResultType getResultType();
 
-    // optional string tipMsg = 2;
+    // optional string tipMsg = 3;
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息
@@ -681,7 +927,7 @@ public final class GiftCodeProto {
      */
     boolean hasTipMsg();
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息
@@ -689,7 +935,7 @@ public final class GiftCodeProto {
      */
     java.lang.String getTipMsg();
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息
@@ -751,17 +997,28 @@ public final class GiftCodeProto {
             }
             case 8: {
               int rawValue = input.readEnum();
-              com.rwproto.GiftCodeProto.ResultType value = com.rwproto.GiftCodeProto.ResultType.valueOf(rawValue);
+              com.rwproto.GiftCodeProto.RequestType value = com.rwproto.GiftCodeProto.RequestType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
                 bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.GiftCodeProto.ResultType value = com.rwproto.GiftCodeProto.ResultType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
                 resultType_ = value;
               }
               break;
             }
-            case 18: {
-              bitField0_ |= 0x00000002;
+            case 26: {
+              bitField0_ |= 0x00000004;
               tipMsg_ = input.readBytes();
               break;
             }
@@ -805,21 +1062,45 @@ public final class GiftCodeProto {
     }
 
     private int bitField0_;
-    // required .ResultType resultType = 1;
-    public static final int RESULTTYPE_FIELD_NUMBER = 1;
+    // required .RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GiftCodeProto.RequestType reqType_;
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .RequestType reqType = 1;</code>
+     *
+     * <pre>
+     *请求的类型
+     * </pre>
+     */
+    public com.rwproto.GiftCodeProto.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // required .ResultType resultType = 2;
+    public static final int RESULTTYPE_FIELD_NUMBER = 2;
     private com.rwproto.GiftCodeProto.ResultType resultType_;
     /**
-     * <code>required .ResultType resultType = 1;</code>
+     * <code>required .ResultType resultType = 2;</code>
      *
      * <pre>
      *响应状态
      * </pre>
      */
     public boolean hasResultType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required .ResultType resultType = 1;</code>
+     * <code>required .ResultType resultType = 2;</code>
      *
      * <pre>
      *响应状态
@@ -829,21 +1110,21 @@ public final class GiftCodeProto {
       return resultType_;
     }
 
-    // optional string tipMsg = 2;
-    public static final int TIPMSG_FIELD_NUMBER = 2;
+    // optional string tipMsg = 3;
+    public static final int TIPMSG_FIELD_NUMBER = 3;
     private java.lang.Object tipMsg_;
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息
      * </pre>
      */
     public boolean hasTipMsg() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息
@@ -864,7 +1145,7 @@ public final class GiftCodeProto {
       }
     }
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息
@@ -885,6 +1166,7 @@ public final class GiftCodeProto {
     }
 
     private void initFields() {
+      reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
       resultType_ = com.rwproto.GiftCodeProto.ResultType.FAIL;
       tipMsg_ = "";
     }
@@ -893,6 +1175,10 @@ public final class GiftCodeProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasResultType()) {
         memoizedIsInitialized = 0;
         return false;
@@ -905,10 +1191,13 @@ public final class GiftCodeProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, resultType_.getNumber());
+        output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getTipMsgBytes());
+        output.writeEnum(2, resultType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTipMsgBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -921,11 +1210,15 @@ public final class GiftCodeProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, resultType_.getNumber());
+          .computeEnumSize(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getTipMsgBytes());
+          .computeEnumSize(2, resultType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getTipMsgBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1043,10 +1336,12 @@ public final class GiftCodeProto {
 
       public Builder clear() {
         super.clear();
-        resultType_ = com.rwproto.GiftCodeProto.ResultType.FAIL;
+        reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
         bitField0_ = (bitField0_ & ~0x00000001);
-        tipMsg_ = "";
+        resultType_ = com.rwproto.GiftCodeProto.ResultType.FAIL;
         bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1078,9 +1373,13 @@ public final class GiftCodeProto {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.resultType_ = resultType_;
+        result.reqType_ = reqType_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
+        }
+        result.resultType_ = resultType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
         }
         result.tipMsg_ = tipMsg_;
         result.bitField0_ = to_bitField0_;
@@ -1099,11 +1398,14 @@ public final class GiftCodeProto {
 
       public Builder mergeFrom(com.rwproto.GiftCodeProto.UseGiftCodeRspMsg other) {
         if (other == com.rwproto.GiftCodeProto.UseGiftCodeRspMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
         if (other.hasResultType()) {
           setResultType(other.getResultType());
         }
         if (other.hasTipMsg()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           tipMsg_ = other.tipMsg_;
           onChanged();
         }
@@ -1112,6 +1414,10 @@ public final class GiftCodeProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
         if (!hasResultType()) {
           
           return false;
@@ -1138,20 +1444,72 @@ public final class GiftCodeProto {
       }
       private int bitField0_;
 
-      // required .ResultType resultType = 1;
+      // required .RequestType reqType = 1;
+      private com.rwproto.GiftCodeProto.RequestType reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public com.rwproto.GiftCodeProto.RequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GiftCodeProto.RequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .RequestType reqType = 1;</code>
+       *
+       * <pre>
+       *请求的类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GiftCodeProto.RequestType.USE_CODE;
+        onChanged();
+        return this;
+      }
+
+      // required .ResultType resultType = 2;
       private com.rwproto.GiftCodeProto.ResultType resultType_ = com.rwproto.GiftCodeProto.ResultType.FAIL;
       /**
-       * <code>required .ResultType resultType = 1;</code>
+       * <code>required .ResultType resultType = 2;</code>
        *
        * <pre>
        *响应状态
        * </pre>
        */
       public boolean hasResultType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required .ResultType resultType = 1;</code>
+       * <code>required .ResultType resultType = 2;</code>
        *
        * <pre>
        *响应状态
@@ -1161,7 +1519,7 @@ public final class GiftCodeProto {
         return resultType_;
       }
       /**
-       * <code>required .ResultType resultType = 1;</code>
+       * <code>required .ResultType resultType = 2;</code>
        *
        * <pre>
        *响应状态
@@ -1171,39 +1529,39 @@ public final class GiftCodeProto {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         resultType_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required .ResultType resultType = 1;</code>
+       * <code>required .ResultType resultType = 2;</code>
        *
        * <pre>
        *响应状态
        * </pre>
        */
       public Builder clearResultType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         resultType_ = com.rwproto.GiftCodeProto.ResultType.FAIL;
         onChanged();
         return this;
       }
 
-      // optional string tipMsg = 2;
+      // optional string tipMsg = 3;
       private java.lang.Object tipMsg_ = "";
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息
        * </pre>
        */
       public boolean hasTipMsg() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息
@@ -1221,7 +1579,7 @@ public final class GiftCodeProto {
         }
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息
@@ -1241,7 +1599,7 @@ public final class GiftCodeProto {
         }
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息
@@ -1252,26 +1610,26 @@ public final class GiftCodeProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         tipMsg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息
        * </pre>
        */
       public Builder clearTipMsg() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         tipMsg_ = getDefaultInstance().getTipMsg();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息
@@ -1282,7 +1640,7 @@ public final class GiftCodeProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         tipMsg_ = value;
         onChanged();
         return this;
@@ -1318,11 +1676,14 @@ public final class GiftCodeProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016GiftCode.proto\"!\n\021UseGiftCodeReqMsg\022\014\n" +
-      "\004code\030\001 \002(\t\"D\n\021UseGiftCodeRspMsg\022\037\n\nresu" +
-      "ltType\030\001 \002(\0162\013.ResultType\022\016\n\006tipMsg\030\002 \001(" +
-      "\t*-\n\nResultType\022\010\n\004FAIL\020\001\022\013\n\007SUCCESS\020\002\022\010" +
-      "\n\004WAIT\020\003B\034\n\013com.rwprotoB\rGiftCodeProto"
+      "\n\016GiftCode.proto\"@\n\021UseGiftCodeReqMsg\022\035\n" +
+      "\007reqType\030\001 \002(\0162\014.RequestType\022\014\n\004code\030\002 \002" +
+      "(\t\"c\n\021UseGiftCodeRspMsg\022\035\n\007reqType\030\001 \002(\016" +
+      "2\014.RequestType\022\037\n\nresultType\030\002 \002(\0162\013.Res" +
+      "ultType\022\016\n\006tipMsg\030\003 \001(\t*+\n\013RequestType\022\014" +
+      "\n\010USE_CODE\020\001\022\016\n\nHAS_RESULT\020\002*-\n\nResultTy" +
+      "pe\022\010\n\004FAIL\020\001\022\013\n\007SUCCESS\020\002\022\010\n\004WAIT\020\003B\034\n\013c" +
+      "om.rwprotoB\rGiftCodeProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1334,13 +1695,13 @@ public final class GiftCodeProto {
           internal_static_UseGiftCodeReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UseGiftCodeReqMsg_descriptor,
-              new java.lang.String[] { "Code", });
+              new java.lang.String[] { "ReqType", "Code", });
           internal_static_UseGiftCodeRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_UseGiftCodeRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UseGiftCodeRspMsg_descriptor,
-              new java.lang.String[] { "ResultType", "TipMsg", });
+              new java.lang.String[] { "ReqType", "ResultType", "TipMsg", });
           return null;
         }
       };
