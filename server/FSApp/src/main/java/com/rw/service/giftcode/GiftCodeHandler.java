@@ -69,7 +69,7 @@ public class GiftCodeHandler {
 			public void doCallBack(GiftCodeResponse gmResponse) {
 				UseGiftCodeRspMsg.Builder rsp = UseGiftCodeRspMsg.newBuilder();
 				rsp.setReqType(RequestType.HAS_RESULT);
-				System.err.println("操你妈现在进来了！" + gmResponse);
+				// System.err.println("操你妈现在进来了！" + gmResponse);
 				if (gmResponse == null) {
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg("兑换失败");
@@ -78,7 +78,7 @@ public class GiftCodeHandler {
 				}
 
 				int type = gmResponse.getType();
-				System.err.println("-------操你妈成功了啊！！！！" + type);
+				// System.err.println("-------操你妈成功了啊！！！！" + type);
 				if (type == CODE_STATE.CODE_SUCCESS.type) {// 兑换成功
 					// 发送邮件
 					String mailContent = "兑换成功";
@@ -142,7 +142,7 @@ public class GiftCodeHandler {
 		} else {
 			System.err.println("已经获取了结果了！");
 		}
-		System.err.println("先发送了结果");
+		// System.err.println("先发送了结果");
 		return rsp.build().toByteString();
 	}
 }
