@@ -419,12 +419,18 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 检查任命成员的职位是不是跟目前一样
-		if (memberData.getPost() == post.getNumber()) {// 与当前的职位是一样的
+		int nominateMemberPost = memberData.getPost();
+		if (nominateMemberPost == post.getNumber()) {// 与当前的职位是一样的
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "成员已经是该官职");
 		}
 
+		// 检查个人的权限是不是高于要任命的
+		if (selfPost >= nominateMemberPost) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您无权限任命跟您同官职或比您官职高的");
+		}
+
 		// TODO HC 当职位提升了之后，就记录下一个帮派日志
-		if (memberData.getPost() > post.getNumber()) {// 当职位小于当前就证明是升职
+		if (nominateMemberPost > post.getNumber()) {// 当职位小于当前就证明是升职
 			GroupLog log = new GroupLog();
 			log.setLogType(GroupLogType.CHANGE_POST_VALUE);
 			log.setTime(System.currentTimeMillis());
