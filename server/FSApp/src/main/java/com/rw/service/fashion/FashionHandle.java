@@ -20,15 +20,15 @@ public class FashionHandle {
 		return instance;
 	}
 
-	public ByteString buyFash(Player player, int id) {
+	public ByteString buyFash(Player player, int fashionId) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
-		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(id);
+		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(fashionId);
 		if(cfg == null){
 			response.setError(ErrorType.CONFIG_ERROR);
 			return response.build().toByteString();
 		}
 		int cost = 0;
-		FashionItem item = player.getFashionMgr().getItem(id);
+		FashionItem item = player.getFashionMgr().getItem(fashionId);
 		if(item!= null && item.getState() == FashState.EXPIRED.ordinal()){
 			cost = cfg.getRenewCost();
 		}else{
@@ -39,30 +39,30 @@ public class FashionHandle {
 			return response.build().toByteString();
 		}
 		player.getUserGameDataMgr().addGold(-cost);
-		response.setId(id);
+		response.setFashionId(fashionId);
 		response.setError(ErrorType.SUCCESS);
-		player.getFashionMgr().buyFash(id);
+		player.getFashionMgr().buyFash(fashionId);
 		return response.build().toByteString();
 	}
 
-	public ByteString offFash(Player player, int id) {
+	public ByteString offFash(Player player, int fashionId) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
-		player.getFashionMgr().changeFashState(id, FashState.OFF);
+		player.getFashionMgr().changeFashState(fashionId, FashState.OFF);
 		response.setError(ErrorType.SUCCESS);
-		response.setId(id);
+		response.setFashionId(fashionId);
 		return response.build().toByteString();
 	}
 
-	public ByteString onFash(Player player, int id) {
+	public ByteString onFash(Player player, int fashionId) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
-		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(id);
+		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(fashionId);
 		if(cfg.getSex() != player.getSex() && cfg.getSex() != -1){
 			response.setError(ErrorType.NOT_CONFORM_CONDITIONS);
 			return response.build().toByteString();
 		}
 		response.setError(ErrorType.SUCCESS);
-		response.setId(id);
-		player.getFashionMgr().changeFashState(id, FashState.ON);
+		response.setFashionId(fashionId);
+		player.getFashionMgr().changeFashState(fashionId, FashState.ON);
 		return response.build().toByteString();
 	}		
 }

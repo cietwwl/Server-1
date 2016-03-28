@@ -17,7 +17,7 @@ public final class FashionServiceProtos {
      * <code>buy = 1;</code>
      *
      * <pre>
-     *购买（不再包含续费）
+     *购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
      * </pre>
      */
     buy(0, 1),
@@ -41,7 +41,7 @@ public final class FashionServiceProtos {
      * <code>renew = 4;</code>
      *
      * <pre>
-     *续费 传入id,renewPlanId
+     *续费 传入fashionId,buyRenewPlanId
      * </pre>
      */
     renew(3, 4),
@@ -59,7 +59,7 @@ public final class FashionServiceProtos {
      * <code>buy = 1;</code>
      *
      * <pre>
-     *购买（不再包含续费）
+     *购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
      * </pre>
      */
     public static final int buy_VALUE = 1;
@@ -83,7 +83,7 @@ public final class FashionServiceProtos {
      * <code>renew = 4;</code>
      *
      * <pre>
-     *续费 传入id,renewPlanId
+     *续费 传入fashionId,buyRenewPlanId
      * </pre>
      */
     public static final int renew_VALUE = 4;
@@ -285,41 +285,41 @@ public final class FashionServiceProtos {
      */
     com.rwproto.FashionServiceProtos.FashionEventType getEventType();
 
-    // optional int32 id = 2;
+    // optional int32 fashionId = 2;
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      *
      * <pre>
      *策划配表(FashionCommonCfg)的ID
      * </pre>
      */
-    boolean hasId();
+    boolean hasFashionId();
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      *
      * <pre>
      *策划配表(FashionCommonCfg)的ID
      * </pre>
      */
-    int getId();
+    int getFashionId();
 
-    // optional int32 renewPlanId = 3;
+    // optional int32 buyRenewPlanId = 3;
     /**
-     * <code>optional int32 renewPlanId = 3;</code>
+     * <code>optional int32 buyRenewPlanId = 3;</code>
      *
      * <pre>
-     *续费方案ID
+     *购买或者续费方案ID
      * </pre>
      */
-    boolean hasRenewPlanId();
+    boolean hasBuyRenewPlanId();
     /**
-     * <code>optional int32 renewPlanId = 3;</code>
+     * <code>optional int32 buyRenewPlanId = 3;</code>
      *
      * <pre>
-     *续费方案ID
+     *购买或者续费方案ID
      * </pre>
      */
-    int getRenewPlanId();
+    int getBuyRenewPlanId();
   }
   /**
    * Protobuf type {@code FashionRequest}
@@ -385,12 +385,12 @@ public final class FashionServiceProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              id_ = input.readInt32();
+              fashionId_ = input.readInt32();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              renewPlanId_ = input.readInt32();
+              buyRenewPlanId_ = input.readInt32();
               break;
             }
           }
@@ -449,58 +449,58 @@ public final class FashionServiceProtos {
       return eventType_;
     }
 
-    // optional int32 id = 2;
-    public static final int ID_FIELD_NUMBER = 2;
-    private int id_;
+    // optional int32 fashionId = 2;
+    public static final int FASHIONID_FIELD_NUMBER = 2;
+    private int fashionId_;
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      *
      * <pre>
      *策划配表(FashionCommonCfg)的ID
      * </pre>
      */
-    public boolean hasId() {
+    public boolean hasFashionId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      *
      * <pre>
      *策划配表(FashionCommonCfg)的ID
      * </pre>
      */
-    public int getId() {
-      return id_;
+    public int getFashionId() {
+      return fashionId_;
     }
 
-    // optional int32 renewPlanId = 3;
-    public static final int RENEWPLANID_FIELD_NUMBER = 3;
-    private int renewPlanId_;
+    // optional int32 buyRenewPlanId = 3;
+    public static final int BUYRENEWPLANID_FIELD_NUMBER = 3;
+    private int buyRenewPlanId_;
     /**
-     * <code>optional int32 renewPlanId = 3;</code>
+     * <code>optional int32 buyRenewPlanId = 3;</code>
      *
      * <pre>
-     *续费方案ID
+     *购买或者续费方案ID
      * </pre>
      */
-    public boolean hasRenewPlanId() {
+    public boolean hasBuyRenewPlanId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 renewPlanId = 3;</code>
+     * <code>optional int32 buyRenewPlanId = 3;</code>
      *
      * <pre>
-     *续费方案ID
+     *购买或者续费方案ID
      * </pre>
      */
-    public int getRenewPlanId() {
-      return renewPlanId_;
+    public int getBuyRenewPlanId() {
+      return buyRenewPlanId_;
     }
 
     private void initFields() {
       eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
-      id_ = 0;
-      renewPlanId_ = 0;
+      fashionId_ = 0;
+      buyRenewPlanId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -522,10 +522,10 @@ public final class FashionServiceProtos {
         output.writeEnum(1, eventType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, id_);
+        output.writeInt32(2, fashionId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, renewPlanId_);
+        output.writeInt32(3, buyRenewPlanId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -542,11 +542,11 @@ public final class FashionServiceProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, id_);
+          .computeInt32Size(2, fashionId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, renewPlanId_);
+          .computeInt32Size(3, buyRenewPlanId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -666,9 +666,9 @@ public final class FashionServiceProtos {
         super.clear();
         eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
         bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0;
+        fashionId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        renewPlanId_ = 0;
+        buyRenewPlanId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -705,11 +705,11 @@ public final class FashionServiceProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.id_ = id_;
+        result.fashionId_ = fashionId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.renewPlanId_ = renewPlanId_;
+        result.buyRenewPlanId_ = buyRenewPlanId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -729,11 +729,11 @@ public final class FashionServiceProtos {
         if (other.hasEventType()) {
           setEventType(other.getEventType());
         }
-        if (other.hasId()) {
-          setId(other.getId());
+        if (other.hasFashionId()) {
+          setFashionId(other.getFashionId());
         }
-        if (other.hasRenewPlanId()) {
-          setRenewPlanId(other.getRenewPlanId());
+        if (other.hasBuyRenewPlanId()) {
+          setBuyRenewPlanId(other.getBuyRenewPlanId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -802,100 +802,100 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // optional int32 id = 2;
-      private int id_ ;
+      // optional int32 fashionId = 2;
+      private int fashionId_ ;
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        *
        * <pre>
        *策划配表(FashionCommonCfg)的ID
        * </pre>
        */
-      public boolean hasId() {
+      public boolean hasFashionId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        *
        * <pre>
        *策划配表(FashionCommonCfg)的ID
        * </pre>
        */
-      public int getId() {
-        return id_;
+      public int getFashionId() {
+        return fashionId_;
       }
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        *
        * <pre>
        *策划配表(FashionCommonCfg)的ID
        * </pre>
        */
-      public Builder setId(int value) {
+      public Builder setFashionId(int value) {
         bitField0_ |= 0x00000002;
-        id_ = value;
+        fashionId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        *
        * <pre>
        *策划配表(FashionCommonCfg)的ID
        * </pre>
        */
-      public Builder clearId() {
+      public Builder clearFashionId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = 0;
+        fashionId_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 renewPlanId = 3;
-      private int renewPlanId_ ;
+      // optional int32 buyRenewPlanId = 3;
+      private int buyRenewPlanId_ ;
       /**
-       * <code>optional int32 renewPlanId = 3;</code>
+       * <code>optional int32 buyRenewPlanId = 3;</code>
        *
        * <pre>
-       *续费方案ID
+       *购买或者续费方案ID
        * </pre>
        */
-      public boolean hasRenewPlanId() {
+      public boolean hasBuyRenewPlanId() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 renewPlanId = 3;</code>
+       * <code>optional int32 buyRenewPlanId = 3;</code>
        *
        * <pre>
-       *续费方案ID
+       *购买或者续费方案ID
        * </pre>
        */
-      public int getRenewPlanId() {
-        return renewPlanId_;
+      public int getBuyRenewPlanId() {
+        return buyRenewPlanId_;
       }
       /**
-       * <code>optional int32 renewPlanId = 3;</code>
+       * <code>optional int32 buyRenewPlanId = 3;</code>
        *
        * <pre>
-       *续费方案ID
+       *购买或者续费方案ID
        * </pre>
        */
-      public Builder setRenewPlanId(int value) {
+      public Builder setBuyRenewPlanId(int value) {
         bitField0_ |= 0x00000004;
-        renewPlanId_ = value;
+        buyRenewPlanId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 renewPlanId = 3;</code>
+       * <code>optional int32 buyRenewPlanId = 3;</code>
        *
        * <pre>
-       *续费方案ID
+       *购买或者续费方案ID
        * </pre>
        */
-      public Builder clearRenewPlanId() {
+      public Builder clearBuyRenewPlanId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        renewPlanId_ = 0;
+        buyRenewPlanId_ = 0;
         onChanged();
         return this;
       }
@@ -924,15 +924,15 @@ public final class FashionServiceProtos {
      */
     com.rwproto.FashionServiceProtos.FashionEventType getEventType();
 
-    // optional int32 id = 2;
+    // optional int32 fashionId = 2;
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      */
-    boolean hasId();
+    boolean hasFashionId();
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      */
-    int getId();
+    int getFashionId();
 
     // required .ErrorService.ErrorType error = 3;
     /**
@@ -1022,7 +1022,7 @@ public final class FashionServiceProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              id_ = input.readInt32();
+              fashionId_ = input.readInt32();
               break;
             }
             case 24: {
@@ -1105,20 +1105,20 @@ public final class FashionServiceProtos {
       return eventType_;
     }
 
-    // optional int32 id = 2;
-    public static final int ID_FIELD_NUMBER = 2;
-    private int id_;
+    // optional int32 fashionId = 2;
+    public static final int FASHIONID_FIELD_NUMBER = 2;
+    private int fashionId_;
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      */
-    public boolean hasId() {
+    public boolean hasFashionId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 id = 2;</code>
+     * <code>optional int32 fashionId = 2;</code>
      */
-    public int getId() {
-      return id_;
+    public int getFashionId() {
+      return fashionId_;
     }
 
     // required .ErrorService.ErrorType error = 3;
@@ -1161,7 +1161,7 @@ public final class FashionServiceProtos {
 
     private void initFields() {
       eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
-      id_ = 0;
+      fashionId_ = 0;
       error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
       fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
     }
@@ -1191,7 +1191,7 @@ public final class FashionServiceProtos {
         output.writeEnum(1, eventType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, id_);
+        output.writeInt32(2, fashionId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, error_.getNumber());
@@ -1214,7 +1214,7 @@ public final class FashionServiceProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, id_);
+          .computeInt32Size(2, fashionId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1343,7 +1343,7 @@ public final class FashionServiceProtos {
         super.clear();
         eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
         bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = 0;
+        fashionId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1388,7 +1388,7 @@ public final class FashionServiceProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.id_ = id_;
+        result.fashionId_ = fashionId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -1420,8 +1420,8 @@ public final class FashionServiceProtos {
         if (other.hasEventType()) {
           setEventType(other.getEventType());
         }
-        if (other.hasId()) {
-          setId(other.getId());
+        if (other.hasFashionId()) {
+          setFashionId(other.getFashionId());
         }
         if (other.hasError()) {
           setError(other.getError());
@@ -1502,35 +1502,35 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // optional int32 id = 2;
-      private int id_ ;
+      // optional int32 fashionId = 2;
+      private int fashionId_ ;
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        */
-      public boolean hasId() {
+      public boolean hasFashionId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        */
-      public int getId() {
-        return id_;
+      public int getFashionId() {
+        return fashionId_;
       }
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        */
-      public Builder setId(int value) {
+      public Builder setFashionId(int value) {
         bitField0_ |= 0x00000002;
-        id_ = value;
+        fashionId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 id = 2;</code>
+       * <code>optional int32 fashionId = 2;</code>
        */
-      public Builder clearId() {
+      public Builder clearFashionId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = 0;
+        fashionId_ = 0;
         onChanged();
         return this;
       }
@@ -6326,27 +6326,27 @@ public final class FashionServiceProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\024FashionService.proto\032\022ErrorService.pro" +
-      "to\"W\n\016FashionRequest\022$\n\teventType\030\001 \002(\0162" +
-      "\021.FashionEventType\022\n\n\002id\030\002 \001(\005\022\023\n\013renewP" +
-      "lanId\030\003 \001(\005\"\222\001\n\017FashionResponse\022$\n\tevent" +
-      "Type\030\001 \001(\0162\021.FashionEventType\022\n\n\002id\030\002 \001(" +
-      "\005\022&\n\005error\030\003 \002(\0162\027.ErrorService.ErrorTyp" +
-      "e\022%\n\rfashionCommon\030\004 \001(\0132\016.FashionCommon" +
-      "\"\\\n\rFashionCommon\022!\n\013usedFashion\030\001 \001(\0132\014" +
-      ".FashionUsed\022(\n\013buyRenewCfg\030\002 \001(\0132\023.Fash" +
-      "ionBuyRenewCfg\"V\n\013FashionUsed\022\016\n\006SuitId\030",
-      "\001 \001(\005\022\017\n\007SwingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027\n" +
-      "\017SpecialEffectId\030\004 \001(\005\"<\n\022FashionBuyRene" +
-      "wCfg\022&\n\014buyRenewList\030\001 \003(\0132\020.FashionBuyR" +
-      "enew\"Y\n\017FashionBuyRenew\022\021\n\tfashionId\030\001 \002" +
-      "(\005\022\027\n\006buyCfg\030\002 \003(\0132\007.PayCfg\022\032\n\trenewPlan" +
-      "\030\003 \003(\0132\007.PayCfg\"H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017" +
-      "\n\007payment\030\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022\016\n\006pla" +
-      "nId\030\004 \002(\t*K\n\020FashionEventType\022\007\n\003buy\020\001\022\006" +
-      "\n\002on\020\002\022\007\n\003off\020\003\022\t\n\005renew\020\004\022\022\n\016getFashion" +
-      "data\020\005**\n\013FashionType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001",
-      "\022\010\n\004Suit\020\002B#\n\013com.rwprotoB\024FashionServic" +
-      "eProtos"
+      "to\"a\n\016FashionRequest\022$\n\teventType\030\001 \002(\0162" +
+      "\021.FashionEventType\022\021\n\tfashionId\030\002 \001(\005\022\026\n" +
+      "\016buyRenewPlanId\030\003 \001(\005\"\231\001\n\017FashionRespons" +
+      "e\022$\n\teventType\030\001 \001(\0162\021.FashionEventType\022" +
+      "\021\n\tfashionId\030\002 \001(\005\022&\n\005error\030\003 \002(\0162\027.Erro" +
+      "rService.ErrorType\022%\n\rfashionCommon\030\004 \001(" +
+      "\0132\016.FashionCommon\"\\\n\rFashionCommon\022!\n\013us" +
+      "edFashion\030\001 \001(\0132\014.FashionUsed\022(\n\013buyRene" +
+      "wCfg\030\002 \001(\0132\023.FashionBuyRenewCfg\"V\n\013Fashi",
+      "onUsed\022\016\n\006SuitId\030\001 \001(\005\022\017\n\007SwingId\030\002 \001(\005\022" +
+      "\r\n\005PetId\030\003 \001(\005\022\027\n\017SpecialEffectId\030\004 \001(\005\"" +
+      "<\n\022FashionBuyRenewCfg\022&\n\014buyRenewList\030\001 " +
+      "\003(\0132\020.FashionBuyRenew\"Y\n\017FashionBuyRenew" +
+      "\022\021\n\tfashionId\030\001 \002(\005\022\027\n\006buyCfg\030\002 \003(\0132\007.Pa" +
+      "yCfg\022\032\n\trenewPlan\030\003 \003(\0132\007.PayCfg\"H\n\006PayC" +
+      "fg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment\030\002 \002(\005\022\020\n\010coin" +
+      "Type\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t*K\n\020FashionEve" +
+      "ntType\022\007\n\003buy\020\001\022\006\n\002on\020\002\022\007\n\003off\020\003\022\t\n\005rene" +
+      "w\020\004\022\022\n\016getFashiondata\020\005**\n\013FashionType\022\010",
+      "\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020\002B#\n\013com.rwpro" +
+      "toB\024FashionServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6358,13 +6358,13 @@ public final class FashionServiceProtos {
           internal_static_FashionRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionRequest_descriptor,
-              new java.lang.String[] { "EventType", "Id", "RenewPlanId", });
+              new java.lang.String[] { "EventType", "FashionId", "BuyRenewPlanId", });
           internal_static_FashionResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_FashionResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionResponse_descriptor,
-              new java.lang.String[] { "EventType", "Id", "Error", "FashionCommon", });
+              new java.lang.String[] { "EventType", "FashionId", "Error", "FashionCommon", });
           internal_static_FashionCommon_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_FashionCommon_fieldAccessorTable = new
