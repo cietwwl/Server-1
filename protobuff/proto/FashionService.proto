@@ -26,10 +26,10 @@ message FashionResponse {
 
 message FashionCommon{
 	optional FashionUsed usedFashion = 1;
-	optional FashionBuyRenew buyRenewCfg = 2;
+	optional FashionBuyRenewCfg buyRenewCfg = 2;
 }
 
-message FashionUsed{
+message FashionUsed{//穿在身上的时装，当不传送某个值的时候表示不存在！
 	optional int32 SuitId = 1;//服饰Id
 	optional int32 SwingId = 2;//翅膀Id
 	optional int32 PetId = 3;//宠物Id
@@ -42,7 +42,7 @@ message FashionBuyRenewCfg{
 
 message FashionBuyRenew{
 	required int32 fashionId = 1;//策划配表(FashionCommonCfg)的ID
-	required PayCfg buyCfg = 2;//购买方案
+	repeated PayCfg buyCfg = 2;//购买方案
 	repeated PayCfg renewPlan = 3;//续费方案
 }
 
@@ -50,6 +50,7 @@ message PayCfg{
 	required int32 day = 1;//天数
 	required int32 payment = 2;//费用
 	required int32 coinType = 3;//货币类型eSpecialItemId
+	required string planId = 4;//方案ID
 }
 
 enum FashionType{
