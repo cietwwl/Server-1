@@ -944,17 +944,53 @@ public final class FashionServiceProtos {
      */
     com.rwproto.ErrorService.ErrorType getError();
 
-    // optional .FashionCommon fashionCommon = 4;
+    // optional string tips = 4;
     /**
-     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     * <code>optional string tips = 4;</code>
+     *
+     * <pre>
+     *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+     * </pre>
+     */
+    boolean hasTips();
+    /**
+     * <code>optional string tips = 4;</code>
+     *
+     * <pre>
+     *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+     * </pre>
+     */
+    java.lang.String getTips();
+    /**
+     * <code>optional string tips = 4;</code>
+     *
+     * <pre>
+     *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipsBytes();
+
+    // optional .FashionCommon fashionCommon = 5;
+    /**
+     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     *
+     * <pre>
+     * </pre>
      */
     boolean hasFashionCommon();
     /**
-     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     *
+     * <pre>
+     * </pre>
      */
     com.rwproto.FashionServiceProtos.FashionCommon getFashionCommon();
     /**
-     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     *
+     * <pre>
+     * </pre>
      */
     com.rwproto.FashionServiceProtos.FashionCommonOrBuilder getFashionCommonOrBuilder();
   }
@@ -1037,8 +1073,13 @@ public final class FashionServiceProtos {
               break;
             }
             case 34: {
+              bitField0_ |= 0x00000008;
+              tips_ = input.readBytes();
+              break;
+            }
+            case 42: {
               com.rwproto.FashionServiceProtos.FashionCommon.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
                 subBuilder = fashionCommon_.toBuilder();
               }
               fashionCommon_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionCommon.PARSER, extensionRegistry);
@@ -1046,7 +1087,7 @@ public final class FashionServiceProtos {
                 subBuilder.mergeFrom(fashionCommon_);
                 fashionCommon_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -1137,23 +1178,87 @@ public final class FashionServiceProtos {
       return error_;
     }
 
-    // optional .FashionCommon fashionCommon = 4;
-    public static final int FASHIONCOMMON_FIELD_NUMBER = 4;
-    private com.rwproto.FashionServiceProtos.FashionCommon fashionCommon_;
+    // optional string tips = 4;
+    public static final int TIPS_FIELD_NUMBER = 4;
+    private java.lang.Object tips_;
     /**
-     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     * <code>optional string tips = 4;</code>
+     *
+     * <pre>
+     *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+     * </pre>
      */
-    public boolean hasFashionCommon() {
+    public boolean hasTips() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     * <code>optional string tips = 4;</code>
+     *
+     * <pre>
+     *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+     * </pre>
+     */
+    public java.lang.String getTips() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tips_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tips = 4;</code>
+     *
+     * <pre>
+     *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipsBytes() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tips_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional .FashionCommon fashionCommon = 5;
+    public static final int FASHIONCOMMON_FIELD_NUMBER = 5;
+    private com.rwproto.FashionServiceProtos.FashionCommon fashionCommon_;
+    /**
+     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public boolean hasFashionCommon() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     *
+     * <pre>
+     * </pre>
      */
     public com.rwproto.FashionServiceProtos.FashionCommon getFashionCommon() {
       return fashionCommon_;
     }
     /**
-     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     *
+     * <pre>
+     * </pre>
      */
     public com.rwproto.FashionServiceProtos.FashionCommonOrBuilder getFashionCommonOrBuilder() {
       return fashionCommon_;
@@ -1163,6 +1268,7 @@ public final class FashionServiceProtos {
       eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
       fashionId_ = 0;
       error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
+      tips_ = "";
       fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
@@ -1197,7 +1303,10 @@ public final class FashionServiceProtos {
         output.writeEnum(3, error_.getNumber());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(4, fashionCommon_);
+        output.writeBytes(4, getTipsBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, fashionCommon_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1222,7 +1331,11 @@ public final class FashionServiceProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, fashionCommon_);
+          .computeBytesSize(4, getTipsBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, fashionCommon_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1347,12 +1460,14 @@ public final class FashionServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000004);
+        tips_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         if (fashionCommonBuilder_ == null) {
           fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
         } else {
           fashionCommonBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1396,6 +1511,10 @@ public final class FashionServiceProtos {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
+        result.tips_ = tips_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
         if (fashionCommonBuilder_ == null) {
           result.fashionCommon_ = fashionCommon_;
         } else {
@@ -1425,6 +1544,11 @@ public final class FashionServiceProtos {
         }
         if (other.hasError()) {
           setError(other.getError());
+        }
+        if (other.hasTips()) {
+          bitField0_ |= 0x00000008;
+          tips_ = other.tips_;
+          onChanged();
         }
         if (other.hasFashionCommon()) {
           mergeFashionCommon(other.getFashionCommon());
@@ -1571,18 +1695,122 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // optional .FashionCommon fashionCommon = 4;
+      // optional string tips = 4;
+      private java.lang.Object tips_ = "";
+      /**
+       * <code>optional string tips = 4;</code>
+       *
+       * <pre>
+       *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+       * </pre>
+       */
+      public boolean hasTips() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string tips = 4;</code>
+       *
+       * <pre>
+       *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+       * </pre>
+       */
+      public java.lang.String getTips() {
+        java.lang.Object ref = tips_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tips_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 4;</code>
+       *
+       * <pre>
+       *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipsBytes() {
+        java.lang.Object ref = tips_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tips_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 4;</code>
+       *
+       * <pre>
+       *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+       * </pre>
+       */
+      public Builder setTips(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 4;</code>
+       *
+       * <pre>
+       *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+       * </pre>
+       */
+      public Builder clearTips() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        tips_ = getDefaultInstance().getTips();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 4;</code>
+       *
+       * <pre>
+       *成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+       * </pre>
+       */
+      public Builder setTipsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional .FashionCommon fashionCommon = 5;
       private com.rwproto.FashionServiceProtos.FashionCommon fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionCommon, com.rwproto.FashionServiceProtos.FashionCommon.Builder, com.rwproto.FashionServiceProtos.FashionCommonOrBuilder> fashionCommonBuilder_;
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public boolean hasFashionCommon() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public com.rwproto.FashionServiceProtos.FashionCommon getFashionCommon() {
         if (fashionCommonBuilder_ == null) {
@@ -1592,7 +1820,10 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public Builder setFashionCommon(com.rwproto.FashionServiceProtos.FashionCommon value) {
         if (fashionCommonBuilder_ == null) {
@@ -1604,11 +1835,14 @@ public final class FashionServiceProtos {
         } else {
           fashionCommonBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public Builder setFashionCommon(
           com.rwproto.FashionServiceProtos.FashionCommon.Builder builderForValue) {
@@ -1618,15 +1852,18 @@ public final class FashionServiceProtos {
         } else {
           fashionCommonBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public Builder mergeFashionCommon(com.rwproto.FashionServiceProtos.FashionCommon value) {
         if (fashionCommonBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
               fashionCommon_ != com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance()) {
             fashionCommon_ =
               com.rwproto.FashionServiceProtos.FashionCommon.newBuilder(fashionCommon_).mergeFrom(value).buildPartial();
@@ -1637,11 +1874,14 @@ public final class FashionServiceProtos {
         } else {
           fashionCommonBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public Builder clearFashionCommon() {
         if (fashionCommonBuilder_ == null) {
@@ -1650,19 +1890,25 @@ public final class FashionServiceProtos {
         } else {
           fashionCommonBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public com.rwproto.FashionServiceProtos.FashionCommon.Builder getFashionCommonBuilder() {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         onChanged();
         return getFashionCommonFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       public com.rwproto.FashionServiceProtos.FashionCommonOrBuilder getFashionCommonOrBuilder() {
         if (fashionCommonBuilder_ != null) {
@@ -1672,7 +1918,10 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       *
+       * <pre>
+       * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionCommon, com.rwproto.FashionServiceProtos.FashionCommon.Builder, com.rwproto.FashionServiceProtos.FashionCommonOrBuilder> 
@@ -6328,25 +6577,25 @@ public final class FashionServiceProtos {
       "\n\024FashionService.proto\032\022ErrorService.pro" +
       "to\"a\n\016FashionRequest\022$\n\teventType\030\001 \002(\0162" +
       "\021.FashionEventType\022\021\n\tfashionId\030\002 \001(\005\022\026\n" +
-      "\016buyRenewPlanId\030\003 \001(\005\"\231\001\n\017FashionRespons" +
+      "\016buyRenewPlanId\030\003 \001(\005\"\247\001\n\017FashionRespons" +
       "e\022$\n\teventType\030\001 \001(\0162\021.FashionEventType\022" +
       "\021\n\tfashionId\030\002 \001(\005\022&\n\005error\030\003 \002(\0162\027.Erro" +
-      "rService.ErrorType\022%\n\rfashionCommon\030\004 \001(" +
-      "\0132\016.FashionCommon\"\\\n\rFashionCommon\022!\n\013us" +
-      "edFashion\030\001 \001(\0132\014.FashionUsed\022(\n\013buyRene" +
-      "wCfg\030\002 \001(\0132\023.FashionBuyRenewCfg\"V\n\013Fashi",
-      "onUsed\022\016\n\006SuitId\030\001 \001(\005\022\017\n\007SwingId\030\002 \001(\005\022" +
-      "\r\n\005PetId\030\003 \001(\005\022\027\n\017SpecialEffectId\030\004 \001(\005\"" +
-      "<\n\022FashionBuyRenewCfg\022&\n\014buyRenewList\030\001 " +
-      "\003(\0132\020.FashionBuyRenew\"Y\n\017FashionBuyRenew" +
-      "\022\021\n\tfashionId\030\001 \002(\005\022\027\n\006buyCfg\030\002 \003(\0132\007.Pa" +
-      "yCfg\022\032\n\trenewPlan\030\003 \003(\0132\007.PayCfg\"H\n\006PayC" +
-      "fg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment\030\002 \002(\005\022\020\n\010coin" +
-      "Type\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t*K\n\020FashionEve" +
-      "ntType\022\007\n\003buy\020\001\022\006\n\002on\020\002\022\007\n\003off\020\003\022\t\n\005rene" +
-      "w\020\004\022\022\n\016getFashiondata\020\005**\n\013FashionType\022\010",
-      "\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020\002B#\n\013com.rwpro" +
-      "toB\024FashionServiceProtos"
+      "rService.ErrorType\022\014\n\004tips\030\004 \001(\t\022%\n\rfash" +
+      "ionCommon\030\005 \001(\0132\016.FashionCommon\"\\\n\rFashi" +
+      "onCommon\022!\n\013usedFashion\030\001 \001(\0132\014.FashionU" +
+      "sed\022(\n\013buyRenewCfg\030\002 \001(\0132\023.FashionBuyRen",
+      "ewCfg\"V\n\013FashionUsed\022\016\n\006SuitId\030\001 \001(\005\022\017\n\007" +
+      "SwingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027\n\017SpecialE" +
+      "ffectId\030\004 \001(\005\"<\n\022FashionBuyRenewCfg\022&\n\014b" +
+      "uyRenewList\030\001 \003(\0132\020.FashionBuyRenew\"Y\n\017F" +
+      "ashionBuyRenew\022\021\n\tfashionId\030\001 \002(\005\022\027\n\006buy" +
+      "Cfg\030\002 \003(\0132\007.PayCfg\022\032\n\trenewPlan\030\003 \003(\0132\007." +
+      "PayCfg\"H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment" +
+      "\030\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t" +
+      "*K\n\020FashionEventType\022\007\n\003buy\020\001\022\006\n\002on\020\002\022\007\n" +
+      "\003off\020\003\022\t\n\005renew\020\004\022\022\n\016getFashiondata\020\005**\n",
+      "\013FashionType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020" +
+      "\002B#\n\013com.rwprotoB\024FashionServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6364,7 +6613,7 @@ public final class FashionServiceProtos {
           internal_static_FashionResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionResponse_descriptor,
-              new java.lang.String[] { "EventType", "FashionId", "Error", "FashionCommon", });
+              new java.lang.String[] { "EventType", "FashionId", "Error", "Tips", "FashionCommon", });
           internal_static_FashionCommon_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_FashionCommon_fieldAccessorTable = new

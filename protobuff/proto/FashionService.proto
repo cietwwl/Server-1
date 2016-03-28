@@ -21,7 +21,8 @@ message FashionResponse {
 	optional FashionEventType eventType = 1;
 	optional int32 fashionId = 2;
 	required ErrorService.ErrorType error = 3;
-	optional FashionCommon fashionCommon = 4;
+	optional string tips = 4;//成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
+	optional FashionCommon fashionCommon = 5;//
 }
 
 message FashionCommon{

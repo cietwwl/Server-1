@@ -19,6 +19,7 @@ public class FashionService implements FsService{
 			req = FashionRequest.parseFrom(request.getBody().getSerializedContent());
 			switch (req.getEventType()) {
 			case buy:
+				//TODO use req.getBuyRenewPlanId()
 				result = fashionHandler.buyFash(player,req.getFashionId());
 				break;
 			case off:
@@ -28,11 +29,16 @@ public class FashionService implements FsService{
 				result = fashionHandler.onFash(player,req.getFashionId());
 				break;
 
+			case renew:
+				result = fashionHandler.renewFashion(player,req);
+				break;
+			case getFashiondata:
+				result = fashionHandler.getFashionData(player);
+				break;
 			default:
 				break;
 			}
 		} catch (InvalidProtocolBufferException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;

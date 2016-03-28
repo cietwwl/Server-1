@@ -3,8 +3,10 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.common.Action;
+import com.log.GameLog;
 import com.playerdata.readonly.FashionMgrIF;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.attrdata.AttrData;
@@ -19,6 +21,8 @@ import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fashion.FashionItem.FashionType;
 import com.rwbase.dao.fashion.FashionItemHolder;
 import com.rwbase.dao.fashion.FashionItemIF;
+import com.rwbase.dao.fashion.FashionUsedIF;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 
 public class FashionMgr implements FashionMgrIF{
 
@@ -82,7 +86,33 @@ public class FashionMgr implements FashionMgrIF{
 		return item;
 	}
 	
+	public boolean updateFashionItem(FashionItem item){
+		if (item != null){
+			fashionItemHolder.updateItem(m_pPlayer, item);
+			return true;
+		}
+		
+		return false;
+	}
 	
+	public void renewFashion(FashionItem item, int renewDay) {
+		long now = System.currentTimeMillis();
+		long expiredTime = item.getExpiredTime();
+		if (expiredTime < now){
+			//过期了，重新设置
+			expiredTime = now;
+		}
+		// 更新购买/续费时间，和有效期
+		item.setBuyTime(now);
+		//在上次有效期内延长对应的时间，如果已经过期，使用当前时间作为基数
+		expiredTime +=  TimeUnit.DAYS.toMillis(renewDay);
+		item.setExpiredTime(expiredTime);
+		// 更新时装，特殊效果并推送
+		if (!updateFashionItem(item)){
+			GameLog.error("时装", m_pPlayer.getUserId(), "更新续费后的时装失败,ID="+item.getId());
+		}
+	}
+
 	private FashionItem newFash(FashionCfg cfg) {
 		FashionItem item = new FashionItem();
 		item.setId(cfg.getId());
@@ -220,6 +250,26 @@ public class FashionMgr implements FashionMgrIF{
 	
 	public FashionItem getItem(int itemId){
 		return getItem(String.valueOf(itemId));
+	}
+	
+	public FashionUsedIF getFashionUsed(String userId){
+		return fashionUsedHolder.get(userId);
+	}
+	
+	public FashionUsed.Builder getFashionUsedBuilder(String userId){
+		FashionUsed.Builder fashionUsed = FashionUsed.newBuilder();
+		FashionUsedIF fashion = getFashionUsed(userId);
+		if (fashion  != null){
+			if (fashion.getWingId() != -1)
+				fashionUsed.setSwingId(fashion.getWingId());
+			if (fashion.getSuitId() != -1)
+				fashionUsed.setSuitId(fashion.getSuitId());
+			if (fashion.getPetId() != -1)
+				fashionUsed.setPetId(fashion.getPetId());
+			if (fashion.getSpecialPlanId() != -1)
+				fashionUsed.setSpecialEffectId(fashion.getSpecialPlanId());
+		}
+		return fashionUsed;
 	}
 	
 	/**
