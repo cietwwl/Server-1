@@ -12,6 +12,7 @@ import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.fashion.FashState;
 import com.rwbase.dao.fashion.FashType;
+import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.fashion.FashionCfg;
 import com.rwbase.dao.fashion.FashionCfgDao;
 import com.rwbase.dao.fashion.FashionItem;
@@ -22,7 +23,8 @@ import com.rwbase.dao.fashion.FashionItemIF;
 public class FashionMgr implements FashionMgrIF{
 
 	private Player m_pPlayer = null;
-	private  FashionItemHolder fashionItemHolder;
+	private FashionItemHolder fashionItemHolder;
+	private FashionBeingUsedHolder fashionUsedHolder;
 	private boolean isInited = false;
 	private static ItemFilter swingOnItemPred = new ItemFilter() {
 		
@@ -41,7 +43,9 @@ public class FashionMgr implements FashionMgrIF{
 	public void init(Player playerP){
 		m_pPlayer = playerP;
 		isInited = true;
-		fashionItemHolder = new FashionItemHolder(playerP.getUserId());
+		String userId = playerP.getUserId();
+		fashionItemHolder = new FashionItemHolder(userId);
+		fashionUsedHolder = new FashionBeingUsedHolder(userId);
 	}
 	
 	public boolean isInited(){
@@ -55,6 +59,10 @@ public class FashionMgr implements FashionMgrIF{
 	 * 购买或续费时装
 	 * @param id
 	 */
+	public FashionItem buyFash(int id){
+		return buyFash(String.valueOf(id));
+	}
+	
 	public FashionItem buyFash(String id){
 		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(id);
 		if(cfg == null || (cfg.getCareer() != m_pPlayer.getCareer() && cfg.getCareer() != ECareer.None.ordinal()
@@ -95,6 +103,10 @@ public class FashionMgr implements FashionMgrIF{
 	 * @param id
 	 * @param state
 	 */
+	public void changeFashState(int id,FashState state){
+		changeFashState(String.valueOf(id),state);
+	}
+	
 	public void changeFashState(String id,FashState state){	
 		FashionItem item = fashionItemHolder.getItem(id);
 		if(item != null){
@@ -205,6 +217,11 @@ public class FashionMgr implements FashionMgrIF{
 	public FashionItem getItem(String itemId){
 		return fashionItemHolder.getItem(itemId);
 	}
+	
+	public FashionItem getItem(int itemId){
+		return getItem(String.valueOf(itemId));
+	}
+	
 	/**
 	 * 职业改变
 	 */

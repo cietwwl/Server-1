@@ -10,6 +10,7 @@ import com.rw.manager.ServerPerformanceConfig;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
@@ -32,6 +33,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<EquipItem> equipCache;
 	// FashionItem
 	private static MapItemStoreCache<FashionItem> fashionCache;
+	private static MapItemStoreCache<FashionBeingUsed> fashionUsedCache;
+	
 	// FresherActivityItem
 	private static MapItemStoreCache<FresherActivityBigItem> fresherActivityCache;
 	// InlayItem
@@ -138,6 +141,9 @@ public class MapItemStoreFactory {
 		return fashionCache;
 	}
 
+	public static MapItemStoreCache<FashionBeingUsed> getFashionUsedCache() {
+		return fashionUsedCache;
+	}
 	/**
 	 * 获取开服活动缓存
 	 * 

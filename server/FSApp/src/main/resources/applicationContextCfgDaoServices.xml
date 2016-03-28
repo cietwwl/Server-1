@@ -32,6 +32,10 @@
 	<bean class="com.rwbase.dao.dropitem.DropCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.email.EmailCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fashion.FashionCfgDao"  init-method="init" />
+		
+	<bean class="com.rwbase.dao.fashion.FashionBuyRenewCfgDao"  init-method="init" />
+	<bean class="com.rwbase.dao.fashion.FashionCommonCfgDao"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.fighting.FightingWeightCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityFinalRewardCfgDao"  init-method="init" />

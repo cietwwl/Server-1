@@ -36,6 +36,9 @@ public class FashionItem implements IMapItem, FashionItemIF {
 	private int type; // 时装类型
 	private int state; // 时装的状态
 	private long buyTime;// 购买时间（续费时间）
+	private long expiredTime;//到期时间（每次续费或者第一次购买会修改）
+	private int battleIncrPlanId;//战斗属性加成方案ID
+	private int specialIncrPlanId;//特殊效果方案ID
 
 	// private ConcurrentHashMap<eAttrIdDef, Double> addPercentAttr = new ConcurrentHashMap<eAttrIdDef, Double>();
 
@@ -123,4 +126,28 @@ public class FashionItem implements IMapItem, FashionItemIF {
 	// public void addPercentAttr(eAttrIdDef def, double value){
 	// addPercentAttr.put(def, value);
 	// }
+
+	public long getExpiredTime() {
+		return expiredTime;
+	}
+
+	public void setExpiredTime(long expiredTime) {
+		this.expiredTime = expiredTime;
+	}
+
+	public int getBattleIncrPlanId() {
+		return battleIncrPlanId;
+	}
+
+	public void setBattleIncrPlanId(int battleIncrPlanId) {
+		this.battleIncrPlanId = battleIncrPlanId;
+	}
+
+	public int getSpecialIncrPlanId() {
+		return specialIncrPlanId;
+	}
+
+	public void setSpecialIncrPlanId(int specialIncrPlanId) {
+		this.specialIncrPlanId = specialIncrPlanId;
+	}
 }

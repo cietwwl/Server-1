@@ -20,7 +20,7 @@ public class FashionHandle {
 		return instance;
 	}
 
-	public ByteString buyFash(Player player, String id) {
+	public ByteString buyFash(Player player, int id) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
 		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(id);
 		if(cfg == null){
@@ -45,7 +45,7 @@ public class FashionHandle {
 		return response.build().toByteString();
 	}
 
-	public ByteString offFash(Player player, String id) {
+	public ByteString offFash(Player player, int id) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
 		player.getFashionMgr().changeFashState(id, FashState.OFF);
 		response.setError(ErrorType.SUCCESS);
@@ -53,7 +53,7 @@ public class FashionHandle {
 		return response.build().toByteString();
 	}
 
-	public ByteString onFash(Player player, String id) {
+	public ByteString onFash(Player player, int id) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
 		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(id);
 		if(cfg.getSex() != player.getSex() && cfg.getSex() != -1){

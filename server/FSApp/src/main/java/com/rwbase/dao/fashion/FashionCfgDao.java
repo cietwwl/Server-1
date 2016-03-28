@@ -25,6 +25,10 @@ public class FashionCfgDao extends CfgCsvDao<FashionCfg> {
 		return cfg;
 	}
 	
+	public FashionCfg getConfig(int id){
+		return getConfig(String.valueOf(id));
+	}
+	
 	public FashionCfg getConfig(int suitId,int career,int sex){
 		List<FashionCfg> all = super.getAllCfg();
 		for (FashionCfg cfg : all) {

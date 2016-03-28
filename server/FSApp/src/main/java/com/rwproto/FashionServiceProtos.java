@@ -38,21 +38,21 @@ public final class FashionServiceProtos {
      */
     off(2, 3),
     /**
-     * <code>extend = 4;</code>
+     * <code>renew = 4;</code>
      *
      * <pre>
-     *续费 传入id,extendPlanId
+     *续费 传入id,renewPlanId
      * </pre>
      */
-    extend(3, 4),
+    renew(3, 4),
     /**
-     * <code>syn = 5;</code>
+     * <code>getFashiondata = 5;</code>
      *
      * <pre>
-     *同步数据FashionUsed
+     * 获取 FashionCommon
      * </pre>
      */
-    syn(4, 5),
+    getFashiondata(4, 5),
     ;
 
     /**
@@ -80,21 +80,21 @@ public final class FashionServiceProtos {
      */
     public static final int off_VALUE = 3;
     /**
-     * <code>extend = 4;</code>
+     * <code>renew = 4;</code>
      *
      * <pre>
-     *续费 传入id,extendPlanId
+     *续费 传入id,renewPlanId
      * </pre>
      */
-    public static final int extend_VALUE = 4;
+    public static final int renew_VALUE = 4;
     /**
-     * <code>syn = 5;</code>
+     * <code>getFashiondata = 5;</code>
      *
      * <pre>
-     *同步数据FashionUsed
+     * 获取 FashionCommon
      * </pre>
      */
-    public static final int syn_VALUE = 5;
+    public static final int getFashiondata_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -104,8 +104,8 @@ public final class FashionServiceProtos {
         case 1: return buy;
         case 2: return on;
         case 3: return off;
-        case 4: return extend;
-        case 5: return syn;
+        case 4: return renew;
+        case 5: return getFashiondata;
         default: return null;
       }
     }
@@ -157,6 +157,121 @@ public final class FashionServiceProtos {
     // @@protoc_insertion_point(enum_scope:FashionEventType)
   }
 
+  /**
+   * Protobuf enum {@code FashionType}
+   */
+  public enum FashionType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>Wing = 0;</code>
+     *
+     * <pre>
+     *翅膀
+     * </pre>
+     */
+    Wing(0, 0),
+    /**
+     * <code>Pet = 1;</code>
+     *
+     * <pre>
+     *宠物
+     * </pre>
+     */
+    Pet(1, 1),
+    /**
+     * <code>Suit = 2;</code>
+     *
+     * <pre>
+     *服饰
+     * </pre>
+     */
+    Suit(2, 2),
+    ;
+
+    /**
+     * <code>Wing = 0;</code>
+     *
+     * <pre>
+     *翅膀
+     * </pre>
+     */
+    public static final int Wing_VALUE = 0;
+    /**
+     * <code>Pet = 1;</code>
+     *
+     * <pre>
+     *宠物
+     * </pre>
+     */
+    public static final int Pet_VALUE = 1;
+    /**
+     * <code>Suit = 2;</code>
+     *
+     * <pre>
+     *服饰
+     * </pre>
+     */
+    public static final int Suit_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static FashionType valueOf(int value) {
+      switch (value) {
+        case 0: return Wing;
+        case 1: return Pet;
+        case 2: return Suit;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<FashionType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<FashionType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<FashionType>() {
+            public FashionType findValueByNumber(int number) {
+              return FashionType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.FashionServiceProtos.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final FashionType[] VALUES = values();
+
+    public static FashionType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private FashionType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:FashionType)
+  }
+
   public interface FashionRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -170,38 +285,41 @@ public final class FashionServiceProtos {
      */
     com.rwproto.FashionServiceProtos.FashionEventType getEventType();
 
-    // optional string id = 2;
+    // optional int32 id = 2;
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional int32 id = 2;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
      */
     boolean hasId();
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional int32 id = 2;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
      */
-    java.lang.String getId();
-    /**
-     * <code>optional string id = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getIdBytes();
+    int getId();
 
-    // optional int32 extendPlanId = 3;
+    // optional int32 renewPlanId = 3;
     /**
-     * <code>optional int32 extendPlanId = 3;</code>
+     * <code>optional int32 renewPlanId = 3;</code>
      *
      * <pre>
      *续费方案ID
      * </pre>
      */
-    boolean hasExtendPlanId();
+    boolean hasRenewPlanId();
     /**
-     * <code>optional int32 extendPlanId = 3;</code>
+     * <code>optional int32 renewPlanId = 3;</code>
      *
      * <pre>
      *续费方案ID
      * </pre>
      */
-    int getExtendPlanId();
+    int getRenewPlanId();
   }
   /**
    * Protobuf type {@code FashionRequest}
@@ -265,14 +383,14 @@ public final class FashionServiceProtos {
               }
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              id_ = input.readBytes();
+              id_ = input.readInt32();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              extendPlanId_ = input.readInt32();
+              renewPlanId_ = input.readInt32();
               break;
             }
           }
@@ -331,77 +449,58 @@ public final class FashionServiceProtos {
       return eventType_;
     }
 
-    // optional string id = 2;
+    // optional int32 id = 2;
     public static final int ID_FIELD_NUMBER = 2;
-    private java.lang.Object id_;
+    private int id_;
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional int32 id = 2;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string id = 2;</code>
+     * <code>optional int32 id = 2;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
      */
-    public java.lang.String getId() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          id_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string id = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getIdBytes() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        id_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getId() {
+      return id_;
     }
 
-    // optional int32 extendPlanId = 3;
-    public static final int EXTENDPLANID_FIELD_NUMBER = 3;
-    private int extendPlanId_;
+    // optional int32 renewPlanId = 3;
+    public static final int RENEWPLANID_FIELD_NUMBER = 3;
+    private int renewPlanId_;
     /**
-     * <code>optional int32 extendPlanId = 3;</code>
+     * <code>optional int32 renewPlanId = 3;</code>
      *
      * <pre>
      *续费方案ID
      * </pre>
      */
-    public boolean hasExtendPlanId() {
+    public boolean hasRenewPlanId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 extendPlanId = 3;</code>
+     * <code>optional int32 renewPlanId = 3;</code>
      *
      * <pre>
      *续费方案ID
      * </pre>
      */
-    public int getExtendPlanId() {
-      return extendPlanId_;
+    public int getRenewPlanId() {
+      return renewPlanId_;
     }
 
     private void initFields() {
       eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
-      id_ = "";
-      extendPlanId_ = 0;
+      id_ = 0;
+      renewPlanId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -423,10 +522,10 @@ public final class FashionServiceProtos {
         output.writeEnum(1, eventType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getIdBytes());
+        output.writeInt32(2, id_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, extendPlanId_);
+        output.writeInt32(3, renewPlanId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -443,11 +542,11 @@ public final class FashionServiceProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getIdBytes());
+          .computeInt32Size(2, id_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, extendPlanId_);
+          .computeInt32Size(3, renewPlanId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -567,9 +666,9 @@ public final class FashionServiceProtos {
         super.clear();
         eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
         bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = "";
+        id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        extendPlanId_ = 0;
+        renewPlanId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -610,7 +709,7 @@ public final class FashionServiceProtos {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.extendPlanId_ = extendPlanId_;
+        result.renewPlanId_ = renewPlanId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -631,12 +730,10 @@ public final class FashionServiceProtos {
           setEventType(other.getEventType());
         }
         if (other.hasId()) {
-          bitField0_ |= 0x00000002;
-          id_ = other.id_;
-          onChanged();
+          setId(other.getId());
         }
-        if (other.hasExtendPlanId()) {
-          setExtendPlanId(other.getExtendPlanId());
+        if (other.hasRenewPlanId()) {
+          setRenewPlanId(other.getRenewPlanId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -705,125 +802,100 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // optional string id = 2;
-      private java.lang.Object id_ = "";
+      // optional int32 id = 2;
+      private int id_ ;
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional int32 id = 2;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional int32 id = 2;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
        */
-      public java.lang.String getId() {
-        java.lang.Object ref = id_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          id_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getId() {
+        return id_;
       }
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional int32 id = 2;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
        */
-      public com.google.protobuf.ByteString
-          getIdBytes() {
-        java.lang.Object ref = id_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          id_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string id = 2;</code>
-       */
-      public Builder setId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000002;
         id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string id = 2;</code>
+       * <code>optional int32 id = 2;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        id_ = getDefaultInstance().getId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string id = 2;</code>
-       */
-      public Builder setIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        id_ = value;
+        id_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int32 extendPlanId = 3;
-      private int extendPlanId_ ;
+      // optional int32 renewPlanId = 3;
+      private int renewPlanId_ ;
       /**
-       * <code>optional int32 extendPlanId = 3;</code>
+       * <code>optional int32 renewPlanId = 3;</code>
        *
        * <pre>
        *续费方案ID
        * </pre>
        */
-      public boolean hasExtendPlanId() {
+      public boolean hasRenewPlanId() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 extendPlanId = 3;</code>
+       * <code>optional int32 renewPlanId = 3;</code>
        *
        * <pre>
        *续费方案ID
        * </pre>
        */
-      public int getExtendPlanId() {
-        return extendPlanId_;
+      public int getRenewPlanId() {
+        return renewPlanId_;
       }
       /**
-       * <code>optional int32 extendPlanId = 3;</code>
+       * <code>optional int32 renewPlanId = 3;</code>
        *
        * <pre>
        *续费方案ID
        * </pre>
        */
-      public Builder setExtendPlanId(int value) {
+      public Builder setRenewPlanId(int value) {
         bitField0_ |= 0x00000004;
-        extendPlanId_ = value;
+        renewPlanId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 extendPlanId = 3;</code>
+       * <code>optional int32 renewPlanId = 3;</code>
        *
        * <pre>
        *续费方案ID
        * </pre>
        */
-      public Builder clearExtendPlanId() {
+      public Builder clearRenewPlanId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        extendPlanId_ = 0;
+        renewPlanId_ = 0;
         onChanged();
         return this;
       }
@@ -842,32 +914,25 @@ public final class FashionServiceProtos {
   public interface FashionResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional string id = 2;
+    // optional .FashionEventType eventType = 1;
     /**
-     * <code>optional string id = 2;</code>
-     *
-     * <pre>
-     *required FashionEventType eventType = 1;
-     * </pre>
+     * <code>optional .FashionEventType eventType = 1;</code>
+     */
+    boolean hasEventType();
+    /**
+     * <code>optional .FashionEventType eventType = 1;</code>
+     */
+    com.rwproto.FashionServiceProtos.FashionEventType getEventType();
+
+    // optional int32 id = 2;
+    /**
+     * <code>optional int32 id = 2;</code>
      */
     boolean hasId();
     /**
-     * <code>optional string id = 2;</code>
-     *
-     * <pre>
-     *required FashionEventType eventType = 1;
-     * </pre>
+     * <code>optional int32 id = 2;</code>
      */
-    java.lang.String getId();
-    /**
-     * <code>optional string id = 2;</code>
-     *
-     * <pre>
-     *required FashionEventType eventType = 1;
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getIdBytes();
+    int getId();
 
     // required .ErrorService.ErrorType error = 3;
     /**
@@ -878,6 +943,20 @@ public final class FashionServiceProtos {
      * <code>required .ErrorService.ErrorType error = 3;</code>
      */
     com.rwproto.ErrorService.ErrorType getError();
+
+    // optional .FashionCommon fashionCommon = 4;
+    /**
+     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     */
+    boolean hasFashionCommon();
+    /**
+     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     */
+    com.rwproto.FashionServiceProtos.FashionCommon getFashionCommon();
+    /**
+     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     */
+    com.rwproto.FashionServiceProtos.FashionCommonOrBuilder getFashionCommonOrBuilder();
   }
   /**
    * Protobuf type {@code FashionResponse}
@@ -930,9 +1009,20 @@ public final class FashionServiceProtos {
               }
               break;
             }
-            case 18: {
-              bitField0_ |= 0x00000001;
-              id_ = input.readBytes();
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.FashionServiceProtos.FashionEventType value = com.rwproto.FashionServiceProtos.FashionEventType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                eventType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              id_ = input.readInt32();
               break;
             }
             case 24: {
@@ -941,9 +1031,22 @@ public final class FashionServiceProtos {
               if (value == null) {
                 unknownFields.mergeVarintField(3, rawValue);
               } else {
-                bitField0_ |= 0x00000002;
+                bitField0_ |= 0x00000004;
                 error_ = value;
               }
+              break;
+            }
+            case 34: {
+              com.rwproto.FashionServiceProtos.FashionCommon.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = fashionCommon_.toBuilder();
+              }
+              fashionCommon_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionCommon.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fashionCommon_);
+                fashionCommon_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -986,59 +1089,36 @@ public final class FashionServiceProtos {
     }
 
     private int bitField0_;
-    // optional string id = 2;
-    public static final int ID_FIELD_NUMBER = 2;
-    private java.lang.Object id_;
+    // optional .FashionEventType eventType = 1;
+    public static final int EVENTTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.FashionServiceProtos.FashionEventType eventType_;
     /**
-     * <code>optional string id = 2;</code>
-     *
-     * <pre>
-     *required FashionEventType eventType = 1;
-     * </pre>
+     * <code>optional .FashionEventType eventType = 1;</code>
      */
-    public boolean hasId() {
+    public boolean hasEventType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string id = 2;</code>
-     *
-     * <pre>
-     *required FashionEventType eventType = 1;
-     * </pre>
+     * <code>optional .FashionEventType eventType = 1;</code>
      */
-    public java.lang.String getId() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          id_ = s;
-        }
-        return s;
-      }
+    public com.rwproto.FashionServiceProtos.FashionEventType getEventType() {
+      return eventType_;
+    }
+
+    // optional int32 id = 2;
+    public static final int ID_FIELD_NUMBER = 2;
+    private int id_;
+    /**
+     * <code>optional int32 id = 2;</code>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string id = 2;</code>
-     *
-     * <pre>
-     *required FashionEventType eventType = 1;
-     * </pre>
+     * <code>optional int32 id = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getIdBytes() {
-      java.lang.Object ref = id_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        id_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getId() {
+      return id_;
     }
 
     // required .ErrorService.ErrorType error = 3;
@@ -1048,7 +1128,7 @@ public final class FashionServiceProtos {
      * <code>required .ErrorService.ErrorType error = 3;</code>
      */
     public boolean hasError() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>required .ErrorService.ErrorType error = 3;</code>
@@ -1057,9 +1137,33 @@ public final class FashionServiceProtos {
       return error_;
     }
 
+    // optional .FashionCommon fashionCommon = 4;
+    public static final int FASHIONCOMMON_FIELD_NUMBER = 4;
+    private com.rwproto.FashionServiceProtos.FashionCommon fashionCommon_;
+    /**
+     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     */
+    public boolean hasFashionCommon() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     */
+    public com.rwproto.FashionServiceProtos.FashionCommon getFashionCommon() {
+      return fashionCommon_;
+    }
+    /**
+     * <code>optional .FashionCommon fashionCommon = 4;</code>
+     */
+    public com.rwproto.FashionServiceProtos.FashionCommonOrBuilder getFashionCommonOrBuilder() {
+      return fashionCommon_;
+    }
+
     private void initFields() {
-      id_ = "";
+      eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+      id_ = 0;
       error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
+      fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1070,6 +1174,12 @@ public final class FashionServiceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasFashionCommon()) {
+        if (!getFashionCommon().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1078,10 +1188,16 @@ public final class FashionServiceProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(2, getIdBytes());
+        output.writeEnum(1, eventType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, id_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, error_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, fashionCommon_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1094,11 +1210,19 @@ public final class FashionServiceProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getIdBytes());
+          .computeEnumSize(1, eventType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, id_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, error_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, fashionCommon_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1208,6 +1332,7 @@ public final class FashionServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFashionCommonFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1216,10 +1341,18 @@ public final class FashionServiceProtos {
 
       public Builder clear() {
         super.clear();
-        id_ = "";
+        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
         bitField0_ = (bitField0_ & ~0x00000001);
-        error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
+        id_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (fashionCommonBuilder_ == null) {
+          fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
+        } else {
+          fashionCommonBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1251,11 +1384,23 @@ public final class FashionServiceProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.id_ = id_;
+        result.eventType_ = eventType_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         result.error_ = error_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (fashionCommonBuilder_ == null) {
+          result.fashionCommon_ = fashionCommon_;
+        } else {
+          result.fashionCommon_ = fashionCommonBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1272,13 +1417,17 @@ public final class FashionServiceProtos {
 
       public Builder mergeFrom(com.rwproto.FashionServiceProtos.FashionResponse other) {
         if (other == com.rwproto.FashionServiceProtos.FashionResponse.getDefaultInstance()) return this;
+        if (other.hasEventType()) {
+          setEventType(other.getEventType());
+        }
         if (other.hasId()) {
-          bitField0_ |= 0x00000001;
-          id_ = other.id_;
-          onChanged();
+          setId(other.getId());
         }
         if (other.hasError()) {
           setError(other.getError());
+        }
+        if (other.hasFashionCommon()) {
+          mergeFashionCommon(other.getFashionCommon());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1288,6 +1437,12 @@ public final class FashionServiceProtos {
         if (!hasError()) {
           
           return false;
+        }
+        if (hasFashionCommon()) {
+          if (!getFashionCommon().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1311,100 +1466,71 @@ public final class FashionServiceProtos {
       }
       private int bitField0_;
 
-      // optional string id = 2;
-      private java.lang.Object id_ = "";
+      // optional .FashionEventType eventType = 1;
+      private com.rwproto.FashionServiceProtos.FashionEventType eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
       /**
-       * <code>optional string id = 2;</code>
-       *
-       * <pre>
-       *required FashionEventType eventType = 1;
-       * </pre>
+       * <code>optional .FashionEventType eventType = 1;</code>
        */
-      public boolean hasId() {
+      public boolean hasEventType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string id = 2;</code>
-       *
-       * <pre>
-       *required FashionEventType eventType = 1;
-       * </pre>
+       * <code>optional .FashionEventType eventType = 1;</code>
        */
-      public java.lang.String getId() {
-        java.lang.Object ref = id_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          id_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public com.rwproto.FashionServiceProtos.FashionEventType getEventType() {
+        return eventType_;
       }
       /**
-       * <code>optional string id = 2;</code>
-       *
-       * <pre>
-       *required FashionEventType eventType = 1;
-       * </pre>
+       * <code>optional .FashionEventType eventType = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getIdBytes() {
-        java.lang.Object ref = id_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          id_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string id = 2;</code>
-       *
-       * <pre>
-       *required FashionEventType eventType = 1;
-       * </pre>
-       */
-      public Builder setId(
-          java.lang.String value) {
+      public Builder setEventType(com.rwproto.FashionServiceProtos.FashionEventType value) {
         if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        eventType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .FashionEventType eventType = 1;</code>
+       */
+      public Builder clearEventType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 id = 2;
+      private int id_ ;
+      /**
+       * <code>optional int32 id = 2;</code>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 id = 2;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>optional int32 id = 2;</code>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000002;
         id_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string id = 2;</code>
-       *
-       * <pre>
-       *required FashionEventType eventType = 1;
-       * </pre>
+       * <code>optional int32 id = 2;</code>
        */
       public Builder clearId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        id_ = getDefaultInstance().getId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string id = 2;</code>
-       *
-       * <pre>
-       *required FashionEventType eventType = 1;
-       * </pre>
-       */
-      public Builder setIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        id_ = value;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        id_ = 0;
         onChanged();
         return this;
       }
@@ -1415,7 +1541,7 @@ public final class FashionServiceProtos {
        * <code>required .ErrorService.ErrorType error = 3;</code>
        */
       public boolean hasError() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>required .ErrorService.ErrorType error = 3;</code>
@@ -1430,7 +1556,7 @@ public final class FashionServiceProtos {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         error_ = value;
         onChanged();
         return this;
@@ -1439,10 +1565,127 @@ public final class FashionServiceProtos {
        * <code>required .ErrorService.ErrorType error = 3;</code>
        */
       public Builder clearError() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
         onChanged();
         return this;
+      }
+
+      // optional .FashionCommon fashionCommon = 4;
+      private com.rwproto.FashionServiceProtos.FashionCommon fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionCommon, com.rwproto.FashionServiceProtos.FashionCommon.Builder, com.rwproto.FashionServiceProtos.FashionCommonOrBuilder> fashionCommonBuilder_;
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public boolean hasFashionCommon() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionCommon getFashionCommon() {
+        if (fashionCommonBuilder_ == null) {
+          return fashionCommon_;
+        } else {
+          return fashionCommonBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public Builder setFashionCommon(com.rwproto.FashionServiceProtos.FashionCommon value) {
+        if (fashionCommonBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fashionCommon_ = value;
+          onChanged();
+        } else {
+          fashionCommonBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public Builder setFashionCommon(
+          com.rwproto.FashionServiceProtos.FashionCommon.Builder builderForValue) {
+        if (fashionCommonBuilder_ == null) {
+          fashionCommon_ = builderForValue.build();
+          onChanged();
+        } else {
+          fashionCommonBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public Builder mergeFashionCommon(com.rwproto.FashionServiceProtos.FashionCommon value) {
+        if (fashionCommonBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              fashionCommon_ != com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance()) {
+            fashionCommon_ =
+              com.rwproto.FashionServiceProtos.FashionCommon.newBuilder(fashionCommon_).mergeFrom(value).buildPartial();
+          } else {
+            fashionCommon_ = value;
+          }
+          onChanged();
+        } else {
+          fashionCommonBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public Builder clearFashionCommon() {
+        if (fashionCommonBuilder_ == null) {
+          fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
+          onChanged();
+        } else {
+          fashionCommonBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionCommon.Builder getFashionCommonBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getFashionCommonFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionCommonOrBuilder getFashionCommonOrBuilder() {
+        if (fashionCommonBuilder_ != null) {
+          return fashionCommonBuilder_.getMessageOrBuilder();
+        } else {
+          return fashionCommon_;
+        }
+      }
+      /**
+       * <code>optional .FashionCommon fashionCommon = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionCommon, com.rwproto.FashionServiceProtos.FashionCommon.Builder, com.rwproto.FashionServiceProtos.FashionCommonOrBuilder> 
+          getFashionCommonFieldBuilder() {
+        if (fashionCommonBuilder_ == null) {
+          fashionCommonBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionCommon, com.rwproto.FashionServiceProtos.FashionCommon.Builder, com.rwproto.FashionServiceProtos.FashionCommonOrBuilder>(
+                  fashionCommon_,
+                  getParentForChildren(),
+                  isClean());
+          fashionCommon_ = null;
+        }
+        return fashionCommonBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:FashionResponse)
@@ -1456,12 +1699,723 @@ public final class FashionServiceProtos {
     // @@protoc_insertion_point(class_scope:FashionResponse)
   }
 
+  public interface FashionCommonOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional .FashionUsed usedFashion = 1;
+    /**
+     * <code>optional .FashionUsed usedFashion = 1;</code>
+     */
+    boolean hasUsedFashion();
+    /**
+     * <code>optional .FashionUsed usedFashion = 1;</code>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsed getUsedFashion();
+    /**
+     * <code>optional .FashionUsed usedFashion = 1;</code>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getUsedFashionOrBuilder();
+
+    // optional .FashionBuyRenewCfg buyRenewCfg = 2;
+    /**
+     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     */
+    boolean hasBuyRenewCfg();
+    /**
+     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     */
+    com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getBuyRenewCfg();
+    /**
+     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     */
+    com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder getBuyRenewCfgOrBuilder();
+  }
+  /**
+   * Protobuf type {@code FashionCommon}
+   */
+  public static final class FashionCommon extends
+      com.google.protobuf.GeneratedMessage
+      implements FashionCommonOrBuilder {
+    // Use FashionCommon.newBuilder() to construct.
+    private FashionCommon(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FashionCommon(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FashionCommon defaultInstance;
+    public static FashionCommon getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FashionCommon getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FashionCommon(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = usedFashion_.toBuilder();
+              }
+              usedFashion_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(usedFashion_);
+                usedFashion_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 18: {
+              com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = buyRenewCfg_.toBuilder();
+              }
+              buyRenewCfg_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(buyRenewCfg_);
+                buyRenewCfg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FashionServiceProtos.FashionCommon.class, com.rwproto.FashionServiceProtos.FashionCommon.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FashionCommon> PARSER =
+        new com.google.protobuf.AbstractParser<FashionCommon>() {
+      public FashionCommon parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FashionCommon(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FashionCommon> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional .FashionUsed usedFashion = 1;
+    public static final int USEDFASHION_FIELD_NUMBER = 1;
+    private com.rwproto.FashionServiceProtos.FashionUsed usedFashion_;
+    /**
+     * <code>optional .FashionUsed usedFashion = 1;</code>
+     */
+    public boolean hasUsedFashion() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .FashionUsed usedFashion = 1;</code>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsed getUsedFashion() {
+      return usedFashion_;
+    }
+    /**
+     * <code>optional .FashionUsed usedFashion = 1;</code>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getUsedFashionOrBuilder() {
+      return usedFashion_;
+    }
+
+    // optional .FashionBuyRenewCfg buyRenewCfg = 2;
+    public static final int BUYRENEWCFG_FIELD_NUMBER = 2;
+    private com.rwproto.FashionServiceProtos.FashionBuyRenewCfg buyRenewCfg_;
+    /**
+     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     */
+    public boolean hasBuyRenewCfg() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     */
+    public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getBuyRenewCfg() {
+      return buyRenewCfg_;
+    }
+    /**
+     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     */
+    public com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder getBuyRenewCfgOrBuilder() {
+      return buyRenewCfg_;
+    }
+
+    private void initFields() {
+      usedFashion_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      buyRenewCfg_ = com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (hasBuyRenewCfg()) {
+        if (!getBuyRenewCfg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, usedFashion_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, buyRenewCfg_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, usedFashion_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, buyRenewCfg_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionCommon parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FashionServiceProtos.FashionCommon prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FashionCommon}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FashionServiceProtos.FashionCommonOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FashionServiceProtos.FashionCommon.class, com.rwproto.FashionServiceProtos.FashionCommon.Builder.class);
+      }
+
+      // Construct using com.rwproto.FashionServiceProtos.FashionCommon.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getUsedFashionFieldBuilder();
+          getBuyRenewCfgFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (usedFashionBuilder_ == null) {
+          usedFashion_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        } else {
+          usedFashionBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (buyRenewCfgBuilder_ == null) {
+          buyRenewCfg_ = com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance();
+        } else {
+          buyRenewCfgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_descriptor;
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionCommon getDefaultInstanceForType() {
+        return com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionCommon build() {
+        com.rwproto.FashionServiceProtos.FashionCommon result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionCommon buildPartial() {
+        com.rwproto.FashionServiceProtos.FashionCommon result = new com.rwproto.FashionServiceProtos.FashionCommon(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (usedFashionBuilder_ == null) {
+          result.usedFashion_ = usedFashion_;
+        } else {
+          result.usedFashion_ = usedFashionBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (buyRenewCfgBuilder_ == null) {
+          result.buyRenewCfg_ = buyRenewCfg_;
+        } else {
+          result.buyRenewCfg_ = buyRenewCfgBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FashionServiceProtos.FashionCommon) {
+          return mergeFrom((com.rwproto.FashionServiceProtos.FashionCommon)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FashionServiceProtos.FashionCommon other) {
+        if (other == com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance()) return this;
+        if (other.hasUsedFashion()) {
+          mergeUsedFashion(other.getUsedFashion());
+        }
+        if (other.hasBuyRenewCfg()) {
+          mergeBuyRenewCfg(other.getBuyRenewCfg());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (hasBuyRenewCfg()) {
+          if (!getBuyRenewCfg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FashionServiceProtos.FashionCommon parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FashionServiceProtos.FashionCommon) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional .FashionUsed usedFashion = 1;
+      private com.rwproto.FashionServiceProtos.FashionUsed usedFashion_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> usedFashionBuilder_;
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public boolean hasUsedFashion() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed getUsedFashion() {
+        if (usedFashionBuilder_ == null) {
+          return usedFashion_;
+        } else {
+          return usedFashionBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public Builder setUsedFashion(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (usedFashionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          usedFashion_ = value;
+          onChanged();
+        } else {
+          usedFashionBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public Builder setUsedFashion(
+          com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
+        if (usedFashionBuilder_ == null) {
+          usedFashion_ = builderForValue.build();
+          onChanged();
+        } else {
+          usedFashionBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public Builder mergeUsedFashion(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (usedFashionBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              usedFashion_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            usedFashion_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(usedFashion_).mergeFrom(value).buildPartial();
+          } else {
+            usedFashion_ = value;
+          }
+          onChanged();
+        } else {
+          usedFashionBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public Builder clearUsedFashion() {
+        if (usedFashionBuilder_ == null) {
+          usedFashion_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+          onChanged();
+        } else {
+          usedFashionBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getUsedFashionBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getUsedFashionFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getUsedFashionOrBuilder() {
+        if (usedFashionBuilder_ != null) {
+          return usedFashionBuilder_.getMessageOrBuilder();
+        } else {
+          return usedFashion_;
+        }
+      }
+      /**
+       * <code>optional .FashionUsed usedFashion = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
+          getUsedFashionFieldBuilder() {
+        if (usedFashionBuilder_ == null) {
+          usedFashionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
+                  usedFashion_,
+                  getParentForChildren(),
+                  isClean());
+          usedFashion_ = null;
+        }
+        return usedFashionBuilder_;
+      }
+
+      // optional .FashionBuyRenewCfg buyRenewCfg = 2;
+      private com.rwproto.FashionServiceProtos.FashionBuyRenewCfg buyRenewCfg_ = com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionBuyRenewCfg, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder> buyRenewCfgBuilder_;
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public boolean hasBuyRenewCfg() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getBuyRenewCfg() {
+        if (buyRenewCfgBuilder_ == null) {
+          return buyRenewCfg_;
+        } else {
+          return buyRenewCfgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public Builder setBuyRenewCfg(com.rwproto.FashionServiceProtos.FashionBuyRenewCfg value) {
+        if (buyRenewCfgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          buyRenewCfg_ = value;
+          onChanged();
+        } else {
+          buyRenewCfgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public Builder setBuyRenewCfg(
+          com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder builderForValue) {
+        if (buyRenewCfgBuilder_ == null) {
+          buyRenewCfg_ = builderForValue.build();
+          onChanged();
+        } else {
+          buyRenewCfgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public Builder mergeBuyRenewCfg(com.rwproto.FashionServiceProtos.FashionBuyRenewCfg value) {
+        if (buyRenewCfgBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              buyRenewCfg_ != com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance()) {
+            buyRenewCfg_ =
+              com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.newBuilder(buyRenewCfg_).mergeFrom(value).buildPartial();
+          } else {
+            buyRenewCfg_ = value;
+          }
+          onChanged();
+        } else {
+          buyRenewCfgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public Builder clearBuyRenewCfg() {
+        if (buyRenewCfgBuilder_ == null) {
+          buyRenewCfg_ = com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance();
+          onChanged();
+        } else {
+          buyRenewCfgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder getBuyRenewCfgBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getBuyRenewCfgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder getBuyRenewCfgOrBuilder() {
+        if (buyRenewCfgBuilder_ != null) {
+          return buyRenewCfgBuilder_.getMessageOrBuilder();
+        } else {
+          return buyRenewCfg_;
+        }
+      }
+      /**
+       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionBuyRenewCfg, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder> 
+          getBuyRenewCfgFieldBuilder() {
+        if (buyRenewCfgBuilder_ == null) {
+          buyRenewCfgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionBuyRenewCfg, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder>(
+                  buyRenewCfg_,
+                  getParentForChildren(),
+                  isClean());
+          buyRenewCfg_ = null;
+        }
+        return buyRenewCfgBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:FashionCommon)
+    }
+
+    static {
+      defaultInstance = new FashionCommon(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:FashionCommon)
+  }
+
   public interface FashionUsedOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional string SuitId = 1;
+    // optional int32 SuitId = 1;
     /**
-     * <code>optional string SuitId = 1;</code>
+     * <code>optional int32 SuitId = 1;</code>
      *
      * <pre>
      *服饰Id
@@ -1469,26 +2423,17 @@ public final class FashionServiceProtos {
      */
     boolean hasSuitId();
     /**
-     * <code>optional string SuitId = 1;</code>
+     * <code>optional int32 SuitId = 1;</code>
      *
      * <pre>
      *服饰Id
      * </pre>
      */
-    java.lang.String getSuitId();
-    /**
-     * <code>optional string SuitId = 1;</code>
-     *
-     * <pre>
-     *服饰Id
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getSuitIdBytes();
+    int getSuitId();
 
-    // optional string SwingId = 2;
+    // optional int32 SwingId = 2;
     /**
-     * <code>optional string SwingId = 2;</code>
+     * <code>optional int32 SwingId = 2;</code>
      *
      * <pre>
      *翅膀Id
@@ -1496,26 +2441,17 @@ public final class FashionServiceProtos {
      */
     boolean hasSwingId();
     /**
-     * <code>optional string SwingId = 2;</code>
+     * <code>optional int32 SwingId = 2;</code>
      *
      * <pre>
      *翅膀Id
      * </pre>
      */
-    java.lang.String getSwingId();
-    /**
-     * <code>optional string SwingId = 2;</code>
-     *
-     * <pre>
-     *翅膀Id
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getSwingIdBytes();
+    int getSwingId();
 
-    // optional string PetId = 3;
+    // optional int32 PetId = 3;
     /**
-     * <code>optional string PetId = 3;</code>
+     * <code>optional int32 PetId = 3;</code>
      *
      * <pre>
      *宠物Id
@@ -1523,22 +2459,13 @@ public final class FashionServiceProtos {
      */
     boolean hasPetId();
     /**
-     * <code>optional string PetId = 3;</code>
+     * <code>optional int32 PetId = 3;</code>
      *
      * <pre>
      *宠物Id
      * </pre>
      */
-    java.lang.String getPetId();
-    /**
-     * <code>optional string PetId = 3;</code>
-     *
-     * <pre>
-     *宠物Id
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getPetIdBytes();
+    int getPetId();
 
     // optional int32 SpecialEffectId = 4;
     /**
@@ -1560,6 +2487,10 @@ public final class FashionServiceProtos {
   }
   /**
    * Protobuf type {@code FashionUsed}
+   *
+   * <pre>
+   *穿在身上的时装，当不传送某个值的时候表示不存在！
+   * </pre>
    */
   public static final class FashionUsed extends
       com.google.protobuf.GeneratedMessage
@@ -1609,19 +2540,19 @@ public final class FashionServiceProtos {
               }
               break;
             }
-            case 10: {
+            case 8: {
               bitField0_ |= 0x00000001;
-              suitId_ = input.readBytes();
+              suitId_ = input.readInt32();
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              swingId_ = input.readBytes();
+              swingId_ = input.readInt32();
               break;
             }
-            case 26: {
+            case 24: {
               bitField0_ |= 0x00000004;
-              petId_ = input.readBytes();
+              petId_ = input.readInt32();
               break;
             }
             case 32: {
@@ -1669,11 +2600,11 @@ public final class FashionServiceProtos {
     }
 
     private int bitField0_;
-    // optional string SuitId = 1;
+    // optional int32 SuitId = 1;
     public static final int SUITID_FIELD_NUMBER = 1;
-    private java.lang.Object suitId_;
+    private int suitId_;
     /**
-     * <code>optional string SuitId = 1;</code>
+     * <code>optional int32 SuitId = 1;</code>
      *
      * <pre>
      *服饰Id
@@ -1683,52 +2614,21 @@ public final class FashionServiceProtos {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string SuitId = 1;</code>
+     * <code>optional int32 SuitId = 1;</code>
      *
      * <pre>
      *服饰Id
      * </pre>
      */
-    public java.lang.String getSuitId() {
-      java.lang.Object ref = suitId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          suitId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string SuitId = 1;</code>
-     *
-     * <pre>
-     *服饰Id
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getSuitIdBytes() {
-      java.lang.Object ref = suitId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        suitId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getSuitId() {
+      return suitId_;
     }
 
-    // optional string SwingId = 2;
+    // optional int32 SwingId = 2;
     public static final int SWINGID_FIELD_NUMBER = 2;
-    private java.lang.Object swingId_;
+    private int swingId_;
     /**
-     * <code>optional string SwingId = 2;</code>
+     * <code>optional int32 SwingId = 2;</code>
      *
      * <pre>
      *翅膀Id
@@ -1738,52 +2638,21 @@ public final class FashionServiceProtos {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string SwingId = 2;</code>
+     * <code>optional int32 SwingId = 2;</code>
      *
      * <pre>
      *翅膀Id
      * </pre>
      */
-    public java.lang.String getSwingId() {
-      java.lang.Object ref = swingId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          swingId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string SwingId = 2;</code>
-     *
-     * <pre>
-     *翅膀Id
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getSwingIdBytes() {
-      java.lang.Object ref = swingId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        swingId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getSwingId() {
+      return swingId_;
     }
 
-    // optional string PetId = 3;
+    // optional int32 PetId = 3;
     public static final int PETID_FIELD_NUMBER = 3;
-    private java.lang.Object petId_;
+    private int petId_;
     /**
-     * <code>optional string PetId = 3;</code>
+     * <code>optional int32 PetId = 3;</code>
      *
      * <pre>
      *宠物Id
@@ -1793,45 +2662,14 @@ public final class FashionServiceProtos {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string PetId = 3;</code>
+     * <code>optional int32 PetId = 3;</code>
      *
      * <pre>
      *宠物Id
      * </pre>
      */
-    public java.lang.String getPetId() {
-      java.lang.Object ref = petId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          petId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string PetId = 3;</code>
-     *
-     * <pre>
-     *宠物Id
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getPetIdBytes() {
-      java.lang.Object ref = petId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        petId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getPetId() {
+      return petId_;
     }
 
     // optional int32 SpecialEffectId = 4;
@@ -1859,9 +2697,9 @@ public final class FashionServiceProtos {
     }
 
     private void initFields() {
-      suitId_ = "";
-      swingId_ = "";
-      petId_ = "";
+      suitId_ = 0;
+      swingId_ = 0;
+      petId_ = 0;
       specialEffectId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -1877,13 +2715,13 @@ public final class FashionServiceProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getSuitIdBytes());
+        output.writeInt32(1, suitId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getSwingIdBytes());
+        output.writeInt32(2, swingId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getPetIdBytes());
+        output.writeInt32(3, petId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, specialEffectId_);
@@ -1899,15 +2737,15 @@ public final class FashionServiceProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getSuitIdBytes());
+          .computeInt32Size(1, suitId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getSwingIdBytes());
+          .computeInt32Size(2, swingId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getPetIdBytes());
+          .computeInt32Size(3, petId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1993,6 +2831,10 @@ public final class FashionServiceProtos {
     }
     /**
      * Protobuf type {@code FashionUsed}
+     *
+     * <pre>
+     *穿在身上的时装，当不传送某个值的时候表示不存在！
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
@@ -2029,11 +2871,11 @@ public final class FashionServiceProtos {
 
       public Builder clear() {
         super.clear();
-        suitId_ = "";
+        suitId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        swingId_ = "";
+        swingId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        petId_ = "";
+        petId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
         specialEffectId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -2098,19 +2940,13 @@ public final class FashionServiceProtos {
       public Builder mergeFrom(com.rwproto.FashionServiceProtos.FashionUsed other) {
         if (other == com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) return this;
         if (other.hasSuitId()) {
-          bitField0_ |= 0x00000001;
-          suitId_ = other.suitId_;
-          onChanged();
+          setSuitId(other.getSuitId());
         }
         if (other.hasSwingId()) {
-          bitField0_ |= 0x00000002;
-          swingId_ = other.swingId_;
-          onChanged();
+          setSwingId(other.getSwingId());
         }
         if (other.hasPetId()) {
-          bitField0_ |= 0x00000004;
-          petId_ = other.petId_;
-          onChanged();
+          setPetId(other.getPetId());
         }
         if (other.hasSpecialEffectId()) {
           setSpecialEffectId(other.getSpecialEffectId());
@@ -2142,10 +2978,10 @@ public final class FashionServiceProtos {
       }
       private int bitField0_;
 
-      // optional string SuitId = 1;
-      private java.lang.Object suitId_ = "";
+      // optional int32 SuitId = 1;
+      private int suitId_ ;
       /**
-       * <code>optional string SuitId = 1;</code>
+       * <code>optional int32 SuitId = 1;</code>
        *
        * <pre>
        *服饰Id
@@ -2155,62 +2991,30 @@ public final class FashionServiceProtos {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string SuitId = 1;</code>
+       * <code>optional int32 SuitId = 1;</code>
        *
        * <pre>
        *服饰Id
        * </pre>
        */
-      public java.lang.String getSuitId() {
-        java.lang.Object ref = suitId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          suitId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getSuitId() {
+        return suitId_;
       }
       /**
-       * <code>optional string SuitId = 1;</code>
+       * <code>optional int32 SuitId = 1;</code>
        *
        * <pre>
        *服饰Id
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getSuitIdBytes() {
-        java.lang.Object ref = suitId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          suitId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string SuitId = 1;</code>
-       *
-       * <pre>
-       *服饰Id
-       * </pre>
-       */
-      public Builder setSuitId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
+      public Builder setSuitId(int value) {
+        bitField0_ |= 0x00000001;
         suitId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string SuitId = 1;</code>
+       * <code>optional int32 SuitId = 1;</code>
        *
        * <pre>
        *服饰Id
@@ -2218,32 +3022,15 @@ public final class FashionServiceProtos {
        */
       public Builder clearSuitId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        suitId_ = getDefaultInstance().getSuitId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string SuitId = 1;</code>
-       *
-       * <pre>
-       *服饰Id
-       * </pre>
-       */
-      public Builder setSuitIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        suitId_ = value;
+        suitId_ = 0;
         onChanged();
         return this;
       }
 
-      // optional string SwingId = 2;
-      private java.lang.Object swingId_ = "";
+      // optional int32 SwingId = 2;
+      private int swingId_ ;
       /**
-       * <code>optional string SwingId = 2;</code>
+       * <code>optional int32 SwingId = 2;</code>
        *
        * <pre>
        *翅膀Id
@@ -2253,62 +3040,30 @@ public final class FashionServiceProtos {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string SwingId = 2;</code>
+       * <code>optional int32 SwingId = 2;</code>
        *
        * <pre>
        *翅膀Id
        * </pre>
        */
-      public java.lang.String getSwingId() {
-        java.lang.Object ref = swingId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          swingId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getSwingId() {
+        return swingId_;
       }
       /**
-       * <code>optional string SwingId = 2;</code>
+       * <code>optional int32 SwingId = 2;</code>
        *
        * <pre>
        *翅膀Id
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getSwingIdBytes() {
-        java.lang.Object ref = swingId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          swingId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string SwingId = 2;</code>
-       *
-       * <pre>
-       *翅膀Id
-       * </pre>
-       */
-      public Builder setSwingId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setSwingId(int value) {
+        bitField0_ |= 0x00000002;
         swingId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string SwingId = 2;</code>
+       * <code>optional int32 SwingId = 2;</code>
        *
        * <pre>
        *翅膀Id
@@ -2316,32 +3071,15 @@ public final class FashionServiceProtos {
        */
       public Builder clearSwingId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        swingId_ = getDefaultInstance().getSwingId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string SwingId = 2;</code>
-       *
-       * <pre>
-       *翅膀Id
-       * </pre>
-       */
-      public Builder setSwingIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        swingId_ = value;
+        swingId_ = 0;
         onChanged();
         return this;
       }
 
-      // optional string PetId = 3;
-      private java.lang.Object petId_ = "";
+      // optional int32 PetId = 3;
+      private int petId_ ;
       /**
-       * <code>optional string PetId = 3;</code>
+       * <code>optional int32 PetId = 3;</code>
        *
        * <pre>
        *宠物Id
@@ -2351,62 +3089,30 @@ public final class FashionServiceProtos {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string PetId = 3;</code>
+       * <code>optional int32 PetId = 3;</code>
        *
        * <pre>
        *宠物Id
        * </pre>
        */
-      public java.lang.String getPetId() {
-        java.lang.Object ref = petId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          petId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getPetId() {
+        return petId_;
       }
       /**
-       * <code>optional string PetId = 3;</code>
+       * <code>optional int32 PetId = 3;</code>
        *
        * <pre>
        *宠物Id
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getPetIdBytes() {
-        java.lang.Object ref = petId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          petId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string PetId = 3;</code>
-       *
-       * <pre>
-       *宠物Id
-       * </pre>
-       */
-      public Builder setPetId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
+      public Builder setPetId(int value) {
+        bitField0_ |= 0x00000004;
         petId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string PetId = 3;</code>
+       * <code>optional int32 PetId = 3;</code>
        *
        * <pre>
        *宠物Id
@@ -2414,24 +3120,7 @@ public final class FashionServiceProtos {
        */
       public Builder clearPetId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        petId_ = getDefaultInstance().getPetId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string PetId = 3;</code>
-       *
-       * <pre>
-       *宠物Id
-       * </pre>
-       */
-      public Builder setPetIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        petId_ = value;
+        petId_ = 0;
         onChanged();
         return this;
       }
@@ -2496,6 +3185,3102 @@ public final class FashionServiceProtos {
     // @@protoc_insertion_point(class_scope:FashionUsed)
   }
 
+  public interface FashionBuyRenewCfgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .FashionBuyRenew buyRenewList = 1;
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> 
+        getBuyRenewListList();
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionBuyRenew getBuyRenewList(int index);
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    int getBuyRenewListCount();
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder> 
+        getBuyRenewListOrBuilderList();
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder getBuyRenewListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code FashionBuyRenewCfg}
+   */
+  public static final class FashionBuyRenewCfg extends
+      com.google.protobuf.GeneratedMessage
+      implements FashionBuyRenewCfgOrBuilder {
+    // Use FashionBuyRenewCfg.newBuilder() to construct.
+    private FashionBuyRenewCfg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FashionBuyRenewCfg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FashionBuyRenewCfg defaultInstance;
+    public static FashionBuyRenewCfg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FashionBuyRenewCfg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FashionBuyRenewCfg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                buyRenewList_ = new java.util.ArrayList<com.rwproto.FashionServiceProtos.FashionBuyRenew>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              buyRenewList_.add(input.readMessage(com.rwproto.FashionServiceProtos.FashionBuyRenew.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          buyRenewList_ = java.util.Collections.unmodifiableList(buyRenewList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.class, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FashionBuyRenewCfg> PARSER =
+        new com.google.protobuf.AbstractParser<FashionBuyRenewCfg>() {
+      public FashionBuyRenewCfg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FashionBuyRenewCfg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FashionBuyRenewCfg> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .FashionBuyRenew buyRenewList = 1;
+    public static final int BUYRENEWLIST_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> buyRenewList_;
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    public java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> getBuyRenewListList() {
+      return buyRenewList_;
+    }
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder> 
+        getBuyRenewListOrBuilderList() {
+      return buyRenewList_;
+    }
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    public int getBuyRenewListCount() {
+      return buyRenewList_.size();
+    }
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionBuyRenew getBuyRenewList(int index) {
+      return buyRenewList_.get(index);
+    }
+    /**
+     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     *
+     * <pre>
+     *购买和续费的配置
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder getBuyRenewListOrBuilder(
+        int index) {
+      return buyRenewList_.get(index);
+    }
+
+    private void initFields() {
+      buyRenewList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getBuyRenewListCount(); i++) {
+        if (!getBuyRenewList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < buyRenewList_.size(); i++) {
+        output.writeMessage(1, buyRenewList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < buyRenewList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, buyRenewList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FashionServiceProtos.FashionBuyRenewCfg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FashionBuyRenewCfg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.class, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder.class);
+      }
+
+      // Construct using com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getBuyRenewListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (buyRenewListBuilder_ == null) {
+          buyRenewList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          buyRenewListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_descriptor;
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getDefaultInstanceForType() {
+        return com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance();
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg build() {
+        com.rwproto.FashionServiceProtos.FashionBuyRenewCfg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg buildPartial() {
+        com.rwproto.FashionServiceProtos.FashionBuyRenewCfg result = new com.rwproto.FashionServiceProtos.FashionBuyRenewCfg(this);
+        int from_bitField0_ = bitField0_;
+        if (buyRenewListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            buyRenewList_ = java.util.Collections.unmodifiableList(buyRenewList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.buyRenewList_ = buyRenewList_;
+        } else {
+          result.buyRenewList_ = buyRenewListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FashionServiceProtos.FashionBuyRenewCfg) {
+          return mergeFrom((com.rwproto.FashionServiceProtos.FashionBuyRenewCfg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FashionServiceProtos.FashionBuyRenewCfg other) {
+        if (other == com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance()) return this;
+        if (buyRenewListBuilder_ == null) {
+          if (!other.buyRenewList_.isEmpty()) {
+            if (buyRenewList_.isEmpty()) {
+              buyRenewList_ = other.buyRenewList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureBuyRenewListIsMutable();
+              buyRenewList_.addAll(other.buyRenewList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.buyRenewList_.isEmpty()) {
+            if (buyRenewListBuilder_.isEmpty()) {
+              buyRenewListBuilder_.dispose();
+              buyRenewListBuilder_ = null;
+              buyRenewList_ = other.buyRenewList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              buyRenewListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getBuyRenewListFieldBuilder() : null;
+            } else {
+              buyRenewListBuilder_.addAllMessages(other.buyRenewList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getBuyRenewListCount(); i++) {
+          if (!getBuyRenewList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FashionServiceProtos.FashionBuyRenewCfg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FashionServiceProtos.FashionBuyRenewCfg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .FashionBuyRenew buyRenewList = 1;
+      private java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> buyRenewList_ =
+        java.util.Collections.emptyList();
+      private void ensureBuyRenewListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          buyRenewList_ = new java.util.ArrayList<com.rwproto.FashionServiceProtos.FashionBuyRenew>(buyRenewList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionBuyRenew, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder> buyRenewListBuilder_;
+
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> getBuyRenewListList() {
+        if (buyRenewListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(buyRenewList_);
+        } else {
+          return buyRenewListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public int getBuyRenewListCount() {
+        if (buyRenewListBuilder_ == null) {
+          return buyRenewList_.size();
+        } else {
+          return buyRenewListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenew getBuyRenewList(int index) {
+        if (buyRenewListBuilder_ == null) {
+          return buyRenewList_.get(index);
+        } else {
+          return buyRenewListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder setBuyRenewList(
+          int index, com.rwproto.FashionServiceProtos.FashionBuyRenew value) {
+        if (buyRenewListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuyRenewListIsMutable();
+          buyRenewList_.set(index, value);
+          onChanged();
+        } else {
+          buyRenewListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder setBuyRenewList(
+          int index, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder builderForValue) {
+        if (buyRenewListBuilder_ == null) {
+          ensureBuyRenewListIsMutable();
+          buyRenewList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          buyRenewListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder addBuyRenewList(com.rwproto.FashionServiceProtos.FashionBuyRenew value) {
+        if (buyRenewListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuyRenewListIsMutable();
+          buyRenewList_.add(value);
+          onChanged();
+        } else {
+          buyRenewListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder addBuyRenewList(
+          int index, com.rwproto.FashionServiceProtos.FashionBuyRenew value) {
+        if (buyRenewListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuyRenewListIsMutable();
+          buyRenewList_.add(index, value);
+          onChanged();
+        } else {
+          buyRenewListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder addBuyRenewList(
+          com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder builderForValue) {
+        if (buyRenewListBuilder_ == null) {
+          ensureBuyRenewListIsMutable();
+          buyRenewList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          buyRenewListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder addBuyRenewList(
+          int index, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder builderForValue) {
+        if (buyRenewListBuilder_ == null) {
+          ensureBuyRenewListIsMutable();
+          buyRenewList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          buyRenewListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder addAllBuyRenewList(
+          java.lang.Iterable<? extends com.rwproto.FashionServiceProtos.FashionBuyRenew> values) {
+        if (buyRenewListBuilder_ == null) {
+          ensureBuyRenewListIsMutable();
+          super.addAll(values, buyRenewList_);
+          onChanged();
+        } else {
+          buyRenewListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder clearBuyRenewList() {
+        if (buyRenewListBuilder_ == null) {
+          buyRenewList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          buyRenewListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public Builder removeBuyRenewList(int index) {
+        if (buyRenewListBuilder_ == null) {
+          ensureBuyRenewListIsMutable();
+          buyRenewList_.remove(index);
+          onChanged();
+        } else {
+          buyRenewListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder getBuyRenewListBuilder(
+          int index) {
+        return getBuyRenewListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder getBuyRenewListOrBuilder(
+          int index) {
+        if (buyRenewListBuilder_ == null) {
+          return buyRenewList_.get(index);  } else {
+          return buyRenewListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder> 
+           getBuyRenewListOrBuilderList() {
+        if (buyRenewListBuilder_ != null) {
+          return buyRenewListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(buyRenewList_);
+        }
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder addBuyRenewListBuilder() {
+        return getBuyRenewListFieldBuilder().addBuilder(
+            com.rwproto.FashionServiceProtos.FashionBuyRenew.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder addBuyRenewListBuilder(
+          int index) {
+        return getBuyRenewListFieldBuilder().addBuilder(
+            index, com.rwproto.FashionServiceProtos.FashionBuyRenew.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       *
+       * <pre>
+       *购买和续费的配置
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder> 
+           getBuyRenewListBuilderList() {
+        return getBuyRenewListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionBuyRenew, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder> 
+          getBuyRenewListFieldBuilder() {
+        if (buyRenewListBuilder_ == null) {
+          buyRenewListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionBuyRenew, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder>(
+                  buyRenewList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          buyRenewList_ = null;
+        }
+        return buyRenewListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:FashionBuyRenewCfg)
+    }
+
+    static {
+      defaultInstance = new FashionBuyRenewCfg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:FashionBuyRenewCfg)
+  }
+
+  public interface FashionBuyRenewOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 fashionId = 1;
+    /**
+     * <code>required int32 fashionId = 1;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
+     */
+    boolean hasFashionId();
+    /**
+     * <code>required int32 fashionId = 1;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
+     */
+    int getFashionId();
+
+    // repeated .PayCfg buyCfg = 2;
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    java.util.List<com.rwproto.FashionServiceProtos.PayCfg> 
+        getBuyCfgList();
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.PayCfg getBuyCfg(int index);
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    int getBuyCfgCount();
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+        getBuyCfgOrBuilderList();
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.PayCfgOrBuilder getBuyCfgOrBuilder(
+        int index);
+
+    // repeated .PayCfg renewPlan = 3;
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    java.util.List<com.rwproto.FashionServiceProtos.PayCfg> 
+        getRenewPlanList();
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.PayCfg getRenewPlan(int index);
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    int getRenewPlanCount();
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+        getRenewPlanOrBuilderList();
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.PayCfgOrBuilder getRenewPlanOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code FashionBuyRenew}
+   */
+  public static final class FashionBuyRenew extends
+      com.google.protobuf.GeneratedMessage
+      implements FashionBuyRenewOrBuilder {
+    // Use FashionBuyRenew.newBuilder() to construct.
+    private FashionBuyRenew(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FashionBuyRenew(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FashionBuyRenew defaultInstance;
+    public static FashionBuyRenew getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FashionBuyRenew getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FashionBuyRenew(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              fashionId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                buyCfg_ = new java.util.ArrayList<com.rwproto.FashionServiceProtos.PayCfg>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              buyCfg_.add(input.readMessage(com.rwproto.FashionServiceProtos.PayCfg.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                renewPlan_ = new java.util.ArrayList<com.rwproto.FashionServiceProtos.PayCfg>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              renewPlan_.add(input.readMessage(com.rwproto.FashionServiceProtos.PayCfg.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          buyCfg_ = java.util.Collections.unmodifiableList(buyCfg_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          renewPlan_ = java.util.Collections.unmodifiableList(renewPlan_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FashionServiceProtos.FashionBuyRenew.class, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FashionBuyRenew> PARSER =
+        new com.google.protobuf.AbstractParser<FashionBuyRenew>() {
+      public FashionBuyRenew parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FashionBuyRenew(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FashionBuyRenew> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 fashionId = 1;
+    public static final int FASHIONID_FIELD_NUMBER = 1;
+    private int fashionId_;
+    /**
+     * <code>required int32 fashionId = 1;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
+     */
+    public boolean hasFashionId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 fashionId = 1;</code>
+     *
+     * <pre>
+     *策划配表(FashionCommonCfg)的ID
+     * </pre>
+     */
+    public int getFashionId() {
+      return fashionId_;
+    }
+
+    // repeated .PayCfg buyCfg = 2;
+    public static final int BUYCFG_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> buyCfg_;
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    public java.util.List<com.rwproto.FashionServiceProtos.PayCfg> getBuyCfgList() {
+      return buyCfg_;
+    }
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+        getBuyCfgOrBuilderList() {
+      return buyCfg_;
+    }
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    public int getBuyCfgCount() {
+      return buyCfg_.size();
+    }
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.PayCfg getBuyCfg(int index) {
+      return buyCfg_.get(index);
+    }
+    /**
+     * <code>repeated .PayCfg buyCfg = 2;</code>
+     *
+     * <pre>
+     *购买方案
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.PayCfgOrBuilder getBuyCfgOrBuilder(
+        int index) {
+      return buyCfg_.get(index);
+    }
+
+    // repeated .PayCfg renewPlan = 3;
+    public static final int RENEWPLAN_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> renewPlan_;
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    public java.util.List<com.rwproto.FashionServiceProtos.PayCfg> getRenewPlanList() {
+      return renewPlan_;
+    }
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+        getRenewPlanOrBuilderList() {
+      return renewPlan_;
+    }
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    public int getRenewPlanCount() {
+      return renewPlan_.size();
+    }
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.PayCfg getRenewPlan(int index) {
+      return renewPlan_.get(index);
+    }
+    /**
+     * <code>repeated .PayCfg renewPlan = 3;</code>
+     *
+     * <pre>
+     *续费方案
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.PayCfgOrBuilder getRenewPlanOrBuilder(
+        int index) {
+      return renewPlan_.get(index);
+    }
+
+    private void initFields() {
+      fashionId_ = 0;
+      buyCfg_ = java.util.Collections.emptyList();
+      renewPlan_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasFashionId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getBuyCfgCount(); i++) {
+        if (!getBuyCfg(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getRenewPlanCount(); i++) {
+        if (!getRenewPlan(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, fashionId_);
+      }
+      for (int i = 0; i < buyCfg_.size(); i++) {
+        output.writeMessage(2, buyCfg_.get(i));
+      }
+      for (int i = 0; i < renewPlan_.size(); i++) {
+        output.writeMessage(3, renewPlan_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, fashionId_);
+      }
+      for (int i = 0; i < buyCfg_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, buyCfg_.get(i));
+      }
+      for (int i = 0; i < renewPlan_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, renewPlan_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.FashionBuyRenew parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FashionServiceProtos.FashionBuyRenew prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FashionBuyRenew}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FashionServiceProtos.FashionBuyRenew.class, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder.class);
+      }
+
+      // Construct using com.rwproto.FashionServiceProtos.FashionBuyRenew.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getBuyCfgFieldBuilder();
+          getRenewPlanFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fashionId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (buyCfgBuilder_ == null) {
+          buyCfg_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          buyCfgBuilder_.clear();
+        }
+        if (renewPlanBuilder_ == null) {
+          renewPlan_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          renewPlanBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_descriptor;
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionBuyRenew getDefaultInstanceForType() {
+        return com.rwproto.FashionServiceProtos.FashionBuyRenew.getDefaultInstance();
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionBuyRenew build() {
+        com.rwproto.FashionServiceProtos.FashionBuyRenew result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FashionServiceProtos.FashionBuyRenew buildPartial() {
+        com.rwproto.FashionServiceProtos.FashionBuyRenew result = new com.rwproto.FashionServiceProtos.FashionBuyRenew(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fashionId_ = fashionId_;
+        if (buyCfgBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            buyCfg_ = java.util.Collections.unmodifiableList(buyCfg_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.buyCfg_ = buyCfg_;
+        } else {
+          result.buyCfg_ = buyCfgBuilder_.build();
+        }
+        if (renewPlanBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            renewPlan_ = java.util.Collections.unmodifiableList(renewPlan_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.renewPlan_ = renewPlan_;
+        } else {
+          result.renewPlan_ = renewPlanBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FashionServiceProtos.FashionBuyRenew) {
+          return mergeFrom((com.rwproto.FashionServiceProtos.FashionBuyRenew)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FashionServiceProtos.FashionBuyRenew other) {
+        if (other == com.rwproto.FashionServiceProtos.FashionBuyRenew.getDefaultInstance()) return this;
+        if (other.hasFashionId()) {
+          setFashionId(other.getFashionId());
+        }
+        if (buyCfgBuilder_ == null) {
+          if (!other.buyCfg_.isEmpty()) {
+            if (buyCfg_.isEmpty()) {
+              buyCfg_ = other.buyCfg_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureBuyCfgIsMutable();
+              buyCfg_.addAll(other.buyCfg_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.buyCfg_.isEmpty()) {
+            if (buyCfgBuilder_.isEmpty()) {
+              buyCfgBuilder_.dispose();
+              buyCfgBuilder_ = null;
+              buyCfg_ = other.buyCfg_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              buyCfgBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getBuyCfgFieldBuilder() : null;
+            } else {
+              buyCfgBuilder_.addAllMessages(other.buyCfg_);
+            }
+          }
+        }
+        if (renewPlanBuilder_ == null) {
+          if (!other.renewPlan_.isEmpty()) {
+            if (renewPlan_.isEmpty()) {
+              renewPlan_ = other.renewPlan_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureRenewPlanIsMutable();
+              renewPlan_.addAll(other.renewPlan_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.renewPlan_.isEmpty()) {
+            if (renewPlanBuilder_.isEmpty()) {
+              renewPlanBuilder_.dispose();
+              renewPlanBuilder_ = null;
+              renewPlan_ = other.renewPlan_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              renewPlanBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRenewPlanFieldBuilder() : null;
+            } else {
+              renewPlanBuilder_.addAllMessages(other.renewPlan_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFashionId()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getBuyCfgCount(); i++) {
+          if (!getBuyCfg(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getRenewPlanCount(); i++) {
+          if (!getRenewPlan(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FashionServiceProtos.FashionBuyRenew parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FashionServiceProtos.FashionBuyRenew) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 fashionId = 1;
+      private int fashionId_ ;
+      /**
+       * <code>required int32 fashionId = 1;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
+       */
+      public boolean hasFashionId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 fashionId = 1;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
+       */
+      public int getFashionId() {
+        return fashionId_;
+      }
+      /**
+       * <code>required int32 fashionId = 1;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
+       */
+      public Builder setFashionId(int value) {
+        bitField0_ |= 0x00000001;
+        fashionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 fashionId = 1;</code>
+       *
+       * <pre>
+       *策划配表(FashionCommonCfg)的ID
+       * </pre>
+       */
+      public Builder clearFashionId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fashionId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .PayCfg buyCfg = 2;
+      private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> buyCfg_ =
+        java.util.Collections.emptyList();
+      private void ensureBuyCfgIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          buyCfg_ = new java.util.ArrayList<com.rwproto.FashionServiceProtos.PayCfg>(buyCfg_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder> buyCfgBuilder_;
+
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FashionServiceProtos.PayCfg> getBuyCfgList() {
+        if (buyCfgBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(buyCfg_);
+        } else {
+          return buyCfgBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public int getBuyCfgCount() {
+        if (buyCfgBuilder_ == null) {
+          return buyCfg_.size();
+        } else {
+          return buyCfgBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg getBuyCfg(int index) {
+        if (buyCfgBuilder_ == null) {
+          return buyCfg_.get(index);
+        } else {
+          return buyCfgBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder setBuyCfg(
+          int index, com.rwproto.FashionServiceProtos.PayCfg value) {
+        if (buyCfgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuyCfgIsMutable();
+          buyCfg_.set(index, value);
+          onChanged();
+        } else {
+          buyCfgBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder setBuyCfg(
+          int index, com.rwproto.FashionServiceProtos.PayCfg.Builder builderForValue) {
+        if (buyCfgBuilder_ == null) {
+          ensureBuyCfgIsMutable();
+          buyCfg_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          buyCfgBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder addBuyCfg(com.rwproto.FashionServiceProtos.PayCfg value) {
+        if (buyCfgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuyCfgIsMutable();
+          buyCfg_.add(value);
+          onChanged();
+        } else {
+          buyCfgBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder addBuyCfg(
+          int index, com.rwproto.FashionServiceProtos.PayCfg value) {
+        if (buyCfgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuyCfgIsMutable();
+          buyCfg_.add(index, value);
+          onChanged();
+        } else {
+          buyCfgBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder addBuyCfg(
+          com.rwproto.FashionServiceProtos.PayCfg.Builder builderForValue) {
+        if (buyCfgBuilder_ == null) {
+          ensureBuyCfgIsMutable();
+          buyCfg_.add(builderForValue.build());
+          onChanged();
+        } else {
+          buyCfgBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder addBuyCfg(
+          int index, com.rwproto.FashionServiceProtos.PayCfg.Builder builderForValue) {
+        if (buyCfgBuilder_ == null) {
+          ensureBuyCfgIsMutable();
+          buyCfg_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          buyCfgBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder addAllBuyCfg(
+          java.lang.Iterable<? extends com.rwproto.FashionServiceProtos.PayCfg> values) {
+        if (buyCfgBuilder_ == null) {
+          ensureBuyCfgIsMutable();
+          super.addAll(values, buyCfg_);
+          onChanged();
+        } else {
+          buyCfgBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder clearBuyCfg() {
+        if (buyCfgBuilder_ == null) {
+          buyCfg_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          buyCfgBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public Builder removeBuyCfg(int index) {
+        if (buyCfgBuilder_ == null) {
+          ensureBuyCfgIsMutable();
+          buyCfg_.remove(index);
+          onChanged();
+        } else {
+          buyCfgBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg.Builder getBuyCfgBuilder(
+          int index) {
+        return getBuyCfgFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfgOrBuilder getBuyCfgOrBuilder(
+          int index) {
+        if (buyCfgBuilder_ == null) {
+          return buyCfg_.get(index);  } else {
+          return buyCfgBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+           getBuyCfgOrBuilderList() {
+        if (buyCfgBuilder_ != null) {
+          return buyCfgBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(buyCfg_);
+        }
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg.Builder addBuyCfgBuilder() {
+        return getBuyCfgFieldBuilder().addBuilder(
+            com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg.Builder addBuyCfgBuilder(
+          int index) {
+        return getBuyCfgFieldBuilder().addBuilder(
+            index, com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PayCfg buyCfg = 2;</code>
+       *
+       * <pre>
+       *购买方案
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FashionServiceProtos.PayCfg.Builder> 
+           getBuyCfgBuilderList() {
+        return getBuyCfgFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+          getBuyCfgFieldBuilder() {
+        if (buyCfgBuilder_ == null) {
+          buyCfgBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder>(
+                  buyCfg_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          buyCfg_ = null;
+        }
+        return buyCfgBuilder_;
+      }
+
+      // repeated .PayCfg renewPlan = 3;
+      private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> renewPlan_ =
+        java.util.Collections.emptyList();
+      private void ensureRenewPlanIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          renewPlan_ = new java.util.ArrayList<com.rwproto.FashionServiceProtos.PayCfg>(renewPlan_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder> renewPlanBuilder_;
+
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FashionServiceProtos.PayCfg> getRenewPlanList() {
+        if (renewPlanBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(renewPlan_);
+        } else {
+          return renewPlanBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public int getRenewPlanCount() {
+        if (renewPlanBuilder_ == null) {
+          return renewPlan_.size();
+        } else {
+          return renewPlanBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg getRenewPlan(int index) {
+        if (renewPlanBuilder_ == null) {
+          return renewPlan_.get(index);
+        } else {
+          return renewPlanBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder setRenewPlan(
+          int index, com.rwproto.FashionServiceProtos.PayCfg value) {
+        if (renewPlanBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRenewPlanIsMutable();
+          renewPlan_.set(index, value);
+          onChanged();
+        } else {
+          renewPlanBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder setRenewPlan(
+          int index, com.rwproto.FashionServiceProtos.PayCfg.Builder builderForValue) {
+        if (renewPlanBuilder_ == null) {
+          ensureRenewPlanIsMutable();
+          renewPlan_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          renewPlanBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder addRenewPlan(com.rwproto.FashionServiceProtos.PayCfg value) {
+        if (renewPlanBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRenewPlanIsMutable();
+          renewPlan_.add(value);
+          onChanged();
+        } else {
+          renewPlanBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder addRenewPlan(
+          int index, com.rwproto.FashionServiceProtos.PayCfg value) {
+        if (renewPlanBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRenewPlanIsMutable();
+          renewPlan_.add(index, value);
+          onChanged();
+        } else {
+          renewPlanBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder addRenewPlan(
+          com.rwproto.FashionServiceProtos.PayCfg.Builder builderForValue) {
+        if (renewPlanBuilder_ == null) {
+          ensureRenewPlanIsMutable();
+          renewPlan_.add(builderForValue.build());
+          onChanged();
+        } else {
+          renewPlanBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder addRenewPlan(
+          int index, com.rwproto.FashionServiceProtos.PayCfg.Builder builderForValue) {
+        if (renewPlanBuilder_ == null) {
+          ensureRenewPlanIsMutable();
+          renewPlan_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          renewPlanBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder addAllRenewPlan(
+          java.lang.Iterable<? extends com.rwproto.FashionServiceProtos.PayCfg> values) {
+        if (renewPlanBuilder_ == null) {
+          ensureRenewPlanIsMutable();
+          super.addAll(values, renewPlan_);
+          onChanged();
+        } else {
+          renewPlanBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder clearRenewPlan() {
+        if (renewPlanBuilder_ == null) {
+          renewPlan_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          renewPlanBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public Builder removeRenewPlan(int index) {
+        if (renewPlanBuilder_ == null) {
+          ensureRenewPlanIsMutable();
+          renewPlan_.remove(index);
+          onChanged();
+        } else {
+          renewPlanBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg.Builder getRenewPlanBuilder(
+          int index) {
+        return getRenewPlanFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfgOrBuilder getRenewPlanOrBuilder(
+          int index) {
+        if (renewPlanBuilder_ == null) {
+          return renewPlan_.get(index);  } else {
+          return renewPlanBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+           getRenewPlanOrBuilderList() {
+        if (renewPlanBuilder_ != null) {
+          return renewPlanBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(renewPlan_);
+        }
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg.Builder addRenewPlanBuilder() {
+        return getRenewPlanFieldBuilder().addBuilder(
+            com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.PayCfg.Builder addRenewPlanBuilder(
+          int index) {
+        return getRenewPlanFieldBuilder().addBuilder(
+            index, com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PayCfg renewPlan = 3;</code>
+       *
+       * <pre>
+       *续费方案
+       * </pre>
+       */
+      public java.util.List<com.rwproto.FashionServiceProtos.PayCfg.Builder> 
+           getRenewPlanBuilderList() {
+        return getRenewPlanFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
+          getRenewPlanFieldBuilder() {
+        if (renewPlanBuilder_ == null) {
+          renewPlanBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder>(
+                  renewPlan_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          renewPlan_ = null;
+        }
+        return renewPlanBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:FashionBuyRenew)
+    }
+
+    static {
+      defaultInstance = new FashionBuyRenew(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:FashionBuyRenew)
+  }
+
+  public interface PayCfgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 day = 1;
+    /**
+     * <code>required int32 day = 1;</code>
+     *
+     * <pre>
+     *天数
+     * </pre>
+     */
+    boolean hasDay();
+    /**
+     * <code>required int32 day = 1;</code>
+     *
+     * <pre>
+     *天数
+     * </pre>
+     */
+    int getDay();
+
+    // required int32 payment = 2;
+    /**
+     * <code>required int32 payment = 2;</code>
+     *
+     * <pre>
+     *费用
+     * </pre>
+     */
+    boolean hasPayment();
+    /**
+     * <code>required int32 payment = 2;</code>
+     *
+     * <pre>
+     *费用
+     * </pre>
+     */
+    int getPayment();
+
+    // required int32 coinType = 3;
+    /**
+     * <code>required int32 coinType = 3;</code>
+     *
+     * <pre>
+     *货币类型eSpecialItemId
+     * </pre>
+     */
+    boolean hasCoinType();
+    /**
+     * <code>required int32 coinType = 3;</code>
+     *
+     * <pre>
+     *货币类型eSpecialItemId
+     * </pre>
+     */
+    int getCoinType();
+
+    // required string planId = 4;
+    /**
+     * <code>required string planId = 4;</code>
+     *
+     * <pre>
+     *方案ID
+     * </pre>
+     */
+    boolean hasPlanId();
+    /**
+     * <code>required string planId = 4;</code>
+     *
+     * <pre>
+     *方案ID
+     * </pre>
+     */
+    java.lang.String getPlanId();
+    /**
+     * <code>required string planId = 4;</code>
+     *
+     * <pre>
+     *方案ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getPlanIdBytes();
+  }
+  /**
+   * Protobuf type {@code PayCfg}
+   */
+  public static final class PayCfg extends
+      com.google.protobuf.GeneratedMessage
+      implements PayCfgOrBuilder {
+    // Use PayCfg.newBuilder() to construct.
+    private PayCfg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PayCfg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PayCfg defaultInstance;
+    public static PayCfg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PayCfg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PayCfg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              day_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              payment_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              coinType_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              planId_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.FashionServiceProtos.internal_static_PayCfg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.FashionServiceProtos.internal_static_PayCfg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.FashionServiceProtos.PayCfg.class, com.rwproto.FashionServiceProtos.PayCfg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PayCfg> PARSER =
+        new com.google.protobuf.AbstractParser<PayCfg>() {
+      public PayCfg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PayCfg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PayCfg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 day = 1;
+    public static final int DAY_FIELD_NUMBER = 1;
+    private int day_;
+    /**
+     * <code>required int32 day = 1;</code>
+     *
+     * <pre>
+     *天数
+     * </pre>
+     */
+    public boolean hasDay() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 day = 1;</code>
+     *
+     * <pre>
+     *天数
+     * </pre>
+     */
+    public int getDay() {
+      return day_;
+    }
+
+    // required int32 payment = 2;
+    public static final int PAYMENT_FIELD_NUMBER = 2;
+    private int payment_;
+    /**
+     * <code>required int32 payment = 2;</code>
+     *
+     * <pre>
+     *费用
+     * </pre>
+     */
+    public boolean hasPayment() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 payment = 2;</code>
+     *
+     * <pre>
+     *费用
+     * </pre>
+     */
+    public int getPayment() {
+      return payment_;
+    }
+
+    // required int32 coinType = 3;
+    public static final int COINTYPE_FIELD_NUMBER = 3;
+    private int coinType_;
+    /**
+     * <code>required int32 coinType = 3;</code>
+     *
+     * <pre>
+     *货币类型eSpecialItemId
+     * </pre>
+     */
+    public boolean hasCoinType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 coinType = 3;</code>
+     *
+     * <pre>
+     *货币类型eSpecialItemId
+     * </pre>
+     */
+    public int getCoinType() {
+      return coinType_;
+    }
+
+    // required string planId = 4;
+    public static final int PLANID_FIELD_NUMBER = 4;
+    private java.lang.Object planId_;
+    /**
+     * <code>required string planId = 4;</code>
+     *
+     * <pre>
+     *方案ID
+     * </pre>
+     */
+    public boolean hasPlanId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required string planId = 4;</code>
+     *
+     * <pre>
+     *方案ID
+     * </pre>
+     */
+    public java.lang.String getPlanId() {
+      java.lang.Object ref = planId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          planId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string planId = 4;</code>
+     *
+     * <pre>
+     *方案ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getPlanIdBytes() {
+      java.lang.Object ref = planId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        planId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      day_ = 0;
+      payment_ = 0;
+      coinType_ = 0;
+      planId_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasDay()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPayment()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCoinType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPlanId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, day_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, payment_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, coinType_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getPlanIdBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, day_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, payment_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, coinType_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getPlanIdBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.FashionServiceProtos.PayCfg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.FashionServiceProtos.PayCfg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PayCfg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.FashionServiceProtos.PayCfgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.FashionServiceProtos.internal_static_PayCfg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.FashionServiceProtos.internal_static_PayCfg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.FashionServiceProtos.PayCfg.class, com.rwproto.FashionServiceProtos.PayCfg.Builder.class);
+      }
+
+      // Construct using com.rwproto.FashionServiceProtos.PayCfg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        day_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        payment_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        coinType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        planId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.FashionServiceProtos.internal_static_PayCfg_descriptor;
+      }
+
+      public com.rwproto.FashionServiceProtos.PayCfg getDefaultInstanceForType() {
+        return com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance();
+      }
+
+      public com.rwproto.FashionServiceProtos.PayCfg build() {
+        com.rwproto.FashionServiceProtos.PayCfg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.FashionServiceProtos.PayCfg buildPartial() {
+        com.rwproto.FashionServiceProtos.PayCfg result = new com.rwproto.FashionServiceProtos.PayCfg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.day_ = day_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.payment_ = payment_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.coinType_ = coinType_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.planId_ = planId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.FashionServiceProtos.PayCfg) {
+          return mergeFrom((com.rwproto.FashionServiceProtos.PayCfg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.FashionServiceProtos.PayCfg other) {
+        if (other == com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance()) return this;
+        if (other.hasDay()) {
+          setDay(other.getDay());
+        }
+        if (other.hasPayment()) {
+          setPayment(other.getPayment());
+        }
+        if (other.hasCoinType()) {
+          setCoinType(other.getCoinType());
+        }
+        if (other.hasPlanId()) {
+          bitField0_ |= 0x00000008;
+          planId_ = other.planId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasDay()) {
+          
+          return false;
+        }
+        if (!hasPayment()) {
+          
+          return false;
+        }
+        if (!hasCoinType()) {
+          
+          return false;
+        }
+        if (!hasPlanId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.FashionServiceProtos.PayCfg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.FashionServiceProtos.PayCfg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 day = 1;
+      private int day_ ;
+      /**
+       * <code>required int32 day = 1;</code>
+       *
+       * <pre>
+       *天数
+       * </pre>
+       */
+      public boolean hasDay() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 day = 1;</code>
+       *
+       * <pre>
+       *天数
+       * </pre>
+       */
+      public int getDay() {
+        return day_;
+      }
+      /**
+       * <code>required int32 day = 1;</code>
+       *
+       * <pre>
+       *天数
+       * </pre>
+       */
+      public Builder setDay(int value) {
+        bitField0_ |= 0x00000001;
+        day_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 day = 1;</code>
+       *
+       * <pre>
+       *天数
+       * </pre>
+       */
+      public Builder clearDay() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        day_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 payment = 2;
+      private int payment_ ;
+      /**
+       * <code>required int32 payment = 2;</code>
+       *
+       * <pre>
+       *费用
+       * </pre>
+       */
+      public boolean hasPayment() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 payment = 2;</code>
+       *
+       * <pre>
+       *费用
+       * </pre>
+       */
+      public int getPayment() {
+        return payment_;
+      }
+      /**
+       * <code>required int32 payment = 2;</code>
+       *
+       * <pre>
+       *费用
+       * </pre>
+       */
+      public Builder setPayment(int value) {
+        bitField0_ |= 0x00000002;
+        payment_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 payment = 2;</code>
+       *
+       * <pre>
+       *费用
+       * </pre>
+       */
+      public Builder clearPayment() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        payment_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 coinType = 3;
+      private int coinType_ ;
+      /**
+       * <code>required int32 coinType = 3;</code>
+       *
+       * <pre>
+       *货币类型eSpecialItemId
+       * </pre>
+       */
+      public boolean hasCoinType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 coinType = 3;</code>
+       *
+       * <pre>
+       *货币类型eSpecialItemId
+       * </pre>
+       */
+      public int getCoinType() {
+        return coinType_;
+      }
+      /**
+       * <code>required int32 coinType = 3;</code>
+       *
+       * <pre>
+       *货币类型eSpecialItemId
+       * </pre>
+       */
+      public Builder setCoinType(int value) {
+        bitField0_ |= 0x00000004;
+        coinType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 coinType = 3;</code>
+       *
+       * <pre>
+       *货币类型eSpecialItemId
+       * </pre>
+       */
+      public Builder clearCoinType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        coinType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string planId = 4;
+      private java.lang.Object planId_ = "";
+      /**
+       * <code>required string planId = 4;</code>
+       *
+       * <pre>
+       *方案ID
+       * </pre>
+       */
+      public boolean hasPlanId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required string planId = 4;</code>
+       *
+       * <pre>
+       *方案ID
+       * </pre>
+       */
+      public java.lang.String getPlanId() {
+        java.lang.Object ref = planId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          planId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string planId = 4;</code>
+       *
+       * <pre>
+       *方案ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getPlanIdBytes() {
+        java.lang.Object ref = planId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          planId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string planId = 4;</code>
+       *
+       * <pre>
+       *方案ID
+       * </pre>
+       */
+      public Builder setPlanId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        planId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string planId = 4;</code>
+       *
+       * <pre>
+       *方案ID
+       * </pre>
+       */
+      public Builder clearPlanId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        planId_ = getDefaultInstance().getPlanId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string planId = 4;</code>
+       *
+       * <pre>
+       *方案ID
+       * </pre>
+       */
+      public Builder setPlanIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        planId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:PayCfg)
+    }
+
+    static {
+      defaultInstance = new PayCfg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:PayCfg)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_FashionRequest_descriptor;
   private static
@@ -2507,10 +6292,30 @@ public final class FashionServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_FashionResponse_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_FashionCommon_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_FashionCommon_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_FashionUsed_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_FashionUsed_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_FashionBuyRenewCfg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_FashionBuyRenewCfg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_FashionBuyRenew_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_FashionBuyRenew_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_PayCfg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PayCfg_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2521,15 +6326,27 @@ public final class FashionServiceProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\024FashionService.proto\032\022ErrorService.pro" +
-      "to\"X\n\016FashionRequest\022$\n\teventType\030\001 \002(\0162" +
-      "\021.FashionEventType\022\n\n\002id\030\002 \001(\t\022\024\n\014extend" +
-      "PlanId\030\003 \001(\005\"E\n\017FashionResponse\022\n\n\002id\030\002 " +
-      "\001(\t\022&\n\005error\030\003 \002(\0162\027.ErrorService.ErrorT" +
-      "ype\"V\n\013FashionUsed\022\016\n\006SuitId\030\001 \001(\t\022\017\n\007Sw" +
-      "ingId\030\002 \001(\t\022\r\n\005PetId\030\003 \001(\t\022\027\n\017SpecialEff" +
-      "ectId\030\004 \001(\005*A\n\020FashionEventType\022\007\n\003buy\020\001" +
-      "\022\006\n\002on\020\002\022\007\n\003off\020\003\022\n\n\006extend\020\004\022\007\n\003syn\020\005B#" +
-      "\n\013com.rwprotoB\024FashionServiceProtos"
+      "to\"W\n\016FashionRequest\022$\n\teventType\030\001 \002(\0162" +
+      "\021.FashionEventType\022\n\n\002id\030\002 \001(\005\022\023\n\013renewP" +
+      "lanId\030\003 \001(\005\"\222\001\n\017FashionResponse\022$\n\tevent" +
+      "Type\030\001 \001(\0162\021.FashionEventType\022\n\n\002id\030\002 \001(" +
+      "\005\022&\n\005error\030\003 \002(\0162\027.ErrorService.ErrorTyp" +
+      "e\022%\n\rfashionCommon\030\004 \001(\0132\016.FashionCommon" +
+      "\"\\\n\rFashionCommon\022!\n\013usedFashion\030\001 \001(\0132\014" +
+      ".FashionUsed\022(\n\013buyRenewCfg\030\002 \001(\0132\023.Fash" +
+      "ionBuyRenewCfg\"V\n\013FashionUsed\022\016\n\006SuitId\030",
+      "\001 \001(\005\022\017\n\007SwingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027\n" +
+      "\017SpecialEffectId\030\004 \001(\005\"<\n\022FashionBuyRene" +
+      "wCfg\022&\n\014buyRenewList\030\001 \003(\0132\020.FashionBuyR" +
+      "enew\"Y\n\017FashionBuyRenew\022\021\n\tfashionId\030\001 \002" +
+      "(\005\022\027\n\006buyCfg\030\002 \003(\0132\007.PayCfg\022\032\n\trenewPlan" +
+      "\030\003 \003(\0132\007.PayCfg\"H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017" +
+      "\n\007payment\030\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022\016\n\006pla" +
+      "nId\030\004 \002(\t*K\n\020FashionEventType\022\007\n\003buy\020\001\022\006" +
+      "\n\002on\020\002\022\007\n\003off\020\003\022\t\n\005renew\020\004\022\022\n\016getFashion" +
+      "data\020\005**\n\013FashionType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001",
+      "\022\010\n\004Suit\020\002B#\n\013com.rwprotoB\024FashionServic" +
+      "eProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2541,19 +6358,43 @@ public final class FashionServiceProtos {
           internal_static_FashionRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionRequest_descriptor,
-              new java.lang.String[] { "EventType", "Id", "ExtendPlanId", });
+              new java.lang.String[] { "EventType", "Id", "RenewPlanId", });
           internal_static_FashionResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_FashionResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionResponse_descriptor,
-              new java.lang.String[] { "Id", "Error", });
-          internal_static_FashionUsed_descriptor =
+              new java.lang.String[] { "EventType", "Id", "Error", "FashionCommon", });
+          internal_static_FashionCommon_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_FashionCommon_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_FashionCommon_descriptor,
+              new java.lang.String[] { "UsedFashion", "BuyRenewCfg", });
+          internal_static_FashionUsed_descriptor =
+            getDescriptor().getMessageTypes().get(3);
           internal_static_FashionUsed_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionUsed_descriptor,
               new java.lang.String[] { "SuitId", "SwingId", "PetId", "SpecialEffectId", });
+          internal_static_FashionBuyRenewCfg_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_FashionBuyRenewCfg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_FashionBuyRenewCfg_descriptor,
+              new java.lang.String[] { "BuyRenewList", });
+          internal_static_FashionBuyRenew_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_FashionBuyRenew_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_FashionBuyRenew_descriptor,
+              new java.lang.String[] { "FashionId", "BuyCfg", "RenewPlan", });
+          internal_static_PayCfg_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_PayCfg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_PayCfg_descriptor,
+              new java.lang.String[] { "Day", "Payment", "CoinType", "PlanId", });
           return null;
         }
       };
