@@ -22,7 +22,7 @@ public abstract class CfgCsvDao<T> {
 	public  Map<String, T> getMaps(){
 		return cfgCacheMap;
 	}
-	public Object getCfgById(String id){
+	public T getCfgById(String id){
 		return cfgCacheMap.get(id);
 	}
 

@@ -22,6 +22,9 @@ public class GroupCopyMapRecord implements IMapItem {
 	
 	private int level;
 	
+	private GroupCopyStatus status;//状态 开启 关闭 完成	
+	private int progress;//进度
+	
 	public String getId() {
 		return id;
 	}
@@ -40,8 +43,19 @@ public class GroupCopyMapRecord implements IMapItem {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	public GroupCopyStatus getStatus() {
+		return status;
+	}
+	public void setStatus(GroupCopyStatus status) {
+		this.status = status;
+	}
+	public int getProgress() {
+		return progress;
+	}
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
 
-	
-	
+
 	
 }

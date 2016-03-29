@@ -1,9 +1,12 @@
 package com.rw.service.groupCopyAdmin;
 
+import com.bm.group.GroupHelper;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
 import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
+import com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
 import com.rwproto.GroupCopyAdminProto.RequestType;
 
 /*
@@ -24,12 +27,27 @@ public class GroupCopyAdminHandler {
 	private GroupCopyAdminHandler() {
 	}
 
+	public ByteString getInfo(Player player, GroupCopyAdminComReqMsg req) {
+		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
+		commonRsp.setReqType(RequestType.GET_COPY_INFO);	
+	
 
+		commonRsp.setIsSuccess(true);
+		return commonRsp.build().toByteString();
+	}
+	
 	public ByteString open(Player player, GroupCopyAdminComReqMsg req) {
 		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.OPEN_COPY);
 
-		commonRsp.setIsSuccess(true);		
+		GroupCopyAdminOpenCopyReqMsg openReqMsg = req.getOpenReqMsg();
+		Group group = GroupHelper.getGroup(player);
+		boolean success = false;
+		if(group!=null){
+			String mapId = openReqMsg.getMapId();
+			success = group.getGroupCopyMgr().openMap( mapId );
+		}	
+		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
 	}
 
@@ -38,16 +56,16 @@ public class GroupCopyAdminHandler {
 		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.RESET_COPY);
 
-		commonRsp.setIsSuccess(true);
+		GroupCopyAdminOpenCopyReqMsg openReqMsg = req.getOpenReqMsg();
+		Group group = GroupHelper.getGroup(player);
+		boolean success = false;
+		if(group!=null){
+			String mapId = openReqMsg.getMapId();
+			success = group.getGroupCopyMgr().resetMap( mapId );
+		}	
+		commonRsp.setIsSuccess(success);	
 		return commonRsp.build().toByteString();
 	}
 
-	public ByteString getInfo(Player player, GroupCopyAdminComReqMsg req) {
-		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
-		commonRsp.setReqType(RequestType.GET_COPY_INFO);
-
-		commonRsp.setIsSuccess(true);
-		return commonRsp.build().toByteString();
-	}
 	
 }

@@ -1224,6 +1224,34 @@ public final class GroupCopyAdminProto {
      */
     com.google.protobuf.ByteString
         getVersionBytes();
+
+    // optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+     */
+    boolean hasOpenReqMsg();
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg getOpenReqMsg();
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsgOrBuilder getOpenReqMsgOrBuilder();
+
+    // optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+     */
+    boolean hasResetReqMsg();
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg getResetReqMsg();
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsgOrBuilder getResetReqMsgOrBuilder();
   }
   /**
    * Protobuf type {@code GroupCopyAdmin.GroupCopyAdminComReqMsg}
@@ -1290,6 +1318,32 @@ public final class GroupCopyAdminProto {
             case 18: {
               bitField0_ |= 0x00000002;
               version_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = openReqMsg_.toBuilder();
+              }
+              openReqMsg_ = input.readMessage(com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(openReqMsg_);
+                openReqMsg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = resetReqMsg_.toBuilder();
+              }
+              resetReqMsg_ = input.readMessage(com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(resetReqMsg_);
+                resetReqMsg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -1411,9 +1465,55 @@ public final class GroupCopyAdminProto {
       }
     }
 
+    // optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;
+    public static final int OPENREQMSG_FIELD_NUMBER = 3;
+    private com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg openReqMsg_;
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+     */
+    public boolean hasOpenReqMsg() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg getOpenReqMsg() {
+      return openReqMsg_;
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsgOrBuilder getOpenReqMsgOrBuilder() {
+      return openReqMsg_;
+    }
+
+    // optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;
+    public static final int RESETREQMSG_FIELD_NUMBER = 4;
+    private com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg resetReqMsg_;
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+     */
+    public boolean hasResetReqMsg() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg getResetReqMsg() {
+      return resetReqMsg_;
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsgOrBuilder getResetReqMsgOrBuilder() {
+      return resetReqMsg_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
       version_ = "";
+      openReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.getDefaultInstance();
+      resetReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1423,6 +1523,18 @@ public final class GroupCopyAdminProto {
       if (!hasReqType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasOpenReqMsg()) {
+        if (!getOpenReqMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasResetReqMsg()) {
+        if (!getResetReqMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1436,6 +1548,12 @@ public final class GroupCopyAdminProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getVersionBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, openReqMsg_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, resetReqMsg_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1453,6 +1571,14 @@ public final class GroupCopyAdminProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getVersionBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, openReqMsg_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, resetReqMsg_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1562,6 +1688,8 @@ public final class GroupCopyAdminProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getOpenReqMsgFieldBuilder();
+          getResetReqMsgFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1574,6 +1702,18 @@ public final class GroupCopyAdminProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (openReqMsgBuilder_ == null) {
+          openReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.getDefaultInstance();
+        } else {
+          openReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (resetReqMsgBuilder_ == null) {
+          resetReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.getDefaultInstance();
+        } else {
+          resetReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1610,6 +1750,22 @@ public final class GroupCopyAdminProto {
           to_bitField0_ |= 0x00000002;
         }
         result.version_ = version_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (openReqMsgBuilder_ == null) {
+          result.openReqMsg_ = openReqMsg_;
+        } else {
+          result.openReqMsg_ = openReqMsgBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (resetReqMsgBuilder_ == null) {
+          result.resetReqMsg_ = resetReqMsg_;
+        } else {
+          result.resetReqMsg_ = resetReqMsgBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1634,6 +1790,12 @@ public final class GroupCopyAdminProto {
           version_ = other.version_;
           onChanged();
         }
+        if (other.hasOpenReqMsg()) {
+          mergeOpenReqMsg(other.getOpenReqMsg());
+        }
+        if (other.hasResetReqMsg()) {
+          mergeResetReqMsg(other.getResetReqMsg());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1642,6 +1804,18 @@ public final class GroupCopyAdminProto {
         if (!hasReqType()) {
           
           return false;
+        }
+        if (hasOpenReqMsg()) {
+          if (!getOpenReqMsg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasResetReqMsg()) {
+          if (!getResetReqMsg().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1813,6 +1987,240 @@ public final class GroupCopyAdminProto {
         version_ = value;
         onChanged();
         return this;
+      }
+
+      // optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;
+      private com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg openReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg, com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.Builder, com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsgOrBuilder> openReqMsgBuilder_;
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public boolean hasOpenReqMsg() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg getOpenReqMsg() {
+        if (openReqMsgBuilder_ == null) {
+          return openReqMsg_;
+        } else {
+          return openReqMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public Builder setOpenReqMsg(com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg value) {
+        if (openReqMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          openReqMsg_ = value;
+          onChanged();
+        } else {
+          openReqMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public Builder setOpenReqMsg(
+          com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.Builder builderForValue) {
+        if (openReqMsgBuilder_ == null) {
+          openReqMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          openReqMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public Builder mergeOpenReqMsg(com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg value) {
+        if (openReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              openReqMsg_ != com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.getDefaultInstance()) {
+            openReqMsg_ =
+              com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.newBuilder(openReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            openReqMsg_ = value;
+          }
+          onChanged();
+        } else {
+          openReqMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public Builder clearOpenReqMsg() {
+        if (openReqMsgBuilder_ == null) {
+          openReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          openReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.Builder getOpenReqMsgBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getOpenReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsgOrBuilder getOpenReqMsgOrBuilder() {
+        if (openReqMsgBuilder_ != null) {
+          return openReqMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return openReqMsg_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg, com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.Builder, com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsgOrBuilder> 
+          getOpenReqMsgFieldBuilder() {
+        if (openReqMsgBuilder_ == null) {
+          openReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg, com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.Builder, com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsgOrBuilder>(
+                  openReqMsg_,
+                  getParentForChildren(),
+                  isClean());
+          openReqMsg_ = null;
+        }
+        return openReqMsgBuilder_;
+      }
+
+      // optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;
+      private com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg resetReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg, com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.Builder, com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsgOrBuilder> resetReqMsgBuilder_;
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public boolean hasResetReqMsg() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg getResetReqMsg() {
+        if (resetReqMsgBuilder_ == null) {
+          return resetReqMsg_;
+        } else {
+          return resetReqMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public Builder setResetReqMsg(com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg value) {
+        if (resetReqMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          resetReqMsg_ = value;
+          onChanged();
+        } else {
+          resetReqMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public Builder setResetReqMsg(
+          com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.Builder builderForValue) {
+        if (resetReqMsgBuilder_ == null) {
+          resetReqMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          resetReqMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public Builder mergeResetReqMsg(com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg value) {
+        if (resetReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              resetReqMsg_ != com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.getDefaultInstance()) {
+            resetReqMsg_ =
+              com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.newBuilder(resetReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            resetReqMsg_ = value;
+          }
+          onChanged();
+        } else {
+          resetReqMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public Builder clearResetReqMsg() {
+        if (resetReqMsgBuilder_ == null) {
+          resetReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          resetReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.Builder getResetReqMsgBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getResetReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsgOrBuilder getResetReqMsgOrBuilder() {
+        if (resetReqMsgBuilder_ != null) {
+          return resetReqMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return resetReqMsg_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg, com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.Builder, com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsgOrBuilder> 
+          getResetReqMsgFieldBuilder() {
+        if (resetReqMsgBuilder_ == null) {
+          resetReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg, com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.Builder, com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsgOrBuilder>(
+                  resetReqMsg_,
+                  getParentForChildren(),
+                  isClean());
+          resetReqMsg_ = null;
+        }
+        return resetReqMsgBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.GroupCopyAdminComReqMsg)
@@ -2628,14 +3036,18 @@ public final class GroupCopyAdminProto {
       "\n\024GroupCopyAdmin.proto\022\016GroupCopyAdmin\"-" +
       "\n\034GroupCopyAdminOpenCopyReqMsg\022\r\n\005mapId\030" +
       "\001 \002(\t\".\n\035GroupCopyAdminResetCopyReqMsg\022\r" +
-      "\n\005mapId\030\001 \002(\t\"X\n\027GroupCopyAdminComReqMsg" +
-      "\022,\n\007reqType\030\001 \002(\0162\033.GroupCopyAdmin.Reque" +
-      "stType\022\017\n\007version\030\002 \001(\t\"j\n\027GroupCopyAdmi" +
-      "nComRspMsg\022,\n\007reqType\030\001 \002(\0162\033.GroupCopyA" +
-      "dmin.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006t" +
-      "ipMsg\030\003 \001(\t*?\n\013RequestType\022\021\n\rGET_COPY_I" +
-      "NFO\020\001\022\r\n\tOPEN_COPY\020\002\022\016\n\nRESET_COPY\020\003B\"\n\013",
-      "com.rwprotoB\023GroupCopyAdminProto"
+      "\n\005mapId\030\001 \002(\t\"\336\001\n\027GroupCopyAdminComReqMs" +
+      "g\022,\n\007reqType\030\001 \002(\0162\033.GroupCopyAdmin.Requ" +
+      "estType\022\017\n\007version\030\002 \001(\t\022@\n\nopenReqMsg\030\003" +
+      " \001(\0132,.GroupCopyAdmin.GroupCopyAdminOpen" +
+      "CopyReqMsg\022B\n\013resetReqMsg\030\004 \001(\0132-.GroupC" +
+      "opyAdmin.GroupCopyAdminResetCopyReqMsg\"j" +
+      "\n\027GroupCopyAdminComRspMsg\022,\n\007reqType\030\001 \002",
+      "(\0162\033.GroupCopyAdmin.RequestType\022\021\n\tisSuc" +
+      "cess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*?\n\013RequestTyp" +
+      "e\022\021\n\rGET_COPY_INFO\020\001\022\r\n\tOPEN_COPY\020\002\022\016\n\nR" +
+      "ESET_COPY\020\003B\"\n\013com.rwprotoB\023GroupCopyAdm" +
+      "inProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2659,7 +3071,7 @@ public final class GroupCopyAdminProto {
           internal_static_GroupCopyAdmin_GroupCopyAdminComReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyAdmin_GroupCopyAdminComReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", });
+              new java.lang.String[] { "ReqType", "Version", "OpenReqMsg", "ResetReqMsg", });
           internal_static_GroupCopyAdmin_GroupCopyAdminComRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_GroupCopyAdmin_GroupCopyAdminComRspMsg_fieldAccessorTable = new

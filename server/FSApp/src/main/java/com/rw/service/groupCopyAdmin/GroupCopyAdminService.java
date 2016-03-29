@@ -1,5 +1,6 @@
 package com.rw.service.groupCopyAdmin;
 
+import com.bm.group.groupCopy.GroupCopyDataVersionMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -41,6 +42,9 @@ public class GroupCopyAdminService implements FsService {
 				GameLog.error(LogModule.COPY, "GroupCopyAdminService[doTask]", "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
+			
+			GroupCopyDataVersionMgr.synByVersion(player, commonReq.getVersion());
+			
 			GroupDataVersionMgr.synByVersion(player, commonReq.getVersion());
 		} catch (Exception e) {
 			GameLog.error(LogModule.COPY, "GroupCopyAdminService[doTask]", "出现了Exception异常", e);
@@ -48,5 +52,7 @@ public class GroupCopyAdminService implements FsService {
 			return byteString;
 		}
 	}
+	
+
 
 }

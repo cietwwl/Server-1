@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupLogMgr;
 import com.bm.group.GroupMemberMgr;
+import com.bm.group.groupCopy.GroupCopyMgr;
 import com.playerdata.Player;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
@@ -20,11 +21,13 @@ public final class Group {
 	private final GroupMemberMgr groupMemberMgr;// 帮派成员的Mgr
 	private final GroupBaseDataMgr groupBaseDataMgr;// 帮派基础属性Mgr
 	private final GroupLogMgr groupLogMgr;// 帮派日志的Mgr
+	private final GroupCopyMgr groupCopyMgr;// 帮派副本Mgr
 
 	public Group(String groupId) {
 		this.groupMemberMgr = new GroupMemberMgr(groupId);
 		this.groupBaseDataMgr = new GroupBaseDataMgr(groupId);
-		groupLogMgr = new GroupLogMgr(groupId);
+		this.groupLogMgr = new GroupLogMgr(groupId);
+		this.groupCopyMgr = new GroupCopyMgr(groupId);
 	}
 
 	/**
@@ -52,6 +55,11 @@ public final class Group {
 	 */
 	public GroupLogMgr getGroupLogMgr() {
 		return groupLogMgr;
+	}	
+	
+
+	public GroupCopyMgr getGroupCopyMgr() {
+		return groupCopyMgr;
 	}
 
 	/**
@@ -120,6 +128,7 @@ public final class Group {
 		groupBaseDataMgr.flush();
 		groupMemberMgr.flush();
 		groupLogMgr.flush();
+		groupCopyMgr.flush();
 	}
 
 	/**
@@ -161,5 +170,13 @@ public final class Group {
 	 */
 	public void synGroupSkillData(Player player, int version) {
 		groupBaseDataMgr.synGroupSkillData(player, version);
+	}
+	
+	public void synGroupMapData(Player player, int version) {
+		groupCopyMgr.synMapData(player, version);
+	}
+
+	public void synGroupLevelData(Player player, int version) {
+		groupCopyMgr.synLevelData(player, version);
 	}
 }

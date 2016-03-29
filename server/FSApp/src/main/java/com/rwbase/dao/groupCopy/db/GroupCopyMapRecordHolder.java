@@ -3,6 +3,8 @@ package com.rwbase.dao.groupCopy.db;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -17,14 +19,17 @@ public class GroupCopyMapRecordHolder{
 	final private MapItemStore<GroupCopyMapRecord> itemStore;
 	final private eSynType synType = eSynType.GroupCopyMap;
 	
+	
+	final private AtomicInteger dataVersion = new AtomicInteger(1);
+	
+	final private AtomicBoolean updateFlag = new AtomicBoolean(false);
+	
 	public GroupCopyMapRecordHolder(String groupIdP) {
 		goupId = groupIdP;
 		itemStore = new MapItemStore<GroupCopyMapRecord>("groupId", goupId, GroupCopyMapRecord.class);
 	}
 	
-	/*
-	 * 获取用户已经拥有的时装
-	 */
+
 	public List<GroupCopyMapRecord> getItemList()	
 	{
 		
@@ -38,29 +43,32 @@ public class GroupCopyMapRecordHolder{
 		return itemList;
 	}
 	
-	public void updateItem(Player player, GroupCopyMapRecord item){
+	public void updateItem( GroupCopyMapRecord item ){
 		itemStore.updateItem(item);
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		update();
+//		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public GroupCopyMapRecord getItem(String itemId){
 		return itemStore.getItem(itemId);
 	}
 	
-	public boolean removeItem(Player player, GroupCopyMapRecord item){
+	public boolean removeItem(GroupCopyMapRecord item){
 		
 		boolean success = itemStore.removeItem(item.getId());
 		if(success){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
+			update();
+//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
 		}
 		return success;
 	}
 	
-	public boolean addItem(Player player, GroupCopyMapRecord item){
+	public boolean addItem( GroupCopyMapRecord item ){
 	
 		boolean addSuccess = itemStore.addItem(item);
 		if(addSuccess){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
+			update();
+//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
 	}
@@ -70,6 +78,10 @@ public class GroupCopyMapRecordHolder{
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
+	public void update(){
+		dataVersion.incrementAndGet();
+		updateFlag.set(true);
+	}
 	
 	public void flush(){
 		itemStore.flush();

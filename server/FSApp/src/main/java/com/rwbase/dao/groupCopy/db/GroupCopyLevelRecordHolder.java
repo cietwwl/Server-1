@@ -3,6 +3,8 @@ package com.rwbase.dao.groupCopy.db;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -16,6 +18,10 @@ public class GroupCopyLevelRecordHolder{
 	final private String goupId;
 	final private MapItemStore<GroupCopyLevelRecord> itemStore;
 	final private eSynType synType = eSynType.GroupCopyLevel;
+	
+	final private AtomicInteger dataVersion = new AtomicInteger(1);
+	
+	final private AtomicBoolean updateFlag = new AtomicBoolean(false);
 	
 	public GroupCopyLevelRecordHolder(String groupIdP) {
 		goupId = groupIdP;
@@ -40,6 +46,7 @@ public class GroupCopyLevelRecordHolder{
 	
 	public void updateItem(Player player, GroupCopyLevelRecord item){
 		itemStore.updateItem(item);
+		update();
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
@@ -51,6 +58,7 @@ public class GroupCopyLevelRecordHolder{
 		
 		boolean success = itemStore.removeItem(item.getId());
 		if(success){
+			update();
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
 		}
 		return success;
@@ -60,14 +68,23 @@ public class GroupCopyLevelRecordHolder{
 	
 		boolean addSuccess = itemStore.addItem(item);
 		if(addSuccess){
+			update();
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
 	}
 	
 	public void synAllData(Player player, int version){
+		if(dataVersion.get() == version){
+			return;
+		}
 		List<GroupCopyLevelRecord> itemList = getItemList();			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+	}
+	
+	public void update(){
+		dataVersion.incrementAndGet();
+		updateFlag.set(true);
 	}
 
 	
