@@ -131,7 +131,7 @@ public class UserPrivateChat {
 			for (int i = 0, size = privateChatList.size(); i < size; i++) {
 				try {
 					list.add(ChatMessageData.parseFrom(Base64.decode(privateChatList.get(i))));
-				} catch (InvalidProtocolBufferException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
