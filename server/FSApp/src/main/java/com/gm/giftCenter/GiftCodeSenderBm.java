@@ -13,6 +13,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
 
 public class GiftCodeSenderBm {
 
@@ -33,6 +34,9 @@ public class GiftCodeSenderBm {
 	}
 
 	public void init() {
+		if (!ServerSwitch.isGiftCodeOpen()) {
+			return;
+		}
 
 		// GmSenderConfig senderConfig = null;
 		GmSenderConfig senderConfig = new GmSenderConfig(GameManager.getGiftCodeServerIp(), GameManager.getGiftCodeServerPort(), GameManager.getGiftCodeTimeOut(), (short) 10354);

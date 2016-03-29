@@ -38,7 +38,6 @@ import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
-import com.rw.service.gm.GMHandler;
 import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
@@ -89,7 +88,7 @@ public class GameManager {
 		// initServerProperties();
 		initServerOpenTime();
 
-		initSwitchProperties();
+		ServerSwitch.initLogic();
 
 		initServerPerformanceConfig();
 
@@ -205,22 +204,23 @@ public class GameManager {
 		}
 	}
 
-	private static void initSwitchProperties() {
-		Resource resource = new ClassPathResource("switch.properties");
-		try {
-			Properties props = PropertiesLoaderUtils.loadProperties(resource);
-			boolean serverstatus = Boolean.parseBoolean(props.getProperty("serverStatus"));
-			if (serverstatus) {
-				ServerStatusMgr.setStatus(ServerStatus.OPEN);
-			} else {
-				ServerStatusMgr.setStatus(ServerStatus.CLOSE);
-			}
-			boolean gmSwitch = Boolean.parseBoolean(props.getProperty("gmSwitch"));
-			GMHandler.getInstance().setActive(gmSwitch);
-		} catch (IOException e) {
-
-		}
-	}
+	// public static void initSwitchProperties() {
+	// Resource resource = new ClassPathResource("switch.properties");
+	// try {
+	// Properties props = PropertiesLoaderUtils.loadProperties(resource);
+	// boolean serverstatus = Boolean.parseBoolean(props.getProperty("serverStatus"));
+	// if (serverstatus) {
+	// ServerStatusMgr.setStatus(ServerStatus.OPEN);
+	// } else {
+	// ServerStatusMgr.setStatus(ServerStatus.CLOSE);
+	// }
+	//
+	// boolean gmSwitch = Boolean.parseBoolean(props.getProperty("gmSwitch"));
+	// GMHandler.getInstance().setActive(gmSwitch);
+	// } catch (IOException e) {
+	//
+	// }
+	// }
 
 	/*** 服务器关闭装态 **/
 	public static boolean isShutdownHook = false;

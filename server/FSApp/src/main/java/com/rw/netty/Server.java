@@ -20,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.log.GameLog;
 import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.http.HttpServer;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -34,6 +35,8 @@ public class Server {
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
 
 		GameManager.initServerProperties();
+
+		ServerSwitch.initProperty();
 
 		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
 
