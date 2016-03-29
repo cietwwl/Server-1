@@ -14,7 +14,7 @@ enum FashionEventType {
 message FashionRequest {
 	required FashionEventType eventType = 1;
 	optional int32 fashionId = 2;//策划配表(FashionCommonCfg)的ID
-	optional int32 buyRenewPlanId = 3;//购买或者续费方案ID
+	optional string buyRenewPlanId = 3;//购买或者续费方案ID
 }
 
 message FashionResponse {

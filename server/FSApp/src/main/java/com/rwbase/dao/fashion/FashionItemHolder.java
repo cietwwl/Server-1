@@ -57,6 +57,7 @@ public class FashionItemHolder{
 	
 	public void updateItem(Player player, FashionItem item){
 		getItemStore().updateItem(item);
+		//TODO 重新计算战斗加成！
 		ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.UPDATE_SINGLE);
 		notifyChange();
 	}

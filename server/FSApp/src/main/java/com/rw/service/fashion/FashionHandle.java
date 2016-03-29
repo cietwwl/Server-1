@@ -114,17 +114,17 @@ public class FashionHandle {
 		}
 		
 		//检查配置是否正确
-		int planId = req.getBuyRenewPlanId();
+		String planId = req.getBuyRenewPlanId();
 		FashionBuyRenewCfgDao cfgHelper = FashionBuyRenewCfgDao.getInstance();
 		com.rwbase.dao.fashion.FashionBuyRenewCfg renewCfg = cfgHelper.getRenewConfig(renewFashionId,planId);
 		if (renewCfg == null){
-			return setErrorResponse(response,player,",ID="+String.valueOf(planId),"没有对应续费方案");
+			return setErrorResponse(response,player,",ID="+planId,"没有对应续费方案");
 		}
 		int cost = renewCfg.getNum();
 		eSpecialItemId currencyType = renewCfg.getCoinType();
 		int renewDay = renewCfg.getDay();
 		if (renewDay <= 0 || cost <=0 || currencyType.geteAttrId() == null){
-			return setErrorResponse(response,player,",有效期或货币类型或货币值错误,ID="+String.valueOf(planId),"续费方案配置错误");
+			return setErrorResponse(response,player,",有效期或货币类型或货币值错误,ID="+planId,"续费方案配置错误");
 		}
 
 		//扣费

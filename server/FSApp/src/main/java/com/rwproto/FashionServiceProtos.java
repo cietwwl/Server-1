@@ -303,9 +303,9 @@ public final class FashionServiceProtos {
      */
     int getFashionId();
 
-    // optional int32 buyRenewPlanId = 3;
+    // optional string buyRenewPlanId = 3;
     /**
-     * <code>optional int32 buyRenewPlanId = 3;</code>
+     * <code>optional string buyRenewPlanId = 3;</code>
      *
      * <pre>
      *购买或者续费方案ID
@@ -313,13 +313,22 @@ public final class FashionServiceProtos {
      */
     boolean hasBuyRenewPlanId();
     /**
-     * <code>optional int32 buyRenewPlanId = 3;</code>
+     * <code>optional string buyRenewPlanId = 3;</code>
      *
      * <pre>
      *购买或者续费方案ID
      * </pre>
      */
-    int getBuyRenewPlanId();
+    java.lang.String getBuyRenewPlanId();
+    /**
+     * <code>optional string buyRenewPlanId = 3;</code>
+     *
+     * <pre>
+     *购买或者续费方案ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getBuyRenewPlanIdBytes();
   }
   /**
    * Protobuf type {@code FashionRequest}
@@ -388,9 +397,9 @@ public final class FashionServiceProtos {
               fashionId_ = input.readInt32();
               break;
             }
-            case 24: {
+            case 26: {
               bitField0_ |= 0x00000004;
-              buyRenewPlanId_ = input.readInt32();
+              buyRenewPlanId_ = input.readBytes();
               break;
             }
           }
@@ -473,11 +482,11 @@ public final class FashionServiceProtos {
       return fashionId_;
     }
 
-    // optional int32 buyRenewPlanId = 3;
+    // optional string buyRenewPlanId = 3;
     public static final int BUYRENEWPLANID_FIELD_NUMBER = 3;
-    private int buyRenewPlanId_;
+    private java.lang.Object buyRenewPlanId_;
     /**
-     * <code>optional int32 buyRenewPlanId = 3;</code>
+     * <code>optional string buyRenewPlanId = 3;</code>
      *
      * <pre>
      *购买或者续费方案ID
@@ -487,20 +496,51 @@ public final class FashionServiceProtos {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 buyRenewPlanId = 3;</code>
+     * <code>optional string buyRenewPlanId = 3;</code>
      *
      * <pre>
      *购买或者续费方案ID
      * </pre>
      */
-    public int getBuyRenewPlanId() {
-      return buyRenewPlanId_;
+    public java.lang.String getBuyRenewPlanId() {
+      java.lang.Object ref = buyRenewPlanId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          buyRenewPlanId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string buyRenewPlanId = 3;</code>
+     *
+     * <pre>
+     *购买或者续费方案ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getBuyRenewPlanIdBytes() {
+      java.lang.Object ref = buyRenewPlanId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        buyRenewPlanId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
       eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
       fashionId_ = 0;
-      buyRenewPlanId_ = 0;
+      buyRenewPlanId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -525,7 +565,7 @@ public final class FashionServiceProtos {
         output.writeInt32(2, fashionId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, buyRenewPlanId_);
+        output.writeBytes(3, getBuyRenewPlanIdBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -546,7 +586,7 @@ public final class FashionServiceProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, buyRenewPlanId_);
+          .computeBytesSize(3, getBuyRenewPlanIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -668,7 +708,7 @@ public final class FashionServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         fashionId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        buyRenewPlanId_ = 0;
+        buyRenewPlanId_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -733,7 +773,9 @@ public final class FashionServiceProtos {
           setFashionId(other.getFashionId());
         }
         if (other.hasBuyRenewPlanId()) {
-          setBuyRenewPlanId(other.getBuyRenewPlanId());
+          bitField0_ |= 0x00000004;
+          buyRenewPlanId_ = other.buyRenewPlanId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -851,10 +893,10 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // optional int32 buyRenewPlanId = 3;
-      private int buyRenewPlanId_ ;
+      // optional string buyRenewPlanId = 3;
+      private java.lang.Object buyRenewPlanId_ = "";
       /**
-       * <code>optional int32 buyRenewPlanId = 3;</code>
+       * <code>optional string buyRenewPlanId = 3;</code>
        *
        * <pre>
        *购买或者续费方案ID
@@ -864,30 +906,62 @@ public final class FashionServiceProtos {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 buyRenewPlanId = 3;</code>
+       * <code>optional string buyRenewPlanId = 3;</code>
        *
        * <pre>
        *购买或者续费方案ID
        * </pre>
        */
-      public int getBuyRenewPlanId() {
-        return buyRenewPlanId_;
+      public java.lang.String getBuyRenewPlanId() {
+        java.lang.Object ref = buyRenewPlanId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          buyRenewPlanId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 buyRenewPlanId = 3;</code>
+       * <code>optional string buyRenewPlanId = 3;</code>
        *
        * <pre>
        *购买或者续费方案ID
        * </pre>
        */
-      public Builder setBuyRenewPlanId(int value) {
-        bitField0_ |= 0x00000004;
+      public com.google.protobuf.ByteString
+          getBuyRenewPlanIdBytes() {
+        java.lang.Object ref = buyRenewPlanId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          buyRenewPlanId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string buyRenewPlanId = 3;</code>
+       *
+       * <pre>
+       *购买或者续费方案ID
+       * </pre>
+       */
+      public Builder setBuyRenewPlanId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
         buyRenewPlanId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 buyRenewPlanId = 3;</code>
+       * <code>optional string buyRenewPlanId = 3;</code>
        *
        * <pre>
        *购买或者续费方案ID
@@ -895,7 +969,24 @@ public final class FashionServiceProtos {
        */
       public Builder clearBuyRenewPlanId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        buyRenewPlanId_ = 0;
+        buyRenewPlanId_ = getDefaultInstance().getBuyRenewPlanId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string buyRenewPlanId = 3;</code>
+       *
+       * <pre>
+       *购买或者续费方案ID
+       * </pre>
+       */
+      public Builder setBuyRenewPlanIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        buyRenewPlanId_ = value;
         onChanged();
         return this;
       }
@@ -6577,7 +6668,7 @@ public final class FashionServiceProtos {
       "\n\024FashionService.proto\032\022ErrorService.pro" +
       "to\"a\n\016FashionRequest\022$\n\teventType\030\001 \002(\0162" +
       "\021.FashionEventType\022\021\n\tfashionId\030\002 \001(\005\022\026\n" +
-      "\016buyRenewPlanId\030\003 \001(\005\"\247\001\n\017FashionRespons" +
+      "\016buyRenewPlanId\030\003 \001(\t\"\247\001\n\017FashionRespons" +
       "e\022$\n\teventType\030\001 \001(\0162\021.FashionEventType\022" +
       "\021\n\tfashionId\030\002 \001(\005\022&\n\005error\030\003 \002(\0162\027.Erro" +
       "rService.ErrorType\022\014\n\004tips\030\004 \001(\t\022%\n\rfash" +

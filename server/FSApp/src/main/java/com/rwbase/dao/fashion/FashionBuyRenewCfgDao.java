@@ -113,15 +113,15 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 		return cfg;
 	}
 	
-	public FashionBuyRenewCfg getBuyConfig(int renewFashionId, int planId) {
+	public FashionBuyRenewCfg getBuyConfig(int renewFashionId, String planId) {
 		Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>> pair = buyRenewPlans.get(renewFashionId);
 		if (pair == null) return null;
-		return pair.getT1().get(String.valueOf(planId));
+		return pair.getT1().get(planId);
 	}
 
-	public FashionBuyRenewCfg getRenewConfig(int renewFashionId, int planId) {
+	public FashionBuyRenewCfg getRenewConfig(int renewFashionId, String planId) {
 		Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>> pair = buyRenewPlans.get(renewFashionId);
 		if (pair == null) return null;
-		return pair.getT2().get(String.valueOf(planId));
+		return pair.getT2().get(planId);
 	}
 }
