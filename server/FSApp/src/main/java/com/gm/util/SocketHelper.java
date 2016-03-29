@@ -19,22 +19,21 @@ public class SocketHelper {
 
 		T content = null;
 		int len = input.readInt();
-		// int firstLen = len >>> 24;
-		// int realLength = len & 0x00ffffff;
-		// if (firstLen == (realLength % 255)) {
-		short readShort = input.readShort();
-		// if (PROTO_NO == readShort) {
-		short jsonLength = input.readShort();
+		int firstLen = len >>> 24;
+		int realLength = len & 0x00ffffff;
+		if (firstLen == (realLength % 255)) {
+			short readShort = input.readShort();
+			if (PROTO_NO == readShort) {
+				short jsonLength = input.readShort();
 
-		byte[] jsonBody = new byte[jsonLength];
-		input.read(jsonBody);
-		String json = new String(jsonBody, "utf-8");
-		System.err.println(json);
-		content = FastJsonUtil.deserialize(json, clazz);
-		GmLog.info("SocketHelper[read] 处理gm请求：" + json);
-		// }
+				byte[] jsonBody = new byte[jsonLength];
+				input.read(jsonBody);
+				String json = new String(jsonBody, "utf-8");
+				content = FastJsonUtil.deserialize(json, clazz);
+				GmLog.info("SocketHelper[read] 处理gm请求：" + json);
+			}
 
-		// }
+		}
 
 		return content;
 	}

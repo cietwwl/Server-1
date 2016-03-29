@@ -69,6 +69,8 @@ public class GameManager {
 	private static String giftCodeServerIp;// 兑换码服务器Id
 	private static int giftCodeServerPort;// 兑换码服务器端口
 	private static int giftCodeTimeOut;// 兑换码服务器请求超时
+	private static String gmAccount;// GM账户名
+	private static String gmPassword;// GM密码
 
 	/**
 	 * 初始化所有后台服务
@@ -172,6 +174,9 @@ public class GameManager {
 			giftCodeServerIp = props.getProperty("giftCodeServerIp");
 			giftCodeServerPort = Integer.parseInt(props.getProperty("giftCodeServerPort"));
 			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
+
+			gmAccount = props.getProperty("gmAccount");
+			gmPassword = props.getProperty("gmPassword");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -395,5 +400,13 @@ public class GameManager {
 
 	public static int getGiftCodeTimeOut() {
 		return giftCodeTimeOut;
+	}
+
+	public static String getGmAccount() {
+		return gmAccount;
+	}
+
+	public static String getGmPassword() {
+		return gmPassword;
 	}
 }

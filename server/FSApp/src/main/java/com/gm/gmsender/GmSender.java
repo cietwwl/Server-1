@@ -8,10 +8,10 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.Map;
 
-import com.gm.util.SocketHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
+import com.rw.manager.GameManager;
 
 public class GmSender {
 
@@ -35,20 +35,17 @@ public class GmSender {
 	public <T> T send(Map<String, Object> content, Class<T> clazz) throws IOException {
 
 		GmSend gmSend = new GmSend();
-		gmSend.account = "gm";
-		gmSend.password = "123456";
+		gmSend.account = GameManager.getGmAccount();
+		gmSend.password = GameManager.getGmPassword();
 		gmSend.opType = 20039;
 		gmSend.args = content;
 
 		String jsonContent = FastJsonUtil.serialize(gmSend);
 		byte[] dataFormat = dataFormat(protno, jsonContent);
-		System.err.println(jsonContent);
 		output.write(dataFormat);
 		output.flush();
 
-		// String readUTF = input.readUTF();
-		// T gmResponse = FastJsonUtil.deserialize(readUTF, clazz);
-		T gmResponse = SocketHelper.read(input, clazz); // block
+		T gmResponse = GiftCodeSocketHelper.read(input, clazz); // block
 
 		return gmResponse;
 	}
