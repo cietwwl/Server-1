@@ -28,7 +28,7 @@ public class GroupCopyMgr {
 	}
 	
 	
-	public boolean openMap(String mapId){
+	public synchronized boolean  openMap(String mapId){
 		
 		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
 		if(mapRecord == null){
@@ -56,7 +56,7 @@ public class GroupCopyMgr {
 	}	
 	
 	
-	public boolean resetMap(String mapId){
+	public synchronized boolean resetMap(String mapId){
 		boolean success = false;
 		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
 		if(mapRecord != null){			
