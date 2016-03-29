@@ -38,7 +38,7 @@ public class BILogMgr {
 	public void logAccountReg(ClientInfo clientInfo, Long registerTime, boolean success){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("registerTime", registerTime.toString());
+		moreInfo.put("registerTime", DateUtils.getDateTimeFormatString(registerTime, "yyyy-MM-dd HH:mm:ss"));
 		if(success){
 			moreInfo.put("result", "1");
 		}else{
@@ -54,7 +54,7 @@ public class BILogMgr {
 	public void logAccountLogin(ClientInfo clientInfo, Long registerTime, boolean success){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("registerTime", registerTime.toString());
+		moreInfo.put("registerTime", DateUtils.getDateTimeFormatString(registerTime, "yyyy-MM-dd HH:mm:ss"));
 		if(success){
 			moreInfo.put("result", "1");
 		}else{
