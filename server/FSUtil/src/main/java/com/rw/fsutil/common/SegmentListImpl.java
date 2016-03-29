@@ -11,7 +11,7 @@ public class SegmentListImpl<E> extends SegmentEnumeration<E> implements Segment
 
 	@Override
 	public E get(int index) {
-		return list.get(index);
+		return list.get(index + startIndex);
 	}
 
 	@Override
