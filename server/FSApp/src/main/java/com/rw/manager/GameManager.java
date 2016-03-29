@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -39,8 +38,6 @@ import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
-import com.rw.service.gm.GMHandler;
-import com.rw.service.http.HttpServer;
 import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
@@ -63,16 +60,22 @@ public class GameManager {
 	private static int zoneId;
 	private static int httpPort;
 	private static long openTime; // 新服开服时间
-	private static List<PlatformInfo> platformInfos = new ArrayList<PlatformInfo>(); //登陆服信息
+	private static List<PlatformInfo> platformInfos = new ArrayList<PlatformInfo>(); // 登陆服信息
 	private static String logServerIp; // 日志服ip
 	private static int logServerPort; // 日志服端口
 	private static ServerPerformanceConfig performanceConfig;
-	private static GameNoticeDataHolder gameNotice = new GameNoticeDataHolder();
+	private static GameNoticeDataHolder gameNotice;
+	private static String giftCodeServerIp;// 兑换码服务器Id
+	private static int giftCodeServerPort;// 兑换码服务器端口
+	private static int giftCodeTimeOut;// 兑换码服务器请求超时
+	private static String gmAccount;// GM账户名
+	private static String gmPassword;// GM密码
 
 	/**
 	 * 初始化所有后台服务
 	 */
 	public static void initServiceAndCrontab() {
+		gameNotice = new GameNoticeDataHolder();
 
 		long timers = System.currentTimeMillis();
 		long tempTimers = 0;
@@ -82,12 +85,13 @@ public class GameManager {
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
 		tempTimers = System.currentTimeMillis();
 
-		initServerProperties();
+		// initServerProperties();
+		initServerOpenTime();
 
-		initSwitchProperties();
-		
+		ServerSwitch.initLogic();
+
 		initServerPerformanceConfig();
-		
+
 		/**** 服务器全启数据 ******/
 		GlobalDataMgr.init();
 		// 初始化 日志服务初始化
@@ -139,10 +143,10 @@ public class GameManager {
 		long end = System.currentTimeMillis();
 		System.err.println("万仙阵初始化匹配数据花费时间：" + (end - start) + "毫秒");
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
-		
+
 	}
 
-	private static void initServerProperties() {
+	public static void initServerProperties() {
 		Resource resource = new ClassPathResource("server.properties");
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(resource);
@@ -155,23 +159,34 @@ public class GameManager {
 			String[] split = strPlatformUrl.split(",");
 			for (String value : split) {
 				String[] subSplit = value.split(":");
-				if(subSplit.length >1){
+				if (subSplit.length > 1) {
 					String ip = subSplit[0];
 					int port = Integer.parseInt(subSplit[1]);
 					PlatformInfo platformInfo = new PlatformInfo(ip, port);
 					platformInfos.add(platformInfo);
 				}
 			}
-			TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(zoneId);
-			openTime = DateUtils.getTime(zoneInfo.getOpenTime());
+
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
+
+			giftCodeServerIp = props.getProperty("giftCodeServerIp");
+			giftCodeServerPort = Integer.parseInt(props.getProperty("giftCodeServerPort"));
+			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
+
+			gmAccount = props.getProperty("gmAccount");
+			gmPassword = props.getProperty("gmPassword");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private static void initServerPerformanceConfig(){
+
+	private static void initServerOpenTime() {
+		TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(zoneId);
+		openTime = DateUtils.getTime(zoneInfo.getOpenTime());
+	}
+
+	private static void initServerPerformanceConfig() {
 		Resource rs = new ClassPathResource("serverParam.properties");
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
@@ -183,28 +198,29 @@ public class GameManager {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			//使用默认配置
+			// 使用默认配置
 			ServerPerformanceConfig config = new ServerPerformanceConfig(3000, 20000, 50000);
 			performanceConfig = config;
 		}
 	}
-	
-	private static void initSwitchProperties(){
-		Resource resource = new ClassPathResource("switch.properties");
-		try {
-			Properties props = PropertiesLoaderUtils.loadProperties(resource);
-			boolean serverstatus = Boolean.parseBoolean(props.getProperty("serverStatus"));
-			if (serverstatus) {
-				ServerStatusMgr.setStatus(ServerStatus.OPEN);
-			} else {
-				ServerStatusMgr.setStatus(ServerStatus.CLOSE);
-			}
-			boolean gmSwitch = Boolean.parseBoolean(props.getProperty("gmSwitch"));
-			GMHandler.getInstance().setActive(gmSwitch);
-		} catch (IOException e) {
 
-		}
-	}
+	// public static void initSwitchProperties() {
+	// Resource resource = new ClassPathResource("switch.properties");
+	// try {
+	// Properties props = PropertiesLoaderUtils.loadProperties(resource);
+	// boolean serverstatus = Boolean.parseBoolean(props.getProperty("serverStatus"));
+	// if (serverstatus) {
+	// ServerStatusMgr.setStatus(ServerStatus.OPEN);
+	// } else {
+	// ServerStatusMgr.setStatus(ServerStatus.CLOSE);
+	// }
+	//
+	// boolean gmSwitch = Boolean.parseBoolean(props.getProperty("gmSwitch"));
+	// GMHandler.getInstance().setActive(gmSwitch);
+	// } catch (IOException e) {
+	//
+	// }
+	// }
 
 	/*** 服务器关闭装态 **/
 	public static boolean isShutdownHook = false;
@@ -254,7 +270,7 @@ public class GameManager {
 						task.run();
 						if (taskCount.decrementAndGet() == 0) {
 							GameLog.error(name + " 保存数据完毕");
-							//System.err.println(name + " 保存数据完毕");
+							// System.err.println(name + " 保存数据完毕");
 						}
 						return name;
 					}
@@ -268,7 +284,7 @@ public class GameManager {
 		}
 		int size = allTasks.size();
 		GameLog.error("保存数据总量：" + size);
-		//System.err.println("保存数据总量：" + size);
+		// System.err.println("保存数据总量：" + size);
 		for (int i = 0; i < size; i++) {
 			NameFuture nameFuture = allTasks.get(i);
 			try {
@@ -281,7 +297,7 @@ public class GameManager {
 			}
 		}
 		GameLog.error("停服保存数据完毕：" + size);
-		//System.err.println("停服保存数据完毕：" + size);
+		// System.err.println("停服保存数据完毕：" + size);
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
@@ -289,7 +305,7 @@ public class GameManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	static class NameFuture {
 		private final Future future;
 		private final String name;
@@ -307,8 +323,8 @@ public class GameManager {
 	 * @return
 	 */
 	public static boolean isOnlineLimit() {
-		//没有计算当前请求登陆的人，只能手动加1了
-		return ServerStatusMgr.getOnlineLimit() < (UserChannelMgr.getCount()+1);
+		// 没有计算当前请求登陆的人，只能手动加1了
+		return ServerStatusMgr.getOnlineLimit() < (UserChannelMgr.getCount() + 1);
 	}
 
 	public static boolean isWhiteListLimit(String accountId) {
@@ -372,5 +388,25 @@ public class GameManager {
 
 	public static ServerPerformanceConfig getPerformanceConfig() {
 		return performanceConfig;
+	}
+
+	public static String getGiftCodeServerIp() {
+		return giftCodeServerIp;
+	}
+
+	public static int getGiftCodeServerPort() {
+		return giftCodeServerPort;
+	}
+
+	public static int getGiftCodeTimeOut() {
+		return giftCodeTimeOut;
+	}
+
+	public static String getGmAccount() {
+		return gmAccount;
+	}
+
+	public static String getGmPassword() {
+		return gmPassword;
 	}
 }

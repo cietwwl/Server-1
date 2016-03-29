@@ -25,6 +25,7 @@ public class StoreHandler {
 	public ByteString OpenStore(int storeType) {
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		m_pPlayer.getStoreMgr().OpenStore(storeType);
+		m_pPlayer.getTempAttribute().setRefreshStore(false);
 		return resp.build().toByteString();
 	}
 

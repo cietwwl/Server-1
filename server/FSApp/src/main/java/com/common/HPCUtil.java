@@ -1,7 +1,9 @@
 package com.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -150,7 +152,32 @@ public class HPCUtil {
 	}
 
 	/**
+	 * 通过一级与二级分隔符，把文本解析成Map<Integer,Integer>
+	 * @param text
+	 * @param firstSplit
+	 * @param secondSplit
+	 * @return
+	 */
+	public static Map<Integer, Integer> parseIntegerMap(String text, String firstSplit, String secondSplit) {
+		HashMap<Integer,Integer> map = new HashMap<Integer, Integer>();
+		StringTokenizer token = new StringTokenizer(text, firstSplit);
+		while (token.hasMoreTokens()) {
+			fillIntoMap(token.nextToken(), secondSplit, map);
+		}
+		return map;
+	}
+
+	private static void fillIntoMap(String text, String split, Map<Integer, Integer> map) {
+		StringTokenizer token = new StringTokenizer(text, split);
+		if (token.countTokens() != 2) {
+			throw new IllegalArgumentException("文本包含内容不等于2：" + text + "," + split);
+		}
+		map.put(Integer.parseInt(token.nextToken()), Integer.parseInt(token.nextToken()));
+	}
+
+	/**
 	 * 安全计算对一个数的修改，保证不会因为修改导致原数据少于0
+	 * 
 	 * @param ordinal
 	 * @param changeValue
 	 * @return
@@ -168,12 +195,12 @@ public class HPCUtil {
 
 	/**
 	 * 检查是否重置时间
+	 * 
 	 * @param lastTime
 	 * @return
 	 */
-	public static boolean isResetTime(long lastTime){
-		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, 
-				GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
+	public static boolean isResetTime(long lastTime) {
+		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
 	}
-	
+
 }

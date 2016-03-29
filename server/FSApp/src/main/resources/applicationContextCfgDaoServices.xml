@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
 	
-    <bean class="com.bm.arena.RobotHeroCfgDAO"  init-method="init" />
+	<bean class="com.bm.arena.ArenaScoreCfgDAO"  init-method="init" />
+	<bean class="com.bm.arena.RobotHeroCfgDAO"  init-method="init" />
 	<bean class="com.bm.arena.RobotCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.arena.ArenaCostCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.arena.ArenaInfoCfgDAO"  init-method="init" />
@@ -113,6 +114,7 @@
 	<bean class="com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
+	<bean class="com.gm.giftCenter.GiftCodeSenderBm"  init-method="init" />
 	
 	
 	<!--  

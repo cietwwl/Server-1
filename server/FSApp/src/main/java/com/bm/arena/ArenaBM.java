@@ -264,6 +264,8 @@ public class ArenaBM {
 		}
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		tableArenaData.setRemainCount(infoCfg.getCount());
+		tableArenaData.setScore(0);
+		tableArenaData.getRewardList().clear();
 		TableArenaDataDAO.getInstance().update(tableArenaData);
 	}
 
@@ -316,11 +318,11 @@ public class ArenaBM {
 			start += decreasePlace;
 			end += decreasePlace;
 			fillInRange(userId, start, end, ranking, result);
-			start += decreasePlace;
-			end += decreasePlace;
-			fillInRange(userId, start, end, ranking, result);
+//			start += decreasePlace;
+//			end += decreasePlace;
+//			fillInRange(userId, start, end, ranking, result);
 		}
-		// result.add(ranking.getRankingEntry(18));
+		 result.add(ranking.getRankingEntry(187));
 		// result.add(ranking.getRankingEntry(30));
 		// result.add(ranking.getRankingEntry(36));
 		// 纠正必要时的乱序
@@ -479,7 +481,7 @@ public class ArenaBM {
 		return tableArenaDataDAO.get(userId).getRecordList();
 	}
 
-	public void addRecord(TableArenaData table, RecordInfo record) {
+	public void addRecord(TableArenaData table, RecordInfo record, boolean updateDB) {
 		// 此方法不是线程安全
 		List<RecordInfo> list = table.getRecordList();
 		int size = list.size();
@@ -494,7 +496,9 @@ public class ArenaBM {
 			record.setRecordId(last.getRecordId() + 1);
 		}
 		list.add(record);
-		tableArenaDataDAO.update(table);
+		if (updateDB) {
+			tableArenaDataDAO.update(table);
+		}
 	}
 
 	public void onPlayerChanged(Player player) {
@@ -563,6 +567,8 @@ public class ArenaBM {
 			// 不主动提交属性变化的更新了
 		}
 	}
+	
+	
 }
 
 class RandomCombination {
