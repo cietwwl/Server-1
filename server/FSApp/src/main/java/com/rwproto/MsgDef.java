@@ -543,6 +543,22 @@ public final class MsgDef {
      * </pre>
      */
     MSG_GIFT_CODE(72, 173),
+    /**
+     * <code>MSG_GROUP_COPY_ADMIN = 184;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    MSG_GROUP_COPY_ADMIN(73, 184),
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 185;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    MSG_GROUP_COPY_BATTLE(74, 185),
     ;
 
     /**
@@ -1075,6 +1091,22 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_GIFT_CODE_VALUE = 173;
+    /**
+     * <code>MSG_GROUP_COPY_ADMIN = 184;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_ADMIN_VALUE = 184;
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 185;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_BATTLE_VALUE = 185;
 
 
     public final int getNumber() { return value; }
@@ -1154,6 +1186,8 @@ public final class MsgDef {
         case 171: return MSG_GROUP_PERSONAL;
         case 172: return MSG_GROUP_SKILL;
         case 173: return MSG_GIFT_CODE;
+        case 184: return MSG_GROUP_COPY_ADMIN;
+        case 185: return MSG_GROUP_COPY_BATTLE;
         default: return null;
       }
     }
@@ -1214,7 +1248,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\220\013\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\307\013\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1250,7 +1284,9 @@ public final class MsgDef {
       "SG_GAMEPRESS\020\347\007\022\016\n\tMSG_GROUP\020\226\001\022\035\n\030MSG_G" +
       "ROUP_MEMBER_MANAGER\020\252\001\022\027\n\022MSG_GROUP_PERS" +
       "ONAL\020\253\001\022\024\n\017MSG_GROUP_SKILL\020\254\001\022\022\n\rMSG_GIF" +
-      "T_CODE\020\255\001B\025\n\013com.rwprotoB\006MsgDef"
+      "T_CODE\020\255\001\022\031\n\024MSG_GROUP_COPY_ADMIN\020\270\001\022\032\n\025" +
+      "MSG_GROUP_COPY_BATTLE\020\271\001B\025\n\013com.rwprotoB" +
+      "\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

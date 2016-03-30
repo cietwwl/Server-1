@@ -67,3 +67,5 @@ Thumbs.db
 /server/FSApp/datalogs/20160319/*.log
 /server/FSApp/datalogs/methodtrace/*.log
 datalogs
+javaTest
+csTest
