@@ -15,6 +15,7 @@ import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.service.dropitem.DropItemManager;
+import com.rw.service.pve.PveHandler;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
 import com.rwbase.dao.copy.cfg.BuyLevelCfgDAO;
@@ -22,6 +23,7 @@ import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.ItemProbabilityCfgDAO;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.CopyServiceProtos.ERequestType;
@@ -127,7 +129,7 @@ public class PvECommonHelper {
 				extraCount = extraCount * times;
 				player.getItemBagMgr().addItem(extraItem, extraCount);
 			} catch (Exception e) {
-				GameLog.error("PvECommonHelper", "#gainSweepRewards()", "扫荡额外掉落异常："+player.getUserId(), e);
+				GameLog.error("PvECommonHelper", "#gainSweepRewards()", "扫荡额外掉落异常：" + player.getUserId(), e);
 			}
 		}
 
@@ -187,6 +189,16 @@ public class PvECommonHelper {
 		if (isTimesLimit(copyRecord, copyCfg, times)) {
 			player.NotifyCommonMsg(CommonTip.TIMES_NOT_ENOUGH);
 			return EResultType.NOT_ENOUGH_TIMES;
+		}
+		try {
+			int levelType = copyCfg.getLevelType();
+			CopyData copyData = player.getCopyDataMgr().getByInfoId(levelType);
+			if (copyData != null && PveHandler.getInstance().getRemainSeconds(copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
+				player.NotifyCommonMsg(CommonTip.COOL_DOWN);
+				return EResultType.NOT_ENOUGH_TIMES;
+			}
+		} catch (Exception e) {
+			GameLog.error("PvECommonHelper", "#checkLimit()", "", e);
 		}
 		return EResultType.NONE;
 	}

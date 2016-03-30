@@ -605,8 +605,11 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		} finally {
 			readLock.unlock();
 		}
-		int fromIndex = getPosition(first, list);
-		int toIndex = getPosition(last, list);
+		int fromIndex = getPosition(first, list) - 1;
+		int toIndex = getPosition(last, list) - 1;
+		if(fromIndex > toIndex) {
+			return DUMMY_SEGMENT_LIST; 
+		}
 		return new SegmentListImpl<MomentEntry<C, E>>(list, fromIndex, toIndex);
 	}
 
