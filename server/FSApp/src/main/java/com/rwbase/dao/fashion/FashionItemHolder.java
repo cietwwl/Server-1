@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.common.Action;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.readonly.FashionMgrIF.ItemFilter;
@@ -56,10 +57,21 @@ public class FashionItemHolder{
 	}
 	
 	public void updateItem(Player player, FashionItem item){
-		getItemStore().updateItem(item);
-		//TODO 重新计算战斗加成！
+		boolean updateResult = getItemStore().updateItem(item);
+		if (!updateResult){
+			GameLog.error("时装", player.getUserId(), "更新FashionItem失败，ID="+item.getId());
+		}
+		RecomputeBattleAddition();
 		ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.UPDATE_SINGLE);
 		notifyChange();
+	}
+	
+	private void RecomputeBattleAddition(){
+		//TODO 重新计算战斗加成！
+	}
+	
+	public FashionItem getItem(int fashionId){
+		return getItemStore().getItem(String.valueOf(fashionId));
 	}
 	
 	public FashionItem getItem(String itemId){
@@ -70,18 +82,19 @@ public class FashionItemHolder{
 		
 		boolean success = getItemStore().removeItem(item.getId());
 		if(success){
+			RecomputeBattleAddition();
 			ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.REMOVE_SINGLE);
-			 notifyChange();
+			notifyChange();
 		}
 		return success;
 	}
 	
 	public boolean addItem(Player player, FashionItem item){
-	
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
+			RecomputeBattleAddition();
 			ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.ADD_SINGLE);
-			 notifyChange();
+			notifyChange();
 		}
 		return addSuccess;
 	}

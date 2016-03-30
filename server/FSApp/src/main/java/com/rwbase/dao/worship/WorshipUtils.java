@@ -7,14 +7,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-import com.playerdata.FashionMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.FashionMgrIF;
-import com.playerdata.readonly.FashionMgrIF.ItemFilter;
 import com.playerdata.readonly.PlayerIF;
-import com.rwbase.dao.fashion.FashState;
-import com.rwbase.dao.fashion.FashionItemIF;
+import com.rwbase.dao.fashion.FashionUsedIF;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.worship.pojo.CfgWorshipRandomReward;
@@ -105,10 +102,9 @@ public class WorshipUtils {
 		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(rankInfo.getUserId());
 		if (readOnlyPlayer != null) {
 			FashionMgrIF fmgr = readOnlyPlayer.getFashionMgr();
-			List<FashionItemIF> swingOn = fmgr.search(fmgr.getSwingOnItemPred());
-			if (swingOn != null && swingOn.size() > 0) {
-				FashionItemIF item = swingOn.get(0);
-				worshipInfo.setSwingID(item.getId());
+			FashionUsedIF fashionUsed = fmgr.getFashionUsed();
+			if (fashionUsed != null && fashionUsed.getWingId() != -1) {
+				worshipInfo.setSwingID(String.valueOf(fashionUsed.getWingId()));
 			}
 		} else {
 			// print error log

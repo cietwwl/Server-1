@@ -19,21 +19,20 @@ public class FashionService implements FsService{
 			req = FashionRequest.parseFrom(request.getBody().getSerializedContent());
 			switch (req.getEventType()) {
 			case buy:
-				//TODO use req.getBuyRenewPlanId()
-				result = fashionHandler.buyFash(player,req.getFashionId());
+				result = fashionHandler.buyFash(player,req);
 				break;
 			case off:
-				result = fashionHandler.offFash(player,req.getFashionId());
+				result = fashionHandler.offFash(player,req);
 				break;
 			case on:
-				result = fashionHandler.onFash(player,req.getFashionId());
+				result = fashionHandler.onFash(player,req);
 				break;
 
 			case renew:
 				result = fashionHandler.renewFashion(player,req);
 				break;
 			case getFashiondata:
-				result = fashionHandler.getFashionData(player);
+				result = fashionHandler.getFashionData(player,req);
 				break;
 			default:
 				break;

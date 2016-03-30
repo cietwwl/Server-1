@@ -8,5 +8,5 @@ public interface FashionUsedIF {
 	public int getWingId();
 	public int getSuitId();
 	public int getPetId();
-	public int getSpecialPlanId();
+	public int getTotalEffectPlanId();
 }

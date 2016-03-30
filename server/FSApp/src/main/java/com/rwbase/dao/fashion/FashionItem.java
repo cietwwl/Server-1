@@ -15,52 +15,32 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 @Table(name = "fashion_item")
 @SynClass
 public class FashionItem implements IMapItem, FashionItemIF {
-	public enum FashionType {
-		// 翅膀
-		Wing(0),
-		// 宠物
-		Pet(1),
-		// 套装
-		Suit(2);
-
-		int type;
-
-		FashionType(int ty) {
-			type = ty;
-		}
-	}
-
 	@Id
-	private String id; // 时装唯一id
+	private int fashionId; // 时装唯一id
 	private String userId; // 用户ID
 	private int type; // 时装类型
-	private int state; // 时装的状态
 	private long buyTime;// 购买时间（或者续费时间）
 	private long expiredTime;//到期时间（每次续费或者第一次购买会修改）
-	private int battleIncrPlanId;//战斗属性加成方案ID
 	private int specialIncrPlanId;//特殊效果方案ID
 
-	// private ConcurrentHashMap<eAttrIdDef, Double> addPercentAttr = new ConcurrentHashMap<eAttrIdDef, Double>();
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rwbase.dao.fashion.FashionItemIF#getId()
-	 */
 	@Override
 	public String getId() {
-		return id;
+		return String.valueOf(fashionId);
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this.fashionId = Integer.parseInt(id);
+	}
+	
+	@Override
+	public int getFashionId() {
+		return fashionId;
+	}
+	
+	public void setFashionId(int fashionId){
+		this.fashionId = fashionId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rwbase.dao.fashion.FashionItemIF#getUserId()
-	 */
 	@Override
 	public String getUserId() {
 		return userId;
@@ -70,11 +50,6 @@ public class FashionItem implements IMapItem, FashionItemIF {
 		this.userId = userId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rwbase.dao.fashion.FashionItemIF#getType()
-	 */
 	@Override
 	public int getType() {
 		return type;
@@ -84,25 +59,6 @@ public class FashionItem implements IMapItem, FashionItemIF {
 		this.type = type;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rwbase.dao.fashion.FashionItemIF#getState()
-	 */
-	@Override
-	public int getState() {
-		return state;
-	}
-
-	public void setState(int state) {
-		this.state = state;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.rwbase.dao.fashion.FashionItemIF#getBuyTime()
-	 */
 	@Override
 	public long getBuyTime() {
 		return buyTime;
@@ -111,36 +67,13 @@ public class FashionItem implements IMapItem, FashionItemIF {
 	public void setBuyTime(long buyTime) {
 		this.buyTime = buyTime;
 	}
-	// /* (non-Javadoc)
-	// * @see com.rwbase.dao.fashion.FashionItemIF#getAddPercentAttr()
-	// */
-	// @Override
-	// public ConcurrentHashMap<eAttrIdDef, Double> getAddPercentAttr() {
-	// return addPercentAttr;
-	// }
-	//
-	// public void setAddPercentAttr(ConcurrentHashMap<eAttrIdDef, Double> addPercentAttr) {
-	// this.addPercentAttr = addPercentAttr;
-	// }
-	//
-	// public void addPercentAttr(eAttrIdDef def, double value){
-	// addPercentAttr.put(def, value);
-	// }
-
+	
 	public long getExpiredTime() {
 		return expiredTime;
 	}
 
 	public void setExpiredTime(long expiredTime) {
 		this.expiredTime = expiredTime;
-	}
-
-	public int getBattleIncrPlanId() {
-		return battleIncrPlanId;
-	}
-
-	public void setBattleIncrPlanId(int battleIncrPlanId) {
-		this.battleIncrPlanId = battleIncrPlanId;
 	}
 
 	public int getSpecialIncrPlanId() {

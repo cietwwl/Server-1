@@ -32,7 +32,7 @@ message FashionCommon{
 
 message FashionUsed{//穿在身上的时装，当不传送某个值的时候表示不存在！
 	optional int32 SuitId = 1;//服饰Id
-	optional int32 SwingId = 2;//翅膀Id
+	optional int32 WingId = 2;//翅膀Id
 	optional int32 PetId = 3;//宠物Id
 	optional int32 SpecialEffectId = 4;//特殊增益效果Id
 }

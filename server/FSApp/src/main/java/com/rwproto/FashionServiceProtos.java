@@ -2771,23 +2771,23 @@ public final class FashionServiceProtos {
      */
     int getSuitId();
 
-    // optional int32 SwingId = 2;
+    // optional int32 WingId = 2;
     /**
-     * <code>optional int32 SwingId = 2;</code>
+     * <code>optional int32 WingId = 2;</code>
      *
      * <pre>
      *翅膀Id
      * </pre>
      */
-    boolean hasSwingId();
+    boolean hasWingId();
     /**
-     * <code>optional int32 SwingId = 2;</code>
+     * <code>optional int32 WingId = 2;</code>
      *
      * <pre>
      *翅膀Id
      * </pre>
      */
-    int getSwingId();
+    int getWingId();
 
     // optional int32 PetId = 3;
     /**
@@ -2887,7 +2887,7 @@ public final class FashionServiceProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              swingId_ = input.readInt32();
+              wingId_ = input.readInt32();
               break;
             }
             case 24: {
@@ -2964,28 +2964,28 @@ public final class FashionServiceProtos {
       return suitId_;
     }
 
-    // optional int32 SwingId = 2;
-    public static final int SWINGID_FIELD_NUMBER = 2;
-    private int swingId_;
+    // optional int32 WingId = 2;
+    public static final int WINGID_FIELD_NUMBER = 2;
+    private int wingId_;
     /**
-     * <code>optional int32 SwingId = 2;</code>
+     * <code>optional int32 WingId = 2;</code>
      *
      * <pre>
      *翅膀Id
      * </pre>
      */
-    public boolean hasSwingId() {
+    public boolean hasWingId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 SwingId = 2;</code>
+     * <code>optional int32 WingId = 2;</code>
      *
      * <pre>
      *翅膀Id
      * </pre>
      */
-    public int getSwingId() {
-      return swingId_;
+    public int getWingId() {
+      return wingId_;
     }
 
     // optional int32 PetId = 3;
@@ -3038,7 +3038,7 @@ public final class FashionServiceProtos {
 
     private void initFields() {
       suitId_ = 0;
-      swingId_ = 0;
+      wingId_ = 0;
       petId_ = 0;
       specialEffectId_ = 0;
     }
@@ -3058,7 +3058,7 @@ public final class FashionServiceProtos {
         output.writeInt32(1, suitId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, swingId_);
+        output.writeInt32(2, wingId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, petId_);
@@ -3081,7 +3081,7 @@ public final class FashionServiceProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, swingId_);
+          .computeInt32Size(2, wingId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3213,7 +3213,7 @@ public final class FashionServiceProtos {
         super.clear();
         suitId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        swingId_ = 0;
+        wingId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         petId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -3254,7 +3254,7 @@ public final class FashionServiceProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.swingId_ = swingId_;
+        result.wingId_ = wingId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -3282,8 +3282,8 @@ public final class FashionServiceProtos {
         if (other.hasSuitId()) {
           setSuitId(other.getSuitId());
         }
-        if (other.hasSwingId()) {
-          setSwingId(other.getSwingId());
+        if (other.hasWingId()) {
+          setWingId(other.getWingId());
         }
         if (other.hasPetId()) {
           setPetId(other.getPetId());
@@ -3367,51 +3367,51 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // optional int32 SwingId = 2;
-      private int swingId_ ;
+      // optional int32 WingId = 2;
+      private int wingId_ ;
       /**
-       * <code>optional int32 SwingId = 2;</code>
+       * <code>optional int32 WingId = 2;</code>
        *
        * <pre>
        *翅膀Id
        * </pre>
        */
-      public boolean hasSwingId() {
+      public boolean hasWingId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 SwingId = 2;</code>
+       * <code>optional int32 WingId = 2;</code>
        *
        * <pre>
        *翅膀Id
        * </pre>
        */
-      public int getSwingId() {
-        return swingId_;
+      public int getWingId() {
+        return wingId_;
       }
       /**
-       * <code>optional int32 SwingId = 2;</code>
+       * <code>optional int32 WingId = 2;</code>
        *
        * <pre>
        *翅膀Id
        * </pre>
        */
-      public Builder setSwingId(int value) {
+      public Builder setWingId(int value) {
         bitField0_ |= 0x00000002;
-        swingId_ = value;
+        wingId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 SwingId = 2;</code>
+       * <code>optional int32 WingId = 2;</code>
        *
        * <pre>
        *翅膀Id
        * </pre>
        */
-      public Builder clearSwingId() {
+      public Builder clearWingId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        swingId_ = 0;
+        wingId_ = 0;
         onChanged();
         return this;
       }
@@ -6675,18 +6675,18 @@ public final class FashionServiceProtos {
       "ionCommon\030\005 \001(\0132\016.FashionCommon\"\\\n\rFashi" +
       "onCommon\022!\n\013usedFashion\030\001 \001(\0132\014.FashionU" +
       "sed\022(\n\013buyRenewCfg\030\002 \001(\0132\023.FashionBuyRen",
-      "ewCfg\"V\n\013FashionUsed\022\016\n\006SuitId\030\001 \001(\005\022\017\n\007" +
-      "SwingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027\n\017SpecialE" +
-      "ffectId\030\004 \001(\005\"<\n\022FashionBuyRenewCfg\022&\n\014b" +
-      "uyRenewList\030\001 \003(\0132\020.FashionBuyRenew\"Y\n\017F" +
-      "ashionBuyRenew\022\021\n\tfashionId\030\001 \002(\005\022\027\n\006buy" +
-      "Cfg\030\002 \003(\0132\007.PayCfg\022\032\n\trenewPlan\030\003 \003(\0132\007." +
-      "PayCfg\"H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment" +
-      "\030\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t" +
-      "*K\n\020FashionEventType\022\007\n\003buy\020\001\022\006\n\002on\020\002\022\007\n" +
-      "\003off\020\003\022\t\n\005renew\020\004\022\022\n\016getFashiondata\020\005**\n",
-      "\013FashionType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020" +
-      "\002B#\n\013com.rwprotoB\024FashionServiceProtos"
+      "ewCfg\"U\n\013FashionUsed\022\016\n\006SuitId\030\001 \001(\005\022\016\n\006" +
+      "WingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027\n\017SpecialEf" +
+      "fectId\030\004 \001(\005\"<\n\022FashionBuyRenewCfg\022&\n\014bu" +
+      "yRenewList\030\001 \003(\0132\020.FashionBuyRenew\"Y\n\017Fa" +
+      "shionBuyRenew\022\021\n\tfashionId\030\001 \002(\005\022\027\n\006buyC" +
+      "fg\030\002 \003(\0132\007.PayCfg\022\032\n\trenewPlan\030\003 \003(\0132\007.P" +
+      "ayCfg\"H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment\030" +
+      "\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t*" +
+      "K\n\020FashionEventType\022\007\n\003buy\020\001\022\006\n\002on\020\002\022\007\n\003" +
+      "off\020\003\022\t\n\005renew\020\004\022\022\n\016getFashiondata\020\005**\n\013",
+      "FashionType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020\002" +
+      "B#\n\013com.rwprotoB\024FashionServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6716,7 +6716,7 @@ public final class FashionServiceProtos {
           internal_static_FashionUsed_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FashionUsed_descriptor,
-              new java.lang.String[] { "SuitId", "SwingId", "PetId", "SpecialEffectId", });
+              new java.lang.String[] { "SuitId", "WingId", "PetId", "SpecialEffectId", });
           internal_static_FashionBuyRenewCfg_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_FashionBuyRenewCfg_fieldAccessorTable = new

@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bm.login.AccoutBM;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.common.OutString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -120,8 +121,10 @@ public class RobotManager {
 			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
 			String fashonId = getRandom(cfg.getFashions());
 			if (!fashonId.equals("0")) {
-				FashionItem f = player.getFashionMgr().buyFash(fashonId);
-				player.getFashionMgr().changeFashState(f.getId(), FashState.ON);
+				int fashionID = Integer.parseInt(fashonId);
+				OutString tip = new OutString();
+				player.getFashionMgr().buyFashionItem(fashionID);
+				player.getFashionMgr().putOnFashion(fashionID, tip);
 			}
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());

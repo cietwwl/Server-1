@@ -103,18 +103,13 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 		configProto = configBuilder.build();
 	}
 	
-	public FashionBuyRenewCfg getConfig(String id){
-		FashionBuyRenewCfg cfg = (FashionBuyRenewCfg)getCfgById(id);
+	public FashionBuyRenewCfg getConfig(String planId){
+		FashionBuyRenewCfg cfg = (FashionBuyRenewCfg)getCfgById(planId);
 		return cfg;
 	}
 	
-	public FashionBuyRenewCfg getConfig(int fashionID){
-		FashionBuyRenewCfg cfg = (FashionBuyRenewCfg)getCfgById(String.valueOf(fashionID));
-		return cfg;
-	}
-	
-	public FashionBuyRenewCfg getBuyConfig(int renewFashionId, String planId) {
-		Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>> pair = buyRenewPlans.get(renewFashionId);
+	public FashionBuyRenewCfg getBuyConfig(int buyFashionId, String planId) {
+		Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>> pair = buyRenewPlans.get(buyFashionId);
 		if (pair == null) return null;
 		return pair.getT1().get(planId);
 	}

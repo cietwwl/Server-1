@@ -2,19 +2,19 @@ package com.rw.service.fashion;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.OutString;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.FashionMgr;
 import com.playerdata.Player;
 import com.rwbase.common.enu.eSpecialItemId;
-import com.rwbase.dao.fashion.FashState;
+import com.rwbase.dao.fashion.FashionBuyRenewCfg;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
-import com.rwbase.dao.fashion.FashionCfg;
-import com.rwbase.dao.fashion.FashionCfgDao;
+import com.rwbase.dao.fashion.FashionCommonCfg;
+import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.FashionServiceProtos.FashionCommon;
-import com.rwproto.FashionServiceProtos.FashionEventType;
 import com.rwproto.FashionServiceProtos.FashionRequest;
 import com.rwproto.FashionServiceProtos.FashionResponse;
 import com.rwproto.FashionServiceProtos.FashionResponse.Builder;
@@ -31,60 +31,95 @@ public class FashionHandle {
 		return instance;
 	}
 
-	public ByteString buyFash(Player player, int fashionId) {
+	/**
+	 * 购买时装，不做续费处理，如果已经购买了，会返回错误
+	 * @param player
+	 * @param req
+	 * @return
+	 */
+	public ByteString buyFash(Player player, FashionRequest req) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
-		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(fashionId);
-		if(cfg == null){
-			response.setError(ErrorType.CONFIG_ERROR);
-			return response.build().toByteString();
-		}
-		int cost = 0;
+		int fashionId = req.getFashionId();
 		FashionItem item = player.getFashionMgr().getItem(fashionId);
-		if(item!= null && item.getState() == FashState.EXPIRED.ordinal()){
-			cost = cfg.getRenewCost();
-		}else{
-			cost = cfg.getBuyCost();
+		if (item != null){
+			return setErrorResponse(response, player, ",ID="+item.getId(), "时装已经购买，请续费");
 		}
-		if(cost > player.getUserGameDataMgr().getGold()){
-			response.setError(ErrorType.NOT_ENOUGH_GOLD);
-			return response.build().toByteString();
+		
+		FashionCommonCfg fashionCfg = FashionCommonCfgDao.getInstance().getConfig(fashionId);
+		if (fashionCfg == null){
+			return setErrorResponse(response,player,",ID="+fashionId,"没有相应时装配置");
 		}
-		player.getUserGameDataMgr().addGold(-cost);
+
+		//检查购买配置
+		String buyPlanId = req.getBuyRenewPlanId();
+		FashionBuyRenewCfgDao cfgHelper = FashionBuyRenewCfgDao.getInstance();
+		FashionBuyRenewCfg cfg = cfgHelper.getBuyConfig(fashionId, buyPlanId);
+		if (cfg == null){
+			return setErrorResponse(response,player,",ID="+buyPlanId,"没有对应购买方案");
+		}
+		int cost = cfg.getNum();
+		eSpecialItemId currencyType = cfg.getCoinType();
+		int renewDay = cfg.getDay();
+		if (renewDay <= 0 || cost <=0 || currencyType.geteAttrId() == null){
+			return setErrorResponse(response,player,",有效期或货币类型或货币值错误,ID="+buyPlanId,"购买方案配置错误");
+		}
+		
+		//扣费
+		if (!player.getUserGameDataMgr().deductCurrency(currencyType, cost)) {
+			return setErrorResponse(response,player,null, "货币不足！",currencyType);
+		}
+		
+		//更新时装数据
+		if (!player.getFashionMgr().buyFashionItemNotCheck(fashionCfg,cfg)){
+			return setErrorResponse(response,player,"严重错误：无法创建FashionItem,fashionId="+fashionId, "购买失败");
+		}
+		
 		response.setFashionId(fashionId);
 		response.setError(ErrorType.SUCCESS);
-		player.getFashionMgr().buyFash(fashionId);
 		return response.build().toByteString();
 	}
 
-	public ByteString offFash(Player player, int fashionId) {
+	public ByteString offFash(Player player, FashionRequest req) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
-		player.getFashionMgr().changeFashState(fashionId, FashState.OFF);
+		int fashionId = req.getFashionId();
+		FashionMgr fashionMgr = player.getFashionMgr();
+		if (!fashionMgr.takeOffFashion(fashionId)){
+			return setErrorResponse(response,player,",脱不了时装，fashionId="+fashionId, "无效时装");
+		}
+
 		response.setError(ErrorType.SUCCESS);
 		response.setFashionId(fashionId);
 		return response.build().toByteString();
 	}
 
-	public ByteString onFash(Player player, int fashionId) {
+	public ByteString onFash(Player player,FashionRequest req) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
-		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(fashionId);
-		if(cfg.getSex() != player.getSex() && cfg.getSex() != -1){
-			response.setError(ErrorType.NOT_CONFORM_CONDITIONS);
-			return response.build().toByteString();
+		int fashionId = req.getFashionId();
+		FashionMgr fashionMgr = player.getFashionMgr();
+		//检查是否过期
+		OutString tip = new OutString();
+		if (!fashionMgr.isExpired(fashionId,tip)){
+			return setErrorResponse(response, player, null, tip.str==null?"时装已过期":tip.str);
 		}
+		
+		if (!fashionMgr.putOnFashion(fashionId, tip)){
+			return setErrorResponse(response, player, null, tip.str);
+		}
+		
 		response.setError(ErrorType.SUCCESS);
 		response.setFashionId(fashionId);
-		player.getFashionMgr().changeFashState(fashionId, FashState.ON);
 		return response.build().toByteString();
 	}
 
 	/**
 	 * 获取时装配置和穿戴状态
 	 * @param player
+	 * @param req 
 	 * @return
 	 */
-	public ByteString getFashionData(Player player) {
+	public ByteString getFashionData(Player player, FashionRequest req) {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
-		response.setEventType(FashionEventType.getFashiondata);
+		response.setEventType(req.getEventType());
 		FashionCommon.Builder common = FashionCommon.newBuilder();
 		FashionBuyRenewCfgDao cfgHelper = FashionBuyRenewCfgDao.getInstance();
 		common.setBuyRenewCfg(cfgHelper.getConfigProto());
@@ -116,7 +151,7 @@ public class FashionHandle {
 		//检查配置是否正确
 		String planId = req.getBuyRenewPlanId();
 		FashionBuyRenewCfgDao cfgHelper = FashionBuyRenewCfgDao.getInstance();
-		com.rwbase.dao.fashion.FashionBuyRenewCfg renewCfg = cfgHelper.getRenewConfig(renewFashionId,planId);
+		FashionBuyRenewCfg renewCfg = cfgHelper.getRenewConfig(renewFashionId,planId);
 		if (renewCfg == null){
 			return setErrorResponse(response,player,",ID="+planId,"没有对应续费方案");
 		}
@@ -129,7 +164,7 @@ public class FashionHandle {
 
 		//扣费
 		if (!player.getUserGameDataMgr().deductCurrency(currencyType, cost)) {
-			return setErrorResponse(response,player,null, "货币不足！");
+			return setErrorResponse(response,player,null, "货币不足！",currencyType);
 		}
 		
 		fashionMgr.renewFashion(item, renewDay);
@@ -138,7 +173,8 @@ public class FashionHandle {
 		return response.build().toByteString();
 	}
 
-	private ByteString setErrorResponse(Builder response, Player player, String addedLog, String reason) {
+	private ByteString setErrorResponse(Builder response, Player player, String addedLog, String reason,
+			ErrorType err) {
 		if (addedLog != null){
 			String errorReason = reason + addedLog;
 			GameLog.error("时装", player.getUserId(), errorReason);
@@ -147,7 +183,23 @@ public class FashionHandle {
 		if (!StringUtils.isBlank(reason)) {
 			response.setTips(reason);
 		}
-		response.setError(ErrorType.FAIL);
+		response.setError(err);
 		return response.build().toByteString();
-	}		
+	}
+
+	private ByteString setErrorResponse(Builder response, Player player, String addedLog, String reason) {
+		return setErrorResponse(response,player,addedLog,reason,ErrorType.FAIL);
+	}
+	
+	private ByteString setErrorResponse(Builder response, Player player, String addedLog, String reason,eSpecialItemId currencyType) {
+		ErrorType err = ErrorType.FAIL;
+		if (currencyType == null) {
+			err = ErrorType.FAIL;
+		}else if (currencyType == eSpecialItemId.Gold){
+			err = ErrorType.NOT_ENOUGH_GOLD;
+		}else if (currencyType == eSpecialItemId.Coin){
+			err = ErrorType.NOT_ENOUGH_COIN;
+		}
+		return setErrorResponse(response,player,addedLog,reason,err);
+	}
 }
