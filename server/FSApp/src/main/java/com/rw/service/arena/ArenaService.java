@@ -55,6 +55,12 @@ public class ArenaService implements FsService {
 			case BUY_TIMES:
 				result = arenaHandler.buyTimes(msgArenaRequest, player);
 				break;
+			case SCORE:
+				result = arenaHandler.getScoreInfo(msgArenaRequest, player);
+				break;
+			case GET_REWARD:
+				result = arenaHandler.getScoreReward(msgArenaRequest, player);
+				break;
 			default:
 				break;
 			}

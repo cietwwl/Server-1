@@ -77,7 +77,7 @@ enum Command {
 	MSG_GROUP_MEMBER_MANAGER = 170;//公会成员管理
 	MSG_GROUP_PERSONAL = 171;//公会个人操作
 	MSG_GROUP_SKILL = 172;//帮派技能
-	MSG_ACTIVE_CODE = 173;//兑换码
+	MSG_GIFT_CODE = 173;//兑换码
 
 	MSG_GROUP_COPY_ADMIN = 184;//帮派副本管理
 	MSG_GROUP_COPY_BATTLE = 185;//帮派副本战斗

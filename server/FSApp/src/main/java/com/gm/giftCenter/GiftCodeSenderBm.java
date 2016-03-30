@@ -12,10 +12,10 @@ import com.gm.gmsender.GmSenderPool;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
 
 public class GiftCodeSenderBm {
-	
-	
 
 	private BlockingQueue<GiftCodeItem> GiftCodeItemQueue = new LinkedBlockingQueue<GiftCodeItem>();
 
@@ -29,16 +29,20 @@ public class GiftCodeSenderBm {
 	private GmSenderPool giftSenderPool;
 
 	public static GiftCodeSenderBm getInstance() {
-		return SpringContextUtil.getBean("GmSenderBm");
-
+		// return SpringContextUtil.getBean("GmSenderBm");
+		return SpringContextUtil.getBean(GiftCodeSenderBm.class);
 	}
 
 	public void init() {
-		
-		GmSenderConfig senderConfig = null;
-		
+		if (!ServerSwitch.isGiftCodeOpen()) {
+			return;
+		}
+
+		// GmSenderConfig senderConfig = null;
+		GmSenderConfig senderConfig = new GmSenderConfig(GameManager.getGiftCodeServerIp(), GameManager.getGiftCodeServerPort(), GameManager.getGiftCodeTimeOut(), (short) 10354);
+
 		giftSenderPool = new GmSenderPool(senderConfig);
-		
+
 		sendService = Executors.newSingleThreadExecutor();
 		submitService = Executors.newFixedThreadPool(10);
 		submitService.submit(new Runnable() {
@@ -47,7 +51,7 @@ public class GiftCodeSenderBm {
 
 				while (true) {
 					try {
-						checkAndSubmit();						
+						checkAndSubmit();
 					} catch (Throwable e) {
 						GameLog.error(LogModule.GmSender, "GiftCodeSenderBm[checkAndSubmit]", "", e);
 					}
@@ -62,7 +66,7 @@ public class GiftCodeSenderBm {
 					try {
 						giftCodeItem = GiftCodeItemQueue.poll(10, TimeUnit.SECONDS);
 					} catch (InterruptedException e) {
-						//do nothing
+						// do nothing
 					}
 					if (giftCodeItem != null) {
 						addSendTask(borrowSender, giftCodeItem);
@@ -78,9 +82,9 @@ public class GiftCodeSenderBm {
 					@Override
 					public void run() {
 						try {
-							GiftCodeResponse resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeResponse.class);
-							giftCodeItem.getGmCallBack().doCallBack(resopnse);
-							
+							GiftCodeRsp resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeRsp.class);
+							giftCodeItem.getGmCallBack().doCallBack(resopnse == null ? null : resopnse.getResult().get(0));
+
 						} catch (Exception e) {
 							GameLog.error(LogModule.GmSender, "GiftCodeSenderBm[addSendTask]", "borrowSender.send error", e);
 						} finally {
@@ -97,9 +101,9 @@ public class GiftCodeSenderBm {
 	public boolean add(GiftCodeItem giftCodeItem) {
 		boolean addSuccess = false;
 		final int maxHold = 1000;
-		
-		if(GiftCodeItemQueue.size() < maxHold){	
-			
+
+		if (GiftCodeItemQueue.size() < maxHold) {
+
 			GiftCodeItemQueue.add(giftCodeItem);
 			addSuccess = true;
 		}

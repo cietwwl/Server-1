@@ -6,12 +6,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
-import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
 import com.rw.fsutil.log.GmLog;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
-import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class SocketHelper {
 

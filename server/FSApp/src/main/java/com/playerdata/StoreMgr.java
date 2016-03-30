@@ -258,6 +258,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			CommodityCfg cfg = Commodity.get(i);
 			total += cfg.getProb();
 		}
+		if (total <= 0) {
+			return null;
+		}
 		int prob = RandomUtil.nextInt(total);
 		for (int i = 0; i < size; i++) {
 			CommodityCfg cfg = Commodity.get(i);
@@ -333,6 +336,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				vo.setCommodity(RandomList(vo.getType().getOrder()));
 				vo.setLastRefreshTime(System.currentTimeMillis());
 				storeDataHolder.add(this.m_pPlayer, vo.getType().getOrder());
+				m_pPlayer.getTempAttribute().setRefreshStore(true);
 				break;
 			}
 		}

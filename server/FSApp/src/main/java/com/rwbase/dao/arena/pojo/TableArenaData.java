@@ -1,6 +1,7 @@
 package com.rwbase.dao.arena.pojo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -32,10 +33,12 @@ public class TableArenaData {
 	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
 	private List<String> atkHeroList = new ArrayList<String>(); // 进攻阵容的id列表
 	private List<String> heroIdList; // 队伍佣兵id列表
-//	private volatile long lastResetMillis; // 上次重置的毫秒
+	// private volatile long lastResetMillis; // 上次重置的毫秒
 	private int resetTimes; // 重置的次数
-//	private volatile long lastBuyTimesMillis;// 上次购买挑战次数的时间
+	// private volatile long lastBuyTimesMillis;// 上次购买挑战次数的时间
 	private int buyTimes; // 购买挑战次数的次数..
+	private int score; //
+	private List<Integer> rewardList = new ArrayList<Integer>();	//通过积分领取的奖励列表
 
 	public String getUserId() {
 		return userId;
@@ -78,7 +81,7 @@ public class TableArenaData {
 			this.remainCount = remainCount;
 		}
 	}
-	
+
 	public String getHeadImage() {
 		// TODO 临时解决数据问题
 		if (headImage == null || headImage.isEmpty() || headImage.equals("1001")) {
@@ -188,6 +191,22 @@ public class TableArenaData {
 
 	public void setBuyTimes(int buyTimes) {
 		this.buyTimes = buyTimes;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Integer> getRewardList() {
+		return rewardList;
+	}
+
+	public void setRewardList(List<Integer> rewardList) {
+		this.rewardList = rewardList;
 	}
 
 }
