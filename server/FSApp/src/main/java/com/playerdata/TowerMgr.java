@@ -267,7 +267,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				armyInfo = AngleArrayMatchHelper.getRobotArmyInfo(matchCfg.getRobotId());
 			}
 
-			floorData.putNewEnemyInfo(floor, armyInfo);
+			if (armyInfo != null) {
+				floorData.putNewEnemyInfo(floor, armyInfo);
+			}
 		}
 		saveAngleArrayFloorData();
 	}

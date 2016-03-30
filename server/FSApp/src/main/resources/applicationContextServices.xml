@@ -73,6 +73,7 @@
 			     <entry key="MSG_GROUP_MEMBER_MANAGER" value-ref="groupMemberManagerService" />
 			     <entry key="MSG_GROUP_PERSONAL" value-ref="groupPersonalService" />
 			     <entry key="MSG_GROUP_SKILL" value-ref="groupSkillService" />
+			     <entry key="MSG_GIFT_CODE" value-ref="giftCodeService" />
 			</map>
 		</property>
 	</bean>
@@ -126,4 +127,5 @@
 	<bean id="groupMemberManagerService" class="com.rw.service.group.GroupMemberManagerService"  />
 	<bean id="groupPersonalService" class="com.rw.service.group.GroupPersonalService"  />
 	<bean id="groupSkillService" class="com.rw.service.group.GroupSkillService"  />
+	<bean id="giftCodeService" class="com.rw.service.giftcode.GiftCodeService"  />
 </beans>  
