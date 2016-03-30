@@ -1,11 +1,11 @@
 cd proto
 
 ::set csPath=E:\Development\RXFS\Assets\Script\ProtobufClass\
-set csPath=E:\Development\protobuff\csTest\
+set csPath=D:\gitserver\protobuff\csTest\
 call startCS.bat
 
 ::set javaPath=E:\java\FSApp\src\main\java\
-set javaPath=E:\Development\protobuff\javaTest\
+set javaPath=D:\gitserver\protobuff\javaTest\
 call startJava.bat
 
 pause
