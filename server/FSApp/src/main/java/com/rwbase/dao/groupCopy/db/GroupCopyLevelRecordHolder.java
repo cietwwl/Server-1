@@ -2,9 +2,13 @@ package com.rwbase.dao.groupCopy.db;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -47,40 +51,71 @@ public class GroupCopyLevelRecordHolder{
 	public void updateItem(Player player, GroupCopyLevelRecord item){
 		itemStore.updateItem(item);
 		update();
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+//		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public GroupCopyLevelRecord getItem(String itemId){
 		return itemStore.getItem(itemId);
-	}
-	
-	public boolean removeItem(Player player, GroupCopyLevelRecord item){
-		
-		boolean success = itemStore.removeItem(item.getId());
-		if(success){
-			update();
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-		}
-		return success;
-	}
+	}	
 	
 	public boolean addItem(Player player, GroupCopyLevelRecord item){
 	
 		boolean addSuccess = itemStore.addItem(item);
 		if(addSuccess){
 			update();
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
+//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
+	}
+	
+	public GroupCopyLevelRecord getByLevel(String level){
+		GroupCopyLevelRecord target = null;
+		for (GroupCopyLevelRecord item : getItemList()) {
+			if(StringUtils.equals(item.getLevel() , level)){
+				target = item;
+			}
+		}
+		return target;
+	}
+	
+	public void synSingleData(Player player, String level){
+		GroupCopyLevelRecord groupRecord = getByLevel(level);
+		UserGroupCopyLevelRecord userRecord = player.getUserGroupCopyLevelRecordMgr().getByLevel(level);
+		GroupCopyLevelRecord4Client record4client = new GroupCopyLevelRecord4Client(groupRecord, userRecord);
+		ClientDataSynMgr.updateData(player, record4client, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public void synAllData(Player player, int version){
 		if(dataVersion.get() == version){
 			return;
 		}
-		List<GroupCopyLevelRecord> itemList = getItemList();			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		List<GroupCopyLevelRecord> groupRecordList = getItemList();
+		List<UserGroupCopyLevelRecord> userRecordList = player.getUserGroupCopyLevelRecordMgr().getRecordList();
+		List<GroupCopyLevelRecord4Client> record4ClientList = buildLevelRecord4ClientList(userRecordList, groupRecordList);
+		ClientDataSynMgr.synDataList(player, record4ClientList, synType, eSynOpType.UPDATE_LIST);
 	}
+	
+	private List<GroupCopyLevelRecord4Client> buildLevelRecord4ClientList(List<UserGroupCopyLevelRecord> userRecordList, List<GroupCopyLevelRecord> groupRecordList){
+		List<GroupCopyLevelRecord4Client> record4ClientList = new ArrayList<GroupCopyLevelRecord4Client>();
+		
+		Map<String,UserGroupCopyLevelRecord> levelMap = toLevelMap(userRecordList);
+		for (GroupCopyLevelRecord groupLevelRecordP : groupRecordList) {
+			UserGroupCopyLevelRecord userLevelRecord = levelMap.get(groupLevelRecordP.getLevel());
+			GroupCopyLevelRecord4Client levelRecord4Client = new GroupCopyLevelRecord4Client(groupLevelRecordP, userLevelRecord);
+			record4ClientList.add(levelRecord4Client);
+		}
+		return record4ClientList;
+		
+	}
+	
+	private Map<String,UserGroupCopyLevelRecord> toLevelMap(List<UserGroupCopyLevelRecord> userRecordList){
+		Map<String,UserGroupCopyLevelRecord> levelMap = new HashMap<String,UserGroupCopyLevelRecord>();
+		for (UserGroupCopyLevelRecord recordItem : userRecordList) {
+			levelMap.put(recordItem.getLevel(), recordItem);
+		}
+		return levelMap;
+	}
+	
 	
 	public void update(){
 		dataVersion.incrementAndGet();

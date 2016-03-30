@@ -12,27 +12,25 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
  * @author allen
  *
  */
-@Table(name = "group_copy_level_item")
+@Table(name = "user_group_copy_level_record")
 @SynClass
-public class GroupCopyLevelRecord implements IMapItem {
+public class UserGroupCopyLevelRecord implements IMapItem {
 
 	@Id
-	private String id; // 唯一id
-	private String groupId; // 帮派ID
-	
+	private String id; // lid
+	private String userId;	
 	private String level;
-	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getGroupId() {
-		return groupId;
+	public String getUserId() {
+		return userId;
 	}
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getLevel() {
 		return level;
@@ -40,9 +38,8 @@ public class GroupCopyLevelRecord implements IMapItem {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-
-
 	
 	
+
 	
 }

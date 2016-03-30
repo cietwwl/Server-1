@@ -20,6 +20,7 @@ import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.group.UserGroupCopyLevelRecordMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -103,6 +104,7 @@ public class Player implements PlayerIF {
 
 	// 个人帮派数据的Mgr
 	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
+	private UserGroupCopyLevelRecordMgr userGroupCopyLevelRecordMgr;
 
 	public UnendingWarMgr unendingWarMgr = new UnendingWarMgr();// 无尽战火
 	private FashionMgr m_FashionMgr = new FashionMgr();
@@ -308,6 +310,7 @@ public class Player implements PlayerIF {
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
+		userGroupCopyLevelRecordMgr = new UserGroupCopyLevelRecordMgr(getUserId());
 
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
@@ -317,6 +320,7 @@ public class Player implements PlayerIF {
 			notifyCreated();
 		}
 
+		
 		// 这两个mgr一定要初始化
 		m_HeroMgr.init(this);
 		itemBagMgr.init(this);
@@ -1156,6 +1160,14 @@ public class Player implements PlayerIF {
 	 */
 	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr() {
 		return userGroupAttributeDataMgr;
+	}
+	/**
+	 * 获取个人的帮派副本数据
+	 * 
+	 * @return
+	 */
+	public UserGroupCopyLevelRecordMgr getUserGroupCopyLevelRecordMgr() {
+		return userGroupCopyLevelRecordMgr;
 	}
 
 	/**
