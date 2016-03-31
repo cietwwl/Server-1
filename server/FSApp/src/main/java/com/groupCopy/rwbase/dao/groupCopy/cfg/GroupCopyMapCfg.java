@@ -1,4 +1,4 @@
-package com.rwbase.dao.groupCopy.cfg;
+package com.groupCopy.rwbase.dao.groupCopy.cfg;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 

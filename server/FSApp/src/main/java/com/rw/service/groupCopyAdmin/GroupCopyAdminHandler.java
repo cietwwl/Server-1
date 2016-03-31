@@ -1,13 +1,13 @@
 package com.rw.service.groupCopyAdmin;
 
-import com.bm.group.GroupHelper;
 import com.google.protobuf.ByteString;
+import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
+import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
+import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
+import com.groupCopy.rwproto.GroupCopyAdminProto.RequestType;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
-import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
-import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
-import com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
-import com.rwproto.GroupCopyAdminProto.RequestType;
 
 /*
  * @author HC

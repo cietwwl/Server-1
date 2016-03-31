@@ -1,4 +1,4 @@
-package com.rwbase.dao.groupCopy.db;
+package com.groupCopy.rwbase.dao.groupCopy.db;
 
 public enum GroupCopyStatus {
 

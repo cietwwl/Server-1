@@ -1,14 +1,14 @@
 package com.rw.service.groupCopyAdmin;
 
-import com.bm.group.groupCopy.GroupCopyDataVersionMgr;
 import com.google.protobuf.ByteString;
+import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
+import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
+import com.groupCopy.rwproto.GroupCopyAdminProto.RequestType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.group.GroupDataVersionMgr;
 import com.rw.service.FsService;
-import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
-import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 /*

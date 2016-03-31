@@ -1,9 +1,9 @@
-package com.playerdata.group;
+package com.groupCopy.playerdata.group;
 
 import java.util.List;
 
-import com.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecord;
-import com.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecordHolder;
 
 
 public class UserGroupCopyLevelRecordMgr {

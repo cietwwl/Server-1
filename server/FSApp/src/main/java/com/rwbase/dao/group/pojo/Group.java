@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupLogMgr;
 import com.bm.group.GroupMemberMgr;
-import com.bm.group.groupCopy.GroupCopyMgr;
+import com.groupCopy.bm.groupCopy.GroupCopyMgr;
 import com.playerdata.Player;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;

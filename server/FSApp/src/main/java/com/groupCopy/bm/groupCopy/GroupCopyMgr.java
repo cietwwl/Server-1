@@ -1,13 +1,13 @@
-package com.bm.group.groupCopy;
+package com.groupCopy.bm.groupCopy;
 
 import com.common.BeanCopyer;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyStatus;
 import com.playerdata.Player;
-import com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
-import com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
-import com.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
-import com.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
-import com.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
-import com.rwbase.dao.groupCopy.db.GroupCopyStatus;
 
 /**
  * 

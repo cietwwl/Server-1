@@ -1,9 +1,9 @@
-package com.bm.group.groupCopy;
+package com.groupCopy.bm.groupCopy;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.group.GroupBM;
-import com.bm.group.GroupHelper;
+import com.groupCopy.bm.GroupHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.group.pojo.Group;

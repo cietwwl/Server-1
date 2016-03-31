@@ -1,4 +1,4 @@
-package com.rwbase.dao.groupCopy.db;
+package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,13 +14,16 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
  */
 @Table(name = "group_copy_map_item")
 @SynClass
-public class GroupCopyRewardRecord implements IMapItem {
+public class GroupCopyMapRecord implements IMapItem {
 
 	@Id
 	private String id; // 唯一id
 	private String groupId; // 帮派ID
 	
 	private int level;
+	
+	private GroupCopyStatus status;//状态 开启 关闭 完成	
+	private int progress;//进度
 	
 	public String getId() {
 		return id;
@@ -40,8 +43,19 @@ public class GroupCopyRewardRecord implements IMapItem {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	public GroupCopyStatus getStatus() {
+		return status;
+	}
+	public void setStatus(GroupCopyStatus status) {
+		this.status = status;
+	}
+	public int getProgress() {
+		return progress;
+	}
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
 
-	
-	
+
 	
 }

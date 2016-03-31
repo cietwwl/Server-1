@@ -1,4 +1,4 @@
-package com.bm.group.groupCopy;
+package com.groupCopy.bm.groupCopy;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 

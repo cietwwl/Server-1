@@ -1,4 +1,4 @@
-package com.rwbase.dao.groupCopy.db;
+package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -6,17 +6,19 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GroupCopyMapRecordHolder{
+public class UserGroupCopyLevelRecordHolder{
 	
 	
-	final private String goupId;
-	final private MapItemStore<GroupCopyMapRecord> itemStore;
+	final private String userId;
+	final private MapItemStore<UserGroupCopyLevelRecord> itemStore;
 	final private eSynType synType = eSynType.GroupCopyMap;
 	
 	
@@ -24,36 +26,47 @@ public class GroupCopyMapRecordHolder{
 	
 	final private AtomicBoolean updateFlag = new AtomicBoolean(false);
 	
-	public GroupCopyMapRecordHolder(String groupIdP) {
-		goupId = groupIdP;
-		itemStore = new MapItemStore<GroupCopyMapRecord>("groupId", goupId, GroupCopyMapRecord.class);
+	public UserGroupCopyLevelRecordHolder(String groupIdP) {
+		userId = groupIdP;
+		itemStore = new MapItemStore<UserGroupCopyLevelRecord>("userId", userId, UserGroupCopyLevelRecord.class);
 	}
 	
 
-	public List<GroupCopyMapRecord> getItemList()	
+	public List<UserGroupCopyLevelRecord> getItemList()	
 	{
 		
-		List<GroupCopyMapRecord> itemList = new ArrayList<GroupCopyMapRecord>();
-		Enumeration<GroupCopyMapRecord> mapEnum = itemStore.getEnum();
+		List<UserGroupCopyLevelRecord> itemList = new ArrayList<UserGroupCopyLevelRecord>();
+		Enumeration<UserGroupCopyLevelRecord> mapEnum = itemStore.getEnum();
 		while (mapEnum.hasMoreElements()) {
-			GroupCopyMapRecord item = (GroupCopyMapRecord) mapEnum.nextElement();
+			UserGroupCopyLevelRecord item = (UserGroupCopyLevelRecord) mapEnum.nextElement();
 			itemList.add(item);
 		}
 		
 		return itemList;
 	}
 	
-	public void updateItem( GroupCopyMapRecord item ){
+
+	public UserGroupCopyLevelRecord getByLevel(String level){
+		UserGroupCopyLevelRecord target = null;
+		for (UserGroupCopyLevelRecord item : getItemList()) {
+			if(StringUtils.equals(item.getLevel() , level)){
+				target = item;
+			}
+		}
+		return target;
+	}
+	
+	public void updateItem( UserGroupCopyLevelRecord item ){
 		itemStore.updateItem(item);
 		update();
 //		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public GroupCopyMapRecord getItem(String itemId){
+	public UserGroupCopyLevelRecord getItem(String itemId){
 		return itemStore.getItem(itemId);
 	}
 	
-	public boolean removeItem(GroupCopyMapRecord item){
+	public boolean removeItem(UserGroupCopyLevelRecord item){
 		
 		boolean success = itemStore.removeItem(item.getId());
 		if(success){
@@ -63,7 +76,7 @@ public class GroupCopyMapRecordHolder{
 		return success;
 	}
 	
-	public boolean addItem( GroupCopyMapRecord item ){
+	public boolean addItem( UserGroupCopyLevelRecord item ){
 	
 		boolean addSuccess = itemStore.addItem(item);
 		if(addSuccess){
@@ -74,7 +87,7 @@ public class GroupCopyMapRecordHolder{
 	}
 	
 	public void synAllData(Player player, int version){
-		List<GroupCopyMapRecord> itemList = getItemList();			
+		List<UserGroupCopyLevelRecord> itemList = getItemList();			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

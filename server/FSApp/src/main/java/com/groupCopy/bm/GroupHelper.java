@@ -1,5 +1,6 @@
-package com.bm.group;
+package com.groupCopy.bm;
 
+import com.bm.group.GroupBM;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
