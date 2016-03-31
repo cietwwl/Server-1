@@ -40,6 +40,7 @@ import com.rwproto.MsgDef;
 public class FashionMgr implements FashionMgrIF,INotifyChange{
 
 	private static String ExpiredEMailID = "10030";
+	private static String GiveEMailID ="10036";
 	private static String ExpiredNotifycation = "您的时装%s已过期，请到试衣间续费";
 	private Player m_player = null;
 	private FashionItemHolder fashionItemHolder;
@@ -324,10 +325,31 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 	 * @param fashionId
 	 * @return
 	 */
-	public FashionItem buyFashionItem(int fashionId) {
+	public FashionItem giveFashionItem(int fashionId) {
+		return giveFashionItem(fashionId,-1,null,false);
+	}
+	
+	/**
+	 * 赠送时装
+	 * 有效期day设置为－1表示永久有效
+	 * @param fashionId
+	 * @param day
+	 * @param userId
+	 * @param sendEmail
+	 */
+	public FashionItem giveFashionItem(int fashionId,int day,String userId,boolean sendEmail){
 		FashionCommonCfg fashionCfg = FashionCommonCfgDao.getInstance().getConfig(fashionId);
-		FashionItem item = newFashionItem(fashionCfg,-1);
-		fashionItemHolder.addItem(m_player, item);
+		if (fashionCfg == null) {
+			return null;
+		}
+		FashionItem item = newFashionItem(fashionCfg,day);
+		fashionItemHolder.addItem(PlayerMgr.getInstance().find(userId), item);
+		
+		if (sendEmail){
+			List<String> args = new ArrayList<String>();
+			args.add(fashionCfg.getName());
+			EmailUtils.sendEmail(userId, GiveEMailID,args);
+		}
 		return item;
 	}
 	
@@ -470,14 +492,30 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 		return false;
 	}
 	
+	/**
+	 * getExpiredTime返回负数或零表示永久时装
+	 * @param fashionId
+	 * @param tip
+	 * @param item
+	 * @param time
+	 * @return
+	 */
 	private boolean isExpired(int fashionId,OutString tip,FashionItem item,long time){
 		OutLong expired=new OutLong();
 		if (getExpiredTime(fashionId,tip,item,expired)){
-			return (expired.value <= time);
+			return (expired.value >0 && expired.value <= time);
 		}
 		return false;
 	}
 	
+	/**
+	 * 返回负数或零表示永久时装
+	 * @param fashionId
+	 * @param tip
+	 * @param item
+	 * @param expiredTime
+	 * @return
+	 */
 	private boolean getExpiredTime(int fashionId,OutString tip,FashionItem item,OutLong expiredTime){
 		if (item == null){
 			LogError(tip,"时装未购买",",fashionId="+fashionId);

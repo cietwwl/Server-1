@@ -123,7 +123,7 @@ public class RobotManager {
 			if (!fashonId.equals("0")) {
 				int fashionID = Integer.parseInt(fashonId);
 				OutString tip = new OutString();
-				player.getFashionMgr().buyFashionItem(fashionID);
+				player.getFashionMgr().giveFashionItem(fashionID);
 				player.getFashionMgr().putOnFashion(fashionID, tip);
 			}
 			int maigcId = getRandom(cfg.getMagicId());
