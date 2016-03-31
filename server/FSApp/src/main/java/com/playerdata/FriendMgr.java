@@ -576,10 +576,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		return friendItemToInfoList(map);
 	}
 
-	private Comparator<FriendInfo> comparator = new Comparator<FriendInfo>() {
+	private Comparator<FriendItem> comparator = new Comparator<FriendItem>() {
 
 		@Override
-		public int compare(FriendInfo o1, FriendInfo o2) {
+		public int compare(FriendItem o1, FriendItem o2) {
 			if (o1.getLastLoginTime() - o2.getLastLoginTime() > 0) {
 				return -1;
 			} else {
@@ -594,14 +594,17 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		if (map == null || map.isEmpty()) {
 			return new ArrayList<FriendInfo>();
 		}
-
-		List<FriendInfo> list = new ArrayList<FriendInfo>(map.size());
-		Iterator<FriendItem> it = map.values().iterator();
+		//TODO 不改好友协议临时兼容方案，  多一次ArrayList的创建
+		ArrayList<FriendItem> l = new ArrayList<FriendItem>(map.values());
+		Collections.sort(l, comparator);
+		List<FriendInfo> list = new ArrayList<FriendInfo>(l.size());
+		//Iterator<FriendItem> it = map.values().iterator();
+		Iterator<FriendItem> it = l.iterator();
 		while (it.hasNext()) {
 			FriendItem item = it.next();
 			list.add(friendItemToInfo(item));
 		}
-		Collections.sort(list, comparator);
+//		Collections.sort(list, comparator);
 		return list;
 	}
 

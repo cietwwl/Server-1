@@ -57,6 +57,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		int value = Integer.parseInt(valueStr.split("_")[0]);
 		int total = value;
 		int value1 = 0;
+		
 		switch (task.getFinishType()) {
 		case Section_Star:
 			String[] arr = valueStr.split("_");
@@ -93,6 +94,10 @@ public class TaskItemMgr implements TaskMgrIF {
 			curplan = m_pPlayer.getCopyRecordMgr().getMapCurrentStar(value);
 			break;
 		case Finish_Copy_Normal:
+			curplan = m_pPlayer.getCopyRecordMgr().getLevelRecord(value).getPassStar() > 0 ? 1 : 0;
+			break;
+		case Finish_Copy_Elite:
+			//fix bug#2000 任务模块，精英任务奖励逻辑有问题
 			curplan = m_pPlayer.getCopyRecordMgr().getLevelRecord(value).getPassStar() > 0 ? 1 : 0;
 			break;
 		case Finish_Section:
@@ -132,9 +137,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		List<TaskItem> itemList = taskItemHolder.getItemList();
 
 		for (TaskItem task : itemList) {
-			if(task.getId().indexOf("1124")!= -1){
-				System.out.println(1);
-			}
+			
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.Once.ordinal()) {
 				TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);
@@ -144,9 +147,10 @@ public class TaskItemMgr implements TaskMgrIF {
 					value1 = Integer.parseInt(cfg.getFinishParam().split("_")[1]);
 				}
 				int curProgress = getCurProgress(task.getFinishType(), value, value1);
-				if(task.getFinishType() == eTaskFinishDef.Finish_Copy_Elite){
-					curProgress++;
-				}
+				//fix bug#2000 任务模块，精英任务奖励逻辑有问题
+//				if(task.getFinishType() == eTaskFinishDef.Finish_Copy_Elite){
+//					curProgress++;
+//				}
 				if (curProgress != task.getCurProgress()) {
 					task.setCurProgress(curProgress);
 					if (task.getCurProgress() >= task.getTotalProgress()) {
