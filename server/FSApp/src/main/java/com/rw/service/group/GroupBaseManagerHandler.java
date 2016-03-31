@@ -11,7 +11,6 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.StoreMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.group.helper.GroupRankHelper;
@@ -161,7 +160,7 @@ public class GroupBaseManagerHandler {
 		GroupRankHelper.addGroup2CreateTimeRank(group);
 		// 人数榜
 		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
-		
+
 		player.getStoreMgr().AddStore();
 		// // 推送帮派数据
 		// group.synGroupDataAndMemberData(player);
