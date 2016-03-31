@@ -72,7 +72,7 @@ public class AttrData  implements AttrDataIF{
 		return this;
 	}
 
-	public AttrData plus(AttrData target){
+	public AttrData plus(AttrDataIF target){
 		if(target == null){
 			return this;
 		}

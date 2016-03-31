@@ -38,7 +38,7 @@ public class FashionHandle {
 	 * @return
 	 */
 	public ByteString buyFash(Player player, FashionRequest req) {
-		FashionResponse.Builder response = FashionResponse.newBuilder();
+		FashionResponse.Builder response = getResponse(req);
 		int fashionId = req.getFashionId();
 		FashionItem item = player.getFashionMgr().getItem(fashionId);
 		if (item != null){
@@ -75,25 +75,24 @@ public class FashionHandle {
 		}
 		
 		response.setFashionId(fashionId);
-		response.setError(ErrorType.SUCCESS);
-		return response.build().toByteString();
+		return SetSuccessResponse(response);
 	}
 
 	public ByteString offFash(Player player, FashionRequest req) {
-		FashionResponse.Builder response = FashionResponse.newBuilder();
+		FashionResponse.Builder response = getResponse(req);
 		int fashionId = req.getFashionId();
 		FashionMgr fashionMgr = player.getFashionMgr();
 		if (!fashionMgr.takeOffFashion(fashionId)){
 			return setErrorResponse(response,player,",脱不了时装，fashionId="+fashionId, "无效时装");
 		}
 
-		response.setError(ErrorType.SUCCESS);
+		fashionMgr.notifyFashionBeingUsedChanged();
 		response.setFashionId(fashionId);
-		return response.build().toByteString();
+		return SetSuccessResponse(response);
 	}
 
 	public ByteString onFash(Player player,FashionRequest req) {
-		FashionResponse.Builder response = FashionResponse.newBuilder();
+		FashionResponse.Builder response = getResponse(req);
 		int fashionId = req.getFashionId();
 		FashionMgr fashionMgr = player.getFashionMgr();
 		//检查是否过期
@@ -106,9 +105,9 @@ public class FashionHandle {
 			return setErrorResponse(response, player, null, tip.str);
 		}
 		
-		response.setError(ErrorType.SUCCESS);
+		fashionMgr.notifyFashionBeingUsedChanged();
 		response.setFashionId(fashionId);
-		return response.build().toByteString();
+		return SetSuccessResponse(response);
 	}
 
 	/**
@@ -118,8 +117,7 @@ public class FashionHandle {
 	 * @return
 	 */
 	public ByteString getFashionData(Player player, FashionRequest req) {
-		FashionResponse.Builder response = FashionResponse.newBuilder();
-		response.setEventType(req.getEventType());
+		FashionResponse.Builder response = getResponse(req);
 		FashionCommon.Builder common = FashionCommon.newBuilder();
 		FashionBuyRenewCfgDao cfgHelper = FashionBuyRenewCfgDao.getInstance();
 		common.setBuyRenewCfg(cfgHelper.getConfigProto());
@@ -127,8 +125,7 @@ public class FashionHandle {
 		FashionUsed.Builder fashion = player.getFashionMgr().getFashionUsedBuilder(player.getUserId());
 		common.setUsedFashion(fashion);
 		response.setFashionCommon(common);
-		response.setError(ErrorType.SUCCESS);
-		return response.build().toByteString();
+		return SetSuccessResponse(response);
 	}
 
 	/**
@@ -138,8 +135,7 @@ public class FashionHandle {
 	 * @return
 	 */
 	public ByteString renewFashion(Player player, FashionRequest req) {
-		FashionResponse.Builder response = FashionResponse.newBuilder();
-		response.setEventType(req.getEventType());
+		FashionResponse.Builder response = getResponse(req);
 		//必须已购买才能续费
 		int renewFashionId = req.getFashionId();
 		FashionMgr fashionMgr = player.getFashionMgr();
@@ -168,9 +164,8 @@ public class FashionHandle {
 		}
 		
 		fashionMgr.renewFashion(item, renewDay);
-		
-		response.setError(ErrorType.SUCCESS);
-		return response.build().toByteString();
+		response.setFashionId(renewFashionId);
+		return SetSuccessResponse(response);
 	}
 
 	private ByteString setErrorResponse(Builder response, Player player, String addedLog, String reason,
@@ -201,5 +196,16 @@ public class FashionHandle {
 			err = ErrorType.NOT_ENOUGH_COIN;
 		}
 		return setErrorResponse(response,player,addedLog,reason,err);
+	}
+	
+	private FashionResponse.Builder getResponse(FashionRequest req) {
+		FashionResponse.Builder response = FashionResponse.newBuilder();
+		response.setEventType(req.getEventType());
+		return response;
+	}
+
+	private ByteString SetSuccessResponse(FashionResponse.Builder response) {
+		response.setError(ErrorType.SUCCESS);
+		return response.build().toByteString();
 	}
 }

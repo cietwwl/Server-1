@@ -1,5 +1,6 @@
 package com.rwbase.dao.fashion;
 
+import com.log.GameLog;
 import com.rwproto.FashionServiceProtos.FashionType;
 
 public class FashionCommonCfg {
@@ -11,6 +12,9 @@ public class FashionCommonCfg {
 
 	public void ExtraInit() {
 		fashionTypeField = FashionType.valueOf(fashionType);
+		if (fashionTypeField == null){
+			GameLog.error("时装", String.valueOf(id), "无效时装类型："+fashionType);
+		}
 	}
 
 	public int getId() {

@@ -4,11 +4,12 @@ import com.log.GameLog;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.common.NotifyChangeCallBack;
 
 /**
  * 缓存数据以用户ID作为索引
  */
-public class FashionBeingUsedHolder {
+public class FashionBeingUsedHolder extends NotifyChangeCallBack{
 	final private String userId;
 
 	public FashionBeingUsedHolder(String id) {
@@ -31,19 +32,29 @@ public class FashionBeingUsedHolder {
 		}
 		
 		if (notifyAll){
-			//TODO 发送全局通知？
+			// 发送通知，更新战斗加成属性变更
+			notifyChange();
 		}
 		return updateResult;
 	}
 
+	/**
+	 * 如果新增了一个时装记录，调用着负责向客户端发送同步数据
+	 * @param uId
+	 * @return
+	 */
 	public FashionBeingUsed newFashion(String uId) {
-		FashionBeingUsed used = new FashionBeingUsed();
-		used.setUserId(uId);
-		boolean addresult = getCache().addItem(used);
-		if (addresult){
-			//TODO 记录新增对象，准备同步数据
+		MapItemStore<FashionBeingUsed> cache = getCache();
+		FashionBeingUsed used = cache.getItem(uId);
+		if (used == null){
+			used = new FashionBeingUsed();
+			used.setUserId(uId);
+			boolean addresult = cache.addItem(used);
+			if (!addresult){
+				GameLog.error("时装", userId, "添加FashionBeingUsed失败");
+			}
 		}else{
-			GameLog.error("时装", userId, "添加FashionBeingUsed失败");
+			GameLog.info("时装", uId, "用户已经有时装记录，不需要重新生成", null);
 		}
 		return used;
 	}

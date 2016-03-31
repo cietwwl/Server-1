@@ -8,35 +8,50 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.Action;
+import com.common.BeanCopyer;
 import com.common.OutLong;
 import com.common.OutString;
 import com.log.GameLog;
 import com.playerdata.readonly.FashionMgrIF;
 import com.rw.service.Email.EmailUtils;
+import com.rwbase.common.INotifyChange;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attrdata.AttrDataIF;
 import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.fashion.FashionBuyRenewCfg;
 import com.rwbase.dao.fashion.FashionCommonCfg;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
-import com.rwbase.dao.fashion.FashionEffectCfg;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fashion.FashionItemHolder;
 import com.rwbase.dao.fashion.FashionItemIF;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.fashion.FashionUsedIF;
+import com.rwbase.dao.fashion.IEffectCfg;
+import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.FashionServiceProtos;
+import com.rwproto.FashionServiceProtos.FashionCommon;
+import com.rwproto.FashionServiceProtos.FashionEventType;
+import com.rwproto.FashionServiceProtos.FashionResponse;
 import com.rwproto.FashionServiceProtos.FashionUsed;
+import com.rwproto.MsgDef;
 
-public class FashionMgr implements FashionMgrIF{
+public class FashionMgr implements FashionMgrIF,INotifyChange{
 
-	private static final String ExpiredEMailID = "10030";
-	private static final String ExpiredNotifycation = "您的时装%s已过期，请到试衣间续费";
+	private static String ExpiredEMailID = "10030";
+	private static String ExpiredNotifycation = "您的时装%s已过期，请到试衣间续费";
+	private static final Player m_Player = null;
 	private Player m_pPlayer = null;
 	private FashionItemHolder fashionItemHolder;
 	private FashionBeingUsedHolder fashionUsedHolder;
 	private boolean isInited = false;
 
+	//缓存的增益数据，清空会重新计算
+	private AttrData addedValueAttr = null;
+	private AttrData addedPercentAttr = null;
+	
 	public void init(Player playerP){
 		m_pPlayer = playerP;
 		isInited = true;
@@ -49,44 +64,18 @@ public class FashionMgr implements FashionMgrIF{
 		return isInited;
 	}
 	
-	public void regChangeCallBack(Action callBack){
-		fashionItemHolder.regChangeCallBack(callBack);
-	}
-	/**
-	 * 购买或续费时装
-	 * @param id
-	 */
-	/*
-	public FashionItem buyFash(String id){
-		FashionCfg cfg = FashionCfgDao.getInstance().getConfig(id);
-		if(cfg == null || (cfg.getCareer() != m_pPlayer.getCareer() && cfg.getCareer() != ECareer.None.ordinal()
-				&& cfg.getSex() != m_pPlayer.getSex() && cfg.getSex() != ESex.None.getOrder())){
-			return null;
-		}
-		FashionItem item = getItem(id);
-		if(item == null){
-			item = newFash(cfg);
-			fashionItemHolder.addItem(m_pPlayer, item);
+	public void regChangeCallBack(final Action callBack){
+		Action hook = new Action() {
 			
-		}else{
-			item.setState(FashState.OFF.ordinal());
-			item.setBuyTime(System.currentTimeMillis());
-			fashionItemHolder.updateItem(m_pPlayer, item);
-		}
-		return item;
+			@Override
+			public void doAction() {
+				RecomputeBattleAdded();
+				callBack.doAction();
+			}
+		};
+		fashionItemHolder.regChangeCallBack(hook);
+		fashionUsedHolder.regChangeCallBack(hook);
 	}
-
-	private FashionItem newFash(FashionCfg cfg) {
-		FashionItem item = new FashionItem();
-		item.setId(cfg.getId());
-		item.setType(cfg.getType());
-		item.setUserId(m_pPlayer.getUserId());
-		item.setState(FashState.OFF.ordinal());
-		item.setBuyTime(System.currentTimeMillis());
-		return item;
-	}
-	
-	*/
 	
 	/**
 	 * 增加时装
@@ -125,6 +114,7 @@ public class FashionMgr implements FashionMgrIF{
 	
 	/**
 	 * 没有穿在身上的不能脱
+	 * 不负责向客户端同步穿着数据，调用着根据需要进行同步
 	 * @param fashionId
 	 * @return
 	 */
@@ -141,6 +131,7 @@ public class FashionMgr implements FashionMgrIF{
 	
 	/**
 	 * 不检查是否过期，调用者自行检查
+	 * 不负责同步时装使用数据，调用着根据需要向客户端发送（机器人是不需要的！）
 	 * 不能是已经穿在身上的，如果想换，必须先调用takeOffFashion脱了再穿
 	 * @param fashionId
 	 * @param tip
@@ -174,92 +165,69 @@ public class FashionMgr implements FashionMgrIF{
 		LogError(tip,"无法穿上时装",",类型不对,fashionId="+fashionId);
 		return false;
 	}
-	
-	/**
-	 * 修改时装状态
-	 * @param id
-	 * @param state
-	 */
-	/*
-	public void changeFashState(int id,FashState state){
-		changeFashState(String.valueOf(id),state);
+
+	private AttrData computeFromList(ArrayList<AttrDataIF> lst){
+		AttrData result = new AttrData();
+		for (AttrDataIF data : lst) {
+			if (data != null){
+				result.plus(data);
+			}
+		}
+		return result;
 	}
-	
-	public void changeFashState(String id,FashState state){	
-		FashionItem item = fashionItemHolder.getItem(id);
-		if(item != null){
-			if(state == FashState.ON){
-				List<FashionItem> list = fashionItemHolder.getItemList();
-				for (FashionItem fasItem : list) {
-					if(fasItem.getState() == FashState.ON.ordinal() &&
-						fasItem.getType() == item.getType()){//将原来同类型的装备的先脱下
-						fasItem.setState(FashState.OFF.ordinal());
-						fashionItemHolder.updateItem(m_pPlayer, fasItem);
-						break;
+	public AttrData getAttrData(){
+		if (addedValueAttr == null){
+			AttrData attrData = new AttrData();
+			FashionBeingUsed used = getFashionBeingUsed();
+			if (used!= null){
+				int career = m_pPlayer.getCareer();
+				int[] list = used.getUsingList();
+				for (int i = 0; i < list.length; i++) {
+					int fashionId = list[i];
+					IEffectCfg cfg = FashionEffectCfgDao.getInstance().getConfig(fashionId,career);
+					if (cfg != null){
+						attrData.plus(cfg.getAddedValues());
 					}
 				}
 			}
-			item.setState(state.ordinal());
-			fashionItemHolder.updateItem(m_pPlayer, item);
-		}
-	}
-	*/
-	
-	/**
-	 * 属性修改
-	 * @param state
-	 * @param cfg
-	 */
-	/*
-	private void setAttr(FashState state,FashionCfg cfg){
-		if(cfg == null || !StringUtils.isNotBlank(cfg.getAddAttr())){
-			return;
-		}
-		String[] attrList = cfg.getAddAttr().split(",");
-		for (String attrItem : attrList) {
-			int value = Integer.valueOf(attrItem.split("_")[1]);
-			value = state == FashState.ON ? value : -value;
-			eAttrIdDef def = eAttrIdDef.getDef(Integer.valueOf(attrItem.split("_")[0]));
-			m_pPlayer.getAttrMgr().addFashionAttr(def, value);
-		}
-	}
-	*/
-	
-	public AttrData getAttrData(){
-		AttrData attrData = new AttrData();
-		FashionBeingUsed used = getFashionBeingUsed();
-		if (used!= null){
-			int career = m_pPlayer.getCareer();
-			int[] list = used.getUsingList();
-			for (int i = 0; i < list.length; i++) {
-				int fashionId = list[i];
-				FashionEffectCfg cfg = FashionEffectCfgDao.getInstance().getConfig(fashionId,career);
-				if (cfg != null){
-					attrData.plus(cfg.getAddedValues());
-					//AttrData.fromObject(cfg);
-				}
+			IEffectCfg cfg = FashionQuantityEffectCfgDao.getInstance().searchOption(fashionItemHolder.getItemCount());
+			if (cfg != null){
+				attrData.plus(cfg.getAddedValues());
 			}
-		}
-		return attrData;
-	}
-	
-	public AttrData getPercentAttrData(){
-		AttrData attrData = new AttrData();
-		FashionBeingUsed used = getFashionBeingUsed();
-		if (used!= null){
-			int career = m_pPlayer.getCareer();
-			int[] list = used.getUsingList();
-			for (int i = 0; i < list.length; i++) {
-				int fashionId = list[i];
-				FashionEffectCfg cfg = FashionEffectCfgDao.getInstance().getConfig(fashionId,career);
-				if (cfg != null){
-					attrData.plus(cfg.getAddedPercentages());
-					//AttrData.fromPercentObject(cfg);
-				}
-			}
+			addedValueAttr = attrData;
 		}
 		
-		return attrData;
+		AttrData result=new AttrData();
+		BeanCopyer.copy(addedValueAttr, result);
+		return result;
+	}
+	
+	public AttrData getPercentAttrData() {
+		if (addedPercentAttr == null) {
+			AttrData attrData = new AttrData();
+			FashionBeingUsed used = getFashionBeingUsed();
+			if (used != null) {
+				int career = m_pPlayer.getCareer();
+				int[] list = used.getUsingList();
+				for (int i = 0; i < list.length; i++) {
+					int fashionId = list[i];
+					IEffectCfg cfg = FashionEffectCfgDao.getInstance().getConfig(fashionId, career);
+					if (cfg != null) {
+						attrData.plus(cfg.getAddedPercentages());
+						// AttrData.fromPercentObject(cfg);
+					}
+				}
+			}
+			IEffectCfg cfg = FashionQuantityEffectCfgDao.getInstance().searchOption(fashionItemHolder.getItemCount());
+			if (cfg != null){
+				attrData.plus(cfg.getAddedPercentages());
+			}
+			addedPercentAttr = attrData;
+		}
+		
+		AttrData result = new AttrData();
+		BeanCopyer.copy(addedPercentAttr, result);
+		return addedPercentAttr;
 	}
 	
 	public boolean save() {
@@ -275,7 +243,8 @@ public class FashionMgr implements FashionMgrIF{
 	 */
 	public void syncAll() {
 		checkExpired();
-		fashionItemHolder.synAllData(m_pPlayer, 0);
+		// 过期不会影响fashionItem存储的值
+		//fashionItemHolder.synAllData(m_pPlayer, 0);
 	}
 	
 	/**
@@ -305,10 +274,6 @@ public class FashionMgr implements FashionMgrIF{
 		return fashionUsedHolder.get(m_pPlayer.getUserId());
 	}
 	
-	private FashionBeingUsed getFashionBeingUsed(){
-		return fashionUsedHolder.get(m_pPlayer.getUserId());
-	}
-	
 	public FashionUsed.Builder getFashionUsedBuilder(){
 		return getFashionUsedBuilder(m_pPlayer.getUserId());
 	}
@@ -330,11 +295,39 @@ public class FashionMgr implements FashionMgrIF{
 	}
 	
 	/**
+	 * 用于机器人的调用！
+	 * @param fashionId
+	 * @return
+	 */
+	public FashionItem buyFashionItem(int fashionId) {
+		FashionCommonCfg fashionCfg = FashionCommonCfgDao.getInstance().getConfig(fashionId);
+		FashionItem item = newFashionItem(fashionCfg,-1);
+		fashionItemHolder.addItem(m_pPlayer, item);
+		return item;
+	}
+	
+	/**
+	 * 向客户端发送时装穿着数据
+	 */
+	public void notifyFashionBeingUsedChanged() {
+		// notify client that Fashion Being Used Changed!
+		FashionResponse.Builder response = FashionResponse.newBuilder();
+		response.setEventType(FashionEventType.getFashiondata);
+		FashionCommon.Builder common = FashionCommon.newBuilder();
+		FashionUsed.Builder fashion = m_Player.getFashionMgr().getFashionUsedBuilder(m_Player.getUserId());
+		common.setUsedFashion(fashion);
+		response.setFashionCommon(common);
+		response.setError(ErrorType.SUCCESS);
+		m_Player.SendMsg(MsgDef.Command.MSG_FASHION, response.build().toByteString());
+	}
+
+	/**
 	 * 职业改变
 	 */
 	public void changeSuitCareer(){
-		//修改设计之后，时装服务端的数据与职业性别无关，因此无需修改！
-		//TODO 但是战斗属性增益跟职业有关系，需要重新计算增益
+		// 修改设计之后，时装穿戴的数据与职业性别无关，因此无需修改！
+		// 但是战斗属性增益跟职业有关系，需要重新计算增益
+		RecomputeBattleAdded();
 		
 		/*
 		List<FashionItem> list = fashionItemHolder.getItemList();
@@ -497,33 +490,24 @@ public class FashionMgr implements FashionMgrIF{
 					m_pPlayer.NotifyCommonMsg(String.format(ExpiredNotifycation,fashionName));
 				}
 			}
-			
-			/*
-			if(fasItem.getState() == FashState.EXPIRED.ordinal()){
-				continue;
-			}
-			FashionCfg fashcfg = FashionCfgDao.getInstance().getConfig(fasItem.getId());
-			if(fashcfg == null){
-				continue;
-			}
-			long val = fashcfg.getValidity();
-			long buytime = val * 60 * 60 * 1000 + fasItem.getBuyTime();
-			
-			if(buytime < now){
-				List<String> args = new ArrayList<String>();
-				args.add(fashcfg.getName());
-				EmailUtils.sendEmail(m_pPlayer.getUserId(), "10030",args);
-				m_pPlayer.NotifyCommonMsg("您的时装" + fashcfg.getName() + "已过期，请到试衣间续费");
-				fasItem.setState(FashState.EXPIRED.ordinal());
-				fashionItemHolder.updateItem(m_pPlayer, fasItem);
-			}
-			*/
 		}
 		if (isBeingUsedChanged){
-			//TODO notify 
+			notifyFashionBeingUsedChanged();
 		}
 	}
 	
+	/**
+	 * 重新计算战斗增益
+	 * 与时装穿戴数据的改变有关(FashionBeingUsedHolder负责存储)
+	 * 时装总数带来的增益(FashionItemHolder负责存储)
+	 * 以及职业变更有关系
+	 * 时装的穿戴，脱下和过期会导致改变
+	 */
+	private void RecomputeBattleAdded() {
+		addedValueAttr = null;
+		addedPercentAttr = null;
+	}
+
 	private void LogError(OutString tip,String userTip,String addedLog){
 		tip.str = userTip;
 		if (addedLog != null){
@@ -531,15 +515,7 @@ public class FashionMgr implements FashionMgrIF{
 		}
 	}
 
-	/**
-	 * 用于机器人的调用！
-	 * @param fashionId
-	 * @return
-	 */
-	public FashionItem buyFashionItem(int fashionId) {
-		FashionCommonCfg fashionCfg = FashionCommonCfgDao.getInstance().getConfig(fashionId);
-		FashionItem item = newFashionItem(fashionCfg,-1);
-		fashionItemHolder.addItem(m_pPlayer, item);
-		return item;
+	private FashionBeingUsed getFashionBeingUsed(){
+		return fashionUsedHolder.get(m_pPlayer.getUserId());
 	}
 }

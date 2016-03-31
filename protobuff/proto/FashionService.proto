@@ -4,11 +4,11 @@ option java_outer_classname = "FashionServiceProtos";
 import "ErrorService.proto";
 
 enum FashionEventType {
-	buy = 1;//购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
-	on = 2;//穿上请求
-	off = 3;//脱下请求
-	renew = 4;//续费 传入fashionId,buyRenewPlanId
-	getFashiondata = 5;// 获取 FashionCommon
+	getFashiondata = 1;// 获取 FashionCommon
+	buy = 2;//购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
+	renew = 3;//续费 传入fashionId,buyRenewPlanId
+	on = 4;//穿上请求 传入fashionId
+	off = 5;//脱下请求 传入fashionId
 }
 
 message FashionRequest {

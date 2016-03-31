@@ -1,24 +1,37 @@
 package com.rwbase.dao.fashion;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.common.BeanCopyer;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.AttrDataIF;
-import com.rwbase.common.enu.ECareer;
 
-/**
- * addedValues,addedPercentages不能被修改，但是AttrData到处使用，暂时没有发现修改的地方
- * @author franky
- *
- */
-public class FashionEffectCfg implements IEffectCfg {
-	private String key; // 关键字
-	private int id; // 时装id
-	private String CareerType;
-	private ECareer CareerTypeField; // 职业
+public class FashionQuantityEffectCfg implements IEffectCfg{
+	public static Comparator<? super FashionQuantityEffectCfg> getComparator(){
+		return Comparator;
+	}
+	private static Comparator<? super FashionQuantityEffectCfg> Comparator = new Comparator<FashionQuantityEffectCfg>() {
+
+		@Override
+		public int compare(FashionQuantityEffectCfg o1, FashionQuantityEffectCfg o2) {
+			return o1.quantity - o2.quantity;
+		}
+	};
+	
+	public static FashionQuantityEffectCfg ZeroEffect(){
+		if (zeroEff == null){
+			zeroEff = new FashionQuantityEffectCfg();
+			zeroEff.addedPercentages = new AttrData();
+			zeroEff.addedValues = new AttrData();
+		}
+		return zeroEff;
+	}
+	private static FashionQuantityEffectCfg zeroEff;
+	
+	private int quantity;//时装数量
 	// 战斗增益效果
 	private String attrName1; // 属性名
 	private int attrValue1; // 属性值
@@ -47,7 +60,6 @@ public class FashionEffectCfg implements IEffectCfg {
 	
 	public void ExtraInit() {
 		// 枚举转换异常处理
-		CareerTypeField = ECareer.valueOf(CareerType,ECareer.None);
 		attrValueType1Field = AttrValueType.valueOf(attrValueType1,AttrValueType.Value);
 		attrValueType2Field = AttrValueType.valueOf(attrValueType2,AttrValueType.Value);
 		attrValueType3Field = AttrValueType.valueOf(attrValueType3,AttrValueType.Value);
@@ -67,24 +79,14 @@ public class FashionEffectCfg implements IEffectCfg {
 		BeanCopyer.SetFields(sourcePer , addedPercentages, null);
 	}
 
-	public String getKey() {
-		return key;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public int getFashionId() {
-		return id;
-	}
-
-	public ECareer getCareerTypeField() {
-		return CareerTypeField;
-	}
-
-	@Override
 	public AttrDataIF getAddedValues() {
 		return addedValues;
 	}
 
-	@Override
 	public AttrDataIF getAddedPercentages() {
 		return addedPercentages;
 	}

@@ -9,7 +9,4 @@ public interface FashionItemIF {
 	public int getType();
 
 	public long getBuyTime();
-	
-//	public ConcurrentHashMap<eAttrIdDef, Double> getAddPercentAttr();
-
 }

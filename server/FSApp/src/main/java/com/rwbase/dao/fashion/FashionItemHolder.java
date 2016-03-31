@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import com.common.Action;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.readonly.FashionMgrIF.ItemFilter;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.common.NotifyChangeCallBack;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class FashionItemHolder{
+public class FashionItemHolder extends NotifyChangeCallBack{
 	
 	
 	final private String userId;
@@ -52,8 +52,11 @@ public class FashionItemHolder{
 			FashionItem item = (FashionItem) mapEnum.nextElement();
 			itemList.add(item);
 		}
-		
 		return itemList;
+	}
+	
+	public int getItemCount(){
+		return getItemStore().getSize();
 	}
 	
 	public void updateItem(Player player, FashionItem item){
@@ -61,13 +64,8 @@ public class FashionItemHolder{
 		if (!updateResult){
 			GameLog.error("时装", player.getUserId(), "更新FashionItem失败，ID="+item.getId());
 		}
-		RecomputeBattleAddition();
 		ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.UPDATE_SINGLE);
 		notifyChange();
-	}
-	
-	private void RecomputeBattleAddition(){
-		//TODO 重新计算战斗加成！
 	}
 	
 	public FashionItem getItem(int fashionId){
@@ -77,22 +75,20 @@ public class FashionItemHolder{
 	public FashionItem getItem(String itemId){
 		return getItemStore().getItem(itemId);
 	}
-	
+
+	/*暂时不用，先屏蔽
 	public boolean removeItem(Player player, FashionItem item){
-		
 		boolean success = getItemStore().removeItem(item.getId());
 		if(success){
-			RecomputeBattleAddition();
 			ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.REMOVE_SINGLE);
 			notifyChange();
 		}
 		return success;
-	}
+	}*/
 	
 	public boolean addItem(Player player, FashionItem item){
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
-			RecomputeBattleAddition();
 			ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.ADD_SINGLE);
 			notifyChange();
 		}
@@ -107,17 +103,6 @@ public class FashionItemHolder{
 	
 	public void flush(){
 		getItemStore().flush();
-	}
-	
-	private List<Action> callbackList = new ArrayList<Action>();
-	public void regChangeCallBack(Action callBack){
-		callbackList.add(callBack);
-	}
-	
-	private void notifyChange(){
-		for (Action action : callbackList) {
-			action.doAction();
-		}
 	}
 	
 	private MapItemStore<FashionItem> getItemStore(){

@@ -25,9 +25,9 @@ public class FashionEffectCfgDao extends CfgCsvDao<FashionEffectCfg> {
 		effectMapping = new HashMap<IReadOnlyPair<Integer,ECareer>, FashionEffectCfg>();
 		for (FashionEffectCfg cfg : values) {
 			cfg.ExtraInit();
-			IReadOnlyPair<Integer,ECareer> pair = Pair.CreateReadonly(cfg.getId(), cfg.getCareerTypeField());
+			IReadOnlyPair<Integer,ECareer> pair = Pair.CreateReadonly(cfg.getFashionId(), cfg.getCareerTypeField());
 			if (effectMapping.put(pair, cfg)!=null){
-				GameLog.info("时装", "FashionEffectCfg.csv配置警告", "重复的<时装关键字，职业>:"+cfg.getId()+","+cfg.getCareerTypeField(), null);
+				GameLog.info("时装", "FashionEffectCfg.csv配置警告", "重复的<时装关键字，职业>:"+cfg.getFashionId()+","+cfg.getCareerTypeField(), null);
 			}
 		}
 		return cfgCacheMap;

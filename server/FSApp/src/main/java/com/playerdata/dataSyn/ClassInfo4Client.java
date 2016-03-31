@@ -65,12 +65,10 @@ public class ClassInfo4Client {
 
 	public String getId(Object target) throws Exception{
 		if(idField!=null){
-			return (String) idField.get(target);
-			
+			return String.valueOf(idField.get(target));
 		}else{
 			return null;
 		}
-		
 	}
 	
 	

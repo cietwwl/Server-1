@@ -36,6 +36,7 @@
 	<bean class="com.rwbase.dao.fashion.FashionCommonCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.fashion.FashionEffectCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.fashion.FashionBuyRenewCfgDao"  init-method="init" />
+	<bean class="com.rwbase.dao.fashion.FashionQuantityEffectCfgDao"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.fighting.FightingWeightCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityCfgDao"  init-method="init" />

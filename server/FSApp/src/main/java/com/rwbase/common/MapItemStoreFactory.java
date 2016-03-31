@@ -70,6 +70,8 @@ public class MapItemStoreFactory {
 		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", heroCapacity));
 
 		register(fashionCache = new MapItemStoreCache<FashionItem>(FashionItem.class, "userId", heroCapacity));
+		register(fashionUsedCache = new MapItemStoreCache<FashionBeingUsed>(FashionBeingUsed.class, "userId", heroCapacity));
+		
 
 		register(fresherActivityCache = new MapItemStoreCache<FresherActivityBigItem>(FresherActivityBigItem.class, "ownerId", heroCapacity));
 

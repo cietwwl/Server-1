@@ -14,98 +14,98 @@ public final class FashionServiceProtos {
   public enum FashionEventType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>buy = 1;</code>
-     *
-     * <pre>
-     *购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
-     * </pre>
-     */
-    buy(0, 1),
-    /**
-     * <code>on = 2;</code>
-     *
-     * <pre>
-     *穿上请求
-     * </pre>
-     */
-    on(1, 2),
-    /**
-     * <code>off = 3;</code>
-     *
-     * <pre>
-     *脱下请求
-     * </pre>
-     */
-    off(2, 3),
-    /**
-     * <code>renew = 4;</code>
-     *
-     * <pre>
-     *续费 传入fashionId,buyRenewPlanId
-     * </pre>
-     */
-    renew(3, 4),
-    /**
-     * <code>getFashiondata = 5;</code>
+     * <code>getFashiondata = 1;</code>
      *
      * <pre>
      * 获取 FashionCommon
      * </pre>
      */
-    getFashiondata(4, 5),
+    getFashiondata(0, 1),
+    /**
+     * <code>buy = 2;</code>
+     *
+     * <pre>
+     *购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
+     * </pre>
+     */
+    buy(1, 2),
+    /**
+     * <code>renew = 3;</code>
+     *
+     * <pre>
+     *续费 传入fashionId,buyRenewPlanId
+     * </pre>
+     */
+    renew(2, 3),
+    /**
+     * <code>on = 4;</code>
+     *
+     * <pre>
+     *穿上请求
+     * </pre>
+     */
+    on(3, 4),
+    /**
+     * <code>off = 5;</code>
+     *
+     * <pre>
+     *脱下请求
+     * </pre>
+     */
+    off(4, 5),
     ;
 
     /**
-     * <code>buy = 1;</code>
-     *
-     * <pre>
-     *购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
-     * </pre>
-     */
-    public static final int buy_VALUE = 1;
-    /**
-     * <code>on = 2;</code>
-     *
-     * <pre>
-     *穿上请求
-     * </pre>
-     */
-    public static final int on_VALUE = 2;
-    /**
-     * <code>off = 3;</code>
-     *
-     * <pre>
-     *脱下请求
-     * </pre>
-     */
-    public static final int off_VALUE = 3;
-    /**
-     * <code>renew = 4;</code>
-     *
-     * <pre>
-     *续费 传入fashionId,buyRenewPlanId
-     * </pre>
-     */
-    public static final int renew_VALUE = 4;
-    /**
-     * <code>getFashiondata = 5;</code>
+     * <code>getFashiondata = 1;</code>
      *
      * <pre>
      * 获取 FashionCommon
      * </pre>
      */
-    public static final int getFashiondata_VALUE = 5;
+    public static final int getFashiondata_VALUE = 1;
+    /**
+     * <code>buy = 2;</code>
+     *
+     * <pre>
+     *购买（不再包含续费）,增加buyRenewPlanId指定购买方案ID
+     * </pre>
+     */
+    public static final int buy_VALUE = 2;
+    /**
+     * <code>renew = 3;</code>
+     *
+     * <pre>
+     *续费 传入fashionId,buyRenewPlanId
+     * </pre>
+     */
+    public static final int renew_VALUE = 3;
+    /**
+     * <code>on = 4;</code>
+     *
+     * <pre>
+     *穿上请求
+     * </pre>
+     */
+    public static final int on_VALUE = 4;
+    /**
+     * <code>off = 5;</code>
+     *
+     * <pre>
+     *脱下请求
+     * </pre>
+     */
+    public static final int off_VALUE = 5;
 
 
     public final int getNumber() { return value; }
 
     public static FashionEventType valueOf(int value) {
       switch (value) {
-        case 1: return buy;
-        case 2: return on;
-        case 3: return off;
-        case 4: return renew;
-        case 5: return getFashiondata;
+        case 1: return getFashiondata;
+        case 2: return buy;
+        case 3: return renew;
+        case 4: return on;
+        case 5: return off;
         default: return null;
       }
     }
@@ -538,7 +538,7 @@ public final class FashionServiceProtos {
     }
 
     private void initFields() {
-      eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+      eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
       fashionId_ = 0;
       buyRenewPlanId_ = "";
     }
@@ -704,7 +704,7 @@ public final class FashionServiceProtos {
 
       public Builder clear() {
         super.clear();
-        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
         bitField0_ = (bitField0_ & ~0x00000001);
         fashionId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -809,7 +809,7 @@ public final class FashionServiceProtos {
       private int bitField0_;
 
       // required .FashionEventType eventType = 1;
-      private com.rwproto.FashionServiceProtos.FashionEventType eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+      private com.rwproto.FashionServiceProtos.FashionEventType eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
       /**
        * <code>required .FashionEventType eventType = 1;</code>
        */
@@ -839,7 +839,7 @@ public final class FashionServiceProtos {
        */
       public Builder clearEventType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
         onChanged();
         return this;
       }
@@ -1356,7 +1356,7 @@ public final class FashionServiceProtos {
     }
 
     private void initFields() {
-      eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+      eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
       fashionId_ = 0;
       error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
       tips_ = "";
@@ -1545,7 +1545,7 @@ public final class FashionServiceProtos {
 
       public Builder clear() {
         super.clear();
-        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
         bitField0_ = (bitField0_ & ~0x00000001);
         fashionId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1682,7 +1682,7 @@ public final class FashionServiceProtos {
       private int bitField0_;
 
       // optional .FashionEventType eventType = 1;
-      private com.rwproto.FashionServiceProtos.FashionEventType eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+      private com.rwproto.FashionServiceProtos.FashionEventType eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
       /**
        * <code>optional .FashionEventType eventType = 1;</code>
        */
@@ -1712,7 +1712,7 @@ public final class FashionServiceProtos {
        */
       public Builder clearEventType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.buy;
+        eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
         onChanged();
         return this;
       }
@@ -6683,8 +6683,8 @@ public final class FashionServiceProtos {
       "fg\030\002 \003(\0132\007.PayCfg\022\032\n\trenewPlan\030\003 \003(\0132\007.P" +
       "ayCfg\"H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment\030" +
       "\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t*" +
-      "K\n\020FashionEventType\022\007\n\003buy\020\001\022\006\n\002on\020\002\022\007\n\003" +
-      "off\020\003\022\t\n\005renew\020\004\022\022\n\016getFashiondata\020\005**\n\013",
+      "K\n\020FashionEventType\022\022\n\016getFashiondata\020\001\022" +
+      "\007\n\003buy\020\002\022\t\n\005renew\020\003\022\006\n\002on\020\004\022\007\n\003off\020\005**\n\013",
       "FashionType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020\002" +
       "B#\n\013com.rwprotoB\024FashionServiceProtos"
     };
