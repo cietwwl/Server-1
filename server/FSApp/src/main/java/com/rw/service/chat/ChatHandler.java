@@ -28,6 +28,7 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
+import com.rwproto.ChatServiceProtos.ChatMessageData.Builder;
 import com.rwproto.ChatServiceProtos.MessageUserInfo;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
@@ -474,7 +475,10 @@ public class ChatHandler {
 		msgChatResponse.setChatType(eChatType.CHAT_FAMILY);
 		List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId);
 		for (int i = 0, size = list.size(); i < size; i++) {
-			msgChatResponse.addListMessage(list.get(i));
+			ChatMessageData chatMsg = list.get(i).build();
+			if (!FriendUtils.isBlack(player, chatMsg.getSendMessageUserInfo().getUserId())) {// 不在黑名单
+				msgChatResponse.addListMessage(chatMsg);
+			}
 		}
 
 		// 填充完整的消息
