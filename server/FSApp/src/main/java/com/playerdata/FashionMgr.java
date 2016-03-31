@@ -26,6 +26,7 @@ import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fashion.FashionItemHolder;
 import com.rwbase.dao.fashion.FashionItemIF;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.fashion.FashionUsedIF;
 import com.rwbase.dao.fashion.IEffectCfg;
@@ -85,6 +86,9 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 	public boolean buyFashionItemNotCheck(FashionCommonCfg cfg, FashionBuyRenewCfg buyCfg){
 		FashionItem item = newFashionItem(cfg,buyCfg);
 		fashionItemHolder.addItem(m_player, item);
+		
+		// compute total effect
+		if (item != null) createOrUpdate(true);
 		return item != null;
 	}
 	
@@ -109,6 +113,7 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 		if (!updateFashionItem(item)){
 			GameLog.error("时装", m_player.getUserId(), "更新续费后的时装失败,ID="+item.getId());
 		}
+		updateQuantityEffect(getFashionBeingUsed(), true);
 	}
 	
 	/**
@@ -148,10 +153,8 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 			LogError(tip,"时装未购买",",fashionId="+fashionId);
 			return false;
 		}
-		
 		if (fashionUsed == null){
-			//首次穿时装，初始化FashionBeingUsed
-			fashionUsed = fashionUsedHolder.newFashion(m_player.getUserId());
+			fashionUsed = createOrUpdate(false);
 		}
 		
 		if (putOn(item,fashionUsed)){
@@ -189,7 +192,7 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 				}
 			}
 		}
-		AttrDataIF data = lensOnEffect(FashionQuantityEffectCfgDao.getInstance().searchOption(fashionItemHolder.getItemCount()),lensNum);
+		AttrDataIF data = lensOnEffect(FashionQuantityEffectCfgDao.getInstance().searchOption(getValidCount()),lensNum);
 		if (data != null){
 			result.plus(data);
 		}
@@ -361,7 +364,7 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 		FashionResponse.Builder response = FashionResponse.newBuilder();
 		response.setEventType(FashionEventType.getFashiondata);
 		FashionCommon.Builder common = FashionCommon.newBuilder();
-		FashionUsed.Builder fashion = m_player.getFashionMgr().getFashionUsedBuilder(m_player.getUserId());
+		FashionUsed.Builder fashion = getFashionUsedBuilder(m_player.getUserId());
 		common.setUsedFashion(fashion);
 		response.setFashionCommon(common);
 		response.setError(ErrorType.SUCCESS);
@@ -554,7 +557,9 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 				}
 			}
 		}
+		// recompute total effect
 		if (isBeingUsedChanged){
+			updateQuantityEffect(getFashionBeingUsed(), false);
 			notifyFashionBeingUsedChanged();
 		}
 	}
@@ -562,13 +567,16 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 	/**
 	 * 重新计算战斗增益
 	 * 与时装穿戴数据的改变有关(FashionBeingUsedHolder负责存储)
-	 * 时装总数带来的增益(FashionItemHolder负责存储)
+	 * 有效期时装总数带来的增益(FashionItemHolder负责存储)
 	 * 以及职业变更有关系
 	 * 时装的穿戴，脱下和过期会导致改变
+	 * 有效期时装数量或者变更（购买，续费，过期）会导致变化
 	 */
 	private void RecomputeBattleAdded() {
 		addedValueAttr = null;
 		addedPercentAttr = null;
+		// compute total effect
+		updateQuantityEffect(getFashionBeingUsed(), false);
 	}
 
 	private void LogError(OutString tip,String userTip,String addedLog){
@@ -578,7 +586,46 @@ public class FashionMgr implements FashionMgrIF,INotifyChange{
 		}
 	}
 
+	private int getValidCount(){
+		int result = 0;
+		long now = System.currentTimeMillis();
+		OutString tip = new OutString();
+		List<FashionItem> lst = fashionItemHolder.getItemList();
+		for (FashionItem fasItem : lst) {
+			int fashionId = fasItem.getFashionId();
+			if (!isExpired(fashionId,tip,fasItem,now)){
+				result++;
+			}
+		}
+		return result;
+	}
+	
 	private FashionBeingUsed getFashionBeingUsed(){
-		return fashionUsedHolder.get(m_player.getUserId());
+		FashionBeingUsed result = fashionUsedHolder.get(m_player.getUserId());
+		return result;
+	}
+	
+	/**
+	 * 刷新有效时装增益
+	 * 有效期时装数量或者变更（购买，续费，过期）会导致变化
+	 * @return
+	 */
+	private void updateQuantityEffect(FashionBeingUsed result,boolean notifyAll){
+		if (result == null) return;
+		FashionQuantityEffectCfg eff = FashionQuantityEffectCfgDao.getInstance().searchOption(getValidCount());
+		if (eff.getQuantity() > 0){
+			result.setTotalEffectPlanId(eff.getQuantity());
+		}
+		fashionUsedHolder.update(result, notifyAll);
+	}
+	
+	private FashionBeingUsed createOrUpdate(boolean notifyAll){
+		FashionBeingUsed fashionUsed = getFashionBeingUsed();
+		if (fashionUsed  == null){
+			//首次穿时装，初始化FashionBeingUsed
+			fashionUsed = fashionUsedHolder.newFashion(m_player.getUserId());
+		}
+		updateQuantityEffect(fashionUsed,notifyAll);
+		return fashionUsed;
 	}
 }

@@ -42,7 +42,7 @@ public class FashionItemHolder extends NotifyChangeCallBack{
 	/*
 	 * 获取用户已经拥有的时装
 	 */
-	public List<FashionItem> getItemList()	
+	public List<FashionItem> getItemList()
 	{
 		List<FashionItem> itemList = new ArrayList<FashionItem>();
 		Enumeration<FashionItem> mapEnum = getItemStore().getEnum();

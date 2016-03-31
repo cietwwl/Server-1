@@ -1,10 +1,13 @@
 package com.rwbase.dao.fashion;
 
+import javax.persistence.Table;
+
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 
 /**
  * 潜规则：wingId,suitId,petId,specialPlanId用 -1 表示空！
  */
+@Table(name = "fashion_being_using")
 public class FashionBeingUsed implements IMapItem, FashionUsedIF{
 	private String userId;
 	private int wingId = -1;

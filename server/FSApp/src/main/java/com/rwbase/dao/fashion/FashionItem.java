@@ -8,13 +8,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.NonSave;
 
-/**
- * 时装信息
- * 
- * @author allen
- *
- */
-@Table(name = "fashion_item")
+@Table(name = "fashion_brought_items")
 @SynClass
 public class FashionItem implements IMapItem, FashionItemIF {
 	@Id
@@ -34,7 +28,7 @@ public class FashionItem implements IMapItem, FashionItemIF {
 	
 	private int type; // 时装类型
 	private long expiredTime;//到期时间（每次续费或者第一次购买会修改）
-	private int specialIncrPlanId;//特殊效果方案ID
+	private String specialIncrPlanId;//特殊效果方案ID
 	
 	@Override
 	public String getId() {
@@ -89,11 +83,11 @@ public class FashionItem implements IMapItem, FashionItemIF {
 		this.expiredTime = expiredTime;
 	}
 
-	public int getSpecialIncrPlanId() {
+	public String getSpecialIncrPlanId() {
 		return specialIncrPlanId;
 	}
 
-	public void setSpecialIncrPlanId(int specialIncrPlanId) {
+	public void setSpecialIncrPlanId(String specialIncrPlanId) {
 		this.specialIncrPlanId = specialIncrPlanId;
 	}
 }
