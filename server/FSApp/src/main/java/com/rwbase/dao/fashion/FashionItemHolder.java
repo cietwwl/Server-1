@@ -16,8 +16,6 @@ import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class FashionItemHolder extends NotifyChangeCallBack{
-	
-	
 	final private String userId;
 	final private eSynType fashionSynType = eSynType.FASHION_ITEM;
 	
