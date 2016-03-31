@@ -5,6 +5,7 @@ import javax.persistence.Table;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.CombineSave;
 
 /**
  * 时装信息
@@ -20,9 +21,11 @@ public class GroupCopyMapRecord implements IMapItem {
 	private String id; // 唯一id
 	private String groupId; // 帮派ID
 	
+	@CombineSave
 	private int level;
-	
+	@CombineSave
 	private GroupCopyStatus status;//状态 开启 关闭 完成	
+	@CombineSave
 	private int progress;//进度
 	
 	public String getId() {

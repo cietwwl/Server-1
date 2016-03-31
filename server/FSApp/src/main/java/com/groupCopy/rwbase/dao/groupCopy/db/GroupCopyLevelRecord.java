@@ -5,6 +5,7 @@ import javax.persistence.Table;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.CombineSave;
 
 /**
  * 时装信息
@@ -20,6 +21,7 @@ public class GroupCopyLevelRecord implements IMapItem {
 	private String id; // 唯一id
 	private String groupId; // 帮派ID
 	
+	@CombineSave
 	private String level;
 	
 	public String getId() {

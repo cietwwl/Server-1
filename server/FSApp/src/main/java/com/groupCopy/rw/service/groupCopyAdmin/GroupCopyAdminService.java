@@ -1,4 +1,4 @@
-package com.rw.service.groupCopyAdmin;
+package com.groupCopy.rw.service.groupCopyAdmin;
 
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
@@ -7,7 +7,6 @@ import com.groupCopy.rwproto.GroupCopyAdminProto.RequestType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.group.GroupDataVersionMgr;
 import com.rw.service.FsService;
 import com.rwproto.RequestProtos.Request;
 
@@ -43,9 +42,8 @@ public class GroupCopyAdminService implements FsService {
 				break;
 			}
 			
-			GroupCopyDataVersionMgr.synByVersion(player, commonReq.getVersion());
+			GroupCopyDataVersionMgr.synByVersion(player, commonReq.getVersion());			
 			
-			GroupDataVersionMgr.synByVersion(player, commonReq.getVersion());
 		} catch (Exception e) {
 			GameLog.error(LogModule.COPY, "GroupCopyAdminService[doTask]", "出现了Exception异常", e);
 		} finally {

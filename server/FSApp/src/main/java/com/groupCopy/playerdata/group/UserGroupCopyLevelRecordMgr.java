@@ -25,5 +25,9 @@ public class UserGroupCopyLevelRecordMgr {
 	public UserGroupCopyLevelRecord getByLevel(String level){
 		return holder.getByLevel(level);
 	}
+	
+	public int getDataVersion(){
+		return holder.getVersion();
+	}
 
 }

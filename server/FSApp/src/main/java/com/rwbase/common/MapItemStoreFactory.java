@@ -3,6 +3,9 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecord;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -12,7 +15,6 @@ import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
-import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -44,6 +46,11 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<TaskItem> taskItemCache;
 	// GroupMemberData
 	private static MapItemStoreCache<GroupMemberData> groupMemberCache;
+	
+	
+	private static MapItemStoreCache<GroupCopyMapRecord> groupCopyMapRecordCache;
+	private static MapItemStoreCache<GroupCopyLevelRecord> groupCopyLevelRecordCache;
+	private static MapItemStoreCache<UserGroupCopyLevelRecord> userGroupCopyLevelRecordCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -78,8 +85,14 @@ public class MapItemStoreFactory {
 
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
-		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
+		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));		
+		
+		register(groupCopyMapRecordCache = new MapItemStoreCache<GroupCopyMapRecord>(GroupCopyMapRecord.class, "groupId", heroCapacity));
+		
+		register(groupCopyLevelRecordCache = new MapItemStoreCache<GroupCopyLevelRecord>(GroupCopyLevelRecord.class, "groupId", heroCapacity));
 
+		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyLevelRecord>(UserGroupCopyLevelRecord.class, "userId", heroCapacity));
+		
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -191,4 +204,19 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<GroupMemberData> getGroupMemberCache() {
 		return groupMemberCache;
 	}
+
+	public static MapItemStoreCache<GroupCopyMapRecord> getGroupCopyMapRecordCache() {
+		return groupCopyMapRecordCache;
+	}
+
+	public static MapItemStoreCache<GroupCopyLevelRecord> getGroupCopyLevelRecordCache() {
+		return groupCopyLevelRecordCache;
+	}
+
+	public static MapItemStoreCache<UserGroupCopyLevelRecord> getUserGroupCopyLevelRecordCache() {
+		return userGroupCopyLevelRecordCache;
+	}
+	
+	
+	
 }

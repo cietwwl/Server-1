@@ -77,14 +77,8 @@ public class GroupCopyMgr {
 	}
 	public void synLevelData(Player player, int version){
 		
-		groupCopyMapRecordHolder.synAllData(player, version);
+		groupCopyLevelRecordHolder.synAllData(player, version);
 		
-	}
-	
-	
-	public void flush() {
-		groupCopyLevelRecordHolder.flush();
-		groupCopyMapRecordHolder.flush();
 	}
 
 }

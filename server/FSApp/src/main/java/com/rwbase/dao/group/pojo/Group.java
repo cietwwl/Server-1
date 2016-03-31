@@ -128,7 +128,7 @@ public final class Group {
 		groupBaseDataMgr.flush();
 		groupMemberMgr.flush();
 		groupLogMgr.flush();
-		groupCopyMgr.flush();
+		
 	}
 
 	/**

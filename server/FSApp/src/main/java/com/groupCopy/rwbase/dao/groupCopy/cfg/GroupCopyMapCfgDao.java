@@ -13,7 +13,7 @@ public class GroupCopyMapCfgDao extends CfgCsvDao<GroupCopyMapCfg> {
 	
 	@Override
 	public Map<String, GroupCopyMapCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("group/GroupSkillLevelCfg.csv", GroupCopyMapCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("GroupCopy/GroupCopyMapCfg.csv", GroupCopyMapCfg.class);
 		return cfgCacheMap;
 	}
 	

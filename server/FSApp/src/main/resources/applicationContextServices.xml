@@ -129,5 +129,5 @@
 	<bean id="groupPersonalService" class="com.rw.service.group.GroupPersonalService"  />
 	<bean id="groupSkillService" class="com.rw.service.group.GroupSkillService"  />
 	<bean id="giftCodeService" class="com.rw.service.giftcode.GiftCodeService"  />
-	<bean id="groupCopyAdminService" class="com.rw.service.groupCopyAdmin.GroupCopyAdminService"  />
+	<bean id="groupCopyAdminService" class="com.groupCopy.rw.service.groupCopyAdmin.GroupCopyAdminService"  />
 </beans>  
