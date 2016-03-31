@@ -333,6 +333,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				vo.setCommodity(RandomList(vo.getType().getOrder()));
 				vo.setLastRefreshTime(System.currentTimeMillis());
 				storeDataHolder.add(this.m_pPlayer, vo.getType().getOrder());
+				m_pPlayer.getTempAttribute().setRefreshStore(true);
 				break;
 			}
 		}

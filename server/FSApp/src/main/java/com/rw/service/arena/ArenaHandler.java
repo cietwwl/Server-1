@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
+import com.bm.arena.ArenaScoreCfgDAO;
+import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.HotPointMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -598,10 +602,16 @@ public class ArenaHandler {
 			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + arenaInfoCfg.getCdTime() * 1000);
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
-			//胜利时增加的积分
+			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
 			m_MyArenaData.setScore(m_MyArenaData.getScore() + addScore);
 			TableArenaDataDAO.getInstance().update(m_MyArenaData);
+			if (isWin) {
+				Player enemyPlayer = PlayerMgr.getInstance().find(enemyUserId);
+				if (enemyPlayer != null) {
+					enemyPlayer.getTempAttribute().setRecordChanged(true);
+				}
+			}
 
 			MsgArenaResponse.Builder recordBuilder = MsgArenaResponse.newBuilder();
 			recordBuilder.setArenaType(eArenaType.SYNC_RECORD);
@@ -865,6 +875,61 @@ public class ArenaHandler {
 		result.setTime(record.getTime());
 		result.setChallenge(record.getChallenge());
 		return result.build();
+	}
+
+	public ByteString getScoreInfo(MsgArenaRequest request, Player player) {
+		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
+		response.setArenaType(request.getArenaType());
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(player.getUserId());
+		if (arenaData == null) {
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		return fillArenaScore(arenaData, response);
+	}
+
+	public ByteString getScoreReward(MsgArenaRequest request, Player player) {
+		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
+		response.setArenaType(request.getArenaType());
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(player.getUserId());
+		if (arenaData == null) {
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		int id = request.getRewardId();
+		List<Integer> rewardList = arenaData.getRewardList();
+		if (rewardList.contains(id)) {
+			GameLog.error("ArenaHandler", "#getScoreReward()", "重复领取积分奖励：" + id);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return fillArenaScore(arenaData, response);
+		}
+		ArenaScoreTemplate template = ArenaScoreCfgDAO.getInstance().getScoreTemplate(id);
+		if (template == null) {
+			GameLog.error("ArenaHandler", "#getScoreReward()", "领取不存在的积分奖励：" + id);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return fillArenaScore(arenaData, response);
+		}
+		int score = arenaData.getScore();
+		if (template.getSocre() > score) {
+			GameLog.error("ArenaHandler", "#getScoreReward()", "领取奖励的积分不够:id = " + id + ",score = " + score);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return fillArenaScore(arenaData, response);
+		}
+		rewardList.add(id);
+		Map<Integer, Integer> rewards = template.getRewards();
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
+			itemBagMgr.addItem(entry.getKey(), entry.getValue());
+		}
+		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		return fillArenaScore(arenaData, response);
+	}
+
+	private ByteString fillArenaScore(TableArenaData arenaData, MsgArenaResponse.Builder response) {
+		response.setCurrentScore(arenaData.getScore());
+		response.addAllGetCount(arenaData.getRewardList());
+		return response.build().toByteString();
 	}
 
 }

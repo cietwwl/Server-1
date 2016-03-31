@@ -18,6 +18,7 @@ public class PlayerTempAttribute {
 	private final AtomicBoolean heroFightingChanged;
 	private final AtomicBoolean checkRedPoint;
 	private boolean recordChanged; //竞技场日志变动
+	private boolean refreshStore;
 
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
@@ -89,4 +90,11 @@ public class PlayerTempAttribute {
 		this.recordChanged = recordChanged;
 	}
 
+	public boolean isRefreshStore() {
+		return refreshStore;
+	}
+
+	public void setRefreshStore(boolean refreshStore) {
+		this.refreshStore = refreshStore;
+	}
 }
