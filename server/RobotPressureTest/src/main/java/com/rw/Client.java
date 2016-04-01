@@ -5,6 +5,7 @@ import java.util.List;
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.handler.battletower.data.BattleTowerData;
+import com.rw.handler.equip.HeroEquipHolder;
 import com.rw.handler.group.data.GroupDataVersion;
 import com.rw.handler.group.data.GroupRequestCacheData;
 import com.rw.handler.group.holder.GroupApplyMemberHolder;
@@ -50,6 +51,8 @@ public class Client {
 	private GroupRequestCacheData groupCacheData = new GroupRequestCacheData();
 	// 封神台的数据
 	private BattleTowerData battleTowerData = new BattleTowerData();
+	// 英雄的装备数据
+	private HeroEquipHolder heroEquipHolder = new HeroEquipHolder();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -200,6 +203,10 @@ public class Client {
 
 	public BattleTowerData getBattleTowerData() {
 		return battleTowerData;
+	}
+
+	public HeroEquipHolder getHeroEquipHolder() {
+		return heroEquipHolder;
 	}
 
 	public String getGroupVersion() {

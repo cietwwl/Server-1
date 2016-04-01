@@ -120,6 +120,7 @@ public class Player implements PlayerIF {
 	private volatile long groupRankRecommentCacheTime;// 帮派排行榜推荐的时间
 	private volatile long groupRandomRecommentCacheTime;// 帮派排行榜随机推荐的时间
 	private volatile int lastWorldChatId;// 聊天上次的版本号
+	private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
 
 	private final PlayerTempAttribute tempAttribute;
 
@@ -302,7 +303,7 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public Player(String userId, boolean initMgr,RoleCfg roleCfg) {
+	public Player(String userId, boolean initMgr, RoleCfg roleCfg) {
 		this.tempAttribute = new PlayerTempAttribute();
 		playerMsgMgr = new PlayerMsgMgr(userId);
 		userDataMgr = new UserDataMgr(this, userId);
@@ -329,7 +330,7 @@ public class Player implements PlayerIF {
 			initMgr();
 		}
 	}
-	
+
 	public Player(String userId, boolean initMgr) {
 		this(userId, initMgr, null);
 	}
@@ -497,29 +498,30 @@ public class Player implements PlayerIF {
 		UserChannelMgr.kickoffDisconnect(getUserId());
 	}
 
-
 	private TimeAction onMinutesTimeAction;
+
 	/** 每分钟执行 */
 	public synchronized void onMinutes() {
-		
-		if(onMinutesTimeAction == null){
+
+		if (onMinutesTimeAction == null) {
 			onMinutesTimeAction = PlayerTimeActionHelper.onMinutes(this);
 		}
-		
+
 		onMinutesTimeAction.doAction();
 	}
 
 	private TimeAction onNewDayZeroTimeAction;
+
 	/** 0点刷新 */
 	public synchronized void onNewDayZero() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDayZero()", "机器人不进行重置", null);
 			return;
 		}
-		if(onNewDayZeroTimeAction == null){
+		if (onNewDayZeroTimeAction == null) {
 			onNewDayZeroTimeAction = PlayerTimeActionHelper.onNewDayZero(this);
 		}
-		
+
 		if (isNewDayHour(0, userGameDataMgr.getLastResetTime())) {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime(now);
@@ -532,17 +534,18 @@ public class Player implements PlayerIF {
 	}
 
 	private TimeAction onNewDay5ClockTimeAction;
+
 	/** 早点５点刷新 */
 	public synchronized void onNewDay5Clock() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDay5Clock()", "机器人不进行重置", null);
 			return;
 		}
-		
-		if(onNewDay5ClockTimeAction == null){
+
+		if (onNewDay5ClockTimeAction == null) {
 			onNewDay5ClockTimeAction = PlayerTimeActionHelper.onNewDay5ClockTimeAction(this);
 		}
-		
+
 		if (isNewDayHour(5, userGameDataMgr.getLastResetTime5Clock())) {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime5Clock(now);
@@ -551,17 +554,18 @@ public class Player implements PlayerIF {
 	}
 
 	private TimeAction onNewHourTimeAction;
+
 	public synchronized void onNewHour() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewHour()", "机器人不进行重置", null);
 			return;
 		}
-		
-		if(onNewHourTimeAction == null){
+
+		if (onNewHourTimeAction == null) {
 			onNewHourTimeAction = PlayerTimeActionHelper.onNewHour(this);
 		}
 		onNewHourTimeAction.doAction();
-		
+
 	}
 
 	/**
@@ -1174,6 +1178,24 @@ public class Player implements PlayerIF {
 	 */
 	public void setLastWorldChatCacheTime(long lastWorldChatCacheTime) {
 		this.lastWorldChatCacheTime = lastWorldChatCacheTime;
+	}
+
+	/**
+	 * 获取上次帮派聊天的时间
+	 * 
+	 * @return
+	 */
+	public long getLastGroupChatCacheTime() {
+		return lastGroupChatCacheTime;
+	}
+
+	/**
+	 * 设置上次帮派聊天的时间
+	 * 
+	 * @param lastGroupChatCacheTime
+	 */
+	public void setLastGroupChatCacheTime(long lastGroupChatCacheTime) {
+		this.lastGroupChatCacheTime = lastGroupChatCacheTime;
 	}
 
 	public int getLastWorldChatId() {

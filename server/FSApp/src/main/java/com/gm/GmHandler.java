@@ -26,6 +26,7 @@ import com.gm.task.GmEmailSingleSend;
 import com.gm.task.GmEmailWhiteList;
 import com.gm.task.GmExecuteGMCommand;
 import com.gm.task.GmForClassLoad;
+import com.gm.task.GmHotUpdate;
 import com.gm.task.GmKickOffPlayer;
 import com.gm.task.GmOnlineCount;
 import com.gm.task.GmOnlineLimitModify;
@@ -76,7 +77,7 @@ public class GmHandler {
 		taskMap.put(1008, new GmChargeSwitch());
 		taskMap.put(1009, new GmServerInfo());				
 		taskMap.put(1010, new GmCheckDataOpProgress());
-		
+		taskMap.put(1011, new GmHotUpdate());
 		//机器人
 		taskMap.put(3001, new GmStartRobotCreation());
 		//开启和关闭游戏内的gm指令

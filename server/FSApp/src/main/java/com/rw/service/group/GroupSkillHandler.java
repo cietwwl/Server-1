@@ -110,8 +110,9 @@ public class GroupSkillHandler {
 		}
 
 		// 准备去扣钱以及升级帮派技能了
-		if (!groupBaseDataMgr.updateGroupDataWhenResearchSkill(player, skillLevelTemplate.getResearchNeedSupply(), skillId, skillLevel, skillLevelTemplate.getResearchCondation())) {
-			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "研发技能失败");
+		String resultTip = groupBaseDataMgr.updateGroupDataWhenResearchSkill(player, skillLevelTemplate.getResearchNeedSupply(), skillId, skillLevel, skillLevelTemplate.getResearchCondation());
+		if (!StringUtils.isEmpty(resultTip)) {
+			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, resultTip);
 		}
 
 		commonRsp.setIsSuccess(true);
