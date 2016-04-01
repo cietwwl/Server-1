@@ -93,22 +93,27 @@ public class FashionMgr implements FashionMgrIF{
 	}
 	
 	/**
-	 * 延长时装有效期,续期时间必须大于零，因为永久时装不需要续期
-	 * 也不允许把服装改为永久有效的
+	 * 这个函数假设传入的时装不是永久时装
 	 * @param item 不能为空
 	 * @param renewDay
 	 */
 	public void renewFashion(FashionItem item, int renewDay) {
 		long now = System.currentTimeMillis();
-		long expiredTime = item.getExpiredTime();
-		if (expiredTime < now){
-			//过期了，重新设置
-			expiredTime = now;
-		}
 		// 更新购买/续费时间，和有效期
 		item.setBuyTime(now);
-		//在上次有效期内延长对应的时间，如果已经过期，使用当前时间作为基数
-		expiredTime +=  TimeUnit.DAYS.toMillis(renewDay);
+		long expiredTime = -1;
+		if (renewDay <= 0){
+			//expiredTime = -1;
+			GameLog.info("时装", m_player.getUserId(), "续费为永久时装"+item.getFashionId(), null);
+		}else{
+			expiredTime = item.getExpiredTime();
+			if (expiredTime < now){
+				//过期了，重新设置
+				expiredTime = now;
+			}
+			//在上次有效期内延长对应的时间，如果已经过期，使用当前时间作为基数
+			expiredTime +=  TimeUnit.DAYS.toMillis(renewDay);
+		}
 		item.setExpiredTime(expiredTime);
 		// 更新时装，特殊效果并推送
 		if (!updateFashionItem(item)){

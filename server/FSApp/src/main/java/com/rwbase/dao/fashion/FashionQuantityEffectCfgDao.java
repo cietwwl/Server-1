@@ -33,11 +33,16 @@ public class FashionQuantityEffectCfgDao extends CfgCsvDao<FashionQuantityEffect
 		effLst = lst.toArray(effLst);
 		initZeroEff = FashionQuantityEffectCfg.ZeroEffect();
 		if (initZeroEff == null){
-			GameLog.info("时装", "初始化失败", "无法构造ZeroEffect", null);
+			GameLog.error("时装", "初始化失败", "无法构造ZeroEffect");
 		}
 		return cfgCacheMap;
 	}
 	
+	/**
+	 * 搜索合适的增益配置，返回配置必须是刚好比需要的数量小或者相等，并且是所有满足这个条件的最大配置
+	 * @param quantity
+	 * @return
+	 */
 	public FashionQuantityEffectCfg searchOption(int quantity){
 		FashionQuantityEffectCfg result = initZeroEff;
 		for (int i = effLst.length -1; i >= 0 ; i--) {

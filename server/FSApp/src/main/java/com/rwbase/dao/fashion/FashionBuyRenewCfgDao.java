@@ -22,6 +22,7 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 	 * Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>>
 	 * (buyPlans,renewPlans)
 	 */
+	// 重组配置，按照组合关键字重新构造映射关系
 	private Map<Integer,Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>>> buyRenewPlans;
 	private FashionServiceProtos.FashionBuyRenewCfg configProto;
 	
@@ -61,7 +62,9 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 				break;
 			}
 			if (plan != null){
-				plan.put(cfg.getKey(),cfg);
+				if (plan.put(cfg.getKey(),cfg)!=null){
+					GameLog.error("时装", "配置FashionBuyRenewCfg.csv", "重复的关键字组合:"+cfg.getKey()+","+cfg.getId());
+				}
 				buyRenewPlans.put(cfg.getId(), pair);
 			}
 		}

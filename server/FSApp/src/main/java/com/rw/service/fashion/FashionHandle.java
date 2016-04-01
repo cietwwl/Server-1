@@ -59,9 +59,8 @@ public class FashionHandle {
 		}
 		int cost = cfg.getNum();
 		eSpecialItemId currencyType = cfg.getCoinType();
-		int renewDay = cfg.getDay();
-		if (renewDay <= 0 || cost <=0 || currencyType.geteAttrId() == null){
-			return setErrorResponse(response,player,",有效期或货币类型或货币值错误,ID="+buyPlanId,"购买方案配置错误");
+		if (cost <=0 || currencyType.geteAttrId() == null){
+			return setErrorResponse(response,player,",货币类型或货币值错误,ID="+buyPlanId,"购买方案配置错误");
 		}
 		
 		//扣费
@@ -127,7 +126,8 @@ public class FashionHandle {
 	}
 
 	/**
-	 * 续费
+	 * 续费，不允许续费永久时装
+	 * 
 	 * @param player
 	 * @param req
 	 * @return
@@ -142,6 +142,10 @@ public class FashionHandle {
 			return setErrorResponse(response,player,",FashionID="+String.valueOf(renewFashionId),"没有对应时装");
 		}
 		
+		if (item.getExpiredTime() <= 0){
+			return setErrorResponse(response,player,",FashionID="+String.valueOf(renewFashionId),"永久时装不需要续费");
+		}
+		
 		//检查配置是否正确
 		String planId = req.getBuyRenewPlanId();
 		FashionBuyRenewCfgDao cfgHelper = FashionBuyRenewCfgDao.getInstance();
@@ -152,8 +156,8 @@ public class FashionHandle {
 		int cost = renewCfg.getNum();
 		eSpecialItemId currencyType = renewCfg.getCoinType();
 		int renewDay = renewCfg.getDay();
-		if (renewDay <= 0 || cost <=0 || currencyType.geteAttrId() == null){
-			return setErrorResponse(response,player,",有效期或货币类型或货币值错误,ID="+planId,"续费方案配置错误");
+		if (cost <=0 || currencyType.geteAttrId() == null){
+			return setErrorResponse(response,player,",货币类型或货币值错误,ID="+planId,"续费方案配置错误");
 		}
 
 		//扣费

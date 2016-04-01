@@ -20,6 +20,11 @@ public class FashionItemHolder{
 	final private eSynType fashionSynType = eSynType.FASHION_ITEM;
 	private NotifyChangeCallBack notifyProxy;
 
+	/**
+	 * 使用传入的消息通知代理来通知增删改
+	 * @param roleIdP
+	 * @param proxy
+	 */
 	public FashionItemHolder(String roleIdP,NotifyChangeCallBack proxy) {
 		userId = roleIdP;
 		notifyProxy = proxy;

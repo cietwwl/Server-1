@@ -12,18 +12,18 @@ import com.rw.fsutil.dao.annotation.NonSave;
 @SynClass
 public class FashionItem implements IMapItem, FashionItemIF {
 	@Id
-	private String id; //数据库存储id，用userId+"_"+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
+	private String id; //数据库存取id，用userId+"_"+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
 	
 	private int fashionId;// 时装模型id
 	
 	@IgnoreSynField
-	private String userId; // 用户ID，客户端当前用户
+	private String userId; // 用户ID，客户端用当前用户
 	
 	@IgnoreSynField
 	private long buyTime;// 购买时间（或者续费时间）
 	
 	@NonSave
-	private boolean isBrought = true;
+	private boolean isBrought = true;//以后可能需要保存到数据库
 	
 	private int type; // 时装类型
 	private long expiredTime;//到期时间（每次续费或者第一次购买会修改）

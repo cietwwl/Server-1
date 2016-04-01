@@ -18,6 +18,11 @@ public class FashionBeingUsedHolder extends DataRdbDao<FashionBeingUsed>{
 		return super.getObject(userId);
 	}
 
+	/**
+	 * 如果更新了一个时装穿戴记录，调用者负责向客户端发送同步数据
+	 * @param fashionUsed
+	 * @return
+	 */
 	public boolean update(FashionBeingUsed fashionUsed) {
 		if (fashionUsed == null){
 			return false;
@@ -28,23 +33,16 @@ public class FashionBeingUsedHolder extends DataRdbDao<FashionBeingUsed>{
 			return false;
 		}
 		super.update(fashionUsed.getUserId());
-//		boolean updateResult = getCache().updateItem(fashionUsed);
-//		if (!updateResult){
-//			GameLog.error("时装", fashionUsed.getUserId(), "更新FashionBeingUsed失败，ID="+fashionUsed.getId());
-//		}
-		
 		return true;
 	}
 
 	/**
-	 * 如果新增了一个时装记录，调用着负责向客户端发送同步数据
+	 * 如果新增了一个时装穿戴记录，调用者负责向客户端发送同步数据
 	 * @param uId
 	 * @return
 	 */
 	public FashionBeingUsed newFashion(String uId) {
 		FashionBeingUsed used = super.getObject(uId);
-//		MapItemStore<FashionBeingUsed> cache = getCache();
-//		FashionBeingUsed used = cache.getItem(uId);
 		if (used == null){
 			used = new FashionBeingUsed();
 			used.setUserId(uId);
