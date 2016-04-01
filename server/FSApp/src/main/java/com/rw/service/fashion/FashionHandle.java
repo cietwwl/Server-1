@@ -96,7 +96,7 @@ public class FashionHandle {
 		FashionMgr fashionMgr = player.getFashionMgr();
 		//检查是否过期
 		OutString tip = new OutString();
-		if (!fashionMgr.isExpired(fashionId,tip)){
+		if (fashionMgr.isExpired(fashionId,tip)){
 			return setErrorResponse(response, player, null, tip.str==null?"时装已过期":tip.str);
 		}
 		

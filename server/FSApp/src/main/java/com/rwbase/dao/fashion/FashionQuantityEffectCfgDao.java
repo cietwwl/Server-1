@@ -40,15 +40,11 @@ public class FashionQuantityEffectCfgDao extends CfgCsvDao<FashionQuantityEffect
 	
 	public FashionQuantityEffectCfg searchOption(int quantity){
 		FashionQuantityEffectCfg result = initZeroEff;
-		for (int i = 0; i < effLst.length; i++) {
+		for (int i = effLst.length -1; i >= 0 ; i--) {
 			FashionQuantityEffectCfg cfg = effLst[i];
-			if (quantity <= cfg.getQuantity()){
+			if (quantity >= cfg.getQuantity()){
 				result = cfg;
 				break;
-			}
-			if (i + 1 == effLst.length){
-				//Exhausted,use the largest
-				result = cfg;
 			}
 		}
 		return result;

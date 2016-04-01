@@ -64,13 +64,13 @@ public class FashionMgr implements FashionMgrIF{
 	
 	public void regChangeCallBack(final Action callBack){
 		Action hook = new Action() {
-			
 			@Override
 			public void doAction() {
 				RecomputeBattleAdded();
 				callBack.doAction();
 				//因为回调可能发送请求，时装穿戴数据的发送需要放在最后
 				sendFashionBeingUsedChanged();
+				GameLog.info("时装", m_player.getUserId(), "发送同步数据", null);
 			}
 		};
 		notifyProxy.regChangeCallBack(hook);
@@ -214,7 +214,8 @@ public class FashionMgr implements FashionMgrIF{
 	 */
 	public boolean isExpired(int fashionId,OutString tip) {
 		FashionItem item = fashionItemHolder.getItem(fashionId);
-		return isExpired(fashionId,tip,item);
+		long now = System.currentTimeMillis();
+		return isExpired(fashionId,tip,item,now);
 	}
 	
 	public FashionItem getItem(int fashionModelId){
@@ -258,7 +259,7 @@ public class FashionMgr implements FashionMgrIF{
 		giveFashionItem(fashionId,day,player,putOnNow,sendEmail);
 	}
 	
-	public void giveFashionItem(int fashionId,int day,Player player,boolean putOnNow,boolean sendEmail){
+	public static void giveFashionItem(int fashionId,int day,Player player,boolean putOnNow,boolean sendEmail){
 		if (player == null) {
 			return;
 		}
@@ -266,12 +267,12 @@ public class FashionMgr implements FashionMgrIF{
 		if (fashionCfg == null) {
 			return;
 		}
-		
-		FashionItem item = newFashionItem(fashionCfg,day);
-		fashionItemHolder.addItem(player, item);
-		FashionBeingUsed fashionUsed = createOrUpdate();
+		FashionMgr mgr = player.getFashionMgr();
+		FashionItem item = mgr.newFashionItem(fashionCfg,day);
+		mgr.fashionItemHolder.addItem(player, item);
+		FashionBeingUsed fashionUsed = mgr.createOrUpdate();
 		if (putOnNow){
-			putOn(item, fashionUsed);
+			mgr.putOn(item, fashionUsed);
 		}
 		
 		if (sendEmail){
@@ -279,7 +280,7 @@ public class FashionMgr implements FashionMgrIF{
 			args.add(fashionCfg.getName());
 			EmailUtils.sendEmail(player.getUserId(), GiveEMailID,args);
 		}
-		notifyProxy.checkDelayNotify();
+		mgr.notifyProxy.checkDelayNotify();
 		return;
 	}
 	
@@ -419,15 +420,6 @@ public class FashionMgr implements FashionMgrIF{
 		return false;
 	}
 	
-	private boolean isExpired(int fashionId,OutString tip,FashionItem item){
-		OutLong expired=new OutLong();
-		if (getExpiredTime(fashionId,tip,item,expired)){
-			long now = System.currentTimeMillis();
-			return (expired.value <= now);
-		}
-		return false;
-	}
-	
 	/**
 	 * getExpiredTime返回负数或零表示永久时装
 	 * @param fashionId
@@ -540,12 +532,17 @@ public class FashionMgr implements FashionMgrIF{
 	 */
 	private void updateQuantityEffect(FashionBeingUsed result){
 		if (result == null) return;
-		FashionQuantityEffectCfg eff = FashionQuantityEffectCfgDao.getInstance().searchOption(getValidCount());
-		int quantity = eff.getQuantity();
-		if (quantity != result.getTotalEffectPlanId()){
-			result.setTotalEffectPlanId(quantity);
-			fashionUsedHolder.update(result);
-			notifyProxy.delayNotify();
+		int validCountCache = result.getValidCountCache();
+		int validCount = getValidCount();
+		if (validCount != validCountCache){
+			result.setValidCountCache(validCount);
+			FashionQuantityEffectCfg eff = FashionQuantityEffectCfgDao.getInstance().searchOption(validCount);
+			int quantity = eff.getQuantity();
+			if (quantity != result.getTotalEffectPlanId()){
+				result.setTotalEffectPlanId(quantity);
+				fashionUsedHolder.update(result);
+				notifyProxy.delayNotify();
+			}
 		}
 	}
 	
