@@ -318,13 +318,10 @@ public class ArenaBM {
 			start += decreasePlace;
 			end += decreasePlace;
 			fillInRange(userId, start, end, ranking, result);
-//			start += decreasePlace;
-//			end += decreasePlace;
-//			fillInRange(userId, start, end, ranking, result);
+			start += decreasePlace;
+			end += decreasePlace;
+			fillInRange(userId, start, end, ranking, result);
 		}
-		 result.add(ranking.getRankingEntry(187));
-		// result.add(ranking.getRankingEntry(30));
-		// result.add(ranking.getRankingEntry(36));
 		// 纠正必要时的乱序
 		Collections.sort(result, comparator);
 		return result;
