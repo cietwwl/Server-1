@@ -53,9 +53,20 @@ public class ItembagHolder {
 		for (ItemData itemData : itemList) {
 			if (itemData.getModelId() == modelId) {
 				target = itemData;
+				break;
 			}
 		}
 		return target;
 	}
 
+	public List<ItemData> getItemDataByModelId(int modelId) {
+		List<ItemData> data = new ArrayList<ItemData>();
+		List<ItemData> itemList = new ArrayList<ItemData>(itemDataMap.values());
+		for (ItemData itemData : itemList) {
+			if (itemData.getModelId() == modelId) {
+				data.add(itemData);
+			}
+		}
+		return data;
+	}
 }

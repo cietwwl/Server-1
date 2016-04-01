@@ -91,13 +91,12 @@ public abstract class ClientMsgHandler {
 					case UserGroupAttributeData:
 						getClient().getUserGroupDataHolder().syn(msgDataSyn);
 						break;
-
+					case EQUIP_ITEM:
+						getClient().getHeroEquipHolder().syn(msgDataSyn);
 					default:
 						break;
 					}
-
 				}
-
 			} catch (InvalidProtocolBufferException e) {
 				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 			}
