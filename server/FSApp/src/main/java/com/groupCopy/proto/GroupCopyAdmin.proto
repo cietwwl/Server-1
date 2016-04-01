@@ -1,0 +1,38 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCopyAdminProto";
+
+package GroupCopyAdmin;
+
+enum RequestType{
+	GET_COPY_INFO = 1;//副本打开的时候获取副本信息
+	OPEN_COPY = 2;//开启副本
+	RESET_COPY = 3;//重启副本
+}
+
+
+
+message GroupCopyAdminOpenCopyReqMsg{
+	required string mapId = 1; //开启地图的id
+
+}
+message GroupCopyAdminResetCopyReqMsg{
+	required string mapId = 1; //重置地图的id
+}
+
+
+message GroupCopyAdminComReqMsg{
+
+	required RequestType reqType = 1;//请求协议类型
+	optional string version = 2;//版本号
+	optional GroupCopyAdminOpenCopyReqMsg openReqMsg = 3;
+	optional GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;
+
+}
+
+
+message GroupCopyAdminComRspMsg{
+	required RequestType reqType = 1;//请求协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+}

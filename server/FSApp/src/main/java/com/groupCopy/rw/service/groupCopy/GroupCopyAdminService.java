@@ -1,4 +1,4 @@
-package com.groupCopy.rw.service.groupCopyAdmin;
+package com.groupCopy.rw.service.groupCopy;
 
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;

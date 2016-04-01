@@ -1,7 +1,8 @@
-package com.groupCopy.rw.service.groupCopyAdmin;
+package com.groupCopy.rw.service.groupCopy;
 
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
@@ -43,9 +44,12 @@ public class GroupCopyAdminHandler {
 		GroupCopyAdminOpenCopyReqMsg openReqMsg = req.getOpenReqMsg();
 		Group group = GroupHelper.getGroup(player);
 		boolean success = false;
+		
 		if(group!=null){
 			String mapId = openReqMsg.getMapId();
-			success = group.getGroupCopyMgr().openMap( mapId );
+			GroupCopyResult openResult = group.getGroupCopyMgr().openMap( mapId );
+			success = openResult.isSuccess();
+			commonRsp.setTipMsg(commonRsp.getTipMsg());
 		}	
 		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
@@ -61,7 +65,9 @@ public class GroupCopyAdminHandler {
 		boolean success = false;
 		if(group!=null){
 			String mapId = openReqMsg.getMapId();
-			success = group.getGroupCopyMgr().resetMap( mapId );
+			GroupCopyResult openResult = group.getGroupCopyMgr().resetMap( mapId );
+			success = openResult.isSuccess();
+			commonRsp.setTipMsg(commonRsp.getTipMsg());
 		}	
 		commonRsp.setIsSuccess(success);	
 		return commonRsp.build().toByteString();

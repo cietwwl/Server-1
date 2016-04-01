@@ -20,6 +20,9 @@ public class UserGroupCopyLevelRecord implements IMapItem {
 	private String id; // lid
 	private String userId;	
 	private String level;
+	
+	private int fightCount;
+	
 	public String getId() {
 		return id;
 	}
@@ -38,7 +41,16 @@ public class UserGroupCopyLevelRecord implements IMapItem {
 	public void setLevel(String level) {
 		this.level = level;
 	}
+	public int getFightCount() {
+		return fightCount;
+	}
+	public void setFightCount(int fightCount) {
+		this.fightCount = fightCount;
+	}
 	
+	public void incrFightCount(){
+		this.fightCount = this.fightCount+1;
+	}
 	
 
 	

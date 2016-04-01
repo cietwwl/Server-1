@@ -1,0 +1,36 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCopyBattleProto";
+
+package GroupCopyBattle;
+
+enum RequestType{
+	FIGHT_BEGIN = 1;//战斗开始
+	FIGHT_END = 2;//战斗结束
+
+}
+
+message GroupCopyBattleBeginReqMsg{
+	required string level = 1; //关卡id
+
+}
+message GroupCopyBattleEndReqMsg{
+	required string level = 1; //关卡id
+}
+
+
+message GroupCopyBattleComReqMsg{
+
+	required RequestType reqType = 1;//请求协议类型
+	optional string version = 2;//版本号
+	optional GroupCopyBattleBeginReqMsg begin = 3;
+	optional GroupCopyBattleEndReqMsg end = 4;
+
+}
+
+
+message GroupCopyBattleComRspMsg{
+	required RequestType reqType = 1;//请求协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+}

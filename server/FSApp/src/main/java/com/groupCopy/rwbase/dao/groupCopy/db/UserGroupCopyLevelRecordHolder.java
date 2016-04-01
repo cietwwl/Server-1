@@ -47,10 +47,12 @@ public class UserGroupCopyLevelRecordHolder{
 		return target;
 	}
 	
-	public void updateItem( UserGroupCopyLevelRecord item ){
-		getItemStore().updateItem(item);
-		update();
-//		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+	public boolean updateItem( UserGroupCopyLevelRecord item ){
+		boolean success = getItemStore().updateItem(item);
+		if(success){
+			update();
+		}
+		return success;
 	}
 	
 	public UserGroupCopyLevelRecord getItem(String itemId){
@@ -63,7 +65,6 @@ public class UserGroupCopyLevelRecordHolder{
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
 			update();
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
 	}

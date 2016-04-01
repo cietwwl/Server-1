@@ -1,12 +1,7 @@
 package com.groupCopy.bm.groupCopy;
 
-import com.common.BeanCopyer;
-import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
-import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyStatus;
 import com.playerdata.Player;
 
 /**
@@ -28,54 +23,29 @@ public class GroupCopyMgr {
 	}
 	
 	
-	public synchronized boolean  openMap(String mapId){
-		
-		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
-		if(mapRecord == null){
-			GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
-			mapRecord = fromCfg(mapCfg);
-			mapRecord.setStatus(GroupCopyStatus.OPEN);
-			groupCopyMapRecordHolder.addItem(mapRecord);
-		}else{
-			mapRecord.setStatus(GroupCopyStatus.OPEN);
-			groupCopyMapRecordHolder.updateItem(mapRecord);
-		}
-		
-		return true;
-		
+	public synchronized GroupCopyResult  openMap(String mapId){
+		return GroupCopyMapBL.openMap(groupCopyMapRecordHolder, mapId);
 	}
 	
-	//从配置转换成record
-	private GroupCopyMapRecord fromCfg(GroupCopyMapCfg copyMapCfg){
-		if(copyMapCfg == null){
-			return null;
-		}
-		GroupCopyMapRecord record = new GroupCopyMapRecord();				
-		BeanCopyer.copy(record, copyMapCfg);		
-		return record;
-	}	
-	
-	
-	public synchronized boolean resetMap(String mapId){
-		boolean success = false;
-		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
-		if(mapRecord != null){			
-			mapRecord.setProgress(0);
-			groupCopyMapRecordHolder.updateItem(mapRecord);
-			success = true;
-		}
-		
-		return success;
+	public synchronized GroupCopyResult resetMap(String mapId){
+		return GroupCopyMapBL.resetMap(groupCopyMapRecordHolder, mapId);
 	}
 	
+	
+	public synchronized GroupCopyResult  beginFight(Player player, String levelId){
+		return GroupCopyLevelBL.beginFight(player, groupCopyLevelRecordHolder, levelId);
+	}
+	public synchronized GroupCopyResult  endFight(Player player, String levelId){
+		return GroupCopyLevelBL.endFight(player, groupCopyLevelRecordHolder, levelId);
+	}
 
 
-	public void synMapData(Player player, int version){
+	public synchronized void synMapData(Player player, int version){
 		
 		groupCopyMapRecordHolder.synAllData(player, version);
 		
 	}
-	public void synLevelData(Player player, int version){
+	public synchronized void synLevelData(Player player, int version){
 		
 		groupCopyLevelRecordHolder.synAllData(player, version);
 		

@@ -46,10 +46,12 @@ public class GroupCopyLevelRecordHolder{
 		return itemList;
 	}
 	
-	public void updateItem(Player player, GroupCopyLevelRecord item){
-		getItemStore().updateItem(item);
-		updateVersion();
-//		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+	public boolean updateItem(Player player, GroupCopyLevelRecord item){
+		boolean success = getItemStore().updateItem(item);
+		if(success){
+			updateVersion();
+		}
+		return success;
 	}
 	
 	public GroupCopyLevelRecord getItem(String itemId){

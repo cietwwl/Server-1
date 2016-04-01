@@ -23,6 +23,14 @@ public class GroupCopyLevelRecord implements IMapItem {
 	
 	@CombineSave
 	private String level;
+	@CombineSave
+	private int progress;
+	@CombineSave
+	private long lastBeginFightTime;//上次战斗的时间
+	@CombineSave
+	private boolean isFighting;//是否在战斗中
+	@CombineSave	
+	private String fighterId;//挑战者Id
 	
 	public String getId() {
 		return id;
@@ -42,8 +50,34 @@ public class GroupCopyLevelRecord implements IMapItem {
 	public void setLevel(String level) {
 		this.level = level;
 	}
+	public int getProgress() {
+		return progress;
+	}
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
 
-
+	public void addProgress(int delta){
+		this.progress = this.progress+delta;
+	}
+	public long getLastBeginFightTime() {
+		return lastBeginFightTime;
+	}
+	public void setLastBeginFightTime(long lastBeginFightTime) {
+		this.lastBeginFightTime = lastBeginFightTime;
+	}
+	public boolean isFighting() {
+		return isFighting;
+	}
+	public void setFighting(boolean isFighting) {
+		this.isFighting = isFighting;
+	}
+	public String getFighterId() {
+		return fighterId;
+	}
+	public void setFighterId(String fighterId) {
+		this.fighterId = fighterId;
+	}
 	
 	
 	

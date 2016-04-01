@@ -29,5 +29,9 @@ public class UserGroupCopyLevelRecordMgr {
 	public int getDataVersion(){
 		return holder.getVersion();
 	}
+	
+	public boolean updateItem(UserGroupCopyLevelRecord item){
+		return holder.updateItem(item);
+	}
 
 }
