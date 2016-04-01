@@ -1,10 +1,14 @@
 package com.rw.handler.magic;
 
+import java.util.List;
+import java.util.Random;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.chat.GmHandler;
 import com.rw.handler.itembag.ItemData;
 import com.rwproto.MagicServiceProtos.MagicItemData;
 import com.rwproto.MagicServiceProtos.MsgMagicRequest;
@@ -20,6 +24,7 @@ import com.rwproto.ResponseProtos.Response;
  * @Description 法宝
  */
 public class MagicHandler {
+	private static final Random r = new Random();
 	private static final Command command = Command.MSG_MAGIC;
 	private static final String functionName = "法宝模块";
 
@@ -67,7 +72,7 @@ public class MagicHandler {
 	/**
 	 * <pre>
 	 * 法宝强化，以雷光锤为例，不穿在身上的为准 ，雷光锤模版Id是602003
-	 * 强化用到的材料是1级晶石，模版Id是801001，每次只用两个
+	 * 强化用到的材料是1级晶石，模版Id是801001，每次只用一个
 	 * </pre>
 	 * 
 	 * @param client
@@ -76,11 +81,27 @@ public class MagicHandler {
 	public boolean magicForge(Client client) {
 		ItemData itemData = client.getItembagHolder().getByModelId(602003);
 		if (itemData == null) {
+			GmHandler.instance().send(client, "* additem " + 602003 + " 1");// 作弊添加一个
+			itemData = client.getItembagHolder().getByModelId(602003);
+		}
+
+		if (itemData == null) {
 			RobotLog.info("MagicHandler[magicForge] 失败，雷光锤602003在背包里没有，需要添加");
 			return false;
 		}
 
-		ItemData mate = client.getItembagHolder().getByModelId(801001);
+		List<ItemData> mateList = client.getItembagHolder().getItemDataByModelId(801001);
+		if (mateList == null || mateList.isEmpty()) {
+			GmHandler.instance().send(client, "* additem " + 801001 + " 999");// 作弊添加一个
+			mateList = client.getItembagHolder().getItemDataByModelId(801001);
+		}
+
+		if (mateList == null || mateList.isEmpty()) {
+			RobotLog.info("MagicHandler[magicForge] 失败，雷光锤602003需要的材料是801001，背包中没有，需要添加");
+			return false;
+		}
+
+		ItemData mate = mateList.get(r.nextInt(mateList.size()));
 		if (mate == null) {
 			RobotLog.info("MagicHandler[magicForge] 失败，雷光锤602003需要的材料是801001，背包中没有，需要添加");
 			return false;
@@ -93,7 +114,7 @@ public class MagicHandler {
 
 		MagicItemData.Builder magicItemData = MagicItemData.newBuilder();
 		magicItemData.setId(mate.getId());
-		magicItemData.setCount(2);
+		magicItemData.setCount(1);
 		req.addMagicItemData(magicItemData);
 
 		client.getMsgHandler().sendMsg(Command.MSG_MAGIC, req.build().toByteString(), new MagicMsgReceiver(command, functionName, "法宝强化"));
