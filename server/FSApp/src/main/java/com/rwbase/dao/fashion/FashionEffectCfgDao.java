@@ -3,6 +3,7 @@ package com.rwbase.dao.fashion;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -21,10 +22,11 @@ public class FashionEffectCfgDao extends CfgCsvDao<FashionEffectCfg> {
 	@Override
 	public Map<String, FashionEffectCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fashion/FashionEffectCfg.csv", FashionEffectCfg.class);
-		Collection<FashionEffectCfg> values = cfgCacheMap.values();
+		Collection<Entry<String,FashionEffectCfg>> values = cfgCacheMap.entrySet();
 		effectMapping = new HashMap<IReadOnlyPair<Integer,ECareer>, FashionEffectCfg>();
-		for (FashionEffectCfg cfg : values) {
-			cfg.ExtraInit();
+		for (Entry<String,FashionEffectCfg> entry : values) {
+			FashionEffectCfg cfg = entry.getValue(); 
+			cfg.ExtraInit(entry.getKey());
 			IReadOnlyPair<Integer,ECareer> pair = Pair.CreateReadonly(cfg.getFashionId(), cfg.getCareerTypeField());
 			if (effectMapping.put(pair, cfg)!=null){
 				GameLog.info("时装", "FashionEffectCfg.csv配置警告", "重复的<时装关键字，职业>:"+cfg.getFashionId()+","+cfg.getCareerTypeField(), null);

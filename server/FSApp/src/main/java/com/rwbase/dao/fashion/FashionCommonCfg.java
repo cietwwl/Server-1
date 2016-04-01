@@ -10,7 +10,8 @@ public class FashionCommonCfg {
 	private String name;
 	private String specialEffect; //特殊效果
 
-	public void ExtraInit() {
+	public void ExtraInit(String id) {
+		this.id = Integer.parseInt(id);
 		fashionTypeField = FashionType.valueOf(fashionType);
 		if (fashionTypeField == null){
 			GameLog.error("时装", String.valueOf(id), "无效时装类型："+fashionType);

@@ -2,12 +2,16 @@ package com.rwbase.common.attrdata;
 
 import java.util.Map;
 
+import org.springframework.cglib.beans.BeanCopier;
+
+import com.common.BeanCopyer;
 import com.common.BeanOperationHelper;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr.GroupSkillAttrType;
+import com.rwbase.dao.fashion.IEffectCfg;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -80,11 +84,12 @@ public class RoleAttrDataHolder {
 		// 主角才有时装属性
 		AttrData fashionTotalData = null;
 		if (hero.isMainRole()) {
-			fashionTotalData = player.getFashionMgr().getAttrData();
-			AttrData fashionPercentTotalData = player.getFashionMgr().getPercentAttrData();
-			percentTotalData.plus(fashionPercentTotalData);
+			IEffectCfg eff = player.getFashionMgr().getEffectData();
+			fashionTotalData = new AttrData();
+			BeanCopyer.copy(eff.getAddedValues(), fashionTotalData);
+			percentTotalData.plus(eff.getAddedPercentages());
 			log += "[时装属性（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(fashionTotalData) + "\n";
-			log += "[时装属性（万分比值）]-" + BeanOperationHelper.getPositiveValueDiscription(fashionPercentTotalData) + "\n";
+			log += "[时装属性（万分比值）]-" + BeanOperationHelper.getPositiveValueDiscription(eff.getAddedPercentages()) + "\n";
 		}
 
 		// 帮派技能属性加成

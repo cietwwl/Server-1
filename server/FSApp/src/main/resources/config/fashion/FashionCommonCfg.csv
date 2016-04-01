@@ -1,0 +1,4 @@
+id,Remarks,fashionType,name,desc,voice,actionName,specialEffect
+10001,,Wing,机械之翼,,,standby,
+10002,,Suit,西装,,Sound_100005_01.mp3,standby,
+10003,,Suit,校服,,Sound_101005_01.mp3,standby,

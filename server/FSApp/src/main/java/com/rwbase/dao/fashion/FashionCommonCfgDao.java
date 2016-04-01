@@ -2,6 +2,7 @@ package com.rwbase.dao.fashion;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -15,9 +16,11 @@ public class FashionCommonCfgDao extends CfgCsvDao<FashionCommonCfg> {
 	@Override
 	public Map<String, FashionCommonCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fashion/FashionCommonCfg.csv", FashionCommonCfg.class);
-		Collection<FashionCommonCfg> values =  cfgCacheMap.values();
-		for (FashionCommonCfg cfg : values) {
-			cfg.ExtraInit();
+		Collection<Entry<String,FashionCommonCfg>> values =  cfgCacheMap.entrySet();
+		for (Entry<String,FashionCommonCfg> entry : values) {
+			String key = entry.getKey();
+			FashionCommonCfg cfg = entry.getValue();
+			cfg.ExtraInit(key);
 		}
 		return cfgCacheMap;
 	}

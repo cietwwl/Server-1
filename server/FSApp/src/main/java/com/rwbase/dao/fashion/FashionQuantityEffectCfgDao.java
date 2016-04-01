@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -21,10 +22,11 @@ public class FashionQuantityEffectCfgDao extends CfgCsvDao<FashionQuantityEffect
 	@Override
 	public Map<String, FashionQuantityEffectCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fashion/FashionQuantityEffectCfg.csv", FashionQuantityEffectCfg.class);
-		Collection<FashionQuantityEffectCfg> values =  cfgCacheMap.values();
+		Collection<Entry<String, FashionQuantityEffectCfg>> values =  cfgCacheMap.entrySet();
 		ArrayList<FashionQuantityEffectCfg> lst = new ArrayList<FashionQuantityEffectCfg>();
-		for (FashionQuantityEffectCfg cfg : values) {
-			cfg.ExtraInit();
+		for (Entry<String, FashionQuantityEffectCfg> entry : values) {
+			FashionQuantityEffectCfg cfg = entry.getValue();
+			cfg.ExtraInit(entry.getKey());
 			lst.add(cfg);
 		}
 		Collections.sort(lst, FashionQuantityEffectCfg.getComparator());

@@ -3,6 +3,7 @@ package com.rwbase.dao.fashion;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.log.GameLog;
@@ -32,10 +33,12 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 	public Map<String, FashionBuyRenewCfg> initJsonCfg() {
 		
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fashion/FashionBuyRenewCfg.csv", FashionBuyRenewCfg.class);
-		Collection<FashionBuyRenewCfg> values =  cfgCacheMap.values();
+		Collection<Entry<String,FashionBuyRenewCfg>> values =  cfgCacheMap.entrySet();
 		buyRenewPlans = new HashMap<Integer, Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>>>();
-		for (FashionBuyRenewCfg cfg : values) {
-			cfg.ExtraInit();
+		for (Entry<String,FashionBuyRenewCfg> entry : values) {
+			String key = entry.getKey();
+			FashionBuyRenewCfg cfg = entry.getValue();
+			cfg.ExtraInit(key);
 			Map<String, FashionBuyRenewCfg> plan=null,buyPlans=null,renewPlans=null;
 			Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>> pair = buyRenewPlans.get(cfg.getId());
 			if (pair == null){

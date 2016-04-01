@@ -58,7 +58,8 @@ public class FashionQuantityEffectCfg implements IEffectCfg{
 	// 这个配置所有百分比（Percentage）的增益效果
 	private AttrData addedPercentages;
 	
-	public void ExtraInit() {
+	public void ExtraInit(String quantity) {
+		this.quantity = Integer.parseInt(quantity);
 		// 枚举转换异常处理
 		attrValueType1Field = AttrValueType.valueOf(attrValueType1,AttrValueType.Value);
 		attrValueType2Field = AttrValueType.valueOf(attrValueType2,AttrValueType.Value);

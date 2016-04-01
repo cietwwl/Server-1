@@ -12,13 +12,12 @@ import com.rw.fsutil.dao.annotation.NonSave;
 @SynClass
 public class FashionItem implements IMapItem, FashionItemIF {
 	@Id
-	private int id; //数据库存储id,时装唯一id
+	private String id; //数据库存储id，用userId+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
 	
-	@NonSave @IgnoreSynField
-	private String fashionId;//逻辑层需要将int的id值转换为string类型
+	private int fashionId;// 时装模型id
 	
 	@IgnoreSynField
-	private String userId; // 用户ID
+	private String userId; // 用户ID，客户端当前用户
 	
 	@IgnoreSynField
 	private long buyTime;// 购买时间（或者续费时间）
@@ -32,20 +31,22 @@ public class FashionItem implements IMapItem, FashionItemIF {
 	
 	@Override
 	public String getId() {
-		if (fashionId == null){
-			fashionId = String.valueOf(id);
-		}
-		return fashionId;
+		return id;
 	}
 
+	public void InitStoreId(){
+		if (id == null && userId != null && fashionId != 0){
+			id = userId + fashionId;
+		}
+	}
+	
 	@Override
 	public int getFashionId() {
-		return id;
+		return fashionId;
 	}
 	
 	public void setFashionId(int fashionId){
-		this.id = fashionId;
-		this.fashionId = String.valueOf(id);
+		this.fashionId = fashionId;
 	}
 
 	@Override

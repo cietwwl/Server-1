@@ -1,26 +1,51 @@
 package com.rwbase.dao.fashion;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.rw.fsutil.dao.annotation.NonSave;
 
 /**
  * 潜规则：wingId,suitId,petId,specialPlanId用 -1 表示空！
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "fashion_being_using")
-public class FashionBeingUsed implements IMapItem, FashionUsedIF{
+public class FashionBeingUsed implements FashionUsedIF{
+	@Id
 	private String userId;
 	private int wingId = -1;
 	private int suitId = -1;
 	private int petId = -1;
+	@NonSave
 	private int totalEffectPlanId = -1;
+	@NonSave
+	private int validCountCache;
 	
+	public int getValidCountCache() {
+		return validCountCache;
+	}
+
+	public void setValidCountCache(int validCountCache) {
+		this.validCountCache = validCountCache;
+	}
+
 	public int[] getUsingList(){
 		int[] result = new int[3];
 		result[0]=wingId;
 		result[1]=suitId;
 		result[2]=petId;
 		return null;
+	}
+	
+	public IEffectCfg[] getEffectList(int validCount,int career){
+		IEffectCfg[] result = new IEffectCfg[4];
+		result[0]=FashionEffectCfgDao.getInstance().getConfig(wingId,career);
+		result[1]=FashionEffectCfgDao.getInstance().getConfig(suitId,career);
+		result[2]=FashionEffectCfgDao.getInstance().getConfig(petId,career);
+		result[3] = FashionQuantityEffectCfgDao.getInstance().searchOption(validCount);
+		return result;
 	}
 	
 	public String getUserId() {
@@ -52,10 +77,5 @@ public class FashionBeingUsed implements IMapItem, FashionUsedIF{
 	}
 	public void setTotalEffectPlanId(int totalEffectPlanId) {
 		this.totalEffectPlanId = totalEffectPlanId;
-	}
-	
-	@Override
-	public String getId() {
-		return userId;
 	}
 }

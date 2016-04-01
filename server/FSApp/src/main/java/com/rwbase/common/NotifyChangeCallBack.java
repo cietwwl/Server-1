@@ -17,19 +17,24 @@ public class NotifyChangeCallBack implements INotifyChange {
 	public void regChangeCallBack(Action callBack){
 		callbackList.add(callBack);
 	}
-	protected int delayNotifyCount = 0;
+	
+	private int delayNotifyCount = 0;
 	public void delayNotify(){
 		delayNotifyCount++;
 	}
 	
+	private boolean inChecking = false;
 	public void checkDelayNotify(){
-		if (delayNotifyCount > 0){
+		if (!inChecking && delayNotifyCount > 0){
 			delayNotifyCount = 0;
+			inChecking = true;
 			notifyChange();
+			inChecking = false;
+			delayNotifyCount = 0;//clear even when notification occurs
 		}
 	}
 	
-	protected void notifyChange(){
+	private void notifyChange(){
 		for (Action action : callbackList) {
 			action.doAction();
 		}

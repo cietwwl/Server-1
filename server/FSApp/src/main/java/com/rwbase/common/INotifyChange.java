@@ -4,6 +4,10 @@ import com.common.Action;
 
 public interface INotifyChange {
 
-	void regChangeCallBack(Action callBack);
+	public void regChangeCallBack(Action callBack);
+
+	public void delayNotify();
+
+	public void checkDelayNotify();
 
 }

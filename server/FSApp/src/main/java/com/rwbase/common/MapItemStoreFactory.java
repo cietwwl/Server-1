@@ -33,7 +33,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<EquipItem> equipCache;
 	// FashionItem
 	private static MapItemStoreCache<FashionItem> fashionCache;
-	private static MapItemStoreCache<FashionBeingUsed> fashionUsedCache;
 	
 	// FresherActivityItem
 	private static MapItemStoreCache<FresherActivityBigItem> fresherActivityCache;
@@ -70,7 +69,6 @@ public class MapItemStoreFactory {
 		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", heroCapacity));
 
 		register(fashionCache = new MapItemStoreCache<FashionItem>(FashionItem.class, "userId", heroCapacity));
-		register(fashionUsedCache = new MapItemStoreCache<FashionBeingUsed>(FashionBeingUsed.class, "userId", heroCapacity));
 		
 
 		register(fresherActivityCache = new MapItemStoreCache<FresherActivityBigItem>(FresherActivityBigItem.class, "ownerId", heroCapacity));
@@ -143,9 +141,6 @@ public class MapItemStoreFactory {
 		return fashionCache;
 	}
 
-	public static MapItemStoreCache<FashionBeingUsed> getFashionUsedCache() {
-		return fashionUsedCache;
-	}
 	/**
 	 * 获取开服活动缓存
 	 * 

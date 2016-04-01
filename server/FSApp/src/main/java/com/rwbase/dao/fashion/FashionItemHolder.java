@@ -15,12 +15,14 @@ import com.rwbase.common.NotifyChangeCallBack;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class FashionItemHolder extends NotifyChangeCallBack{
+public class FashionItemHolder{
 	final private String userId;
 	final private eSynType fashionSynType = eSynType.FASHION_ITEM;
-	
-	public FashionItemHolder(String roleIdP) {
+	private NotifyChangeCallBack notifyProxy;
+
+	public FashionItemHolder(String roleIdP,NotifyChangeCallBack proxy) {
 		userId = roleIdP;
+		notifyProxy = proxy;
 	}
 
 	public List<FashionItemIF> search(ItemFilter predicate){
@@ -48,13 +50,11 @@ public class FashionItemHolder extends NotifyChangeCallBack{
 		Enumeration<FashionItem> mapEnum = getItemStore().getEnum();
 		while (mapEnum.hasMoreElements()) {
 			FashionItem item = (FashionItem) mapEnum.nextElement();
-			itemList.add(item);
+			if (userId.equals(item.getUserId())){
+				itemList.add(item);
+			}
 		}
 		return itemList;
-	}
-	
-	public int getItemCount(){
-		return getItemStore().getSize();
 	}
 	
 	public void updateItem(Player player, FashionItem item){
@@ -63,17 +63,13 @@ public class FashionItemHolder extends NotifyChangeCallBack{
 			GameLog.error("时装", player.getUserId(), "更新FashionItem失败，ID="+item.getId());
 		}
 		ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.UPDATE_SINGLE);
-		notifyChange();
+		notifyProxy.delayNotify();
 	}
 	
-	public FashionItem getItem(int fashionId){
-		return getItemStore().getItem(String.valueOf(fashionId));
+	public FashionItem getItem(int fashionModelId){
+		return getItemStore().getItem(userId+fashionModelId);
 	}
 	
-	public FashionItem getItem(String itemId){
-		return getItemStore().getItem(itemId);
-	}
-
 	/*暂时不用，先屏蔽
 	public boolean removeItem(Player player, FashionItem item){
 		boolean success = getItemStore().removeItem(item.getId());
@@ -88,7 +84,7 @@ public class FashionItemHolder extends NotifyChangeCallBack{
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
 			ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.ADD_SINGLE);
-			notifyChange();
+			notifyProxy.delayNotify();
 		}
 		return addSuccess;
 	}

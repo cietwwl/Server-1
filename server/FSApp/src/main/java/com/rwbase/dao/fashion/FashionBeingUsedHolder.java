@@ -1,41 +1,39 @@
 package com.rwbase.dao.fashion;
 
 import com.log.GameLog;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.common.NotifyChangeCallBack;
+import com.rw.fsutil.cacheDao.DataRdbDao;
 
 /**
  * 缓存数据以用户ID作为索引
  */
-public class FashionBeingUsedHolder extends NotifyChangeCallBack{
-	final private String userId;
+public class FashionBeingUsedHolder extends DataRdbDao<FashionBeingUsed>{
 
-	public FashionBeingUsedHolder(String id) {
-		userId = id;
+	private static FashionBeingUsedHolder instance = new FashionBeingUsedHolder();
+	private FashionBeingUsedHolder(){}
+	public static FashionBeingUsedHolder getInstance(){
+		return instance;
 	}
 	
 	public FashionBeingUsed get(String userId){
-		return getCache().getItem(userId);
+		return super.getObject(userId);
 	}
 
-	private MapItemStore<FashionBeingUsed> getCache(){
-		MapItemStoreCache<FashionBeingUsed> cache = MapItemStoreFactory.getFashionUsedCache();
-		return cache.getMapItemStore(userId, FashionBeingUsed.class);
-	}
-
-	public boolean update(FashionBeingUsed fashionUsed,boolean notifyAll) {
-		boolean updateResult = getCache().updateItem(fashionUsed);
-		if (!updateResult){
-			GameLog.error("时装", fashionUsed.getUserId(), "更新FashionBeingUsed失败，ID="+fashionUsed.getId());
+	public boolean update(FashionBeingUsed fashionUsed) {
+		if (fashionUsed == null){
+			return false;
 		}
+		FashionBeingUsed used = super.getObject(fashionUsed.getUserId());
+		if (used == null) {
+			GameLog.error("时装", fashionUsed.getUserId(), "更新FashionBeingUsed失败，ID="+fashionUsed.getUserId());
+			return false;
+		}
+		super.update(fashionUsed.getUserId());
+//		boolean updateResult = getCache().updateItem(fashionUsed);
+//		if (!updateResult){
+//			GameLog.error("时装", fashionUsed.getUserId(), "更新FashionBeingUsed失败，ID="+fashionUsed.getId());
+//		}
 		
-		if (notifyAll){
-			// 发送通知，更新战斗加成属性变更
-			notifyChange();
-		}
-		return updateResult;
+		return true;
 	}
 
 	/**
@@ -44,19 +42,19 @@ public class FashionBeingUsedHolder extends NotifyChangeCallBack{
 	 * @return
 	 */
 	public FashionBeingUsed newFashion(String uId) {
-		MapItemStore<FashionBeingUsed> cache = getCache();
-		FashionBeingUsed used = cache.getItem(uId);
+		FashionBeingUsed used = super.getObject(uId);
+//		MapItemStore<FashionBeingUsed> cache = getCache();
+//		FashionBeingUsed used = cache.getItem(uId);
 		if (used == null){
 			used = new FashionBeingUsed();
 			used.setUserId(uId);
-			boolean addresult = cache.addItem(used);
+			boolean addresult = super.saveOrUpdate(used);
 			if (!addresult){
-				GameLog.error("时装", userId, "添加FashionBeingUsed失败");
+				GameLog.error("时装", uId, "添加FashionBeingUsed失败");
 			}
 		}else{
 			GameLog.info("时装", uId, "用户已经有时装记录，不需要重新生成", null);
 		}
 		return used;
 	}
-
 }

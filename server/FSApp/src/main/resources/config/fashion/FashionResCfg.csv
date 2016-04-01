@@ -1,0 +1,18 @@
+key,Remarks,CareerType,Gender,fashionID,icon,model,hangPoint
+1,,None,None,10001,Equipment/fasion_jixiechibang,Assets\Model\Fashion\Prefab\500050.prefab,Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1
+2,,Warrior,men,10002,Equipment/fasion_nanxizhuang,50002011,
+3,,SwordsMan,men,10002,Equipment/fasion_nanxizhuang,50002012,
+4,,Magican,men,10002,Equipment/fasion_nanxizhuang,50002013,
+5,,Priest,men,10002,Equipment/fasion_nanxizhuang,50002014,
+6,,Warrior,women,10002,Equipment/fasion_nvxizhuang,50002121,
+7,,SwordsMan,women,10002,Equipment/fasion_nvxizhuang,50002122,
+8,,Magican,women,10002,Equipment/fasion_nvxizhuang,50002123,
+9,,Priest,women,10002,Equipment/fasion_nvxizhuang,50002124,
+10,,Warrior,men,10003,Equipment/fasion_nanxizhuang,50002011,
+11,,SwordsMan,men,10003,Equipment/fasion_nanxizhuang,50002012,
+12,,Magican,men,10003,Equipment/fasion_nanxizhuang,50002013,
+13,,Priest,men,10003,Equipment/fasion_nanxizhuang,50002014,
+14,,Warrior,women,10003,Equipment/fasion_nvxizhuang,50002121,
+15,,SwordsMan,women,10003,Equipment/fasion_nvxizhuang,50002122,
+16,,Magican,women,10003,Equipment/fasion_nvxizhuang,50002123,
+17,,Priest,women,10003,Equipment/fasion_nvxizhuang,50002124,

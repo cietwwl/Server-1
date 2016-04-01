@@ -75,7 +75,7 @@ public class FashionHandle {
 		}
 		
 		response.setFashionId(fashionId);
-		return SetSuccessResponse(response);
+		return SetSuccessResponse(response,player);
 	}
 
 	public ByteString offFash(Player player, FashionRequest req) {
@@ -86,9 +86,8 @@ public class FashionHandle {
 			return setErrorResponse(response,player,",脱不了时装，fashionId="+fashionId, "无效时装");
 		}
 
-		fashionMgr.notifyFashionBeingUsedChanged();
 		response.setFashionId(fashionId);
-		return SetSuccessResponse(response);
+		return SetSuccessResponse(response,player);
 	}
 
 	public ByteString onFash(Player player,FashionRequest req) {
@@ -105,9 +104,8 @@ public class FashionHandle {
 			return setErrorResponse(response, player, null, tip.str);
 		}
 		
-		fashionMgr.notifyFashionBeingUsedChanged();
 		response.setFashionId(fashionId);
-		return SetSuccessResponse(response);
+		return SetSuccessResponse(response,player);
 	}
 
 	/**
@@ -165,7 +163,7 @@ public class FashionHandle {
 		
 		fashionMgr.renewFashion(item, renewDay);
 		response.setFashionId(renewFashionId);
-		return SetSuccessResponse(response);
+		return SetSuccessResponse(response,player);
 	}
 
 	private ByteString setErrorResponse(Builder response, Player player, String addedLog, String reason,
@@ -202,6 +200,17 @@ public class FashionHandle {
 		FashionResponse.Builder response = FashionResponse.newBuilder();
 		response.setEventType(req.getEventType());
 		return response;
+	}
+
+	/**
+	 * 当逻辑可能修改时装购买列表或穿戴数据的时候，执行这个方法进行刷新
+	 * @param response
+	 * @param player
+	 * @return
+	 */
+	private ByteString SetSuccessResponse(Builder response, Player player) {
+		player.getFashionMgr().OnLogicEnd();
+		return SetSuccessResponse(response);
 	}
 
 	private ByteString SetSuccessResponse(FashionResponse.Builder response) {

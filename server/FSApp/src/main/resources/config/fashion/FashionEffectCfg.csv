@@ -1,0 +1,13 @@
+key,Remarks,id,CareerType,attrName1,attrValue1,attrValueType1,attrName2,attrValue2,attrValueType2,attrName3,attrValue3,attrValueType3,attrName4,attrValue4,attrValueType4,attrName5,attrValue5,attrValueType5
+10001_1,,10001,Warrior,,,Value,,,Value,,,Value,,,Value,,,Value
+10001_2,,10001,SwordsMan,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10001_3,,10001,Magican,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10001_4,,10001,Priest,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10002_1,,10002,Warrior,,,Value,,,Value,,,Value,,,Value,,,Value
+10002_2,,10002,SwordsMan,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10002_3,,10002,Magican,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10002_4,,10002,Priest,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10003_1,,10003,Warrior,,,Value,,,Value,,,Value,,,Value,,,Value
+10003_2,,10003,SwordsMan,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10003_3,,10003,Magican,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+10003_4,,10003,Priest,life,30,Value,life,30,Value,,,Value,,,Value,,,Value

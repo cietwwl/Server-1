@@ -14,7 +14,9 @@ public class FashionBuyRenewCfg {
 	private eSpecialItemId CoinTypeField; // 货币类型
 	private int Num; // 货币值
 
-	public void ExtraInit() {
+	public void ExtraInit(String key) {
+		if (this.key != null) return;
+		this.key = key;
 		payTypeField = FashionPayType.valueOf(payType);
 		CoinTypeField = eSpecialItemId.valueOf(CoinType);
 		int cost = Num;
@@ -23,7 +25,7 @@ public class FashionBuyRenewCfg {
 			GameLog.error("时装", key+","+id, "货币类型或货币值配置错误:"+Num+","+CoinType);
 		}
 		if (Day <= 0){
-			GameLog.error("时装", key+","+id, "有效期配置错误:"+Day);
+			GameLog.info("时装", key+","+id, "有效期配置为负数或零表示永久有效:"+Day,null);
 		}
 	}
 
