@@ -122,7 +122,7 @@ public class RobotManager {
 			String fashonId = getRandom(cfg.getFashions());
 			if (!fashonId.equals("0")) {
 				int fashionID = Integer.parseInt(fashonId);
-				player.getFashionMgr().giveFashionItem(fashionID,-1,player,true,false);
+				player.getFashionMgr().giveFashionItem(fashionID,-1,true,false);
 			}
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());

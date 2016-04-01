@@ -119,7 +119,7 @@ public class FashionMgr implements FashionMgrIF{
 	
 	/**
 	 * 没有穿在身上的不能脱
-	 * 不负责向客户端同步穿着数据，调用着根据需要进行同步
+	 * 不负责向客户端同步穿着数据，调用者根据需要进行同步
 	 * @param fashionId
 	 * @return
 	 */
@@ -137,7 +137,7 @@ public class FashionMgr implements FashionMgrIF{
 	
 	/**
 	 * 不检查是否过期，调用者自行检查
-	 * 不负责同步时装使用数据，调用着根据需要向客户端发送（机器人是不需要的！）
+	 * 不负责同步时装使用数据，调用者根据需要向客户端发送（机器人是不需要的！）
 	 * 不能是已经穿在身上的，如果想换，必须先调用takeOffFashion脱了再穿
 	 * @param fashionId
 	 * @param tip
@@ -168,6 +168,10 @@ public class FashionMgr implements FashionMgrIF{
 		return false;
 	}
 
+	/**
+	 * 计算增益数据并缓存
+	 * @return
+	 */
 	public IEffectCfg getEffectData(){
 		if (totalEffects == null){
 			AttrData addedValues = new AttrData();
@@ -196,6 +200,7 @@ public class FashionMgr implements FashionMgrIF{
 	
 	public void onMinutes() {
 		checkExpired();
+		// 过期不会影响fashionItem存储的值
 		notifyProxy.checkDelayNotify();
 	}
 	/**
@@ -203,7 +208,6 @@ public class FashionMgr implements FashionMgrIF{
 	 */
 	public void syncAll() {
 		checkExpired();
-		// 过期不会影响fashionItem存储的值
 		fashionItemHolder.synAllData(m_player, 0);
 		notifyProxy.checkDelayNotify();
 	}
@@ -256,12 +260,22 @@ public class FashionMgr implements FashionMgrIF{
 	 * @param userId
 	 * @param sendEmail
 	 */
-	public void giveFashionItem(int fashionId,int day,String userId,boolean putOnNow,boolean sendEmail){
+	public static void giveFashionItem(int fashionId,int day,String userId,boolean putOnNow,boolean sendEmail){
 		Player player = PlayerMgr.getInstance().find(userId);
-		giveFashionItem(fashionId,day,player,putOnNow,sendEmail);
+		if (player != null){
+			player.getFashionMgr().giveFashionItem(fashionId,day,putOnNow,sendEmail);
+		}
 	}
 	
-	public static void giveFashionItem(int fashionId,int day,Player player,boolean putOnNow,boolean sendEmail){
+	/**
+	 * 必须已经初始化玩家才能赠送
+	 * @param fashionId
+	 * @param day
+	 * @param putOnNow
+	 * @param sendEmail
+	 */
+	public void giveFashionItem(int fashionId,int day,boolean putOnNow,boolean sendEmail){
+		Player player = m_player;
 		if (player == null) {
 			return;
 		}
@@ -269,12 +283,11 @@ public class FashionMgr implements FashionMgrIF{
 		if (fashionCfg == null) {
 			return;
 		}
-		FashionMgr mgr = player.getFashionMgr();
-		FashionItem item = mgr.newFashionItem(fashionCfg,day);
-		mgr.fashionItemHolder.addItem(player, item);
-		FashionBeingUsed fashionUsed = mgr.createOrUpdate();
+		FashionItem item = newFashionItem(fashionCfg,day);
+		fashionItemHolder.addItem(player, item);
+		FashionBeingUsed fashionUsed = createOrUpdate();
 		if (putOnNow){
-			mgr.putOn(item, fashionUsed);
+			putOn(item, fashionUsed);
 		}
 		
 		if (sendEmail){
@@ -282,7 +295,7 @@ public class FashionMgr implements FashionMgrIF{
 			args.add(fashionCfg.getName());
 			EmailUtils.sendEmail(player.getUserId(), GiveEMailID,args);
 		}
-		mgr.notifyProxy.checkDelayNotify();
+		notifyProxy.checkDelayNotify();
 		return;
 	}
 	
@@ -314,6 +327,9 @@ public class FashionMgr implements FashionMgrIF{
 		*/
 	}
 
+	/**
+	 * Handler业务完成之后如果有涉及时装数据修改的请求，就应该调用这个方法检查是否需要向客户端发送同步数据
+	 */
 	public void OnLogicEnd() {
 		notifyProxy.checkDelayNotify();
 	}
@@ -338,6 +354,12 @@ public class FashionMgr implements FashionMgrIF{
 		m_player.SendMsg(MsgDef.Command.MSG_FASHION, response.build().toByteString());
 	}
 
+	/**
+	 * 创建时装数据，不写数据库
+	 * @param cfg
+	 * @param buyCfg
+	 * @return
+	 */
 	private FashionItem newFashionItem(FashionCommonCfg cfg, FashionBuyRenewCfg buyCfg) {
 		return newFashionItem(cfg,buyCfg.getDay());
 	}
@@ -367,6 +389,12 @@ public class FashionMgr implements FashionMgrIF{
 		return false;
 	}
 	
+	/**
+	 * 脱衣服，不写数据库
+	 * @param fashionId
+	 * @param fashionUsed
+	 * @return
+	 */
 	private boolean takeOff(int fashionId,FashionBeingUsed fashionUsed){
 		if (fashionUsed != null){
 			if (fashionUsed.getWingId() == fashionId){
@@ -398,6 +426,7 @@ public class FashionMgr implements FashionMgrIF{
 	}
 	
 	/**
+	 * 穿戴，不写数据库
 	 * 传入的两个参数都不能为空！
 	 * @param item
 	 * @param fashionUsed
@@ -423,7 +452,8 @@ public class FashionMgr implements FashionMgrIF{
 	}
 	
 	/**
-	 * getExpiredTime返回负数或零表示永久时装
+	 * 相对于time这个时间是否已经过期
+	 * 有错误认为已经过期
 	 * @param fashionId
 	 * @param tip
 	 * @param item
@@ -432,10 +462,12 @@ public class FashionMgr implements FashionMgrIF{
 	 */
 	private boolean isExpired(int fashionId,OutString tip,FashionItem item,long time){
 		OutLong expired=new OutLong();
+		//getExpiredTime返回负数或零表示永久时装
 		if (getExpiredTime(fashionId,tip,item,expired)){
 			return (expired.value >0 && expired.value <= time);
 		}
-		return false;
+		//有错误认为已经过期
+		return true;
 	}
 	
 	/**
@@ -508,6 +540,10 @@ public class FashionMgr implements FashionMgrIF{
 		}
 	}
 
+	/**
+	 * 获取有效期内的时装总数
+	 * @return
+	 */
 	private int getValidCount(){
 		int result = 0;
 		long now = System.currentTimeMillis();
