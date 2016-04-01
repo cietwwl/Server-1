@@ -121,7 +121,7 @@ public class RankingMgr {
 
 	public void arenaCalculate() {
 		GameWorld world = GameWorldFactory.getGameWorld();
-		String lastResetText = world.getAttribute(GameWorldKey.DAILY_RANKING_RESET);
+		String lastResetText = world.getAttribute(GameWorldKey.ARENA_CALCULATE);
 		if (lastResetText != null && !lastResetText.isEmpty()) {
 			long lastResetTime = Long.parseLong(lastResetText);
 			if (!DateUtils.isResetTime(21, 0, 0, lastResetTime)) {
