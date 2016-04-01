@@ -201,9 +201,9 @@ public class FashionMgr implements FashionMgrIF{
 	 */
 	public void syncAll() {
 		checkExpired();
-		notifyProxy.checkDelayNotify();
 		// 过期不会影响fashionItem存储的值
 		fashionItemHolder.synAllData(m_player, 0);
+		notifyProxy.checkDelayNotify();
 	}
 	
 	/**

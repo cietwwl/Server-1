@@ -12,7 +12,7 @@ import com.rw.fsutil.dao.annotation.NonSave;
 @SynClass
 public class FashionItem implements IMapItem, FashionItemIF {
 	@Id
-	private String id; //数据库存储id，用userId+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
+	private String id; //数据库存储id，用userId+"_"+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
 	
 	private int fashionId;// 时装模型id
 	
@@ -36,7 +36,7 @@ public class FashionItem implements IMapItem, FashionItemIF {
 
 	public void InitStoreId(){
 		if (id == null && userId != null && fashionId != 0){
-			id = userId + fashionId;
+			id = userId + "_" + fashionId;
 		}
 	}
 	

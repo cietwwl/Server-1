@@ -67,7 +67,7 @@ public class FashionItemHolder{
 	}
 	
 	public FashionItem getItem(int fashionModelId){
-		return getItemStore().getItem(userId+fashionModelId);
+		return getItemStore().getItem(userId + "_" + fashionModelId);
 	}
 	
 	/*暂时不用，先屏蔽
