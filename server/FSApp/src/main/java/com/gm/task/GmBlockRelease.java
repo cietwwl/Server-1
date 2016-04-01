@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.manager.GameManager;
@@ -19,8 +20,8 @@ public class GmBlockRelease implements IGmTask{
 	public GmResponse doTask(GmRequest request) {		
 		
 		GmResponse response = new GmResponse();
-		
-		String accountList =  (String)request.getArgs().get("blockAccount");
+		Map<String, Object> args = request.getArgs();
+		String accountList = GmUtils.parseString(args, "blockAccount");
 		if(StringUtils.isNotBlank(accountList)){ 
 			String[] accountArray = accountList.split(",");			
 			for (String account : accountArray) {
@@ -37,9 +38,6 @@ public class GmBlockRelease implements IGmTask{
 
 		response.setStatus(0);
 		response.setCount(1);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("value", 0);
-		response.addResult(resultMap );
 		return response;
 	}
 	

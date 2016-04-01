@@ -12,6 +12,7 @@ import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
+import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
@@ -52,9 +53,10 @@ public class GmCheckBag implements IGmTask {
 		// TODO Auto-generated method stub
 		GmResponse response = new GmResponse();
 		try {
-			String roleId = (String) request.getArgs().get("roleId");
-			int serverId = Integer.parseInt(request.getArgs().get("serverId").toString());
-			int type = Integer.parseInt(request.getArgs().get("type").toString());
+			Map<String, Object> args = request.getArgs();
+			String roleId = GmUtils.parseString(request.getArgs(), "roleId");
+			int serverId = GmUtils.parseInt(args, "serverId");
+			int type = GmUtils.parseInt(args, "type");
 
 			if (StringUtils.isBlank(roleId) || serverId <= 0) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));
