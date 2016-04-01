@@ -42,6 +42,7 @@ public class FashionEffectCfgDao extends CfgCsvDao<FashionEffectCfg> {
 
 	public FashionEffectCfg getConfig(int fashionId, int careerType) {
 		ECareer career = ECareer.valueOf(careerType);
+		if (career == null) return null;
 		IReadOnlyPair<Integer,ECareer> pair = Pair.CreateReadonly(fashionId,career);
 		return effectMapping.get(pair);
 	}

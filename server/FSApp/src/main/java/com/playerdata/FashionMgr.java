@@ -49,6 +49,7 @@ public class FashionMgr implements FashionMgrIF{
 
 	//缓存的增益数据，清空会重新计算
 	private BattleAddedEffects totalEffects = null;
+	private int validCountCache;
 	
 	public void init(Player playerP){
 		m_player = playerP;
@@ -92,7 +93,8 @@ public class FashionMgr implements FashionMgrIF{
 	}
 	
 	/**
-	 * 延长时装有效期
+	 * 延长时装有效期,续期时间必须大于零，因为永久时装不需要续期
+	 * 也不允许把服装改为永久有效的
 	 * @param item 不能为空
 	 * @param renewDay
 	 */
@@ -532,10 +534,9 @@ public class FashionMgr implements FashionMgrIF{
 	 */
 	private void updateQuantityEffect(FashionBeingUsed result){
 		if (result == null) return;
-		int validCountCache = result.getValidCountCache();
 		int validCount = getValidCount();
 		if (validCount != validCountCache){
-			result.setValidCountCache(validCount);
+			validCountCache = validCount;
 			FashionQuantityEffectCfg eff = FashionQuantityEffectCfgDao.getInstance().searchOption(validCount);
 			int quantity = eff.getQuantity();
 			if (quantity != result.getTotalEffectPlanId()){

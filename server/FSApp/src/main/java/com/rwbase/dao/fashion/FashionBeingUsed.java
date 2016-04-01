@@ -20,16 +20,6 @@ public class FashionBeingUsed implements FashionUsedIF{
 	private int petId = -1;
 	@NonSave
 	private int totalEffectPlanId = -1;
-	@NonSave
-	private int validCountCache;
-	
-	public int getValidCountCache() {
-		return validCountCache;
-	}
-
-	public void setValidCountCache(int validCountCache) {
-		this.validCountCache = validCountCache;
-	}
 
 	public int[] getUsingList(){
 		int[] result = new int[3];
