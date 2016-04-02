@@ -258,6 +258,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			CommodityCfg cfg = Commodity.get(i);
 			total += cfg.getProb();
 		}
+		if (total <= 0) {
+			return null;
+		}
 		int prob = RandomUtil.nextInt(total);
 		for (int i = 0; i < size; i++) {
 			CommodityCfg cfg = Commodity.get(i);
