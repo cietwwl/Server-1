@@ -535,6 +535,14 @@ public final class MsgDef {
      * </pre>
      */
     MSG_GROUP_SKILL(71, 172),
+    /**
+     * <code>MSG_GIFT_CODE = 173;</code>
+     *
+     * <pre>
+     *兑换码
+     * </pre>
+     */
+    MSG_GIFT_CODE(72, 173),
     ;
 
     /**
@@ -1059,6 +1067,14 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_GROUP_SKILL_VALUE = 172;
+    /**
+     * <code>MSG_GIFT_CODE = 173;</code>
+     *
+     * <pre>
+     *兑换码
+     * </pre>
+     */
+    public static final int MSG_GIFT_CODE_VALUE = 173;
 
 
     public final int getNumber() { return value; }
@@ -1137,6 +1153,7 @@ public final class MsgDef {
         case 170: return MSG_GROUP_MEMBER_MANAGER;
         case 171: return MSG_GROUP_PERSONAL;
         case 172: return MSG_GROUP_SKILL;
+        case 173: return MSG_GIFT_CODE;
         default: return null;
       }
     }
@@ -1197,7 +1214,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\374\n\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\220\013\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1232,8 +1249,8 @@ public final class MsgDef {
       "IC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rM" +
       "SG_GAMEPRESS\020\347\007\022\016\n\tMSG_GROUP\020\226\001\022\035\n\030MSG_G" +
       "ROUP_MEMBER_MANAGER\020\252\001\022\027\n\022MSG_GROUP_PERS" +
-      "ONAL\020\253\001\022\024\n\017MSG_GROUP_SKILL\020\254\001B\025\n\013com.rwp" +
-      "rotoB\006MsgDef"
+      "ONAL\020\253\001\022\024\n\017MSG_GROUP_SKILL\020\254\001\022\022\n\rMSG_GIF" +
+      "T_CODE\020\255\001B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
