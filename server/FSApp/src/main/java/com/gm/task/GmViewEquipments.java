@@ -48,8 +48,8 @@ public class GmViewEquipments implements IGmTask{
 			int count = 0;
 			for (Hero hero : heroList) {
 				List<EquipItem> equipList = hero.getEquipMgr().getEquipList();
-				Map<String, Object> map = new HashMap<String, Object>();
 				for (EquipItem equipItem : equipList) {
+					Map<String, Object> map = new HashMap<String, Object>();
 					int modelId = equipItem.getModelId();
 					ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
 					map.put("itemId", equipItem.getModelId());
