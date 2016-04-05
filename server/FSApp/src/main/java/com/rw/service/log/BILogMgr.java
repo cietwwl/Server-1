@@ -17,6 +17,7 @@ import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
+import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.eLog.eBILogType;
 import com.rw.service.log.infoPojo.RoleGameInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -119,6 +120,9 @@ public class BILogMgr {
 	}
 
 	private void logAccountLogout(Player player, Map<String, String> moreInfo) {
+		
+		
+		
 		logPlayer(eBILogType.AccountLogout, player, moreInfo);
 	}
 
@@ -129,14 +133,16 @@ public class BILogMgr {
 	private void logRoleLogout(Player player) {
 		logPlayer(eBILogType.RoleLogout, player, null);
 	}
-
-	public void logOnlineCount(String regSubChannelId, AtomicInteger onlineCount) {
-
+	/*服务器当前没人在线时传入onlinecount为null*/
+	public void logOnlineCount(eBILogRegSubChannelToClientPlatForm regsubchanneltoclientplatform,String str) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("onlineCount", "" + onlineCount.get());
+		
+		if(str != null){
+		moreInfo.put("onlineCount", "" + regsubchanneltoclientplatform.getcount());
 		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regSubChannelId", regSubChannelId);
-
+		moreInfo.put("loginClientPlatForm", regsubchanneltoclientplatform.getclientPlayForm());
+		moreInfo.put("regSubChannelId", regsubchanneltoclientplatform.getregSubChannelId());
+		}
 		log(eBILogType.OnlineCount, null, null, null, moreInfo);
 	}
 
@@ -366,9 +372,15 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.CoinChanged, player, moreInfo);
 	}
-
-	public void logRoleUpgrade(Player player) {
-		logPlayer(eBILogType.RoleUpgrade, player, null);
+	
+	public void logRoleUpgrade(Player player,int oldlevel) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("levelBeforeUp", oldlevel+"");
+		
+		
+		logPlayer(eBILogType.RoleUpgrade, player,moreInfo);
+		
+		
 	}
 
 	private String getItemListLog(List<ItemData> itemList) {
