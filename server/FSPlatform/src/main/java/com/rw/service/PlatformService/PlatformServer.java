@@ -10,7 +10,7 @@ import com.log.PlatformLog;
 import com.rw.platform.PlatformFactory;
 
 public class PlatformServer {
-	private ExecutorService executorService = Executors.newFixedThreadPool(2);
+	private ExecutorService executorService = Executors.newFixedThreadPool(5);
 	private ExecutorService plService = Executors.newSingleThreadExecutor();
 	
 	PlatformServerHandler platformServerHandler;

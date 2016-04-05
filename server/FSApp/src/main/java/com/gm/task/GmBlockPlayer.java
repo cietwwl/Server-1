@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.manager.GameManager;
@@ -21,10 +22,10 @@ public class GmBlockPlayer implements IGmTask{
 		GmResponse response = new GmResponse();
 		
 		
-		
-		String accountList =  (String)request.getArgs().get("blockAccount");
-		String blockReason =  (String)request.getArgs().get("blockReason");
-		long expiresTimeInSecond = (Long)request.getArgs().get("expiresTime");
+		Map<String, Object> args = request.getArgs();
+		String accountList =  GmUtils.parseString(args, "blockAccount");
+		String blockReason =  GmUtils.parseString(args, "blockReason");
+		long expiresTimeInSecond = GmUtils.parseLong(args, "expiresTime");
 		if(StringUtils.isNotBlank(accountList)){ 
 			String[] accountArray = accountList.split(",");			
 			for (String account : accountArray) {
@@ -46,9 +47,6 @@ public class GmBlockPlayer implements IGmTask{
 
 		response.setStatus(0);
 		response.setCount(1);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("value", 0);
-		response.addResult(resultMap );
 		return response;
 	}
 	

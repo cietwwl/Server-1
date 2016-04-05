@@ -7,6 +7,7 @@ public class CommonTip {
 	public static String TICKET_NOT_ENOUGH = "扫荡券不足";
 	public static String STAGE_NOT_OPEN = "关卡未开放";
 	public static String TIMES_NOT_ENOUGH = "次数不足";
+	public static String COOL_DOWN = "副本冷却中";
 	public static String TIMES_ERROR = "次数非法";
 	public static String STAGE_NOT_SWEEP = "该关卡不支持扫荡";
 	public static String STAGE_NOT_3_STAR_PASS = "非3星通关不可扫荡";

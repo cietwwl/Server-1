@@ -31,8 +31,7 @@ public class PveHandler {
 	}
 
 	public ByteString getPveInfo(Player player) {
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(
-				player.getVip());
+		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
 		PveServiceResponse.Builder reponse = PveServiceResponse.newBuilder();
 		long currentTime = System.currentTimeMillis();
 		PveActivity.Builder unendingActivity = PveActivity.newBuilder();
@@ -44,8 +43,7 @@ public class PveHandler {
 		if (player.unendingWarMgr.getTable().getResetNum() >= 1) {
 			time = 0;
 		} else {
-			time = getRemainSeconds(unendingWar.getLastChallengeTime(),
-					currentTime, CopyType.COPY_TYPE_WARFARE);
+			time = getRemainSeconds(unendingWar.getLastChallengeTime(), currentTime, CopyType.COPY_TYPE_WARFARE);
 		}
 
 		unendingActivity.setRemainSeconds(time);
@@ -55,20 +53,15 @@ public class PveHandler {
 		int unendingCount = 1 - player.unendingWarMgr.getTable().getNum();
 		unendingActivity.setRemainTimes(unendingCount > 0 ? unendingCount : 0);
 		reponse.addPveActivityList(unendingActivity);
-		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_LQSG, player,
-				currentTime));
-		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_JBZD, player,
-				currentTime));
-		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player,
-				currentTime));
+		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_LQSG, player, currentTime));
+		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_JBZD, player, currentTime));
+		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player, currentTime));
 		// 万仙阵
 		PveActivity.Builder tower = PveActivity.newBuilder();
-		TableAngleArrayData angleData = player.getTowerMgr()
-				.getAngleArrayData();
+		TableAngleArrayData angleData = player.getTowerMgr().getAngleArrayData();
 		int count = 0;
 		if (angleData != null) {
-			count = privilegeCfg.getExpeditionCount()
-					- angleData.getResetTimes();
+			count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
 		}
 		tower.setCopyType(CopyType.COPY_TYPE_TOWER);
 		tower.setRemainSeconds(0);
@@ -77,12 +70,10 @@ public class PveHandler {
 
 		// 试练塔
 		PveActivity.Builder battleTower = PveActivity.newBuilder();
-		TableBattleTower tableBattleTower = player.getBattleTowerMgr()
-				.getTableBattleTower();
+		TableBattleTower tableBattleTower = player.getBattleTowerMgr().getTableBattleTower();
 		int btCount = 0;
 		if (tableBattleTower != null) {
-			btCount = privilegeCfg.getBattleTowerResetTimes()
-					- tableBattleTower.getResetTimes();
+			btCount = privilegeCfg.getBattleTowerResetTimes() - tableBattleTower.getResetTimes();
 		}
 		battleTower.setCopyType(CopyType.COPY_TYPE_BATTLETOWER);
 		battleTower.setRemainSeconds(0);
@@ -98,26 +89,18 @@ public class PveHandler {
 		PveActivity.Builder unendingActivity = PveActivity.newBuilder();
 		TableUnendingWar unendingWar = player.unendingWarMgr.getTable();
 		unendingActivity.setCopyType(CopyType.COPY_TYPE_WARFARE);
-		unendingActivity.setRemainSeconds(getRemainSeconds(
-				unendingWar.getLastChallengeTime(), currentTime,
-				CopyType.COPY_TYPE_WARFARE));
+		unendingActivity.setRemainSeconds(getRemainSeconds(unendingWar.getLastChallengeTime(), currentTime, CopyType.COPY_TYPE_WARFARE));
 		// TODO 无尽战火最多挑战次数现在是客户端写死1次，服务器先写，之后统一弄成配置吧
 		int unendingCount = 1 - player.unendingWarMgr.getTable().getNum();
 		unendingActivity.setRemainTimes(unendingCount > 0 ? unendingCount : 0);
 		reponse.addPveActivityList(unendingActivity);
-		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_LQSG, player,
-				currentTime));
-		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_JBZD, player,
-				currentTime));
-		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player,
-				currentTime));
+		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_LQSG, player, currentTime));
+		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_JBZD, player, currentTime));
+		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player, currentTime));
 		PveActivity.Builder tower = PveActivity.newBuilder();
-		TableAngleArrayData angleData = player.getTowerMgr()
-				.getAngleArrayData();
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(
-				player.getVip());
-		int count = privilegeCfg.getExpeditionCount()
-				- angleData.getResetTimes();
+		TableAngleArrayData angleData = player.getTowerMgr().getAngleArrayData();
+		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
+		int count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
 		tower.setCopyType(CopyType.COPY_TYPE_TOWER);
 		tower.setRemainSeconds(0);
 		tower.setRemainTimes(count > 0 ? count : 0);
@@ -128,8 +111,7 @@ public class PveHandler {
 
 	private PveActivity.Builder fill(int type, Player player, long currentTime) {
 		PveActivity.Builder activity = PveActivity.newBuilder();
-		List<CopyInfoCfgIF> infoCfgList = player.getCopyDataMgr()
-				.getTodayInfoCfg(type);
+		List<CopyInfoCfgIF> infoCfgList = player.getCopyDataMgr().getTodayInfoCfg(type);
 		int tempCount = 0; // 临时解决生存幻境取小的次数
 		for (int i = infoCfgList.size(); --i >= 0;) {
 			CopyInfoCfgIF cfg = infoCfgList.get(i);
@@ -148,23 +130,20 @@ public class PveHandler {
 			activity.setRemainTimes(tempCount);
 
 			int time;
-			CopyData copyData = player.getCopyDataMgr()
-					.getByInfoId(cfg.getId());
+			CopyData copyData = player.getCopyDataMgr().getByInfoId(cfg.getId());
 			if (copyData != null && copyData.getResetCount() > 0) {
 				// 重置不计算CD时间
 				time = 0;
 			} else {
-				time = getRemainSeconds(data.getLastChallengeTime(),
-						currentTime, type);
+				time = getRemainSeconds(data.getLastChallengeTime(), currentTime, type);
 			}
 			activity.setRemainSeconds(time);
 		}
 		return activity;
 	}
 
-	private int getRemainSeconds(long lastTime, long currentTime, int copyType) {
-		CopyEntryCfg entry = (CopyEntryCfg) CopyEntryCfgDAO.getInstance()
-				.getCfgById(String.valueOf(copyType));
+	public int getRemainSeconds(long lastTime, long currentTime, int copyType) {
+		CopyEntryCfg entry = (CopyEntryCfg) CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
 		int seconds = entry.getCdSeconds();
 		long remain = TimeUnit.MILLISECONDS.toSeconds(currentTime - lastTime);
 		if (remain < seconds) {

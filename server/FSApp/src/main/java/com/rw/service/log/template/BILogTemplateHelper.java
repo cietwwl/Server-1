@@ -65,13 +65,14 @@ public class BILogTemplateHelper {
 		addTemplateToken("日志的触发时间", "$logTime$");
 		addTemplateToken("一级变动原因", "$ItemChangedEventType_1$");
 		addTemplateToken("二级变动原因", "$ItemChangedEventType_2$");
-		addTemplateToken("用户登录子渠道", "$loginChannelId$");
+		addTemplateToken("用户登录子渠道", "$loginSubChannelId$");
 		addTemplateToken("用户登录渠道", "$loginChannelId$");
 		addTemplateToken("角色创建时间", "$roleCreatedTime$");
 		addTemplateToken("注册子渠道ID", "$regSubChannelId$");
 		addTemplateToken("注册渠道ID", "$regSubChannelId$");
 		addTemplateToken("用户VIP等级", "$vip$");
 		addTemplateToken("用户角色等级", "$level$");
+		addTemplateToken("升级前等级", "$levelBeforeUp$");
 		addTemplateToken("客户端版本", "$clientVersion$");
 		addTemplateToken("手机运营商", "$phoneOp$");
 		addTemplateToken("总账号统计", "$totalAccount$");
@@ -80,6 +81,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
 		addTemplateToken("活动code", "$activityCode$");
+		addTemplateToken("局次code", "$GamesCode$");		
 		addTemplateToken("关卡状态", "$copyStatus$");		
 		addTemplateToken("打印时间", "$logTime$");
 		addTemplateToken("任务入口", "");
@@ -90,9 +92,10 @@ public class BILogTemplateHelper {
 		addTemplateToken("任务ID", "$taskId$");
 		addTemplateToken("sdk版本", "");
 		addTemplateToken("sdk_id", "");
+		addTemplateToken("map_id", "$mapid$");
 		addTemplateToken("此处为空", "");
 		addTemplateToken("此处留空", "");
-		addTemplateToken("职业等级", "");		
+		addTemplateToken("职业等级", "");	
 		addTemplateToken("进程id", "$threadId$");		
 		addTemplateToken("用户战力", "$fighting$");		
 		addTemplateToken("角色ID", "$userId$");

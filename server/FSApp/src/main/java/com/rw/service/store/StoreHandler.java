@@ -25,6 +25,7 @@ public class StoreHandler {
 	public ByteString OpenStore(int storeType) {
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		m_pPlayer.getStoreMgr().OpenStore(storeType);
+		m_pPlayer.getTempAttribute().setRefreshStore(false);
 		return resp.build().toByteString();
 	}
 
@@ -34,6 +35,10 @@ public class StoreHandler {
 		int result = m_pPlayer.getStoreMgr().BuyCommodity(reqCommodity.getId(), reqCommodity.getCount());
 		resp.setReslutType(eStoreResultType.FAIL);
 		CommodityCfg cfg = CommodityCfgDAO.getInstance().GetCommodityCfg(reqCommodity.getId());
+		if(cfg == null){
+			resp.setReslutValue("已经卖完了！");
+			return resp.build().toByteString();
+		}
 		StoreCfg storeCfg = StoreCfgDAO.getInstance().getStoreCfgByID(cfg.getStoreId());
 		if(result==1){
 			resp.setReslutType(eStoreResultType.SUCCESS);

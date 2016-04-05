@@ -176,6 +176,7 @@ public class LoggerQueue {
 						if (result == SendResult.SUCCESS) {
 							// TODO 当删除失败失需要捕捉失败原因,超时需要重复提交任务，一段时间后删除
 							delete(id);
+							queue.add(sender);
 							break;
 						} else if (result == SendResult.SOCKET_NOT_AVAILABLE) {
 							if (++count >= maxTryTimes) {

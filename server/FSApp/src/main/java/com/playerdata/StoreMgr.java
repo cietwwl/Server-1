@@ -226,7 +226,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			int type = Integer.parseInt(colList[i]);
 			List<CommodityCfg> commcfgs = commoMap.get(type);
 			if (commcfgs.size() <= 0) {
-				GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：" + cfg.getName() + "没有类型为" + type + "的商品", null);
+				GameLog.info("store", m_pPlayer.getUserId(),
+						"配置表错误：" + cfg.getName() + "没有类型为" + type + "的商品", null);
 				continue;
 			}
 			m_nRandom = 0;
@@ -241,6 +242,16 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 		}
 		return list;
+	}
+	
+	private int getStoreCommodityListLength(int index){
+		StoreCfg cfg = StoreCfgDAO.getInstance().getStoreCfg(index);
+		if (cfg == null) {
+			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：store表没有类型为" + index + "的数据", null);
+			return 0;
+		}
+		String[] colList = cfg.getColType().split(",");
+		return colList.length;
 	}
 
 	/**
@@ -299,7 +310,12 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			break;
 		case Always:
 			if (pStoreCell.getVersion() != cfg.getVersion()) {
-				pStoreCell.setCommodity(RandomList(type));
+				List<CommodityData> randomList = RandomList(type);
+				int rightSize = getStoreCommodityListLength(type);
+				if(randomList.size() != rightSize){
+					return null;
+				}
+				pStoreCell.setCommodity(randomList);
 				pStoreCell.setLastRefreshTime(System.currentTimeMillis());
 				pStoreCell.setVersion(cfg.getVersion());
 				return pStoreCell;
@@ -336,6 +352,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				vo.setCommodity(RandomList(vo.getType().getOrder()));
 				vo.setLastRefreshTime(System.currentTimeMillis());
 				storeDataHolder.add(this.m_pPlayer, vo.getType().getOrder());
+				m_pPlayer.getTempAttribute().setRefreshStore(true);
 				break;
 			}
 		}
@@ -364,10 +381,16 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		if (pStoreData.getRefreshNum() > cfg.getRefreshCount()) {
 			return -3;
 		}
+		List<CommodityData> randomList = RandomList(storeType);
+		int rightSize = getStoreCommodityListLength(storeType);
+		if(rightSize == 0 || rightSize != randomList.size()){
+			return -1;
+		}
 		m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -cost);
 		refreshnum++;
 		pStoreData.setRefreshNum(refreshnum);
-		pStoreData.setCommodity(RandomList(storeType));
+		
+		pStoreData.setCommodity(randomList);
 		storeDataHolder.add(m_pPlayer, storeType);
 		return 1;
 	}

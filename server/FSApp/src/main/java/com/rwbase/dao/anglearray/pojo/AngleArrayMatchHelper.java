@@ -11,6 +11,7 @@ import com.bm.rank.anglearray.AngleArrayAttribute;
 import com.bm.rank.anglearray.AngleArrayComparable;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.common.Weight;
+import com.log.GameLog;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
@@ -215,6 +216,7 @@ public final class AngleArrayMatchHelper {
 	 */
 	private static ArmyInfo getAngleArrayMatchData(TableArenaData arenaData) {
 		if (arenaData == null) {
+			GameLog.error("万仙阵匹配", "未知角色Id", "获取不到对应的TableArenaData竞技数据");
 			return null;
 		}
 
@@ -229,6 +231,7 @@ public final class AngleArrayMatchHelper {
 
 		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), heroIdList);// 战斗中的部队信息
 		if (armyInfo == null) {
+			GameLog.error("万仙阵匹配", userId, String.format("从竞技场拿不到角色[%s]对应的ArmyInfo", arenaData.getUserId()));
 			return null;
 		}
 
@@ -285,6 +288,7 @@ public final class AngleArrayMatchHelper {
 
 		// 如果没有匹配到任何人
 		if (matchUsetIdList.isEmpty()) {
+			GameLog.error("万仙阵匹配", userId, String.format("等级下限[%s]，上[%s]，战力下[%s]，上[%s]，没有从排行榜随机到人", level, maxLevel, minFighting, maxFighting));
 			return null;
 		}
 
@@ -316,6 +320,7 @@ public final class AngleArrayMatchHelper {
 		Weight<String> weight = new Weight<String>(proMap);
 		String ranResult = weight.getRanResult();
 		if (ranResult == null) {
+			GameLog.error("万仙阵匹配", userId, String.format("等级下限[%s]，上[%s]，战力下[%s]，上[%s]，没能根据活跃度随机到人", level, maxLevel, minFighting, maxFighting));
 			return null;
 		}
 

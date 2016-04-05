@@ -39,6 +39,9 @@ public class DailyGifHandler {
 
 	/*** 领取礼包 **/
 	public ByteString getGif(Player player, int count) {
+		if(count <= 0){
+			return null;
+		}
 		DailyGifResponse.Builder res = DailyGifResponse.newBuilder();
 		SevenDayGifInfo dailyGiftData = player.getDailyGifMgr().getTable();
 		if (dailyGiftData.getCounts().size() >= dailyGiftData.getCount()) {
