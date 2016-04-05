@@ -101,9 +101,9 @@ public class InlayMgr extends IDataMgr {
 	 * 
 	 */
 	public boolean XieXiaAll() {
-		boolean success = true;
-
 		List<InlayItem> itemList = inlayItemHolder.getItemList();
+		if (itemList.size() <= 0) return false;
+		boolean success = true;
 		for (InlayItem inlayItem : itemList) {
 			boolean stripSuccess = inlayItemHolder.removeItem(m_pPlayer, inlayItem);
 			if (stripSuccess) {

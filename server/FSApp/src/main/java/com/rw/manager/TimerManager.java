@@ -16,6 +16,7 @@ import com.playerdata.RankingMgr;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
+import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rwbase.dao.Army.UserArmyDataDAO;
 import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
 import com.rwbase.dao.group.GroupCheckDismissTask;
@@ -119,9 +120,13 @@ public class TimerManager {
 		biTime10MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
 			public void doTask() {
-				Map<String, AtomicInteger> subChannelCount = UserChannelMgr.getSubChannelCount();
-				for (String regSubChannelId : subChannelCount.keySet()) {
-					BILogMgr.getInstance().logOnlineCount(regSubChannelId, subChannelCount.get(regSubChannelId));
+				Map<String, eBILogRegSubChannelToClientPlatForm> subChannelCount = UserChannelMgr.getSubChannelCount();
+				if(subChannelCount.keySet().size() == 0){
+					BILogMgr.getInstance().logOnlineCount(null,null);
+				}else{
+					for (String regSubChannelIdandclientPlayForm : subChannelCount.keySet()) {
+						BILogMgr.getInstance().logOnlineCount(subChannelCount.get(regSubChannelIdandclientPlayForm),regSubChannelIdandclientPlayForm);
+					}
 				}
 
 			}
