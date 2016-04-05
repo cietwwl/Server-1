@@ -3,7 +3,6 @@ package com.rw.service.log;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -362,7 +361,7 @@ public class BILogMgr {
 		logPlayer(eBILogType.ItemChanged, player, moreInfo);
 	}
 
-	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, int coinRemain) {
+	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, long coinRemain) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("scenceId", scenceId);
 		moreInfo.put("ItemChangedEventType_1", type_1.name());
@@ -372,6 +371,23 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.CoinChanged, player, moreInfo);
 	}
+	public void logGiftGoldChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int giftGoldChanged, int giftGoldRemain) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		if(scenceId!=null){
+			moreInfo.put("scenceId", scenceId);
+		}
+		if(type_1!=null){
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		}
+		if(type_2!=null){
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		}
+		moreInfo.put("giftGoldChanged", String.valueOf(giftGoldChanged));
+		moreInfo.put("giftGoldRemain", String.valueOf(giftGoldRemain));
+		
+		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
+	}
+	
 	
 	public void logRoleUpgrade(Player player,int oldlevel) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
