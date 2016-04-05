@@ -419,12 +419,18 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 检查任命成员的职位是不是跟目前一样
-		if (memberData.getPost() == post.getNumber()) {// 与当前的职位是一样的
+		int nominateMemberPost = memberData.getPost();
+		if (nominateMemberPost == post.getNumber()) {// 与当前的职位是一样的
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "成员已经是该官职");
 		}
 
+		// 检查个人的权限是不是高于要任命的
+		if (selfPost >= nominateMemberPost) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您无权限任命跟您同官职或比您官职高的");
+		}
+
 		// TODO HC 当职位提升了之后，就记录下一个帮派日志
-		if (memberData.getPost() > post.getNumber()) {// 当职位小于当前就证明是升职
+		if (nominateMemberPost > post.getNumber()) {// 当职位小于当前就证明是升职
 			GroupLog log = new GroupLog();
 			log.setLogType(GroupLogType.CHANGE_POST_VALUE);
 			log.setTime(System.currentTimeMillis());
@@ -501,15 +507,15 @@ public class GroupMemberManagerHandler {
 		if (!StringUtils.isEmpty(tip)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
+		
+		if (playerId.equals(memberId)) {// 转让给自己
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您不能对自己取消任命");
+		}
 
 		int post = memberData.getPost();// 被取消任命的成员的当前职位
 		if (selfPost >= post) {// 自己的职位低于要操作的角色
 			GameLog.error("帮派取消任命", playerId, String.format("自己的职位[%s]，取消任命Id[%s]的职位[%s]，", selfPost, memberId, post));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "不能对同职位或职位高的成员取消任命");
-		}
-
-		if (playerId.equals(memberId)) {// 转让给自己
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您不能对自己取消任命");
 		}
 
 		if (post != GroupPost.MEMBER_VALUE) {// 已经是成员

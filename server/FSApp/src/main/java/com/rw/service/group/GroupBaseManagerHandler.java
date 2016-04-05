@@ -11,7 +11,6 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.StoreMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.group.helper.GroupRankHelper;
@@ -135,11 +134,6 @@ public class GroupBaseManagerHandler {
 		// TODO HC 客户端传递的帮派头像ID的时数据验证，现在先暂时不验证
 		String icon = req.getIcon();
 
-		// 扣除金钱
-		if (!player.getItemBagMgr().addItem(type, -createGroupPriceArr[1])) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "扣费失败");
-		}
-
 		Group group = GroupBM.create(player, groupName, icon, gbct.getDefaultValidateType(), gbct.getDefaultApplyLevel());
 		if (group == null) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在");
@@ -149,6 +143,11 @@ public class GroupBaseManagerHandler {
 		GroupBaseDataIF groupData = groupBaseDataMgr.getGroupData();
 		if (groupData == null) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派创建失败");
+		}
+
+		// 扣除金钱
+		if (!player.getItemBagMgr().addItem(type, -createGroupPriceArr[1])) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "扣费失败");
 		}
 
 		// 个人的某些帮派信息
@@ -161,7 +160,7 @@ public class GroupBaseManagerHandler {
 		GroupRankHelper.addGroup2CreateTimeRank(group);
 		// 人数榜
 		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
-		
+
 		player.getStoreMgr().AddStore();
 		// // 推送帮派数据
 		// group.synGroupDataAndMemberData(player);
@@ -327,23 +326,8 @@ public class GroupBaseManagerHandler {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		// 是非正常状态，不能操作这个功能
-		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派已经是解散状态");
-		}
-
 		// TODO HC 检查帮主离线时间检查
 		group.checkGroupLeaderLogoutTime();
-
-		// 跟当前的名字没做什么修改
-		if (groupData.getGroupName().equals(groupName)) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字并未有改动");
-		}
-
-		// 检查帮派名字是否存在
-		if (GroupBM.hasName(groupName)) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在");
-		}
 
 		// 成员信息
 		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(playerId, false);
@@ -356,6 +340,21 @@ public class GroupBaseManagerHandler {
 		String tip = GroupFunctionCfgDAO.getDAO().canUseFunction(GroupFunction.MODIFY_GROUP_NAME_VALUE, memberData.getPost(), groupData.getGroupLevel());
 		if (!StringUtils.isEmpty(tip)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, tip);
+		}
+
+		// 是非正常状态，不能操作这个功能
+		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派已经是解散状态");
+		}
+
+		// 跟当前的名字没做什么修改
+		if (groupData.getGroupName().equals(groupName)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字并未有改动");
+		}
+
+		// 检查帮派名字是否存在
+		if (GroupBM.hasName(groupName)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在");
 		}
 
 		int[] price = gbct.getRenamePriceArr();
