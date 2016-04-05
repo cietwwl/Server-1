@@ -24,8 +24,10 @@ public class PlayerTimeActionHelper {
 		onMinutesTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
-				// 商店
-				player.getStoreMgr().onMinutes();
+				// 商店 判断是否是机器人
+				if (!player.isRobot()) {
+					player.getStoreMgr().onMinutes();
+				}
 			}
 		});
 		onMinutesTimeAction.addTask(new TimeActionTask() {
