@@ -3,7 +3,6 @@ package com.rw.service.log;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -17,6 +16,7 @@ import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
+import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.eLog.eBILogType;
 import com.rw.service.log.infoPojo.RoleGameInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -119,6 +119,7 @@ public class BILogMgr {
 	}
 
 	private void logAccountLogout(Player player, Map<String, String> moreInfo) {
+
 		logPlayer(eBILogType.AccountLogout, player, moreInfo);
 	}
 
@@ -130,13 +131,16 @@ public class BILogMgr {
 		logPlayer(eBILogType.RoleLogout, player, null);
 	}
 
-	public void logOnlineCount(String regSubChannelId, AtomicInteger onlineCount) {
-
+	/* 服务器当前没人在线时传入onlinecount为null */
+	public void logOnlineCount(eBILogRegSubChannelToClientPlatForm regsubchanneltoclientplatform, String str) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("onlineCount", "" + onlineCount.get());
-		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regSubChannelId", regSubChannelId);
 
+		if (str != null) {
+			moreInfo.put("onlineCount", "" + regsubchanneltoclientplatform.getcount());
+			moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+			moreInfo.put("loginClientPlatForm", regsubchanneltoclientplatform.getclientPlayForm());
+			moreInfo.put("regSubChannelId", regsubchanneltoclientplatform.getregSubChannelId());
+		}
 		log(eBILogType.OnlineCount, null, null, null, moreInfo);
 	}
 
@@ -347,28 +351,65 @@ public class BILogMgr {
 
 	public void logItemChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, List<ItemData> itemList_incr, List<ItemData> itemList_decr) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("scenceId", scenceId);
-		moreInfo.put("ItemChangedEventType_1", type_1.name());
-		moreInfo.put("ItemChangedEventType_2", type_2.name());
+		if (scenceId != null) {
+			moreInfo.put("scenceId", scenceId);
+		}
+
+		if (type_1 != null) {
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		}
+
+		if (type_2 != null) {
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		}
 		moreInfo.put("itemList_incr", getItemListLog(itemList_incr));
 		moreInfo.put("itemList_decr", getItemListLog(itemList_decr));
 
 		logPlayer(eBILogType.ItemChanged, player, moreInfo);
 	}
 
-	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, int coinRemain) {
+	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, long coinRemain) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("scenceId", scenceId);
-		moreInfo.put("ItemChangedEventType_1", type_1.name());
-		moreInfo.put("ItemChangedEventType_2", type_2.name());
+		if (scenceId != null) {
+			moreInfo.put("scenceId", scenceId);
+		}
+
+		if (type_1 != null) {
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		}
+
+		if (type_2 != null) {
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		}
 		moreInfo.put("coinChanged", String.valueOf(coinChanged));
 		moreInfo.put("coinRemain", String.valueOf(coinRemain));
 
 		logPlayer(eBILogType.CoinChanged, player, moreInfo);
 	}
 
-	public void logRoleUpgrade(Player player) {
-		logPlayer(eBILogType.RoleUpgrade, player, null);
+	public void logGiftGoldChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int giftGoldChanged, int giftGoldRemain) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		if (scenceId != null) {
+			moreInfo.put("scenceId", scenceId);
+		}
+		if (type_1 != null) {
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		}
+		if (type_2 != null) {
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		}
+		moreInfo.put("giftGoldChanged", String.valueOf(giftGoldChanged));
+		moreInfo.put("giftGoldRemain", String.valueOf(giftGoldRemain));
+
+		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
+	}
+
+	public void logRoleUpgrade(Player player, int oldlevel) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("levelBeforeUp", oldlevel + "");
+
+		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
+
 	}
 
 	private String getItemListLog(List<ItemData> itemList) {
