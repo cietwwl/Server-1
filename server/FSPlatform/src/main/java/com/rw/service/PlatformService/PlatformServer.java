@@ -3,6 +3,7 @@ package com.rw.service.PlatformService;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,13 +35,19 @@ public class PlatformServer {
 			serverSocket = new ServerSocket(PlatformFactory.getHttpPort());
 			while(true){
 				final Socket client = serverSocket.accept();
-				
 				executorService.submit(new Runnable() {
 					
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						platformServerHandler.handler(client);
+						try {
+							client.setSoTimeout(5000);
+							platformServerHandler.handler(client);
+						} catch (SocketException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
 				});
 			}
