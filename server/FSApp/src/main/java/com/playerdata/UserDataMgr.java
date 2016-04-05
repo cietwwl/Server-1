@@ -119,6 +119,10 @@ public class UserDataMgr implements PlayerEventListener{
 		userDataHolder.update(player);
 	}
 	
+	public String getChatBanReason(){
+		return userDataHolder.get().getChatBanReason();
+	}
+	
 	
 	public ZoneRegInfo getZoneRegInfo(){
 		return userDataHolder.get().getZoneRegInfo();
@@ -129,6 +133,10 @@ public class UserDataMgr implements PlayerEventListener{
 	
 	public boolean isChatBan(){
 		return userDataHolder.get().isChatBan();
+	}
+	
+	public User getUser(){
+		return userDataHolder.get();
 	}
 	
 	public long getBlockTimeDiff(){

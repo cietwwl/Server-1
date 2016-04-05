@@ -31,6 +31,7 @@ import com.gm.task.GmKickOffPlayer;
 import com.gm.task.GmOnlineCount;
 import com.gm.task.GmOnlineLimitModify;
 import com.gm.task.GmOpCoin;
+import com.gm.task.GmOpExp;
 import com.gm.task.GmOpGold;
 import com.gm.task.GmSavePlayer;
 import com.gm.task.GmServerInfo;
@@ -100,6 +101,7 @@ public class GmHandler {
 		taskMap.put(20026, new GmChatBanRelease());
 		taskMap.put(20027, new GmOpGold());
 		taskMap.put(20028, new GmOpCoin());
+		taskMap.put(20029, new GmOpExp());
 		
 		taskMap.put(20035, new GmCheckBag());
 		taskMap.put(20036, new GmDeleteBag());

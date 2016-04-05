@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 
@@ -17,8 +18,9 @@ public class GmChatBanRelease implements IGmTask{
 		
 		GmResponse response = new GmResponse();
 		
+		Map<String, Object> args = request.getArgs();
 		
-		String roleIdList =  (String)request.getArgs().get("roleId");
+		String roleIdList =  GmUtils.parseString(args, "roleId");
 		if(StringUtils.isNotBlank(roleIdList)){ 
 			String[] roleIdArray = roleIdList.split(",");			
 			for (String roleId : roleIdArray) {
@@ -34,9 +36,6 @@ public class GmChatBanRelease implements IGmTask{
 
 		response.setStatus(0);
 		response.setCount(1);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("value", 0);
-		response.addResult(resultMap );
 		return response;
 	}
 	

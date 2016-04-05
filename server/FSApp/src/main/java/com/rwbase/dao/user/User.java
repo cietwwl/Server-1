@@ -185,7 +185,7 @@ public class User implements TableUserIF {
 		}
 		
 		long blockCoolTime = extendInfo.getBlockCoolTime();
-		boolean isBlocked = blockCoolTime!=0 && (blockCoolTime<0 || blockCoolTime < System.currentTimeMillis());
+		boolean isBlocked = blockCoolTime!=0 && (blockCoolTime > 0 && blockCoolTime > System.currentTimeMillis());
 		return isBlocked;
 	}
 	
@@ -215,8 +215,12 @@ public class User implements TableUserIF {
 		}
 		
 		long coolTime = extendInfo.getChatBanCoolTime();
-		boolean isBan = coolTime!=0 && (coolTime<0 || coolTime < System.currentTimeMillis());
+		boolean isBan = coolTime!=0 && (coolTime > 0 && coolTime > System.currentTimeMillis());
 		return isBan;
+	}
+	
+	public String getChatBanReason(){
+		return getExtendInfo().getChatBanReason();
 	}
 
 	public UserExtendInfo getExtendInfo() {
