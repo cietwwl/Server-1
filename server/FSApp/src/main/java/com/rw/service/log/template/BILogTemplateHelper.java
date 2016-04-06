@@ -80,6 +80,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("总账号统计", "$totalAccount$");
 		addTemplateToken("IMEI信息", "$loginImei$");
 		addTemplateToken("关卡code", "$copyId$");		
+		addTemplateToken("充值币余额", "$zoneGiftGoldRemain$");
+		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
 		addTemplateToken("活动code", "$activityCode$");
