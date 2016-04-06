@@ -17,7 +17,7 @@ public class CfgWorshipRandomRewardHelper extends CfgCsvDao<CfgWorshipRandomRewa
 		return SpringContextUtil.getBean(CfgWorshipRandomRewardHelper.class);
 	}
 	
-	private Map<String, List<CfgWorshipRandomReward>> weightMap = new HashMap<String, List<CfgWorshipRandomReward>>();
+	private Map<String, List<CfgWorshipRandomReward>> weightMap;
 	private void initWeight(Map<String, CfgWorshipRandomReward> cfgCacheMapTmp){
 		// author：lida 方便热加载改动一下这里的初始化
 		// initJsonCfg();
@@ -34,6 +34,7 @@ public class CfgWorshipRandomRewardHelper extends CfgCsvDao<CfgWorshipRandomRewa
 			}
 			weightMapTmp.get(key).add(cfg);
 		}
+		this.weightMap = weightMapTmp;
 	}
 	
 	public Map<String, CfgWorshipRandomReward> initJsonCfg() {
