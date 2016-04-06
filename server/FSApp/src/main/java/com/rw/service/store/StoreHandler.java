@@ -72,6 +72,8 @@ public class StoreHandler {
 			resp.setReslutValue(storeCfg.getColType() + "余额不足");
 		}else if(result==-3){
 			resp.setReslutValue("商店刷新次数已上限");
+		}else if(result == -1){
+			resp.setReslutValue("商店数据错误");
 		}
 		return resp.build().toByteString();
 	}
