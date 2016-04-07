@@ -63,6 +63,7 @@ public class BIStatLogMgr {
 	private void logZoneCountByUserGameData(){
 		
 		final Map<String,BICounter> coinAccount = new HashMap<String,BICounter>();
+		final Map<String,BICounter> giftGoldAccount = new HashMap<String,BICounter>();
 		final String sql = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM user_other LEFT JOIN user ON user_other.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
 		doDbCount(sql, new BIIntefaceCount(){
 
@@ -76,13 +77,22 @@ public class BIStatLogMgr {
 				}
 				
 				long coin = user.getDbvalue().getCoin();
-				getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm).add(coin);
+				long giftGold = user.getDbvalue().getGold();
 				
+//				getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm).add(coin);
+				BICounter count = getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm);
+				if(count != null){
+					count.add(coin);
+					getCounter(giftGoldAccount, regSubChannelId, "totalCountGold", clientPlatForm).add(giftGold);
+//					System.out.println(user.getDbvalue().getUserId() + "    coin = "+coin +" giftgold =" + giftGold);
+				}
 			}
+			
 
 			
 		});
 		logCoin(coinAccount);
+		logGold(giftGoldAccount);
 	}
 	
 	private void logCoin(Map<String, BICounter> coinAccount) {
@@ -90,7 +100,14 @@ public class BIStatLogMgr {
 			BILogMgr.getInstance().logZoneCountCoin(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
 		}
 	}
+	
+	private void logGold(Map<String, BICounter> giftGoldAccount) {
+		for (BICounter biCounterTmp : giftGoldAccount.values()) {
+			BILogMgr.getInstance().logZoneCountGold(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
+		}
+	}
 
+	
 	private void logZoneCountByUser(){
 		
 		final Map<String,BICounter> levelSpread = new HashMap<String,BICounter>();
@@ -114,9 +131,13 @@ public class BIStatLogMgr {
 				String level = String.valueOf(user.getLevel());
 				String vip = String.valueOf(user.getVip());
 				
-				getCounter(levelSpread,regSubChannelId, level, clientPlatForm).incr();					
-				getCounter(vipSpread, regSubChannelId, vip, clientPlatForm).incr();
-				getCounter(totalAccount, regSubChannelId, "totalCount", clientPlatForm).incr();
+				BICounter count = getCounter(levelSpread,regSubChannelId, level, clientPlatForm);
+				if(count != null){
+					count.incr();
+					getCounter(vipSpread, regSubChannelId, vip, clientPlatForm).incr();
+					getCounter(totalAccount, regSubChannelId, "totalCount", clientPlatForm).incr();
+					
+				}
 				
 			}
 			
@@ -173,6 +194,7 @@ public class BIStatLogMgr {
 		
 		if(StringUtils.isBlank(regSubChannelId)){
 			regSubChannelId = "empty";
+			return null;//机器人不加入统计
 		}
 		if(StringUtils.isBlank(clientPlatForm)){
 			clientPlatForm = "empty";

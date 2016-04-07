@@ -37,6 +37,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("activity_time:活动时长（单位秒）(整数)", "activity_time:$activityTime$");
 		addTemplateToken("online_time:本次在线时长（单位秒）(整数)", "online_time:$onlineTime$");
 		addTemplateToken("游戏币新增消耗数量（新增为正数，消耗为负数）", "$coinChanged$");
+		addTemplateToken("赠送充值币新增消耗数量（新增为正数，消耗为负数）", "$giftGoldChanged$");
 		addTemplateToken("wifi（2g/3g/4g/wifi等）", "$loginNetType$");
 		addTemplateToken("wifi(2g/3g/4g/wifi等)", "$loginNetType$");
 		addTemplateToken("4（4=安卓/5=ios/7=wm）", "$loginClientPlatForm$");
@@ -45,6 +46,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("1=普通关卡/2=精英关卡", "$copyLevel$");
 		addTemplateToken("2g/3g/4g/wifi等", "$loginNetType$");
 		addTemplateToken("变动后游戏币个人持有量", "$coinRemain$");
+		addTemplateToken("变动后赠送充值货币个人持有量", "$giftGoldRemain$");
 		addTemplateToken("ip地址，不包含端口", "$loginClientIp$");
 		addTemplateToken("ip地址（不包含端口）", "$loginClientIp$");
 		addTemplateToken("失败为0，成功为1", "$result$");
@@ -78,6 +80,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("总账号统计", "$totalAccount$");
 		addTemplateToken("IMEI信息", "$loginImei$");
 		addTemplateToken("关卡code", "$copyId$");		
+		addTemplateToken("充值币余额", "$zoneGiftGoldRemain$");
+		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
 		addTemplateToken("活动code", "$activityCode$");
