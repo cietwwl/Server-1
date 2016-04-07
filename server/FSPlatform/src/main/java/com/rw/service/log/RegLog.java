@@ -1,10 +1,18 @@
 package com.rw.service.log;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.rw.fsutil.json.JSONObject;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.service.log.infoPojo.ClientInfo;
 
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RegLog implements ILog{
 
 
@@ -31,13 +39,6 @@ public class RegLog implements ILog{
     /// </summary>
     private String platformType;
 
-    public String getPlatformType() {
-		return platformType;
-	}
-
-	public void setPlatformType(String platformType) {
-		this.platformType = platformType;
-	}
 	/**运营商*/
 	private String carrier = "";    
 
@@ -131,6 +132,45 @@ public class RegLog implements ILog{
     /// 统计字段
     /// </summary>
     private String statistical = "";
+    
+	final private static Field[] fieldList;
+	
+	static{
+		fieldList = RegLog.class.getDeclaredFields();
+		for (Field field : fieldList) {
+			field.setAccessible(true);
+		}
+	}
+    
+    
+	public Map<String,String> getInfoMap() throws Exception{
+		Map<String, String> infoMap = new HashMap<String, String>();
+		for (Field field : fieldList) {
+			Object value = field.get(this);
+			if(value!=null){
+				infoMap.put(field.getName(), value.toString());
+			}
+		}
+		return infoMap;
+	}
+	
+	public static RegLog fromJson(String json){
+		
+		RegLog reglog = JsonUtil.readValue(json, RegLog.class);
+		if(reglog!=null){
+		}else{
+			reglog = new RegLog();
+		}
+		
+		return reglog;
+	}
+    public String getPlatformType() {
+		return platformType;
+	}
+
+	public void setPlatformType(String platformType) {
+		this.platformType = platformType;
+	}
 	
 	public String getLogName() {
 		return logName;

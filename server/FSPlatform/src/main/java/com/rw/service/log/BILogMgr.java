@@ -13,6 +13,7 @@ import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.template.AccountLoginLogTemplate;
 import com.rw.service.log.template.AccountRegLogTemplate;
 import com.rw.service.log.template.BILogTemplate;
+import com.rw.service.log.template.ModelRegLogTemplate;
 
 public class BILogMgr {
 	
@@ -31,12 +32,13 @@ public class BILogMgr {
 		templateMap = new HashMap<eBILogType, BILogTemplate>();
 		templateMap.put(eBILogType.AccountRegLog, new AccountRegLogTemplate());
 		templateMap.put(eBILogType.AccountLoginLog, new AccountLoginLogTemplate());
+		templateMap.put(eBILogType.ModelRegLog, new ModelRegLogTemplate());
 	
 		
 	}
 	
-	
-	public void logAccountReg(ClientInfo clientInfo, Long registerTime, boolean success){
+	/**手机硬件信息只在极刑注册处有用*/
+	public void logAccountReg(ClientInfo clientInfo, Long registerTime, RegLog reglog,boolean success){
 		
 		Map<String,String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("registerTime", DateUtils.getDateTimeFormatString(registerTime, "yyyy-MM-dd HH:mm:ss"));
@@ -46,8 +48,10 @@ public class BILogMgr {
 			moreInfo.put("result", "0");
 		}
 		
-		log(eBILogType.AccountRegLog, clientInfo, moreInfo);
-		log(eBILogType.AccountLoginLog, clientInfo, moreInfo);
+		log(eBILogType.AccountRegLog, clientInfo, moreInfo,reglog);
+		log(eBILogType.AccountLoginLog, clientInfo, moreInfo,reglog);
+		log(eBILogType.ModelRegLog, clientInfo, moreInfo,reglog);
+		
 		
 	}
 	
@@ -62,14 +66,14 @@ public class BILogMgr {
 			moreInfo.put("result", "0");
 		}
 		
-		log(eBILogType.AccountLoginLog, clientInfo, moreInfo);
+		log(eBILogType.AccountLoginLog, clientInfo, moreInfo,null);
 		
 	}
 	
 
 
 	
-	private void log(final eBILogType logType, ClientInfo clientInfo, Map<String,String> moreInfo){
+	private void log(final eBILogType logType, ClientInfo clientInfo, Map<String,String> moreInfo,RegLog reglog){
 		
 		
 		
@@ -80,7 +84,7 @@ public class BILogMgr {
 				moreInfo = new HashMap<String, String>();
 			}
 			moreInfo.put("logTime", DateUtils.getDateTimeFormatString(logTime, "yyyy-MM-dd HH:mm:ss"));
-			final String log = logTemplate.build(clientInfo, moreInfo);
+			final String log = logTemplate.build(clientInfo, moreInfo,reglog);
 			
 			
 			SynTaskExecutor.submitTask(new SynTask() {
