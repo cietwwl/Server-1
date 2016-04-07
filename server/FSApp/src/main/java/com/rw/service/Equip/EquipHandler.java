@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.EquipMgr;
@@ -175,7 +176,7 @@ public class EquipHandler {
 			return response.build().toByteString();
 		}
 
-		OutInt out = new OutInt();
+		RefInt out = new RefInt();
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, equipId, 1, out);
 		if (composeNeedMateMap == null || composeNeedMateMap.isEmpty()) {
@@ -263,11 +264,7 @@ public class EquipHandler {
 		return ids;
 	}
 
-	static class OutInt {
-		int value;
-	}
-
-	private Map<Integer, Integer> getComposeNeedMateMap(ItemBagMgr itemBagMgr, int id, int needCount, OutInt out) {
+	private Map<Integer, Integer> getComposeNeedMateMap(ItemBagMgr itemBagMgr, int id, int needCount, RefInt out) {
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 		ComposeCfgDAO cfgDAO = ComposeCfgDAO.getInstance();
 		Map<Integer, Integer> mateMap = cfgDAO.getMate(id);// 获取需要的所有材料
