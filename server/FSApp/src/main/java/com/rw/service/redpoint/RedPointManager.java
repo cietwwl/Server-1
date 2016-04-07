@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.log.GameLog;
 import com.playerdata.EquipMgr;
 import com.playerdata.FriendMgr;
 import com.playerdata.Hero;
@@ -45,7 +46,7 @@ public class RedPointManager {
 
 	public static RedPointManager instance = new RedPointManager();
 	private ArrayList<RedPointCollector> list;
-	
+
 	public static RedPointManager getRedPointManager() {
 		return instance;
 	}
@@ -54,7 +55,7 @@ public class RedPointManager {
 		try {
 			list = new ArrayList<RedPointCollector>();
 			List<Class<RedPointCollector>> l = getAllAssignedClass(RedPointCollector.class);
-			for(Class<RedPointCollector> c:l){
+			for (Class<RedPointCollector> c : l) {
 				list.add(c.newInstance());
 			}
 		} catch (Exception e) {
@@ -117,42 +118,46 @@ public class RedPointManager {
 
 	public Map<RedPointType, List<String>> getRedPointMap(Player player) {
 		EnumMap<RedPointType, List<String>> map = new EnumMap<RedPointType, List<String>>(RedPointType.class);
-		for(int i = list.size();--i>=0;){
-			list.get(i).fillRedPoints(player, map);
+		for (int i = list.size(); --i >= 0;) {
+			try {
+				list.get(i).fillRedPoints(player, map);
+			} catch (Exception e) {
+				GameLog.error("RedPointManager", "#getRedPointMap()", "红点刷新异常", e);
+			}
 		}
 		return map;
 	}
 
-	private static <T> List<Class<T>> getAllAssignedClass(Class<T> cls) throws ClassNotFoundException{
+	private static <T> List<Class<T>> getAllAssignedClass(Class<T> cls) throws ClassNotFoundException {
 		List<Class<T>> classes = new ArrayList<Class<T>>();
-		for(Class<T> c:getClass(cls)){
-			if(cls.isAssignableFrom(c) && !cls.equals(c)){
+		for (Class<T> c : getClass(cls)) {
+			if (cls.isAssignableFrom(c) && !cls.equals(c)) {
 				classes.add(c);
 			}
 		}
 		return classes;
 	}
-	
-	private static List<Class> getClass(Class cls) throws ClassNotFoundException{
+
+	private static List<Class> getClass(Class cls) throws ClassNotFoundException {
 		String pk = cls.getPackage().getName();
 		String path = pk.replace(".", "/");
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		URL url = classLoader.getResource(path);
 		return getClass(new File(url.getFile()), pk);
 	}
-	
+
 	private static List<Class> getClass(File dir, String pk) throws ClassNotFoundException {
 		List<Class> classes = new ArrayList<Class>();
 		if (!dir.exists()) {
 			return classes;
 		}
-		for(File f:dir.listFiles()){
-			if(f.isDirectory()){
-				classes.addAll(getClass(f, pk+"."+f.getName()));
+		for (File f : dir.listFiles()) {
+			if (f.isDirectory()) {
+				classes.addAll(getClass(f, pk + "." + f.getName()));
 			}
 			String name = f.getName();
-			if(name.endsWith(".class")){
-				classes.add(Class.forName(pk+"."+name.substring(0, name.length() - 6)));
+			if (name.endsWith(".class")) {
+				classes.add(Class.forName(pk + "." + name.substring(0, name.length() - 6)));
 			}
 		}
 		return classes;

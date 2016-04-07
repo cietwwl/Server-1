@@ -254,7 +254,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
 		int size = floor + towerUpdateNum;
 		for (; floor < size; floor++) {
-			AngleArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor + 1);
+			AngleArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor);
 			if (matchCfg == null) {
 				continue;
 			}
