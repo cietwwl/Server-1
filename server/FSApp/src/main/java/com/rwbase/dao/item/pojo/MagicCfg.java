@@ -1,10 +1,10 @@
 package com.rwbase.dao.item.pojo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.common.ListParser;
 import com.log.GameLog;
 import com.rw.fsutil.common.Pair;
 
@@ -56,7 +56,7 @@ public class MagicCfg extends ItemBaseCfg {
 		if (upgradeNeedGoodList == null){
 			String module = "法宝";
 			String moduleID = "配置错误";
-			upgradeNeedGoodList = parsePairList(module, moduleID, ",","_",goods);
+			upgradeNeedGoodList = ListParser.ParsePairList(module, moduleID, ",","_",goods);
 		}
 	}
 	
@@ -99,39 +99,8 @@ public class MagicCfg extends ItemBaseCfg {
 		if (decomposeGoodList == null){
 			String module = "法宝";
 			String moduleID = "配置错误";
-			decomposeGoodList = parsePairList(module, moduleID, ",","_",decomposeGoods);
+			decomposeGoodList = ListParser.ParsePairList(module, moduleID, ",","_",decomposeGoods);
 		}
-	}
-
-	private List<Pair<Integer,Integer>> parsePairList(String module, String moduleID, 
-			String pairSeperator,String keyValueSeperator,String pairListStr) {
-		if (pairListStr == null) return new ArrayList<Pair<Integer,Integer>>();
-		String[] lst = pairListStr.split(pairSeperator);
-		ArrayList<Pair<Integer, Integer>> result = new ArrayList<Pair<Integer,Integer>>(lst.length);
-		for (int i = 0; i < lst.length; i++) {
-			String pairStr = lst[i];
-			String[] values = pairStr.split(keyValueSeperator);
-			if (values.length < 2){
-				GameLog.error(module, moduleID, pairStr);
-				continue;
-			}
-			Integer modelId = null;
-			try{
-				modelId = Integer.valueOf(values[0]);
-			}catch(Exception ex){
-				GameLog.error(module, moduleID, pairStr);
-				continue;
-			}
-			Integer val = null;
-			try{
-				val = Integer.valueOf(values[1]);
-			}catch(Exception ex){
-				GameLog.error(module, moduleID, pairStr);
-				continue;
-			}
-			result.add(Pair.Create(modelId,val));
-		}
-		return result;
 	}
 
 	public String getDecomposeGoods() {
