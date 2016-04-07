@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.Action;
-import com.common.OutLong;
-import com.common.OutString;
+import com.common.RefLong;
+import com.common.RefParam;
 import com.log.GameLog;
 import com.playerdata.readonly.FashionMgrIF;
 import com.rw.service.Email.EmailUtils;
@@ -148,7 +148,7 @@ public class FashionMgr implements FashionMgrIF{
 	 * @param tip
 	 * @return
 	 */
-	public boolean putOnFashion(int fashionId,OutString tip){
+	public boolean putOnFashion(int fashionId,RefParam<String> tip){
 		FashionBeingUsed fashionUsed = createOrUpdate();
 		if (isFashionBeingUsed(fashionId,fashionUsed)){
 			LogError(tip,"时装已经穿上",",fashionId="+fashionId);
@@ -223,7 +223,7 @@ public class FashionMgr implements FashionMgrIF{
 	 * @param tip 不能为空
 	 * @return
 	 */
-	public boolean isExpired(int fashionId,OutString tip) {
+	public boolean isExpired(int fashionId,RefParam<String> tip) {
 		FashionItem item = fashionItemHolder.getItem(fashionId);
 		long now = System.currentTimeMillis();
 		return isExpired(fashionId,tip,item,now);
@@ -465,8 +465,8 @@ public class FashionMgr implements FashionMgrIF{
 	 * @param time
 	 * @return
 	 */
-	private boolean isExpired(int fashionId,OutString tip,FashionItem item,long time){
-		OutLong expired=new OutLong();
+	private boolean isExpired(int fashionId,RefParam<String> tip,FashionItem item,long time){
+		RefLong expired=new RefLong();
 		//getExpiredTime返回负数或零表示永久时装
 		if (getExpiredTime(fashionId,tip,item,expired)){
 			return (expired.value >0 && expired.value <= time);
@@ -483,7 +483,7 @@ public class FashionMgr implements FashionMgrIF{
 	 * @param expiredTime
 	 * @return
 	 */
-	private boolean getExpiredTime(int fashionId,OutString tip,FashionItem item,OutLong expiredTime){
+	private boolean getExpiredTime(int fashionId,RefParam<String> tip,FashionItem item,RefLong expiredTime){
 		if (item == null){
 			LogError(tip,"时装未购买",",fashionId="+fashionId);
 			return false;
@@ -506,7 +506,7 @@ public class FashionMgr implements FashionMgrIF{
 		if (list.isEmpty()) return;
 		long now = System.currentTimeMillis();
 		FashionBeingUsed fashionUsed = getFashionBeingUsed();
-		OutString tip = new OutString();
+		RefParam<String> tip = new RefParam<String>();
 		for (FashionItem fasItem : list) {
 			int fashionId = fasItem.getFashionId();
 			if (isExpired(fashionId,tip,fasItem,now)){
@@ -538,10 +538,10 @@ public class FashionMgr implements FashionMgrIF{
 		createOrUpdate();
 	}
 
-	private void LogError(OutString tip,String userTip,String addedLog){
-		tip.str = userTip;
+	private void LogError(RefParam<String> tip,String userTip,String addedLog){
+		tip.value = userTip;
 		if (addedLog != null){
-			GameLog.error("时装", m_player.getUserId(), tip.str+addedLog);
+			GameLog.error("时装", m_player.getUserId(), tip.value+addedLog);
 		}
 	}
 
@@ -552,7 +552,7 @@ public class FashionMgr implements FashionMgrIF{
 	private int getValidCount(){
 		int result = 0;
 		long now = System.currentTimeMillis();
-		OutString tip = new OutString();
+		RefParam<String> tip = new RefParam<String>();
 		List<FashionItem> lst = fashionItemHolder.getItemList();
 		for (FashionItem fasItem : lst) {
 			int fashionId = fasItem.getFashionId();

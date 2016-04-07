@@ -2,7 +2,7 @@ package com.rw.service.fashion;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.common.OutString;
+import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.FashionMgr;
@@ -94,13 +94,13 @@ public class FashionHandle {
 		int fashionId = req.getFashionId();
 		FashionMgr fashionMgr = player.getFashionMgr();
 		//检查是否过期
-		OutString tip = new OutString();
+		RefParam<String> tip = new RefParam<String>();
 		if (fashionMgr.isExpired(fashionId,tip)){
-			return setErrorResponse(response, player, null, tip.str==null?"时装已过期":tip.str);
+			return setErrorResponse(response, player, null, tip.value==null?"时装已过期":tip.value);
 		}
 		
 		if (!fashionMgr.putOnFashion(fashionId, tip)){
-			return setErrorResponse(response, player, null, tip.str);
+			return setErrorResponse(response, player, null, tip.value);
 		}
 		
 		response.setFashionId(fashionId);

@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bm.login.AccoutBM;
 import com.bm.rank.arena.ArenaExtAttribute;
-import com.common.OutString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
