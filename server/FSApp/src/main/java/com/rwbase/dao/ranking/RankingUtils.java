@@ -171,7 +171,9 @@ public class RankingUtils {
 			return model;
 		}
 		Player p = PlayerMgr.getInstance().find(data.getUserId());
-		return p.getModelId();
+		int modelId = p.getModelId();
+		data.setModelId(modelId);
+		return modelId;
 	}
 	
 	/* 通过竞技场记录创建一个排行榜实体 */

@@ -96,19 +96,20 @@ public class GmGetRankList implements IGmTask {
 	}
 
 	private List<String> getGroupList(int offset, int limit) {
-		List<String> leaderIdList = new ArrayList<String>();
-		List<String> groupList = getRankList(RankType.GROUP_BASE_RANK, offset, limit);
-
-		for (String groupId : groupList) {
-			Group group = GroupBM.get(groupId);
-			if (group != null) {
-				GroupMemberDataIF groupLeader = group.getGroupMemberMgr().getGroupLeader();
-				if (groupLeader != null) {
-					leaderIdList.add(groupLeader.getUserId());
-				}
-			}
-		}
-		return leaderIdList;
+		return getRankList(GameWorldKey.GROUP, offset, limit);
+//		List<String> leaderIdList = new ArrayList<String>();
+//		List<String> groupList = getRankList(RankType.GROUP_BASE_RANK, offset, limit);
+//
+//		for (String groupId : groupList) {
+//			Group group = GroupBM.get(groupId);
+//			if (group != null) {
+//				GroupMemberDataIF groupLeader = group.getGroupMemberMgr().getGroupLeader();
+//				if (groupLeader != null) {
+//					leaderIdList.add(groupLeader.getUserId());
+//				}
+//			}
+//		}
+//		return leaderIdList;
 	}
 
 	private List<String> getPrestArenaList(int offset, int limit) {

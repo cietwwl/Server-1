@@ -21,6 +21,11 @@ public enum GameWorldKey {
 	ARENA_CALCULATE("ARENA_CALCULATE"),
 
 	/**
+	 * 排行榜活动结算
+	 */
+	RANKING_ACTIVITY_CAL("RANKING_ACTIVITY_CAL"),
+	
+	/**
 	 * 战力榜
 	 */
 	FIGHTING(GmGetRankList.RankInfoType.FIGHTING.name()),
