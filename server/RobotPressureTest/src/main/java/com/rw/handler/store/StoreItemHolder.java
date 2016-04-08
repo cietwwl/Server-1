@@ -31,6 +31,9 @@ public class StoreItemHolder {
 
 	public CommodityData getRandom(eStoreType type) {
 		StoreData targetData = getStoreData(type);
+		if (targetData == null) {
+			return null;
+		}
 
 		List<CommodityData> targetList = targetData.getCommodity();
 		if (targetList.isEmpty()) {
@@ -45,9 +48,12 @@ public class StoreItemHolder {
 			}
 		}
 
+		if (targetList.isEmpty()) {
+			return null;
+		}
+
 		int nextInt = random.nextInt(targetList.size());
 
 		return targetList.remove(nextInt);
 	}
-
 }

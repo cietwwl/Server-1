@@ -33,11 +33,14 @@ public class RegLog implements ILog{
     private String zoneId = "0";   //区id
     private String logactiveTime = "";  //日志的触发时间
     
-    private String subChannel = "";//子渠道
-    /// <summary>
-    /// 平台
+    private String subChannelId = "";//子渠道
+
+	/// <summary>
+    /// 平台,客户端发来的变量名有问题,此处弃用,使用clientplatform的变量
     /// </summary>
     private String platformType;
+
+
 
 	/**运营商*/
 	private String carrier = "";    
@@ -84,7 +87,9 @@ public class RegLog implements ILog{
     private String ram = "";  //运行内存
 
     private String freeRam = "";  //终端当前空闲内存空间大小
-    /// <summary>
+
+
+	/// <summary>
     /// 是否内存不足
     /// </summary>
     private String enoughRam = "1";
@@ -142,9 +147,9 @@ public class RegLog implements ILog{
 		}
 	}
     
-    
-	public Map<String,String> getInfoMap() throws Exception{
-		Map<String, String> infoMap = new HashMap<String, String>();
+	public Map<String, String> getInfoMap(Map<String, String> infoMap) throws Exception {
+		if(infoMap == null)
+			infoMap = new HashMap<String, String>();
 		for (Field field : fieldList) {
 			Object value = field.get(this);
 			if(value!=null){
@@ -153,6 +158,8 @@ public class RegLog implements ILog{
 		}
 		return infoMap;
 	}
+
+
 	
 	public static RegLog fromJson(String json){
 		
@@ -164,13 +171,15 @@ public class RegLog implements ILog{
 		
 		return reglog;
 	}
-    public String getPlatformType() {
-		return platformType;
+    
+    public String getUid() {
+		return uid;
 	}
 
-	public void setPlatformType(String platformType) {
-		this.platformType = platformType;
+	public String getSubChannelId() {
+		return subChannelId;
 	}
+
 	
 	public String getLogName() {
 		return logName;
@@ -275,6 +284,13 @@ public class RegLog implements ILog{
 	public String getEnoughRam() {
 		return enoughRam;
 	}
+    public String getPlatformType() {
+		return platformType;
+	}
+
+	public void setPlatformType(String platformType) {
+		this.platformType = platformType;
+	}
 
 	public String getHardRam() {
 		return hardRam;
@@ -332,7 +348,7 @@ public class RegLog implements ILog{
 					this.logName = LogService.getInstance().parseJson(json,"logName");
 					this.topicId = LogService.getInstance().parseJson(json,"topicId");
 					this.carrier = LogService.getInstance().parseJson(json,"carrier");
-					this.subChannel = LogService.getInstance().parseJson(json,"subChannelId");
+					this.subChannelId = LogService.getInstance().parseJson(json,"subChannelId");
 					this.networkType = LogService.getInstance().parseJson(json,"networkType");
 					this.brandName = LogService.getInstance().parseJson(json,"brandName");
 					this.terminalType = LogService.getInstance().parseJson(json,"terminalType");
@@ -372,6 +388,176 @@ public class RegLog implements ILog{
 				}
 	}
 	
+	public void setGameName(String gameName) {
+		this.gameName = gameName;
+	}
+
+	public void setLogName(String logName) {
+		this.logName = logName;
+	}
+
+	public void setTopicId(String topicId) {
+		this.topicId = topicId;
+	}
+
+	public void setPrintTime(String printTime) {
+		this.printTime = printTime;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	public void setUidCreateTime(String uidCreateTime) {
+		this.uidCreateTime = uidCreateTime;
+	}
+
+	public void setZoneId(String zoneId) {
+		this.zoneId = zoneId;
+	}
+
+	public void setLogactiveTime(String logactiveTime) {
+		this.logactiveTime = logactiveTime;
+	}
+
+	public void setSubChannelId(String subChannelId) {
+		this.subChannelId = subChannelId;
+	}
+
+
+
+	public void setCarrier(String carrier) {
+		this.carrier = carrier;
+	}
+
+	public void setNetworkType(String networkType) {
+		this.networkType = networkType;
+	}
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	public void setTerminalType(String terminalType) {
+		this.terminalType = terminalType;
+	}
+
+	public void setClientVersion(String clientVersion) {
+		this.clientVersion = clientVersion;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public void setImei(String imei) {
+		this.imei = imei;
+	}
+
+	public void setMac(String mac) {
+		this.mac = mac;
+	}
+
+	public void setSdkVersion(String sdkVersion) {
+		this.sdkVersion = sdkVersion;
+	}
+
+	public void setSdk_id(String sdk_id) {
+		this.sdk_id = sdk_id;
+	}
+
+	public void setSystemVersion(String systemVersion) {
+		this.systemVersion = systemVersion;
+	}
+
+	public void setSystemType(String systemType) {
+		this.systemType = systemType;
+	}
+
+	public void setCpu(String cpu) {
+		this.cpu = cpu;
+	}
+
+	public void setCpuType(String cpuType) {
+		this.cpuType = cpuType;
+	}
+
+	public void setCpuFrequency(String cpuFrequency) {
+		this.cpuFrequency = cpuFrequency;
+	}
+
+	public void setCpuKernal(String cpuKernal) {
+		this.cpuKernal = cpuKernal;
+	}
+
+	public void setGpuType(String gpuType) {
+		this.gpuType = gpuType;
+	}
+
+	public void setGpuFrequency(String gpuFrequency) {
+		this.gpuFrequency = gpuFrequency;
+	}
+
+	public void setGpuKernal(String gpuKernal) {
+		this.gpuKernal = gpuKernal;
+	}
+
+	public void setRam(String ram) {
+		this.ram = ram;
+	}
+
+	public void setFreeRam(String freeRam) {
+		this.freeRam = freeRam;
+	}
+
+	public void setEnoughRam(String enoughRam) {
+		this.enoughRam = enoughRam;
+	}
+
+	public void setHardRam(String hardRam) {
+		this.hardRam = hardRam;
+	}
+
+	public void setFreeHardRam(String freeHardRam) {
+		this.freeHardRam = freeHardRam;
+	}
+
+	public void setSdSize(String sdSize) {
+		this.sdSize = sdSize;
+	}
+
+	public void setFreeSdSize(String freeSdSize) {
+		this.freeSdSize = freeSdSize;
+	}
+
+	public void setResolution(String resolution) {
+		this.resolution = resolution;
+	}
+
+	public void setBaseband(String baseband) {
+		this.baseband = baseband;
+	}
+
+	public void setKernal(String kernal) {
+		this.kernal = kernal;
+	}
+
+	public void setOpenGL_RENDERER(String openGL_RENDERER) {
+		OpenGL_RENDERER = openGL_RENDERER;
+	}
+
+	public void setOpenGL_VENDOR(String openGL_VENDOR) {
+		OpenGL_VENDOR = openGL_VENDOR;
+	}
+
+	public void setOpenGL_VERSION(String openGL_VERSION) {
+		OpenGL_VERSION = openGL_VERSION;
+	}
+
+	public void setStatistical(String statistical) {
+		this.statistical = statistical;
+	}
+
 	public void fillInfoToClientInfo(ClientInfo clientInfo){
 		if(clientInfo!=null){
 			clientInfo.setSdkVersion(this.sdkVersion);
@@ -396,7 +582,7 @@ public class RegLog implements ILog{
 			
 			body = printTime + "|" + logName + "|" + zoneId + "|"
 					+ printTime + "|" + topicId + "|" + zoneId + "|"
-					+ clientInfo.getChannelId() + "_" + clientInfo.getAccountId() + "||" + subChannel + "|" + subChannel
+					+ clientInfo.getChannelId() + "_" + clientInfo.getAccountId() + "||" + subChannelId + "|" + subChannelId
 					+ "|" + platformType + "|" + uidCreateTime + "|" + carrier
 					+ "|" + networkType + "|" + brandName + "|" + terminalType
 					+ "|" + clientVersion + "|" + ip + "|" + imei + "|" + mac
@@ -415,6 +601,7 @@ public class RegLog implements ILog{
 		}
 		return body;
 	}
+
 
 	
 }
