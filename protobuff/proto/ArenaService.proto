@@ -96,6 +96,8 @@ message MsgArenaRequest{
 	optional int32 recordId = 7;		//请求的伤害统计id
 	repeated string atkIdList = 8;		//进攻阵容佣兵列表
 	optional int32 rewardId = 14;// 领取奖励
+	optional int32 historyRewardList = 15;	//历史排行榜奖励总和
+	optional int32 historyRewardStage = 16;	//历史排行榜奖励阶段
 }
 
 message HurtValue{
@@ -126,6 +128,8 @@ message MsgArenaResponse{
 	optional int32 buyTimes = 12;			//当前购买的次数
 	optional int32 currentScore = 13;			//当前积分
 	repeated int32 getCount = 14;// 已领奖励次数
+	repeated RewardInfo historyReward = 15;	//历史排行榜奖励总和
+	optional eArenaResultType gainRewardResult = 16; //领取历史排行榜奖励结果
 }
 
 message HistoryRankingRise{//历史排名上升
@@ -135,3 +139,9 @@ message HistoryRankingRise{//历史排名上升
 	optional int32 goldAward = 3;		//钻石奖励
 	required int32 rankingUp = 4;		//排名上升
 }
+
+message RewardInfo{
+	required string itemId = 1;	//奖励ID
+	required int32 num = 2;	//奖励数量
+}
+
