@@ -309,7 +309,7 @@ public class CopyDataMgr implements CopyDataMgrIF {
 		return null;
 	}
 
-	private CopyInfoCfg getCopyInfoCfgByLevelID(String levelId) {
+	public CopyInfoCfg getCopyInfoCfgByLevelID(String levelId) {
 		CopyLevelCfg levelCfg = getCopyLevelCfgByLevelID(levelId);
 		if (levelCfg == null)
 			return null;
