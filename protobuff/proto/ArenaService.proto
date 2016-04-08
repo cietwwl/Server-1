@@ -128,7 +128,7 @@ message MsgArenaResponse{
 	optional int32 buyTimes = 12;			//当前购买的次数
 	optional int32 currentScore = 13;			//当前积分
 	repeated int32 getCount = 14;// 已领奖励次数
-	repeated RewardInfo historyReward = 15;	//历史排行榜奖励总和
+	repeated ArenaHistoryRewardSum historyReward = 15;	//历史排行榜奖励总和
 	optional eArenaResultType gainRewardResult = 16; //领取历史排行榜奖励结果
 }
 
@@ -140,7 +140,7 @@ message HistoryRankingRise{//历史排名上升
 	required int32 rankingUp = 4;		//排名上升
 }
 
-message RewardInfo{
+message ArenaHistoryRewardSum{ //历史排行榜奖励总和
 	required string itemId = 1;	//奖励ID
 	required int32 num = 2;	//奖励数量
 }
