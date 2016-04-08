@@ -15,6 +15,7 @@ public enum LogModule {
 	GroupSkill("帮派技能"),
 	GmSender("gm对外请求"),
 	UserEvent("用户事件"),
+	ComActivityCount("通用活动_CountType");
 	;
 	
 	private String name;
