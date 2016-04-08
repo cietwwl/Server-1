@@ -222,9 +222,9 @@ public class TableAngleArrayData {
 			return;
 		}
 
-		if (heroChangeMap.containsKey(roleId)) {
-			heroChangeMap.put(roleId, heroChange);
-		}
+		// if (heroChangeMap.containsKey(roleId)) {
+		heroChangeMap.put(roleId, heroChange);
+		// }
 	}
 
 	/**
