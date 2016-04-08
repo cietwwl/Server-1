@@ -65,6 +65,11 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 		tableVip.addPrivilege(EPrivilegeDef.SECRET_COPY_COUNT,GetMaxPrivilege(EPrivilegeDef.SECRET_COPY_COUNT));
 		tableVip.addPrivilege(EPrivilegeDef.PEAK_ARENA_RESET_TIMES,GetMaxPrivilege(EPrivilegeDef.PEAK_ARENA_RESET_TIMES));
 		tableVip.addPrivilege(EPrivilegeDef.ARENA_RESET_TIMES,GetMaxPrivilege(EPrivilegeDef.ARENA_RESET_TIMES));
+		
+		tableVip.addPrivilege(EPrivilegeDef.COPY_CELESTAL,GetMaxPrivilege(EPrivilegeDef.ARENA_RESET_TIMES));
+		tableVip.addPrivilege(EPrivilegeDef.TOWER_RESET_TIMES,GetMaxPrivilege(EPrivilegeDef.ARENA_RESET_TIMES));
+		tableVip.addPrivilege(EPrivilegeDef.BATTLE_TOWER_TIMES,GetMaxPrivilege(EPrivilegeDef.ARENA_RESET_TIMES));
+		
 	}
 	
 	public void upgradeVipRefreshPrivilege(int oldVip){
@@ -93,6 +98,10 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 		vipTable.addPrivilege(EPrivilegeDef.SECRET_COPY_COUNT,getValue(EPrivilegeDef.SECRET_COPY_COUNT, vipTable));
 		vipTable.addPrivilege(EPrivilegeDef.PEAK_ARENA_RESET_TIMES,getValue(EPrivilegeDef.PEAK_ARENA_RESET_TIMES, vipTable));
 		vipTable.addPrivilege(EPrivilegeDef.ARENA_RESET_TIMES,getValue(EPrivilegeDef.ARENA_RESET_TIMES, vipTable));
+		
+		vipTable.addPrivilege(EPrivilegeDef.COPY_CELESTAL,GetMaxPrivilege(EPrivilegeDef.ARENA_RESET_TIMES));
+		vipTable.addPrivilege(EPrivilegeDef.TOWER_RESET_TIMES,GetMaxPrivilege(EPrivilegeDef.ARENA_RESET_TIMES));
+		vipTable.addPrivilege(EPrivilegeDef.BATTLE_TOWER_TIMES,GetMaxPrivilege(EPrivilegeDef.ARENA_RESET_TIMES));
 		vipDataHolder.update(m_pPlayer);
 		
 		int value = GetMaxPrivilege(EPrivilegeDef.SKILL_POINT_COUNT) - GetPrivilegeInCfg(m_oldVip, EPrivilegeDef.SKILL_POINT_COUNT);
