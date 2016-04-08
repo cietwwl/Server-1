@@ -3,6 +3,7 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -12,7 +13,6 @@ import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
-import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -45,6 +45,8 @@ public class MapItemStoreFactory {
 	// GroupMemberData
 	private static MapItemStoreCache<GroupMemberData> groupMemberCache;
 
+	private static MapItemStoreCache<ActivityCountTypeItem> ActivityCountTypeItemCache;
+	
 	private static List<MapItemStoreCache> list;
 
 	static {
@@ -79,6 +81,8 @@ public class MapItemStoreFactory {
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
 		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
+		
+		register(ActivityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
 
 	}
 
@@ -191,4 +195,10 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<GroupMemberData> getGroupMemberCache() {
 		return groupMemberCache;
 	}
+
+	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
+		return ActivityCountTypeItemCache;
+	}
+	
+	
 }
