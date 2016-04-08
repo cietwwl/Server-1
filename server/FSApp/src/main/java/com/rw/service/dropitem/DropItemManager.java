@@ -112,7 +112,7 @@ public class DropItemManager {
 				int dropRuleId = dropRuleList.get(j);
 				List<DropCfg> dropGroupList = DropCfgDAO.getInstance().getDropCfg(dropRuleId);
 				if (dropGroupList == null) {
-					GameLog.error("找不到掉落规则：" + dropRuleId + ",userId = " + userId);
+					GameLog.error("DropItemManager", "#pretreatDrop", "找不到掉落规则：" + dropRuleId +",copyId = "+copyId+ ",userId = " + userId);
 					continue;
 				}
 

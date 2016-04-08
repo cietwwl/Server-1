@@ -19,6 +19,8 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
+import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
+import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 
 public class UserChannelMgr {
@@ -124,17 +126,17 @@ public class UserChannelMgr {
 		
 		return userChannelMapCpy.size();
 	}
-	public static Map<String,AtomicInteger>  getSubChannelCount() {
-		Map<String,AtomicInteger> countMap = new HashMap<String, AtomicInteger>();
+	public static Map<String,eBILogRegSubChannelToClientPlatForm>  getSubChannelCount() {
+
 		
-		Enumeration<String> keys = userChannelMapCpy.keys();
-		while(keys.hasMoreElements()){
-			String nextkey = keys.nextElement();
+		Map<String,eBILogRegSubChannelToClientPlatForm> countMap = new HashMap<String, eBILogRegSubChannelToClientPlatForm>();
+		Enumeration<String> keys1 = userChannelMapCpy.keys();
+		while(keys1.hasMoreElements()){
+			String nextkey = keys1.nextElement();
 			Player nextOnline = PlayerMgr.getInstance().find(nextkey);
 			if(nextOnline!=null){
 				doCount(countMap, nextOnline);
-			}
-			
+			}			
 		}
 		Enumeration<String> keyDisconnet = disconnectMap.keys();
 		while(keyDisconnet.hasMoreElements()){
@@ -146,28 +148,52 @@ public class UserChannelMgr {
 			
 		}
 		
+		
+		
+		
+		
+		
+		
 		return countMap;
 	}
 
-	private static void doCount(Map<String, AtomicInteger> countMap, Player nextOnline) {
-		UserDataMgr userDataMgr = nextOnline.getUserDataMgr();
-		if(userDataMgr!=null){
-			ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
-			if(zoneRegInfo!=null){
-				String regSubChannelId = zoneRegInfo.getRegSubChannelId();
-				if(StringUtils.isBlank(regSubChannelId)){
-					regSubChannelId = "-2";
-				}
-				AtomicInteger count = countMap.get(regSubChannelId);
-				if(count == null){
-					count = new AtomicInteger(0);
-					countMap.put(regSubChannelId, count);
-				}
-				count.incrementAndGet();
+
+	
+	private static void doCount(Map<String, eBILogRegSubChannelToClientPlatForm> countMap, Player nextOnline) {
+	UserDataMgr userDataMgr = nextOnline.getUserDataMgr();
+	if(userDataMgr!=null){
+		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+		ZoneLoginInfo zoneLoginInfo = nextOnline.getZoneLoginInfo();
+		if(zoneRegInfo!=null&&zoneLoginInfo != null){
+			String regSubChannelId = zoneRegInfo.getRegSubChannelId();
+			String clientPlayForm = zoneLoginInfo.getLoginClientPlatForm();
+			if(StringUtils.isBlank(regSubChannelId)){
+				regSubChannelId = "-2";
+			}
+			if(StringUtils.isBlank(clientPlayForm)){
+				clientPlayForm = "-2";
+			}
+			
+			String str = new StringBuffer().append(regSubChannelId).append("平台").append(clientPlayForm).toString();
+			eBILogRegSubChannelToClientPlatForm  newregsubtoclient = countMap.get(str);
+			
+			
+			if(newregsubtoclient == null){
+				newregsubtoclient = new eBILogRegSubChannelToClientPlatForm();
+				newregsubtoclient.setCount(new AtomicInteger(1));
+				newregsubtoclient.setclientPlayForm(clientPlayForm);
+				newregsubtoclient.setregSubChannelId(regSubChannelId);
+				countMap.put(str,newregsubtoclient);
+			}else{
+				newregsubtoclient.getcount().incrementAndGet();
 			}
 		}
 	}
+}
+	
 
+	
+	
 	/**
 	 * 获取所有在线角色的id列表
 	 * 
@@ -217,5 +243,7 @@ public class UserChannelMgr {
 		}
 		return disconnectUserIds;
 	}
+
+	
 
 }

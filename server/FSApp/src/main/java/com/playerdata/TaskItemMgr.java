@@ -142,7 +142,8 @@ public class TaskItemMgr implements TaskMgrIF {
 				TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);
 				int value1 = 0;
-				if (task.getFinishType() == eTaskFinishDef.Hero_Quality || task.getFinishType() == eTaskFinishDef.Hero_Star) {
+				int finishType = cfg.getFinishType();
+				if (finishType == eTaskFinishDef.Hero_Quality.getOrder() || finishType == eTaskFinishDef.Hero_Star.getOrder()) {
 					// value:佣兵个数 -- value1:佣兵品质/佣兵星数
 					value1 = Integer.parseInt(cfg.getFinishParam().split("_")[1]);
 				}

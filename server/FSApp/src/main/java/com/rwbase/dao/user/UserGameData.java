@@ -330,6 +330,10 @@ public class UserGameData implements TableUserOtherIF {
 	public void setGiftGold(int giftGold) {
 		this.giftGold = giftGold;
 	}
+	
+	public void addGiftGold(int giftGoldDelta){
+		this.giftGold=this.giftGold+giftGoldDelta;
+	}
 
 	public long getLastWorshipTime() {
 		return lastWorshipTime;

@@ -22,7 +22,10 @@ public enum eBILogType {
 	VipSpread(19,"vip等级分布"),
 	ActivityBegin(20,"任务开始"),
 	ActivityEnd(21,"任务结束"), 
-	RoleUpgrade(22,"角色升级");
+	RoleUpgrade(22,"角色升级"),
+	GiftGoldChanged(23,"赠送充值币变动"),
+	ZoneCountGiftGold(24,"区充值币余额");
+	
 	
 	
 	private int logId;

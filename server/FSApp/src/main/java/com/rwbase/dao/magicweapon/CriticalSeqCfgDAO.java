@@ -1,14 +1,13 @@
 package com.rwbase.dao.magicweapon;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.magicweapon.pojo.CriticalEnhanceCfg;
 import com.rwbase.dao.magicweapon.pojo.CriticalSeqCfg;
 
 public class CriticalSeqCfgDAO extends CfgCsvDao<CriticalSeqCfg> {
