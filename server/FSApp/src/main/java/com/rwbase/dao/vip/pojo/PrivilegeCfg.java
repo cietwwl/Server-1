@@ -32,6 +32,9 @@ public class PrivilegeCfg {
 
 	private String desc;
 	private int battleTowerResetTimes;// 试练塔重置次数
+	
+	private int towerResetTime;   //万仙阵
+	private int copyCelestal;     //生存幻境
 
 	public int getVip() {
 		return vip;
@@ -264,5 +267,21 @@ public class PrivilegeCfg {
 
 	public void setResignOpen(int resignOpen) {
 		this.resignOpen = resignOpen;
+	}
+
+	public int getTowerResetTime() {
+		return towerResetTime;
+	}
+
+	public void setTowerResetTime(int towerResetTime) {
+		this.towerResetTime = towerResetTime;
+	}
+
+	public int getCopyCelestal() {
+		return copyCelestal;
+	}
+
+	public void setCopyCelestal(int copyCelestal) {
+		this.copyCelestal = copyCelestal;
 	}
 }
