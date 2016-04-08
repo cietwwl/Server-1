@@ -19,6 +19,7 @@ import com.rw.platform.PlatformService;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.ILog;
 import com.rw.service.log.LogService;
+import com.rw.service.log.RegLog;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rwbase.common.enu.EServerStatus;
 import com.rwbase.dao.user.accountInfo.TableAccount;
@@ -183,17 +184,17 @@ public class AccountLoginHandler {
 				if (log != null) {
 					log.fillInfoToClientInfo(clientInfo);
 				}
-				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), true);
+				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), null,true);
 			} else {
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), false);
+				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(),null, false);
 			}
 		} else {
 			response.setError("未知错误，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), false);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), null,false);
 		}
 	}
 
@@ -208,6 +209,8 @@ public class AccountLoginHandler {
 			accountId = newAccount.getAccount();
 			password = newAccount.getPassword();
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			
 			newAccount.setChannelId(clientInfo.getChannelId());
 			ILog log = processRegLog(logType, phoneInfo, accountId, clientInfo);
 			AccountInfo.Builder newAccountInfo = AccountInfo.newBuilder();
@@ -224,13 +227,13 @@ public class AccountLoginHandler {
 			if (log != null) {
 				log.fillInfoToClientInfo(clientInfo);
 			}
-			BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), true);
+			BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(),regLog, true);
 		} else {
 			response.setError("生成账号失败，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), false);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), null,false);
 		}
 		return accountId;
 	}
@@ -399,7 +402,7 @@ public class AccountLoginHandler {
 			log = LogService.getInstance().getLogByType(logType);
 			log.parseLog(logValue);
 			log.setLogValue(accountId);
-			LogService.getInstance().sendLog(log, clientInfo);
+//			LogService.getInstance().sendLog(log, clientInfo);
 			return log;
 		} catch (Exception ex) {
 			ex.printStackTrace();

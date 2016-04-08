@@ -15,6 +15,14 @@ public class RoleGameInfo {
 	private Integer vip;
 	
 	private Integer level;
+	//升级前等级，防止跳级频繁
+	private Integer levelBeforeUp;
+	
+	//银汉需求mapid，其实为levelid
+	private Integer mapid;
+	
+	//局次
+	private Integer GamesCode;
 	
 	//战力
 	private Integer fighting;
@@ -66,6 +74,7 @@ public class RoleGameInfo {
 		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
 		roleGameInfo.setCareerType(player.getCareer());
 		
+		
 		long roleCreatedTime = player.getUserDataMgr().getCreateTime();
 		
 		if(roleCreatedTime>0){
@@ -92,6 +101,9 @@ public class RoleGameInfo {
 			roleGameInfo.setStatInfo(statInfo.toString());
 			
 			roleGameInfo.setOnlineTime("online_time:" + onlineTime);
+		}
+		if(player.getCopyRecordMgr().getCalculateState() != null){
+			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
 		}
 		
 		return roleGameInfo;
@@ -120,7 +132,32 @@ public class RoleGameInfo {
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
+	
+	public Integer getLevelBeforeUp() {
+		return levelBeforeUp;
+	}
 
+	public void setLevelBeforeUp(Integer levelBeforeUp) {
+		this.levelBeforeUp = levelBeforeUp;
+	}
+	
+	public Integer getMapId() {
+		return mapid;
+	}
+
+	public void setMapId(Integer mapid) {
+		this.mapid = mapid;
+	}
+	
+	public Integer getGamesCode() {
+		return GamesCode;
+	}
+
+	public void setGamesCode(Integer gamescode) {
+		this.GamesCode = gamescode;
+	}
+	
+	
 	public Integer getFighting() {
 		return fighting;
 	}

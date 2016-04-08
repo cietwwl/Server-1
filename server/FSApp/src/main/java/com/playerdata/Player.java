@@ -760,7 +760,7 @@ public class Player implements PlayerIF {
 
 			// TODO 暂时先通知
 			ArenaBM.getInstance().notifyPlayerLevelUp(getUserId(), getCareer(), newLevel);
-			BILogMgr.getInstance().logRoleUpgrade(this);
+			BILogMgr.getInstance().logRoleUpgrade(this,currentLevel);
 		}
 	}
 

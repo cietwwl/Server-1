@@ -193,7 +193,7 @@ public class PvECommonHelper {
 		try {
 			int levelType = copyCfg.getLevelType();
 			CopyData copyData = player.getCopyDataMgr().getByInfoId(levelType);
-			if (copyData != null && PveHandler.getInstance().getRemainSeconds(copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
+			if (copyData != null && copyData.getResetCount() <= 0 && PveHandler.getInstance().getRemainSeconds(copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
 				player.NotifyCommonMsg(CommonTip.COOL_DOWN);
 				return EResultType.NOT_ENOUGH_TIMES;
 			}

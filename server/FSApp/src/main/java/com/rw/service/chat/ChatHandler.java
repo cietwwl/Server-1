@@ -541,7 +541,7 @@ public class ChatHandler {
 	}
 
 	private String filterDirtyWord(String content) {
-		return CharFilterFactory.getCharFilter().replaceDiryWords(content, "**", true, false);
+		return CharFilterFactory.getCharFilter().replaceDiryWords(content, "**", true, true);
 	}
 
 	// private byte[] privateMessageDecode(String message) {

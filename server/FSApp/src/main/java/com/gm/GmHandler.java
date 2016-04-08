@@ -26,6 +26,7 @@ import com.gm.task.GmEmailSingleSend;
 import com.gm.task.GmEmailWhiteList;
 import com.gm.task.GmExecuteGMCommand;
 import com.gm.task.GmForClassLoad;
+import com.gm.task.GmGetRankList;
 import com.gm.task.GmHotUpdate;
 import com.gm.task.GmKickOffPlayer;
 import com.gm.task.GmOnlineCount;
@@ -85,6 +86,8 @@ public class GmHandler {
 		//for class load by classname
 		taskMap.put(888888, new GmForClassLoad());
 		
+	
+		
 		//运营功能
 		taskMap.put(20001, new GmUserInfo());
 		taskMap.put(20002, new GmServerStatus());
@@ -114,6 +117,9 @@ public class GmHandler {
 		taskMap.put(20037, new GmViewEquipments());
 		taskMap.put(20040, new GmViewEmailList());
 		taskMap.put(99999, new GmExecuteGMCommand());
+		
+		//获取各种排名的用户id列表
+		taskMap.put(77777, new GmGetRankList());
 	}
 
 	

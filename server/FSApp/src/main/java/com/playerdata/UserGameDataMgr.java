@@ -5,6 +5,9 @@ import java.util.concurrent.TimeUnit;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.ItemChangedEventType_1;
+import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
@@ -155,7 +158,13 @@ public class UserGameDataMgr {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		if (tableUserOther.getCoin() + nValue >= 0) {
 			tableUserOther.setCoin(tableUserOther.getCoin() + nValue);
-			userGameDataHolder.update(player);
+			userGameDataHolder.update(player);			
+			
+			String scenceId = null;//暂时留空
+			ItemChangedEventType_1 type_1 = null; //暂时留空
+			ItemChangedEventType_2 type_2 = null;//暂时留空
+			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, tableUserOther.getCoin());
+			
 			return 0;
 		}
 		return -1;
@@ -208,6 +217,13 @@ public class UserGameDataMgr {
 		
 		tableUserOther.setGiftGold(tableUserOther.getGiftGold()+value);
 		tableUserOther.updateGold();
+		
+		
+		String scenceId = null;//暂时留空
+		ItemChangedEventType_1 type_1 = null; //暂时留空
+		ItemChangedEventType_2 type_2 = null;//暂时留空
+		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId , type_1, type_2, value, tableUserOther.getGiftGold());
+		
 		return 0;
 	}
 	//消费钻石
@@ -216,20 +232,31 @@ public class UserGameDataMgr {
 		int giftGold = tableUserOther.getGiftGold();		
 		int chargeGold = tableUserOther.getChargeGold();
 		boolean hasEngoughGold = giftGold + chargeGold + value >= 0 ;
+		int result = -1;
+		int giftGoldChanged = 0;
 		if(hasEngoughGold){
 			if(giftGold+value>=0){
 				tableUserOther.setGiftGold(giftGold+value);
+				giftGoldChanged = value;
 			}else{
 				tableUserOther.setGiftGold(0);
+				giftGoldChanged = -tableUserOther.getGiftGold();
+				
 				int chargeLeft = giftGold + chargeGold + value;
 				tableUserOther.setChargeGold(chargeLeft);
 			}	
 			tableUserOther.updateGold();
-			return 0;
+			result = 0;
 		}else{
-			return -1;
+			result = -1;
 		}
-		
+		if(result == 0){
+			String scenceId = null;//暂时留空
+			ItemChangedEventType_1 type_1 = null; //暂时留空
+			ItemChangedEventType_2 type_2 = null;//暂时留空
+			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId , type_1, type_2, giftGoldChanged, tableUserOther.getGiftGold());
+		}
+		return result;
 	}
 
 	public void setRecharge(int nValue) {
