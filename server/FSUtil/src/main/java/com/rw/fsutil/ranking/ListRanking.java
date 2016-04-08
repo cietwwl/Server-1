@@ -45,8 +45,16 @@ public interface ListRanking<K, E> {
 	 * @param rankingList
 	 * @return
 	 */
-	public List<ListRankingEntry<K, E>> getRankingEntrys(List<Integer> rankingList);
+	public List<ListRankingEntry<K, E>> getRankingEntries(List<Integer> rankingList);
 
+	/**
+	 * 获取指定排名的排行榜条目{@link ListRankingEntry}，如有toRanking超过当前排名，则只返回fromRanking到当前排名
+	 * @param fromRanking
+	 * @param toRanking
+	 * @return
+	 */
+	public List<? extends ListRankingEntry<K, E>> getRankingEntries(int fromRanking, int toRanking);
+	
 	/**
 	 * <pre>
 	 * 交换两个排行榜条目的位置,其中一个不存在排行榜返回false

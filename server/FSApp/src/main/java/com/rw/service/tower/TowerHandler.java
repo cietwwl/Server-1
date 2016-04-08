@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
 import com.playerdata.army.ArmyHero;
@@ -17,6 +18,8 @@ import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayFloorData;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.tower.pojo.TowerHeroChange;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
@@ -70,6 +73,15 @@ public class TowerHandler {
 	public ByteString getTowerPanelInfo(MsgTowerRequest request, Player player) {
 		MsgTowerResponse.Builder response = MsgTowerResponse.newBuilder();
 		response.setTowerType(request.getTowerType());
+
+		String userId = player.getUserId();
+		int level = player.getLevel();
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.TOWER, level);
+		if (openLevel != -1) {
+			GameLog.error("万仙阵获取面板信息", userId, String.format("万仙阵需要角色[%s]级才开启，当前角色等级是[%s]", openLevel, level));
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			return response.build().toByteString();
+		}
 
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
@@ -248,6 +260,15 @@ public class TowerHandler {
 		MsgTowerResponse.Builder response = MsgTowerResponse.newBuilder();
 		response.setTowerType(request.getTowerType());
 
+		String userId = player.getUserId();
+		int level = player.getLevel();
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.TOWER, level);
+		if (openLevel != -1) {
+			GameLog.error("万仙阵获取敌人信息", userId, String.format("万仙阵需要角色[%s]级才开启，当前角色等级是[%s]", openLevel, level));
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			return response.build().toByteString();
+		}
+
 		TableAngleArrayFloorData floorData = player.getTowerMgr().getAngleArrayFloorData();
 		if (floorData == null) {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
@@ -284,6 +305,15 @@ public class TowerHandler {
 	public ByteString endFightTower(MsgTowerRequest request, Player player) {
 		MsgTowerResponse.Builder response = MsgTowerResponse.newBuilder();
 		response.setTowerType(request.getTowerType());
+
+		String userId = player.getUserId();
+		int level = player.getLevel();
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.TOWER, level);
+		if (openLevel != -1) {
+			GameLog.error("万仙阵结束战斗", userId, String.format("万仙阵需要角色[%s]级才开启，当前角色等级是[%s]", openLevel, level));
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			return response.build().toByteString();
+		}
 
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleData = towerMgr.getAngleArrayData();
@@ -372,6 +402,15 @@ public class TowerHandler {
 		MsgTowerResponse.Builder response = MsgTowerResponse.newBuilder();
 		response.setTowerType(request.getTowerType());
 
+		String userId = player.getUserId();
+		int level = player.getLevel();
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.TOWER, level);
+		if (openLevel != -1) {
+			GameLog.error("万仙阵获取奖励", userId, String.format("万仙阵需要角色[%s]级才开启，当前角色等级是[%s]", openLevel, level));
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			return response.build().toByteString();
+		}
+
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleData = towerMgr.getAngleArrayData();
 		if (angleData == null) {
@@ -431,6 +470,15 @@ public class TowerHandler {
 	public ByteString restTowerData(MsgTowerRequest request, Player player) {
 		MsgTowerResponse.Builder response = MsgTowerResponse.newBuilder();
 		response.setTowerType(eTowerType.TOWER_RESET_DATA);
+
+		String userId = player.getUserId();
+		int level = player.getLevel();
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.TOWER, level);
+		if (openLevel != -1) {
+			GameLog.error("万仙阵重置数据", userId, String.format("万仙阵需要角色[%s]级才开启，当前角色等级是[%s]", openLevel, level));
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			return response.build().toByteString();
+		}
 
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();

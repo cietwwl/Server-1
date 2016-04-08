@@ -154,6 +154,29 @@ public class DateUtils {
 		}
 		return lastTime < resetTimeMillis;
 	}
+	
+	/**
+	 * 获取指定时间最近一次重置的毫秒数
+	 * @param hour
+	 * @param minute
+	 * @param second
+	 * @return
+	 */
+	public static long getResetTime(int hour, int minute, int second){
+		Calendar calendar = Calendar.getInstance();
+		long curTime = calendar.getTimeInMillis();// 当前时间
+
+		// 重置时间
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, minute);
+		calendar.set(Calendar.SECOND, second);
+		calendar.set(Calendar.MILLISECOND, 0);
+		long resetTimeMillis = calendar.getTimeInMillis();// 今天重置点时间
+		if (curTime < resetTimeMillis) {// 当前登录时间小于今天重置点时间，那么就要重置判断时间点再推前一天
+			resetTimeMillis -= DAY_MILLIS;
+		}
+		return resetTimeMillis;
+	}
 
 	/**
 	 * 相隔的天数

@@ -1,5 +1,7 @@
 package com.bm.rank;
 
+import java.util.EnumMap;
+
 import com.bm.rank.arena.ArenaExtension;
 import com.common.HPCUtil;
 import com.rw.fsutil.common.TypeIdentification;
@@ -9,15 +11,11 @@ import com.rwbase.common.enu.ECareer;
 
 public enum ListRankingType implements TypeIdentification, ListRankingConfig {
 
-	WARRIOR_ARENA(ECareer.Warrior.getValue(), 100000, "力士竞技场", 0, ArenaExtension.class), 
-	SWORDMAN_ARENA(ECareer.SwordsMan.getValue(), 100000, "剑士竞技场", 0, ArenaExtension.class), 
-	MAGICAN_ARENA(ECareer.Magican.getValue(), 100000, "术士竞技场", 0, ArenaExtension.class), 
-	PRIEST_ARENA(ECareer.Priest.getValue(), 100000, "祭祀竞技场", 0, ArenaExtension.class), 
-	
-	WARRIOR_ARENA_DAILY(11, 100000, "全日力士竞技场", 0, ArenaExtension.class), 
-	SWORDMAN_ARENA_DAILY(12, 100000, "全日剑士竞技场", 0, ArenaExtension.class), 
-	MAGICAN_ARENA_DAILY(13, 100000, "全日术士竞技场", 0, ArenaExtension.class), 
-	PRIEST_ARENA_DAILY(14, 100000, "全日祭祀竞技场", 0, ArenaExtension.class), 
+	WARRIOR_ARENA(ECareer.Warrior.getValue(), 100000, "力士竞技场", 1, ArenaExtension.class, RankType.WARRIOR_ARENA), 
+	SWORDMAN_ARENA(ECareer.SwordsMan.getValue(), 100000, "剑士竞技场", 1, ArenaExtension.class, RankType.SWORDMAN_ARENA), 
+	MAGICAN_ARENA(ECareer.Magican.getValue(), 100000, "术士竞技场", 1, ArenaExtension.class, RankType.MAGICAN_ARENA), 
+	PRIEST_ARENA(ECareer.Priest.getValue(), 100000, "祭祀竞技场", 1, ArenaExtension.class, RankType.PRIEST_ARENA), 
+
 	;
 
 	private final int type;
@@ -25,13 +23,16 @@ public enum ListRankingType implements TypeIdentification, ListRankingConfig {
 	private final String name;
 	private final int updatePeriodMinutes;
 	private final Class<? extends ListRankingExtension> clazz;
+	private final RankType rankType;
 
-	private ListRankingType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends ListRankingExtension> clazz) {
+	private ListRankingType(int type, int maxCapacity, String name, int updatePeriodMinutes,
+			Class<? extends ListRankingExtension> clazz,RankType rankType) {
 		this.type = type;
 		this.maxCapacity = maxCapacity;
 		this.name = name;
 		this.updatePeriodMinutes = updatePeriodMinutes;
 		this.clazz = clazz;
+		this.rankType = rankType;
 	}
 
 	@Override
@@ -63,16 +64,30 @@ public enum ListRankingType implements TypeIdentification, ListRankingConfig {
 	public int getTypeValue() {
 		return type;
 	}
+	
+	public RankType getRankType() {
+		return rankType;
+	}
 
 	private static ListRankingType[] typeArray;
+	private static EnumMap<RankType,ListRankingType> rankTypeMapping;
 
 	static {
-		TypeIdentification[] orignal = HPCUtil.toMappedArray(values());
+		ListRankingType[] array = values();
+		TypeIdentification[] orignal = HPCUtil.toMappedArray(array);
 		typeArray = new ListRankingType[orignal.length];
 		HPCUtil.copy(orignal, typeArray);
+		rankTypeMapping = new EnumMap<RankType,ListRankingType>(RankType.class);
+		for(ListRankingType type:array){
+			rankTypeMapping.put(type.getRankType(), type);
+		}
 	}
 
 	public static ListRankingType getListRankingType(int type) {
 		return typeArray[type];
+	}
+	
+	public static ListRankingType getListRankingType(RankType type){
+		return rankTypeMapping.get(type);
 	}
 }

@@ -93,7 +93,7 @@ public class TimerManager {
 			public void doTask() {
 				RankingMgr.getInstance().arenaCalculate();
 			}
-		}, 9);
+		}, 21);
 		
 		timeService.scheduleAtFixedRate(new Runnable() {
 

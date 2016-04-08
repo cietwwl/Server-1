@@ -144,6 +144,9 @@ public class PveHandler {
 
 	public int getRemainSeconds(long lastTime, long currentTime, int copyType) {
 		CopyEntryCfg entry = (CopyEntryCfg) CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
+		if(entry == null){
+			return 0;
+		}
 		int seconds = entry.getCdSeconds();
 		long remain = TimeUnit.MILLISECONDS.toSeconds(currentTime - lastTime);
 		if (remain < seconds) {

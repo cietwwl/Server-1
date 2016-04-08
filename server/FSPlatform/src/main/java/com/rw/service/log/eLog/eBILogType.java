@@ -2,7 +2,8 @@ package com.rw.service.log.eLog;
 
 public enum eBILogType {
 	AccountRegLog(1,"帐号注册"),
-	AccountLoginLog(1,"帐号登陆")
+	AccountLoginLog(1,"帐号登陆"),
+	ModelRegLog(1,"机型注册")
 	;
 	
 	

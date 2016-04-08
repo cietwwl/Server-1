@@ -31,6 +31,7 @@ import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
+import com.rw.service.log.template.GiftGoldChangedLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
@@ -42,6 +43,7 @@ import com.rw.service.log.template.RoleUpgradeLogTemplate;
 import com.rw.service.log.template.TaskBeginLogTemplate;
 import com.rw.service.log.template.TaskEndLogTemplate;
 import com.rw.service.log.template.ZoneCountCoinLogTemplate;
+import com.rw.service.log.template.ZoneCountGiftGoldLogTemplate;
 import com.rw.service.log.template.ZoneCountLevelSpreadLogTemplate;
 import com.rw.service.log.template.ZoneCountTotalAccountLogTemplate;
 import com.rw.service.log.template.ZoneCountVipSpreadLogTemplate;
@@ -94,6 +96,8 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ActivityBegin, new ActivityBeginLogTemplate());
 		templateMap.put(eBILogType.ActivityEnd, new ActivityEndLogTemplate());
 		templateMap.put(eBILogType.RoleUpgrade, new RoleUpgradeLogTemplate());
+		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
+		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 
 	}
 
@@ -156,7 +160,18 @@ public class BILogMgr {
 
 		log(eBILogType.ZoneCountCoin, null, null, null, moreInfo);
 	}
+	public void logZoneCountGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
 
+		Map<String, String> moreInfo = new HashMap<String, String>();
+
+		moreInfo.put("threadId", "" + Thread.currentThread().getId());
+		moreInfo.put("zoneGiftGoldRemain", "" + zoneGoldRemain);
+		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
+
+		log(eBILogType.ZoneCountGiftGold, null, null, null, moreInfo);
+	}
 	public void logZoneCountLevelSpread(String regSubChannelId, String level, long levelCount, String clientPlatForm) {
 
 		Map<String, String> moreInfo = new HashMap<String, String>();
@@ -449,7 +464,7 @@ public class BILogMgr {
 
 				@Override
 				public void run() {
-					biLog.info(logType + " " + logTemplate.getTextTemplate());
+//					biLog.info(logType + " " + logTemplate.getTextTemplate());
 					biLog.info(logType + " " + log);
 					LogService.getInstance().sendLog(log);
 
