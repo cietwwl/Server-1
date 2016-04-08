@@ -299,9 +299,22 @@ public class FashionMgr implements FashionMgrIF{
 			List<String> args = new ArrayList<String>();
 			args.add(fashionCfg.getName());
 			EmailUtils.sendEmail(player.getUserId(), GiveEMailID,args);
+			GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
 		}
 		notifyProxy.checkDelayNotify();
 		return;
+	}
+	
+	public boolean GMSetExpiredTime(int fashionId,int minutes){
+		FashionItem item = fashionItemHolder.getItem(fashionId);
+		if (item == null) {
+			GameLog.info("时装", m_player.getUserId(), "无法重置时装过期时间，找不到时装:"+fashionId, null);
+			return false;
+		}
+		long now = System.currentTimeMillis();
+		item.setExpiredTime(now+TimeUnit.MINUTES.toMillis(minutes));
+		GameLog.info("时装", m_player.getUserId(), "成功重置时装过期时间，还有"+minutes+"分钟过期", null);
+		return true;
 	}
 	
 	/**
@@ -519,6 +532,7 @@ public class FashionMgr implements FashionMgrIF{
 					List<String> args = new ArrayList<String>();
 					args.add(fashionName);
 					EmailUtils.sendEmail(m_player.getUserId(), ExpiredEMailID,args);
+					GameLog.info("时装", m_player.getUserId(), "发送时装过期的邮件", null);
 					m_player.NotifyCommonMsg(String.format(ExpiredNotifycation,fashionName));
 				}
 			}

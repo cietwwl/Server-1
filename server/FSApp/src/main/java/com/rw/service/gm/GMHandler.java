@@ -13,7 +13,9 @@ import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.guild.GuildGTSMgr;
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
+import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
@@ -103,6 +105,8 @@ public class GMHandler {
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
+		// 时装
+		funcCallBackMap.put("fashion", "setFashionExpiredTime");
 	}
 
 	public boolean isActive() {
@@ -114,6 +118,18 @@ public class GMHandler {
 	}
 
 	/** GM命令 */
+	//setFashionExpiredTime
+	public boolean setFashionExpiredTime(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "调用设置过期时间命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			GameLog.info("时装", player.getUserId(), "调用设置过期时间命令,参数不足", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetExpiredTime(fashionId, minutes);
+	}
 
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
 		System.out.println("ReadNewGuideConfig command");
