@@ -62,21 +62,36 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	private final Class<? extends RankingExtension> clazz;
 	private RankingEntityCopyer entityCopyer;
 
-	private static HashMap<Integer, RankType> map;
+	private static HashMap<Integer, RankType> dailyMap;
+	private static HashMap<Integer, RankType> realTimeMap;
 	
 	static{
-		map = new HashMap<Integer, RankType>();
-		map.put(101, WARRIOR_ARENA_DAILY);
-		map.put(102, SWORDMAN_ARENA_DAILY);
-		map.put(103, MAGICAN_ARENA_DAILY);
-		map.put(104, PRIEST_ARENA_DAILY);
-		map.put(201, FIGHTING_ALL_DAILY);
-		map.put(203, TEAM_FIGHTING_DAILY);
-		map.put(301, LEVEL_ALL_DAILY);
+		//TODO 兼容旧代码临时的区分实时和每日的方案
+		dailyMap = new HashMap<Integer, RankType>();
+		dailyMap.put(101, WARRIOR_ARENA_DAILY);
+		dailyMap.put(102, SWORDMAN_ARENA_DAILY);
+		dailyMap.put(103, MAGICAN_ARENA_DAILY);
+		dailyMap.put(104, PRIEST_ARENA_DAILY);
+		dailyMap.put(201, FIGHTING_ALL_DAILY);
+		dailyMap.put(203, TEAM_FIGHTING_DAILY);
+		dailyMap.put(301, LEVEL_ALL_DAILY);
+		
+		realTimeMap = new HashMap<Integer, RankType>();
+		realTimeMap.put(101, WARRIOR_ARENA);
+		realTimeMap.put(102, SWORDMAN_ARENA);
+		realTimeMap.put(103, MAGICAN_ARENA);
+		realTimeMap.put(104, PRIEST_ARENA);
+		realTimeMap.put(201, FIGHTING_ALL);
+		realTimeMap.put(203, TEAM_FIGHTING);
+		realTimeMap.put(301, LEVEL_ALL);
 	}
 	
-	public static RankType getRankType(int type){
-		return map.get(type);
+	public static RankType getRankType(int type,int realTime){
+		if(realTime == 0){
+		    return dailyMap.get(type);
+		}else{
+			return realTimeMap.get(type);
+		}
 	}
 	
 	public int getType() {

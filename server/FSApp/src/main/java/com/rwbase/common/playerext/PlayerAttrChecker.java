@@ -10,10 +10,12 @@ public class PlayerAttrChecker implements PlayerTaskListener {
 	public void notifyTaskCompleted(Player player) {
 		RankingMgr rankingMgr = RankingMgr.getInstance();
 		PlayerTempAttribute tempAttr = player.getTempAttribute();
-		if (tempAttr.checkAndResetExpChanged() || tempAttr.checkAndResetFightingChanged()) {
+		boolean expChanged = tempAttr.checkAndResetExpChanged();
+		boolean fightingChanged = tempAttr.checkAndResetFightingChanged();
+		if (expChanged || fightingChanged) {
 			rankingMgr.onLevelOrExpChanged(player);
 		}
-		if (tempAttr.checkAndResetFightingChanged()) {
+		if (fightingChanged) {
 			rankingMgr.onHeroFightingChanged(player);
 		}
 	}

@@ -38,15 +38,16 @@ public class RankingHandler {
 	public ByteString rankingInfo(MsgRankRequest request, Player player){
 		MsgRankResponse.Builder response = MsgRankResponse.newBuilder();
 		response.setRequestType(request.getRequestType());
-		CfgRanking cfgRanking = CfgRankingDAO.getInstance().getRankingCf(request.getRankType());
+		int requestType = request.getRankType();
+		CfgRanking cfgRanking = CfgRankingDAO.getInstance().getRankingCf(requestType);
 		if(player.getLevel() < cfgRanking.getLimitLevel()){
 			response.setResultType(ERankResultType.NOT_LEVEL);
 			return response.build().toByteString();
 		}
 		String requestUserId = request.getUserId();
-		response.setRankType(request.getRankType());
-		response.setBaseRankInfo(getBaseRankInfo(request.getUserId(), ERankingType.valueOf(request.getRankType())));
-		RankType rankType = RankType.getRankType(request.getRankType());
+		response.setRankType(requestType);
+		response.setBaseRankInfo(getBaseRankInfo(request.getUserId(), ERankingType.valueOf(requestType)));
+		RankType rankType = RankType.getRankType(requestType, cfgRanking.getRealTime());
 		Ranking ranking = RankingFactory.getRanking(rankType);
 		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId),ranking.getRanking(requestUserId)));
 		return response.build().toByteString();
@@ -64,13 +65,14 @@ public class RankingHandler {
 			return response.build().toByteString();
 		}
 		
-		List<RankInfo> rankList = RankingUtils.createRankList(RankType.getRankType(request.getRankType()));
+
+		RankType rankType = RankType.getRankType(request.getRankType(),cfgRanking.getRealTime());
+		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
 		pushRankList(player, rankList.size() > 20 ? rankList.subList(0, 20) : rankList, ERankRequestType.RANK_LIST_PART1);
 		if(rankList.size() > 20){
 			pushRankList(player, rankList.subList(20, rankList.size()), ERankRequestType.RANK_LIST_PART2);
 		}
 		
-		RankType rankType = RankType.getRankType(request.getRankType());
 		Ranking ranking = RankingFactory.getRanking(rankType);
 		RankingLevelData myInfoData = RankingMgr.getInstance().getRankLevelData(rankType, userId);
 		if(myInfoData != null){
