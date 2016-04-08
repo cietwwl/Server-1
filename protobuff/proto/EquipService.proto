@@ -11,6 +11,7 @@ enum EquipEventType {
 	Advance = 4;//进阶
 	Equip_Attach = 5;//装备附灵
 	Equip_OnekeyAttach = 6;//装备一键附灵
+	OneKeyWearEquip = 7;//一键穿装
 }
 
 message TagMate{

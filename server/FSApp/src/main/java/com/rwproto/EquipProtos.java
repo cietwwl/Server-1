@@ -61,6 +61,14 @@ public final class EquipProtos {
      * </pre>
      */
     Equip_OnekeyAttach(5, 6),
+    /**
+     * <code>OneKeyWearEquip = 7;</code>
+     *
+     * <pre>
+     *一键穿装
+     * </pre>
+     */
+    OneKeyWearEquip(6, 7),
     ;
 
     /**
@@ -111,6 +119,14 @@ public final class EquipProtos {
      * </pre>
      */
     public static final int Equip_OnekeyAttach_VALUE = 6;
+    /**
+     * <code>OneKeyWearEquip = 7;</code>
+     *
+     * <pre>
+     *一键穿装
+     * </pre>
+     */
+    public static final int OneKeyWearEquip_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -123,6 +139,7 @@ public final class EquipProtos {
         case 4: return Advance;
         case 5: return Equip_Attach;
         case 6: return Equip_OnekeyAttach;
+        case 7: return OneKeyWearEquip;
         default: return null;
       }
     }
@@ -5522,11 +5539,11 @@ public final class EquipProtos {
       "uipEventType\022\016\n\006roleId\030\002 \001(\t\022*\n\tequipDat" +
       "a\030\003 \003(\0132\027.EquipService.EquipData\022&\n\005erro" +
       "r\030\004 \002(\0162\027.ErrorService.ErrorType\022\022\n\nequi" +
-      "pIndex\030\005 \001(\005*z\n\016EquipEventType\022\016\n\nEquip_" +
-      "Sync\020\001\022\021\n\rEquip_Compose\020\002\022\016\n\nWear_Equip\020" +
-      "\003\022\013\n\007Advance\020\004\022\020\n\014Equip_Attach\020\005\022\026\n\022Equi" +
-      "p_OnekeyAttach\020\006B\032\n\013com.rwprotoB\013EquipPr",
-      "otos"
+      "pIndex\030\005 \001(\005*\217\001\n\016EquipEventType\022\016\n\nEquip" +
+      "_Sync\020\001\022\021\n\rEquip_Compose\020\002\022\016\n\nWear_Equip" +
+      "\020\003\022\013\n\007Advance\020\004\022\020\n\014Equip_Attach\020\005\022\026\n\022Equ" +
+      "ip_OnekeyAttach\020\006\022\023\n\017OneKeyWearEquip\020\007B\032",
+      "\n\013com.rwprotoB\013EquipProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
