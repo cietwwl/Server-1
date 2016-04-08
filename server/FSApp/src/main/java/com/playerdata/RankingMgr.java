@@ -466,8 +466,9 @@ public class RankingMgr {
 		int teamFighting = player.getHeroMgr().getFightingTeam();
 		int fighting = player.getHeroMgr().getFightingAll();
 		String userId = player.getUserId();
-		if (checkUpdateFighting(player, RankType.TEAM_FIGHTING, teamFighting, ERankingType.TEAM_FIGHTING_ALL)
-				|| checkUpdateFighting(player, RankType.FIGHTING_ALL, fighting, ERankingType.FIGHTING_ALL)) {
+		boolean teamFightingChanged = checkUpdateFighting(player, RankType.TEAM_FIGHTING, teamFighting, ERankingType.TEAM_FIGHTING_ALL);
+		boolean allFightingChanged = checkUpdateFighting(player, RankType.FIGHTING_ALL, fighting, ERankingType.FIGHTING_ALL);
+		if (teamFightingChanged || allFightingChanged) {
 			updateEntryFighting(RankType.LEVEL_ALL, fighting, teamFighting, userId);
 			// TODO 这两个可以合并在updateFighting操作中
 			updateEntryFighting(RankType.TEAM_FIGHTING, fighting, teamFighting, userId);
