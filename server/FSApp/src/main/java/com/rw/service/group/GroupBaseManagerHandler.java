@@ -14,6 +14,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.group.helper.GroupRankHelper;
+import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.GroupCheckDismissTask;
@@ -383,6 +384,9 @@ public class GroupBaseManagerHandler {
 			@Override
 			public void run(Player player) {
 				player.getUserGroupAttributeDataMgr().updateGroupName(player, groupName);
+
+				// 通知好友修改了帮派名字
+				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 			}
 		};
 
