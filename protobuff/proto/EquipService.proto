@@ -47,5 +47,6 @@ message EquipResponse {
 	repeated EquipData equipData = 3;//法宝的数据将不在包含在装备的数据结构中了
 	required ErrorService.ErrorType error = 4;
 	optional int32 equipIndex = 5;//操作的装备
+	repeated int32 oneKeySuccessIndex = 6;//一键穿装成功穿戴的装备位置
 }
 

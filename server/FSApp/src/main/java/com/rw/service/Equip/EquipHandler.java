@@ -355,7 +355,8 @@ public class EquipHandler {
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		/** <格子Id,装备的数据库Id> */
 		Map<Integer, String> needEquipMap = new HashMap<Integer, String>();// 需要穿的装备
-
+		/** <装备的模版Id> */
+		List<Integer> hasEquipTmpIdList = new ArrayList<Integer>();
 		for (int i = 0; i < size; i++) {
 			EquipItem equipItem = hasEquipList.get(i);
 			if (equipItem == null) {
@@ -364,6 +365,14 @@ public class EquipHandler {
 
 			int templateId = equipItem.getModelId();
 			if (equipList.contains(templateId)) {// 没有穿在身上
+				hasEquipTmpIdList.add(templateId);
+			}
+		}
+
+		// 检查所有装备
+		for (int i = 0, equipSize = equipList.size(); i < equipSize; i++) {
+			int templateId = equipList.get(i);
+			if (hasEquipTmpIdList.contains(templateId)) {
 				continue;
 			}
 
@@ -391,7 +400,10 @@ public class EquipHandler {
 
 		// 准备穿戴装备
 		for (Entry<Integer, String> e : needEquipMap.entrySet()) {
-			equipMgr.wearEquip(e.getValue(), e.getKey());
+			Integer index = e.getKey();
+			if (equipMgr.wearEquip(e.getValue(), index)) {
+				rsp.addOneKeySuccessIndex(index);
+			}
 		}
 
 		rsp.setError(ErrorType.SUCCESS);
