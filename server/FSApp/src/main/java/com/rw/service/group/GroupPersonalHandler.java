@@ -45,6 +45,8 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwproto.GroupCommonProto.GroupFunction;
 import com.rwproto.GroupCommonProto.GroupLogType;
 import com.rwproto.GroupCommonProto.GroupPost;
@@ -174,6 +176,12 @@ public class GroupPersonalHandler {
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.GET_GROUP_RANK_INFO_TYPE);
 
+		// 检查当前角色的等级有没有达到可以使用帮派功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		if (openLevel != -1) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		}
+
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
 		if (gbct == null) {
@@ -228,6 +236,12 @@ public class GroupPersonalHandler {
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.FIND_GROUP_TYPE);
+
+		// 检查当前角色的等级有没有达到可以使用帮派功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		if (openLevel != -1) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		}
 
 		// 检查是否有帮派
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -286,6 +300,12 @@ public class GroupPersonalHandler {
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.APPLY_JOIN_GROUP_TYPE);
+
+		// 检查当前角色的等级有没有达到可以使用帮派功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		if (openLevel != -1) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		}
 
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
