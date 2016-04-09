@@ -65,7 +65,7 @@ public class GmUserDetailInfo implements IGmTask {
 		map.put("roleId", user.getUserId());
 		map.put("roleName", user.getUserName());
 		map.put("level", user.getLevel());
-		map.put("exp", user.getExp());
+		map.put("exp", player.getExp());
 		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
 		UserDataMgr userDataMgr = player.getUserDataMgr();
 		map.put("coin", userGameDataMgr.getCoin());

@@ -22,7 +22,7 @@ public abstract class BILogTemplate {
 				infoMap = new HashMap<String, String>();
 			}
 			if(reglog != null){
-				infoMap = reglog.getInfoMap();
+				infoMap = reglog.getInfoMap(infoMap);
 			}
 			
 			

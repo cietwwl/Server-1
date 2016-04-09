@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
+import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
@@ -26,8 +27,10 @@ public class GmViewEquipments implements IGmTask{
 	public GmResponse doTask(GmRequest request) {
 		GmResponse response = new GmResponse();
 		try {
-			String roleId = (String) request.getArgs().get("roleId");
-			int serverId = Integer.parseInt(request.getArgs().get("serverId").toString());
+			
+			Map<String, Object> args = request.getArgs();
+			String roleId = GmUtils.parseString(args, "roleId");
+			int serverId = GmUtils.parseInt(args, "serverId");
 			
 			if (StringUtils.isBlank(roleId) || serverId <= 0) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));

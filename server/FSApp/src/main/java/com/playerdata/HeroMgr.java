@@ -234,7 +234,7 @@ public class HeroMgr implements HeroMgrIF{
 		userHerosDataHolder.get().addHeroId(hero.getUUId());
 		userHerosDataHolder.update(player);
 		hero.syn(-1);
-
+		player.getTempAttribute().setHeroFightingChanged();
 		return hero;
 	}
 

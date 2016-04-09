@@ -24,6 +24,7 @@ import com.rwbase.dao.copy.cfg.ItemProbabilityCfgDAO;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.pojo.CopyData;
+import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.CopyServiceProtos.ERequestType;
@@ -31,6 +32,8 @@ import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
+
+import freemarker.cache.StrongCacheStorage;
 
 public class PvECommonHelper {
 
@@ -192,11 +195,15 @@ public class PvECommonHelper {
 		}
 		try {
 			int levelType = copyCfg.getLevelType();
-			CopyData copyData = player.getCopyDataMgr().getByInfoId(levelType);
-			if (copyData != null && PveHandler.getInstance().getRemainSeconds(copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
-				player.NotifyCommonMsg(CommonTip.COOL_DOWN);
-				return EResultType.NOT_ENOUGH_TIMES;
+			CopyInfoCfg infoCfg = player.getCopyDataMgr().getCopyInfoCfgByLevelID(String.valueOf(copyCfg.getLevelID()));
+			if(infoCfg != null){
+				CopyData copyData = player.getCopyDataMgr().getByInfoId(infoCfg.getId());
+				if (copyData != null && copyData.getResetCount() <= 0 && PveHandler.getInstance().getRemainSeconds(copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
+					player.NotifyCommonMsg(CommonTip.COOL_DOWN);
+					return EResultType.NOT_ENOUGH_TIMES;
+				}
 			}
+			
 		} catch (Exception e) {
 			GameLog.error("PvECommonHelper", "#checkLimit()", "", e);
 		}

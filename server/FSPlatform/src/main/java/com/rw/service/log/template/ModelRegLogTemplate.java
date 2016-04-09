@@ -5,7 +5,7 @@ import java.util.Set;
 public class ModelRegLogTemplate extends BILogTemplate{
 
 	
-	final private String template="$logTime$|user_info|0|$logTime$|model_reg|0|$regChannelId_uid$||$subChannelId$|$subChannelId$|$clientPlatForm$|留空|$phoneOp$|$netType$|$brandName$|$phoneType$|$clientVersion$|$clientIp$|$imei$|$imac$|$sdkVersion$|$sdk_id$|$systemVersion$|$systemType$|$cpu$|$cpuType$|$cpuFrequency$|$cpuKernal$|$gpuType$|$gpuFrequency$|$gpuKernal$|$ram$|$freeRam$|$enoughRam$|$hardRam$|$freeHardRam$|$sdSize$|$freeSdSize$|$resolution$|$baseband$|$kernal$|$OpenGL_RENDERER$|OpenGL_VENDOR|$OpenGL_VERSION$|此处留空|";
+	final private String template="$logTime$|user_info|0|$logTime$|model_reg|0|$regChannelId_uid$|$accountId$|$subChannelId$|$subChannelId$|$clientPlatForm$|留空|$phoneOp$|$netType$|$brandName$|$phoneType$|$clientVersion$|$clientIp$|$imei$|$imac$|$sdkVersion$|$sdk_id$|$systemVersion$|$systemType$|$cpu$|$cpuType$|$cpuFrequency$|$cpuKernal$|$gpuType$|$gpuFrequency$|$gpuKernal$|$ram$|$freeRam$|$enoughRam$|$hardRam$|$freeHardRam$|$sdSize$|$freeSdSize$|$resolution$|$baseband$|$kernal$|$OpenGL_RENDERER$|OpenGL_VENDOR|$OpenGL_VERSION$|此处留空|";
 	
 
 	final private Set<String> infoNameSet = BILogTemplateHelper.getInfoNameSet(template);
