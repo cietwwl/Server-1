@@ -25,6 +25,7 @@ public class BILogMgr {
 		return instance;
 	}
 	
+
 	private BILogMgr(){
 		
 		templateMap = new HashMap<eBILogType, BILogTemplate>();
@@ -86,6 +87,7 @@ public class BILogMgr {
 				
 				@Override
 				public void dotask() {
+//					biLog.info(logType + " " + logTemplate.getTextTemplate());
 					biLog.info(log);
 					LogService.getInstance().sendLog(log);
 				}
