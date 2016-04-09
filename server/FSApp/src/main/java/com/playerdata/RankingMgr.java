@@ -1,7 +1,6 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Set;
@@ -388,7 +387,11 @@ public class RankingMgr {
 	public List<RankingLevelData> getRankList(RankType rankType) {
 		CfgRanking cfg = CfgRankingDAO.getInstance().getRankingCf(getCfgId(rankType));
 		int maxCount = cfg.getRankNum();
-		return getRankingGetOp(rankType).getRankList(rankType, maxCount);
+		return getRankList(rankType, maxCount);
+	}
+	
+	public List<RankingLevelData> getRankList(RankType rankType,int count){
+		return getRankingGetOp(rankType).getRankList(rankType, count);
 	}
 
 	/** 根据类型、用户ID 获取排名 无数据返回0 0表示未入榜 */
