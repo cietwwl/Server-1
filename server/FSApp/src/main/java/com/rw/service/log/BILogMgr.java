@@ -31,6 +31,7 @@ import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
+import com.rw.service.log.template.GiftGoldChangedLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
@@ -96,6 +97,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ActivityEnd, new ActivityEndLogTemplate());
 		templateMap.put(eBILogType.RoleUpgrade, new RoleUpgradeLogTemplate());
 		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
+		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 
 	}
 

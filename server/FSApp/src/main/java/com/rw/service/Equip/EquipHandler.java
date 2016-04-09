@@ -20,11 +20,16 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.EHeroQuality;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.ComposeCfg;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.itembase.INewItem;
+import com.rwbase.dao.item.pojo.itembase.IUseItem;
+import com.rwbase.dao.item.pojo.itembase.NewItem;
+import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwproto.EquipProtos.EquipEventType;
@@ -165,35 +170,89 @@ public class EquipHandler {
 	public ByteString equipCompose(Player player, int equipId) {
 		EquipResponse.Builder response = EquipResponse.newBuilder();
 		response.setEventType(EquipEventType.Equip_Compose);
-		List<Integer> ids = GetComposeIds(player, equipId);
 
-		if (checkCompose(player, equipId) != 1) {
+		String userId = player.getUserId();
+		ComposeCfg cfg = ComposeCfgDAO.getInstance().getCfg(equipId);
+		if (cfg == null) {
+			GameLog.error("装备合成", userId, String.format("装备Id[%s]找不到对应的ComposeCfg配置", equipId));
+			response.setError(ErrorType.FAIL);
+			return response.build().toByteString();
+		}
+
+		OutInt out = new OutInt();
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, equipId, 1, out);
+		if (composeNeedMateMap == null || composeNeedMateMap.isEmpty()) {
+			GameLog.error("装备合成", userId, String.format("装备Id[%s]需要的材料不足或者根本就不需要合成", equipId));
 			response.setError(ErrorType.NOT_ENOUGH_MATE);
 			return response.build().toByteString();
 		}
 
-		int cost = 0;
-		for (Integer id : ids) {
-			ComposeCfg cfg = ComposeCfgDAO.getInstance().getCfg(id);
-			cost += cfg.getCost();
-		}
-		if (cost > player.getUserGameDataMgr().getCoin()) {
+		out.value += cfg.getCost();
+		long coinVlaue = player.getReward(eSpecialItemId.Coin);
+		if (coinVlaue < out.value) {
+			GameLog.error("装备合成", userId, String.format("装备Id[%s]需要金币是[%s]，实际上只有[%s]", equipId, out.value, coinVlaue));
 			response.setError(ErrorType.NOT_ENOUGH_COIN);
 			return response.build().toByteString();
 		}
-		if (compose(player, equipId)) {
-			player.getUserGameDataMgr().addCoin(-cost);
-			response.setError(ErrorType.SUCCESS);
+
+		List<IUseItem> useItemList = new ArrayList<IUseItem>();
+		List<INewItem> addItemList = new ArrayList<INewItem>();
+
+		StringBuilder sb = new StringBuilder();
+		for (Entry<Integer, Integer> e : composeNeedMateMap.entrySet()) {
+			sb.append(e.getKey()).append("_").append(e.getValue()).append(";");
+			IUseItem useItem = new UseItem(itemBagMgr.getItemListByCfgId(e.getKey()).get(0).getId(), e.getValue());
+			useItemList.add(useItem);
 		}
+
+		INewItem newItem = new NewItem(equipId, 1, null);
+		addItemList.add(newItem);
+
+		if (!itemBagMgr.addItem(eSpecialItemId.Coin.getValue(), -out.value)) {
+			GameLog.error("装备合成", userId, String.format("装备Id[%s]需要金币是[%s]，实际上只有[%s]", equipId, out.value, coinVlaue));
+			response.setError(ErrorType.NOT_ENOUGH_COIN);
+			return response.build().toByteString();
+		}
+
+		if (!itemBagMgr.useLikeBoxItem(useItemList, addItemList)) {
+			GameLog.error("装备合成", userId, String.format("装备Id[%s]消耗道具失败，需要消耗的道具是[%s]", equipId, sb.toString()));
+			response.setError(ErrorType.FAIL);
+			return response.build().toByteString();
+		}
+
+		response.setError(ErrorType.SUCCESS);
 		return response.build().toByteString();
+
+		// List<Integer> ids = GetComposeIds(player, equipId);
+		//
+		// if (checkCompose(player, equipId) != 1) {
+		// response.setError(ErrorType.NOT_ENOUGH_MATE);
+		// return response.build().toByteString();
+		// }
+		//
+		// int cost = 0;
+		// for (Integer id : ids) {
+		// ComposeCfg cfg = ComposeCfgDAO.getInstance().getCfg(id);
+		// cost += cfg.getCost();
+		// }
+		// if (cost > player.getUserGameDataMgr().getCoin()) {
+		// response.setError(ErrorType.NOT_ENOUGH_COIN);
+		// return response.build().toByteString();
+		// }
+		// if (compose(player, equipId)) {
+		// player.getUserGameDataMgr().addCoin(-cost);
+		// response.setError(ErrorType.SUCCESS);
+		// }
+		// return response.build().toByteString();
 	}
 
-	public static List<Integer> GetComposeIds(Player player, int id) {
+	private static List<Integer> GetComposeIds(Player player, int id) {
 		ComposeCfg cfg = ComposeCfgDAO.getInstance().getCfg(id);
 		if (cfg == null)
 			return null;
 		List<Integer> ids = new ArrayList<Integer>();
-		HashMap<Integer, Integer> mate = ComposeCfgDAO.getInstance().getMate(id);
+		HashMap<Integer, Integer> mate = ComposeCfgDAO.getInstance().getMate(id);// 获取它需要的材料
 		Iterator<Entry<Integer, Integer>> iter = mate.entrySet().iterator();
 		while (iter.hasNext()) {
 			Map.Entry<Integer, Integer> entry = iter.next();
@@ -206,6 +265,74 @@ public class EquipHandler {
 		}
 		ids.add(id);
 		return ids;
+	}
+
+	static class OutInt {
+		int value;
+	}
+
+	private Map<Integer, Integer> getComposeNeedMateMap(ItemBagMgr itemBagMgr, int id, int needCount, OutInt out) {
+		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
+		ComposeCfgDAO cfgDAO = ComposeCfgDAO.getInstance();
+		Map<Integer, Integer> mateMap = cfgDAO.getMate(id);// 获取需要的所有材料
+		if (mateMap == null || mateMap.isEmpty()) {
+			return idMap;
+		}
+
+		for (Entry<Integer, Integer> e : mateMap.entrySet()) {
+			int templateId = e.getKey();// 需要的材料模版Id
+			int count = e.getValue() * needCount;// 需要的数量
+
+			int bagCount = itemBagMgr.getItemCountByModelId(templateId);
+			if (bagCount < count) {// 如果数量不足，检查是否还能有其他材料辅助合成
+				int canUseCount = count - bagCount;
+				Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, templateId, canUseCount, out);// 需要的辅助材料实际要消耗数量
+				if (composeNeedMateMap == null || composeNeedMateMap.isEmpty()) {// 确实材料不够了
+					return null;
+				}
+
+				if (bagCount > 0) {// 背包里这个也要消耗掉先
+					Integer hasCount = idMap.get(templateId);
+					if (hasCount == null) {
+						idMap.put(templateId, bagCount);
+					} else {
+						idMap.put(templateId, bagCount + hasCount);
+					}
+				}
+
+				// 实际材料要消耗的数量
+				for (Entry<Integer, Integer> entry : composeNeedMateMap.entrySet()) {
+					int tmpId = entry.getKey();
+					int count0 = entry.getValue();
+					Integer hasCount = idMap.get(tmpId);
+					if (hasCount == null) {
+						idMap.put(tmpId, count0);
+					} else {
+						idMap.put(tmpId, count0 + hasCount);
+					}
+				}
+
+				ComposeCfg mateCfg = cfgDAO.getCfg(templateId);
+				if (mateCfg != null) {
+					out.value += mateCfg.getCost() * canUseCount;
+					System.err.println("Id: " + templateId + "," + canUseCount + "," + mateCfg.getCost() + "," + out.value);
+				}
+
+				continue;
+			}
+
+			Integer hasCount = idMap.get(templateId);
+			if (hasCount == null) {
+				idMap.put(templateId, count);
+			} else {
+				idMap.put(templateId, count + hasCount);
+			}
+		}
+
+		// out.value += cfg.getCost();
+		// System.err.println("----Id: " + id + "," + needCount + "," + cfg.getCost() + "," + out.value);
+
+		return idMap;
 	}
 
 	/**
