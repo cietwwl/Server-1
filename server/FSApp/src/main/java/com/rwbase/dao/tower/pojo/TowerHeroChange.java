@@ -1,5 +1,7 @@
 package com.rwbase.dao.tower.pojo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwproto.TowerServiceProtos.eTowerDeadType;
 
@@ -42,6 +44,7 @@ public class TowerHeroChange implements TowerHeroChangeIF {// 记录玩家血量
 		this.heroState = heroState;
 	}
 
+	@JsonIgnore
 	public eTowerDeadType getIsDead() {
 		if (reduceLife <= 0) {
 			return eTowerDeadType.TOWER_DEAD;
