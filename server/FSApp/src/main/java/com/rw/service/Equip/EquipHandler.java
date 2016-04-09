@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.util.StringUtils;
+
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.EquipMgr;
@@ -326,27 +328,27 @@ public class EquipHandler {
 		Hero hero = player.getHeroMgr().getHeroById(roleId);
 		if (hero == null) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero", roleId));
-			return fillFailMsg(rsp, ErrorType.NOT_ROLE);
+			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
 		}
 
 		// 检查身上的装备
 		EquipMgr equipMgr = hero.getEquipMgr();
 		if (equipMgr == null) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero的EquipMgr", roleId));
-			return fillFailMsg(rsp, ErrorType.NOT_ROLE);
+			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
 		}
 
 		List<Integer> equipList = RoleQualityCfgDAO.getInstance().getEquipList(hero.getQualityId());
 		if (equipList.isEmpty()) {
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]，品质[%s]，没有装备列表", roleId, hero.getQualityId()));
-			return fillFailMsg(rsp, ErrorType.FAIL);
+			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
 
 		List<EquipItem> hasEquipList = equipMgr.getEquipList();
 		int size = hasEquipList.size();
 		if (size == 6) {// 装备穿满了
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]装备已经穿戴满了，不需要一键穿装", roleId));
-			return fillFailMsg(rsp, ErrorType.FAIL);
+			return fillFailMsg(rsp, ErrorType.FAIL, "装备已经穿满，请进阶");
 		}
 
 		int level = hero.getLevel();// 英雄的等级
@@ -395,7 +397,7 @@ public class EquipHandler {
 
 		if (needEquipMap.isEmpty()) {// 不需要穿戴装备
 			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]背包中没有空位需要穿戴的装备，不需要一键穿装", roleId));
-			return fillFailMsg(rsp, ErrorType.FAIL);
+			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
 
 		// 准备穿戴装备
@@ -407,6 +409,7 @@ public class EquipHandler {
 		}
 
 		rsp.setError(ErrorType.SUCCESS);
+		rsp.setTipMsg("一键穿装成功");
 		return rsp.build().toByteString();
 	}
 
@@ -436,8 +439,11 @@ public class EquipHandler {
 	 * @param err
 	 * @return
 	 */
-	private ByteString fillFailMsg(EquipResponse.Builder rsp, ErrorType err) {
+	private ByteString fillFailMsg(EquipResponse.Builder rsp, ErrorType err, String tipMsg) {
 		rsp.setError(err);
+		if (!StringUtils.isEmpty(tipMsg)) {
+			rsp.setTipMsg(tipMsg);
+		}
 		return rsp.build().toByteString();
 	}
 }

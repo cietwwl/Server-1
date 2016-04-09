@@ -4349,6 +4349,33 @@ public final class EquipProtos {
      * </pre>
      */
     int getOneKeySuccessIndex(int index);
+
+    // optional string tipMsg = 7;
+    /**
+     * <code>optional string tipMsg = 7;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 7;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 7;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
   }
   /**
    * Protobuf type {@code EquipService.EquipResponse}
@@ -4460,6 +4487,11 @@ public final class EquipProtos {
                 oneKeySuccessIndex_.add(input.readInt32());
               }
               input.popLimit(limit);
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000010;
+              tipMsg_ = input.readBytes();
               break;
             }
           }
@@ -4698,6 +4730,61 @@ public final class EquipProtos {
       return oneKeySuccessIndex_.get(index);
     }
 
+    // optional string tipMsg = 7;
+    public static final int TIPMSG_FIELD_NUMBER = 7;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 7;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string tipMsg = 7;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 7;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       eventType_ = com.rwproto.EquipProtos.EquipEventType.Equip_Sync;
       roleId_ = "";
@@ -4705,6 +4792,7 @@ public final class EquipProtos {
       error_ = com.rwproto.ErrorService.ErrorType.SUCCESS;
       equipIndex_ = 0;
       oneKeySuccessIndex_ = java.util.Collections.emptyList();
+      tipMsg_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4750,6 +4838,9 @@ public final class EquipProtos {
       for (int i = 0; i < oneKeySuccessIndex_.size(); i++) {
         output.writeInt32(6, oneKeySuccessIndex_.get(i));
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(7, getTipMsgBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4787,6 +4878,10 @@ public final class EquipProtos {
         }
         size += dataSize;
         size += 1 * getOneKeySuccessIndexList().size();
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getTipMsgBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4921,6 +5016,8 @@ public final class EquipProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         oneKeySuccessIndex_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000020);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -4979,6 +5076,10 @@ public final class EquipProtos {
           bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.oneKeySuccessIndex_ = oneKeySuccessIndex_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.tipMsg_ = tipMsg_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5043,6 +5144,11 @@ public final class EquipProtos {
             ensureOneKeySuccessIndexIsMutable();
             oneKeySuccessIndex_.addAll(other.oneKeySuccessIndex_);
           }
+          onChanged();
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000040;
+          tipMsg_ = other.tipMsg_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -5687,6 +5793,104 @@ public final class EquipProtos {
         return this;
       }
 
+      // optional string tipMsg = 7;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 7;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string tipMsg = 7;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 7;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 7;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 7;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 7;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:EquipService.EquipResponse)
     }
 
@@ -5743,17 +5947,17 @@ public final class EquipProtos {
       "Id\030\002 \001(\t\022*\n\tequipData\030\003 \003(\0132\027.EquipServi" +
       "ce.EquipData\022\022\n\nequipIndex\030\004 \001(\005\022\017\n\007equi",
       "pId\030\005 \001(\005\022\021\n\tbagSlotId\030\007 \001(\005\022#\n\004mate\030\006 \003" +
-      "(\0132\025.EquipService.TagMate\"\324\001\n\rEquipRespo" +
+      "(\0132\025.EquipService.TagMate\"\344\001\n\rEquipRespo" +
       "nse\022/\n\teventType\030\001 \002(\0162\034.EquipService.Eq" +
       "uipEventType\022\016\n\006roleId\030\002 \001(\t\022*\n\tequipDat" +
       "a\030\003 \003(\0132\027.EquipService.EquipData\022&\n\005erro" +
       "r\030\004 \002(\0162\027.ErrorService.ErrorType\022\022\n\nequi" +
       "pIndex\030\005 \001(\005\022\032\n\022oneKeySuccessIndex\030\006 \003(\005" +
-      "*\217\001\n\016EquipEventType\022\016\n\nEquip_Sync\020\001\022\021\n\rE" +
-      "quip_Compose\020\002\022\016\n\nWear_Equip\020\003\022\013\n\007Advanc" +
-      "e\020\004\022\020\n\014Equip_Attach\020\005\022\026\n\022Equip_OnekeyAtt",
-      "ach\020\006\022\023\n\017OneKeyWearEquip\020\007B\032\n\013com.rwprot" +
-      "oB\013EquipProtos"
+      "\022\016\n\006tipMsg\030\007 \001(\t*\217\001\n\016EquipEventType\022\016\n\nE" +
+      "quip_Sync\020\001\022\021\n\rEquip_Compose\020\002\022\016\n\nWear_E" +
+      "quip\020\003\022\013\n\007Advance\020\004\022\020\n\014Equip_Attach\020\005\022\026\n",
+      "\022Equip_OnekeyAttach\020\006\022\023\n\017OneKeyWearEquip" +
+      "\020\007B\032\n\013com.rwprotoB\013EquipProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5789,7 +5993,7 @@ public final class EquipProtos {
           internal_static_EquipService_EquipResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_EquipService_EquipResponse_descriptor,
-              new java.lang.String[] { "EventType", "RoleId", "EquipData", "Error", "EquipIndex", "OneKeySuccessIndex", });
+              new java.lang.String[] { "EventType", "RoleId", "EquipData", "Error", "EquipIndex", "OneKeySuccessIndex", "TipMsg", });
           return null;
         }
       };
