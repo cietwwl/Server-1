@@ -76,8 +76,11 @@ public class BIStatLogMgr {
 				}
 				
 				long coin = user.getDbvalue().getCoin();
-				getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm).add(coin);
 				
+//				getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm).add(coin);
+				BICounter count = getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm);
+				if(count != null)
+					count.add(coin);
 			}
 
 			
@@ -114,9 +117,15 @@ public class BIStatLogMgr {
 				String level = String.valueOf(user.getLevel());
 				String vip = String.valueOf(user.getVip());
 				
-				getCounter(levelSpread,regSubChannelId, level, clientPlatForm).incr();					
-				getCounter(vipSpread, regSubChannelId, vip, clientPlatForm).incr();
-				getCounter(totalAccount, regSubChannelId, "totalCount", clientPlatForm).incr();
+				BICounter count = getCounter(levelSpread,regSubChannelId, level, clientPlatForm);
+				if(count != null){
+					count.incr();
+					getCounter(vipSpread, regSubChannelId, vip, clientPlatForm).incr();
+					getCounter(totalAccount, regSubChannelId, "totalCount", clientPlatForm).incr();
+				}
+//				getCounter(levelSpread,regSubChannelId, level, clientPlatForm).incr();					
+//				getCounter(vipSpread, regSubChannelId, vip, clientPlatForm).incr();
+//				getCounter(totalAccount, regSubChannelId, "totalCount", clientPlatForm).incr();
 				
 			}
 			
@@ -173,6 +182,7 @@ public class BIStatLogMgr {
 		
 		if(StringUtils.isBlank(regSubChannelId)){
 			regSubChannelId = "empty";
+			return null;
 		}
 		if(StringUtils.isBlank(clientPlatForm)){
 			clientPlatForm = "empty";
