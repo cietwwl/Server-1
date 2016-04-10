@@ -36,6 +36,7 @@ import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.ranking.pojo.RankingTeamData;
 import com.rwbase.gameworld.GameWorld;
+import com.rwbase.gameworld.GameWorldConstant;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
 
@@ -122,24 +123,24 @@ public class RankingMgr {
 	public void arenaCalculate() {
 		GameWorld world = GameWorldFactory.getGameWorld();
 		String lastResetText = world.getAttribute(GameWorldKey.ARENA_CALCULATE);
+		long resetMillis = DateUtils.getResetTime(GameWorldConstant.ARENA_CALCULATE_HOUR, GameWorldConstant.ARENA_CALCULATE_MINUTE, GameWorldConstant.ARENA_CALCULATE_SECOND);
 		if (lastResetText != null && !lastResetText.isEmpty()) {
 			long lastResetTime = Long.parseLong(lastResetText);
-			if (!DateUtils.isResetTime(21, 0, 0, lastResetTime)) {
+			if(lastResetTime > resetMillis){
 				return;
 			}
 		}
-		long currentTime = System.currentTimeMillis();
 		try {
 			ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>> settletList = new ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>>();
-			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, currentTime);
-			changeDailyData(ListRankingType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY, settletList, currentTime);
-			changeDailyData(ListRankingType.MAGICAN_ARENA, RankType.MAGICAN_ARENA_DAILY, settletList, currentTime);
-			changeDailyData(ListRankingType.PRIEST_ARENA, RankType.PRIEST_ARENA_DAILY, settletList, currentTime);
+			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, resetMillis);
+			changeDailyData(ListRankingType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY, settletList, resetMillis);
+			changeDailyData(ListRankingType.MAGICAN_ARENA, RankType.MAGICAN_ARENA_DAILY, settletList, resetMillis);
+			changeDailyData(ListRankingType.PRIEST_ARENA, RankType.PRIEST_ARENA_DAILY, settletList, resetMillis);
 			Ranking<ArenaSettleComparable, ArenaSettlement> settleRanking = RankingFactory.getRanking(RankType.ARENA_SETTLEMENT);
 			settleRanking.clearAndInsert(settletList);
 			rewardOnlinePlayers();
 		} finally {
-			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
+			world.updateAttribute(GameWorldKey.ARENA_CALCULATE, String.valueOf(System.currentTimeMillis()));
 		}
 	}
 
