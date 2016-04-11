@@ -28,6 +28,8 @@ import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.fashion.FashionUsedIF;
 import com.rwbase.dao.fashion.IEffectCfg;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.FashionServiceProtos;
 import com.rwproto.FashionServiceProtos.FashionCommon;
@@ -115,6 +117,7 @@ public class FashionMgr implements FashionMgrIF{
 			expiredTime +=  TimeUnit.DAYS.toMillis(renewDay);
 		}
 		item.setExpiredTime(expiredTime);
+		item.setBrought(true);
 		// 更新时装，特殊效果并推送
 		if (!updateFashionItem(item)){
 			GameLog.error("时装", m_player.getUserId(), "更新续费后的时装失败,ID="+item.getId());
@@ -206,7 +209,6 @@ public class FashionMgr implements FashionMgrIF{
 	public void onMinutes() {
 		GameLog.info("时装", "定时检查", "OnMinutes", null);
 		checkExpired();
-		// 过期不会影响fashionItem存储的值
 		notifyProxy.checkDelayNotify();
 	}
 	/**
@@ -314,8 +316,10 @@ public class FashionMgr implements FashionMgrIF{
 		}
 		long now = System.currentTimeMillis();
 		item.setExpiredTime(now+TimeUnit.MINUTES.toMillis(minutes));
+		item.setBrought(true);
 		fashionItemHolder.updateItem(m_player, item);
 		GameLog.info("时装", m_player.getUserId(), "成功重置时装过期时间，还有"+minutes+"分钟过期", null);
+		notifyProxy.checkDelayNotify();
 		return true;
 	}
 	
@@ -517,7 +521,7 @@ public class FashionMgr implements FashionMgrIF{
 	 * 调用者需要使用notifyProxy.checkDelayNotify来检查是否需要发送更新通知
 	 */
 	private void checkExpired() {
-		List<FashionItem> list = fashionItemHolder.getItemList();
+		List<FashionItem> list = fashionItemHolder.getBroughtItemList();
 		if (list.isEmpty()) return;
 		long now = System.currentTimeMillis();
 		FashionBeingUsed fashionUsed = getFashionBeingUsed();
@@ -530,13 +534,21 @@ public class FashionMgr implements FashionMgrIF{
 				
 				FashionCommonCfg fashcfg = FashionCommonCfgDao.getInstance().getConfig(fashionId);
 				String fashionName = fashcfg.getName();
-				if (fashcfg != null && !StringUtils.isBlank(fashionName)){
-					List<String> args = new ArrayList<String>();
-					args.add(fashionName);
-					EmailUtils.sendEmail(m_player.getUserId(), ExpiredEMailID,args);
+				if (fasItem.isBrought() && fashcfg != null && !StringUtils.isBlank(fashionName)){
+					final List<String> args = new ArrayList<String>();
+					args.add(fashionName+":"+fashionId);
 					GameLog.info("时装", m_player.getUserId(), "发送时装过期的邮件", null);
+					PlayerTask task=new PlayerTask() {
+						@Override
+						public void run(Player player) {
+							EmailUtils.sendEmail(player.getUserId(), ExpiredEMailID,args);
+						}
+					};
+					GameWorldFactory.getGameWorld().asyncExecute(m_player.getUserId(), task);
 					m_player.NotifyCommonMsg(String.format(ExpiredNotifycation,fashionName));
+					fasItem.setBrought(false);
 				}
+				fashionItemHolder.removeItem(m_player, fasItem);
 			}
 		}
 	}

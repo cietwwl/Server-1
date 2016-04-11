@@ -62,6 +62,19 @@ public class FashionItemHolder{
 		return itemList;
 	}
 	
+	public List<FashionItem> getBroughtItemList()
+	{
+		List<FashionItem> itemList = new ArrayList<FashionItem>();
+		Enumeration<FashionItem> mapEnum = getItemStore().getEnum();
+		while (mapEnum.hasMoreElements()) {
+			FashionItem item = (FashionItem) mapEnum.nextElement();
+			if (item.isBrought() && userId.equals(item.getUserId())){
+				itemList.add(item);
+			}
+		}
+		return itemList;
+	}
+	
 	public void updateItem(Player player, FashionItem item){
 		boolean updateResult = getItemStore().updateItem(item);
 		if (!updateResult){
@@ -75,15 +88,16 @@ public class FashionItemHolder{
 		return getItemStore().getItem(userId + "_" + fashionModelId);
 	}
 	
-	/*暂时不用，先屏蔽
 	public boolean removeItem(Player player, FashionItem item){
-		boolean success = getItemStore().removeItem(item.getId());
+		boolean success = getItemStore().removeItem(item.getId());//player.getUserId()+"_"+
 		if(success){
 			ClientDataSynMgr.updateData(player, item, fashionSynType, eSynOpType.REMOVE_SINGLE);
-			notifyChange();
+			notifyProxy.delayNotify();
+		}else{
+			GameLog.error("时装", player.getUserId(), "删除时装失败:"+item.getId());
 		}
 		return success;
-	}*/
+	}
 	
 	public boolean addItem(Player player, FashionItem item){
 		boolean addSuccess = getItemStore().addItem(item);
@@ -95,7 +109,7 @@ public class FashionItemHolder{
 	}
 	
 	public void synAllData(Player player, int version){
-		List<FashionItem> itemList = getItemList();			
+		List<FashionItem> itemList = getItemList();
 		ClientDataSynMgr.synDataList(player, itemList, fashionSynType, eSynOpType.UPDATE_LIST);
 	}
 

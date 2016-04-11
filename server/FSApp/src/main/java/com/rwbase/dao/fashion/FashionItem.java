@@ -25,6 +25,14 @@ public class FashionItem implements IMapItem, FashionItemIF {
 	@NonSave
 	private boolean isBrought = true;//以后可能需要保存到数据库
 	
+	public boolean isBrought() {
+		return isBrought;
+	}
+
+	public void setBrought(boolean isBrought) {
+		this.isBrought = isBrought;
+	}
+
 	private int type; // 时装类型
 	private long expiredTime;//到期时间（每次续费或者第一次购买会修改）
 	private String specialIncrPlanId;//特殊效果方案ID
