@@ -31,9 +31,9 @@ public class StoreHandler {
 
 		CommodityData target = client.getStoreItemHolder().getRandom(eStoreType.General);
 		StoreRequest.Builder req = StoreRequest.newBuilder();
-		if(target == null){
+		if (target == null) {
 			req.setRequestType(eStoreRequestType.RefreshStore);
-		}else{
+		} else {
 			int commodity = target.getId();
 			req.setRequestType(eStoreRequestType.BuyCommodity);
 			tagCommodity vo = tagCommodity.newBuilder().setCount(1).setId(commodity).build();
@@ -62,7 +62,7 @@ public class StoreHandler {
 						RobotLog.info("StoreHandler[buyRandom] 购买成功");
 						return true;
 					} else {
-						RobotLog.fail("StoreHandler[buyRandom] 服务器处理消息失败 " + result);
+						RobotLog.fail("StoreHandler[buyRandom] 服务器处理消息失败 " + result + ",失败原因：" + rsp.getReslutValue());
 						return false;
 
 					}
