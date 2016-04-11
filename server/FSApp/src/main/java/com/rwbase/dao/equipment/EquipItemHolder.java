@@ -2,15 +2,13 @@ package com.rwbase.dao.equipment;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.common.Action;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
@@ -23,13 +21,14 @@ public class EquipItemHolder {
 
 	final private String ownerId; //
 	final private eSynType equipSynType = eSynType.EQUIP_ITEM;
-	//private Map<Integer, EquipItem> equipSlotMap = new HashMap<Integer, EquipItem>();
+
+	// private Map<Integer, EquipItem> equipSlotMap = new HashMap<Integer, EquipItem>();
 
 	public EquipItemHolder(String ownerIdP) {
 		ownerId = ownerIdP;
-//		for (EquipItem equipItemTmp : getItemList()) {
-//			equipSlotMap.put(equipItemTmp.getEquipIndex(), equipItemTmp);
-//		}
+		// for (EquipItem equipItemTmp : getItemList()) {
+		// equipSlotMap.put(equipItemTmp.getEquipIndex(), equipItemTmp);
+		// }
 	}
 
 	/*
@@ -71,17 +70,17 @@ public class EquipItemHolder {
 	}
 
 	public boolean wearEquip(Player player, int equipIndex, ItemData itemData) {
-		//TODO 穿装备的逻辑是否有问题？如果原有装备
+		// TODO 穿装备的逻辑是否有问题？如果原有装备
 		EquipItem equipItemOld = null;
 		Enumeration<EquipItem> mapEnum = getItemStore().getEnum();
 		while (mapEnum.hasMoreElements()) {
 			EquipItem item = (EquipItem) mapEnum.nextElement();
-			if(item.getEquipIndex() == equipIndex){
+			if (item.getEquipIndex() == equipIndex) {
 				equipItemOld = item;
 				break;
 			}
 		}
-		
+
 		boolean success = true;
 		if (equipItemOld != null) {
 			success = removeItem(player, equipItemOld);
@@ -147,8 +146,8 @@ public class EquipItemHolder {
 		EquipItem equipItem = EquipItemHelper.toEquip(ownerId, equipIndex, itemData);
 		getItemStore().addItem(equipItem);
 	}
-	
-	private MapItemStore<EquipItem> getItemStore(){
+
+	private MapItemStore<EquipItem> getItemStore() {
 		MapItemStoreCache<EquipItem> cache = MapItemStoreFactory.getEquipCache();
 		return cache.getMapItemStore(ownerId, EquipItem.class);
 	}

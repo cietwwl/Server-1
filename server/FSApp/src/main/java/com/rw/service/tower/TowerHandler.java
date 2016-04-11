@@ -338,7 +338,8 @@ public class TowerHandler {
 			return response.build().toByteString();
 		}
 
-		if (request.getWin() == 1) {// 胜利
+		int win = request.getWin();
+		if (win == 1) {// 胜利
 			if (towerId == TOTAL_TOWER_NUM) {
 				MainMsgHandler.getInstance().sendPmdWxz(player);
 			}
@@ -350,12 +351,16 @@ public class TowerHandler {
 		List<TagTowerHeroChange> heroChageMapList = requireTowerData.getHeroChageMapList();
 		if (heroChageMapList != null && !heroChageMapList.isEmpty()) {// 玩家数据有改变更新
 			towerMgr.updateHeroChange(returnTableChangeList(heroChageMapList));// 修改玩家的数据
+		} else {
+			GameLog.error("万仙阵战斗结束", userId, String.format("万仙阵[%s]层，结果[%s],客户端战斗结束后没有发送己方血量变化信息", towerId, win));
 		}
 
 		// 敌方改变数据
 		List<TagTowerHeroChange> enemyChangeList = request.getEnemyHeroChangeListList();// 敌方数据改变
 		if (enemyChangeList != null && !enemyChangeList.isEmpty()) {// 关卡敌人数据改变更新
 			towerMgr.updateEnemyChange(player, towerId, returnTableChangeList(enemyChangeList));// 敌方改变数据
+		} else {
+			GameLog.error("万仙阵战斗结束", userId, String.format("万仙阵[%s]层，结果[%s],客户端战斗结束后没有发送敌方血量变化信息", towerId, win));
 		}
 
 		// 任务通知
