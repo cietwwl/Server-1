@@ -12,6 +12,15 @@ public class BattleTowerHeroInfo implements BattleTowerHeroInfoIF {
 	private int level;// 佣兵当时的等级
 	private int quality;// 佣兵当时的品质
 	private int starNum;// 佣兵当时的星数
+	private boolean isMainRole;
+
+	public boolean isMainRole() {
+		return isMainRole;
+	}
+
+	public void setMainRole(boolean isMainRole) {
+		this.isMainRole = isMainRole;
+	}
 
 	public String getHeroId() {
 		return heroId;

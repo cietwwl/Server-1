@@ -404,9 +404,7 @@ public class BattleTowerHandler {
 				rankingHeroInfo.setLevel(heroInfo.getLevel());
 				rankingHeroInfo.setQuality(heroInfo.getQuality());
 				rankingHeroInfo.setStarNum(heroInfo.getStarNum());
-				if (friendUserId.equals(heroInfo.getHeroId())) {
-					rankingHeroInfo.setIsMainRole(true);
-				}
+				rankingHeroInfo.setIsMainRole(heroInfo.isMainRole());
 				// 添加到RankingRoleInfo中
 				rankingRoleInfo.addRankingHeroInfoMsg(rankingHeroInfo);
 			}
@@ -997,6 +995,7 @@ public class BattleTowerHandler {
 				heroInfo.setLevel(heroInfoMsg.getLevel());
 				heroInfo.setQuality(heroInfoMsg.getQuality());
 				heroInfo.setStarNum(heroInfoMsg.getStarNum());
+				heroInfo.setMainRole(heroInfoMsg.getIsMainRole());
 				heroInfoList.add(heroInfo);
 			}
 

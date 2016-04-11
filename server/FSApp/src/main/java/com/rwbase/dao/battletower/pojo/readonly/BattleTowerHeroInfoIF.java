@@ -6,6 +6,8 @@ package com.rwbase.dao.battletower.pojo.readonly;
  * @Description 试练塔中佣兵信息接口
  */
 public interface BattleTowerHeroInfoIF {
+	public boolean isMainRole();
+
 	/**
 	 * 获取佣兵的Id
 	 * 
