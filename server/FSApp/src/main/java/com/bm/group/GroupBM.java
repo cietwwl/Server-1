@@ -18,7 +18,9 @@ import com.rw.service.group.helper.GroupRankHelper;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.cfg.GroupConstCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupConstCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
 import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataDAO;
@@ -202,24 +204,24 @@ public final class GroupBM {
 			return;
 		}
 
+		GroupConstCfg groupConstCfg = GroupConstCfgDAO.getCfgDAO().getGroupConstCfg();
 		long now = System.currentTimeMillis();
 		// 删除帮派基础数据
 		GroupBaseDataDAO.getDAO().delete(groupId);
 		// 删除帮派成员
 		GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
 
-		String mailContent = "您的帮派[%s]已于%s成功解散。";
 		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm:ss");
 		String time = sdf.format(new Date(now));
-		String newContent = String.format(mailContent, groupData.getGroupName(), time);
+		String newContent = String.format(groupConstCfg.getDismissGroupMailContent(), groupData.getGroupName(), time);
 
 		// 邮件内容
 		final EmailData emailData = new EmailData();
-		emailData.setTitle("帮派解散");
+		emailData.setTitle(groupConstCfg.getDismissGroupMailTitle());
 		emailData.setContent(newContent);
 		emailData.setDeleteType(EEmailDeleteType.DELAY_TIME);
 		emailData.setDelayTime((int) TimeUnit.DAYS.toMillis(7));// 整个帮派邮件只保留7天
-		emailData.setSender("帮派邮件");
+		emailData.setSender(groupConstCfg.getMailSender());
 
 		// 成员任务
 		PlayerTask memberPlayerTask = new PlayerTask() {

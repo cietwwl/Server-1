@@ -55,6 +55,11 @@ enum GroupLogType{
 	CHANGE_POST = 3;//职位变动
 	GROUP_UPGRADE = 4;//帮派等级提升
 	GROUP_SKILL_REASERCH = 5;//技能研发
+	LOG_CANCEL_NOMINATE = 6;//取消任命
+	LOG_KICK_GROUP = 7;//踢出帮派
+	LOG_LEADER_QUIT = 8;//帮主离开帮派
+	LOG_LEADER_TIMEOUT_TRANSFER = 9;//超时转让帮主
+	LOG_LEADER_TRANSFER = 10;//主动转让帮主
 }
 
 //【帮派功能的枚举】

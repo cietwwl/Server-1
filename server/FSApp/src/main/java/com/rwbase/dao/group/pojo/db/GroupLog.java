@@ -20,6 +20,7 @@ public class GroupLog implements IMapItem {
 	private String skillName;// 技能名字
 	private int skillLevel;// 技能名字
 	private int logType;// 日志类型
+	private String opName;// 操作人的名字
 
 	@Override
 	public String getId() {
@@ -80,5 +81,13 @@ public class GroupLog implements IMapItem {
 
 	public void setLogType(int logType) {
 		this.logType = logType;
+	}
+
+	public String getOpName() {
+		return opName;
+	}
+
+	public void setOpName(String opName) {
+		this.opName = opName;
 	}
 }
