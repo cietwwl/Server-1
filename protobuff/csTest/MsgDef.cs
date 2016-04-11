@@ -227,7 +227,16 @@ namespace MsgDef
       MSG_GROUP_MEMBER_MANAGER = 170,
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_PERSONAL", Value=171)]
-      MSG_GROUP_PERSONAL = 171
+      MSG_GROUP_PERSONAL = 171,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_SKILL", Value=172)]
+      MSG_GROUP_SKILL = 172,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GIFT_CODE", Value=173)]
+      MSG_GIFT_CODE = 173,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_COUNTTYPE", Value=174)]
+      MSG_ACTIVITY_COUNTTYPE = 174
     }
   
 }

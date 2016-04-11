@@ -78,4 +78,6 @@ enum Command {
 	MSG_GROUP_PERSONAL = 171;//公会个人操作
 	MSG_GROUP_SKILL = 172;//帮派技能
 	MSG_GIFT_CODE = 173;//兑换码
+
+	MSG_ACTIVITY_COUNTTYPE = 174;
 }

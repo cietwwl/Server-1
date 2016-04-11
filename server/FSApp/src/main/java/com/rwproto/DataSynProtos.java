@@ -477,6 +477,14 @@ public final class DataSynProtos {
      * </pre>
      */
     GroupStudySkill(40, 41),
+    /**
+     * <code>ActivityCountType = 60;</code>
+     *
+     * <pre>
+     *活动从60-69
+     * </pre>
+     */
+    ActivityCountType(41, 60),
     ;
 
     /**
@@ -807,6 +815,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int GroupStudySkill_VALUE = 41;
+    /**
+     * <code>ActivityCountType = 60;</code>
+     *
+     * <pre>
+     *活动从60-69
+     * </pre>
+     */
+    public static final int ActivityCountType_VALUE = 60;
 
 
     public final int getNumber() { return value; }
@@ -854,6 +870,7 @@ public final class DataSynProtos {
         case 39: return GroupApplyMemberData;
         case 40: return GroupResearchSkill;
         case 41: return GroupStudySkill;
+        case 60: return ActivityCountType;
         default: return null;
       }
     }
@@ -4738,7 +4755,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*S\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004*\260\006\n\010eSynType\022\025\n\021COPY_LEVEL_RECORD" +
+      "NGLE\020\004*\307\006\n\010eSynType\022\025\n\021COPY_LEVEL_RECORD" +
       "\020\001\022\023\n\017COPY_MAP_RECORD\020\002\022\023\n\017SECRETAREA_IN" +
       "FO\020\003\022\031\n\025SECRETAREA_DEF_RECORD\020\004\022\030\n\024SECRE" +
       "TAREA_USER_INFO\020\005\022\032\n\026SECRETAREA_BATTLE_I" +
@@ -4758,8 +4775,8 @@ public final class DataSynProtos {
       "\023\n\017GroupCopyReward\020&\022\021\n\rGroupBaseData\020 \022",
       "\023\n\017GroupMemberData\020!\022\014\n\010GroupLog\020\"\022\030\n\024Gr" +
       "oupApplyMemberData\020\'\022\026\n\022GroupResearchSki" +
-      "ll\020(\022\023\n\017GroupStudySkill\020)B\034\n\013com.rwproto" +
-      "B\rDataSynProtos"
+      "ll\020(\022\023\n\017GroupStudySkill\020)\022\025\n\021ActivityCou" +
+      "ntType\020<B\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

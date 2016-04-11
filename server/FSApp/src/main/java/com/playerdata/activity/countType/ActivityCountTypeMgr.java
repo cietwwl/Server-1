@@ -20,6 +20,10 @@ public class ActivityCountTypeMgr {
 		return instance;
 	}
 	
+	public void synCountTypeData(Player player){
+		ActivityCountTypeItemHolder.getInstance().synAllData(player);
+	}
+	
 	public void addCount(Player player, ActivityCountTypeEnum countType){
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		

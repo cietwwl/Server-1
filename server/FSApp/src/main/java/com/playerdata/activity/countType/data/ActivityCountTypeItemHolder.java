@@ -20,7 +20,7 @@ public class ActivityCountTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.GroupCopyMap;
+	final private eSynType synType = eSynType.ActivityCountType;
 	
 	
 	/*
@@ -66,7 +66,7 @@ public class ActivityCountTypeItemHolder{
 		return addSuccess;
 	}
 	
-	public void synAllData(Player player, int version){
+	public void synAllData(Player player){
 		List<ActivityCountTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}

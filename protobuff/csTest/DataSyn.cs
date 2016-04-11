@@ -304,7 +304,10 @@ namespace DataSyn
       GroupResearchSkill = 40,
             
       [global::ProtoBuf.ProtoEnum(Name=@"GroupStudySkill", Value=41)]
-      GroupStudySkill = 41
+      GroupStudySkill = 41,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
+      ActivityCountType = 60
     }
   
 }

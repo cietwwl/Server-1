@@ -61,6 +61,11 @@ enum eSynType	//数据同步类型
 	GroupApplyMemberData = 39;//申请成员信息
 	GroupResearchSkill = 40;//帮派技能研发
 	GroupStudySkill = 41;//帮派技能学习
+
+	//活动从60-69
+	ActivityCountType = 60;//活动，计数类型
+
+
 }
 
 message MsgDataSynList
