@@ -29,6 +29,7 @@ import com.gm.task.GmForClassLoad;
 import com.gm.task.GmGetRankList;
 import com.gm.task.GmHotUpdate;
 import com.gm.task.GmKickOffPlayer;
+import com.gm.task.GmNotifyGenerateGiftPackage;
 import com.gm.task.GmOnlineCount;
 import com.gm.task.GmOnlineLimitModify;
 import com.gm.task.GmOpCoin;
@@ -115,6 +116,7 @@ public class GmHandler {
 		taskMap.put(20007, new GmDeleteGameNotice());
 		taskMap.put(20032, new GmViewFriends());
 		taskMap.put(20037, new GmViewEquipments());
+		taskMap.put(20038, new GmNotifyGenerateGiftPackage());
 		taskMap.put(20040, new GmViewEmailList());
 		taskMap.put(99999, new GmExecuteGMCommand());
 		
