@@ -344,9 +344,7 @@ public class BattleTowerHandler {
 				rankingHeroInfo.setLevel(heroInfo.getLevel());
 				rankingHeroInfo.setQuality(heroInfo.getQuality());
 				rankingHeroInfo.setStarNum(heroInfo.getStarNum());
-				if (rankingUserId.equals(heroInfo.getHeroId())) {
-					rankingHeroInfo.setIsMainRole(true);
-				}
+				rankingHeroInfo.setIsMainRole(heroInfo.isMainRole());
 				// 添加到RankingRoleInfo中
 				rankingRoleInfo.addRankingHeroInfoMsg(rankingHeroInfo);
 			}
