@@ -247,7 +247,7 @@ public class CopyDataMgr implements CopyDataMgrIF {
 				if (data.getCopyType() == cfg.getType()) 
 				{
 					data.setCopyCount(cfg.getCount());
-					data.setResetCount(getRestCountByCopyType(cfg.getType()));
+					data.setResetCount(0);
 					data.setLastFreeResetTime(System.currentTimeMillis());
 					break;
 				}
