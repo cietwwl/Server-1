@@ -96,19 +96,20 @@ public class GmGetRankList implements IGmTask {
 	}
 
 	private List<String> getGroupList(int offset, int limit) {
-		List<String> leaderIdList = new ArrayList<String>();
-		List<String> groupList = getRankList(RankType.GROUP_BASE_RANK, offset, limit);
-
-		for (String groupId : groupList) {
-			Group group = GroupBM.get(groupId);
-			if (group != null) {
-				GroupMemberDataIF groupLeader = group.getGroupMemberMgr().getGroupLeader();
-				if (groupLeader != null) {
-					leaderIdList.add(groupLeader.getUserId());
-				}
-			}
-		}
-		return leaderIdList;
+		return getRankList(GameWorldKey.GROUP, offset, limit);
+//		List<String> leaderIdList = new ArrayList<String>();
+//		List<String> groupList = getRankList(RankType.GROUP_BASE_RANK, offset, limit);
+//
+//		for (String groupId : groupList) {
+//			Group group = GroupBM.get(groupId);
+//			if (group != null) {
+//				GroupMemberDataIF groupLeader = group.getGroupMemberMgr().getGroupLeader();
+//				if (groupLeader != null) {
+//					leaderIdList.add(groupLeader.getUserId());
+//				}
+//			}
+//		}
+//		return leaderIdList;
 	}
 
 	private List<String> getPrestArenaList(int offset, int limit) {
@@ -125,6 +126,10 @@ public class GmGetRankList implements IGmTask {
 		if (dbString == null) {
 			return Collections.EMPTY_LIST; 
 		}
+		if(offset <= 0){
+			GameLog.error("GmGetRankingList", "#getRankList()", "获取排行榜活动offset异常：offset=" + offset + ",limit=" + limit  + ",rankType=" + rankType);
+			return Collections.EMPTY_LIST;
+		}
 		ArrayList<String> list = new ArrayList<String>();
 		try {
 			JSONArray array = new JSONArray(dbString);
@@ -133,9 +138,10 @@ public class GmGetRankList implements IGmTask {
 				GameLog.error("GmGetRankingList", "#getRankList()", "获取排行榜活动记录异常：offset=" + offset + ",limit=" + limit + ",len=" + len + ",rankType=" + rankType);
 				return list;
 			}
-			int max = offset + limit;
+			int start = offset - 1;
+			int max = start + limit;
 			len = Math.min(max, len);
-			for (int i = offset; i < len; i++) {
+			for (int i = start; i < len; i++) {
 				list.add(array.getString(i));
 			}
 		} catch (Exception e) {
