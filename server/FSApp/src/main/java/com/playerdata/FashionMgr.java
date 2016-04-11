@@ -204,6 +204,7 @@ public class FashionMgr implements FashionMgrIF{
 	}
 	
 	public void onMinutes() {
+		GameLog.info("时装", "定时检查", "OnMinutes", null);
 		checkExpired();
 		// 过期不会影响fashionItem存储的值
 		notifyProxy.checkDelayNotify();
@@ -313,6 +314,7 @@ public class FashionMgr implements FashionMgrIF{
 		}
 		long now = System.currentTimeMillis();
 		item.setExpiredTime(now+TimeUnit.MINUTES.toMillis(minutes));
+		fashionItemHolder.updateItem(m_player, item);
 		GameLog.info("时装", m_player.getUserId(), "成功重置时装过期时间，还有"+minutes+"分钟过期", null);
 		return true;
 	}
