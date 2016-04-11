@@ -106,7 +106,7 @@ public class GMHandler {
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
 		// 时装
-		funcCallBackMap.put("fashion", "setFashionExpiredTime");
+		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
 	}
 
 	public boolean isActive() {
