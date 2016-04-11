@@ -21,6 +21,8 @@ enum eArenaType {
 	BUY_TIMES = 12;		//购买竞技场次数
 	SCORE=13;  //竞技场积分
 	GET_REWARD = 14;//领取奖励
+	HIS_RANK_REWARD_SUM = 15;//历史排行榜奖励总和
+	HIS_RANK_REWARD_STAGE = 16;//领取历史排行榜阶段奖励
 }
 enum eArenaResultType {
 	ARENA_SUCCESS = 1;//成功
