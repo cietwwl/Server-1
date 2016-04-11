@@ -32,10 +32,13 @@ public class StoreItemHolder {
 		StoreData targetData = getStoreData(type);
 		
 		List<CommodityData> targetList = targetData.getCommodity();
+		if(targetList.isEmpty()){
+			return null;
+		}
 		int nextInt = random.nextInt(targetList.size());
 		
 		
-		return targetList.get(nextInt);
+		return targetList.remove(nextInt);
 	}
 	
 	
