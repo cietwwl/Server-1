@@ -30,13 +30,15 @@ public class StoreHandler {
 	public boolean buyRandom(Client client) {
 
 		CommodityData target = client.getStoreItemHolder().getRandom(eStoreType.General);
-		int commodity = target.getId();
-
 		StoreRequest.Builder req = StoreRequest.newBuilder();
-		req.setRequestType(eStoreRequestType.BuyCommodity);
-		tagCommodity vo = tagCommodity.newBuilder().setCount(1).setId(commodity).build();
-		req.setCommodity(vo);
-
+		if(target == null){
+			req.setRequestType(eStoreRequestType.RefreshStore);
+		}else{
+			int commodity = target.getId();
+			req.setRequestType(eStoreRequestType.BuyCommodity);
+			tagCommodity vo = tagCommodity.newBuilder().setCount(1).setId(commodity).build();
+			req.setCommodity(vo);
+		}
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_STORE, req.build().toByteString(), new MsgReciver() {
 
 			@Override
