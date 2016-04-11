@@ -7,7 +7,6 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.activity.countType.cfg.ActivityCountTypeSubItem;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 
@@ -20,7 +19,6 @@ public class ActivityCountTypeItem implements  IMapItem {
 	private String id;
 	private int count;
 	
-	//已领取的奖励condition id
 	private List<ActivityCountTypeSubItem> takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
 
 	public String getId() {

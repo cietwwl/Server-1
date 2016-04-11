@@ -1,4 +1,4 @@
-package com.playerdata.activity.countType.cfg;
+package com.playerdata.activity.countType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 

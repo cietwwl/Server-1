@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.BeanCopyer;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -26,7 +27,7 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	
 	@Override
 	public Map<String, ActivityCountTypeCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("fashion/ActivityCountTypeCfg.csv", ActivityCountTypeCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeCfg.csv", ActivityCountTypeCfg.class);
 		for (ActivityCountTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseSubItemList(cfgTmp);
 		}

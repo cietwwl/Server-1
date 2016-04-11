@@ -2,6 +2,8 @@ package com.playerdata.activity.countType.cfg;
 
 import java.util.List;
 
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+
 
 public class ActivityCountTypeCfg {
 
