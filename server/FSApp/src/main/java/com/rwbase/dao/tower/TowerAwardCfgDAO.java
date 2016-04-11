@@ -71,7 +71,7 @@ public final class TowerAwardCfgDAO extends CfgCsvDao<TowerAwardCfg> {
 			return null;
 		}
 
-		String id = value.get(floor);
+		String id = value.get(floor + 1);
 		if (id == null) {
 			return null;
 		}
