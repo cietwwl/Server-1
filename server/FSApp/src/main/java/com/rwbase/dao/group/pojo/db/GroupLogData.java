@@ -38,7 +38,12 @@ public class GroupLogData {
 	 * @return
 	 */
 	public List<GroupLog> getLogList() {
-		return new ArrayList<GroupLog>(logList);
+		ArrayList<GroupLog> arrayList = new ArrayList<GroupLog>();
+		for (int i = logList.size() - 1; i >= 0; --i) {
+			GroupLog groupLog = logList.get(i);
+			arrayList.add(groupLog);
+		}
+		return arrayList;
 	}
 
 	/**

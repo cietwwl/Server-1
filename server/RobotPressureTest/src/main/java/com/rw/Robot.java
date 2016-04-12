@@ -221,8 +221,6 @@ public class Robot {
 	 * @return
 	 */
 	public boolean wearEquip() {
-		// // 作弊添加装备
-		// gmGainHeroEquip(0);
 		// 穿装备
 		return EquipHandler.instance().wearEquip(client);
 	}
@@ -233,7 +231,6 @@ public class Robot {
 	 * @return
 	 */
 	public boolean equipAttach() {
-		// gainItem(804001, 30);
 		return EquipHandler.instance().equipAttach(client);
 	}
 
@@ -254,8 +251,6 @@ public class Robot {
 	 * @return
 	 */
 	public boolean heroUpgrade() {
-		// 获取魂石
-		// gainItem(708001, 10);
 		return HeroHandler.getHandler().heroUpgrade(client);
 	}
 
@@ -265,10 +260,6 @@ public class Robot {
 	 * @return
 	 */
 	public boolean magicForge() {
-		// 添加一个法宝
-		// gainItem(602003);
-		// 添加材料
-		// gainItem(801001, 1000);
 		return MagicHandler.getHandler().magicForge(client);
 	}
 

@@ -5,6 +5,12 @@ public class Test {
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
 
 	public static void main(String[] args) throws InterruptedException {
+		// Robot robot = loginRobot("hclovehf0009");
+		// for (int i = 0; i < 50; i++) {
+		// robot.magicForge();
+		// robot.equipAttach();
+		// }
+
 		// Robot robot = createRobot("testallen0002");
 		// long start = System.currentTimeMillis();
 		// Robot robot = loginRobot("testallen0003");

@@ -8,10 +8,9 @@ import java.util.TreeMap;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.task.TaskCfgDAO;
 
 public final class TowerAwardCfgDAO extends CfgCsvDao<TowerAwardCfg> {
-	
+
 	public static TowerAwardCfgDAO getInstance() {
 		return SpringContextUtil.getBean(TowerAwardCfgDAO.class);
 	}
@@ -19,10 +18,15 @@ public final class TowerAwardCfgDAO extends CfgCsvDao<TowerAwardCfg> {
 	private TreeMap<Integer, Map<Integer, String>> awardMap;
 
 	private TowerAwardCfgDAO() {
-		awardMap = new TreeMap<Integer, Map<Integer, String>>();
-		Map<String, TowerAwardCfg> maps = getMaps();
-		if (maps != null && !maps.isEmpty()) {
-			for (Entry<String, TowerAwardCfg> e : maps.entrySet()) {
+	}
+
+	@Override
+	public Map<String, TowerAwardCfg> initJsonCfg() {
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("tower/TowerAward.csv", TowerAwardCfg.class);
+
+		TreeMap<Integer, Map<Integer, String>> awardMap = new TreeMap<Integer, Map<Integer, String>>();
+		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
+			for (Entry<String, TowerAwardCfg> e : cfgCacheMap.entrySet()) {
 				TowerAwardCfg awardCfg = (TowerAwardCfg) e.getValue();
 				Map<Integer, String> map = awardMap.get(awardCfg.level);
 				if (map == null) {
@@ -33,11 +37,8 @@ public final class TowerAwardCfgDAO extends CfgCsvDao<TowerAwardCfg> {
 				map.put(awardCfg.towerId, e.getKey());
 			}
 		}
-	}
 
-	@Override
-	public Map<String, TowerAwardCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("tower/TowerAward.csv",TowerAwardCfg.class);
+		this.awardMap = awardMap;
 		return cfgCacheMap;
 	}
 

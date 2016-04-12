@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -26,12 +27,10 @@ public class GmEmailSingleCheck implements IGmTask {
 		try {
 			response.setStatus(0);
 			response.setCount(1);
-			Map<String, Object> resultMap = new HashMap<String, Object>();
-
 			Map<String, Object> args = request.getArgs();
 			final EmailData emailData = GmEmailHelper.getEmailData(args);
 
-			String roleId = (String) args.get("roleId");
+			String roleId = GmUtils.parseString(args, "roleId");
 			Player targetPlayer = PlayerMgr.getInstance().find(roleId);
 			long taskId = emailData.getTaskId();
 			if (targetPlayer != null) {
@@ -41,15 +40,24 @@ public class GmEmailSingleCheck implements IGmTask {
 				for (EmailItem emailItem : allEmail) {
 					repItemList.add(toRepItem(emailItem));
 				}
-				resultMap.put("value", repItemList);
-
+				for (GmEmailRepItem gmEmailRepItem : repItemList) {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("id", gmEmailRepItem.getId());
+					map.put("title", gmEmailRepItem.getTitle());
+					map.put("content", gmEmailRepItem.getContent());
+					map.put("toolList", gmEmailRepItem.getToolList());
+					map.put("sendTime", gmEmailRepItem.getSendTime());
+					map.put("receiveTime", gmEmailRepItem.getSendTime());
+					map.put("expireTime", gmEmailRepItem.getExpireTime());
+					response.addResult(map);
+				}
+				
 			} else {
 				GameLog.info(LogModule.GM.getName(), "GmEmailSingleSend",
 						"GmEmailSingleSend[doTask] 没有找到用户 userId:" + roleId,
 						null);
 			}
 
-			response.addResult(resultMap);
 		} catch (Exception ex) {
 			SocketHelper.processException(ex, response);
 		}

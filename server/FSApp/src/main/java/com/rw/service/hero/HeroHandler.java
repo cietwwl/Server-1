@@ -183,7 +183,7 @@ public class HeroHandler {
 			// if (offLevel >= 10) {// 差别大于了10级，肯定是升10级
 			// }
 			offLevel = offLevel >= 10 ? 10 : 1;
-			for (int i = 1; i <= offLevel; i++) {
+			for (int i = 1; i < offLevel; i++) {
 				int tempLevel = curLevel + i;
 				LevelCfg cfg = levelCfgDao.getByLevel(tempLevel);
 				if (cfg == null) {
@@ -198,6 +198,7 @@ public class HeroHandler {
 			BigDecimal b0 = new BigDecimal(perExpItemAdd);
 			int needCount = b.divide(b0, RoundingMode.CEILING).intValue();
 			useCount = needCount >= itemCount ? itemCount : needCount;
+			useCount = useCount <= 0 ? 1 : useCount;
 		} else {
 			useCount = itemNum;
 		}

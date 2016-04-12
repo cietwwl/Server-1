@@ -1,10 +1,17 @@
 package com.rw.handler.equip;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.chat.GmHandler;
 import com.rw.handler.itembag.ItemData;
 import com.rwproto.EquipProtos.EquipEventType;
 import com.rwproto.EquipProtos.EquipRequest;
@@ -16,6 +23,7 @@ import com.rwproto.ResponseProtos.Response;
 
 public class EquipHandler {
 
+	private static final Random r = new Random();
 	private static EquipHandler instance = new EquipHandler();
 
 	public static EquipHandler instance() {
@@ -110,23 +118,51 @@ public class EquipHandler {
 	}
 
 	/**
-	 * 装备附灵，消耗804001 每次消耗两个
+	 * 装备附灵，消耗700174 每次消耗一个
 	 * 
 	 * @param client
 	 * @return
 	 */
 	public boolean equipAttach(Client client) {
+		Map<Integer, EquipItem> heroEquipItem = client.getHeroEquipHolder().getHeroEquipItem(client.getUserId());
+		if (heroEquipItem == null || heroEquipItem.isEmpty()) {
+			GmHandler.instance().send(client, "* wearequip 0");
+			heroEquipItem = client.getHeroEquipHolder().getHeroEquipItem(client.getUserId());
+		}
 
-		EquipRequest.Builder req = EquipRequest.newBuilder().setEventType(EquipEventType.Equip_Attach).setEquipIndex(1).setRoleId(client.getUserId());
-		ItemData itemData = client.getItembagHolder().getByModelId(804001);
+		if (heroEquipItem == null || heroEquipItem.isEmpty()) {
+			RobotLog.info("EquipHandler[attach] 失败，角色身上没有任何装备!");
+			return false;
+		}
+
+		List<Integer> indexList = new ArrayList<Integer>();
+		for (Entry<Integer, EquipItem> e : heroEquipItem.entrySet()) {
+			indexList.add(e.getKey());
+		}
+
+		int index = indexList.get(r.nextInt(indexList.size()));
+
+		EquipRequest.Builder req = EquipRequest.newBuilder().setEventType(EquipEventType.Equip_Attach).setEquipIndex(index).setRoleId(client.getUserId());
+		List<ItemData> itemList = client.getItembagHolder().getItemDataByModelId(700174);
+		if (itemList == null || itemList.isEmpty()) {
+			GmHandler.instance().send(client, "* additem " + 700174 + " 999");
+			itemList = client.getItembagHolder().getItemDataByModelId(700174);
+		}
+
+		if (itemList == null || itemList.isEmpty()) {
+			RobotLog.info("EquipHandler[attach] 失败，材料700174数量不足!");
+			return false;
+		}
+
+		ItemData itemData = itemList.get(r.nextInt(itemList.size()));
 		if (itemData == null) {
-			RobotLog.info("EquipHandler[attach] 失败，材料804001数量不足!");
+			RobotLog.info("EquipHandler[attach] 失败，材料700174数量不足!");
 			return false;
 		}
 
 		TagMate.Builder mate = TagMate.newBuilder();
 		mate.setId(itemData.getId());
-		mate.setCount(2);
+		mate.setCount(1);
 		req.addMate(mate);
 
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_EQUIP, req.build().toByteString(), new MsgReciver() {

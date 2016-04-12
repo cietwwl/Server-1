@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
@@ -18,10 +19,10 @@ public class GmOpCoin implements IGmTask{
 		
 		GmResponse response = new GmResponse();
 		
+		Map<String, Object> args = request.getArgs();
 		
-		
-		String roleIdList =  (String)request.getArgs().get("roleId");
-		long value =  Long.parseLong(request.getArgs().get("value").toString());
+		String roleIdList = GmUtils.parseString(args, "roleId");
+		long value = GmUtils.parseLong(args, "value");
 		if(StringUtils.isNotBlank(roleIdList)){ 
 			String[] roleIdArray = roleIdList.split(",");			
 			for (String roleId : roleIdArray) {
@@ -42,9 +43,6 @@ public class GmOpCoin implements IGmTask{
 
 		response.setStatus(0);
 		response.setCount(1);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("value", 0);
-		response.addResult(resultMap );
 		return response;
 	}
 	

@@ -129,7 +129,9 @@ public class GameLoginHandler {
 				GameLog.debug("Create Role ...,accountId:" + accountId + " zoneId:" + zoneId);
 				response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 				return response.build().toByteString();
-			} else if (GameManager.isWhiteListLimit(user.getAccount())) {
+			}
+			user = UserDataDao.getInstance().getByUserId(user.getUserId());
+			if (GameManager.isWhiteListLimit(user.getAccount())) {
 				response.setError("该区维护中，请稍后尝试，");
 				response.setResultType(eLoginResultType.ServerMainTain);
 				return response.build().toByteString();

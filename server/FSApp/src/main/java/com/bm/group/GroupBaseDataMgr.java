@@ -213,28 +213,28 @@ public class GroupBaseDataMgr {
 	 * @param researchCondation 研发的前置条件
 	 * @return
 	 */
-	public synchronized boolean updateGroupDataWhenResearchSkill(Player player, int needGroupSupply, int skillId, int skillLevel, Map<Integer, Integer> researchCondation) {
+	public synchronized String updateGroupDataWhenResearchSkill(Player player, int needGroupSupply, int skillId, int skillLevel, Map<Integer, Integer> researchCondation) {
 		GroupBaseData groupData = groupBaseDataHolder.getGroupData();
 		if (groupData == null) {
-			return false;
+			return "帮派不存在";
 		}
 
 		int hasLevel = groupData.getResearchedSkillLevel(skillId);
 		String userId = player.getUserId();
 		if (hasLevel < 0) {
 			GameLog.error("研发帮派技能", userId, String.format("技能Id[%s]，还没有被研发", skillId));
-			return false;
+			return "当前技能未被研发过";
 		}
 
 		if (skillLevel - hasLevel != 1) {
 			GameLog.error("研发帮派技能", userId, String.format("技能Id[%s]，已经研发的等级[%s]，请求研发等级[%s]差别不符", skillId, hasLevel, skillLevel));
-			return false;
+			return "请求了非法的等级";
 		}
 
 		int supplies = groupData.getSupplies();
 		if (needGroupSupply > supplies) {
 			GameLog.error("研发帮派技能", userId, String.format("当前帮派的物资[%s],需要的物资是[%s]", supplies, needGroupSupply));
-			return false;
+			return "帮派物资不足";
 		}
 
 		// 检查前置条件
@@ -244,7 +244,7 @@ public class GroupBaseDataMgr {
 				int needSkillLevel = entry.getValue().intValue();
 				if (!groupData.checkHasResearchedSkill(needSkillId, needSkillLevel)) {
 					GameLog.error("研发帮派技能", userId, String.format("需要技能Id是[%s],技能等级是[%s],条件未达成", needSkillId, needSkillLevel));
-					return false;
+					return "前置条件不足";
 				}
 			}
 		}
@@ -285,7 +285,7 @@ public class GroupBaseDataMgr {
 		updateAndSynGroupData(player);
 		// 更新数据并同步数据到前端
 		updateAndSynGroupSkillData(player);
-		return true;
+		return "";
 	}
 
 	/**

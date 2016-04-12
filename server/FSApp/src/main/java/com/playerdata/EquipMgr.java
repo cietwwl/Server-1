@@ -70,6 +70,11 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 			int totalSubCoin = 0;
 
 			EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(equipItem.getLevel());
+			if (pEquipAttachCfg == null) {
+				// 配置错误
+				return -3;
+			}
+
 			int nextNeedExp = pEquipAttachCfg.getNeedExp();// 下一级需要的经验值
 			while (totalExp >= nextNeedExp) {
 				if (CheckIsHasNext(pEquipAttachCfg)) {
