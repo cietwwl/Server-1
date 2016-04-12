@@ -3,6 +3,7 @@ package com.rw.service.unendingwar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
@@ -109,7 +110,7 @@ public class UnendingWarHandler {
 	}
 
 	/*** 获取对应的奖励 ****/
-	public List<? extends ItemInfo> getJlItem(Player player, int num, int cMap) {
+	public List<? extends ItemInfo> getJlItem(Player player, int num, int cMap, AtomicInteger unendingCoin) {
 		this.setEnd(player, num, cMap);
 		ArrayList<Integer> dropList = new ArrayList<Integer>();
 		for (int j = 1; j <= num; j++) {
@@ -118,7 +119,10 @@ public class UnendingWarHandler {
 				continue;
 			}
 			/*** 加奖励到背包 ****/
-			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz
+			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz			//添加货币
+			player.getItemBagMgr().addItem(eSpecialItemId.UnendingWarCoin.getValue(), cfgUnendingWar.uNum);
+			unendingCoin.addAndGet(cfgUnendingWar.uNum);
+			
 			String[] array = cfgUnendingWar.jl1.split(",");
 			for (int i = 0; i < array.length; i++) {
 				dropList.add(Integer.parseInt(array[i]));
