@@ -8,6 +8,7 @@ public class GiftCodeResponse {
 	private int type;
 	private long iSequenceNum;
 	private String title;
+	private String content;
 	private List<GiftItem> itemData;
 
 	public int getGift_id() {
@@ -48,5 +49,13 @@ public class GiftCodeResponse {
 
 	public List<GiftItem> getItemData() {
 		return itemData;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }
