@@ -251,6 +251,7 @@ public class HeroMgr implements HeroMgrIF{
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Quality);
 			hero.regAttrChangeCallBack();
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroNum);
+			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);
 		}
 		return hero;
 	}
