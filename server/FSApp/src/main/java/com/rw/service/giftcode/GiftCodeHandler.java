@@ -78,12 +78,11 @@ public class GiftCodeHandler {
 
 				int type = gmResponse.getType();
 				if (type == CODE_STATE.CODE_SUCCESS.type) {// 兑换成功
-					// 发送邮件
-					String mailContent = "兑换成功";
 					// 邮件内容
 					final EmailData emailData = new EmailData();
-					emailData.setTitle(mailContent);
-					emailData.setContent(gmResponse.getTitle());
+					emailData.setTitle(gmResponse.getTitle());
+					String content = gmResponse.getContent();
+					emailData.setContent(StringUtils.isEmpty(content) ? "" : content);
 					emailData.setDeleteType(EEmailDeleteType.GET_DELETE);
 
 					List<GiftItem> itemData = gmResponse.getItemData();
