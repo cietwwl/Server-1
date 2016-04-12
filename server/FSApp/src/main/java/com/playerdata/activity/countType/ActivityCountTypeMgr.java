@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
@@ -24,6 +25,32 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItemHolder.getInstance().synAllData(player);
 	}
 	
+	public void checkActivityOpen(Player player){
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+		
+		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
+		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {
+			if(isOpen(activityCountTypeCfg)){
+				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityCountTypeCfg.getId());
+				if(targetItem == null){
+					 targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, activityCountTypeCfg.getId());
+					 if(targetItem!=null){
+						 dataHolder.addItem(player, targetItem);
+					 }
+				}
+				
+			}
+		}
+		
+	}
+	
+	private boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
+		long startTime = activityCountTypeCfg.getStarTime();
+		long endTime = activityCountTypeCfg.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime < endTime && currentTime > startTime;
+	}
+
 	public void addCount(Player player, ActivityCountTypeEnum countType){
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
@@ -37,31 +64,37 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType.getId());
-		
-		ActivityCountTypeSubItem targetItem = null;
-		List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
-		for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
-			if(StringUtils.equals(itemTmp.getId(), subItemId)){
-				targetItem = itemTmp;
-				break;
-			}
-		}
 		ActivityComResult result = ActivityComResult.newInstance(false);
-		if(targetItem == null){
-			targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType.getId(), subItemId);
+		//未激活
+		if(dataItem == null){
+			result.setReason("活动尚未开启");
+		}else{
+			ActivityCountTypeSubItem targetItem = null;
+			List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
+			for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
+				if(StringUtils.equals(itemTmp.getId(), subItemId)){
+					targetItem = itemTmp;
+					break;
+				}
+			}
 			if(targetItem == null){
-				result.setReason("该奖励不存在 id:"+countType.getId()+" subItemId:"+subItemId);
+				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType.getId(), subItemId);
+				if(targetItem == null){
+					result.setReason("该奖励不存在 id:"+countType.getId()+" subItemId:"+subItemId);
+				}else{
+					takenGiftList.add(targetItem);
+					takeGift(targetItem);
+					result.setSuccess(true);
+					dataHolder.updateItem(player, dataItem);
+				}
 			}else{
-				takenGiftList.add(targetItem);
-				takeGift(targetItem);
+				takeGift(targetItem);			
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
 			}
-		}else{
-			takeGift(targetItem);			
-			result.setSuccess(true);
-			dataHolder.updateItem(player, dataItem);
+			
 		}
+		
 		
 		return result;
 	}

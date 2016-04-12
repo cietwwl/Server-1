@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.BeanCopyer;
+import com.playerdata.Player;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -38,6 +40,22 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	public ActivityCountTypeCfg getConfig(String id){
 		ActivityCountTypeCfg cfg = getCfgById(id);
 		return cfg;
+	}
+	
+	public ActivityCountTypeItem newItem(Player player,String cfgId){
+		
+		ActivityCountTypeCfg cfgById = getCfgById(cfgId);
+		if(cfgById!=null){			
+			ActivityCountTypeItem item = new ActivityCountTypeItem();
+			item.setId(cfgId);
+			item.setUserId(player.getUserId());
+			return item;
+		}else{
+			return null;
+		}
+		
+		
+		
 	}
 	
 	
