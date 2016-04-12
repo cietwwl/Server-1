@@ -108,8 +108,8 @@ public class CopyTrialHandler {
 			long lastResetTime = data.getLastFreeResetTime();
 			if (DateUtils.isResetTime(0, 0, 0, lastResetTime)) {
 				data.setCopyCount(infoCfg.getCount());
-				int resetCount = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.COPY_CELESTAL);
-				data.setResetCount(resetCount);
+//				int resetCount = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.COPY_CELESTAL);
+//				data.setResetCount(resetCount);
 				data.setLastFreeResetTime(System.currentTimeMillis());
 			}
 			// 根据关卡配置获取副本通关数据
