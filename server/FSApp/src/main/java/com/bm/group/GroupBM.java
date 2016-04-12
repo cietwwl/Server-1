@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.playerdata.Player;
@@ -16,11 +15,11 @@ import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
-import com.rwbase.dao.group.pojo.cfg.GroupConstCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
-import com.rwbase.dao.group.pojo.cfg.dao.GroupConstCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
 import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataDAO;
@@ -204,7 +203,8 @@ public final class GroupBM {
 			return;
 		}
 
-		GroupConstCfg groupConstCfg = GroupConstCfgDAO.getCfgDAO().getGroupConstCfg();
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.DISMISS_GROUP_MAIL_ID);
+
 		long now = System.currentTimeMillis();
 		// 删除帮派基础数据
 		GroupBaseDataDAO.getDAO().delete(groupId);
@@ -213,15 +213,15 @@ public final class GroupBM {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm:ss");
 		String time = sdf.format(new Date(now));
-		String newContent = String.format(groupConstCfg.getDismissGroupMailContent(), groupData.getGroupName(), time);
+		String newContent = String.format(emailCfg.getTitle(), groupData.getGroupName(), time);
 
 		// 邮件内容
 		final EmailData emailData = new EmailData();
-		emailData.setTitle(groupConstCfg.getDismissGroupMailTitle());
+		emailData.setTitle(emailCfg.getTitle());
 		emailData.setContent(newContent);
-		emailData.setDeleteType(EEmailDeleteType.DELAY_TIME);
-		emailData.setDelayTime((int) TimeUnit.DAYS.toMillis(7));// 整个帮派邮件只保留7天
-		emailData.setSender(groupConstCfg.getMailSender());
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setDelayTime(emailCfg.getDelayTime());// 整个帮派邮件只保留7天
+		emailData.setSender(emailCfg.getSender());
 
 		// 成员任务
 		PlayerTask memberPlayerTask = new PlayerTask() {
