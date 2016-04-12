@@ -105,7 +105,6 @@
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillCfgDAO" init-method="init" /> 
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillAttributeCfgDAO" init-method="init" />
-	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupConstCfgDAO" init-method="init" />
 	
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />

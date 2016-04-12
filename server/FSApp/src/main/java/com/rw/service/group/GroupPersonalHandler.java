@@ -448,7 +448,7 @@ public class GroupPersonalHandler {
 	 * @param player
 	 * @return
 	 */
-	public ByteString OpenDonateViewHandler(Player player) {
+	public ByteString openDonateViewHandler(Player player) {
 		String playerId = player.getUserId();
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();

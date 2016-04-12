@@ -1,18 +1,17 @@
 package com.rw.service.group.helper;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
+import com.bm.group.GroupConst;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
-import com.rwbase.dao.group.pojo.cfg.GroupConstCfg;
-import com.rwbase.dao.group.pojo.cfg.dao.GroupConstCfgDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 
@@ -95,17 +94,15 @@ public class GroupHelper {
 	 * @param groupName
 	 */
 	public static void sendJoinGroupMail(String userId, String groupName) {
-		GroupConstCfg groupConstCfg = GroupConstCfgDAO.getCfgDAO().getGroupConstCfg();
-
-		String newContent = String.format(groupConstCfg.getJoinGroupMailContent(), groupName);
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.JOIN_GROUP_MAIL_ID);
+		String newContent = String.format(emailCfg.getContent(), groupName);
 
 		EmailData emailData = new EmailData();
-		emailData.setTitle(groupConstCfg.getJoinGroupMailTitle());
+		emailData.setTitle(emailCfg.getTitle());
 		emailData.setContent(newContent);
-		emailData.setDeleteType(EEmailDeleteType.DELAY_TIME);
-		emailData.setDelayTime((int) TimeUnit.DAYS.toMillis(7));// 整个帮派邮件只保留7天
-		emailData.setSender(groupConstCfg.getMailSender());
-
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setDelayTime(emailCfg.getDelayTime());// 整个帮派邮件只保留7天
+		emailData.setSender(emailCfg.getSender());
 		EmailUtils.sendEmail(userId, emailData);
 	}
 
@@ -116,16 +113,16 @@ public class GroupHelper {
 	 * @param groupName
 	 */
 	public static void sendQuitGroupMail(String userId, String groupName) {
-		GroupConstCfg groupConstCfg = GroupConstCfgDAO.getCfgDAO().getGroupConstCfg();
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.KICK_GROUP_MAIL_ID);
 
-		String newContent = String.format(groupConstCfg.getQuitGroupMailContent(), groupName);
+		String newContent = String.format(emailCfg.getContent(), groupName);
 
 		EmailData emailData = new EmailData();
-		emailData.setTitle(groupConstCfg.getQuitGroupMailTitle());
+		emailData.setTitle(emailCfg.getTitle());
 		emailData.setContent(newContent);
-		emailData.setDeleteType(EEmailDeleteType.DELAY_TIME);
-		emailData.setDelayTime((int) TimeUnit.DAYS.toMillis(7));// 整个帮派邮件只保留7天
-		emailData.setSender(groupConstCfg.getMailSender());
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setDelayTime(emailCfg.getDelayTime());// 整个帮派邮件只保留7天
+		emailData.setSender(emailCfg.getSender());
 
 		EmailUtils.sendEmail(userId, emailData);
 	}
