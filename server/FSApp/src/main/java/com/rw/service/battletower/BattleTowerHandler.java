@@ -16,6 +16,7 @@ import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.battletower.pojo.BattleTowerHeroInfo;
 import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
@@ -1122,6 +1123,8 @@ public class BattleTowerHandler {
 		}
 
 		dao.update(tableBattleTower);
+		//开服活动通知
+		player.getFresherActivityMgr().doCheck(eActivityType.A_Tower);
 
 		// 到这里就算成功了
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
