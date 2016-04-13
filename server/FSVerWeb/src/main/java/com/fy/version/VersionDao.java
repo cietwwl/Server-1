@@ -144,6 +144,11 @@ public class VersionDao {
 		return channelVersionMap.get(clientVersion.getChannel()).getNextPatch(clientVersion);
 	}
 	
+	//下一个代码补丁包
+	public Version getNextCodePatch(Version clientVersion){
+		return channelVersionMap.get(clientVersion.getChannel()).getNextCodePatch(clientVersion);
+	}
+	
 
 	private List<Version> getAllVer(List<File> fileList) {
 		List<Version> allVerList = new ArrayList<Version>();
