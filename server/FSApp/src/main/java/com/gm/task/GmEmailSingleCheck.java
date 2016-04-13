@@ -46,9 +46,9 @@ public class GmEmailSingleCheck implements IGmTask {
 					map.put("title", gmEmailRepItem.getTitle());
 					map.put("content", gmEmailRepItem.getContent());
 					map.put("toolList", gmEmailRepItem.getToolList());
-					map.put("sendTime", gmEmailRepItem.getSendTime());
-					map.put("receiveTime", gmEmailRepItem.getSendTime());
-					map.put("expireTime", gmEmailRepItem.getExpireTime());
+					map.put("sendTime", gmEmailRepItem.getSendTime()/ 1000);
+					map.put("receiveTime", gmEmailRepItem.getSendTime()/1000);
+					map.put("expireTime", gmEmailRepItem.getExpireTime()/1000);
 					response.addResult(map);
 				}
 				
@@ -72,6 +72,7 @@ public class GmEmailSingleCheck implements IGmTask {
 		repItem.setTaskId(emailItem.getTaskId());
 
 		repItem.setBeginTime(emailItem.getBeginTime());
+		repItem.setSendTime(emailItem.getSendTime());
 		repItem.setEndTime(emailItem.getEndTime());
 		repItem.setCoolTime(emailItem.getCoolTime());
 		repItem.setExpireTime(emailItem.getDeadlineTimeInMill());
@@ -92,6 +93,7 @@ public class GmEmailSingleCheck implements IGmTask {
 					GmItem gmItem = new GmItem();
 					gmItem.setCode(Integer.valueOf(itemTmpSplit[0]));
 					gmItem.setAmount(Integer.valueOf(itemTmpSplit[1]));
+					itemList.add(gmItem);
 				}
 			}
 			repItem.setToolList(itemList);

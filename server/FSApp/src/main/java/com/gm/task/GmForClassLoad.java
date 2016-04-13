@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 
@@ -18,8 +19,8 @@ public class GmForClassLoad implements IGmTask{
 		response.setCount(1);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		
-		String className = (String)request.getArgs().get("className");
+		Map<String, Object> args = request.getArgs();
+		String className = GmUtils.parseString(args, "className");
 		
 		Class clazz = null;
 		

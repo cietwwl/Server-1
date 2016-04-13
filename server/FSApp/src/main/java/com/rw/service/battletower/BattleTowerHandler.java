@@ -390,6 +390,10 @@ public class BattleTowerHandler {
 			rankingRoleInfo.setHighestFloor(roleInfo.getFloor());
 			String friendUserId = roleInfo.getUserId();
 			rankingRoleInfo.setIsMyself(userId.equals(friendUserId));// 是否是自己
+			rankingRoleInfo.setStarNum(roleInfo.getStartNum());
+			String headFrame = roleInfo.getHeadFrame();
+			if (!StringUtils.isBlank(headFrame)) rankingRoleInfo.setHeadFrame(headFrame);
+			
 			// 获取使用的角色信息
 			List<? extends BattleTowerHeroInfoIF> heroInfoList = roleInfo.getHeroInfoList();
 			for (int j = 0, hSize = heroInfoList.size(); j < hSize; j++) {
@@ -967,6 +971,9 @@ public class BattleTowerHandler {
 			roleInfo.setHeadIcon(player.getHeadImage());
 			roleInfo.setLevel(player.getLevel());
 			roleInfo.setName(player.getUserName());
+			roleInfo.setStartNum(player.getStarLevel());
+			String playerHeadFrame = player.getUserGameDataMgr().getHeadBox();
+			if (!StringUtils.isBlank(playerHeadFrame)) roleInfo.setHeadFrame(playerHeadFrame);
 
 			// 法宝
 			ItemData magic = player.getMagic();

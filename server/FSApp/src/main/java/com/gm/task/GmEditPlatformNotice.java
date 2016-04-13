@@ -1,10 +1,13 @@
 package com.gm.task;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
+import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.PlatformNoticeBaseDataResponse;
@@ -17,10 +20,11 @@ public class GmEditPlatformNotice implements IGmTask {
 		// TODO Auto-generated method stub
 		GmResponse response = new GmResponse();
 		try{
-			String title = (String) request.getArgs().get("title");
-			String content = (String)request.getArgs().get("content");
-			long startTime = Long.parseLong(request.getArgs().get("startTime").toString());
-			long endTime = Long.parseLong(request.getArgs().get("endTime").toString());
+			Map<String, Object> args = request.getArgs();
+			String title = GmUtils.parseString(args, "title");;
+			String content = GmUtils.parseString(args, "content");
+			long startTime = GmUtils.parseLong(args, "startTime");
+			long endTime = GmUtils.parseLong(args, "endTime");
 			
 			if (StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));

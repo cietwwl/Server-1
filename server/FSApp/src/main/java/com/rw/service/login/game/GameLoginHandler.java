@@ -252,12 +252,13 @@ public class GameLoginHandler {
 		}
 		GameLog.debug("Game Create Role Start --> accountId:" + accountId + " , zoneId:" + zoneId);
 
-		// author: lida 平台已经判断
-		/**
-		 * TableAccount userAccount = accountBM.getByAccountId(accountId); if (userAccount == null) { response.setResultType(eLoginResultType.FAIL);
-		 * response.setError("账号不存在"); return response.build().toByteString(); } else if (!password.equals(userAccount.getPassword())) {
-		 * response.setResultType(eLoginResultType.FAIL); response.setError("账号或者密码不对"); return response.build().toByteString(); } else
-		 */
+		// author: lida 增加容错 如果已经创建角色则进入主城
+		User user = UserDataDao.getInstance().getByAccoutAndZoneId(accountId, zoneId);
+		if(user != null){
+			return notifyCreateRoleSuccess(response, user);
+		}
+		
+		
 		{
 			String clientInfoJson = request.getClientInfoJson();
 			String nick = request.getNick();
@@ -314,15 +315,7 @@ public class GameLoginHandler {
 			long end1 = System.currentTimeMillis();
 			System.out.println("-------------------" + (end1 - start));
 
-			// EmailUtils.sendEmail(player.getUserId(), "10002", null);
 			EmailUtils.sendEmail(player.getUserId(), "10003");
-			// EmailUtils.sendEmail(player.getUserId(), "10004", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10005", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10006", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10007", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10008", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10009", null);
-			// PlayerMgr.getInstance().addPlayerNameMap(player);
 
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
@@ -356,6 +349,28 @@ public class GameLoginHandler {
 			dao.update(userPlotProgress);
 			// --------------------------------------------------------END
 		}
+		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
+		// 补充进入主城需要同步的数据
+		return response.build().toByteString();
+	}
+	
+	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user){
+		String userId = user.getUserId();
+		Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
+		UserChannelMgr.bindUserID(userId);
+		
+		player.save();
+		long end = System.currentTimeMillis();
+		player.onLogin();
+		long end1 = System.currentTimeMillis();
+
+		EmailUtils.sendEmail(player.getUserId(), "10003");
+
+		response.setResultType(eLoginResultType.SUCCESS);
+		response.setUserId(userId);
+		
+		LoginSynDataHelper.setData(player, response);
+		
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据
 		return response.build().toByteString();
