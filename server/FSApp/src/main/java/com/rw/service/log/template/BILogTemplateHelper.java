@@ -47,6 +47,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("2g/3g/4g/wifi等", "$loginNetType$");
 		addTemplateToken("变动后游戏币个人持有量", "$coinRemain$");
 		addTemplateToken("变动后赠送充值货币个人持有量", "$giftGoldRemain$");
+		addTemplateToken("last_fight_power", "$fightbeforelevelup$");
 		addTemplateToken("ip地址，不包含端口", "$loginClientIp$");
 		addTemplateToken("ip地址（不包含端口）", "$loginClientIp$");
 		addTemplateToken("失败为0，成功为1", "$result$");
@@ -82,6 +83,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("关卡code", "$copyId$");		
 		addTemplateToken("充值币余额", "$zoneGiftGoldRemain$");
 		
+		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
 		addTemplateToken("活动code", "$activityCode$");
@@ -94,7 +96,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("手机型号", "$loginPhoneType$");
 		addTemplateToken("mac地址", "$loginImac$");
 		addTemplateToken("任务ID", "$taskId$");
-		addTemplateToken("sdk版本", "");
+		addTemplateToken("sdk版本", "$loginsdkVersion$");
 		addTemplateToken("sdk_id", "");
 		addTemplateToken("map_id", "$mapid$");
 		addTemplateToken("此处为空", "");
