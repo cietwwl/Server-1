@@ -169,16 +169,6 @@ public class CopyDataMgr implements CopyDataMgrIF {
 		return getByInfoWithId(infoId);
 	}
 
-	public void setCopyData(int infoId, int copyType, int copyCount, int resetCount) {
-		CopyData data = getByInfoWithId(infoId);
-		if (data == null)
-			return;
-		data.setCopyType(copyType);
-		data.setCopyCount(copyCount);
-		data.setResetCount(resetCount);
-		save();
-	}
-
 	public int getCopyCount(String strLevelId) {
 		CopyInfoCfg infoCfg = getCopyInfoCfgByLevelID(strLevelId);
 		if (infoCfg == null)
