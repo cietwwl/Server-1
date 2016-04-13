@@ -59,8 +59,7 @@ public class DailyActivityMgr implements PlayerEventListener{
 	public List<DailyActivityData> GetTaskListByCfg(boolean formCfg) {
 		List<DailyActivityCfg> taskCfgList = DailyActivityCfgDAO.getInstance().getAllCfg();
 		List<DailyActivityData> taskList = new ArrayList<DailyActivityData>();
-		DailyActivityData data;
-		DailyActivityData tempData;
+		
 		
 		// 根据开启条件将任务加入任务列表,主要是时间和等级;
 		for (DailyActivityCfg cfg : taskCfgList) {
@@ -87,7 +86,7 @@ public class DailyActivityMgr implements PlayerEventListener{
 				continue;
 			}
 
-			tempData = getActivityDataById(cfg.getTaskType());
+			DailyActivityData tempData = getActivityDataById(cfg.getTaskType());
 			if (cfg.getTaskClassify() == DailyActivityClassifyType.Time_Type) {
 				// 获得开启的时间;
 				String[] timeArray = cfg.getStartCondition().split("_");
@@ -101,7 +100,7 @@ public class DailyActivityMgr implements PlayerEventListener{
 				int minute = c.get(Calendar.MINUTE);
 				if (((beginHour < hour) || (beginHour == hour && beginMinute <= minute)) && ((endHour > hour) || (endHour == hour && endMinute > minute))) {
 					
-					data = new DailyActivityData();
+					DailyActivityData data = new DailyActivityData();
 					data.setTaskId(cfg.getId());
 					// 判断是否可以领奖
 					String[] timeArrayFinish = cfg.getFinishCondition().split("_");
@@ -126,7 +125,7 @@ public class DailyActivityMgr implements PlayerEventListener{
 			} else if (cfg.getTaskClassify() == DailyActivityClassifyType.Function_Type) {
 				// 判断等级是否达到,初始化主角的时候还没给主角等级赋值，所以人为加1;
 				if ((player.getLevel()) >= Integer.parseInt(cfg.getStartCondition())) {
-					data = new DailyActivityData();
+					DailyActivityData data = new DailyActivityData();
 					data.setTaskId(cfg.getId());
 					data.setCanGetReward(0);
 					if (cfg.getTaskFinishType() == DailyActivityFinishType.Many_Time) {
@@ -152,6 +151,65 @@ public class DailyActivityMgr implements PlayerEventListener{
 						data.setCanGetReward(tempData.getCanGetReward());
 						data.setCurrentProgress(tempData.getCurrentProgress());
 					}
+					taskList.add(data);
+				}
+			}
+		}
+		return taskList;
+	}
+	// 从配置文件中重新刷新任务列表
+	public List<DailyActivityData> getResetTaskList() {
+		List<DailyActivityCfg> taskCfgList = DailyActivityCfgDAO.getInstance().getAllCfg();
+		List<DailyActivityData> taskList = new ArrayList<DailyActivityData>();
+		
+		
+		// 根据开启条件将任务加入任务列表,主要是时间和等级;
+		for (DailyActivityCfg cfg : taskCfgList) {			
+			
+			if (hasNoRight(cfg)) {
+				continue;
+			}			
+
+			if (cfg.getTaskClassify() == DailyActivityClassifyType.Time_Type) {
+				// 获得开启的时间;
+				String[] timeArray = cfg.getStartCondition().split("_");
+				int beginHour = Integer.parseInt(timeArray[0].split(":")[0]);
+				int beginMinute = Integer.parseInt(timeArray[0].split(":")[1]);
+				int endHour = Integer.parseInt(timeArray[1].split(":")[0]);
+				int endMinute = Integer.parseInt(timeArray[1].split(":")[1]);
+				// 当前时间
+				Calendar c = Calendar.getInstance();
+				int hour = c.get(Calendar.HOUR_OF_DAY);
+				int minute = c.get(Calendar.MINUTE);
+				if (((beginHour < hour) || (beginHour == hour && beginMinute <= minute)) && ((endHour > hour) || (endHour == hour && endMinute > minute))) {
+					
+					DailyActivityData data = new DailyActivityData();
+					data.setTaskId(cfg.getId());
+					// 判断是否可以领奖
+					String[] timeArrayFinish = cfg.getFinishCondition().split("_");
+					int beginHourFinish = Integer.parseInt(timeArrayFinish[0].split(":")[0]);
+					int beginMinuteFinish = Integer.parseInt(timeArrayFinish[0].split(":")[1]);
+					int endHourFinish = Integer.parseInt(timeArrayFinish[1].split(":")[0]);
+					int endMinuteFinish = Integer.parseInt(timeArrayFinish[1].split(":")[1]);
+					if (((beginHourFinish < hour) || (beginHourFinish == hour && beginMinuteFinish <= minute)) && ((endHourFinish > hour) || (endHourFinish == hour && endMinuteFinish > minute))) {
+						data.setCanGetReward(1);
+					} else {
+						data.setCanGetReward(0);
+					}
+				
+					
+					taskList.add(data);
+				}
+			} else if (cfg.getTaskClassify() == DailyActivityClassifyType.Function_Type) {
+				// 判断等级是否达到,初始化主角的时候还没给主角等级赋值，所以人为加1;
+				if ((player.getLevel()) >= Integer.parseInt(cfg.getStartCondition())) {
+					DailyActivityData data = new DailyActivityData();
+					data.setTaskId(cfg.getId());
+					data.setCanGetReward(0);
+					if (cfg.getTaskFinishType() == DailyActivityFinishType.Many_Time) {
+						data.setCurrentProgress(0);
+					}									
+				
 					taskList.add(data);
 				}
 			}
@@ -191,7 +249,7 @@ public class DailyActivityMgr implements PlayerEventListener{
 	private void RefreshTaskList() {
 		holder.getTaskItem().setUserId(player.getUserId());
 		holder.getTaskItem().getRemoveTaskList().clear();
-		holder.getTaskItem().setTaskList(GetTaskListByCfg(true));
+		holder.getTaskItem().setTaskList(getResetTaskList());
 		save();
 	}
 
