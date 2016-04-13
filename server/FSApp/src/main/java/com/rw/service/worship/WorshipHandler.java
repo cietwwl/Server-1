@@ -34,7 +34,7 @@ private static WorshipHandler instance = new WorshipHandler();
 	public ByteString worship(WorshipRequest request, Player player){
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
 		response.setRequestType(request.getRequestType());
-		if(!WorshipMgr.getInstance().isWorship(player.getUserId())){//不可膜拜
+		if(!WorshipMgr.getInstance().isWorship(player)){//不可膜拜
 			response.setResultType(EWorshipResultType.FAIL);
 			return response.build().toByteString();
 		}
@@ -50,7 +50,8 @@ private static WorshipHandler instance = new WorshipHandler();
 		}else{
 			GameLog.debug("");
 		}
-		
+		//设置膜拜时间
+		player.getUserGameDataMgr().setLastWorshipTime(System.currentTimeMillis());
 		player.getItemBagMgr().addItemByPrizeStr(reward);
 		
 		WorshipMgr.getInstance().addWorshippers(ECareer.valueOf(request.getWorshipCareer()), player, rewardData);
@@ -67,7 +68,7 @@ private static WorshipHandler instance = new WorshipHandler();
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
 		response.setRequestType(request.getRequestType());
 		response.setResultType(EWorshipResultType.SUCCESS);
-		response.setCanWorship(WorshipMgr.getInstance().isWorship(player.getUserId()));
+		response.setCanWorship(WorshipMgr.getInstance().isWorship(player));
 		pushWorshipList(request.getWorshipCareer(), player);
 		return response.build().toByteString();
 	}
