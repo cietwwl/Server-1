@@ -1,5 +1,8 @@
 package com.rwbase.dao.group.pojo.db;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -21,6 +24,22 @@ public class GroupLog implements IMapItem {
 	private int skillLevel;// 技能名字
 	private int logType;// 日志类型
 	private String opName;// 操作人的名字
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String format = sdf.format(new Date(time));
+		sb.append("{[time:").append(format).append("] ");
+		sb.append("[name:").append(name).append("] ");
+		sb.append("[post:").append(post).append("] ");
+		sb.append("[groupLevel:").append(groupLevel).append("] ");
+		sb.append("[skillName:").append(skillName).append("] ");
+		sb.append("[skillLevel:").append(skillLevel).append("] ");
+		sb.append("[logType:").append(logType).append("] ");
+		sb.append("[opName:").append(opName).append("]} ");
+		return sb.toString();
+	}
 
 	@Override
 	public String getId() {
