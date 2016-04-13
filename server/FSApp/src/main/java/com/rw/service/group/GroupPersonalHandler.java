@@ -765,9 +765,9 @@ public class GroupPersonalHandler {
 		long now = System.currentTimeMillis();
 		if (post == GroupPost.LEADER_VALUE) {// 是帮主
 			String canTransferLeaderMemberId = memberMgr.getCanTransferLeaderMemberId(GroupMemberHelper.transferLeaderComparator);
-			GroupMemberDataIF transferMemberData = memberMgr.getMemberData(canTransferLeaderMemberId, false);
-			if (transferMemberData != null) {
-				if (playerId.equals(canTransferLeaderMemberId)) {// 是自己，进入解散帮派倒计时
+			if (!StringUtils.isEmpty(canTransferLeaderMemberId)) {
+				GroupMemberDataIF transferMemberData = memberMgr.getMemberData(canTransferLeaderMemberId, false);
+				if (playerId.equals(canTransferLeaderMemberId) || transferMemberData == null) {// 是自己，进入解散帮派倒计时
 					groupBaseDataMgr.updateGroupDismissState(player, now, GroupState.DISOLUTION);
 					// 添加到需要解散的列表
 					GroupCheckDismissTask.addDismissGroupInfo(groupId, now);
