@@ -14,6 +14,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupRankHelper;
+import com.rw.support.FriendSupportFactory;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -205,7 +206,7 @@ public final class GroupBM {
 
 		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.DISMISS_GROUP_MAIL_ID);
 
-		long now = System.currentTimeMillis();
+		final long now = System.currentTimeMillis();
 		// 删除帮派基础数据
 		GroupBaseDataDAO.getDAO().delete(groupId);
 		// 删除帮派成员
@@ -213,7 +214,7 @@ public final class GroupBM {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm:ss");
 		String time = sdf.format(new Date(now));
-		String newContent = String.format(emailCfg.getTitle(), groupData.getGroupName(), time);
+		String newContent = String.format(emailCfg.getContent(), groupData.getGroupName(), time);
 
 		// 邮件内容
 		final EmailData emailData = new EmailData();
@@ -228,7 +229,10 @@ public final class GroupBM {
 
 			@Override
 			public void run(Player player) {
+				player.getUserGroupAttributeDataMgr().updateDataWhenQuitGroup(player, now);
 				EmailUtils.sendEmail(player.getUserId(), emailData);
+				// 通知好友更改更新帮派名字
+				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 			}
 		};
 
