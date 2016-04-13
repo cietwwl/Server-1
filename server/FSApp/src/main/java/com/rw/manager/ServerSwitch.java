@@ -19,7 +19,7 @@ import com.rw.service.gm.GMHandler;
 public class ServerSwitch {
 	private static boolean serverstatus;// 服务器状态
 	private static boolean gmSwitch;// 打开GM
-	private static boolean giftCodeOpen;// 是否开启兑换码
+	private static boolean giftCodeOpen = true;// 是否开启兑换码
 
 	public static void initProperty() {
 		Resource resource = new ClassPathResource("switch.properties");
