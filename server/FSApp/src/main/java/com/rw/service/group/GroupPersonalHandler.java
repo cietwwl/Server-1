@@ -26,6 +26,7 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupCmdHelper;
+import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -425,7 +426,10 @@ public class GroupPersonalHandler {
 			group.getGroupLogMgr().addLog(player, log);
 
 			// 加入之后，设置加入的信息
-			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupData.getGroupName());
+			String groupName = groupData.getGroupName();
+			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupName);
+			// 发送邮件
+			GroupHelper.sendJoinGroupMail(playerId, groupName);
 
 			// 更新下排行榜成员
 			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
@@ -444,7 +448,7 @@ public class GroupPersonalHandler {
 	 * @param player
 	 * @return
 	 */
-	public ByteString OpenDonateViewHandler(Player player) {
+	public ByteString openDonateViewHandler(Player player) {
 		String playerId = player.getUserId();
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
@@ -761,8 +765,9 @@ public class GroupPersonalHandler {
 		long now = System.currentTimeMillis();
 		if (post == GroupPost.LEADER_VALUE) {// 是帮主
 			String canTransferLeaderMemberId = memberMgr.getCanTransferLeaderMemberId(GroupMemberHelper.transferLeaderComparator);
-			if (canTransferLeaderMemberId != null) {
-				if (playerId.equals(canTransferLeaderMemberId)) {// 是自己，进入解散帮派倒计时
+			if (!StringUtils.isEmpty(canTransferLeaderMemberId)) {
+				GroupMemberDataIF transferMemberData = memberMgr.getMemberData(canTransferLeaderMemberId, false);
+				if (playerId.equals(canTransferLeaderMemberId) || transferMemberData == null) {// 是自己，进入解散帮派倒计时
 					groupBaseDataMgr.updateGroupDismissState(player, now, GroupState.DISOLUTION);
 					// 添加到需要解散的列表
 					GroupCheckDismissTask.addDismissGroupInfo(groupId, now);
@@ -773,14 +778,16 @@ public class GroupPersonalHandler {
 					userGroupAttributeDataMgr.updateDataWhenQuitGroup(player, now);
 					// 把帮派帮主修改给排行第一的成员
 					memberMgr.updateMemberPost(canTransferLeaderMemberId, GroupPost.LEADER_VALUE);
-				}
 
-				// 记录一个帮派日志
-				GroupLog log = new GroupLog();
-				log.setLogType(GroupLogType.QUIT_GROUP_VALUE);
-				log.setTime(now);
-				log.setName(player.getUserName());
-				group.getGroupLogMgr().addLog(player, log);
+					// 记录一个帮派日志
+					GroupLog log = new GroupLog();
+					log.setLogType(GroupLogType.LOG_LEADER_QUIT_VALUE);
+					log.setTime(now);
+					log.setOpName(player.getUserName());
+					log.setName(transferMemberData.getName());
+					log.setPost(GroupPost.LEADER_VALUE);
+					group.getGroupLogMgr().addLog(player, log);
+				}
 			} else {// 没有其他成员，帮派进入解散倒计时
 				groupBaseDataMgr.updateGroupDismissState(player, now, GroupState.DISOLUTION);
 				// 添加到需要解散的列表

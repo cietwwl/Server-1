@@ -219,7 +219,7 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 	 * @param slotId
 	 * @param ordinal
 	 */
-	public boolean WearEquip(String slotId, int equipIndex) throws CloneNotSupportedException {
+	public boolean wearEquip(String slotId, int equipIndex) {
 
 		ItemData item = m_pPlayer.getItemBagMgr().findBySlotId(slotId);
 		if (item == null) {
@@ -285,15 +285,15 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 	 * @param nEquipSlotId
 	 * @throws CloneNotSupportedException
 	 */
-	public boolean WearEquip(int equipIndex) throws CloneNotSupportedException {
+	public boolean WearEquip(int equipIndex) {
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(m_pOwner.getQualityId());
 		int equipId = equips.get(equipIndex);
 		List<ItemData> itemList = m_pPlayer.getItemBagMgr().getItemListByCfgId(equipId);
-		if (itemList == null || itemList.size() == 0) {
+		if (itemList == null || itemList.isEmpty()) {
 			return false;
 		}
 		ItemData item = itemList.get(0);
-		return WearEquip(item.getId(), equipIndex);
+		return wearEquip(item.getId(), equipIndex);
 	}
 
 	public boolean canWearEquip() {

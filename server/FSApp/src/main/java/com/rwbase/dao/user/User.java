@@ -25,15 +25,14 @@ public class User implements TableUserIF {
 	private String headImage;
 
 	private long createTime; // 创建的时间
-	private long lastLoginTime; // 上次登录时间	
+	private long lastLoginTime; // 上次登录时间
 
-	
-	//踢出的用户冷却时间
+	// 踢出的用户冷却时间
 	private long kickOffCoolTime;
-	
+
 	@SaveAsJson
-	private  ZoneRegInfo zoneRegInfo;
-	
+	private ZoneRegInfo zoneRegInfo;
+
 	@SaveAsJson
 	private UserExtendInfo extendInfo;
 
@@ -41,6 +40,8 @@ public class User implements TableUserIF {
 	private long exp;
 	// 用于后台数据查询
 	private int level;
+
+	private String channelId;// 渠道Id
 
 	public String getUserId() {
 		return userId;
@@ -143,7 +144,6 @@ public class User implements TableUserIF {
 		this.createTime = createTime;
 	}
 
-
 	public long getLastLoginTime() {
 		return lastLoginTime;
 	}
@@ -160,8 +160,6 @@ public class User implements TableUserIF {
 		this.kickOffCoolTime = kickOffCoolTime;
 	}
 
-	
-	
 	public ZoneRegInfo getZoneRegInfo() {
 		return zoneRegInfo;
 	}
@@ -170,61 +168,61 @@ public class User implements TableUserIF {
 		this.zoneRegInfo = zoneRegInfo;
 	}
 
-	public boolean isInKickOffCoolTime(){
+	public boolean isInKickOffCoolTime() {
 		return getKickOffCoolTime() > 0 && getKickOffCoolTime() > System.currentTimeMillis();
 	}
-	
-	public void block(String reason, long blockCoolTime){
+
+	public void block(String reason, long blockCoolTime) {
 		getExtendInfo().setBlockReason(reason);
 		getExtendInfo().setBlockCoolTime(blockCoolTime);
 	}
-	
-	public boolean isBlocked(){
-		if(extendInfo==null){
+
+	public boolean isBlocked() {
+		if (extendInfo == null) {
 			return false;
 		}
-		
+
 		long blockCoolTime = extendInfo.getBlockCoolTime();
-		boolean isBlocked = blockCoolTime!=0 && (blockCoolTime > 0 && blockCoolTime > System.currentTimeMillis());
+		boolean isBlocked = blockCoolTime != 0 && (blockCoolTime > 0 && blockCoolTime > System.currentTimeMillis());
 		return isBlocked;
 	}
-	
-	public String getBlockReason(){
-		
+
+	public String getBlockReason() {
+
 		String reason = "";
-		
-		if(extendInfo != null){
+
+		if (extendInfo != null) {
 			reason = extendInfo.getBlockReason();
 		}
-		
+
 		return reason;
 	}
-	
-	public long getBlockCoolTime(){
-		return extendInfo!=null?extendInfo.getBlockCoolTime():0;
+
+	public long getBlockCoolTime() {
+		return extendInfo != null ? extendInfo.getBlockCoolTime() : 0;
 	}
-	
-	public void chatBan(String reason, long chatBanCoolTime){
+
+	public void chatBan(String reason, long chatBanCoolTime) {
 		getExtendInfo().setChatBanReason(reason);
 		getExtendInfo().setChatBanCoolTime(chatBanCoolTime);
 	}
-	
-	public boolean isChatBan(){
-		if(extendInfo==null){
+
+	public boolean isChatBan() {
+		if (extendInfo == null) {
 			return false;
 		}
-		
+
 		long coolTime = extendInfo.getChatBanCoolTime();
-		boolean isBan = coolTime!=0 && (coolTime > 0 && coolTime > System.currentTimeMillis());
+		boolean isBan = coolTime != 0 && (coolTime > 0 && coolTime > System.currentTimeMillis());
 		return isBan;
 	}
-	
-	public String getChatBanReason(){
+
+	public String getChatBanReason() {
 		return getExtendInfo().getChatBanReason();
 	}
 
 	public UserExtendInfo getExtendInfo() {
-		if(extendInfo==null){
+		if (extendInfo == null) {
 			extendInfo = new UserExtendInfo();
 		}
 		return extendInfo;
@@ -234,6 +232,11 @@ public class User implements TableUserIF {
 		this.extendInfo = extendInfo;
 	}
 
-	
+	public String getChannelId() {
+		return channelId;
+	}
 
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
+	}
 }

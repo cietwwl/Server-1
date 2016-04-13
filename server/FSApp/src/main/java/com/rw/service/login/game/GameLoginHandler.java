@@ -19,8 +19,6 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
-import com.rw.service.http.GSRequestAction;
-import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.UserBaseDataResponse;
 import com.rw.service.http.request.RequestObject;
 import com.rw.service.log.BILogMgr;
@@ -101,9 +99,9 @@ public class GameLoginHandler {
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
 			zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-
+			
 		}
-
+		
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 
 		if (userAccount == null) {
@@ -131,6 +129,7 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			}
 			user = UserDataDao.getInstance().getByUserId(user.getUserId());
+			
 			if (GameManager.isWhiteListLimit(user.getAccount())) {
 				response.setError("该区维护中，请稍后尝试，");
 				response.setResultType(eLoginResultType.ServerMainTain);
@@ -197,9 +196,8 @@ public class GameLoginHandler {
 				GameLog.debug("Game Login Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 				GameLog.debug("Game Login Finish --> userId:" + userId_);
 				player.setZoneLoginInfo(zoneLoginInfo);
-				BILogMgr.getInstance().logZoneLogin(player);
-
-				// 补充进入主城需要同步的数据
+    			BILogMgr.getInstance().logZoneLogin(player);			
+    			// 补充进入主城需要同步的数据
 				LoginSynDataHelper.setData(player, response);
 
 				// --------------------------------------------------------START
@@ -252,14 +250,22 @@ public class GameLoginHandler {
 		}
 		GameLog.debug("Game Create Role Start --> accountId:" + accountId + " , zoneId:" + zoneId);
 
-		// author: lida 平台已经判断
-		/**
-		 * TableAccount userAccount = accountBM.getByAccountId(accountId); if (userAccount == null) { response.setResultType(eLoginResultType.FAIL);
-		 * response.setError("账号不存在"); return response.build().toByteString(); } else if (!password.equals(userAccount.getPassword())) {
-		 * response.setResultType(eLoginResultType.FAIL); response.setError("账号或者密码不对"); return response.build().toByteString(); } else
-		 */
+		// author: lida 增加容错 如果已经创建角色则进入主城
+		User user = UserDataDao.getInstance().getByAccoutAndZoneId(accountId, zoneId);
+		if (user != null) {
+			return notifyCreateRoleSuccess(response, user);
+		}
+
 		{
 			String clientInfoJson = request.getClientInfoJson();
+			ZoneLoginInfo zoneLoginInfo = null;
+			if (StringUtils.isNotBlank(clientInfoJson)) {
+				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
+				
+
+			}
+			
 			String nick = request.getNick();
 			int sex = request.getSex();
 			if (CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
@@ -286,7 +292,8 @@ public class GameLoginHandler {
 			createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
 			// userAccount.addUserZoneInfo(zoneId);
 			// accountBM.update(userAccount);
-			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
+			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId,zoneLoginInfo);
+			player.setZoneLoginInfo(zoneLoginInfo);
 			// author：lida 2015-09-21 通知登陆服务器更新账号信息 确保账号添加成功
 			GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
 
@@ -314,27 +321,17 @@ public class GameLoginHandler {
 			long end1 = System.currentTimeMillis();
 			System.out.println("-------------------" + (end1 - start));
 
-			// EmailUtils.sendEmail(player.getUserId(), "10002", null);
 			EmailUtils.sendEmail(player.getUserId(), "10003");
-			// EmailUtils.sendEmail(player.getUserId(), "10004", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10005", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10006", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10007", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10008", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10009", null);
-			// PlayerMgr.getInstance().addPlayerNameMap(player);
 
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
 			GameLog.debug("Create Role ...,userId:" + userId);
 			GameLog.debug("Game Create Role Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 			GameLog.debug("Game Create Role Finish --> userId:" + userId);
-			if (StringUtils.isNotBlank(clientInfoJson)) {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
-				ZoneLoginInfo zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-				player.setZoneLoginInfo(zoneLoginInfo);
-
-			}
+			
+			
+			
+			
 			BILogMgr.getInstance().logZoneReg(player);
 
 			LoginSynDataHelper.setData(player, response);
@@ -356,6 +353,28 @@ public class GameLoginHandler {
 			dao.update(userPlotProgress);
 			// --------------------------------------------------------END
 		}
+		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
+		// 补充进入主城需要同步的数据
+		return response.build().toByteString();
+	}
+
+	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
+		String userId = user.getUserId();
+		Player player = PlayerMgr.getInstance().newFreshPlayer(userId,null);
+		UserChannelMgr.bindUserID(userId);
+
+		player.save();
+		long end = System.currentTimeMillis();
+		player.onLogin();
+		long end1 = System.currentTimeMillis();
+
+		EmailUtils.sendEmail(player.getUserId(), "10003");
+
+		response.setResultType(eLoginResultType.SUCCESS);
+		response.setUserId(userId);
+
+		LoginSynDataHelper.setData(player, response);
+
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据
 		return response.build().toByteString();
@@ -435,7 +454,9 @@ public class GameLoginHandler {
 		}
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clienInfo = ClientInfo.fromJson(clientInfoJson);
+			baseInfo.setChannelId(clienInfo.getChannelId());
 			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
+			
 		}
 		// baseInfo.setCareer(0);
 		UserDataDao.getInstance().saveOrUpdate(baseInfo);

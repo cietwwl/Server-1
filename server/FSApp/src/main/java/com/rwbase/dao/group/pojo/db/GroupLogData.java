@@ -38,12 +38,15 @@ public class GroupLogData {
 	 * @return
 	 */
 	public List<GroupLog> getLogList() {
-		ArrayList<GroupLog> arrayList = new ArrayList<GroupLog>();
-		for (int i = logList.size() - 1; i >= 0; --i) {
-			GroupLog groupLog = logList.get(i);
-			arrayList.add(groupLog);
-		}
-		return arrayList;
+		// ArrayList<GroupLog> arrayList = new ArrayList<GroupLog>();
+		// for (int i = logList.size() - 1; i >= 0; --i) {
+		// GroupLog groupLog = logList.get(i);
+		// arrayList.add(groupLog);
+		//
+		// System.err.println(groupLog.toString());
+		// }
+		// return arrayList;
+		return new ArrayList<GroupLog>(logList);
 	}
 
 	/**
@@ -57,7 +60,21 @@ public class GroupLogData {
 
 		int size = logList.size();
 		if (size > groupLogMaxSize) {
-			logList.remove(0);
+
+			int removeIndex = -1;// 要删除的索引
+			long smallTime = -1;// 最小的时间
+			for (int i = 0; i < size; i++) {
+				GroupLog gLog = logList.get(i);
+				long time = gLog.getTime();
+				if (i == 0 || time < smallTime) {
+					smallTime = time;
+					removeIndex = i;
+				}
+			}
+
+			if (removeIndex > -1) {
+				logList.remove(removeIndex);
+			}
 		}
 	}
 }

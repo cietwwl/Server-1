@@ -9,6 +9,7 @@ import com.bm.login.ZoneBM;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.util.GmUtils;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerVersionConfig;
 import com.rw.netty.ServerConfig;
@@ -21,7 +22,8 @@ public class GmServerStatus implements IGmTask {
 	public GmResponse doTask(GmRequest request) {
 		GmResponse response = new GmResponse();
 
-		String serverId = (String) request.getArgs().get("serverId").toString();
+		Map<String, Object> args = request.getArgs();
+		String serverId = GmUtils.parseString(args, "serverId");
 
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();

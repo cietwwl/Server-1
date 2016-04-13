@@ -16,6 +16,7 @@ import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.battletower.pojo.BattleTowerHeroInfo;
 import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
@@ -344,9 +345,7 @@ public class BattleTowerHandler {
 				rankingHeroInfo.setLevel(heroInfo.getLevel());
 				rankingHeroInfo.setQuality(heroInfo.getQuality());
 				rankingHeroInfo.setStarNum(heroInfo.getStarNum());
-				if (rankingUserId.equals(heroInfo.getHeroId())) {
-					rankingHeroInfo.setIsMainRole(true);
-				}
+				rankingHeroInfo.setIsMainRole(heroInfo.isMainRole());
 				// 添加到RankingRoleInfo中
 				rankingRoleInfo.addRankingHeroInfoMsg(rankingHeroInfo);
 			}
@@ -390,6 +389,12 @@ public class BattleTowerHandler {
 			rankingRoleInfo.setHighestFloor(roleInfo.getFloor());
 			String friendUserId = roleInfo.getUserId();
 			rankingRoleInfo.setIsMyself(userId.equals(friendUserId));// 是否是自己
+			rankingRoleInfo.setStarNum(roleInfo.getStartNum());
+			String headFrame = roleInfo.getHeadFrame();
+			if (!StringUtils.isBlank(headFrame)) {
+				rankingRoleInfo.setHeadFrame(headFrame);
+			}
+
 			// 获取使用的角色信息
 			List<? extends BattleTowerHeroInfoIF> heroInfoList = roleInfo.getHeroInfoList();
 			for (int j = 0, hSize = heroInfoList.size(); j < hSize; j++) {
@@ -400,9 +405,7 @@ public class BattleTowerHandler {
 				rankingHeroInfo.setLevel(heroInfo.getLevel());
 				rankingHeroInfo.setQuality(heroInfo.getQuality());
 				rankingHeroInfo.setStarNum(heroInfo.getStarNum());
-				if (friendUserId.equals(heroInfo.getHeroId())) {
-					rankingHeroInfo.setIsMainRole(true);
-				}
+				rankingHeroInfo.setIsMainRole(heroInfo.isMainRole());
 				// 添加到RankingRoleInfo中
 				rankingRoleInfo.addRankingHeroInfoMsg(rankingHeroInfo);
 			}
@@ -475,6 +478,13 @@ public class BattleTowerHandler {
 		BattleTowerFloorCfgDao cfgDao = BattleTowerFloorCfgDao.getCfgDao();
 
 		int curFloor = tableBattleTower.getCurFloor();// 当前层
+		if (!tableBattleTower.getResult() && curFloor > 0) {// 还没有任何结果
+			curFloor -= 1;
+			tableBattleTower.setCurFloor(curFloor);
+			tableBattleTower.setResult(false);
+			// 更新数据
+			dao.update(tableBattleTower);
+		}
 
 		if (startFloor - curFloor != 1) {
 			SetFail(commonRsp, "试练塔扫荡", userId, String.format("请求开始的层%s，当前层是%s，请求开始层低于或者超过当前层1层", startFloor, curFloor), "请求扫荡数据异常");
@@ -831,16 +841,24 @@ public class BattleTowerHandler {
 			return;
 		}
 
-		int floor = req.getFloor();// 要挑战的层数
-		int curFloor = tableBattleTower.getCurFloor();// 当前层
-		curFloor = curFloor == 0 ? 1 : curFloor;
-
 		// 检测当前层是否是被中断的
 		boolean isBreak = tableBattleTower.isBreak();// 是否被中断
 		if (isBreak) {
 			SetFail(commonRsp, "试练塔模块-战斗开始", userId, "当前某层挑战失败，不能继续进行挑战", "挑战中断");
 			return;
 		}
+
+		int floor = req.getFloor();// 要挑战的层数
+		int curFloor = tableBattleTower.getCurFloor();// 当前层
+		if (!tableBattleTower.getResult() && curFloor > 0) {// 还没有任何结果
+			curFloor -= 1;
+			tableBattleTower.setCurFloor(curFloor);
+			tableBattleTower.setResult(false);
+			// 更新数据
+			dao.update(tableBattleTower);
+		}
+
+		curFloor = curFloor == 0 ? 1 : curFloor;
 
 		BattleTowerFloorCfgDao cfgDao = BattleTowerFloorCfgDao.getCfgDao();
 		BattleTowerFloorCfg floorCfg = (BattleTowerFloorCfg) cfgDao.getCfgById(String.valueOf(curFloor));
@@ -967,6 +985,11 @@ public class BattleTowerHandler {
 			roleInfo.setHeadIcon(player.getHeadImage());
 			roleInfo.setLevel(player.getLevel());
 			roleInfo.setName(player.getUserName());
+			roleInfo.setStartNum(player.getStarLevel());
+			String playerHeadFrame = player.getUserGameDataMgr().getHeadBox();
+			if (!StringUtils.isBlank(playerHeadFrame)) {
+				roleInfo.setHeadFrame(playerHeadFrame);
+			}
 
 			// 法宝
 			ItemData magic = player.getMagic();
@@ -990,6 +1013,7 @@ public class BattleTowerHandler {
 				heroInfo.setLevel(heroInfoMsg.getLevel());
 				heroInfo.setQuality(heroInfoMsg.getQuality());
 				heroInfo.setStarNum(heroInfoMsg.getStarNum());
+				heroInfo.setMainRole(heroInfoMsg.getIsMainRole());
 				heroInfoList.add(heroInfo);
 			}
 
@@ -1118,6 +1142,8 @@ public class BattleTowerHandler {
 		}
 
 		dao.update(tableBattleTower);
+		//开服活动通知
+		player.getFresherActivityMgr().doCheck(eActivityType.A_Tower);
 
 		// 到这里就算成功了
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);

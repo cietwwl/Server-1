@@ -42,7 +42,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("4=安卓/5=ios/7=wm", "$clientPlatForm$");
 		addTemplateToken("OpenGL_VERSION", "$OpenGL_VERSION$");
 		addTemplateToken("2g/3g/4g/wifi等", "$netType$");
-		addTemplateToken("OpenGL_VENDOR", "OpenGL_VENDOR");
+		addTemplateToken("OpenGL_VENDOR", "$OpenGL_VENDOR$");
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
 		addTemplateToken("当前游戏客户端版本", "$clientVersion$");
 		addTemplateToken("ip地址（不包含端口）", "$clientIp$");
@@ -54,7 +54,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("日志的触发时间", "$logTime$");
 		addTemplateToken("用户注册子渠道", "$subChannelId$");
 		addTemplateToken("用户登录区ID", "0");
-		addTemplateToken("UID创建时间", "$registerTime$");
+		addTemplateToken("uid创建时间", "$logTime$");
 		
 		addTemplateToken("手机运营商", "$phoneOp$");
 		addTemplateToken("IMEI信息", "$imei$");
@@ -81,7 +81,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("处理器", "$cpu$");
 		
 		
-		addTemplateToken("UID", "");
+		addTemplateToken("UID", "$accountId$");
 		addTemplateToken("为空", "");
 		
 	}

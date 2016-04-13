@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
+import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -26,8 +27,9 @@ public class GmExecuteGMCommand implements IGmTask {
 	public GmResponse doTask(GmRequest request) {
 		GmResponse response = new GmResponse();
 		try {
-			String roleId = (String) request.getArgs().get("roleId");
-			String content = (String) request.getArgs().get("command");
+			Map<String, Object> args = request.getArgs();
+			String roleId = GmUtils.parseString(args, "roleId");
+			String content = GmUtils.parseString(args, "command");
 
 			if (StringUtils.isBlank(roleId) || StringUtils.isBlank(content)) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));

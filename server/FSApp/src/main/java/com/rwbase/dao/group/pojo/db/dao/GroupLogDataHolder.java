@@ -1,5 +1,7 @@
 package com.rwbase.dao.group.pojo.db.dao;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.playerdata.Player;
@@ -16,6 +18,19 @@ import com.rwproto.DataSynProtos.eSynType;
  *
  */
 public class GroupLogDataHolder {
+
+	private static final Comparator<GroupLog> comparator = new Comparator<GroupLog>() {
+
+		@Override
+		public int compare(GroupLog o1, GroupLog o2) {
+			long l = o1.getTime() - o2.getTime();
+			if (l == 0) {
+				return 0;
+			}
+
+			return l > 0 ? -1 : 1;
+		}
+	};
 
 	private GroupLogData groupLogData;
 	final private eSynType synType = eSynType.GroupLog;
@@ -45,10 +60,11 @@ public class GroupLogDataHolder {
 	 */
 	public void synData(Player player, int version) {
 		List<GroupLog> logList = groupLogData.getLogList();
-		if (logList == null) {
+		if (logList == null || logList.isEmpty()) {
 			return;
 		}
 
+		Collections.sort(logList, comparator);
 		ClientDataSynMgr.synDataList(player, logList, synType, eSynOpType.UPDATE_LIST);
 	}
 

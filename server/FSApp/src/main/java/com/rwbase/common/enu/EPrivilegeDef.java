@@ -1,5 +1,10 @@
 package com.rwbase.common.enu;
 
+/**
+ * 备注：这个枚举的顺序一定要和客户端的顺序一致，不然会导致对不上
+ * @author lida
+ *
+ */
 public enum EPrivilegeDef {
 	/**体力购买次数*/
 	POWER_COUNT,
@@ -46,17 +51,19 @@ public enum EPrivilegeDef {
 	TRIAL2_COPY_RESET_TIMES,
 	/**无尽战火重置次数*/
 	WARFARE_COPY_RESET_TIMES,
-	/**帮派秘境数量上限*/
-	SECRET_COPY_COUNT,
-	/**时装购买*/
-	FASHION_BUY_OPEN,
-	/**签到补签开放*/
-	RESIGN_OPEN,
+
 	
 	/**生存幻境重置次数*/
 	COPY_CELESTAL,
 	/**万仙阵重置次数*/
 	TOWER_RESET_TIMES,
 	/**封神台**/
-	BATTLE_TOWER_TIMES
+	BATTLE_TOWER_TIMES,
+	
+	/**帮派秘境数量上限*/
+	SECRET_COPY_COUNT,
+	/**时装购买*/
+	FASHION_BUY_OPEN,
+	/**签到补签开放*/
+	RESIGN_OPEN
 }

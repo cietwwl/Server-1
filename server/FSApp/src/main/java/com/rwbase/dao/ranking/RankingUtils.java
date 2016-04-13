@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.rank.RankType;
+import com.bm.rank.arena.ArenaExtAttribute;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingCommonData;
@@ -169,6 +171,26 @@ public class RankingUtils {
 			return model;
 		}
 		Player p = PlayerMgr.getInstance().find(data.getUserId());
-		return p.getModelId();
+		int modelId = p.getModelId();
+		data.setModelId(modelId);
+		return modelId;
+	}
+	
+	/* 通过竞技场记录创建一个排行榜实体 */
+	public static RankingLevelData createRankingLevelData(ListRankingEntry<String, ArenaExtAttribute> entry) {
+		ArenaExtAttribute areanExt = entry.getExtension();
+		RankingLevelData levelData = new RankingLevelData();
+		levelData.setUserId(entry.getKey());
+		levelData.setLevel(areanExt.getLevel());
+		levelData.setJob(areanExt.getCareer());
+		levelData.setFightingAll(areanExt.getFighting());
+		levelData.setFightingTeam(areanExt.getFightingTeam());
+		levelData.setModelId(areanExt.getModelId());
+		levelData.setSex(areanExt.getSex());
+		levelData.setUserHead(areanExt.getHeadImage());
+		levelData.setUserName(areanExt.getName());
+		levelData.setArenaPlace(entry.getRanking());
+		levelData.setRankLevel(entry.getRanking());
+		return levelData;
 	}
 }

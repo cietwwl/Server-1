@@ -418,10 +418,11 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
 	}
-
-	public void logRoleUpgrade(Player player, int oldlevel) {
+	/**升级前战力和升级前等级需额外组装*/
+	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("levelBeforeUp", oldlevel + "");
+		moreInfo.put("fightbeforelevelup", fightbeforelevelup + "");
 
 		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
 
