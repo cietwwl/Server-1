@@ -578,20 +578,15 @@ public final class GuidanceProgressProtos {
      */
     com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType getRequestType();
 
-    // optional string giveActionId = 2;
+    // optional int32 giveActionId = 2;
     /**
-     * <code>optional string giveActionId = 2;</code>
+     * <code>optional int32 giveActionId = 2;</code>
      */
     boolean hasGiveActionId();
     /**
-     * <code>optional string giveActionId = 2;</code>
+     * <code>optional int32 giveActionId = 2;</code>
      */
-    java.lang.String getGiveActionId();
-    /**
-     * <code>optional string giveActionId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getGiveActionIdBytes();
+    int getGiveActionId();
   }
   /**
    * Protobuf type {@code GuidanceService.GuidanceRequest}
@@ -655,9 +650,9 @@ public final class GuidanceProgressProtos {
               }
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              giveActionId_ = input.readBytes();
+              giveActionId_ = input.readInt32();
               break;
             }
           }
@@ -806,52 +801,25 @@ public final class GuidanceProgressProtos {
       return requestType_;
     }
 
-    // optional string giveActionId = 2;
+    // optional int32 giveActionId = 2;
     public static final int GIVEACTIONID_FIELD_NUMBER = 2;
-    private java.lang.Object giveActionId_;
+    private int giveActionId_;
     /**
-     * <code>optional string giveActionId = 2;</code>
+     * <code>optional int32 giveActionId = 2;</code>
      */
     public boolean hasGiveActionId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string giveActionId = 2;</code>
+     * <code>optional int32 giveActionId = 2;</code>
      */
-    public java.lang.String getGiveActionId() {
-      java.lang.Object ref = giveActionId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          giveActionId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string giveActionId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getGiveActionIdBytes() {
-      java.lang.Object ref = giveActionId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        giveActionId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getGiveActionId() {
+      return giveActionId_;
     }
 
     private void initFields() {
       requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
-      giveActionId_ = "";
+      giveActionId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -873,7 +841,7 @@ public final class GuidanceProgressProtos {
         output.writeEnum(1, requestType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getGiveActionIdBytes());
+        output.writeInt32(2, giveActionId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -890,7 +858,7 @@ public final class GuidanceProgressProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getGiveActionIdBytes());
+          .computeInt32Size(2, giveActionId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1010,7 +978,7 @@ public final class GuidanceProgressProtos {
         super.clear();
         requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
         bitField0_ = (bitField0_ & ~0x00000001);
-        giveActionId_ = "";
+        giveActionId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -1068,9 +1036,7 @@ public final class GuidanceProgressProtos {
           setRequestType(other.getRequestType());
         }
         if (other.hasGiveActionId()) {
-          bitField0_ |= 0x00000002;
-          giveActionId_ = other.giveActionId_;
-          onChanged();
+          setGiveActionId(other.getGiveActionId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1139,76 +1105,35 @@ public final class GuidanceProgressProtos {
         return this;
       }
 
-      // optional string giveActionId = 2;
-      private java.lang.Object giveActionId_ = "";
+      // optional int32 giveActionId = 2;
+      private int giveActionId_ ;
       /**
-       * <code>optional string giveActionId = 2;</code>
+       * <code>optional int32 giveActionId = 2;</code>
        */
       public boolean hasGiveActionId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string giveActionId = 2;</code>
+       * <code>optional int32 giveActionId = 2;</code>
        */
-      public java.lang.String getGiveActionId() {
-        java.lang.Object ref = giveActionId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          giveActionId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getGiveActionId() {
+        return giveActionId_;
       }
       /**
-       * <code>optional string giveActionId = 2;</code>
+       * <code>optional int32 giveActionId = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getGiveActionIdBytes() {
-        java.lang.Object ref = giveActionId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          giveActionId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string giveActionId = 2;</code>
-       */
-      public Builder setGiveActionId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setGiveActionId(int value) {
+        bitField0_ |= 0x00000002;
         giveActionId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string giveActionId = 2;</code>
+       * <code>optional int32 giveActionId = 2;</code>
        */
       public Builder clearGiveActionId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        giveActionId_ = getDefaultInstance().getGiveActionId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string giveActionId = 2;</code>
-       */
-      public Builder setGiveActionIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        giveActionId_ = value;
+        giveActionId_ = 0;
         onChanged();
         return this;
       }
@@ -3061,7 +2986,7 @@ public final class GuidanceProgressProtos {
       "\010Progress\030\002 \002(\005\"\251\001\n\017GuidanceRequest\022I\n\013r" +
       "equestType\030\001 \002(\01624.GuidanceService.Guida" +
       "nceRequest.GuidanceRequestType\022\024\n\014giveAc" +
-      "tionId\030\002 \001(\t\"5\n\023GuidanceRequestType\022\020\n\014L" +
+      "tionId\030\002 \001(\005\"5\n\023GuidanceRequestType\022\020\n\014L" +
       "oadProgress\020\001\022\014\n\010GiveItem\020\002\"\267\001\n\020Guidance" +
       "Response\0228\n\rsavedProgress\030\001 \003(\0132!.Guidan" +
       "ceService.GuidanceProgress\022I\n\013requestTyp" +

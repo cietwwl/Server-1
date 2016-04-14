@@ -14,7 +14,7 @@ message GuidanceRequest {
 		GiveItem = 2;//送物品，最多只能送一次
 	}
 	required GuidanceRequestType requestType = 1;
-	optional string giveActionId = 2;
+	optional int32 giveActionId = 2;
 }
 
 message GuidanceResponse {
