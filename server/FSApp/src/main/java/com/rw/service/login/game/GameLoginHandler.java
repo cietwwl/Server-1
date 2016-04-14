@@ -96,8 +96,9 @@ public class GameLoginHandler {
 
 		String clientInfoJson = request.getClientInfoJson();
 		ZoneLoginInfo zoneLoginInfo = null;
+		ClientInfo clientInfo = null;
 		if (StringUtils.isNotBlank(clientInfoJson)) {
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+			clientInfo = ClientInfo.fromJson(clientInfoJson);
 			zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
 
 		}
@@ -148,6 +149,10 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			} else {
 				userId = user.getUserId();
+				if (clientInfo != null) {
+					user.setChannelId(clientInfo.getChannelId());
+				}
+
 				final String userId_ = userId;
 				final ChannelHandlerContext ctx = UserChannelMgr.getThreadLocalCTX();
 				// GameWorldFactory.getGameWorld().asyncExecute(userId_, new
@@ -447,7 +452,9 @@ public class GameLoginHandler {
 		}
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clienInfo = ClientInfo.fromJson(clientInfoJson);
-			baseInfo.setChannelId(clienInfo.getChannelId());
+			if (clienInfo != null) {
+				baseInfo.setChannelId(clienInfo.getChannelId());
+			}
 			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
 		}
 		// baseInfo.setCareer(0);
