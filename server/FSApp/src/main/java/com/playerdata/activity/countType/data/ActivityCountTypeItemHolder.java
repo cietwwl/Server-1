@@ -5,6 +5,8 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -44,7 +46,8 @@ public class ActivityCountTypeItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityCountTypeItem getItem(String userId, String itemId){
+	public ActivityCountTypeItem getItem(String userId, ActivityCountTypeEnum countTypeEnum){		
+		String itemId = ActivityCountTypeHelper.getItemId(userId, countTypeEnum);
 		return getItemStore(userId).getItem(itemId);
 	}
 	

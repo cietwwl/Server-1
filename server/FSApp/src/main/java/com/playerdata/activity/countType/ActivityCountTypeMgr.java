@@ -31,12 +31,14 @@ public class ActivityCountTypeMgr {
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {
 			if(isOpen(activityCountTypeCfg)){
-				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), activityCountTypeCfg.getId());
+				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
+				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);
 				if(targetItem == null){
-					 targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, activityCountTypeCfg.getId());
-					 if(targetItem!=null){
+					
+					targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);
+					if(targetItem!=null){
 						 dataHolder.addItem(player, targetItem);
-					 }
+					}
 				}
 				
 			}
@@ -54,7 +56,7 @@ public class ActivityCountTypeMgr {
 	public void addCount(Player player, ActivityCountTypeEnum countType){
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
-		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType.getId());
+		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		dataItem.setCount(dataItem.getCount()+1);
 		
 		dataHolder.updateItem(player, dataItem);
@@ -63,7 +65,7 @@ public class ActivityCountTypeMgr {
 	public ActivityComResult takeGift(Player player, ActivityCountTypeEnum countType, String subItemId){
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
-		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType.getId());
+		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		ActivityComResult result = ActivityComResult.newInstance(false);
 		//未激活
 		if(dataItem == null){
@@ -78,9 +80,9 @@ public class ActivityCountTypeMgr {
 				}
 			}
 			if(targetItem == null){
-				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType.getId(), subItemId);
+				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType, subItemId);
 				if(targetItem == null){
-					result.setReason("该奖励不存在 id:"+countType.getId()+" subItemId:"+subItemId);
+					result.setReason("该奖励不存在 id:"+countType.getCfgId()+" subItemId:"+subItemId);
 				}else{
 					takenGiftList.add(targetItem);
 					takeGift(targetItem);
