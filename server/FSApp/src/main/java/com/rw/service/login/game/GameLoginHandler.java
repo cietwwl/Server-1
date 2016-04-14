@@ -275,7 +275,7 @@ public class GameLoginHandler {
 			int sex = request.getSex();
 			if (CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
 				response.setResultType(eLoginResultType.FAIL);
-				String reason = "昵称不能包含非法字符";
+				String reason = "昵称不能包含屏蔽字或非法字符";
 				response.setError(reason);
 				return response.build().toByteString();
 			} else if (StringUtils.isBlank(nick)) {
