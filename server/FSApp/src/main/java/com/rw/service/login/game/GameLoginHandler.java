@@ -19,8 +19,6 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
-import com.rw.service.http.GSRequestAction;
-import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.UserBaseDataResponse;
 import com.rw.service.http.request.RequestObject;
 import com.rw.service.log.BILogMgr;
@@ -254,11 +252,10 @@ public class GameLoginHandler {
 
 		// author: lida 增加容错 如果已经创建角色则进入主城
 		User user = UserDataDao.getInstance().getByAccoutAndZoneId(accountId, zoneId);
-		if(user != null){
+		if (user != null) {
 			return notifyCreateRoleSuccess(response, user);
 		}
-		
-		
+
 		{
 			String clientInfoJson = request.getClientInfoJson();
 			String nick = request.getNick();
@@ -353,12 +350,12 @@ public class GameLoginHandler {
 		// 补充进入主城需要同步的数据
 		return response.build().toByteString();
 	}
-	
-	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user){
+
+	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
 		String userId = user.getUserId();
 		Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
 		UserChannelMgr.bindUserID(userId);
-		
+
 		player.save();
 		long end = System.currentTimeMillis();
 		player.onLogin();
@@ -368,9 +365,9 @@ public class GameLoginHandler {
 
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setUserId(userId);
-		
+
 		LoginSynDataHelper.setData(player, response);
-		
+
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据
 		return response.build().toByteString();
@@ -450,6 +447,7 @@ public class GameLoginHandler {
 		}
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clienInfo = ClientInfo.fromJson(clientInfoJson);
+			baseInfo.setChannelId(clienInfo.getChannelId());
 			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
 		}
 		// baseInfo.setCareer(0);
