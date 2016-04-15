@@ -78,4 +78,7 @@ public class GroupUtils {
 		Collections.shuffle(indexArr);// 打乱顺序
 		return indexArr;
 	}
+
+	public static String logoutGroupTimeTip(long now, long quitTime, long needCoolingTime) {
+	}
 }
