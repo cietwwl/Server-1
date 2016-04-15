@@ -1,17 +1,21 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.common.Action;
+import com.log.GameLog;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.inlay.InlayItemHelper;
 import com.rwbase.dao.inlay.InlayItemHolder;
 import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.role.InlayCfgDAO;
+import com.rwbase.dao.role.pojo.InlayCfg;
 
 public class InlayMgr extends IDataMgr {
 
@@ -46,8 +50,10 @@ public class InlayMgr extends IDataMgr {
 	/**
 	 * 镶嵌宝石
 	 * 
-	 * @param equipSolt 装备
-	 * @param gem 宝石数据
+	 * @param equipSolt
+	 *            装备
+	 * @param gem
+	 *            宝石数据
 	 */
 	public boolean InlayGem(ItemData itemData) {
 		int inlaySlot = getSolt();
@@ -102,7 +108,8 @@ public class InlayMgr extends IDataMgr {
 	 */
 	public boolean XieXiaAll() {
 		List<InlayItem> itemList = inlayItemHolder.getItemList();
-		if (itemList.size() <= 0) return false;
+		if (itemList.size() <= 0)
+			return false;
 		boolean success = true;
 		for (InlayItem inlayItem : itemList) {
 			boolean stripSuccess = inlayItemHolder.removeItem(m_pPlayer, inlayItem);
@@ -129,7 +136,7 @@ public class InlayMgr extends IDataMgr {
 			List<ItemData> list = m_pPlayer.getItemBagMgr().getItemListByCfgId(800000 + i);
 			if (list != null && list.size() > 0) {
 				GemCfg gemCfg = ItemCfgHelper.getGemCfg(list.get(0).getModelId());
-				if (gemCfg != null &&m_pOwner.getLevel() >= gemCfg.getLevel()) {
+				if (gemCfg != null && m_pOwner.getLevel() >= gemCfg.getLevel()) {
 					tempMap.put(gemCfg.getGemType(), gemCfg);
 				}
 
@@ -148,15 +155,18 @@ public class InlayMgr extends IDataMgr {
 
 		}
 
-		// 2,1,3,4
-
-		List<Integer> priorList = new ArrayList<Integer>();
-		priorList.add(2);
-		priorList.add(1);
-		priorList.add(3);
-		priorList.add(4);
-		priorList.add(5);
-		priorList.add(6);
+		InlayCfg heroInlayCfg = InlayCfgDAO.getInstance().getConfig(String.valueOf(super.m_pOwner.getModelId()));
+		ArrayList<Integer> priorList = new ArrayList<Integer>();
+		if (heroInlayCfg != null) {
+			String[] array = heroInlayCfg.getPrior().split(",");
+			for (int i = 0; i < array.length; i++) {
+				try {
+					priorList.add(Integer.parseInt(array[i]));
+				} catch (NumberFormatException e) {
+					GameLog.error("InlayMgr", "#InlayAll()", "一键宝石转换优先列表异常："+m_pPlayer.getUserId()+","+super.m_pOwner.getModelId(), e);
+				}
+			}
+		}
 		for (int typeId : priorList) {
 			if (tempMap.containsKey(typeId)) {
 				GemCfg gemCfg = tempMap.get(typeId);
@@ -233,7 +243,7 @@ public class InlayMgr extends IDataMgr {
 
 		for (int i = 0; i < 6; i++) {
 
-			if (!slotList.contains(i) && InlayItemHelper.isOpen(m_pOwner.getModelId(),i,m_pOwner.getLevel())) {
+			if (!slotList.contains(i) && InlayItemHelper.isOpen(m_pOwner.getModelId(), i, m_pOwner.getLevel())) {
 				targetSlot = i;
 				break;
 			}
@@ -291,13 +301,13 @@ public class InlayMgr extends IDataMgr {
 			inlayItemHolder.addItem(this.m_pPlayer, item);
 		}
 	}
-	
+
 	/**
-	 * gm命令镶嵌宝石
-	 * 改方法只能被gm调用
+	 * gm命令镶嵌宝石 改方法只能被gm调用
+	 * 
 	 * @param itemData
 	 */
-	public void gmInlayGem(ItemData itemData){
+	public void gmInlayGem(ItemData itemData) {
 		int inlaySlot = getSolt();
 		if (inlaySlot < 0) {
 			return;
