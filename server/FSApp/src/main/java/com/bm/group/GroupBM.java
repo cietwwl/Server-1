@@ -203,7 +203,7 @@ public final class GroupBM {
 			return;
 		}
 
-		long now = System.currentTimeMillis();
+		final long now = System.currentTimeMillis();
 		// 删除帮派基础数据
 		GroupBaseDataDAO.getDAO().delete(groupId);
 		// 删除帮派成员
@@ -227,6 +227,7 @@ public final class GroupBM {
 
 			@Override
 			public void run(Player player) {
+				player.getUserGroupAttributeDataMgr().updateDataWhenQuitGroup(player, now);
 				EmailUtils.sendEmail(player.getUserId(), emailData);
 				// 通知好友更改更新帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);

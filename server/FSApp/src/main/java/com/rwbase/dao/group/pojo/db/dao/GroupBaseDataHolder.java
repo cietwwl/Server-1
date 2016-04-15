@@ -48,7 +48,12 @@ public class GroupBaseDataHolder {
 			return;
 		}
 
-		ClientDataSynMgr.synData(player, getGroupData(), groupDataSynType, eSynOpType.UPDATE_SINGLE, groupDataVersion.get());
+		GroupBaseData groupData = getGroupData();
+		if (groupData == null) {
+			return;
+		}
+
+		ClientDataSynMgr.synData(player, groupData, groupDataSynType, eSynOpType.UPDATE_SINGLE, groupDataVersion.get());
 	}
 
 	/**
@@ -62,7 +67,12 @@ public class GroupBaseDataHolder {
 			return;
 		}
 
-		ClientDataSynMgr.synDataList(player, getGroupData().getResearchSkillList(), groupSkillSynType, eSynOpType.UPDATE_LIST, skillVersion);
+		GroupBaseData groupData = getGroupData();
+		if (groupData == null) {
+			return;
+		}
+
+		ClientDataSynMgr.synDataList(player, groupData.getResearchSkillList(), groupSkillSynType, eSynOpType.UPDATE_LIST, skillVersion);
 	}
 
 	/**
