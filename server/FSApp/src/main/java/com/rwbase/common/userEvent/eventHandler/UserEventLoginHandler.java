@@ -8,6 +8,7 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
 public class UserEventLoginHandler implements IUserEventHandler{
@@ -23,7 +24,11 @@ public class UserEventLoginHandler implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login);				
+				
+				boolean isnewday = DateUtils.dayChanged(player.getUserGameDataMgr().getLastLoginTime());
+				isnewday = true;
+				if(isnewday)
+					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login);				
 			}
 			@Override
 			public void logError(Player player,Throwable ex) {

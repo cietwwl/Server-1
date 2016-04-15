@@ -14,6 +14,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
@@ -30,6 +31,7 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
 import com.rwbase.dao.publicdata.PublicData;
@@ -198,6 +200,10 @@ public class GameLoginHandler {
 				GameLog.debug("Game Login Finish --> userId:" + userId_);
 				player.setZoneLoginInfo(zoneLoginInfo);
 				BILogMgr.getInstance().logZoneLogin(player);
+				
+				//通用活动数据同步
+				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				UserEventMgr.getInstance().logRoleLogin(player);
 
 				// 补充进入主城需要同步的数据
 				LoginSynDataHelper.setData(player, response);

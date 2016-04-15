@@ -15,6 +15,7 @@ import com.common.Action;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
@@ -413,6 +414,7 @@ public class Player implements PlayerIF {
 					ChatHandler.getInstance().sendChatAllMsg(player);
 					// 试练塔次数重置
 					getBattleTowerMgr().resetBattleTowerResetTimes(now);
+					
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -423,7 +425,6 @@ public class Player implements PlayerIF {
 		notifyLogin();
 		initDataVersionControl();
 		onBSStart();// 合并数据同步信息
-
 		try {
 			dataSynVersionHolder.synAll(this);
 		} finally {

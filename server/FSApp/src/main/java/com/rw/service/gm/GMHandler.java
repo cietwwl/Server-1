@@ -17,6 +17,8 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.countType.service.ActivityCountTypeHandler;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.service.Email.EmailUtils;
@@ -103,6 +105,9 @@ public class GMHandler {
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
+		
+		//获取通用活动道具，调试用
+		funcCallBackMap.put("getgift", "getgift");
 	}
 
 	public boolean isActive() {
@@ -232,6 +237,22 @@ public class GMHandler {
 		}
 		return false;
 	}
+	
+	public boolean getgift(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			ActivityCountTypeHandler.getInstance().takeGift(player, null);
+			
+			
+			return true;
+		}
+		return false;
+	}
+	
 
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {

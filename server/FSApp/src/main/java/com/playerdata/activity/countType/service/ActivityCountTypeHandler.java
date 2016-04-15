@@ -1,5 +1,6 @@
 package com.playerdata.activity.countType.service;
 
+import com.common.playerFilter.FilterType;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
@@ -18,13 +19,16 @@ public class ActivityCountTypeHandler {
 
 	public ByteString takeGift(Player player, ActivityCommonReqMsg commonReq) {
 		ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
-		response.setReqType(commonReq.getReqType());
-		
-		String activityId = commonReq.getActivityId();
-		String subItemId = commonReq.getSubItemId();
-		
-		
-		ActivityCountTypeEnum countType = ActivityCountTypeEnum.valueOf(activityId);
+		String activityId = "1";
+		String subItemId = "0";
+		if(commonReq != null){
+			response.setReqType(commonReq.getReqType());
+			activityId = commonReq.getActivityId();
+			subItemId = commonReq.getSubItemId();
+		}else{
+//			response.setReqType(commonReq.getReqType());
+		}
+		ActivityCountTypeEnum countType = ActivityCountTypeEnum.valueOff(activityId);
 		
 		boolean success = false;
 		String tips = null;
@@ -32,12 +36,12 @@ public class ActivityCountTypeHandler {
 		if(countType!=null){
 			ActivityComResult result = ActivityCountTypeMgr.getInstance().takeGift(player, countType, subItemId);
 			success = result.isSuccess();
-			tips = result.getReason();
+			tips = result.getReason()+"";
 		}
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);
 		return response.build().toByteString();
 	}
-	
+
 
 }

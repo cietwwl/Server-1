@@ -28,6 +28,8 @@ public class ClientInfo {
 	
 	//运营商
 	private String phoneOp;
+	//日志的提交到了develop,
+	private String sdkVersion;
 	
 	public static ClientInfo fromJson(String json){
 		ClientInfo clientInfo = JsonUtil.readValue(json, ClientInfo.class);
@@ -119,6 +121,12 @@ public class ClientInfo {
 		this.phoneOp = phoneOp;
 	}
 	
-	
+	public String getSdkVersion() {
+		return sdkVersion;
+	}
+
+	public void setSdkVersion(String sdkVersion) {
+		this.sdkVersion = sdkVersion;
+	}
 	
 }

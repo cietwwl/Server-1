@@ -9,16 +9,16 @@ public class ActivityCountTypeCfg {
 
 	private String id;
 	
-	private long starTime;
+	private long startTime;
 	
 	private long endTime;
-	
+	//？;
 	private String cion;
 	
 	private String title;
 	
 	private String titleBG;
-	
+	//？;
 	private String desc;
 	
 	private GoToType goToType;
@@ -36,7 +36,7 @@ public class ActivityCountTypeCfg {
 	}
 
 	public long getStarTime() {
-		return starTime;
+		return startTime;
 	}
 
 	public long getEndTime() {

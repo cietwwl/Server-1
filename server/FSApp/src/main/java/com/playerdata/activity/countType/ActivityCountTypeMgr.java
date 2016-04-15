@@ -32,6 +32,8 @@ public class ActivityCountTypeMgr {
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {
 			if(isOpen(activityCountTypeCfg)){
 				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
+				if(countTypeEnum == null)
+					continue;
 				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);
 				if(targetItem == null){
 					
@@ -47,9 +49,10 @@ public class ActivityCountTypeMgr {
 	}
 	
 	private boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
-		long startTime = activityCountTypeCfg.getStarTime();
-		long endTime = activityCountTypeCfg.getEndTime();
+		long startTime = activityCountTypeCfg.getStarTime()*1000;
+		long endTime = activityCountTypeCfg.getEndTime()*1000;
 		long currentTime = System.currentTimeMillis();
+		
 		return currentTime < endTime && currentTime > startTime;
 	}
 
@@ -57,6 +60,7 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
+		
 		dataItem.setCount(dataItem.getCount()+1);
 		
 		dataHolder.updateItem(player, dataItem);
