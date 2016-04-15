@@ -48,6 +48,7 @@ import com.rwproto.GroupCommonProto.RequestType;
  * @Description 帮派的基础处理
  */
 public class GroupBaseManagerHandler {
+	private static final String QUIT_GROUP_TIME_TIP_FOR_CREATE = "%s后才可创建帮派";
 	private static GroupBaseManagerHandler handler;
 
 	public static GroupBaseManagerHandler getHandler() {
@@ -105,8 +106,9 @@ public class GroupBaseManagerHandler {
 		long now = System.currentTimeMillis();
 		// 检查冷却时间
 		long quitGroupTime = baseData.getQuitGroupTime();
-		if (quitGroupTime > 0 && (now - quitGroupTime) < TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime())) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "距离上次退出帮派时间太短");
+		long needCoolingTime = TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime());
+		if (quitGroupTime > 0 && (now - quitGroupTime) < needCoolingTime) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format(QUIT_GROUP_TIME_TIP_FOR_CREATE, GroupUtils.quitGroupTimeTip(now, quitGroupTime, needCoolingTime)));
 		}
 
 		// 检查金钱足不足够
