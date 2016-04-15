@@ -9,6 +9,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.TableRankingMgr;
@@ -103,6 +104,11 @@ public class RankingHandler {
 		baseRankInfo.setAthleticsFighting(0);//巅峰竞技战斗力排行
 		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(RankingMgr.getInstance().getTeamList(rankType, userId)));//获取队伍数据
 		baseRankInfo.setArenaWinCount(TableRankingMgr.getInstance().getArenaTeamWinCount(userId, rankType));
+		String groupName = GroupHelper.getGroupName(userId);
+		if(groupName == null || groupName.isEmpty()){
+			groupName = "无";
+		}
+		baseRankInfo.setGroupName(groupName);
 		return baseRankInfo.build();
 	}
 	
