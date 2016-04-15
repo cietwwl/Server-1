@@ -55,7 +55,7 @@ public class MagicCfg extends ItemBaseCfg {
 	private void ParseUpgradeNeedGoodList(){
 		if (upgradeNeedGoodList == null){
 			String module = "法宝";
-			String moduleID = "配置错误";
+			String moduleID = "配置不是一对值";
 			upgradeNeedGoodList = ListParser.ParsePairList(module, moduleID, ",","_",goods);
 		}
 	}
@@ -98,7 +98,7 @@ public class MagicCfg extends ItemBaseCfg {
 	private void ParseDecomposeGoods(){
 		if (decomposeGoodList == null){
 			String module = "法宝";
-			String moduleID = "配置错误";
+			String moduleID = "配置不是一对值";
 			decomposeGoodList = ListParser.ParsePairList(module, moduleID, ",","_",decomposeGoods);
 		}
 	}
