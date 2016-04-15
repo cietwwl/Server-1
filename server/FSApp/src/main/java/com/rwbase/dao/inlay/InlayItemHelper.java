@@ -6,13 +6,6 @@ import java.util.Map;
 
 import com.playerdata.ItemCfgHelper;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attrdata.AttrDataHelper;
-import com.rwbase.common.enu.EAttrOprat;
-import com.rwbase.common.enu.eAttrIdDef;
-import com.rwbase.dao.fashion.FashState;
-import com.rwbase.dao.fashion.FashionCfg;
-import com.rwbase.dao.fashion.FashionCfgDao;
-import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.InlayCfgDAO;

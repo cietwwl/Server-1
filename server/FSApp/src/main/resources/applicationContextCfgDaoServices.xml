@@ -32,7 +32,6 @@
 	<bean class="com.rwbase.dao.dropitem.DropAdjustmentCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.dropitem.DropCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.email.EmailCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.fashion.FashionCfgDao"  init-method="init" />
 		
 	<bean class="com.rwbase.dao.fashion.FashionCommonCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.fashion.FashionEffectCfgDao"  init-method="init" />
