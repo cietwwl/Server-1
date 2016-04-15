@@ -1,3 +1,3 @@
 quantity,Remarks,attrName1,attrValue1,attrValueType1,attrName2,attrValue2,attrValueType2,attrName3,attrValue3,attrValueType3,attrName4,attrValue4,attrValueType4,attrName5,attrValue5,attrValueType5
-10,,,,Value,,,Value,,,Value,,,Value,,,Value
-20,,life,30,Value,life,30,Value,,,Value,,,Value,,,Value
+1,,life,10,Value,attack,10,Value,physiqueDef,10,Value,,,Value,,,Value
+2,,life,3,Percentage,attack,3,Percentage,physiqueDef,3,Percentage,,,Value,,,Value
