@@ -16,4 +16,5 @@ key,Remarks,CareerType,Gender,fashionID,icon,model,hangPoint
 15,,SwordsMan,women,10003,Equipment/fasion_nvxizhuang,50002122,
 16,,Magican,women,10003,Equipment/fasion_nvxizhuang,50002123,
 17,,Priest,women,10003,Equipment/fasion_nvxizhuang,50002124,
-18,,None,None,10004,Equipment/fasion_nvxizhuang,501002,
+18,,None,None,10004,Equipment/fasion_nvxizhuang,Assets\Model\Fashion\Prefab\500050.prefab,Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1
+19,,None,None,10005,Equipment/fasion_nvxizhuang,501002,
