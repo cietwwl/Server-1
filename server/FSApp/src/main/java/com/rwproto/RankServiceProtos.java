@@ -4545,6 +4545,33 @@ public final class RankServiceProtos {
      * </pre>
      */
     int getArenaWinCount();
+
+    // optional string groupName = 13;
+    /**
+     * <code>optional string groupName = 13;</code>
+     *
+     * <pre>
+     *帮派名字
+     * </pre>
+     */
+    boolean hasGroupName();
+    /**
+     * <code>optional string groupName = 13;</code>
+     *
+     * <pre>
+     *帮派名字
+     * </pre>
+     */
+    java.lang.String getGroupName();
+    /**
+     * <code>optional string groupName = 13;</code>
+     *
+     * <pre>
+     *帮派名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getGroupNameBytes();
   }
   /**
    * Protobuf type {@code BaseRankInfo}
@@ -4658,6 +4685,11 @@ public final class RankServiceProtos {
             case 96: {
               bitField0_ |= 0x00000400;
               arenaWinCount_ = input.readInt32();
+              break;
+            }
+            case 106: {
+              bitField0_ |= 0x00000800;
+              groupName_ = input.readBytes();
               break;
             }
           }
@@ -5023,6 +5055,61 @@ public final class RankServiceProtos {
       return arenaWinCount_;
     }
 
+    // optional string groupName = 13;
+    public static final int GROUPNAME_FIELD_NUMBER = 13;
+    private java.lang.Object groupName_;
+    /**
+     * <code>optional string groupName = 13;</code>
+     *
+     * <pre>
+     *帮派名字
+     * </pre>
+     */
+    public boolean hasGroupName() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional string groupName = 13;</code>
+     *
+     * <pre>
+     *帮派名字
+     * </pre>
+     */
+    public java.lang.String getGroupName() {
+      java.lang.Object ref = groupName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          groupName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string groupName = 13;</code>
+     *
+     * <pre>
+     *帮派名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getGroupNameBytes() {
+      java.lang.Object ref = groupName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        groupName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       fightingAll_ = 0;
       levelAll_ = 0;
@@ -5036,6 +5123,7 @@ public final class RankServiceProtos {
       athleticsFighting_ = 0;
       teamData_ = java.util.Collections.emptyList();
       arenaWinCount_ = 0;
+      groupName_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5090,6 +5178,9 @@ public final class RankServiceProtos {
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeInt32(12, arenaWinCount_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(13, getGroupNameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -5147,6 +5238,10 @@ public final class RankServiceProtos {
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, arenaWinCount_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(13, getGroupNameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5293,6 +5388,8 @@ public final class RankServiceProtos {
         }
         arenaWinCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
+        groupName_ = "";
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -5374,6 +5471,10 @@ public final class RankServiceProtos {
           to_bitField0_ |= 0x00000400;
         }
         result.arenaWinCount_ = arenaWinCount_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.groupName_ = groupName_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5448,6 +5549,11 @@ public final class RankServiceProtos {
         }
         if (other.hasArenaWinCount()) {
           setArenaWinCount(other.getArenaWinCount());
+        }
+        if (other.hasGroupName()) {
+          bitField0_ |= 0x00001000;
+          groupName_ = other.groupName_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6329,6 +6435,104 @@ public final class RankServiceProtos {
       public Builder clearArenaWinCount() {
         bitField0_ = (bitField0_ & ~0x00000800);
         arenaWinCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string groupName = 13;
+      private java.lang.Object groupName_ = "";
+      /**
+       * <code>optional string groupName = 13;</code>
+       *
+       * <pre>
+       *帮派名字
+       * </pre>
+       */
+      public boolean hasGroupName() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional string groupName = 13;</code>
+       *
+       * <pre>
+       *帮派名字
+       * </pre>
+       */
+      public java.lang.String getGroupName() {
+        java.lang.Object ref = groupName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          groupName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string groupName = 13;</code>
+       *
+       * <pre>
+       *帮派名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getGroupNameBytes() {
+        java.lang.Object ref = groupName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          groupName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string groupName = 13;</code>
+       *
+       * <pre>
+       *帮派名字
+       * </pre>
+       */
+      public Builder setGroupName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00001000;
+        groupName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string groupName = 13;</code>
+       *
+       * <pre>
+       *帮派名字
+       * </pre>
+       */
+      public Builder clearGroupName() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        groupName_ = getDefaultInstance().getGroupName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string groupName = 13;</code>
+       *
+       * <pre>
+       *帮派名字
+       * </pre>
+       */
+      public Builder setGroupNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00001000;
+        groupName_ = value;
         onChanged();
         return this;
       }
@@ -9432,25 +9636,25 @@ public final class RankServiceProtos {
       "Name\030\004 \001(\t\022\017\n\007imageId\030\005 \001(\t\022\013\n\003job\030\006 \001(\005" +
       "\022\017\n\007modelId\030\007 \001(\005\022\023\n\013fightingAll\030\010 \001(\005\022\024" +
       "\n\014fightingTeam\030\t \001(\005\022\021\n\trankCount\030\n \001(\005\"" +
-      "\215\002\n\014BaseRankInfo\022\023\n\013fightingAll\030\001 \001(\005\022\020\n" +
+      "\240\002\n\014BaseRankInfo\022\023\n\013fightingAll\030\001 \001(\005\022\020\n" +
       "\010levelAll\030\002 \001(\005\022\016\n\006jobDay\030\003 \001(\005\022\022\n\njobCu" +
       "rrent\030\004 \001(\005\022\024\n\014athleticsDay\030\005 \001(\005\022\030\n\020ath" +
       "leticsCurrent\030\006 \001(\005\022\014\n\004team\030\007 \001(\005\022\017\n\007end" +
       "less\030\010 \001(\005\022\r\n\005glory\030\t \001(\005\022\031\n\021athleticsFi" +
       "ghting\030\n \001(\005\022\"\n\010teamData\030\013 \003(\0132\020.Ranking" +
-      "TeamData\022\025\n\rarenaWinCount\030\014 \001(\005\"[\n\017Ranki",
-      "ngTeamData\022$\n\tmagicData\030\001 \002(\0132\021.RankingM" +
-      "agicData\022\"\n\010heroList\030\002 \003(\0132\020.RankingHero" +
-      "Data\"f\n\017RankingHeroData\022\016\n\006heroId\030\001 \002(\t\022" +
-      "\r\n\005level\030\002 \002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\017\n\007qua" +
-      "lity\030\004 \002(\t\022\020\n\010heroHead\030\005 \002(\t\"U\n\020RankingM" +
-      "agicData\022\022\n\nmagicImage\030\001 \002(\t\022\024\n\014magicQua" +
-      "lity\030\002 \002(\005\022\027\n\017magicAttackType\030\003 \002(\005*_\n\020E" +
-      "RankRequestType\022\r\n\tRANK_LIST\020\001\022\022\n\016RANK_H" +
-      "ERO_INFO\020\002\022\023\n\017RANK_LIST_PART1\020\003\022\023\n\017RANK_" +
-      "LIST_PART2\020\004*-\n\017ERankResultType\022\013\n\007SUCCE",
-      "SS\020\000\022\r\n\tNOT_LEVEL\020\001B \n\013com.rwprotoB\021Rank" +
-      "ServiceProtos"
+      "TeamData\022\025\n\rarenaWinCount\030\014 \001(\005\022\021\n\tgroup",
+      "Name\030\r \001(\t\"[\n\017RankingTeamData\022$\n\tmagicDa" +
+      "ta\030\001 \002(\0132\021.RankingMagicData\022\"\n\010heroList\030" +
+      "\002 \003(\0132\020.RankingHeroData\"f\n\017RankingHeroDa" +
+      "ta\022\016\n\006heroId\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\021\n\tsta" +
+      "rLevel\030\003 \002(\005\022\017\n\007quality\030\004 \002(\t\022\020\n\010heroHea" +
+      "d\030\005 \002(\t\"U\n\020RankingMagicData\022\022\n\nmagicImag" +
+      "e\030\001 \002(\t\022\024\n\014magicQuality\030\002 \002(\005\022\027\n\017magicAt" +
+      "tackType\030\003 \002(\005*_\n\020ERankRequestType\022\r\n\tRA" +
+      "NK_LIST\020\001\022\022\n\016RANK_HERO_INFO\020\002\022\023\n\017RANK_LI" +
+      "ST_PART1\020\003\022\023\n\017RANK_LIST_PART2\020\004*-\n\017ERank",
+      "ResultType\022\013\n\007SUCCESS\020\000\022\r\n\tNOT_LEVEL\020\001B " +
+      "\n\013com.rwprotoB\021RankServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9480,7 +9684,7 @@ public final class RankServiceProtos {
           internal_static_BaseRankInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BaseRankInfo_descriptor,
-              new java.lang.String[] { "FightingAll", "LevelAll", "JobDay", "JobCurrent", "AthleticsDay", "AthleticsCurrent", "Team", "Endless", "Glory", "AthleticsFighting", "TeamData", "ArenaWinCount", });
+              new java.lang.String[] { "FightingAll", "LevelAll", "JobDay", "JobCurrent", "AthleticsDay", "AthleticsCurrent", "Team", "Endless", "Glory", "AthleticsFighting", "TeamData", "ArenaWinCount", "GroupName", });
           internal_static_RankingTeamData_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_RankingTeamData_fieldAccessorTable = new
