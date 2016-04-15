@@ -15,15 +15,16 @@ import com.bm.guild.GuildGTSMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
-import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
+import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
+import com.rw.service.guide.datamodel.GiveItemCfgDAO;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
@@ -103,11 +104,10 @@ public class GMHandler {
 		// 引导
 		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
+		funcCallBackMap.put("reloadnewguidecfg", "ReloadNewGuideCfg");
+		
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
-		// 时装
-		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
-		funcCallBackMap.put("setfashion", "setFashion");
 	}
 
 	public boolean isActive() {
@@ -119,28 +119,17 @@ public class GMHandler {
 	}
 
 	/** GM命令 */
-	//setFashionExpiredTime
-	public boolean setFashionExpiredTime(String[] arrCommandContents, Player player) {
-		GameLog.info("时装", player.getUserId(), "调用设置过期时间命令", null);
-		if (arrCommandContents == null || arrCommandContents.length < 2) {
-			GameLog.info("时装", player.getUserId(), "调用设置过期时间命令,参数不足", null);
+
+	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
+		String clname = GiveItemCfgDAO.class.getName();
+		try {
+			CfgCsvReloader.reloadByClassName(clname);
+			GameLog.info("GM", "ReloadNewGuideCfg", "reloadByClassName:"+clname+" success",null);
+			return true;
+		} catch (Exception e) {
+			GameLog.error("GM", "reloadByClassName:(GiveItemCfgDAO):"+clname,"reload failed" ,e);
 			return false;
 		}
-		int fashionId = Integer.parseInt(arrCommandContents[0]);
-		int minutes = Integer.parseInt(arrCommandContents[1]);
-		FashionMgr mgr = player.getFashionMgr();
-		return mgr.GMSetExpiredTime(fashionId, minutes);
-	}
-	
-	public boolean setFashion(String[] arrCommandContents, Player player) {
-		GameLog.info("时装", player.getUserId(), "设置时装命令", null);
-		if (arrCommandContents == null || arrCommandContents.length < 1) {
-			GameLog.info("时装", player.getUserId(), "设置时装命令", null);
-			return false;
-		}
-		int fashionId = Integer.parseInt(arrCommandContents[0]);
-		FashionMgr mgr = player.getFashionMgr();
-		return mgr.GMSetFashion(fashionId);
 	}
 	
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {

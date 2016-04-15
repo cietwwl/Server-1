@@ -106,7 +106,6 @@ public class LoggerQueue {
 	 * 添加一条日志
 	 */
 	public void addLogger(String content) {
-		System.out.println(content);
 		// 这里的模型应该是同步入本地库/日志，异步发送网络请求
 		long id = insertIntoDB(content);
 		long currentTime = System.currentTimeMillis();

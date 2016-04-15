@@ -2,6 +2,7 @@ package com.rw.fsutil.ranking.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,7 +54,7 @@ public class ListRankingImpl<K, E> implements ListRanking<K, E> {
 
 			@Override
 			public boolean notifyDataUpdated() {
-				 return updateToDB();
+				return updateToDB();
 			}
 
 		};
@@ -268,7 +269,7 @@ public class ListRankingImpl<K, E> implements ListRanking<K, E> {
 	}
 
 	@Override
-	public List<ListRankingEntry<K, E>> getRankingEntrys(List<Integer> rankingList) {
+	public List<ListRankingEntry<K, E>> getRankingEntries(List<Integer> rankingList) {
 		int size = rankingList.size();
 		ArrayList<ListRankingEntry<K, E>> list = new ArrayList<ListRankingEntry<K, E>>(size);
 		readLock.lock();
@@ -286,6 +287,36 @@ public class ListRankingImpl<K, E> implements ListRanking<K, E> {
 		} finally {
 			readLock.unlock();
 		}
+		return list;
+	}
+
+	@Override
+	public List<? extends ListRankingEntry<K, E>> getRankingEntries(int fromRank, int toRank) {
+		if (fromRank < 0 || toRank < 0 || toRank < fromRank) {
+			throw new IllegalArgumentException("from :" + fromRank + ",to :" + toRank);
+		}
+		int expectCapacity = toRank - fromRank + 1;
+		int actualCapacity = expectCapacity;
+		MomentSRankingEntryImpl<K, E>[] copy = new MomentSRankingEntryImpl[expectCapacity];
+		readLock.lock();
+		try {
+			int max = size;
+			if (fromRank > max) {
+				return Collections.EMPTY_LIST;
+			}
+			if (toRank > max) {
+				actualCapacity = max - fromRank + 1;
+			}
+			System.arraycopy(rankArray, fromRank, copy, 0, actualCapacity);
+		} finally {
+			readLock.unlock();
+		}
+		if (expectCapacity != actualCapacity) {
+			MomentSRankingEntryImpl<K, E>[] temp = new MomentSRankingEntryImpl[actualCapacity];
+			System.arraycopy(copy, 0, temp, 0, actualCapacity);
+			copy = temp;
+		}
+		List<MomentSRankingEntryImpl<K, E>> list =  Arrays.asList(copy);
 		return list;
 	}
 

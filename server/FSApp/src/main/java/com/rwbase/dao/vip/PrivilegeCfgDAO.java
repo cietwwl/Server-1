@@ -126,6 +126,16 @@ public class PrivilegeCfgDAO extends CfgCsvDao<PrivilegeCfg>{
 			break;
 		case RESIGN_OPEN:
 			value = cfg.getResignOpen();
+			break;
+		case COPY_CELESTAL:
+			value = cfg.getCopyCelestal();
+			break;
+		case TOWER_RESET_TIMES:
+			value = cfg.getTowerResetTime();
+			break;
+		case BATTLE_TOWER_TIMES:
+			value = cfg.getBattleTowerResetTimes();
+			break;
 		default:
 			break;
 		}

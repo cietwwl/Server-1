@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import org.springframework.util.StringUtils;
 import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -18,8 +18,10 @@ import com.playerdata.Player;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.EHeroQuality;
+import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ComposeCfgDAO;
+import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.ComposeCfg;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -394,7 +396,7 @@ public class EquipHandler {
 		}
 		Hero role = player.getHeroMgr().getHeroById(roleId);
 		List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(role.getQualityId());
-		if (equips.size() == 0) {
+		if (equips.isEmpty()) {
 			response.setError(ErrorType.FAIL);
 			return response.build().toByteString();
 		}
@@ -418,18 +420,119 @@ public class EquipHandler {
 			return response.build().toByteString();
 		}
 
-		try {
-			System.out.println("tt");
-			if (pEquipMgr.WearEquip(equipIndex)) {
-				response.setError(ErrorType.SUCCESS);
-			} else {
-				response.setError(ErrorType.FAIL);
-			}
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
+		// try {
+		if (pEquipMgr.WearEquip(equipIndex)) {
+			response.setError(ErrorType.SUCCESS);
+		} else {
 			response.setError(ErrorType.FAIL);
 		}
+		// } catch (CloneNotSupportedException e) {
+		// e.printStackTrace();
+		// response.setError(ErrorType.FAIL);
+		// }
 		return response.build().toByteString();
+	}
+
+	/**
+	 * 一键穿装
+	 * 
+	 * @param player 角色
+	 * @param roleId 英雄Id
+	 * @return
+	 */
+	public ByteString oneKeyWearEquip(Player player, String roleId) {
+		String userId = player.getUserId();
+
+		EquipResponse.Builder rsp = EquipResponse.newBuilder();
+		rsp.setEventType(EquipEventType.OneKeyWearEquip);
+
+		// 检查英雄是否有
+		Hero hero = player.getHeroMgr().getHeroById(roleId);
+		if (hero == null) {
+			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero", roleId));
+			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
+		}
+
+		// 检查身上的装备
+		EquipMgr equipMgr = hero.getEquipMgr();
+		if (equipMgr == null) {
+			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]没有找到对应的Hero的EquipMgr", roleId));
+			return fillFailMsg(rsp, ErrorType.NOT_ROLE, "英雄不存在");
+		}
+
+		List<Integer> equipList = RoleQualityCfgDAO.getInstance().getEquipList(hero.getQualityId());
+		if (equipList.isEmpty()) {
+			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]，品质[%s]，没有装备列表", roleId, hero.getQualityId()));
+			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
+		}
+
+		List<EquipItem> hasEquipList = equipMgr.getEquipList();
+		int size = hasEquipList.size();
+		if (size == 6) {// 装备穿满了
+			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]装备已经穿戴满了，不需要一键穿装", roleId));
+			return fillFailMsg(rsp, ErrorType.FAIL, "装备已经穿满，请进阶");
+		}
+
+		int level = hero.getLevel();// 英雄的等级
+		HeroEquipCfgDAO cfgDAO = HeroEquipCfgDAO.getInstance();
+
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		/** <格子Id,装备的数据库Id> */
+		Map<Integer, String> needEquipMap = new HashMap<Integer, String>();// 需要穿的装备
+		/** <装备的模版Id> */
+		List<Integer> hasEquipTmpIdList = new ArrayList<Integer>();
+		for (int i = 0; i < size; i++) {
+			EquipItem equipItem = hasEquipList.get(i);
+			if (equipItem == null) {
+				continue;
+			}
+
+			int templateId = equipItem.getModelId();
+			if (equipList.contains(templateId)) {// 没有穿在身上
+				hasEquipTmpIdList.add(templateId);
+			}
+		}
+
+		// 检查所有装备
+		for (int i = 0, equipSize = equipList.size(); i < equipSize; i++) {
+			int templateId = equipList.get(i);
+			if (hasEquipTmpIdList.contains(templateId)) {
+				continue;
+			}
+
+			HeroEquipCfg cfg = cfgDAO.getConfig(templateId);
+			if (cfg == null) {
+				continue;
+			}
+
+			List<ItemData> itemDataList = itemBagMgr.getItemListByCfgId(templateId);
+			if (itemDataList == null || itemDataList.isEmpty()) {
+				continue;
+			}
+
+			if (cfg.getLevel() > level) {
+				continue;
+			}
+
+			needEquipMap.put(i, itemDataList.get(0).getId());
+		}
+
+		if (needEquipMap.isEmpty()) {// 不需要穿戴装备
+			GameLog.error("一键穿装", userId, String.format("英雄Id是[%s]背包中没有空位需要穿戴的装备，不需要一键穿装", roleId));
+			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
+		}
+
+		// 准备穿戴装备
+		for (Entry<Integer, String> e : needEquipMap.entrySet()) {
+			Integer index = e.getKey();
+			if (equipMgr.wearEquip(e.getValue(), index)) {
+				rsp.addOneKeySuccessIndex(index);
+			}
+		}
+
+		rsp.setError(ErrorType.SUCCESS);
+		rsp.setTipMsg("一键穿装成功");
+		return rsp.build().toByteString();
 	}
 
 	private EquipMgr getEquipMgr(Player player, String roleId) {
@@ -451,6 +554,20 @@ public class EquipHandler {
 		return RoleType.Hero;
 	}
 
+	/**
+	 * 填充失败消息
+	 * 
+	 * @param rsp
+	 * @param err
+	 * @return
+	 */
+	private ByteString fillFailMsg(EquipResponse.Builder rsp, ErrorType err, String tipMsg) {
+		rsp.setError(err);
+		if (!StringUtils.isEmpty(tipMsg)) {
+			rsp.setTipMsg(tipMsg);
+		}
+		return rsp.build().toByteString();
+	}
 }
 
 enum RoleType {

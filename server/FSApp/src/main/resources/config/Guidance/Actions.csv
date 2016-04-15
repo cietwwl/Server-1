@@ -65,7 +65,7 @@ key,Remarks,target,guideActType,extraParam,openConditionalID,skipConditionalID,o
 100020010,,ArrowRight/offset/Button,Hand_MM,100020010,1000201,1000202,-10,10,Right,MainView,true,,,1010,,,
 100020020,,Arena_Building,Hand,,1000201,1000202,-20,-100,Left,MainView,true,,,1010,,,PART_CityTitle/Arena
 100020030,,Zuo,Hand,,1000201,1000202,-10,10,Left,UIPVPEntry,true,,,1010,,true,
-100020031,,TiaoZhan/YouBian/Button,Hand,,1000201,1000202,-10,,Left,CareerArena,true,,,1010,,,
+100020031,,TiaoZhan/ZuoBian/Button,Hand,,1000201,1000202,-10,,Left,CareerArena,true,,,1010,,,
 100030000,,ViewBg/RoleLevelUpgrade,Hand,"if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1000301,1000302,-10,-200,Left,RoleLevelUpgrade,true,,1.2,1011,1011,,
 100030010,,Battle,Hand_MM,100030010,1000301,1000302,-10,,Left,MainView,true,,,1011,1011,,
 100030020,,DownButtonPanel/EliteButton,Hand,,1000301,1000302,-10,,Left,MainCopyView,true,,,1010,,,
@@ -160,6 +160,13 @@ key,Remarks,target,guideActType,extraParam,openConditionalID,skipConditionalID,o
 100250070,,tabEquip/SmeltingBtn,Hand,,1002503,1002502,-10,10,Left,Role,true,,,1010,,,
 100260010,,Battle,Hand,,1002601,1002602,-10,,Left,MainView,true,,,1011,1011,true,
 100260020,,StagePart_110201/Button/Up,Hand,,1002601,1002602,-10,60,Left,MainCopyView,true,,,1010,,,
+100270000,,ViewBg/RoleLevelUpgrade,Hand,"if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1002701,1002702,-10,-200,Left,RoleLevelUpgrade,true,,1.2,1011,1011,,
+100270010,,MainRoleModel,Hand_MM,100270010,1002701,1002702,,150,Left,MainView,true,,,1010,,true,
+100270020,,equip_700124,Hand_MM,100270020,1002701,1002702,-10,10,Left,Role,true,,,1010,,true,
+100270030,,Part_GainItem(Clone)/Btn,Hand,,1002701,1002702,-10,10,Left,EquipInfo,true,,,1010,,true,
+100270040,,SweepPanel/Sweep_Once,Hand_MM,100270040,1002701,1002702,-10,10,Left,CopyLevelDetailsView,true,,,1010,,true,
+100280000,,,Send_Cmd,"startPlot(""200004"");ContinueBattling()",1002803,1002802,7,,Left,BattleNormalView,true,,,1010,,,
+100280010,,UI_Battle(Clone)/PlayerIconLayer/RateBg,Hand,ContinueBattling(),1002801,1002802,7,,Left,BattleNormalView,true,,,1010,,,
 200010010,,Altar_Building,Hand_MM,100010010,2000001,2000002,-16,62,Left,MainView,true,,,1010,,true,PART_CityTitle/Gamble
 200010020,,Table_ShouYe/Middle,Hand_MM,100010020,2000001,2000002,-10,10,Left,UIGamble,true,,,1010,,true,
 200010030,,Table/Middle/BuyButtonOne,Hand,"SetGuideProgress(10001,4)",2000001,2000002,-10,10,Left,UIGamble,true,,,1010,,true,

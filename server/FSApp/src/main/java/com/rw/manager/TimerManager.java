@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.bm.guild.GuildGTSMgr;
 import com.bm.secretArea.SecretAreaInfoGMgr;
+import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.GambleMgr;
@@ -73,6 +74,7 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().dayZero4Func4AllPlayer();
+				RankingActivity.getInstance().notifyRecord();
 			}
 		}, 0);
 
@@ -93,7 +95,7 @@ public class TimerManager {
 			public void doTask() {
 				RankingMgr.getInstance().arenaCalculate();
 			}
-		}, 9);
+		}, 21);
 		
 		timeService.scheduleAtFixedRate(new Runnable() {
 

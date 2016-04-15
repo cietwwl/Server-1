@@ -9,26 +9,30 @@ import com.rwproto.RequestProtos.Request;
 
 public class EquipService implements FsService {
 	private EquipHandler handler = EquipHandler.getInstance();
+
 	@Override
 	public ByteString doTask(Request request, Player player) {
-		ByteString result = null; 
+		ByteString result = null;
 		try {
 			EquipRequest equipReq = EquipRequest.parseFrom(request.getBody().getSerializedContent());
-			switch ( equipReq.getEventType()) {
+			switch (equipReq.getEventType()) {
 			case Advance:
-				result = handler.advance(player,equipReq.getRoleId());
+				result = handler.advance(player, equipReq.getRoleId());
 				break;
 			case Equip_Attach:
-				result = handler.equipAttach(player,equipReq.getRoleId(),equipReq.getEquipIndex(),equipReq.getMateList());
+				result = handler.equipAttach(player, equipReq.getRoleId(), equipReq.getEquipIndex(), equipReq.getMateList());
 				break;
 			case Equip_Compose:
-				result = handler.equipCompose(player,equipReq.getEquipId());
+				result = handler.equipCompose(player, equipReq.getEquipId());
 				break;
 			case Equip_OnekeyAttach:
-				result = handler.equipOnekeyAttach(player,equipReq.getRoleId(),equipReq.getEquipIndex());
+				result = handler.equipOnekeyAttach(player, equipReq.getRoleId(), equipReq.getEquipIndex());
 				break;
 			case Wear_Equip:
-				result = handler.wearEquip(player,equipReq.getRoleId(),equipReq.getEquipIndex());
+				result = handler.wearEquip(player, equipReq.getRoleId(), equipReq.getEquipIndex());
+				break;
+			case OneKeyWearEquip:
+				result = handler.oneKeyWearEquip(player, equipReq.getRoleId());
 				break;
 			default:
 				break;
@@ -36,8 +40,7 @@ public class EquipService implements FsService {
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-
 }

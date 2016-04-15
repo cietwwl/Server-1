@@ -234,7 +234,7 @@ public class HeroMgr implements HeroMgrIF{
 		userHerosDataHolder.get().addHeroId(hero.getUUId());
 		userHerosDataHolder.update(player);
 		hero.syn(-1);
-
+		player.getTempAttribute().setHeroFightingChanged();
 		return hero;
 	}
 
@@ -251,6 +251,7 @@ public class HeroMgr implements HeroMgrIF{
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Quality);
 			hero.regAttrChangeCallBack();
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroNum);
+			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);
 		}
 		return hero;
 	}

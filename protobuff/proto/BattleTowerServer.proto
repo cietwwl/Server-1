@@ -218,6 +218,8 @@ message RankingRoleInfoMsg{
 	required string magicIcon = 6;//法宝的图标
 	repeated RankingHeroInfoMsg rankingHeroInfoMsg = 7;//阵容中的佣兵信息列表
 	optional bool isMyself = 8;//是否是自己
+	optional string headFrame = 9;//头像框
+	optional int32 starNum = 10;//星数
 }
 
 //排行榜阵容中的佣兵信息
