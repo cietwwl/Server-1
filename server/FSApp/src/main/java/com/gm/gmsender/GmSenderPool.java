@@ -18,7 +18,7 @@ public class GmSenderPool {
 		config.testOnBorrow = true;
 		config.testWhileIdle = true;
 		config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
-		
+		this.senderConfig = senderConfig;
 		senderPool = new GenericObjectPool(new GmSenderFactory(senderConfig), config);
 	}
 	
