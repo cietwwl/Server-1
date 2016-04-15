@@ -93,7 +93,7 @@ public class InlayHandler {
 		 playe.NotifyCommonMsg("没有更多位置可佩戴");
 			return null;
 		}
-
+		
 		 playe.NotifyCommonMsg("佩戴："+ItemCfgHelper.getGemCfg(msgReques.getGemId()).getName()+"\n[00ff00]"+getAttrValueDes(msgReques.getGemId(),"+")+"[-]");
 		
 		
@@ -253,7 +253,7 @@ public class InlayHandler {
 	            return "攻击吸血";
 	        }else if (attrName == "critical")
 	        {
-	            return "暴击率";
+	            return "暴击";
 	        }else if (attrName == "criticalHurt")
 	        {
 	            return "暴击伤害";
