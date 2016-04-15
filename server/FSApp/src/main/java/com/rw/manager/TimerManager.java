@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.bm.guild.GuildGTSMgr;
 import com.bm.secretArea.SecretAreaInfoGMgr;
@@ -19,7 +18,6 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rwbase.dao.Army.UserArmyDataDAO;
-import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.gulid.faction.GuildDAO;
 
@@ -54,9 +52,9 @@ public class TimerManager {
 		time5MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
 			public void doTask() {
-				//PlayerMgr.getInstance().saveAllPlayer();
+				// PlayerMgr.getInstance().saveAllPlayer();
 				GuildDAO.getInstance().flush();
-				//SecretAreaInfoDAO.getInstance().flush();
+				// SecretAreaInfoDAO.getInstance().flush();
 				UserArmyDataDAO.getInstance().flush();
 
 			}
@@ -84,8 +82,6 @@ public class TimerManager {
 			public void doTask() {
 				RankingMgr.getInstance().resetUpdateState();
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
-				// 初始化万仙阵匹配的数据缓存
-				AngleArrayMatchHelper.resetMatchData();
 			}
 		}, 5);
 
@@ -96,7 +92,7 @@ public class TimerManager {
 				RankingMgr.getInstance().arenaCalculate();
 			}
 		}, 21);
-		
+
 		timeService.scheduleAtFixedRate(new Runnable() {
 
 			@Override
@@ -123,11 +119,11 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				Map<String, eBILogRegSubChannelToClientPlatForm> subChannelCount = UserChannelMgr.getSubChannelCount();
-				if(subChannelCount.keySet().size() == 0){
-					BILogMgr.getInstance().logOnlineCount(null,null);
-				}else{
+				if (subChannelCount.keySet().size() == 0) {
+					BILogMgr.getInstance().logOnlineCount(null, null);
+				} else {
 					for (String regSubChannelIdandclientPlayForm : subChannelCount.keySet()) {
-						BILogMgr.getInstance().logOnlineCount(subChannelCount.get(regSubChannelIdandclientPlayForm),regSubChannelIdandclientPlayForm);
+						BILogMgr.getInstance().logOnlineCount(subChannelCount.get(regSubChannelIdandclientPlayForm), regSubChannelIdandclientPlayForm);
 					}
 				}
 

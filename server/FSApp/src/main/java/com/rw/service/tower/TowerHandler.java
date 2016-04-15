@@ -16,7 +16,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
-import com.rwbase.common.enu.eActivityType;
+import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayFloorData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
@@ -35,7 +35,6 @@ import com.rwproto.TowerServiceProtos.eTowerType;
 
 public class TowerHandler {
 	private static TowerHandler instance;
-	private static final int TOTAL_TOWER_NUM = 15;// 总塔层
 
 	private Comparator<TagTowerHeadInfo> comparator = new Comparator<TagTowerHeadInfo>() {
 
@@ -133,12 +132,13 @@ public class TowerHandler {
 		towerData.setEnemyTowerID(floor);// 敌人数据Id？
 		towerData.setRefreshTimes(angleArrayData.getResetTimes());// 剩余的重置次数
 
-		List<Boolean> openList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 开放列表
-		List<Boolean> firstList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 第一次攻打列表
-		List<Boolean> beatList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 打败的列表
-		List<Boolean> awardList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 领奖的列表
+		int totalTowerNum = AngelArrayConst.TOTAL_TOWER_NUM;
+		List<Boolean> openList = new ArrayList<Boolean>(totalTowerNum);// 开放列表
+		List<Boolean> firstList = new ArrayList<Boolean>(totalTowerNum);// 第一次攻打列表
+		List<Boolean> beatList = new ArrayList<Boolean>(totalTowerNum);// 打败的列表
+		List<Boolean> awardList = new ArrayList<Boolean>(totalTowerNum);// 领奖的列表
 
-		for (int tempFloor = 0; tempFloor < TOTAL_TOWER_NUM; tempFloor++) {
+		for (int tempFloor = 0; tempFloor < totalTowerNum; tempFloor++) {
 			if (tempFloor <= curFloor) {// 层数小于等于当前层，就会开放
 				openList.add(true);
 				if (tempFloor == curFloor) {
@@ -341,7 +341,7 @@ public class TowerHandler {
 
 		int win = request.getWin();
 		if (win == 1) {// 胜利
-			if (towerId == TOTAL_TOWER_NUM) {
+			if (towerId == AngelArrayConst.TOTAL_TOWER_NUM) {
 				MainMsgHandler.getInstance().sendPmdWxz(player);
 			}
 			angleData.setCurFloorState(FloorState.UN_AWARD.ordinal());
@@ -446,7 +446,7 @@ public class TowerHandler {
 
 		// 开放下层人物
 		int nextTowerId = currTowerId + 1;
-		if (nextTowerId >= TOTAL_TOWER_NUM) {
+		if (nextTowerId >= AngelArrayConst.TOTAL_TOWER_NUM) {
 			angleData.setCurFloorState(FloorState.FINISH.ordinal());
 		} else {
 			angleData.setCurFloor(nextTowerId);
@@ -455,7 +455,7 @@ public class TowerHandler {
 		towerMgr.saveAngleArrayData();
 
 		// 更新一下层
-		if (nextTowerId < TOTAL_TOWER_NUM && (nextTowerId % TowerMgr.towerUpdateNum == 0)) {
+		if (nextTowerId < AngelArrayConst.TOTAL_TOWER_NUM && (nextTowerId % TowerMgr.towerUpdateNum == 0)) {
 			towerMgr.updateAngleArrayFloorData(angleData.getUserId(), angleData.getResetLevel(), angleData.getResetFighting(), angleData.getCurFloor(), false);
 		}
 
