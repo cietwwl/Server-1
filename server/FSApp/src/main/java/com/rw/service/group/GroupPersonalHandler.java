@@ -77,6 +77,8 @@ import com.rwproto.GroupPersonalProto.TransferGroupLeaderPostReqMsg;
  */
 public class GroupPersonalHandler {
 
+	private static final String QUIT_GROUP_TIME_TIP_FOR_JOIN = "%s后才可再次加入帮派";
+
 	private static GroupPersonalHandler handler;
 
 	public static GroupPersonalHandler getHandler() {
@@ -326,8 +328,9 @@ public class GroupPersonalHandler {
 		long nowTime = System.currentTimeMillis();
 		// 检查冷却时间
 		long quitGroupTime = baseData.getQuitGroupTime();
-		if (quitGroupTime > 0 && (nowTime - quitGroupTime) < TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime())) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "距离上次退出帮派时间太短");
+		long needCoolingMillisTime = TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime());
+		if (quitGroupTime > 0 && (nowTime - quitGroupTime) < needCoolingMillisTime) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(QUIT_GROUP_TIME_TIP_FOR_JOIN, GroupUtils.quitGroupTimeTip(nowTime, quitGroupTime, needCoolingMillisTime)));
 		}
 
 		// 检查一下次数
