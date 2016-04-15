@@ -12,6 +12,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.Email.EmailUtils;
@@ -29,6 +30,7 @@ import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupLog;
+import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -223,12 +225,25 @@ public class GroupMemberManagerHandler {
 					return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "没有申请人信息");
 				}
 
-				PlayerIF p = PlayerMgr.getInstance().getReadOnlyPlayer(applyMemberId);
+				final PlayerIF p = PlayerMgr.getInstance().getReadOnlyPlayer(applyMemberId);
 				// 检查是否被其他帮派接受
 				UserGroupAttributeDataIF applyBaseData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 				String hasGroupId = applyBaseData.getGroupId();
 				if (StringUtils.isEmpty(hasGroupId)) {// 没有帮派
-					memberMgr.updateMemberDataWhenByReceive(applyMemberId, nowTime);// 接受成员
+					GroupMemberJoinCallback joinCallback = new GroupMemberJoinCallback() {
+
+						@Override
+						public void updateGroupMemberData(GroupMemberData groupMemberData) {
+							groupMemberData.setVipLevel((byte) p.getVip());
+							groupMemberData.setName(p.getUserName());
+							groupMemberData.setHeadId(p.getHeadImage());
+							groupMemberData.setLevel((short) p.getLevel());
+							groupMemberData.setTemplateId(p.getTemplateId());
+						}
+					};
+
+					memberMgr.updateMemberDataWhenByReceive(applyMemberId, nowTime, joinCallback);// 接受成员
+
 					// 记录一个日志
 					GroupLog log = new GroupLog();
 					log.setLogType(GroupLogType.NEW_JOIN_GROUP_VALUE);
@@ -259,12 +274,25 @@ public class GroupMemberManagerHandler {
 					GroupMemberDataIF applyMemberData = applyMemberList.get(i);
 					String userId = applyMemberData.getUserId();
 
-					PlayerIF p = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
+					final PlayerIF p = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
+
 					// 检查是否被其他帮派接受
 					UserGroupAttributeDataIF applyBaseData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 					String hasGroupId = applyBaseData.getGroupId();
 					if (StringUtils.isEmpty(hasGroupId)) {// 没有帮派
-						memberMgr.updateMemberDataWhenByReceive(userId, nowTime);// 接受成员
+						GroupMemberJoinCallback joinCallback = new GroupMemberJoinCallback() {
+
+							@Override
+							public void updateGroupMemberData(GroupMemberData groupMemberData) {
+								groupMemberData.setVipLevel((byte) p.getVip());
+								groupMemberData.setName(p.getUserName());
+								groupMemberData.setHeadId(p.getHeadImage());
+								groupMemberData.setLevel((short) p.getLevel());
+								groupMemberData.setTemplateId(p.getTemplateId());
+							}
+						};
+
+						memberMgr.updateMemberDataWhenByReceive(userId, nowTime, joinCallback);// 接受成员
 						// 记录一个日志
 						GroupLog log = new GroupLog();
 						log.setLogType(GroupLogType.NEW_JOIN_GROUP_VALUE);
@@ -507,7 +535,7 @@ public class GroupMemberManagerHandler {
 		if (!StringUtils.isEmpty(tip)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
-		
+
 		if (playerId.equals(memberId)) {// 转让给自己
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您不能对自己取消任命");
 		}
