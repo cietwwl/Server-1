@@ -323,6 +323,24 @@ public class FashionMgr implements FashionMgrIF{
 		return true;
 	}
 	
+	public boolean GMSetFashion(int fashionModelId){
+		FashionItem item = fashionItemHolder.getItem(fashionModelId);
+		if (item == null) {
+			FashionCommonCfg fashionCfg = FashionCommonCfgDao.getInstance().getConfig(fashionModelId);
+			item = newFashionItem(fashionCfg,-1);
+			fashionItemHolder.addItem(m_player, item);
+			GameLog.info("时装", m_player.getUserId(), "GM赠送时装:"+fashionModelId, null);
+		}
+		item.setBrought(true);
+		fashionItemHolder.updateItem(m_player, item);
+		FashionBeingUsed fashionUsed = createOrUpdate();
+		putOn(item, fashionUsed);
+		fashionUsedHolder.update(fashionUsed);
+		GameLog.info("时装", m_player.getUserId(), "成功设置永久时装:"+fashionModelId, null);
+		notifyProxy.checkDelayNotify();
+		return true;
+	}
+	
 	/**
 	 * 职业改变
 	 */

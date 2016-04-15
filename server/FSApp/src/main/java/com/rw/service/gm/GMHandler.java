@@ -107,6 +107,7 @@ public class GMHandler {
 		funcCallBackMap.put("group", "groupChange");
 		// 时装
 		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
+		funcCallBackMap.put("setfashion", "setFashion");
 	}
 
 	public boolean isActive() {
@@ -130,7 +131,18 @@ public class GMHandler {
 		FashionMgr mgr = player.getFashionMgr();
 		return mgr.GMSetExpiredTime(fashionId, minutes);
 	}
-
+	
+	public boolean setFashion(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetFashion(fashionId);
+	}
+	
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
 		System.out.println("ReadNewGuideConfig command");
 		DebugNewGuideData debugSupport = DebugNewGuideData.getInstance();
