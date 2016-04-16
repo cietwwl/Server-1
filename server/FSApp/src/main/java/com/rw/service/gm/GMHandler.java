@@ -89,6 +89,7 @@ public class GMHandler {
 		funcCallBackMap.put("sendtestemail", "sendTestEmail");// --test
 		funcCallBackMap.put("addtower", "addTowerNum");// --test
 		funcCallBackMap.put("setwjzh", "setWjzh");//
+		funcCallBackMap.put("resetwjzh", "resetWjzh");//
 		funcCallBackMap.put("probstore", "probstore");
 		funcCallBackMap.put("sendpmd", "sendPmd");//
 		funcCallBackMap.put("addarenacoin", "addArenaCoin");
@@ -380,6 +381,12 @@ public class GMHandler {
 
 	public boolean setWjzh(String[] arrCommandContents, Player player) {
 		player.unendingWarMgr.getTable().setNum(Integer.parseInt(arrCommandContents[0]) - 1);
+		player.unendingWarMgr.save();
+		return true;
+	}
+	
+	public boolean resetWjzh(String[] arrCommandContents, Player player){
+		player.unendingWarMgr.getTable().setLastChallengeTime(System.currentTimeMillis());
 		player.unendingWarMgr.save();
 		return true;
 	}
