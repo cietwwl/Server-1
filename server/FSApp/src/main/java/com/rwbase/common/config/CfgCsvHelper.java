@@ -50,9 +50,9 @@ public class CfgCsvHelper {
 
 	public static String[] getFieldNameArray(CSVRecord csv) {
 		int size = csv.size();
-		String[] fieldNameArray = new String[size-2];
+		String[] fieldNameArray = new String[size];
 		for (int i =0; i < fieldNameArray.length; i++) {
-			fieldNameArray[i] = csv.get(i+2);
+			fieldNameArray[i] = csv.get(i);
 		}
 		return fieldNameArray;
 	}
@@ -67,7 +67,7 @@ public class CfgCsvHelper {
 				String fieldName = fieldNameArray[i];
 				Field field = fieldMap.get(fieldName);
 				if(field!=null){					
-					String strvalue = csv.get(i+2);
+					String strvalue = csv.get(i);
 					
 					if(field.getType() == String.class || StringUtils.isNotBlank(strvalue)){
 						try {
@@ -108,11 +108,22 @@ public class CfgCsvHelper {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static Object parsStr(Field field, String strvalue) {
 		Object value = null;
 		Class<?> fieldType = field.getType();
 
-		if (fieldType == String.class) {
+		if (fieldType.isEnum()){
+			value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
+			/*Object[] enumConsts = fieldType.getEnumConstants();
+			for (int i = 0; i < enumConsts.length; i++) {
+				Object enumval = enumConsts[i];
+				if (strvalue.equals(enumval.toString())){
+					value = enumval;
+					break;
+				}
+			}*/
+		}else if (fieldType == String.class) {
 			value = strvalue;
 		} else if (fieldType == int.class || fieldType == Integer.class) {
 			
