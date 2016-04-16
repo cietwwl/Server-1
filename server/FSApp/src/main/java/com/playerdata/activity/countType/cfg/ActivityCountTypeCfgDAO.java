@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.common.BeanCopyer;
 import com.playerdata.Player;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -42,12 +44,14 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		return cfg;
 	}
 	
-	public ActivityCountTypeItem newItem(Player player,String cfgId){
+	public ActivityCountTypeItem newItem(Player player, ActivityCountTypeEnum countTypeEnum){
 		
-		ActivityCountTypeCfg cfgById = getCfgById(cfgId);
+		String cfgId = countTypeEnum.getCfgId();
+		ActivityCountTypeCfg cfgById = getCfgById(cfgId );
 		if(cfgById!=null){			
 			ActivityCountTypeItem item = new ActivityCountTypeItem();
-			item.setId(cfgId);
+			String itemId = ActivityCountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
+			item.setId(itemId);
 			item.setUserId(player.getUserId());
 			return item;
 		}else{
@@ -59,8 +63,8 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	}
 	
 	
-	public ActivityCountTypeSubItem newSubItem(String id, String subItemId){
-		ActivityCountTypeCfg cfg = getCfgById(id);
+	public ActivityCountTypeSubItem newSubItem(ActivityCountTypeEnum countTypeEnum, String subItemId){
+		ActivityCountTypeCfg cfg = getCfgById(countTypeEnum.getCfgId());
 		List<ActivityCountTypeSubItem> subItemList = cfg.getSubItemList();
 		
 		ActivityCountTypeSubItem source = null;

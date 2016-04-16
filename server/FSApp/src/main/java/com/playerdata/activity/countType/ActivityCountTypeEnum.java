@@ -5,20 +5,20 @@ import org.apache.commons.lang3.StringUtils;
 public enum ActivityCountTypeEnum {	
 	Login("1");
 	
-	private String id;
-	private ActivityCountTypeEnum(String id){
-		this.id = id;
+	private String cfgId;
+	private ActivityCountTypeEnum(String cfgIdP){
+		this.cfgId = cfgIdP;
 	} 
 	
-	public String getId(){
-		return id;
+	public String getCfgId(){
+		return cfgId;
 	}
 	
-	public static ActivityCountTypeEnum getById(String activityId){
+	public static ActivityCountTypeEnum getById(String cfgId){
 		ActivityCountTypeEnum target = null;
 		
 		for (ActivityCountTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(activityId, enumTmp.getId())){
+			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
 				target = enumTmp;
 				break;
 			}
