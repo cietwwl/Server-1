@@ -5,16 +5,13 @@ import com.rwproto.FashionServiceProtos.FashionType;
 
 public class FashionCommonCfg {
 	private int id; // 时装id
-	private String fashionType;
-	private FashionType fashionTypeField;// 时装类型
+	private FashionType fashionType;// 时装类型
 	private String name;
 	private String specialEffect; //特殊效果
 
-	public void ExtraInit(String id) {
-		this.id = Integer.parseInt(id);
-		fashionTypeField = FashionType.valueOf(fashionType);
-		if (fashionTypeField == null){
-			GameLog.error("时装", String.valueOf(id), "无效时装类型："+fashionType);
+	public void ExtraInit() {
+		if (fashionType == null){
+			GameLog.error("时装", String.valueOf(id), "无效时装类型");
 		}
 	}
 
@@ -23,7 +20,7 @@ public class FashionCommonCfg {
 	}
 
 	public FashionType getFashionType() {
-		return fashionTypeField;
+		return fashionType;
 	}
 
 	public String getName() {

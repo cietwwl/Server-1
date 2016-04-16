@@ -18,9 +18,8 @@ public class FashionCommonCfgDao extends CfgCsvDao<FashionCommonCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fashion/FashionCommonCfg.csv", FashionCommonCfg.class);
 		Collection<Entry<String,FashionCommonCfg>> values =  cfgCacheMap.entrySet();
 		for (Entry<String,FashionCommonCfg> entry : values) {
-			String key = entry.getKey();
 			FashionCommonCfg cfg = entry.getValue();
-			cfg.ExtraInit(key);
+			cfg.ExtraInit();
 		}
 		return cfgCacheMap;
 	}

@@ -37,9 +37,8 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 		Collection<Entry<String,FashionBuyRenewCfg>> values =  cfgCacheMap.entrySet();
 		buyRenewPlans = new HashMap<Integer, Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>>>();
 		for (Entry<String,FashionBuyRenewCfg> entry : values) {
-			String key = entry.getKey();
 			FashionBuyRenewCfg cfg = entry.getValue();
-			cfg.ExtraInit(key);
+			cfg.ExtraInit();
 			Map<String, FashionBuyRenewCfg> plan=null,buyPlans=null,renewPlans=null;
 			Pair<Map<String, FashionBuyRenewCfg>,Map<String, FashionBuyRenewCfg>> pair = buyRenewPlans.get(cfg.getId());
 			if (pair == null){

@@ -19,6 +19,11 @@ public enum AttrValueType {
 		return result;
 	}
 	
+	public static AttrValueType setDefaultIfEmpty(AttrValueType val){
+		if (val == null) return val = AttrValueType.Value;
+		return val;
+	}
+	
 	public static void collectValue(List<IReadOnlyPair<String, Object>> sourceValues,
 			List<IReadOnlyPair<String, Object>> sourcePer,
 			AttrValueType valueType,String name,Integer value) {
