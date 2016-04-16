@@ -42,9 +42,7 @@ public class ActivityCountTypeCfg {
 		return id;
 	}
 
-	public long getStarTime() {
-		return startTime;
-	}
+
 
 	public long getEndTime() {
 		return endTime;

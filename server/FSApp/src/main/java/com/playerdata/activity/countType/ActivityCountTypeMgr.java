@@ -101,10 +101,9 @@ public class ActivityCountTypeMgr {
 	
 	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
 		
-		long startTime = activityCountTypeCfg.getStarTime();
+		long startTime = activityCountTypeCfg.getStartTime();
 		long endTime = activityCountTypeCfg.getEndTime();		
 		long currentTime = System.currentTimeMillis();
-		System.out.println("cuu" + currentTime  + "  sta" + startTime + " end"+endTime  + "  id =" +activityCountTypeCfg.getId());
 		return currentTime < endTime && currentTime > startTime;
 	}
 

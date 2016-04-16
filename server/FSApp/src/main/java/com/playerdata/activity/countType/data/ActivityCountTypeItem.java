@@ -37,6 +37,31 @@ public class ActivityCountTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private long activityLoginTime;
+	
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	@CombineSave
+	private long startTime;
+	
+	@CombineSave
+	private long endTime;
+	
+	
+	
 
 	public long getActivityLoginTime() {
 		return activityLoginTime;
