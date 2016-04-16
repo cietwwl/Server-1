@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.common.PlayerEventListener;
+import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillAttributeCfg;
@@ -149,6 +150,8 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		// 同步数据
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
+		// 通知好友更改更新帮派名字
+		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 	}
 
 	/**
@@ -188,6 +191,8 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		baseData.setQuitGroupTime(quitTime);
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
+		// 通知好友更改更新帮派名字
+		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 	}
 
 	/**
