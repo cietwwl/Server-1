@@ -244,10 +244,10 @@ public class InlayHandler {
 	            return "攻击";
 	        }else if (attrName == "physicqueDef")
 	        {
-	            return "体魄防御";
+	            return "物理防御";
 	        }else if (attrName == "spiritDef")
 	        {
-	            return "精神防御";
+	            return "法术防御";
 	        }else if (attrName == "attackVampire")
 	        {
 	            return "攻击吸血";
@@ -273,7 +273,6 @@ public class InlayHandler {
 	        {
 	            return "攻击速度";
 	        }
-
 	        return des;
 	    }
 	
