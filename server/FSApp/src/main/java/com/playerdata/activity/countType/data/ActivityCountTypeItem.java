@@ -27,6 +27,10 @@ public class ActivityCountTypeItem implements  IMapItem {
 	private int count;
 	
 	@CombineSave
+	private String group;
+	
+
+	@CombineSave
 	private String cfgId;
 	
 	@CombineSave
@@ -35,9 +39,12 @@ public class ActivityCountTypeItem implements  IMapItem {
 	@CombineSave
 	private List<ActivityCountTypeSubItem> takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
 	
+	
+	
 	@CombineSave
 	private long activityLoginTime;
-	
+
+
 	public long getStartTime() {
 		return startTime;
 	}
@@ -60,7 +67,14 @@ public class ActivityCountTypeItem implements  IMapItem {
 	@CombineSave
 	private long endTime;
 	
-	
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
 	
 
 	public long getActivityLoginTime() {
@@ -86,6 +100,8 @@ public class ActivityCountTypeItem implements  IMapItem {
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+
 
 	public List<ActivityCountTypeSubItem> getTakenGiftList() {
 		return takenGiftList;

@@ -4,8 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityCountTypeEnum{	// implements TypeIdentification
 	Login("1"),
-	COPY("2");
-	
+	GoldSpending("2"),
+	CopyWin("3"),
+	ElityCopyWin("4"),
+	BattleTower("5"),
+	GambleCoin("6"),
+	GambleGold("8");
 	
 	private String cfgId;
 	private ActivityCountTypeEnum(String cfgId){

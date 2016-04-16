@@ -43,7 +43,7 @@ public class ActivityCountTypeItemHolder{
 			item.setStartTime(startTime);
 			long endTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getEndTime();
 			item.setEndTime(endTime);
-			
+			item.setGroup(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getGroup());
 			itemList.add(item);
 		}
 		

@@ -17,6 +17,7 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.battletower.pojo.BattleTowerHeroInfo;
 import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
 import com.rwbase.dao.battletower.pojo.BossCacheInfo;
@@ -662,7 +663,11 @@ public class BattleTowerHandler {
 		tableBattleTower.setCurFloor(highestFloor);
 		tableBattleTower.setResult(true);
 		tableBattleTower.setRewardGroupId(groupIdList.get(groupIdList.size() - 1));
-
+		
+		
+		
+		
+		UserEventMgr.getInstance().BattleTower(player, highestFloor);
 		dao.update(tableBattleTower);
 
 		// 发送协议
@@ -1115,13 +1120,18 @@ public class BattleTowerHandler {
 					}
 				}
 			}
+			UserEventMgr.getInstance().BattleTower(player, floor);
 		}
 
 		dao.update(tableBattleTower);
-
+		
 		// 到这里就算成功了
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		commonRsp.setRspBody(rsp.build().toByteString());
+		
+		
+		
+		
 	}
 
 	private static void SetFail(BattleTowerCommonRspMsg.Builder commonRsp, String module, String userId, String reason, String tipMsg) {

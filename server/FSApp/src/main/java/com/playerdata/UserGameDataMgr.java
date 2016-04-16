@@ -9,6 +9,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.publicdata.PublicData;
@@ -255,6 +256,7 @@ public class UserGameDataMgr {
 			ItemChangedEventType_1 type_1 = null; //暂时留空
 			ItemChangedEventType_2 type_2 = null;//暂时留空
 			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId , type_1, type_2, giftGoldChanged, tableUserOther.getGiftGold());
+			UserEventMgr.getInstance().UseGold(player, -giftGoldChanged);
 		}
 		return result;
 	}

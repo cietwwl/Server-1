@@ -27,6 +27,15 @@ public class ActivityCountTypeCfg {
 //	private GoToType goToType;
 	private String goToType;
 	
+	private String group;
+	
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
 
 	private int sortNum;
 	
@@ -35,8 +44,13 @@ public class ActivityCountTypeCfg {
 	//id-count-giftId;
 	private String subItems;
 	
+	
 	//parse from subItems
 	private List<ActivityCountTypeSubItem>  subItemList;
+	
+
+
+
 
 	public String getId() {
 		return id;
@@ -82,11 +96,16 @@ public class ActivityCountTypeCfg {
 		return subItemList;
 	}
 
+
+
+
+
 	public void setSubItemList(List<ActivityCountTypeSubItem> subItemList) {
 		this.subItemList = subItemList;
 	}
 
 
+	
 	public String getCountLimit() {
 		return countLimit;
 	}

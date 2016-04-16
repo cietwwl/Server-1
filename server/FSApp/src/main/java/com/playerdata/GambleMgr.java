@@ -9,6 +9,7 @@ import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.gamble.GambleUtils;
 import com.rwbase.dao.gamble.TableGambleDAO;
 import com.rwbase.dao.gamble.pojo.EGambleWeight;
@@ -140,15 +141,19 @@ public class GambleMgr implements PlayerEventListener {
 		boolean result = false;
 		GambleCfg cfg = GambleCfgDAO.getInstance().getGambleCfg(gambleType);
 		int moneyCount = 0;
+		int numtemp = 0;
 		switch (lotterType) {
 		case ONE:
 			moneyCount = cfg.getMoneyNum();
+			numtemp = 1;
 			break;
 		case SIX:
 			moneyCount = cfg.getMoneyNum();
+			numtemp = 6;
 			break;
 		case TEN:
 			moneyCount = (int) ((cfg.getMoneyNum() * 10) * 0.9);
+			numtemp = 10;
 			break;
 		}
 		TableGamble gambleItem = getGambleItem();
@@ -156,6 +161,8 @@ public class GambleMgr implements PlayerEventListener {
 			result = true;
 			if (isSuccessDeduct) {
 				gambleItem.setOneConsumption(gambleType);
+				UserEventMgr.getInstance().Gamble(player, numtemp, cfg.getMoneyType());
+				
 			}
 		} else {
 			long count = player.getReward(eSpecialItemId.getDef(cfg.getMoneyType()));
@@ -164,6 +171,9 @@ public class GambleMgr implements PlayerEventListener {
 				if (isSuccessDeduct) {// 直接扣除
 					player.getItemBagMgr().addItem(cfg.getMoneyType(), -moneyCount);
 				}
+			UserEventMgr.getInstance().Gamble(player, numtemp, cfg.getMoneyType());
+				
+				
 			}
 		}
 		return result;
