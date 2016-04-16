@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.group.GroupMemberJoinCallback;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -190,7 +191,7 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param receiveTime
 	 */
-	public synchronized void updateMemberDataWhenByReceive(String userId, long receiveTime) {
+	public synchronized void updateMemberDataWhenByReceive(String userId, long receiveTime, GroupMemberJoinCallback call) {
 		GroupMemberData memberData = holder.getMemberData(userId, true);
 		if (memberData == null) {
 			return;
@@ -204,6 +205,10 @@ public class GroupMemberMgr {
 
 		// 更新下成员信息
 		memberData.setReceiveTime(receiveTime);
+		if (call != null) {
+			call.updateGroupMemberData(memberData);
+		}
+
 		holder.updateMemberData(memberId);
 	}
 
