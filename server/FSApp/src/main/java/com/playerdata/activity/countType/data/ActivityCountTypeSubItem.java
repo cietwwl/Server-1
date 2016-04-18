@@ -2,6 +2,9 @@ package com.playerdata.activity.countType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ActivityCountTypeSubItem {
 	
