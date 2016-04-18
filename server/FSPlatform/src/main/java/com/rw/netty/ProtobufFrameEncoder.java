@@ -15,26 +15,26 @@ public class ProtobufFrameEncoder extends MessageToByteEncoder<ByteBuf>{
 	static Random r = new Random();
 	private static final int ExtraByteCountWhenCompressed = 3 + 1 + 4;//3(marked bytes),1(compressed tag),4(original,uncompressed message size)
 	private static final int ExtraByteCountWhenNoCompressed = 3 + 1;//3(marked bytes),1(uncompressed tag)
-	//协议定义，见CLIENT_PROTOCOL_TYPE类型的注释
+	//鍗忚瀹氫箟锛岃CLIENT_PROTOCOL_TYPE绫诲瀷鐨勬敞閲�
 	@Override
 	protected void encode(ChannelHandlerContext ctx, ByteBuf msg, ByteBuf out)
 			throws Exception {
 
-		//发送数据压缩＋加密
+		//鍙戦�鏁版嵁鍘嬬缉锛嬪姞瀵�
 		try {
 			Attribute<CLIENT_PROTOCOL_TYPE> map = ctx.channel().attr(FrameDecoder.key);
 			CLIENT_PROTOCOL_TYPE clientType = map.get();
 			EncryCompHelper.printDebugInfo("encoder channel:" + ctx.channel().toString() + " ,protocol:" + map.get());
 
 			if (clientType == null) {
-				// 有错误时假设是最高加密版本
-				// 替代方案：不发送！
+				// 鏈夐敊璇椂鍋囪鏄渶楂樺姞瀵嗙増鏈�
+				// 鏇夸唬鏂规锛氫笉鍙戦�锛�
 				clientType = CLIENT_PROTOCOL_TYPE.COMP2;
 			}
 
 			switch (clientType) {
 			case COMP2: {
-				// 发送数据压缩＋加密
+				// 鍙戦�鏁版嵁鍘嬬缉锛嬪姞瀵�
 				int t = r.nextInt();
 				byte tag;
 				boolean compressed = false;
@@ -131,8 +131,8 @@ public class ProtobufFrameEncoder extends MessageToByteEncoder<ByteBuf>{
 			sb.append("\r\n");
 			sb.append(msg.toString());
 			String current = sb.toString();
-			System.err.println("编码解析错误：" + current);
-			// DevelopLogger.error("编码解析错误：" + sb.toString(), t);
+			System.err.println("" + current);
+			// DevelopLogger.error("缂栫爜瑙ｆ瀽閿欒锛� + sb.toString(), t);
 			throw new CorruptedFrameException("encode error");
 		}
 		
