@@ -345,6 +345,11 @@ public class GameLoginHandler {
 
 			}
 			BILogMgr.getInstance().logZoneReg(player);
+			//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+			ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+			//判断需要用到最后次登陆 时间。保存在活动内而不是player
+			UserEventMgr.getInstance().RoleLogin(player, 0);
+			
 
 			LoginSynDataHelper.setData(player, response);
 			// --------------------------------------------------------START

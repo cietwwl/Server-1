@@ -3,6 +3,7 @@ package com.rwbase.dao.gift;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -18,7 +19,7 @@ public final class ComGiftCfgDAO extends CfgCsvDao<ComGiftCfg> {
 	
 	@Override
 	public Map<String, ComGiftCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Gift/ComGiftCfg.csv", ComGiftCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("gift/ComGiftCfg.csv", ComGiftCfg.class);
 		for (ComGiftCfg cfgTmp : cfgCacheMap.values()) {
 			parseGiftList(cfgTmp);
 		}
@@ -29,6 +30,8 @@ public final class ComGiftCfgDAO extends CfgCsvDao<ComGiftCfg> {
 	private void parseGiftList(ComGiftCfg cfgTmp) {
 		String giftStr = cfgTmp.getGift();
 		Map<String,Integer> giftCountMap = new HashMap<String, Integer>();
+		GameLog.error(giftStr);
+		System.out.println("..."+giftStr);
 		String[] giftSplit = giftStr.split(";");
 		for (String giftTmp : giftSplit) {
 			String giftId = giftTmp.split(":")[0];

@@ -47,7 +47,7 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		cfgItem.setStartTime(startTime);
 		
 		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getEndTimeStr());
-		cfgItem.setStartTime(endTime);		
+		cfgItem.setEndTime(endTime);		
 	}
 	
 	
@@ -124,7 +124,7 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		return subItemList;
 	}
 	
-
+	
 
 
 }

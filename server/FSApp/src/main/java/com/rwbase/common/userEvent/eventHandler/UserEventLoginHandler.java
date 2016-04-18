@@ -10,6 +10,7 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
@@ -28,29 +29,21 @@ public class UserEventLoginHandler implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				/**活动是否开启*/
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().checkOneActivityISOpen(player, ActivityCountTypeEnum.Login);	
-				/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
-				boolean isnewday = false;;
 				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-				ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), ActivityCountTypeEnum.Login);
-				if(dataItem != null ){
-					if(StringUtils.equals(dataItem.getActivityLoginTime()+"","0")){//没有活动的登陆数据，首次登陆
-						isnewday = true;
-					}else{
-						if(!isnewday)
-							isnewday = DateUtils.dayChanged(dataItem.getActivityLoginTime());
-					}
-					
+				/**活动是否开启*/
+				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Login.getCfgId()));
+				/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
+				boolean isnewday = false;
+				if(StringUtils.equals(params+"","0")){//没有活动的登陆数据，首次登陆
+				isnewday = true;
 				}else{
-					
+					if(!isnewday){					
+						isnewday = DateUtils.dayChanged(Long.parseLong(params.toString()));
+					}
 				}
-//				System.out.println("userevent + 增加数据count前打印下"+ isnewday + "  " + isBetweendays);
+				
 				if(isnewday&&isBetweendays){					
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login);	
-					dataItem.setActivityLoginTime(System.currentTimeMillis());
-					dataHolder.updateItem(player, dataItem);
-//					System.out.println("userevent + 增加数据count和登陆时间"+ isnewday + "  " + isBetweendays);
 					}
 				}
 			@Override

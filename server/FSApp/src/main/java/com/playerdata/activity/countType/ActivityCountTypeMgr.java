@@ -80,7 +80,7 @@ public class ActivityCountTypeMgr {
 	}
 	
 	
-	private boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
+	public boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
 		
 		ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
 		
@@ -91,12 +91,12 @@ public class ActivityCountTypeMgr {
 	}
 	
 	
-	private boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
+	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
 		
 		long startTime = activityCountTypeCfg.getStarTime();
 		long endTime = activityCountTypeCfg.getEndTime();		
 		long currentTime = System.currentTimeMillis();
-
+		System.out.println("cun"+ currentTime + " star" + startTime + " end" + endTime + "   id =" + activityCountTypeCfg.getId());
 		return currentTime < endTime && currentTime > startTime;
 	}
 
@@ -124,66 +124,66 @@ public class ActivityCountTypeMgr {
 		}else{
 			
 			
-//			ActivityCountTypeSubItem targetItem = null;
-//			List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
-//			for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
-//				if(StringUtils.equals(itemTmp.getId(), subItemId)){
-//					targetItem = itemTmp;
-//					break;
-//				}
-//			}
-//			if(targetItem == null){
-//				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType, subItemId);
-//				
-//				
-//				if(targetItem == null){
-//					result.setReason("该奖励不存在 id:"+countType.getCfgId()+" subItemId:"+subItemId);
-//				}else{
-//					takenGiftList.add(targetItem);
-//					takeGift(targetItem);
-//					result.setSuccess(true);
-//					dataHolder.updateItem(player, dataItem);
-//				}
-//			}else{
-//				takeGift(targetItem);			
-//				result.setSuccess(true);
-//				dataHolder.updateItem(player, dataItem);
-//			}
-			
-			
+			ActivityCountTypeSubItem targetItem = null;
 			List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
-			List<ActivityCountTypeSubItem> newtakenGiftList = new ArrayList<ActivityCountTypeSubItem>();
 			for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
 				if(StringUtils.equals(itemTmp.getId(), subItemId)){
-					newtakenGiftList.add(itemTmp);					
+					targetItem = itemTmp;
+					break;
 				}
 			}
-			if(newtakenGiftList.isEmpty())
-				System.out.println("activity.派发奖励数据库为0，giftisempty="+ newtakenGiftList.isEmpty());
-			if(newtakenGiftList.isEmpty()){//空数据，写入奖励
-				newtakenGiftList = ActivityCountTypeCfgDAO.getInstance().newSubItemlist(subItemId);
-				if(newtakenGiftList.isEmpty()){
+			if(targetItem == null){
+				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType, subItemId);
+				
+				
+				if(targetItem == null){
 					result.setReason("该奖励不存在 id:"+countType.getCfgId()+" subItemId:"+subItemId);
-			}else{
-				for (ActivityCountTypeSubItem itemTmp : newtakenGiftList) {
-						takenGiftList.add(itemTmp);
-						takeGift(player,itemTmp);								
-						dataHolder.updateItem(player, dataItem);
-					}
+				}else{
+					takenGiftList.add(targetItem);
+					takeGift(player,targetItem);
 					result.setSuccess(true);
-				}							
-			}else{//有数据，只队未派出的操作
-				for (ActivityCountTypeSubItem itemTmp : newtakenGiftList) {					
-					if(!itemTmp.isTaken()){
-						takeGift(player,itemTmp);							
-						dataHolder.updateItem(player, dataItem);
-					}else{
-						System.out.println("activity.异常,万家申请已领取过的奖励" );
-					}
+					dataHolder.updateItem(player, dataItem);
 				}
-
+			}else{
+				takeGift(player,targetItem);			
 				result.setSuccess(true);
+				dataHolder.updateItem(player, dataItem);
 			}
+			
+			
+//			List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
+//			List<ActivityCountTypeSubItem> newtakenGiftList = new ArrayList<ActivityCountTypeSubItem>();
+//			for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
+//				if(StringUtils.equals(itemTmp.getId(), subItemId)){
+//					newtakenGiftList.add(itemTmp);					
+//				}
+//			}
+//			if(newtakenGiftList.isEmpty())
+//				System.out.println("activity.派发奖励数据库为0，giftisempty="+ newtakenGiftList.isEmpty());
+//			if(newtakenGiftList.isEmpty()){//空数据，写入奖励
+//				newtakenGiftList = ActivityCountTypeCfgDAO.getInstance().newSubItemlist(subItemId);
+//				if(newtakenGiftList.isEmpty()){
+//					result.setReason("该奖励不存在 id:"+countType.getCfgId()+" subItemId:"+subItemId);
+//			}else{
+//				for (ActivityCountTypeSubItem itemTmp : newtakenGiftList) {
+//						takenGiftList.add(itemTmp);
+//						takeGift(player,itemTmp);								
+//						dataHolder.updateItem(player, dataItem);
+//					}
+//					result.setSuccess(true);
+//				}							
+//			}else{//有数据，只队未派出的操作
+//				for (ActivityCountTypeSubItem itemTmp : newtakenGiftList) {					
+//					if(!itemTmp.isTaken()){
+//						takeGift(player,itemTmp);							
+//						dataHolder.updateItem(player, dataItem);
+//					}else{
+//						System.out.println("activity.异常,万家申请已领取过的奖励" );
+//					}
+//				}
+//
+//				result.setSuccess(true);
+//			}
 			
 		}
 		
