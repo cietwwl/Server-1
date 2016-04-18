@@ -115,6 +115,7 @@
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
 	<bean class="com.gm.giftCenter.GiftCodeSenderBm"  init-method="init" />
+	<bean class="com.rwbase.dao.gift.ComGiftCfgDAO"  init-method="init" />
 	
 	
 	<!--  
