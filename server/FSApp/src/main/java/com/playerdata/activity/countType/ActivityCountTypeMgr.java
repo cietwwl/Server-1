@@ -205,6 +205,8 @@ public class ActivityCountTypeMgr {
 		
 		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(targetItem.getGift());
 		targetItem.setTaken(true);
+		targetItem.getCount();
+		targetItem.getGift();	
 		Set<String> keyset = giftcfg.getGiftMap().keySet();
 		Iterator<String> iterable = keyset.iterator();
 		while(iterable.hasNext()){
@@ -215,8 +217,7 @@ public class ActivityCountTypeMgr {
 		
 		
 		
-//		targetItem.getCount();
-//		targetItem.getGift();		
+	
 //		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getGift()),targetItem.getCount());		
 //		System.out.println("activitycounttypemgr派出了奖励 ，名字：" + targetItem.getGift());
 		//TODO: gift take logic
