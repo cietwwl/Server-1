@@ -29,6 +29,8 @@ public class ClientInfo {
 	//运营商
 	private String phoneOp;
 	
+	private String sdkVersion;
+	
 	public static ClientInfo fromJson(String json){
 		ClientInfo clientInfo = JsonUtil.readValue(json, ClientInfo.class);
 		return clientInfo;
@@ -117,6 +119,14 @@ public class ClientInfo {
 
 	public void setPhoneOp(String phoneOp) {
 		this.phoneOp = phoneOp;
+	}
+
+	public String getSdkVersion() {
+		return sdkVersion;
+	}
+
+	public void setSdkVersion(String sdkVersion) {
+		this.sdkVersion = sdkVersion;
 	}
 	
 	

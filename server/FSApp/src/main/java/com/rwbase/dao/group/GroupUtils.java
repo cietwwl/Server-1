@@ -78,4 +78,73 @@ public class GroupUtils {
 		Collections.shuffle(indexArr);// 打乱顺序
 		return indexArr;
 	}
+
+	/**
+	 * 退出时间
+	 * 
+	 * @param now
+	 * @param quitTime
+	 * @param needCoolingTime
+	 * @return
+	 */
+	public static String quitGroupTimeTip(long now, long quitTime, long needCoolingTime) {
+		long offTime = now - quitTime;
+		if (offTime <= 0 || offTime >= needCoolingTime) {
+			return "";
+		}
+
+		long leftTime = needCoolingTime - offTime;
+		if (leftTime <= 0) {
+			return "";
+		}
+
+		return millisTimeParse2Str(leftTime);
+	}
+
+	private static final long ONE_SECOND_MILLIS = 1000l;// 一秒的毫秒
+	private static final long ONE_MINUTE_MILLIS = 60 * ONE_SECOND_MILLIS;// 一分钟的毫秒
+	private static final long ONE_HOUR_MILLIS = 60 * ONE_MINUTE_MILLIS;// 一小时的毫秒
+	private static final long ONE_DAY_MILLIS = 24 * ONE_HOUR_MILLIS;// 一天时间毫秒
+
+	/**
+	 * 转换MillisTime到文字
+	 * 
+	 * @param timeMillis
+	 * @return
+	 */
+	public static String millisTimeParse2Str(long timeMillis) {
+		if (timeMillis <= 0) {
+			return "";
+		}
+
+		long days = timeMillis / ONE_DAY_MILLIS;
+
+		long leftHourMillis = timeMillis % ONE_DAY_MILLIS;
+		long hours = leftHourMillis / ONE_HOUR_MILLIS;
+
+		long leftMinuteMillis = leftHourMillis % ONE_HOUR_MILLIS;
+		long minutes = leftMinuteMillis / ONE_MINUTE_MILLIS;
+
+		long leftSecondMillis = leftMinuteMillis % ONE_MINUTE_MILLIS;
+		long second = leftSecondMillis / ONE_SECOND_MILLIS;
+
+		StringBuilder sb = new StringBuilder();
+		if (days > 0) {
+			sb.append(days).append("天");
+		}
+
+		if (hours > 0) {
+			sb.append(hours).append("小时");
+		}
+
+		if (minutes > 0) {
+			sb.append(minutes).append("分");
+		}
+
+		if (days <= 0 && hours <= 0 && second > 0) {
+			sb.append(second).append("秒");
+		}
+
+		return sb.toString();
+	}
 }
