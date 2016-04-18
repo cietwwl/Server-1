@@ -12,13 +12,16 @@ public class ActivityCountTypeCfg {
 	private long startTime;
 	
 	private long endTime;
-	//？;
+	
+	private String startTimeStr;
+	
+	private String endTimeStr;
+	
 	private String cion;
 	
 	private String title;
 	
 	private String titleBG;
-	//？;
 	private String desc;
 	
 //	private GoToType goToType;
@@ -92,6 +95,26 @@ public class ActivityCountTypeCfg {
 
 	public void setCountLimit(String countLimit) {
 		this.countLimit = countLimit;
+	}
+
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public String getStartTimeStr() {
+		return startTimeStr;
+	}
+
+	public String getEndTimeStr() {
+		return endTimeStr;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
 	}
 
 

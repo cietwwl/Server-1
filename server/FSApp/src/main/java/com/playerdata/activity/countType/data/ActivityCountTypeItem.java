@@ -27,6 +27,12 @@ public class ActivityCountTypeItem implements  IMapItem {
 	private int count;
 	
 	@CombineSave
+	private String cfgId;
+	
+	@CombineSave
+	private boolean closed = false;
+	
+	@CombineSave
 	private List<ActivityCountTypeSubItem> takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
 	
 	@CombineSave
@@ -72,6 +78,23 @@ public class ActivityCountTypeItem implements  IMapItem {
 		this.userId = userId;
 	}
 
+	public String getCfgId() {
+		return cfgId;
+	}
+
+	public void setCfgId(String cfgId) {
+		this.cfgId = cfgId;
+	}
+
+	public boolean isClosed() {
+		return closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	
 	
 
 	

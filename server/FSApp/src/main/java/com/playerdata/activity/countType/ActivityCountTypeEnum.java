@@ -2,11 +2,9 @@ package com.playerdata.activity.countType;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.common.playerFilter.FilterType;
-import com.rw.fsutil.common.TypeIdentification;
-
 public enum ActivityCountTypeEnum{	// implements TypeIdentification
-	Login("1");
+	Login("1"),
+	COPY("2");
 	
 	
 	private String cfgId;

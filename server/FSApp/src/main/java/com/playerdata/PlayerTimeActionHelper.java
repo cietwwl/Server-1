@@ -3,6 +3,7 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
@@ -55,6 +56,13 @@ public class PlayerTimeActionHelper {
 			public void doTask() {
 				// TODO　HC 每个小时都检查一下是否需要重置万仙阵的匹配数据
 				player.getTowerMgr().checkAndResetMatchData(player);
+			}
+		});
+		onNewHourTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
+				//每个小时都检查一下活动的开启关闭状态
+				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;

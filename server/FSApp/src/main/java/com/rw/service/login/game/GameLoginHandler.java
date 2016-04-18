@@ -20,8 +20,6 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
-import com.rw.service.http.GSRequestAction;
-import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.UserBaseDataResponse;
 import com.rw.service.http.request.RequestObject;
 import com.rw.service.log.BILogMgr;

@@ -1,9 +1,6 @@
 package com.playerdata.activity.countType;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,10 +9,9 @@ import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.rw.fsutil.util.DateUtils;
 
 
 public class ActivityCountTypeMgr {
@@ -31,62 +27,76 @@ public class ActivityCountTypeMgr {
 	}
 	/**登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空*/
 	public void checkActivityOpen(Player player) {
+		checkNewOpen(player);		
+		checkClose(player);
+		
+	}
+
+	private void checkNewOpen(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-//		int i = 0;
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
 //			i++;
 //			System.out.println("activitycount--未判断是否已开启 "+"  i = " + i);
 			if(isOpen(activityCountTypeCfg)){
-				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getGoToType());
+				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
 				
-				if(countTypeEnum == null){
-					continue;
-				}else{
-//					System.out.println("activitycount--"+countTypeEnum.getCfgId()+"  i = " + i);
-				}
-				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
-				if(targetItem == null){
+				if(countTypeEnum != null){
+					ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
+					if(targetItem == null){
 //					System.out.println("activitycount--生成表格  "+"  i = " + i);
-					targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);//生成新开启活动的数据
-					if(targetItem!=null){
-						 dataHolder.addItem(player, targetItem);
+						targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);//生成新开启活动的数据
+						if(targetItem!=null){
+							dataHolder.addItem(player, targetItem);
+						}
 					}
 				}
 				
 			}
 		}
+	}
+	private void checkClose(Player player) {
+
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		
+		for (ActivityCountTypeItem activityCountTypeItem : itemList) {
+			if(isClose(activityCountTypeItem)){
+				activityCountTypeItem.setClosed(true);
+				dataHolder.updateItem(player, activityCountTypeItem);
+			}
+		}
+
 		
 		
 	}
+
 	/**传入活动类型判断此活动是否开放*/
-	public boolean checkOneActivityISOpen(ActivityCountTypeEnum countType) {
+	public boolean checkOneActivityISOpen(Player player,ActivityCountTypeEnum countType) {
+		
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();		
-		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
-		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {				
-			if(StringUtils.equals(activityCountTypeCfg.getGoToType(), countType.getCfgId())){
-				if(isOpen(activityCountTypeCfg)){
-					return true;
-				}				
-			}			
-		}		
-	return false;
+		
+		return dataHolder.getItem(player.getUserId(), countType)!=null;		
 	}
 	
+	
+	private boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
+		
+		ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
+		
+		long endTime = cfgById.getEndTime();		
+		long currentTime = System.currentTimeMillis();
+
+		return currentTime > endTime;
+	}
 	
 	
 	private boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
-		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(activityCountTypeCfg.getStarTime()+"");
-		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(activityCountTypeCfg.getEndTime()+"");		
+		
+		long startTime = activityCountTypeCfg.getStarTime();
+		long endTime = activityCountTypeCfg.getEndTime();		
 		long currentTime = System.currentTimeMillis();
-		
-		
-		
-//		long startTime = activityCountTypeCfg.getStarTime()*1000;
-//		long endTime = activityCountTypeCfg.getEndTime()*1000;
-//		long currentTime = System.currentTimeMillis();
-//		
+
 		return currentTime < endTime && currentTime > startTime;
 	}
 
