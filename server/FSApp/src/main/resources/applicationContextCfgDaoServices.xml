@@ -39,7 +39,7 @@
 	<bean class="com.rwbase.dao.friend.CfgFriendGiftDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleRewardCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.guide.GuideCfgDAO"  init-method="init" />
+	<bean class="com.rw.service.guide.datamodel.GiveItemCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gulid.CfgGuildDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gulid.CfgGuildLevelDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gulid.CfgGuildLogDAO"  init-method="init" />
@@ -115,7 +115,6 @@
 	
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
 	<bean class="com.gm.giftCenter.GiftCodeSenderBm"  init-method="init" />
-	
 	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />

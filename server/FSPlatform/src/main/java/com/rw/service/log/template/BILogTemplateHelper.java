@@ -54,7 +54,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("日志的触发时间", "$logTime$");
 		addTemplateToken("用户注册子渠道", "$subChannelId$");
 		addTemplateToken("用户登录区ID", "0");
-		addTemplateToken("UID创建时间", "$registerTime$");
+		addTemplateToken("uid创建时间", "$logTime$");
 		
 		addTemplateToken("手机运营商", "$phoneOp$");
 		addTemplateToken("IMEI信息", "$imei$");

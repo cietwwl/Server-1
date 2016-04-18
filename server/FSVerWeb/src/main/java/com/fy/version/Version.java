@@ -10,6 +10,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 更新优先级
+ * 整包更新>资源更新>代码更新
+ * @author lida
+ *
+ */
 public class Version {
 
 	// name=chanel_v.*.*.*_patch(0 完整包, >1 patch)
@@ -17,15 +23,15 @@ public class Version {
 
 	private String location;
 
-	private int main; // 主版本号
+	private int main; // 主版本号(整包更新)
 
 	private int sub; // 次版本号
 
-	private int third; // 第三版本号
+	private int third; // 第三版本号(代码更新)
 
 	private String channel;
 
-	private int patch;
+	private int patch;//(资源更新)
 
 	private String md5;
 
@@ -158,16 +164,31 @@ public class Version {
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				&& target.patch > 0;
 	}
+	
+	public boolean targetIsVerCodePatch(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && target.third > 0
+				&& this.patch == target.patch;
+	}
 
 	// 全量包版本比较
 	public boolean isSameCompVer(Version target) {
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third;
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/;
+	}
+	
+	//是否最新版本
+	public boolean isLatestCompVer(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main >= target.main /**&& this.sub >= target.sub && this.third >= target.third*/;
 	}
 
 	// patch比较
 	public boolean isSamePatch(Version target) {
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/
 				&& this.patch == target.patch;
+	}
+	
+	public boolean isSameCodePath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
+				/**&& this.patch == target.patch*/;
 	}
 
 	private static Field[] fields = null;

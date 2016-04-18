@@ -343,6 +343,7 @@ public class TowerHandler {
 			if (towerId == TOTAL_TOWER_NUM) {
 				MainMsgHandler.getInstance().sendPmdWxz(player);
 			}
+
 			angleData.setCurFloorState(FloorState.UN_AWARD.ordinal());
 			towerMgr.saveAngleArrayData();
 		}
@@ -435,6 +436,12 @@ public class TowerHandler {
 		}
 
 		int currTowerId = request.getTowerID();
+		if (currTowerId != angleData.getCurFloor()) {
+			GameLog.error("万仙阵获取奖励", userId, String.format("当前记录层是[%s],请求领奖层是[%s],数据不一致", angleData.getCurFloor(), currTowerId));
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			return response.build().toByteString();
+		}
+
 		String totalArardStr = towerMgr.getAwardByFloor(player, currTowerId);// 奖品数据字符串
 		if (totalArardStr.length() > 0) {
 			response.setAwardListStr(totalArardStr);
@@ -451,6 +458,11 @@ public class TowerHandler {
 			angleData.setCurFloor(nextTowerId);
 			angleData.setCurFloorState(FloorState.UN_PASS.ordinal());
 		}
+
+		if (currTowerId > angleData.getMaxFloor()) {
+			angleData.setMaxFloor(currTowerId);
+		}
+
 		towerMgr.saveAngleArrayData();
 
 		// 更新一下层

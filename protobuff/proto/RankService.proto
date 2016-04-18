@@ -55,6 +55,7 @@ message BaseRankInfo{
 	optional int32 athleticsFighting = 10;//巅峰竞技战斗力排行
 	repeated RankingTeamData teamData = 11;//队伍数据
 	optional int32 arenaWinCount = 12;//竞技场胜场次数
+	optional string groupName = 13; //帮派名字
 }
 
 message RankingTeamData{

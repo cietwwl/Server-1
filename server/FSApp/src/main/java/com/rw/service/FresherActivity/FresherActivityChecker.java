@@ -25,9 +25,8 @@ public class FresherActivityChecker {
 		FresherActivityMap.put(eActivityType.A_HeroNum, new FrshActCheckHeroNum());
 		FresherActivityMap.put(eActivityType.A_ArenaRank, new FrshActCheckArena());
 		FresherActivityMap.put(eActivityType.A_MagicLv, new FrshActCheckMagic());
-		//暂时屏蔽
-//		FresherActivityMap.put(eActivityType.A_CollectionType, new FrshActCheckCollection());
-//		FresherActivityMap.put(eActivityType.A_CollectionLevel, new FrshActCheckCollection());
+		FresherActivityMap.put(eActivityType.A_CollectionType, new FrshActCheckCollection());
+		FresherActivityMap.put(eActivityType.A_CollectionLevel, new FrshActCheckCollection());
 		FresherActivityMap.put(eActivityType.A_Tower, new FrshActCheckTower());
 		
 		FrshActAchieveNormalReward achieveNormalReward = new FrshActAchieveNormalReward();
@@ -39,9 +38,8 @@ public class FresherActivityChecker {
 		FrshActRewardMap.put(eActivityType.A_HeroNum, achieveNormalReward);
 		FrshActRewardMap.put(eActivityType.A_ArenaRank, achieveNormalReward);
 		FrshActRewardMap.put(eActivityType.A_MagicLv, achieveNormalReward);
-		//暂时屏蔽
-//		FrshActRewardMap.put(eActivityType.A_CollectionType, achieveNormalReward);
-//		FrshActRewardMap.put(eActivityType.A_CollectionLevel, achieveNormalReward);
+		FrshActRewardMap.put(eActivityType.A_CollectionType, achieveNormalReward);
+		FrshActRewardMap.put(eActivityType.A_CollectionLevel, achieveNormalReward);
 		FrshActRewardMap.put(eActivityType.A_Tower, achieveNormalReward);
 		//TODO HC @Notify 终极奖励的领取处理和正常的是不一个处理，正常用的是FrshActAchieveNormalReward，终级是：FrshActAchieveFinalReward
 		FrshActRewardMap.put(eActivityType.A_Final, new FrshActAchieveFinalReward());

@@ -62,7 +62,7 @@ public class RankingMgr {
 
 	private final EnumMap<RankType, RankingGetOperation> operationMap;
 	private final RankingGetOperation defaultGetOp;
-	
+
 	public RankingMgr() {
 		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
 		operationMap.put(RankType.WARRIOR_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
@@ -139,7 +139,7 @@ public class RankingMgr {
 		long resetMillis = DateUtils.getResetTime(GameWorldConstant.ARENA_CALCULATE_HOUR, GameWorldConstant.ARENA_CALCULATE_MINUTE, GameWorldConstant.ARENA_CALCULATE_SECOND);
 		if (lastResetText != null && !lastResetText.isEmpty()) {
 			long lastResetTime = Long.parseLong(lastResetText);
-			if(lastResetTime > resetMillis){
+			if (lastResetTime > resetMillis) {
 				return;
 			}
 		}
@@ -327,55 +327,59 @@ public class RankingMgr {
 	 * @return
 	 */
 	public RankingLevelData getFirstRankingData(ECareer type) {
-		RankType rankingType;
-		switch (type) {
-		case Warrior:
-			rankingType = RankType.WARRIOR_ARENA_DAILY;
-			break;
-		case SwordsMan:
-			rankingType = RankType.SWORDMAN_ARENA_DAILY;
-			break;
-		case Magican:
-			rankingType = RankType.MAGICAN_ARENA_DAILY;
-			break;
-		case Priest:
-			rankingType = RankType.PRIEST_ARENA_DAILY;
-			break;
-		// TODO 这样做真的好吗
-		default:
-			rankingType = RankType.WARRIOR_ARENA_DAILY;
-			break;
-		}
+		try {
+			RankType rankingType;
+			switch (type) {
+			case Warrior:
+				rankingType = RankType.WARRIOR_ARENA_DAILY;
+				break;
+			case SwordsMan:
+				rankingType = RankType.SWORDMAN_ARENA_DAILY;
+				break;
+			case Magican:
+				rankingType = RankType.MAGICAN_ARENA_DAILY;
+				break;
+			case Priest:
+				rankingType = RankType.PRIEST_ARENA_DAILY;
+				break;
+			// TODO 这样做真的好吗
+			default:
+				rankingType = RankType.WARRIOR_ARENA_DAILY;
+				break;
+			}
 
-		Ranking ranking = RankingFactory.getRanking(rankingType);
-		if (ranking == null) {
-			GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
+			Ranking ranking = RankingFactory.getRanking(rankingType);
+			if (ranking == null) {
+				GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
+				return null;
+			}
+			RankingEntry entry = ranking.getFirstEntry();
+			if (entry == null) {
+				return null;
+			}
+			String userId = (String) entry.getKey();
+			Player p = (Player) PlayerMgr.getInstance().getReadOnlyPlayer(userId);
+			if (p == null) {
+				GameLog.error("ranking", "getFirstRankingData", "找不到玩家：" + userId);
+				return null;
+			}
+			RankingLevelData toData = new RankingLevelData();
+			toData.setUserId(userId);
+			toData.setUserName(p.getUserName());
+			toData.setLevel(p.getLevel());
+			toData.setExp(p.getExp());
+			toData.setFightingAll(p.getHeroMgr().getFightingAll());
+			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+			toData.setUserHead(p.getHeadImage());
+			toData.setModelId(p.getModelId());
+			toData.setJob(p.getCareer());
+			toData.setSex(p.getSex());
+			toData.setCareerLevel(p.getStarLevel());
+			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
+			return toData;
+		} catch (Exception e) {
 			return null;
 		}
-		RankingEntry entry = ranking.getFirstEntry();
-		if (entry == null) {
-			return null;
-		}
-		String userId = (String) entry.getKey();
-		Player p = (Player) PlayerMgr.getInstance().getReadOnlyPlayer(userId);
-		if (p == null) {
-			GameLog.error("ranking", "getFirstRankingData", "找不到玩家：" + userId);
-			return null;
-		}
-		RankingLevelData toData = new RankingLevelData();
-		toData.setUserId(userId);
-		toData.setUserName(p.getUserName());
-		toData.setLevel(p.getLevel());
-		toData.setExp(p.getExp());
-		toData.setFightingAll(p.getHeroMgr().getFightingAll());
-		toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
-		toData.setUserHead(p.getHeadImage());
-		toData.setModelId(p.getModelId());
-		toData.setJob(p.getCareer());
-		toData.setSex(p.getSex());
-		toData.setCareerLevel(p.getStarLevel());
-		toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
-		return toData;
 	}
 
 	/**
@@ -389,8 +393,8 @@ public class RankingMgr {
 		int maxCount = cfg.getRankNum();
 		return getRankList(rankType, maxCount);
 	}
-	
-	public List<RankingLevelData> getRankList(RankType rankType,int count){
+
+	public List<RankingLevelData> getRankList(RankType rankType, int count) {
 		return getRankingGetOp(rankType).getRankList(rankType, count);
 	}
 

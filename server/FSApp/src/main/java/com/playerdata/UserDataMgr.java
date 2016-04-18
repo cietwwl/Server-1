@@ -123,6 +123,10 @@ public class UserDataMgr implements PlayerEventListener{
 		return userDataHolder.get().getChatBanReason();
 	}
 	
+	public long getChatBanCoolTime(){
+		return userDataHolder.get().getChatBanCoolTime();
+	}
+	
 	
 	public ZoneRegInfo getZoneRegInfo(){
 		return userDataHolder.get().getZoneRegInfo();

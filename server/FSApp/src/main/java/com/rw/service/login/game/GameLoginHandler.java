@@ -15,12 +15,11 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
-import com.rw.service.http.GSRequestAction;
-import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.UserBaseDataResponse;
 import com.rw.service.http.request.RequestObject;
 import com.rw.service.log.BILogMgr;
@@ -100,12 +99,13 @@ public class GameLoginHandler {
 
 		String clientInfoJson = request.getClientInfoJson();
 		ZoneLoginInfo zoneLoginInfo = null;
+		ClientInfo clientInfo = null;
 		if (StringUtils.isNotBlank(clientInfoJson)) {
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+			clientInfo = ClientInfo.fromJson(clientInfoJson);
 			zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-
+			
 		}
-
+		
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 
 		if (userAccount == null) {
@@ -133,6 +133,7 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			}
 			user = UserDataDao.getInstance().getByUserId(user.getUserId());
+			
 			if (GameManager.isWhiteListLimit(user.getAccount())) {
 				response.setError("该区维护中，请稍后尝试，");
 				response.setResultType(eLoginResultType.ServerMainTain);
@@ -142,8 +143,17 @@ public class GameLoginHandler {
 				if (user.getBlockReason() != null) {
 					error = user.getBlockReason();
 				}
-
-				response.setError(error);
+				error ="封号原因:"+error;
+				long blockCoolTime = user.getBlockCoolTime();
+				String releaseTime;
+				if (blockCoolTime > 0) {
+					releaseTime = "解封时间:"
+							+ DateUtils.getDateTimeFormatString(blockCoolTime,
+									"yyyy-MM-dd HH:mm");
+				} else {
+					releaseTime = "解封时间:永久封号!";
+				}
+				response.setError(error +"\n"+ releaseTime);
 				response.setResultType(eLoginResultType.FAIL);
 				return response.build().toByteString();
 			} else if (user.isInKickOffCoolTime()) {
@@ -152,6 +162,10 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			} else {
 				userId = user.getUserId();
+				if (clientInfo != null) {
+					user.setChannelId(clientInfo.getChannelId());
+				}
+
 				final String userId_ = userId;
 				final ChannelHandlerContext ctx = UserChannelMgr.getThreadLocalCTX();
 				// GameWorldFactory.getGameWorld().asyncExecute(userId_, new
@@ -199,9 +213,8 @@ public class GameLoginHandler {
 				GameLog.debug("Game Login Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 				GameLog.debug("Game Login Finish --> userId:" + userId_);
 				player.setZoneLoginInfo(zoneLoginInfo);
-				BILogMgr.getInstance().logZoneLogin(player);
-
-				// 补充进入主城需要同步的数据
+    			BILogMgr.getInstance().logZoneLogin(player);			
+    			// 补充进入主城需要同步的数据
 				LoginSynDataHelper.setData(player, response);
 
 				// --------------------------------------------------------START
@@ -256,18 +269,25 @@ public class GameLoginHandler {
 
 		// author: lida 增加容错 如果已经创建角色则进入主城
 		User user = UserDataDao.getInstance().getByAccoutAndZoneId(accountId, zoneId);
-		if(user != null){
+		if (user != null) {
 			return notifyCreateRoleSuccess(response, user);
 		}
-		
-		
+
 		{
 			String clientInfoJson = request.getClientInfoJson();
+			ZoneLoginInfo zoneLoginInfo = null;
+			if (StringUtils.isNotBlank(clientInfoJson)) {
+				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
+				
+
+			}
+			
 			String nick = request.getNick();
 			int sex = request.getSex();
 			if (CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
 				response.setResultType(eLoginResultType.FAIL);
-				String reason = "昵称不能包含非法字符";
+				String reason = "昵称不能包含屏蔽字或非法字符";
 				response.setError(reason);
 				return response.build().toByteString();
 			} else if (StringUtils.isBlank(nick)) {
@@ -289,7 +309,8 @@ public class GameLoginHandler {
 			createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
 			// userAccount.addUserZoneInfo(zoneId);
 			// accountBM.update(userAccount);
-			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
+			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId,zoneLoginInfo);
+			player.setZoneLoginInfo(zoneLoginInfo);
 			// author：lida 2015-09-21 通知登陆服务器更新账号信息 确保账号添加成功
 			GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
 
@@ -316,12 +337,10 @@ public class GameLoginHandler {
 			GameLog.debug("Create Role ...,userId:" + userId);
 			GameLog.debug("Game Create Role Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 			GameLog.debug("Game Create Role Finish --> userId:" + userId);
-			if (StringUtils.isNotBlank(clientInfoJson)) {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
-				ZoneLoginInfo zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-				player.setZoneLoginInfo(zoneLoginInfo);
-
-			}
+			
+			
+			
+			
 			BILogMgr.getInstance().logZoneReg(player);
 
 			LoginSynDataHelper.setData(player, response);
@@ -347,12 +366,12 @@ public class GameLoginHandler {
 		// 补充进入主城需要同步的数据
 		return response.build().toByteString();
 	}
-	
-	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user){
+
+	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
 		String userId = user.getUserId();
-		Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
+		Player player = PlayerMgr.getInstance().newFreshPlayer(userId,null);
 		UserChannelMgr.bindUserID(userId);
-		
+
 		player.save();
 		long end = System.currentTimeMillis();
 		player.onLogin();
@@ -362,9 +381,9 @@ public class GameLoginHandler {
 
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setUserId(userId);
-		
+
 		LoginSynDataHelper.setData(player, response);
-		
+
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据
 		return response.build().toByteString();
@@ -430,7 +449,11 @@ public class GameLoginHandler {
 		}
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clienInfo = ClientInfo.fromJson(clientInfoJson);
+			if (clienInfo != null) {
+				baseInfo.setChannelId(clienInfo.getChannelId());
+			}
 			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
+			
 		}
 		// baseInfo.setCareer(0);
 		UserDataDao.getInstance().saveOrUpdate(baseInfo);
