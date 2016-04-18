@@ -12,6 +12,8 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rwproto.DataSynProtos.eSynOpType;
 
 
 public class ActivityCountTypeMgr {
@@ -50,7 +52,9 @@ public class ActivityCountTypeMgr {
 							dataHolder.addItem(player, targetItem);
 						}
 					}
+					dataHolder.updateItem(player, targetItem);
 				}
+				
 				
 			}
 		}
@@ -96,7 +100,6 @@ public class ActivityCountTypeMgr {
 		long startTime = activityCountTypeCfg.getStarTime();
 		long endTime = activityCountTypeCfg.getEndTime();		
 		long currentTime = System.currentTimeMillis();
-		System.out.println("cun"+ currentTime + " star" + startTime + " end" + endTime + "   id =" + activityCountTypeCfg.getId());
 		return currentTime < endTime && currentTime > startTime;
 	}
 
