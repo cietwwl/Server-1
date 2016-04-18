@@ -1,7 +1,9 @@
 package com.playerdata.activity.countType;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,6 +15,9 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.service.log.template.maker.LogTemplateMaker;
+import com.rwbase.dao.gift.ComGiftCfg;
+import com.rwbase.dao.gift.ComGiftCfgDAO;
 import com.rwproto.DataSynProtos.eSynOpType;
 
 
@@ -52,7 +57,6 @@ public class ActivityCountTypeMgr {
 							dataHolder.addItem(player, targetItem);
 						}
 					}
-					dataHolder.updateItem(player, targetItem);
 				}
 				
 				
@@ -100,15 +104,16 @@ public class ActivityCountTypeMgr {
 		long startTime = activityCountTypeCfg.getStarTime();
 		long endTime = activityCountTypeCfg.getEndTime();		
 		long currentTime = System.currentTimeMillis();
+		System.out.println("cuu" + currentTime  + "  sta" + startTime + " end"+endTime  + "  id =" +activityCountTypeCfg.getId());
 		return currentTime < endTime && currentTime > startTime;
 	}
 
-	public void addCount(Player player, ActivityCountTypeEnum countType){
+	public void addCount(Player player, ActivityCountTypeEnum countType,int countadd){
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		
-		dataItem.setCount(dataItem.getCount()+1);
+		dataItem.setCount(dataItem.getCount()+countadd);
 		
 		dataHolder.updateItem(player, dataItem);
 	}
@@ -119,7 +124,6 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		ActivityComResult result = ActivityComResult.newInstance(false);
 		
-		System.out.println("activity.客户端的一次领奖申请"+ countType +" subid" +subItemId);
 		//未激活
 		if(dataItem == null){
 			result.setReason("活动尚未开启");
@@ -148,9 +152,12 @@ public class ActivityCountTypeMgr {
 					dataHolder.updateItem(player, dataItem);
 				}
 			}else{
-				takeGift(player,targetItem);			
-				result.setSuccess(true);
-				dataHolder.updateItem(player, dataItem);
+				if(!targetItem.isTaken()){
+					takeGift(player,targetItem);			
+					result.setSuccess(true);
+					dataHolder.updateItem(player, dataItem);
+				}else{//申请已领取过的奖励
+				}
 			}
 			
 			
@@ -194,16 +201,26 @@ public class ActivityCountTypeMgr {
 		return result;
 	}
 
-	private void takeGift(Player player,ActivityCountTypeSubItem targetItem) {
+	private  void takeGift(Player player,ActivityCountTypeSubItem targetItem) {
 		
+		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(targetItem.getGift());
 		targetItem.setTaken(true);
-		targetItem.getCount();
-		targetItem.getGift();
-		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getGift()),targetItem.getCount());
+		Set<String> keyset = giftcfg.getGiftMap().keySet();
+		Iterator<String> iterable = keyset.iterator();
+		while(iterable.hasNext()){
+			String giftid = iterable.next();
+			int count = giftcfg.getGiftMap().get(giftid);
+			player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
+		}
 		
-		System.out.println("activitycounttypemgr派出了奖励 ，名字：" + targetItem.getGift());
+		
+		
+//		targetItem.getCount();
+//		targetItem.getGift();		
+//		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getGift()),targetItem.getCount());		
+//		System.out.println("activitycounttypemgr派出了奖励 ，名字：" + targetItem.getGift());
 		//TODO: gift take logic
 	}
 	
-	
+
 }

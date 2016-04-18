@@ -30,8 +30,6 @@ public final class ComGiftCfgDAO extends CfgCsvDao<ComGiftCfg> {
 	private void parseGiftList(ComGiftCfg cfgTmp) {
 		String giftStr = cfgTmp.getGift();
 		Map<String,Integer> giftCountMap = new HashMap<String, Integer>();
-		GameLog.error(giftStr);
-		System.out.println("..."+giftStr);
 		String[] giftSplit = giftStr.split(";");
 		for (String giftTmp : giftSplit) {
 			String giftId = giftTmp.split(":")[0];
@@ -47,7 +45,7 @@ public final class ComGiftCfgDAO extends CfgCsvDao<ComGiftCfg> {
 		return cfg;
 	}
 	
-
+	
 
 
 }
