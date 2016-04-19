@@ -68,13 +68,19 @@ public class UserEventMgr {
 		raiseEvent(player, userEvent);
 	}
 	
-	
+	/**此处传入的是赌博协议里的count编号*/
 	public void Gamble(Player player, int count , int type) {
+		if(count == 2){
+			count =6;
+		}else if(count ==3){
+			count =10;
+		}
+		
 		if(type ==eSpecialItemId.Coin.getValue()){
 			GambleCoin(player,count);
 		}else if(type == eSpecialItemId.Gold.getValue()){
 			GambleGold(player, count);
-		}		
+		}
 	}
 	
 	

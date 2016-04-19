@@ -141,19 +141,15 @@ public class GambleMgr implements PlayerEventListener {
 		boolean result = false;
 		GambleCfg cfg = GambleCfgDAO.getInstance().getGambleCfg(gambleType);
 		int moneyCount = 0;
-		int numtemp = 0;
 		switch (lotterType) {
 		case ONE:
 			moneyCount = cfg.getMoneyNum();
-			numtemp = 1;
 			break;
 		case SIX:
 			moneyCount = cfg.getMoneyNum();
-			numtemp = 6;
 			break;
 		case TEN:
 			moneyCount = (int) ((cfg.getMoneyNum() * 10) * 0.9);
-			numtemp = 10;
 			break;
 		}
 		TableGamble gambleItem = getGambleItem();
@@ -161,7 +157,6 @@ public class GambleMgr implements PlayerEventListener {
 			result = true;
 			if (isSuccessDeduct) {
 				gambleItem.setOneConsumption(gambleType);
-				UserEventMgr.getInstance().Gamble(player, numtemp, cfg.getMoneyType());
 				
 			}
 		} else {
@@ -169,13 +164,13 @@ public class GambleMgr implements PlayerEventListener {
 			if (count >= moneyCount) {// 钱币足够
 				result = true;
 				if (isSuccessDeduct) {// 直接扣除
-					player.getItemBagMgr().addItem(cfg.getMoneyType(), -moneyCount);
+				player.getItemBagMgr().addItem(cfg.getMoneyType(), -moneyCount);
 				}
-			UserEventMgr.getInstance().Gamble(player, numtemp, cfg.getMoneyType());
-				
 				
 			}
 		}
+		
+		
 		return result;
 	}
 

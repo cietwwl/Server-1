@@ -42,12 +42,13 @@ public class ActivityCountTypeMgr {
 	private void checkNewOpen(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
+//		int i = 0;
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
 //			i++;
-//			System.out.println("activitycount--未判断是否已开启 "+"  i = " + i);
+//			System.out.println("activitycount--未判断是否已开启 "+"  i = " + i+ "  name=" + activityCountTypeCfg.getTitle());
 			if(isOpen(activityCountTypeCfg)){
 				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
-				
+//				System.out.println("activitycount--~~~判断是否已开启 "+"  i = " + i);
 				if(countTypeEnum != null){
 					ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
 					if(targetItem == null){
@@ -71,6 +72,9 @@ public class ActivityCountTypeMgr {
 		for (ActivityCountTypeItem activityCountTypeItem : itemList) {
 			if(isClose(activityCountTypeItem)){
 				activityCountTypeItem.setClosed(true);
+				
+				
+				
 				dataHolder.updateItem(player, activityCountTypeItem);
 			}
 		}
@@ -111,7 +115,6 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
-		
 		dataItem.setCount(dataItem.getCount()+countadd);
 		
 		dataHolder.updateItem(player, dataItem);
@@ -127,9 +130,7 @@ public class ActivityCountTypeMgr {
 		if(dataItem == null){
 			result.setReason("活动尚未开启");
 			
-		}else{
-			
-			
+		}else{			
 			ActivityCountTypeSubItem targetItem = null;
 			List<ActivityCountTypeSubItem> takenGiftList = dataItem.getTakenGiftList();
 			for (ActivityCountTypeSubItem itemTmp : takenGiftList) {
@@ -139,9 +140,7 @@ public class ActivityCountTypeMgr {
 				}
 			}
 			if(targetItem == null){
-				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType, subItemId);
-				
-				
+				targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(countType, subItemId);				
 				if(targetItem == null){
 					result.setReason("该奖励不存在 id:"+countType.getCfgId()+" subItemId:"+subItemId);
 				}else{
