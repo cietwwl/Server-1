@@ -11,3 +11,11 @@ key,Remarks,id,CareerType,attrName1,attrValue1,attrValueType1,attrName2,attrValu
 10003_2,,10003,SwordsMan,attack,30,Value,critical,30,Value,,,Value,,,Value,,,Value
 10003_3,,10003,Magican,attack,20,Value,spiritDef,30,Value,,,Value,,,Value,,,Value
 10003_4,,10003,Priest,cutHurt,30,Value,spiritDef,30,Value,,,Value,,,Value,,,Value
+10006_1,,10006,Warrior,life,100,Value,physiqueDef,100,Value,,,Value,,,Value,,,Value
+10006_2,,10006,SwordsMan,attack,30,Value,critical,30,Value,,,Value,,,Value,,,Value
+10006_3,,10006,Magican,attack,20,Value,spiritDef,30,Value,,,Value,,,Value,,,Value
+10006_4,,10006,Priest,cutHurt,30,Value,spiritDef,30,Value,,,Value,,,Value,,,Value
+10007_1,,10007,Warrior,life,100,Value,physiqueDef,100,Value,,,Value,,,Value,,,Value
+10007_2,,10007,SwordsMan,attack,30,Value,critical,30,Value,,,Value,,,Value,,,Value
+10007_3,,10007,Magican,attack,20,Value,spiritDef,30,Value,,,Value,,,Value,,,Value
+10007_4,,10007,Priest,cutHurt,30,Value,spiritDef,30,Value,,,Value,,,Value,,,Value
