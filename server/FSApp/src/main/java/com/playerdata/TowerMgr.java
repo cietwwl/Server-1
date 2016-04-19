@@ -532,8 +532,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		angleArrayDao.addOrUpdateAngleArrayData(angleData);
 
 		// 创建万仙阵的层数据
-		TableAngleArrayFloorData floorData = new TableAngleArrayFloorData(userId);
-		angleArrayFloorDao.update(floorData);
+//		TableAngleArrayFloorData floorData = new TableAngleArrayFloorData(userId);
+//		angleArrayFloorDao.update(floorData);
 	}
 
 	@Override

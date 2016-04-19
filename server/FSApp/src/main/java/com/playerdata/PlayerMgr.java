@@ -10,14 +10,12 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.google.protobuf.ByteString;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.fsutil.cacheDao.CommonUpdateMgr;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
-import com.rw.fsutil.dao.common.DBThreadPoolMgr;
 import com.rw.manager.GameManager;
 import com.rw.manager.GamePlayerOpHelper;
 import com.rw.manager.PlayerTask;
@@ -55,6 +53,7 @@ public class PlayerMgr {
 
 	public PlayerMgr(){
 		int cacheSize = GameManager.getPerformanceConfig().getPlayerCapacity();
+		cacheSize -= cacheSize /10;
 //		cache = new DataCache<String, Player>("player", cacheSize, cacheSize, 60, DBThreadPoolMgr.getExecutor(), loader,null);
 		cache = DataCacheFactory.createDataDache("player", cacheSize, cacheSize, 60, loader);
 	}
@@ -181,25 +180,6 @@ public class PlayerMgr {
 
 	public int getOPProgress() {
 		return gamePlayerOpHelper.getProgress();
-	}
-
-	private final PlayerTask saveTask = new PlayerTask() {
-		public void doCallBack(Player player) {
-			player.save(true);
-
-		}
-
-		@Override
-		public String getName() {
-			return "saveTask";
-		}
-	};
-
-	public int saveAllPlayer() {
-		List<Player> playerList = new ArrayList<Player>(getAllPlayer().values());
-		int progress = gamePlayerOpHelper.addTask(playerList, saveTask);
-		CommonUpdateMgr.getInstance().flushData();
-		return progress;
 	}
 
 	private String offReason = "亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。";

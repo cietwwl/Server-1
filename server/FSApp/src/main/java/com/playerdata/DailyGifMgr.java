@@ -1,7 +1,5 @@
 package com.playerdata;
 
-import java.util.ArrayList;
-
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
@@ -31,12 +29,6 @@ public class DailyGifMgr implements PlayerEventListener{
 	
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		SevenDayGifInfo _table = new SevenDayGifInfo();
-		_table.setUserId(player.getUserId());
-		_table.setCount(0);
-		_table.setCounts(new ArrayList<Integer>());
-		_table.setLastResetTime(0);
-		dao.update(_table);
 	}
 
 	@Override

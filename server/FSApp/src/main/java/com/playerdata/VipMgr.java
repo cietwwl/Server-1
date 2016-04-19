@@ -19,9 +19,6 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 	
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		TableVip tableVip = new TableVip();
-		tableVip.setUserId(player.getUserId());
-		TableVipDAO.getInstance().update(tableVip);
 	}
 	
 	@Override

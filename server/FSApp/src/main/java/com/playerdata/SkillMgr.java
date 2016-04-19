@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 
 import com.common.Action;
-import com.google.protobuf.ByteString;
 import com.playerdata.readonly.SkillMgrIF;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.EPrivilegeDef;
@@ -30,7 +29,6 @@ import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.dao.user.CfgBuySkill;
 import com.rwbase.dao.user.CfgBuySkillDAO;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwproto.SkillServiceProtos.SkillEventType;
 import com.rwproto.SkillServiceProtos.SkillResponse;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 

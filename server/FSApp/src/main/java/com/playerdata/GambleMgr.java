@@ -43,9 +43,7 @@ public class GambleMgr implements PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		TableGamble tableGamble = new TableGamble();
-		tableGamble.setUserId(player.getUserId());
-		gambleDAO.update(tableGamble);
+		
 	}
 
 	@Override

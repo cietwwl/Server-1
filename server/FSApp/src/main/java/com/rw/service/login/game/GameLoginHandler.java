@@ -2,25 +2,22 @@ package com.rw.service.login.game;
 
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.login.AccoutBM;
-import com.bm.login.UserBM;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.dataaccess.GameOperationFactory;
+import com.rw.dataaccess.PlayerCreatedParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
-import com.rw.service.http.GSRequestAction;
-import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.UserBaseDataResponse;
 import com.rw.service.http.request.RequestObject;
 import com.rw.service.log.BILogMgr;
@@ -32,11 +29,10 @@ import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
-import com.rwbase.dao.publicdata.PublicData;
-import com.rwbase.dao.publicdata.PublicDataCfgDAO;
+import com.rwbase.dao.role.RoleCfgDAO;
+import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
-import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
 import com.rwbase.dao.version.VersionConfigDAO;
@@ -152,12 +148,6 @@ public class GameLoginHandler {
 				userId = user.getUserId();
 				final String userId_ = userId;
 				final ChannelHandlerContext ctx = UserChannelMgr.getThreadLocalCTX();
-				// GameWorldFactory.getGameWorld().asyncExecute(userId_, new
-				// PlayerTask() {
-				//
-				// @Override
-				// public void run(Player player) {
-				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
 				if (player != null) {
 					// modify@2015-12-28 by Jamaz 只断开非当前链接
@@ -284,7 +274,24 @@ public class GameLoginHandler {
 			// modify@2015-08-07 by Jamaz
 			// 用serverId+identifier的方式生成userId
 			String userId = newUserId();
-			createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
+//			createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
+			String headImage;
+			String roleId;
+			if (sex == ESex.Men.getOrder()) {
+				headImage = "10001";
+				roleId =  "101001_1" ;
+			} else {
+				headImage = "10002";
+				roleId =   "100001_1";
+			}
+			
+			RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
+			
+			PlayerCreatedParam param = new PlayerCreatedParam(accountId, userId,
+					nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
+			if(GameOperationFactory.getCreatedOperation().execute(param)){
+				createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
+			}
 			// userAccount.addUserZoneInfo(zoneId);
 			// accountBM.update(userAccount);
 			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
@@ -308,7 +315,6 @@ public class GameLoginHandler {
 			UserChannelMgr.bindUserID(userId);
 			long start = System.currentTimeMillis();
 
-			player.save();
 			long end = System.currentTimeMillis();
 			System.out.println("-------------------" + (end - start));
 			player.onLogin();
@@ -359,7 +365,6 @@ public class GameLoginHandler {
 		Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
 		UserChannelMgr.bindUserID(userId);
 		
-		player.save();
 		long end = System.currentTimeMillis();
 		player.onLogin();
 		long end1 = System.currentTimeMillis();
@@ -431,7 +436,7 @@ public class GameLoginHandler {
 		return userId;
 	}
 
-	private UserGameData createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {
+	private void createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {
 
 		User baseInfo = new User();
 		baseInfo.setUserId(userId);
@@ -454,25 +459,25 @@ public class GameLoginHandler {
 		}
 		// baseInfo.setCareer(0);
 		UserDataDao.getInstance().saveOrUpdate(baseInfo);
-
-		UserGameData user = new UserGameData();
-		user.setUserId(userId);
-		user.setRookieFlag(1);
-		user.setIphone(false);
-		user.setLastAddPowerTime(new Date().getTime());
-		user.setPower(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_START_VALUE));
-		user.setFreeChat(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_CHAT_FREE_COUNT));
+//
+//		UserGameData user = new UserGameData();
+//		user.setUserId(userId);
+//		user.setRookieFlag(1);
+//		user.setIphone(false);
+//		user.setLastAddPowerTime(new Date().getTime());
+//		user.setPower(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_START_VALUE));
+//		user.setFreeChat(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_CHAT_FREE_COUNT));
 
 		// TODO 测试用，删掉
 		// user.setCoin(99999);
 		// user.setId(System.currentTimeMillis());
 		// user.setGold(9999);
 
-		boolean update = UserBM.getInstance().update(user);
-		if (!update) {
-			return null;
-		}
-		return user;
+//		boolean update = UserBM.getInstance().update(user);
+//		if (!update) {
+//			return null;
+//		}
+//		return user;
 	}
 
 }

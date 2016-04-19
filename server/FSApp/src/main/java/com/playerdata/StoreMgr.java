@@ -55,9 +55,6 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		TableStore tableStoreTemp = new TableStore();
-		tableStoreTemp.setUserId(player.getUserId());
-		TableStoreDao.getInstance().update(tableStoreTemp);
 	}
 
 	@Override

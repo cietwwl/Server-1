@@ -838,7 +838,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		public Object call() throws Exception {
 			// 更新任务必须保证互斥
 			if (DataCache.this.delayUpdateMap.remove(key) == null) {
-				logger.warn("updatetask已被执行：" + key+","+name);
+				logger.warn("updatetask已被执行：" + key + "," + name);
 				return null;
 			}
 			CacheValueEntity<V> value = DataCache.this.get(key);
@@ -1147,7 +1147,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	public CacheLogger getLogger() {
 		return this.logger;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

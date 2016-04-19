@@ -36,7 +36,7 @@ public class PlatformService {
 
 	public static void addRequest(final RequestObject requestObject) {
 		plService.execute(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -90,12 +90,15 @@ public class PlatformService {
 	}
 
 	private static void sendPlatformRequest(RequestObject requestObject) {
-		List<PlatformInfo> platformInfos = GameManager.getPlatformInfos();
-		for (PlatformInfo platformInfo : platformInfos) {
-			ResponseObject reponse = processPlatformServiceRequest(platformInfo.getIp(), platformInfo.getPort(), requestObject);
-			if (StringUtils.isBlank(reponse.getResult()) && requestObject.isBlnNotifySingle()) {
-				break;
+		try {
+			List<PlatformInfo> platformInfos = GameManager.getPlatformInfos();
+			for (PlatformInfo platformInfo : platformInfos) {
+				ResponseObject reponse = processPlatformServiceRequest(platformInfo.getIp(), platformInfo.getPort(), requestObject);
+				if (StringUtils.isBlank(reponse.getResult()) && requestObject.isBlnNotifySingle()) {
+					break;
+				}
 			}
+		} catch (Exception e) {
 		}
 	}
 
@@ -111,33 +114,33 @@ public class PlatformService {
 
 		return content;
 	}
-	
-	public static boolean checkPlatformOpen(){
+
+	public static boolean checkPlatformOpen() {
 		List<PlatformInfo> platformInfos = GameManager.getPlatformInfos();
 		for (PlatformInfo platformInfo : platformInfos) {
 			try {
 				Socket socket = new Socket();
 				socket.connect(new InetSocketAddress(platformInfo.getIp(), platformInfo.getPort()));
-				if(socket.isConnected()){
+				if (socket.isConnected()) {
 					return true;
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			
+
 		}
 		return false;
 	}
-	
-	public static void SendResponse(String classPath, String methodName, Object object, Class<?> classValue){
+
+	public static void SendResponse(String classPath, String methodName, Object object, Class<?> classValue) {
 		RequestObject requestObject = new RequestObject();
 		requestObject.pushParam(classValue, object);
 		requestObject.setClassName(classPath);
 		requestObject.setMethodName(methodName);
 		sendPlatformRequest(requestObject);
 	}
-	
-	public static void main(String[] objs){
-		
+
+	public static void main(String[] objs) {
+
 	}
 }

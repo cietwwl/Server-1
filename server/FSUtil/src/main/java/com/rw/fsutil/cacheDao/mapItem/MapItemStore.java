@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.common.CommonJdbc;
+import com.rw.fsutil.dao.common.CommonMultiTable;
 
 public class MapItemStore<T extends IMapItem> {
 
@@ -18,7 +18,7 @@ public class MapItemStore<T extends IMapItem> {
 
 	private final Map<String, T> itemMap;
 	// 暂时用这个对象,实际上需要再封装
-	private final CommonJdbc<T> commonJdbc;
+	private final CommonMultiTable<T> commonJdbc;
 
 	private final ConcurrentHashMap<String, Boolean> updatedMap = new ConcurrentHashMap<String, Boolean>();
 
@@ -26,7 +26,7 @@ public class MapItemStore<T extends IMapItem> {
 
 	private DataUpdater<String> updater;
 
-	public MapItemStore(List<T> itemList, String searchIdP, CommonJdbc<T> commonJdbc, DataUpdater<String> updater) {
+	public MapItemStore(List<T> itemList, String searchIdP, CommonMultiTable<T> commonJdbc, DataUpdater<String> updater) {
 		this.searchId = searchIdP;
 		this.updater = updater;
 		this.commonJdbc = commonJdbc;
@@ -35,8 +35,6 @@ public class MapItemStore<T extends IMapItem> {
 			itemMap.put(tmpItem.getId(), tmpItem);
 		}
 	}
-	
-	
 
 	public MapItemStore(String searchFieldP, String searchIdP, Class<T> clazzP) {
 		// this(searchFieldP, searchIdP, clazzP, null);
@@ -69,7 +67,7 @@ public class MapItemStore<T extends IMapItem> {
 					throw new DuplicatedKeyException("发现重复主键：" + t.getId());
 				}
 			}
-			commonJdbc.insert(itemList);
+			commonJdbc.insert(searchId, itemList);
 			for (int i = size; --i >= 0;) {
 				T t = itemList.get(i);
 				itemMap.put(t.getId(), t);
@@ -88,7 +86,7 @@ public class MapItemStore<T extends IMapItem> {
 			return false;
 		}
 		try {
-			boolean success = commonJdbc.insert(item.getId(), item);
+			boolean success = commonJdbc.insert(searchId, item.getId(), item);
 			if (success) {
 				itemMap.put(item.getId(), item);
 				return true;
@@ -105,7 +103,7 @@ public class MapItemStore<T extends IMapItem> {
 
 	public boolean removeItem(String id) {
 		try {
-			boolean success = commonJdbc.delete(id);
+			boolean success = commonJdbc.delete(searchId, id);
 			if (success) {
 				itemMap.remove(id);
 				return true;
@@ -140,7 +138,7 @@ public class MapItemStore<T extends IMapItem> {
 				// Logger...
 				continue;
 			}
-			if (!commonJdbc.updateToDB(itemTmp.getId(), itemTmp)) {
+			if (!commonJdbc.updateToDB(searchId,itemTmp.getId(), itemTmp)) {
 				if (list == null) {
 					list = new ArrayList<String>();
 				}

@@ -31,13 +31,13 @@ import com.rw.fsutil.util.jackson.JsonUtil;
  * @author allen
  * @version 1.0
  */
-public class CommonJdbc<T> {
+public class CommonSingleTable_backup<T> {
 
 	private final ClassInfo classInfoPojo;
 
 	private final JdbcTemplate template;
 
-	public CommonJdbc(JdbcTemplate templateP, ClassInfo classInfoPojo) {
+	public CommonSingleTable_backup(JdbcTemplate templateP, ClassInfo classInfoPojo) {
 		this.template = templateP;
 		this.classInfoPojo = classInfoPojo;
 	}

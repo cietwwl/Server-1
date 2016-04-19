@@ -27,8 +27,11 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
+import com.rw.dataaccess.GameOperationFactory;
+import com.rw.dataaccess.PlayerCreatedParam;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.service.arena.ArenaHandler;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
@@ -48,8 +51,6 @@ import com.rwbase.dao.setting.HeadCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
-import com.rwbase.dao.user.UserGameData;
-import com.rwbase.dao.user.UserGameDataDao;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 
 public class RobotManager {
@@ -80,7 +81,7 @@ public class RobotManager {
 				GameLog.error("robot", "product player", "arena robot already exist , continue...");
 				return null;
 			}
-
+			
 			// 创建User，并初始化基本属性
 			User user = new User();
 			String userId = UUID.randomUUID().toString();
@@ -92,25 +93,31 @@ public class RobotManager {
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);
 			UserDataDao.getInstance().saveOrUpdate(user);
-			UserGameData userOther = new UserGameData();
-			userOther.setUserId(userId);
-			userOther.setIphone(false);
-			UserGameDataDao.getInstance().update(userOther);
-			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
-			// 初始化主角
-			// 初始主角英雄
+//			UserGameData userOther = new UserGameData();
+//			userOther.setUserId(userId);
+//			userOther.setIphone(false);
+//			UserGameDataDao.getInstance().update(userOther);
 			int star = getRandom(cfg.getStar());
 			int quality = getRandom(cfg.getQuality());
 
+			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
+			PlayerCreatedParam param = new PlayerCreatedParam(userId, userId, userName, 1, sex,
+					System.currentTimeMillis(), playerCfg, headImage, "");
+			
+			GameOperationFactory.getCreatedOperation().execute(param);
+			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
+			// 初始化主角
+			// 初始主角英雄
+
 			Player player = new Player(userId, false, playerCfg);
+			MapItemStoreFactory.notifyPlayerCreated(userId);
 			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
 			mainRoleHero.SetHeroLevel(level);
 			// 品质
 			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
 			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
 			roleBaseInfoMgr.setLevel(level);
-			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			player.getUserDataMgr().setHeadId(headImage);
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
@@ -172,7 +179,7 @@ public class RobotManager {
 			for (Hero hero : heroList) {
 				hero.getAttrMgr().reCal();
 			}
-			player.save(true);
+			//player.save(true);
 			PlayerMgr.getInstance().putToMap(player);
 			printHeroSkill(mainRoleHero);
 			for (Hero hero : heroList) {
@@ -221,6 +228,9 @@ public class RobotManager {
 		}
 		TreeMap<Integer, RobotEntryCfg> robots = RobotCfgDAO.getInstance().getAllArenaRobets();
 		ArenaBM arenaBM = ArenaBM.getInstance();
+		ArrayList<Integer> l = new ArrayList<Integer>();
+		l.add(carerrList.get(0));
+//		carerrList = l;
 		int size = carerrList.size();
 		// 只用于存储。。哈哈
 		HashMap<Future, ProductionCompletionTask> futures = new HashMap<Future, ProductionCompletionTask>();
@@ -236,6 +246,7 @@ public class RobotManager {
 			if (rankingSize >= last) {
 				continue;
 			}
+			//last = 1;
 			Map<Integer, RobotEntryCfg> map = robots.subMap(rankingSize, false, last, true);
 			ArrayList<ProductPlayerTask> productPlayerList = new ArrayList<ProductPlayerTask>(map.size());
 			for (Map.Entry<Integer, RobotEntryCfg> entry : map.entrySet()) {
@@ -246,7 +257,7 @@ public class RobotManager {
 				}
 			}
 			if (!productPlayerList.isEmpty()) {
-				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 5, productPlayerList);
+				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 20, productPlayerList);
 				Future f = futureExecutor.submit(productionCompletionTask);
 				futures.put(f, productionCompletionTask);
 			}

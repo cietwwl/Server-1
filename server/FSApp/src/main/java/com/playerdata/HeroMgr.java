@@ -43,9 +43,9 @@ public class HeroMgr implements HeroMgrIF{
 
 	//@Override
 	public void notifyPlayerCreated(Player player) {
-		TableUserHero userHeroTmp = new TableUserHero();
-		userHeroTmp.setUserId(player.getUserId());
-		UserHeroDAO.getInstance().update(userHeroTmp);
+//		TableUserHero userHeroTmp = new TableUserHero();
+//		userHeroTmp.setUserId(player.getUserId());
+//		UserHeroDAO.getInstance().update(userHeroTmp);
 	}
 
 	private void initHeros() {

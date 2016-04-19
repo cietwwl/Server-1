@@ -1,5 +1,6 @@
 package com.playerdata;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.log.GameLog;
@@ -34,22 +35,38 @@ public class TaskItemMgr implements TaskMgrIF {
 
 	public void initTask() {
 		List<TaskCfg> cfgList = TaskCfgDAO.getInstance().getInitList();
-		for (TaskCfg cfg : cfgList) {
+		ArrayList<TaskItem> itemList = new ArrayList<TaskItem>(cfgList.size());
+		int size = cfgList.size();
+		for (int i = 0; i < size; i++) {
+			TaskCfg cfg = cfgList.get(i);
 			if (cfg.getOpenLevel() <= m_pPlayer.getLevel() && !taskItemHolder.containsTask(cfg.getId())) {
-				final boolean doNotSyn = false;
-				addItemTask(cfg, doNotSyn);
+				itemList.add(createTaskItem(cfg));
 			}
+		}
+		if (!taskItemHolder.addItemList(m_pPlayer, itemList, false)) {
+			return;
+		}
+		size = itemList.size();
+		for (int i = 0; i < size; i++) {
+			TaskItem task = itemList.get(i);
+			BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
 		}
 	}
 
 	private void addItemTask(TaskCfg cfg, boolean doSyn) {
+		TaskItem task = createTaskItem(cfg);
+		taskItemHolder.addItem(m_pPlayer, task, doSyn);
+		BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
+	}
+
+	/** 构造一个任务 **/
+	private TaskItem createTaskItem(TaskCfg cfg) {
 		TaskItem task = new TaskItem();
 		task.setTaskId(cfg.getId());
 		task.setFinishType(eTaskFinishDef.getDef(cfg.getFinishType()));
 		task.setSuperType(cfg.getSuperType());
 		setTaskInfo(task, cfg.getFinishParam());
-		taskItemHolder.addItem(m_pPlayer, task, doSyn);
-		BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
+		return task;
 	}
 
 	private void setTaskInfo(TaskItem task, String valueStr) {
@@ -57,7 +74,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		int value = Integer.parseInt(valueStr.split("_")[0]);
 		int total = value;
 		int value1 = 0;
-		
+
 		switch (task.getFinishType()) {
 		case Section_Star:
 			String[] arr = valueStr.split("_");
@@ -97,7 +114,7 @@ public class TaskItemMgr implements TaskMgrIF {
 			curplan = m_pPlayer.getCopyRecordMgr().getLevelRecord(value).getPassStar() > 0 ? 1 : 0;
 			break;
 		case Finish_Copy_Elite:
-			//fix bug#2000 任务模块，精英任务奖励逻辑有问题
+			// fix bug#2000 任务模块，精英任务奖励逻辑有问题
 			curplan = m_pPlayer.getCopyRecordMgr().getLevelRecord(value).getPassStar() > 0 ? 1 : 0;
 			break;
 		case Finish_Section:
@@ -137,7 +154,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		List<TaskItem> itemList = taskItemHolder.getItemList();
 
 		for (TaskItem task : itemList) {
-			
+
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.Once.ordinal()) {
 				TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);
@@ -148,18 +165,18 @@ public class TaskItemMgr implements TaskMgrIF {
 					value1 = Integer.parseInt(cfg.getFinishParam().split("_")[1]);
 				}
 				int curProgress = getCurProgress(task.getFinishType(), value, value1);
-				//fix bug#2000 任务模块，精英任务奖励逻辑有问题
-//				if(task.getFinishType() == eTaskFinishDef.Finish_Copy_Elite){
-//					curProgress++;
-//				}
+				// fix bug#2000 任务模块，精英任务奖励逻辑有问题
+				// if(task.getFinishType() == eTaskFinishDef.Finish_Copy_Elite){
+				// curProgress++;
+				// }
 				if (curProgress != task.getCurProgress()) {
 					task.setCurProgress(curProgress);
 					if (task.getCurProgress() >= task.getTotalProgress()) {
 						task.setDrawState(1);
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,true);
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true);
 					} else {
 						task.setDrawState(0);
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,false);
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false);
 					}
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
@@ -175,10 +192,10 @@ public class TaskItemMgr implements TaskMgrIF {
 				task.setCurProgress(count + task.getCurProgress());
 				if (task.getCurProgress() >= task.getTotalProgress()) {
 					task.setDrawState(1);
-					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,true);
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true);
 				} else {
 					task.setDrawState(0);
-					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main,false);
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false);
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
 				break;

@@ -35,9 +35,6 @@ public class DailyActivityMgr implements PlayerEventListener{
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		DailyActivityTaskItem taskItem = new DailyActivityTaskItem();
-		taskItem.setUserId(player.getUserId());
-		TableDailyActivityItemDAO.getInstance().update(taskItem);
 	}
 
 	@Override

@@ -13,8 +13,8 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
-import com.rw.fsutil.dao.common.CommonJdbc;
-import com.rw.fsutil.dao.common.DBThreadPoolMgr;
+import com.rw.fsutil.dao.common.CommonMultiTable;
+import com.rw.fsutil.dao.common.CommonSingleTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.util.SpringContextUtil;
 
@@ -25,7 +25,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 public class JdbcDataRdbDao<T> {
 
 	private final ClassInfo classInfo;
-	private final CommonJdbc<T> commonJdbc;
+	private final CommonSingleTable<T> commonJdbc;
 	private final DataCache<String, T> cache;
 	private final JdbcTemplate jdbcTemplate;
 
@@ -34,13 +34,12 @@ public class JdbcDataRdbDao<T> {
 		this.jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		try {
 			classInfo = new ClassInfo(clazz);
-			commonJdbc = new CommonJdbc<T>(jdbcTemplate, classInfo);
+			commonJdbc = new CommonSingleTable<T>(jdbcTemplate, classInfo);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
 		int cacheSize = getCacheSize();
-//		this.cache = new DataCache<String, T>(clazz.getName(), cacheSize, cacheSize, getUpdatedSeconds(), DBThreadPoolMgr.getExecutor(), loader, null);
-		this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize,getUpdatedSeconds(), loader);
+		this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), loader);
 	}
 
 	private PersistentLoader<String, T> loader = new PersistentLoader<String, T>() {
@@ -78,9 +77,9 @@ public class JdbcDataRdbDao<T> {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Deprecated
-	public void insertToDB(T t){
+	public void insertToDB(T t) {
 		Field idField = classInfo.getIdField();
 		try {
 			String id = String.valueOf(idField.get(t));
@@ -89,9 +88,9 @@ public class JdbcDataRdbDao<T> {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Deprecated
-	public void updateToDB(T t){
+	public void updateToDB(T t) {
 		Field idField = classInfo.getIdField();
 		try {
 			String id = String.valueOf(idField.get(t));
@@ -108,7 +107,7 @@ public class JdbcDataRdbDao<T> {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Deprecated
 	public void deleteToDB(Object id) {
 		try {
@@ -143,7 +142,7 @@ public class JdbcDataRdbDao<T> {
 	 * @return
 	 */
 	protected int getCacheSize() {
-		return 3000;
+		return 5000;
 	}
 
 	/**
@@ -154,24 +153,7 @@ public class JdbcDataRdbDao<T> {
 	protected int getUpdatedSeconds() {
 		return 60;
 	}
-
-	// public void saveOrUpdate(T target) throws Exception {
-	// commonJdbc.saveOrUpdate(target);
-	// }
-	//
-	// public void delete(String id) throws Exception {
-	// commonJdbc.delete(id);
-	// }
-	//
-	// public T get(Object id) throws Exception {
-	// return commonJdbc.get(id);
-	//
-	// }
-
-	// public void update(String key) {
-	// commonJdbc.update(key);
-	// }
-
+	
 	public List<T> findBySql(String sql) throws Exception {
 		return commonJdbc.findBySql(sql);
 

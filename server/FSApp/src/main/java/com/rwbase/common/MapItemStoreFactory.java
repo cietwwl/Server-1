@@ -79,7 +79,6 @@ public class MapItemStoreFactory {
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
 		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
-
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
