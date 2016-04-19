@@ -86,6 +86,7 @@ public class GiftCodeSenderBm {
 							giftCodeItem.getGmCallBack().doCallBack(resopnse == null ? null : resopnse.getResult().get(0));
 
 						} catch (Exception e) {
+							borrowSender.setAvailable(false);//return pool之后会呗销毁。
 							GameLog.error(LogModule.GmSender, "GiftCodeSenderBm[addSendTask]", "borrowSender.send error", e);
 						} finally {
 							giftSenderPool.returnSender(borrowSender);
