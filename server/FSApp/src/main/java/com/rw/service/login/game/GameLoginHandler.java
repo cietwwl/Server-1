@@ -152,6 +152,7 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			} else {
 				userId = user.getUserId();
+				
 				final String userId_ = userId;
 				final ChannelHandlerContext ctx = UserChannelMgr.getThreadLocalCTX();
 				// GameWorldFactory.getGameWorld().asyncExecute(userId_, new
@@ -183,6 +184,8 @@ public class GameLoginHandler {
 					}
 				});
 
+				long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
+				
 				UserChannelMgr.bindUserID(userId_, ctx);
 				// 增加清空重连时间
 				UserChannelMgr.clearDisConnectTime(userId_);
@@ -204,7 +207,7 @@ public class GameLoginHandler {
 				//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 				//判断需要用到最后次登陆 时间。保存在活动内而不是player
-				UserEventMgr.getInstance().RoleLogin(player);
+				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
 				
 
 				// 补充进入主城需要同步的数据

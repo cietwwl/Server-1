@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.playerdata.Player;
-import com.rw.service.log.BILogMgr;
-import com.rw.service.log.eLog.eBILogType;
-import com.rw.service.log.template.BILogTemplate;
-import com.rw.service.log.template.ZoneRegLogTemplate;
 import com.rwbase.common.userEvent.eventHandler.UserEventLoginHandler;
 
 public class UserEventMgr {
@@ -27,9 +23,9 @@ public class UserEventMgr {
 	}
 	
 	
-	public void RoleLogin(Player player) {
+	public void RoleLogin(Player player, long lastLoginTime) {
 		
-		UserEvent userEvent = new UserEvent(UserEventType.LOGIN, player.getUserGameDataMgr().getLastLoginTime());
+		UserEvent userEvent = new UserEvent(UserEventType.LOGIN, lastLoginTime);
 		raiseEvent(player, userEvent);
 	}
 
