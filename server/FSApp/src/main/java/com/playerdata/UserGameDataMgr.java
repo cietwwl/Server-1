@@ -259,9 +259,9 @@ public class UserGameDataMgr {
 		return result;
 	}
 
-	public void setRecharge(int nValue) {
+	public void addReCharge(int addNum) {
 		UserGameData tableUserOther = userGameDataHolder.get();
-		tableUserOther.setRecharge(tableUserOther.getRecharge() + nValue);
+		tableUserOther.setRecharge(tableUserOther.getRecharge() + addNum);
 		userGameDataHolder.update(player);
 	}
 

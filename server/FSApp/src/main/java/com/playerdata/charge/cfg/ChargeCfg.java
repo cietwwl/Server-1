@@ -17,11 +17,11 @@ public class ChargeCfg {
 
 	private String chargeItems;
 
-	public List<ChargeItem> getChargetTypeList() {
+	public List<ChargeItem> getChargetItemList() {
 		return chargetTypeList;
 	}
 
-	public void setChargetTypeList(List<ChargeItem> chargetTypeList) {
+	public void setChargeItemList(List<ChargeItem> chargetTypeList) {
 		this.chargetTypeList = chargetTypeList;
 	}
 

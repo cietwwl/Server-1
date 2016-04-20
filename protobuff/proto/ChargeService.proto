@@ -10,7 +10,7 @@ enum RequestType{
 
 message ChargeServiceCommonReqMsg{
 	required RequestType reqType = 1;//请求功能协议类型
-	required int32 chargeType=2;//充值类型
+	required string chargeItemId=2;//充值项id
 }
 
 message ChargeServiceCommonRspMsg{

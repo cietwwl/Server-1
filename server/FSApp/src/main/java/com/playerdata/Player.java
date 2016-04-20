@@ -54,7 +54,6 @@ import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.CommonMsgProtos.CommonMsgResponse;
 import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
@@ -945,27 +944,6 @@ public class Player implements PlayerIF {
 		getFriendMgr().onPlayerChange(this);
 	}
 
-	public int AddRecharge(int nValue) {
-
-		int totalValue = userGameDataMgr.getRecharge() + nValue;
-		if (totalValue >= 0) {
-			int value = totalValue;
-			PrivilegeCfg cfg = PrivilegeCfgDAO.getInstance().getCfg(getVip() + 1);
-			while (cfg.getRechargeCount() <= value) {
-				AddVip(1);
-				value -= cfg.getRechargeCount();
-				cfg = PrivilegeCfgDAO.getInstance().getCfg(getVip() + 1);
-			}
-			// 设置界面更新vip
-			getSettingMgr().checkOpen();
-			if (totalValue > userGameDataMgr.getRecharge()) {
-				getTaskMgr().AddTaskTimes(eTaskFinishDef.Recharge);
-			}
-			userGameDataMgr.setRecharge(nValue);
-			return 0;
-		}
-		return -1;
-	}
 
 	public boolean addPower(int value) {
 		return userGameDataMgr.addPower(value, getLevel());

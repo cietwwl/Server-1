@@ -6,6 +6,7 @@ public class ChargeItem {
 	
 	private String id;
 	private int money;
+	private int gold;
 	
 	
 	public ChargeItem(String id, int money) {		
@@ -23,6 +24,12 @@ public class ChargeItem {
 	}
 	public void setMoney(int money) {
 		this.money = money;
+	}
+	public int getGold() {
+		return gold;
+	}
+	public void setGold(int gold) {
+		this.gold = gold;
 	}
 	
 	
