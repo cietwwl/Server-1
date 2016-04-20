@@ -80,7 +80,7 @@ public class AccountLoginHandler {
 		String phoneInfo = accountInfo.getPhoneInfo();
 		String clientInfoJson = accountInfo.getClientInfoJson();
 
-		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId);
+		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId+"; openAccountId:" + openAccountId);
 
 		// 快速注册账号
 		if (accountId.equals("")) {

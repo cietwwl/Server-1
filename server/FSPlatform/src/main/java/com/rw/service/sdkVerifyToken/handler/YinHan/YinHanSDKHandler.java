@@ -91,9 +91,10 @@ public class YinHanSDKHandler implements ISDKHandler{
 				
 				String userId = json.getString("userId");
 				blnSuccess = true;
-				String[] split = channel.split("#");
+				String[] split = channel.split("@");
 				String channelId = split[0];
-				sdkVerifyResult.setId_uid(channelId + "#" + userId);
+				String uid = channelId + "#" + userId;
+				sdkVerifyResult.setId_uid(uid);
 				
 				
 			}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bm.serverStatus.ServerStatusMgr;
+import com.common.playerFilter.FilterType;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.GmExecutor;
 import com.gm.GmRequest;
@@ -20,9 +21,9 @@ import com.rwbase.dao.serverData.ServerGmEmail;
 
 public class GmEmailAll implements IGmTask {
 
-	private final static int STATUS_SEND = 1;
-	private final static int STATUS_CLOSE = 2;
-	private final static int STATUS_DELETE = 3;
+	public final static int STATUS_SEND = 1;
+	public final static int STATUS_CLOSE = 2;
+	public final static int STATUS_DELETE = 3;
 
 	@Override
 	public GmResponse doTask(GmRequest request) {
@@ -57,7 +58,17 @@ public class GmEmailAll implements IGmTask {
 						}
 					}
 				});
-				gmMail.setStatus(STATUS_CLOSE);
+				for (PlayerFilterCondition condition : conditionList) {
+					if(condition.getType() == FilterType.CREATE_TIME.getValue()){
+						long endTime = condition.getMaxValue() * 1000;
+						if(endTime <= System.currentTimeMillis()){
+							gmMail.setStatus(STATUS_CLOSE);
+						}
+					}else{
+						gmMail.setStatus(STATUS_CLOSE);
+					}
+				}
+				
 				blnUpdate = true;
 			}
 			if(status == STATUS_DELETE){
