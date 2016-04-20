@@ -1,6 +1,5 @@
 package com.rw.fsutil.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,6 +7,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
+	
+	private static SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyyMMddHHmm");
 
 	public static Calendar getCurrent() {
 		return Calendar.getInstance();
@@ -190,9 +191,7 @@ public class DateUtils {
 	 */
 	public static long YyyymmddhhmmToMillionseconds(String str){
 		try{
-			SimpleDateFormat sdr = new SimpleDateFormat("yyyyMMddHHmm");
-//			DateFormat sdr = new DateFormat("yyyyMMddHHmm");
-			long millionseconds = sdr.parse(str).getTime();
+			long millionseconds = yyyyMMddHHmm.parse(str).getTime();
 			return millionseconds;
 		}catch(Exception e){
 			

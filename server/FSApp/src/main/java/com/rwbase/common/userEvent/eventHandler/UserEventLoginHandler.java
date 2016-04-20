@@ -29,7 +29,7 @@ public class UserEventLoginHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 				/**活动是否开启*/
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().checkOneActivityISOpen(ActivityCountTypeEnum.Login);	
+				boolean isBetweendays = ActivityCountTypeMgr.getInstance().checkOneActivityISOpen(player, ActivityCountTypeEnum.Login);	
 				/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
 				boolean isnewday = false;;
 				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
