@@ -321,6 +321,10 @@ public class BILogMgr {
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
+		
 		moreInfo.put("fightTime", "" + fightTime);
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
