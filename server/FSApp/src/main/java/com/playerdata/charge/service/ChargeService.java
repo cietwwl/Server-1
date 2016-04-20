@@ -3,11 +3,12 @@ package com.playerdata.charge.service;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
+import com.rw.service.FsService;
 import com.rwproto.ChargeServiceProto.ChargeServiceCommonReqMsg;
 import com.rwproto.ChargeServiceProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
-public class ChargeService {
+public class ChargeService  implements FsService{
 
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
