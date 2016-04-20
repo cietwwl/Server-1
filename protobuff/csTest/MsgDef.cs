@@ -151,6 +151,9 @@ namespace MsgDef
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_TASK", Value=149)]
       MSG_TASK = 149,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP", Value=150)]
+      MSG_GROUP = 150,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_TIME", Value=151)]
       MSG_TIME = 151,
             
@@ -208,6 +211,21 @@ namespace MsgDef
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_NOTICE", Value=169)]
       MSG_NOTICE = 169,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_MEMBER_MANAGER", Value=170)]
+      MSG_GROUP_MEMBER_MANAGER = 170,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_PERSONAL", Value=171)]
+      MSG_GROUP_PERSONAL = 171,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_SKILL", Value=172)]
+      MSG_GROUP_SKILL = 172,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GIFT_CODE", Value=173)]
+      MSG_GIFT_CODE = 173,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_CHARGE", Value=174)]
+      MSG_CHARGE = 174,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SDK_VERIFY", Value=996)]
       MSG_SDK_VERIFY = 996,
             
@@ -218,16 +236,7 @@ namespace MsgDef
       MSG_PLATFORMGS = 998,
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_GAMEPRESS", Value=999)]
-      MSG_GAMEPRESS = 999,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP", Value=150)]
-      MSG_GROUP = 150,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_MEMBER_MANAGER", Value=170)]
-      MSG_GROUP_MEMBER_MANAGER = 170,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_PERSONAL", Value=171)]
-      MSG_GROUP_PERSONAL = 171
+      MSG_GAMEPRESS = 999
     }
   
 }
