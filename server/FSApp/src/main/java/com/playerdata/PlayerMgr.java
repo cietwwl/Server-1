@@ -51,13 +51,14 @@ public class PlayerMgr {
 
 	private DataCache<String, Player> cache;
 
-	public PlayerMgr(){
+	public PlayerMgr() {
 		int cacheSize = GameManager.getPerformanceConfig().getPlayerCapacity();
-		cacheSize -= cacheSize /10;
-//		cache = new DataCache<String, Player>("player", cacheSize, cacheSize, 60, DBThreadPoolMgr.getExecutor(), loader,null);
+		cacheSize -= cacheSize / 10;
+		// cache = new DataCache<String, Player>("player", cacheSize, cacheSize,
+		// 60, DBThreadPoolMgr.getExecutor(), loader,null);
 		cache = DataCacheFactory.createDataDache("player", cacheSize, cacheSize, 60, loader);
 	}
-	
+
 	private PersistentLoader<String, Player> loader = new PersistentLoader<String, Player>() {
 
 		@Override
@@ -67,7 +68,7 @@ public class PlayerMgr {
 
 		@Override
 		public boolean delete(String key) throws DataNotExistException, Exception {
-			//玩家不支持删除
+			// 玩家不支持删除
 			return false;
 		}
 
@@ -79,16 +80,16 @@ public class PlayerMgr {
 
 		@Override
 		public boolean updateToDB(String key, Player player) {
-			//player.save();
+			// player.save();
 			return true;
 		}
 	};
-	
+
 	public Map<String, Player> getAllPlayer() {
 		return cache.entries();
 	}
-	
-	public void putToMap(Player player){
+
+	public void putToMap(Player player) {
 		try {
 			cache.put(player.getUserId(), player);
 		} catch (DataDeletedException e) {
@@ -152,8 +153,10 @@ public class PlayerMgr {
 	/****
 	 * 根据玩家名字拿 到唯一id
 	 * 
-	 * @param name 玩家名字
-	 * @param isOnLine 是否不在线的也获取
+	 * @param name
+	 *            玩家名字
+	 * @param isOnLine
+	 *            是否不在线的也获取
 	 * @return 玩家uid
 	 */
 	public String getUserIdByName(String name) {
@@ -183,7 +186,7 @@ public class PlayerMgr {
 	}
 
 	private String offReason = "亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。";
-	private boolean blnNeedCoolTime = true;   //是否需要设置kickOffCoolTime
+	private boolean blnNeedCoolTime = true; // 是否需要设置kickOffCoolTime
 	private final PlayerTask kickOffTask = new PlayerTask() {
 		public void doCallBack(Player player) {
 			player.KickOffWithCoolTime(offReason.toString(), blnNeedCoolTime);
@@ -198,9 +201,10 @@ public class PlayerMgr {
 	public int gmKickOffAllPlayer(String reason, boolean _blnNeedCoolTime) {
 		offReason = reason;
 		blnNeedCoolTime = _blnNeedCoolTime;
-		
-		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, kickOffTask);
 	}
 
@@ -216,8 +220,9 @@ public class PlayerMgr {
 	};
 
 	public int minutesFunc4AllPlayer() {
-		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, minuteFuncTask);
 
 	}
@@ -235,8 +240,9 @@ public class PlayerMgr {
 	};
 
 	public int hourFunc4AllPlayer() {
-		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, hourFuncTask);
 	}
 
@@ -253,8 +259,9 @@ public class PlayerMgr {
 	};
 
 	public int day5amFunc4AllPlayer() {
-		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, day5pmFuncTask);
 	}
 
@@ -271,8 +278,9 @@ public class PlayerMgr {
 	};
 
 	public int dayZero4Func4AllPlayer() {
-		//List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		// List<Player> playerList = new
+		// ArrayList<Player>(m_PlayerMap.values());
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, dayZero4FuncTask);
 	}
 
@@ -306,7 +314,7 @@ public class PlayerMgr {
 		return gamePlayerEmailHelper.addTask(playerList, playerTask);
 
 	}
-	
+
 	public int callbackEmailToList(List<Player> playerList, final EmailData emailData) {
 		PlayerTask playerTask = new PlayerTask() {
 			@Override
@@ -326,25 +334,25 @@ public class PlayerMgr {
 
 	public int sendEmailToAll(final EmailData emailData, final List<PlayerFilterCondition> conditionList) {
 		List<Player> playerList = new ArrayList<Player>();
-		
+
 		List<User> allUserList = UserDataDao.getInstance().queryAll();
 		for (User user : allUserList) {
 			Player player = find(user.getUserId());
-			if(player!=null){
+			if (player != null) {
 				playerList.add(player);
 			}
 		}
 		return sendEmailToList(playerList, emailData, conditionList);
 
 	}
-	
-	public int callbackEmail(final EmailData emailData){
+
+	public int callbackEmail(final EmailData emailData) {
 		List<Player> playerList = new ArrayList<Player>();
-		
+
 		List<User> allUserList = UserDataDao.getInstance().queryAll();
 		for (User user : allUserList) {
 			Player player = find(user.getUserId());
-			if(player!=null){
+			if (player != null) {
 				playerList.add(player);
 			}
 		}
@@ -354,7 +362,8 @@ public class PlayerMgr {
 	/****
 	 * 根据玩家等级得到玩家的基本信息 只能拿到>=level的信息
 	 * 
-	 * @param level 玩家等级
+	 * @param level
+	 *            玩家等级
 	 * @return 玩家 UserTable TableUserOther 才有值
 	 */
 	public List<Player> getAllUserBaseInfoByLevel(int level) {
@@ -374,7 +383,8 @@ public class PlayerMgr {
 
 	}
 
-	// public void sendToOtherPlayer(MsgDef.Command cmd, ByteString pBuffer, Player me) {
+	// public void sendToOtherPlayer(MsgDef.Command cmd, ByteString pBuffer,
+	// Player me) {
 	// try {
 	// Set<Entry<String, Player>> players = m_PlayerMap.entrySet();
 	// for (Entry<String, Player> entry : players) {
@@ -390,20 +400,21 @@ public class PlayerMgr {
 
 	public void SendToPlayer(MsgDef.Command cmd, ByteString pBuffer, PlayerIF p) {
 		try {
-//			Set<Entry<String, Player>> players = cache.entrySet();
-//			for (Entry<String, Player> entry : players) {
-//				Player player = entry.getValue();
-//				if (player != null && player.getUserId().equals(p.getTableUser().getUserId())) {
-//					player.SendMsgByOther(cmd, pBuffer);
-//				}
-//			}
-			List<Player> players = cache.values();
+			// Set<Entry<String, Player>> players = cache.entrySet();
+			// for (Entry<String, Player> entry : players) {
+			// Player player = entry.getValue();
+			// if (player != null &&
+			// player.getUserId().equals(p.getTableUser().getUserId())) {
+			// player.SendMsgByOther(cmd, pBuffer);
+			// }
+			// }
+			List<Player> players = getOnlinePlayers();
 			for (Player player : players) {
 				if (player != null && player.getUserId().equals(p.getTableUser().getUserId())) {
 					player.SendMsgByOther(cmd, pBuffer);
 				}
 			}
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -427,6 +438,18 @@ public class PlayerMgr {
 	 * @return
 	 */
 	public boolean isOnline(String userId) {
-		return UserChannelMgr.get(userId)!=null;
+		return UserChannelMgr.get(userId) != null;
 	}
+
+	public List<Player> getOnlinePlayers() {
+		ArrayList<Player> list = new ArrayList<Player>();
+		for (String s : UserChannelMgr.getOnlinePlayerIdSet()) {
+			Player p = find(s);
+			if (p != null) {
+				list.add(p);
+			}
+		}
+		return list;
+	}
+
 }

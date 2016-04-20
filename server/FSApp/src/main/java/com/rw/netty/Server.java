@@ -44,7 +44,7 @@ public class Server {
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
 		int ioThreads = Runtime.getRuntime().availableProcessors() * 4;
 		// new PrintServerState().startPrintState();
-		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(8);
+		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(64);
 		// final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
 		try {
 			// 初始化所有后台服务

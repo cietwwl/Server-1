@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import com.common.HPCUtil;
 import com.rw.dataaccess.processor.AngelArrayFloorProcessor;
 import com.rw.dataaccess.processor.BattleTowerProcessor;
+import com.rw.dataaccess.processor.CopyProcessor;
 import com.rw.dataaccess.processor.DailyActivityProcessor;
 import com.rw.dataaccess.processor.EmailProcessor;
 import com.rw.dataaccess.processor.FriendProcessor;
@@ -24,6 +25,7 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngleArrayFloorDataDao;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.business.SevenDayGifInfoDAO;
+import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.email.TableEmailDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
 import com.rwbase.dao.gamble.TableGambleDAO;
@@ -59,7 +61,8 @@ public enum DataKVType {
 	UNENDING(14,UnendingWarDAO.class,UnendingWarProcessor.class, LoadPolicy.PLAYER_QUERY),
 	BATTLE_TOWER(15,TableBattleTowerDao.class,BattleTowerProcessor.class, LoadPolicy.PLAYER_QUERY),
 	PLOT_PROGRESS(16,PlotProgressDAO.class,PlotProgressProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	GUIDE__PROGRESS(17,GuideProgressDAO.class,GuideProgressProcessor.class, LoadPolicy.PLAYER_LOGIN)
+	GUIDE__PROGRESS(17,GuideProgressDAO.class,GuideProgressProcessor.class, LoadPolicy.PLAYER_LOGIN),
+	COPY(18,TableCopyDataDAO.class,CopyProcessor.class,LoadPolicy.PLAYER_LOGIN)
 	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, 

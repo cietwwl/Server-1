@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.persistence.Id;
+
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -58,7 +60,9 @@ public class CommonMultiTable<T> {
 		if (size == 1 && !list.get(0).equals(tableName)) {
 			throw new ExceptionInInitializerError("数据表名不对应：expect=" + tableName + ",actual=" + list.get(0));
 		}
-
+		if(tableName.contains("skill")){
+			System.out.println();
+		}
 		StringBuilder insertFields = new StringBuilder();
 		StringBuilder insertHolds = new StringBuilder();
 		StringBuilder updateFields = new StringBuilder();
@@ -68,7 +72,6 @@ public class CommonMultiTable<T> {
 			throw new ExceptionInInitializerError(t);
 		}
 		this.rowMapper = new CommonRowMapper<T>(classInfoPojo);
-		
 		String idFieldName = classInfoPojo.getPrimaryKey();
 		this.tableLength = size;
 		this.tableName = new String[size];
@@ -97,7 +100,7 @@ public class CommonMultiTable<T> {
 		final ArrayList<List<Object>> fieldValues = new ArrayList<List<Object>>(); // 字段值
 		for (int i = 0; i < size; i++) {
 			T t = list.get(i);
-			fieldValues.add(extractAttributes(t));
+			fieldValues.add(extractAttributes(t, false));
 		}
 		String sql = getString(insertSqlArray, searchId);
 		this.template.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -120,7 +123,7 @@ public class CommonMultiTable<T> {
 	}
 
 	public boolean insert(String searchId, String key, T target) throws DuplicatedKeyException, Exception {
-		final List<Object> fieldValues = extractAttributes(target);
+		final List<Object> fieldValues = extractAttributes(target, false);
 		final String sql = getString(insertSqlArray, searchId);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		try {
@@ -148,9 +151,45 @@ public class CommonMultiTable<T> {
 		return result > 0;
 	}
 
+	public boolean updateToDB(String searchId, Map<String, T> map) {
+		try {
+			final int size = map.size();
+			String sql = getString(updateSqlArray, searchId);
+			final ArrayList<List<Object>> fieldValues = new ArrayList<List<Object>>(); // 字段值
+			for (Map.Entry<String, T> entry : map.entrySet()) {
+				String key = entry.getKey();
+				T target = entry.getValue();
+				List<Object> fieldValueList = extractAttributes(target, true);
+				fieldValueList.add(key);
+				fieldValues.add(fieldValueList);
+			}
+			template.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					List<Object> list = fieldValues.get(i);
+					int len = list.size();
+					for (int j = 0; j < len; j++) {
+						Object param = list.get(j);
+						ps.setObject(j + 1, param);
+					}
+				}
+
+				@Override
+				public int getBatchSize() {
+					return size;
+				}
+			});
+			return true;
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean updateToDB(String searchId, String key, T target) {
 		try {
-			final List<Object> fieldValues = extractAttributes(target);
+			final List<Object> fieldValues = extractAttributes(target, true);
 			String sql = getString(updateSqlArray, searchId);
 			fieldValues.add(key);
 			int result = template.update(sql, new PreparedStatementSetter() {
@@ -174,7 +213,7 @@ public class CommonMultiTable<T> {
 	public List<T> findByKey(String key, Object value) throws Exception {
 		// 获得表名
 		String tableName = getTableName(String.valueOf(value));
-		
+
 		String sql = "select * from " + tableName + " where " + key + "=?";
 		List<T> resultList = template.query(sql, rowMapper, value);
 		return resultList;
@@ -201,17 +240,22 @@ public class CommonMultiTable<T> {
 			if (field.isAnnotationPresent(NonSave.class)) {
 				continue;
 			}
+			boolean isId = field.isAnnotationPresent(Id.class);
 			boolean addSpilt = count < size;
 			String columnName = field.getName();
 			// 区分insert与update语句
 			fieldNames.append(columnName);
 			placeholders.append("?");
-			updateFieldNames.append(columnName).append("=?");
+			if (!isId) {
+				updateFieldNames.append(columnName).append("=?");
+			}
 			// update语句
 			if (addSpilt) {
 				fieldNames.append(",");
 				placeholders.append(",");
-				updateFieldNames.append(",");
+				if (!isId) {
+					updateFieldNames.append(",");
+				}
 			}
 		}
 		int lastIndex = fieldNames.length() - 1;
@@ -231,10 +275,13 @@ public class CommonMultiTable<T> {
 	}
 
 	// 单字段保存
-	private ArrayList<Object> extractAttributes(T t) throws IllegalAccessException {
+	private ArrayList<Object> extractAttributes(T t, boolean ignorePrimaryKey) throws IllegalAccessException {
 		ArrayList<Object> fieldValues = new ArrayList<Object>();
 		Map<String, String> fieldValueMap = null;
 		for (Field field : classInfoPojo.getFields()) {
+			if (ignorePrimaryKey && field.isAnnotationPresent(Id.class)) {
+				continue;
+			}
 			if (field.isAnnotationPresent(NonSave.class)) {
 				continue;
 			}
@@ -267,7 +314,7 @@ public class CommonMultiTable<T> {
 		}
 		return fieldValues;
 	}
-	
+
 	public static AtomicLong total = new AtomicLong();
 
 	private String getString(String[] sqlArray, String searchId) {

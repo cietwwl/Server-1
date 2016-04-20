@@ -2,6 +2,7 @@ package com.rw.fsutil.cacheDao.mapItem;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -128,23 +129,39 @@ public class MapItemStore<T extends IMapItem> {
 			updater.submitUpdateTask(searchId);
 			return null;
 		}
-		ArrayList<String> list = null;
+		int size = updatedMap.size();
+		if (size == 0) {
+			return null;
+		}
+		HashMap<String, T> map = new HashMap<String, T>();
 		Iterator<String> iterator = updatedMap.keySet().iterator();
 		for (; iterator.hasNext();) {
 			String idTmp = iterator.next();
 			iterator.remove();
 			T itemTmp = itemMap.get(idTmp);
 			if (itemTmp == null) {
-				// Logger...
 				continue;
 			}
-			if (!commonJdbc.updateToDB(searchId,itemTmp.getId(), itemTmp)) {
-				if (list == null) {
-					list = new ArrayList<String>();
-				}
-				list.add(idTmp);
+			map.put(itemTmp.getId(), itemTmp);
+		}
+		if (map.size() == 1) {
+			Map.Entry<String, T> entry = map.entrySet().iterator().next();
+			String key = entry.getKey();
+			if (!commonJdbc.updateToDB(searchId, key, entry.getValue())) {
+				ArrayList<String> result = new ArrayList<String>(1);
+				result.add(key);
+				updatedMap.put(key, PRESENT);
+				return result;
+			} else {
+				return null;
 			}
 		}
+
+		if (commonJdbc.updateToDB(searchId, map)) {
+			return null;
+		}
+		ArrayList<String> list = new ArrayList<String>(map.keySet());
+
 		if (list != null) {
 			for (int i = list.size(); --i >= 0;) {
 				updatedMap.put(list.get(i), PRESENT);

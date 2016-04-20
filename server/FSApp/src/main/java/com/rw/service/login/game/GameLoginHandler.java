@@ -321,7 +321,7 @@ public class GameLoginHandler {
 			long end1 = System.currentTimeMillis();
 			System.out.println("-------------------" + (end1 - start));
 
-			EmailUtils.sendEmail(player.getUserId(), "10003");
+			//EmailUtils.sendEmail(player.getUserId(), "10003");
 
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
@@ -345,14 +345,14 @@ public class GameLoginHandler {
 			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
 			 * </pre>
 			 */
-			PlotProgressDAO dao = PlotProgressDAO.getInstance();
-			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-			if (userPlotProgress == null) {
-				userPlotProgress = new UserPlotProgress();
-				userPlotProgress.setUserId(userId);
-			}
-			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-			dao.update(userPlotProgress);
+//			PlotProgressDAO dao = PlotProgressDAO.getInstance();
+//			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+//			if (userPlotProgress == null) {
+//				userPlotProgress = new UserPlotProgress();
+//				userPlotProgress.setUserId(userId);
+//			}
+//			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+//			dao.update(userPlotProgress);
 			// --------------------------------------------------------END
 		}
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());

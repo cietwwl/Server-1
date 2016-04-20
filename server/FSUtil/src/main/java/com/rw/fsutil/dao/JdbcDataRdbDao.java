@@ -142,7 +142,7 @@ public class JdbcDataRdbDao<T> {
 	 * @return
 	 */
 	protected int getCacheSize() {
-		return 5000;
+		return 10000;
 	}
 
 	/**

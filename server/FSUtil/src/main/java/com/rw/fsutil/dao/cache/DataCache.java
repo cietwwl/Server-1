@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
-
 import com.rw.fsutil.json.JSONObject;
 
 /**
@@ -38,10 +37,12 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private final int updatePeriod;
 	private final long timeoutNanos;
 	private final ScheduledThreadPoolExecutor scheduledExecutor;
+//	private final ScheduledThreadPoolExecutor evcitExecutor;
 	private final LRUCacheListener<K, V> listener;
 	private CacheLogger logger;
 	private String name;
 	private CacheJsonConverter<V> jsonConverter;
+	private final AtomicLong generator = new AtomicLong();
 
 	static AtomicLong evcitDeleted = new AtomicLong();
 	static AtomicLong evcitMarkDeleted = new AtomicLong();
@@ -59,6 +60,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		this.penetrationCache = new ConcurrentHashMap<K, Object>();
 		this.loader = loader;
 		this.timeoutNanos = TimeUnit.SECONDS.toNanos(6);
+//		this.evcitExecutor = new ScheduledThreadPoolExecutor(4, new SimpleThreadFactory(name));
 		this.cache = new LinkedHashMap<K, CacheValueEntity<V>>(initialCapacity, 0.5f, true) {
 
 			@Override
@@ -823,15 +825,18 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		private final K key;
 		private volatile int times;
 		private final CacheStackTrace trace;
+		private final long version;
 
 		public UpdateTask(K key) {
 			this.key = key;
 			this.trace = new CacheStackTrace();
+			this.version = generator.incrementAndGet();
 		}
 
 		public UpdateTask(K key, CacheStackTrace trace) {
 			this.key = key;
 			this.trace = trace;
+			this.version = generator.incrementAndGet();
 		}
 
 		@Override
@@ -843,12 +848,17 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			}
 			CacheValueEntity<V> value = DataCache.this.get(key);
 			if (value == null) {
-				logger.warn("update fail:" + key + "," + name);
+				String taskName = null;
+				ReentrantFutureTask task = taskMap.get(key);
+				if(task != null){
+					taskName = task.getTask().getClass().getName();
+				}
+				logger.warn("update fail:" + key + "," + name + "," + CacheFactory.getStackTrace(trace) + ",version = " + version+","+taskName);
 				return null;
 			}
 			V v = value.getValue();
 			if (v == null) {
-				logger.error("更新数据为null：" + key + "," + value);
+				logger.error("update value is null：" + key + "," + value + "," + name);
 				return null;
 			}
 			CacheValueState state = value.getState();
@@ -1075,6 +1085,10 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 		public String toString() {
 			return task.getName();
+		}
+		
+		public TaskCallable getTask() {
+			return task;
 		}
 
 	}

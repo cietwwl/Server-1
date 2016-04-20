@@ -51,10 +51,8 @@ public class UserGameDataMgr {
 	/**** 体力回复 ***/
 	public void addPowerByTime(int level) {
 		UserGameData userGameData = userGameDataHolder.get();
-
 		int recoverTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME);
 		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(level));
-
 		long now = System.currentTimeMillis();// 当前时间
 		if (cfg == null) {
 			StringBuilder errorReason = new StringBuilder("UserGameDataMgr[addPower]缺少").append(level).append("级的配置，对应表名为：roleUpgrade");
@@ -63,16 +61,11 @@ public class UserGameDataMgr {
 		} else {
 			int curPower = userGameData.getPower();// 当前的体力
 			int maxPower = cfg.getMaxPower();// 最大的体力
-
-			// System.err.println(player.getUserName() + ",max:" + maxPower +
-			// ",min:" + curPower + ",level:" + level);
 			if (curPower >= maxPower) {// 已经超过了最大的体力就停止检查
 				userGameData.setLastAddPowerTime(now);// 上次检查时间是0
 			} else {
 				long lastTime = userGameData.getLastAddPowerTime();
 				long flowTime = now - lastTime;// 流失的时间
-
-				// System.err.println(lastTime + "," + flowTime);
 				if (flowTime <= 0) {// 流失时间小于0
 					userGameData.setLastAddPowerTime(now);// 上次检查时间是0
 				} else {
@@ -88,42 +81,6 @@ public class UserGameDataMgr {
 			}
 		}
 		userGameDataHolder.update(player);
-
-		// 检测当前时间距离上次有多少
-		// System.err.println("level--" + level);
-		// UserGameData userGameData = userGameDataHolder.get();
-		// long now = System.currentTimeMillis();
-		// long lastTime = userGameData.getLastAddPowerTime();
-		// if (lastTime == 0) {
-		// userGameData.setLastAddPowerTime(now);
-		// return;
-		// }
-		//
-		// long totalSeconds = (now - lastTime) / 1000;
-		// System.err.println("total--" + totalSeconds);
-		// int recoverTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME);
-		// if (totalSeconds < recoverTime) {
-		// return;
-		// }
-		//
-		// RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(level));
-		// if (cfg == null) {
-		// StringBuilder errorReason = new StringBuilder("UserGameDataMgr[addPower]缺少").append(level).append("级的配置，对应表名为：roleUpgrade");
-		// GameLog.error(LogModule.UserGameData.getName(), userGameData.getUserId(), errorReason.toString(), null);
-		// userGameData.setLastAddPowerTime(now);
-		// } else {
-		// int maxPower = cfg.getMaxPower();
-		// System.err.println("max---" + maxPower);
-		// int addValue = (int) Math.ceil(totalSeconds / recoverTime);
-		// int newPower = userGameData.getPower() + addValue;
-		// int offPower = newPower - maxPower;
-		// userGameData.setLastAddPowerTime(now - ((totalSeconds - addValue * recoverTime) * 1000));
-		// offPower = offPower > 1 ? 1 : (offPower <= 0 ? 0 : offPower);
-		// if (offPower > 0) {
-		// userGameData.setPower(offPower);
-		// }
-		// }
-		// userGameDataHolder.update(player);
 	}
 
 	public boolean addPower(int value, int level) {
