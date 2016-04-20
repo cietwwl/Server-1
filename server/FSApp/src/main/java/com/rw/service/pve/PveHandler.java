@@ -89,7 +89,15 @@ public class PveHandler {
 		PveActivity.Builder unendingActivity = PveActivity.newBuilder();
 		TableUnendingWar unendingWar = player.unendingWarMgr.getTable();
 		unendingActivity.setCopyType(CopyType.COPY_TYPE_WARFARE);
-		unendingActivity.setRemainSeconds(getRemainSeconds(unendingWar.getLastChallengeTime(), currentTime, CopyType.COPY_TYPE_WARFARE));
+		// 重置次数不计算时间
+				int time;
+				if (player.unendingWarMgr.getTable().getResetNum() >= 1) {
+					time = 0;
+				} else {
+					time = getRemainSeconds(unendingWar.getLastChallengeTime(), currentTime, CopyType.COPY_TYPE_WARFARE);
+				}
+				
+				unendingActivity.setRemainSeconds(time);
 		// TODO 无尽战火最多挑战次数现在是客户端写死1次，服务器先写，之后统一弄成配置吧
 		int unendingCount = 1 - player.unendingWarMgr.getTable().getNum();
 		unendingActivity.setRemainTimes(unendingCount > 0 ? unendingCount : 0);
