@@ -28,7 +28,8 @@ public class ChargeCfgDao extends CfgCsvDao<ChargeCfg> {
 		for (String item : itemArray) {
 			String id = item.split(":")[0]; 
 			int money = Integer.valueOf(item.split(":")[1]); 			
-			itemList.add(new ChargeItem(id, money));			
+			int gold = Integer.valueOf(item.split(":")[2]); 			
+			itemList.add(new ChargeItem(id, money, gold));			
 		}
 		chargeCfg.setChargeItems(chargeItems);
 	}

@@ -9,9 +9,10 @@ public class ChargeItem {
 	private int gold;
 	
 	
-	public ChargeItem(String id, int money) {		
+	public ChargeItem(String id, int money,int gold) {		
 		this.id = id;
 		this.money = money;
+		this.gold = gold;
 	}
 	public String getId() {
 		return id;
