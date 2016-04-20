@@ -28,6 +28,17 @@ public class ActivityCountTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private List<ActivityCountTypeSubItem> takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
+	
+	@CombineSave
+	private long activityLoginTime;
+
+	public long getActivityLoginTime() {
+		return activityLoginTime;
+	}
+
+	public void setActivityLoginTime(long activityLoginTime) {
+		this.activityLoginTime = activityLoginTime;
+	}
 
 	public String getId() {
 		return id;

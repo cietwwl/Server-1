@@ -21,9 +21,13 @@ public class ActivityCountTypeCfg {
 	//？;
 	private String desc;
 	
-	private GoToType goToType;
+//	private GoToType goToType;
+	private String goToType;
 	
+
 	private int sortNum;
+	
+	private String countLimit;
 	
 	//id-count-giftId;
 	private String subItems;
@@ -59,10 +63,12 @@ public class ActivityCountTypeCfg {
 		return desc;
 	}
 
-	public GoToType getGoToType() {
-		return goToType;
-	}
-
+//	public GoToType getGoToType() {
+//		return goToType;
+//	}
+	public String getGoToType() {
+	return goToType;
+}
 	public int getSortNum() {
 		return sortNum;
 	}
@@ -80,6 +86,13 @@ public class ActivityCountTypeCfg {
 	}
 
 
+	public String getCountLimit() {
+		return countLimit;
+	}
+
+	public void setCountLimit(String countLimit) {
+		this.countLimit = countLimit;
+	}
 
 
 

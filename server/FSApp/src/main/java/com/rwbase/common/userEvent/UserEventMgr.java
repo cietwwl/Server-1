@@ -27,9 +27,9 @@ public class UserEventMgr {
 	}
 	
 	
-	public void logRoleLogin(Player player) {
+	public void RoleLogin(Player player) {
 		
-		UserEvent userEvent = new UserEvent(UserEventType.LOGIN, null);
+		UserEvent userEvent = new UserEvent(UserEventType.LOGIN, player.getUserGameDataMgr().getLastLoginTime());
 		raiseEvent(player, userEvent);
 	}
 

@@ -83,6 +83,13 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		return target;
 	}
 	
+	public List<ActivityCountTypeSubItem> newSubItemlist(String subItemId){
+		List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
+		ActivityCountTypeCfg cfg = getCfgById(subItemId);
+		subItemList = cfg.getSubItemList();		
+		return subItemList;
+	}
+	
 	
 	public void parseSubItemList(ActivityCountTypeCfg cfgItem){
 		String subItems = cfgItem.getSubItems();
