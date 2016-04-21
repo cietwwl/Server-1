@@ -31,6 +31,7 @@ import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
+import com.rw.service.log.template.GiftGoldChangedLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
@@ -94,6 +95,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ActivityBegin, new ActivityBeginLogTemplate());
 		templateMap.put(eBILogType.ActivityEnd, new ActivityEndLogTemplate());
 		templateMap.put(eBILogType.RoleUpgrade, new RoleUpgradeLogTemplate());
+		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 
 	}
 
@@ -364,8 +366,10 @@ public class BILogMgr {
 	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, long coinRemain) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("scenceId", scenceId);
-		moreInfo.put("ItemChangedEventType_1", type_1.name());
-		moreInfo.put("ItemChangedEventType_2", type_2.name());
+		if(type_1 != null)
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		if(type_2 != null)
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
 		moreInfo.put("coinChanged", String.valueOf(coinChanged));
 		moreInfo.put("coinRemain", String.valueOf(coinRemain));
 
@@ -384,7 +388,6 @@ public class BILogMgr {
 		}
 		moreInfo.put("giftGoldChanged", String.valueOf(giftGoldChanged));
 		moreInfo.put("giftGoldRemain", String.valueOf(giftGoldRemain));
-		
 		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
 	}
 	
