@@ -35,12 +35,8 @@ public class ActivityCountTypeItemHolder{
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();
-//			long startTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getStartTime();
-//			item.setStartTime(startTime);
-//			long endTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getEndTime();
-//			item.setEndTime(endTime);
-//			item.setGroup(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getGroup());
-//			itemList.add(item);
+			
+			itemList.add(item);
 		}
 		
 		return itemList;
