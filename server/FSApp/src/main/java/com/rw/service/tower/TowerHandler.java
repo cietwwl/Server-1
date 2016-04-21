@@ -192,7 +192,7 @@ public class TowerHandler {
 		// int towerIdCount = 0;
 		while (keyEnumeration.hasMoreElements()) {
 			Integer floorId = keyEnumeration.nextElement();
-			ArmyInfo enemyInfo = floorData.getEnemyInfo(floor);
+			ArmyInfo enemyInfo = floorData.getEnemyInfo(floorId);
 			TagTowerHeadInfo headInfo = getTowerHeadInfo(enemyInfo, floorId);
 			enemyHeadList.add(headInfo);
 
