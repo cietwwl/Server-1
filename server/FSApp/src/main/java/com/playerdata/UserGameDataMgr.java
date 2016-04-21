@@ -261,17 +261,13 @@ public class UserGameDataMgr {
 
 	public void addReCharge(int addNum) {
 		UserGameData tableUserOther = userGameDataHolder.get();
-		tableUserOther.setRecharge(tableUserOther.getRecharge() + addNum);
+		tableUserOther.setChargeGold(tableUserOther.getChargeGold() + addNum);
 		tableUserOther.updateGold();
 		userGameDataHolder.update(player);
 	}
 
 	public int getRookieFlag() {
 		return userGameDataHolder.get().getRookieFlag();
-	}
-
-	public int getRecharge() {
-		return userGameDataHolder.get().getRecharge();
 	}
 
 	public String getUserId() {
