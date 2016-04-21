@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.login.AccoutBM;
 import com.bm.login.UserBM;
+import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -327,6 +328,9 @@ public class GameLoginHandler {
 			System.out.println("-------------------" + (end1 - start));
 
 			EmailUtils.sendEmail(player.getUserId(), "10003");
+			
+			//检查发送gm邮件
+			ServerStatusMgr.processGmMailWhenCreateRole(player);
 
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
@@ -365,15 +369,13 @@ public class GameLoginHandler {
 
 	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
 		String userId = user.getUserId();
-		Player player = PlayerMgr.getInstance().newFreshPlayer(userId,null);
+		Player player = PlayerMgr.getInstance().find(userId);
 		UserChannelMgr.bindUserID(userId);
 
 		player.save();
 		long end = System.currentTimeMillis();
 		player.onLogin();
 		long end1 = System.currentTimeMillis();
-
-		EmailUtils.sendEmail(player.getUserId(), "10003");
 
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setUserId(userId);

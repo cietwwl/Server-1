@@ -16,7 +16,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.UserDataMgr;
 import com.rw.manager.GameManager;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.ServerDataHolder;
