@@ -131,6 +131,15 @@ public class TableAngleArrayFloorData {
 	}
 
 	/**
+	 * 获取敌人信息层数列表
+	 * 
+	 * @return
+	 */
+	public Enumeration<Integer> getKeyEnumeration() {
+		return this.enemyMap.keys();
+	}
+
+	/**
 	 * 获取匹配到的阵容的Id列表
 	 * 
 	 * @return
