@@ -18,7 +18,6 @@ public class ChargeHandler {
 
 	public ByteString charge(Player player, ChargeServiceCommonReqMsg request) {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
-		response.setReqType(request.getReqType());
 		
 		String chargeItemId = request.getChargeItemId();
 		
@@ -28,7 +27,16 @@ public class ChargeHandler {
 		
 		return response.build().toByteString();
 	}
-
+	public ByteString getReward(Player player, ChargeServiceCommonReqMsg request) {
+		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
+		
+		response.setIsSuccess(true);
+		
+		
+		return response.build().toByteString();
+	}
+	
+	
 	
 
 }
