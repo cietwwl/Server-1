@@ -1,13 +1,8 @@
 package com.playerdata.charge;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.playerdata.Player;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
-import com.playerdata.charge.cfg.ChargeItem;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -30,16 +25,8 @@ public class ChargeMgr {
 		
 		ChargeResult result = ChargeResult.newResult(false);
 		
-		ChargeCfg config = ChargeCfgDao.getInstance().getConfig();
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
 		
-		List<ChargeItem> chargetItemList = config.getChargetItemList();
-		ChargeItem target = null;
-		for (ChargeItem chargeItem : chargetItemList) {
-			if(StringUtils.equals(itemId, chargeItem.getId())){
-				target = chargeItem;
-				break;
-			}
-		}
 		if(target!=null){
 			boolean success = doCharge(player, target);
 			result.setSuccess(success);
@@ -49,13 +36,14 @@ public class ChargeMgr {
 		return result;
 	}
 
-	private boolean doCharge(Player player, ChargeItem target) {
+	private boolean doCharge(Player player, ChargeCfg target) {
 
-		int addGold = target.getGold();	
+		int addGold = target.getGoldCount()+target.getExtraGive();
+		int money = target.getMoneyCount();
 		
 		player.getUserGameDataMgr().addReCharge(addGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(target.getMoney());
+		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money);
 		ChargeInfoHolder.getInstance().update(player);		
 		
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Recharge);
