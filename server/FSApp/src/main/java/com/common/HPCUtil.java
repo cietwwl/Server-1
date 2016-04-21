@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import com.rw.fsutil.common.TypeIdentification;
+import com.rw.fsutil.util.DateUtils;
+import com.rwbase.gameworld.GameWorldConstant;
 
 /**
  * <pre>
@@ -164,4 +166,14 @@ public class HPCUtil {
 		return total;
 	}
 
+	/**
+	 * 检查是否重置时间
+	 * @param lastTime
+	 * @return
+	 */
+	public static boolean isResetTime(long lastTime){
+		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, 
+				GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
+	}
+	
 }
