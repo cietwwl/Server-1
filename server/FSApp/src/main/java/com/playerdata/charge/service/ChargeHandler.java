@@ -18,6 +18,7 @@ public class ChargeHandler {
 
 	public ByteString charge(Player player, ChargeServiceCommonReqMsg request) {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
+		response.setReqType(request.getReqType());
 		
 		String chargeItemId = request.getChargeItemId();
 		
@@ -29,7 +30,8 @@ public class ChargeHandler {
 	}
 	public ByteString getReward(Player player, ChargeServiceCommonReqMsg request) {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
-		
+		response.setReqType(request.getReqType());
+	
 		response.setIsSuccess(true);
 		
 		
