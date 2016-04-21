@@ -38,10 +38,11 @@ public class ChargeMgr {
 
 	private boolean doCharge(Player player, ChargeCfg target) {
 
-		int addGold = target.getGoldCount()+target.getExtraGive();
+		int addGold = target.getGoldCount();
+		int totalAddGold = addGold+target.getExtraGive();
 		int money = target.getMoneyCount();
 		
-		player.getUserGameDataMgr().addReCharge(addGold);
+		player.getUserGameDataMgr().addReCharge(totalAddGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money);
 		ChargeInfoHolder.getInstance().update(player);		
