@@ -3,6 +3,7 @@ package com.playerdata;
 import java.util.List;
 
 import com.log.GameLog;
+import com.playerdata.charge.ChargeMgr;
 import com.playerdata.readonly.TaskMgrIF;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BITaskType;
@@ -119,7 +120,7 @@ public class TaskItemMgr implements TaskMgrIF {
 			curplan = m_pPlayer.getStarLevel();
 			break;
 		case Recharge:
-			curplan = m_pPlayer.getUserGameDataMgr().getRecharge();
+			curplan = ChargeMgr.getInstance().getChargeInfo(m_pPlayer.getUserId()).getTotalChargeGold();
 			break;
 		case Transfer:
 			curplan = m_pPlayer.getCareer() > 0 ? 1 : 0;
