@@ -5,5 +5,7 @@ public abstract class AGMHandler {
 	protected String account;
 	protected String password;
 	
+	public void setParams(String[] args){}
+	
 	public abstract GmRequest createGmRequest();
 }
