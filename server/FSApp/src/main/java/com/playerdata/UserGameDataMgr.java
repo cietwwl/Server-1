@@ -262,6 +262,7 @@ public class UserGameDataMgr {
 	public void addReCharge(int addNum) {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		tableUserOther.setRecharge(tableUserOther.getRecharge() + addNum);
+		tableUserOther.updateGold();
 		userGameDataHolder.update(player);
 	}
 
