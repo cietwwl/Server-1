@@ -353,7 +353,7 @@ public class ArenaHandler {
 		// 设置后挑战者掉线，可怜的被挑战者只能等待超时时间(可以监听挑战者断线事件)
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		List<String> idList = request.getAtkIdListList();
-		arenaBM.updateAtkHeroList(idList, userId);
+		arenaBM.updateAtkHeroList(idList, player);
 		return response.build().toByteString();
 	}
 

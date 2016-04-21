@@ -139,28 +139,29 @@ public class Hero implements HeroIF {
 		String templateId = String.valueOf(getRoleBaseInfo().getTemplateId());
 		return (RoleCfg) RoleCfgDAO.getInstance().getCfgById(templateId);
 	}
+
 	/**
 	 * 是否可升星
+	 * 
 	 * @return -1:魂石不足;-2:铜钱不足;-3:最高星;-4满星；0:可升星
 	 */
-	public int canUpgradeStar(){
+	public int canUpgradeStar() {
 		int result = 0;
 		RoleCfg rolecfg = getHeroCfg();
 		int soulStoneCount = m_pPlayer.getItemBagMgr().getItemCountByModelId(rolecfg.getSoulStoneId());
 		if (soulStoneCount < rolecfg.getRisingNumber()) {
 			result = -1;
-		}else if (m_pPlayer.getUserGameDataMgr().getCoin() < rolecfg.getUpNeedCoin()) {
+		} else if (m_pPlayer.getUserGameDataMgr().getCoin() < rolecfg.getUpNeedCoin()) {
 			result = -2;
-		}else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())){
+		} else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())) {
 			result = -3;
-		}else if(getStarLevel()>=5){
-			//满星
+		} else if (getStarLevel() >= 5) {
+			// 满星
 			result = -4;
 		}
-		
+
 		return result;
 	}
-	
 
 	public LevelCfg getHeroLevelCfg() {
 		String level = String.valueOf(getRoleBaseInfo().getLevel());
@@ -263,7 +264,7 @@ public class Hero implements HeroIF {
 	public int getStarLevel() {
 		return getRoleBaseInfo().getStarLevel();
 	}
-	
+
 	// 设置佣兵的品阶id
 	public void setQualityId(String qualityId) {
 		m_roleBaseInfoMgr.setQualityId(qualityId);
@@ -286,17 +287,18 @@ public class Hero implements HeroIF {
 
 	/**
 	 * gm修改英雄等级
+	 * 
 	 * @param level
 	 */
 	public void gmEditHeroLevel(int level) {
 		int preLevel = getRoleBaseInfo().getLevel();
 		m_roleBaseInfoMgr.setLevel(level);
 	}
-	
+
 	/**
 	 * gm激活技能
 	 */
-	public void gmCheckActiveSkill(){
+	public void gmCheckActiveSkill() {
 		// 开启技能
 		RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(getRoleBaseInfo().getQualityId());
 		m_SkillMgr.activeSkill(getRoleBaseInfo().getLevel(), cfg.getQuality());

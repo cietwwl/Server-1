@@ -1,6 +1,8 @@
 package com.bm.arena;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -9,13 +11,14 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
-	
+
 	public static RobotCfgDAO getInstance() {
 		return SpringContextUtil.getBean(RobotCfgDAO.class);
-	}	
-	
+	}
 
 	private TreeMap<Integer, RobotEntryCfg> arenaRobots;
+
+	private Map<String, RobotEntryCfg> angelRobots;// 万仙阵要用的机器人
 
 	@Override
 	public Map<String, RobotCfg> initJsonCfg() {
@@ -33,6 +36,14 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 			}
 		}
 		arenaRobots = arenaRobots_;
+
+		// TODO HC 现在先暂时用竞技场的机器人
+		Map<String, RobotEntryCfg> angelRobots_ = new HashMap<String, RobotEntryCfg>();
+		for (Entry<String, RobotCfg> e : cfgCacheMap.entrySet()) {
+			angelRobots_.put(e.getKey(), new RobotEntryCfg(0, e.getValue()));
+		}
+		angelRobots = angelRobots_;
+
 		return cfgCacheMap;
 	}
 
@@ -59,8 +70,17 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 		return this.arenaRobots;
 	}
 
+	/**
+	 * 获取万仙阵要用的机器人
+	 * 
+	 * @param robotId
+	 * @return
+	 */
+	public RobotEntryCfg getAngelRobotCfg(String robotId) {
+		if (angelRobots == null || angelRobots.isEmpty()) {
+			return null;
+		}
 
-
-	
-
+		return angelRobots.get(robotId);
+	}
 }
