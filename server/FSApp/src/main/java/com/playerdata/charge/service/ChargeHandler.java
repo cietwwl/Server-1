@@ -18,6 +18,7 @@ public class ChargeHandler {
 
 	public ByteString charge(Player player, ChargeServiceCommonReqMsg request) {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
+		response.setReqType(request.getReqType());
 		
 		String chargeItemId = request.getChargeItemId();
 		

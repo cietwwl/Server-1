@@ -21,6 +21,10 @@ public class ChargeMgr {
 		ChargeInfoHolder.getInstance().syn(player,version);
 	}
 	
+	public ChargeInfo getChargeInfo(String userId){
+		return ChargeInfoHolder.getInstance().get(userId);
+	}
+	
 	public ChargeResult charge(Player player, String itemId){
 		
 		ChargeResult result = ChargeResult.newResult(false);
@@ -38,10 +42,11 @@ public class ChargeMgr {
 
 	private boolean doCharge(Player player, ChargeCfg target) {
 
-		int addGold = target.getGoldCount()+target.getExtraGive();
+		int addGold = target.getGoldCount();
+		int totalAddGold = addGold+target.getExtraGive();
 		int money = target.getMoneyCount();
 		
-		player.getUserGameDataMgr().addReCharge(addGold);
+		player.getUserGameDataMgr().addReCharge(totalAddGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money);
 		ChargeInfoHolder.getInstance().update(player);		
