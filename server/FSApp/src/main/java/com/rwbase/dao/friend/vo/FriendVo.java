@@ -1,10 +1,13 @@
 package com.rwbase.dao.friend.vo;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.common.HPCUtil;
 import com.playerdata.readonly.FriendVoIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.friend.CfgFriendGiftDAO;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FriendVo implements FriendVoIF {
 	private int receivePower;
 	private volatile long lastResetMillis;

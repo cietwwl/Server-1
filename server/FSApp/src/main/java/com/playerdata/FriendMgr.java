@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -53,8 +54,14 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 	@Override
 	public void notifyPlayerLogin(Player player) {
-		// TODO Auto-generated method stub
-
+		try {
+			long currentTime = System.currentTimeMillis();
+			TableFriend tableFriend = getTableFriend();
+			notifyLoginTime(tableFriend.getBlackList(), FriendType.BLACK, userId, currentTime);
+			notifyLoginTime(tableFriend.getFriendList(), FriendType.FRIEND, userId, currentTime);
+		} catch (Exception e) {
+			GameLog.error("FriendMgr", "#updateLoginTime()", "登录更新好友信息异常", e);
+		}
 	}
 
 	// 初始化
@@ -665,6 +672,37 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			// TODO 帮派获取名字后再提供
 			friendItem.setUnionName("");
 		}
+	}
+
+	private void notifyLoginTime(Map<String, FriendItem> map, FriendType type, String userId, long currentTime) {
+		TableFriendDAO friendDAO = TableFriendDAO.getInstance();
+		for (FriendItem item : map.values()) {
+			String otherUserId = item.getUserId();
+			TableFriend otherTable = friendDAO.getFromMemory(otherUserId);
+			if (otherTable == null) {
+				continue;
+			}
+			// 更新别人上次更新时间(只限内存操作)
+			Player otherPlayer = PlayerMgr.getInstance().findPlayerFromMemory(otherUserId);
+			if (otherPlayer != null) {
+				item.setLastLoginTime(otherPlayer.getUserGameDataMgr().getLastLoginTime());
+			}
+			// 通知别人(只限内存操作)
+			Map<String, FriendItem> friendMap;
+			if (type == FriendType.FRIEND) {
+				friendMap = otherTable.getFriendList();
+			} else {
+				friendMap = otherTable.getBlackList();
+			}
+			FriendItem self = friendMap.get(userId);
+			if (self != null) {
+				self.setLastLoginTime(currentTime);
+			}
+		}
+	}
+
+	enum FriendType {
+		FRIEND, BLACK
 	}
 
 	public boolean save() {
