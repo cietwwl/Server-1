@@ -87,8 +87,6 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 			item.setId(itemId);
 			item.setCfgId(cfgId);
 			item.setUserId(player.getUserId());
-			item.setStartTime(cfgById.getStartTime());
-			item.setEndTime(cfgById.getEndTime());
 			return item;
 		}else{
 			return null;

@@ -33,19 +33,5 @@ public enum ActivityCountTypeEnum{	// implements TypeIdentification
 		return target;
 	}
 
-	public static ActivityCountTypeEnum[] allValues;
-	
-	public static ActivityCountTypeEnum valueOff(String ordinal){
-		if(allValues == null){
-			allValues = ActivityCountTypeEnum.values();
-		}
-		for (ActivityCountTypeEnum Enum : allValues) {
-			if(StringUtils.equals(Enum.getCfgId(),ordinal)){
-				return Enum;
-			}
-		}
-		
-		return Login;
-	}
 	
 }

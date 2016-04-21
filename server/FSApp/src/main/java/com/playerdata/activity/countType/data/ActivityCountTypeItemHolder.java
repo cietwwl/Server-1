@@ -7,11 +7,9 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -37,14 +35,12 @@ public class ActivityCountTypeItemHolder{
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
 			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();
-			
-			
-			long startTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getStartTime();
-			item.setStartTime(startTime);
-			long endTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getEndTime();
-			item.setEndTime(endTime);
-			item.setGroup(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getGroup());
-			itemList.add(item);
+//			long startTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getStartTime();
+//			item.setStartTime(startTime);
+//			long endTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getEndTime();
+//			item.setEndTime(endTime);
+//			item.setGroup(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getGroup());
+//			itemList.add(item);
 		}
 		
 		return itemList;

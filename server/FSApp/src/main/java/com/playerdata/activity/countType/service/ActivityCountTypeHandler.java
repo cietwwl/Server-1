@@ -1,6 +1,5 @@
 package com.playerdata.activity.countType.service;
 
-import com.common.playerFilter.FilterType;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
@@ -19,16 +18,11 @@ public class ActivityCountTypeHandler {
 
 	public ByteString takeGift(Player player, ActivityCommonReqMsg commonReq) {
 		ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
-		String activityId = "1";
-		String subItemId = "0";
-		if(commonReq != null){
-			response.setReqType(commonReq.getReqType());
-			activityId = commonReq.getActivityId();
-			subItemId = commonReq.getSubItemId();
-		}else{
-//			response.setReqType(commonReq.getReqType());
-		}
-		ActivityCountTypeEnum countType = ActivityCountTypeEnum.valueOff(activityId);
+		response.setReqType(commonReq.getReqType());
+		String activityId = commonReq.getActivityId();
+		String subItemId =  commonReq.getSubItemId();
+	
+		ActivityCountTypeEnum countType = ActivityCountTypeEnum.getById(activityId);
 		
 		boolean success = false;
 		String tips = null;
