@@ -230,7 +230,6 @@ public class Player implements PlayerIF {
 				savedCount.incrementAndGet();
 			}
 			if (m_DailyActivityMgr != null) {
-				player.getDailyActivityMgr().save();
 				savedCount.incrementAndGet();
 			}
 			// if (m_TowerMgr != null) {

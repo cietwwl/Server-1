@@ -4,7 +4,13 @@ import java.util.List;
 
 import javax.print.attribute.standard.Severity;
 
+import com.common.playerFilter.FilterType;
+import com.common.playerFilter.PlayerFilter;
+import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.task.GmEmailAll;
+import com.playerdata.Player;
+import com.rw.service.Email.EmailUtils;
+import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.ServerDataHolder;
 import com.rwbase.dao.serverData.ServerGmEmail;
 import com.rwbase.dao.serverData.ServerGmEmailHolder;
@@ -93,5 +99,43 @@ public class ServerStatusMgr {
 	
 	public static void setTaskId(long taskId){
 		dataHolder.setTaskId(taskId);
+	}
+	
+	public static void processGmMailWhenCreateRole(Player player){
+		List<ServerGmEmail> gmMailList = mailHolder.getGmMailList();
+		for (ServerGmEmail serverGmEmail : gmMailList) {
+			if(serverGmEmail.getStatus() == GmEmailAll.STATUS_CLOSE || serverGmEmail.getStatus() == GmEmailAll.STATUS_DELETE){
+				continue;
+			}
+			List<PlayerFilterCondition> conditionList = serverGmEmail.getConditionList();
+			boolean isEnd = false;
+			for (PlayerFilterCondition condition : conditionList) {
+				if(condition.getType() == FilterType.CREATE_TIME.getValue()){
+					long endTime = condition.getMaxValue() * 1000;
+					if(endTime <= System.currentTimeMillis()){
+						serverGmEmail.setStatus(GmEmailAll.STATUS_CLOSE);
+						isEnd = true;
+						break;
+					}
+				}
+			}
+			if(isEnd){
+				ServerStatusMgr.updateGmMail(serverGmEmail);
+				continue;
+			}
+			
+			boolean filted = false;
+			for (PlayerFilterCondition conTmp : serverGmEmail.getConditionList()) {
+				if (!PlayerFilter.isInRange(player, conTmp)) {
+					filted = true;
+					break;
+				}
+			}
+			EmailData emailData = serverGmEmail.getSendToAllEmailData();
+			long taskId = emailData.getTaskId();
+			if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+				EmailUtils.sendEmail(player.getUserId(), emailData);
+			}
+		}
 	}
 }

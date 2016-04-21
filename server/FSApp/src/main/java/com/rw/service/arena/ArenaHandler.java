@@ -613,6 +613,9 @@ public class ArenaHandler {
 				}
 			}
 
+			//增加挑战次数 2016-04-14 edit by lida
+			m_MyArenaData.setChallengeTime(m_MyArenaData.getChallengeTime() + 1);
+			
 			MsgArenaResponse.Builder recordBuilder = MsgArenaResponse.newBuilder();
 			recordBuilder.setArenaType(eArenaType.SYNC_RECORD);
 			recordBuilder.addListRecord(ar);
@@ -624,6 +627,9 @@ public class ArenaHandler {
 				System.out.println(builder.getCurrentRanking() + "," + builder.getGoldAward() + "," + builder.getHistoryRanking() + "," + builder.getRankingUp());
 				response.setHistory(builder.build());
 			}
+			//开服活动通知 竞技场挑战次数
+			player.getFresherActivityMgr().doCheck(eActivityType.A_ArenaChallengeTime);
+			
 			return response.build().toByteString();
 		} finally {
 			arenaExt.setNotFighting();

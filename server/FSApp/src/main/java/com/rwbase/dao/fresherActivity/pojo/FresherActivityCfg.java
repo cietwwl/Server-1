@@ -16,6 +16,7 @@ public class FresherActivityCfg {
 	private int tabType;
 	private String gotoEnum;
 	private String maxValue;
+	private int startTimeType;
 	
 	public void setActivityType(int activityType) {
 		this.activityType = activityType;
@@ -94,5 +95,11 @@ public class FresherActivityCfg {
 	}
 	public void setMaxValue(String maxValue) {
 		this.maxValue = maxValue;
+	}
+	public int getStartTimeType() {
+		return startTimeType;
+	}
+	public void setStartTimeType(int startTimeType) {
+		this.startTimeType = startTimeType;
 	} 
 }

@@ -13,6 +13,7 @@ import com.log.LogModule;
 import com.playerdata.GambleMgr;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.rw.fsutil.dao.cache.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
@@ -35,7 +36,7 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 
-	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1);
+	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1,new SimpleThreadFactory("time_manager"));
 	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1);
 
 	public static void init() {
@@ -121,9 +122,15 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				Map<String, eBILogRegSubChannelToClientPlatForm> subChannelCount = UserChannelMgr.getSubChannelCount();
+<<<<<<< .mine
 				if (subChannelCount.keySet().size() == 0) {
 					BILogMgr.getInstance().logOnlineCount(null, null);
 				} else {
+=======
+				if(subChannelCount.keySet().size() == 0){
+//					BILogMgr.getInstance().logOnlineCount(null,null);没人不打印
+				}else{
+>>>>>>> .theirs
 					for (String regSubChannelIdandclientPlayForm : subChannelCount.keySet()) {
 						BILogMgr.getInstance().logOnlineCount(subChannelCount.get(regSubChannelIdandclientPlayForm), regSubChannelIdandclientPlayForm);
 					}

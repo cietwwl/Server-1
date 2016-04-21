@@ -775,6 +775,9 @@ public class BattleTowerHandler {
 			rsp.addRewardInfoMsg(rewardInfoMsg);
 		}
 
+		//开服活动通知：
+		player.getFresherActivityMgr().doCheck(eActivityType.A_OpenBox);
+		
 		// 消息填充
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
