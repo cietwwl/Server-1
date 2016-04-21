@@ -50,8 +50,6 @@ public class GambleHandler {
  
 	/** 设置获得的奖励 */
 	private void SetReward(final List<GambleRewardData> rewardList, EGambleType gambleType, final Player player) {
-
-		// TODO @Modify HC 钓鱼抽奖，不需要异步发送奖励，没有这个必要
 		String reward = "";
 		for (int i = 0; i < rewardList.size(); i++) {
 			GambleRewardData rewardData = rewardList.get(i);
