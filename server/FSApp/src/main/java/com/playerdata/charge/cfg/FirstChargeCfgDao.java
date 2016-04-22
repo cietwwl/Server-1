@@ -24,7 +24,8 @@ public class FirstChargeCfgDao extends CfgCsvDao<FirstChargeCfg> {
 	}
 	
 private void parseFirstChargeList(FirstChargeCfg cfgTmp) {
-	String giftStr = cfgTmp.getReward();
+//	String giftStr = cfgTmp.getReward();
+	String giftStr = "1:2000";
 	Map<String,Integer> giftCountMap = new HashMap<String, Integer>();
 	String[] giftSplit = giftStr.split(";");
 	for (String giftTmp : giftSplit) {
