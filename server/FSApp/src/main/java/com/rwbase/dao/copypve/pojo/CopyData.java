@@ -1,15 +1,12 @@
 package com.rwbase.dao.copypve.pojo;
 
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.readonly.CopyDataIF;
-import com.rwbase.dao.copy.pojo.ItemInfo;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CopyData implements CopyDataIF {
