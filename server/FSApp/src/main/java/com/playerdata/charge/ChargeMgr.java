@@ -67,6 +67,7 @@ public class ChargeMgr {
 		if(target!=null){
 			boolean success = doCharge(player, target);
 			result.setSuccess(success);
+			result.setTips("充值成功.");
 		}else{
 			result.setTips("充值类型错误.");
 		}
