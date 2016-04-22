@@ -7,6 +7,7 @@ package chargeProto;
 enum RequestType{
 	Charge = 1;//充值
 	FirstChargeReward = 2;//领取首充奖励
+	BuyVipGift = 3;//购买VIP礼包
 }
 
 message ChargeServiceCommonReqMsg{
