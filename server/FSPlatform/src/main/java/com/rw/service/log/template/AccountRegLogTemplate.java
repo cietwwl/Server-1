@@ -10,7 +10,7 @@ import java.util.Set;
 public class AccountRegLogTemplate extends BILogTemplate{
 
 	
-	final private String template="$logTime$|core_account|0|$logTime$|account_reg|0|$regChannelId_uid$|$accountId$|$subChannelId$|用户登录渠道|$clientPlatForm$|$logTime$|$phoneOp$|$netType$|$phoneType$|$clientVersion$|$clientIp$|$imei$|$imac$|$sdkVersion$|$sdk_id$|||account_reg||$result$|||$systemVersion$";
+	final private String template="$logTime$|core_account|0|$logTime$|account_reg|0|$regChannelId_uid$|$accountId$|$subChannelId$|用户登录渠道|$clientPlatForm$|$logTime$|$phoneOp$|$netType$|$phoneType$|$clientVersion$|$clientIp$|$imei$|$imac$|$sdkVersion$|$sdk_id$|||account_reg||$result$||$adLinkId$|$systemVersion$";
 	
 	final private Set<String> infoNameSet = BILogTemplateHelper.getInfoNameSet(template);
 	
