@@ -25,6 +25,31 @@ public class ChargeMgr {
 		return ChargeInfoHolder.getInstance().get(userId);
 	}
 	
+	public ChargeResult chargeAndTakeGift(Player player, String itemId){
+		
+		ChargeResult result = ChargeResult.newResult(false);
+		
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
+		
+		if(target!=null){
+			boolean success = doCharge(player, target);
+			if(success){
+				success = takeChargeGift(target);
+			}
+			
+			result.setSuccess(success);
+		}else{
+			result.setTips("充值类型错误.");
+		}
+		return result;
+	}
+	
+	private boolean takeChargeGift(ChargeCfg target) {
+		int extraGiftId = target.getExtraGiftId();
+		// TODO takeGift logic
+		return true;
+	}
+
 	public ChargeResult charge(Player player, String itemId){
 		
 		ChargeResult result = ChargeResult.newResult(false);

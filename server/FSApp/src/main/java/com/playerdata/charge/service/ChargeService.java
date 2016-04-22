@@ -22,6 +22,9 @@ public class ChargeService  implements FsService{
 				case FirstChargeReward:
 					result = ChargeHandler.getInstance().getReward(player, chargetReq);
 					break;
+				case BuyVipGift:
+					result = ChargeHandler.getInstance().buyVipGift(player, chargetReq);
+					break;
 				default:
 				break;
 			}
