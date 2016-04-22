@@ -33,9 +33,11 @@ public class ChargeHandler {
 	public ByteString getReward(Player player, ChargeServiceCommonReqMsg request) {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
 		response.setReqType(request.getReqType());
-	
-		response.setIsSuccess(true);
 		
+		
+		ChargeResult chargeResult   = ChargeMgr.getInstance().gerReward(player);
+		response.setIsSuccess(chargeResult.isSuccess());
+		chargeResult.setTips(chargeResult.getTips());	
 		
 		return response.build().toByteString();
 	}
