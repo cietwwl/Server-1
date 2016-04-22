@@ -107,6 +107,21 @@ public class ClientDataSynMgr {
 			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
 		}
 	}
+	public static void synDataFiled(Player player, Object serverData, eSynType synType, List<String> fieldNameList, int newVersion) {
+		eSynOpType synOpType = eSynOpType.UPDATE_FIELD;
+		try {
+			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			
+			SynData.Builder synData = transferToClientData(serverData);
+			msgDataSyn.addSynData(synData);
+			msgDataSyn.setSynOpType(synOpType);
+			msgDataSyn.setSynType(synType);
+			msgDataSyn.setVersion(newVersion);
+			sendMsg(player, serverData, synType, msgDataSyn);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
+		}
+	}
 
 	/**
 	 * 更新数据的时候，推送到客户端
@@ -144,10 +159,19 @@ public class ClientDataSynMgr {
 		}
 	}
 
-	public static SynData.Builder transferToClientData(Object serverData) throws Exception {
+	public static SynData.Builder transferToClientData(Object serverData) throws Exception {		
+		return transferToClientData(serverData, null);
+	}
+	private static SynData.Builder transferToClientData(Object serverData, List<String> synFieldList) throws Exception {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(serverData.getClass());
 
-		String jsonData = serverClassInfo.toJson(serverData);
+		String jsonData = null;
+		if(synFieldList!=null){
+			jsonData = serverClassInfo.toJson(serverData, synFieldList);
+		}else{
+			jsonData = serverClassInfo.toJson(serverData);
+		}			
+		
 		String id = serverClassInfo.getId(serverData);
 		if (StringUtils.isBlank(id)) {
 			id = "id";

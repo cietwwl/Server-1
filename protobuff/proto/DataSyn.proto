@@ -9,6 +9,7 @@ enum eSynOpType {
 	UPDATE_SINGLE = 2; //更新一条数据
 	ADD_SINGLE = 3; // 增加一条数据
 	REMOVE_SINGLE = 4;// 删除一条数据
+	UPDATE_FIELD = 5;//只更新单条记录的某些字段
 }
 
 
