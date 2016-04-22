@@ -1,5 +1,7 @@
 package com.rwbase.dao.user;
 
+import java.util.ArrayList;
+
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -36,6 +38,18 @@ public class UserGameDataHolder {
 			ClientDataSynMgr.updateData(player, userGameData, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
 			GameLog.error("UserGameDataHolder", "#update()", "find UserGameData fail:" + userId);
+		}
+	}
+	
+	public void update(Player player, String fieldName){
+		userGameDataDao.update(userId);
+		UserGameData userGameData = get();
+		if (userGameData != null) {
+			ArrayList<String> list = new ArrayList<String>(1);
+			list.add(fieldName);
+			ClientDataSynMgr.synDataFiled(player, userGameData, synType, list);
+		} else {
+			GameLog.error("UserGameDataHolder", "#updateF()", "find UserGameData fail:" + userId);
 		}
 	}
 

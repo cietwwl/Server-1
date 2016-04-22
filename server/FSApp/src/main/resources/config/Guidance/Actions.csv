@@ -95,6 +95,7 @@ key,Remarks,target,guideActType,extraParam,openConditionalID,skipConditionalID,o
 100080040,,UI_Win_WuJinZhanHuo(Clone)/ToIndex,Hand,"giveItem(1000801);if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1000803,1000802,-10,,Left,UiWuJinZhanHuoBattleResult,true,,,1010,,,
 100090010,,PART_ActionIcon/offset/Magic/Button,Hand_MM,100090010,1000901,1000902,-10,,Left,MainView,true,,,1010,,,
 100090020,,UI_MagicWeapon(Clone)/offset/BtnForge,Hand,,1000901,1000902,-10,,Left,UIMagicWeapon,true,,,1010,,,
+100100000,,ViewBg/RoleLevelUpgrade,Hand,"if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1001001,1001002,-10,-200,Left,RoleLevelUpgrade,true,,1.2,1011,1011,,
 100100010,,PullDown/pulldown,Hand_MM,100100010,1001001,1001002,-10,10,Right,FixLayerView,true,,,1010,,,
 100100020,,friend,Hand,,1001001,1001002,-10,10,Right,FixLayerView,true,,,1010,,,
 100110000,,ViewBg/RoleLevelUpgrade,Hand,"if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1001101,1001102,-10,-200,Left,RoleLevelUpgrade,true,,1.2,1011,1011,,
@@ -128,7 +129,8 @@ key,Remarks,target,guideActType,extraParam,openConditionalID,skipConditionalID,o
 100180020,,Arena_Building,Hand,,1001801,1001802,-20,-100,Left,MainView,true,,,1010,,,PART_CityTitle/Arena
 100180030,,ZhongJian,Hand,,1001801,1001802,-10,10,Left,UIPVPEntry,true,,,1010,,,
 13132,,,Send_Cmd,"startPlot(""111222"")",1111,1111,,,Left,UIPVPEntry,true,,,1010,,,
-100190010,,PullDown/pulldown,Hand_MM,100190010,1001901,1001902,-10,10,Right,FixLayerView,true,,,1010,1011,,
+100190000,,ViewBg/RoleLevelUpgrade,Hand,"if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1001901,1001902,-10,-200,Left,RoleLevelUpgrade,true,,1.2,1011,1011,,
+100190010,,PullDown/pulldown,Hand_MM,100190010,1001901,1001902,-10,10,Right,FixLayerView,true,,,1010,,,
 100190020,,RightMainMenu/role,Hand,,1001901,1001902,-10,10,Right,FixLayerView,true,,,1010,,,
 100190030,,roleitem_player,Hand_MM,100190030,1001901,1001902,-10,10,Left,RoleList,true,,,1010,,,
 100190040,,skillBtn,Hand,,1001901,1001902,-10,10,Left,Role,true,,,1010,,,
