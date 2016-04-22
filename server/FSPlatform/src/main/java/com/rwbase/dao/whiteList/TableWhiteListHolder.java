@@ -26,8 +26,11 @@ public class TableWhiteListHolder{
 		MapItemStore<TableWhiteList> tableWhiteListItemStore = getTableWhiteListItemStore();
 		TableWhiteList tableWhiteList = new TableWhiteList();
 		Enumeration<TableWhiteList> list = tableWhiteListItemStore.getEnum();
-		while (list.hasMoreElements()) {
-			tableWhiteList = (TableWhiteList) list.nextElement();
+		if (list != null) {
+
+			while (list.hasMoreElements()) {
+				tableWhiteList = (TableWhiteList) list.nextElement();
+			}
 		}
 		return tableWhiteList;
 	}
