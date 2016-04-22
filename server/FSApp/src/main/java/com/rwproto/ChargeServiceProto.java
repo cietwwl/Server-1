@@ -29,6 +29,14 @@ public final class ChargeServiceProto {
      * </pre>
      */
     FirstChargeReward(1, 2),
+    /**
+     * <code>BuyVipGift = 3;</code>
+     *
+     * <pre>
+     *购买VIP礼包
+     * </pre>
+     */
+    BuyVipGift(2, 3),
     ;
 
     /**
@@ -47,6 +55,14 @@ public final class ChargeServiceProto {
      * </pre>
      */
     public static final int FirstChargeReward_VALUE = 2;
+    /**
+     * <code>BuyVipGift = 3;</code>
+     *
+     * <pre>
+     *购买VIP礼包
+     * </pre>
+     */
+    public static final int BuyVipGift_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -55,6 +71,7 @@ public final class ChargeServiceProto {
       switch (value) {
         case 1: return Charge;
         case 2: return FirstChargeReward;
+        case 3: return BuyVipGift;
         default: return null;
       }
     }
@@ -1557,9 +1574,10 @@ public final class ChargeServiceProto {
       "2\030.chargeProto.RequestType\022\024\n\014chargeItem" +
       "Id\030\002 \002(\t\"i\n\031ChargeServiceCommonRspMsg\022)\n" +
       "\007reqType\030\001 \002(\0162\030.chargeProto.RequestType" +
-      "\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*0\n\013R" +
+      "\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*@\n\013R" +
       "equestType\022\n\n\006Charge\020\001\022\025\n\021FirstChargeRew" +
-      "ard\020\002B!\n\013com.rwprotoB\022ChargeServiceProto"
+      "ard\020\002\022\016\n\nBuyVipGift\020\003B!\n\013com.rwprotoB\022Ch" +
+      "argeServiceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
