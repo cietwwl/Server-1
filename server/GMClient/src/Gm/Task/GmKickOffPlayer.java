@@ -16,7 +16,7 @@ public class GmKickOffPlayer extends AGMHandler{
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("value", "all");
+		args.put("value", "100100001174");
 		
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

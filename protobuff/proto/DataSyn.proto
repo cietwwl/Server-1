@@ -9,6 +9,7 @@ enum eSynOpType {
 	UPDATE_SINGLE = 2; //更新一条数据
 	ADD_SINGLE = 3; // 增加一条数据
 	REMOVE_SINGLE = 4;// 删除一条数据
+	UPDATE_FIELD = 5;//只更新单条记录的某些字段
 }
 
 
@@ -51,16 +52,17 @@ enum eSynType	//数据同步类型
 	FRESHER_ATIVITY_DATA = 29;//开服活动
 	ASSISTANT=30;//小秘书
 	VERSION_COPY = 31;//副本版本，用来做关卡和地图的版本校验，不用做同步
+	GroupBaseData=32;//帮派基础信息
+	GroupMemberData = 33;//帮派正式成员信息
+	GroupLog=34;//帮派log
 	UserGroupAttributeData=35;//用户个人的帮派信息
 	GroupCopyLevel=36;//帮派关卡记录
 	GroupCopyMap=37; //帮派地图记录
 	GroupCopyReward=38;//帮派奖励分配记录
-	GroupBaseData=32;//帮派基础信息
-	GroupMemberData = 33;//帮派正式成员信息
-	GroupLog=34;//帮派log
 	GroupApplyMemberData = 39;//申请成员信息
 	GroupResearchSkill = 40;//帮派技能研发
 	GroupStudySkill = 41;//帮派技能学习
+	Charge = 42;//充值
 }
 
 message MsgDataSynList

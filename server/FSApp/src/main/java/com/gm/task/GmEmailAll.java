@@ -21,6 +21,7 @@ import com.rwbase.dao.serverData.ServerGmEmail;
 
 public class GmEmailAll implements IGmTask {
 
+	public final static int STATUS_ORIGINAL = 0;
 	public final static int STATUS_SEND = 1;
 	public final static int STATUS_CLOSE = 2;
 	public final static int STATUS_DELETE = 3;
@@ -63,6 +64,8 @@ public class GmEmailAll implements IGmTask {
 						long endTime = condition.getMaxValue() * 1000;
 						if(endTime <= System.currentTimeMillis()){
 							gmMail.setStatus(STATUS_CLOSE);
+						}else{
+							gmMail.setStatus(STATUS_SEND);
 						}
 					}else{
 						gmMail.setStatus(STATUS_CLOSE);

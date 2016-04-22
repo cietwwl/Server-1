@@ -39,7 +39,6 @@ public class UserGameData implements TableUserOtherIF {
 	private long lastResetTime5Clock;
 	private long lastChangeInfoTime;// 上次变更人物信息时间
 
-	private int taskNum; // 当前还剩余任务的数量
 	private int recharge;// 已充值总额（钻石）
 	private String headFrame;
 
@@ -214,14 +213,6 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setRecharge(int recharge) {
 		this.recharge = recharge;
-	}
-
-	public int getTaskNum() {
-		return taskNum;
-	}
-
-	public void setTaskNum(int taskNum) {
-		this.taskNum = taskNum;
 	}
 
 	public int getSkillPointCount() {

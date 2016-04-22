@@ -104,7 +104,8 @@ public class ServerStatusMgr {
 	public static void processGmMailWhenCreateRole(Player player){
 		List<ServerGmEmail> gmMailList = mailHolder.getGmMailList();
 		for (ServerGmEmail serverGmEmail : gmMailList) {
-			if(serverGmEmail.getStatus() == GmEmailAll.STATUS_CLOSE || serverGmEmail.getStatus() == GmEmailAll.STATUS_DELETE){
+			int status = serverGmEmail.getStatus();
+			if(status == GmEmailAll.STATUS_CLOSE || status == GmEmailAll.STATUS_DELETE || status == GmEmailAll.STATUS_ORIGINAL){
 				continue;
 			}
 			List<PlayerFilterCondition> conditionList = serverGmEmail.getConditionList();
