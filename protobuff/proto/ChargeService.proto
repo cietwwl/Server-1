@@ -6,7 +6,7 @@ package chargeProto;
 
 enum RequestType{
 	Charge = 1;//充值
-	BuyVipGift = 2;//购买VIP礼包
+	FirstChargeReward = 2;//领取首充奖励
 }
 
 message ChargeServiceCommonReqMsg{
@@ -19,20 +19,4 @@ message ChargeServiceCommonRspMsg{
 	required bool isSuccess = 2;//是否成功处理
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
 
-}
-
-
-//首充协议相关
-enum FirstChargeRequestType{
-	GainReward = 1;//领取首充奖励	
-}
-
-message FirstChargeCommonReqMsg{
-	required FirstChargeRequestType reqType = 1;//请求功能协议类型
-}
-
-message FirstChargeCommonRspMsg{
-	required FirstChargeRequestType reqType = 1;//回应的功能协议类型
-	required bool isSuccess = 2;//是否成功处理
-	optional string tipMsg = 3;//提示消息
 }
