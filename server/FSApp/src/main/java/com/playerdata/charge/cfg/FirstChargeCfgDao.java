@@ -1,5 +1,6 @@
 package com.playerdata.charge.cfg;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -16,9 +17,25 @@ public class FirstChargeCfgDao extends CfgCsvDao<FirstChargeCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Charge/FirstChargeCfg.csv", FirstChargeCfg.class);
 //		FirstChargeCfg FirstChargeCfg = cfgCacheMap.get("1");
 //		parseChargeItem(FirstChargeCfg);
+		for (FirstChargeCfg cfgTmp : cfgCacheMap.values()) {
+			parseFirstChargeList(cfgTmp);
+		}
 		return cfgCacheMap;
 	}
 	
+private void parseFirstChargeList(FirstChargeCfg cfgTmp) {
+	String giftStr = cfgTmp.getReward();
+	Map<String,Integer> giftCountMap = new HashMap<String, Integer>();
+	String[] giftSplit = giftStr.split(";");
+	for (String giftTmp : giftSplit) {
+		String giftId = giftTmp.split(":")[0];
+		Integer giftCount = Integer.parseInt(giftTmp.split(":")[1]);
+		giftCountMap.put(giftId, giftCount);
+	}
+	cfgTmp.setGiftMap(giftCountMap);
+		
+	}
+
 //	private void parseChargeItem(FirstChargeCfg FirstChargeCfg) {
 //		List<ChargeItem> itemList = new ArrayList<ChargeItem>();
 //		String chargeItems = FirstChargeCfg.getChargeItems();

@@ -18,7 +18,7 @@ public class ChargeInfo {
 	//首充奖励是否已经领取
 	private boolean isFirstAwardTaken = false;
 	
-	//重置次数
+	//充值次数
 	private int count;
 	//上次充值金额
 	private int lastCharge;
@@ -81,5 +81,8 @@ public class ChargeInfo {
 		return this;
 	}
 	
-
+	public ChargeInfo addCount(int count){
+		this.count += count;
+		return this;
+	}
 }
