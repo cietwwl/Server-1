@@ -253,8 +253,10 @@ public class Player implements PlayerIF {
 		dataSynVersionHolder.synByVersion(this, versionList);
 	}
 
-	public static Player newFresh(String userId) {
+	public static Player newFresh(String userId,ZoneLoginInfo zoneLoginInfo2){
 		Player fresh = new Player(userId, false);
+		//楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
+		fresh.setZoneLoginInfo(zoneLoginInfo2);
 		fresh.initMgr();
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(fresh);
@@ -701,6 +703,14 @@ public class Player implements PlayerIF {
 		}
 		getMainRoleHero().getRoleBaseInfoMgr().setExp(exp);
 	}
+	
+	public ZoneLoginInfo getZoneLoginInfo() {
+		return zoneLoginInfo;
+	}
+
+	public void setZoneLoginInfo(ZoneLoginInfo zoneLoginInfo) {
+		this.zoneLoginInfo = zoneLoginInfo;
+	}
 
 	public void SetLevel(int newLevel) {
 		// 最高等级
@@ -723,6 +733,7 @@ public class Player implements PlayerIF {
 	private void onLevelChange(int currentLevel, int newLevel) {
 		// 有升级
 		if (currentLevel < newLevel) {
+			int fightbeforelevelup = getHeroMgr().getFightingTeam();
 			Hero mainRoleHero = getMainRoleHero();
 			// 要先添加体力。再升级
 			int addpower = 0;
@@ -760,7 +771,7 @@ public class Player implements PlayerIF {
 
 			// TODO 暂时先通知
 			ArenaBM.getInstance().notifyPlayerLevelUp(getUserId(), getCareer(), newLevel);
-			BILogMgr.getInstance().logRoleUpgrade(this,currentLevel);
+			BILogMgr.getInstance().logRoleUpgrade(this,currentLevel,fightbeforelevelup);
 		}
 	}
 
@@ -1145,13 +1156,7 @@ public class Player implements PlayerIF {
 		return unendingWarMgr;
 	}
 
-	public ZoneLoginInfo getZoneLoginInfo() {
-		return zoneLoginInfo;
-	}
 
-	public void setZoneLoginInfo(ZoneLoginInfo zoneLoginInfo) {
-		this.zoneLoginInfo = zoneLoginInfo;
-	}
 
 	/**
 	 * 获取个人的帮派数据

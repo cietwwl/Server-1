@@ -274,6 +274,11 @@ public class GameLoginHandler {
 
 		{
 			String clientInfoJson = request.getClientInfoJson();
+			ZoneLoginInfo zoneLoginInfo = null;
+			if (StringUtils.isNotBlank(clientInfoJson)) {
+				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
+			}		
 			String nick = request.getNick();
 			int sex = request.getSex();
 			if (CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
@@ -300,7 +305,8 @@ public class GameLoginHandler {
 			createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
 			// userAccount.addUserZoneInfo(zoneId);
 			// accountBM.update(userAccount);
-			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
+			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId,zoneLoginInfo);
+			player.setZoneLoginInfo(zoneLoginInfo);
 			// author：lida 2015-09-21 通知登陆服务器更新账号信息 确保账号添加成功
 			GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
 
@@ -338,12 +344,7 @@ public class GameLoginHandler {
 			GameLog.debug("Create Role ...,userId:" + userId);
 			GameLog.debug("Game Create Role Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 			GameLog.debug("Game Create Role Finish --> userId:" + userId);
-			if (StringUtils.isNotBlank(clientInfoJson)) {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
-				ZoneLoginInfo zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-				player.setZoneLoginInfo(zoneLoginInfo);
 
-			}
 			BILogMgr.getInstance().logZoneReg(player);
 
 			LoginSynDataHelper.setData(player, response);
@@ -372,7 +373,7 @@ public class GameLoginHandler {
 
 	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
 		String userId = user.getUserId();
-		Player player = PlayerMgr.getInstance().find(userId);
+		Player player = PlayerMgr.getInstance().newFreshPlayer(userId,null);
 		UserChannelMgr.bindUserID(userId);
 
 		player.save();

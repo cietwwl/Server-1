@@ -39,6 +39,15 @@ public class ZoneLoginInfo {
 	
 	private String loginImac;
 	
+	private String loginsdkVersion;
+	
+
+
+	private String loginsystemVersion;
+	
+
+
+
 	final private static Field[] fieldList;
 	
 	static{
@@ -77,7 +86,8 @@ public class ZoneLoginInfo {
 		zoneLoginInfo.setLoginClientIp(clientInfo.getClientIp());
 		zoneLoginInfo.setLoginImei(clientInfo.getImei());
 		zoneLoginInfo.setLoginImac(clientInfo.getImac());
-		
+		zoneLoginInfo.setLoginsdkVersion(clientInfo.getSdkVersion());
+		zoneLoginInfo.setLoginsystemVersion(clientInfo.getSystemVersion());
 		return zoneLoginInfo;
 	}
 	
@@ -194,7 +204,27 @@ public class ZoneLoginInfo {
 	public void setLoginImac(String loginImac) {
 		this.loginImac = loginImac;
 	}
+	
+	public String getLoginsdkVersion() {
+		return loginsdkVersion;
+	}
 
+
+	public void setLoginsdkVersion(String logsdkVersion) {
+		if(logsdkVersion == null){
+			logsdkVersion = "电脑测试无版本";
+		}
+		this.loginsdkVersion = logsdkVersion;
+	}
+	
+	public String getLoginsystemVersion() {
+		return loginsystemVersion;
+	}
+
+
+	public void setLoginsystemVersion(String loginsystemVersion) {
+		this.loginsystemVersion = loginsystemVersion;
+	}
 
 	
 }

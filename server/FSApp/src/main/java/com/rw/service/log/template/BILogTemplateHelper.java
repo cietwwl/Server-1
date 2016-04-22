@@ -47,12 +47,14 @@ public class BILogTemplateHelper {
 		addTemplateToken("2g/3g/4g/wifi等", "$loginNetType$");
 		addTemplateToken("变动后游戏币个人持有量", "$coinRemain$");
 		addTemplateToken("变动后赠送充值货币个人持有量", "$giftGoldRemain$");
+		addTemplateToken("last_fight_power", "$fightbeforelevelup$");
 		addTemplateToken("ip地址，不包含端口", "$loginClientIp$");
 		addTemplateToken("ip地址（不包含端口）", "$loginClientIp$");
 		addTemplateToken("失败为0，成功为1", "$result$");
-		addTemplateToken("0=失败/1=成功", "$result$");
+		addTemplateToken("0=失败/1=成功", "$result$");		
 		addTemplateToken("场景id/地图id", "$scenceId$");
 		addTemplateToken("当前游戏客户端版本", "$clientVersion$");
+		addTemplateToken("操作系统版本号", "$systemVersion$");
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
 		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
@@ -72,6 +74,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("角色创建时间", "$roleCreatedTime$");
 		addTemplateToken("注册子渠道ID", "$regSubChannelId$");
 		addTemplateToken("注册渠道ID", "$regSubChannelId$");
+		addTemplateToken("广告短链接id", "");				
 		addTemplateToken("用户VIP等级", "$vip$");
 		addTemplateToken("用户角色等级", "$level$");
 		addTemplateToken("升级前等级", "$levelBeforeUp$");
@@ -94,7 +97,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("手机型号", "$loginPhoneType$");
 		addTemplateToken("mac地址", "$loginImac$");
 		addTemplateToken("任务ID", "$taskId$");
-		addTemplateToken("sdk版本", "");
+		addTemplateToken("sdk版本", "$loginsdkVersion$");
 		addTemplateToken("sdk_id", "");
 		addTemplateToken("map_id", "$mapid$");
 		addTemplateToken("此处为空", "");

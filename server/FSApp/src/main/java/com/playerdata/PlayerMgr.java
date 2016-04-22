@@ -23,6 +23,7 @@ import com.rw.manager.GamePlayerOpHelper;
 import com.rw.manager.PlayerTask;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
@@ -110,8 +111,8 @@ public class PlayerMgr {
 	 * @param userId
 	 * @return
 	 */
-	public Player newFreshPlayer(String userId) {
-		Player player = Player.newFresh(userId);
+	public Player newFreshPlayer(String userId,ZoneLoginInfo zoneLoginInfo) {
+		Player player = Player.newFresh(userId,zoneLoginInfo);		
 		try {
 			cache.put(userId, player);
 		} catch (DataDeletedException e) {

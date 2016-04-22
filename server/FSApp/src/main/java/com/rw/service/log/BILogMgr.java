@@ -297,6 +297,9 @@ public class BILogMgr {
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
 		} else {
@@ -318,6 +321,9 @@ public class BILogMgr {
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
 		moreInfo.put("fightTime", "" + fightTime);
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
@@ -359,7 +365,9 @@ public class BILogMgr {
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
 		moreInfo.put("operationCode", "case_win");
 		moreInfo.put("fightTime", "0");
-
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
@@ -419,10 +427,10 @@ public class BILogMgr {
 		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
 	}
 
-	public void logRoleUpgrade(Player player, int oldlevel) {
+	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("levelBeforeUp", oldlevel + "");
-
+		moreInfo.put("fightbeforelevelup", fightbeforelevelup + "");
 		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
 
 	}

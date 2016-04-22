@@ -124,7 +124,7 @@ public class TimerManager {
 			public void doTask() {
 				Map<String, eBILogRegSubChannelToClientPlatForm> subChannelCount = UserChannelMgr.getSubChannelCount();
 				if(subChannelCount.keySet().size() == 0){
-					BILogMgr.getInstance().logOnlineCount(null,null);
+//					BILogMgr.getInstance().logOnlineCount(null,null);
 				}else{
 					for (String regSubChannelIdandclientPlayForm : subChannelCount.keySet()) {
 						BILogMgr.getInstance().logOnlineCount(subChannelCount.get(regSubChannelIdandclientPlayForm),regSubChannelIdandclientPlayForm);

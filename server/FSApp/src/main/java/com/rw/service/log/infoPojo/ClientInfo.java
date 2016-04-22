@@ -26,6 +26,12 @@ public class ClientInfo {
 	
 	private String imac;
 	
+	private String sdkVersion;
+	
+	private String systemVersion;
+
+
+
 	//运营商
 	private String phoneOp;
 	
@@ -118,7 +124,21 @@ public class ClientInfo {
 	public void setPhoneOp(String phoneOp) {
 		this.phoneOp = phoneOp;
 	}
+
+	public String getSdkVersion() {
+		return sdkVersion;
+	}
+
+	public void setSdkVersion(String sdkVersion) {
+		this.sdkVersion = sdkVersion;
+	}
 	
-	
+	public String getSystemVersion() {
+		return systemVersion;
+	}
+
+	public void setSystemVersion(String systemVersion) {
+		this.systemVersion = systemVersion;
+	}
 	
 }

@@ -53,8 +53,10 @@ public class BILogTemplateHelper {
 		addTemplateToken("操作系统版本号", "$systemVersion$");
 		addTemplateToken("日志的触发时间", "$logTime$");
 		addTemplateToken("用户注册子渠道", "$subChannelId$");
+		addTemplateToken("操作系统版本号", "$systemVersion$");
 		addTemplateToken("用户登录区ID", "0");
-		addTemplateToken("UID创建时间", "$registerTime$");
+		addTemplateToken("广告短链接id", "为空");
+		addTemplateToken("UID创建时间", "$logTime$");
 		
 		addTemplateToken("手机运营商", "$phoneOp$");
 		addTemplateToken("IMEI信息", "$imei$");
