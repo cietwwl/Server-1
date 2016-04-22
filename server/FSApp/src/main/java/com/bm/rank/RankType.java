@@ -25,7 +25,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	FIGHTING_ALL_DAILY(6, 5000, "全日战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
-	TEAM_FIGHTING(7, 100, "实时小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()), 
+	TEAM_FIGHTING(7, 5000, "实时小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()), 
 	TEAM_FIGHTING_DAILY(8, 5000, "全日小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	WARRIOR_ARENA(9, 5000,"实时力士竞技场",1,ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	WARRIOR_ARENA_DAILY(10, 5000,"全日力士竞技场",1,ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
