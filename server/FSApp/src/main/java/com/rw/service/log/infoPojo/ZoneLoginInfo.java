@@ -45,6 +45,8 @@ public class ZoneLoginInfo {
 
 	private String loginsystemVersion;
 	
+	private String loginadLinkId;
+
 
 
 
@@ -88,6 +90,7 @@ public class ZoneLoginInfo {
 		zoneLoginInfo.setLoginImac(clientInfo.getImac());
 		zoneLoginInfo.setLoginsdkVersion(clientInfo.getSdkVersion());
 		zoneLoginInfo.setLoginsystemVersion(clientInfo.getSystemVersion());
+		zoneLoginInfo.setLoginadLinkId(clientInfo.getAdLinkId());
 		return zoneLoginInfo;
 	}
 	
@@ -223,7 +226,21 @@ public class ZoneLoginInfo {
 
 
 	public void setLoginsystemVersion(String loginsystemVersion) {
+		if(loginsystemVersion == null){
+			loginsystemVersion = "电脑测试无版本";
+		}
 		this.loginsystemVersion = loginsystemVersion;
+	}
+	public String getLoginadLinkId() {
+		return loginadLinkId;
+	}
+
+
+	public void setLoginadLinkId(String loginadLinkId) {
+		if(loginadLinkId == null){
+			loginadLinkId = "电脑测试无版本";
+		}		
+		this.loginadLinkId = loginadLinkId;
 	}
 
 	

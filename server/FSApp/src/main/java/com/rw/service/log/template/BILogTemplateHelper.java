@@ -54,7 +54,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("0=失败/1=成功", "$result$");		
 		addTemplateToken("场景id/地图id", "$scenceId$");
 		addTemplateToken("当前游戏客户端版本", "$clientVersion$");
-		addTemplateToken("操作系统版本号", "$systemVersion$");
+		addTemplateToken("操作系统版本号", "$loginsystemVersion$");
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
 		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
@@ -74,7 +74,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("角色创建时间", "$roleCreatedTime$");
 		addTemplateToken("注册子渠道ID", "$regSubChannelId$");
 		addTemplateToken("注册渠道ID", "$regSubChannelId$");
-		addTemplateToken("广告短链接id", "");				
+		addTemplateToken("广告短链接id", "$loginadLinkId$");				
 		addTemplateToken("用户VIP等级", "$vip$");
 		addTemplateToken("用户角色等级", "$level$");
 		addTemplateToken("升级前等级", "$levelBeforeUp$");

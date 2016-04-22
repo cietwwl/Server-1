@@ -99,7 +99,7 @@ public class AccountLoginHandler {
 		}
 		addAccount(account, accountId);
 	}
-
+	/**验证账号*/
 	private void handleAccountLogin(Account account,
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, int logType, String phoneInfo,
@@ -161,7 +161,7 @@ public class AccountLoginHandler {
 
 		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Finish --> accountId:" + accountId);
 	}
-
+	/**注册账号*/
 	private void handleRegByAccountId(Account account,
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, String password, String openAccountId,
@@ -175,6 +175,7 @@ public class AccountLoginHandler {
 				account.setTableAccount(newAccount);
 				response.setResultType(eLoginResultType.SUCCESS);
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+				RegLog regLog = RegLog.fromJson(phoneInfo);
 				newAccount.setChannelId(clientInfo.getChannelId());
 				ILog log = processRegLog(logType, phoneInfo, accountId, clientInfo);
 				response.setAccount(accountInfo);
@@ -184,20 +185,22 @@ public class AccountLoginHandler {
 				if (log != null) {
 					log.fillInfoToClientInfo(clientInfo);
 				}
-				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), null,true);
+				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), regLog,true);
 			} else {
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(),null, false);
+				RegLog regLog = RegLog.fromJson(phoneInfo);
+				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(),regLog, false);
 			}
 		} else {
 			response.setError("未知错误，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), null,false);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog,false);
 		}
 	}
-
+	/**快速注册账号*/
 	private String handelRandomAccount(Account account,
 			AccountLoginResponse.Builder response, String accountId,
 			String openAccountId, int logType, String phoneInfo,
@@ -233,7 +236,8 @@ public class AccountLoginHandler {
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), null,false);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog,false);
 		}
 		return accountId;
 	}
