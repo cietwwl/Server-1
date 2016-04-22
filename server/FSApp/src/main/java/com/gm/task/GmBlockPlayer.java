@@ -36,7 +36,7 @@ public class GmBlockPlayer implements IGmTask{
 					if(expiresTimeInSecond < 0){
 						blockCoolTime = expiresTimeInSecond;
 					}else{
-						blockCoolTime = blockCoolTime + expiresTimeInSecond*1000;
+						blockCoolTime = expiresTimeInSecond*1000;
 					}
 					target.block(blockReason, blockCoolTime);
 				}

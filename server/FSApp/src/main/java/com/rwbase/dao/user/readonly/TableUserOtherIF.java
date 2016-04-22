@@ -56,8 +56,6 @@ public interface TableUserOtherIF {
 	/** 已充值总额（钻石） */
 	public int getRecharge();
 
-	public int getTaskNum();
-
 	public int getSkillPointCount();
 
 	//public List<Long> getSkillPointTime();

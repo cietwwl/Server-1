@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ESex;
@@ -41,6 +42,7 @@ public class User implements TableUserIF {
 	// 用于后台数据查询
 	private int level;
 
+	@NonSave
 	private String channelId;// 渠道Id
 
 	public String getUserId() {
@@ -219,6 +221,10 @@ public class User implements TableUserIF {
 
 	public String getChatBanReason() {
 		return getExtendInfo().getChatBanReason();
+	}
+	
+	public long getChatBanCoolTime(){
+		return getExtendInfo().getChatBanCoolTime();
 	}
 
 	public UserExtendInfo getExtendInfo() {

@@ -14,6 +14,7 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.unendingwar.CfgUnendingWar;
 import com.rwbase.dao.unendingwar.CfgUnendingWarDAO;
+import com.rwbase.dao.unendingwar.TableUnendingWar;
 import com.rwproto.UnendingWarProtos.EUnendingWarType;
 import com.rwproto.UnendingWarProtos.UnendingWarResponse;
 
@@ -30,13 +31,13 @@ public class UnendingWarHandler {
 	/*** 获取基本信息 ****/
 	public ByteString getInfo(Player player) {
 		UnendingWarResponse.Builder res = UnendingWarResponse.newBuilder();
-		// res.setInfo(otherRoleAttr);
 		res.setType(EUnendingWarType.BaseMsg);
 
-		res.setZhCj(player.unendingWarMgr.getTable().getZhCj());
-		res.setNum(player.unendingWarMgr.getTable().getNum());
-		res.setDqCj(player.unendingWarMgr.getTable().getDqCj());
-		res.setResetNum(player.unendingWarMgr.getTable().getResetNum());
+		TableUnendingWar table = player.unendingWarMgr.getTable();
+		res.setZhCj(table.getZhCj());
+		res.setNum(table.getNum());
+		res.setDqCj(table.getDqCj());
+		res.setResetNum(table.getResetNum());
 
 		return res.build().toByteString();
 	}
@@ -44,13 +45,13 @@ public class UnendingWarHandler {
 	/*** 进入副本 ****/
 	public ByteString endMap(Player player, int eMap) {
 		UnendingWarResponse.Builder res = UnendingWarResponse.newBuilder();
-		// res.setInfo(otherRoleAttr);
 		res.setType(EUnendingWarType.OtherMsg);
-		// player.unendingWarMgr.getTable().setNum(player.unendingWarMgr.getTable().getNum()+1);
-		player.unendingWarMgr.getTable().setDqCj(0);
-		res.setZhCj(player.unendingWarMgr.getTable().getZhCj());
-		res.setNum(player.unendingWarMgr.getTable().getNum());
-		res.setDqCj(player.unendingWarMgr.getTable().getDqCj());
+
+		TableUnendingWar table = player.unendingWarMgr.getTable();
+		table.setDqCj(0);
+		res.setZhCj(table.getZhCj());
+		res.setNum(player.getUnendingWarMgr().getTable().getNum());
+		res.setDqCj(table.getDqCj());
 
 		player.unendingWarMgr.save();
 
@@ -68,8 +69,15 @@ public class UnendingWarHandler {
 	}
 
 	public ByteString end(Player player, int num) {
+		UnendingWarResponse.Builder res = UnendingWarResponse.newBuilder();
+		res.setType(EUnendingWarType.BaseMsg);
 
-		return null;
+		res.setZhCj(player.unendingWarMgr.getTable().getZhCj());
+		res.setNum(player.unendingWarMgr.getTable().getNum());
+		res.setDqCj(player.unendingWarMgr.getTable().getDqCj());
+		res.setResetNum(player.unendingWarMgr.getTable().getResetNum());
+
+		return res.build().toByteString();
 	}
 
 	/*** 发送结算奖励 ****/
@@ -84,7 +92,6 @@ public class UnendingWarHandler {
 			if (num == 15) {
 				MainMsgHandler.getInstance().sendPmdSl(player, cMap);
 			}
-
 		}
 
 		player.unendingWarMgr.save();
@@ -94,7 +101,7 @@ public class UnendingWarHandler {
 	/*** 重置副本 ****/
 	public ByteString ResetNum(Player player) {
 		int count = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);
-		;
+
 		int num = player.unendingWarMgr.getTable().getResetNum();
 		if (num < count) {
 			player.unendingWarMgr.getTable().setResetNum(num + 1);
@@ -105,7 +112,6 @@ public class UnendingWarHandler {
 		player.unendingWarMgr.save();
 		player.getUserGameDataMgr().addGold(-20);
 
-		// GameLog.debug("无尽战火结速");
 		return getInfo(player);
 	}
 
@@ -119,10 +125,10 @@ public class UnendingWarHandler {
 				continue;
 			}
 			/*** 加奖励到背包 ****/
-			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz			//添加货币
+			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz //添加货币
 			player.getItemBagMgr().addItem(eSpecialItemId.UnendingWarCoin.getValue(), cfgUnendingWar.uNum);
 			unendingCoin.addAndGet(cfgUnendingWar.uNum);
-			
+
 			String[] array = cfgUnendingWar.jl1.split(",");
 			for (int i = 0; i < array.length; i++) {
 				dropList.add(Integer.parseInt(array[i]));

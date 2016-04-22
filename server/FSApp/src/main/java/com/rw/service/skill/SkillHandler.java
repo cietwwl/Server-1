@@ -91,7 +91,6 @@ public class SkillHandler {
 			return getFailResponse(player, "升级所需金币不够", SkillEventType.Skill_Upgrade);
 		}
 		int heroLevel = hero.getLevel();
-		totalMoney = 0;
 		for (int i = skillRequestList.size(); --i >= 0;) {
 			SkillData skillData = skillRequestList.get(i);
 			int skillId = skillData.getSkillId();
@@ -106,12 +105,13 @@ public class SkillHandler {
 				GameLog.error("hero", "updateSkill", player + "请求增加技能等级过高：add=" + addLevel + ",skillLevel=" + skillLevel + ",heroLevel=" + heroLevel);
 				continue;
 			}
+			int costCoin = 0;
 			for (int add = 0; add < addLevel; add++) {
 				SkillFeeCfg skillFeeCfg = skillCfgDAO.getSkillFeeCfg(getRoleType(player, heroId).ordinal(), skill.getOrder(), skill.getLevel() + add);
 				// 计算升级总价钱
-				totalMoney += skillFeeCfg.getCoin();
+				costCoin += skillFeeCfg.getCoin();
 			}
-			if (gameDataMgr.getCoin() < totalMoney) {
+			if (gameDataMgr.getCoin() < costCoin) {
 				GameLog.error("hero", "updateSkill", player + "请求增加技能金币不够：add=" + addLevel + ",skillLevel=" + skillLevel + ",heroLevel=" + heroLevel + ",needCoin=" + totalMoney + ",coin=" + player.getUserGameDataMgr().getCoin());
 				continue;
 			}
@@ -120,7 +120,7 @@ public class SkillHandler {
 				continue;
 			}
 			// 扣除金币
-			gameDataMgr.addCoin(-totalMoney);
+			gameDataMgr.addCoin(-costCoin);
 		}
 		int max = PrivilegeCfgDAO.getInstance().getDef(player.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
 		if (gameDataMgr.getLastRecoverSkillPointTime() == 0 || currentPoints == max) {

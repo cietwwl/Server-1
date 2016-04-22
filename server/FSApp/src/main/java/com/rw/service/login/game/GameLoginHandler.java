@@ -9,12 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.login.AccoutBM;
 import com.bm.login.UserBM;
+import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
@@ -37,6 +39,8 @@ import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecord;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecordDAO;
 import com.rwbase.dao.version.VersionConfigDAO;
 import com.rwbase.dao.version.pojo.VersionConfig;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -96,8 +100,9 @@ public class GameLoginHandler {
 
 		String clientInfoJson = request.getClientInfoJson();
 		ZoneLoginInfo zoneLoginInfo = null;
+		ClientInfo clientInfo = null;
 		if (StringUtils.isNotBlank(clientInfoJson)) {
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+			clientInfo = ClientInfo.fromJson(clientInfoJson);
 			zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
 			
 		}
@@ -139,8 +144,17 @@ public class GameLoginHandler {
 				if (user.getBlockReason() != null) {
 					error = user.getBlockReason();
 				}
-
-				response.setError(error);
+				error ="封号原因:"+error;
+				long blockCoolTime = user.getBlockCoolTime();
+				String releaseTime;
+				if (blockCoolTime > 0) {
+					releaseTime = "解封时间:"
+							+ DateUtils.getDateTimeFormatString(blockCoolTime,
+									"yyyy-MM-dd HH:mm");
+				} else {
+					releaseTime = "解封时间:永久封号!";
+				}
+				response.setError(error +"\n"+ releaseTime);
 				response.setResultType(eLoginResultType.FAIL);
 				return response.build().toByteString();
 			} else if (user.isInKickOffCoolTime()) {
@@ -149,6 +163,10 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			} else {
 				userId = user.getUserId();
+				if (clientInfo != null) {
+					user.setChannelId(clientInfo.getChannelId());
+				}
+
 				final String userId_ = userId;
 				final ChannelHandlerContext ctx = UserChannelMgr.getThreadLocalCTX();
 				// GameWorldFactory.getGameWorld().asyncExecute(userId_, new
@@ -176,7 +194,7 @@ public class GameLoginHandler {
 					@Override
 					public void run() {
 						// author:lida 2015-09-21 通知登陆服务器更新账号信息
-						notifyPlatformPlayerLogin(zoneId, accountId, p, lastZoneId);
+						notifyPlatformPlayerLogin(zoneId, accountId, p);
 					}
 				});
 
@@ -270,7 +288,7 @@ public class GameLoginHandler {
 			int sex = request.getSex();
 			if (CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
 				response.setResultType(eLoginResultType.FAIL);
-				String reason = "昵称不能包含非法字符";
+				String reason = "昵称不能包含屏蔽字或非法字符";
 				response.setError(reason);
 				return response.build().toByteString();
 			} else if (StringUtils.isBlank(nick)) {
@@ -299,15 +317,7 @@ public class GameLoginHandler {
 
 				@Override
 				public void run() {
-					if (PlatformService.checkPlatformOpen()) {
-						notifyPlatformPlayerLogin(zoneId, accountId, player, -1);
-					} else {
-						TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
-						UserZoneInfo zoneInfo = new UserZoneInfo();
-						addUserZoneInfo(zoneId, zoneInfo, player);
-						userAccount.addUserZoneInfo(zoneInfo);
-						AccoutBM.getInstance().update(userAccount);
-					}
+					notifyPlatformPlayerLogin(zoneId, accountId, player);
 				}
 			});
 
@@ -322,6 +332,9 @@ public class GameLoginHandler {
 			System.out.println("-------------------" + (end1 - start));
 
 			EmailUtils.sendEmail(player.getUserId(), "10003");
+			
+			//检查发送gm邮件
+			ServerStatusMgr.processGmMailWhenCreateRole(player);
 
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
@@ -360,15 +373,13 @@ public class GameLoginHandler {
 
 	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
 		String userId = user.getUserId();
-		Player player = PlayerMgr.getInstance().newFreshPlayer(userId,null);
+		Player player = PlayerMgr.getInstance().find(userId);
 		UserChannelMgr.bindUserID(userId);
 
 		player.save();
 		long end = System.currentTimeMillis();
 		player.onLogin();
 		long end1 = System.currentTimeMillis();
-
-		EmailUtils.sendEmail(player.getUserId(), "10003");
 
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setUserId(userId);
@@ -390,33 +401,19 @@ public class GameLoginHandler {
 		ZoneInfo.setUserName(player.getUserName());
 	}
 
-	private boolean notifyPlatformPlayerLogin(int zoneId, String accountId, Player player, int lastZoneId) {
-		try {
-			if (lastZoneId != zoneId) {
-				UserBaseDataResponse userBaseDataResponse = new UserBaseDataResponse();
-				userBaseDataResponse.setType(1);
-				userBaseDataResponse.setAccountId(accountId);
-				userBaseDataResponse.setUserId(player.getUserId());
-				userBaseDataResponse.setZoneId(zoneId);
-				userBaseDataResponse.setHeadImage(player.getHeadImage());
-				userBaseDataResponse.setCareer(player.getCareer());
-				userBaseDataResponse.setUserName(player.getUserName());
-				userBaseDataResponse.setLevel(player.getLevel());
-				userBaseDataResponse.setVipLevel(player.getVip());
-				RequestObject request = new RequestObject();
-				request.pushParam(UserBaseDataResponse.class, userBaseDataResponse);
-				request.setClassName("com.rw.netty.http.requestHandler.PlayerLoginHandler");
-				request.setMethodName("notifyPlayerLogin");
-				request.setBlnNotifySingle(true);
-				PlatformService.addRequest(request);
-				return true;
-			} else {
-				return false;
-			}
-			// return false;
-		} catch (Exception ex) {
-			return false;
+	private void notifyPlatformPlayerLogin(int zoneId, String accountId, Player player) {
+		TableAccountLoginRecord record = TableAccountLoginRecordDAO.getInstance().get(accountId);
+		boolean blnInsert = false;
+		if(record ==null){
+			record = new TableAccountLoginRecord();
+			blnInsert = true;
 		}
+		record.setZoneId(zoneId);
+		record.setAccountId(accountId);
+		record.setUserId(player.getUserId());
+		record.setLoginTime(System.currentTimeMillis());
+		
+		TableAccountLoginRecordDAO.getInstance().update(record, blnInsert);
 	}
 
 	private String newUserId() {
@@ -454,7 +451,9 @@ public class GameLoginHandler {
 		}
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clienInfo = ClientInfo.fromJson(clientInfoJson);
-			baseInfo.setChannelId(clienInfo.getChannelId());
+			if (clienInfo != null) {
+				baseInfo.setChannelId(clienInfo.getChannelId());
+			}
 			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
 			
 		}

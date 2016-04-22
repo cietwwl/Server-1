@@ -24,13 +24,10 @@ public class TableWhiteListHolder{
 	
 	public TableWhiteList getTableWhiteList(){
 		MapItemStore<TableWhiteList> tableWhiteListItemStore = getTableWhiteListItemStore();
+		TableWhiteList tableWhiteList = new TableWhiteList();
 		Enumeration<TableWhiteList> list = tableWhiteListItemStore.getEnum();
-		TableWhiteList tableWhiteList = null;
 		while (list.hasMoreElements()) {
 			tableWhiteList = (TableWhiteList) list.nextElement();
-		}
-		if(tableWhiteList == null){
-			tableWhiteList = new TableWhiteList();
 		}
 		return tableWhiteList;
 	}

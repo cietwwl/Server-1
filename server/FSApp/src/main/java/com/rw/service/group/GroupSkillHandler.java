@@ -210,7 +210,7 @@ public class GroupSkillHandler {
 		int contribution = memberData.getContribution();
 		int studyNeedContribution = skillLevelTemplate.getStudyNeedContribution();
 		if (studyNeedContribution > contribution) {
-			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "个人帮派贡献不足");
+			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "帮派贡献不足");
 		}
 
 		// 个人技能学习检测是否条件合适并且更新数据
