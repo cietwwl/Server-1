@@ -111,7 +111,7 @@ public class RankingUtilEntity {
 		rankInfo = RankInfo.newBuilder();
 		if (levelData != null) {
 			rankInfo.setHeroUUID(levelData.getUserId());
-			rankInfo.setRankingLevel(ranking);
+			rankInfo.setRankingLevel(levelData.getRankLevel());
 			rankInfo.setLevel(levelData.getLevel());
 			rankInfo.setHeroName(levelData.getUserName());
 			rankInfo.setImageId(levelData.getUserHead());
@@ -200,7 +200,8 @@ public class RankingUtilEntity {
 		levelData.setUserHead(areanExt.getHeadImage());
 		levelData.setUserName(areanExt.getName());
 		levelData.setArenaPlace(entry.getRanking());
-		levelData.setRankLevel(entry.getRanking());
+		int last = areanExt.getRankLevel();
+		levelData.setRankLevel(last == 0 ? entry.getRanking():last);
 		return levelData;
 	}
 
