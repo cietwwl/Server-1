@@ -227,7 +227,7 @@ public class ZoneLoginInfo {
 
 	public void setLoginsystemVersion(String loginsystemVersion) {
 		if(loginsystemVersion == null){
-			loginsystemVersion = "电脑测试无版本";
+			loginsystemVersion = "";
 		}
 		this.loginsystemVersion = loginsystemVersion;
 	}
@@ -238,7 +238,7 @@ public class ZoneLoginInfo {
 
 	public void setLoginadLinkId(String loginadLinkId) {
 		if(loginadLinkId == null){
-			loginadLinkId = "电脑测试无版本";
+			loginadLinkId = "";
 		}		
 		this.loginadLinkId = loginadLinkId;
 	}

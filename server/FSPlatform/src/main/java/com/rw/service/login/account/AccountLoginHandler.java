@@ -12,6 +12,7 @@ import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.account.Account;
 import com.rw.account.ZoneInfoCache;
+import com.rw.common.GameUtil;
 import com.rw.fsutil.util.TextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.platform.PlatformFactory;
@@ -104,6 +105,8 @@ public class AccountLoginHandler {
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, int logType, String phoneInfo,
 			String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.login.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.login.phoneinfo = " + phoneInfo);
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setAccount(accountInfo);
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(
@@ -166,6 +169,8 @@ public class AccountLoginHandler {
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, String password, String openAccountId,
 			int logType, String phoneInfo, String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.reg.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.reg.phoneinfo = " + phoneInfo);
 		if (isIllegalAccount(accountId)) {
 			response.setError("注册失败，账户名不符合规范");
 			response.setResultType(eLoginResultType.FAIL);
@@ -205,6 +210,8 @@ public class AccountLoginHandler {
 			AccountLoginResponse.Builder response, String accountId,
 			String openAccountId, int logType, String phoneInfo,
 			String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.quicklyreg.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.quicklyreg.phoneinfo = " + phoneInfo);
 		String password;
 		TableAccount newAccount = AccoutBM.getInstance().createRandomAccount(openAccountId);
 		if (newAccount != null) {

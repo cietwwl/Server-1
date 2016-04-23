@@ -33,13 +33,11 @@ public class ClientInfo {
 	private String imac;
 	
 	private String accountId;
+	
+	
 	private String adLinkId;
-
-
 	private String sdkVersion;
 	private String systemVersion;
-
-
 	private String sdk_id;
 	
 	//运营商
