@@ -15,6 +15,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
@@ -139,8 +140,17 @@ public class GameLoginHandler {
 				if (user.getBlockReason() != null) {
 					error = user.getBlockReason();
 				}
-
-				response.setError(error);
+				error ="封号原因:"+error;
+				long blockCoolTime = user.getBlockCoolTime();
+				String releaseTime;
+				if (blockCoolTime > 0) {
+					releaseTime = "解封时间:"
+							+ DateUtils.getDateTimeFormatString(blockCoolTime,
+									"yyyy-MM-dd HH:mm");
+				} else {
+					releaseTime = "解封时间:永久封号!";
+				}
+				response.setError(error +"\n"+ releaseTime);
 				response.setResultType(eLoginResultType.FAIL);
 				return response.build().toByteString();
 			} else if (user.isInKickOffCoolTime()) {
