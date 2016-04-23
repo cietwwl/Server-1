@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.protobuf.ByteString;
-import com.playerdata.DailyActivityMgr;
 import com.playerdata.Player;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
@@ -193,6 +192,9 @@ public class MainHandler {
 			
 			//购买体力日常任务
 			pPlayer.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Power, 1);
+			
+			// TODO HC 把改变数据推送到前台
+			pPlayer.synPowerInfo();
 		}else{
 			mainResponse.setEMainResultType(EMainResultType.NOT_ENOUGH_GOLD);
 		}	

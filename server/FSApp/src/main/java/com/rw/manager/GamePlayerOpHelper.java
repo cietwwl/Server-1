@@ -113,14 +113,14 @@ public class GamePlayerOpHelper {
 		
 		while(taskfinishCount.get() < taskNum){
 			try {
-				GameLog.info(LogModule.COMMON.getName(), task.getName(), "GamePlayerOpHelper[doSingleTask] 用户数据操作进行中。。。task:"+task.getName()+" finishCount:"+taskfinishCount+" total:"+taskNum, null);
+//				GameLog.info(LogModule.COMMON.getName(), task.getName(), "GamePlayerOpHelper[doSingleTask] 用户数据操作进行中。。。task:"+task.getName()+" finishCount:"+taskfinishCount+" total:"+taskNum, null);
 				Thread.sleep(1000L);
 			} catch (InterruptedException e) {
 				//donothing
 			}
 		}
-		String timeCost = " time cost in ms:"+(System.currentTimeMillis()-start);
-		GameLog.info(LogModule.COMMON.getName(), task.getName(), "GamePlayerOpHelper[doSingleTask] 用户数据操作完成。。。task:"+task.getName()+" finishCount:"+taskfinishCount+" total:"+taskNum+ timeCost, null);
+//		String timeCost = " time cost in ms:"+(System.currentTimeMillis()-start);
+//		GameLog.info(LogModule.COMMON.getName(), task.getName(), "GamePlayerOpHelper[doSingleTask] 用户数据操作完成。。。task:"+task.getName()+" finishCount:"+taskfinishCount+" total:"+taskNum+ timeCost, null);
 		
 	}
 	

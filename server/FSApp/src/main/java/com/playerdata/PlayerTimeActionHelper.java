@@ -8,19 +8,34 @@ import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
 public class PlayerTimeActionHelper {
 
-	/** 每分钟执行 */
-	public static TimeAction onMinutes(final Player player) {
-		TimeAction onMinutesTimeAction = new TimeAction(player.getUserId());
-		onMinutesTimeAction.addTask(new TimeActionTask() {
+	/** 每秒执行 */
+	public static TimeAction onSecond(final Player player) {
+		TimeAction onSecondTimeAction = new TimeAction(player.getUserId());
+		onSecondTimeAction.addTask(new TimeActionTask() {
+
 			@Override
 			public void doTask() {
-
 				// 体力更新
 				int level = player.getLevel();
 				player.getUserGameDataMgr().addPowerByTime(level);
-
 			}
 		});
+		return onSecondTimeAction;
+	}
+
+	/** 每分钟执行 */
+	public static TimeAction onMinutes(final Player player) {
+		TimeAction onMinutesTimeAction = new TimeAction(player.getUserId());
+		// onMinutesTimeAction.addTask(new TimeActionTask() {
+		// @Override
+		// public void doTask() {
+		//
+		// // 体力更新
+		// int level = player.getLevel();
+		// player.getUserGameDataMgr().addPowerByTime(level);
+		//
+		// }
+		// });
 		onMinutesTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
