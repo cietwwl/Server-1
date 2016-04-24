@@ -44,7 +44,7 @@ import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
-import com.rwbase.dao.power.pojo.PowerInfo;
+//import com.rwbase.dao.power.pojo.PowerInfo;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
@@ -131,7 +131,7 @@ public class Player implements PlayerIF {
 
 	private final PlayerTempAttribute tempAttribute;
 
-	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
+//	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
 
 	class PlayerSaveHelper {
 
@@ -344,7 +344,7 @@ public class Player implements PlayerIF {
 
 		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
 
-		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
+//		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
 	}
 
 	public Player(String userId, boolean initMgr) {
@@ -1312,30 +1312,30 @@ public class Player implements PlayerIF {
 	 * 同步体力的信息到前台
 	 */
 	public void synPowerInfo() {
-		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(this.getLevel()));
-		int maxPower = cfg.getMaxPower();
-		int recoverTime = powerInfo.getSpeed();// 恢复速度（秒）
-
-		TableUserOtherIF readOnly = userGameDataMgr.getReadOnly();
-		int curPower = readOnly.getPower();
-		if (curPower >= maxPower) {
-			powerInfo.setnTime(-1);
-			powerInfo.settTime(-1);
-		} else {
-			long now = System.currentTimeMillis();
-			long lastAddPowerTime = readOnly.getLastAddPowerTime();
-
-			long leftTime = now - lastAddPowerTime;
-			int leftPower = maxPower - curPower;
-			int oneNeedTime = recoverTime - (int) TimeUnit.MILLISECONDS.toSeconds(leftTime);
-			int totalNeedTime = leftPower * recoverTime - oneNeedTime;
-
-			powerInfo.setnTime(oneNeedTime);
-			powerInfo.settTime(totalNeedTime);
-		}
-
-		powerInfo.setBuyCount(readOnly.getBuyPowerTimes());
-
-		ClientDataSynMgr.synData(this, powerInfo, synType, eSynOpType.UPDATE_SINGLE);
+//		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(this.getLevel()));
+//		int maxPower = cfg.getMaxPower();
+//		int recoverTime = powerInfo.getSpeed();// 恢复速度（秒）
+//
+//		TableUserOtherIF readOnly = userGameDataMgr.getReadOnly();
+//		int curPower = readOnly.getPower();
+//		if (curPower >= maxPower) {
+//			powerInfo.setnTime(-1);
+//			powerInfo.settTime(-1);
+//		} else {
+//			long now = System.currentTimeMillis();
+//			long lastAddPowerTime = readOnly.getLastAddPowerTime();
+//
+//			long leftTime = now - lastAddPowerTime;
+//			int leftPower = maxPower - curPower;
+//			int oneNeedTime = recoverTime - (int) TimeUnit.MILLISECONDS.toSeconds(leftTime);
+//			int totalNeedTime = leftPower * recoverTime - oneNeedTime;
+//
+//			powerInfo.setnTime(oneNeedTime);
+//			powerInfo.settTime(totalNeedTime);
+//		}
+//
+//		powerInfo.setBuyCount(readOnly.getBuyPowerTimes());
+//
+//		ClientDataSynMgr.synData(this, powerInfo, synType, eSynOpType.UPDATE_SINGLE);
 	}
 }

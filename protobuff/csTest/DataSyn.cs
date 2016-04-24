@@ -310,7 +310,13 @@ namespace DataSyn
       GroupStudySkill = 41,
             
       [global::ProtoBuf.ProtoEnum(Name=@"Charge", Value=42)]
-      Charge = 42
+      Charge = 42,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"POWER_INFO", Value=43)]
+      POWER_INFO = 43,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
+      ActivityCountType = 60
     }
   
 }
