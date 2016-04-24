@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.common.PlayerEventListener;
+import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillAttributeCfg;
@@ -75,7 +76,14 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return;
 		}
 
+		// 检查个人成员信息
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
+		if (memberData == null) {
+			return;
+		}
+
 		userGroupData.setGroupName(groupData.getGroupName());
+		userGroupData.setContribution(memberData.getContribution());
 	}
 
 	@Override
@@ -149,6 +157,8 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		// 同步数据
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
+		// 通知好友更改更新帮派名字
+		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 	}
 
 	/**
@@ -185,9 +195,12 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		UserGroupAttributeData baseData = holder.getUserGroupData();
 		baseData.setGroupId("");
 		baseData.setGroupName("");
+		baseData.setContribution(0);
 		baseData.setQuitGroupTime(quitTime);
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
+		// 通知好友更改更新帮派名字
+		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 	}
 
 	/**
@@ -295,6 +308,18 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	public void updateGroupName(Player player, String groupName) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		userGroupData.setGroupName(groupName);
+		holder.synData(player);
+	}
+
+	/**
+	 * 更新个人的帮派贡献
+	 * 
+	 * @param player
+	 * @param contribution
+	 */
+	public void updateContribution(Player player, int contribution) {
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		userGroupData.setContribution(contribution);
 		holder.synData(player);
 	}
 

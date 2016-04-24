@@ -187,7 +187,10 @@ public class GameWorldExecutor implements GameWorld {
 
 	@Override
 	public boolean updateAttribute(GameWorldKey key, String attribute) {
-		GameWorldAttributeData data = new GameWorldAttributeData();
+		GameWorldAttributeData data = GameWorldDAO.getInstance().get(key.name());
+		if(data == null){
+			data = new GameWorldAttributeData();
+		}
 		data.setKey(key.name());
 		data.setValue(attribute);
 		return GameWorldDAO.getInstance().update(data);

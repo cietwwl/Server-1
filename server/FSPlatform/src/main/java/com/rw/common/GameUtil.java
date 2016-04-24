@@ -29,19 +29,4 @@ public class GameUtil {
 		return true;
     }
 	
-	public static boolean  checkMsgSize(ResponseProtos.Response.Builder response,Account account) 
-	{
-		if(response.getSerializedContent().size() >= baseMsgSize){
-			String errorReason=account.getAccountId()+"  "+response.getHeader().getCommand().toString()+"  发送消息   长度大于"+(maxMsgSize/1000)+"K";
-			if(response.getSerializedContent().size() >= maxMsgSize){
-			   account.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips,"Player" + "|" +account.getAccountId() + "|" + response.getHeader().getCommand().toString() + "|" + "发送消息" + "|" + "长度大于"+(maxMsgSize/1000)+"K" + "  " + response.getSerializedContent().size());
-			  return false;
-			}else
-			{
-				PlatformLog.debug(errorReason);
-			}
-		}
-		return true;
-    }
-	
 }

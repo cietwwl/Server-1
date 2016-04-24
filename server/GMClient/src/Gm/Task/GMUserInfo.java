@@ -17,7 +17,7 @@ public class GMUserInfo extends AGMHandler{
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("account", "0217767889");
+		args.put("account", "0418782376");
 		args.put("serverId", 1);
 		
 		GmRequest gmRequest = new GmRequest();

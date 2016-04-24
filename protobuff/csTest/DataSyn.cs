@@ -176,7 +176,10 @@ namespace DataSyn
       ADD_SINGLE = 3,
             
       [global::ProtoBuf.ProtoEnum(Name=@"REMOVE_SINGLE", Value=4)]
-      REMOVE_SINGLE = 4
+      REMOVE_SINGLE = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UPDATE_FIELD", Value=5)]
+      UPDATE_FIELD = 5
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"eSynType")]
@@ -276,6 +279,15 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"VERSION_COPY", Value=31)]
       VERSION_COPY = 31,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"GroupBaseData", Value=32)]
+      GroupBaseData = 32,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"GroupMemberData", Value=33)]
+      GroupMemberData = 33,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"GroupLog", Value=34)]
+      GroupLog = 34,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"UserGroupAttributeData", Value=35)]
       UserGroupAttributeData = 35,
             
@@ -288,15 +300,6 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"GroupCopyReward", Value=38)]
       GroupCopyReward = 38,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"GroupBaseData", Value=32)]
-      GroupBaseData = 32,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"GroupMemberData", Value=33)]
-      GroupMemberData = 33,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"GroupLog", Value=34)]
-      GroupLog = 34,
-            
       [global::ProtoBuf.ProtoEnum(Name=@"GroupApplyMemberData", Value=39)]
       GroupApplyMemberData = 39,
             
@@ -306,8 +309,8 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"GroupStudySkill", Value=41)]
       GroupStudySkill = 41,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
-      ActivityCountType = 60
+      [global::ProtoBuf.ProtoEnum(Name=@"Charge", Value=42)]
+      Charge = 42
     }
   
 }

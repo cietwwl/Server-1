@@ -25,7 +25,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	FIGHTING_ALL_DAILY(6, 5000, "全日战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
-	TEAM_FIGHTING(7, 100, "实时小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()), 
+	TEAM_FIGHTING(7, 5000, "实时小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()), 
 	TEAM_FIGHTING_DAILY(8, 5000, "全日小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	WARRIOR_ARENA(9, 5000,"实时力士竞技场",1,ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	WARRIOR_ARENA_DAILY(10, 5000,"全日力士竞技场",1,ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
@@ -62,21 +62,36 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	private final Class<? extends RankingExtension> clazz;
 	private RankingEntityCopyer entityCopyer;
 
-	private static HashMap<Integer, RankType> map;
+	private static HashMap<Integer, RankType> dailyMap;
+	private static HashMap<Integer, RankType> realTimeMap;
 	
 	static{
-		map = new HashMap<Integer, RankType>();
-		map.put(101, WARRIOR_ARENA_DAILY);
-		map.put(102, SWORDMAN_ARENA_DAILY);
-		map.put(103, MAGICAN_ARENA_DAILY);
-		map.put(104, PRIEST_ARENA_DAILY);
-		map.put(201, FIGHTING_ALL_DAILY);
-		map.put(203, TEAM_FIGHTING_DAILY);
-		map.put(301, LEVEL_ALL_DAILY);
+		//TODO 兼容旧代码临时的区分实时和每日的方案
+		dailyMap = new HashMap<Integer, RankType>();
+		dailyMap.put(101, WARRIOR_ARENA_DAILY);
+		dailyMap.put(102, SWORDMAN_ARENA_DAILY);
+		dailyMap.put(103, MAGICAN_ARENA_DAILY);
+		dailyMap.put(104, PRIEST_ARENA_DAILY);
+		dailyMap.put(201, FIGHTING_ALL_DAILY);
+		dailyMap.put(203, TEAM_FIGHTING_DAILY);
+		dailyMap.put(301, LEVEL_ALL_DAILY);
+		
+		realTimeMap = new HashMap<Integer, RankType>();
+		realTimeMap.put(101, WARRIOR_ARENA);
+		realTimeMap.put(102, SWORDMAN_ARENA);
+		realTimeMap.put(103, MAGICAN_ARENA);
+		realTimeMap.put(104, PRIEST_ARENA);
+		realTimeMap.put(201, FIGHTING_ALL);
+		realTimeMap.put(203, TEAM_FIGHTING);
+		realTimeMap.put(301, LEVEL_ALL);
 	}
 	
-	public static RankType getRankType(int type){
-		return map.get(type);
+	public static RankType getRankType(int type,int realTime){
+		if(realTime == 0){
+		    return dailyMap.get(type);
+		}else{
+			return realTimeMap.get(type);
+		}
 	}
 	
 	public int getType() {

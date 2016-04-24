@@ -324,13 +324,21 @@ public final class MsgDef {
      */
     MSG_TASK(44, 149),
     /**
+     * <code>MSG_GROUP = 150;</code>
+     *
+     * <pre>
+     *公会基础管理
+     * </pre>
+     */
+    MSG_GROUP(45, 150),
+    /**
      * <code>MSG_TIME = 151;</code>
      *
      * <pre>
      *系统时间
      * </pre>
      */
-    MSG_TIME(45, 151),
+    MSG_TIME(46, 151),
     /**
      * <code>MSG_GUIDE = 152;</code>
      *
@@ -338,7 +346,7 @@ public final class MsgDef {
      *引导
      * </pre>
      */
-    MSG_GUIDE(46, 152),
+    MSG_GUIDE(47, 152),
     /**
      * <code>MSG_SECRET_AREA = 153;</code>
      *
@@ -346,7 +354,7 @@ public final class MsgDef {
      *秘境
      * </pre>
      */
-    MSG_SECRET_AREA(47, 153),
+    MSG_SECRET_AREA(48, 153),
     /**
      * <code>MSG_ERRORINFO = 154;</code>
      *
@@ -354,7 +362,7 @@ public final class MsgDef {
      *错误信息
      * </pre>
      */
-    MSG_ERRORINFO(48, 154),
+    MSG_ERRORINFO(49, 154),
     /**
      * <code>MSG_SECRET_MEMBER = 155;</code>
      *
@@ -362,7 +370,7 @@ public final class MsgDef {
      *秘境玩家
      * </pre>
      */
-    MSG_SECRET_MEMBER(49, 155),
+    MSG_SECRET_MEMBER(50, 155),
     /**
      * <code>MSG_Inlay = 156;</code>
      *
@@ -370,7 +378,7 @@ public final class MsgDef {
      *镶嵌宝石
      * </pre>
      */
-    MSG_Inlay(50, 156),
+    MSG_Inlay(51, 156),
     /**
      * <code>MSG_DATA_SYN = 157;</code>
      *
@@ -378,7 +386,7 @@ public final class MsgDef {
      *数据同步
      * </pre>
      */
-    MSG_DATA_SYN(51, 157),
+    MSG_DATA_SYN(52, 157),
     /**
      * <code>MSG_BATTLE_TOWER = 158;</code>
      *
@@ -386,7 +394,7 @@ public final class MsgDef {
      *试练塔
      * </pre>
      */
-    MSG_BATTLE_TOWER(52, 158),
+    MSG_BATTLE_TOWER(53, 158),
     /**
      * <code>MSG_FASHION = 159;</code>
      *
@@ -394,7 +402,7 @@ public final class MsgDef {
      *时装
      * </pre>
      */
-    MSG_FASHION(53, 159),
+    MSG_FASHION(54, 159),
     /**
      * <code>MSG_MainMsg = 160;</code>
      *
@@ -402,7 +410,7 @@ public final class MsgDef {
      *主城显示信息、跑马灯
      * </pre>
      */
-    MSG_MainMsg(54, 160),
+    MSG_MainMsg(55, 160),
     /**
      * <code>MSG_NEW_GUIDE = 161;</code>
      *
@@ -410,7 +418,7 @@ public final class MsgDef {
      *重构的新手引导
      * </pre>
      */
-    MSG_NEW_GUIDE(55, 161),
+    MSG_NEW_GUIDE(56, 161),
     /**
      * <code>MSG_PLOT = 162;</code>
      *
@@ -418,11 +426,11 @@ public final class MsgDef {
      *剧情
      * </pre>
      */
-    MSG_PLOT(56, 162),
+    MSG_PLOT(57, 162),
     /**
      * <code>MSG_PLAYER_LOGOUT = 163;</code>
      */
-    MSG_PLAYER_LOGOUT(57, 163),
+    MSG_PLAYER_LOGOUT(58, 163),
     /**
      * <code>MSG_DailyGif = 164;</code>
      *
@@ -430,7 +438,7 @@ public final class MsgDef {
      *七日礼包
      * </pre>
      */
-    MSG_DailyGif(58, 164),
+    MSG_DailyGif(59, 164),
     /**
      * <code>MSG_RED_POINT = 165;</code>
      *
@@ -438,7 +446,7 @@ public final class MsgDef {
      *红点
      * </pre>
      */
-    MSG_RED_POINT(59, 165),
+    MSG_RED_POINT(60, 165),
     /**
      * <code>MSG_FRSH_ACT = 166;</code>
      *
@@ -446,7 +454,7 @@ public final class MsgDef {
      *开服活动
      * </pre>
      */
-    MSG_FRSH_ACT(60, 166),
+    MSG_FRSH_ACT(61, 166),
     /**
      * <code>MSG_RECONNECT = 167;</code>
      *
@@ -454,7 +462,7 @@ public final class MsgDef {
      *断线重连
      * </pre>
      */
-    MSG_RECONNECT(61, 167),
+    MSG_RECONNECT(62, 167),
     /**
      * <code>MSG_PVE_INFO = 168;</code>
      *
@@ -462,7 +470,7 @@ public final class MsgDef {
      *请求pve活动信息
      * </pre>
      */
-    MSG_PVE_INFO(62, 168),
+    MSG_PVE_INFO(63, 168),
     /**
      * <code>MSG_NOTICE = 169;</code>
      *
@@ -470,47 +478,7 @@ public final class MsgDef {
      *请求通告
      * </pre>
      */
-    MSG_NOTICE(63, 169),
-    /**
-     * <code>MSG_SDK_VERIFY = 996;</code>
-     *
-     * <pre>
-     *验证sdk登陆
-     * </pre>
-     */
-    MSG_SDK_VERIFY(64, 996),
-    /**
-     * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
-     *
-     * <pre>
-     *数值测试场景通讯协议
-     * </pre>
-     */
-    MSG_NUMERIC_ANALYSIS(65, 997),
-    /**
-     * <code>MSG_PLATFORMGS = 998;</code>
-     *
-     * <pre>
-     *登陆服游戏服通讯协议
-     * </pre>
-     */
-    MSG_PLATFORMGS(66, 998),
-    /**
-     * <code>MSG_GAMEPRESS = 999;</code>
-     *
-     * <pre>
-     *压测协议
-     * </pre>
-     */
-    MSG_GAMEPRESS(67, 999),
-    /**
-     * <code>MSG_GROUP = 150;</code>
-     *
-     * <pre>
-     *公会基础管理
-     * </pre>
-     */
-    MSG_GROUP(68, 150),
+    MSG_NOTICE(64, 169),
     /**
      * <code>MSG_GROUP_MEMBER_MANAGER = 170;</code>
      *
@@ -518,7 +486,7 @@ public final class MsgDef {
      *公会成员管理
      * </pre>
      */
-    MSG_GROUP_MEMBER_MANAGER(69, 170),
+    MSG_GROUP_MEMBER_MANAGER(65, 170),
     /**
      * <code>MSG_GROUP_PERSONAL = 171;</code>
      *
@@ -526,7 +494,7 @@ public final class MsgDef {
      *公会个人操作
      * </pre>
      */
-    MSG_GROUP_PERSONAL(70, 171),
+    MSG_GROUP_PERSONAL(66, 171),
     /**
      * <code>MSG_GROUP_SKILL = 172;</code>
      *
@@ -534,7 +502,7 @@ public final class MsgDef {
      *帮派技能
      * </pre>
      */
-    MSG_GROUP_SKILL(71, 172),
+    MSG_GROUP_SKILL(67, 172),
     /**
      * <code>MSG_GIFT_CODE = 173;</code>
      *
@@ -542,11 +510,47 @@ public final class MsgDef {
      *兑换码
      * </pre>
      */
-    MSG_GIFT_CODE(72, 173),
+    MSG_GIFT_CODE(68, 173),
     /**
-     * <code>MSG_ACTIVITY_COUNTTYPE = 174;</code>
+     * <code>MSG_CHARGE = 174;</code>
+     *
+     * <pre>
+     *充值
+     * </pre>
      */
-    MSG_ACTIVITY_COUNTTYPE(73, 174),
+    MSG_CHARGE(69, 174),
+    /**
+     * <code>MSG_SDK_VERIFY = 996;</code>
+     *
+     * <pre>
+     *验证sdk登陆
+     * </pre>
+     */
+    MSG_SDK_VERIFY(70, 996),
+    /**
+     * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
+     *
+     * <pre>
+     *数值测试场景通讯协议
+     * </pre>
+     */
+    MSG_NUMERIC_ANALYSIS(71, 997),
+    /**
+     * <code>MSG_PLATFORMGS = 998;</code>
+     *
+     * <pre>
+     *登陆服游戏服通讯协议
+     * </pre>
+     */
+    MSG_PLATFORMGS(72, 998),
+    /**
+     * <code>MSG_GAMEPRESS = 999;</code>
+     *
+     * <pre>
+     *压测协议
+     * </pre>
+     */
+    MSG_GAMEPRESS(73, 999),
     ;
 
     /**
@@ -860,6 +864,14 @@ public final class MsgDef {
      */
     public static final int MSG_TASK_VALUE = 149;
     /**
+     * <code>MSG_GROUP = 150;</code>
+     *
+     * <pre>
+     *公会基础管理
+     * </pre>
+     */
+    public static final int MSG_GROUP_VALUE = 150;
+    /**
      * <code>MSG_TIME = 151;</code>
      *
      * <pre>
@@ -1008,46 +1020,6 @@ public final class MsgDef {
      */
     public static final int MSG_NOTICE_VALUE = 169;
     /**
-     * <code>MSG_SDK_VERIFY = 996;</code>
-     *
-     * <pre>
-     *验证sdk登陆
-     * </pre>
-     */
-    public static final int MSG_SDK_VERIFY_VALUE = 996;
-    /**
-     * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
-     *
-     * <pre>
-     *数值测试场景通讯协议
-     * </pre>
-     */
-    public static final int MSG_NUMERIC_ANALYSIS_VALUE = 997;
-    /**
-     * <code>MSG_PLATFORMGS = 998;</code>
-     *
-     * <pre>
-     *登陆服游戏服通讯协议
-     * </pre>
-     */
-    public static final int MSG_PLATFORMGS_VALUE = 998;
-    /**
-     * <code>MSG_GAMEPRESS = 999;</code>
-     *
-     * <pre>
-     *压测协议
-     * </pre>
-     */
-    public static final int MSG_GAMEPRESS_VALUE = 999;
-    /**
-     * <code>MSG_GROUP = 150;</code>
-     *
-     * <pre>
-     *公会基础管理
-     * </pre>
-     */
-    public static final int MSG_GROUP_VALUE = 150;
-    /**
      * <code>MSG_GROUP_MEMBER_MANAGER = 170;</code>
      *
      * <pre>
@@ -1080,9 +1052,45 @@ public final class MsgDef {
      */
     public static final int MSG_GIFT_CODE_VALUE = 173;
     /**
-     * <code>MSG_ACTIVITY_COUNTTYPE = 174;</code>
+     * <code>MSG_CHARGE = 174;</code>
+     *
+     * <pre>
+     *充值
+     * </pre>
      */
-    public static final int MSG_ACTIVITY_COUNTTYPE_VALUE = 174;
+    public static final int MSG_CHARGE_VALUE = 174;
+    /**
+     * <code>MSG_SDK_VERIFY = 996;</code>
+     *
+     * <pre>
+     *验证sdk登陆
+     * </pre>
+     */
+    public static final int MSG_SDK_VERIFY_VALUE = 996;
+    /**
+     * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
+     *
+     * <pre>
+     *数值测试场景通讯协议
+     * </pre>
+     */
+    public static final int MSG_NUMERIC_ANALYSIS_VALUE = 997;
+    /**
+     * <code>MSG_PLATFORMGS = 998;</code>
+     *
+     * <pre>
+     *登陆服游戏服通讯协议
+     * </pre>
+     */
+    public static final int MSG_PLATFORMGS_VALUE = 998;
+    /**
+     * <code>MSG_GAMEPRESS = 999;</code>
+     *
+     * <pre>
+     *压测协议
+     * </pre>
+     */
+    public static final int MSG_GAMEPRESS_VALUE = 999;
 
 
     public final int getNumber() { return value; }
@@ -1134,6 +1142,7 @@ public final class MsgDef {
         case 147: return MSG_Worship;
         case 148: return MSG_TOWER;
         case 149: return MSG_TASK;
+        case 150: return MSG_GROUP;
         case 151: return MSG_TIME;
         case 152: return MSG_GUIDE;
         case 153: return MSG_SECRET_AREA;
@@ -1153,16 +1162,15 @@ public final class MsgDef {
         case 167: return MSG_RECONNECT;
         case 168: return MSG_PVE_INFO;
         case 169: return MSG_NOTICE;
-        case 996: return MSG_SDK_VERIFY;
-        case 997: return MSG_NUMERIC_ANALYSIS;
-        case 998: return MSG_PLATFORMGS;
-        case 999: return MSG_GAMEPRESS;
-        case 150: return MSG_GROUP;
         case 170: return MSG_GROUP_MEMBER_MANAGER;
         case 171: return MSG_GROUP_PERSONAL;
         case 172: return MSG_GROUP_SKILL;
         case 173: return MSG_GIFT_CODE;
-        case 174: return MSG_ACTIVITY_COUNTTYPE;
+        case 174: return MSG_CHARGE;
+        case 996: return MSG_SDK_VERIFY;
+        case 997: return MSG_NUMERIC_ANALYSIS;
+        case 998: return MSG_PLATFORMGS;
+        case 999: return MSG_GAMEPRESS;
         default: return null;
       }
     }
@@ -1223,7 +1231,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\255\013\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\241\013\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1245,22 +1253,22 @@ public final class MsgDef {
       "_SETTING\020\217\001\022\026\n\021MSG_OtherRoleAttr\020\220\001\022\016\n\tM",
       "SG_STORE\020\221\001\022\024\n\017MSG_UnendingWar\020\222\001\022\020\n\013MSG" +
       "_Worship\020\223\001\022\016\n\tMSG_TOWER\020\224\001\022\r\n\010MSG_TASK\020" +
-      "\225\001\022\r\n\010MSG_TIME\020\227\001\022\016\n\tMSG_GUIDE\020\230\001\022\024\n\017MSG" +
-      "_SECRET_AREA\020\231\001\022\022\n\rMSG_ERRORINFO\020\232\001\022\026\n\021M" +
-      "SG_SECRET_MEMBER\020\233\001\022\016\n\tMSG_Inlay\020\234\001\022\021\n\014M" +
-      "SG_DATA_SYN\020\235\001\022\025\n\020MSG_BATTLE_TOWER\020\236\001\022\020\n" +
-      "\013MSG_FASHION\020\237\001\022\020\n\013MSG_MainMsg\020\240\001\022\022\n\rMSG" +
-      "_NEW_GUIDE\020\241\001\022\r\n\010MSG_PLOT\020\242\001\022\026\n\021MSG_PLAY" +
-      "ER_LOGOUT\020\243\001\022\021\n\014MSG_DailyGif\020\244\001\022\022\n\rMSG_R" +
-      "ED_POINT\020\245\001\022\021\n\014MSG_FRSH_ACT\020\246\001\022\022\n\rMSG_RE",
-      "CONNECT\020\247\001\022\021\n\014MSG_PVE_INFO\020\250\001\022\017\n\nMSG_NOT" +
-      "ICE\020\251\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMER" +
-      "IC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rM" +
-      "SG_GAMEPRESS\020\347\007\022\016\n\tMSG_GROUP\020\226\001\022\035\n\030MSG_G" +
-      "ROUP_MEMBER_MANAGER\020\252\001\022\027\n\022MSG_GROUP_PERS" +
-      "ONAL\020\253\001\022\024\n\017MSG_GROUP_SKILL\020\254\001\022\022\n\rMSG_GIF" +
-      "T_CODE\020\255\001\022\033\n\026MSG_ACTIVITY_COUNTTYPE\020\256\001B\025" +
-      "\n\013com.rwprotoB\006MsgDef"
+      "\225\001\022\016\n\tMSG_GROUP\020\226\001\022\r\n\010MSG_TIME\020\227\001\022\016\n\tMSG" +
+      "_GUIDE\020\230\001\022\024\n\017MSG_SECRET_AREA\020\231\001\022\022\n\rMSG_E" +
+      "RRORINFO\020\232\001\022\026\n\021MSG_SECRET_MEMBER\020\233\001\022\016\n\tM" +
+      "SG_Inlay\020\234\001\022\021\n\014MSG_DATA_SYN\020\235\001\022\025\n\020MSG_BA" +
+      "TTLE_TOWER\020\236\001\022\020\n\013MSG_FASHION\020\237\001\022\020\n\013MSG_M" +
+      "ainMsg\020\240\001\022\022\n\rMSG_NEW_GUIDE\020\241\001\022\r\n\010MSG_PLO" +
+      "T\020\242\001\022\026\n\021MSG_PLAYER_LOGOUT\020\243\001\022\021\n\014MSG_Dail" +
+      "yGif\020\244\001\022\022\n\rMSG_RED_POINT\020\245\001\022\021\n\014MSG_FRSH_",
+      "ACT\020\246\001\022\022\n\rMSG_RECONNECT\020\247\001\022\021\n\014MSG_PVE_IN" +
+      "FO\020\250\001\022\017\n\nMSG_NOTICE\020\251\001\022\035\n\030MSG_GROUP_MEMB" +
+      "ER_MANAGER\020\252\001\022\027\n\022MSG_GROUP_PERSONAL\020\253\001\022\024" +
+      "\n\017MSG_GROUP_SKILL\020\254\001\022\022\n\rMSG_GIFT_CODE\020\255\001" +
+      "\022\017\n\nMSG_CHARGE\020\256\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031" +
+      "\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFOR" +
+      "MGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprot" +
+      "oB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

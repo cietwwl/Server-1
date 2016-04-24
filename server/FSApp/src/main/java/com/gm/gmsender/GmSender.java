@@ -15,23 +15,34 @@ import com.rw.manager.GameManager;
 
 public class GmSender {
 
-	private final Socket socket;
+	private Socket socket;
 	private DataOutputStream output;
 	private DataInputStream input;
 	private short protno;
+	final GmSenderConfig gmSenderConfig;
+	
+	private boolean available = true;
 
 	public GmSender(GmSenderConfig senderConfig) throws IOException {
+		gmSenderConfig = senderConfig;
+		this.protno = senderConfig.getProtno();
+		connect(senderConfig);		
+	}	
+	private void connect(GmSenderConfig senderConfig) throws IOException{
 		this.socket = new Socket(senderConfig.getHost(), senderConfig.getPort());
 		this.socket.setSoTimeout(senderConfig.getTimeoutMillis());
 		this.output = new DataOutputStream(socket.getOutputStream());
 		this.input = new DataInputStream(socket.getInputStream());
-		this.protno = senderConfig.getProtno();
 	}
 
 	public boolean isAvailable() {
-		return socket.isConnected() && !socket.isClosed();
+		return available && socket.isConnected() && !socket.isClosed();
+	}	
+	
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
-
+	
 	public <T> T send(Map<String, Object> content, Class<T> clazz) throws IOException {
 
 		GmSend gmSend = new GmSend();
@@ -39,16 +50,30 @@ public class GmSender {
 		gmSend.password = GameManager.getGmPassword();
 		gmSend.opType = 20039;
 		gmSend.args = content;
-
 		String jsonContent = FastJsonUtil.serialize(gmSend);
 		byte[] dataFormat = dataFormat(protno, jsonContent);
-		output.write(dataFormat);
-		output.flush();
-
-		T gmResponse = GiftCodeSocketHelper.read(input, clazz); // block
+		T gmResponse = null;
+		try {
+			output.write(dataFormat);
+			output.flush();
+			gmResponse = GiftCodeSocketHelper.read(input, clazz);
+		} catch (IOException e) {	
+			GameLog.error(LogModule.GmSender, "GmSender[send]", "第一次发送出现异常,重发", e);
+			//出错重连，再出错则直接抛出异常.
+			reconect();
+			output.write(dataFormat);
+			output.flush();
+			gmResponse = GiftCodeSocketHelper.read(input, clazz); 
+		}
 
 		return gmResponse;
 	}
+	
+	private void reconect() throws IOException{
+		destroy();
+		connect(gmSenderConfig);		
+	}
+	
 
 	public class GmSend {
 		private String account;

@@ -14,6 +14,7 @@ public enum LogModule {
 	GroupSystem("帮派系统"),
 	GroupSkill("帮派技能"),
 	GmSender("gm对外请求"),
+	Charge("充值"),
 	UserEvent("用户事件"),
 	ComActivityCount("通用活动_CountType");
 	;

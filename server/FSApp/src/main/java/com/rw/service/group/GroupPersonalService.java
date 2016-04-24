@@ -39,7 +39,7 @@ public class GroupPersonalService implements FsService {
 				byteString = personalHandler.applyJoinGroupHandler(player, commonReq.getApplyJoinGroupReq());
 				break;
 			case OPEN_DONATE_VIEW_TYPE:// 打开捐献界面
-				byteString = personalHandler.OpenDonateViewHandler(player);
+				byteString = personalHandler.openDonateViewHandler(player);
 				break;
 			case GROUP_DONATE_TYPE:// 帮派捐献
 				byteString = personalHandler.groupDonateHandler(player, commonReq.getGroupDonateReq());

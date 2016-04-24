@@ -1,14 +1,13 @@
 package com.rw.service.dailyActivity;
 
 import java.util.List;
-
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.DailyActivityMgr;
 import com.playerdata.Player;
-import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
-import com.rwbase.dao.task.pojo.DailyActivityCfg;
+import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
 import com.rwbase.dao.task.pojo.DailyActivityData;
 import com.rwproto.DailyActivityProtos.DailyActivityInfo;
 import com.rwproto.DailyActivityProtos.EDailyActivityRequestType;
@@ -66,24 +65,17 @@ public class DailyActivityHandler {
 		response.setResultType(eDailyActivityResultType.SUCCESS);
 		int taskId = request.getTaskId();
 		DailyActivityMgr activityMgr = player.getDailyActivityMgr();
-		//modify@2015-12-11 by Jamaz 增加领取日常任务的判断，防止被刷任务
-		DailyActivityCfg taskCfg = DailyActivityCfgDAO.getInstance().GetTaskCfgById(taskId);
-		if (taskCfg == null) {
+		DailyActivityCfgEntity entity = DailyActivityCfgDAO.getInstance().getCfgEntity(taskId);
+		if (entity == null) {
 			GameLog.error("daily", "takeFinish", player + "领取配置不存在的日常任务：" + taskId, null);
 			return returnFailResponse(response);
 		}
 		// 从任务列表中删除该任务
-//		if(!activityMgr.RemoveTaskById(taskId)){
-//			GameLog.error("daily", "takeFinish", player + "重复领取的日常任务：" + taskId, null);
-////			return returnFailResponse(response);
-//		}
-		
 		if(activityMgr.RemoveTaskById(taskId))
 		{
-			String[] reward = taskCfg.getReward().split(";");
-			for (int i = 0; i < reward.length; i++) {
-				String[] rewardItem = reward[i].split(":");
-				player.getItemBagMgr().addItem(Integer.parseInt(rewardItem[0]), Integer.parseInt(rewardItem[1]));
+			List<ItemInfo> rewardList = entity.getReward();
+			for(ItemInfo info:rewardList){
+				player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
 			}
 			response.setTaskId(request.getTaskId());
 		}

@@ -45,10 +45,10 @@ public class GmEmailSingleCheck implements IGmTask {
 					map.put("id", gmEmailRepItem.getId());
 					map.put("title", gmEmailRepItem.getTitle());
 					map.put("content", gmEmailRepItem.getContent());
-					map.put("toolList", gmEmailRepItem.getToolList());
-					map.put("sendTime", gmEmailRepItem.getSendTime());
-					map.put("receiveTime", gmEmailRepItem.getSendTime());
-					map.put("expireTime", gmEmailRepItem.getExpireTime());
+					map.put("toolList", genToolListString(gmEmailRepItem.getToolList()));
+					map.put("sendTime", gmEmailRepItem.getSendTime()/ 1000);
+					map.put("receiveTime", gmEmailRepItem.getSendTime()/1000);
+					map.put("expireTime", gmEmailRepItem.getExpireTime()/1000);
 					response.addResult(map);
 				}
 				
@@ -63,6 +63,24 @@ public class GmEmailSingleCheck implements IGmTask {
 		}
 		return response;
 	}
+	
+	private String genToolListString(List<GmItem> list){
+		
+		if(list == null){
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		int count = 0;
+		for (GmItem gmItem : list) {
+			sb.append("code:").append(gmItem.getCode()).append(",");
+			sb.append("amount:").append(gmItem.getAmount());
+			count++;
+			if(count < list.size()){
+				sb.append("|");
+			}
+		}
+		return sb.toString();
+	}
 
 	private GmEmailRepItem toRepItem(EmailItem emailItem) {
 		GmEmailRepItem repItem = new GmEmailRepItem();
@@ -72,6 +90,7 @@ public class GmEmailSingleCheck implements IGmTask {
 		repItem.setTaskId(emailItem.getTaskId());
 
 		repItem.setBeginTime(emailItem.getBeginTime());
+		repItem.setSendTime(emailItem.getSendTime());
 		repItem.setEndTime(emailItem.getEndTime());
 		repItem.setCoolTime(emailItem.getCoolTime());
 		repItem.setExpireTime(emailItem.getDeadlineTimeInMill());
@@ -92,6 +111,7 @@ public class GmEmailSingleCheck implements IGmTask {
 					GmItem gmItem = new GmItem();
 					gmItem.setCode(Integer.valueOf(itemTmpSplit[0]));
 					gmItem.setAmount(Integer.valueOf(itemTmpSplit[1]));
+					itemList.add(gmItem);
 				}
 			}
 			repItem.setToolList(itemList);

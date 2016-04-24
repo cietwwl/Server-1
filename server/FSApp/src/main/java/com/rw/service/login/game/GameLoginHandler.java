@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.login.AccoutBM;
 import com.bm.login.UserBM;
+import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -16,6 +17,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
@@ -39,6 +41,8 @@ import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecord;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecordDAO;
 import com.rwbase.dao.version.VersionConfigDAO;
 import com.rwbase.dao.version.pojo.VersionConfig;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -98,12 +102,13 @@ public class GameLoginHandler {
 
 		String clientInfoJson = request.getClientInfoJson();
 		ZoneLoginInfo zoneLoginInfo = null;
+		ClientInfo clientInfo = null;
 		if (StringUtils.isNotBlank(clientInfoJson)) {
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+			clientInfo = ClientInfo.fromJson(clientInfoJson);
 			zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-
+			
 		}
-
+		
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 
 		if (userAccount == null) {
@@ -131,6 +136,7 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			}
 			user = UserDataDao.getInstance().getByUserId(user.getUserId());
+			
 			if (GameManager.isWhiteListLimit(user.getAccount())) {
 				response.setError("该区维护中，请稍后尝试，");
 				response.setResultType(eLoginResultType.ServerMainTain);
@@ -140,8 +146,17 @@ public class GameLoginHandler {
 				if (user.getBlockReason() != null) {
 					error = user.getBlockReason();
 				}
-
-				response.setError(error);
+				error ="封号原因:"+error;
+				long blockCoolTime = user.getBlockCoolTime();
+				String releaseTime;
+				if (blockCoolTime > 0) {
+					releaseTime = "解封时间:"
+							+ DateUtils.getDateTimeFormatString(blockCoolTime,
+									"yyyy-MM-dd HH:mm");
+				} else {
+					releaseTime = "解封时间:永久封号!";
+				}
+				response.setError(error +"\n"+ releaseTime);
 				response.setResultType(eLoginResultType.FAIL);
 				return response.build().toByteString();
 			} else if (user.isInKickOffCoolTime()) {
@@ -150,7 +165,10 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			} else {
 				userId = user.getUserId();
-				
+				if (clientInfo != null) {
+					user.setChannelId(clientInfo.getChannelId());
+				}
+
 				final String userId_ = userId;
 				final ChannelHandlerContext ctx = UserChannelMgr.getThreadLocalCTX();
 				// GameWorldFactory.getGameWorld().asyncExecute(userId_, new
@@ -160,6 +178,27 @@ public class GameLoginHandler {
 				// public void run(Player player) {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
+				
+				// --------------------------------------------------------START
+				// TODO HC @Modify 2015-12-17
+				/**
+				 * <pre>
+				 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+				 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+				 * </pre>
+				 */
+				PlotProgressDAO dao = PlotProgressDAO.getInstance();
+				UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+				if (userPlotProgress == null) {
+					userPlotProgress = new UserPlotProgress();
+					userPlotProgress.setUserId(userId);
+				}
+				Integer hasValue = userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+				if (hasValue == null) {
+					dao.update(userPlotProgress);
+				}
+				// --------------------------------------------------------END
+				
 				if (player != null) {
 					// modify@2015-12-28 by Jamaz 只断开非当前链接
 					ChannelHandlerContext oldContext = UserChannelMgr.get(userId_);
@@ -178,7 +217,7 @@ public class GameLoginHandler {
 					@Override
 					public void run() {
 						// author:lida 2015-09-21 通知登陆服务器更新账号信息
-						notifyPlatformPlayerLogin(zoneId, accountId, p, lastZoneId);
+						notifyPlatformPlayerLogin(zoneId, accountId, p);
 					}
 				});
 
@@ -211,26 +250,6 @@ public class GameLoginHandler {
 				// 补充进入主城需要同步的数据
 				LoginSynDataHelper.setData(player, response);
 
-				// --------------------------------------------------------START
-				// TODO HC @Modify 2015-12-17
-				/**
-				 * <pre>
-				 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-				 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-				 * </pre>
-				 */
-				PlotProgressDAO dao = PlotProgressDAO.getInstance();
-				UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-				if (userPlotProgress == null) {
-					userPlotProgress = new UserPlotProgress();
-					userPlotProgress.setUserId(userId);
-				}
-				Integer hasValue = userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-				if (hasValue == null) {
-					dao.update(userPlotProgress);
-				}
-				// --------------------------------------------------------END
-
 				// player.SendMsg(Command.MSG_LOGIN_GAME,
 				// response.build().toByteString());
 				return response.build().toByteString();
@@ -261,19 +280,27 @@ public class GameLoginHandler {
 		}
 		GameLog.debug("Game Create Role Start --> accountId:" + accountId + " , zoneId:" + zoneId);
 
-		// author: lida 平台已经判断
-		/**
-		 * TableAccount userAccount = accountBM.getByAccountId(accountId); if (userAccount == null) { response.setResultType(eLoginResultType.FAIL);
-		 * response.setError("账号不存在"); return response.build().toByteString(); } else if (!password.equals(userAccount.getPassword())) {
-		 * response.setResultType(eLoginResultType.FAIL); response.setError("账号或者密码不对"); return response.build().toByteString(); } else
-		 */
+		// author: lida 增加容错 如果已经创建角色则进入主城
+		User user = UserDataDao.getInstance().getByAccoutAndZoneId(accountId, zoneId);
+		if (user != null) {
+			return notifyCreateRoleSuccess(response, user);
+		}
+
 		{
 			String clientInfoJson = request.getClientInfoJson();
+			ZoneLoginInfo zoneLoginInfo = null;
+			if (StringUtils.isNotBlank(clientInfoJson)) {
+				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
+				
+
+			}
+			
 			String nick = request.getNick();
 			int sex = request.getSex();
 			if (CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
 				response.setResultType(eLoginResultType.FAIL);
-				String reason = "昵称不能包含非法字符";
+				String reason = "昵称不能包含屏蔽字或非法字符";
 				response.setError(reason);
 				return response.build().toByteString();
 			} else if (StringUtils.isBlank(nick)) {
@@ -295,21 +322,14 @@ public class GameLoginHandler {
 			createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
 			// userAccount.addUserZoneInfo(zoneId);
 			// accountBM.update(userAccount);
-			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId);
+			final Player player = PlayerMgr.getInstance().newFreshPlayer(userId,zoneLoginInfo);
+			player.setZoneLoginInfo(zoneLoginInfo);
 			// author：lida 2015-09-21 通知登陆服务器更新账号信息 确保账号添加成功
 			GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
 
 				@Override
 				public void run() {
-					if (PlatformService.checkPlatformOpen()) {
-						notifyPlatformPlayerLogin(zoneId, accountId, player, -1);
-					} else {
-						TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
-						UserZoneInfo zoneInfo = new UserZoneInfo();
-						addUserZoneInfo(zoneId, zoneInfo, player);
-						userAccount.addUserZoneInfo(zoneInfo);
-						AccoutBM.getInstance().update(userAccount);
-					}
+					notifyPlatformPlayerLogin(zoneId, accountId, player);
 				}
 			});
 
@@ -323,27 +343,20 @@ public class GameLoginHandler {
 			long end1 = System.currentTimeMillis();
 			System.out.println("-------------------" + (end1 - start));
 
-			// EmailUtils.sendEmail(player.getUserId(), "10002", null);
 			EmailUtils.sendEmail(player.getUserId(), "10003");
-			// EmailUtils.sendEmail(player.getUserId(), "10004", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10005", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10006", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10007", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10008", null);
-			// EmailUtils.sendEmail(player.getUserId(), "10009", null);
-			// PlayerMgr.getInstance().addPlayerNameMap(player);
+			
+			//检查发送gm邮件
+			ServerStatusMgr.processGmMailWhenCreateRole(player);
 
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
 			GameLog.debug("Create Role ...,userId:" + userId);
 			GameLog.debug("Game Create Role Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 			GameLog.debug("Game Create Role Finish --> userId:" + userId);
-			if (StringUtils.isNotBlank(clientInfoJson)) {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
-				ZoneLoginInfo zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-				player.setZoneLoginInfo(zoneLoginInfo);
-
-			}
+			
+			
+			
+			
 			BILogMgr.getInstance().logZoneReg(player);
 			//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 			ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
@@ -352,24 +365,44 @@ public class GameLoginHandler {
 			
 
 			LoginSynDataHelper.setData(player, response);
-			// --------------------------------------------------------START
-			// TODO HC @Modify 2015-12-17
-			/**
-			 * <pre>
-			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-			 * </pre>
-			 */
-			PlotProgressDAO dao = PlotProgressDAO.getInstance();
-			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-			if (userPlotProgress == null) {
-				userPlotProgress = new UserPlotProgress();
-				userPlotProgress.setUserId(userId);
-			}
-			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-			dao.update(userPlotProgress);
-			// --------------------------------------------------------END
+//			// --------------------------------------------------------START
+//			// TODO HC @Modify 2015-12-17
+//			/**
+//			 * <pre>
+//			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+//			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+//			 * </pre>
+//			 */
+//			PlotProgressDAO dao = PlotProgressDAO.getInstance();
+//			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+//			if (userPlotProgress == null) {
+//				userPlotProgress = new UserPlotProgress();
+//				userPlotProgress.setUserId(userId);
+//			}
+//			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+//			dao.update(userPlotProgress);
+//			// --------------------------------------------------------END
 		}
+		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
+		// 补充进入主城需要同步的数据
+		return response.build().toByteString();
+	}
+
+	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
+		String userId = user.getUserId();
+		Player player = PlayerMgr.getInstance().find(userId);
+		UserChannelMgr.bindUserID(userId);
+
+		player.save();
+		long end = System.currentTimeMillis();
+		player.onLogin();
+		long end1 = System.currentTimeMillis();
+
+		response.setResultType(eLoginResultType.SUCCESS);
+		response.setUserId(userId);
+
+		LoginSynDataHelper.setData(player, response);
+
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据
 		return response.build().toByteString();
@@ -385,33 +418,19 @@ public class GameLoginHandler {
 		ZoneInfo.setUserName(player.getUserName());
 	}
 
-	private boolean notifyPlatformPlayerLogin(int zoneId, String accountId, Player player, int lastZoneId) {
-		try {
-			if (lastZoneId != zoneId) {
-				UserBaseDataResponse userBaseDataResponse = new UserBaseDataResponse();
-				userBaseDataResponse.setType(1);
-				userBaseDataResponse.setAccountId(accountId);
-				userBaseDataResponse.setUserId(player.getUserId());
-				userBaseDataResponse.setZoneId(zoneId);
-				userBaseDataResponse.setHeadImage(player.getHeadImage());
-				userBaseDataResponse.setCareer(player.getCareer());
-				userBaseDataResponse.setUserName(player.getUserName());
-				userBaseDataResponse.setLevel(player.getLevel());
-				userBaseDataResponse.setVipLevel(player.getVip());
-				RequestObject request = new RequestObject();
-				request.pushParam(UserBaseDataResponse.class, userBaseDataResponse);
-				request.setClassName("com.rw.netty.http.requestHandler.PlayerLoginHandler");
-				request.setMethodName("notifyPlayerLogin");
-				request.setBlnNotifySingle(true);
-				PlatformService.addRequest(request);
-				return true;
-			} else {
-				return false;
-			}
-			// return false;
-		} catch (Exception ex) {
-			return false;
+	private void notifyPlatformPlayerLogin(int zoneId, String accountId, Player player) {
+		TableAccountLoginRecord record = TableAccountLoginRecordDAO.getInstance().get(accountId);
+		boolean blnInsert = false;
+		if(record ==null){
+			record = new TableAccountLoginRecord();
+			blnInsert = true;
 		}
+		record.setZoneId(zoneId);
+		record.setAccountId(accountId);
+		record.setUserId(player.getUserId());
+		record.setLoginTime(System.currentTimeMillis());
+		
+		TableAccountLoginRecordDAO.getInstance().update(record, blnInsert);
 	}
 
 	private String newUserId() {
@@ -449,7 +468,11 @@ public class GameLoginHandler {
 		}
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clienInfo = ClientInfo.fromJson(clientInfoJson);
+			if (clienInfo != null) {
+				baseInfo.setChannelId(clienInfo.getChannelId());
+			}
 			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
+			
 		}
 		// baseInfo.setCareer(0);
 		UserDataDao.getInstance().saveOrUpdate(baseInfo);

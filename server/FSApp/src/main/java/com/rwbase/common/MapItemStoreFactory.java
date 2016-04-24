@@ -9,6 +9,7 @@ import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
+import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
@@ -33,6 +34,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<EquipItem> equipCache;
 	// FashionItem
 	private static MapItemStoreCache<FashionItem> fashionCache;
+	// new guide
+	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
 	// FresherActivityItem
 	private static MapItemStoreCache<FresherActivityBigItem> fresherActivityCache;
 	// InlayItem
@@ -72,6 +75,8 @@ public class MapItemStoreFactory {
 		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", heroCapacity));
 
 		register(fashionCache = new MapItemStoreCache<FashionItem>(FashionItem.class, "userId", heroCapacity));
+		
+		register(newGuideGiveItemHistoryCache = new MapItemStoreCache<GiveItemHistory>(GiveItemHistory.class, "userId", heroCapacity));
 
 		register(fresherActivityCache = new MapItemStoreCache<FresherActivityBigItem>(FresherActivityBigItem.class, "ownerId", heroCapacity));
 
@@ -199,6 +204,10 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<GroupMemberData> getGroupMemberCache() {
 		return groupMemberCache;
+	}
+
+	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
+		return newGuideGiveItemHistoryCache;
 	}
 
 	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {

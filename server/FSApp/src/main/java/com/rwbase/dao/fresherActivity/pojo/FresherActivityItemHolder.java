@@ -8,10 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.manager.GameManager;
+import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rwbase.common.MapItemStoreFactory;
@@ -20,6 +22,8 @@ import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataDao;
 
 /**
  * 开服活动数据
@@ -94,6 +98,7 @@ public class FresherActivityItemHolder {
 		List<FresherActivityCfg> allCfg = FresherActivityCfgDao.getInstance().getAllCfg();
 		MapItemStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe(ownerId);
 		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
+		User user = UserDataDao.getInstance().getByUserId(ownerId);
 		boolean blnUpdate =false;
 		for (FresherActivityCfg fresherActivityCfg : allCfg) {
 			int cfgId = fresherActivityCfg.getCfgId();
@@ -110,12 +115,12 @@ public class FresherActivityItemHolder {
 					}
 					if(fresherActivityItem.getCfgId() == cfgId){
 						blnExist = true;
-						refreshActivityTime(fresherActivityItem, fresherActivityCfg);
+						refreshActivityTime(fresherActivityItem, fresherActivityCfg, user);
 						break;
 					}
 				}
 				if(!blnExist){
-					if(createNewFresherActivity(fresherActivityCfg, fresherActivityBigItem, ownerId)){
+					if(createNewFresherActivity(fresherActivityCfg, fresherActivityBigItem, ownerId, user)){
 						mapItemStroe.updateItem(fresherActivityBigItem);
 						blnUpdate = true;
 					}
@@ -127,7 +132,7 @@ public class FresherActivityItemHolder {
 				fresherActivityBigItem.setOwnerId(ownerId);
 				eActivityType type = eActivityType.getTypeByOrder(fresherActivityCfg.getActivityType());
 				fresherActivityBigItem.setActivityType(type);
-				if(createNewFresherActivity(fresherActivityCfg, fresherActivityBigItem, ownerId)){
+				if(createNewFresherActivity(fresherActivityCfg, fresherActivityBigItem, ownerId, user)){
 					mapItemStroe.addItem(fresherActivityBigItem);
 				}
 				mapItemStoreList.put(type.ordinal(), fresherActivityBigItem);
@@ -137,12 +142,12 @@ public class FresherActivityItemHolder {
 
 	}
 	
-	public boolean createNewFresherActivity(FresherActivityCfg fresherActivityCfg, FresherActivityBigItem fresherActivityBigItem, String ownerId){
+	public boolean createNewFresherActivity(FresherActivityCfg fresherActivityCfg, FresherActivityBigItem fresherActivityBigItem, String ownerId, User user){
 		long current = System.currentTimeMillis();
 		FresherActivityItem fresherActivityItem = new FresherActivityItem();
 
 		
-		refreshActivityTime(fresherActivityItem, fresherActivityCfg);
+		refreshActivityTime(fresherActivityItem, fresherActivityCfg, user);
 		long endTime = fresherActivityItem.getEndTime();
 		if (endTime != -1 && endTime <= current) {
 			return false;
@@ -168,8 +173,13 @@ public class FresherActivityItemHolder {
 	 * @param fresherActivityItem
 	 * @param fresherActivityCfg
 	 */
-	private void refreshActivityTime(FresherActivityItem fresherActivityItem, FresherActivityCfg fresherActivityCfg) {
-		long openTime = GameManager.getOpenTime();
+	private void refreshActivityTime(FresherActivityItem fresherActivityItem, FresherActivityCfg fresherActivityCfg, User user) {
+		long openTime = 0;
+		if(fresherActivityCfg.getStartTimeType() == FresherActivityChecker.START_TYPE_OPENTIME){
+			openTime = GameManager.getOpenTime();
+		}else{
+			openTime = user.getCreateTime();
+		}
 		fresherActivityItem.setStartTime(fresherActivityCfg.getStartTime() * DAY_TIME + openTime);
 		if (fresherActivityCfg.getEndTime() == -1) {
 			fresherActivityItem.setEndTime(-1);

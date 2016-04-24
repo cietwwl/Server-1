@@ -8,7 +8,6 @@ import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
-import com.playerdata.readonly.ItemInfoIF;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.pve.PveHandler;
@@ -64,8 +63,8 @@ public class CelestialHandler {
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
-		
-		//战斗结束，推送pve消息给前端
+
+		// 战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();
 	}
@@ -87,12 +86,12 @@ public class CelestialHandler {
 		// }
 		// }
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
-		String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
-		//List<Integer> list = CopyHandler.convertToIntList(pItemsID);
+		// String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
+		// List<Integer> list = CopyHandler.convertToIntList(pItemsID);
 		// TODO DropItemManaer可优化成一个方法调用，少一次数据库操作和减少遍历操作
 		List<? extends ItemInfo> listItemBattle = null;
 		try {
-			DropItemManager.getInstance().pretreatDrop(player, copyCfg);
+			//DropItemManager.getInstance().pretreatDrop(player, copyCfg);
 			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -102,7 +101,7 @@ public class CelestialHandler {
 			for (ItemInfo item : listItemBattle) {
 				int itemId = item.getItemID();
 				int itemNum = item.getItemNum();
-				if(player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum())){
+				if (player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum())) {
 					String strItemInfo = itemId + "," + itemNum;
 					list_.add(strItemInfo);
 				}
@@ -114,8 +113,7 @@ public class CelestialHandler {
 	}
 
 	/*
-	 * 扫荡关卡...
-	 * 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
+	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
 	 */
 	public ByteString sweep(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();

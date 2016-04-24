@@ -2,6 +2,7 @@ package com.rw.service.copy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
@@ -53,7 +54,8 @@ public class WarFareHandler {
 
 		int times = copyRequest.getTagBattleData().getBattleClearingTime();
 
-		List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, times-1, copyCfg.getLevelID());
+		AtomicInteger unendingWarCoin = new AtomicInteger();
+		List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, times-1, copyCfg.getLevelID(),unendingWarCoin);
 
 		List<String> itemList = new ArrayList<String>();
 		for (int i = 0; i < addList.size(); i++) {
@@ -71,6 +73,7 @@ public class WarFareHandler {
 		tagBattleClearingResult.addAllUpHeroId(listUpHero);// 升级英雄ID...
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
+		copyResponse.setUnendingWar(unendingWarCoin.get());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
 
 		// 无尽战火日常任务
