@@ -78,8 +78,7 @@ public class FresherActivityChecker {
 	 */
 	public static boolean checkFresherActivity(FresherActivityItemIF fresherActivityItem){
 		if(fresherActivityItem.isFinish() || fresherActivityItem.isClosed() 
-				|| fresherActivityItem.getEndTime() < System.currentTimeMillis()
-				|| fresherActivityItem.getStartTime() > System.currentTimeMillis()){
+				|| fresherActivityItem.getEndTime() < System.currentTimeMillis()){
 			return false;
 		}else{
 			return true;
