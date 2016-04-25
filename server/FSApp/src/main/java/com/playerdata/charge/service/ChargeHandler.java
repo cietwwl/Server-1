@@ -51,12 +51,15 @@ public class ChargeHandler {
 		VipGiftCfg vipGiftCfg = VipGiftCfgDao.getInstance().getByVip(vipLevel);
 		if(vipGiftCfg!=null && !player.getVipMgr().isVipGiftTaken(vipLevel)){
 			//先设置已领取，防止下面操作出错的时候重复领取
-			player.getVipMgr().setVipGiftTaken(vipLevel);			
+			player.getVipMgr().setVipGiftTaken(vipLevel);
 			
-			String chargeItemId = vipGiftCfg.getChargeCfgId();			
-			ChargeResult chargeResult = ChargeMgr.getInstance().chargeAndTakeGift(player, chargeItemId);
+			String giftItemId = vipGiftCfg.getVipLv();		
+			ChargeResult chargeResult = ChargeMgr.getInstance().buyAndTakeVipGift(player, giftItemId);
 			
 			response.setIsSuccess(chargeResult.isSuccess());
+			if(!chargeResult.isSuccess()){
+				player.getVipMgr().failToBuyVipGift(vipLevel);
+			}
 			response.setTipMsg(chargeResult.getTips());		
 		}else{
 			response.setIsSuccess(false);

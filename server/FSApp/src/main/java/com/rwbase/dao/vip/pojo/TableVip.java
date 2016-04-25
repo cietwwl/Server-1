@@ -66,6 +66,11 @@ public class TableVip {
 	public void setVipGiftTaken(int vipLevel) {
 		vipGiftTaken.put(vipLevel, true);
 	}
+	
+	public void failToBuyVipGift(int vipLevel) {
+		vipGiftTaken.put(vipLevel, false);
+	}
+	
 
 	public void setPrivilege(Map<EPrivilegeDef, Integer> privilege) {
 		this.privilege = privilege;

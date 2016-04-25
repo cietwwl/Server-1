@@ -6,12 +6,15 @@ import java.util.Iterator;
 
 import java.util.Set;
 
+import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.cfg.FirstChargeCfg;
 import com.playerdata.charge.cfg.FirstChargeCfgDao;
+import com.playerdata.charge.cfg.VipGiftCfg;
+import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -34,30 +37,57 @@ public class ChargeMgr {
 		return ChargeInfoHolder.getInstance().get(userId);
 	}
 	
-	public ChargeResult chargeAndTakeGift(Player player, String itemId){
+	public ChargeResult buyAndTakeVipGift(Player player, String itemId){
 		
 		ChargeResult result = ChargeResult.newResult(false);
 		
-		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
+		VipGiftCfg target = VipGiftCfgDao.getInstance().getCfgById(itemId);
+//		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
 		
 		if(target!=null){
-			boolean success = doCharge(player, target);
+			boolean success = buyVipGift(player, target,result);
 			if(success){
-				success = takeChargeGift(target);
+				success = takeVipGift(player,target);
+				result.setTips("购买成功");
 			}
 			
 			result.setSuccess(success);
 		}else{
-			result.setTips("充值类型错误.");
+			result.setTips("购买类型错误.");
 		}
 		return result;
 	}
 	
-	private boolean takeChargeGift(ChargeCfg target) {
-		int extraGiftId = target.getExtraGiftId();
-		// TODO takeGift logic
+	private boolean takeVipGift(Player player,VipGiftCfg target) {
+		ComGiftMgr.getInstance().addGiftById(player,target.getGift());	
+		
+		
+		
 		return true;
 	}
+
+	private boolean buyVipGift(Player player, VipGiftCfg target,ChargeResult result) {
+		if(player.getVip() < Integer.parseInt(target.getVipLv())){
+			result.setTips("Vip等级低于购买礼包等级");
+			GameLog.error("chargeMgr.Vip等级低于购买礼包等级");
+			return false;
+		}
+
+		
+		
+		if(player.getUserGameDataMgr().getCoin() < Integer.parseInt(target.getCurCost())){
+			result.setTips("货币不够");
+			GameLog.error("chargeMgr.货币不够");
+			return false;
+		}
+		player.getUserGameDataMgr().addGold(-Integer.parseInt(target.getCurCost()));
+		
+		
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+
 
 	public ChargeResult charge(Player player, String itemId){
 		
