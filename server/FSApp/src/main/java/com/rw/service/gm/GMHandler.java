@@ -34,6 +34,10 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
+import com.rwbase.dao.fashion.FashionBuyRenewCfg;
+import com.rwbase.dao.fashion.FashionCommonCfg;
+import com.rwbase.dao.fashion.FashionEffectCfg;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -113,6 +117,7 @@ public class GMHandler {
 		// 时装
 		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
 		funcCallBackMap.put("setfashion", "setFashion");
+		funcCallBackMap.put("reloadfashionconfig", "reloadFashionConfig");
 	}
 
 	public boolean isActive() {
@@ -123,7 +128,26 @@ public class GMHandler {
 		this.active = active;
 	}
 
+	private boolean reloadOneConfigClass(String clname) {
+		try {
+			CfgCsvReloader.reloadByClassName(clname);
+			GameLog.info("GM", "reload config", "reloadByClassName:"+clname+" success",null);
+			return true;
+		} catch (Exception e) {
+			GameLog.error("GM", "reload config","reloadByClassName:"+clname+" failed" ,e);
+			return false;
+		}
+	}
+	
 	/** GM命令 */
+	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
+		boolean result = true;
+		result = result && reloadOneConfigClass(FashionBuyRenewCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionQuantityEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionCommonCfg.class.getName());
+		return result;
+	}
 
 	public boolean setFashionExpiredTime(String[] arrCommandContents, Player player) {
 		GameLog.info("时装", player.getUserId(), "调用设置过期时间命令", null);
@@ -149,15 +173,7 @@ public class GMHandler {
 	}
 
 	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
-		String clname = GiveItemCfgDAO.class.getName();
-		try {
-			CfgCsvReloader.reloadByClassName(clname);
-			GameLog.info("GM", "ReloadNewGuideCfg", "reloadByClassName:"+clname+" success",null);
-			return true;
-		} catch (Exception e) {
-			GameLog.error("GM", "reloadByClassName:(GiveItemCfgDAO):"+clname,"reload failed" ,e);
-			return false;
-		}
+		return reloadOneConfigClass(GiveItemCfgDAO.class.getName());
 	}
 	
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {

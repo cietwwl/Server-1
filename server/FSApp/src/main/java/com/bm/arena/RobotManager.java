@@ -33,8 +33,6 @@ import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.arena.pojo.TableArenaData;
-import com.rwbase.dao.fashion.FashState;
-import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.GemCfg;

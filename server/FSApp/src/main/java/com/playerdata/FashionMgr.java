@@ -554,7 +554,7 @@ public class FashionMgr implements FashionMgrIF{
 				String fashionName = fashcfg.getName();
 				if (fasItem.isBrought() && fashcfg != null && !StringUtils.isBlank(fashionName)){
 					final List<String> args = new ArrayList<String>();
-					args.add(fashionName+":"+fashionId);
+					args.add(fashionName);
 					GameLog.info("时装", m_player.getUserId(), "发送时装过期的邮件", null);
 					PlayerTask task=new PlayerTask() {
 						@Override
