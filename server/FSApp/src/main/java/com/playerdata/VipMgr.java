@@ -204,7 +204,7 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 		return vipDataHolder.get().isVipGiftTaken(vipLevel);
 	}
 	public void setVipGiftTaken(int vipLevel){
-		vipDataHolder.get().setVipGiftTaken(vipLevel);
+		vipDataHolder.get().setLevelVipGiftTaken(vipLevel);
 		vipDataHolder.update(m_pPlayer);
 	}
 	
