@@ -39,7 +39,6 @@ public class UserGameData implements TableUserOtherIF {
 	private long lastResetTime5Clock;
 	private long lastChangeInfoTime;// 上次变更人物信息时间
 
-	private int recharge;// 已充值总额（钻石）
 	private String headFrame;
 
 	private int skillPointCount = SkillMgr.MAX_SKILL_COUNT;// 剩余技能点数
@@ -206,14 +205,6 @@ public class UserGameData implements TableUserOtherIF {
 		this.lastChangeInfoTime = lastChangeInfoTime;
 	}
 
-	/** 已充值总额（钻石） */
-	public int getRecharge() {
-		return recharge;
-	}
-
-	public void setRecharge(int recharge) {
-		this.recharge = recharge;
-	}
 
 	public int getSkillPointCount() {
 		return skillPointCount;

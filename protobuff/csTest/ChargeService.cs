@@ -24,12 +24,12 @@ namespace chargeProto
       get { return _reqType; }
       set { _reqType = value; }
     }
-    private int _chargeType;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"chargeType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int chargeType
+    private string _chargeItemId;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"chargeItemId", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string chargeItemId
     {
-      get { return _chargeType; }
-      set { _chargeType = value; }
+      get { return _chargeItemId; }
+      set { _chargeItemId = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

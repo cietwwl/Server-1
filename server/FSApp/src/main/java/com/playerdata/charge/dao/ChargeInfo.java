@@ -18,12 +18,16 @@ public class ChargeInfo {
 	//首充奖励是否已经领取
 	private boolean isFirstAwardTaken = false;
 	
-	//重置次数
+	//充值次数
 	private int count;
 	//上次充值金额
 	private int lastCharge;
 	//上次充值时间
 	private long lastChargeTime;
+	
+	private int totalChargeMoney;
+	
+	private int totalChargeGold;	
 	
 	public String getUserId() {
 		return userId;
@@ -55,8 +59,30 @@ public class ChargeInfo {
 	public void setFirstAwardTaken(boolean isFirstAwardTaken) {
 		this.isFirstAwardTaken = isFirstAwardTaken;
 	}
+	public int getTotalChargeMoney() {
+		return totalChargeMoney;
+	}
+	public void setTotalChargeMoney(int totalChargeMoney) {
+		this.totalChargeMoney = totalChargeMoney;
+	}
+	public int getTotalChargeGold() {
+		return totalChargeGold;
+	}
+	public void setTotalChargeGold(int totalChargeGold) {
+		this.totalChargeGold = totalChargeGold;
+	}
 	
+	public ChargeInfo addTotalChargeGold(int addGold){
+		this.totalChargeGold+=addGold;
+		return this;
+	}
+	public ChargeInfo addTotalChargeMoney(int addMoney){
+		this.totalChargeMoney += addMoney;
+		return this;
+	}
 	
-	
-
+	public ChargeInfo addCount(int count){
+		this.count += count;
+		return this;
+	}
 }

@@ -17,7 +17,7 @@ public class ChargeInfoHolder {
 		return instance;
 	}
 
-	public void syn(Player player) {
+	public void syn(Player player,int version) {
 		String userId = player.getUserId();
 		ChargeInfo chargeInfo = get(userId);	
 		if (chargeInfo != null) {
