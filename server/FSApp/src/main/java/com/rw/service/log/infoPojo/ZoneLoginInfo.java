@@ -215,7 +215,7 @@ public class ZoneLoginInfo {
 
 	public void setLoginsdkVersion(String logsdkVersion) {
 		if(logsdkVersion == null){
-			logsdkVersion = "电脑测试无版本";
+			logsdkVersion = "";
 		}
 		this.loginsdkVersion = logsdkVersion;
 	}
