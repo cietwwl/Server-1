@@ -135,6 +135,7 @@ public class TableAngleArrayFloorData {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public Enumeration<Integer> getKeyEnumeration() {
 		return this.enemyMap.keys();
 	}
