@@ -117,6 +117,8 @@
 	<bean class="com.gm.giftCenter.GiftCodeSenderBm"  init-method="init" />
 	<bean class="com.rwbase.dao.gift.ComGiftCfgDAO"  init-method="init" />
 	
+	<bean class="com.rwbase.dao.skill.SkillEffectCfgDAO" init-method="init" />
+	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.hero.HeroEquipStrenghCfgDAO"  init-method="init" />

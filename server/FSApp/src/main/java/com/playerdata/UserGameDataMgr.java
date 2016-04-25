@@ -10,6 +10,7 @@ import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.publicdata.PublicData;
@@ -61,17 +62,27 @@ public class UserGameDataMgr {
 			StringBuilder errorReason = new StringBuilder("UserGameDataMgr[addPower]缺少").append(level).append("级的配置，对应表名为：roleUpgrade");
 			GameLog.error(LogModule.UserGameData.getName(), userGameData.getUserId(), errorReason.toString(), null);
 			userGameData.setLastAddPowerTime(now);// 上次检查时间是0
+			userGameDataHolder.flush();
 		} else {
 			int curPower = userGameData.getPower();// 当前的体力
 			int maxPower = cfg.getMaxPower();// 最大的体力
 
+			long lastTime = userGameData.getLastAddPowerTime();
 			if (curPower >= maxPower) {// 已经超过了最大的体力就停止检查
-				userGameData.setLastAddPowerTime(now);// 上次检查时间是0
+				if (lastTime > 0) {
+					userGameData.setLastAddPowerTime(0);
+					userGameDataHolder.flush();
+				}
+				return;
 			} else {
-				long lastTime = userGameData.getLastAddPowerTime();
+				if (lastTime <= 0) {
+					lastTime = now;
+				}
+
 				long flowTime = now - lastTime;// 流失的时间
 				if (flowTime <= 0) {// 流失时间小于0
 					userGameData.setLastAddPowerTime(now);// 上次检查时间是0
+					userGameDataHolder.flush();
 				} else {
 					long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
@@ -79,11 +90,16 @@ public class UserGameDataMgr {
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
-						userGameData.setLastAddPowerTime(now - TimeUnit.SECONDS.toMillis(hasSeconds - addValue * recoverTime));
+						if (tempPower < maxPower) {
+							userGameData.setLastAddPowerTime(now - TimeUnit.SECONDS.toMillis(hasSeconds - addValue * recoverTime));
+						} else {
+							userGameData.setLastAddPowerTime(0);
+						}
+						userGameDataHolder.flush();
 						// TODO 这里调用处需要做支持，检测是否存在这里的属性域，否则是不安全和没有可维护性
 						userGameDataHolder.update(player, "power");
 						// TODO HC 把改变数据推送到前台
-						player.synPowerInfo();
+						PowerInfoDataHolder.synPowerInfo(player);
 					}
 				}
 			}
