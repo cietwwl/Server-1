@@ -17,15 +17,15 @@ public class FirstChargeCfgDao extends CfgCsvDao<FirstChargeCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Charge/FirstChargeCfg.csv", FirstChargeCfg.class);
 //		FirstChargeCfg FirstChargeCfg = cfgCacheMap.get("1");
 //		parseChargeItem(FirstChargeCfg);
-		for (FirstChargeCfg cfgTmp : cfgCacheMap.values()) {
-			parseFirstChargeList(cfgTmp);
-		}
+//		for (FirstChargeCfg cfgTmp : cfgCacheMap.values()) {
+//			parseFirstChargeList(cfgTmp);
+//		}
 		return cfgCacheMap;
 	}
 	
 private void parseFirstChargeList(FirstChargeCfg cfgTmp) {
 //	String giftStr = cfgTmp.getReward();
-	String giftStr = "1:2000";
+	String giftStr = "1:1";
 	Map<String,Integer> giftCountMap = new HashMap<String, Integer>();
 	String[] giftSplit = giftStr.split(";");
 	for (String giftTmp : giftSplit) {

@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import java.util.Set;
 
+import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
@@ -122,17 +123,21 @@ public class ChargeMgr {
 		}else{
 			if(!chargeInfo.isFirstAwardTaken()&&chargeInfo.getCount()>0){
 				chargeInfo.setFirstAwardTaken(true);
+				ComGiftMgr.getInstance().addGiftById(player,FirstChargeCfgDao.getInstance().getAllCfg().get(0).getReward());	
 				
 				
-				FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
-				Set<String> keySet = cfg.getGiftMap().keySet();
-	
-				Iterator<String> iterable = keySet.iterator();
-				while(iterable.hasNext()){
-					String giftid = iterable.next();
-					int count = cfg.getGiftMap().get(giftid);
-					player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
-				}
+				
+				
+				
+//				FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
+//				Set<String> keySet = cfg.getGiftMap().keySet();
+//	
+//				Iterator<String> iterable = keySet.iterator();
+//				while(iterable.hasNext()){
+//					String giftid = iterable.next();
+//					int count = cfg.getGiftMap().get(giftid);
+//					player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
+//				}
 				
 				
 				ChargeInfoHolder.getInstance().update(player);
