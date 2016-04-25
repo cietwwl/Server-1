@@ -20,6 +20,7 @@ import com.playerdata.Player;
 import com.playerdata.TowerMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.service.ActivityCountTypeHandler;
+import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
@@ -332,9 +333,9 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
+		String itemId = arrCommandContents[0];
 		if (player != null) {
-			player.AddRecharge(addNum);
+			ChargeMgr.getInstance().charge(player, itemId);
 			return true;
 		}
 		return false;

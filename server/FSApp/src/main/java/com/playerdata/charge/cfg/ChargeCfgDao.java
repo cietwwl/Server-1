@@ -17,8 +17,8 @@ public class ChargeCfgDao extends CfgCsvDao<ChargeCfg> {
 		return cfgCacheMap;
 	}
 	
-	public ChargeCfg getConfig(String id){
-		ChargeCfg cfg = getCfgById(id);
+	public ChargeCfg getConfig(String cfgId){
+		ChargeCfg cfg = getCfgById(cfgId);
 		return cfg;
 	}
 	
