@@ -63,7 +63,7 @@ public class TableVip {
 		return IsTaken ==null? false:IsTaken;
 	}
 
-	public void setVipGiftTaken(int vipLevel) {
+	public void setLevelVipGiftTaken(int vipLevel) {
 		vipGiftTaken.put(vipLevel, true);
 	}
 

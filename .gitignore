@@ -68,3 +68,4 @@ Thumbs.db
 /server/FSApp/datalogs/methodtrace/*.log
 datalogs
 /server/FSApp/src/main/resources/config.properties
+/server/FSPlatform/src/main/resources/config.properties
