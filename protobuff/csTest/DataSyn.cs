@@ -176,7 +176,10 @@ namespace DataSyn
       ADD_SINGLE = 3,
             
       [global::ProtoBuf.ProtoEnum(Name=@"REMOVE_SINGLE", Value=4)]
-      REMOVE_SINGLE = 4
+      REMOVE_SINGLE = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UPDATE_FIELD", Value=5)]
+      UPDATE_FIELD = 5
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"eSynType")]
@@ -307,7 +310,13 @@ namespace DataSyn
       GroupStudySkill = 41,
             
       [global::ProtoBuf.ProtoEnum(Name=@"Charge", Value=42)]
-      Charge = 42
+      Charge = 42,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"POWER_INFO", Value=43)]
+      POWER_INFO = 43,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
+      ActivityCountType = 60
     }
   
 }

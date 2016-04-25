@@ -15,6 +15,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -30,6 +31,7 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
 import com.rwbase.dao.publicdata.PublicData;
@@ -176,6 +178,27 @@ public class GameLoginHandler {
 				// public void run(Player player) {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
+				
+				// --------------------------------------------------------START
+				// TODO HC @Modify 2015-12-17
+				/**
+				 * <pre>
+				 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+				 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+				 * </pre>
+				 */
+				PlotProgressDAO dao = PlotProgressDAO.getInstance();
+				UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+				if (userPlotProgress == null) {
+					userPlotProgress = new UserPlotProgress();
+					userPlotProgress.setUserId(userId);
+				}
+				Integer hasValue = userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+				if (hasValue == null) {
+					dao.update(userPlotProgress);
+				}
+				// --------------------------------------------------------END
+				
 				if (player != null) {
 					// modify@2015-12-28 by Jamaz 只断开非当前链接
 					ChannelHandlerContext oldContext = UserChannelMgr.get(userId_);
@@ -198,9 +221,12 @@ public class GameLoginHandler {
 					}
 				});
 
+				long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
+				
 				UserChannelMgr.bindUserID(userId_, ctx);
 				// 增加清空重连时间
 				UserChannelMgr.clearDisConnectTime(userId_);
+				
 				player.onLogin();
 
 				if (StringUtils.isBlank(player.getUserName())) {
@@ -214,29 +240,15 @@ public class GameLoginHandler {
 				GameLog.debug("Game Login Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 				GameLog.debug("Game Login Finish --> userId:" + userId_);
 				player.setZoneLoginInfo(zoneLoginInfo);
-    			BILogMgr.getInstance().logZoneLogin(player);			
-    			// 补充进入主城需要同步的数据
-				LoginSynDataHelper.setData(player, response);
+				BILogMgr.getInstance().logZoneLogin(player);
+				//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				//判断需要用到最后次登陆 时间。保存在活动内而不是player
+				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
+				
 
-				// --------------------------------------------------------START
-				// TODO HC @Modify 2015-12-17
-				/**
-				 * <pre>
-				 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-				 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-				 * </pre>
-				 */
-				PlotProgressDAO dao = PlotProgressDAO.getInstance();
-				UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-				if (userPlotProgress == null) {
-					userPlotProgress = new UserPlotProgress();
-					userPlotProgress.setUserId(userId);
-				}
-				Integer hasValue = userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-				if (hasValue == null) {
-					dao.update(userPlotProgress);
-				}
-				// --------------------------------------------------------END
+				// 补充进入主城需要同步的数据
+				LoginSynDataHelper.setData(player, response);
 
 				// player.SendMsg(Command.MSG_LOGIN_GAME,
 				// response.build().toByteString());
@@ -346,25 +358,30 @@ public class GameLoginHandler {
 			
 			
 			BILogMgr.getInstance().logZoneReg(player);
+			//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+			ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+			//判断需要用到最后次登陆 时间。保存在活动内而不是player
+			UserEventMgr.getInstance().RoleLogin(player, 0);
+			
 
 			LoginSynDataHelper.setData(player, response);
-			// --------------------------------------------------------START
-			// TODO HC @Modify 2015-12-17
-			/**
-			 * <pre>
-			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-			 * </pre>
-			 */
-			PlotProgressDAO dao = PlotProgressDAO.getInstance();
-			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-			if (userPlotProgress == null) {
-				userPlotProgress = new UserPlotProgress();
-				userPlotProgress.setUserId(userId);
-			}
-			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-			dao.update(userPlotProgress);
-			// --------------------------------------------------------END
+//			// --------------------------------------------------------START
+//			// TODO HC @Modify 2015-12-17
+//			/**
+//			 * <pre>
+//			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+//			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+//			 * </pre>
+//			 */
+//			PlotProgressDAO dao = PlotProgressDAO.getInstance();
+//			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+//			if (userPlotProgress == null) {
+//				userPlotProgress = new UserPlotProgress();
+//				userPlotProgress.setUserId(userId);
+//			}
+//			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+//			dao.update(userPlotProgress);
+//			// --------------------------------------------------------END
 		}
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据

@@ -53,8 +53,6 @@ public interface TableUserOtherIF {
 
 //	public String getQualityId();
 
-	public int getTaskNum();
-
 	public int getSkillPointCount();
 
 	//public List<Long> getSkillPointTime();

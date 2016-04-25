@@ -1,6 +1,5 @@
 package com.rw.service.copypve;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
@@ -10,13 +9,10 @@ import com.playerdata.readonly.CopyDataIF;
 import com.playerdata.readonly.CopyInfoCfgIF;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.copypve.CopyInfoCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
-import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
-import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwproto.CopyTrialServiceProtos.MsgTrialRequest;
 import com.rwproto.CopyTrialServiceProtos.MsgTrialResponse;
 import com.rwproto.CopyTrialServiceProtos.TrialData;
@@ -75,28 +71,36 @@ public class CopyTrialHandler {
 		return response.build().toByteString();
 	}
 
-	public ByteString copyCelestial(Player player, MsgTrialRequest msgTrialRequest)
-	{
+	public ByteString copyCelestial(Player player, MsgTrialRequest msgTrialRequest) {
 		MsgTrialResponse.Builder response = MsgTrialResponse.newBuilder().setTrialType(msgTrialRequest.getTrialType());
 		response.setTrialType(msgTrialRequest.getTrialType());
 
 		// 获取副本，生存幻镜。当前开放的关卡配置
 		List<CopyInfoCfgIF> infoCfgList = player.getCopyDataMgr().getTodayInfoCfgList(CopyType.COPY_TYPE_CELESTIAL);// CopyDataMgr.getTodayInfoCfgList(CopyType.COPY_TYPE_CELESTIAL);
 																													// //CopyDataMgr.getTodayInfoCfg(CopyType.COPY_TYPE_CELESTIAL);
-		if (infoCfgList.size() == 0) 
-		{
+		if (infoCfgList.isEmpty()) {
 			System.out.println("can not find cfg file...");
 			response.setTrialResultType(eTrialResultType.FAIL);
 			return response.build().toByteString();
 		}
-		// infoCfgList.add(0, infoCfgList1.get(0));
-		int dayOfWeek = CopyDataMgr.getDayOfWeek();
-		for (CopyInfoCfgIF infoCfg : infoCfgList)
-		{
+
+		for (CopyInfoCfgIF infoCfg : infoCfgList) {
+			if (infoCfg == null) {
+				continue;
+			}
+
 			TrialData.Builder trialData = TrialData.newBuilder();
-			// TODO 需要再优化，效率比分割好
-			// 判断
-			if (!infoCfg.getTime().contains(String.valueOf(dayOfWeek))) {
+			boolean isOpen = false;
+
+			String[] time = infoCfg.getTime().split(",");
+			for (int i = 0, len = time.length; i < len; i++) {
+				if (DateUtils.isTheSameDayOfWeekAndHour(Integer.valueOf(time[i]), CopyDataMgr.PVE_RESET_TIME_HOUR)) {
+					isOpen = true;
+					break;
+				}
+			}
+
+			if (!isOpen) {
 				trialData.setInfoId(infoCfg.getId());
 				trialData.setCopyCount(0);
 				trialData.setResetCount(0);
@@ -104,14 +108,8 @@ public class CopyTrialHandler {
 				response.addTrialData(trialData);
 				continue;
 			}
+
 			CopyData data = player.getCopyDataMgr().getByInfoId(infoCfg.getId());
-//			long lastResetTime = data.getLastFreeResetTime();
-//			if (DateUtils.isResetTime(5, 0, 0, lastResetTime)) {
-//				data.setCopyCount(infoCfg.getCount());
-////				int resetCount = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.COPY_CELESTAL);
-////				data.setResetCount(resetCount);
-//				data.setLastFreeResetTime(System.currentTimeMillis());
-//			}
 			// 根据关卡配置获取副本通关数据
 			CopyLevelRecordIF copyRecord = player.getCopyRecordMgr().getLevelRecord(infoCfg.getId());
 			trialData.setInfoId(infoCfg.getId());
@@ -141,10 +139,9 @@ public class CopyTrialHandler {
 			return response.build().toByteString();
 		}
 
-		CopyDataIF data = player.getCopyDataMgr().resetCopyCount(infoId,infoCfg.getType());
-		
-		if (data == null)
-		{
+		CopyDataIF data = player.getCopyDataMgr().resetCopyCount(infoId, infoCfg.getType());
+
+		if (data == null) {
 			response.setTrialResultType(eTrialResultType.FAIL);
 			return response.build().toByteString();
 		}

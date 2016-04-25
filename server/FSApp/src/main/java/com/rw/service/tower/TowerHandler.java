@@ -10,7 +10,6 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
-import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.pve.PveHandler;
@@ -185,27 +184,28 @@ public class TowerHandler {
 			towerData.addHeroChageMap(heroChange);
 		}
 
-		StringBuilder sb = new StringBuilder();
+		// StringBuilder sb = new StringBuilder();
 		// 敌方阵容信息
-		Enumeration<ArmyInfo> tableEnemyInfoList = floorData.getEnemyEnumeration();
+		// Enumeration<ArmyInfo> tableEnemyInfoList = floorData.getEnemyEnumeration();
+		Enumeration<Integer> keyEnumeration = floorData.getKeyEnumeration();
 		List<TagTowerHeadInfo> enemyHeadList = new ArrayList<TagTowerHeadInfo>();
-		int towerIdCount = 0;
-		while (tableEnemyInfoList.hasMoreElements()) {
-			ArmyInfo enemyInfo = (ArmyInfo) tableEnemyInfoList.nextElement();
-			TagTowerHeadInfo headInfo = getTowerHeadInfo(enemyInfo, towerIdCount);
+		// int towerIdCount = 0;
+		while (keyEnumeration.hasMoreElements()) {
+			Integer floorId = keyEnumeration.nextElement();
+			ArmyInfo enemyInfo = floorData.getEnemyInfo(floorId);
+			TagTowerHeadInfo headInfo = getTowerHeadInfo(enemyInfo, floorId);
 			enemyHeadList.add(headInfo);
-			towerIdCount++;
 
-			int fighting = enemyInfo.getPlayer().getFighting();
-			List<ArmyHero> heroList = enemyInfo.getHeroList();
-			for (int i = 0, size = heroList.size(); i < size; i++) {
-				fighting += heroList.get(i).getFighting();
-			}
+			// int fighting = enemyInfo.getPlayer().getFighting();
+			// List<ArmyHero> heroList = enemyInfo.getHeroList();
+			// for (int i = 0, size = heroList.size(); i < size; i++) {
+			// fighting += heroList.get(i).getFighting();
+			// }
 
-			sb.append("\n层数：").append(towerIdCount).append("，名字：").append(enemyInfo.getPlayerName()).append("，战力：").append(fighting);
+			// sb.append("\n层数：").append(towerIdCount).append("，名字：").append(enemyInfo.getPlayerName()).append("，战力：").append(fighting);
 		}
 
-		System.err.println(sb.toString());
+		// System.err.println(sb.toString());
 
 		// 没有看到实质意义
 		Collections.sort(enemyHeadList, comparator);

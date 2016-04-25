@@ -39,7 +39,6 @@ public class UserGameData implements TableUserOtherIF {
 	private long lastResetTime5Clock;
 	private long lastChangeInfoTime;// 上次变更人物信息时间
 
-	private int taskNum; // 当前还剩余任务的数量
 	private String headFrame;
 
 	private int skillPointCount = SkillMgr.MAX_SKILL_COUNT;// 剩余技能点数
@@ -207,14 +206,6 @@ public class UserGameData implements TableUserOtherIF {
 	}
 
 
-	public int getTaskNum() {
-		return taskNum;
-	}
-
-	public void setTaskNum(int taskNum) {
-		this.taskNum = taskNum;
-	}
-
 	public int getSkillPointCount() {
 		return skillPointCount;
 	}
@@ -321,9 +312,9 @@ public class UserGameData implements TableUserOtherIF {
 	public void setGiftGold(int giftGold) {
 		this.giftGold = giftGold;
 	}
-	
-	public void addGiftGold(int giftGoldDelta){
-		this.giftGold=this.giftGold+giftGoldDelta;
+
+	public void addGiftGold(int giftGoldDelta) {
+		this.giftGold = this.giftGold + giftGoldDelta;
 	}
 
 	public long getLastWorshipTime() {

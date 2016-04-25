@@ -3,6 +3,8 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -13,7 +15,6 @@ import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
-import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -48,6 +49,10 @@ public class MapItemStoreFactory {
 	// GroupMemberData
 	private static MapItemStoreCache<GroupMemberData> groupMemberCache;
 
+	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
+	
 	private static List<MapItemStoreCache> list;
 
 	static {
@@ -84,6 +89,10 @@ public class MapItemStoreFactory {
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
 		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
+		
+		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
+		
+		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
 
 	}
 
@@ -200,4 +209,14 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
 		return newGuideGiveItemHistoryCache;
 	}
+
+	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
+		return activityCountTypeItemCache;
+	}
+
+	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
+		return activityTimeCardTypeItemCache;
+	}
+	
+	
 }
