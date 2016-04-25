@@ -35,9 +35,3 @@ key,Remarks,id,payType,Day,CoinType,Num
 10006_4,,10006,Renew,7,Gold,270
 10006_5,,10006,Renew,30,Gold,500
 10006_6,,10006,Renew,90,Gold,800
-10007_1,,10007,Buy,7,Gold,270
-10007_2,,10007,Buy,30,Gold,500
-10007_3,,10007,Buy,90,Gold,900
-10007_4,,10007,Renew,7,Gold,270
-10007_5,,10007,Renew,30,Gold,500
-10007_6,,10007,Renew,90,Gold,800

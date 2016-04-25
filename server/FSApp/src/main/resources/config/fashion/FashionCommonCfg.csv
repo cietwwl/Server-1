@@ -1,8 +1,7 @@
-id,Remarks,fashionType,name,desc,voice,actionName,specialEffect
-10001,,Wing,机械之翼,这个飞翼好牛的！,,standby,
-10002,,Suit,青春校服,水手服，宅男的最爱,Sound_100005_01.mp3,standby,
-10003,,Suit,高贵西服,高档人士专用,Sound_101005_01.mp3,standby,
-10004,,Wing,天使羽翼,怎么跟前一个翅膀一样呢,,standby,
-10005,,Pet,萌熊猫,这熊猫好凶，小心妖怪！,,mainidle,
-10006,,Suit,恶魔套装,传说中穿上可化身恶魔~,Sound_100005_01.mp3,standby,
-10007,,Suit,清凉夏装,炎炎夏日，去海边玩最好啦！,,standby,
+id,Remarks,fashionType,name,desc,voice,actionName,specialEffect,rank
+10001,,Wing,机械之翼,这个飞翼好牛的！,,standby,,3
+10002,,Suit,青春校服,水手服，宅男的最爱,Sound_100005_01.mp3,standby,,3
+10003,,Suit,华丽贵族,高档人士专用,Sound_101005_01.mp3,standby,,3
+10004,,Pet,萌熊猫,这熊猫好凶，小心妖怪！,,mainidle,,3
+10005,,Suit,恶魔套装,传说中穿上可化身恶魔~,Sound_100005_01.mp3,standby,,3
+10006,,Suit,清凉夏装,炎炎夏日，去海边玩最好啦！,,standby,,3
