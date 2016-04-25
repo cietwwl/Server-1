@@ -86,7 +86,7 @@ public class HashCharNode extends CharNode {
 //        }
 //        map.put(i, value);
         totalLength += currentArray.length;
-        System.out.println("打印：" + map + ",节点数：" + array.length + ",长度：" + etnryArray.length + ",总长度：" + totalLength);
+//        System.out.println("打印：" + map + ",节点数：" + array.length + ",长度：" + etnryArray.length + ",总长度：" + totalLength);
     }
 
     @Override

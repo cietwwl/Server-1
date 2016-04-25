@@ -21,8 +21,7 @@ public class RankingCopyerFactory {
 		toData.setJob(data.getJob());
 		toData.setSex(data.getSex());
 		toData.setCareerLevel(data.getCareerLevel());
-//		toData.setModelId(data.getModelId());
-		toData.setModelId(RankingUtils.getModelId(toData));
+		toData.setModelId(RankingUtils.getModelId(data));
 		toData.setRankLevel(data.getRankLevel());
 		toData.setRankCount(data.getRankCount());
 		return toData;

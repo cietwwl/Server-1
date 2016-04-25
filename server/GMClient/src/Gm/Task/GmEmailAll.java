@@ -17,7 +17,7 @@ public class GmEmailAll extends AGMHandler{
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("taskId", 8);
+		args.put("taskId", 5);
 		args.put("serverId", 1);
 		args.put("status", 1);
 		

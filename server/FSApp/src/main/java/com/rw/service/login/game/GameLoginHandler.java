@@ -9,11 +9,13 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.login.AccoutBM;
 import com.bm.login.UserBM;
+import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -29,6 +31,7 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
 import com.rwbase.dao.publicdata.PublicData;
@@ -38,6 +41,8 @@ import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecord;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecordDAO;
 import com.rwbase.dao.version.VersionConfigDAO;
 import com.rwbase.dao.version.pojo.VersionConfig;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -173,48 +178,7 @@ public class GameLoginHandler {
 				// public void run(Player player) {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
-				if (player != null) {
-					// modify@2015-12-28 by Jamaz 只断开非当前链接
-					ChannelHandlerContext oldContext = UserChannelMgr.get(userId_);
-					if (oldContext != null && oldContext != ctx) {
-						GameLog.debug("Kick Player...,userId:" + userId_);
-						player.KickOff("你的账号在另一处登录，请重新登录");
-					}
-				}
-				// 直接登录游戏
-				else {
-					player = PlayerMgr.getInstance().find(userId_);
-				}
-				final Player p = player;
-				GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
-
-					@Override
-					public void run() {
-						// author:lida 2015-09-21 通知登陆服务器更新账号信息
-						notifyPlatformPlayerLogin(zoneId, accountId, p, lastZoneId);
-					}
-				});
-
-				UserChannelMgr.bindUserID(userId_, ctx);
-				// 增加清空重连时间
-				UserChannelMgr.clearDisConnectTime(userId_);
-				player.onLogin();
-
-				if (StringUtils.isBlank(player.getUserName())) {
-					response.setResultType(eLoginResultType.NO_ROLE);
-					GameLog.debug("Create Role ...,userId:" + userId_);
-				} else {
-					response.setResultType(eLoginResultType.SUCCESS);
-					GameLog.debug("Login Success ...,userId:" + userId_);
-				}
-				response.setUserId(userId_);
-				GameLog.debug("Game Login Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
-				GameLog.debug("Game Login Finish --> userId:" + userId_);
-				player.setZoneLoginInfo(zoneLoginInfo);
-    			BILogMgr.getInstance().logZoneLogin(player);			
-    			// 补充进入主城需要同步的数据
-				LoginSynDataHelper.setData(player, response);
-
+				
 				// --------------------------------------------------------START
 				// TODO HC @Modify 2015-12-17
 				/**
@@ -234,6 +198,57 @@ public class GameLoginHandler {
 					dao.update(userPlotProgress);
 				}
 				// --------------------------------------------------------END
+				
+				if (player != null) {
+					// modify@2015-12-28 by Jamaz 只断开非当前链接
+					ChannelHandlerContext oldContext = UserChannelMgr.get(userId_);
+					if (oldContext != null && oldContext != ctx) {
+						GameLog.debug("Kick Player...,userId:" + userId_);
+						player.KickOff("你的账号在另一处登录，请重新登录");
+					}
+				}
+				// 直接登录游戏
+				else {
+					player = PlayerMgr.getInstance().find(userId_);
+				}
+				final Player p = player;
+				GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+
+					@Override
+					public void run() {
+						// author:lida 2015-09-21 通知登陆服务器更新账号信息
+						notifyPlatformPlayerLogin(zoneId, accountId, p);
+					}
+				});
+
+				long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
+				
+				UserChannelMgr.bindUserID(userId_, ctx);
+				// 增加清空重连时间
+				UserChannelMgr.clearDisConnectTime(userId_);
+				
+				player.onLogin();
+
+				if (StringUtils.isBlank(player.getUserName())) {
+					response.setResultType(eLoginResultType.NO_ROLE);
+					GameLog.debug("Create Role ...,userId:" + userId_);
+				} else {
+					response.setResultType(eLoginResultType.SUCCESS);
+					GameLog.debug("Login Success ...,userId:" + userId_);
+				}
+				response.setUserId(userId_);
+				GameLog.debug("Game Login Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
+				GameLog.debug("Game Login Finish --> userId:" + userId_);
+				player.setZoneLoginInfo(zoneLoginInfo);
+				BILogMgr.getInstance().logZoneLogin(player);
+				//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				//判断需要用到最后次登陆 时间。保存在活动内而不是player
+				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
+				
+
+				// 补充进入主城需要同步的数据
+				LoginSynDataHelper.setData(player, response);
 
 				// player.SendMsg(Command.MSG_LOGIN_GAME,
 				// response.build().toByteString());
@@ -314,15 +329,7 @@ public class GameLoginHandler {
 
 				@Override
 				public void run() {
-					if (PlatformService.checkPlatformOpen()) {
-						notifyPlatformPlayerLogin(zoneId, accountId, player, -1);
-					} else {
-						TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
-						UserZoneInfo zoneInfo = new UserZoneInfo();
-						addUserZoneInfo(zoneId, zoneInfo, player);
-						userAccount.addUserZoneInfo(zoneInfo);
-						AccoutBM.getInstance().update(userAccount);
-					}
+					notifyPlatformPlayerLogin(zoneId, accountId, player);
 				}
 			});
 
@@ -337,6 +344,9 @@ public class GameLoginHandler {
 			System.out.println("-------------------" + (end1 - start));
 
 			EmailUtils.sendEmail(player.getUserId(), "10003");
+			
+			//检查发送gm邮件
+			ServerStatusMgr.processGmMailWhenCreateRole(player);
 
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
@@ -348,25 +358,30 @@ public class GameLoginHandler {
 			
 			
 			BILogMgr.getInstance().logZoneReg(player);
+			//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+			ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+			//判断需要用到最后次登陆 时间。保存在活动内而不是player
+			UserEventMgr.getInstance().RoleLogin(player, 0);
+			
 
 			LoginSynDataHelper.setData(player, response);
-			// --------------------------------------------------------START
-			// TODO HC @Modify 2015-12-17
-			/**
-			 * <pre>
-			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-			 * </pre>
-			 */
-			PlotProgressDAO dao = PlotProgressDAO.getInstance();
-			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-			if (userPlotProgress == null) {
-				userPlotProgress = new UserPlotProgress();
-				userPlotProgress.setUserId(userId);
-			}
-			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-			dao.update(userPlotProgress);
-			// --------------------------------------------------------END
+//			// --------------------------------------------------------START
+//			// TODO HC @Modify 2015-12-17
+//			/**
+//			 * <pre>
+//			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+//			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+//			 * </pre>
+//			 */
+//			PlotProgressDAO dao = PlotProgressDAO.getInstance();
+//			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+//			if (userPlotProgress == null) {
+//				userPlotProgress = new UserPlotProgress();
+//				userPlotProgress.setUserId(userId);
+//			}
+//			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+//			dao.update(userPlotProgress);
+//			// --------------------------------------------------------END
 		}
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据
@@ -375,15 +390,13 @@ public class GameLoginHandler {
 
 	private ByteString notifyCreateRoleSuccess(GameLoginResponse.Builder response, User user) {
 		String userId = user.getUserId();
-		Player player = PlayerMgr.getInstance().newFreshPlayer(userId,null);
+		Player player = PlayerMgr.getInstance().find(userId);
 		UserChannelMgr.bindUserID(userId);
 
 		player.save();
 		long end = System.currentTimeMillis();
 		player.onLogin();
 		long end1 = System.currentTimeMillis();
-
-		EmailUtils.sendEmail(player.getUserId(), "10003");
 
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setUserId(userId);
@@ -405,33 +418,19 @@ public class GameLoginHandler {
 		ZoneInfo.setUserName(player.getUserName());
 	}
 
-	private boolean notifyPlatformPlayerLogin(int zoneId, String accountId, Player player, int lastZoneId) {
-		try {
-			if (lastZoneId != zoneId) {
-				UserBaseDataResponse userBaseDataResponse = new UserBaseDataResponse();
-				userBaseDataResponse.setType(1);
-				userBaseDataResponse.setAccountId(accountId);
-				userBaseDataResponse.setUserId(player.getUserId());
-				userBaseDataResponse.setZoneId(zoneId);
-				userBaseDataResponse.setHeadImage(player.getHeadImage());
-				userBaseDataResponse.setCareer(player.getCareer());
-				userBaseDataResponse.setUserName(player.getUserName());
-				userBaseDataResponse.setLevel(player.getLevel());
-				userBaseDataResponse.setVipLevel(player.getVip());
-				RequestObject request = new RequestObject();
-				request.pushParam(UserBaseDataResponse.class, userBaseDataResponse);
-				request.setClassName("com.rw.netty.http.requestHandler.PlayerLoginHandler");
-				request.setMethodName("notifyPlayerLogin");
-				request.setBlnNotifySingle(true);
-				PlatformService.addRequest(request);
-				return true;
-			} else {
-				return false;
-			}
-			// return false;
-		} catch (Exception ex) {
-			return false;
+	private void notifyPlatformPlayerLogin(int zoneId, String accountId, Player player) {
+		TableAccountLoginRecord record = TableAccountLoginRecordDAO.getInstance().get(accountId);
+		boolean blnInsert = false;
+		if(record ==null){
+			record = new TableAccountLoginRecord();
+			blnInsert = true;
 		}
+		record.setZoneId(zoneId);
+		record.setAccountId(accountId);
+		record.setUserId(player.getUserId());
+		record.setLoginTime(System.currentTimeMillis());
+		
+		TableAccountLoginRecordDAO.getInstance().update(record, blnInsert);
 	}
 
 	private String newUserId() {

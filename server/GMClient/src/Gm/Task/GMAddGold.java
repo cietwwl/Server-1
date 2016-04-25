@@ -17,8 +17,8 @@ public class GMAddGold extends AGMHandler{
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("roleId", "100100009369");
-		args.put("value", Long.parseLong("10000"));
+		args.put("roleId", "100100001497");
+		args.put("value", Long.parseLong("-1"));
 		
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

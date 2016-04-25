@@ -15,16 +15,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import Gm.Task.GMAddCoin;
+import Gm.Task.GMAddGold;
 import Gm.Task.GMGetRankList;
+import Gm.Task.GMUserInfo;
+import Gm.Task.GmBlockPlayer;
+import Gm.Task.GmBlockRelease;
+import Gm.Task.GmChatBanPlayer;
 import Gm.Task.GmDeleteGameNotice;
 import Gm.Task.GmEditGameNotice;
 import Gm.Task.GmEditPlatformNotice;
 import Gm.Task.GmEmailAll;
+import Gm.Task.GmEmailSingleCheck;
 import Gm.Task.GmEmailWhiteList;
+import Gm.Task.GmHotUpdateTest;
+import Gm.Task.GmKickOffPlayer;
+import Gm.Task.GmOnlineCount;
+import Gm.Task.GmOpExp;
 import Gm.Task.GmServerSwitch;
 import Gm.Task.GmSwitchBIGm;
+import Gm.Task.GmUserDetailInfo;
+import Gm.Task.GmViewEmailList;
+import Gm.Task.GmViewEquipments;
 import Gm.Task.GmViewGameNotice;
 import Gm.Task.GmViewPlatformNotice;
+import Gm.Task.GmWhiteListModify;
+import Gm.Task.GmWhiteListSwitch;
 import Json.JsonUtil;
 
 public class GMManager {
@@ -36,31 +52,35 @@ public class GMManager {
 	final static short PROTO_NO = 11;
 	
 	private final static Map<Integer, AGMHandler> ProcessMap = new HashMap<Integer, AGMHandler>();
+	
+	
 
 	static{
-		ProcessMap.put(1001, new GmServerSwitch());
-		ProcessMap.put(20014, new GmEmailWhiteList());
-		ProcessMap.put(20015, new GmEmailAll());
-		ProcessMap.put(20005, new GmEditGameNotice());
-		ProcessMap.put(20006, new GmViewGameNotice());
-		ProcessMap.put(20007, new GmDeleteGameNotice());
-		ProcessMap.put(4001, new GmSwitchBIGm());
-		ProcessMap.put(20003, new GmEditPlatformNotice());
-		ProcessMap.put(20004, new GmViewPlatformNotice());
+//		ProcessMap.put(1001, new GmServerSwitch());
+//		ProcessMap.put(20014, new GmEmailWhiteList());
+//		ProcessMap.put(20015, new GmEmailAll());
+//		ProcessMap.put(20005, new GmEditGameNotice());
+//		ProcessMap.put(20006, new GmViewGameNotice());
+//		ProcessMap.put(20007, new GmDeleteGameNotice());
+//		ProcessMap.put(4001, new GmSwitchBIGm());
+//		ProcessMap.put(20003, new GmEditPlatformNotice());
+//		ProcessMap.put(20004, new GmViewPlatformNotice());
 		
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-//		if(args.length < 1){
+//		if(args.length < 3){
+//			System.out.println("Argument fail!");
 //			return;
 //		}
+
 //		
 //		String ip = args[0];
 //		int port = Integer.parseInt(args[1]);
-//		String pwd = args[2];
-//		int process = Integer.parseInt(args[3]);
+//		String pwd = args[1];
+//		int process = Integer.parseInt(args[1]);
 //		PASSWORD_VALUE = pwd;
 //		AGMHandler handler = ProcessMap.get(process);
 //		if(handler == null){
@@ -73,10 +93,11 @@ public class GMManager {
 //		GmOnlineLimitModify handler = new GmOnlineLimitModify(); 
 //		GmEmailWhiteList handler = new GmEmailWhiteList();
 //		GmViewEmailList handler = new GmViewEmailList();
-//		GmEmailAll handler = new GmEmailAll();
+		GmEmailAll handler = new GmEmailAll();
 //		GmServerSwitch handler = new GmServerSwitch();
 //		GmDeleteGameNotice handler = new GmDeleteGameNotice();
 //		GmServerSwitch handler = new GmServerSwitch();
+//		GmSwitchBIGm handler = new GmSwitchBIGm();
 //		GmOnlineCount handler = new GmOnlineCount();
 //		GmKickOffPlayer handler = new GmKickOffPlayer();
 //		GmWhiteListModify handler = new GmWhiteListModify();
@@ -90,8 +111,22 @@ public class GMManager {
 //		GmViewPlatformNotice handler = new GmViewPlatformNotice();
 //		GmEmailSingleSend handler = new GmEmailSingleSend(); 
 //		GmUserDetailInfo handler = new GmUserDetailInfo();
-		GMGetRankList handler = new GMGetRankList();
-		
+//		GMGetRankList handler = new GMGetRankList();
+//		int type = Integer.parseInt(args[2]);
+////		int type = 3;
+//		String rankType = GMGetRankList.RankTypeMap.get(type);
+//		handler.setParams(new String[]{rankType});
+//		GmEmailSingleCheck handler = new GmEmailSingleCheck();
+//		GmViewEquipments handler = new GmViewEquipments();
+//		GMAddCoin handler = new GMAddCoin();
+//		GMAddGold handler = new GMAddGold();
+//		GmOpExp handler = new GmOpExp();
+//		GmHotUpdateTest handler = new GmHotUpdateTest();
+//		GmOnlineCount handler = new GmOnlineCount();
+//		GmChatBanPlayer handler = new GmChatBanPlayer();
+//		GmBlockPlayer handler = new GmBlockPlayer();
+//		GmBlockRelease handler = new GmBlockRelease();
+
 		GmRequest request = handler.createGmRequest();
 //		processGmRequest(request, ip, port);
 		
@@ -99,8 +134,12 @@ public class GMManager {
 //		processGmRequest(request, "119.29.19.55", 10091);
 //		processGmRequest(request, "119.29.157.158", 12345);
 //		processGmRequest(request, "119.29.163.123", 12345);
-		processGmRequest(request, "192.168.2.109", 12345);
+//		processGmRequest(request, "119.29.163.123", 7098);
 //		processGmRequest(request, "119.29.111.118", 7098);
+		processGmRequest(request, "192.168.2.137", 12345);
+//		processGmRequest(request, "119.29.162.42", 12346);
+//		processGmRequest(request, "119.29.111.118", 7098);
+//		processGmRequest(request, "192.168.2.233", 12345);
 	}
 	
 	public static void Menu(){

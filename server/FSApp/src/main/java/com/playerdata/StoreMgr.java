@@ -309,7 +309,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 			break;
 		case Always:
-			if (pStoreCell.getVersion() != cfg.getVersion()) {
+			List<CommodityData> commodity = pStoreCell.getCommodity();
+			if (pStoreCell.getVersion() != cfg.getVersion() || checkCommodityDataExpire(commodity)) {
 				List<CommodityData> randomList = RandomList(type);
 				int rightSize = getStoreCommodityListLength(type);
 				if(randomList.size() != rightSize){
@@ -326,6 +327,17 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			break;
 		}
 		return pStoreCell;
+	}
+	
+	private boolean checkCommodityDataExpire(List<CommodityData> commodity){
+		
+		for (CommodityData commodityData : commodity) {
+			CommodityCfg cfgById = CommodityCfgDAO.getInstance().getCfgById(String.valueOf(commodityData.getId()));
+			if(cfgById == null){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private StoreData getAllwaysStore(StoreData vo) {

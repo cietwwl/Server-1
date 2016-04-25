@@ -108,6 +108,10 @@ public class UserDataMgr implements PlayerEventListener{
 		userDataHolder.update(player);
 	}
 	
+	public long getKickOffCoolTime(){
+		return userDataHolder.get().getKickOffCoolTime();
+	}
+	
 	public void block(String reason, long blockCoolTime){
 		userDataHolder.get().block(reason, blockCoolTime);
 		userDataHolder.update(player);

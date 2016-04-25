@@ -65,10 +65,10 @@ public class RankingMgr {
 
 	public RankingMgr() {
 		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
-		operationMap.put(RankType.WARRIOR_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
-		operationMap.put(RankType.SWORDMAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
-		operationMap.put(RankType.PRIEST_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
-		operationMap.put(RankType.MAGICAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.WARRIOR_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.SWORDMAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.PRIEST_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.MAGICAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.defaultGetOp = RankingGetOperation.RANKING_GET_OPERATION;
 	}
 
@@ -228,7 +228,8 @@ public class RankingMgr {
 			if (rank > 0) {
 				levelData.setRankCount(Math.abs(rank - i));
 			}
-
+			ArenaExtAttribute attribute = entry.getExtension();
+			attribute.setRankLevel(i);
 			levelData.setRankLevel(i);
 			ArenaRankingComparable rankComparable = new ArenaRankingComparable();
 			rankComparable.setRanking(entry.getRanking());
@@ -363,6 +364,7 @@ public class RankingMgr {
 				GameLog.error("ranking", "getFirstRankingData", "找不到玩家：" + userId);
 				return null;
 			}
+			RankingLevelData levelData = (RankingLevelData) entry.getExtendedAttribute();
 			RankingLevelData toData = new RankingLevelData();
 			toData.setUserId(userId);
 			toData.setUserName(p.getUserName());
@@ -371,8 +373,8 @@ public class RankingMgr {
 			toData.setFightingAll(p.getHeroMgr().getFightingAll());
 			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
 			toData.setUserHead(p.getHeadImage());
-			toData.setModelId(p.getModelId());
-			toData.setJob(p.getCareer());
+			toData.setModelId(RankingUtils.getModelId(levelData));
+			toData.setJob(levelData.getJob());
 			toData.setSex(p.getSex());
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
