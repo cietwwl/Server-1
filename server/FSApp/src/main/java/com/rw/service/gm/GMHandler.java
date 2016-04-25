@@ -407,7 +407,7 @@ public class GMHandler {
 	}
 	
 	public boolean resetWjzh(String[] arrCommandContents, Player player){
-		player.unendingWarMgr.getTable().setLastChallengeTime(System.currentTimeMillis());
+		player.unendingWarMgr.getTable().setLastChallengeTime(0);
 		player.unendingWarMgr.save();
 		return true;
 	}
