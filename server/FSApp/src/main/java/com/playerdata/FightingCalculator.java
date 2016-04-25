@@ -54,8 +54,8 @@ public class FightingCalculator {
 
 		List<FightingWeightCfg> listInfo = FightingWeightCfgDAO.getInstance().getAllCfg();
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("------------------").append(heroTemplateId).append("------------------\n");
+		// StringBuilder sb = new StringBuilder();
+		// sb.append("------------------").append(heroTemplateId).append("------------------\n");
 
 		for (FightingWeightCfg cfg : listInfo) {
 			float attrValue = 0;
@@ -75,10 +75,10 @@ public class FightingCalculator {
 				fighting += attrValue * cfg.getWeight();
 			}
 
-			sb.append(attrName).append(":").append(attrValue).append("，战力：").append(fighting).append("\n");
+			// sb.append(attrName).append(":").append(attrValue).append("，战力：").append(fighting).append("\n");
 		}
 
-		System.err.println(sb.toString());
+		// System.err.println(sb.toString());
 
 		return (int) fighting;
 	}

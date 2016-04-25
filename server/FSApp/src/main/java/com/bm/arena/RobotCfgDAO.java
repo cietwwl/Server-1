@@ -23,25 +23,43 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 	@Override
 	public Map<String, RobotCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("arenaRobot/RobotCfg.csv", RobotCfg.class);
+		// for (Object o : cfgCacheMap.values()) {
+		// RobotCfg cfg = (RobotCfg) o;
+		// String ranking = cfg.getRanking();
+		// int[] arrayArray = parseIntArray(ranking, "~");
+		// int start = arrayArray[0];
+		// int end = arrayArray[1];
+		// for (int i = start; i <= end; i++) {
+		// RobotEntryCfg entry = new RobotEntryCfg(i, cfg);
+		// arenaRobots_.put(i, entry);
+		// }
+		// }
+
 		TreeMap<Integer, RobotEntryCfg> arenaRobots_ = new TreeMap<Integer, RobotEntryCfg>();
-		for (Object o : cfgCacheMap.values()) {
-			RobotCfg cfg = (RobotCfg) o;
-			String ranking = cfg.getRanking();
-			int[] arrayArray = parseIntArray(ranking, "~");
-			int start = arrayArray[0];
-			int end = arrayArray[1];
-			for (int i = start; i <= end; i++) {
-				RobotEntryCfg entry = new RobotEntryCfg(i, cfg);
-				arenaRobots_.put(i, entry);
+		Map<String, RobotEntryCfg> angelRobots_ = new HashMap<String, RobotEntryCfg>();
+
+		for (Entry<String, RobotCfg> e : cfgCacheMap.entrySet()) {
+			RobotCfg cfg = e.getValue();
+			if (cfg == null) {
+				continue;
+			}
+
+			int robotType = cfg.getRobotType();
+			if (robotType == 1) {// 竞技场
+				String ranking = cfg.getRanking();
+				int[] arrayArray = parseIntArray(ranking, "~");
+				int start = arrayArray[0];
+				int end = arrayArray[1];
+				for (int i = start; i <= end; i++) {
+					RobotEntryCfg entry = new RobotEntryCfg(i, cfg);
+					arenaRobots_.put(i, entry);
+				}
+			} else {// 万仙阵
+				angelRobots_.put(e.getKey(), new RobotEntryCfg(0, cfg));
 			}
 		}
-		arenaRobots = arenaRobots_;
 
-		// TODO HC 现在先暂时用竞技场的机器人
-		Map<String, RobotEntryCfg> angelRobots_ = new HashMap<String, RobotEntryCfg>();
-		for (Entry<String, RobotCfg> e : cfgCacheMap.entrySet()) {
-			angelRobots_.put(e.getKey(), new RobotEntryCfg(0, e.getValue()));
-		}
+		arenaRobots = arenaRobots_;
 		angelRobots = angelRobots_;
 
 		return cfgCacheMap;

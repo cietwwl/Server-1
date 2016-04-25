@@ -83,8 +83,14 @@ public class UserGameDataMgr {
 				if (flowTime <= 0) {// 流失时间小于0
 					userGameData.setLastAddPowerTime(now);// 上次检查时间是0
 					userGameDataHolder.flush();
+
+					// TODO HC 把改变数据推送到前台
+					PowerInfoDataHolder.synPowerInfo(player);
 				} else {
 					long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
+					// if (player.getUserName().equals("HC")) {
+					// System.err.println(hasSeconds);
+					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
 					int tempPower = curPower + addValue;// 临时增加到多少体力
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;

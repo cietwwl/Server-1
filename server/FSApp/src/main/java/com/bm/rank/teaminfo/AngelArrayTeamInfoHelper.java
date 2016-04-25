@@ -500,7 +500,7 @@ public class AngelArrayTeamInfoHelper {
 		boolean isPlayer = roleCfg.getRoleType() == 1;
 		armyHero.setPlayer(isPlayer);
 		// 计算战斗力
-		armyHero.setFighting(FightingCalculator.calFighting(skillLevel, isPlayer ? magicLevel : 0, heroAttrData));
+		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? magicLevel : 0, heroAttrData));
 
 		return armyHero;
 	}

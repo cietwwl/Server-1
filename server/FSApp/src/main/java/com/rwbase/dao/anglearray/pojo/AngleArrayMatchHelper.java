@@ -179,7 +179,7 @@ public final class AngleArrayMatchHelper {
 
 		// 对随机到的人进行一次优先级排序
 		Collections.sort(matchUsetIdList, COMPARATOR);
-		System.err.println(matchUsetIdList.toString());
+		// System.err.println(matchUsetIdList.toString());
 		// 第三步找出来的人进行排名权重
 		// 第四步竞技活跃权重
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
@@ -583,8 +583,10 @@ public final class AngleArrayMatchHelper {
 		return null;
 	}
 
-	private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
-	private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
+	private static final String[] fNameArr = {
+			"赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
+	private static final String[] sNameArr = {
+			"豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
 
 	/**
 	 * 获取角色信息
@@ -805,7 +807,7 @@ public final class AngleArrayMatchHelper {
 				}
 
 				// 战力
-				int calFighting = FightingCalculator.calFighting(skillLevel, isMainRole ? magicLevel : 0, AttrDataCalcFactory.getHeroAttrData(heroInfo));
+				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, AttrDataCalcFactory.getHeroAttrData(heroInfo));
 				fighting += calFighting;
 				// System.err.println(String.format("[%s]的英雄，战力是[%s]", heroModelId, calFighting));
 			}
@@ -907,23 +909,34 @@ public final class AngleArrayMatchHelper {
 		int gemCount = gemCountArray[getRandomIndex(r, gemCountArray.length)];
 		// 宝石等级
 		int[] gemLevelArray = isMainRole ? angelRobotCfg.getGemLevel() : angelRobotCfg.getHeroGemLevel();
-		int gemLevel = gemLevelArray[getRandomIndex(r, gemLevelArray.length)];
 
 		// ==宝石类型==
 		int[] gemTypeArray = isMainRole ? angelRobotCfg.getGemType() : angelRobotCfg.getHeroGemType();
 		ArrayList<Integer> gemList = new ArrayList<Integer>();
 		for (int a : gemTypeArray) {
-			gemList.add(a);
+			if (!gemList.contains(a)) {
+				gemList.add(a);
+			}
 		}
-		Collections.shuffle(gemList);
+
 		// ==随机宝石类型==
-		ArrayList<String> gemList_ = new ArrayList<String>();
-		GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
+		if (gemCount < gemList.size()) {
+			Collections.shuffle(gemList);
+		} else {
+			gemCount = gemList.size();
+		}
+
+		List<String> canGemList = new ArrayList<String>(gemCount);
 		for (int i = 0; i < gemCount; i++) {
 			String gemId = String.valueOf(gemList.remove(getRandomIndex(r, gemList.size())));
-			gemList_.add(gemId);
+			canGemList.add(gemId);
+		}
 
-			String nextGemId = gemId;
+		ArrayList<String> gemList_ = new ArrayList<String>();
+		GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
+		for (int i = 0, gemSize = canGemList.size(); i < gemSize; i++) {
+			String nextGemId = canGemList.get(i).toString();;
+			int gemLevel = gemLevelArray[getRandomIndex(r, gemLevelArray.length)];
 			for (int j = gemLevel; --j >= 0;) {
 				GemCfg gemCfg = (GemCfg) gemCfgDAO.getCfgById(nextGemId);
 				if (gemCfg == null) {
@@ -935,7 +948,8 @@ public final class AngleArrayMatchHelper {
 					nextGemId = n;
 				}
 			}
-			gemList_.set(i, nextGemId);
+
+			gemList_.add(nextGemId);
 		}
 
 		heroInfo.setGem(gemList_);

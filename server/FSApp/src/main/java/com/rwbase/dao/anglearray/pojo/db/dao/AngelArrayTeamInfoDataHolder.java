@@ -66,7 +66,7 @@ public class AngelArrayTeamInfoDataHolder {
 				break;
 			}
 
-			if (maxFighting >= maxFightingLimit && maxFighting <= maxFightingLimit) {
+			if (maxFighting >= minFightingLimit && maxFighting <= maxFightingLimit) {
 				teamInfo = nextElement;
 				break;
 			}
