@@ -9,6 +9,7 @@ import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.gamble.GambleUtils;
 import com.rwbase.dao.gamble.TableGambleDAO;
 import com.rwbase.dao.gamble.pojo.EGambleWeight;
@@ -156,16 +157,20 @@ public class GambleMgr implements PlayerEventListener {
 			result = true;
 			if (isSuccessDeduct) {
 				gambleItem.setOneConsumption(gambleType);
+				
 			}
 		} else {
 			long count = player.getReward(eSpecialItemId.getDef(cfg.getMoneyType()));
 			if (count >= moneyCount) {// 钱币足够
 				result = true;
 				if (isSuccessDeduct) {// 直接扣除
-					player.getItemBagMgr().addItem(cfg.getMoneyType(), -moneyCount);
+				player.getItemBagMgr().addItem(cfg.getMoneyType(), -moneyCount);
 				}
+				
 			}
 		}
+		
+		
 		return result;
 	}
 

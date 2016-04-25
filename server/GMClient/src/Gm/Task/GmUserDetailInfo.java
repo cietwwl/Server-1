@@ -16,7 +16,7 @@ public class GmUserDetailInfo extends AGMHandler{
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("roleId", 100100001033l);
+		args.put("roleId", 100100001140l);
 		args.put("serverId", 1);
 		
 		GmRequest gmRequest = new GmRequest();

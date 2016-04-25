@@ -35,7 +35,7 @@ public class GmChatBanPlayer implements IGmTask{
 					if(expiresTimeInSecond < 0){
 						coolTime = expiresTimeInSecond;
 					}else{
-						coolTime = coolTime + expiresTimeInSecond*1000;
+						coolTime = expiresTimeInSecond*1000;
 					}
 					target.chatBan(blockReason, coolTime);
 				}

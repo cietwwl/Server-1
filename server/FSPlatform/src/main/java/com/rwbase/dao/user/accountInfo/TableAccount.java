@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwproto.PlatformGSMsg.UserInfoResponse;
 
@@ -43,6 +44,9 @@ public class TableAccount{
 	private long lastLoginTime = System.currentTimeMillis(); // 上次登录时间
 	
 	private long registerTime = 0L; // 注册时间
+	
+	@NonSave
+	private AccountLoginRecord record;   //记录玩家的登陆信息
 	
 	private String imei;
 	@SaveAsJson
@@ -255,5 +259,15 @@ public class TableAccount{
 	
 	public List<UserZoneInfo> getUserZoneInfoList(){
 		return new ArrayList<UserZoneInfo>(userZoneInfoMap.values());
+	}
+
+
+	public AccountLoginRecord getRecord() {
+		return record;
+	}
+
+
+	public void setRecord(AccountLoginRecord record) {
+		this.record = record;
 	}
 }

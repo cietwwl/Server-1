@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.rw.service.role.MainMsgHandler;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.gamble.GambleUtils;
 import com.rwbase.dao.gamble.pojo.cfg.GambleCfg;
 import com.rwbase.dao.gamble.pojo.cfg.GambleCfgDAO;
@@ -34,12 +35,14 @@ public class GambleHandler {
 		if (player.getGambleMgr().getCanGamble(player, request.getGambleType(), request.getLotteryType())) {
 			System.err.println(player.getUserName() + "可以成功购买物品！！！！！！！");
 			response.setResultType(EGambleResultType.SUCCESS);
-
+			
 			List<GambleRewardData> rewardList = player.getGambleMgr().getRewardResult(request.getGambleType(), request.getLotteryType());
 
 			SetReward(rewardList, request.getGambleType(), player);
 			response.addAllItemList(rewardList);
 			pushGambleItem(player);
+			UserEventMgr.getInstance().Gamble(player, request.getLotteryType().getNumber(), GambleCfgDAO.getInstance().getGambleCfg( request.getGambleType()).getMoneyType());
+			
 		} else {
 			System.err.println(player.getUserName() + "购买物品失败了，原因不明！！！！！！！");
 			response.setResultType(EGambleResultType.FAIL);

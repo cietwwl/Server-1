@@ -48,10 +48,11 @@ public class InlayItemHelper {
 			if (cfg != null) {
 				AttrData dataTmp = AttrData.fromObject(cfg);
 				attrData.plus(dataTmp);
-				if (!levelNumMap.containsKey(cfg.getQuality())) {
-					levelNumMap.put(cfg.getQuality(), 1);
+				int level = cfg.getLevel();
+				if (!levelNumMap.containsKey(level)) {
+					levelNumMap.put(level, 1);
 				} else {
-					levelNumMap.put(cfg.getQuality(), levelNumMap.get(cfg.getQuality()) + 1);
+					levelNumMap.put(level, levelNumMap.get(level) + 1);
 				}
 			}
 		}
@@ -60,14 +61,14 @@ public class InlayItemHelper {
 			return attrData;
 		}
 
-		addHeroInlayExtraAttrValue( attrData, levelNumMap, heroInlayCfg.getExtraLv1(), heroInlayCfg.getExtraNum1(), heroInlayCfg.getExtraValue1());
-		addHeroInlayExtraAttrValue( attrData, levelNumMap, heroInlayCfg.getExtraLv2(), heroInlayCfg.getExtraNum2(), heroInlayCfg.getExtraValue2());
-		addHeroInlayExtraAttrValue( attrData, levelNumMap, heroInlayCfg.getExtraLv3(), heroInlayCfg.getExtraNum3(), heroInlayCfg.getExtraValue3());
-		
+		addHeroInlayExtraAttrValue(attrData, levelNumMap, heroInlayCfg.getExtraLv1(), heroInlayCfg.getExtraNum1(), heroInlayCfg.getExtraValue1());
+		addHeroInlayExtraAttrValue(attrData, levelNumMap, heroInlayCfg.getExtraLv2(), heroInlayCfg.getExtraNum2(), heroInlayCfg.getExtraValue2());
+		addHeroInlayExtraAttrValue(attrData, levelNumMap, heroInlayCfg.getExtraLv3(), heroInlayCfg.getExtraNum3(), heroInlayCfg.getExtraValue3());
+
 		return attrData;
 	}
 
-	public static AttrData getPercentInlayAttrData(List<InlayItem> inlayList){
+	public static AttrData getPercentInlayAttrData(List<InlayItem> inlayList) {
 		AttrData attrData = new AttrData();
 		for (InlayItem inlayItem : inlayList) {
 			Integer modelId = inlayItem.getModelId();
@@ -79,7 +80,6 @@ public class InlayItemHelper {
 		}
 		return attrData;
 	}
-	
 
 	private static void addHeroInlayExtraAttrValue(AttrData attrData, Map<Integer, Integer> levelNumMap, String extraLvs, int extraNum, String extraValues) {
 		String[] lvArr = extraLvs.split(",");
@@ -89,12 +89,12 @@ public class InlayItemHelper {
 			int lv = new Integer(lvArr[j]);
 			if (levelNumMap.containsKey(lv)) {
 				if (levelNumMap.get(lv) >= extraNum) {
-					//如果有两个lv的值满足条件，取大的那个值
+					// 如果有两个lv的值满足条件，取大的那个值
 					valueArr = extraValue[j];
 				}
 			}
 		}
-		if(valueArr!=null){			
+		if (valueArr != null) {
 			AttrData dataTmp = AttrData.fromCfgStr(valueArr);
 			attrData.plus(dataTmp);
 		}
@@ -102,7 +102,7 @@ public class InlayItemHelper {
 
 	public static boolean isOpen(int modelId, int i, int level) {
 		InlayCfg cfg = InlayCfgDAO.getInstance().getConfig(String.valueOf(modelId));
-		if(cfg == null){
+		if (cfg == null) {
 			return level >= openLvMap.get(i);
 		}
 		int openLevel = Integer.valueOf(cfg.getOpenLv().split(",")[i]);

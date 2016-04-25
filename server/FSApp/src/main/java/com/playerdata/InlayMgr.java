@@ -1,7 +1,6 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class InlayMgr extends IDataMgr {
 	public boolean init(Hero pOwner) {
 		initPlayer(pOwner);
 
-		inlayItemHolder = new InlayItemHolder(pOwner.getUUId());
+		inlayItemHolder = new InlayItemHolder(pOwner.getUUId(), pOwner.getModelId());
 
 		return true;
 	}
@@ -50,10 +49,8 @@ public class InlayMgr extends IDataMgr {
 	/**
 	 * 镶嵌宝石
 	 * 
-	 * @param equipSolt
-	 *            装备
-	 * @param gem
-	 *            宝石数据
+	 * @param equipSolt 装备
+	 * @param gem 宝石数据
 	 */
 	public boolean InlayGem(ItemData itemData) {
 		int inlaySlot = getSolt();
@@ -163,7 +160,7 @@ public class InlayMgr extends IDataMgr {
 				try {
 					priorList.add(Integer.parseInt(array[i]));
 				} catch (NumberFormatException e) {
-					GameLog.error("InlayMgr", "#InlayAll()", "一键宝石转换优先列表异常："+m_pPlayer.getUserId()+","+super.m_pOwner.getModelId(), e);
+					GameLog.error("InlayMgr", "#InlayAll()", "一键宝石转换优先列表异常：" + m_pPlayer.getUserId() + "," + super.m_pOwner.getModelId(), e);
 				}
 			}
 		}
@@ -315,5 +312,28 @@ public class InlayMgr extends IDataMgr {
 		String ownerId = m_pOwner.getUUId();
 		InlayItem inlayItem = InlayItemHelper.toInlayItem(ownerId, itemData, inlaySlot);
 		inlayItemHolder.addItem(m_pPlayer, inlayItem);
+	}
+
+	/**
+	 * 获取身上已经镶嵌的宝石模版Id列表
+	 * 
+	 * @return
+	 */
+	public List<String> getInlayGemList() {
+		List<InlayItem> itemList = inlayItemHolder.getItemList();
+
+		int gemSize = itemList.size();
+		List<String> gemList = new ArrayList<String>(gemSize);
+
+		for (int i = 0; i < gemSize; i++) {
+			InlayItem item = itemList.get(i);
+			if (item == null) {
+				continue;
+			}
+
+			gemList.add(String.valueOf(item.getModelId()));
+		}
+
+		return gemList;
 	}
 }

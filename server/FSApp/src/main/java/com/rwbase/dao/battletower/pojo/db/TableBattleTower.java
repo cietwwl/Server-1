@@ -55,6 +55,10 @@ public class TableBattleTower implements TableBattleTowerIF {
 	private int copper_key;// 铜钥匙
 	private int silver_key;// 银钥匙
 	private int gold_key;// 金钥匙
+	// ////////////////////////////////////////
+	private int use_copper_key;// 铜钥匙
+	private int use_silver_key;// 银钥匙
+	private int use_gold_key;// 金钥匙
 
 	public TableBattleTower() {
 		this.bossInfoMap = new HashMap<Integer, BossInfo>();// 产生的Boss的数据
@@ -121,7 +125,12 @@ public class TableBattleTower implements TableBattleTowerIF {
 	 * @param count
 	 */
 	public void modifyCopperKey(int count) {
-		this.copper_key = HPCUtil.safeCalculateChange(this.copper_key, count);
+		int oldKeyCount = copper_key;
+		copper_key = HPCUtil.safeCalculateChange(this.copper_key, count);
+
+		if (oldKeyCount > copper_key) {// 如果之前的小于现在的，证明是被消耗了
+			use_copper_key += (oldKeyCount - copper_key);
+		}
 	}
 
 	/**
@@ -130,7 +139,12 @@ public class TableBattleTower implements TableBattleTowerIF {
 	 * @param count
 	 */
 	public void modifySilverKey(int count) {
-		this.silver_key = HPCUtil.safeCalculateChange(this.silver_key, count);
+		int oldKeyCount = silver_key;
+		silver_key = HPCUtil.safeCalculateChange(this.silver_key, count);
+
+		if (oldKeyCount > silver_key) {// 如果之前的小于现在的，证明是被消耗了
+			use_silver_key += (oldKeyCount - silver_key);
+		}
 	}
 
 	/**
@@ -139,7 +153,12 @@ public class TableBattleTower implements TableBattleTowerIF {
 	 * @param count
 	 */
 	public void modifyGoldKey(int count) {
-		this.gold_key = HPCUtil.safeCalculateChange(this.gold_key, count);
+		int oldKeyCount = gold_key;
+		gold_key = HPCUtil.safeCalculateChange(this.gold_key, count);
+
+		if (oldKeyCount > gold_key) {// 如果之前的小于现在的，证明是被消耗了
+			use_silver_key += (oldKeyCount - gold_key);
+		}
 	}
 
 	/**
@@ -219,8 +238,19 @@ public class TableBattleTower implements TableBattleTowerIF {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public List<BossInfo> getBossInfoList() {
 		return new ArrayList<BossInfo>(this.bossInfoMap.values());
+	}
+
+	/**
+	 * 获取已经使用的钥匙的数量（即消耗宝箱的数量）
+	 * 
+	 * @return
+	 */
+	@JsonIgnore
+	public int getHasUsedKeyCount() {
+		return use_copper_key + use_gold_key + use_silver_key;
 	}
 
 	// ////////////////////////逻辑GET区////////////////////////
@@ -309,6 +339,18 @@ public class TableBattleTower implements TableBattleTowerIF {
 
 	public int getChallengeBossId() {
 		return challengeBossId;
+	}
+
+	public int getUse_copper_key() {
+		return use_copper_key;
+	}
+
+	public int getUse_silver_key() {
+		return use_silver_key;
+	}
+
+	public int getUse_gold_key() {
+		return use_gold_key;
 	}
 
 	// ////////////////////////SET区////////////////////////

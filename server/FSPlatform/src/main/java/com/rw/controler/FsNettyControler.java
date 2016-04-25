@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Map;
 
+import com.bm.login.AccoutBM;
 import com.google.protobuf.ByteString;
 import com.rw.account.Account;
 import com.rw.common.GameUtil;
@@ -11,6 +12,7 @@ import com.rw.netty.ChannelWriteMgr;
 import com.rw.netty.UserChannelMgr;
 import com.rw.platform.PlatformFactory;
 import com.rw.service.RequestService;
+import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.RequestProtos.RequestHeader;

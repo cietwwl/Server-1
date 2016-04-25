@@ -16,14 +16,11 @@ public class DailyCollector implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
 		int level = player.getLevel();
-		CfgOpenLevelLimit dailyOpenLevel = (CfgOpenLevelLimit) CfgOpenLevelLimitDAO
-				.getInstance().getCfgById(
-						String.valueOf(eOpenLevelType.DAILY.getOrder()));
+		CfgOpenLevelLimit dailyOpenLevel = (CfgOpenLevelLimit) CfgOpenLevelLimitDAO.getInstance().getCfgById(String.valueOf(eOpenLevelType.DAILY.getOrder()));
 		if (dailyOpenLevel == null || level >= dailyOpenLevel.getMinLevel()) {
 			// //日常可领取
 			boolean dailyCompleted = false;
-			List<DailyActivityData> dailyList = player.getDailyActivityMgr()
-					.getAllTask();
+			List<DailyActivityData> dailyList = player.getDailyActivityMgr().getAllTask();
 			for (DailyActivityData data : dailyList) {
 				if (data.getCanGetReward() == 1) {
 					dailyCompleted = true;

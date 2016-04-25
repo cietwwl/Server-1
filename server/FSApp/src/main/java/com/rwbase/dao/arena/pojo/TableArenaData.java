@@ -38,6 +38,7 @@ public class TableArenaData {
 	// private volatile long lastBuyTimesMillis;// 上次购买挑战次数的时间
 	private int buyTimes; // 购买挑战次数的次数..
 	private int score; //
+	private int challengeTime;//挑战次数
 	private List<Integer> rewardList = new ArrayList<Integer>();	//通过积分领取的奖励列表
 
 	public String getUserId() {
@@ -207,6 +208,14 @@ public class TableArenaData {
 
 	public void setRewardList(List<Integer> rewardList) {
 		this.rewardList = rewardList;
+	}
+
+	public int getChallengeTime() {
+		return challengeTime;
+	}
+
+	public void setChallengeTime(int challengeTime) {
+		this.challengeTime = challengeTime;
 	}
 
 }
