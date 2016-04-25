@@ -51,6 +51,10 @@ public class GambleMgr implements RedPointCollector, PlayerEventListener {
 		wrapper.fillRedPoints(player, map);
 	}
 
+	public void resetHotHeroList() {
+		wrapper.resetHotHeroList();
+	}
+
 //	// private TableGamble tableGamble;
 //	private TableGambleDAO gambleDAO = TableGambleDAO.getInstance();
 //	private String userId;

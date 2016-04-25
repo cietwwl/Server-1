@@ -29,6 +29,11 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 		GambleRecordDAO.getInstance().reset(m_pPlayer.getUserId());
 		GameLog.info("钓鱼台", m_pPlayer.getUserId(), "每天五点重置数据", null);
 	}
+
+	//用于GM命令！
+	public void resetHotHeroList(){
+		GambleHotHeroPlan.resetHotHeroList(GambleLogic.getInstance().getRandom());
+	}
 	
 	public boolean isPrimaryOneFree(){
 		return GambleLogic.isFree(m_pPlayer.getUserId(),GambleLogicHelper.Primary_One);
