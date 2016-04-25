@@ -3,7 +3,6 @@ package com.playerdata;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +15,8 @@ import com.common.Action;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -43,6 +40,7 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.PowerInfo;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
@@ -59,8 +57,6 @@ import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwproto.CommonMsgProtos.CommonMsgResponse;
-import com.rwproto.DataSynProtos.eSynOpType;
-import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
 import com.rwproto.GameLoginProtos.eLoginResultType;
@@ -428,7 +424,7 @@ public class Player implements PlayerIF {
 					ChatHandler.getInstance().sendChatAllMsg(player);
 					// 试练塔次数重置
 					getBattleTowerMgr().resetBattleTowerResetTimes(now);
-					
+
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -450,7 +446,7 @@ public class Player implements PlayerIF {
 		getTowerMgr().checkAndResetMatchData(this);
 		ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 		// 登录之后推送体力信息
-		synPowerInfo();
+		PowerInfoDataHolder.synPowerInfo(this);
 	}
 
 	public void notifyMainRoleCreation() {
@@ -1284,36 +1280,12 @@ public class Player implements PlayerIF {
 		oneSecondTimeAction.doAction();
 	}
 
-	private static final eSynType synType = eSynType.POWER_INFO;
-
 	/**
-	 * 同步体力的信息到前台
+	 * 获取体力信息
+	 * 
+	 * @return
 	 */
-	public void synPowerInfo() {
-		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(this.getLevel()));
-		int maxPower = cfg.getMaxPower();
-		int recoverTime = powerInfo.getSpeed();// 恢复速度（秒）
-
-		TableUserOtherIF readOnly = userGameDataMgr.getReadOnly();
-		int curPower = readOnly.getPower();
-		if (curPower >= maxPower) {
-			powerInfo.setnTime(-1);
-			powerInfo.settTime(-1);
-		} else {
-			long now = System.currentTimeMillis();
-			long lastAddPowerTime = readOnly.getLastAddPowerTime();
-
-			long leftTime = now - lastAddPowerTime;
-			int leftPower = maxPower - curPower;
-			int oneNeedTime = recoverTime - (int) TimeUnit.MILLISECONDS.toSeconds(leftTime);
-			int totalNeedTime = leftPower * recoverTime - oneNeedTime;
-
-			powerInfo.setnTime(oneNeedTime);
-			powerInfo.settTime(totalNeedTime);
-		}
-
-		powerInfo.setBuyCount(readOnly.getBuyPowerTimes());
-
-		ClientDataSynMgr.synData(this, powerInfo, synType, eSynOpType.UPDATE_SINGLE);
+	public PowerInfo getPowerInfo() {
+		return powerInfo;
 	}
 }
