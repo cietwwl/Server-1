@@ -3,6 +3,8 @@ package com.common;
 import java.util.List;
 import java.util.Random;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.log.GameLog;
 import com.rw.fsutil.common.Pair;
 
@@ -41,6 +43,7 @@ public class RandomStringGroups {
 		}
 	}
 	
+	@JsonIgnore
 	public String getRandomGroup(Random r,RefInt planIndex,RefInt weight){
 		int ran = r.nextInt(accumulation);
 		for (int i = 0; i < distributions.length; i++) {
@@ -60,6 +63,7 @@ public class RandomStringGroups {
 		return null;
 	}
 	
+	@JsonIgnore
 	public String getRandomGroup(Random r){
 		return getRandomGroup(r,null,null);
 	}

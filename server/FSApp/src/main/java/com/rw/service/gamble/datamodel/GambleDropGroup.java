@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.mina.core.RuntimeIoException;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.common.RandomStringGroups;
 import com.common.RefInt;
@@ -16,16 +17,53 @@ import com.rw.fsutil.common.Pair;
 public class GambleDropGroup extends RandomStringGroups {
 	private int[] slotCountArr;
 
+	//set 方法是Json库专用，其他类不要调用！
+	public int[] getSlotCountArr() {
+		return slotCountArr;
+	}
+
+	public void setSlotCountArr(int[] slotCountArr) {
+		this.slotCountArr = slotCountArr;
+	}
+
+	public String[] getPlans() {
+		return plans;
+	}
+
+	public void setPlans(String[] plans) {
+		this.plans = plans;
+	}
+
+	public int[] getDistributions() {
+		return distributions;
+	}
+
+	public void setDistributions(int[] distributions) {
+		this.distributions = distributions;
+	}
+
+	public int getAccumulation() {
+		return accumulation;
+	}
+
+	public void setAccumulation(int accumulation) {
+		this.accumulation = accumulation;
+	}
+	
+	protected GambleDropGroup(){super();}
+	
 	public GambleDropGroup(List<Pair<String, Integer>> pairList,int[] slotCountArr) {
 		super(pairList);
 		if (pairList.size() != slotCountArr.length) throw new RuntimeIoException("无效参数，两个数组长度不一致");
 		this.slotCountArr=slotCountArr;
 	}
 
+	@JsonIgnore
 	public String getRandomGroup(Random r, RefInt slotCount) {
 		return getRandomGroup(r,slotCount,null);
 	}
 	
+	@JsonIgnore
 	public String getRandomGroup(Random r, RefInt slotCount,RefInt weight) {
 		String result = super.getRandomGroup(r, slotCount,weight);//use slotCount to get plan index
 		slotCount.value = slotCountArr[slotCount.value];
@@ -57,6 +95,7 @@ public class GambleDropGroup extends RandomStringGroups {
 		return result;
 	}
 
+	@JsonIgnore
 	public List<String> getStringList() {
 		ArrayList<String> result = new ArrayList<String>(plans.length);
 		for (int i = 0; i < plans.length; i++) {
@@ -65,6 +104,7 @@ public class GambleDropGroup extends RandomStringGroups {
 		return result;
 	}
 
+	@JsonIgnore
 	public Collection<String> getHeroIdListWith(String guanrateeHero) {
 		ArrayList<String> result = new ArrayList<String>(plans.length+1);
 		//客户端假设了保底英雄作为本周热点放在最顶！

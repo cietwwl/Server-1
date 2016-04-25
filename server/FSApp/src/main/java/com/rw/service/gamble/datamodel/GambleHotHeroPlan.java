@@ -30,6 +30,31 @@ public class GambleHotHeroPlan {
 	private GambleDropGroup hotPlan;
 	private String errDefaultModelId;
 
+	public String getDateAsId() {
+		return dateAsId;
+	}
+
+	public GambleDropGroup getHotPlan() {
+		return hotPlan;
+	}
+
+	public String getErrDefaultModelId() {
+		return errDefaultModelId;
+	}
+
+	// set方法仅限于Json库调用，其他类不要用
+	public void setDateAsId(String dateAsId) {
+		this.dateAsId = dateAsId;
+	}
+
+	public void setHotPlan(GambleDropGroup hotPlan) {
+		this.hotPlan = hotPlan;
+	}
+
+	public void setErrDefaultModelId(String errDefaultModelId) {
+		this.errDefaultModelId = errDefaultModelId;
+	}
+
 	private GambleHotHeroPlan() {
 	}
 
@@ -89,7 +114,7 @@ public class GambleHotHeroPlan {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
-		if (result == null) {
+		if (result == null || result.getDateAsId() == null) {
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;
 		}

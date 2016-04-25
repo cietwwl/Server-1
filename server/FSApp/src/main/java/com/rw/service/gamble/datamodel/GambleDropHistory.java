@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.log.GameLog;
 import com.rw.service.gamble.GambleLogicHelper;
 
@@ -18,11 +20,77 @@ public class GambleDropHistory {
 	private boolean firstFreeGamble = true;
 	private boolean firstChargeGamble = true;
 
-	protected GambleDropHistory() {
+	// set方法仅仅用于Json库反射使用，其他类不要调用！
+	public List<String> getChargeGambleHistory() {
+		return chargeGambleHistory;
+	}
+
+	public void setChargeGambleHistory(List<String> chargeGambleHistory) {
+		this.chargeGambleHistory = chargeGambleHistory;
+	}
+
+	public List<String> getFreeGambleHistory() {
+		return freeGambleHistory;
+	}
+
+	public void setFreeGambleHistory(List<String> freeGambleHistory) {
+		this.freeGambleHistory = freeGambleHistory;
+	}
+
+	public long getLastFreeGambleTime() {
+		return lastFreeGambleTime;
+	}
+
+	public void setLastFreeGambleTime(long lastFreeGambleTime) {
+		this.lastFreeGambleTime = lastFreeGambleTime;
+	}
+
+	public int getHotCount() {
+		return hotCount;
+	}
+
+	public void setHotCount(int hotCount) {
+		this.hotCount = hotCount;
+	}
+
+	public int getHotCheckRandomThreshold() {
+		return hotCheckRandomThreshold;
+	}
+
+	public void setHotCheckRandomThreshold(int hotCheckRandomThreshold) {
+		this.hotCheckRandomThreshold = hotCheckRandomThreshold;
+	}
+
+	public boolean isFirstFreeGamble() {
+		return firstFreeGamble;
+	}
+
+	public void setFirstFreeGamble(boolean firstFreeGamble) {
+		this.firstFreeGamble = firstFreeGamble;
+	}
+
+	public boolean isFirstChargeGamble() {
+		return firstChargeGamble;
+	}
+
+	public void setFirstChargeGamble(boolean firstChargeGamble) {
+		this.firstChargeGamble = firstChargeGamble;
+	}
+
+	public void setFreeCount(int freeCount) {
+		this.freeCount = freeCount;
+	}
+
+	public int getFreeCount() {
+		return freeCount;
+	}
+
+	public GambleDropHistory() {
 		chargeGambleHistory = new ArrayList<String>();
 		freeGambleHistory = new ArrayList<String>();
 	}
 
+	@JsonIgnore
 	public int getHotCheckThreshold() {
 		return hotCheckRandomThreshold;
 	}
@@ -45,12 +113,9 @@ public class GambleDropHistory {
 		GenerateHotCheckCount(r, hotCheckMin, hotCheckMax);
 	}
 
+	@JsonIgnore
 	public int getHotHistoryCount() {
 		return hotCount;
-	}
-
-	public int getFreeCount() {
-		return freeCount;
 	}
 
 	public void reset() {
@@ -63,6 +128,7 @@ public class GambleDropHistory {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public boolean isFreeGambleFirstTime() {
 		return firstFreeGamble;
 	}
@@ -72,6 +138,7 @@ public class GambleDropHistory {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public boolean isChargeGambleFirstTime() {
 		return firstChargeGamble;
 	}
@@ -121,6 +188,7 @@ public class GambleDropHistory {
 		hotCount++;
 	}
 
+	@JsonIgnore
 	public int getFreeLeftTime(GamblePlanCfg planCfg) {
 		if (lastFreeGambleTime > 0) {
 			long now = System.currentTimeMillis();
