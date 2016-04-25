@@ -2,6 +2,7 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "FashionServiceProtos";
 import "ErrorService.proto";
+package FashionService;
 
 enum FashionEventType {
 	getFashiondata = 1;// 获取 FashionCommon

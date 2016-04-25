@@ -9,7 +9,7 @@ public final class FashionServiceProtos {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
-   * Protobuf enum {@code FashionEventType}
+   * Protobuf enum {@code FashionService.FashionEventType}
    */
   public enum FashionEventType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -41,7 +41,7 @@ public final class FashionServiceProtos {
      * <code>on = 4;</code>
      *
      * <pre>
-     *穿上请求
+     *穿上请求 传入fashionId
      * </pre>
      */
     on(3, 4),
@@ -49,7 +49,7 @@ public final class FashionServiceProtos {
      * <code>off = 5;</code>
      *
      * <pre>
-     *脱下请求
+     *脱下请求 传入fashionId
      * </pre>
      */
     off(4, 5),
@@ -83,7 +83,7 @@ public final class FashionServiceProtos {
      * <code>on = 4;</code>
      *
      * <pre>
-     *穿上请求
+     *穿上请求 传入fashionId
      * </pre>
      */
     public static final int on_VALUE = 4;
@@ -91,7 +91,7 @@ public final class FashionServiceProtos {
      * <code>off = 5;</code>
      *
      * <pre>
-     *脱下请求
+     *脱下请求 传入fashionId
      * </pre>
      */
     public static final int off_VALUE = 5;
@@ -154,11 +154,11 @@ public final class FashionServiceProtos {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:FashionEventType)
+    // @@protoc_insertion_point(enum_scope:FashionService.FashionEventType)
   }
 
   /**
-   * Protobuf enum {@code FashionType}
+   * Protobuf enum {@code FashionService.FashionType}
    */
   public enum FashionType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -269,19 +269,19 @@ public final class FashionServiceProtos {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:FashionType)
+    // @@protoc_insertion_point(enum_scope:FashionService.FashionType)
   }
 
   public interface FashionRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .FashionEventType eventType = 1;
+    // required .FashionService.FashionEventType eventType = 1;
     /**
-     * <code>required .FashionEventType eventType = 1;</code>
+     * <code>required .FashionService.FashionEventType eventType = 1;</code>
      */
     boolean hasEventType();
     /**
-     * <code>required .FashionEventType eventType = 1;</code>
+     * <code>required .FashionService.FashionEventType eventType = 1;</code>
      */
     com.rwproto.FashionServiceProtos.FashionEventType getEventType();
 
@@ -331,7 +331,7 @@ public final class FashionServiceProtos {
         getBuyRenewPlanIdBytes();
   }
   /**
-   * Protobuf type {@code FashionRequest}
+   * Protobuf type {@code FashionService.FashionRequest}
    */
   public static final class FashionRequest extends
       com.google.protobuf.GeneratedMessage
@@ -416,12 +416,12 @@ public final class FashionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionRequest_descriptor;
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionRequest_fieldAccessorTable
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.FashionServiceProtos.FashionRequest.class, com.rwproto.FashionServiceProtos.FashionRequest.Builder.class);
     }
@@ -442,17 +442,17 @@ public final class FashionServiceProtos {
     }
 
     private int bitField0_;
-    // required .FashionEventType eventType = 1;
+    // required .FashionService.FashionEventType eventType = 1;
     public static final int EVENTTYPE_FIELD_NUMBER = 1;
     private com.rwproto.FashionServiceProtos.FashionEventType eventType_;
     /**
-     * <code>required .FashionEventType eventType = 1;</code>
+     * <code>required .FashionService.FashionEventType eventType = 1;</code>
      */
     public boolean hasEventType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .FashionEventType eventType = 1;</code>
+     * <code>required .FashionService.FashionEventType eventType = 1;</code>
      */
     public com.rwproto.FashionServiceProtos.FashionEventType getEventType() {
       return eventType_;
@@ -667,19 +667,19 @@ public final class FashionServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code FashionRequest}
+     * Protobuf type {@code FashionService.FashionRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.FashionServiceProtos.FashionRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionRequest_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionRequest_fieldAccessorTable
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.FashionServiceProtos.FashionRequest.class, com.rwproto.FashionServiceProtos.FashionRequest.Builder.class);
       }
@@ -719,7 +719,7 @@ public final class FashionServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionRequest_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionRequest_descriptor;
       }
 
       public com.rwproto.FashionServiceProtos.FashionRequest getDefaultInstanceForType() {
@@ -808,22 +808,22 @@ public final class FashionServiceProtos {
       }
       private int bitField0_;
 
-      // required .FashionEventType eventType = 1;
+      // required .FashionService.FashionEventType eventType = 1;
       private com.rwproto.FashionServiceProtos.FashionEventType eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
       /**
-       * <code>required .FashionEventType eventType = 1;</code>
+       * <code>required .FashionService.FashionEventType eventType = 1;</code>
        */
       public boolean hasEventType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .FashionEventType eventType = 1;</code>
+       * <code>required .FashionService.FashionEventType eventType = 1;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionEventType getEventType() {
         return eventType_;
       }
       /**
-       * <code>required .FashionEventType eventType = 1;</code>
+       * <code>required .FashionService.FashionEventType eventType = 1;</code>
        */
       public Builder setEventType(com.rwproto.FashionServiceProtos.FashionEventType value) {
         if (value == null) {
@@ -835,7 +835,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>required .FashionEventType eventType = 1;</code>
+       * <code>required .FashionService.FashionEventType eventType = 1;</code>
        */
       public Builder clearEventType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -991,7 +991,7 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:FashionRequest)
+      // @@protoc_insertion_point(builder_scope:FashionService.FashionRequest)
     }
 
     static {
@@ -999,19 +999,19 @@ public final class FashionServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:FashionRequest)
+    // @@protoc_insertion_point(class_scope:FashionService.FashionRequest)
   }
 
   public interface FashionResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .FashionEventType eventType = 1;
+    // optional .FashionService.FashionEventType eventType = 1;
     /**
-     * <code>optional .FashionEventType eventType = 1;</code>
+     * <code>optional .FashionService.FashionEventType eventType = 1;</code>
      */
     boolean hasEventType();
     /**
-     * <code>optional .FashionEventType eventType = 1;</code>
+     * <code>optional .FashionService.FashionEventType eventType = 1;</code>
      */
     com.rwproto.FashionServiceProtos.FashionEventType getEventType();
 
@@ -1062,23 +1062,23 @@ public final class FashionServiceProtos {
     com.google.protobuf.ByteString
         getTipsBytes();
 
-    // optional .FashionCommon fashionCommon = 5;
+    // optional .FashionService.FashionCommon fashionCommon = 5;
     /**
-     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
      *
      * <pre>
      * </pre>
      */
     boolean hasFashionCommon();
     /**
-     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
      *
      * <pre>
      * </pre>
      */
     com.rwproto.FashionServiceProtos.FashionCommon getFashionCommon();
     /**
-     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
      *
      * <pre>
      * </pre>
@@ -1086,7 +1086,7 @@ public final class FashionServiceProtos {
     com.rwproto.FashionServiceProtos.FashionCommonOrBuilder getFashionCommonOrBuilder();
   }
   /**
-   * Protobuf type {@code FashionResponse}
+   * Protobuf type {@code FashionService.FashionResponse}
    */
   public static final class FashionResponse extends
       com.google.protobuf.GeneratedMessage
@@ -1195,12 +1195,12 @@ public final class FashionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionResponse_descriptor;
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionResponse_fieldAccessorTable
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.FashionServiceProtos.FashionResponse.class, com.rwproto.FashionServiceProtos.FashionResponse.Builder.class);
     }
@@ -1221,17 +1221,17 @@ public final class FashionServiceProtos {
     }
 
     private int bitField0_;
-    // optional .FashionEventType eventType = 1;
+    // optional .FashionService.FashionEventType eventType = 1;
     public static final int EVENTTYPE_FIELD_NUMBER = 1;
     private com.rwproto.FashionServiceProtos.FashionEventType eventType_;
     /**
-     * <code>optional .FashionEventType eventType = 1;</code>
+     * <code>optional .FashionService.FashionEventType eventType = 1;</code>
      */
     public boolean hasEventType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .FashionEventType eventType = 1;</code>
+     * <code>optional .FashionService.FashionEventType eventType = 1;</code>
      */
     public com.rwproto.FashionServiceProtos.FashionEventType getEventType() {
       return eventType_;
@@ -1324,11 +1324,11 @@ public final class FashionServiceProtos {
       }
     }
 
-    // optional .FashionCommon fashionCommon = 5;
+    // optional .FashionService.FashionCommon fashionCommon = 5;
     public static final int FASHIONCOMMON_FIELD_NUMBER = 5;
     private com.rwproto.FashionServiceProtos.FashionCommon fashionCommon_;
     /**
-     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
      *
      * <pre>
      * </pre>
@@ -1337,7 +1337,7 @@ public final class FashionServiceProtos {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
      *
      * <pre>
      * </pre>
@@ -1346,7 +1346,7 @@ public final class FashionServiceProtos {
       return fashionCommon_;
     }
     /**
-     * <code>optional .FashionCommon fashionCommon = 5;</code>
+     * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
      *
      * <pre>
      * </pre>
@@ -1507,19 +1507,19 @@ public final class FashionServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code FashionResponse}
+     * Protobuf type {@code FashionService.FashionResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.FashionServiceProtos.FashionResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionResponse_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionResponse_fieldAccessorTable
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.FashionServiceProtos.FashionResponse.class, com.rwproto.FashionServiceProtos.FashionResponse.Builder.class);
       }
@@ -1568,7 +1568,7 @@ public final class FashionServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionResponse_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionResponse_descriptor;
       }
 
       public com.rwproto.FashionServiceProtos.FashionResponse getDefaultInstanceForType() {
@@ -1681,22 +1681,22 @@ public final class FashionServiceProtos {
       }
       private int bitField0_;
 
-      // optional .FashionEventType eventType = 1;
+      // optional .FashionService.FashionEventType eventType = 1;
       private com.rwproto.FashionServiceProtos.FashionEventType eventType_ = com.rwproto.FashionServiceProtos.FashionEventType.getFashiondata;
       /**
-       * <code>optional .FashionEventType eventType = 1;</code>
+       * <code>optional .FashionService.FashionEventType eventType = 1;</code>
        */
       public boolean hasEventType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .FashionEventType eventType = 1;</code>
+       * <code>optional .FashionService.FashionEventType eventType = 1;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionEventType getEventType() {
         return eventType_;
       }
       /**
-       * <code>optional .FashionEventType eventType = 1;</code>
+       * <code>optional .FashionService.FashionEventType eventType = 1;</code>
        */
       public Builder setEventType(com.rwproto.FashionServiceProtos.FashionEventType value) {
         if (value == null) {
@@ -1708,7 +1708,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionEventType eventType = 1;</code>
+       * <code>optional .FashionService.FashionEventType eventType = 1;</code>
        */
       public Builder clearEventType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1884,12 +1884,12 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // optional .FashionCommon fashionCommon = 5;
+      // optional .FashionService.FashionCommon fashionCommon = 5;
       private com.rwproto.FashionServiceProtos.FashionCommon fashionCommon_ = com.rwproto.FashionServiceProtos.FashionCommon.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionCommon, com.rwproto.FashionServiceProtos.FashionCommon.Builder, com.rwproto.FashionServiceProtos.FashionCommonOrBuilder> fashionCommonBuilder_;
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -1898,7 +1898,7 @@ public final class FashionServiceProtos {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -1911,7 +1911,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -1930,7 +1930,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -1947,7 +1947,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -1969,7 +1969,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -1985,7 +1985,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -1996,7 +1996,7 @@ public final class FashionServiceProtos {
         return getFashionCommonFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -2009,7 +2009,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionCommon fashionCommon = 5;</code>
+       * <code>optional .FashionService.FashionCommon fashionCommon = 5;</code>
        *
        * <pre>
        * </pre>
@@ -2028,7 +2028,7 @@ public final class FashionServiceProtos {
         return fashionCommonBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:FashionResponse)
+      // @@protoc_insertion_point(builder_scope:FashionService.FashionResponse)
     }
 
     static {
@@ -2036,42 +2036,42 @@ public final class FashionServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:FashionResponse)
+    // @@protoc_insertion_point(class_scope:FashionService.FashionResponse)
   }
 
   public interface FashionCommonOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .FashionUsed usedFashion = 1;
+    // optional .FashionService.FashionUsed usedFashion = 1;
     /**
-     * <code>optional .FashionUsed usedFashion = 1;</code>
+     * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
      */
     boolean hasUsedFashion();
     /**
-     * <code>optional .FashionUsed usedFashion = 1;</code>
+     * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
      */
     com.rwproto.FashionServiceProtos.FashionUsed getUsedFashion();
     /**
-     * <code>optional .FashionUsed usedFashion = 1;</code>
+     * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
      */
     com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getUsedFashionOrBuilder();
 
-    // optional .FashionBuyRenewCfg buyRenewCfg = 2;
+    // optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;
     /**
-     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
      */
     boolean hasBuyRenewCfg();
     /**
-     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
      */
     com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getBuyRenewCfg();
     /**
-     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
      */
     com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder getBuyRenewCfgOrBuilder();
   }
   /**
-   * Protobuf type {@code FashionCommon}
+   * Protobuf type {@code FashionService.FashionCommon}
    */
   public static final class FashionCommon extends
       com.google.protobuf.GeneratedMessage
@@ -2161,12 +2161,12 @@ public final class FashionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_descriptor;
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionCommon_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_fieldAccessorTable
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionCommon_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.FashionServiceProtos.FashionCommon.class, com.rwproto.FashionServiceProtos.FashionCommon.Builder.class);
     }
@@ -2187,45 +2187,45 @@ public final class FashionServiceProtos {
     }
 
     private int bitField0_;
-    // optional .FashionUsed usedFashion = 1;
+    // optional .FashionService.FashionUsed usedFashion = 1;
     public static final int USEDFASHION_FIELD_NUMBER = 1;
     private com.rwproto.FashionServiceProtos.FashionUsed usedFashion_;
     /**
-     * <code>optional .FashionUsed usedFashion = 1;</code>
+     * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
      */
     public boolean hasUsedFashion() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .FashionUsed usedFashion = 1;</code>
+     * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
      */
     public com.rwproto.FashionServiceProtos.FashionUsed getUsedFashion() {
       return usedFashion_;
     }
     /**
-     * <code>optional .FashionUsed usedFashion = 1;</code>
+     * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
      */
     public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getUsedFashionOrBuilder() {
       return usedFashion_;
     }
 
-    // optional .FashionBuyRenewCfg buyRenewCfg = 2;
+    // optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;
     public static final int BUYRENEWCFG_FIELD_NUMBER = 2;
     private com.rwproto.FashionServiceProtos.FashionBuyRenewCfg buyRenewCfg_;
     /**
-     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
      */
     public boolean hasBuyRenewCfg() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
      */
     public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getBuyRenewCfg() {
       return buyRenewCfg_;
     }
     /**
-     * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+     * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
      */
     public com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder getBuyRenewCfgOrBuilder() {
       return buyRenewCfg_;
@@ -2355,19 +2355,19 @@ public final class FashionServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code FashionCommon}
+     * Protobuf type {@code FashionService.FashionCommon}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.FashionServiceProtos.FashionCommonOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionCommon_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_fieldAccessorTable
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionCommon_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.FashionServiceProtos.FashionCommon.class, com.rwproto.FashionServiceProtos.FashionCommon.Builder.class);
       }
@@ -2415,7 +2415,7 @@ public final class FashionServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionCommon_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionCommon_descriptor;
       }
 
       public com.rwproto.FashionServiceProtos.FashionCommon getDefaultInstanceForType() {
@@ -2505,18 +2505,18 @@ public final class FashionServiceProtos {
       }
       private int bitField0_;
 
-      // optional .FashionUsed usedFashion = 1;
+      // optional .FashionService.FashionUsed usedFashion = 1;
       private com.rwproto.FashionServiceProtos.FashionUsed usedFashion_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> usedFashionBuilder_;
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public boolean hasUsedFashion() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionUsed getUsedFashion() {
         if (usedFashionBuilder_ == null) {
@@ -2526,7 +2526,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public Builder setUsedFashion(com.rwproto.FashionServiceProtos.FashionUsed value) {
         if (usedFashionBuilder_ == null) {
@@ -2542,7 +2542,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public Builder setUsedFashion(
           com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
@@ -2556,7 +2556,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public Builder mergeUsedFashion(com.rwproto.FashionServiceProtos.FashionUsed value) {
         if (usedFashionBuilder_ == null) {
@@ -2575,7 +2575,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public Builder clearUsedFashion() {
         if (usedFashionBuilder_ == null) {
@@ -2588,7 +2588,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionUsed.Builder getUsedFashionBuilder() {
         bitField0_ |= 0x00000001;
@@ -2596,7 +2596,7 @@ public final class FashionServiceProtos {
         return getUsedFashionFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getUsedFashionOrBuilder() {
         if (usedFashionBuilder_ != null) {
@@ -2606,7 +2606,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionUsed usedFashion = 1;</code>
+       * <code>optional .FashionService.FashionUsed usedFashion = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
@@ -2622,18 +2622,18 @@ public final class FashionServiceProtos {
         return usedFashionBuilder_;
       }
 
-      // optional .FashionBuyRenewCfg buyRenewCfg = 2;
+      // optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;
       private com.rwproto.FashionServiceProtos.FashionBuyRenewCfg buyRenewCfg_ = com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionBuyRenewCfg, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder> buyRenewCfgBuilder_;
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public boolean hasBuyRenewCfg() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getBuyRenewCfg() {
         if (buyRenewCfgBuilder_ == null) {
@@ -2643,7 +2643,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public Builder setBuyRenewCfg(com.rwproto.FashionServiceProtos.FashionBuyRenewCfg value) {
         if (buyRenewCfgBuilder_ == null) {
@@ -2659,7 +2659,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public Builder setBuyRenewCfg(
           com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder builderForValue) {
@@ -2673,7 +2673,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public Builder mergeBuyRenewCfg(com.rwproto.FashionServiceProtos.FashionBuyRenewCfg value) {
         if (buyRenewCfgBuilder_ == null) {
@@ -2692,7 +2692,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public Builder clearBuyRenewCfg() {
         if (buyRenewCfgBuilder_ == null) {
@@ -2705,7 +2705,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder getBuyRenewCfgBuilder() {
         bitField0_ |= 0x00000002;
@@ -2713,7 +2713,7 @@ public final class FashionServiceProtos {
         return getBuyRenewCfgFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       public com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder getBuyRenewCfgOrBuilder() {
         if (buyRenewCfgBuilder_ != null) {
@@ -2723,7 +2723,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionBuyRenewCfg buyRenewCfg = 2;</code>
+       * <code>optional .FashionService.FashionBuyRenewCfg buyRenewCfg = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionBuyRenewCfg, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder> 
@@ -2739,7 +2739,7 @@ public final class FashionServiceProtos {
         return buyRenewCfgBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:FashionCommon)
+      // @@protoc_insertion_point(builder_scope:FashionService.FashionCommon)
     }
 
     static {
@@ -2747,7 +2747,7 @@ public final class FashionServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:FashionCommon)
+    // @@protoc_insertion_point(class_scope:FashionService.FashionCommon)
   }
 
   public interface FashionUsedOrBuilder
@@ -2826,7 +2826,7 @@ public final class FashionServiceProtos {
     int getSpecialEffectId();
   }
   /**
-   * Protobuf type {@code FashionUsed}
+   * Protobuf type {@code FashionService.FashionUsed}
    *
    * <pre>
    *穿在身上的时装，当不传送某个值的时候表示不存在！
@@ -2914,12 +2914,12 @@ public final class FashionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionUsed_descriptor;
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionUsed_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionUsed_fieldAccessorTable
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionUsed_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.FashionServiceProtos.FashionUsed.class, com.rwproto.FashionServiceProtos.FashionUsed.Builder.class);
     }
@@ -3170,7 +3170,7 @@ public final class FashionServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code FashionUsed}
+     * Protobuf type {@code FashionService.FashionUsed}
      *
      * <pre>
      *穿在身上的时装，当不传送某个值的时候表示不存在！
@@ -3181,12 +3181,12 @@ public final class FashionServiceProtos {
        implements com.rwproto.FashionServiceProtos.FashionUsedOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionUsed_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionUsed_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionUsed_fieldAccessorTable
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionUsed_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.FashionServiceProtos.FashionUsed.class, com.rwproto.FashionServiceProtos.FashionUsed.Builder.class);
       }
@@ -3228,7 +3228,7 @@ public final class FashionServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionUsed_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionUsed_descriptor;
       }
 
       public com.rwproto.FashionServiceProtos.FashionUsed getDefaultInstanceForType() {
@@ -3514,7 +3514,7 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:FashionUsed)
+      // @@protoc_insertion_point(builder_scope:FashionService.FashionUsed)
     }
 
     static {
@@ -3522,15 +3522,15 @@ public final class FashionServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:FashionUsed)
+    // @@protoc_insertion_point(class_scope:FashionService.FashionUsed)
   }
 
   public interface FashionBuyRenewCfgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .FashionBuyRenew buyRenewList = 1;
+    // repeated .FashionService.FashionBuyRenew buyRenewList = 1;
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3539,7 +3539,7 @@ public final class FashionServiceProtos {
     java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> 
         getBuyRenewListList();
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3547,7 +3547,7 @@ public final class FashionServiceProtos {
      */
     com.rwproto.FashionServiceProtos.FashionBuyRenew getBuyRenewList(int index);
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3555,7 +3555,7 @@ public final class FashionServiceProtos {
      */
     int getBuyRenewListCount();
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3564,7 +3564,7 @@ public final class FashionServiceProtos {
     java.util.List<? extends com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder> 
         getBuyRenewListOrBuilderList();
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3574,7 +3574,7 @@ public final class FashionServiceProtos {
         int index);
   }
   /**
-   * Protobuf type {@code FashionBuyRenewCfg}
+   * Protobuf type {@code FashionService.FashionBuyRenewCfg}
    */
   public static final class FashionBuyRenewCfg extends
       com.google.protobuf.GeneratedMessage
@@ -3649,12 +3649,12 @@ public final class FashionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_descriptor;
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenewCfg_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_fieldAccessorTable
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenewCfg_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.class, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder.class);
     }
@@ -3674,11 +3674,11 @@ public final class FashionServiceProtos {
       return PARSER;
     }
 
-    // repeated .FashionBuyRenew buyRenewList = 1;
+    // repeated .FashionService.FashionBuyRenew buyRenewList = 1;
     public static final int BUYRENEWLIST_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> buyRenewList_;
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3688,7 +3688,7 @@ public final class FashionServiceProtos {
       return buyRenewList_;
     }
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3699,7 +3699,7 @@ public final class FashionServiceProtos {
       return buyRenewList_;
     }
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3709,7 +3709,7 @@ public final class FashionServiceProtos {
       return buyRenewList_.size();
     }
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3719,7 +3719,7 @@ public final class FashionServiceProtos {
       return buyRenewList_.get(index);
     }
     /**
-     * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+     * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
      *
      * <pre>
      *购买和续费的配置
@@ -3846,19 +3846,19 @@ public final class FashionServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code FashionBuyRenewCfg}
+     * Protobuf type {@code FashionService.FashionBuyRenewCfg}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.FashionServiceProtos.FashionBuyRenewCfgOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenewCfg_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_fieldAccessorTable
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenewCfg_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.class, com.rwproto.FashionServiceProtos.FashionBuyRenewCfg.Builder.class);
       }
@@ -3899,7 +3899,7 @@ public final class FashionServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenewCfg_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenewCfg_descriptor;
       }
 
       public com.rwproto.FashionServiceProtos.FashionBuyRenewCfg getDefaultInstanceForType() {
@@ -4000,7 +4000,7 @@ public final class FashionServiceProtos {
       }
       private int bitField0_;
 
-      // repeated .FashionBuyRenew buyRenewList = 1;
+      // repeated .FashionService.FashionBuyRenew buyRenewList = 1;
       private java.util.List<com.rwproto.FashionServiceProtos.FashionBuyRenew> buyRenewList_ =
         java.util.Collections.emptyList();
       private void ensureBuyRenewListIsMutable() {
@@ -4014,7 +4014,7 @@ public final class FashionServiceProtos {
           com.rwproto.FashionServiceProtos.FashionBuyRenew, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder, com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder> buyRenewListBuilder_;
 
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4028,7 +4028,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4042,7 +4042,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4056,7 +4056,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4077,7 +4077,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4095,7 +4095,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4115,7 +4115,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4136,7 +4136,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4154,7 +4154,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4172,7 +4172,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4190,7 +4190,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4207,7 +4207,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4224,7 +4224,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4235,7 +4235,7 @@ public final class FashionServiceProtos {
         return getBuyRenewListFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4249,7 +4249,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4264,7 +4264,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4275,7 +4275,7 @@ public final class FashionServiceProtos {
             com.rwproto.FashionServiceProtos.FashionBuyRenew.getDefaultInstance());
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4287,7 +4287,7 @@ public final class FashionServiceProtos {
             index, com.rwproto.FashionServiceProtos.FashionBuyRenew.getDefaultInstance());
       }
       /**
-       * <code>repeated .FashionBuyRenew buyRenewList = 1;</code>
+       * <code>repeated .FashionService.FashionBuyRenew buyRenewList = 1;</code>
        *
        * <pre>
        *购买和续费的配置
@@ -4312,7 +4312,7 @@ public final class FashionServiceProtos {
         return buyRenewListBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:FashionBuyRenewCfg)
+      // @@protoc_insertion_point(builder_scope:FashionService.FashionBuyRenewCfg)
     }
 
     static {
@@ -4320,7 +4320,7 @@ public final class FashionServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:FashionBuyRenewCfg)
+    // @@protoc_insertion_point(class_scope:FashionService.FashionBuyRenewCfg)
   }
 
   public interface FashionBuyRenewOrBuilder
@@ -4344,9 +4344,9 @@ public final class FashionServiceProtos {
      */
     int getFashionId();
 
-    // repeated .PayCfg buyCfg = 2;
+    // repeated .FashionService.PayCfg buyCfg = 2;
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4355,7 +4355,7 @@ public final class FashionServiceProtos {
     java.util.List<com.rwproto.FashionServiceProtos.PayCfg> 
         getBuyCfgList();
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4363,7 +4363,7 @@ public final class FashionServiceProtos {
      */
     com.rwproto.FashionServiceProtos.PayCfg getBuyCfg(int index);
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4371,7 +4371,7 @@ public final class FashionServiceProtos {
      */
     int getBuyCfgCount();
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4380,7 +4380,7 @@ public final class FashionServiceProtos {
     java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
         getBuyCfgOrBuilderList();
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4389,9 +4389,9 @@ public final class FashionServiceProtos {
     com.rwproto.FashionServiceProtos.PayCfgOrBuilder getBuyCfgOrBuilder(
         int index);
 
-    // repeated .PayCfg renewPlan = 3;
+    // repeated .FashionService.PayCfg renewPlan = 3;
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4400,7 +4400,7 @@ public final class FashionServiceProtos {
     java.util.List<com.rwproto.FashionServiceProtos.PayCfg> 
         getRenewPlanList();
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4408,7 +4408,7 @@ public final class FashionServiceProtos {
      */
     com.rwproto.FashionServiceProtos.PayCfg getRenewPlan(int index);
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4416,7 +4416,7 @@ public final class FashionServiceProtos {
      */
     int getRenewPlanCount();
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4425,7 +4425,7 @@ public final class FashionServiceProtos {
     java.util.List<? extends com.rwproto.FashionServiceProtos.PayCfgOrBuilder> 
         getRenewPlanOrBuilderList();
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4435,7 +4435,7 @@ public final class FashionServiceProtos {
         int index);
   }
   /**
-   * Protobuf type {@code FashionBuyRenew}
+   * Protobuf type {@code FashionService.FashionBuyRenew}
    */
   public static final class FashionBuyRenew extends
       com.google.protobuf.GeneratedMessage
@@ -4526,12 +4526,12 @@ public final class FashionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_descriptor;
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenew_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_fieldAccessorTable
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenew_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.FashionServiceProtos.FashionBuyRenew.class, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder.class);
     }
@@ -4576,11 +4576,11 @@ public final class FashionServiceProtos {
       return fashionId_;
     }
 
-    // repeated .PayCfg buyCfg = 2;
+    // repeated .FashionService.PayCfg buyCfg = 2;
     public static final int BUYCFG_FIELD_NUMBER = 2;
     private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> buyCfg_;
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4590,7 +4590,7 @@ public final class FashionServiceProtos {
       return buyCfg_;
     }
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4601,7 +4601,7 @@ public final class FashionServiceProtos {
       return buyCfg_;
     }
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4611,7 +4611,7 @@ public final class FashionServiceProtos {
       return buyCfg_.size();
     }
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4621,7 +4621,7 @@ public final class FashionServiceProtos {
       return buyCfg_.get(index);
     }
     /**
-     * <code>repeated .PayCfg buyCfg = 2;</code>
+     * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
      *
      * <pre>
      *购买方案
@@ -4632,11 +4632,11 @@ public final class FashionServiceProtos {
       return buyCfg_.get(index);
     }
 
-    // repeated .PayCfg renewPlan = 3;
+    // repeated .FashionService.PayCfg renewPlan = 3;
     public static final int RENEWPLAN_FIELD_NUMBER = 3;
     private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> renewPlan_;
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4646,7 +4646,7 @@ public final class FashionServiceProtos {
       return renewPlan_;
     }
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4657,7 +4657,7 @@ public final class FashionServiceProtos {
       return renewPlan_;
     }
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4667,7 +4667,7 @@ public final class FashionServiceProtos {
       return renewPlan_.size();
     }
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4677,7 +4677,7 @@ public final class FashionServiceProtos {
       return renewPlan_.get(index);
     }
     /**
-     * <code>repeated .PayCfg renewPlan = 3;</code>
+     * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
      *
      * <pre>
      *续费方案
@@ -4830,19 +4830,19 @@ public final class FashionServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code FashionBuyRenew}
+     * Protobuf type {@code FashionService.FashionBuyRenew}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.FashionServiceProtos.FashionBuyRenewOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenew_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_fieldAccessorTable
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenew_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.FashionServiceProtos.FashionBuyRenew.class, com.rwproto.FashionServiceProtos.FashionBuyRenew.Builder.class);
       }
@@ -4892,7 +4892,7 @@ public final class FashionServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.FashionServiceProtos.internal_static_FashionBuyRenew_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_FashionBuyRenew_descriptor;
       }
 
       public com.rwproto.FashionServiceProtos.FashionBuyRenew getDefaultInstanceForType() {
@@ -5096,7 +5096,7 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // repeated .PayCfg buyCfg = 2;
+      // repeated .FashionService.PayCfg buyCfg = 2;
       private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> buyCfg_ =
         java.util.Collections.emptyList();
       private void ensureBuyCfgIsMutable() {
@@ -5110,7 +5110,7 @@ public final class FashionServiceProtos {
           com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder> buyCfgBuilder_;
 
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5124,7 +5124,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5138,7 +5138,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5152,7 +5152,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5173,7 +5173,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5191,7 +5191,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5211,7 +5211,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5232,7 +5232,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5250,7 +5250,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5268,7 +5268,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5286,7 +5286,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5303,7 +5303,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5320,7 +5320,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5331,7 +5331,7 @@ public final class FashionServiceProtos {
         return getBuyCfgFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5345,7 +5345,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5360,7 +5360,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5371,7 +5371,7 @@ public final class FashionServiceProtos {
             com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5383,7 +5383,7 @@ public final class FashionServiceProtos {
             index, com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
       }
       /**
-       * <code>repeated .PayCfg buyCfg = 2;</code>
+       * <code>repeated .FashionService.PayCfg buyCfg = 2;</code>
        *
        * <pre>
        *购买方案
@@ -5408,7 +5408,7 @@ public final class FashionServiceProtos {
         return buyCfgBuilder_;
       }
 
-      // repeated .PayCfg renewPlan = 3;
+      // repeated .FashionService.PayCfg renewPlan = 3;
       private java.util.List<com.rwproto.FashionServiceProtos.PayCfg> renewPlan_ =
         java.util.Collections.emptyList();
       private void ensureRenewPlanIsMutable() {
@@ -5422,7 +5422,7 @@ public final class FashionServiceProtos {
           com.rwproto.FashionServiceProtos.PayCfg, com.rwproto.FashionServiceProtos.PayCfg.Builder, com.rwproto.FashionServiceProtos.PayCfgOrBuilder> renewPlanBuilder_;
 
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5436,7 +5436,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5450,7 +5450,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5464,7 +5464,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5485,7 +5485,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5503,7 +5503,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5523,7 +5523,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5544,7 +5544,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5562,7 +5562,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5580,7 +5580,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5598,7 +5598,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5615,7 +5615,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5632,7 +5632,7 @@ public final class FashionServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5643,7 +5643,7 @@ public final class FashionServiceProtos {
         return getRenewPlanFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5657,7 +5657,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5672,7 +5672,7 @@ public final class FashionServiceProtos {
         }
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5683,7 +5683,7 @@ public final class FashionServiceProtos {
             com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5695,7 +5695,7 @@ public final class FashionServiceProtos {
             index, com.rwproto.FashionServiceProtos.PayCfg.getDefaultInstance());
       }
       /**
-       * <code>repeated .PayCfg renewPlan = 3;</code>
+       * <code>repeated .FashionService.PayCfg renewPlan = 3;</code>
        *
        * <pre>
        *续费方案
@@ -5720,7 +5720,7 @@ public final class FashionServiceProtos {
         return renewPlanBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:FashionBuyRenew)
+      // @@protoc_insertion_point(builder_scope:FashionService.FashionBuyRenew)
     }
 
     static {
@@ -5728,7 +5728,7 @@ public final class FashionServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:FashionBuyRenew)
+    // @@protoc_insertion_point(class_scope:FashionService.FashionBuyRenew)
   }
 
   public interface PayCfgOrBuilder
@@ -5816,7 +5816,7 @@ public final class FashionServiceProtos {
         getPlanIdBytes();
   }
   /**
-   * Protobuf type {@code PayCfg}
+   * Protobuf type {@code FashionService.PayCfg}
    */
   public static final class PayCfg extends
       com.google.protobuf.GeneratedMessage
@@ -5900,12 +5900,12 @@ public final class FashionServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.FashionServiceProtos.internal_static_PayCfg_descriptor;
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_PayCfg_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.FashionServiceProtos.internal_static_PayCfg_fieldAccessorTable
+      return com.rwproto.FashionServiceProtos.internal_static_FashionService_PayCfg_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.FashionServiceProtos.PayCfg.class, com.rwproto.FashionServiceProtos.PayCfg.Builder.class);
     }
@@ -6203,19 +6203,19 @@ public final class FashionServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code PayCfg}
+     * Protobuf type {@code FashionService.PayCfg}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.FashionServiceProtos.PayCfgOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.FashionServiceProtos.internal_static_PayCfg_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_PayCfg_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.FashionServiceProtos.internal_static_PayCfg_fieldAccessorTable
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_PayCfg_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.FashionServiceProtos.PayCfg.class, com.rwproto.FashionServiceProtos.PayCfg.Builder.class);
       }
@@ -6257,7 +6257,7 @@ public final class FashionServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.FashionServiceProtos.internal_static_PayCfg_descriptor;
+        return com.rwproto.FashionServiceProtos.internal_static_FashionService_PayCfg_descriptor;
       }
 
       public com.rwproto.FashionServiceProtos.PayCfg getDefaultInstanceForType() {
@@ -6610,7 +6610,7 @@ public final class FashionServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:PayCfg)
+      // @@protoc_insertion_point(builder_scope:FashionService.PayCfg)
     }
 
     static {
@@ -6618,44 +6618,44 @@ public final class FashionServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:PayCfg)
+    // @@protoc_insertion_point(class_scope:FashionService.PayCfg)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_FashionRequest_descriptor;
+    internal_static_FashionService_FashionRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_FashionRequest_fieldAccessorTable;
+      internal_static_FashionService_FashionRequest_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_FashionResponse_descriptor;
+    internal_static_FashionService_FashionResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_FashionResponse_fieldAccessorTable;
+      internal_static_FashionService_FashionResponse_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_FashionCommon_descriptor;
+    internal_static_FashionService_FashionCommon_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_FashionCommon_fieldAccessorTable;
+      internal_static_FashionService_FashionCommon_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_FashionUsed_descriptor;
+    internal_static_FashionService_FashionUsed_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_FashionUsed_fieldAccessorTable;
+      internal_static_FashionService_FashionUsed_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_FashionBuyRenewCfg_descriptor;
+    internal_static_FashionService_FashionBuyRenewCfg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_FashionBuyRenewCfg_fieldAccessorTable;
+      internal_static_FashionService_FashionBuyRenewCfg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_FashionBuyRenew_descriptor;
+    internal_static_FashionService_FashionBuyRenew_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_FashionBuyRenew_fieldAccessorTable;
+      internal_static_FashionService_FashionBuyRenew_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_PayCfg_descriptor;
+    internal_static_FashionService_PayCfg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_PayCfg_fieldAccessorTable;
+      internal_static_FashionService_PayCfg_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6665,75 +6665,79 @@ public final class FashionServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024FashionService.proto\032\022ErrorService.pro" +
-      "to\"a\n\016FashionRequest\022$\n\teventType\030\001 \002(\0162" +
-      "\021.FashionEventType\022\021\n\tfashionId\030\002 \001(\005\022\026\n" +
-      "\016buyRenewPlanId\030\003 \001(\t\"\247\001\n\017FashionRespons" +
-      "e\022$\n\teventType\030\001 \001(\0162\021.FashionEventType\022" +
-      "\021\n\tfashionId\030\002 \001(\005\022&\n\005error\030\003 \002(\0162\027.Erro" +
-      "rService.ErrorType\022\014\n\004tips\030\004 \001(\t\022%\n\rfash" +
-      "ionCommon\030\005 \001(\0132\016.FashionCommon\"\\\n\rFashi" +
-      "onCommon\022!\n\013usedFashion\030\001 \001(\0132\014.FashionU" +
-      "sed\022(\n\013buyRenewCfg\030\002 \001(\0132\023.FashionBuyRen",
-      "ewCfg\"U\n\013FashionUsed\022\016\n\006SuitId\030\001 \001(\005\022\016\n\006" +
-      "WingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027\n\017SpecialEf" +
-      "fectId\030\004 \001(\005\"<\n\022FashionBuyRenewCfg\022&\n\014bu" +
-      "yRenewList\030\001 \003(\0132\020.FashionBuyRenew\"Y\n\017Fa" +
-      "shionBuyRenew\022\021\n\tfashionId\030\001 \002(\005\022\027\n\006buyC" +
-      "fg\030\002 \003(\0132\007.PayCfg\022\032\n\trenewPlan\030\003 \003(\0132\007.P" +
-      "ayCfg\"H\n\006PayCfg\022\013\n\003day\030\001 \002(\005\022\017\n\007payment\030" +
-      "\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022\016\n\006planId\030\004 \002(\t*" +
-      "K\n\020FashionEventType\022\022\n\016getFashiondata\020\001\022" +
-      "\007\n\003buy\020\002\022\t\n\005renew\020\003\022\006\n\002on\020\004\022\007\n\003off\020\005**\n\013",
-      "FashionType\022\010\n\004Wing\020\000\022\007\n\003Pet\020\001\022\010\n\004Suit\020\002" +
-      "B#\n\013com.rwprotoB\024FashionServiceProtos"
+      "\n\024FashionService.proto\022\016FashionService\032\022" +
+      "ErrorService.proto\"p\n\016FashionRequest\0223\n\t" +
+      "eventType\030\001 \002(\0162 .FashionService.Fashion" +
+      "EventType\022\021\n\tfashionId\030\002 \001(\005\022\026\n\016buyRenew" +
+      "PlanId\030\003 \001(\t\"\305\001\n\017FashionResponse\0223\n\teven" +
+      "tType\030\001 \001(\0162 .FashionService.FashionEven" +
+      "tType\022\021\n\tfashionId\030\002 \001(\005\022&\n\005error\030\003 \002(\0162" +
+      "\027.ErrorService.ErrorType\022\014\n\004tips\030\004 \001(\t\0224" +
+      "\n\rfashionCommon\030\005 \001(\0132\035.FashionService.F" +
+      "ashionCommon\"z\n\rFashionCommon\0220\n\013usedFas",
+      "hion\030\001 \001(\0132\033.FashionService.FashionUsed\022" +
+      "7\n\013buyRenewCfg\030\002 \001(\0132\".FashionService.Fa" +
+      "shionBuyRenewCfg\"U\n\013FashionUsed\022\016\n\006SuitI" +
+      "d\030\001 \001(\005\022\016\n\006WingId\030\002 \001(\005\022\r\n\005PetId\030\003 \001(\005\022\027" +
+      "\n\017SpecialEffectId\030\004 \001(\005\"K\n\022FashionBuyRen" +
+      "ewCfg\0225\n\014buyRenewList\030\001 \003(\0132\037.FashionSer" +
+      "vice.FashionBuyRenew\"w\n\017FashionBuyRenew\022" +
+      "\021\n\tfashionId\030\001 \002(\005\022&\n\006buyCfg\030\002 \003(\0132\026.Fas" +
+      "hionService.PayCfg\022)\n\trenewPlan\030\003 \003(\0132\026." +
+      "FashionService.PayCfg\"H\n\006PayCfg\022\013\n\003day\030\001",
+      " \002(\005\022\017\n\007payment\030\002 \002(\005\022\020\n\010coinType\030\003 \002(\005\022" +
+      "\016\n\006planId\030\004 \002(\t*K\n\020FashionEventType\022\022\n\016g" +
+      "etFashiondata\020\001\022\007\n\003buy\020\002\022\t\n\005renew\020\003\022\006\n\002o" +
+      "n\020\004\022\007\n\003off\020\005**\n\013FashionType\022\010\n\004Wing\020\000\022\007\n" +
+      "\003Pet\020\001\022\010\n\004Suit\020\002B#\n\013com.rwprotoB\024Fashion" +
+      "ServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_FashionRequest_descriptor =
+          internal_static_FashionService_FashionRequest_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_FashionRequest_fieldAccessorTable = new
+          internal_static_FashionService_FashionRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_FashionRequest_descriptor,
+              internal_static_FashionService_FashionRequest_descriptor,
               new java.lang.String[] { "EventType", "FashionId", "BuyRenewPlanId", });
-          internal_static_FashionResponse_descriptor =
+          internal_static_FashionService_FashionResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_FashionResponse_fieldAccessorTable = new
+          internal_static_FashionService_FashionResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_FashionResponse_descriptor,
+              internal_static_FashionService_FashionResponse_descriptor,
               new java.lang.String[] { "EventType", "FashionId", "Error", "Tips", "FashionCommon", });
-          internal_static_FashionCommon_descriptor =
+          internal_static_FashionService_FashionCommon_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_FashionCommon_fieldAccessorTable = new
+          internal_static_FashionService_FashionCommon_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_FashionCommon_descriptor,
+              internal_static_FashionService_FashionCommon_descriptor,
               new java.lang.String[] { "UsedFashion", "BuyRenewCfg", });
-          internal_static_FashionUsed_descriptor =
+          internal_static_FashionService_FashionUsed_descriptor =
             getDescriptor().getMessageTypes().get(3);
-          internal_static_FashionUsed_fieldAccessorTable = new
+          internal_static_FashionService_FashionUsed_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_FashionUsed_descriptor,
+              internal_static_FashionService_FashionUsed_descriptor,
               new java.lang.String[] { "SuitId", "WingId", "PetId", "SpecialEffectId", });
-          internal_static_FashionBuyRenewCfg_descriptor =
+          internal_static_FashionService_FashionBuyRenewCfg_descriptor =
             getDescriptor().getMessageTypes().get(4);
-          internal_static_FashionBuyRenewCfg_fieldAccessorTable = new
+          internal_static_FashionService_FashionBuyRenewCfg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_FashionBuyRenewCfg_descriptor,
+              internal_static_FashionService_FashionBuyRenewCfg_descriptor,
               new java.lang.String[] { "BuyRenewList", });
-          internal_static_FashionBuyRenew_descriptor =
+          internal_static_FashionService_FashionBuyRenew_descriptor =
             getDescriptor().getMessageTypes().get(5);
-          internal_static_FashionBuyRenew_fieldAccessorTable = new
+          internal_static_FashionService_FashionBuyRenew_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_FashionBuyRenew_descriptor,
+              internal_static_FashionService_FashionBuyRenew_descriptor,
               new java.lang.String[] { "FashionId", "BuyCfg", "RenewPlan", });
-          internal_static_PayCfg_descriptor =
+          internal_static_FashionService_PayCfg_descriptor =
             getDescriptor().getMessageTypes().get(6);
-          internal_static_PayCfg_fieldAccessorTable = new
+          internal_static_FashionService_PayCfg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_PayCfg_descriptor,
+              internal_static_FashionService_PayCfg_descriptor,
               new java.lang.String[] { "Day", "Payment", "CoinType", "PlanId", });
           return null;
         }

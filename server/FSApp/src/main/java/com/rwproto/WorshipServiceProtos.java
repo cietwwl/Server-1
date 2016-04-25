@@ -3039,9 +3039,9 @@ public final class WorshipServiceProtos {
     com.google.protobuf.ByteString
         getSwingIDBytes();
 
-    // optional .FashionUsed fashionUsage = 14;
+    // optional .FashionService.FashionUsed fashionUsage = 14;
     /**
-     * <code>optional .FashionUsed fashionUsage = 14;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -3049,7 +3049,7 @@ public final class WorshipServiceProtos {
      */
     boolean hasFashionUsage();
     /**
-     * <code>optional .FashionUsed fashionUsage = 14;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -3057,7 +3057,7 @@ public final class WorshipServiceProtos {
      */
     com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage();
     /**
-     * <code>optional .FashionUsed fashionUsage = 14;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -3719,11 +3719,11 @@ public final class WorshipServiceProtos {
       }
     }
 
-    // optional .FashionUsed fashionUsage = 14;
+    // optional .FashionService.FashionUsed fashionUsage = 14;
     public static final int FASHIONUSAGE_FIELD_NUMBER = 14;
     private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_;
     /**
-     * <code>optional .FashionUsed fashionUsage = 14;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -3733,7 +3733,7 @@ public final class WorshipServiceProtos {
       return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
-     * <code>optional .FashionUsed fashionUsage = 14;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -3743,7 +3743,7 @@ public final class WorshipServiceProtos {
       return fashionUsage_;
     }
     /**
-     * <code>optional .FashionUsed fashionUsage = 14;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5291,12 +5291,12 @@ public final class WorshipServiceProtos {
         return this;
       }
 
-      // optional .FashionUsed fashionUsage = 14;
+      // optional .FashionService.FashionUsed fashionUsage = 14;
       private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsageBuilder_;
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5306,7 +5306,7 @@ public final class WorshipServiceProtos {
         return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5320,7 +5320,7 @@ public final class WorshipServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5340,7 +5340,7 @@ public final class WorshipServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5358,7 +5358,7 @@ public final class WorshipServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5381,7 +5381,7 @@ public final class WorshipServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5398,7 +5398,7 @@ public final class WorshipServiceProtos {
         return this;
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5410,7 +5410,7 @@ public final class WorshipServiceProtos {
         return getFashionUsageFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -5424,7 +5424,7 @@ public final class WorshipServiceProtos {
         }
       }
       /**
-       * <code>optional .FashionUsed fashionUsage = 14;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -6141,20 +6141,20 @@ public final class WorshipServiceProtos {
       "hipList\030\003 \003(\0132\014.WorshipInfo\022&\n\020byWorship" +
       "pedList\030\004 \003(\0132\014.WorshipInfo\022\022\n\nrewardLis" +
       "t\030\005 \001(\t\022\022\n\ncanWorship\030\006 \001(\010\022\025\n\rworshipCa" +
-      "reer\030\007 \001(\005\"\247\002\n\013WorshipInfo\022\016\n\006userId\030\001 \002",
+      "reer\030\007 \001(\005\"\266\002\n\013WorshipInfo\022\016\n\006userId\030\001 \002",
       "(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017\n\007i" +
       "mageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006 \002(" +
       "\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll\030\010 " +
       "\002(\005\022\022\n\ncanReceive\030\t \001(\010\022\'\n\013randomRward\030\n" +
       " \001(\0132\022.WorshipRewardData\022\014\n\004time\030\013 \001(\t\022\017" +
-      "\n\007modelId\030\014 \001(\005\022\017\n\007swingID\030\r \001(\t\022\"\n\014fash" +
-      "ionUsage\030\016 \001(\0132\014.FashionUsed\"2\n\021WorshipR" +
-      "ewardData\022\016\n\006itemId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005" +
-      "*d\n\023EWorshipRequestType\022\013\n\007WORSHIP\020\001\022\026\n\022" +
-      "BY_WORSHIPPED_LIST\020\002\022\021\n\rWORSHIP_STATE\020\003\022",
-      "\025\n\021PUSH_WORSHIP_LIST\020\004*+\n\022EWorshipResult" +
-      "Type\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001B#\n\013com.rwpro" +
-      "toB\024WorshipServiceProtos"
+      "\n\007modelId\030\014 \001(\005\022\017\n\007swingID\030\r \001(\t\0221\n\014fash" +
+      "ionUsage\030\016 \001(\0132\033.FashionService.FashionU" +
+      "sed\"2\n\021WorshipRewardData\022\016\n\006itemId\030\001 \002(\t" +
+      "\022\r\n\005count\030\002 \002(\005*d\n\023EWorshipRequestType\022\013" +
+      "\n\007WORSHIP\020\001\022\026\n\022BY_WORSHIPPED_LIST\020\002\022\021\n\rW",
+      "ORSHIP_STATE\020\003\022\025\n\021PUSH_WORSHIP_LIST\020\004*+\n" +
+      "\022EWorshipResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL" +
+      "\020\001B#\n\013com.rwprotoB\024WorshipServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
