@@ -236,7 +236,10 @@ namespace MsgDef
       MSG_PLATFORMGS = 998,
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_GAMEPRESS", Value=999)]
-      MSG_GAMEPRESS = 999
+      MSG_GAMEPRESS = 999,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_COUNTTYPE", Value=174)]
+      MSG_ACTIVITY_COUNTTYPE = 174
     }
   
 }

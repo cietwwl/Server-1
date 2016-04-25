@@ -81,4 +81,6 @@ enum Command {
 	MSG_PLATFORMGS = 998;//登陆服游戏服通讯协议
 	MSG_GAMEPRESS = 999;//压测协议
 	
+
+	MSG_ACTIVITY_COUNTTYPE = 174;
 }

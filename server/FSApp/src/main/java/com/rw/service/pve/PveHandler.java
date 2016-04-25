@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.protobuf.ByteString;
+import com.playerdata.CopyDataMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyDataIF;
 import com.playerdata.readonly.CopyInfoCfgIF;
@@ -11,7 +12,6 @@ import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.copypve.CopyEntryCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
-import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.CopyEntryCfg;
 import com.rwbase.dao.unendingwar.TableUnendingWar;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
@@ -21,7 +21,6 @@ import com.rwproto.PveServiceProtos.PveActivity;
 import com.rwproto.PveServiceProtos.PveServiceResponse;
 
 public class PveHandler {
-
 	private static PveHandler instance;
 
 	public static PveHandler getInstance() {
@@ -90,14 +89,14 @@ public class PveHandler {
 		TableUnendingWar unendingWar = player.unendingWarMgr.getTable();
 		unendingActivity.setCopyType(CopyType.COPY_TYPE_WARFARE);
 		// 重置次数不计算时间
-				int time;
-				if (player.unendingWarMgr.getTable().getResetNum() >= 1) {
-					time = 0;
-				} else {
-					time = getRemainSeconds(unendingWar.getLastChallengeTime(), currentTime, CopyType.COPY_TYPE_WARFARE);
-				}
-				
-				unendingActivity.setRemainSeconds(time);
+		int time;
+		if (player.unendingWarMgr.getTable().getResetNum() >= 1) {
+			time = 0;
+		} else {
+			time = getRemainSeconds(unendingWar.getLastChallengeTime(), currentTime, CopyType.COPY_TYPE_WARFARE);
+		}
+
+		unendingActivity.setRemainSeconds(time);
 		// TODO 无尽战火最多挑战次数现在是客户端写死1次，服务器先写，之后统一弄成配置吧
 		int unendingCount = 1 - player.unendingWarMgr.getTable().getNum();
 		unendingActivity.setRemainTimes(unendingCount > 0 ? unendingCount : 0);
@@ -119,42 +118,63 @@ public class PveHandler {
 
 	private PveActivity.Builder fill(int type, Player player, long currentTime) {
 		PveActivity.Builder activity = PveActivity.newBuilder();
-		List<CopyInfoCfgIF> infoCfgList = player.getCopyDataMgr().getTodayInfoCfg(type);
-		int tempCount = 0; // 临时解决生存幻境取小的次数
+		CopyDataMgr copyDataMgr = player.getCopyDataMgr();
+		List<CopyInfoCfgIF> infoCfgList = copyDataMgr.getTodayInfoCfg(type);
+
+		// int resetCount = copyDataMgr.getRestCountByCopyType(type);
+
+		int minCount = -1;// 最小次数
+		int maxTime = 0;// 需要的时间
 		for (int i = infoCfgList.size(); --i >= 0;) {
 			CopyInfoCfgIF cfg = infoCfgList.get(i);
-			CopyDataIF data = player.getCopyDataMgr().getByInfoId(cfg.getId());
-			// if(data.getCopyCount()>tempCount&&data.getCopyCount()>0)
-			// tempCount = data.getCopyCount();
-			if (type == CopyType.COPY_TYPE_CELESTIAL) {
-				if (data.getCopyCount() > 0) {
-					if (data.getCopyCount() < tempCount || tempCount <= 0)
-						tempCount = data.getCopyCount();
-				}
-			} else {
-				tempCount = data.getCopyCount();
+			if (cfg == null) {
+				continue;
 			}
-			activity.setCopyType(type);
-			activity.setRemainTimes(tempCount);
 
-			int time;
-			CopyData copyData = player.getCopyDataMgr().getByInfoId(cfg.getId());
-			if (copyData != null && copyData.getResetCount() > 0) {
-				// 重置不计算CD时间
-				time = 0;
-			} else {
-				time = getRemainSeconds(data.getLastChallengeTime(), currentTime, type);
+			CopyDataIF data = copyDataMgr.getByInfoId(cfg.getId());
+			if (data == null) {
+				continue;
 			}
-			activity.setRemainSeconds(time);
+
+			int copyType = data.getCopyType();// 类型
+			if (copyType != type) {
+				continue;
+			}
+
+			int copyCount = data.getCopyCount();// 剩余次数
+
+			// 如果还没被赋值，上次数量是0，当前次数<上次次数
+			if (minCount <= 0 || (copyCount > 0 && copyCount < minCount)) {
+				minCount = copyCount;
+			}
+
+			int time = getRemainSeconds(data.getLastChallengeTime(), currentTime, type);
+
+			if (time > maxTime) {
+				maxTime = time;
+			}
 		}
+
+		if (minCount <= 0) {
+			maxTime = 0;
+		}
+
+		activity.setCopyType(type);
+		activity.setRemainSeconds(maxTime);
+		activity.setRemainTimes(minCount);
 		return activity;
 	}
 
 	public int getRemainSeconds(long lastTime, long currentTime, int copyType) {
 		CopyEntryCfg entry = (CopyEntryCfg) CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
-		if(entry == null){
+		if (entry == null) {
 			return 0;
 		}
+
+		if (lastTime <= 0) {
+			return 0;
+		}
+
 		int seconds = entry.getCdSeconds();
 		long remain = TimeUnit.MILLISECONDS.toSeconds(currentTime - lastTime);
 		if (remain < seconds) {

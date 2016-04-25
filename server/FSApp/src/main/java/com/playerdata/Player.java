@@ -42,7 +42,9 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
+import com.rwbase.dao.power.pojo.PowerInfo;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
@@ -123,7 +125,11 @@ public class Player implements PlayerIF {
 	private volatile int lastWorldChatId;// 聊天上次的版本号
 	private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
 
+	private TimeAction oneSecondTimeAction;// 秒时效
+
 	private final PlayerTempAttribute tempAttribute;
+
+	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
 
 	class PlayerSaveHelper {
 
@@ -333,6 +339,10 @@ public class Player implements PlayerIF {
 		if (initMgr) {
 			initMgr();
 		}
+
+		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
+
+		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
 	}
 
 	public Player(String userId, boolean initMgr) {
@@ -417,6 +427,7 @@ public class Player implements PlayerIF {
 					ChatHandler.getInstance().sendChatAllMsg(player);
 					// 试练塔次数重置
 					getBattleTowerMgr().resetBattleTowerResetTimes(now);
+
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -427,7 +438,6 @@ public class Player implements PlayerIF {
 		notifyLogin();
 		initDataVersionControl();
 		onBSStart();// 合并数据同步信息
-
 		try {
 			dataSynVersionHolder.synAll(this);
 		} finally {
@@ -440,6 +450,8 @@ public class Player implements PlayerIF {
 		getTowerMgr().checkAndResetMatchData(this);
 		// 当角色登录的时候，更新下登录的时间
 		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
+		// 登录之后推送体力信息
+		PowerInfoDataHolder.synPowerInfo(this);
 	}
 
 	public void notifyMainRoleCreation() {
@@ -468,6 +480,7 @@ public class Player implements PlayerIF {
 		if (blnNeedCoolTime) {
 			userDataMgr.setKickOffCoolTime();
 		}
+
 		// 修改gm踢人立刻移除在线状态
 		KickOffImmediately(reason);
 		BILogMgr.getInstance().logZoneLogout(this);
@@ -476,7 +489,19 @@ public class Player implements PlayerIF {
 
 	public void block(String reason, long blockCoolTime) {
 		userDataMgr.block(reason, blockCoolTime);
-		KickOff(reason);
+		String error = "亲爱的用户，抱歉你已被封号。请联系我们的客服。";
+		if (reason != null) {
+			error = reason;
+		}
+		error = "封号原因:" + error;
+		String releaseTime;
+		if (blockCoolTime > 0) {
+			releaseTime = "解封时间:" + DateUtils.getDateTimeFormatString(blockCoolTime, "yyyy-MM-dd HH:mm");
+		} else {
+			releaseTime = "解封时间:永久封号!";
+		}
+		error += "\n" + releaseTime;
+		KickOff(error);
 	}
 
 	public void chatBan(String reason, long blockCoolTime) {
@@ -1270,5 +1295,23 @@ public class Player implements PlayerIF {
 	 */
 	public boolean isRobot() {
 		return getUserId().length() > 20;
+	}
+
+	/** 每分钟执行 */
+	public synchronized void onSecond() {
+		if (oneSecondTimeAction == null) {
+			return;
+		}
+
+		oneSecondTimeAction.doAction();
+	}
+
+	/**
+	 * 获取体力信息
+	 * 
+	 * @return
+	 */
+	public PowerInfo getPowerInfo() {
+		return powerInfo;
 	}
 }

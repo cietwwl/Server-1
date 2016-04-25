@@ -3,6 +3,8 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -56,6 +58,10 @@ public class MapItemStoreFactory {
 	// AngelArrayEnemyInfoData
 	private static MapItemStoreCache<AngelArrayEnemyInfoData> angelArrayEnemyInfoData;
 
+	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
+
+	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
+
 	private static List<MapItemStoreCache> list;
 
 	static {
@@ -92,6 +98,10 @@ public class MapItemStoreFactory {
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
 		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
+
+		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
+
+		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
 
 		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
 
@@ -212,6 +222,14 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
 		return newGuideGiveItemHistoryCache;
+	}
+
+	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
+		return activityCountTypeItemCache;
+	}
+
+	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
+		return activityTimeCardTypeItemCache;
 	}
 
 	/**

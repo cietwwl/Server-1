@@ -91,7 +91,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 				return true;
 			}
 		}
-		;
 		return false;
 	}
 
@@ -129,8 +128,9 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			}
 			return false;
 		}
-		reshSkillPoint();
-		if (m_pPlayer.getUserGameDataMgr().getSkillPointCount() <= 0) {
+		// reshSkillPoint();
+		// 用预期的方式代替真正回复技能点
+		if (m_pPlayer.getUserGameDataMgr().getSkillPointCount() <= 0 && !m_pPlayer.getSkillMgr().expectSkillPointRecover()) {
 			if (showError) {
 				m_pPlayer.NotifyCommonMsg("技能点冷却中！");
 			}
@@ -496,6 +496,19 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			return recoverPoint;
 		}
 		return 0;
+	}
+
+	/**
+	 * 预估能够时间恢复技能点
+	 * 
+	 * @return
+	 */
+	public boolean expectSkillPointRecover() {
+		long lastCountTime = m_pPlayer.getUserGameDataMgr().getLastRecoverSkillPointTime();
+		long currentTimeMillis = System.currentTimeMillis();
+		long timeSpan = currentTimeMillis - lastCountTime;
+		long recoverSpanTime = getCoolTime();
+		return timeSpan > recoverSpanTime;
 	}
 
 	/**

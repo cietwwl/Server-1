@@ -35,15 +35,25 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn5Am;
 	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
+	private static TimeSpanOpHelper timeSecondOp;// 秒时效
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("time_manager"));
 	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1);
 
 	public static void init() {
-		final long MINUTE = 60 * 1000;
+		final long SECOND = 1000;// 秒
+		final long MINUTE = 60 * SECOND;
 		final long MINUTE_5 = 5 * MINUTE;
 		final long MINUTE_10 = 10 * MINUTE;
 		final long HOUR = 60 * MINUTE;
+
+		timeSecondOp = new TimeSpanOpHelper(new ITimeOp() {
+
+			@Override
+			public void doTask() {
+				PlayerMgr.getInstance().secondFunc4AllPlayer();
+			}
+		}, SECOND);
 
 		timeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
@@ -51,6 +61,7 @@ public class TimerManager {
 				minutesFun();
 			}
 		}, MINUTE);
+
 		time5MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
 			public void doTask() {
@@ -95,6 +106,18 @@ public class TimerManager {
 				RankingMgr.getInstance().arenaCalculate();
 			}
 		}, 21);
+
+		timeService.scheduleAtFixedRate(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					timeSecondOp.tryRun();
+				} catch (Throwable e) {
+					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
+				}
+			}
+		}, 0, 1, TimeUnit.SECONDS);
 
 		timeService.scheduleAtFixedRate(new Runnable() {
 
