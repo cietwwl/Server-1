@@ -18,13 +18,15 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.service.ActivityCountTypeHandler;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.gamble.datamodel.GambleDropCfg;
+import com.rw.service.gamble.datamodel.GamblePlanCfg;
+import com.rw.service.gamble.datamodel.HotGambleCfg;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -115,6 +117,9 @@ public class GMHandler {
 		
 		//获取通用活动道具，调试用
 		funcCallBackMap.put("getgift", "getgift");
+		
+		//钓鱼台配置更新并重新生成热点数据
+		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
 	}
 
 	public boolean isActive() {
@@ -125,18 +130,32 @@ public class GMHandler {
 		this.active = active;
 	}
 
-	/** GM命令 */
-
-	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
-		String clname = GiveItemCfgDAO.class.getName();
+	private boolean reloadOneConfigClass(String clname) {
 		try {
 			CfgCsvReloader.reloadByClassName(clname);
-			GameLog.info("GM", "ReloadNewGuideCfg", "reloadByClassName:"+clname+" success",null);
+			GameLog.info("GM", "reload config", "reloadByClassName:"+clname+" success",null);
 			return true;
 		} catch (Exception e) {
-			GameLog.error("GM", "reloadByClassName:(GiveItemCfgDAO):"+clname,"reload failed" ,e);
+			GameLog.error("GM", "reload config","reloadByClassName:"+clname+" failed" ,e);
 			return false;
 		}
+	}
+	
+	/** GM命令 */
+	//钓鱼台配置更新并重新生成热点数据
+	public boolean reloadGambleConfig(String[] arrCommandContents, Player player) {
+		boolean result = true;
+		result = result && reloadOneConfigClass(HotGambleCfg.class.getName());
+		result = result && reloadOneConfigClass(GamblePlanCfg.class.getName());
+		result = result && reloadOneConfigClass(GambleDropCfg.class.getName());
+		if (result){
+			player.getGambleMgr().resetHotHeroList();
+		}
+		return result;
+	}
+
+	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
+		return reloadOneConfigClass(GiveItemCfgDAO.class.getName());
 	}
 	
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
@@ -262,11 +281,8 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
 			ActivityCountTypeHandler.getInstance().takeGift(player, null);
-			
-			
 			return true;
 		}
 		return false;

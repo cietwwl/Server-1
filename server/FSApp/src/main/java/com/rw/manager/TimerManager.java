@@ -10,7 +10,6 @@ import com.bm.secretArea.SecretAreaInfoGMgr;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.GambleMgr;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.dao.cache.SimpleThreadFactory;
@@ -187,7 +186,7 @@ public class TimerManager {
 		/**** 排行 ***/
 		// RankingMgr.getInstance().onTimeMinute();
 
-		GambleMgr.minutesUpdate();
+		//GambleMgr.minutesUpdate();
 		/** 秘境 ***/
 		SecretAreaInfoGMgr.getInstance().flush();
 		/*** 检查帮派 ***/
