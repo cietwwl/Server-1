@@ -32,7 +32,7 @@ public class VipDataHolder {
 
 	public void update(Player player) {
 		TableVip tableVip = get();
-		if (tableVip != null) {
+		if (tableVip != null&& TableVipDAO.getInstance().update(tableVip)) {
 			ClientDataSynMgr.updateData(player, tableVip, synType, eSynOpType.UPDATE_SINGLE);
 		}
 	}
