@@ -129,19 +129,6 @@ public class GMHandler {
 		this.active = active;
 	}
 
-	/** GM命令 */
-	//钓鱼台配置更新并重新生成热点数据
-	public boolean reloadGambleConfig(String[] arrCommandContents, Player player) {
-		boolean result = true;
-		result = result && reloadOneConfigClass(HotGambleCfg.class.toString());
-		result = result && reloadOneConfigClass(GamblePlanCfg.class.toString());
-		result = result && reloadOneConfigClass(GambleDropCfg.class.toString());
-		if (result){
-			player.getGambleMgr().resetHotHeroList();
-		}
-		return result;
-	}
-
 	private boolean reloadOneConfigClass(String clname) {
 		try {
 			CfgCsvReloader.reloadByClassName(clname);
@@ -153,6 +140,19 @@ public class GMHandler {
 		}
 	}
 	
+	/** GM命令 */
+	//钓鱼台配置更新并重新生成热点数据
+	public boolean reloadGambleConfig(String[] arrCommandContents, Player player) {
+		boolean result = true;
+		result = result && reloadOneConfigClass(HotGambleCfg.class.getName());
+		result = result && reloadOneConfigClass(GamblePlanCfg.class.getName());
+		result = result && reloadOneConfigClass(GambleDropCfg.class.getName());
+		if (result){
+			player.getGambleMgr().resetHotHeroList();
+		}
+		return result;
+	}
+
 	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
 		return reloadOneConfigClass(GiveItemCfgDAO.class.getName());
 	}
