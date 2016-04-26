@@ -19,11 +19,13 @@ import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
+import com.rwbase.dao.vip.VipDataHolder;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 
 public class ChargeMgr {
 
 	private static ChargeMgr instance = new ChargeMgr();
+	
 	
 	public static ChargeMgr getInstance(){
 		return instance;
@@ -42,13 +44,14 @@ public class ChargeMgr {
 		VipGiftCfg target = VipGiftCfgDao.getInstance().getCfgById(itemId);
 		int viplevel = Integer.parseInt(itemId);
 		
-		if(target!=null && !player.getVipMgr().isVipGiftTaken(viplevel)){
-			player.getVipMgr().setVipGiftTaken(viplevel);
+		if(target!=null && !player.getVipMgr().isVipGiftTaken(viplevel)){			
 			boolean success = buyVipGift(player, target,result);
 			if(success){
+				player.getVipMgr().setVipGiftTaken(viplevel);
 				success = takeVipGift(player,target);
 				result.setTips("购买成功");
 				result.setSuccess(success);	
+				
 			}else{
 				result.setTips("等级不足或货币不足");
 				result.setSuccess(false);	
