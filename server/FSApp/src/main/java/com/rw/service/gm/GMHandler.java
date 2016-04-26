@@ -15,6 +15,7 @@ import com.bm.guild.GuildGTSMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
+import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
@@ -38,6 +39,10 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
+import com.rwbase.dao.fashion.FashionBuyRenewCfg;
+import com.rwbase.dao.fashion.FashionCommonCfg;
+import com.rwbase.dao.fashion.FashionEffectCfg;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -118,6 +123,11 @@ public class GMHandler {
 		//获取通用活动道具，调试用
 		funcCallBackMap.put("getgift", "getgift");
 		
+		// 时装
+		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
+		funcCallBackMap.put("setfashion", "setFashion");
+		funcCallBackMap.put("reloadfashionconfig", "reloadFashionConfig");
+		
 		//钓鱼台配置更新并重新生成热点数据
 		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
 	}
@@ -142,6 +152,38 @@ public class GMHandler {
 	}
 	
 	/** GM命令 */
+	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
+		boolean result = true;
+		result = result && reloadOneConfigClass(FashionBuyRenewCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionQuantityEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionCommonCfg.class.getName());
+		return result;
+	}
+
+	public boolean setFashionExpiredTime(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "调用设置过期时间命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			GameLog.info("时装", player.getUserId(), "调用设置过期时间命令,参数不足", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetExpiredTime(fashionId, minutes);
+	}
+	
+	public boolean setFashion(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetFashion(fashionId);
+	}
+	
 	//钓鱼台配置更新并重新生成热点数据
 	public boolean reloadGambleConfig(String[] arrCommandContents, Player player) {
 		boolean result = true;
