@@ -31,7 +31,7 @@ import com.rwproto.MsgDef.Command;
 
 public class GambleLogicHelper {
 	/** 准备推送的垂钓数据 */
-	public static GambleResponse.Builder prepareGambleData(GambleRequest request,Random ranGen, String defaultItem,String uid) {
+	public static GambleResponse.Builder prepareGambleData(GambleRequest request,Random ranGen, String defaultItem,Player player) {
 		GambleHotHeroPlan.InitTodayHotHeroList(ranGen,defaultItem);
 		GambleResponse.Builder response = GambleResponse.newBuilder();
 		response.setRequest(request);
@@ -41,26 +41,26 @@ public class GambleLogicHelper {
 		//response.addAllDropHistory(getFinshingData(uid));
 		
 		//填写兼容旧协议的数据
-		response.setGambleData(getFishingItemToData(uid));
+		response.setGambleData(getFishingItemToData(player));
 		response.setResultType(EGambleResultType.SUCCESS);
 		return response;
 	}
 	
-	public static Iterable<DropData> getFinshingData(String userId){
+	public static Iterable<DropData> getFinshingData(Player player){
 		GamblePlanCfgHelper helper = GamblePlanCfgHelper.getInstance();
 		Iterable<GamblePlanCfg> all = helper.getIterateAllCfg();
 		ArrayList<DropData> result = new ArrayList<DropData>(helper.getEntryCount());
 		for (GamblePlanCfg cfg : all) {
-			result.add(getFinshingData(userId,cfg.getKey()));
+			result.add(getFinshingData(player,cfg.getKey()));
 		}
 		return result;
 	}
 	
-	public static boolean canGambleFreely(String userId){
+	public static boolean canGambleFreely(Player player){
 		GamblePlanCfgHelper helper = GamblePlanCfgHelper.getInstance();
 		Iterable<GamblePlanCfg> all = helper.getIterateAllCfg();
 		for (GamblePlanCfg cfg : all) {
-			if (isFree(userId,cfg.getKey())){
+			if (isFree(player,cfg.getKey())){
 				return true;
 			}
 		}
@@ -68,8 +68,8 @@ public class GambleLogicHelper {
 	}
 	
 	//根据配置的方案，找到数据库里面的历史信息并返回
-	public static DropData getFinshingData(String userId,int planId){
-		GambleOnePlanDropData oneData = getOneDropData(userId,planId);
+	public static DropData getFinshingData(Player player,int planId){
+		GambleOnePlanDropData oneData = getOneDropData(player,planId);
 		DropData.Builder result = DropData.newBuilder();
 		result.setFreeCount(oneData.getFreeCount());
 		result.setLeftTime(oneData.getLeftTime());
@@ -77,11 +77,10 @@ public class GambleLogicHelper {
 		return result.build();
 	}
 	
-	public static GambleOnePlanDropData getOneDropData(String userId,int planId){
-		String planIdStr = String.valueOf(planId);
-		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getCfgById(planIdStr);
+	public static GambleOnePlanDropData getOneDropData(Player player,int planId){
+		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(planId,player.getLevel());
 		GambleRecordDAO gambleRecords = GambleRecordDAO.getInstance();
-		GambleRecord record = gambleRecords.getOrCreate(userId);
+		GambleRecord record = gambleRecords.getOrCreate(player.getUserId());
 		GambleDropHistory historyRecord = record.getHistory(planId);
 
 		GambleOnePlanDropData result = new GambleOnePlanDropData(historyRecord,planCfg);
@@ -91,7 +90,7 @@ public class GambleLogicHelper {
 	public static void pushGambleItem(Player player,Random ranGen,String defaultItem) {
 		GambleRequest.Builder request = GambleRequest.newBuilder();
 		request.setRequestType(EGambleRequestType.GAMBLE_DATA);
-		GambleResponse.Builder response = prepareGambleData(request.build(),ranGen, defaultItem,player.getUserId());
+		GambleResponse.Builder response = prepareGambleData(request.build(),ranGen, defaultItem,player);
 		player.SendMsg(Command.MSG_GAMBLE, response.build().toByteString());
 	}
 
@@ -153,8 +152,8 @@ public class GambleLogicHelper {
 		return roleCfg != null;
 	}
 
-	public static boolean isFree(String userId, int planId) {
-		GambleOnePlanDropData oneData = getOneDropData(userId,planId);
+	public static boolean isFree(Player player, int planId) {
+		GambleOnePlanDropData oneData = getOneDropData(player,planId);
 		return oneData.canGambleFree();
 	}
 	
@@ -171,14 +170,14 @@ public class GambleLogicHelper {
 	public static final int Middle_Ten = 5;
 
 	// 返回旧协议的钓鱼数据
-	public static GambleData getFishingItemToData(String uid) {
+	public static GambleData getFishingItemToData(Player player) {
 		GambleData.Builder data = GambleData.newBuilder();
-		GambleOnePlanDropData p1 = GambleLogicHelper.getOneDropData(uid, Primary_One);
+		GambleOnePlanDropData p1 = GambleLogicHelper.getOneDropData(player, Primary_One);
 		// 当天已用普通免费次数
 		data.setPrimaryCount(p1.getFreeCount());
 		// 初级祈祷免费剩余时间(秒)
 		data.setPrimaryTime(p1.getLeftTime());
-		GambleOnePlanDropData m1 = GambleLogicHelper.getOneDropData(uid, Middle_One);
+		GambleOnePlanDropData m1 = GambleLogicHelper.getOneDropData(player, Middle_One);
 		// 中级祈祷免费剩余时间(秒)
 		data.setMiddleTime(m1.getLeftTime());
 		return data.build();

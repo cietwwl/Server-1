@@ -1,5 +1,7 @@
 package com.rw.service.gamble.datamodel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.common.BaseConfig;
 import com.common.PairParser;
 import com.common.RefInt;
@@ -8,6 +10,8 @@ import com.rwbase.common.enu.eSpecialItemId;
 
 public class GamblePlanCfg extends BaseConfig {
 	private int key;
+	private int dropType;//抽卡分类
+	private String levelSegment;//等级分段
 	private int goods; // 购买道具(一个经验丹)
 	private int freeFirstDrop; // 免费首抽必掉方案(gambleDropCfg组ID)
 	private int chargeFirstDrop; // 首抽必掉方案(gambleDropCfg组ID)
@@ -24,6 +28,10 @@ public class GamblePlanCfg extends BaseConfig {
 	private String guaranteeCheckList; // 收费保底检索物品组
 	private String guaranteePlan; // 收费保底掉落方案
 
+	//等级分段的起始值
+	private int levelStart;
+	private int levelEnd;
+	
 	//开放等级和vip等级（两个条件为并关系）
 	private int openLevel;
 	private int openVipLevel;
@@ -69,6 +77,29 @@ public class GamblePlanCfg extends BaseConfig {
 		if (dropItemCount <= 0){
 			GameLog.error("钓鱼台", "GamblePlanCfg.csv,Id="+key, "掉落物品数量无效");
 		}
+		
+		if (StringUtils.isBlank(levelSegment)){
+			GameLog.error("钓鱼台", "key="+key, "没有配置等级分段");
+		}else{
+			String[] seg = levelSegment.split("~");
+			levelStart = Integer.parseInt(seg[0]);
+			levelEnd = Integer.parseInt(seg[1]);
+			if (levelStart > levelEnd){
+				GameLog.error("钓鱼台", "key="+key, "等级分段配置有误");
+			}
+		}
+	}
+
+	public int getDropType() {
+		return dropType;
+	}
+
+	public int getLevelStart() {
+		return levelStart;
+	}
+
+	public int getLevelEnd() {
+		return levelEnd;
 	}
 
 	public int getHotCheckMin() {
@@ -133,5 +164,9 @@ public class GamblePlanCfg extends BaseConfig {
 
 	public int getKey() {
 		return key;
+	}
+
+	public boolean inLevelSegment(int level) {
+		return (levelStart <= level && level <= levelEnd);
 	}
 }

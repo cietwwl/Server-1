@@ -1,6 +1,9 @@
 package com.rw.service.gamble.datamodel;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -15,13 +18,36 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 		return SpringContextUtil.getBean(GamblePlanCfgHelper.class);
 	}
 
+	private Map<Integer, List<GamblePlanCfg>> typeLevelMapping;
+	
 	@Override
 	public Map<String, GamblePlanCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("gamble/GamblePlanCfg.csv", GamblePlanCfg.class);
+		typeLevelMapping = new HashMap<Integer, List<GamblePlanCfg>>();
 		Collection<GamblePlanCfg> vals = cfgCacheMap.values();
 		for (GamblePlanCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
+			List<GamblePlanCfg> lst = typeLevelMapping.get(cfg.getDropType());
+			if (lst == null){
+				lst = new ArrayList<GamblePlanCfg>();
+				typeLevelMapping.put(cfg.getDropType(), lst);
+			}
+			lst.add(cfg);
 		}
 		return cfgCacheMap;
+	}
+	
+	public GamblePlanCfg getConfig(int dropType,int level){
+		List<GamblePlanCfg> lst = typeLevelMapping.get(dropType);
+		if (lst == null) {
+			return null;
+		}
+		
+		for (GamblePlanCfg gamblePlanCfg : lst) {
+			if (gamblePlanCfg.inLevelSegment(level)){
+				return gamblePlanCfg;
+			}
+		}
+		return null;
 	}
 }
