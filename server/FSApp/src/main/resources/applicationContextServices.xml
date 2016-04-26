@@ -76,6 +76,8 @@
 			     <entry key="MSG_GIFT_CODE" value-ref="giftCodeService" />
 			     
 			     <entry key="MSG_ACTIVITY_COUNTTYPE" value-ref="activityCountTypeService" />
+			     
+			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			</map>
 		</property>
 	</bean>
@@ -132,7 +134,5 @@
 	<bean id="giftCodeService" class="com.rw.service.giftcode.GiftCodeService"  />
 	
 	<bean id="activityCountTypeService" class="com.playerdata.activity.countType.service.ActivityCountTypeService"  />
-	
-	
-	
+	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 </beans>  

@@ -11,12 +11,12 @@ public interface HeroMgrIF {
 	 */
 	public List<String> getHeroIdList();
 
-	/**
-	 * 通过模板id获取指定佣兵
-	 * @param heroId
-	 * @return
-	 */
-	public HeroIF getHeroByHeroId(String heroId);
+//	/**
+//	 * 通过模板id获取指定佣兵
+//	 * @param heroId
+//	 * @return
+//	 */
+//	public HeroIF getHeroByHeroId(String heroId);
 
 	/**
 	 * 通过佣兵id获取指定佣兵

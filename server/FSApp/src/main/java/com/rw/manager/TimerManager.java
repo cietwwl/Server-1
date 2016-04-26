@@ -18,7 +18,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rwbase.dao.Army.UserArmyDataDAO;
-import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
+import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.gulid.faction.GuildDAO;
 
@@ -94,8 +94,7 @@ public class TimerManager {
 			public void doTask() {
 				RankingMgr.getInstance().resetUpdateState();
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
-				// 初始化万仙阵匹配的数据缓存
-				AngleArrayMatchHelper.resetMatchData();
+				AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
 			}
 		}, 5);
 

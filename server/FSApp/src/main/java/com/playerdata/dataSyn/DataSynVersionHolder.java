@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.charge.ChargeMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
 import com.rwproto.DataSynProtos.eSynType;
@@ -205,6 +206,14 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityCountType);
+		
+		versionMap.put(eSynType.Charge, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				ChargeMgr.getInstance().syn(player, version);
+			}
+		}));
+		orderList.add(eSynType.Charge);
 
 		notInVersionControlList.add(notInVersionControlP);
 		

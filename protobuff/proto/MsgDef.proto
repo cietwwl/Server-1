@@ -74,6 +74,7 @@ enum Command {
 	MSG_GROUP_SKILL = 172;//帮派技能
 	MSG_GIFT_CODE = 173;//兑换码
 	MSG_CHARGE = 174;//充值
+	MSG_ACTIVITY_COUNTTYPE = 175;//通用活动
 
 
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
@@ -82,5 +83,4 @@ enum Command {
 	MSG_GAMEPRESS = 999;//压测协议
 	
 
-	MSG_ACTIVITY_COUNTTYPE = 174;
 }

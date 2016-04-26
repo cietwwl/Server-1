@@ -144,6 +144,7 @@ public class BILogMgr {
 			moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
 			moreInfo.put("loginClientPlatForm", regsubchanneltoclientplatform.getclientPlayForm());
 			moreInfo.put("regSubChannelId", regsubchanneltoclientplatform.getregSubChannelId());
+			moreInfo.put("threadId", "" + Thread.currentThread().getId());
 		}
 		log(eBILogType.OnlineCount, null, null, null, moreInfo);
 	}
@@ -291,7 +292,7 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.TaskEnd, player, moreInfo);
 	}
-	/**试炼类战斗类型不加入打印*/
+
 	public void logCopyBegin(Player player, Integer copyId, int copyLevel, boolean isFirst, eBILogCopyEntrance entranceType) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("copyId", copyId.toString());
@@ -324,8 +325,7 @@ public class BILogMgr {
 		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
 			return;
 		}
-		
-		moreInfo.put("fightTime", "" + fightTime);
+		moreInfo.put("fightTime", "" + fightTime);		
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
 		} else {
@@ -337,7 +337,7 @@ public class BILogMgr {
 		} else {
 			moreInfo.put("operationCode", "case_fail");
 		}
-
+		
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
 
@@ -357,7 +357,6 @@ public class BILogMgr {
 	 * 
 	 * @param player
 	 * @param copyId 扫荡
-	 * 试炼类战斗类型不加入打印，按理没有试炼功能进入此地
 	 */
 	public void logSweep(Player player, Integer copyId, int copyLevel) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
@@ -428,12 +427,11 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
 	}
-	/**升级前战力和升级前等级需额外组装*/
+
 	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("levelBeforeUp", oldlevel + "");
-		moreInfo.put("fightbeforelevelup", fightbeforelevelup + "");
-
+		moreInfo.put("fightbeforelevelup", "last_fight_power:" + fightbeforelevelup );
 		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
 
 	}
@@ -454,7 +452,7 @@ public class BILogMgr {
 			return;
 		}
 		ZoneRegInfo zoneRegInfo = player.getUserDataMgr().getZoneRegInfo();
-		RoleGameInfo roleGameInfo = RoleGameInfo.fromPlayer(player);
+		RoleGameInfo roleGameInfo = RoleGameInfo.fromPlayer(player,moreInfo);
 		ZoneLoginInfo zoneLoginInfo = player.getZoneLoginInfo();
 		log(logType, zoneRegInfo, zoneLoginInfo, roleGameInfo, moreInfo);
 

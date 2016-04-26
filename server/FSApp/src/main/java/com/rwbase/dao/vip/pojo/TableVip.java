@@ -19,6 +19,8 @@ public class TableVip {
 	private String userId;
 	private Map<EPrivilegeDef, Integer> privilege = new ConcurrentHashMap<EPrivilegeDef, Integer>();
 	private long lastRefreshTime;
+	
+	private Map<Integer, Boolean> vipGiftTaken = new ConcurrentHashMap<Integer, Boolean>();
 
 	public String getUserId() {
 		return userId;
@@ -55,4 +57,28 @@ public class TableVip {
 	public boolean containPrivilege(EPrivilegeDef key){
 		return privilege.containsKey(key);
 	}
+
+	public boolean isVipGiftTaken(int vipLevel) {
+		Boolean IsTaken = vipGiftTaken.get(vipLevel);		
+		return IsTaken ==null? false:IsTaken;
+	}
+
+	public void setLevelVipGiftTaken(int vipLevel) {
+		vipGiftTaken.put(vipLevel, true);
+	}
+
+	public void setPrivilege(Map<EPrivilegeDef, Integer> privilege) {
+		this.privilege = privilege;
+	}
+
+	public Map<Integer, Boolean> getVipGiftTaken() {
+		return vipGiftTaken;
+	}
+
+	public void setVipGiftTaken(Map<Integer, Boolean> vipGiftTaken) {
+		this.vipGiftTaken = vipGiftTaken;
+	}
+	
+	
+	
 }
