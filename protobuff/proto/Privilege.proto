@@ -16,3 +16,12 @@ message ArenaPrivilege {
 	required int32 arenaRewardAdd = 5; //竞技场结算奖励增加x（万分比）
 	required int32 peakRewardDec = 6; //竞技场挑战cd减少x秒
 }
+
+enum ArenaPrivilegeNames {
+	arenaMaxCount = 1;
+	peakMaxCount = 2;
+	isAllowResetArena = 3;
+	isAllowResetPeak = 4;
+	arenaRewardAdd = 5;
+	peakRewardDec = 6;
+}
