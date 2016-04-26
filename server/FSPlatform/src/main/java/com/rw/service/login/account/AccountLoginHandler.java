@@ -23,8 +23,11 @@ import com.rw.service.log.LogService;
 import com.rw.service.log.RegLog;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rwbase.common.enu.EServerStatus;
+import com.rwbase.dao.user.accountInfo.AccountLoginRecord;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecord;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecordDAO;
 import com.rwproto.AccountLoginProtos.AccountInfo;
 import com.rwproto.AccountLoginProtos.AccountLoginRequest;
 import com.rwproto.AccountLoginProtos.AccountLoginResponse;
@@ -111,13 +114,13 @@ public class AccountLoginHandler {
 		response.setAccount(accountInfo);
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(
 				accountId);
+		TableAccountLoginRecord record = TableAccountLoginRecordDAO.getInstance().get(accountId);
 		if (userAccount != null) {
-			account.setTableAccount(userAccount);
-			UserZoneInfo userZoneInfo = userAccount.getLastLogin(false);
+			account.setAccountId(accountId);
 			ZoneInfoCache zoneInfo = null;
-			if (userZoneInfo != null) {
+			if (record != null) {
 				zoneInfo = PlatformFactory.getPlatformService().getZoneInfo(
-						userZoneInfo.getZoneId());
+						record.getZoneId());
 			}
 			if (zoneInfo == null) {
 				zoneInfo = PlatformFactory.getPlatformService()
@@ -144,21 +147,32 @@ public class AccountLoginHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		UserZoneInfo lastLogin = userAccount.getLastLogin(false);
 		// 检查顶号
-		if (lastLogin != null && lastLogin.getUserId() != null) {
-			processKickOnlinePlayer(lastLogin.getUserId(), lastLogin, accountId);
+		if (record != null && record.getUserId() != null) {
+			AccountLoginRecord cacheRecord = userAccount.getRecord();
+			if(cacheRecord == null){
+				cacheRecord = new AccountLoginRecord();
+				userAccount.setRecord(cacheRecord);
+				cacheRecord.setAccountId(accountId);
+			}
+			processKickOnlinePlayer(record.getUserId(), record, accountId);
+			if (cacheRecord.getLoginTime() != record.getLoginTime()) {
+				cacheRecord.setUserId(record.getUserId());
+				cacheRecord.setZoneId(record.getZoneId());
+				cacheRecord.setLoginTime(record.getLoginTime());
 
-			UserInfoRequest.Builder gsRequest = UserInfoRequest.newBuilder();
-			gsRequest.setPlatformGSMsgType(ePlatformGSMsgType.USER_INFO);
-			gsRequest.setUserId(lastLogin.getUserId());
-			gsRequest.setAccountId(accountId);
-			ZoneInfoCache zone = PlatformFactory.getPlatformService()
-					.getZoneInfo(lastLogin.getZoneId());
-			PlatformFactory.clientManager.submitReqeust(zone.getServerIp(),
-					Integer.parseInt(zone.getPort()), gsRequest.build()
-							.toByteString(), Command.MSG_PLATFORMGS, accountId);
+				UserInfoRequest.Builder gsRequest = UserInfoRequest
+						.newBuilder();
+				gsRequest.setPlatformGSMsgType(ePlatformGSMsgType.USER_INFO);
+				gsRequest.setUserId(record.getUserId());
+				gsRequest.setAccountId(accountId);
+				ZoneInfoCache zone = PlatformFactory.getPlatformService()
+						.getZoneInfo(record.getZoneId());
+				PlatformFactory.clientManager.submitReqeust(zone.getServerIp(),
+						Integer.parseInt(zone.getPort()), gsRequest.build()
+								.toByteString(), Command.MSG_PLATFORMGS,
+						accountId);
+			}
 
 		}
 
@@ -177,7 +191,6 @@ public class AccountLoginHandler {
 		} else if (StringUtils.isNotBlank(accountId) && StringUtils.isNotBlank(password)) {
 			TableAccount newAccount = AccoutBM.getInstance().createAccount(accountId, password, openAccountId);
 			if (newAccount != null) {
-				account.setTableAccount(newAccount);
 				response.setResultType(eLoginResultType.SUCCESS);
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
 				RegLog regLog = RegLog.fromJson(phoneInfo);
@@ -215,8 +228,8 @@ public class AccountLoginHandler {
 		String password;
 		TableAccount newAccount = AccoutBM.getInstance().createRandomAccount(openAccountId);
 		if (newAccount != null) {
-			account.setTableAccount(newAccount);
 			accountId = newAccount.getAccount();
+			account.setAccountId(accountId);
 			password = newAccount.getPassword();
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
 			RegLog regLog = RegLog.fromJson(phoneInfo);
@@ -228,6 +241,7 @@ public class AccountLoginHandler {
 			newAccountInfo.setPassword(password);
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setAccount(newAccountInfo.build());
+			account.setAccountId(accountId);
 			ZoneInfoCache lastZoneCfg = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
 			if(lastZoneCfg != null){
 				response.setLastZone(getZoneInfo(lastZoneCfg, account.isWhiteList()));
@@ -387,12 +401,12 @@ public class AccountLoginHandler {
 		response.setResultType(eLoginResultType.SUCCESS);
 	}
 	
-	private void processKickOnlinePlayer(String userId, UserZoneInfo lastLogin, String accountId){
+	private void processKickOnlinePlayer(String userId, TableAccountLoginRecord record, String accountId){
 		UserInfoRequest.Builder gsRequest = UserInfoRequest.newBuilder();
 		gsRequest.setPlatformGSMsgType(ePlatformGSMsgType.USER_STATUS);
 		gsRequest.setUserId(userId);
 		ZoneInfoCache zone = PlatformFactory.getPlatformService().getZoneInfo(
-				lastLogin.getZoneId());
+				record.getZoneId());
 		if (zone.getIsOpen(zone.getStatus())) {
 			PlatformFactory.clientManager.submitReqeust(zone.getServerIp(),
 					Integer.parseInt(zone.getPort()), gsRequest.build()

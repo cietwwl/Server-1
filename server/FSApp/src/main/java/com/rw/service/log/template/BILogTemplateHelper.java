@@ -88,6 +88,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("关卡code", "$copyId$");		
 		addTemplateToken("充值币余额", "$zoneGiftGoldRemain$");
 		
+		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
 

@@ -17,7 +17,7 @@ public class StoreCollector implements RedPointCollector {
 		CfgOpenLevelLimit taskOpenLevel = (CfgOpenLevelLimit) CfgOpenLevelLimitDAO.getInstance().getCfgById(String.valueOf(eOpenLevelType.SHOP.getOrder()));
 		if (taskOpenLevel == null || player.getLevel() >= taskOpenLevel.getMinLevel()) {
 			if (player.getTempAttribute().isRefreshStore()) {
-				map.put(RedPointType.HOME_WINDOW_STOR, Collections.EMPTY_LIST);
+				map.put(RedPointType.HOME_WINDOW_STORE, Collections.EMPTY_LIST);
 			}
 		}
 

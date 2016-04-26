@@ -16,10 +16,12 @@ import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO;
+import com.rwbase.dao.group.pojo.db.GroupLog;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwproto.GroupCommonProto.GroupFunction;
+import com.rwproto.GroupCommonProto.GroupLogType;
 import com.rwproto.GroupCommonProto.RequestType;
 import com.rwproto.GroupSkillServiceProto.GroupSkillCommonReqMsg;
 import com.rwproto.GroupSkillServiceProto.GroupSkillCommonRspMsg;
@@ -114,6 +116,14 @@ public class GroupSkillHandler {
 		if (!StringUtils.isEmpty(resultTip)) {
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, resultTip);
 		}
+
+		// 研发技能记录日志
+		GroupLog log = new GroupLog();
+		log.setLogType(GroupLogType.GROUP_SKILL_REASERCH_VALUE);
+		log.setTime(System.currentTimeMillis());
+		log.setSkillName(skillCfg.getSkillName());
+		log.setSkillLevel(skillLevel);
+		group.getGroupLogMgr().addLog(player, log);
 
 		commonRsp.setIsSuccess(true);
 		commonRsp.setTipMsg("研发技能成功");

@@ -94,3 +94,6 @@ Key,Remarks,id,title,deleteType,delayTime,deadlineTime,sender,subjectIcon,checkI
 10049,,10049,竞技场排行奖励,1,604800,,小狐仙,btn_YouJian_n,btn_YouJian_h,恭喜您成为本职业竞技第三名，这是您的奖励,"1~1000000,2~100,804003~4"
 10050,,10050,竞技场排行奖励,1,604800,,小狐仙,btn_YouJian_n,btn_YouJian_h,恭喜您成为本职业竞技前六名，这是您的奖励,"1~500000,2~80,804003~3"
 10051,,10051,竞技场排行奖励,1,604800,,小狐仙,btn_YouJian_n,btn_YouJian_h,恭喜您成为本职业竞技前十名，这是您的奖励,"1~300000,2~50,804003~2"
+10052,,10052,加入帮派,2,604800,,帮派,btn_YouJian_n,btn_YouJian_h,恭喜您成为了[ff0000]%s[-]帮派的一份子,
+10053,,10053,被踢出帮派,2,604800,,帮派,btn_YouJian_n,btn_YouJian_h,很遗憾您被移出了[ff0000]%s[-]帮派,
+10054,,10054,帮派解散,2,604800,,帮派,btn_YouJian_n,btn_YouJian_h,您的帮派[ff0000]%s[-]已于[ff0000]%s[-]成功解散。,

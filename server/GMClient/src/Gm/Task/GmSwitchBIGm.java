@@ -16,7 +16,7 @@ public class GmSwitchBIGm extends AGMHandler{
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("value", 0);
+		args.put("value", 1);
 		
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

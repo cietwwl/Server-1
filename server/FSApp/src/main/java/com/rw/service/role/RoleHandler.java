@@ -79,8 +79,8 @@ public class RoleHandler {
 				return result;
 			}
 			player.getUserGameDataMgr().addGold(-cost);
-
-			if (career != player.getCareer()) {
+			boolean changeCareer = career != player.getCareer();
+			if (changeCareer) {
 				player.SetCareer(career);
 				player.getMainRoleHero().getEquipMgr().changeEquip();
 			}
@@ -101,7 +101,9 @@ public class RoleHandler {
 			player.getUserGameDataMgr().setCarrerChangeTime();
 			
 			result = response.setResult(resultType).build().toByteString();
-			ArenaBM.getInstance().deleteArenaData(player,oldCareer);
+			if(changeCareer){
+				ArenaBM.getInstance().deleteArenaData(player,oldCareer);
+			}
 			
 		}
 		return result;

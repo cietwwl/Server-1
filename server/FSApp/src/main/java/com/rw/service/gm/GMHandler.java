@@ -13,15 +13,21 @@ import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.guild.GuildGTSMgr;
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.countType.service.ActivityCountTypeHandler;
+import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
+import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
+import com.rw.service.guide.datamodel.GiveItemCfgDAO;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
@@ -86,6 +92,7 @@ public class GMHandler {
 		funcCallBackMap.put("sendtestemail", "sendTestEmail");// --test
 		funcCallBackMap.put("addtower", "addTowerNum");// --test
 		funcCallBackMap.put("setwjzh", "setWjzh");//
+		funcCallBackMap.put("resetwjzh", "resetWjzh");//
 		funcCallBackMap.put("probstore", "probstore");
 		funcCallBackMap.put("sendpmd", "sendPmd");//
 		funcCallBackMap.put("addarenacoin", "addArenaCoin");
@@ -101,8 +108,13 @@ public class GMHandler {
 		// 引导
 		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
+		funcCallBackMap.put("reloadnewguidecfg", "ReloadNewGuideCfg");
+		
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
+		
+		//获取通用活动道具，调试用
+		funcCallBackMap.put("getgift", "getgift");
 	}
 
 	public boolean isActive() {
@@ -115,6 +127,18 @@ public class GMHandler {
 
 	/** GM命令 */
 
+	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
+		String clname = GiveItemCfgDAO.class.getName();
+		try {
+			CfgCsvReloader.reloadByClassName(clname);
+			GameLog.info("GM", "ReloadNewGuideCfg", "reloadByClassName:"+clname+" success",null);
+			return true;
+		} catch (Exception e) {
+			GameLog.error("GM", "reloadByClassName:(GiveItemCfgDAO):"+clname,"reload failed" ,e);
+			return false;
+		}
+	}
+	
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
 		System.out.println("ReadNewGuideConfig command");
 		DebugNewGuideData debugSupport = DebugNewGuideData.getInstance();
@@ -232,6 +256,22 @@ public class GMHandler {
 		}
 		return false;
 	}
+	
+	public boolean getgift(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			ActivityCountTypeHandler.getInstance().takeGift(player, null);
+			
+			
+			return true;
+		}
+		return false;
+	}
+	
 
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -293,9 +333,9 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
+		String itemId = arrCommandContents[0];
 		if (player != null) {
-			player.AddRecharge(addNum);
+			ChargeMgr.getInstance().charge(player, itemId);
 			return true;
 		}
 		return false;
@@ -363,6 +403,12 @@ public class GMHandler {
 
 	public boolean setWjzh(String[] arrCommandContents, Player player) {
 		player.unendingWarMgr.getTable().setNum(Integer.parseInt(arrCommandContents[0]) - 1);
+		player.unendingWarMgr.save();
+		return true;
+	}
+	
+	public boolean resetWjzh(String[] arrCommandContents, Player player){
+		player.unendingWarMgr.getTable().setLastChallengeTime(0);
 		player.unendingWarMgr.save();
 		return true;
 	}

@@ -1,6 +1,7 @@
 package com.rw.fsutil.cacheDao.mapItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -35,8 +36,6 @@ public class MapItemStore<T extends IMapItem> {
 			itemMap.put(tmpItem.getId(), tmpItem);
 		}
 	}
-	
-	
 
 	public MapItemStore(String searchFieldP, String searchIdP, Class<T> clazzP) {
 		// this(searchFieldP, searchIdP, clazzP, null);
@@ -182,4 +181,12 @@ public class MapItemStore<T extends IMapItem> {
 		return itemMap.size();
 	}
 
+	/**
+	 * 获取一个只读的Id列表
+	 * 
+	 * @return
+	 */
+	public List<String> getReadOnlyKeyList() {
+		return Collections.unmodifiableList(new ArrayList<String>(itemMap.keySet()));
+	}
 }
