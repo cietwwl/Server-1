@@ -170,7 +170,7 @@ public class ChargeMgr {
 		PrivilegeCfg cfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip() + 1);
 		while (cfg.getRechargeCount() <= totalChargeGold) {
 			player.AddVip(1);
-			totalChargeGold -= cfg.getRechargeCount();
+//			totalChargeGold -= cfg.getRechargeCount();
 			cfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip() + 1);
 		}
 	}
