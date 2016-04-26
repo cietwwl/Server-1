@@ -14,5 +14,5 @@ message ArenaPrivilege {
 	required bool isAllowResetArena = 3; //开启重置竞技场CD
 	required bool isAllowResetPeak = 4; //开启重置巅峰竞技场CD
 	required int32 arenaRewardAdd = 5; //竞技场结算奖励增加x（万分比）
-	required int32 peakRewardAdd = 6; //竞技场挑战cd减少x秒
+	required int32 peakRewardDec = 6; //竞技场挑战cd减少x秒
 }
