@@ -1,6 +1,8 @@
 package com.rwbase.dao.vip;
 
 import com.playerdata.Player;
+import com.playerdata.charge.cfg.VipGiftCfgDao;
+import com.playerdata.charge.dao.ChargeInfoDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.vip.pojo.TableVip;
 import com.rwproto.DataSynProtos.eSynOpType;

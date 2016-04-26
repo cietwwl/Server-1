@@ -11,7 +11,8 @@ public class VipGiftCfg {
 	//对应vip可购买的商品id
 	private String gift;
 	
-	
+	//实际购买价格
+	private String curCost;
 
 	public String getVipLv() {
 		return vipLv;
@@ -29,8 +30,7 @@ public class VipGiftCfg {
 		this.gift = gift;
 	}
 
-	//实际购买价格
-	private String curCost;
+	
 	
 
 

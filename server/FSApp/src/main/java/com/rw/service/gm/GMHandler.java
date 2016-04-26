@@ -21,6 +21,7 @@ import com.playerdata.TowerMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.service.ActivityCountTypeHandler;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.charge.service.ChargeHandler;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
@@ -113,7 +114,7 @@ public class GMHandler {
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
 		
-		//获取通用活动道具，调试用
+		//获取vip道具，调试用
 		funcCallBackMap.put("getgift", "getgift");
 	}
 
@@ -262,9 +263,9 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
+		int getGiftId = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
-			ActivityCountTypeHandler.getInstance().takeGift(player, null);
+			ChargeMgr.getInstance().buyAndTakeVipGift(player, getGiftId+"");
 			
 			
 			return true;

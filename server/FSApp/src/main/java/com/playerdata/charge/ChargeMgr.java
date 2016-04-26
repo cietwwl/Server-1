@@ -37,32 +37,32 @@ public class ChargeMgr {
 		return ChargeInfoHolder.getInstance().get(userId);
 	}
 	
-	public ChargeResult buyAndTakeVipGift(Player player, String itemId){
-		
-		ChargeResult result = ChargeResult.newResult(false);
-		
+	public ChargeResult buyAndTakeVipGift(Player player, String itemId){		
+		ChargeResult result = ChargeResult.newResult(false);		
 		VipGiftCfg target = VipGiftCfgDao.getInstance().getCfgById(itemId);
-//		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
+		int viplevel = Integer.parseInt(itemId);
 		
-		if(target!=null){
+		if(target!=null && !player.getVipMgr().isVipGiftTaken(viplevel)){
+			player.getVipMgr().setVipGiftTaken(viplevel);
 			boolean success = buyVipGift(player, target,result);
 			if(success){
 				success = takeVipGift(player,target);
 				result.setTips("购买成功");
-			}
-			
-			result.setSuccess(success);
+				result.setSuccess(success);	
+			}else{
+				result.setTips("等级不足或货币不足");
+				result.setSuccess(false);	
+				player.getVipMgr().failToBuyVipGift(viplevel);
+			}			
 		}else{
-			result.setTips("购买类型错误.");
+			result.setSuccess(false);
+			result.setTips("购买失败！");
 		}
 		return result;
 	}
 	
 	private boolean takeVipGift(Player player,VipGiftCfg target) {
-		ComGiftMgr.getInstance().addGiftById(player,target.getGift());	
-		
-		
-		
+		ComGiftMgr.getInstance().addGiftById(player,target.getGift());			
 		return true;
 	}
 
@@ -71,11 +71,9 @@ public class ChargeMgr {
 			result.setTips("Vip等级低于购买礼包等级");
 			GameLog.error("chargeMgr.Vip等级低于购买礼包等级");
 			return false;
-		}
-
+		}	
 		
-		
-		if(player.getUserGameDataMgr().getCoin() < Integer.parseInt(target.getCurCost())){
+		if(player.getUserGameDataMgr().getGold() < Integer.parseInt(target.getCurCost())){
 			result.setTips("货币不够");
 			GameLog.error("chargeMgr.货币不够");
 			return false;
@@ -145,7 +143,7 @@ public class ChargeMgr {
 		}
 	}
 
-	public ChargeResult gerReward(Player player) {
+	public ChargeResult gerRewardForFirstPay(Player player) {
 		ChargeResult result = ChargeResult.newResult(false);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		if(chargeInfo == null){
