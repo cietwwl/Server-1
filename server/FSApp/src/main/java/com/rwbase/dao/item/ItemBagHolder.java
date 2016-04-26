@@ -26,11 +26,11 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  * @date 2015年10月17日 下午3:35:43
  * @Description 
  */
-public class ItemBagHolder implements RecordSynchronization{
-	//private MapItemStore<ItemData> itemDataStore;// 背包中的数据
+public class ItemBagHolder implements RecordSynchronization {
+	// private MapItemStore<ItemData> itemDataStore;// 背包中的数据
 	// private Map<String, ItemData> itemDataMap = new HashMap<String,
 	// ItemData>();
-	
+
 	private final String userId;
 
 	private static final eSynType type = eSynType.USER_ITEM_BAG;// 更新背包数据
@@ -55,8 +55,8 @@ public class ItemBagHolder implements RecordSynchronization{
 			ClientDataSynMgr.synDataList(player, itemDataList, type, eSynOpType.UPDATE_LIST);
 		}
 	}
-	
-	private MapItemStore<ItemData> getItemStore(){
+
+	private MapItemStore<ItemData> getItemStore() {
 		MapItemStoreCache<ItemData> cache = MapItemStoreFactory.getItemCache();
 		return cache.getMapItemStore(userId, ItemData.class);
 	}
@@ -91,6 +91,7 @@ public class ItemBagHolder implements RecordSynchronization{
 
 	/**
 	 * 返回是否包含某种模型ID的道具
+	 * 
 	 * @param modelId
 	 * @return
 	 */
@@ -128,12 +129,9 @@ public class ItemBagHolder implements RecordSynchronization{
 	/**
 	 * 更新背包的操作
 	 * 
-	 * @param player
-	 *            角色
-	 * @param newItemList
-	 *            新创建物品的列表
-	 * @param updateItemList
-	 *            更新物品的列表
+	 * @param player 角色
+	 * @param newItemList 新创建物品的列表
+	 * @param updateItemList 更新物品的列表
 	 */
 	public void updateItemBag(Player player, List<INewItem> newItemList, List<IUpdateItem> updateItemList) {
 		List<ItemData> updateItems = new ArrayList<ItemData>();
@@ -197,6 +195,7 @@ public class ItemBagHolder implements RecordSynchronization{
 		if (!updateItems.isEmpty()) {
 			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionLevel);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionType);
+			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionMagic);
 			ClientDataSynMgr.synDataList(player, updateItems, type, eSynOpType.UPDATE_LIST);
 		}
 	}
@@ -264,6 +263,6 @@ public class ItemBagHolder implements RecordSynchronization{
 	@Override
 	public void synAllData(Player player, int version) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

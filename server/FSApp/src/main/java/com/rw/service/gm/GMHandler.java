@@ -19,6 +19,9 @@ import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.countType.service.ActivityCountTypeHandler;
+import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
@@ -94,6 +97,7 @@ public class GMHandler {
 		funcCallBackMap.put("sendtestemail", "sendTestEmail");// --test
 		funcCallBackMap.put("addtower", "addTowerNum");// --test
 		funcCallBackMap.put("setwjzh", "setWjzh");//
+		funcCallBackMap.put("resetwjzh", "resetWjzh");//
 		funcCallBackMap.put("probstore", "probstore");
 		funcCallBackMap.put("sendpmd", "sendPmd");//
 		funcCallBackMap.put("addarenacoin", "addArenaCoin");
@@ -118,6 +122,9 @@ public class GMHandler {
 		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
 		funcCallBackMap.put("setfashion", "setFashion");
 		funcCallBackMap.put("reloadfashionconfig", "reloadFashionConfig");
+
+		//获取通用活动道具，调试用
+		funcCallBackMap.put("getgift", "getgift");
 	}
 
 	public boolean isActive() {
@@ -293,6 +300,19 @@ public class GMHandler {
 		}
 		return false;
 	}
+	
+	public boolean getgift(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			ActivityCountTypeHandler.getInstance().takeGift(player, null);
+			return true;
+		}
+		return false;
+	}
+	
 
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -354,9 +374,9 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
+		String itemId = arrCommandContents[0];
 		if (player != null) {
-			player.AddRecharge(addNum);
+			ChargeMgr.getInstance().charge(player, itemId);
 			return true;
 		}
 		return false;
@@ -424,6 +444,12 @@ public class GMHandler {
 
 	public boolean setWjzh(String[] arrCommandContents, Player player) {
 		player.unendingWarMgr.getTable().setNum(Integer.parseInt(arrCommandContents[0]) - 1);
+		player.unendingWarMgr.save();
+		return true;
+	}
+	
+	public boolean resetWjzh(String[] arrCommandContents, Player player){
+		player.unendingWarMgr.getTable().setLastChallengeTime(0);
 		player.unendingWarMgr.save();
 		return true;
 	}

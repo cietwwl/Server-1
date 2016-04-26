@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -38,6 +40,8 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	private List<String> applyGroupIdList;// 申请的列表
 	@NonSave
 	private String groupName;// 帮派名字
+	@NonSave
+	private int contribution;// 个人贡献
 
 	public UserGroupAttributeData() {
 		studySkill = new HashMap<Integer, GroupSkillItem>();
@@ -129,6 +133,7 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public String getGroupName() {
 		return groupName;
 	}
@@ -202,6 +207,15 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	 */
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	/**
+	 * 设置个人的贡献值
+	 * 
+	 * @param contribution
+	 */
+	public void setContribution(int contribution) {
+		this.contribution = contribution;
 	}
 
 	// ///////////////////////////////////////////////逻辑处理区域

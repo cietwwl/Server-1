@@ -2,6 +2,8 @@ package com.bm.arena;
 
 public class RobotCfg {
 
+	/** 竞技场机器人类型为1，万仙阵机器人为2 */
+	private int robotType;// 机器人的类型
 	private String ranking; // 排名
 	private String level; // 主角等级
 	private String quality; // 主角品质
@@ -291,4 +293,11 @@ public class RobotCfg {
 		this.heroFifthSkillLevel = heroFifthSkillLevel;
 	}
 
+	public int getRobotType() {
+		return robotType;
+	}
+
+	public void setRobotType(int robotType) {
+		this.robotType = robotType;
+	}
 }

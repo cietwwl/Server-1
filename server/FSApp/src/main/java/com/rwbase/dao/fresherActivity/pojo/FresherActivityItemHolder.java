@@ -13,6 +13,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.manager.GameManager;
+import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rwbase.common.MapItemStoreFactory;
@@ -97,8 +98,8 @@ public class FresherActivityItemHolder {
 		List<FresherActivityCfg> allCfg = FresherActivityCfgDao.getInstance().getAllCfg();
 		MapItemStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe(ownerId);
 		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
-		boolean blnUpdate =false;
 		User user = UserDataDao.getInstance().getByUserId(ownerId);
+		boolean blnUpdate =false;
 		for (FresherActivityCfg fresherActivityCfg : allCfg) {
 			int cfgId = fresherActivityCfg.getCfgId();
 			int activityType = fresherActivityCfg.getActivityType();
@@ -173,7 +174,12 @@ public class FresherActivityItemHolder {
 	 * @param fresherActivityCfg
 	 */
 	private void refreshActivityTime(FresherActivityItem fresherActivityItem, FresherActivityCfg fresherActivityCfg, User user) {
-		long openTime = user.getCreateTime();
+		long openTime = 0;
+		if(fresherActivityCfg.getStartTimeType() == FresherActivityChecker.START_TYPE_OPENTIME){
+			openTime = GameManager.getOpenTime();
+		}else{
+			openTime = user.getCreateTime();
+		}
 		fresherActivityItem.setStartTime(fresherActivityCfg.getStartTime() * DAY_TIME + openTime);
 		if (fresherActivityCfg.getEndTime() == -1) {
 			fresherActivityItem.setEndTime(-1);

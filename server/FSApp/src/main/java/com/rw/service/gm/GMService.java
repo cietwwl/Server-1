@@ -14,9 +14,9 @@ public class GMService implements FsService{
 	
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
-//		if(!GMHandler.getInstance().isActive()){
-//			return result;
-//		}
+		if(!GMHandler.getInstance().isActive()){
+			return result;
+		}
 		// TODO Auto-generated method stub
 		try {
 			MsgGMRequest msgGMRequest = MsgGMRequest.parseFrom(request.getBody().getSerializedContent());

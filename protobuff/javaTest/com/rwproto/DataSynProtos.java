@@ -49,6 +49,14 @@ public final class DataSynProtos {
      * </pre>
      */
     REMOVE_SINGLE(3, 4),
+    /**
+     * <code>UPDATE_FIELD = 5;</code>
+     *
+     * <pre>
+     *只更新单条记录的某些字段
+     * </pre>
+     */
+    UPDATE_FIELD(4, 5),
     ;
 
     /**
@@ -83,6 +91,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int REMOVE_SINGLE_VALUE = 4;
+    /**
+     * <code>UPDATE_FIELD = 5;</code>
+     *
+     * <pre>
+     *只更新单条记录的某些字段
+     * </pre>
+     */
+    public static final int UPDATE_FIELD_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -93,6 +109,7 @@ public final class DataSynProtos {
         case 2: return UPDATE_SINGLE;
         case 3: return ADD_SINGLE;
         case 4: return REMOVE_SINGLE;
+        case 5: return UPDATE_FIELD;
         default: return null;
       }
     }
@@ -398,45 +415,13 @@ public final class DataSynProtos {
      */
     VERSION_COPY(30, 31),
     /**
-     * <code>UserGroupAttributeData = 35;</code>
-     *
-     * <pre>
-     *用户个人的帮派信息
-     * </pre>
-     */
-    UserGroupAttributeData(31, 35),
-    /**
-     * <code>GroupCopyLevel = 36;</code>
-     *
-     * <pre>
-     *帮派关卡记录
-     * </pre>
-     */
-    GroupCopyLevel(32, 36),
-    /**
-     * <code>GroupCopyMap = 37;</code>
-     *
-     * <pre>
-     *帮派地图记录
-     * </pre>
-     */
-    GroupCopyMap(33, 37),
-    /**
-     * <code>GroupCopyReward = 38;</code>
-     *
-     * <pre>
-     *帮派奖励分配记录
-     * </pre>
-     */
-    GroupCopyReward(34, 38),
-    /**
      * <code>GroupBaseData = 32;</code>
      *
      * <pre>
      *帮派基础信息
      * </pre>
      */
-    GroupBaseData(35, 32),
+    GroupBaseData(31, 32),
     /**
      * <code>GroupMemberData = 33;</code>
      *
@@ -444,7 +429,7 @@ public final class DataSynProtos {
      *帮派正式成员信息
      * </pre>
      */
-    GroupMemberData(36, 33),
+    GroupMemberData(32, 33),
     /**
      * <code>GroupLog = 34;</code>
      *
@@ -452,7 +437,39 @@ public final class DataSynProtos {
      *帮派log
      * </pre>
      */
-    GroupLog(37, 34),
+    GroupLog(33, 34),
+    /**
+     * <code>UserGroupAttributeData = 35;</code>
+     *
+     * <pre>
+     *用户个人的帮派信息
+     * </pre>
+     */
+    UserGroupAttributeData(34, 35),
+    /**
+     * <code>GroupCopyLevel = 36;</code>
+     *
+     * <pre>
+     *帮派关卡记录
+     * </pre>
+     */
+    GroupCopyLevel(35, 36),
+    /**
+     * <code>GroupCopyMap = 37;</code>
+     *
+     * <pre>
+     *帮派地图记录
+     * </pre>
+     */
+    GroupCopyMap(36, 37),
+    /**
+     * <code>GroupCopyReward = 38;</code>
+     *
+     * <pre>
+     *帮派奖励分配记录
+     * </pre>
+     */
+    GroupCopyReward(37, 38),
     /**
      * <code>GroupApplyMemberData = 39;</code>
      *
@@ -477,6 +494,30 @@ public final class DataSynProtos {
      * </pre>
      */
     GroupStudySkill(40, 41),
+    /**
+     * <code>Charge = 42;</code>
+     *
+     * <pre>
+     *充值
+     * </pre>
+     */
+    Charge(41, 42),
+    /**
+     * <code>POWER_INFO = 43;</code>
+     *
+     * <pre>
+     *体力信息
+     * </pre>
+     */
+    POWER_INFO(42, 43),
+    /**
+     * <code>ActivityCountType = 60;</code>
+     *
+     * <pre>
+     *活动从60-69
+     * </pre>
+     */
+    ActivityCountType(43, 60),
     ;
 
     /**
@@ -728,6 +769,30 @@ public final class DataSynProtos {
      */
     public static final int VERSION_COPY_VALUE = 31;
     /**
+     * <code>GroupBaseData = 32;</code>
+     *
+     * <pre>
+     *帮派基础信息
+     * </pre>
+     */
+    public static final int GroupBaseData_VALUE = 32;
+    /**
+     * <code>GroupMemberData = 33;</code>
+     *
+     * <pre>
+     *帮派正式成员信息
+     * </pre>
+     */
+    public static final int GroupMemberData_VALUE = 33;
+    /**
+     * <code>GroupLog = 34;</code>
+     *
+     * <pre>
+     *帮派log
+     * </pre>
+     */
+    public static final int GroupLog_VALUE = 34;
+    /**
      * <code>UserGroupAttributeData = 35;</code>
      *
      * <pre>
@@ -760,30 +825,6 @@ public final class DataSynProtos {
      */
     public static final int GroupCopyReward_VALUE = 38;
     /**
-     * <code>GroupBaseData = 32;</code>
-     *
-     * <pre>
-     *帮派基础信息
-     * </pre>
-     */
-    public static final int GroupBaseData_VALUE = 32;
-    /**
-     * <code>GroupMemberData = 33;</code>
-     *
-     * <pre>
-     *帮派正式成员信息
-     * </pre>
-     */
-    public static final int GroupMemberData_VALUE = 33;
-    /**
-     * <code>GroupLog = 34;</code>
-     *
-     * <pre>
-     *帮派log
-     * </pre>
-     */
-    public static final int GroupLog_VALUE = 34;
-    /**
      * <code>GroupApplyMemberData = 39;</code>
      *
      * <pre>
@@ -807,6 +848,30 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int GroupStudySkill_VALUE = 41;
+    /**
+     * <code>Charge = 42;</code>
+     *
+     * <pre>
+     *充值
+     * </pre>
+     */
+    public static final int Charge_VALUE = 42;
+    /**
+     * <code>POWER_INFO = 43;</code>
+     *
+     * <pre>
+     *体力信息
+     * </pre>
+     */
+    public static final int POWER_INFO_VALUE = 43;
+    /**
+     * <code>ActivityCountType = 60;</code>
+     *
+     * <pre>
+     *活动从60-69
+     * </pre>
+     */
+    public static final int ActivityCountType_VALUE = 60;
 
 
     public final int getNumber() { return value; }
@@ -844,16 +909,19 @@ public final class DataSynProtos {
         case 29: return FRESHER_ATIVITY_DATA;
         case 30: return ASSISTANT;
         case 31: return VERSION_COPY;
+        case 32: return GroupBaseData;
+        case 33: return GroupMemberData;
+        case 34: return GroupLog;
         case 35: return UserGroupAttributeData;
         case 36: return GroupCopyLevel;
         case 37: return GroupCopyMap;
         case 38: return GroupCopyReward;
-        case 32: return GroupBaseData;
-        case 33: return GroupMemberData;
-        case 34: return GroupLog;
         case 39: return GroupApplyMemberData;
         case 40: return GroupResearchSkill;
         case 41: return GroupStudySkill;
+        case 42: return Charge;
+        case 43: return POWER_INFO;
+        case 60: return ActivityCountType;
         default: return null;
       }
     }
@@ -4736,30 +4804,32 @@ public final class DataSynProtos {
       "Type\030\001 \002(\0162\021.DataSyn.eSynType\022&\n\tsynOpTy" +
       "pe\030\002 \001(\0162\023.DataSyn.eSynOpType\022!\n\007SynData" +
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
-      "\005*S\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
+      "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004*\260\006\n\010eSynType\022\025\n\021COPY_LEVEL_RECORD" +
-      "\020\001\022\023\n\017COPY_MAP_RECORD\020\002\022\023\n\017SECRETAREA_IN" +
-      "FO\020\003\022\031\n\025SECRETAREA_DEF_RECORD\020\004\022\030\n\024SECRE" +
-      "TAREA_USER_INFO\020\005\022\032\n\026SECRETAREA_BATTLE_I" +
-      "NFO\020\006\022\032\n\026SECRETAREA_USER_RECORD\020\007\022\020\n\014FAS" +
-      "HION_ITEM\020\010\022\016\n\nEQUIP_ITEM\020\t\022\016\n\nSKILL_ITE" +
-      "M\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n\016ROLE_ATTR_ITEM\020\014\022" +
-      "\022\n\016ROLE_BASE_ITEM\020\r\022\016\n\nUSER_HEROS\020\016\022\r\n\tU",
-      "SER_DATA\020\017\022\022\n\016USER_GAME_DATA\020\020\022\016\n\nUSER_M" +
-      "AGIC\020\021\022\021\n\rUSER_ITEM_BAG\020\022\022\021\n\rDailyActivi" +
-      "ty\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve_UnendingWar\020\025\022\r\n\t" +
-      "Pve_Trial\020\026\022\016\n\nStore_Data\020\027\022\r\n\tTASK_DATA" +
-      "\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SETTING_DATA\020\032\022\023\n\017GU" +
-      "ILD_USER_INFO\020\033\022\021\n\rSEVEN_DAY_GIF\020\034\022\030\n\024FR" +
-      "ESHER_ATIVITY_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014V" +
-      "ERSION_COPY\020\037\022\032\n\026UserGroupAttributeData\020" +
-      "#\022\022\n\016GroupCopyLevel\020$\022\020\n\014GroupCopyMap\020%\022" +
-      "\023\n\017GroupCopyReward\020&\022\021\n\rGroupBaseData\020 \022",
-      "\023\n\017GroupMemberData\020!\022\014\n\010GroupLog\020\"\022\030\n\024Gr" +
-      "oupApplyMemberData\020\'\022\026\n\022GroupResearchSki" +
-      "ll\020(\022\023\n\017GroupStudySkill\020)B\034\n\013com.rwproto" +
-      "B\rDataSynProtos"
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\343\006\n\010eSynType\022\025\n" +
+      "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
+      "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
+      "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
+      "ECRETAREA_BATTLE_INFO\020\006\022\032\n\026SECRETAREA_US" +
+      "ER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022\016\n\nEQUIP_I" +
+      "TEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n" +
+      "\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE_ITEM\020\r\022\016\n",
+      "\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n\016USER_GAM" +
+      "E_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSER_ITEM_BA" +
+      "G\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve" +
+      "_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022\016\n\nStore_D" +
+      "ata\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SE" +
+      "TTING_DATA\020\032\022\023\n\017GUILD_USER_INFO\020\033\022\021\n\rSEV" +
+      "EN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVITY_DATA\020\035\022\r" +
+      "\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020\037\022\021\n\rGroup" +
+      "BaseData\020 \022\023\n\017GroupMemberData\020!\022\014\n\010Group" +
+      "Log\020\"\022\032\n\026UserGroupAttributeData\020#\022\022\n\016Gro",
+      "upCopyLevel\020$\022\020\n\014GroupCopyMap\020%\022\023\n\017Group" +
+      "CopyReward\020&\022\030\n\024GroupApplyMemberData\020\'\022\026" +
+      "\n\022GroupResearchSkill\020(\022\023\n\017GroupStudySkil" +
+      "l\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\025\n\021Activ" +
+      "ityCountType\020<B\034\n\013com.rwprotoB\rDataSynPr" +
+      "otos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

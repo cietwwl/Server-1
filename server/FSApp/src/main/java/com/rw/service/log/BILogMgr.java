@@ -291,12 +291,15 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.TaskEnd, player, moreInfo);
 	}
-
+	/**试炼类战斗类型不加入打印*/
 	public void logCopyBegin(Player player, Integer copyId, int copyLevel, boolean isFirst, eBILogCopyEntrance entranceType) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
 		} else {
@@ -318,6 +321,10 @@ public class BILogMgr {
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
+		
 		moreInfo.put("fightTime", "" + fightTime);
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
@@ -350,6 +357,7 @@ public class BILogMgr {
 	 * 
 	 * @param player
 	 * @param copyId 扫荡
+	 * 试炼类战斗类型不加入打印，按理没有试炼功能进入此地
 	 */
 	public void logSweep(Player player, Integer copyId, int copyLevel) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
@@ -359,7 +367,9 @@ public class BILogMgr {
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
 		moreInfo.put("operationCode", "case_win");
 		moreInfo.put("fightTime", "0");
-
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}

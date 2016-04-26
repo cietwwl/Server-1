@@ -12,6 +12,7 @@ import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
 import com.bm.rank.level.LevelExtension;
 import com.bm.rank.peakArena.PeakArenaExtension;
 import com.bm.rank.secret.SecretRankExtension;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.RankingConfig;
 import com.rw.fsutil.ranking.RankingExtension;
@@ -25,7 +26,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	FIGHTING_ALL_DAILY(6, 5000, "全日战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
-	TEAM_FIGHTING(7, 100, "实时小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()), 
+	TEAM_FIGHTING(7, 5000, "实时小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()), 
 	TEAM_FIGHTING_DAILY(8, 5000, "全日小队排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	WARRIOR_ARENA(9, 5000,"实时力士竞技场",1,ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	WARRIOR_ARENA_DAILY(10, 5000,"全日力士竞技场",1,ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
@@ -39,7 +40,8 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	GROUP_MEMBER_NUM_RANK(18, 5000, "帮派成员排行榜", 1, GroupMemberNumRankExtension.class),
 	GROUP_CREATE_TIME_RANK(19, 10, "帮派创建排行榜", 1, GroupCreateTimeRankExtension.class),
 	ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),
-	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class)
+	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class),
+	ANGEL_TEAM_INFO_RANK(22, 20000, "万仙阵匹配玩家阵容", 1, AngelArrayTeamInfoExtension.class),
 	;
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz,RankingEntityCopyer copyer) {

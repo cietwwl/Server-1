@@ -14,3 +14,7 @@ key,remarks,attrName,weight
 13,,cutHurt,1.71
 14,,skillLevel,20
 15,,magicLevel,20
+16,,cutCritHurt,3.28
+17,,resist,3.28
+18,,dodge,3.28
+19,,hit,3.28

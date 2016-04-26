@@ -327,7 +327,7 @@ public final class MsgDef {
      * <code>MSG_GROUP = 150;</code>
      *
      * <pre>
-     *公会
+     *公会基础管理
      * </pre>
      */
     MSG_GROUP(45, 150),
@@ -480,13 +480,61 @@ public final class MsgDef {
      */
     MSG_NOTICE(64, 169),
     /**
+     * <code>MSG_GROUP_MEMBER_MANAGER = 170;</code>
+     *
+     * <pre>
+     *公会成员管理
+     * </pre>
+     */
+    MSG_GROUP_MEMBER_MANAGER(65, 170),
+    /**
+     * <code>MSG_GROUP_PERSONAL = 171;</code>
+     *
+     * <pre>
+     *公会个人操作
+     * </pre>
+     */
+    MSG_GROUP_PERSONAL(66, 171),
+    /**
+     * <code>MSG_GROUP_SKILL = 172;</code>
+     *
+     * <pre>
+     *帮派技能
+     * </pre>
+     */
+    MSG_GROUP_SKILL(67, 172),
+    /**
+     * <code>MSG_GIFT_CODE = 173;</code>
+     *
+     * <pre>
+     *兑换码
+     * </pre>
+     */
+    MSG_GIFT_CODE(68, 173),
+    /**
+     * <code>MSG_CHARGE = 174;</code>
+     *
+     * <pre>
+     *充值
+     * </pre>
+     */
+    MSG_CHARGE(69, 174),
+    /**
+     * <code>MSG_ACTIVITY_COUNTTYPE = 175;</code>
+     *
+     * <pre>
+     *活动
+     * </pre>
+     */
+    MSG_ACTIVITY_COUNTTYPE(70, 175),
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(65, 996),
+    MSG_SDK_VERIFY(71, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -494,7 +542,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(66, 997),
+    MSG_NUMERIC_ANALYSIS(72, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -502,7 +550,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(67, 998),
+    MSG_PLATFORMGS(73, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -510,7 +558,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(68, 999),
+    MSG_GAMEPRESS(74, 999),
     ;
 
     /**
@@ -827,7 +875,7 @@ public final class MsgDef {
      * <code>MSG_GROUP = 150;</code>
      *
      * <pre>
-     *公会
+     *公会基础管理
      * </pre>
      */
     public static final int MSG_GROUP_VALUE = 150;
@@ -980,6 +1028,54 @@ public final class MsgDef {
      */
     public static final int MSG_NOTICE_VALUE = 169;
     /**
+     * <code>MSG_GROUP_MEMBER_MANAGER = 170;</code>
+     *
+     * <pre>
+     *公会成员管理
+     * </pre>
+     */
+    public static final int MSG_GROUP_MEMBER_MANAGER_VALUE = 170;
+    /**
+     * <code>MSG_GROUP_PERSONAL = 171;</code>
+     *
+     * <pre>
+     *公会个人操作
+     * </pre>
+     */
+    public static final int MSG_GROUP_PERSONAL_VALUE = 171;
+    /**
+     * <code>MSG_GROUP_SKILL = 172;</code>
+     *
+     * <pre>
+     *帮派技能
+     * </pre>
+     */
+    public static final int MSG_GROUP_SKILL_VALUE = 172;
+    /**
+     * <code>MSG_GIFT_CODE = 173;</code>
+     *
+     * <pre>
+     *兑换码
+     * </pre>
+     */
+    public static final int MSG_GIFT_CODE_VALUE = 173;
+    /**
+     * <code>MSG_CHARGE = 174;</code>
+     *
+     * <pre>
+     *充值
+     * </pre>
+     */
+    public static final int MSG_CHARGE_VALUE = 174;
+    /**
+     * <code>MSG_ACTIVITY_COUNTTYPE = 175;</code>
+     *
+     * <pre>
+     *活动
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_COUNTTYPE_VALUE = 175;
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
@@ -1082,6 +1178,12 @@ public final class MsgDef {
         case 167: return MSG_RECONNECT;
         case 168: return MSG_PVE_INFO;
         case 169: return MSG_NOTICE;
+        case 170: return MSG_GROUP_MEMBER_MANAGER;
+        case 171: return MSG_GROUP_PERSONAL;
+        case 172: return MSG_GROUP_SKILL;
+        case 173: return MSG_GIFT_CODE;
+        case 174: return MSG_CHARGE;
+        case 175: return MSG_ACTIVITY_COUNTTYPE;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
         case 998: return MSG_PLATFORMGS;
@@ -1146,7 +1248,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\256\n\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\276\013\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1177,10 +1279,13 @@ public final class MsgDef {
       "T\020\242\001\022\026\n\021MSG_PLAYER_LOGOUT\020\243\001\022\021\n\014MSG_Dail" +
       "yGif\020\244\001\022\022\n\rMSG_RED_POINT\020\245\001\022\021\n\014MSG_FRSH_",
       "ACT\020\246\001\022\022\n\rMSG_RECONNECT\020\247\001\022\021\n\014MSG_PVE_IN" +
-      "FO\020\250\001\022\017\n\nMSG_NOTICE\020\251\001\022\023\n\016MSG_SDK_VERIFY" +
-      "\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PL" +
-      "ATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.r" +
-      "wprotoB\006MsgDef"
+      "FO\020\250\001\022\017\n\nMSG_NOTICE\020\251\001\022\035\n\030MSG_GROUP_MEMB" +
+      "ER_MANAGER\020\252\001\022\027\n\022MSG_GROUP_PERSONAL\020\253\001\022\024" +
+      "\n\017MSG_GROUP_SKILL\020\254\001\022\022\n\rMSG_GIFT_CODE\020\255\001" +
+      "\022\017\n\nMSG_CHARGE\020\256\001\022\033\n\026MSG_ACTIVITY_COUNTT" +
+      "YPE\020\257\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMER" +
+      "IC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rM" +
+      "SG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

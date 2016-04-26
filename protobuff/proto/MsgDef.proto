@@ -49,6 +49,7 @@ enum Command {
 	MSG_Worship = 147;//膜拜
 	MSG_TOWER = 148;//爬塔
 	MSG_TASK = 149;//任务
+	MSG_GROUP = 150;//公会基础管理
 	MSG_TIME = 151;//系统时间
 	MSG_GUIDE = 152;//引导
 	MSG_SECRET_AREA = 153;//秘境
@@ -68,14 +69,18 @@ enum Command {
 	MSG_RECONNECT = 167;//断线重连
 	MSG_PVE_INFO = 168;//请求pve活动信息
 	MSG_NOTICE = 169;//请求通告
+	MSG_GROUP_MEMBER_MANAGER = 170;//公会成员管理
+	MSG_GROUP_PERSONAL = 171;//公会个人操作
+	MSG_GROUP_SKILL = 172;//帮派技能
+	MSG_GIFT_CODE = 173;//兑换码
+	MSG_CHARGE = 174;//充值
+	MSG_ACTIVITY_COUNTTYPE = 175;//通用活动
+
+
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议
 	MSG_PLATFORMGS = 998;//登陆服游戏服通讯协议
 	MSG_GAMEPRESS = 999;//压测协议
 	
-	MSG_GROUP = 150;//公会基础管理
-	MSG_GROUP_MEMBER_MANAGER = 170;//公会成员管理
-	MSG_GROUP_PERSONAL = 171;//公会个人操作
-	MSG_GROUP_SKILL = 172;//帮派技能
-	MSG_GIFT_CODE = 173;//兑换码
+
 }

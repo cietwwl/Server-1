@@ -17,7 +17,7 @@ public class PlayerFilter {
 				isInRange = isValueInRange(condition, level);
 				break;
 			case CREATE_TIME:
-				long createTime = player.getUserDataMgr().getCreateTime();
+				long createTime = player.getUserDataMgr().getCreateTime() / 1000;
 				isInRange = isValueInRange(condition, createTime);
 				break;
 	

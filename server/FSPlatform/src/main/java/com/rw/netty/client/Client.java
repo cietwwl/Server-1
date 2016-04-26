@@ -85,6 +85,7 @@ public class Client  implements Runnable{
 	
 	public void addProcessMsg(GSMessage gsMsg){
 		synchronized (this) {
+			this.status = ClientManager.CLIENT_STATUS_WORKING;
 			clientMsg.addProcessMsg(gsMsg);
 			this.lastHost = gsMsg.getHost();
 			this.lastPort = gsMsg.getPort();
@@ -166,6 +167,7 @@ public class Client  implements Runnable{
 				
 				synchronized (this) {
 					if (clientMsg.getMsgListSize() <= 0) {
+						this.status = ClientManager.CLIENT_STATUS_FREE;
 						wait();
 					}
 					gsMsg = clientMsg.pollMsg();
@@ -175,8 +177,7 @@ public class Client  implements Runnable{
 						Connect(gsMsg.getHost(), gsMsg.getPort());
 					}
 					String currentAddress = channel.remoteAddress().toString();
-					if (currentAddress.indexOf(gsMsg.getHost()) != -1
-							&& currentAddress.indexOf(gsMsg.getPort()) != -1 && !channel.isOpen()) {
+					if ((currentAddress.indexOf(gsMsg.getHost()) == -1 && currentAddress.indexOf(gsMsg.getPort()) == -1) || !channel.isOpen()) {
 						Connect(gsMsg.getHost(), gsMsg.getPort());
 					}
 					setLastUseTime(System.currentTimeMillis());

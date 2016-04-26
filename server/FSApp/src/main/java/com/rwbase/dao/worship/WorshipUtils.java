@@ -18,6 +18,7 @@ import com.rwbase.dao.worship.pojo.CfgWorshipRandomReward;
 import com.rwbase.dao.worship.pojo.CfgWorshipRankdomScheme;
 import com.rwbase.dao.worship.pojo.WorshipItem;
 import com.rwbase.dao.worship.pojo.WorshipItemData;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.WorshipServiceProtos.WorshipInfo;
 import com.rwproto.WorshipServiceProtos.WorshipRewardData;
 
@@ -103,13 +104,34 @@ public class WorshipUtils {
 		if (readOnlyPlayer != null) {
 			FashionMgrIF fmgr = readOnlyPlayer.getFashionMgr();
 			FashionUsedIF fashionUsed = fmgr.getFashionUsed();
-			if (fashionUsed != null && fashionUsed.getWingId() != -1) {
-				worshipInfo.setSwingID(String.valueOf(fashionUsed.getWingId()));
+			if (fashionUsed != null) {
+				//by Franky:
+				//worshipInfo.setSwingID(String.valueOf(fashionUsed.getWingId()));
+				FashionUsed.Builder value = FashionUsed.newBuilder();
+				boolean fashionSet = false;
+				int wingId = fashionUsed.getWingId();
+				if (wingId != -1){
+					value.setWingId(wingId);
+					fashionSet = true;
+				}
+				int petId = fashionUsed.getPetId();
+				if (petId != -1){
+					value.setPetId(petId);
+					fashionSet = true;
+				}
+				int suitId = fashionUsed.getSuitId();
+				if (suitId != -1){
+					value.setSuitId(suitId);
+					fashionSet = true;
+				}
+				if (fashionSet){
+					worshipInfo.setFashionUsage(value);
+				}
 			}
 		} else {
 			// print error log
 		}
-
+		
 		return worshipInfo.build();
 	}
 

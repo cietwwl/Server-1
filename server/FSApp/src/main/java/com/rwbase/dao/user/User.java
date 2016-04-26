@@ -222,6 +222,10 @@ public class User implements TableUserIF {
 	public String getChatBanReason() {
 		return getExtendInfo().getChatBanReason();
 	}
+	
+	public long getChatBanCoolTime(){
+		return getExtendInfo().getChatBanCoolTime();
+	}
 
 	public UserExtendInfo getExtendInfo() {
 		if (extendInfo == null) {
