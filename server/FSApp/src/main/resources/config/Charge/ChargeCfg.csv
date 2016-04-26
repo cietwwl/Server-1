@@ -1,3 +1,3 @@
-Key,Remarks,slot,icon,title,desc,recommend,goldCount,moneyCount,extraGive,giveCount,daysDraw
-0,,1,,100钻石,另赠送160钻石,1,300,30,300,1,
-1,,2,,60钻石,,,60,6,,,
+Key,Remarks,id,chargeType,slot,icon,title,desc,recommend,goldCount,moneyCount,extraGive,giveCount,daysDraw,extraGift
+0,,0,1,1,,100钻石,另赠送160钻石,1,300,30,300,1,,800701
+1,,1,2,2,,60钻石,,,60,6,60,1,,800701

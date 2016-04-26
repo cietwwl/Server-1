@@ -17,6 +17,7 @@ import com.playerdata.charge.cfg.VipGiftCfg;
 import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
+import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.VipDataHolder;
@@ -95,7 +96,7 @@ public class ChargeMgr {
 		ChargeResult result = ChargeResult.newResult(false);
 		
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
-		
+		System.out.println("  target.getitemid" +   itemId  );
 		if(target!=null){
 			boolean success = doCharge(player, target);
 			result.setSuccess(success);
@@ -112,11 +113,39 @@ public class ChargeMgr {
 		int money = target.getMoneyCount();
 		
 		player.getUserGameDataMgr().addReCharge(addGold);
-		player.getUserGameDataMgr().addGold(target.getExtraGive());
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
 		
-		//派发额外-------------------------------
+		//派发限购的钻石奖励
+		ChargeInfoSubRecording sublist = null;
+		Boolean isextragive = false;
+		Boolean ishasrecording = false;
+		for(ChargeInfoSubRecording sub :chargeInfo.getPayTimesList()){
+			if(Integer.parseInt(target.getId())==Integer.parseInt(sub.getId())){//有该道具的购买记录
+				ishasrecording = true;
+				if(target.getGiveCount()>sub.getCount()){//还有多余的限购次数
+					isextragive = true;
+					sublist = sub;
+				}
+			}
+		}
+		if(!ishasrecording&&target.getGiveCount() > 0){//可限购且没记录
+			isextragive = true;
+		}
+		if(isextragive){
+			if(sublist != null){//只有限购次数大于1才会有数据而进入；；
+				
+			}else{
+				ChargeInfoSubRecording sub = ChargeCfgDao.getInstance().newSubItem(target.getId());
+				sub.setCount(sub.getCount() + 1);
+				chargeInfo.getPayTimesList().add(sub);
+				player.getUserGameDataMgr().addGold(target.getExtraGive());//派出额外的钻石				
+			}
+		}
+		
+		
+		
+		//派发首冲的额外奖励-------------------------------
 		if(chargeInfo.getCount()==1){
 			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
 			int addgoldfirstcharge =  addGold*cfg.getAwardTimes() < cfg.getAwardMax() ?  addGold*cfg.getAwardTimes() : cfg.getAwardMax();

@@ -1,10 +1,14 @@
 package com.playerdata.charge.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,10 +18,14 @@ public class ChargeInfo {
 
 	@Id
 	private String userId; // 用户ID
-
+	
 	//首充奖励是否已经领取
 	private boolean isFirstAwardTaken = false;
+	//某商品的购买次数记录
+	private List<ChargeInfoSubRecording> payTimesList = new ArrayList<ChargeInfoSubRecording>();
 	
+
+
 	//充值次数
 	private int count;
 	//上次充值金额
@@ -84,5 +92,12 @@ public class ChargeInfo {
 	public ChargeInfo addCount(int count){
 		this.count += count;
 		return this;
+	}
+	
+	public List<ChargeInfoSubRecording> getPayTimesList() {
+		return payTimesList;
+	}
+	public void setPayTimesList(List<ChargeInfoSubRecording> payTimesList) {
+		this.payTimesList = payTimesList;
 	}
 }
