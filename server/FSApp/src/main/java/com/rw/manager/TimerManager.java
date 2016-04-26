@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.bm.guild.GuildGTSMgr;
 import com.bm.secretArea.SecretAreaInfoGMgr;
@@ -14,6 +13,7 @@ import com.log.LogModule;
 import com.playerdata.GambleMgr;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.rw.fsutil.dao.cache.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
@@ -36,7 +36,7 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 
-	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1);
+	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1,new SimpleThreadFactory("time_manager"));
 	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1);
 
 	public static void init() {
