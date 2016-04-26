@@ -207,9 +207,10 @@ public class GambleLogic {
 		GambleLogicHelper.pushGambleItem(player,ranGen,defaultItem);
 
 		response.setResultType(EGambleResultType.SUCCESS);
-		
-		//通知统计服务
-		UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
+		//魂匣抽不算入通用活动
+		if(planCfg.getDropItemCount() != 6){
+			UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
+		}
 		return response.build().toByteString();
 	}
 
