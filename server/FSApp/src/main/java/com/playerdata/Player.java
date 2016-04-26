@@ -464,6 +464,7 @@ public class Player implements PlayerIF {
 		if (blnNeedCoolTime) {
 			userDataMgr.setKickOffCoolTime();
 		}
+		
 		// 修改gm踢人立刻移除在线状态
 		KickOffImmediately(reason);
 		BILogMgr.getInstance().logZoneLogout(this);
@@ -472,7 +473,21 @@ public class Player implements PlayerIF {
 
 	public void block(String reason, long blockCoolTime) {
 		userDataMgr.block(reason, blockCoolTime);
-		KickOff(reason);
+		String error = "亲爱的用户，抱歉你已被封号。请联系我们的客服。";
+		if (reason != null) {
+			error = reason;
+		}
+		error ="封号原因:"+error;
+		String releaseTime;
+		if (blockCoolTime > 0) {
+			releaseTime = "解封时间:"
+					+ DateUtils.getDateTimeFormatString(blockCoolTime,
+							"yyyy-MM-dd HH:mm");
+		} else {
+			releaseTime = "解封时间:永久封号!";
+		}
+		error += "\n"+ releaseTime;
+		KickOff(error);
 	}
 
 	public void chatBan(String reason, long blockCoolTime) {
