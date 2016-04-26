@@ -47,8 +47,8 @@ public enum AttributeType implements TypeIdentification {
 	ATTACK_FREQUENCE(21),
 	/** 移动速度... */
 	MOVE_SPEED(22),
-	/** 伤害增加 */
-	ATTACK_HURT_ADD(23),
+	// /** 伤害增加 */
+	// ATTACK_HURT_ADD(23),
 	/** 伤害减免 */
 	CUT_HURT(24),
 	/** 暴击伤害减免 */
@@ -68,10 +68,10 @@ public enum AttributeType implements TypeIdentification {
 	/** 护甲穿透 */
 	ARMOR_PENTRATION(32),
 	// ------------------------------------
-	/** 击杀增加能量 */
-	STRUCK_ENERGY(33),
-	/** 攻击能量 */
-	ATTACK_ENERGY(34),
+	// /** 击杀增加能量 */
+	// STRUCK_ENERGY(33),
+	// /** 攻击能量 */
+	// ATTACK_ENERGY(34),
 	/** 生命成长 */
 	LIFE_GROWUP(35),
 	/** 攻击成长 */
