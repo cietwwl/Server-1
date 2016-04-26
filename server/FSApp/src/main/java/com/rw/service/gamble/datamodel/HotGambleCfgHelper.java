@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 
@@ -33,7 +34,8 @@ public class HotGambleCfgHelper extends CfgCsvDao<HotGambleCfg> {
 		}
 		if (cfgCacheMap.size() <= 0) throw new RuntimeException("钓鱼台高级抽卡热点英雄配置(HotGambleCfg.csv)至少需要一行!");
 		
-		sortCfg.sort(SorterByKey);
+		Collections.sort(sortCfg, SorterByKey);
+		//sortCfg.sort(SorterByKey);
 		
 		//按照日期重新索引
 		cfgCacheMap.clear();
