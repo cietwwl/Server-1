@@ -10,12 +10,9 @@ import com.rwbase.dao.group.pojo.db.GroupLogData;
  */
 public class GroupLogDataDAO extends DataKVCacheDao<GroupLogData> {
 
-	private static GroupLogDataDAO dao;
+	private static GroupLogDataDAO dao = new GroupLogDataDAO();
 
 	public static GroupLogDataDAO getDAO() {
-		if (dao == null) {
-			dao = new GroupLogDataDAO();
-		}
 		return dao;
 	}
 
