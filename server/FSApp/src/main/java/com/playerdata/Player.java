@@ -11,6 +11,8 @@ import com.bm.arena.ArenaBM;
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Action;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
@@ -216,10 +218,10 @@ public class Player implements PlayerIF {
 				player.getEmailMgr().save();
 				savedCount.incrementAndGet();
 			}
-			if (m_gambleMgr != null) {
-				player.getGambleMgr().save();
-				savedCount.incrementAndGet();
-			}
+//			if (m_gambleMgr != null) {
+//				player.getGambleMgr().save();
+//				savedCount.incrementAndGet();
+//			}
 			if (m_TaskMgr != null) {
 				player.getTaskMgr().save();
 				savedCount.incrementAndGet();
@@ -412,7 +414,7 @@ public class Player implements PlayerIF {
 					// // 推送个人的帮派技能数据
 					// getUserGroupAttributeDataMgr().synUserSkillData(player,
 					// -1);
-					getGambleMgr().syncGamble();
+					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
 					userGameDataMgr.setLastLoginTime(now);
@@ -442,9 +444,11 @@ public class Player implements PlayerIF {
 		}
 
 		GroupMemberHelper.onPlayerLogin(this);
+		ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 		// TODO HC 登录之后检查一下万仙阵的数据
 		getTowerMgr().checkAndResetMatchData(this);
-		ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
+		// 当角色登录的时候，更新下登录的时间
+		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
 		// 登录之后推送体力信息
 		PowerInfoDataHolder.synPowerInfo(this);
 	}

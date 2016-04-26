@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.common.Action;
+import com.common.EquipHelper;
 import com.playerdata.readonly.EquipMgrIF;
 import com.rw.service.Equip.EquipHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -247,35 +248,13 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 			}
 			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
 			HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
-			int attachLevel = getEquipAttachInitId(heroEquipCfg.getQuality());
+			int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
 			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
 
 			m_pPlayer.getItemBagMgr().useItemByCfgId(equipId, 1);
 			equipItemHolder.wearEquip(m_pPlayer, equipIndex, equipItemData);
 		}
 		return true;
-	}
-
-	public int getEquipAttachInitId(int quality) {// 根据品质获取佣兵装备初始强化ID
-		int id = 0;
-		switch (quality) {
-		case 1:
-			id = 1000;
-			break;
-		case 2:
-			id = 2000;
-			break;
-		case 3:
-			id = 3000;
-			break;
-		case 4:
-			id = 4000;
-			break;
-
-		default:
-			break;
-		}
-		return id;
 	}
 
 	/**
@@ -519,7 +498,7 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 			equipItemData.setModelId(equipId);
 			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
 			HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
-			int attachLevel = getEquipAttachInitId(heroEquipCfg.getQuality());
+			int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
 			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
 
 			m_pPlayer.getItemBagMgr().useItemByCfgId(equipId, 1);
@@ -553,7 +532,7 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 			equipItemData.setModelId(equipId);
 			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachExp_VALUE, String.valueOf(0));// 初始装备经验
 			HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
-			int attachLevel = getEquipAttachInitId(heroEquipCfg.getQuality());
+			int attachLevel = EquipHelper.getEquipAttachInitId(heroEquipCfg.getQuality());
 			equipItemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, String.valueOf(attachLevel));// 初始装备等级ID
 			equipItemHolder.wearEquip(m_pPlayer, i, equipItemData);
 		}

@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -201,6 +203,8 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		notifyGroupSkillAttrData(player);
 		// 通知好友更改更新帮派名字
 		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
+		// 通知阵容更新下名字
+		AngelArrayTeamInfoHelper.updateRankingEntry(player, AngelArrayTeamInfoCall.groupCall);
 	}
 
 	/**

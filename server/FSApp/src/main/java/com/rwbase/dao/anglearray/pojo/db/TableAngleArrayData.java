@@ -17,7 +17,7 @@ import com.rwbase.dao.tower.pojo.TowerHeroChange;
  * @date 2015年11月10日 上午11:15:42
  * @Description 万仙阵个人数据
  */
-@Table(name = "angle_array_data")
+@Table(name = "angel_array_data")
 public class TableAngleArrayData {
 	@Id
 	private String userId;// 角色Id

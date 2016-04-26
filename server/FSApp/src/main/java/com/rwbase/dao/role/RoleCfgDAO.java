@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -20,11 +21,32 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 		return SpringContextUtil.getBean(RoleCfgDAO.class);
 	}
 
+	private HashMap<Integer, RoleCfg> roleCfgMapByModelId;// 保存一个以ModelId为Key的Map
 	protected HashMap<String, RoleCfg> cfgModeMap;// 保存唯一召唤的英雄配置信息
+
 	@Override
 	public Map<String, RoleCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("role/RoleCfg.csv", RoleCfg.class);
 		initData();
+
+		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
+			HashMap<Integer, RoleCfg> roleCfgMapByModelId = new HashMap<Integer, RoleCfg>();
+			for (Entry<String, RoleCfg> e : cfgCacheMap.entrySet()) {
+				RoleCfg value = e.getValue();
+				if (value == null) {
+					continue;
+				}
+
+				int modelId = value.getModelId();
+				if (roleCfgMapByModelId.containsKey(modelId)) {
+					continue;
+				}
+
+				roleCfgMapByModelId.put(modelId, value);
+			}
+
+			this.roleCfgMapByModelId = roleCfgMapByModelId;
+		}
 		return cfgCacheMap;
 	}
 
@@ -161,5 +183,19 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			}
 		}
 		this.cfgModeMap = cfgModeMap_;
+	}
+
+	/**
+	 * <pre>
+	 * 这个方法一定要注意，区别于{@link RoleCfgDAO#getCfgByModeID(String)}这个方法
+	 * 上边的方法有潜规则，<b>只加入那些可以从钓鱼台获取，并且能被合成的英雄</b>
+	 * 此方法是把每个ModelId的英雄都加入到了列表里来
+	 * </pre>
+	 * 
+	 * @param modelId
+	 * @return
+	 */
+	public RoleCfg getRoleCfgByModelId(int modelId) {
+		return roleCfgMapByModelId.get(modelId);
 	}
 }

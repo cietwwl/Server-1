@@ -40,6 +40,13 @@ public abstract class CfgCsvDao<T> {
 		return null;
 	}
 	
+	public int getEntryCount(){
+		return cfgCacheMap.size();
+	}
+	
+	public Iterable<T> getIterateAllCfg(){
+		return cfgCacheMap.values();
+	}
 	
 	public void reload(){
 		initJsonCfg();		

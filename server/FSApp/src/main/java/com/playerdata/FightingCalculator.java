@@ -21,13 +21,25 @@ public class FightingCalculator {
 	private static final float COMMON_ATK_RATE = 1.5f;// 普通攻击除的系数
 
 	public static int calFighting(Hero roleP, AttrData totalAttrData) {
-		float fighting = 0;
-		float attrValue = 0;
-
 		int m_SkillLevel = calTotalSkillLevel(roleP);
 		int m_MagicLevel = calTotalMagicLevel(roleP);
+		return calFighting(roleP.getTemplateId(), m_SkillLevel, m_MagicLevel, totalAttrData);
+	}
 
-		String attackId = RoleCfgDAO.getInstance().getAttackId(roleP.getTemplateId());
+	/**
+	 * 计算战斗力
+	 * 
+	 * @param heroTemplateId 英雄的模版Id
+	 * @param skillLevel
+	 * @param magicLevel
+	 * @param totalAttrData
+	 * @param listInfo
+	 * @return
+	 */
+	public static int calFighting(String heroTemplateId, int skillLevel, int magicLevel, AttrData totalAttrData) {
+		float fighting = 0;
+
+		String attackId = RoleCfgDAO.getInstance().getAttackId(heroTemplateId);
 		SkillCfg skillCfg = SkillCfgDAO.getInstance().getCfg(attackId);
 		String skillEffectId = "";
 		if (skillCfg != null) {
@@ -42,14 +54,17 @@ public class FightingCalculator {
 
 		List<FightingWeightCfg> listInfo = FightingWeightCfgDAO.getInstance().getAllCfg();
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("------------------").append(roleP.getTemplateId()).append("------------------\n");
+		// StringBuilder sb = new StringBuilder();
+		// sb.append("------------------").append(heroTemplateId).append("------------------\n");
+
 		for (FightingWeightCfg cfg : listInfo) {
+			float attrValue = 0;
+
 			String attrName = cfg.getAttrName();
 			if (attrName.equals(SKILL_LEVEL)) {
-				attrValue = m_SkillLevel;
+				attrValue = skillLevel;
 			} else if (attrName.equals(MAGIC_LEVEL)) {
-				attrValue = m_MagicLevel;
+				attrValue = magicLevel;
 			} else {
 				attrValue = BeanOperationHelper.getValueByName(totalAttrData, attrName);
 			}
@@ -60,10 +75,10 @@ public class FightingCalculator {
 				fighting += attrValue * cfg.getWeight();
 			}
 
-			sb.append(attrName).append(":").append(attrValue).append("，战力：").append(fighting).append("\n");
+			// sb.append(attrName).append(":").append(attrValue).append("，战力：").append(fighting).append("\n");
 		}
 
-		System.err.println(sb.toString());
+		// System.err.println(sb.toString());
 
 		return (int) fighting;
 	}
