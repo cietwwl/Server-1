@@ -16,7 +16,6 @@ public class ErrorInfoService implements FsService{
 	
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
-		// TODO Auto-generated method stub
 		try {
 			MsgErrorInfoRequest msgGMRequest = MsgErrorInfoRequest.parseFrom(request.getBody().getSerializedContent());
 			EMsgErrorInfoType type = msgGMRequest.getType();
@@ -29,7 +28,6 @@ public class ErrorInfoService implements FsService{
 				break;
 			}
 		} catch (InvalidProtocolBufferException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;

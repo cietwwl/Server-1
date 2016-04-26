@@ -29,7 +29,6 @@ public class CopyTrialService implements FsService {
 				break;
 			}
 		} catch (InvalidProtocolBufferException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -134,7 +134,7 @@ public class PlayerTimeActionHelper {
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
-				player.getGambleMgr().resetDestinyHot();
+				player.getGambleMgr().resetForNewDay();
 			}
 		});
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
