@@ -2,8 +2,6 @@ package com.rwbase.common.attrdata;
 
 import java.util.Map;
 
-import org.springframework.cglib.beans.BeanCopier;
-
 import com.common.BeanCopyer;
 import com.common.BeanOperationHelper;
 import com.playerdata.FightingCalculator;
@@ -112,5 +110,4 @@ public class RoleAttrDataHolder {
 		roleAttrData.setLog(log);
 		return roleAttrData;
 	}
-
 }

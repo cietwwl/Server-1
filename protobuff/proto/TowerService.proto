@@ -3,8 +3,9 @@ option java_package = "com.rwproto";
 option java_outer_classname = "TowerServiceProtos";
 import "SkillService.proto";
 import "SyncAttri.proto";
-package TowerService;
 import "DataSyn.proto";
+
+package TowerService;
 
 enum eTowerType {
 	TOWER_PANEL_INFO = 0;     //面板信息

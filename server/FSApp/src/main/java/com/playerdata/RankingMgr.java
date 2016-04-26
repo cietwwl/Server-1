@@ -9,7 +9,6 @@ import com.bm.arena.ArenaBM;
 import com.bm.rank.ListRankingType;
 import com.bm.rank.RankType;
 import com.bm.rank.RankingEntityCopyer;
-import com.bm.rank.anglearray.AngleArrayAttribute;
 import com.bm.rank.anglearray.AngleArrayComparable;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.bm.rank.arena.ArenaRankingComparable;
@@ -175,8 +174,8 @@ public class RankingMgr {
 			changeDailyData(RankType.TEAM_FIGHTING, RankType.TEAM_FIGHTING_DAILY);
 			changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ALL_DAILY);
 
-			// 初始化万仙阵数据
-			changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
+			// // 初始化万仙阵数据
+			// changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
 			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
 		} catch (Exception e) {
 			GameLog.error("RankingMgr", "#resetUpdateState()", "重置排行榜异常", e);
@@ -244,6 +243,10 @@ public class RankingMgr {
 				ext = entry.getExtendedAttribute();
 			}
 			RankingEntityOfRankImpl re = new RankingEntityOfRankImpl(i, comparable, entry.getKey(), ext);
+			if (ext instanceof RankingLevelData) {
+				RankingLevelData levelData = (RankingLevelData) ext;
+				levelData.setRankLevel(i);
+			}
 			copyList.add(re);
 		}
 		copyRanking.clearAndInsert(copyList);
@@ -289,50 +292,59 @@ public class RankingMgr {
 		ranking.clearAndInsert(currentList);
 	}
 
-	/** 把竞技场数据加入到万仙阵排行榜 */
-	private void changeAngleArrayMatchRankData(RankType copyType) {
-		Ranking<AngleArrayComparable, AngleArrayAttribute> ranking = RankingFactory.getRanking(RankType.ANGLE_ARRAY_RANK);
-		List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>> currentList = new ArrayList<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>(copyType.getMaxCapacity());
-
-		getAreanRankData(ListRankingType.WARRIOR_ARENA, currentList);
-		getAreanRankData(ListRankingType.SWORDMAN_ARENA, currentList);
-		getAreanRankData(ListRankingType.MAGICAN_ARENA, currentList);
-		getAreanRankData(ListRankingType.PRIEST_ARENA, currentList);
-
-		ranking.clearAndInsert(currentList);
-	}
-
-	/**
-	 * 
-	 * @param ordinalType
-	 * @param currentList
-	 */
-	private void getAreanRankData(ListRankingType ordinalType, List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>> currentList) {
-		ListRanking<String, ArenaExtAttribute> sranking = RankingFactory.getSRanking(ordinalType);// 获取排行榜数据
-		List<? extends ListRankingEntry<String, ArenaExtAttribute>> list = sranking.getEntrysCopy();// 拷贝一份数据
-		int size = list.size();
-		// ArrayList<RankingEntityOfRank<AngleArrayComparable,
-		// AngleArrayAttribute>> currentList = new
-		// ArrayList<RankingEntityOfRank<AngleArrayComparable,
-		// AngleArrayAttribute>>(size);
-		for (int i = 1; i <= size; i++) {
-			ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
-			String key = entry.getKey();
-
-			// 比较器
-			AngleArrayComparable rankComparable = new AngleArrayComparable();
-			ArenaExtAttribute extension = entry.getExtension();
-			rankComparable.setLevel(extension.getLevel());
-			rankComparable.setFighting(extension.getFightingTeam());
-
-			// 扩展属性
-			AngleArrayAttribute att = new AngleArrayAttribute();
-			att.setUserId(key);
-
-			RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute> entity = new RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute>(i, rankComparable, key, att);
-			currentList.add(entity);
-		}
-	}
+	// /** 把竞技场数据加入到万仙阵排行榜 */
+	// private void changeAngleArrayMatchRankData(RankType copyType) {
+	// Ranking<AngleArrayComparable, AngleArrayAttribute> ranking =
+	// RankingFactory.getRanking(RankType.ANGLE_ARRAY_RANK);
+	// List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>
+	// currentList = new ArrayList<RankingEntityOfRank<AngleArrayComparable,
+	// AngleArrayAttribute>>(copyType.getMaxCapacity());
+	//
+	// getAreanRankData(ListRankingType.WARRIOR_ARENA, currentList);
+	// getAreanRankData(ListRankingType.SWORDMAN_ARENA, currentList);
+	// getAreanRankData(ListRankingType.MAGICAN_ARENA, currentList);
+	// getAreanRankData(ListRankingType.PRIEST_ARENA, currentList);
+	//
+	// ranking.clearAndInsert(currentList);
+	// }
+	//
+	// /**
+	// *
+	// * @param ordinalType
+	// * @param currentList
+	// */
+	// private void getAreanRankData(ListRankingType ordinalType,
+	// List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>
+	// currentList) {
+	// ListRanking<String, ArenaExtAttribute> sranking =
+	// RankingFactory.getSRanking(ordinalType);// 获取排行榜数据
+	// List<? extends ListRankingEntry<String, ArenaExtAttribute>> list =
+	// sranking.getEntrysCopy();// 拷贝一份数据
+	// int size = list.size();
+	// // ArrayList<RankingEntityOfRank<AngleArrayComparable,
+	// // AngleArrayAttribute>> currentList = new
+	// // ArrayList<RankingEntityOfRank<AngleArrayComparable,
+	// // AngleArrayAttribute>>(size);
+	// for (int i = 1; i <= size; i++) {
+	// ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
+	// String key = entry.getKey();
+	//
+	// // 比较器
+	// AngleArrayComparable rankComparable = new AngleArrayComparable();
+	// ArenaExtAttribute extension = entry.getExtension();
+	// rankComparable.setLevel(extension.getLevel());
+	// rankComparable.setFighting(extension.getFightingTeam());
+	//
+	// // 扩展属性
+	// AngleArrayAttribute att = new AngleArrayAttribute();
+	// att.setUserId(key);
+	//
+	// RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute> entity
+	// = new RankingEntityOfRankImpl<AngleArrayComparable,
+	// AngleArrayAttribute>(i, rankComparable, key, att);
+	// currentList.add(entity);
+	// }
+	// }
 
 	/**
 	 * 对外提供排行榜条目属性更新
