@@ -21,7 +21,7 @@ public class ChargeInfo {
 	
 	//首充奖励是否已经领取
 	private boolean isFirstAwardTaken = false;
-	//某商品的购买次数记录
+	//限购商品的购买次数记录列表
 	private List<ChargeInfoSubRecording> payTimesList = new ArrayList<ChargeInfoSubRecording>();
 	
 

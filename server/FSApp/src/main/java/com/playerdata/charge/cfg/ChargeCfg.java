@@ -15,7 +15,7 @@ public class ChargeCfg {
 	private int extraGive;//额外赠送钻石	
 	private int moneyCount;//充值金额	
 	private int extraGiftId;//额外赠送礼包
-	private int giveCount;
+	private int giveCount;//本商品额外赠送钻石的次数，限购次数
 	
 //	private ChargeType chargeType;//充值类型...
 
