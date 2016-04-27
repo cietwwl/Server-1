@@ -173,13 +173,13 @@ public class ChargeMgr {
 	}
 
 	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
+		ChargeResult result = ChargeResult.newResult(false);
 		
 		
 		
 		
 		
-		
-		return null;
+		return result;
 	}
 	
 }
