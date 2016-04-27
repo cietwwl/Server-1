@@ -12,7 +12,8 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
-import com.rw.fsutil.common.EnumString;
+import com.rw.fsutil.common.EnumIndex;
+import com.rw.fsutil.common.EnumName;
 import com.rw.fsutil.dao.annotation.NonSave;
 
 public class CfgCsvHelper {
@@ -117,12 +118,20 @@ public class CfgCsvHelper {
 		Class<?> fieldType = field.getType();
 
 		if (fieldType.isEnum()){
-			if (field.isAnnotationPresent(EnumString.class)) {
+			if (field.isAnnotationPresent(EnumName.class)) {
 				value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
-			}else{
-				Object[] enumLst=fieldType.getEnumConstants();
+			}else if (field.isAnnotationPresent(EnumIndex.class)) {
 				int index = Integer.parseInt(strvalue);
+				Object[] enumLst=fieldType.getEnumConstants();
 				value = enumLst[index];
+			}else{
+				try {
+					value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
+				} catch (Exception e) {
+					int index = Integer.parseInt(strvalue);
+					Object[] enumLst=fieldType.getEnumConstants();
+					value = enumLst[index];
+				}
 			}
 		}else if (fieldType == String.class) {
 			value = strvalue;
