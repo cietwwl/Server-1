@@ -2,6 +2,8 @@ package com.playerdata.charge.cfg;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.rw.fsutil.common.EnumIndex;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChargeCfg {
 	
@@ -15,6 +17,7 @@ public class ChargeCfg {
 	private int extraGive;//额外赠送钻石	
 	private int moneyCount;//充值金额	
 	private int extraGiftId;//额外赠送礼包
+	@EnumIndex
 	private ChargeType chargeType;//充值类型...
 
 	
