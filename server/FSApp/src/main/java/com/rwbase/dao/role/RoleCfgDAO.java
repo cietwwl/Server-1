@@ -24,6 +24,7 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 	@Override
 	public Map<String, RoleCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("role/RoleCfg.csv", RoleCfg.class);
+		initData();
 		return cfgCacheMap;
 	}
 
@@ -144,23 +145,21 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 
 	// 玩家可拥有的唯一英雄
 	public RoleCfg getCfgByModeID(String modeID) {
-		if (CollectionUtils.isEmpty(cfgModeMap)) {
-			initData();
-		}
 		RoleCfg heroCfg = cfgModeMap.get(modeID);
 		return heroCfg;
 	}
 
 	private void initData() {
 		List<RoleCfg> list = getAllCfg();
-		cfgModeMap = new HashMap<String, RoleCfg>();
+		HashMap<String, RoleCfg> cfgModeMap_ = new HashMap<String, RoleCfg>();
 		int count = list.size();
 		for (int i = 0; i < count; i++) {
 			RoleCfg cfg = list.get(i);
 			if (cfg.getSummonFlag() == 1 && cfg.getCanShow() == 1) {
 				String modeId = String.valueOf(cfg.getModelId());
-				cfgModeMap.put(modeId, cfg);
+				cfgModeMap_.put(modeId, cfg);
 			}
 		}
+		this.cfgModeMap = cfgModeMap_;
 	}
 }
