@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
@@ -15,6 +16,7 @@ import com.rw.service.gamble.datamodel.GamblePlanCfg;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.GambleRecord;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
+import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwproto.GambleServiceProtos.DropData;
@@ -148,8 +150,20 @@ public class GambleLogicHelper {
 	}
 
 	public static boolean isValidHeroId(String itemModelId) {
-		RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(itemModelId);
-		return roleCfg != null;
+		if (StringUtils.isNotBlank(itemModelId)){
+			if (itemModelId.indexOf("_") != -1){
+				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(itemModelId);
+				return roleCfg != null;
+			}
+			try {
+				int modelId = Integer.parseInt(itemModelId);
+				ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(modelId);// 检查物品的基础模版
+				return itemBaseCfg != null;
+			} catch (Exception e) {
+				GameLog.error("钓鱼台", itemModelId, "无效物品／英雄ID="+itemModelId);
+			}
+		}
+		return false;
 	}
 
 	public static boolean isFree(Player player, int dropType) {
