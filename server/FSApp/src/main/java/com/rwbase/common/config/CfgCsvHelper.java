@@ -12,6 +12,9 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
+import com.rw.fsutil.common.EnumString;
+import com.rw.fsutil.dao.annotation.NonSave;
+
 public class CfgCsvHelper {
 
 	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP) {
@@ -114,15 +117,13 @@ public class CfgCsvHelper {
 		Class<?> fieldType = field.getType();
 
 		if (fieldType.isEnum()){
-			value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
-			/*Object[] enumConsts = fieldType.getEnumConstants();
-			for (int i = 0; i < enumConsts.length; i++) {
-				Object enumval = enumConsts[i];
-				if (strvalue.equals(enumval.toString())){
-					value = enumval;
-					break;
-				}
-			}*/
+			if (field.isAnnotationPresent(EnumString.class)) {
+				value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
+			}else{
+				Object[] enumLst=fieldType.getEnumConstants();
+				int index = Integer.parseInt(strvalue);
+				value = enumLst[index];
+			}
 		}else if (fieldType == String.class) {
 			value = strvalue;
 		} else if (fieldType == int.class || fieldType == Integer.class) {
