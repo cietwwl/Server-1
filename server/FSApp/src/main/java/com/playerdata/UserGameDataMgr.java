@@ -83,8 +83,14 @@ public class UserGameDataMgr {
 				if (flowTime <= 0) {// 流失时间小于0
 					userGameData.setLastAddPowerTime(now);// 上次检查时间是0
 					userGameDataHolder.flush();
+
+					// TODO HC 把改变数据推送到前台
+					PowerInfoDataHolder.synPowerInfo(player);
 				} else {
 					long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
+					// if (player.getUserName().equals("HC")) {
+					// System.err.println(hasSeconds);
+					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
 					int tempPower = curPower + addValue;// 临时增加到多少体力
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
@@ -530,21 +536,77 @@ public class UserGameDataMgr {
 
 	/**
 	 * 扣除某种货币
-	 * 
-	 * @param currencyType 货币类型，参考 item.xlsx SpecialItem表 不支持增加经验，因为需要额外增加英雄ID！
-	 * @param count 扣除数量，必须是非负数
+	 * @param currencyType
+	 * 货币类型，参考 item.xlsx SpecialItem表
+	 * 不支持增加经验，因为需要额外增加英雄ID！
+	 * @param count
+	 * 扣除数量，必须是非负数
 	 * @return 操作成功还是失败
 	 */
-	public boolean deductCurrency(eSpecialItemId currencyType, int count) {
+	public boolean deductCurrency(eSpecialItemId currencyType,int count){
 		boolean result = false;
-		if (count < 0)
-			return result;
+		if (isEnoughCurrency(currencyType,count)){
+			result = directDeduct(currencyType, count);
+		}
+		return result;
+	}
 
+	/**
+	 * 直接扣钱，不检查是否够钱！
+	 * @param currencyType
+	 * @param count
+	 * @param result
+	 * @return
+	 */
+	private boolean directDeduct(eSpecialItemId currencyType, int count) {
+		boolean result = false;
+		int dec = -count;
+		switch (currencyType) {
+		case Coin:
+			result = this.addCoin(dec) == 0;
+			break;
+		case Gold:
+			result = this.addGold(dec) == 0;
+			break;
+		case Power:
+			result = player.addPower(dec);
+			break;
+		case PlayerExp:
+			result = false;
+			break;
+		case ArenaCoin:
+			result = this.addArenaCoin(dec) == 0;
+			break;
+		case BraveCoin:
+			result = this.addTowerCoin(dec) == 0;
+			break;
+		case GuildCoin:
+			GuildUserMgr m_GuildUserMgr = player.getGuildUserMgr();
+			result = m_GuildUserMgr.addGuildCoin(dec) == 1;
+			break;
+		case PeakArenaCoin:
+			result = this.addPeakArenaCoin(dec) == 0;
+			break;
+		case UnendingWarCoin:
+			result = this.addUnendingWarCoin(dec) == 0;
+			break;
+		default:
+			break;
+		}
+		return result;
+	}
+
+	/**
+	 * 返回－1表示没有该货币
+	 * @param currencyType
+	 * @return
+	 */
+	public long getCurrencyNum(eSpecialItemId currencyType) {
 		long old = -1;
 
 		switch (currencyType) {
 		case Coin:
-			old = this.getCoin();
+			old  = this.getCoin();
 			break;
 		case Gold:
 			old = this.getGold();
@@ -574,47 +636,16 @@ public class UserGameDataMgr {
 		default:
 			break;
 		}
-		if (old == -1)
-			return result;
+		return old;
+	}
+	
+	public boolean isEnoughCurrency(eSpecialItemId currencyType,int count){
+		boolean result = false;
+		if (count < 0 ) return result;
+		
+		long old = getCurrencyNum(currencyType);
+		if (old == -1) return result;
 
-		if (old >= count) {
-			// 扣钱
-			int dec = -count;
-			switch (currencyType) {
-			case Coin:
-				result = this.addCoin(dec) == 0;
-				break;
-			case Gold:
-				result = this.addGold(dec) == 0;
-				break;
-			case Power:
-				result = player.addPower(dec);
-				break;
-			case PlayerExp:
-				result = false;
-				break;
-			case ArenaCoin:
-				result = this.addArenaCoin(dec) == 0;
-				break;
-			case BraveCoin:
-				result = this.addTowerCoin(dec) == 0;
-				break;
-			case GuildCoin:
-				GuildUserMgr m_GuildUserMgr = player.getGuildUserMgr();
-				result = m_GuildUserMgr.addGuildCoin(dec) == 1;
-				break;
-			case PeakArenaCoin:
-				old = this.getPeakArenaCoin();
-				result = this.addPeakArenaCoin(dec) == 0;
-				break;
-			case UnendingWarCoin:
-				result = this.addUnendingWarCoin(dec) == 0;
-				break;
-			default:
-				break;
-			}
-		}
-
-		return result;
+		return old >= count;
 	}
 }

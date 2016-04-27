@@ -46,6 +46,8 @@ public class PowerInfoDataHolder {
 			int oneNeedTime = recoverTime - seconds;
 			int totalNeedTime = leftPower * recoverTime - seconds;
 
+			// System.err.println(oneNeedTime + "," + totalNeedTime + "," + leftTime + "," + seconds);
+
 			powerInfo.setnTime(oneNeedTime);
 			powerInfo.settTime(totalNeedTime);
 		}

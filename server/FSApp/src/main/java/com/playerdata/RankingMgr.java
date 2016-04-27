@@ -17,6 +17,7 @@ import com.bm.rank.arena.ArenaSettleComparable;
 import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.bm.rank.level.LevelComparable;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.log.GameLog;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
@@ -75,6 +76,55 @@ public class RankingMgr {
 	public void onInitRankData() {
 		resetUpdateState();
 		arenaCalculate();
+		initAngelArrayTeamInfo();
+	}
+
+	/**
+	 * 初始化竞技场阵容排行榜
+	 */
+	private void initAngelArrayTeamInfo() {
+		ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
+		list.addAll(RankingFactory.getSRanking(ListRankingType.WARRIOR_ARENA).getEntrysCopy());
+		list.addAll(RankingFactory.getSRanking(ListRankingType.SWORDMAN_ARENA).getEntrysCopy());
+		list.addAll(RankingFactory.getSRanking(ListRankingType.MAGICAN_ARENA).getEntrysCopy());
+		list.addAll(RankingFactory.getSRanking(ListRankingType.PRIEST_ARENA).getEntrysCopy());
+
+		int allSize = list.size();// 几个竞技场排行榜的数据
+
+		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		int rankingSize = ranking.size();
+
+		if (allSize <= rankingSize) {
+			return;
+		}
+
+		long now = System.currentTimeMillis();
+
+		for (int i = 0; i < allSize; i++) {
+			ListRankingEntry<String, ArenaExtAttribute> listRankingEntry = list.get(i);
+			if (listRankingEntry == null) {
+				continue;
+			}
+
+			ArenaExtAttribute arenaExtAttr = listRankingEntry.getExtension();
+			if (arenaExtAttr == null) {
+				continue;
+			}
+
+			String key = listRankingEntry.getKey();
+			RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(key);
+			if (rankingEntry == null) {
+				AngleArrayComparable comparable = new AngleArrayComparable();
+				comparable.setLevel(arenaExtAttr.getLevel());
+				comparable.setFighting(arenaExtAttr.getFightingTeam());
+
+				AngelArrayTeamInfoAttribute attr = new AngelArrayTeamInfoAttribute();
+				attr.setUserId(key);
+				attr.setTime(now);
+
+				ranking.addOrUpdateRankingEntry(key, comparable, attr);
+			}
+		}
 	}
 
 	/**

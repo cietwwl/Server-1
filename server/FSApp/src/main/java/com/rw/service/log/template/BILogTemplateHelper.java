@@ -37,6 +37,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("activity_time:活动时长（单位秒）(整数)", "activity_time:$activityTime$");
 		addTemplateToken("online_time:本次在线时长（单位秒）(整数)", "online_time:$onlineTime$");
 		addTemplateToken("游戏币新增消耗数量（新增为正数，消耗为负数）", "$coinChanged$");
+		addTemplateToken("sp_case:普通驻留", "sp_case:$sp_case$");
+		addTemplateToken("nm_case:精英驻留", "nm_case:$nm_case$");
 		addTemplateToken("赠送充值币新增消耗数量（新增为正数，消耗为负数）", "$giftGoldChanged$");
 		addTemplateToken("wifi（2g/3g/4g/wifi等）", "$loginNetType$");
 		addTemplateToken("wifi(2g/3g/4g/wifi等)", "$loginNetType$");
@@ -51,11 +53,13 @@ public class BILogTemplateHelper {
 		addTemplateToken("ip地址，不包含端口", "$loginClientIp$");
 		addTemplateToken("ip地址（不包含端口）", "$loginClientIp$");
 		addTemplateToken("失败为0，成功为1", "$result$");
-		addTemplateToken("0=失败/1=成功", "$result$");
+		addTemplateToken("0=失败/1=成功", "$result$");		
 		addTemplateToken("场景id/地图id", "$scenceId$");
 		addTemplateToken("当前游戏客户端版本", "$clientVersion$");
+		addTemplateToken("操作系统版本号", "$loginsystemVersion$");
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
 		addTemplateToken("用户统计信息", "$statInfo$");
+		addTemplateToken("副本统计信息", "$copyInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
 		addTemplateToken("1=主线/2=支线", "$biTaskType$");
 		addTemplateToken("参考操作码对照表", "$optype$");
@@ -73,6 +77,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("角色创建时间", "$roleCreatedTime$");
 		addTemplateToken("注册子渠道ID", "$regSubChannelId$");
 		addTemplateToken("注册渠道ID", "$regSubChannelId$");
+		addTemplateToken("广告短链接id", "$loginadLinkId$");				
 		addTemplateToken("用户VIP等级", "$vip$");
 		addTemplateToken("用户角色等级", "$level$");
 		addTemplateToken("升级前等级", "$levelBeforeUp$");
@@ -86,6 +91,7 @@ public class BILogTemplateHelper {
 		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
+
 		addTemplateToken("活动code", "$activityCode$");
 		addTemplateToken("局次code", "$GamesCode$");		
 		addTemplateToken("关卡状态", "$copyStatus$");		

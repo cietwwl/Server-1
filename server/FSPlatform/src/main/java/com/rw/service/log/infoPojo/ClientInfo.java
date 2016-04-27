@@ -34,8 +34,10 @@ public class ClientInfo {
 	
 	private String accountId;
 	
-	private String sdkVersion;
 	
+	private String adLinkId;
+	private String sdkVersion;
+	private String systemVersion;
 	private String sdk_id;
 	
 	//运营商
@@ -190,6 +192,18 @@ public class ClientInfo {
 	public void setSdk_id(String sdk_id) {
 		this.sdk_id = sdk_id;
 	}
+	public String getAdLinkId() {
+		return adLinkId;
+	}
 
-	
+	public void setAdLinkId(String adLinkId) {
+		this.adLinkId = adLinkId;
+	}
+	public String getSystemVersion() {
+		return systemVersion;
+	}
+
+	public void setSystemVersion(String systemVersion) {
+		this.systemVersion = systemVersion;
+	}
 }

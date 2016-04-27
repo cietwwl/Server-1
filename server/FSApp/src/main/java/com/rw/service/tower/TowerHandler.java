@@ -3,7 +3,6 @@ package com.rw.service.tower;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
@@ -15,8 +14,9 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
+import com.rwbase.dao.anglearray.AngelArrayConst;
+import com.rwbase.dao.anglearray.AngelArrayUtils;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayFloorData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.tower.pojo.TowerHeroChange;
@@ -33,7 +33,6 @@ import com.rwproto.TowerServiceProtos.eTowerType;
 
 public class TowerHandler {
 	private static TowerHandler instance;
-	private static final int TOTAL_TOWER_NUM = 15;// 总塔层
 
 	private Comparator<TagTowerHeadInfo> comparator = new Comparator<TagTowerHeadInfo>() {
 
@@ -116,11 +115,6 @@ public class TowerHandler {
 			return null;
 		}
 
-		TableAngleArrayFloorData floorData = towerMgr.getAngleArrayFloorData();
-		if (floorData == null) {
-			return null;
-		}
-
 		TagTowerData.Builder towerData = TagTowerData.newBuilder();
 		int curFloor = angleArrayData.getCurFloor();
 		int curFloorState = angleArrayData.getCurFloorState();
@@ -131,12 +125,13 @@ public class TowerHandler {
 		towerData.setEnemyTowerID(floor);// 敌人数据Id？
 		towerData.setRefreshTimes(angleArrayData.getResetTimes());// 剩余的重置次数
 
-		List<Boolean> openList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 开放列表
-		List<Boolean> firstList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 第一次攻打列表
-		List<Boolean> beatList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 打败的列表
-		List<Boolean> awardList = new ArrayList<Boolean>(TOTAL_TOWER_NUM);// 领奖的列表
+		int totalTowerNum = AngelArrayConst.TOTAL_TOWER_NUM;
+		List<Boolean> openList = new ArrayList<Boolean>(totalTowerNum);// 开放列表
+		List<Boolean> firstList = new ArrayList<Boolean>(totalTowerNum);// 第一次攻打列表
+		List<Boolean> beatList = new ArrayList<Boolean>(totalTowerNum);// 打败的列表
+		List<Boolean> awardList = new ArrayList<Boolean>(totalTowerNum);// 领奖的列表
 
-		for (int tempFloor = 0; tempFloor < TOTAL_TOWER_NUM; tempFloor++) {
+		for (int tempFloor = 0; tempFloor < totalTowerNum; tempFloor++) {
 			if (tempFloor <= curFloor) {// 层数小于等于当前层，就会开放
 				openList.add(true);
 				if (tempFloor == curFloor) {
@@ -186,33 +181,19 @@ public class TowerHandler {
 
 		// StringBuilder sb = new StringBuilder();
 		// 敌方阵容信息
-		// Enumeration<ArmyInfo> tableEnemyInfoList = floorData.getEnemyEnumeration();
-		Enumeration<Integer> keyEnumeration = floorData.getKeyEnumeration();
+		List<String> readOnlyKeyList = towerMgr.getEnemyInfoIdList();
 		List<TagTowerHeadInfo> enemyHeadList = new ArrayList<TagTowerHeadInfo>();
-		// int towerIdCount = 0;
-		while (keyEnumeration.hasMoreElements()) {
-			Integer floorId = keyEnumeration.nextElement();
-			ArmyInfo enemyInfo = floorData.getEnemyInfo(floorId);
-			TagTowerHeadInfo headInfo = getTowerHeadInfo(enemyInfo, floorId);
-			enemyHeadList.add(headInfo);
-
-			// int fighting = enemyInfo.getPlayer().getFighting();
-			// List<ArmyHero> heroList = enemyInfo.getHeroList();
-			// for (int i = 0, size = heroList.size(); i < size; i++) {
-			// fighting += heroList.get(i).getFighting();
-			// }
-
-			// sb.append("\n层数：").append(towerIdCount).append("，名字：").append(enemyInfo.getPlayerName()).append("，战力：").append(fighting);
+		for (int i = 0, size = readOnlyKeyList.size(); i < size; i++) {
+			String id = readOnlyKeyList.get(i);
+			enemyHeadList.add(getTowerHeadInfo(towerMgr.getEnemyArmyInfo(id), towerMgr.getKey4FloorId(id)));
 		}
-
-		// System.err.println(sb.toString());
 
 		// 没有看到实质意义
 		Collections.sort(enemyHeadList, comparator);
 		towerData.addAllHeadInfos(enemyHeadList);
 
 		if (isAddInfo) {
-			ArmyInfo enemyInfo = floorData.getEnemyInfo(floor);// 层敌人数据
+			ArmyInfo enemyInfo = towerMgr.getEnemyArmyInfo(AngelArrayUtils.getAngelArrayFloorDataId(player.getUserId(), floor));// 层敌人数据
 			try {
 				String armyInfoClient = enemyInfo.toJson();
 				towerData.setEnemyArmyInfo(armyInfoClient);
@@ -269,14 +250,14 @@ public class TowerHandler {
 			return response.build().toByteString();
 		}
 
-		TableAngleArrayFloorData floorData = player.getTowerMgr().getAngleArrayFloorData();
-		if (floorData == null) {
-			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
-			return response.build().toByteString();
-		}
+		// TableAngleArrayFloorData floorData = player.getTowerMgr().getAngleArrayFloorData();
+		// if (floorData == null) {
+		// response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+		// return response.build().toByteString();
+		// }
 
 		int towerId = request.getTowerID();
-		ArmyInfo enemyInfo = floorData.getEnemyInfo(towerId);
+		ArmyInfo enemyInfo = player.getTowerMgr().getEnemyArmyInfo(AngelArrayUtils.getAngelArrayFloorDataId(userId, towerId));
 		if (enemyInfo == null) {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
@@ -318,13 +299,7 @@ public class TowerHandler {
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleData = towerMgr.getAngleArrayData();
 		if (angleData == null) {
-			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
-			return response.build().toByteString();
-		}
-
-		// 敌人的主角信息修改
-		TableAngleArrayFloorData floorData = towerMgr.getAngleArrayFloorData();
-		if (floorData == null) {
+			GameLog.error("万仙阵战斗结束", userId, "角色对应的TableAngleArratData的数据为Null");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
@@ -333,14 +308,16 @@ public class TowerHandler {
 		int towerId = requireTowerData.getCurrTowerID();
 
 		// 验证关卡层
-		if (towerId != angleData.getCurFloor()) {
+		int curFloor = angleData.getCurFloor();
+		if (towerId != curFloor) {
+			GameLog.error("万仙阵战斗结束", userId, String.format("万仙阵当前[%s]层，客户端发送层[%s]，与服务器数据不一致", curFloor, towerId));
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
 
 		int win = request.getWin();
 		if (win == 1) {// 胜利
-			if (towerId == TOTAL_TOWER_NUM) {
+			if (towerId == AngelArrayConst.TOTAL_TOWER_NUM) {
 				MainMsgHandler.getInstance().sendPmdWxz(player);
 			}
 
@@ -424,11 +401,11 @@ public class TowerHandler {
 			return response.build().toByteString();
 		}
 
-		TableAngleArrayFloorData floorData = towerMgr.getAngleArrayFloorData();
-		if (floorData == null) {
-			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
-			return response.build().toByteString();
-		}
+		// TableAngleArrayFloorData floorData = towerMgr.getAngleArrayFloorData();
+		// if (floorData == null) {
+		// response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+		// return response.build().toByteString();
+		// }
 
 		if (angleData.getCurFloorState() != FloorState.UN_AWARD.ordinal()) {// 如果是未通过状态不能领奖
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
@@ -452,7 +429,7 @@ public class TowerHandler {
 
 		// 开放下层人物
 		int nextTowerId = currTowerId + 1;
-		if (nextTowerId >= TOTAL_TOWER_NUM) {
+		if (nextTowerId >= AngelArrayConst.TOTAL_TOWER_NUM) {
 			angleData.setCurFloorState(FloorState.FINISH.ordinal());
 		} else {
 			angleData.setCurFloor(nextTowerId);
@@ -466,7 +443,7 @@ public class TowerHandler {
 		towerMgr.saveAngleArrayData();
 
 		// 更新一下层
-		if (nextTowerId < TOTAL_TOWER_NUM && (nextTowerId % TowerMgr.towerUpdateNum == 0)) {
+		if (nextTowerId < AngelArrayConst.TOTAL_TOWER_NUM && (nextTowerId % AngelArrayConst.TOWER_UPDATE_NUM == 0)) {
 			towerMgr.updateAngleArrayFloorData(angleData.getUserId(), angleData.getResetLevel(), angleData.getResetFighting(), angleData.getCurFloor(), false);
 		}
 

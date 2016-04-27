@@ -17,10 +17,12 @@ public class GambleService implements FsService {
 			EGambleRequestType requestType = gambleRequest.getRequestType();
 			switch (requestType) {
 			case GAMBLE:
-				result = GambleHandler.getInatance().gamble(gambleRequest, pPlayer);
+				result = GambleLogic.getInstance().gamble(GambleLogicHelper.ConvertRequest(gambleRequest), pPlayer);
+				//result = GambleHandler.getInatance().gamble(gambleRequest, pPlayer);
 				break;
 			case GAMBLE_GET:
-				result = GambleHandler.getInatance().gambleData(gambleRequest, pPlayer);
+				result = GambleLogic.getInstance().gambleData(gambleRequest, pPlayer);
+				//result = GambleHandler.getInatance().gambleData(gambleRequest, pPlayer);
 				break;
 			default:
 				break;

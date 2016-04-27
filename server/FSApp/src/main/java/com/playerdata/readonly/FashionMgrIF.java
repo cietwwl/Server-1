@@ -2,9 +2,8 @@ package com.playerdata.readonly;
 
 import java.util.List;
 
-import com.playerdata.readonly.FashionMgrIF.ItemFilter;
-import com.rwbase.dao.fashion.FashState;
 import com.rwbase.dao.fashion.FashionItemIF;
+import com.rwbase.dao.fashion.FashionUsedIF;
 
 /**
  * FashionMgr只读接口
@@ -21,8 +20,8 @@ public interface FashionMgrIF {
 	 * @return
 	 */
 	public List<FashionItemIF> search(ItemFilter predicate);
-	public ItemFilter getSwingOnItemPred();
 	public interface ItemFilter{
 		public boolean accept(FashionItemIF item);
 	}
+	public FashionUsedIF getFashionUsed();
 }

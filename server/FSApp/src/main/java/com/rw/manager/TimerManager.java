@@ -10,7 +10,6 @@ import com.bm.secretArea.SecretAreaInfoGMgr;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.GambleMgr;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.dao.cache.SimpleThreadFactory;
@@ -19,7 +18,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rwbase.dao.Army.UserArmyDataDAO;
-import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
+import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.gulid.faction.GuildDAO;
 
@@ -95,8 +94,7 @@ public class TimerManager {
 			public void doTask() {
 				RankingMgr.getInstance().resetUpdateState();
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
-				// 初始化万仙阵匹配的数据缓存
-				AngleArrayMatchHelper.resetMatchData();
+				AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
 			}
 		}, 5);
 
@@ -188,7 +186,7 @@ public class TimerManager {
 		/**** 排行 ***/
 		// RankingMgr.getInstance().onTimeMinute();
 
-		GambleMgr.minutesUpdate();
+		//GambleMgr.minutesUpdate();
 		/** 秘境 ***/
 		SecretAreaInfoGMgr.getInstance().flush();
 		/*** 检查帮派 ***/

@@ -19,6 +19,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bm.login.AccoutBM;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
+import com.common.EquipHelper;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -33,8 +35,6 @@ import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.arena.pojo.TableArenaData;
-import com.rwbase.dao.fashion.FashState;
-import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.GemCfg;
@@ -120,8 +120,8 @@ public class RobotManager {
 			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
 			String fashonId = getRandom(cfg.getFashions());
 			if (!fashonId.equals("0")) {
-				FashionItem f = player.getFashionMgr().buyFash(fashonId);
-				player.getFashionMgr().changeFashState(f.getId(), FashState.ON);
+				int fashionID = Integer.parseInt(fashonId);
+				player.getFashionMgr().giveFashionItem(fashionID,-1,true,false);
 			}
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
@@ -178,6 +178,29 @@ public class RobotManager {
 			for (Hero hero : heroList) {
 				printHeroSkill(hero);
 			}
+
+			// 检查机器人数据并加入到万仙阵阵容排行榜
+			List<Integer> heroModelList = new ArrayList<Integer>();
+			int mainRoleModelId = mainRoleHero.getModelId();
+			heroModelList.add(mainRoleModelId);
+
+			int fighting = mainRoleHero.getFighting();
+
+			for (Hero hero : heroList) {
+				if (hero == null) {
+					continue;
+				}
+
+				int modelId = hero.getModelId();
+				if (modelId == mainRoleModelId) {
+					continue;
+				}
+
+				heroModelList.add(modelId);
+				fighting += hero.getFighting();
+			}
+
+			AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(player, heroModelList, fighting);
 			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + level + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
 			return new RankingPlayer(player, arenaList, expectRanking);
 		}
@@ -326,8 +349,10 @@ public class RobotManager {
 			itemData.init(heroEquip.getId(), 1);
 			itemData.setUserId(userId);
 			equipItemDataList.add(itemData);
+			// TODO HC @Modify 2016-04-16 装备附灵等级潜规则
+			int attachLevelInit = EquipHelper.getEquipAttachInitId(heroEquip.getQuality());
 			// 设置附灵等级
-			itemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, enhanceLevel);
+			itemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, attachLevelInit + enhanceLevel);
 		}
 		hero.getEquipMgr().addRobotEquip(equipItemDataList);
 	}

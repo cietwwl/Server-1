@@ -44,7 +44,6 @@ import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
-import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.zone.TableZoneInfo;
@@ -137,13 +136,7 @@ public class GameManager {
 		CharFilterFactory.init();
 		addShutdownHook();
 
-		// 初始化万仙阵匹配的数据缓存
-		long start = System.currentTimeMillis();
-		AngleArrayMatchHelper.resetMatchData();
-		long end = System.currentTimeMillis();
-		System.err.println("万仙阵初始化匹配数据花费时间：" + (end - start) + "毫秒");
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
-
 	}
 
 	public static void initServerProperties() {

@@ -10,6 +10,8 @@ public class GmSenderPool {
 	
 	private GenericObjectPool senderPool;
 	
+	private GmSenderConfig senderConfig;
+	
 	public GmSenderPool(GmSenderConfig senderConfig){		
 		
 		Config config = new Config();
@@ -18,6 +20,7 @@ public class GmSenderPool {
 		config.testOnBorrow = true;
 		config.testWhileIdle = true;
 		config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
+		this.senderConfig = senderConfig;
 		senderPool = new GenericObjectPool(new GmSenderFactory(senderConfig), config);
 	}
 	
@@ -25,7 +28,8 @@ public class GmSenderPool {
 		
 		Object borrowObject = null;
 		try {
-			borrowObject = senderPool.borrowObject();
+			borrowObject = new GmSender(senderConfig);
+//			borrowObject = senderPool.borrowObject();
 		} catch (Exception e) {
 			GameLog.error(LogModule.GmSender, "GmSenderPool[borrowSender]", "",e);
 		}
@@ -35,7 +39,8 @@ public class GmSenderPool {
 	public void returnSender(GmSender gmSender){
 		if(gmSender!=null){
 			try {
-				senderPool.returnObject(gmSender);
+				gmSender.destroy();
+//				senderPool.returnObject(gmSender);
 			} catch (Exception e) {
 				GameLog.error(LogModule.GmSender, "GmSenderPool[returnSender]", "",e);
 			}

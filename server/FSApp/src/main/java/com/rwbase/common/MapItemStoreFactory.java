@@ -10,6 +10,9 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
 import com.rw.service.guide.datamodel.GiveItemHistory;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayEnemyInfoData;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayFloorData;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
@@ -48,11 +51,17 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<TaskItem> taskItemCache;
 	// GroupMemberData
 	private static MapItemStoreCache<GroupMemberData> groupMemberCache;
+	// AngelArrayTeamInfo
+	private static MapItemStoreCache<AngelArrayTeamInfoData> angelArrayTeamInfoData;
+	// AngelArrayFloorData
+	private static MapItemStoreCache<AngelArrayFloorData> angelArrayFloorData;
+	// AngelArrayEnemyInfoData
+	private static MapItemStoreCache<AngelArrayEnemyInfoData> angelArrayEnemyInfoData;
 
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
-	
+
 	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
-	
+
 	private static List<MapItemStoreCache> list;
 
 	static {
@@ -75,7 +84,7 @@ public class MapItemStoreFactory {
 		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", heroCapacity));
 
 		register(fashionCache = new MapItemStoreCache<FashionItem>(FashionItem.class, "userId", heroCapacity));
-		
+
 		register(newGuideGiveItemHistoryCache = new MapItemStoreCache<GiveItemHistory>(GiveItemHistory.class, "userId", heroCapacity));
 
 		register(fresherActivityCache = new MapItemStoreCache<FresherActivityBigItem>(FresherActivityBigItem.class, "ownerId", heroCapacity));
@@ -89,11 +98,16 @@ public class MapItemStoreFactory {
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
 		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
-		
+
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
-		
+
 		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
 
+		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
+
+		register(angelArrayFloorData = new MapItemStoreCache<AngelArrayFloorData>(AngelArrayFloorData.class, "userId", heroCapacity));
+
+		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -217,6 +231,31 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
 		return activityTimeCardTypeItemCache;
 	}
-	
-	
+
+	/**
+	 * 获取万仙阵阵容信息缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<AngelArrayTeamInfoData> getAngelArrayTeamInfoData() {
+		return angelArrayTeamInfoData;
+	}
+
+	/**
+	 * 获取万仙阵层数信息缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<AngelArrayFloorData> getAngelArrayFloorData() {
+		return angelArrayFloorData;
+	}
+
+	/**
+	 * 获取万仙阵层中的敌方阵容血量信息变化
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<AngelArrayEnemyInfoData> getAngelArrayEnemyInfoData() {
+		return angelArrayEnemyInfoData;
+	}
 }

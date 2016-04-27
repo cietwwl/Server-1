@@ -47,8 +47,8 @@ public enum AttributeType implements TypeIdentification {
 	ATTACK_FREQUENCE(21),
 	/** 移动速度... */
 	MOVE_SPEED(22),
-	/** 伤害增加 */
-	ATTACK_HURT_ADD(23),
+	// /** 伤害增加 */
+	// ATTACK_HURT_ADD(23),
 	/** 伤害减免 */
 	CUT_HURT(24),
 	/** 暴击伤害减免 */
@@ -66,7 +66,37 @@ public enum AttributeType implements TypeIdentification {
 	/** 反弹伤害 */
 	DAMAGE_REFLECT(31),
 	/** 护甲穿透 */
-	ARMOR_PENTRATION(32);
+	ARMOR_PENTRATION(32),
+	// ------------------------------------
+	// /** 击杀增加能量 */
+	// STRUCK_ENERGY(33),
+	// /** 攻击能量 */
+	// ATTACK_ENERGY(34),
+	/** 生命成长 */
+	LIFE_GROWUP(35),
+	/** 攻击成长 */
+	ATTACK_GROWUP(36),
+	/** 体魄防御成长 */
+	PHYSICQUE_DEF_GROWUP(37),
+	/** 精神防御成长 */
+	SPIRITD_EFG_ROWUP(38),
+	/** 附灵经验 */
+	ENCHANT_EXP(39),
+	/** 技能总等级 */
+	SKILLL_EVEL(40),
+	/** 攻击类型 */
+	ATTACK_TYPE(41),
+	/** 每秒恢复的能量 */
+	ENERGY_PER_SECOND(42),
+	/** 攻击伤害 */
+	ATTACK_HURT(43),
+	/** 视野范围 */
+	VIEW_RANGE(44),
+	/** 人物半径 */
+	VOLUME_RADIUS(45),
+	/** 硬直界限 */
+	DO_HURT(46);
+
 	private int order;
 
 	AttributeType(int order) {
