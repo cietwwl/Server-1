@@ -264,25 +264,25 @@ public class FashionMgr implements FashionMgrIF{
 	 * 赠送时装
 	 * 有效期day设置为－1表示永久有效
 	 * @param fashionId
-	 * @param day
+	 * @param hour
 	 * @param userId
 	 * @param sendEmail
 	 */
-	public static void giveFashionItem(int fashionId,int day,String userId,boolean putOnNow,boolean sendEmail){
+	public static void giveFashionItem(int fashionId,int hour,String userId,boolean putOnNow,boolean sendEmail){
 		Player player = PlayerMgr.getInstance().find(userId);
 		if (player != null){
-			player.getFashionMgr().giveFashionItem(fashionId,day,putOnNow,sendEmail);
+			player.getFashionMgr().giveFashionItem(fashionId,hour,putOnNow,sendEmail);
 		}
 	}
 	
 	/**
 	 * 必须已经初始化玩家才能赠送
 	 * @param fashionId
-	 * @param day
+	 * @param hours
 	 * @param putOnNow
 	 * @param sendEmail
 	 */
-	public void giveFashionItem(int fashionId,int day,boolean putOnNow,boolean sendEmail){
+	public void giveFashionItem(int fashionId,int hours,boolean putOnNow,boolean sendEmail){
 		Player player = m_player;
 		if (player == null) {
 			return;
@@ -291,7 +291,7 @@ public class FashionMgr implements FashionMgrIF{
 		if (fashionCfg == null) {
 			return;
 		}
-		FashionItem item = newFashionItem(fashionCfg,day);
+		FashionItem item = newFashionItem(fashionCfg,hours);
 		fashionItemHolder.addItem(player, item);
 		FashionBeingUsed fashionUsed = createOrUpdate();
 		if (putOnNow){
@@ -403,10 +403,10 @@ public class FashionMgr implements FashionMgrIF{
 	 * @return
 	 */
 	private FashionItem newFashionItem(FashionCommonCfg cfg, FashionBuyRenewCfg buyCfg) {
-		return newFashionItem(cfg,buyCfg.getDay());
+		return newFashionItem(cfg,buyCfg.getHour());
 	}
 	
-	private FashionItem newFashionItem(FashionCommonCfg cfg, int day) {
+	private FashionItem newFashionItem(FashionCommonCfg cfg, int hours) {
 		FashionItem item = new FashionItem();
 		item.setFashionId(cfg.getId());
 		item.setType(cfg.getFashionType().ordinal());
@@ -414,8 +414,8 @@ public class FashionMgr implements FashionMgrIF{
 		item.InitStoreId();
 		long now = System.currentTimeMillis();
 		item.setBuyTime(now);
-		if (day > 0) {
-			item.setExpiredTime(now + TimeUnit.DAYS.toMillis(day));
+		if (hours > 0) {
+			item.setExpiredTime(now + TimeUnit.HOURS.toMillis(hours));
 		}else{
 			item.setExpiredTime(-1);
 			GameLog.info("时装", m_player.getUserId(), "增加永久时装:"+cfg.getId(), null);
