@@ -9,7 +9,7 @@ import com.rwbase.dao.chat.pojo.UserPrivateChat;
  * @Description 私聊的数据库表
  */
 public class TableUserPrivateChatDao extends DataKVDao<UserPrivateChat> {
-	private static TableUserPrivateChatDao instance;
+	private static TableUserPrivateChatDao instance = new TableUserPrivateChatDao();
 
 	/**
 	 * 获取DAO实例
@@ -17,10 +17,6 @@ public class TableUserPrivateChatDao extends DataKVDao<UserPrivateChat> {
 	 * @return
 	 */
 	public static TableUserPrivateChatDao getDao() {
-		if (instance == null) {
-			instance = new TableUserPrivateChatDao();
-		}
-
 		return instance;
 	}
 }

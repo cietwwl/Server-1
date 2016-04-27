@@ -12,8 +12,10 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
 import com.rw.fsutil.common.EnumIndex;
 import com.rw.fsutil.common.EnumName;
+import com.rw.fsutil.dao.annotation.NonSave;
 
 public class CfgCsvHelper {
 
@@ -37,6 +39,9 @@ public class CfgCsvHelper {
 					fieldNameArray = getFieldNameArray(csvRecord);
 				}else{
 					T cfg = createFromCsv(fieldNameArray, csvRecord, clazzP);
+					if (map.put(csvRecord.get(0), cfg)!=null){
+						GameLog.error("配置错误", configFileName, "重复的关键字:"+csvRecord.get(0));
+					}
 					map.put(csvRecord.get(0), cfg);
 				}
 			}

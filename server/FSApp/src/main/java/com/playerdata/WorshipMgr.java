@@ -182,11 +182,12 @@ public class WorshipMgr {
 	/**推送被膜拜者*/
 	public void pushByWorshiped(Player player){
 		if(player != null){
+			System.out.println(player.getUserId() + " getByWorshipedInfo");
 			player.SendMsg(Command.MSG_Worship, getByWorshipedInfo());
 		}
 	}
 	
-	public ByteString getByWorshipedInfo(){		
+	public ByteString getByWorshipedInfo(){
 		List<WorshipInfo> list = getByWorshipedList();
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
 		response.setRequestType(EWorshipRequestType.BY_WORSHIPPED_LIST);

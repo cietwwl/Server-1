@@ -35,8 +35,6 @@ import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.arena.pojo.TableArenaData;
-import com.rwbase.dao.fashion.FashState;
-import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.GemCfg;
@@ -122,8 +120,8 @@ public class RobotManager {
 			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
 			String fashonId = getRandom(cfg.getFashions());
 			if (!fashonId.equals("0")) {
-				FashionItem f = player.getFashionMgr().buyFash(fashonId);
-				player.getFashionMgr().changeFashState(f.getId(), FashState.ON);
+				int fashionID = Integer.parseInt(fashonId);
+				player.getFashionMgr().giveFashionItem(fashionID,-1,true,false);
 			}
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());

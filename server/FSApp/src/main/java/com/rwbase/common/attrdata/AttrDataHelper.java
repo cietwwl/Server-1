@@ -29,8 +29,8 @@ public class AttrDataHelper {
 			checkValueCanPutIntoMap(map, AttributeType.TOUGHNESS, attrData.getToughness());// 韧性
 			checkValueCanPutIntoMap(map, AttributeType.LIFE_RECEIVE, attrData.getLifeReceive()); // 生命回复
 			checkValueCanPutIntoMap(map, AttributeType.ENERGY_RECEIVE, attrData.getEnergyReceive()); // 能量值回复
-			checkValueCanPutIntoMap(map, AttributeType.STRUCK_ENERGY, attrData.getStruckEnergy());// 击杀增加能量
-			checkValueCanPutIntoMap(map, AttributeType.ATTACK_ENERGY, attrData.getAttackEnergy());// 攻击能量
+			checkValueCanPutIntoMap(map, AttributeType.STRUCK_ENERGY_RECEIVE, attrData.getStruckEnergy());// 击杀增加能量
+			checkValueCanPutIntoMap(map, AttributeType.ATTACK_ENERGY_RECEIVE, attrData.getAttackEnergy());// 攻击能量
 			checkValueCanPutIntoMap(map, AttributeType.ENERGY_TRANS, attrData.getEnergyTrans());// 能量转化
 			checkValueCanPutIntoMap(map, AttributeType.CUT_HURT, attrData.getCutHurt());// 伤害减免
 			checkValueCanPutIntoMap(map, AttributeType.CUT_CRIT_HURT, attrData.getCutCritHurt());// 暴击伤害减免
@@ -111,11 +111,11 @@ public class AttrDataHelper {
 				attrData.setEnergyReceive((int) value);
 			}
 			// 击杀增加能量
-			if (attrType == AttributeType.STRUCK_ENERGY.getOrder()) {
+			if (attrType == AttributeType.STRUCK_ENERGY_RECEIVE.getOrder()) {
 				attrData.setStruckEnergy((int) value);
 			}
 			// 攻击能量
-			if (attrType == AttributeType.ATTACK_ENERGY.getOrder()) {
+			if (attrType == AttributeType.ATTACK_ENERGY_RECEIVE.getOrder()) {
 				attrData.setAttackEnergy((int) value);
 			}
 			// 能量转化

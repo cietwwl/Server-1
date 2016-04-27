@@ -72,7 +72,7 @@ public class AttrData  implements AttrDataIF{
 		return this;
 	}
 
-	public AttrData plus(AttrData target){
+	public AttrData plus(AttrDataIF target){
 		if(target == null){
 			return this;
 		}
@@ -105,7 +105,7 @@ public class AttrData  implements AttrDataIF{
 
 	/**
 	 * 根据配置表字符串加入值
-	 * @param cfgStr example:  lefe:30,attack:40
+	 * @param cfgStr example:  life:30,attack:40
 	 * @return
 	 */
 	public static AttrData fromCfgStr(String cfgStr){

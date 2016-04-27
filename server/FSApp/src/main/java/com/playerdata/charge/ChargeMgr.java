@@ -1,11 +1,5 @@
 package com.playerdata.charge;
 
-import java.util.Iterator;
-
-
-
-import java.util.Set;
-
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.charge.cfg.ChargeCfg;
@@ -14,6 +8,8 @@ import com.playerdata.charge.cfg.FirstChargeCfg;
 import com.playerdata.charge.cfg.FirstChargeCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
+import com.playerdata.charge.dao.ChargeOrder;
+import com.rw.chargeServer.ChargeContentPojo;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
@@ -53,10 +49,33 @@ public class ChargeMgr {
 		return result;
 	}
 	
-	private boolean takeChargeGift(ChargeCfg target) {
-		int extraGiftId = target.getExtraGiftId();
+	private boolean takeChargeGift(ChargeCfg target) {int extraGiftId = target.getExtraGiftId();
 		// TODO takeGift logic
 		return true;
+	}
+	
+	public boolean charge(ChargeContentPojo chargeContentPojo){
+		boolean success=false;
+		//TODO: 充值，保存订单，返回结果
+		Player player = get(chargeContentPojo);
+		if(player!=null){			
+			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+			if(!chargeInfo.isOrderExist(chargeContentPojo.getCpTradeNo())){
+				ChargeOrder chargeOrder = ChargeOrder.fromReq(chargeContentPojo);
+				success = ChargeInfoHolder.getInstance().addChargeOrder(player,chargeOrder);
+			}
+			
+		}
+		if(success){
+			//do charge
+		}
+		
+		return success;
+	}
+
+	private Player get(ChargeContentPojo chargeContentPojo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public ChargeResult charge(Player player, String itemId){
@@ -81,11 +100,15 @@ public class ChargeMgr {
 		int money = target.getMoneyCount();
 		
 		player.getUserGameDataMgr().addReCharge(addGold);
-		player.getUserGameDataMgr().addGold(target.getExtraGive());
+		player.getUserGameDataMgr().addGold(addGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
 		
-		//派发额外-------------------------------
+		//限购派发奖励
+		
+		
+		
+		//派发账号首冲额外奖励-------------------------------
 		if(chargeInfo.getCount()==1){
 			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
 			int addgoldfirstcharge =  addGold*cfg.getAwardTimes() < cfg.getAwardMax() ?  addGold*cfg.getAwardTimes() : cfg.getAwardMax();

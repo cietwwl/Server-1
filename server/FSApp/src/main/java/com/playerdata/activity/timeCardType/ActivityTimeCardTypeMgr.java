@@ -2,11 +2,14 @@ package com.playerdata.activity.timeCardType;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItemHolder;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeSubItem;
 
 
 public class ActivityTimeCardTypeMgr {
@@ -29,9 +32,9 @@ public class ActivityTimeCardTypeMgr {
 	private void checkNewOpen(Player player) {
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
 		List<ActivityTimeCardTypeCfg> allCfgList = ActivityTimeCardTypeCfgDAO.getInstance().getAllCfg();
-		for (ActivityTimeCardTypeCfg ActivityTimeCardTypeCfg : allCfgList) {
+		for (ActivityTimeCardTypeCfg activityTimeCardTypeCfg : allCfgList) {
 			
-			ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(ActivityTimeCardTypeCfg.getId());
+			ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(activityTimeCardTypeCfg.getId());
 			if(typeEnum != null){
 				ActivityTimeCardTypeItem targetItem = dataHolder.getItem(player.getUserId(), typeEnum);//已在之前生成数据的活动
 				if(targetItem == null){
@@ -41,6 +44,38 @@ public class ActivityTimeCardTypeMgr {
 				
 			}
 		}
+	}
+	
+	public boolean isTimeCardOnGoing(Player player, String timeCardTypeCfgId, String timeCardTypeSubItemCfgId){
+		
+		boolean isTimeCardOnGoing = false;
+		ActivityTimeCardTypeSubItem targetSubItem = null;
+		targetSubItem = getSubItem(player, timeCardTypeCfgId,timeCardTypeSubItemCfgId);
+		if(targetSubItem!=null){
+			isTimeCardOnGoing = targetSubItem.getDayLeft() >= 0;
+		}
+		return isTimeCardOnGoing;
+	}
+
+	private ActivityTimeCardTypeSubItem getSubItem(Player player, String timeCardTypeCfgId, String timeCardTypeSubItemCfgId) {
+		ActivityTimeCardTypeSubItem targetSubItem = null;
+		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
+		
+		ActivityTimeCardTypeEnum typeEnum = ActivityTimeCardTypeEnum.getById(timeCardTypeCfgId);
+		if(typeEnum != null){
+			ActivityTimeCardTypeItem targetItem = dataHolder.getItem(player.getUserId(), typeEnum);//已在之前生成数据的活动
+			if(targetItem != null){
+				List<ActivityTimeCardTypeSubItem> subItemList = targetItem.getSubItemList();
+				for (ActivityTimeCardTypeSubItem activityTimeCardTypeSubItem : subItemList) {
+					if(StringUtils.equals(timeCardTypeSubItemCfgId, activityTimeCardTypeSubItem.getId())){
+						targetSubItem = activityTimeCardTypeSubItem;
+						break;
+					}
+				}
+			}
+			
+		}
+		return targetSubItem;
 	}
 
 

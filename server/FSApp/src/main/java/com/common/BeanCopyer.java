@@ -2,6 +2,7 @@ package com.common;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.rw.fsutil.common.IReadOnlyPair;
 
 public class BeanCopyer {
 
@@ -57,8 +59,40 @@ public class BeanCopyer {
 			}
 			
 		}
-		
-		
+	}
+
+	/**
+	 * addec by Franky
+	 * 将一列属性的名值对写入目标对象
+	 * @param sourceValues
+	 * @param target
+	 * @param nameFixAction
+	 */
+	public static void SetFields(List<IReadOnlyPair<String,Object>> sourceValues,Object target,IBeanNameFixAction nameFixAction){
+		Map<String, Field> targetFields = getFields(target);
+
+		for (IReadOnlyPair<String, Object> nameValuePair : sourceValues) {
+			String targetFieldName = nameValuePair.getT1();
+			Object fieldValue = nameValuePair.getT2(); 
+			if(nameFixAction!=null){
+				targetFieldName = nameFixAction.doFix(targetFieldName);
+			}
+			Field targetfield = targetFields.get(targetFieldName);
+			if (targetfield == null){
+				StringBuilder erroInfo = new StringBuilder("属性拷贝出错,找不到字段").append(" source field:").append(nameValuePair.getT1())
+						.append(" targetClass:").append(target.getClass()).append(" fieldName:").append(targetFieldName);			
+				GameLog.info(LogModule.Util.getName(), "BeanCopyer[SetFields]", erroInfo.toString(), null);
+				continue;
+			}
+			try {
+				targetfield.set(target, fieldValue);
+			} catch (Exception e) {
+				StringBuilder erroInfo = new StringBuilder("属性拷贝出错").append(" source field:").append(nameValuePair.getT1())
+						.append(" targetClass:").append(target.getClass()).append(" fieldName:").append(targetFieldName);			
+				
+				GameLog.error(LogModule.Util.getName(), "BeanCopyer[SetFields]", erroInfo.toString() , e);
+			}
+		}
 	}
 	
 	private static Map<String, Field> getFields(Object target){
