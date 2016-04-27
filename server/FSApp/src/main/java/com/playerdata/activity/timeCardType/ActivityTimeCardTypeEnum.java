@@ -3,7 +3,8 @@ package com.playerdata.activity.timeCardType;
 import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityTimeCardTypeEnum{	// implements TypeIdentification
-	Month("1");
+	Month("1"),
+	Monthvip("2");
 	
 	private String cfgId;
 	private ActivityTimeCardTypeEnum(String cfgId){

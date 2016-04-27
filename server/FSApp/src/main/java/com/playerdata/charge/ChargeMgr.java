@@ -171,5 +171,15 @@ public class ChargeMgr {
 		}		
 		return result;
 	}
+
+	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
+		
+		
+		
+		
+		
+		
+		return null;
+	}
 	
 }

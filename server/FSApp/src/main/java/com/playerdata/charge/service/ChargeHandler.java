@@ -67,7 +67,17 @@ public class ChargeHandler {
 		return response.build().toByteString();
 	}
 	
-	
+	public ByteString buyMonthCard(Player player, ChargeServiceCommonReqMsg request){
+		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
+		response.setReqType(request.getReqType());
+		String chargeItemId = request.getChargeItemId();//月卡类型
+		ChargeResult chargeResult = ChargeMgr.getInstance().buyMonthCard(player, chargeItemId);
+		response.setIsSuccess(chargeResult.isSuccess());
+		response.setTipMsg(chargeResult.getTips());		
+		
+		
+		return response.build().toByteString();
+	}
 	
 
 }
