@@ -36,39 +36,50 @@ public class LoggerSender {
 
 	public SendResult sendLogger(String content) {
 		try {
-			//TODO 这里需要做超时控制处理，超过一定时间认为发送失败
-			content+="\n";
-			output.write(content.getBytes("UTF-8"));//阻塞
-			output.flush();			 //阻塞	
-			System.out.println("发送消息："+content);
+			// TODO 这里需要做超时控制处理，超过一定时间认为发送失败
+			content += "\n";
+			output.write(content.getBytes("UTF-8"));// 阻塞
+			output.flush(); // 阻塞
+			//System.out.println("发送消息：" + content);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return SendResult.SOCKET_NOT_AVAILABLE;
 		}
-		try {
-			//TODO 这里需要做超时控制处理，超过一定时间接收发送失败
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(input,"UTF-8"));
-			String line = null;
-			while((line = reader.readLine()) != null)
-			{
-			    if (line.toLowerCase().contains("ok")) {    
-					return SendResult.SUCCESS;
-				}else if(line.contains("maximum")){
-					return SendResult.RESPONSE_NOT_OK;
-				}
-				else {
-					return SendResult.RESPONSE_NOT_OK;
-				}
-			}
-			return SendResult.RESPONSE_NOT_OK;
-		}catch(SocketTimeoutException e){
-			System.out.println("接收消息超时："+content);
-			return SendResult.SOCKET_TIME_OUT;
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-			return SendResult.SOCKET_NOT_AVAILABLE;
-		}
+		return SendResult.SUCCESS;
+//		try {
+//			//TODO 这里需要做超时控制处理，超过一定时间认为发送失败
+//			content+="\n";
+//			output.write(content.getBytes("UTF-8"));//阻塞
+//			output.flush();			 //阻塞	
+//			System.out.println("发送消息："+content);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return SendResult.SOCKET_NOT_AVAILABLE;
+//		}
+//		try {
+//			//TODO 这里需要做超时控制处理，超过一定时间接收发送失败
+////			BufferedReader reader = new BufferedReader(new InputStreamReader(input,"UTF-8"));
+//			String line = null;
+//			while((line = reader.readLine()) != null)
+//			{
+//			    if (line.toLowerCase().contains("ok")) {    
+//					return SendResult.SUCCESS;
+//				}else if(line.contains("maximum")){
+//					return SendResult.RESPONSE_NOT_OK;
+//				}
+//				else {
+//					return SendResult.RESPONSE_NOT_OK;
+//				}
+//			}
+//			return SendResult.RESPONSE_NOT_OK;
+//		}catch(SocketTimeoutException e){
+//			System.out.println("接收消息超时："+content);
+//			return SendResult.SOCKET_TIME_OUT;
+//		}
+//		catch (IOException e) {
+//			e.printStackTrace();
+//			return SendResult.SOCKET_NOT_AVAILABLE;
+//		}
 	}
 	
 }
