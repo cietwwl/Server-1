@@ -1,8 +1,13 @@
 package com.playerdata.charge.dao;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -28,6 +33,8 @@ public class ChargeInfo {
 	private int totalChargeMoney;
 	
 	private int totalChargeGold;	
+	
+	private List<ChargeOrder> chargeOrderList = new ArrayList<ChargeOrder>();
 	
 	public String getUserId() {
 		return userId;
@@ -85,4 +92,36 @@ public class ChargeInfo {
 		this.count += count;
 		return this;
 	}
+	public List<ChargeOrder> getChargeOrderList() {
+		return chargeOrderList;
+	}
+	public void setChargeOrderList(List<ChargeOrder> chargeOrderList) {
+		this.chargeOrderList = chargeOrderList;
+	}
+	
+	public void addOrder(ChargeOrder chargeOrder){
+		if(chargeOrder == null){
+			return;
+		}
+		
+		final int maxSizeKeep = 10;//最多只保留10条订单信息
+		if(chargeOrderList.size()>=maxSizeKeep){
+			chargeOrderList.remove(0);
+			chargeOrderList.add(0,chargeOrder);
+			Collections.sort(chargeOrderList);//排序，最新的排在后面
+		}
+	
+	}
+	
+	public boolean isOrderExist(String cpTradeNo){
+		boolean isExist = false;
+		for (ChargeOrder chargeOrder : chargeOrderList) {
+			if(StringUtils.equals(cpTradeNo, chargeOrder.getCpTradeNo())){
+				isExist = true;
+				break;
+			}
+		}
+		return isExist;
+	}
+	
 }
