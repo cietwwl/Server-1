@@ -324,16 +324,10 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-<<<<<<< HEAD
 		int getGiftId = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
 			ChargeMgr.getInstance().buyAndTakeVipGift(player, getGiftId+"");
-			
-			
-=======
-		if (player != null) {
-			ActivityCountTypeHandler.getInstance().takeGift(player, null);
->>>>>>> develop
+
 			return true;
 		}
 		return false;
