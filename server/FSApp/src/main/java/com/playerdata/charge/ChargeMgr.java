@@ -81,11 +81,15 @@ public class ChargeMgr {
 		int money = target.getMoneyCount();
 		
 		player.getUserGameDataMgr().addReCharge(addGold);
-		player.getUserGameDataMgr().addGold(target.getExtraGive());
+		player.getUserGameDataMgr().addGold(addGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
 		
-		//派发额外-------------------------------
+		//限购派发奖励
+		
+		
+		
+		//派发账号首冲额外奖励-------------------------------
 		if(chargeInfo.getCount()==1){
 			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
 			int addgoldfirstcharge =  addGold*cfg.getAwardTimes() < cfg.getAwardMax() ?  addGold*cfg.getAwardTimes() : cfg.getAwardMax();

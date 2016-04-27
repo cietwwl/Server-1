@@ -218,10 +218,10 @@ public class Player implements PlayerIF {
 				player.getEmailMgr().save();
 				savedCount.incrementAndGet();
 			}
-			if (m_gambleMgr != null) {
-				player.getGambleMgr().save();
-				savedCount.incrementAndGet();
-			}
+//			if (m_gambleMgr != null) {
+//				player.getGambleMgr().save();
+//				savedCount.incrementAndGet();
+//			}
 			if (m_TaskMgr != null) {
 				player.getTaskMgr().save();
 				savedCount.incrementAndGet();
@@ -414,7 +414,7 @@ public class Player implements PlayerIF {
 					// // 推送个人的帮派技能数据
 					// getUserGroupAttributeDataMgr().synUserSkillData(player,
 					// -1);
-					getGambleMgr().syncGamble();
+					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
 					userGameDataMgr.setLastLoginTime(now);

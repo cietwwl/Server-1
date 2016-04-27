@@ -29,6 +29,7 @@ message GambleRequest{
     required EGambleRequestType requestType = 1;	//请求类型
 	optional EGambleType gambleType = 2;			//垂钓类型
 	optional ELotteryType lotteryType = 3;			//抽奖类型
+	optional int32 gamblePlanId = 4; // 重构后使用的参数 抽卡方案Id, gamble.csv key
 }
 
 message GambleResponse{
@@ -37,6 +38,14 @@ message GambleResponse{
 	repeated GambleRewardData itemList = 3;	//奖励列表
 	repeated string heroList = 4;				//热点英雄
 	optional GambleData gambleData = 5;//垂钓数据
+	optional string tips = 6;//操作结果提示
+	repeated DropData dropHistory = 7;//新的钓鱼数据模型
+}
+
+message DropData{
+	optional int32 freeCount = 1;//已经免费抽卡的次数
+	optional int32 maxFreeCount = 2;//最大免费次数，如果为0，表示这个方案没有免费次数
+	optional int32 leftTime = 3;// 剩余免费抽卡倒计时（单位为秒）
 }
 
 message GambleRewardData{

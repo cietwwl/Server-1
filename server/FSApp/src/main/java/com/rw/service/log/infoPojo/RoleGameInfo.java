@@ -37,7 +37,11 @@ public class RoleGameInfo {
 	
 	//统计信息
 	private String statInfo;
+	/**副本统计信息*/
+	private String copyInfo;
 	
+
+
 	//在线时长
 	private String onlineTime;
 	
@@ -66,7 +70,7 @@ public class RoleGameInfo {
 		return infoMap;
 	}
 	
-	public static RoleGameInfo fromPlayer(Player player){
+	public static RoleGameInfo fromPlayer(Player player,Map<String, String> moreinfo){
 		RoleGameInfo roleGameInfo = new RoleGameInfo();
 		roleGameInfo.setUserId(player.getUserId());
 		roleGameInfo.setVip(player.getVip());
@@ -101,6 +105,20 @@ public class RoleGameInfo {
 			roleGameInfo.setStatInfo(statInfo.toString());
 			
 			roleGameInfo.setOnlineTime("online_time:" + onlineTime);
+			
+			int spcase = 3;
+			long nmcase = 3;	
+			String fighttime="";
+			if(moreinfo!= null){
+				if(moreinfo.containsKey("fightTime")){
+					fighttime = moreinfo.get("fightTime");
+				}
+			}
+			StringBuilder copyInfo = new StringBuilder();
+			copyInfo.append("fight_time:").append(fighttime).append("#")
+			.append("sp_case:").append(spcase).append("#")
+			.append("nm_case:").append(nmcase);
+			roleGameInfo.setCopyInfo(copyInfo.toString());
 		}
 		if(player.getCopyRecordMgr().getCalculateState() != null){
 			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
@@ -208,7 +226,13 @@ public class RoleGameInfo {
 	public void setUserCreatedTime(String userCreatedTime) {
 		this.userCreatedTime = userCreatedTime;
 	}
+	public String getCopyInfo() {
+		return copyInfo;
+	}
 
+	public void setCopyInfo(String copyInfo) {
+		this.copyInfo = copyInfo;
+	}
 	
 
 }

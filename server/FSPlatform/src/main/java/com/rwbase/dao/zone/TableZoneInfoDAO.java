@@ -23,6 +23,6 @@ public class TableZoneInfoDAO extends PFDataRdbDao<TableZoneInfo>{
 	}
 	
 	public TableZoneInfo getByKey(Object key){
-		return super.getObject(key);
+		return super.findOneByKey("zoneId", key);
 	}
 }

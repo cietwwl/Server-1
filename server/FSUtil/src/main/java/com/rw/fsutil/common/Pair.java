@@ -9,15 +9,16 @@ public class Pair<T1, T2> implements IReadOnlyPair<T1,T2> {
 		return new Pair<T1, T2>(t1,t2);
 	}
 	
-	private Pair(T1 t1, T2 t2) {
+	protected Pair(T1 t1, T2 t2) {
 		super();
 		this.t1 = t1;
 		this.t2 = t2;
 	}
 
-	private T1 t1;
-	private T2 t2;
+	protected T1 t1;
+	protected T2 t2;
 
+	@Override
 	public T1 getT1() {
 		return t1;
 	}
@@ -26,6 +27,7 @@ public class Pair<T1, T2> implements IReadOnlyPair<T1,T2> {
 		this.t1 = t1;
 	}
 
+	@Override
 	public T2 getT2() {
 		return t2;
 	}

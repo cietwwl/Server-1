@@ -4,10 +4,12 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.fsutil.json.JSONObject;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.fsutil.util.StringUtil;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.service.log.infoPojo.ClientInfo;
 
@@ -60,11 +62,22 @@ public class RegLog implements ILog{
 
     private String mac = "";
     
+    
+    
+    
+    
     private String sdkVersion = "";  //sdk版本
 
     private String sdk_id = "";  //sdk用户唯一识别码
 
     private String systemVersion = "";  //操作系统版本号
+    
+    
+    
+    
+    
+    
+    
     /// <summary>
     /// 安卓/ios版本
     /// </summary>
@@ -560,8 +573,15 @@ public class RegLog implements ILog{
 
 	public void fillInfoToClientInfo(ClientInfo clientInfo){
 		if(clientInfo!=null){
-			clientInfo.setSdkVersion(this.sdkVersion);
+			if(clientInfo.getSdkVersion()==null|| StringUtils.isBlank("") ){
+				clientInfo.setSdkVersion(this.sdkVersion);
+			}
+			if(clientInfo.getSdk_id()==null|| StringUtils.isBlank("")){
 			clientInfo.setSdk_id(this.sdk_id);
+			}
+			if(clientInfo.getSystemVersion() == null|| StringUtils.isBlank("")){
+				clientInfo.setSystemVersion(this.systemVersion);
+			}
 		}
 	}
 

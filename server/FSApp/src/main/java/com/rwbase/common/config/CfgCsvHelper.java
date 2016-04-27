@@ -12,6 +12,8 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+
 public class CfgCsvHelper {
 
 	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP) {
@@ -34,7 +36,9 @@ public class CfgCsvHelper {
 					fieldNameArray = getFieldNameArray(csvRecord);
 				}else{
 					T cfg = createFromCsv(fieldNameArray, csvRecord, clazzP);
-					map.put(csvRecord.get(0), cfg);
+					if (map.put(csvRecord.get(0), cfg)!=null){
+						GameLog.error("配置错误", configFileName, "重复的关键字:"+csvRecord.get(0));
+					}
 				}
 			}
 			
