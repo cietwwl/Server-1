@@ -1,11 +1,5 @@
 package com.playerdata.charge;
 
-import java.util.Iterator;
-
-
-
-import java.util.Set;
-
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.charge.cfg.ChargeCfg;
@@ -14,6 +8,7 @@ import com.playerdata.charge.cfg.FirstChargeCfg;
 import com.playerdata.charge.cfg.FirstChargeCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
+import com.rw.chargeServer.ChargeContentPojo;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
@@ -53,10 +48,15 @@ public class ChargeMgr {
 		return result;
 	}
 	
-	private boolean takeChargeGift(ChargeCfg target) {
-		int extraGiftId = target.getExtraGiftId();
+	private boolean takeChargeGift(ChargeCfg target) {int extraGiftId = target.getExtraGiftId();
 		// TODO takeGift logic
 		return true;
+	}
+	
+	public boolean charge(ChargeContentPojo chargeContentPojo){
+		//TODO: 充值，保存订单，返回结果
+		
+		return false;
 	}
 
 	public ChargeResult charge(Player player, String itemId){
