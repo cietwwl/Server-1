@@ -1,7 +1,21 @@
 package com.playerdata.charge;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItemHolder;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeSubItem;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.cfg.FirstChargeCfg;
@@ -174,12 +188,42 @@ public class ChargeMgr {
 
 	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
 		ChargeResult result = ChargeResult.newResult(false);
+		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
+		String buyidtemp = "1";//GM命令模拟 
 		
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		if(dataItem == null){//首次读取创建记录
+			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player,ActivityTimeCardTypeEnum.Month);
+			if(dataItem != null){
+				dataHolder.addItem(player, dataItem);
+				}
+		}
 		
+		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
+		ActivityTimeCardTypeSubItem targetItem = null;
+		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
+			if(StringUtils.equals(itemTmp.getId(), buyidtemp)){
+				targetItem = itemTmp;
+				break;
+			}
+		}
 		
-		
-		
+		if(targetItem == null){//newitem已添加list，不会null
+			GameLog.error("chargeMgr.list里没有该项月卡类型！！！！！！！！！！！！！！！！");
+		}else{
+			targetItem.setDayLeft(targetItem.getDayLeft() + 30);
+			dataHolder.updateItem(player, dataItem);
+			
+			if(targetItem.getDayLeft() < 35){				
+				result.setTips("购买月卡成功");
+				result.setSuccess(true);
+			}else{				
+				result.setTips("剩余日期超过5天但依然冲了钱。。。");
+				GameLog.error("ChargeMgr.购买 月卡异常 ！玩家名字 = " + player.getUserName() + " 月卡类型=" + buyidtemp);
+			}
+		}		
 		return result;
 	}
+
 	
 }
