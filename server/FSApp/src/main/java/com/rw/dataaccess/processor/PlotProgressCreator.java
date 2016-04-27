@@ -1,16 +1,15 @@
 package com.rw.dataaccess.processor;
 
-import com.rw.dataaccess.PlayerCreatedParam;
-import com.rw.dataaccess.PlayerCreatedProcessor;
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
 
-public class PlotProgressProcessor implements PlayerCreatedProcessor<UserPlotProgress> {
+public class PlotProgressCreator implements DataExtensionCreator<UserPlotProgress> {
 
 	@Override
-	public UserPlotProgress create(PlayerCreatedParam param) {
+	public UserPlotProgress create(String userId) {
 		UserPlotProgress userPlotProgress = new UserPlotProgress();
 		userPlotProgress = new UserPlotProgress();
-		userPlotProgress.setUserId(param.getUserId());
+		userPlotProgress.setUserId(userId);
 		/**
 		 * <pre>
 		 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值

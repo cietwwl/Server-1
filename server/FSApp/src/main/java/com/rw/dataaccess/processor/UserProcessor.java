@@ -1,16 +1,16 @@
 package com.rw.dataaccess.processor;
 
 import org.apache.commons.lang3.StringUtils;
-import com.rw.dataaccess.PlayerCreatedParam;
-import com.rw.dataaccess.PlayerCreatedProcessor;
+import com.rw.dataaccess.PlayerParam;
+import com.rw.dataaccess.PlayerCoreCreation;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
 
-public class UserProcessor implements PlayerCreatedProcessor<User>{
+public class UserProcessor implements PlayerCoreCreation<User>{
 
 	@Override
-	public User create(PlayerCreatedParam param) {
+	public User create(PlayerParam param) {
 		String accountId = param.getAccountId();
 		User baseInfo = new User();
 		baseInfo.setUserId(param.getUserId());

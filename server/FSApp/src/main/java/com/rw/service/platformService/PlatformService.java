@@ -76,7 +76,7 @@ public class PlatformService {
 
 			return responseObject;
 		} catch (Exception ex) {
-			GameLog.error("PlatformService", "processPlatformServiceRequest", ex.getMessage());
+			GameLog.error("PlatformService", "processPlatformServiceRequest:"+ip+","+port, ex.getMessage());
 		} finally {
 			if (socket != null) {
 				try {

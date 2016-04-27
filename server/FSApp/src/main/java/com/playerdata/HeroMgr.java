@@ -198,8 +198,8 @@ public class HeroMgr implements HeroMgrIF{
 	public Hero addMainRoleHero(Player playerP, RoleCfg playerCfg) {
 		Hero hero = new Hero(playerP, eRoleType.Player, playerCfg, playerP.getUserId());
 		m_HeroMap.put(hero.getUUId(), hero);
-		userHerosDataHolder.get().addHeroId(hero.getUUId());
-		userHerosDataHolder.update(player);
+//		userHerosDataHolder.get().addHeroId(hero.getUUId());
+//		userHerosDataHolder.update(player);
 		return hero;
 	}
 

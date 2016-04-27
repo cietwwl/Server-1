@@ -5,14 +5,17 @@ import java.lang.reflect.Field;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rw.fsutil.cacheDao.loader.DataKVIntegration;
 import com.rw.fsutil.cacheDao.loader.DataKVSactter;
+import com.rw.fsutil.cacheDao.loader.DataKvNotExistHandler;
 import com.rw.fsutil.dao.annotation.ClassHelper;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.CacheValueEntity;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
+import com.rw.fsutil.dao.cache.DataNotExistHandler;
 import com.rw.fsutil.dao.cache.PersistentLoader;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.DataAccessSimpleSupport;
@@ -31,6 +34,7 @@ public class DataKVDao<T> {
 	private final ClassInfo classInfo;
 	private final DataCache<String, T> cache;
 	private final JdbcTemplate template;
+	private final Integer type;
 
 	public DataKVDao(Class<T> clazz) {
 		this.classInfo = new ClassInfo(clazz);
@@ -38,21 +42,29 @@ public class DataKVDao<T> {
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
 		this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template));
+		this.type = null;
 	}
 
 	public DataKVDao() {
 		this.classInfo = new ClassInfo(ClassHelper.getEntityClass(getClass()));
 		this.template = DataAccessFactory.getSimpleSupport().getMainTemplate();
 		int cacheSize = getCacheSize();
-		Integer type = DataAccessFactory.getDataKvManager().getDataKvType(getClass());
+		Class<? extends DataKVDao<T>> clazz = (Class<? extends DataKVDao<T>>) getClass();
+		this.type = DataAccessFactory.getDataKvManager().getDataKvType(clazz);
 		PersistentLoader<String, T> persistentLoader;
-		if(type == null){
+		if (this.type == null) {
 			persistentLoader = new DataKVSactter<T>(classInfo, template);
-		}else{
+		} else {
 			persistentLoader = new DataKVIntegration<T>(type, classInfo, template);
 		}
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz().getSimpleName(), 
-				cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader);
+		final DataExtensionCreator<T> creator = DataAccessFactory.getDataKvManager().getCreator(clazz);
+		DataNotExistHandler<String, T> handler;
+		if (creator == null) {
+			handler = null;
+		} else {
+			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
+		}
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz().getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler);
 	}
 
 	public void update(String id) {
@@ -88,7 +100,7 @@ public class DataKVDao<T> {
 			SqlLog.error(e);
 		}
 		return id;
-	};
+	}
 
 	public boolean delete(String id) {
 		try {
@@ -134,15 +146,15 @@ public class DataKVDao<T> {
 	}
 
 	public boolean putIntoCache(String key, T value) {
-		return this.cache.putIfAbsent(key, value);
+		return this.cache.putAfterInsertDB(key, value);
 	}
 
 	@SuppressWarnings("unchecked")
 	public Class<T> getEntityClass() {
 		return (Class<T>) classInfo.getClazz();
 	}
-	
-	public ClassInfo getClassInfo(){
+
+	public ClassInfo getClassInfo() {
 		return this.classInfo;
 	}
 
@@ -163,5 +175,5 @@ public class DataKVDao<T> {
 	protected int getUpdatedSeconds() {
 		return 60;
 	}
-	
+
 }

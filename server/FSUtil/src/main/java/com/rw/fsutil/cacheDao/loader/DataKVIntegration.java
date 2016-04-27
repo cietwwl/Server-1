@@ -43,14 +43,11 @@ public class DataKVIntegration<T> implements PersistentLoader<String, T> {
 	public T load(String key) throws DataNotExistException, Exception {
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(key, length);
 		String sql = selectSqlArray[tableIndex];
-		String value = null;
 		List<String> result = template.queryForList(sql, String.class, key, type);
-		if (result != null && result.size() > 0) {
-			value = new String(result.get(0));
-			T t = toT(value);
-			return t;
+		if (result == null || result.isEmpty()) {
+			throw new DataNotExistException();
 		}
-		return null;
+		return toT(result.get(0));
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.dataaccess.GameOperationFactory;
-import com.rw.dataaccess.PlayerCreatedParam;
+import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
@@ -287,7 +287,7 @@ public class GameLoginHandler {
 			
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
 			
-			PlayerCreatedParam param = new PlayerCreatedParam(accountId, userId,
+			PlayerParam param = new PlayerParam(accountId, userId,
 					nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
 			if(GameOperationFactory.getCreatedOperation().execute(param)){
 				createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);

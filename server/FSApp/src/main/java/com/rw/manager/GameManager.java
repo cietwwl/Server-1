@@ -12,13 +12,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-
-import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -34,7 +31,6 @@ import com.playerdata.RankingMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
-import com.rw.fsutil.dao.common.CommonMultiTable;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
@@ -144,7 +140,6 @@ public class GameManager {
 		long end = System.currentTimeMillis();
 		System.err.println("万仙阵初始化匹配数据花费时间：" + (end - start) + "毫秒");
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
-		System.out.println("耗时："+CommonMultiTable.total.get());
 	}
 
 	public static void initServerProperties() {

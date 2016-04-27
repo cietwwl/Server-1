@@ -76,9 +76,10 @@ public class Server {
 			int port = Integer.valueOf(ServerConfig.getInstance().getServeZoneInfo().getPort());
 			ChannelFuture channelFuture = serverBootstrap.bind(new InetSocketAddress(port)).sync();
 			channelFuture.channel().closeFuture().sync();
-		} catch (Exception e) {
-			// e.printStackTrace();
+		} catch (Throwable e) {
+			e.printStackTrace();
 			GameLog.error("Server", "Server[]main", "", e);
+			System.exit(0);
 		} finally {
 			bossEventLoopGroup.shutdownGracefully();
 			workerEventLoopGroup.shutdownGracefully();

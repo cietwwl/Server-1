@@ -4,24 +4,26 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import com.common.HPCUtil;
-import com.rw.dataaccess.processor.AngelArrayFloorProcessor;
-import com.rw.dataaccess.processor.BattleTowerProcessor;
-import com.rw.dataaccess.processor.CopyProcessor;
-import com.rw.dataaccess.processor.DailyActivityProcessor;
-import com.rw.dataaccess.processor.EmailProcessor;
-import com.rw.dataaccess.processor.FriendProcessor;
-import com.rw.dataaccess.processor.GambleProcessor;
-import com.rw.dataaccess.processor.GuideProgressProcessor;
-import com.rw.dataaccess.processor.PlotProgressProcessor;
+import com.rw.dataaccess.processor.AngelArrayFloorCreator;
+import com.rw.dataaccess.processor.BattleTowerCreator;
+import com.rw.dataaccess.processor.CopyCreator;
+import com.rw.dataaccess.processor.DailyActivityCreator;
+import com.rw.dataaccess.processor.EmailCreator;
+import com.rw.dataaccess.processor.FriendCreator;
+import com.rw.dataaccess.processor.GambleCreator;
+import com.rw.dataaccess.processor.GuideProgressCreator;
+import com.rw.dataaccess.processor.PlotProgressCreator;
 import com.rw.dataaccess.processor.SettingProcessor;
-import com.rw.dataaccess.processor.SevenDayGifProcessor;
-import com.rw.dataaccess.processor.SignProcessor;
-import com.rw.dataaccess.processor.StoreProcessor;
-import com.rw.dataaccess.processor.UnendingWarProcessor;
+import com.rw.dataaccess.processor.SevenDayGifCreator;
+import com.rw.dataaccess.processor.SignCreator;
+import com.rw.dataaccess.processor.StoreCreator;
+import com.rw.dataaccess.processor.UnendingWarCreator;
 import com.rw.dataaccess.processor.UserGameDataProcessor;
-import com.rw.dataaccess.processor.UserHeroProcessor;
-import com.rw.dataaccess.processor.VipProcessor;
+import com.rw.dataaccess.processor.UserHeroCreator;
+import com.rw.dataaccess.processor.VipCreator;
 import com.rw.fsutil.cacheDao.DataKVDao;
+import com.rw.fsutil.cacheDao.loader.DataCreator;
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngleArrayFloorDataDao;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.business.SevenDayGifInfoDAO;
@@ -42,56 +44,36 @@ import com.rwbase.dao.vip.TableVipDAO;
 
 public enum DataKVType {
 
-	// USER(1, UserDataDao.class, UserProcessor.class),
-	USER_GAME_DATA(1, UserGameDataDao.class, UserGameDataProcessor.class, LoadPolicy.PLAYER_QUERY), 
-	USER_HERO(2, UserHeroDAO.class, UserHeroProcessor.class, LoadPolicy.PLAYER_QUERY), 
-	//ROLE_BASE_INFO(3, RoleBaseInfoDAO.class, UserProcessor.class),
-	FRIEND(4,TableFriendDAO.class,FriendProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	SIGN(5,TableSignDataDAO.class,SignProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	VIP(6,TableVipDAO.class,VipProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	SETTING(7,TableSettingDataDAO.class,SettingProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	AGNEL_ARRAY_FLOOR(8,AngleArrayFloorDataDao.class,AngelArrayFloorProcessor.class, LoadPolicy.PLAYER_QUERY),
-	EMAIL(9,TableEmailDAO.class,EmailProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	GAMBLE(10,TableGambleDAO.class,GambleProcessor.class, LoadPolicy.PLAYER_QUERY),
-	STORE(11,TableStoreDao.class,StoreProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	DAILY_ACTIVITY(12,TableDailyActivityItemDAO.class,DailyActivityProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	SEVEN_DAY_GIF(13,SevenDayGifInfoDAO.class,SevenDayGifProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	//USER_GROUP_ATTRIBUTE(14,UserGroupAttributeDataDAO.class,UserGroupProcessor.class),
-	
-	UNENDING(14,UnendingWarDAO.class,UnendingWarProcessor.class, LoadPolicy.PLAYER_QUERY),
-	BATTLE_TOWER(15,TableBattleTowerDao.class,BattleTowerProcessor.class, LoadPolicy.PLAYER_QUERY),
-	PLOT_PROGRESS(16,PlotProgressDAO.class,PlotProgressProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	GUIDE__PROGRESS(17,GuideProgressDAO.class,GuideProgressProcessor.class, LoadPolicy.PLAYER_LOGIN),
-	COPY(18,TableCopyDataDAO.class,CopyProcessor.class,LoadPolicy.PLAYER_LOGIN)
-	;
+	USER_GAME_DATA(1, UserGameDataDao.class, UserGameDataProcessor.class), USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class), FRIEND(4, TableFriendDAO.class, FriendCreator.class), SIGN(5,
+			TableSignDataDAO.class, SignCreator.class), VIP(6, TableVipDAO.class, VipCreator.class), SETTING(7, TableSettingDataDAO.class, SettingProcessor.class), AGNEL_ARRAY_FLOOR(8,
+			AngleArrayFloorDataDao.class, AngelArrayFloorCreator.class), EMAIL(9, TableEmailDAO.class, EmailCreator.class), GAMBLE(10, TableGambleDAO.class, GambleCreator.class), STORE(11,
+			TableStoreDao.class, StoreCreator.class), DAILY_ACTIVITY(12, TableDailyActivityItemDAO.class, DailyActivityCreator.class), SEVEN_DAY_GIF(13, SevenDayGifInfoDAO.class,
+			SevenDayGifCreator.class), UNENDING(14, UnendingWarDAO.class, UnendingWarCreator.class), BATTLE_TOWER(15, TableBattleTowerDao.class, BattleTowerCreator.class), PLOT_PROGRESS(16,
+			PlotProgressDAO.class, PlotProgressCreator.class), GUIDE__PROGRESS(17, GuideProgressDAO.class, GuideProgressCreator.class), COPY(18, TableCopyDataDAO.class, CopyCreator.class);
 
-	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, 
-			Class<? extends PlayerCreatedProcessor<?>> processorClass,LoadPolicy loadPolicy) {
+	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
 		this.clazz = clazz;
-		this.processorClass = processorClass;
-		this.loadPolicy = loadPolicy;
+		this.creatorClass = processorClass;
 	}
 
+	// 类型
 	private int type;
+	// DAO class
 	private Class<? extends DataKVDao<?>> clazz;
-	private Class<? extends PlayerCreatedProcessor<?>> processorClass;
-	private LoadPolicy loadPolicy;
-	
+	// processor class
+	private Class<? extends DataCreator<?, ?>> creatorClass;
+
 	public int getType() {
 		return type;
-	}
-
-	public Class<? extends PlayerCreatedProcessor<?>> getProcessorClass() {
-		return processorClass;
 	}
 
 	public Class<? extends DataKVDao<?>> getClazz() {
 		return clazz;
 	}
-	
-	public LoadPolicy getLoadPolicy() {
-		return loadPolicy;
+
+	public Class<? extends DataCreator<?, ?>> getCreatorClass() {
+		return creatorClass;
 	}
 
 	private static DataKVType[] array;
@@ -99,8 +81,9 @@ public enum DataKVType {
 	static {
 		DataKVType[] temp = DataKVType.values();
 		for (DataKVType type : temp) {
-			if (getSuperclassGeneric(type.getClazz()) != getInterfacesGeneric(type.getProcessorClass())) {
-				throw new ExceptionInInitializerError("DataKVDao与PlayerCreatedProcessor范型参数不一致:" + type.getClazz() + "," + type.getProcessorClass());
+			// 检查DataKVDao与UserGameDataProcessor的泛型是否一致
+			if (getSuperclassGeneric(type.getClazz()) != getInterfacesGeneric(type.creatorClass)) {
+				throw new ExceptionInInitializerError("DataKVDao与PlayerCreatedProcessor范型参数不一致:" + type.getClazz() + "," + type.creatorClass);
 			}
 		}
 		Object[] copy = HPCUtil.toMappedArray(temp, "type");
@@ -112,35 +95,36 @@ public enum DataKVType {
 		return array[type];
 	}
 
-	private static Class getSuperclassGeneric(Class clz) {
+	private static Class<?> getSuperclassGeneric(Class<?> clz) {
 		Type type = clz.getGenericSuperclass();
 		if (!(type instanceof ParameterizedType)) {
 			throw new IllegalArgumentException("缺少父类的范型参数：" + clz);
 		}
 		ParameterizedType paramType = (ParameterizedType) type;
-		return (Class) paramType.getActualTypeArguments()[0];
+		return (Class<?>) paramType.getActualTypeArguments()[0];
 	}
 
-	private static Class getInterfacesGeneric(Class clz) {
-		Class[] interfaceClass = clz.getInterfaces();
+	private static Class<?> getInterfacesGeneric(Class<?> clz) {
+		Class<?>[] interfaceClass = clz.getInterfaces();
 		int index = -1;
 		for (int i = 0; i < interfaceClass.length; i++) {
-			Class c = interfaceClass[i];
-			if (c != PlayerCreatedProcessor.class) {
+			Class<?> c = interfaceClass[i];
+			if (c != DataExtensionCreator.class && c != PlayerCoreCreation.class) {
 				continue;
 			}
 			index = i;
 			break;
 		}
 		if (index == -1) {
-			throw new IllegalArgumentException("缺少实现PlayerCreatedProcessor接口：" + clz);
+			throw new IllegalArgumentException("缺少实现DataExtensionCreator or PlayerCoreCreation接口：" + clz);
 		}
 		Type[] typeArray = clz.getGenericInterfaces();
 		Type type = typeArray[index];
 		if (!(type instanceof ParameterizedType)) {
-			throw new IllegalArgumentException("缺少实现PlayerCreatedProcessor接口的泛型参数：" + clz);
+			throw new IllegalArgumentException("缺少实现接口的泛型参数：" + clz);
 		}
 		ParameterizedType paramType = (ParameterizedType) type;
-		return (Class) paramType.getActualTypeArguments()[0];
+		return (Class<?>) paramType.getActualTypeArguments()[0];
 	}
+
 }

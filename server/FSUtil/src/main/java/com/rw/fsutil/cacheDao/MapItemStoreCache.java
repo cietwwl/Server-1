@@ -68,7 +68,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	
 	public void notifyPlayerCreate(String userId){
 		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this);
-		cache.putIfAbsent(userId, m);
+		cache.putAfterInsertDB(userId, m);
 	}
 
 	private PersistentLoader<String, MapItemStore<T>> loader = new PersistentLoader<String, MapItemStore<T>>() {

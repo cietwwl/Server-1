@@ -55,6 +55,8 @@ public class DailyGifMgr implements PlayerEventListener{
 		long resTime = table.getLastResetTime();
 		if (resTime == 0) {
 			table.setCount(1);
+			table.setLastResetTime(System.currentTimeMillis());
+			save();
 		} else {
 			// Calendar lastDay = DateUtils.getCalendar(table.getLastResetTime());
 			// if (DateUtils.dayChanged(lastDay)) {
@@ -63,11 +65,10 @@ public class DailyGifMgr implements PlayerEventListener{
 			// TODO HC 检查同步的时间
 			if (DateUtils.isResetTime(5, 0, 0, table.getLastResetTime())) {
 				table.setCount(table.getCount() + 1);
+				table.setLastResetTime(System.currentTimeMillis());
+				save();
 			}
 		}
-
-		table.setLastResetTime(System.currentTimeMillis());
-		save();
 	}
 	
 	public void checkIsSevenDay(Player pRole)

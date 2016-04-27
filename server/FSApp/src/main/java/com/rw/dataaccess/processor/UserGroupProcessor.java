@@ -1,13 +1,13 @@
 package com.rw.dataaccess.processor;
 
-import com.rw.dataaccess.PlayerCreatedParam;
-import com.rw.dataaccess.PlayerCreatedProcessor;
+import com.rw.dataaccess.PlayerParam;
+import com.rw.dataaccess.PlayerCoreCreation;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
 
-public class UserGroupProcessor implements PlayerCreatedProcessor<UserGroupAttributeData>{
+public class UserGroupProcessor implements PlayerCoreCreation<UserGroupAttributeData>{
 
 	@Override
-	public UserGroupAttributeData create(PlayerCreatedParam param) {
+	public UserGroupAttributeData create(PlayerParam param) {
 		UserGroupAttributeData data = new UserGroupAttributeData();
 		data.setUserId(param.getUserId());
 		data.setGroupId("");

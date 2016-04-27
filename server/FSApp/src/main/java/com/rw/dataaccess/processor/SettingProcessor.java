@@ -3,20 +3,19 @@ package com.rw.dataaccess.processor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rw.dataaccess.PlayerCreatedParam;
-import com.rw.dataaccess.PlayerCreatedProcessor;
+import com.rw.dataaccess.PlayerParam;
+import com.rw.dataaccess.PlayerCoreCreation;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.HeadCfgDAO;
 import com.rwbase.dao.setting.HeadTypeList;
-import com.rwbase.dao.setting.TableSettingDataDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
 import com.rwbase.dao.setting.pojo.HeadType;
 import com.rwbase.dao.setting.pojo.TableSettingData;
 
-public class SettingProcessor implements PlayerCreatedProcessor<TableSettingData>{
+public class SettingProcessor implements PlayerCoreCreation<TableSettingData> {
 
 	@Override
-	public TableSettingData create(PlayerCreatedParam param) {
+	public TableSettingData create(PlayerParam param) {
 		TableSettingData settingData = new TableSettingData();
 		settingData.setUserID(param.getUserId());
 		settingData.setLastRenameTimeInMill(0);

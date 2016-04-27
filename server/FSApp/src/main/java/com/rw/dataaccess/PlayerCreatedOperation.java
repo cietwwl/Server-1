@@ -12,5 +12,5 @@ public interface PlayerCreatedOperation {
 	 * 执行玩家创建操作
 	 * @param param
 	 */
-	public boolean execute(PlayerCreatedParam param);
+	public boolean execute(PlayerParam param);
 }

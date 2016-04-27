@@ -10,6 +10,10 @@ import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
 
+/**
+ * 把原来代码拷贝过来，还没整理
+ * @param <T>
+ */
 public class DataKVSactter<T> implements PersistentLoader<String, T> {
 
 	private final ClassInfo classInfoPojo;

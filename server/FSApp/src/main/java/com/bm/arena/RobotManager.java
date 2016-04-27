@@ -28,7 +28,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
 import com.rw.dataaccess.GameOperationFactory;
-import com.rw.dataaccess.PlayerCreatedParam;
+import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.service.arena.ArenaHandler;
 import com.rwbase.common.MapItemStoreFactory;
@@ -102,7 +102,7 @@ public class RobotManager {
 
 			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
-			PlayerCreatedParam param = new PlayerCreatedParam(userId, userId, userName, 1, sex,
+			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex,
 					System.currentTimeMillis(), playerCfg, headImage, "");
 			
 			GameOperationFactory.getCreatedOperation().execute(param);

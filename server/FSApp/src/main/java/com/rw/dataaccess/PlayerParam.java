@@ -2,7 +2,7 @@ package com.rw.dataaccess;
 
 import com.rwbase.dao.role.pojo.RoleCfg;
 
-public class PlayerCreatedParam {
+public class PlayerParam {
 
 	private final String accountId; // 玩家账号
 	private final String userId; // 玩家唯一ID
@@ -16,7 +16,7 @@ public class PlayerCreatedParam {
 	private final int starLevel;
 	private final String clientInfoJson;
 
-	public PlayerCreatedParam(String accountId, String userId, String userName, int zoneId, int sex, long createTimeMillis, RoleCfg playerCfg, String headImage, String clientInfoJson) {
+	public PlayerParam(String accountId, String userId, String userName, int zoneId, int sex, long createTimeMillis, RoleCfg playerCfg, String headImage, String clientInfoJson) {
 		this.accountId = accountId;
 		this.userId = userId;
 		this.userName = userName;

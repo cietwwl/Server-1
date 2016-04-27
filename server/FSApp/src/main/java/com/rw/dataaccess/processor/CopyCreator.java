@@ -5,21 +5,20 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.readonly.CopyInfoCfgIF;
-import com.rw.dataaccess.PlayerCreatedParam;
-import com.rw.dataaccess.PlayerCreatedProcessor;
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rwbase.dao.copypve.CopyInfoCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 
-public class CopyProcessor implements PlayerCreatedProcessor<TableCopyData>{
+public class CopyCreator implements DataExtensionCreator<TableCopyData>{
 
 	@Override
-	public TableCopyData create(PlayerCreatedParam param) {
+	public TableCopyData create(String userId) {
 		List<CopyInfoCfg> cfgList = CopyInfoCfgDAO.getInstance().getAllCfg();
 		TableCopyData pTableCopyData = new TableCopyData();
-		pTableCopyData.setUserId(param.getUserId());
+		pTableCopyData.setUserId(userId);
 		List<CopyData> copyList = new ArrayList<CopyData>();
 		for (CopyInfoCfgIF cfg : cfgList)
 		{

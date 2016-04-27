@@ -3,17 +3,16 @@ package com.rw.dataaccess.processor;
 import java.util.Calendar;
 import java.util.TreeMap;
 
-import com.rw.dataaccess.PlayerCreatedParam;
-import com.rw.dataaccess.PlayerCreatedProcessor;
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rwbase.dao.sign.pojo.SignData;
 import com.rwbase.dao.sign.pojo.TableSignData;
 
-public class SignProcessor implements PlayerCreatedProcessor<TableSignData>{
+public class SignCreator implements DataExtensionCreator<TableSignData>{
 
 	@Override
-	public TableSignData create(PlayerCreatedParam param) {
+	public TableSignData create(String userId) {
 		TableSignData pTableSignData = new TableSignData();
-		pTableSignData.setUserId(param.getUserId());
+		pTableSignData.setUserId(userId);
 		TreeMap<String,SignData> treeMap = new TreeMap<String, SignData>();
 		pTableSignData.setSignDataMap(treeMap);
 		Calendar calendar = Calendar.getInstance();

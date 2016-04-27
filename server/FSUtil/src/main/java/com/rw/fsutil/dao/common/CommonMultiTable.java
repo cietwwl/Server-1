@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.persistence.Id;
 
@@ -37,9 +36,7 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 public class CommonMultiTable<T> {
 
 	private final ClassInfo classInfoPojo;
-
 	private final JdbcTemplate template;
-
 	private final String[] selectSqlArray;
 	private final String[] delectSqlArray;
 	private final String[] updateSqlArray;
@@ -54,9 +51,6 @@ public class CommonMultiTable<T> {
 		String tableName = classInfoPojo.getTableName();
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, tableName);
 		int size = list.size();
-		if (size == 0) {
-			throw new ExceptionInInitializerError("不存在该表：" + tableName);
-		}
 		if (size == 1 && !list.get(0).equals(tableName)) {
 			throw new ExceptionInInitializerError("数据表名不对应：expect=" + tableName + ",actual=" + list.get(0));
 		}
@@ -315,22 +309,19 @@ public class CommonMultiTable<T> {
 		return fieldValues;
 	}
 
-	public static AtomicLong total = new AtomicLong();
+	//public static AtomicLong total = new AtomicLong();
 
 	private String getString(String[] sqlArray, String searchId) {
-		long start = System.nanoTime();
 		int len = sqlArray.length;
 		if (len == 1) {
 			return sqlArray[0];
 		}
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(searchId, len);
-		total.addAndGet(System.nanoTime() - start);
+		//total.addAndGet(System.nanoTime() - start);
 		return sqlArray[tableIndex];
 	}
 
 	public static void main(String[] args) throws SQLException {
-
-		// String url =
 		// "jdbc:mysql://192.168.2.230:3306/gods_cfg_{zoneId}?useUnicode=true&amp;characterEncoding=utf8&amp;characterResultSets=utf8";
 		// String username = "root";
 		// String password = "123456";
@@ -339,8 +330,6 @@ public class CommonMultiTable<T> {
 		// username, password, maxActive );
 		// JdbcTemplate jdbcTemplateTmp =
 		// JdbcTemplateFactory.buildJdbcTemplate(dataSource);
-		//
-
 	}
 
 }
