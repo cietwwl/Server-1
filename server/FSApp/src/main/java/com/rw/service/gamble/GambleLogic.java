@@ -227,7 +227,7 @@ public class GambleLogic {
 		return GambleLogicHelper.canGambleFreely(player);
 	}
 
-	public static boolean isFree(Player player, int planId) {
-		return GambleLogicHelper.isFree(player, planId);
+	public static boolean isFree(Player player, int dropType) {
+		return GambleLogicHelper.isFree(player, dropType);
 	}
 }

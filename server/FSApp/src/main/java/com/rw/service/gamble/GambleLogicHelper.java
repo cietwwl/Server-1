@@ -51,7 +51,7 @@ public class GambleLogicHelper {
 		Iterable<GamblePlanCfg> all = helper.getIterateAllCfg();
 		ArrayList<DropData> result = new ArrayList<DropData>(helper.getEntryCount());
 		for (GamblePlanCfg cfg : all) {
-			result.add(getFinshingData(player,cfg.getKey()));
+			result.add(getFinshingData(player,cfg.getDropType()));
 		}
 		return result;
 	}
@@ -60,7 +60,7 @@ public class GambleLogicHelper {
 		GamblePlanCfgHelper helper = GamblePlanCfgHelper.getInstance();
 		Iterable<GamblePlanCfg> all = helper.getIterateAllCfg();
 		for (GamblePlanCfg cfg : all) {
-			if (isFree(player,cfg.getKey())){
+			if (isFree(player,cfg.getDropType())){
 				return true;
 			}
 		}
@@ -68,8 +68,8 @@ public class GambleLogicHelper {
 	}
 	
 	//根据配置的方案，找到数据库里面的历史信息并返回
-	public static DropData getFinshingData(Player player,int planId){
-		GambleOnePlanDropData oneData = getOneDropData(player,planId);
+	public static DropData getFinshingData(Player player,int dropType){
+		GambleOnePlanDropData oneData = getOneDropData(player,dropType);
 		DropData.Builder result = DropData.newBuilder();
 		result.setFreeCount(oneData.getFreeCount());
 		result.setLeftTime(oneData.getLeftTime());
@@ -77,11 +77,11 @@ public class GambleLogicHelper {
 		return result.build();
 	}
 	
-	public static GambleOnePlanDropData getOneDropData(Player player,int planId){
-		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(planId,player.getLevel());
+	public static GambleOnePlanDropData getOneDropData(Player player,int dropType){
+		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(dropType,player.getLevel());
 		GambleRecordDAO gambleRecords = GambleRecordDAO.getInstance();
 		GambleRecord record = gambleRecords.getOrCreate(player.getUserId());
-		GambleDropHistory historyRecord = record.getHistory(planId);
+		GambleDropHistory historyRecord = record.getHistory(dropType);
 
 		GambleOnePlanDropData result = new GambleOnePlanDropData(historyRecord,planCfg);
 		return result;
@@ -152,8 +152,8 @@ public class GambleLogicHelper {
 		return roleCfg != null;
 	}
 
-	public static boolean isFree(Player player, int planId) {
-		GambleOnePlanDropData oneData = getOneDropData(player,planId);
+	public static boolean isFree(Player player, int dropType) {
+		GambleOnePlanDropData oneData = getOneDropData(player,dropType);
 		return oneData.canGambleFree();
 	}
 	

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -40,6 +41,7 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 	public GamblePlanCfg getConfig(int dropType,int level){
 		List<GamblePlanCfg> lst = typeLevelMapping.get(dropType);
 		if (lst == null) {
+			GameLog.error("钓鱼台", "dropType="+dropType, "找不到抽卡类型");
 			return null;
 		}
 		
@@ -48,6 +50,7 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 				return gamblePlanCfg;
 			}
 		}
+		GameLog.error("钓鱼台", "dropType="+dropType, "找不到等级段,level="+level);
 		return null;
 	}
 }
