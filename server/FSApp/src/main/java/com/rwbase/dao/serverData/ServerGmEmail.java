@@ -21,7 +21,7 @@ public class ServerGmEmail {
 	private EmailData sendToAllEmailData;
 	@SaveAsJson
 	private List<PlayerFilterCondition> conditionList = new ArrayList<PlayerFilterCondition>();
-	private int status;
+	private int status = 0;
 	
 	public EmailData getSendToAllEmailData() {
 		return sendToAllEmailData;
