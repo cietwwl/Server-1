@@ -50,6 +50,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 		DailyActivityHandler.getInstance().sendTaskList(player);
 	}
 
+	
 	// 从配置文件中重新刷新任务列表
 	public List<DailyActivityData> getTaskListByCfg(boolean refresh) {
 		List<DailyActivityCfgEntity> taskCfgList = DailyActivityCfgDAO.getInstance().getAllReadOnlyEntitys();
