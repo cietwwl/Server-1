@@ -128,8 +128,8 @@ public class TableBattleTower implements TableBattleTowerIF {
 		int oldKeyCount = copper_key;
 		copper_key = HPCUtil.safeCalculateChange(this.copper_key, count);
 
-		if (oldKeyCount < copper_key) {// 如果之前的小于现在的，证明是被消耗了
-			use_copper_key += (copper_key - oldKeyCount);
+		if (oldKeyCount > copper_key) {// 如果之前的小于现在的，证明是被消耗了
+			use_copper_key += (oldKeyCount - copper_key);
 		}
 	}
 
@@ -142,8 +142,8 @@ public class TableBattleTower implements TableBattleTowerIF {
 		int oldKeyCount = silver_key;
 		silver_key = HPCUtil.safeCalculateChange(this.silver_key, count);
 
-		if (oldKeyCount < silver_key) {// 如果之前的小于现在的，证明是被消耗了
-			use_silver_key += (silver_key - oldKeyCount);
+		if (oldKeyCount > silver_key) {// 如果之前的小于现在的，证明是被消耗了
+			use_silver_key += (oldKeyCount - silver_key);
 		}
 	}
 
@@ -156,8 +156,8 @@ public class TableBattleTower implements TableBattleTowerIF {
 		int oldKeyCount = gold_key;
 		gold_key = HPCUtil.safeCalculateChange(this.gold_key, count);
 
-		if (oldKeyCount < gold_key) {// 如果之前的小于现在的，证明是被消耗了
-			use_silver_key += (gold_key - oldKeyCount);
+		if (oldKeyCount > gold_key) {// 如果之前的小于现在的，证明是被消耗了
+			use_silver_key += (oldKeyCount - gold_key);
 		}
 	}
 

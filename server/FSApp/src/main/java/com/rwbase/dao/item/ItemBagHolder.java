@@ -197,6 +197,7 @@ public class ItemBagHolder implements RecordSynchronization{
 		if (!updateItems.isEmpty()) {
 			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionLevel);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionType);
+			player.getFresherActivityMgr().doCheck(eActivityType.A_CollectionMagic);
 			ClientDataSynMgr.synDataList(player, updateItems, type, eSynOpType.UPDATE_LIST);
 		}
 	}
