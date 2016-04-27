@@ -13,6 +13,9 @@ import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.rw.fsutil.common.EnumIndex;
+import com.rw.fsutil.common.EnumName;
+import com.rw.fsutil.dao.annotation.NonSave;
 
 public class CfgCsvHelper {
 
@@ -39,6 +42,7 @@ public class CfgCsvHelper {
 					if (map.put(csvRecord.get(0), cfg)!=null){
 						GameLog.error("配置错误", configFileName, "重复的关键字:"+csvRecord.get(0));
 					}
+					map.put(csvRecord.get(0), cfg);
 				}
 			}
 			
@@ -118,15 +122,21 @@ public class CfgCsvHelper {
 		Class<?> fieldType = field.getType();
 
 		if (fieldType.isEnum()){
-			value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
-			/*Object[] enumConsts = fieldType.getEnumConstants();
-			for (int i = 0; i < enumConsts.length; i++) {
-				Object enumval = enumConsts[i];
-				if (strvalue.equals(enumval.toString())){
-					value = enumval;
-					break;
+			if (field.isAnnotationPresent(EnumName.class)) {
+				value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
+			}else if (field.isAnnotationPresent(EnumIndex.class)) {
+				int index = Integer.parseInt(strvalue);
+				Object[] enumLst=fieldType.getEnumConstants();
+				value = enumLst[index];
+			}else{
+				try {
+					value = Enum.<Enum>valueOf((Class<Enum>)fieldType, strvalue.trim());
+				} catch (Exception e) {
+					int index = Integer.parseInt(strvalue);
+					Object[] enumLst=fieldType.getEnumConstants();
+					value = enumLst[index];
 				}
-			}*/
+			}
 		}else if (fieldType == String.class) {
 			value = strvalue;
 		} else if (fieldType == int.class || fieldType == Integer.class) {
