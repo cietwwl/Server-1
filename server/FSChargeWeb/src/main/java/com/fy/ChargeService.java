@@ -27,9 +27,14 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 
 	public void doService() {
 
+		
 		String jsonContent = request.getParameter("content");
+		
+		ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
+		
+		ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
 		try {
-			boolean success  = reqGameServer(jsonContent);
+			boolean success  = reqGameServer(jsonContent, contentPojo);
 			
 			String result = success?"0":"-1";			
 			
@@ -46,12 +51,12 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 
 
 
-	private boolean reqGameServer(String jsonContent){
+	private boolean reqGameServer(String jsonContent,ContentPojo contentPojo){
 		
 		boolean success = false;
 		
 		try {
-			ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
+			
 			ZoneInfo targetZone = ZoneInfoMgr.getInstance().getZone(contentPojo.getServerId());
 			
 			if(targetZone!=null){
@@ -59,11 +64,12 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 				params.put("content", jsonContent);
 				
 				String resp = HttpClientUtil.post(targetZone.getServerIp(),targetZone.getChargePort(), params);
-				success = StringUtils.contains(resp, "ok");				
+				success = StringUtils.contains(resp, "ok");
+				ChargeLog.info("charge", contentPojo.getCpTradeNo(), "游戏服处理结果："+resp);
 			}
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) {			
+			ChargeLog.error("charge", contentPojo.getCpTradeNo(), "请求游戏服处理异常",e);
 		}
 		return success;
 	}
