@@ -15,6 +15,14 @@ public class ActivityTimeCardTypeSubCfg {
 	private int slot;
 	//每日领取钻石
 	private int dayAwardCount;
+	private int daysLimit;//超过天数不可再续费
+	public int getDaysLimit() {
+		return daysLimit;
+	}
+
+	public void setDaysLimit(int daysLimit) {
+		this.daysLimit = daysLimit;
+	}
 
 	//月卡类型
 	private int timeCardType;

@@ -211,12 +211,16 @@ public class ChargeMgr {
 			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！"+player);
 			result.setTips("购买月卡异常");
 		}else{
+			int tempdayleft = targetItem.getDayLeft();
 			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDays());
 			dataHolder.updateItem(player, dataItem);
+			result.setSuccess(true);
 			
-			if(targetItem.getDayLeft() < 35){				
-				result.setTips("购买月卡成功");
-				result.setSuccess(true);
+			
+			
+			
+			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDaysLimit()){				
+				result.setTips("购买月卡成功");				
 			}else{				
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
 				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡类型 =" + chargeItemId);
