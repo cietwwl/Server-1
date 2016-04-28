@@ -1,4 +1,4 @@
-syntax = "proto2";
+﻿syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "DataSynProtos";
 package DataSyn;
@@ -67,6 +67,8 @@ enum eSynType	//数据同步类型
 
 	//活动从60-69
 	ActivityCountType = 60;//活动，计数类型
+	//月卡
+	ActivityTimeCardType = 61;//活动，计数类型
 
 
 }

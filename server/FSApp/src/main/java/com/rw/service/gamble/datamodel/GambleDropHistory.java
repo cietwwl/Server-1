@@ -200,14 +200,4 @@ public class GambleDropHistory {
 	public boolean canUseFree(GamblePlanCfg planCfg) {
 		return freeCount < planCfg.getFreeCountPerDay() && GambleLogicHelper.isLeftTimeOver(getFreeLeftTime(planCfg));
 	}
-
-	public boolean canUseFree(String gamblePlanId) {
-		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getCfgById(gamblePlanId);
-		return canUseFree(planCfg);
-	}
-
-	public boolean canUseFree(int gamblePlanId) {
-		String planIdStr = String.valueOf(gamblePlanId);
-		return canUseFree(planIdStr);
-	}
 }

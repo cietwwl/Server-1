@@ -17,7 +17,7 @@ import com.rwbase.dao.hotPoint.EHotPointType;
 public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	private Player m_pPlayer;
 	public boolean getHasFree() {
-		return GambleLogic.canGambleFreely(m_pPlayer.getUserId());
+		return GambleLogic.canGambleFreely(m_pPlayer);
 	}
 	
 	/**
@@ -36,11 +36,11 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	}
 	
 	public boolean isPrimaryOneFree(){
-		return GambleLogic.isFree(m_pPlayer.getUserId(),GambleLogicHelper.Primary_One);
+		return GambleLogic.isFree(m_pPlayer,GambleLogicHelper.Primary_One);
 	}
 	
 	public boolean isMiddleOneFree(){
-		return GambleLogic.isFree(m_pPlayer.getUserId(),GambleLogicHelper.Middle_One);
+		return GambleLogic.isFree(m_pPlayer,GambleLogicHelper.Middle_One);
 	}
 	
 	public void syncMainCityGambleHotPoint(){

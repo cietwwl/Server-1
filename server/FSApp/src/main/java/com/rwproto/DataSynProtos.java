@@ -518,6 +518,14 @@ public final class DataSynProtos {
      * </pre>
      */
     ActivityCountType(43, 60),
+    /**
+     * <code>ActivityTimeCardType = 61;</code>
+     *
+     * <pre>
+     *月卡
+     * </pre>
+     */
+    ActivityTimeCardType(44, 61),
     ;
 
     /**
@@ -872,6 +880,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int ActivityCountType_VALUE = 60;
+    /**
+     * <code>ActivityTimeCardType = 61;</code>
+     *
+     * <pre>
+     *月卡
+     * </pre>
+     */
+    public static final int ActivityTimeCardType_VALUE = 61;
 
 
     public final int getNumber() { return value; }
@@ -922,6 +938,7 @@ public final class DataSynProtos {
         case 42: return Charge;
         case 43: return POWER_INFO;
         case 60: return ActivityCountType;
+        case 61: return ActivityTimeCardType;
         default: return null;
       }
     }
@@ -4806,7 +4823,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\343\006\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\375\006\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
       "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
@@ -4828,8 +4845,8 @@ public final class DataSynProtos {
       "CopyReward\020&\022\030\n\024GroupApplyMemberData\020\'\022\026" +
       "\n\022GroupResearchSkill\020(\022\023\n\017GroupStudySkil" +
       "l\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\025\n\021Activ" +
-      "ityCountType\020<B\034\n\013com.rwprotoB\rDataSynPr" +
-      "otos"
+      "ityCountType\020<\022\030\n\024ActivityTimeCardType\020=" +
+      "B\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
