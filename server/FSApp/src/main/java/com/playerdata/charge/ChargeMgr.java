@@ -209,6 +209,7 @@ public class ChargeMgr {
 		
 		if(targetItem == null){//newitem已添加list，不会null
 			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！"+player);
+			result.setTips("购买月卡异常");
 		}else{
 			targetItem.setDayLeft(targetItem.getDayLeft() + 30);
 			dataHolder.updateItem(player, dataItem);
