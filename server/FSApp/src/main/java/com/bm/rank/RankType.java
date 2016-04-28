@@ -2,7 +2,6 @@ package com.bm.rank;
 
 import java.util.HashMap;
 
-import com.bm.rank.anglearray.AngleArrayExtension;
 import com.bm.rank.arena.ArenaDailyExtension;
 import com.bm.rank.arena.ArenaSettleExtension;
 import com.bm.rank.fightingAll.FightingExtension;
@@ -39,7 +38,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	GROUP_BASE_RANK(17, 99, "帮派排行榜", 1, GroupBaseRankExtension.class),
 	GROUP_MEMBER_NUM_RANK(18, 5000, "帮派成员排行榜", 1, GroupMemberNumRankExtension.class),
 	GROUP_CREATE_TIME_RANK(19, 10, "帮派创建排行榜", 1, GroupCreateTimeRankExtension.class),
-	ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),
+//	ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),
 	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class),
 	ANGEL_TEAM_INFO_RANK(22, 20000, "万仙阵匹配玩家阵容", 1, AngelArrayTeamInfoExtension.class),
 	;
