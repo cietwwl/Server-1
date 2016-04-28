@@ -85,7 +85,7 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 			for (String planKey : planKeys) {
 				FashionServiceProtos.PayCfg.Builder buyPlan=FashionServiceProtos.PayCfg.newBuilder();
 				FashionBuyRenewCfg cfg = buyPlans.get(planKey);
-				buyPlan.setDay(cfg.getDay());
+				buyPlan.setDay(cfg.getHour());
 				buyPlan.setPayment(cfg.getNum());
 				buyPlan.setCoinType(cfg.getCoinType().getValue());
 				buyPlan.setPlanId(cfg.getKey());
@@ -97,7 +97,7 @@ public class FashionBuyRenewCfgDao extends CfgCsvDao<FashionBuyRenewCfg> {
 			for (String planKey : planKeys) {
 				FashionServiceProtos.PayCfg.Builder renewPlan=FashionServiceProtos.PayCfg.newBuilder();
 				FashionBuyRenewCfg cfg = renewPlans.get(planKey);
-				renewPlan.setDay(cfg.getDay());
+				renewPlan.setDay(cfg.getHour());
 				renewPlan.setPayment(cfg.getNum());
 				renewPlan.setCoinType(cfg.getCoinType().getValue());
 				renewPlan.setPlanId(cfg.getKey());
