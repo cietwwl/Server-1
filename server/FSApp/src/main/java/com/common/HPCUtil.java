@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.gameworld.GameWorldConstant;
 
 /**
@@ -201,6 +202,24 @@ public class HPCUtil {
 	 */
 	public static boolean isResetTime(long lastTime) {
 		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
+	}
+	
+	/**
+	 * 通过文本按照默认格式创建{@link ItemInfo}列表
+	 * @param text
+	 * @return
+	 */
+	public static List<ItemInfo> createItemInfo(String text){
+		String[] reward = text.split(";");
+		ArrayList<ItemInfo> rewardList = new ArrayList<ItemInfo>(reward.length);
+		for (int i = 0; i < reward.length; i++) {
+			String[] rewardItem = reward[i].split(":");
+			ItemInfo info = new ItemInfo();
+			info.setItemID(Integer.parseInt(rewardItem[0]));
+			info.setItemNum(Integer.parseInt(rewardItem[1]));
+			rewardList.add(info);
+		}
+		return rewardList;
 	}
 
 }
