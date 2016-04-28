@@ -15,7 +15,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_counttype_item")
+@Table(name = "activity_timecard_item")
 public class ActivityTimeCardTypeItem implements  IMapItem {
 
 	@Id
@@ -23,11 +23,7 @@ public class ActivityTimeCardTypeItem implements  IMapItem {
 	
 	private String userId;// 对应的角色Id
 	
-	@CombineSave
-	private int count;
 	
-	@CombineSave
-	private String group;
 	
 
 	@CombineSave
@@ -44,36 +40,6 @@ public class ActivityTimeCardTypeItem implements  IMapItem {
 	@CombineSave
 	private long activityLoginTime;
 
-
-	public long getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public long getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
-	}
-
-	@CombineSave
-	private long startTime;
-	
-	@CombineSave
-	private long endTime;
-	
-	public String getGroup() {
-		return group;
-	}
-
-	public void setGroup(String group) {
-		this.group = group;
-	}
 
 	
 
@@ -93,13 +59,7 @@ public class ActivityTimeCardTypeItem implements  IMapItem {
 		this.id = id;
 	}
 
-	public int getCount() {
-		return count;
-	}
 
-	public void setCount(int count) {
-		this.count = count;
-	}
 
 
 	public List<ActivityTimeCardTypeSubItem> getSubItemList() {
