@@ -4,17 +4,21 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItemHolder;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeSubItem;
+import com.rw.fsutil.util.DateUtils;
 
 
 public class ActivityTimeCardTypeMgr {
 	
 	private static ActivityTimeCardTypeMgr instance = new ActivityTimeCardTypeMgr();
+	
+	
 	
 	public static ActivityTimeCardTypeMgr getInstance(){
 		return instance;
@@ -27,6 +31,23 @@ public class ActivityTimeCardTypeMgr {
 	/**登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空*/
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);		
+		checkTimeIsOver(player);
+	}
+
+	private void checkTimeIsOver(Player player) {
+		ActivityTimeCardTypeItemHolder activityTimecardHolder = ActivityTimeCardTypeItemHolder.getInstance();
+		ActivityTimeCardTypeItem dataItem = activityTimecardHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
+		long logintime = dataItem.getActivityLoginTime();
+		int dayDistance = DateUtils.getDayDistance(logintime, System.currentTimeMillis());
+		if(dayDistance > 0){
+			for(ActivityTimeCardTypeSubItem sub : monthCardList){
+				int dayless = (sub.getDayLeft() - dayDistance) > 0  ? (sub.getDayLeft() - dayDistance) : 0;
+				sub.setDayLeft(dayless);			
+				}
+			}
+		dataItem.setActivityLoginTime(System.currentTimeMillis());
+		activityTimecardHolder.updateItem(player, dataItem);
 	}
 
 	private void checkNewOpen(Player player) {
