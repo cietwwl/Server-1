@@ -25,12 +25,12 @@ public class FashionCommonCfgDao extends CfgCsvDao<FashionCommonCfg> {
 	}
 	
 	public FashionCommonCfg getConfig(String id){
-		FashionCommonCfg cfg = (FashionCommonCfg)getCfgById(id);
+		FashionCommonCfg cfg = getCfgById(id);
 		return cfg;
 	}
 	
 	public FashionCommonCfg getConfig(int fashionID){
-		FashionCommonCfg cfg = (FashionCommonCfg)getCfgById(String.valueOf(fashionID));
+		FashionCommonCfg cfg = getCfgById(String.valueOf(fashionID));
 		return cfg;
 	}
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
+import com.playerdata.FashionMgr;
 import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rw.service.gm.GMHandler;
@@ -74,10 +75,29 @@ public class NewGuideService implements FsService {
 				String[] arg = new String[2];
 				arg[0] = cfg.getModleId();
 				arg[1] = String.valueOf(cfg.getCount());
-				if (!GMHandler.getInstance().addItem(arg , player)){
-					tip="赠送失败";
-					result=false;
+				
+				//首先判断是否为时装
+				boolean isFashionId = false;
+				try {
+					int fashionModelId = Integer.parseInt(cfg.getModleId());
+					FashionMgr fashionMgr = player.getFashionMgr();
+					if (fashionMgr.GMSetFashion(fashionModelId)){
+						if (fashionMgr.GMSetExpiredTime(fashionModelId, cfg.getCount())){
+							isFashionId = true;
+						}
+					}
+				} catch (Exception e) {
+					GameLog.info("引导", player.getUserId(), "不是赠送时装",null);
 				}
+				
+				if (!isFashionId){
+					//不是时装，考虑作为道具赠送
+					if (!GMHandler.getInstance().addItem(arg , player)){
+						tip="赠送失败";
+						result=false;
+					}
+				}
+				
 				if (!history.setGiven(null, true)){
 					GameLog.error("引导", player.getUserId(), "更新赠送历史失败！");
 				}
