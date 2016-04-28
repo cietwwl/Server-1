@@ -42,6 +42,17 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 		return targetList;
 		
 	}
+	public ActivityTimeCardTypeSubCfg getById(String subId){
+		ActivityTimeCardTypeSubCfg target = new ActivityTimeCardTypeSubCfg();
+		List<ActivityTimeCardTypeSubCfg> allCfg = getAllCfg();
+		for (ActivityTimeCardTypeSubCfg tmpItem : allCfg) {
+			if(StringUtils.equals(tmpItem.getId(), subId)){
+				target = tmpItem;
+			}
+		}
+		return target;
+		
+	}
 	
 	
 

@@ -211,7 +211,7 @@ public class ChargeMgr {
 			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！"+player);
 			result.setTips("购买月卡异常");
 		}else{
-			targetItem.setDayLeft(targetItem.getDayLeft() + 30);
+			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDays());
 			dataHolder.updateItem(player, dataItem);
 			
 			if(targetItem.getDayLeft() < 35){				
