@@ -204,7 +204,7 @@ public class DataSynVersionHolder {
 			@Override
 			public void synAllData(Player player, int version) {				
 				ActivityCountTypeMgr.getInstance().synCountTypeData(player);	
-				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+//				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityCountType);
@@ -216,6 +216,14 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.Charge);
+		
+		versionMap.put(eSynType.ActivityTimeCardType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityCountType);
 
 		notInVersionControlList.add(notInVersionControlP);
 		
