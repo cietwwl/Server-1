@@ -154,7 +154,7 @@ public class ChargeMgr {
 		if(chargeInfo.getCount()==1){
 			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
 			int addgoldfirstcharge =  addGold*cfg.getAwardTimes() < cfg.getAwardMax() ?  addGold*cfg.getAwardTimes() : cfg.getAwardMax();
-			player.getUserGameDataMgr().addReCharge(addgoldfirstcharge);			
+			player.getUserGameDataMgr().addGold(addgoldfirstcharge);			
 		}
 		
 		ChargeInfoHolder.getInstance().update(player);		
