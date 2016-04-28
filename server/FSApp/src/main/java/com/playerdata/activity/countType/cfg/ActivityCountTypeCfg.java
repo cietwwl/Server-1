@@ -28,6 +28,9 @@ public class ActivityCountTypeCfg {
 	private String goToType;
 	
 	private String group;
+		
+	//每天刷新
+	private boolean dateFresh = false;
 	
 	public String getGroup() {
 		return group;
@@ -134,10 +137,10 @@ public class ActivityCountTypeCfg {
 		this.endTime = endTime;
 	}
 
+	public boolean isDateFresh() {
+		return dateFresh;
+	}
 
-
-	
-	
 	
 	
 }

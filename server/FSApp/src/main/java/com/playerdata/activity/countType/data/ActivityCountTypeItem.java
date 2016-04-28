@@ -38,12 +38,13 @@ public class ActivityCountTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private List<ActivityCountTypeSubItem> takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
-	
-	
-	
-	@CombineSave
-	private long activityLoginTime;
 
+
+	//重置活动
+	public void reset(){
+		takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
+		count = 0;
+	}
 
 	public long getStartTime() {
 		return startTime;
@@ -74,16 +75,7 @@ public class ActivityCountTypeItem implements  IMapItem {
 	public void setGroup(String group) {
 		this.group = group;
 	}
-
 	
-
-	public long getActivityLoginTime() {
-		return activityLoginTime;
-	}
-
-	public void setActivityLoginTime(long activityLoginTime) {
-		this.activityLoginTime = activityLoginTime;
-	}
 
 	public String getId() {
 		return id;
@@ -135,7 +127,6 @@ public class ActivityCountTypeItem implements  IMapItem {
 		this.closed = closed;
 	}
 
-	
 	
 
 	
