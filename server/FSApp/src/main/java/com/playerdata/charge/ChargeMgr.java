@@ -189,7 +189,6 @@ public class ChargeMgr {
 	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		String buyidtemp = "1";//GM命令模拟 
 		
 		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
 		if(dataItem == null){//首次读取创建记录
@@ -202,7 +201,7 @@ public class ChargeMgr {
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
 		ActivityTimeCardTypeSubItem targetItem = null;
 		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
-			if(StringUtils.equals(itemTmp.getId(), buyidtemp)){
+			if(StringUtils.equals(itemTmp.getId(), chargeItemId)){
 				targetItem = itemTmp;
 				break;
 			}
@@ -219,7 +218,7 @@ public class ChargeMgr {
 				result.setSuccess(true);
 			}else{				
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
-				GameLog.error("ChargeMgr.购买 月卡异常 ！玩家名字 = " + player.getUserName() + " 月卡类型=" + buyidtemp);
+				GameLog.error("ChargeMgr.购买 月卡异常 ！玩家名字 = " + player.getUserName() + " 月卡类型=" + chargeItemId);
 			}
 		}		
 		return result;
