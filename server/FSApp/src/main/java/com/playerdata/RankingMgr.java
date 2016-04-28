@@ -228,7 +228,8 @@ public class RankingMgr {
 			if (rank > 0) {
 				levelData.setRankCount(Math.abs(rank - i));
 			}
-
+			ArenaExtAttribute attribute = entry.getExtension();
+			attribute.setRankLevel(i);
 			levelData.setRankLevel(i);
 			ArenaRankingComparable rankComparable = new ArenaRankingComparable();
 			rankComparable.setRanking(entry.getRanking());
