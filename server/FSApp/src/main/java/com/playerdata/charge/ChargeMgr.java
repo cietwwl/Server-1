@@ -208,7 +208,7 @@ public class ChargeMgr {
 		}
 		
 		if(targetItem == null){//newitem已添加list，不会null
-			GameLog.error("chargeMgr.list里没有该项月卡类型！！！！！！！！！！！！！！！！");
+			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！"+player);
 		}else{
 			targetItem.setDayLeft(targetItem.getDayLeft() + 30);
 			dataHolder.updateItem(player, dataItem);
@@ -218,7 +218,7 @@ public class ChargeMgr {
 				result.setSuccess(true);
 			}else{				
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
-				GameLog.error("ChargeMgr.购买 月卡异常 ！玩家名字 = " + player.getUserName() + " 月卡类型=" + chargeItemId);
+				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡类型 =" + chargeItemId);
 			}
 		}		
 		return result;
