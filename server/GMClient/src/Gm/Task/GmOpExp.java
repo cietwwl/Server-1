@@ -7,19 +7,18 @@ import Gm.AGMHandler;
 import Gm.GMManager;
 import Gm.GmRequest;
 
-public class GmEmailAll extends AGMHandler{
+public class GmOpExp extends AGMHandler{
 
 	@Override
 	public GmRequest createGmRequest() {
 		// TODO Auto-generated method stub
-		this.opType = 20015;
+		this.opType = 20029;
 		this.account = GMManager.ACCOUNT_VALUE;
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("taskId", 5);
-		args.put("serverId", 1);
-		args.put("status", 1);
+		args.put("roleId", "100100001497");
+		args.put("value", "1");
 		
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

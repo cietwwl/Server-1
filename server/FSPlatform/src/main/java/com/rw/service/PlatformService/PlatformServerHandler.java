@@ -22,9 +22,11 @@ public class PlatformServerHandler {
 			DataInputStream input = new DataInputStream(socket.getInputStream());
 
 			int jsonLength = input.readInt();
+			
 			byte[] jsonBody = new byte[jsonLength];
-			input.read(jsonBody);
-			String json = new String(jsonBody, "utf-8");
+			input.readFully(jsonBody, 0, jsonLength);
+			String json = new String(jsonBody, 0, jsonLength, "utf-8");
+			
 			RequestObject requestObject = FastJsonUtil.deserialize(json, RequestObject.class);
 			byte[] result = GSResponseMgr.processMsg(requestObject);
 			

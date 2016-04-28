@@ -70,7 +70,7 @@ public class UnendingWarHandler {
 
 	public ByteString end(Player player, int num) {
 		UnendingWarResponse.Builder res = UnendingWarResponse.newBuilder();
-		res.setType(EUnendingWarType.BaseMsg);
+		res.setType(EUnendingWarType.EndMsg);
 
 		res.setZhCj(player.unendingWarMgr.getTable().getZhCj());
 		res.setNum(player.unendingWarMgr.getTable().getNum());

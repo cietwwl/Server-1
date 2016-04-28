@@ -49,6 +49,14 @@ public final class DataSynProtos {
      * </pre>
      */
     REMOVE_SINGLE(3, 4),
+    /**
+     * <code>UPDATE_FIELD = 5;</code>
+     *
+     * <pre>
+     *只更新单条记录的某些字段
+     * </pre>
+     */
+    UPDATE_FIELD(4, 5),
     ;
 
     /**
@@ -83,6 +91,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int REMOVE_SINGLE_VALUE = 4;
+    /**
+     * <code>UPDATE_FIELD = 5;</code>
+     *
+     * <pre>
+     *只更新单条记录的某些字段
+     * </pre>
+     */
+    public static final int UPDATE_FIELD_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -93,6 +109,7 @@ public final class DataSynProtos {
         case 2: return UPDATE_SINGLE;
         case 3: return ADD_SINGLE;
         case 4: return REMOVE_SINGLE;
+        case 5: return UPDATE_FIELD;
         default: return null;
       }
     }
@@ -4753,30 +4770,31 @@ public final class DataSynProtos {
       "Type\030\001 \002(\0162\021.DataSyn.eSynType\022&\n\tsynOpTy" +
       "pe\030\002 \001(\0162\023.DataSyn.eSynOpType\022!\n\007SynData" +
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
-      "\005*S\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
+      "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004*\274\006\n\010eSynType\022\025\n\021COPY_LEVEL_RECORD" +
-      "\020\001\022\023\n\017COPY_MAP_RECORD\020\002\022\023\n\017SECRETAREA_IN" +
-      "FO\020\003\022\031\n\025SECRETAREA_DEF_RECORD\020\004\022\030\n\024SECRE" +
-      "TAREA_USER_INFO\020\005\022\032\n\026SECRETAREA_BATTLE_I" +
-      "NFO\020\006\022\032\n\026SECRETAREA_USER_RECORD\020\007\022\020\n\014FAS" +
-      "HION_ITEM\020\010\022\016\n\nEQUIP_ITEM\020\t\022\016\n\nSKILL_ITE" +
-      "M\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n\016ROLE_ATTR_ITEM\020\014\022" +
-      "\022\n\016ROLE_BASE_ITEM\020\r\022\016\n\nUSER_HEROS\020\016\022\r\n\tU",
-      "SER_DATA\020\017\022\022\n\016USER_GAME_DATA\020\020\022\016\n\nUSER_M" +
-      "AGIC\020\021\022\021\n\rUSER_ITEM_BAG\020\022\022\021\n\rDailyActivi" +
-      "ty\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve_UnendingWar\020\025\022\r\n\t" +
-      "Pve_Trial\020\026\022\016\n\nStore_Data\020\027\022\r\n\tTASK_DATA" +
-      "\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SETTING_DATA\020\032\022\023\n\017GU" +
-      "ILD_USER_INFO\020\033\022\021\n\rSEVEN_DAY_GIF\020\034\022\030\n\024FR" +
-      "ESHER_ATIVITY_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014V" +
-      "ERSION_COPY\020\037\022\021\n\rGroupBaseData\020 \022\023\n\017Grou" +
-      "pMemberData\020!\022\014\n\010GroupLog\020\"\022\032\n\026UserGroup" +
-      "AttributeData\020#\022\022\n\016GroupCopyLevel\020$\022\020\n\014G",
-      "roupCopyMap\020%\022\023\n\017GroupCopyReward\020&\022\030\n\024Gr" +
-      "oupApplyMemberData\020\'\022\026\n\022GroupResearchSki" +
-      "ll\020(\022\023\n\017GroupStudySkill\020)\022\n\n\006Charge\020*B\034\n" +
-      "\013com.rwprotoB\rDataSynProtos"
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\274\006\n\010eSynType\022\025\n" +
+      "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
+      "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
+      "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
+      "ECRETAREA_BATTLE_INFO\020\006\022\032\n\026SECRETAREA_US" +
+      "ER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022\016\n\nEQUIP_I" +
+      "TEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n" +
+      "\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE_ITEM\020\r\022\016\n",
+      "\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n\016USER_GAM" +
+      "E_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSER_ITEM_BA" +
+      "G\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve" +
+      "_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022\016\n\nStore_D" +
+      "ata\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SE" +
+      "TTING_DATA\020\032\022\023\n\017GUILD_USER_INFO\020\033\022\021\n\rSEV" +
+      "EN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVITY_DATA\020\035\022\r" +
+      "\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020\037\022\021\n\rGroup" +
+      "BaseData\020 \022\023\n\017GroupMemberData\020!\022\014\n\010Group" +
+      "Log\020\"\022\032\n\026UserGroupAttributeData\020#\022\022\n\016Gro",
+      "upCopyLevel\020$\022\020\n\014GroupCopyMap\020%\022\023\n\017Group" +
+      "CopyReward\020&\022\030\n\024GroupApplyMemberData\020\'\022\026" +
+      "\n\022GroupResearchSkill\020(\022\023\n\017GroupStudySkil" +
+      "l\020)\022\n\n\006Charge\020*B\034\n\013com.rwprotoB\rDataSynP" +
+      "rotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
