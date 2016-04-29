@@ -11,7 +11,7 @@ import com.common.IBeanNameFixAction;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
-public class AttrData  implements AttrDataIF{
+public class AttrData implements AttrDataIF {
 
 	private int life; // 最大生命值...
 	private int energy; // 能量值...
@@ -24,75 +24,77 @@ public class AttrData  implements AttrDataIF{
 	private int toughness; // 韧性...
 	private int lifeReceive; // 生命回复...
 	private int energyReceive; // 能量值回复...
-	private int struckEnergy;//击杀增加能量...
-	private int attackEnergy;//攻击能量...
+	private int struckEnergy;// 击杀增加能量...
+	private int attackEnergy;// 攻击能量...
 	private int energyTrans; // 能量转化...
-	private int cutHurt;//伤害减免
-	private int cutCritHurt;//暴击伤害减免
-	private int resist;//抵抗
-	private int addCure;//受到治疗效果增加
-	private int cutCure;//受到治疗效果减少
+	private int cutHurt;// 伤害减免
+	private int cutCritHurt;// 暴击伤害减免
+	private int resist;// 抵抗
+	private int addCure;// 受到治疗效果增加
+	private int cutCure;// 受到治疗效果减少
 	private int lifeGrowUp; // 生命成长...
 	private int attackGrowUp; // 攻击成长...
 	private int physicqueDefGrowUp; // 体魄防御成长...
 	private int spiritDefGrowUp; // 精神防御成长...
-	private int enchantExp;//附灵经验...
-	private int skillLevel;//技能总等级
-	private int attackType;//攻击类型
+	private int enchantExp;// 附灵经验...
+	private int skillLevel;// 技能总等级
+	private int attackType;// 攻击类型
 	private int dodge; // 闪避
 	private int hit; // 命中
-	private int energyPerSecond; //每秒恢复的能量
-	
+	private int energyPerSecond; // 每秒恢复的能量
+
 	private float hardStraight;
 	private float reactionTime;
 	private float attackDistance; // 攻击距离...
 	private float attackSpeed; // 攻击速度...
 	private float moveSpeed; // 移动速度...
-	private float attackHurt;//攻击伤害
-	private float viewRange;	//视野范围
-	
-	private float volumeRadius;	//人物半径
-	
-	private float doHurt;	//硬直界限
-	
-	
+	private float attackHurt;// 攻击伤害
+	private float viewRange; // 视野范围
+
+	private float volumeRadius; // 人物半径
+
+	private float doHurt; // 硬直界限
+
 	public AttrData() {
 	}
-	
-	private final int division = 10000;  //属性固定按照万份比计算
-	public AttrData addPercent(AttrData target){
-		if(target == null){
+
+	private final int division = 10000; // 属性固定按照万份比计算
+
+	public AttrData addPercent(AttrData target) {
+		if (target == null) {
 			return this;
 		}
-		BeanOperationHelper.addPercentObject(this, target, division);	
-		return this;
-	}
-	public AttrData addPercent(int mutiNumber){		
-		BeanOperationHelper.addPercent(this, mutiNumber, division);	
+		BeanOperationHelper.addPercentObject(this, target, division);
 		return this;
 	}
 
-	public AttrData plus(AttrDataIF target){
-		if(target == null){
-			return this;
-		}
-		BeanOperationHelper.plus(this, target);		
+	public AttrData addPercent(int mutiNumber) {
+		BeanOperationHelper.addPercent(this, mutiNumber, division);
 		return this;
 	}
-	public static String getLog(AttrData source){
-		if(source == null){
+
+	public AttrData plus(AttrDataIF target) {
+		if (target == null) {
+			return this;
+		}
+		BeanOperationHelper.plus(this, target);
+		return this;
+	}
+
+	public static String getLog(AttrData source) {
+		if (source == null) {
 			return null;
 		}
 		return BeanOperationHelper.getPositiveValueDiscription(source);
 	}
 
-	public static AttrData fromObject(Object source){
+	public static AttrData fromObject(Object source) {
 		AttrData data = new AttrData();
 		BeanCopyer.copy(source, data);
 		return data;
 	}
-	
-	public static AttrData fromPercentObject(Object source){
+
+	public static AttrData fromPercentObject(Object source) {
 		AttrData data = new AttrData();
 		BeanCopyer.copy(source, data, new IBeanNameFixAction() {
 			@Override
@@ -103,12 +105,24 @@ public class AttrData  implements AttrDataIF{
 		return data;
 	}
 
+	public static AttrData fromPercentObjectToAttrData(Object source) {
+		AttrData data = new AttrData();
+		BeanCopyer.copyFormPercentObject(source, data, new IBeanNameFixAction() {
+			@Override
+			public String doFix(String name) {
+				return StringUtils.substringBefore(name, "Percent");
+			}
+		});
+		return data;
+	}
+
 	/**
 	 * 根据配置表字符串加入值
-	 * @param cfgStr example:  life:30,attack:40
+	 * 
+	 * @param cfgStr example: life:30,attack:40
 	 * @return
 	 */
-	public static AttrData fromCfgStr(String cfgStr){
+	public static AttrData fromCfgStr(String cfgStr) {
 		AttrData data = null;
 		final String Attr_Split = ",";
 		final String File_Value_Split = ":";
@@ -116,35 +130,33 @@ public class AttrData  implements AttrDataIF{
 		Map<String, String> attrMap = new HashMap<String, String>();
 		for (String attrValueTmp : attrCfg) {
 			String[] split = attrValueTmp.trim().split(File_Value_Split);
-			if(split.length == 2){
+			if (split.length == 2) {
 				String filedName = split[0];
 				String filedValue = split[1];
 				attrMap.put(filedName, filedValue);
 			}
 		}
-		if(attrMap.size() > 0 ){
+		if (attrMap.size() > 0) {
 			data = fromMap(attrMap);
 		}
 		return data;
 	}
-	
-	private static AttrData fromMap(Map<String, String> mapData){
+
+	private static AttrData fromMap(Map<String, String> mapData) {
 		AttrData data = new AttrData();
 		BeanOperationHelper.plus(data, mapData);
 		return data;
 	}
-	
+
 	public static void main(String[] args) {
 		AttrData data = new AttrData();
 		data.setLife(103423);
-		
+
 		AttrData percentData = new AttrData();
 		percentData.setLife(200);
 		data.addPercent(percentData);
 		System.out.println(data.getLife());
 	}
-	
-	
 
 	public int getLife() {
 		return life;
@@ -154,7 +166,6 @@ public class AttrData  implements AttrDataIF{
 		this.life = life;
 	}
 
-
 	public int getEnergy() {
 		return energy;
 	}
@@ -162,7 +173,6 @@ public class AttrData  implements AttrDataIF{
 	public void setEnergy(int energy) {
 		this.energy = energy;
 	}
-
 
 	public int getAttack() {
 		return attack;
@@ -451,11 +461,5 @@ public class AttrData  implements AttrDataIF{
 	public void setDoHurt(float doHurt) {
 		this.doHurt = doHurt;
 	}
-	
 
-	
-	
-
-	
-	
 }
