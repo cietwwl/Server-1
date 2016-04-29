@@ -9,12 +9,15 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
  * @Description 试练塔的数据Dao
  */
 public class TableBattleTowerDao extends DataKVDao<TableBattleTower> {
-	private static TableBattleTowerDao dao = new TableBattleTowerDao();
+	private static TableBattleTowerDao dao;
 
 	/**
 	 * 获取试练塔数据库的Dao
 	 */
 	public static TableBattleTowerDao getDao() {
+		if (dao == null) {
+			dao = new TableBattleTowerDao();
+		}
 		return dao;
 	}
 }
