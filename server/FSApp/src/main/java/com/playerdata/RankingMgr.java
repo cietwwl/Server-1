@@ -216,8 +216,7 @@ public class RankingMgr {
 	}
 
 	/* 把实时排行榜数据拷贝到每日排行榜 */
-	@SuppressWarnings({
-			"rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void changeDailyData(RankType ordinalType, RankType copyType) {
 		Ranking ordinalRanking = RankingFactory.getRanking(ordinalType);
 		Ranking copyRanking = RankingFactory.getRanking(copyType);
@@ -244,6 +243,10 @@ public class RankingMgr {
 				ext = entry.getExtendedAttribute();
 			}
 			RankingEntityOfRankImpl re = new RankingEntityOfRankImpl(i, comparable, entry.getKey(), ext);
+			if (ext instanceof RankingLevelData) {
+				RankingLevelData levelData = (RankingLevelData) ext;
+				levelData.setRankLevel(i);
+			}
 			copyList.add(re);
 		}
 		copyRanking.clearAndInsert(copyList);
@@ -291,8 +294,10 @@ public class RankingMgr {
 
 	// /** 把竞技场数据加入到万仙阵排行榜 */
 	// private void changeAngleArrayMatchRankData(RankType copyType) {
-	// Ranking<AngleArrayComparable, AngleArrayAttribute> ranking = RankingFactory.getRanking(RankType.ANGLE_ARRAY_RANK);
-	// List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>> currentList = new ArrayList<RankingEntityOfRank<AngleArrayComparable,
+	// Ranking<AngleArrayComparable, AngleArrayAttribute> ranking =
+	// RankingFactory.getRanking(RankType.ANGLE_ARRAY_RANK);
+	// List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>
+	// currentList = new ArrayList<RankingEntityOfRank<AngleArrayComparable,
 	// AngleArrayAttribute>>(copyType.getMaxCapacity());
 	//
 	// getAreanRankData(ListRankingType.WARRIOR_ARENA, currentList);
@@ -308,9 +313,13 @@ public class RankingMgr {
 	// * @param ordinalType
 	// * @param currentList
 	// */
-	// private void getAreanRankData(ListRankingType ordinalType, List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>> currentList) {
-	// ListRanking<String, ArenaExtAttribute> sranking = RankingFactory.getSRanking(ordinalType);// 获取排行榜数据
-	// List<? extends ListRankingEntry<String, ArenaExtAttribute>> list = sranking.getEntrysCopy();// 拷贝一份数据
+	// private void getAreanRankData(ListRankingType ordinalType,
+	// List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>
+	// currentList) {
+	// ListRanking<String, ArenaExtAttribute> sranking =
+	// RankingFactory.getSRanking(ordinalType);// 获取排行榜数据
+	// List<? extends ListRankingEntry<String, ArenaExtAttribute>> list =
+	// sranking.getEntrysCopy();// 拷贝一份数据
 	// int size = list.size();
 	// // ArrayList<RankingEntityOfRank<AngleArrayComparable,
 	// // AngleArrayAttribute>> currentList = new
@@ -330,7 +339,8 @@ public class RankingMgr {
 	// AngleArrayAttribute att = new AngleArrayAttribute();
 	// att.setUserId(key);
 	//
-	// RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute> entity = new RankingEntityOfRankImpl<AngleArrayComparable,
+	// RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute> entity
+	// = new RankingEntityOfRankImpl<AngleArrayComparable,
 	// AngleArrayAttribute>(i, rankComparable, key, att);
 	// currentList.add(entity);
 	// }
@@ -579,8 +589,7 @@ public class RankingMgr {
 		return true;
 	}
 
-	@SuppressWarnings({
-			"rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void updateEntryFighting(RankType type, int fighting, int teamFighting, String userId) {
 		Ranking ranking = RankingFactory.getRanking(type);
 		RankingEntry entry = ranking.getRankingEntry(userId);
@@ -601,8 +610,7 @@ public class RankingMgr {
 		}
 	}
 
-	@SuppressWarnings({
-			"rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void updateLevelAndExp(RankType type, int level, long exp, String userId) {
 		Ranking ranking = RankingFactory.getRanking(type);
 		RankingEntry entry = ranking.getRankingEntry(userId);
