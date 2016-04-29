@@ -16,6 +16,16 @@ public class ActivityTimeCardTypeSubCfg {
 	//每日领取钻石
 	private int dayAwardCount;
 
+	//月卡类型
+	private int timeCardType;
+	public int getTimeCardType() {
+		return timeCardType;
+	}
+
+	public void setTimeCardType(int timeCardType) {
+		this.timeCardType = timeCardType;
+	}
+
 	public String getId() {
 		return id;
 	}
