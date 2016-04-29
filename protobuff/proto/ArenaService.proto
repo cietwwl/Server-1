@@ -142,7 +142,7 @@ message HistoryRankingRise{//历史排名上升
 }
 
 message ArenaHistoryResponse{	//打开历史排名奖励界面的响应
-	repeated ArenaHistoryRewardSum rewardSum = 1;	//收益综合
+	repeated ArenaHistoryRewardSum rewardSum = 1;	//收益总和
 	repeated ArenaHisRewardView rewardView = 2;		//领取列表
 }
 
@@ -152,7 +152,5 @@ message ArenaHistoryRewardSum{ //历史排行榜奖励总和
 }
 message ArenaHisRewardView{	//单个历史排名奖励领取界面
 	required int32 rewardId = 1;
-	repeated ArenaHistoryRewardSum rewardList = 2;	//领取奖励列表
-	required bool gainReward = 3;					//是否已经领取
-	
+	required bool gainReward = 2;					//是否已经领取
 }
