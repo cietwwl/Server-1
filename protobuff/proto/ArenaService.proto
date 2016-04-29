@@ -147,7 +147,7 @@ message ArenaHistoryResponse{	//打开历史排名奖励界面的响应
 }
 
 message ArenaHistoryRewardSum{ //历史排行榜奖励总和
-	required string itemId = 1;	//历史排行榜奖励总和奖励ID
+	required int32 itemId = 1;	//历史排行榜奖励总和奖励ID
 	required int32 num = 2;	//历史排行榜奖励总和奖励数量
 }
 message ArenaHisRewardView{	//单个历史排名奖励领取界面
