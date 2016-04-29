@@ -1,7 +1,6 @@
 package com.rwbase.dao.arena.pojo;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -38,8 +37,10 @@ public class TableArenaData {
 	// private volatile long lastBuyTimesMillis;// 上次购买挑战次数的时间
 	private int buyTimes; // 购买挑战次数的次数..
 	private int score; //
-	private int challengeTime;//挑战次数
-	private List<Integer> rewardList = new ArrayList<Integer>();	//通过积分领取的奖励列表
+	private int challengeTime;// 挑战次数
+	private List<Integer> rewardList = new ArrayList<Integer>(); // 记录每天领取的积分领取的奖励列表
+
+	private List<Integer> historyRewards = new ArrayList<Integer>();// 记录曾经领取过的历史奖励
 
 	public String getUserId() {
 		return userId;
@@ -216,6 +217,14 @@ public class TableArenaData {
 
 	public void setChallengeTime(int challengeTime) {
 		this.challengeTime = challengeTime;
+	}
+
+	public List<Integer> getHistoryRewards() {
+		return historyRewards;
+	}
+
+	public void setHistoryRewards(List<Integer> historyRewards) {
+		this.historyRewards = historyRewards;
 	}
 
 }

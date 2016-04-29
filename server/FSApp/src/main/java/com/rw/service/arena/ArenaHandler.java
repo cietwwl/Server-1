@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
+import com.bm.arena.ArenaRankCfgDAO;
+import com.bm.arena.ArenaRankEntity;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
@@ -44,6 +46,7 @@ import com.rwbase.dao.arena.pojo.HurtValueRecord;
 import com.rwbase.dao.arena.pojo.PrizeInfo;
 import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -613,9 +616,9 @@ public class ArenaHandler {
 				}
 			}
 
-			//增加挑战次数 2016-04-14 edit by lida
+			// 增加挑战次数 2016-04-14 edit by lida
 			m_MyArenaData.setChallengeTime(m_MyArenaData.getChallengeTime() + 1);
-			
+
 			MsgArenaResponse.Builder recordBuilder = MsgArenaResponse.newBuilder();
 			recordBuilder.setArenaType(eArenaType.SYNC_RECORD);
 			recordBuilder.addListRecord(ar);
@@ -627,9 +630,9 @@ public class ArenaHandler {
 				System.out.println(builder.getCurrentRanking() + "," + builder.getGoldAward() + "," + builder.getHistoryRanking() + "," + builder.getRankingUp());
 				response.setHistory(builder.build());
 			}
-			//开服活动通知 竞技场挑战次数
+			// 开服活动通知 竞技场挑战次数
 			player.getFresherActivityMgr().doCheck(eActivityType.A_ArenaChallengeTime);
-			
+
 			return response.build().toByteString();
 		} finally {
 			arenaExt.setNotFighting();
@@ -895,6 +898,12 @@ public class ArenaHandler {
 		return fillArenaScore(arenaData, response);
 	}
 
+	/**
+	 * 获取积分奖励
+	 * @param request
+	 * @param player
+	 * @return
+	 */
 	public ByteString getScoreReward(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
@@ -936,6 +945,58 @@ public class ArenaHandler {
 		response.setCurrentScore(arenaData.getScore());
 		response.addAllGetCount(arenaData.getRewardList());
 		return response.build().toByteString();
+
 	}
 
+	/**
+	 * 获取竞技场历史排名奖励
+	 * @param request
+	 * @param player
+	 * @return
+	 */
+	public ByteString getHistoryReward(MsgArenaRequest request, Player player) {
+		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
+		response.setArenaType(request.getArenaType());
+		String userId = player.getUserId();
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(userId);
+		if (arenaData == null) {
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		int id = request.getRewardId();
+		List<Integer> historyRewards = arenaData.getHistoryRewards();
+		if (historyRewards.contains(id)) {
+			GameLog.error("ArenaHandler", "#getHistoryReward()", "重复历史排名奖励：" + id);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return fillArenaScore(arenaData, response);
+		}
+		ArenaRankEntity rankEntity = ArenaRankCfgDAO.getInstance().getArenaRankEntity(id);
+		if (rankEntity == null) {
+			GameLog.error("ArenaHandler", "#getHistoryReward()", "领取不存在的历史排名奖励：" + id);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return fillArenaScore(arenaData, response);
+		}
+		int maxPlace = arenaData.getMaxPlace();
+		int rankRequire = rankEntity.getRank();
+		if (rankRequire < maxPlace) {
+			GameLog.error("ArenaHandler", "#getHistoryReward()", "领取历史排名奖励的名次不够:id = " + id + ",rank=" + rankRequire + ",maxPlace=" + maxPlace);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return fillArenaScore(arenaData, response);
+		}
+		historyRewards.add(id);
+		List<ItemInfo> rewards = rankEntity.getRewardList();
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		for (ItemInfo item : rewards) {
+			itemBagMgr.addItem(item.getItemID(), item.getItemNum());
+		}
+		TableArenaDataDAO.getInstance().update(userId);
+		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		return fillArenaHistoryRank(arenaData, response);
+		// ArenaBM.getInstance().getArenaPlace(player)
+	}
+
+	private ByteString fillArenaHistoryRank(TableArenaData arenaData, MsgArenaResponse.Builder response) {
+
+		return response.build().toByteString();
+	}
 }
