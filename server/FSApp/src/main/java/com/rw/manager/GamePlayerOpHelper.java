@@ -9,6 +9,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.rwbase.gameworld.GameWorld;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 
 /***
@@ -24,7 +27,7 @@ public class GamePlayerOpHelper {
 	
 	private int totalToDo = 0;
 	
-	private List<PlayerTask> callBackList = new ArrayList<PlayerTask>();
+	private List<PlayerCallBackTask> callBackList = new ArrayList<PlayerCallBackTask>();
 	
 	private ExecutorService executorService;
 	
@@ -45,7 +48,7 @@ public class GamePlayerOpHelper {
 		return progress;
 	}
 	
-	public synchronized int addTask(final List<Player> playerList, PlayerTask playerTask){
+	public synchronized int addTask(final List<Player> playerList, PlayerCallBackTask playerTask){
 		int progress = 0;
 		if(ongoing){
 			progress =  getProgress();
@@ -57,8 +60,8 @@ public class GamePlayerOpHelper {
 			if(!callBackList.contains(playerTask)){
 				callBackList.add(playerTask);
 			}
-			final List<PlayerTask> tempList = callBackList;
-			callBackList = new ArrayList<PlayerTask>();
+			final List<PlayerCallBackTask> tempList = callBackList;
+			callBackList = new ArrayList<PlayerCallBackTask>();
 			ongoing = true;
 			monitorService.submit(new Runnable() {
 				@Override
@@ -71,11 +74,11 @@ public class GamePlayerOpHelper {
 		return progress;
 	}
 
-	private void doTask(List<Player> playerList, List<PlayerTask> tempList) {
+	private void doTask(List<Player> playerList, List<PlayerCallBackTask> tempList) {
 		try {				
 			finishCount.set(0);	
 			totalToDo = playerList.size()*tempList.size();
-			for (PlayerTask playerCallBack : tempList) {
+			for (PlayerCallBackTask playerCallBack : tempList) {
 				doSingleTask(playerList, playerCallBack);
 			}
 		} finally {
@@ -83,30 +86,30 @@ public class GamePlayerOpHelper {
 		}
 	}
 	
-	private void doSingleTask(final List<Player> playerList, final PlayerTask task) {
-		long start = System.currentTimeMillis();
+	
+	
+	private void doSingleTask(final List<Player> playerList, final PlayerCallBackTask task) {
 		final int taskNum = playerList.size();
 		final AtomicInteger taskfinishCount = new AtomicInteger(0);
+		GameWorld gameWorld = GameWorldFactory.getGameWorld();
 		for (final Player player : playerList) {
-			
-			executorService.submit(new Runnable() {
+			gameWorld.asyncExecute(player.getUserId(), new PlayerTask() {
 				
 				@Override
-				public void run() {
-						try {
-							if(player!=null){
-								if(task!=null){
-									task.doCallBack(player);
-								}
+				public void run(Player player) {
+					try {
+						if(player != null){
+							if(task != null){
+								task.doCallBack(player);
 							}
-						} catch (Throwable e) {
-							GameLog.error(LogModule.COMMON.getName(), player.getUserId(), "GamePlayerOpHelper[doSingleTask] 用户数据操作错误 task："+task.getName(), e);
-						}finally{
-							taskfinishCount.incrementAndGet();
-							finishCount.incrementAndGet();
 						}
+					} catch (Throwable e) {
+						GameLog.error(LogModule.COMMON.getName(), player.getUserId(), "GamePlayerOpHelper[doSingleTask] 用户数据操作错误 task："+task.getName(), e);
+					}finally{
+						taskfinishCount.incrementAndGet();
+						finishCount.incrementAndGet();
 					}
-					
+				}
 			});
 			
 		}		
