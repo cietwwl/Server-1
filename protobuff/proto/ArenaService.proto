@@ -21,8 +21,8 @@ enum eArenaType {
 	BUY_TIMES = 12;		//购买竞技场次数
 	SCORE=13;  //竞技场积分
 	GET_REWARD = 14;//领取奖励
-	HIS_RANK_REWARD_SUM = 15;//历史排行榜奖励总和
-	HIS_RANK_REWARD_STAGE = 16;//领取历史排行榜阶段奖励
+	HIS_RANK_REWARD_VIEW = 15;//历史排行榜奖励总和
+	HIS_RANK_GET_REWARD = 16;//领取历史排行榜阶段奖励
 }
 enum eArenaResultType {
 	ARENA_SUCCESS = 1;//成功
@@ -98,8 +98,7 @@ message MsgArenaRequest{
 	optional int32 recordId = 7;		//请求的伤害统计id
 	repeated string atkIdList = 8;		//进攻阵容佣兵列表
 	optional int32 rewardId = 14;// 领取奖励
-	optional int32 historyRewardList = 15;	//历史排行榜奖励总和
-	optional int32 historyRewardStage = 16;	//历史排行榜奖励阶段
+	optional int32 historyRewardId = 15;	//领取历史排行榜奖励ID
 }
 
 message HurtValue{
@@ -152,6 +151,8 @@ message ArenaHistoryRewardSum{ //历史排行榜奖励总和
 	required int32 num = 2;	//历史排行榜奖励总和奖励数量
 }
 message ArenaHisRewardView{	//单个历史排名奖励领取界面
-	repeated ArenaHistoryRewardSum reward = 1;	//领取奖励列表
-	bool gainReward = 2;						//是否已经领取
+	required int32 rewardId = 1;
+	repeated ArenaHistoryRewardSum rewardList = 2;	//领取奖励列表
+	required bool gainReward = 3;					//是否已经领取
+	
 }
