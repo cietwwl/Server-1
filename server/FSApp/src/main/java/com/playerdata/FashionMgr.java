@@ -114,7 +114,7 @@ public class FashionMgr implements FashionMgrIF{
 				expiredTime = now;
 			}
 			//在上次有效期内延长对应的时间，如果已经过期，使用当前时间作为基数
-			expiredTime +=  TimeUnit.DAYS.toMillis(renewDay);
+			expiredTime +=  TimeUnit.HOURS.toMillis(renewDay);
 		}
 		item.setExpiredTime(expiredTime);
 		item.setBrought(true);
