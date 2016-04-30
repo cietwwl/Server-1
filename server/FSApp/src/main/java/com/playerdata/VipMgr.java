@@ -4,18 +4,23 @@ import java.util.Calendar;
 
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.VipMgrIF;
+import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.Privilege.IPrivilegeProvider;
 import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.TableVipDAO;
 import com.rwbase.dao.vip.VipDataHolder;
 import com.rwbase.dao.vip.pojo.TableVip;
 
-public class VipMgr implements VipMgrIF,PlayerEventListener{
+public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	private VipDataHolder vipDataHolder;
 	private int m_oldVip;
 	
 	private Player m_pPlayer;
+	//TODO fire update or close
+	private StreamImpl<IPrivilegeProvider> vipPrivilegeProvider=new StreamImpl<IPrivilegeProvider>();
 	
 	@Override
 	public void notifyPlayerCreated(Player player) {
@@ -206,6 +211,23 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 	public void setVipGiftTaken(int vipLevel){
 		vipDataHolder.get().setLevelVipGiftTaken(vipLevel);
 		vipDataHolder.update(m_pPlayer);
+	}
+
+	@Override
+	public IStream<IPrivilegeProvider> getPrivilegeProvider() {
+		return vipPrivilegeProvider;
+	}
+
+	@Override
+	public int getPrivilegeIndex(String[] sources) {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public String getCurrentPrivilege() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
