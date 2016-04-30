@@ -58,18 +58,16 @@ public class AttrData implements AttrDataIF {
 	public AttrData() {
 	}
 
-	private final int division = 10000; // 属性固定按照万份比计算
-
 	public AttrData addPercent(AttrData target) {
 		if (target == null) {
 			return this;
 		}
-		BeanOperationHelper.addPercentObject(this, target, division);
+		BeanOperationHelper.addPercentObject(this, target, AttrDataHelper.DIVISION);
 		return this;
 	}
 
 	public AttrData addPercent(int mutiNumber) {
-		BeanOperationHelper.addPercent(this, mutiNumber, division);
+		BeanOperationHelper.addPercent(this, mutiNumber, AttrDataHelper.DIVISION);
 		return this;
 	}
 
