@@ -6,7 +6,6 @@ import java.util.List;
 import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.service.ranking.ERankingType;
@@ -111,12 +110,12 @@ public class RankingUtilEntity {
 		rankInfo = RankInfo.newBuilder();
 		if (levelData != null) {
 			rankInfo.setHeroUUID(levelData.getUserId());
-			rankInfo.setRankingLevel(levelData.getRankLevel());
+			int rankLevel = levelData.getRankLevel();
+			rankInfo.setRankingLevel(rankLevel > 0 ? rankLevel : ranking);
 			rankInfo.setLevel(levelData.getLevel());
 			rankInfo.setHeroName(levelData.getUserName());
 			rankInfo.setImageId(levelData.getUserHead());
 			rankInfo.setJob(levelData.getJob());
-			// rankInfo.setModelId(levelData.getModelId());
 			rankInfo.setModelId(RankingUtils.getModelId(levelData));
 			rankInfo.setFightingAll(levelData.getFightingAll());
 			rankInfo.setFightingTeam(levelData.getFightingTeam());
@@ -201,7 +200,7 @@ public class RankingUtilEntity {
 		levelData.setUserName(areanExt.getName());
 		levelData.setArenaPlace(entry.getRanking());
 		int last = areanExt.getRankLevel();
-		levelData.setRankLevel(last == 0 ? entry.getRanking():last);
+		levelData.setRankLevel(last == 0 ? entry.getRanking() : last);
 		return levelData;
 	}
 
