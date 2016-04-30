@@ -18,7 +18,7 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setServerId(1);
+		content.setServerId(20);
 		content.setChannelId("中国电信");
 		
 		
