@@ -15,6 +15,7 @@ import com.playerdata.Player;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attrdata.AttrDataType;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillAttributeCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -34,14 +35,6 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
  * @Description 个人的帮派数据
  */
 public class UserGroupAttributeDataMgr implements PlayerEventListener {
-	public static enum GroupSkillAttrType {
-		GROUP_SKILL_ATTR(0), GROUP_SKILL_PRECENT_ATTR(1);
-		public final int type;// 属性类型对应的值
-
-		private GroupSkillAttrType(int type) {
-			this.type = type;
-		}
-	};
 
 	// private AttrData groupSkillAttrData;// 个人学习技能加成的属性，只存在于内存当中的简单对象
 	private UserGroupAttributeDataHolder holder;// 个人帮派数据的管理
@@ -479,7 +472,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		attrData.setMoveSpeed(moveSpeed);
 		attrData.setAddCure(addCure);
 		attrData.setCutCure(cutCure);
-		attrMap.put(GroupSkillAttrType.GROUP_SKILL_ATTR.type, attrData);
+		attrMap.put(AttrDataType.ATTR_DATA_TYPE.type, attrData);
 
 		AttrData precentAttrData = new AttrData();
 		precentAttrData.setAttack(attackPercent);
@@ -491,7 +484,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		precentAttrData.setDodge(dodgePercent);
 		precentAttrData.setPhysiqueDef(physiqueDefPercent);
 		precentAttrData.setLife(lifePercent);
-		attrMap.put(GroupSkillAttrType.GROUP_SKILL_PRECENT_ATTR.type, precentAttrData);
+		attrMap.put(AttrDataType.ATTR_DATA_PRECENT_TYPE.type, precentAttrData);
 
 		return attrMap;
 	}
