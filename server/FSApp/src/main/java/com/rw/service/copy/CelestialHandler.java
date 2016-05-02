@@ -86,7 +86,7 @@ public class CelestialHandler {
 		// }
 		// }
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
-		String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
+		// String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
 		// List<Integer> list = CopyHandler.convertToIntList(pItemsID);
 		// TODO DropItemManaer可优化成一个方法调用，少一次数据库操作和减少遍历操作
 		List<? extends ItemInfo> listItemBattle = null;

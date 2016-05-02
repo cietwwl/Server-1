@@ -161,12 +161,12 @@ public class PlayerTimeActionHelper {
 				player.getCopyDataMgr().resetDataInNewDay();
 			}
 		});
-		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {
-				player.getCopyDataMgr().resetDataInNewDay();
-			}
-		});
+		// onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+		// @Override
+		// public void doTask() {
+		// player.getCopyDataMgr().resetDataInNewDay();
+		// }
+		// });
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
