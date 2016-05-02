@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
@@ -73,10 +72,17 @@ public class ActivityTimeCardTypeMgr {
 		ActivityTimeCardTypeSubItem targetSubItem = null;
 		targetSubItem = getSubItem(player, timeCardTypeCfgId,timeCardTypeSubItemCfgId);
 		if(targetSubItem!=null){
-			isTimeCardOnGoing = targetSubItem.getDayLeft() >= 0;
-			GameLog.error("activitytimecard", "日常 ", "能否领取 = " + isTimeCardOnGoing + " 剩余天数 =" + targetSubItem.getDayLeft() + " 月卡类型 =" + timeCardTypeSubItemCfgId);
+			isTimeCardOnGoing = targetSubItem.getDayLeft() > 0;
+			if(isTimeCardOnGoing){
+				isTimeCardOnGoing = DateUtils.dayChanged(targetSubItem.getLastTakeAwardTime());
+			}
+			if(isTimeCardOnGoing){
+				targetSubItem.setLastTakeAwardTime(System.currentTimeMillis());
+				
+			}
+//			GameLog.error("activitytimecard", "日常 ", "能否领取 = " + isTimeCardOnGoing + " 剩余天数 =" + targetSubItem.getDayLeft() + " 月卡类型 =" + timeCardTypeSubItemCfgId);
 		}
-		GameLog.error("activitytimecard", "日常 ",   " 月卡类型 =" + timeCardTypeSubItemCfgId + " 玩家名 =" + player.getUserName());
+//		GameLog.error("activitytimecard", "日常 ", "能否领取 = " + isTimeCardOnGoing +  " 月卡类型 =" + timeCardTypeSubItemCfgId + " 玩家名 =" + player.getUserName());
 		return isTimeCardOnGoing;
 	}
 
