@@ -30,6 +30,9 @@ public class Account {
 		if(whiteList == null){
 			whiteList = new TableWhiteListHolder(accountId);
 		}
+		if(whiteList == null){
+			return false;
+		}
 		TableWhiteList tableWhiteList = whiteList.getTableWhiteList();
 		return tableWhiteList == null ? false : !tableWhiteList.isClose();
 	}

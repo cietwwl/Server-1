@@ -91,7 +91,7 @@ public class CelestialHandler {
 		// TODO DropItemManaer可优化成一个方法调用，少一次数据库操作和减少遍历操作
 		List<? extends ItemInfo> listItemBattle = null;
 		try {
-			DropItemManager.getInstance().pretreatDrop(player, copyCfg);
+			//DropItemManager.getInstance().pretreatDrop(player, copyCfg);
 			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -176,6 +176,27 @@ public class GameLoginHandler {
 				// public void run(Player player) {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
+				
+				// --------------------------------------------------------START
+				// TODO HC @Modify 2015-12-17
+				/**
+				 * <pre>
+				 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+				 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+				 * </pre>
+				 */
+				PlotProgressDAO dao = PlotProgressDAO.getInstance();
+				UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+				if (userPlotProgress == null) {
+					userPlotProgress = new UserPlotProgress();
+					userPlotProgress.setUserId(userId);
+				}
+				Integer hasValue = userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+				if (hasValue == null) {
+					dao.update(userPlotProgress);
+				}
+				// --------------------------------------------------------END
+				
 				if (player != null) {
 					// modify@2015-12-28 by Jamaz 只断开非当前链接
 					ChannelHandlerContext oldContext = UserChannelMgr.get(userId_);
@@ -217,26 +238,6 @@ public class GameLoginHandler {
     			BILogMgr.getInstance().logZoneLogin(player);			
     			// 补充进入主城需要同步的数据
 				LoginSynDataHelper.setData(player, response);
-
-				// --------------------------------------------------------START
-				// TODO HC @Modify 2015-12-17
-				/**
-				 * <pre>
-				 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-				 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-				 * </pre>
-				 */
-				PlotProgressDAO dao = PlotProgressDAO.getInstance();
-				UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-				if (userPlotProgress == null) {
-					userPlotProgress = new UserPlotProgress();
-					userPlotProgress.setUserId(userId);
-				}
-				Integer hasValue = userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-				if (hasValue == null) {
-					dao.update(userPlotProgress);
-				}
-				// --------------------------------------------------------END
 
 				// player.SendMsg(Command.MSG_LOGIN_GAME,
 				// response.build().toByteString());
@@ -348,23 +349,23 @@ public class GameLoginHandler {
 			BILogMgr.getInstance().logZoneReg(player);
 
 			LoginSynDataHelper.setData(player, response);
-			// --------------------------------------------------------START
-			// TODO HC @Modify 2015-12-17
-			/**
-			 * <pre>
-			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-			 * </pre>
-			 */
-			PlotProgressDAO dao = PlotProgressDAO.getInstance();
-			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-			if (userPlotProgress == null) {
-				userPlotProgress = new UserPlotProgress();
-				userPlotProgress.setUserId(userId);
-			}
-			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-			dao.update(userPlotProgress);
-			// --------------------------------------------------------END
+//			// --------------------------------------------------------START
+//			// TODO HC @Modify 2015-12-17
+//			/**
+//			 * <pre>
+//			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+//			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+//			 * </pre>
+//			 */
+//			PlotProgressDAO dao = PlotProgressDAO.getInstance();
+//			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+//			if (userPlotProgress == null) {
+//				userPlotProgress = new UserPlotProgress();
+//				userPlotProgress.setUserId(userId);
+//			}
+//			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+//			dao.update(userPlotProgress);
+//			// --------------------------------------------------------END
 		}
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据

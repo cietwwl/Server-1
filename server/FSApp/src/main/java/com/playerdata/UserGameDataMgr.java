@@ -71,7 +71,6 @@ public class UserGameDataMgr {
 			} else {
 				long lastTime = userGameData.getLastAddPowerTime();
 				long flowTime = now - lastTime;// 流失的时间
-
 				// System.err.println(lastTime + "," + flowTime);
 				if (flowTime <= 0) {// 流失时间小于0
 					userGameData.setLastAddPowerTime(now);// 上次检查时间是0
@@ -83,11 +82,13 @@ public class UserGameDataMgr {
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
 						userGameData.setLastAddPowerTime(now - TimeUnit.SECONDS.toMillis(hasSeconds - addValue * recoverTime));
+						//TODO 这里调用处需要做支持，检测是否存在这里的属性域，否则是不安全和没有可维护性
+						userGameDataHolder.update(player,"power");
 					}
 				}
 			}
 		}
-		userGameDataHolder.update(player);
+		
 
 		// 检测当前时间距离上次有多少
 		// System.err.println("level--" + level);
