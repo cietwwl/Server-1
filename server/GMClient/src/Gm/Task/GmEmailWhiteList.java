@@ -28,20 +28,20 @@ public class GmEmailWhiteList extends AGMHandler{
 			this.password = GMManager.PASSWORD_VALUE;
 
 			EmailData emailData = new EmailData();
-			
-			emailData.setTitle("2016-03-25");
-			emailData.setContent("!!!!@亲爱的玩家您好，本次删档测试不知不觉已然接近尾声，感谢大家对《斗战封神》的支持，以下为封测福利内容，请查收！欢迎大家加入我们的官方Q群182674039，和小伙伴一起继续交流吧！");
+			//emailData.setTaskId(1);
+			emailData.setTitle("停服更新奖励");
+			emailData.setContent("亲爱的各位队长：\r\n        近期神秘商人小哥的装备手抖贱卖了错误的价格，让正经刷关冲刺榜首的各位队长大大悲愤莫名，友谊的小船说翻就翻。特此发放安抚奖励，鼓励各位不要气馁！\r\n        小媚儿将不离不弃陪伴着各位队长大大们！冲刺加油！\r\n\r\n小媚儿");
 			List<GmItem> list = new ArrayList<GmItem>();
 			GmItem i1 = new GmItem();
-			i1.setAmount(10000);
-			i1.setCode(2);
+			i1.setAmount(200000);
+			i1.setCode(1);
 			i1.setType(1);
 			list.add(i1);
-//			GmItem i2 = new GmItem();
-//			i2.setAmount(10000000);
-//			i2.setCode(1);
-//			i2.setType(1);
-//			list.add(i2);
+			GmItem i2 = new GmItem();
+			i2.setAmount(1000);
+			i2.setCode(2);
+			i2.setType(1);
+			list.add(i2);
 //			GmItem i3 = new GmItem();
 //			i3.setAmount(30);
 //			i3.setCode(805001);
@@ -49,13 +49,13 @@ public class GmEmailWhiteList extends AGMHandler{
 //			list.add(i3);
 			
 			emailData.setItemDict(JsonUtil.writeValue(list));
-			emailData.setCoolTime(60);
-			emailData.setExpireTime(9);
+			emailData.setCoolTime(0);
+			emailData.setExpireTime(7);
 			List<GmMailCondition> listCondition = new ArrayList<GmMailCondition>();
 			GmMailCondition condition = new GmMailCondition();
-			condition.setType(1);
-			condition.setMaxValue(50);
-			condition.setMinValue(1);
+			condition.setType(2);
+			condition.setMaxValue(1461254400);
+			condition.setMinValue(1460995200);
 			listCondition.add(condition);
 			
 			emailData.setConditionList(JsonUtil.writeValue(listCondition));

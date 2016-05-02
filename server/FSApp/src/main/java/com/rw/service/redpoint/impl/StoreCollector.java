@@ -10,7 +10,7 @@ import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 
-public class StoreCollector implements RedPointCollector{
+public class StoreCollector implements RedPointCollector {
 
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
@@ -20,6 +20,7 @@ public class StoreCollector implements RedPointCollector{
 				map.put(RedPointType.HOME_WINDOW_STORE, Collections.EMPTY_LIST);
 			}
 		}
+
 	}
 
 }

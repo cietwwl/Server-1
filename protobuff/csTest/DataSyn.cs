@@ -176,7 +176,10 @@ namespace DataSyn
       ADD_SINGLE = 3,
             
       [global::ProtoBuf.ProtoEnum(Name=@"REMOVE_SINGLE", Value=4)]
-      REMOVE_SINGLE = 4
+      REMOVE_SINGLE = 4,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UPDATE_FIELD", Value=5)]
+      UPDATE_FIELD = 5
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"eSynType")]
