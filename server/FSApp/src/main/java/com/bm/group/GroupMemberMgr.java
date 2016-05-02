@@ -340,10 +340,14 @@ public class GroupMemberMgr {
 
 		int contribution = memberData.getContribution();
 		contribution += offsetContribution;
-		memberData.setContribution(contribution < 0 ? 0 : contribution);
+		contribution = contribution < 0 ? 0 : contribution;
+		memberData.setContribution(contribution);
 		holder.updateMemberData(memberData.getId());
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		holder.synMemberData(memberPlayer, false, -1);
+
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
 	}
 
 	/**
@@ -462,6 +466,10 @@ public class GroupMemberMgr {
 		item.setLastDonateTime(lastDonateTime);
 		item.setContribution(contribution);
 		holder.updateMemberData(item.getId());
+
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
 	}
 
 	/**
