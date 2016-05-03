@@ -1,12 +1,14 @@
 package com.rw.service.Privilege.datamodel;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import com.rw.service.Privilege.IPrivilegeProvider;
 import com.rw.service.Privilege.IPrivilegeWare;
-import com.rwproto.PrivilegeProtos.*;
+import com.rwproto.PrivilegeProtos.AllPrivilege;
+import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 
-public interface IPrivilegeConfigSourcer {
+public interface IPrivilegeConfigSourcer<PrivilegeNameEnum extends Enum<PrivilegeNameEnum>> {
 	/**
 	 * 从provider获得当前这个配置包含的每个特权点的属性，
 	 * 然后使用IPrivilegeWare的put方法存放对应的特权
@@ -21,4 +23,6 @@ public interface IPrivilegeConfigSourcer {
 	public void setValue(AllPrivilege.Builder holder,PrivilegeProperty.Builder value);
 	
 	public PrivilegeProperty.Builder getValue(AllPrivilege.Builder holder);
+	
+	public Field getConfigField(PrivilegeNameEnum name);
 }

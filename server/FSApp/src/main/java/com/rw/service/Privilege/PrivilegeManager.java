@@ -21,11 +21,11 @@ public class PrivilegeManager
 		implements IPrivilegeWare, IPrivilegeManager, PlayerEventListener, IStreamListner<IPrivilegeProvider> {
 	private Player m_player;
 	private ArrayList<IPrivilegeProvider> privelegeProviders;
-	private HashMap<Pair<IPrivilegeConfigSourcer,IPrivilegeProvider>,AllPrivilege> cache;
+	private HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>,AllPrivilege> cache;
 	
 	//TODO 如果配置发生变化，需要对每个玩家调用这个方法重新初始化
 	public void initPrivilegeProvider() {
-		cache = new HashMap<Pair<IPrivilegeConfigSourcer,IPrivilegeProvider>, AllPrivilege>();
+		cache = new HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>, AllPrivilege>();
 		privelegeProviders = new ArrayList<IPrivilegeProvider>(2);
 		IPrivilegeProvider provider = m_player.getVipMgr();
 		privelegeProviders.add(provider);
@@ -40,10 +40,10 @@ public class PrivilegeManager
 	
 	// 综合各个provider的结果
 	private AllPrivilege.Builder combinePrivilege() {
-		Iterable<IPrivilegeConfigSourcer> cfgSources = PrivilegeConfigHelper.getInstance().getSources();
+		Iterable<IPrivilegeConfigSourcer<?>> cfgSources = PrivilegeConfigHelper.getInstance().getSources();
 		Collection<AllPrivilege> vals = cache.values();
 		AllPrivilege.Builder result = AllPrivilege.newBuilder();
-		for (IPrivilegeConfigSourcer cfgsrc : cfgSources) {
+		for (IPrivilegeConfigSourcer<?> cfgsrc : cfgSources) {
 			for (AllPrivilege pri : vals) {
 				result = cfgsrc.combine(result, pri);
 			}
@@ -53,8 +53,8 @@ public class PrivilegeManager
 
 	//每个provider计算特权点，并缓存起来
 	private void privilegeByProvider(List<IPrivilegeProvider> providers){
-		Iterable<IPrivilegeConfigSourcer> cfgSources = PrivilegeConfigHelper.getInstance().getSources();
-		for (IPrivilegeConfigSourcer cfgsrc : cfgSources) {
+		Iterable<IPrivilegeConfigSourcer<?>> cfgSources = PrivilegeConfigHelper.getInstance().getSources();
+		for (IPrivilegeConfigSourcer<?> cfgsrc : cfgSources) {
 			// 使用double dispatch方式，将特权分派到对应的特权数据流中:
 			// IPrivilegeConfigSourcer->XXXCfgHelper->IPrivilegeWare->putXXXprivilege
 			cfgsrc.putPrivilege(this, providers);
@@ -78,9 +78,8 @@ public class PrivilegeManager
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		// 玩家第一次创建
-		m_player = player;
-		initPrivilegeProvider();
+		//不会调用init
+		init(player);
 	}
 
 	@Override
@@ -98,7 +97,6 @@ public class PrivilegeManager
 	public void init(Player player) {
 		// 玩家初始化
 		m_player = player;
-		//TODO 检查是否重复初始化,notifyPlayerCreated
 		initPrivilegeProvider();
 	}
 	
@@ -112,15 +110,15 @@ public class PrivilegeManager
 	}
 
 	@Override
-	public void putArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
+	public void putArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setArena(pair.getT2());
 		arenaPrivilege.fire(config.getValue(all).build());//all.getArena()
 	}
 
-	private AllPrivilege.Builder putValueList(IPrivilegeConfigSourcer config,
+	private AllPrivilege.Builder putValueList(IPrivilegeConfigSourcer<?> config,
 			List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		for (Pair<IPrivilegeProvider, PrivilegeProperty.Builder> pair : newPrivilegeMap) {
-			Pair<IPrivilegeConfigSourcer,IPrivilegeProvider> key=Pair.Create(config, pair.getT1());
+			Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider> key=Pair.Create(config, pair.getT1());
 			AllPrivilege old = cache.get(key);
 			AllPrivilege.Builder tmp = AllPrivilege.newBuilder();
 			config.setValue(tmp, pair.getT2());
@@ -140,7 +138,7 @@ public class PrivilegeManager
 	}
 
 	@Override
-	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
+	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setPeakArena(pair.getT2());
 		peakArenaPrivilege.fire(config.getValue(all).build());//all.getPeakArena()
 	}

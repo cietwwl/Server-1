@@ -8,8 +8,8 @@ import com.rwproto.PrivilegeProtos.*;
 
 public interface IPrivilegeWare {
 
-	public void putArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap);
+	public void putArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap);
 
-	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap);
+	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap);
 
 }

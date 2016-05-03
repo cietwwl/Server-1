@@ -1,9 +1,6 @@
 package com.rw.service.Privilege.datamodel;
 
-import com.rwproto.PrivilegeProtos.PrivilegeValue;
-import com.rwproto.PrivilegeProtos.PrivilegeValue.Builder;
-
-public class FloatPropertyWriter implements PropertyWriter {
+public class FloatPropertyWriter extends AbstractPropertyWriter<Float> {
 	private static FloatPropertyWriter instance;
 
 	public static PropertyWriter getShareInstance() {
@@ -14,15 +11,8 @@ public class FloatPropertyWriter implements PropertyWriter {
 	}
 
 	@Override
-	public boolean gt(Object privilegeValue, Object maxVal) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Builder combine(Builder acc, PrivilegeValue added, String name) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Float parse(String val) {
+		return Float.parseFloat(val);
 	}
 
 }

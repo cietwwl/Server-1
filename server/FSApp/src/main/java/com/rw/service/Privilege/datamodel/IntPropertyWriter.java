@@ -1,9 +1,6 @@
 package com.rw.service.Privilege.datamodel;
 
-import com.rwproto.PrivilegeProtos.PrivilegeValue;
-import com.rwproto.PrivilegeProtos.PrivilegeValue.Builder;
-
-public class IntPropertyWriter implements PropertyWriter {
+public class IntPropertyWriter extends AbstractPropertyWriter<Integer> {
 	private static IntPropertyWriter instance;
 
 	public static IntPropertyWriter getShareInstance() {
@@ -14,15 +11,7 @@ public class IntPropertyWriter implements PropertyWriter {
 	}
 
 	@Override
-	public boolean gt(Object privilegeValue, Object maxVal) {
-		// TODO Auto-generated method stub
-		return false;
+	protected Integer parse(String val) {
+		return Integer.parseInt(val);
 	}
-
-	@Override
-	public Builder combine(Builder acc, PrivilegeValue added, String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

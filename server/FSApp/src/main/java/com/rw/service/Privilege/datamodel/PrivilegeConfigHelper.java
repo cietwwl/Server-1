@@ -14,15 +14,15 @@ public class PrivilegeConfigHelper {
 		return instance;
 	}
 
-	private HashMap<String,IPrivilegeConfigSourcer> sourcerMap=new HashMap<String,IPrivilegeConfigSourcer>();
+	private HashMap<String,IPrivilegeConfigSourcer<?>> sourcerMap=new HashMap<String,IPrivilegeConfigSourcer<?>>();
 	
-	public void addOrReplace(String configSourcerName,IPrivilegeConfigSourcer sourcer){
+	public void addOrReplace(String configSourcerName,IPrivilegeConfigSourcer<?> sourcer){
 		if (StringUtils.isNotBlank(configSourcerName) && sourcer != null){
 			sourcerMap.put(configSourcerName,sourcer);
 		}
 	}
 	
-	public Iterable<IPrivilegeConfigSourcer> getSources(){
+	public Iterable<IPrivilegeConfigSourcer<?>> getSources(){
 		return sourcerMap.values();
 	}
 }

@@ -1,9 +1,6 @@
 package com.rw.service.Privilege.datamodel;
 
-import com.rwproto.PrivilegeProtos.PrivilegeValue;
-import com.rwproto.PrivilegeProtos.PrivilegeValue.Builder;
-
-public class BoolPropertyWriter implements PropertyWriter {
+public class BoolPropertyWriter extends AbstractPropertyWriter<Boolean> {
 	private static BoolPropertyWriter instance;
 
 	public static PropertyWriter getShareInstance() {
@@ -14,15 +11,7 @@ public class BoolPropertyWriter implements PropertyWriter {
 	}
 
 	@Override
-	public boolean gt(Object privilegeValue, Object maxVal) {
-		// TODO Auto-generated method stub
-		return false;
+	protected Boolean parse(String val) {
+		return Boolean.parseBoolean(val);
 	}
-
-	@Override
-	public Builder combine(Builder acc, PrivilegeValue added, String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
