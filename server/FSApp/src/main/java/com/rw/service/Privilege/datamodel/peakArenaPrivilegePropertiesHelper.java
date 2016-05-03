@@ -3,11 +3,11 @@ package com.rw.service.Privilege.datamodel;
 import java.util.Collection;
 import java.util.Map;
 
-import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 
-public class peakArenaPrivilegePropertiesHelper extends CfgCsvDao<peakArenaPrivilegeProperties> {
+public class peakArenaPrivilegePropertiesHelper extends AbstractPrivilegePropertiesHelper<PeakArenaPrivilegeNames,peakArenaPrivilegeProperties> {
 	public static peakArenaPrivilegePropertiesHelper getInstance() {
 		return SpringContextUtil.getBean(peakArenaPrivilegePropertiesHelper.class);
 	}

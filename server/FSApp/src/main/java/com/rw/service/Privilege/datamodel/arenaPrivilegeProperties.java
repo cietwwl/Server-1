@@ -2,7 +2,7 @@ package com.rw.service.Privilege.datamodel;
 
 import com.common.BaseConfig;
 
-public class arenaPrivilegeProperties extends BaseConfig {
+public class arenaPrivilegeProperties extends BaseConfig implements IThresholdConfig {
 	private com.rwproto.PrivilegeProtos.ArenaPrivilegeNames nameField; // 关键字段:特权控制点
 	private int threshold; // 上限
 	private String buyTip; // 特权提升提示模板
@@ -12,6 +12,7 @@ public class arenaPrivilegeProperties extends BaseConfig {
 		return nameField;
 	}
 
+	@Override
 	public int getThreshold() {
 		return threshold;
 	}

@@ -13,13 +13,18 @@ public abstract class AbstractConfigChargeSource<NameEnumCl extends Enum<NameEnu
 	}
 
 	public void ExtraInitAfterLoad(Class<NameEnumCl> nameEnumCl,
-			IPrivilegeConfigSourcer<NameEnumCl> cfgHelper)
+			IPrivilegeConfigSourcer<NameEnumCl> cfgHelper,
+			IPrivilegeThreshold<NameEnumCl> thresholdHelper)
 			throws IllegalArgumentException, IllegalAccessException {
 		NameEnumCl[] names = nameEnumCl.getEnumConstants();
 		for (int i = 0; i < names.length; i++) {
 			NameEnumCl name = names[i];
 			Field field = cfgHelper.getConfigField(name);
 			Object value = field.get(this);
+			int threshold = thresholdHelper.getThreshold(name);
+			if (threshold >0){
+				//TODO 限制最大值 依赖初始化顺序了！
+			}
 			fieldValues.put(name, value);
 		}
 	}

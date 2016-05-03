@@ -3,11 +3,12 @@ package com.rw.service.Privilege.datamodel;
 import java.util.Collection;
 import java.util.Map;
 
-import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 
-public class arenaPrivilegePropertiesHelper extends CfgCsvDao<arenaPrivilegeProperties> {
+public class arenaPrivilegePropertiesHelper
+		extends AbstractPrivilegePropertiesHelper<ArenaPrivilegeNames, arenaPrivilegeProperties> {
 	public static arenaPrivilegePropertiesHelper getInstance() {
 		return SpringContextUtil.getBean(arenaPrivilegePropertiesHelper.class);
 	}
