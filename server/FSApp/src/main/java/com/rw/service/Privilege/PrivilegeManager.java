@@ -79,7 +79,7 @@ public class PrivilegeManager
 	@Override
 	public void notifyPlayerCreated(Player player) {
 		//不会调用init
-		init(player);
+		//init(player);
 	}
 
 	@Override

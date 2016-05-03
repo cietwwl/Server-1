@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.common.RefParam;
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.common.Pair;
@@ -41,16 +40,20 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 
 	protected Map<String, ConfigClass> initJsonCfg(String csvFileName, 
 			Class<ConfigClass> cfgCl,Class<PrivilegeNameEnum> priNameCl) {
-		RefParam<String[]> outHeaders=new RefParam<String[]>();
-		cfgCacheMap = CfgCsvHelper.readCsv2Map(csvFileName,cfgCl,outHeaders);
-		headers = new String[outHeaders.value.length - 2];
+		PrivilegeNameEnum[] nameEnums = priNameCl.getEnumConstants();
+		privilegeNameEnums = nameEnums;
+		cfgCacheMap = CfgCsvHelper.readCsv2Map(csvFileName,cfgCl);
+		headers = new String[nameEnums.length];
 		combinatorMap = new HashMap<String,PropertyWriter>();
 		fieldMap = CfgCsvHelper.getFieldMap(cfgCl);
 
 		for(int i = 0;i<headers.length;i++){
 			PropertyWriter combinator;
-			headers[i] = outHeaders.value[i-2];
+			headers[i] = nameEnums[i-2].name();
 			Field field = fieldMap.get(headers[i]);
+			if (field == null){
+				throw new RuntimeException("缺少特权属性名对应的配置列:"+headers[i]);
+			}
 			Class<?> fieldType = field.getType();
 			if (fieldType == boolean.class || fieldType == Boolean.class) {
 				combinator = BoolPropertyWriter.getShareInstance();
@@ -65,17 +68,12 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			}else{
 				throw new RuntimeException("无效属性类型，必须是整数或者布尔类型! "+headers[i]+":"+fieldType.getName());
 			}
-			combinatorMap.put(headers[i], combinator);
-		}
-
-		PrivilegeNameEnum[] nameEnums = priNameCl.getEnumConstants();
-		privilegeNameEnums = nameEnums;
-		for(int i = 0; i< nameEnums.length; i++){
-			if (!combinatorMap.containsKey(nameEnums[i].name())){
-				throw new RuntimeException("配置缺少了属性:"+nameEnums[i]);
+			PropertyWriter old = combinatorMap.put(headers[i], combinator);
+			if (old != null){
+				throw new RuntimeException("特权属性名不能同名:"+headers[i]);
 			}
 		}
-		
+
 		maxChargeType = new HashMap<String,String>(nameEnums.length);
 		Collection<ConfigClass> vals = cfgCacheMap.values();
 		ArrayList<String> tmp = new ArrayList<String>(cfgCacheMap.size());
