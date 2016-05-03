@@ -14,7 +14,7 @@ public interface IPrivilegeProvider {
 	public IStream<IPrivilegeProvider> getPrivilegeProvider();
 	
 	/**
-	 * 返回最佳匹配充值类型，如果没有应该返回-1
+	 * 返回最佳匹配充值类型，如果没有应该返回-1，名字全部小写
 	 * @param chargeSources
 	 * @return
 	 */

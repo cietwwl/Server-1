@@ -87,7 +87,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				continue;
 			}
 			
-			tmp.add(sourceName);
+			tmp.add(sourceName.toLowerCase());
 			
 			for(int i = 0; i< nameEnums.length; i++){
 				String priName = nameEnums[i].name();

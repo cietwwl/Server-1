@@ -19,8 +19,7 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	private int m_oldVip;
 	
 	private Player m_pPlayer;
-	//TODO fire update or close
-	private StreamImpl<IPrivilegeProvider> vipPrivilegeProvider=new StreamImpl<IPrivilegeProvider>();
+	private StreamImpl<IPrivilegeProvider> vipPrivilegeProvider = new StreamImpl<IPrivilegeProvider>();
 	
 	@Override
 	public void notifyPlayerCreated(Player player) {
@@ -82,6 +81,8 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		refreshConst(vipTable);
 		m_oldVip = oldVip;
 		getVipVar(vipTable);
+		
+		vipPrivilegeProvider.fire(this);
 	}
 	
 	public void initVipPrivilege(){
@@ -220,14 +221,34 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 
 	@Override
 	public int getBestMatchCharge(String[] sources) {
-		// TODO Auto-generated method stub
-		return -1;
+		int result = -1;
+		if (sources == null) return result;
+		int bestMatchVipLevel = 0;
+		int currentVip = m_pPlayer.getVip();
+		for(int i =0;i<sources.length;i++){
+			String chargeSource = sources[i];
+			if (chargeSource == null) continue;
+			int index = chargeSource.indexOf("vip");
+			if (index!=-1){
+				String vipLevelStr = chargeSource.substring(index);
+				int lvl = -1;
+				try{
+					lvl = Integer.parseInt(vipLevelStr);
+				}catch(Exception ex){
+				}
+				//取比当前vip等级要低（或者相等），并且比已有最佳匹配值要大的等级
+				if (lvl > bestMatchVipLevel && lvl >= currentVip){
+					bestMatchVipLevel = lvl;
+					result = i;
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public String getCurrentChargeType() {
-		// TODO Auto-generated method stub
-		return null;
+		return "vip"+m_pPlayer.getVip();
 	}
 	
 }
