@@ -190,781 +190,12 @@ public final class PrivilegeProtos {
     // @@protoc_insertion_point(enum_scope:Privilege.PeakArenaPrivilegeNames)
   }
 
-  public interface PrivilegeChargeTipOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 pName = 1;
-    /**
-     * <code>required int32 pName = 1;</code>
-     *
-     * <pre>
-     *特权名对应的枚举值
-     * </pre>
-     */
-    boolean hasPName();
-    /**
-     * <code>required int32 pName = 1;</code>
-     *
-     * <pre>
-     *特权名对应的枚举值
-     * </pre>
-     */
-    int getPName();
-
-    // required bool isReachLimit = 2;
-    /**
-     * <code>required bool isReachLimit = 2;</code>
-     *
-     * <pre>
-     *是否超过阀值
-     * </pre>
-     */
-    boolean hasIsReachLimit();
-    /**
-     * <code>required bool isReachLimit = 2;</code>
-     *
-     * <pre>
-     *是否超过阀值
-     * </pre>
-     */
-    boolean getIsReachLimit();
-
-    // required string chargeType = 3;
-    /**
-     * <code>required string chargeType = 3;</code>
-     *
-     * <pre>
-     *改变当前特权的充值类型
-     * </pre>
-     */
-    boolean hasChargeType();
-    /**
-     * <code>required string chargeType = 3;</code>
-     *
-     * <pre>
-     *改变当前特权的充值类型
-     * </pre>
-     */
-    java.lang.String getChargeType();
-    /**
-     * <code>required string chargeType = 3;</code>
-     *
-     * <pre>
-     *改变当前特权的充值类型
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getChargeTypeBytes();
-  }
-  /**
-   * Protobuf type {@code Privilege.PrivilegeChargeTip}
-   */
-  public static final class PrivilegeChargeTip extends
-      com.google.protobuf.GeneratedMessage
-      implements PrivilegeChargeTipOrBuilder {
-    // Use PrivilegeChargeTip.newBuilder() to construct.
-    private PrivilegeChargeTip(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private PrivilegeChargeTip(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PrivilegeChargeTip defaultInstance;
-    public static PrivilegeChargeTip getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public PrivilegeChargeTip getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PrivilegeChargeTip(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              pName_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              isReachLimit_ = input.readBool();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
-              chargeType_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.PrivilegeProtos.PrivilegeChargeTip.class, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<PrivilegeChargeTip> PARSER =
-        new com.google.protobuf.AbstractParser<PrivilegeChargeTip>() {
-      public PrivilegeChargeTip parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PrivilegeChargeTip(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PrivilegeChargeTip> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 pName = 1;
-    public static final int PNAME_FIELD_NUMBER = 1;
-    private int pName_;
-    /**
-     * <code>required int32 pName = 1;</code>
-     *
-     * <pre>
-     *特权名对应的枚举值
-     * </pre>
-     */
-    public boolean hasPName() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 pName = 1;</code>
-     *
-     * <pre>
-     *特权名对应的枚举值
-     * </pre>
-     */
-    public int getPName() {
-      return pName_;
-    }
-
-    // required bool isReachLimit = 2;
-    public static final int ISREACHLIMIT_FIELD_NUMBER = 2;
-    private boolean isReachLimit_;
-    /**
-     * <code>required bool isReachLimit = 2;</code>
-     *
-     * <pre>
-     *是否超过阀值
-     * </pre>
-     */
-    public boolean hasIsReachLimit() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bool isReachLimit = 2;</code>
-     *
-     * <pre>
-     *是否超过阀值
-     * </pre>
-     */
-    public boolean getIsReachLimit() {
-      return isReachLimit_;
-    }
-
-    // required string chargeType = 3;
-    public static final int CHARGETYPE_FIELD_NUMBER = 3;
-    private java.lang.Object chargeType_;
-    /**
-     * <code>required string chargeType = 3;</code>
-     *
-     * <pre>
-     *改变当前特权的充值类型
-     * </pre>
-     */
-    public boolean hasChargeType() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required string chargeType = 3;</code>
-     *
-     * <pre>
-     *改变当前特权的充值类型
-     * </pre>
-     */
-    public java.lang.String getChargeType() {
-      java.lang.Object ref = chargeType_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          chargeType_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string chargeType = 3;</code>
-     *
-     * <pre>
-     *改变当前特权的充值类型
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getChargeTypeBytes() {
-      java.lang.Object ref = chargeType_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        chargeType_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private void initFields() {
-      pName_ = 0;
-      isReachLimit_ = false;
-      chargeType_ = "";
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasPName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsReachLimit()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasChargeType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, pName_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, isReachLimit_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getChargeTypeBytes());
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, pName_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, isReachLimit_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getChargeTypeBytes());
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.PrivilegeProtos.PrivilegeChargeTip prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Privilege.PrivilegeChargeTip}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.PrivilegeProtos.PrivilegeChargeTip.class, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder.class);
-      }
-
-      // Construct using com.rwproto.PrivilegeProtos.PrivilegeChargeTip.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        pName_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        isReachLimit_ = false;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        chargeType_ = "";
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_descriptor;
-      }
-
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getDefaultInstanceForType() {
-        return com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance();
-      }
-
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip build() {
-        com.rwproto.PrivilegeProtos.PrivilegeChargeTip result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip buildPartial() {
-        com.rwproto.PrivilegeProtos.PrivilegeChargeTip result = new com.rwproto.PrivilegeProtos.PrivilegeChargeTip(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.pName_ = pName_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.isReachLimit_ = isReachLimit_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.chargeType_ = chargeType_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.PrivilegeProtos.PrivilegeChargeTip) {
-          return mergeFrom((com.rwproto.PrivilegeProtos.PrivilegeChargeTip)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.PrivilegeProtos.PrivilegeChargeTip other) {
-        if (other == com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance()) return this;
-        if (other.hasPName()) {
-          setPName(other.getPName());
-        }
-        if (other.hasIsReachLimit()) {
-          setIsReachLimit(other.getIsReachLimit());
-        }
-        if (other.hasChargeType()) {
-          bitField0_ |= 0x00000004;
-          chargeType_ = other.chargeType_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasPName()) {
-          
-          return false;
-        }
-        if (!hasIsReachLimit()) {
-          
-          return false;
-        }
-        if (!hasChargeType()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.PrivilegeProtos.PrivilegeChargeTip parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.PrivilegeProtos.PrivilegeChargeTip) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 pName = 1;
-      private int pName_ ;
-      /**
-       * <code>required int32 pName = 1;</code>
-       *
-       * <pre>
-       *特权名对应的枚举值
-       * </pre>
-       */
-      public boolean hasPName() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 pName = 1;</code>
-       *
-       * <pre>
-       *特权名对应的枚举值
-       * </pre>
-       */
-      public int getPName() {
-        return pName_;
-      }
-      /**
-       * <code>required int32 pName = 1;</code>
-       *
-       * <pre>
-       *特权名对应的枚举值
-       * </pre>
-       */
-      public Builder setPName(int value) {
-        bitField0_ |= 0x00000001;
-        pName_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 pName = 1;</code>
-       *
-       * <pre>
-       *特权名对应的枚举值
-       * </pre>
-       */
-      public Builder clearPName() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        pName_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool isReachLimit = 2;
-      private boolean isReachLimit_ ;
-      /**
-       * <code>required bool isReachLimit = 2;</code>
-       *
-       * <pre>
-       *是否超过阀值
-       * </pre>
-       */
-      public boolean hasIsReachLimit() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bool isReachLimit = 2;</code>
-       *
-       * <pre>
-       *是否超过阀值
-       * </pre>
-       */
-      public boolean getIsReachLimit() {
-        return isReachLimit_;
-      }
-      /**
-       * <code>required bool isReachLimit = 2;</code>
-       *
-       * <pre>
-       *是否超过阀值
-       * </pre>
-       */
-      public Builder setIsReachLimit(boolean value) {
-        bitField0_ |= 0x00000002;
-        isReachLimit_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isReachLimit = 2;</code>
-       *
-       * <pre>
-       *是否超过阀值
-       * </pre>
-       */
-      public Builder clearIsReachLimit() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        isReachLimit_ = false;
-        onChanged();
-        return this;
-      }
-
-      // required string chargeType = 3;
-      private java.lang.Object chargeType_ = "";
-      /**
-       * <code>required string chargeType = 3;</code>
-       *
-       * <pre>
-       *改变当前特权的充值类型
-       * </pre>
-       */
-      public boolean hasChargeType() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required string chargeType = 3;</code>
-       *
-       * <pre>
-       *改变当前特权的充值类型
-       * </pre>
-       */
-      public java.lang.String getChargeType() {
-        java.lang.Object ref = chargeType_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          chargeType_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string chargeType = 3;</code>
-       *
-       * <pre>
-       *改变当前特权的充值类型
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getChargeTypeBytes() {
-        java.lang.Object ref = chargeType_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          chargeType_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string chargeType = 3;</code>
-       *
-       * <pre>
-       *改变当前特权的充值类型
-       * </pre>
-       */
-      public Builder setChargeType(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        chargeType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string chargeType = 3;</code>
-       *
-       * <pre>
-       *改变当前特权的充值类型
-       * </pre>
-       */
-      public Builder clearChargeType() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        chargeType_ = getDefaultInstance().getChargeType();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string chargeType = 3;</code>
-       *
-       * <pre>
-       *改变当前特权的充值类型
-       * </pre>
-       */
-      public Builder setChargeTypeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        chargeType_ = value;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:Privilege.PrivilegeChargeTip)
-    }
-
-    static {
-      defaultInstance = new PrivilegeChargeTip(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:Privilege.PrivilegeChargeTip)
-  }
-
   public interface AllPrivilegeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .Privilege.ArenaPrivilege arena = 1;
+    // optional .Privilege.PrivilegeProperty arena = 1;
     /**
-     * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+     * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
      *
      * <pre>
      *竞技场特权点
@@ -972,25 +203,25 @@ public final class PrivilegeProtos {
      */
     boolean hasArena();
     /**
-     * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+     * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
      *
      * <pre>
      *竞技场特权点
      * </pre>
      */
-    com.rwproto.PrivilegeProtos.ArenaPrivilege getArena();
+    com.rwproto.PrivilegeProtos.PrivilegeProperty getArena();
     /**
-     * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+     * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
      *
      * <pre>
      *竞技场特权点
      * </pre>
      */
-    com.rwproto.PrivilegeProtos.ArenaPrivilegeOrBuilder getArenaOrBuilder();
+    com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getArenaOrBuilder();
 
-    // optional .Privilege.PeakArenaPrivilege peakArena = 2;
+    // optional .Privilege.PrivilegeProperty peakArena = 2;
     /**
-     * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+     * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
      *
      * <pre>
      *巅峰竞技场特权点
@@ -998,21 +229,21 @@ public final class PrivilegeProtos {
      */
     boolean hasPeakArena();
     /**
-     * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+     * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
      *
      * <pre>
      *巅峰竞技场特权点
      * </pre>
      */
-    com.rwproto.PrivilegeProtos.PeakArenaPrivilege getPeakArena();
+    com.rwproto.PrivilegeProtos.PrivilegeProperty getPeakArena();
     /**
-     * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+     * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
      *
      * <pre>
      *巅峰竞技场特权点
      * </pre>
      */
-    com.rwproto.PrivilegeProtos.PeakArenaPrivilegeOrBuilder getPeakArenaOrBuilder();
+    com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getPeakArenaOrBuilder();
   }
   /**
    * Protobuf type {@code Privilege.AllPrivilege}
@@ -1066,11 +297,11 @@ public final class PrivilegeProtos {
               break;
             }
             case 10: {
-              com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder subBuilder = null;
+              com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder subBuilder = null;
               if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 subBuilder = arena_.toBuilder();
               }
-              arena_ = input.readMessage(com.rwproto.PrivilegeProtos.ArenaPrivilege.PARSER, extensionRegistry);
+              arena_ = input.readMessage(com.rwproto.PrivilegeProtos.PrivilegeProperty.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(arena_);
                 arena_ = subBuilder.buildPartial();
@@ -1079,11 +310,11 @@ public final class PrivilegeProtos {
               break;
             }
             case 18: {
-              com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder subBuilder = null;
+              com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder subBuilder = null;
               if (((bitField0_ & 0x00000002) == 0x00000002)) {
                 subBuilder = peakArena_.toBuilder();
               }
-              peakArena_ = input.readMessage(com.rwproto.PrivilegeProtos.PeakArenaPrivilege.PARSER, extensionRegistry);
+              peakArena_ = input.readMessage(com.rwproto.PrivilegeProtos.PrivilegeProperty.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(peakArena_);
                 peakArena_ = subBuilder.buildPartial();
@@ -1131,11 +362,11 @@ public final class PrivilegeProtos {
     }
 
     private int bitField0_;
-    // optional .Privilege.ArenaPrivilege arena = 1;
+    // optional .Privilege.PrivilegeProperty arena = 1;
     public static final int ARENA_FIELD_NUMBER = 1;
-    private com.rwproto.PrivilegeProtos.ArenaPrivilege arena_;
+    private com.rwproto.PrivilegeProtos.PrivilegeProperty arena_;
     /**
-     * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+     * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
      *
      * <pre>
      *竞技场特权点
@@ -1145,31 +376,31 @@ public final class PrivilegeProtos {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+     * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
      *
      * <pre>
      *竞技场特权点
      * </pre>
      */
-    public com.rwproto.PrivilegeProtos.ArenaPrivilege getArena() {
+    public com.rwproto.PrivilegeProtos.PrivilegeProperty getArena() {
       return arena_;
     }
     /**
-     * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+     * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
      *
      * <pre>
      *竞技场特权点
      * </pre>
      */
-    public com.rwproto.PrivilegeProtos.ArenaPrivilegeOrBuilder getArenaOrBuilder() {
+    public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getArenaOrBuilder() {
       return arena_;
     }
 
-    // optional .Privilege.PeakArenaPrivilege peakArena = 2;
+    // optional .Privilege.PrivilegeProperty peakArena = 2;
     public static final int PEAKARENA_FIELD_NUMBER = 2;
-    private com.rwproto.PrivilegeProtos.PeakArenaPrivilege peakArena_;
+    private com.rwproto.PrivilegeProtos.PrivilegeProperty peakArena_;
     /**
-     * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+     * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
      *
      * <pre>
      *巅峰竞技场特权点
@@ -1179,29 +410,29 @@ public final class PrivilegeProtos {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+     * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
      *
      * <pre>
      *巅峰竞技场特权点
      * </pre>
      */
-    public com.rwproto.PrivilegeProtos.PeakArenaPrivilege getPeakArena() {
+    public com.rwproto.PrivilegeProtos.PrivilegeProperty getPeakArena() {
       return peakArena_;
     }
     /**
-     * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+     * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
      *
      * <pre>
      *巅峰竞技场特权点
      * </pre>
      */
-    public com.rwproto.PrivilegeProtos.PeakArenaPrivilegeOrBuilder getPeakArenaOrBuilder() {
+    public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getPeakArenaOrBuilder() {
       return peakArena_;
     }
 
     private void initFields() {
-      arena_ = com.rwproto.PrivilegeProtos.ArenaPrivilege.getDefaultInstance();
-      peakArena_ = com.rwproto.PrivilegeProtos.PeakArenaPrivilege.getDefaultInstance();
+      arena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
+      peakArena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1369,13 +600,13 @@ public final class PrivilegeProtos {
       public Builder clear() {
         super.clear();
         if (arenaBuilder_ == null) {
-          arena_ = com.rwproto.PrivilegeProtos.ArenaPrivilege.getDefaultInstance();
+          arena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
         } else {
           arenaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
         if (peakArenaBuilder_ == null) {
-          peakArena_ = com.rwproto.PrivilegeProtos.PeakArenaPrivilege.getDefaultInstance();
+          peakArena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
         } else {
           peakArenaBuilder_.clear();
         }
@@ -1485,12 +716,12 @@ public final class PrivilegeProtos {
       }
       private int bitField0_;
 
-      // optional .Privilege.ArenaPrivilege arena = 1;
-      private com.rwproto.PrivilegeProtos.ArenaPrivilege arena_ = com.rwproto.PrivilegeProtos.ArenaPrivilege.getDefaultInstance();
+      // optional .Privilege.PrivilegeProperty arena = 1;
+      private com.rwproto.PrivilegeProtos.PrivilegeProperty arena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.PrivilegeProtos.ArenaPrivilege, com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder, com.rwproto.PrivilegeProtos.ArenaPrivilegeOrBuilder> arenaBuilder_;
+          com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder> arenaBuilder_;
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
@@ -1500,13 +731,13 @@ public final class PrivilegeProtos {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.ArenaPrivilege getArena() {
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty getArena() {
         if (arenaBuilder_ == null) {
           return arena_;
         } else {
@@ -1514,13 +745,13 @@ public final class PrivilegeProtos {
         }
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
        * </pre>
        */
-      public Builder setArena(com.rwproto.PrivilegeProtos.ArenaPrivilege value) {
+      public Builder setArena(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
         if (arenaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1534,14 +765,14 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
        * </pre>
        */
       public Builder setArena(
-          com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder builderForValue) {
+          com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder builderForValue) {
         if (arenaBuilder_ == null) {
           arena_ = builderForValue.build();
           onChanged();
@@ -1552,18 +783,18 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
        * </pre>
        */
-      public Builder mergeArena(com.rwproto.PrivilegeProtos.ArenaPrivilege value) {
+      public Builder mergeArena(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
         if (arenaBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              arena_ != com.rwproto.PrivilegeProtos.ArenaPrivilege.getDefaultInstance()) {
+              arena_ != com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance()) {
             arena_ =
-              com.rwproto.PrivilegeProtos.ArenaPrivilege.newBuilder(arena_).mergeFrom(value).buildPartial();
+              com.rwproto.PrivilegeProtos.PrivilegeProperty.newBuilder(arena_).mergeFrom(value).buildPartial();
           } else {
             arena_ = value;
           }
@@ -1575,7 +806,7 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
@@ -1583,7 +814,7 @@ public final class PrivilegeProtos {
        */
       public Builder clearArena() {
         if (arenaBuilder_ == null) {
-          arena_ = com.rwproto.PrivilegeProtos.ArenaPrivilege.getDefaultInstance();
+          arena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
           onChanged();
         } else {
           arenaBuilder_.clear();
@@ -1592,25 +823,25 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder getArenaBuilder() {
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder getArenaBuilder() {
         bitField0_ |= 0x00000001;
         onChanged();
         return getArenaFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.ArenaPrivilegeOrBuilder getArenaOrBuilder() {
+      public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getArenaOrBuilder() {
         if (arenaBuilder_ != null) {
           return arenaBuilder_.getMessageOrBuilder();
         } else {
@@ -1618,18 +849,18 @@ public final class PrivilegeProtos {
         }
       }
       /**
-       * <code>optional .Privilege.ArenaPrivilege arena = 1;</code>
+       * <code>optional .Privilege.PrivilegeProperty arena = 1;</code>
        *
        * <pre>
        *竞技场特权点
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.PrivilegeProtos.ArenaPrivilege, com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder, com.rwproto.PrivilegeProtos.ArenaPrivilegeOrBuilder> 
+          com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder> 
           getArenaFieldBuilder() {
         if (arenaBuilder_ == null) {
           arenaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.PrivilegeProtos.ArenaPrivilege, com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder, com.rwproto.PrivilegeProtos.ArenaPrivilegeOrBuilder>(
+              com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder>(
                   arena_,
                   getParentForChildren(),
                   isClean());
@@ -1638,12 +869,12 @@ public final class PrivilegeProtos {
         return arenaBuilder_;
       }
 
-      // optional .Privilege.PeakArenaPrivilege peakArena = 2;
-      private com.rwproto.PrivilegeProtos.PeakArenaPrivilege peakArena_ = com.rwproto.PrivilegeProtos.PeakArenaPrivilege.getDefaultInstance();
+      // optional .Privilege.PrivilegeProperty peakArena = 2;
+      private com.rwproto.PrivilegeProtos.PrivilegeProperty peakArena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.PrivilegeProtos.PeakArenaPrivilege, com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder, com.rwproto.PrivilegeProtos.PeakArenaPrivilegeOrBuilder> peakArenaBuilder_;
+          com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder> peakArenaBuilder_;
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
@@ -1653,13 +884,13 @@ public final class PrivilegeProtos {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.PeakArenaPrivilege getPeakArena() {
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty getPeakArena() {
         if (peakArenaBuilder_ == null) {
           return peakArena_;
         } else {
@@ -1667,13 +898,13 @@ public final class PrivilegeProtos {
         }
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
        * </pre>
        */
-      public Builder setPeakArena(com.rwproto.PrivilegeProtos.PeakArenaPrivilege value) {
+      public Builder setPeakArena(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
         if (peakArenaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1687,14 +918,14 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
        * </pre>
        */
       public Builder setPeakArena(
-          com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder builderForValue) {
+          com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder builderForValue) {
         if (peakArenaBuilder_ == null) {
           peakArena_ = builderForValue.build();
           onChanged();
@@ -1705,18 +936,18 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
        * </pre>
        */
-      public Builder mergePeakArena(com.rwproto.PrivilegeProtos.PeakArenaPrivilege value) {
+      public Builder mergePeakArena(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
         if (peakArenaBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              peakArena_ != com.rwproto.PrivilegeProtos.PeakArenaPrivilege.getDefaultInstance()) {
+              peakArena_ != com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance()) {
             peakArena_ =
-              com.rwproto.PrivilegeProtos.PeakArenaPrivilege.newBuilder(peakArena_).mergeFrom(value).buildPartial();
+              com.rwproto.PrivilegeProtos.PrivilegeProperty.newBuilder(peakArena_).mergeFrom(value).buildPartial();
           } else {
             peakArena_ = value;
           }
@@ -1728,7 +959,7 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
@@ -1736,7 +967,7 @@ public final class PrivilegeProtos {
        */
       public Builder clearPeakArena() {
         if (peakArenaBuilder_ == null) {
-          peakArena_ = com.rwproto.PrivilegeProtos.PeakArenaPrivilege.getDefaultInstance();
+          peakArena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
           onChanged();
         } else {
           peakArenaBuilder_.clear();
@@ -1745,25 +976,25 @@ public final class PrivilegeProtos {
         return this;
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder getPeakArenaBuilder() {
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder getPeakArenaBuilder() {
         bitField0_ |= 0x00000002;
         onChanged();
         return getPeakArenaFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.PeakArenaPrivilegeOrBuilder getPeakArenaOrBuilder() {
+      public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getPeakArenaOrBuilder() {
         if (peakArenaBuilder_ != null) {
           return peakArenaBuilder_.getMessageOrBuilder();
         } else {
@@ -1771,18 +1002,18 @@ public final class PrivilegeProtos {
         }
       }
       /**
-       * <code>optional .Privilege.PeakArenaPrivilege peakArena = 2;</code>
+       * <code>optional .Privilege.PrivilegeProperty peakArena = 2;</code>
        *
        * <pre>
        *巅峰竞技场特权点
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.PrivilegeProtos.PeakArenaPrivilege, com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder, com.rwproto.PrivilegeProtos.PeakArenaPrivilegeOrBuilder> 
+          com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder> 
           getPeakArenaFieldBuilder() {
         if (peakArenaBuilder_ == null) {
           peakArenaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.PrivilegeProtos.PeakArenaPrivilege, com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder, com.rwproto.PrivilegeProtos.PeakArenaPrivilegeOrBuilder>(
+              com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder>(
                   peakArena_,
                   getParentForChildren(),
                   isClean());
@@ -1802,145 +1033,118 @@ public final class PrivilegeProtos {
     // @@protoc_insertion_point(class_scope:Privilege.AllPrivilege)
   }
 
-  public interface ArenaPrivilegeOrBuilder
+  public interface PrivilegePropertyOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 arenaMaxCount = 1;
+    // repeated .Privilege.PrivilegeValue kv = 1;
     /**
-     * <code>required int32 arenaMaxCount = 1;</code>
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
      *
      * <pre>
-     *可购买竞技场门票次数
+     *按照名字的顺序进行存放
      * </pre>
      */
-    boolean hasArenaMaxCount();
+    java.util.List<com.rwproto.PrivilegeProtos.PrivilegeValue> 
+        getKvList();
     /**
-     * <code>required int32 arenaMaxCount = 1;</code>
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
      *
      * <pre>
-     *可购买竞技场门票次数
+     *按照名字的顺序进行存放
      * </pre>
      */
-    int getArenaMaxCount();
+    com.rwproto.PrivilegeProtos.PrivilegeValue getKv(int index);
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    int getKvCount();
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder> 
+        getKvOrBuilderList();
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder getKvOrBuilder(
+        int index);
 
-    // required bool isAllowResetArena = 2;
+    // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;
     /**
-     * <code>required bool isAllowResetArena = 2;</code>
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
      *
      * <pre>
-     *开启重置竞技场CD
-     * </pre>
-     */
-    boolean hasIsAllowResetArena();
-    /**
-     * <code>required bool isAllowResetArena = 2;</code>
-     *
-     * <pre>
-     *开启重置竞技场CD
-     * </pre>
-     */
-    boolean getIsAllowResetArena();
-
-    // required int32 arenaRewardAdd = 3;
-    /**
-     * <code>required int32 arenaRewardAdd = 3;</code>
-     *
-     * <pre>
-     *竞技场结算奖励增加x（万分比）
-     * </pre>
-     */
-    boolean hasArenaRewardAdd();
-    /**
-     * <code>required int32 arenaRewardAdd = 3;</code>
-     *
-     * <pre>
-     *竞技场结算奖励增加x（万分比）
-     * </pre>
-     */
-    int getArenaRewardAdd();
-
-    // required int32 arenaChallengeDec = 4;
-    /**
-     * <code>required int32 arenaChallengeDec = 4;</code>
-     *
-     * <pre>
-     *竞技场挑战cd减少x秒
-     * </pre>
-     */
-    boolean hasArenaChallengeDec();
-    /**
-     * <code>required int32 arenaChallengeDec = 4;</code>
-     *
-     * <pre>
-     *竞技场挑战cd减少x秒
-     * </pre>
-     */
-    int getArenaChallengeDec();
-
-    // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-     *
-     * <pre>
-     *pName-&gt;ArenaPrivilegeNames
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
      * </pre>
      */
     java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> 
         getChargeTipMapList();
     /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
      *
      * <pre>
-     *pName-&gt;ArenaPrivilegeNames
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
      * </pre>
      */
     com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index);
     /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
      *
      * <pre>
-     *pName-&gt;ArenaPrivilegeNames
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
      * </pre>
      */
     int getChargeTipMapCount();
     /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
      *
      * <pre>
-     *pName-&gt;ArenaPrivilegeNames
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
      * </pre>
      */
     java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
         getChargeTipMapOrBuilderList();
     /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
      *
      * <pre>
-     *pName-&gt;ArenaPrivilegeNames
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
      * </pre>
      */
     com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
         int index);
   }
   /**
-   * Protobuf type {@code Privilege.ArenaPrivilege}
+   * Protobuf type {@code Privilege.PrivilegeProperty}
    */
-  public static final class ArenaPrivilege extends
+  public static final class PrivilegeProperty extends
       com.google.protobuf.GeneratedMessage
-      implements ArenaPrivilegeOrBuilder {
-    // Use ArenaPrivilege.newBuilder() to construct.
-    private ArenaPrivilege(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements PrivilegePropertyOrBuilder {
+    // Use PrivilegeProperty.newBuilder() to construct.
+    private PrivilegeProperty(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private ArenaPrivilege(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private PrivilegeProperty(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final ArenaPrivilege defaultInstance;
-    public static ArenaPrivilege getDefaultInstance() {
+    private static final PrivilegeProperty defaultInstance;
+    public static PrivilegeProperty getDefaultInstance() {
       return defaultInstance;
     }
 
-    public ArenaPrivilege getDefaultInstanceForType() {
+    public PrivilegeProperty getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -1950,7 +1154,7 @@ public final class PrivilegeProtos {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private ArenaPrivilege(
+    private PrivilegeProperty(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1973,30 +1177,18 @@ public final class PrivilegeProtos {
               }
               break;
             }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              arenaMaxCount_ = input.readInt32();
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                kv_ = new java.util.ArrayList<com.rwproto.PrivilegeProtos.PrivilegeValue>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              kv_.add(input.readMessage(com.rwproto.PrivilegeProtos.PrivilegeValue.PARSER, extensionRegistry));
               break;
             }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              isAllowResetArena_ = input.readBool();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              arenaRewardAdd_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              arenaChallengeDec_ = input.readInt32();
-              break;
-            }
-            case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 chargeTipMap_ = new java.util.ArrayList<com.rwproto.PrivilegeProtos.PrivilegeChargeTip>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000002;
               }
               chargeTipMap_.add(input.readMessage(com.rwproto.PrivilegeProtos.PrivilegeChargeTip.PARSER, extensionRegistry));
               break;
@@ -2009,7 +1201,10 @@ public final class PrivilegeProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          kv_ = java.util.Collections.unmodifiableList(kv_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           chargeTipMap_ = java.util.Collections.unmodifiableList(chargeTipMap_);
         }
         this.unknownFields = unknownFields.build();
@@ -2018,217 +1213,2130 @@ public final class PrivilegeProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.PrivilegeProtos.internal_static_Privilege_ArenaPrivilege_descriptor;
+      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeProperty_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.PrivilegeProtos.internal_static_Privilege_ArenaPrivilege_fieldAccessorTable
+      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeProperty_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.PrivilegeProtos.ArenaPrivilege.class, com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder.class);
+              com.rwproto.PrivilegeProtos.PrivilegeProperty.class, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ArenaPrivilege> PARSER =
-        new com.google.protobuf.AbstractParser<ArenaPrivilege>() {
-      public ArenaPrivilege parsePartialFrom(
+    public static com.google.protobuf.Parser<PrivilegeProperty> PARSER =
+        new com.google.protobuf.AbstractParser<PrivilegeProperty>() {
+      public PrivilegeProperty parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ArenaPrivilege(input, extensionRegistry);
+        return new PrivilegeProperty(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ArenaPrivilege> getParserForType() {
+    public com.google.protobuf.Parser<PrivilegeProperty> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .Privilege.PrivilegeValue kv = 1;
+    public static final int KV_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeValue> kv_;
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeValue> getKvList() {
+      return kv_;
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder> 
+        getKvOrBuilderList() {
+      return kv_;
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    public int getKvCount() {
+      return kv_.size();
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    public com.rwproto.PrivilegeProtos.PrivilegeValue getKv(int index) {
+      return kv_.get(index);
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+     *
+     * <pre>
+     *按照名字的顺序进行存放
+     * </pre>
+     */
+    public com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder getKvOrBuilder(
+        int index) {
+      return kv_.get(index);
+    }
+
+    // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;
+    public static final int CHARGETIPMAP_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> chargeTipMap_;
+    /**
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+     *
+     * <pre>
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+     * </pre>
+     */
+    public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> getChargeTipMapList() {
+      return chargeTipMap_;
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+     *
+     * <pre>
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
+        getChargeTipMapOrBuilderList() {
+      return chargeTipMap_;
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+     *
+     * <pre>
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+     * </pre>
+     */
+    public int getChargeTipMapCount() {
+      return chargeTipMap_.size();
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+     *
+     * <pre>
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+     * </pre>
+     */
+    public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index) {
+      return chargeTipMap_.get(index);
+    }
+    /**
+     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+     *
+     * <pre>
+     *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+     * </pre>
+     */
+    public com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
+        int index) {
+      return chargeTipMap_.get(index);
+    }
+
+    private void initFields() {
+      kv_ = java.util.Collections.emptyList();
+      chargeTipMap_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getKvCount(); i++) {
+        if (!getKv(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getChargeTipMapCount(); i++) {
+        if (!getChargeTipMap(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < kv_.size(); i++) {
+        output.writeMessage(1, kv_.get(i));
+      }
+      for (int i = 0; i < chargeTipMap_.size(); i++) {
+        output.writeMessage(2, chargeTipMap_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < kv_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, kv_.get(i));
+      }
+      for (int i = 0; i < chargeTipMap_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, chargeTipMap_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeProperty parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PrivilegeProtos.PrivilegeProperty prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Privilege.PrivilegeProperty}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeProperty_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeProperty_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PrivilegeProtos.PrivilegeProperty.class, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder.class);
+      }
+
+      // Construct using com.rwproto.PrivilegeProtos.PrivilegeProperty.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getKvFieldBuilder();
+          getChargeTipMapFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (kvBuilder_ == null) {
+          kv_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          kvBuilder_.clear();
+        }
+        if (chargeTipMapBuilder_ == null) {
+          chargeTipMap_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          chargeTipMapBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeProperty_descriptor;
+      }
+
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty getDefaultInstanceForType() {
+        return com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
+      }
+
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty build() {
+        com.rwproto.PrivilegeProtos.PrivilegeProperty result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty buildPartial() {
+        com.rwproto.PrivilegeProtos.PrivilegeProperty result = new com.rwproto.PrivilegeProtos.PrivilegeProperty(this);
+        int from_bitField0_ = bitField0_;
+        if (kvBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            kv_ = java.util.Collections.unmodifiableList(kv_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.kv_ = kv_;
+        } else {
+          result.kv_ = kvBuilder_.build();
+        }
+        if (chargeTipMapBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            chargeTipMap_ = java.util.Collections.unmodifiableList(chargeTipMap_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.chargeTipMap_ = chargeTipMap_;
+        } else {
+          result.chargeTipMap_ = chargeTipMapBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PrivilegeProtos.PrivilegeProperty) {
+          return mergeFrom((com.rwproto.PrivilegeProtos.PrivilegeProperty)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PrivilegeProtos.PrivilegeProperty other) {
+        if (other == com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance()) return this;
+        if (kvBuilder_ == null) {
+          if (!other.kv_.isEmpty()) {
+            if (kv_.isEmpty()) {
+              kv_ = other.kv_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureKvIsMutable();
+              kv_.addAll(other.kv_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.kv_.isEmpty()) {
+            if (kvBuilder_.isEmpty()) {
+              kvBuilder_.dispose();
+              kvBuilder_ = null;
+              kv_ = other.kv_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              kvBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getKvFieldBuilder() : null;
+            } else {
+              kvBuilder_.addAllMessages(other.kv_);
+            }
+          }
+        }
+        if (chargeTipMapBuilder_ == null) {
+          if (!other.chargeTipMap_.isEmpty()) {
+            if (chargeTipMap_.isEmpty()) {
+              chargeTipMap_ = other.chargeTipMap_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureChargeTipMapIsMutable();
+              chargeTipMap_.addAll(other.chargeTipMap_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.chargeTipMap_.isEmpty()) {
+            if (chargeTipMapBuilder_.isEmpty()) {
+              chargeTipMapBuilder_.dispose();
+              chargeTipMapBuilder_ = null;
+              chargeTipMap_ = other.chargeTipMap_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              chargeTipMapBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getChargeTipMapFieldBuilder() : null;
+            } else {
+              chargeTipMapBuilder_.addAllMessages(other.chargeTipMap_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getKvCount(); i++) {
+          if (!getKv(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getChargeTipMapCount(); i++) {
+          if (!getChargeTipMap(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PrivilegeProtos.PrivilegeProperty parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PrivilegeProtos.PrivilegeProperty) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .Privilege.PrivilegeValue kv = 1;
+      private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeValue> kv_ =
+        java.util.Collections.emptyList();
+      private void ensureKvIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          kv_ = new java.util.ArrayList<com.rwproto.PrivilegeProtos.PrivilegeValue>(kv_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PrivilegeProtos.PrivilegeValue, com.rwproto.PrivilegeProtos.PrivilegeValue.Builder, com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder> kvBuilder_;
+
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeValue> getKvList() {
+        if (kvBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(kv_);
+        } else {
+          return kvBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public int getKvCount() {
+        if (kvBuilder_ == null) {
+          return kv_.size();
+        } else {
+          return kvBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeValue getKv(int index) {
+        if (kvBuilder_ == null) {
+          return kv_.get(index);
+        } else {
+          return kvBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder setKv(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeValue value) {
+        if (kvBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureKvIsMutable();
+          kv_.set(index, value);
+          onChanged();
+        } else {
+          kvBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder setKv(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeValue.Builder builderForValue) {
+        if (kvBuilder_ == null) {
+          ensureKvIsMutable();
+          kv_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          kvBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder addKv(com.rwproto.PrivilegeProtos.PrivilegeValue value) {
+        if (kvBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureKvIsMutable();
+          kv_.add(value);
+          onChanged();
+        } else {
+          kvBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder addKv(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeValue value) {
+        if (kvBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureKvIsMutable();
+          kv_.add(index, value);
+          onChanged();
+        } else {
+          kvBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder addKv(
+          com.rwproto.PrivilegeProtos.PrivilegeValue.Builder builderForValue) {
+        if (kvBuilder_ == null) {
+          ensureKvIsMutable();
+          kv_.add(builderForValue.build());
+          onChanged();
+        } else {
+          kvBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder addKv(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeValue.Builder builderForValue) {
+        if (kvBuilder_ == null) {
+          ensureKvIsMutable();
+          kv_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          kvBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder addAllKv(
+          java.lang.Iterable<? extends com.rwproto.PrivilegeProtos.PrivilegeValue> values) {
+        if (kvBuilder_ == null) {
+          ensureKvIsMutable();
+          super.addAll(values, kv_);
+          onChanged();
+        } else {
+          kvBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder clearKv() {
+        if (kvBuilder_ == null) {
+          kv_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          kvBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public Builder removeKv(int index) {
+        if (kvBuilder_ == null) {
+          ensureKvIsMutable();
+          kv_.remove(index);
+          onChanged();
+        } else {
+          kvBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeValue.Builder getKvBuilder(
+          int index) {
+        return getKvFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder getKvOrBuilder(
+          int index) {
+        if (kvBuilder_ == null) {
+          return kv_.get(index);  } else {
+          return kvBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder> 
+           getKvOrBuilderList() {
+        if (kvBuilder_ != null) {
+          return kvBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(kv_);
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeValue.Builder addKvBuilder() {
+        return getKvFieldBuilder().addBuilder(
+            com.rwproto.PrivilegeProtos.PrivilegeValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeValue.Builder addKvBuilder(
+          int index) {
+        return getKvFieldBuilder().addBuilder(
+            index, com.rwproto.PrivilegeProtos.PrivilegeValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeValue kv = 1;</code>
+       *
+       * <pre>
+       *按照名字的顺序进行存放
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeValue.Builder> 
+           getKvBuilderList() {
+        return getKvFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PrivilegeProtos.PrivilegeValue, com.rwproto.PrivilegeProtos.PrivilegeValue.Builder, com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder> 
+          getKvFieldBuilder() {
+        if (kvBuilder_ == null) {
+          kvBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PrivilegeProtos.PrivilegeValue, com.rwproto.PrivilegeProtos.PrivilegeValue.Builder, com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder>(
+                  kv_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          kv_ = null;
+        }
+        return kvBuilder_;
+      }
+
+      // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;
+      private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> chargeTipMap_ =
+        java.util.Collections.emptyList();
+      private void ensureChargeTipMapIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          chargeTipMap_ = new java.util.ArrayList<com.rwproto.PrivilegeProtos.PrivilegeChargeTip>(chargeTipMap_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> chargeTipMapBuilder_;
+
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> getChargeTipMapList() {
+        if (chargeTipMapBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(chargeTipMap_);
+        } else {
+          return chargeTipMapBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public int getChargeTipMapCount() {
+        if (chargeTipMapBuilder_ == null) {
+          return chargeTipMap_.size();
+        } else {
+          return chargeTipMapBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index) {
+        if (chargeTipMapBuilder_ == null) {
+          return chargeTipMap_.get(index);
+        } else {
+          return chargeTipMapBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder setChargeTipMap(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
+        if (chargeTipMapBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChargeTipMapIsMutable();
+          chargeTipMap_.set(index, value);
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder setChargeTipMap(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
+        if (chargeTipMapBuilder_ == null) {
+          ensureChargeTipMapIsMutable();
+          chargeTipMap_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder addChargeTipMap(com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
+        if (chargeTipMapBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChargeTipMapIsMutable();
+          chargeTipMap_.add(value);
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder addChargeTipMap(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
+        if (chargeTipMapBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChargeTipMapIsMutable();
+          chargeTipMap_.add(index, value);
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder addChargeTipMap(
+          com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
+        if (chargeTipMapBuilder_ == null) {
+          ensureChargeTipMapIsMutable();
+          chargeTipMap_.add(builderForValue.build());
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder addChargeTipMap(
+          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
+        if (chargeTipMapBuilder_ == null) {
+          ensureChargeTipMapIsMutable();
+          chargeTipMap_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder addAllChargeTipMap(
+          java.lang.Iterable<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTip> values) {
+        if (chargeTipMapBuilder_ == null) {
+          ensureChargeTipMapIsMutable();
+          super.addAll(values, chargeTipMap_);
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder clearChargeTipMap() {
+        if (chargeTipMapBuilder_ == null) {
+          chargeTipMap_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public Builder removeChargeTipMap(int index) {
+        if (chargeTipMapBuilder_ == null) {
+          ensureChargeTipMapIsMutable();
+          chargeTipMap_.remove(index);
+          onChanged();
+        } else {
+          chargeTipMapBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder getChargeTipMapBuilder(
+          int index) {
+        return getChargeTipMapFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
+          int index) {
+        if (chargeTipMapBuilder_ == null) {
+          return chargeTipMap_.get(index);  } else {
+          return chargeTipMapBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
+           getChargeTipMapOrBuilderList() {
+        if (chargeTipMapBuilder_ != null) {
+          return chargeTipMapBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(chargeTipMap_);
+        }
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder addChargeTipMapBuilder() {
+        return getChargeTipMapFieldBuilder().addBuilder(
+            com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder addChargeTipMapBuilder(
+          int index) {
+        return getChargeTipMapFieldBuilder().addBuilder(
+            index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 2;</code>
+       *
+       * <pre>
+       *pName-&gt;ArenaPrivilegeNames，由具体模块填写
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder> 
+           getChargeTipMapBuilderList() {
+        return getChargeTipMapFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
+          getChargeTipMapFieldBuilder() {
+        if (chargeTipMapBuilder_ == null) {
+          chargeTipMapBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder>(
+                  chargeTipMap_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          chargeTipMap_ = null;
+        }
+        return chargeTipMapBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Privilege.PrivilegeProperty)
+    }
+
+    static {
+      defaultInstance = new PrivilegeProperty(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:Privilege.PrivilegeProperty)
+  }
+
+  public interface PrivilegeChargeTipOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string name = 1;
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // required bool isMax = 2;
+    /**
+     * <code>required bool isMax = 2;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    boolean hasIsMax();
+    /**
+     * <code>required bool isMax = 2;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    boolean getIsMax();
+  }
+  /**
+   * Protobuf type {@code Privilege.PrivilegeChargeTip}
+   */
+  public static final class PrivilegeChargeTip extends
+      com.google.protobuf.GeneratedMessage
+      implements PrivilegeChargeTipOrBuilder {
+    // Use PrivilegeChargeTip.newBuilder() to construct.
+    private PrivilegeChargeTip(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PrivilegeChargeTip(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PrivilegeChargeTip defaultInstance;
+    public static PrivilegeChargeTip getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PrivilegeChargeTip getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PrivilegeChargeTip(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              name_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              isMax_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PrivilegeProtos.PrivilegeChargeTip.class, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PrivilegeChargeTip> PARSER =
+        new com.google.protobuf.AbstractParser<PrivilegeChargeTip>() {
+      public PrivilegeChargeTip parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PrivilegeChargeTip(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PrivilegeChargeTip> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required int32 arenaMaxCount = 1;
-    public static final int ARENAMAXCOUNT_FIELD_NUMBER = 1;
-    private int arenaMaxCount_;
+    // required string name = 1;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private java.lang.Object name_;
     /**
-     * <code>required int32 arenaMaxCount = 1;</code>
+     * <code>required string name = 1;</code>
      *
      * <pre>
-     *可购买竞技场门票次数
+     *特权名对应的枚举值
      * </pre>
      */
-    public boolean hasArenaMaxCount() {
+    public boolean hasName() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 arenaMaxCount = 1;</code>
+     * <code>required string name = 1;</code>
      *
      * <pre>
-     *可购买竞技场门票次数
+     *特权名对应的枚举值
      * </pre>
      */
-    public int getArenaMaxCount() {
-      return arenaMaxCount_;
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
-    // required bool isAllowResetArena = 2;
-    public static final int ISALLOWRESETARENA_FIELD_NUMBER = 2;
-    private boolean isAllowResetArena_;
+    // required bool isMax = 2;
+    public static final int ISMAX_FIELD_NUMBER = 2;
+    private boolean isMax_;
     /**
-     * <code>required bool isAllowResetArena = 2;</code>
+     * <code>required bool isMax = 2;</code>
      *
      * <pre>
-     *开启重置竞技场CD
+     *特权名对应的枚举值
      * </pre>
      */
-    public boolean hasIsAllowResetArena() {
+    public boolean hasIsMax() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required bool isAllowResetArena = 2;</code>
+     * <code>required bool isMax = 2;</code>
      *
      * <pre>
-     *开启重置竞技场CD
+     *特权名对应的枚举值
      * </pre>
      */
-    public boolean getIsAllowResetArena() {
-      return isAllowResetArena_;
+    public boolean getIsMax() {
+      return isMax_;
     }
 
-    // required int32 arenaRewardAdd = 3;
-    public static final int ARENAREWARDADD_FIELD_NUMBER = 3;
-    private int arenaRewardAdd_;
+    private void initFields() {
+      name_ = "";
+      isMax_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsMax()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, isMax_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, isMax_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PrivilegeProtos.PrivilegeChargeTip parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PrivilegeProtos.PrivilegeChargeTip prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
     /**
-     * <code>required int32 arenaRewardAdd = 3;</code>
+     * Protobuf type {@code Privilege.PrivilegeChargeTip}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PrivilegeProtos.PrivilegeChargeTip.class, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder.class);
+      }
+
+      // Construct using com.rwproto.PrivilegeProtos.PrivilegeChargeTip.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        isMax_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeChargeTip_descriptor;
+      }
+
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getDefaultInstanceForType() {
+        return com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance();
+      }
+
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip build() {
+        com.rwproto.PrivilegeProtos.PrivilegeChargeTip result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip buildPartial() {
+        com.rwproto.PrivilegeProtos.PrivilegeChargeTip result = new com.rwproto.PrivilegeProtos.PrivilegeChargeTip(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.isMax_ = isMax_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PrivilegeProtos.PrivilegeChargeTip) {
+          return mergeFrom((com.rwproto.PrivilegeProtos.PrivilegeChargeTip)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PrivilegeProtos.PrivilegeChargeTip other) {
+        if (other == com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance()) return this;
+        if (other.hasName()) {
+          bitField0_ |= 0x00000001;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasIsMax()) {
+          setIsMax(other.getIsMax());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasIsMax()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PrivilegeProtos.PrivilegeChargeTip parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PrivilegeProtos.PrivilegeChargeTip) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string name = 1;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required bool isMax = 2;
+      private boolean isMax_ ;
+      /**
+       * <code>required bool isMax = 2;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public boolean hasIsMax() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool isMax = 2;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public boolean getIsMax() {
+        return isMax_;
+      }
+      /**
+       * <code>required bool isMax = 2;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public Builder setIsMax(boolean value) {
+        bitField0_ |= 0x00000002;
+        isMax_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isMax = 2;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public Builder clearIsMax() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isMax_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Privilege.PrivilegeChargeTip)
+    }
+
+    static {
+      defaultInstance = new PrivilegeChargeTip(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:Privilege.PrivilegeChargeTip)
+  }
+
+  public interface PrivilegeValueOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string name = 1;
+    /**
+     * <code>required string name = 1;</code>
      *
      * <pre>
-     *竞技场结算奖励增加x（万分比）
+     *特权名对应的枚举值
      * </pre>
      */
-    public boolean hasArenaRewardAdd() {
+    boolean hasName();
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // required string value = 2;
+    /**
+     * <code>required string value = 2;</code>
+     *
+     * <pre>
+     *特权名对应的数值或者布尔值
+     * </pre>
+     */
+    boolean hasValue();
+    /**
+     * <code>required string value = 2;</code>
+     *
+     * <pre>
+     *特权名对应的数值或者布尔值
+     * </pre>
+     */
+    java.lang.String getValue();
+    /**
+     * <code>required string value = 2;</code>
+     *
+     * <pre>
+     *特权名对应的数值或者布尔值
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getValueBytes();
+
+    // optional string chargeType = 3;
+    /**
+     * <code>optional string chargeType = 3;</code>
+     *
+     * <pre>
+     *改变当前特权的充值类型
+     * </pre>
+     */
+    boolean hasChargeType();
+    /**
+     * <code>optional string chargeType = 3;</code>
+     *
+     * <pre>
+     *改变当前特权的充值类型
+     * </pre>
+     */
+    java.lang.String getChargeType();
+    /**
+     * <code>optional string chargeType = 3;</code>
+     *
+     * <pre>
+     *改变当前特权的充值类型
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getChargeTypeBytes();
+  }
+  /**
+   * Protobuf type {@code Privilege.PrivilegeValue}
+   */
+  public static final class PrivilegeValue extends
+      com.google.protobuf.GeneratedMessage
+      implements PrivilegeValueOrBuilder {
+    // Use PrivilegeValue.newBuilder() to construct.
+    private PrivilegeValue(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PrivilegeValue(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PrivilegeValue defaultInstance;
+    public static PrivilegeValue getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PrivilegeValue getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PrivilegeValue(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              name_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              value_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              chargeType_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeValue_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeValue_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PrivilegeProtos.PrivilegeValue.class, com.rwproto.PrivilegeProtos.PrivilegeValue.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PrivilegeValue> PARSER =
+        new com.google.protobuf.AbstractParser<PrivilegeValue>() {
+      public PrivilegeValue parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PrivilegeValue(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PrivilegeValue> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string name = 1;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     *特权名对应的枚举值
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string value = 2;
+    public static final int VALUE_FIELD_NUMBER = 2;
+    private java.lang.Object value_;
+    /**
+     * <code>required string value = 2;</code>
+     *
+     * <pre>
+     *特权名对应的数值或者布尔值
+     * </pre>
+     */
+    public boolean hasValue() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string value = 2;</code>
+     *
+     * <pre>
+     *特权名对应的数值或者布尔值
+     * </pre>
+     */
+    public java.lang.String getValue() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          value_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string value = 2;</code>
+     *
+     * <pre>
+     *特权名对应的数值或者布尔值
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getValueBytes() {
+      java.lang.Object ref = value_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        value_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string chargeType = 3;
+    public static final int CHARGETYPE_FIELD_NUMBER = 3;
+    private java.lang.Object chargeType_;
+    /**
+     * <code>optional string chargeType = 3;</code>
+     *
+     * <pre>
+     *改变当前特权的充值类型
+     * </pre>
+     */
+    public boolean hasChargeType() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 arenaRewardAdd = 3;</code>
+     * <code>optional string chargeType = 3;</code>
      *
      * <pre>
-     *竞技场结算奖励增加x（万分比）
+     *改变当前特权的充值类型
      * </pre>
      */
-    public int getArenaRewardAdd() {
-      return arenaRewardAdd_;
-    }
-
-    // required int32 arenaChallengeDec = 4;
-    public static final int ARENACHALLENGEDEC_FIELD_NUMBER = 4;
-    private int arenaChallengeDec_;
-    /**
-     * <code>required int32 arenaChallengeDec = 4;</code>
-     *
-     * <pre>
-     *竞技场挑战cd减少x秒
-     * </pre>
-     */
-    public boolean hasArenaChallengeDec() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+    public java.lang.String getChargeType() {
+      java.lang.Object ref = chargeType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          chargeType_ = s;
+        }
+        return s;
+      }
     }
     /**
-     * <code>required int32 arenaChallengeDec = 4;</code>
+     * <code>optional string chargeType = 3;</code>
      *
      * <pre>
-     *竞技场挑战cd减少x秒
+     *改变当前特权的充值类型
      * </pre>
      */
-    public int getArenaChallengeDec() {
-      return arenaChallengeDec_;
-    }
-
-    // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;
-    public static final int CHARGETIPMAP_FIELD_NUMBER = 5;
-    private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> chargeTipMap_;
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-     *
-     * <pre>
-     *pName-&gt;ArenaPrivilegeNames
-     * </pre>
-     */
-    public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> getChargeTipMapList() {
-      return chargeTipMap_;
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-     *
-     * <pre>
-     *pName-&gt;ArenaPrivilegeNames
-     * </pre>
-     */
-    public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
-        getChargeTipMapOrBuilderList() {
-      return chargeTipMap_;
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-     *
-     * <pre>
-     *pName-&gt;ArenaPrivilegeNames
-     * </pre>
-     */
-    public int getChargeTipMapCount() {
-      return chargeTipMap_.size();
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-     *
-     * <pre>
-     *pName-&gt;ArenaPrivilegeNames
-     * </pre>
-     */
-    public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index) {
-      return chargeTipMap_.get(index);
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-     *
-     * <pre>
-     *pName-&gt;ArenaPrivilegeNames
-     * </pre>
-     */
-    public com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
-        int index) {
-      return chargeTipMap_.get(index);
+    public com.google.protobuf.ByteString
+        getChargeTypeBytes() {
+      java.lang.Object ref = chargeType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        chargeType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
-      arenaMaxCount_ = 0;
-      isAllowResetArena_ = false;
-      arenaRewardAdd_ = 0;
-      arenaChallengeDec_ = 0;
-      chargeTipMap_ = java.util.Collections.emptyList();
+      name_ = "";
+      value_ = "";
+      chargeType_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasArenaMaxCount()) {
+      if (!hasName()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasIsAllowResetArena()) {
+      if (!hasValue()) {
         memoizedIsInitialized = 0;
         return false;
-      }
-      if (!hasArenaRewardAdd()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasArenaChallengeDec()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getChargeTipMapCount(); i++) {
-        if (!getChargeTipMap(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -2238,19 +3346,13 @@ public final class PrivilegeProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, arenaMaxCount_);
+        output.writeBytes(1, getNameBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, isAllowResetArena_);
+        output.writeBytes(2, getValueBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, arenaRewardAdd_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, arenaChallengeDec_);
-      }
-      for (int i = 0; i < chargeTipMap_.size(); i++) {
-        output.writeMessage(5, chargeTipMap_.get(i));
+        output.writeBytes(3, getChargeTypeBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2263,23 +3365,15 @@ public final class PrivilegeProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, arenaMaxCount_);
+          .computeBytesSize(1, getNameBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, isAllowResetArena_);
+          .computeBytesSize(2, getValueBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, arenaRewardAdd_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, arenaChallengeDec_);
-      }
-      for (int i = 0; i < chargeTipMap_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, chargeTipMap_.get(i));
+          .computeBytesSize(3, getChargeTypeBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2293,53 +3387,53 @@ public final class PrivilegeProtos {
       return super.writeReplace();
     }
 
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(byte[] data)
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(java.io.InputStream input)
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseDelimitedFrom(
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.PrivilegeProtos.ArenaPrivilege parseFrom(
+    public static com.rwproto.PrivilegeProtos.PrivilegeValue parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2348,7 +3442,7 @@ public final class PrivilegeProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.PrivilegeProtos.ArenaPrivilege prototype) {
+    public static Builder newBuilder(com.rwproto.PrivilegeProtos.PrivilegeValue prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -2360,24 +3454,24 @@ public final class PrivilegeProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code Privilege.ArenaPrivilege}
+     * Protobuf type {@code Privilege.PrivilegeValue}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.PrivilegeProtos.ArenaPrivilegeOrBuilder {
+       implements com.rwproto.PrivilegeProtos.PrivilegeValueOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_ArenaPrivilege_descriptor;
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeValue_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_ArenaPrivilege_fieldAccessorTable
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeValue_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.PrivilegeProtos.ArenaPrivilege.class, com.rwproto.PrivilegeProtos.ArenaPrivilege.Builder.class);
+                com.rwproto.PrivilegeProtos.PrivilegeValue.class, com.rwproto.PrivilegeProtos.PrivilegeValue.Builder.class);
       }
 
-      // Construct using com.rwproto.PrivilegeProtos.ArenaPrivilege.newBuilder()
+      // Construct using com.rwproto.PrivilegeProtos.PrivilegeValue.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2389,7 +3483,6 @@ public final class PrivilegeProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getChargeTipMapFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2398,20 +3491,12 @@ public final class PrivilegeProtos {
 
       public Builder clear() {
         super.clear();
-        arenaMaxCount_ = 0;
+        name_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        isAllowResetArena_ = false;
+        value_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        arenaRewardAdd_ = 0;
+        chargeType_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        arenaChallengeDec_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        if (chargeTipMapBuilder_ == null) {
-          chargeTipMap_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
-        } else {
-          chargeTipMapBuilder_.clear();
-        }
         return this;
       }
 
@@ -2421,130 +3506,80 @@ public final class PrivilegeProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_ArenaPrivilege_descriptor;
+        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PrivilegeValue_descriptor;
       }
 
-      public com.rwproto.PrivilegeProtos.ArenaPrivilege getDefaultInstanceForType() {
-        return com.rwproto.PrivilegeProtos.ArenaPrivilege.getDefaultInstance();
+      public com.rwproto.PrivilegeProtos.PrivilegeValue getDefaultInstanceForType() {
+        return com.rwproto.PrivilegeProtos.PrivilegeValue.getDefaultInstance();
       }
 
-      public com.rwproto.PrivilegeProtos.ArenaPrivilege build() {
-        com.rwproto.PrivilegeProtos.ArenaPrivilege result = buildPartial();
+      public com.rwproto.PrivilegeProtos.PrivilegeValue build() {
+        com.rwproto.PrivilegeProtos.PrivilegeValue result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.PrivilegeProtos.ArenaPrivilege buildPartial() {
-        com.rwproto.PrivilegeProtos.ArenaPrivilege result = new com.rwproto.PrivilegeProtos.ArenaPrivilege(this);
+      public com.rwproto.PrivilegeProtos.PrivilegeValue buildPartial() {
+        com.rwproto.PrivilegeProtos.PrivilegeValue result = new com.rwproto.PrivilegeProtos.PrivilegeValue(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.arenaMaxCount_ = arenaMaxCount_;
+        result.name_ = name_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.isAllowResetArena_ = isAllowResetArena_;
+        result.value_ = value_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.arenaRewardAdd_ = arenaRewardAdd_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.arenaChallengeDec_ = arenaChallengeDec_;
-        if (chargeTipMapBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
-            chargeTipMap_ = java.util.Collections.unmodifiableList(chargeTipMap_);
-            bitField0_ = (bitField0_ & ~0x00000010);
-          }
-          result.chargeTipMap_ = chargeTipMap_;
-        } else {
-          result.chargeTipMap_ = chargeTipMapBuilder_.build();
-        }
+        result.chargeType_ = chargeType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.PrivilegeProtos.ArenaPrivilege) {
-          return mergeFrom((com.rwproto.PrivilegeProtos.ArenaPrivilege)other);
+        if (other instanceof com.rwproto.PrivilegeProtos.PrivilegeValue) {
+          return mergeFrom((com.rwproto.PrivilegeProtos.PrivilegeValue)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.PrivilegeProtos.ArenaPrivilege other) {
-        if (other == com.rwproto.PrivilegeProtos.ArenaPrivilege.getDefaultInstance()) return this;
-        if (other.hasArenaMaxCount()) {
-          setArenaMaxCount(other.getArenaMaxCount());
+      public Builder mergeFrom(com.rwproto.PrivilegeProtos.PrivilegeValue other) {
+        if (other == com.rwproto.PrivilegeProtos.PrivilegeValue.getDefaultInstance()) return this;
+        if (other.hasName()) {
+          bitField0_ |= 0x00000001;
+          name_ = other.name_;
+          onChanged();
         }
-        if (other.hasIsAllowResetArena()) {
-          setIsAllowResetArena(other.getIsAllowResetArena());
+        if (other.hasValue()) {
+          bitField0_ |= 0x00000002;
+          value_ = other.value_;
+          onChanged();
         }
-        if (other.hasArenaRewardAdd()) {
-          setArenaRewardAdd(other.getArenaRewardAdd());
-        }
-        if (other.hasArenaChallengeDec()) {
-          setArenaChallengeDec(other.getArenaChallengeDec());
-        }
-        if (chargeTipMapBuilder_ == null) {
-          if (!other.chargeTipMap_.isEmpty()) {
-            if (chargeTipMap_.isEmpty()) {
-              chargeTipMap_ = other.chargeTipMap_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-            } else {
-              ensureChargeTipMapIsMutable();
-              chargeTipMap_.addAll(other.chargeTipMap_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.chargeTipMap_.isEmpty()) {
-            if (chargeTipMapBuilder_.isEmpty()) {
-              chargeTipMapBuilder_.dispose();
-              chargeTipMapBuilder_ = null;
-              chargeTipMap_ = other.chargeTipMap_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-              chargeTipMapBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getChargeTipMapFieldBuilder() : null;
-            } else {
-              chargeTipMapBuilder_.addAllMessages(other.chargeTipMap_);
-            }
-          }
+        if (other.hasChargeType()) {
+          bitField0_ |= 0x00000004;
+          chargeType_ = other.chargeType_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasArenaMaxCount()) {
+        if (!hasName()) {
           
           return false;
         }
-        if (!hasIsAllowResetArena()) {
+        if (!hasValue()) {
           
           return false;
-        }
-        if (!hasArenaRewardAdd()) {
-          
-          return false;
-        }
-        if (!hasArenaChallengeDec()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getChargeTipMapCount(); i++) {
-          if (!getChargeTipMap(i).isInitialized()) {
-            
-            return false;
-          }
         }
         return true;
       }
@@ -2553,11 +3588,11 @@ public final class PrivilegeProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.PrivilegeProtos.ArenaPrivilege parsedMessage = null;
+        com.rwproto.PrivilegeProtos.PrivilegeValue parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.PrivilegeProtos.ArenaPrivilege) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.PrivilegeProtos.PrivilegeValue) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2568,1588 +3603,331 @@ public final class PrivilegeProtos {
       }
       private int bitField0_;
 
-      // required int32 arenaMaxCount = 1;
-      private int arenaMaxCount_ ;
+      // required string name = 1;
+      private java.lang.Object name_ = "";
       /**
-       * <code>required int32 arenaMaxCount = 1;</code>
+       * <code>required string name = 1;</code>
        *
        * <pre>
-       *可购买竞技场门票次数
+       *特权名对应的枚举值
        * </pre>
        */
-      public boolean hasArenaMaxCount() {
+      public boolean hasName() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 arenaMaxCount = 1;</code>
+       * <code>required string name = 1;</code>
        *
        * <pre>
-       *可购买竞技场门票次数
+       *特权名对应的枚举值
        * </pre>
        */
-      public int getArenaMaxCount() {
-        return arenaMaxCount_;
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 arenaMaxCount = 1;</code>
+       * <code>required string name = 1;</code>
        *
        * <pre>
-       *可购买竞技场门票次数
+       *特权名对应的枚举值
        * </pre>
        */
-      public Builder setArenaMaxCount(int value) {
-        bitField0_ |= 0x00000001;
-        arenaMaxCount_ = value;
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 arenaMaxCount = 1;</code>
+       * <code>required string name = 1;</code>
        *
        * <pre>
-       *可购买竞技场门票次数
+       *特权名对应的枚举值
        * </pre>
        */
-      public Builder clearArenaMaxCount() {
+      public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        arenaMaxCount_ = 0;
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       *特权名对应的枚举值
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
         onChanged();
         return this;
       }
 
-      // required bool isAllowResetArena = 2;
-      private boolean isAllowResetArena_ ;
+      // required string value = 2;
+      private java.lang.Object value_ = "";
       /**
-       * <code>required bool isAllowResetArena = 2;</code>
+       * <code>required string value = 2;</code>
        *
        * <pre>
-       *开启重置竞技场CD
+       *特权名对应的数值或者布尔值
        * </pre>
        */
-      public boolean hasIsAllowResetArena() {
+      public boolean hasValue() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required bool isAllowResetArena = 2;</code>
+       * <code>required string value = 2;</code>
        *
        * <pre>
-       *开启重置竞技场CD
+       *特权名对应的数值或者布尔值
        * </pre>
        */
-      public boolean getIsAllowResetArena() {
-        return isAllowResetArena_;
+      public java.lang.String getValue() {
+        java.lang.Object ref = value_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          value_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required bool isAllowResetArena = 2;</code>
+       * <code>required string value = 2;</code>
        *
        * <pre>
-       *开启重置竞技场CD
+       *特权名对应的数值或者布尔值
        * </pre>
        */
-      public Builder setIsAllowResetArena(boolean value) {
-        bitField0_ |= 0x00000002;
-        isAllowResetArena_ = value;
+      public com.google.protobuf.ByteString
+          getValueBytes() {
+        java.lang.Object ref = value_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          value_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string value = 2;</code>
+       *
+       * <pre>
+       *特权名对应的数值或者布尔值
+       * </pre>
+       */
+      public Builder setValue(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        value_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bool isAllowResetArena = 2;</code>
+       * <code>required string value = 2;</code>
        *
        * <pre>
-       *开启重置竞技场CD
+       *特权名对应的数值或者布尔值
        * </pre>
        */
-      public Builder clearIsAllowResetArena() {
+      public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        isAllowResetArena_ = false;
+        value_ = getDefaultInstance().getValue();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string value = 2;</code>
+       *
+       * <pre>
+       *特权名对应的数值或者布尔值
+       * </pre>
+       */
+      public Builder setValueBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        value_ = value;
         onChanged();
         return this;
       }
 
-      // required int32 arenaRewardAdd = 3;
-      private int arenaRewardAdd_ ;
+      // optional string chargeType = 3;
+      private java.lang.Object chargeType_ = "";
       /**
-       * <code>required int32 arenaRewardAdd = 3;</code>
+       * <code>optional string chargeType = 3;</code>
        *
        * <pre>
-       *竞技场结算奖励增加x（万分比）
+       *改变当前特权的充值类型
        * </pre>
        */
-      public boolean hasArenaRewardAdd() {
+      public boolean hasChargeType() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 arenaRewardAdd = 3;</code>
+       * <code>optional string chargeType = 3;</code>
        *
        * <pre>
-       *竞技场结算奖励增加x（万分比）
+       *改变当前特权的充值类型
        * </pre>
        */
-      public int getArenaRewardAdd() {
-        return arenaRewardAdd_;
+      public java.lang.String getChargeType() {
+        java.lang.Object ref = chargeType_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chargeType_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 arenaRewardAdd = 3;</code>
+       * <code>optional string chargeType = 3;</code>
        *
        * <pre>
-       *竞技场结算奖励增加x（万分比）
+       *改变当前特权的充值类型
        * </pre>
        */
-      public Builder setArenaRewardAdd(int value) {
-        bitField0_ |= 0x00000004;
-        arenaRewardAdd_ = value;
+      public com.google.protobuf.ByteString
+          getChargeTypeBytes() {
+        java.lang.Object ref = chargeType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          chargeType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string chargeType = 3;</code>
+       *
+       * <pre>
+       *改变当前特权的充值类型
+       * </pre>
+       */
+      public Builder setChargeType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        chargeType_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 arenaRewardAdd = 3;</code>
+       * <code>optional string chargeType = 3;</code>
        *
        * <pre>
-       *竞技场结算奖励增加x（万分比）
+       *改变当前特权的充值类型
        * </pre>
        */
-      public Builder clearArenaRewardAdd() {
+      public Builder clearChargeType() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        arenaRewardAdd_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 arenaChallengeDec = 4;
-      private int arenaChallengeDec_ ;
-      /**
-       * <code>required int32 arenaChallengeDec = 4;</code>
-       *
-       * <pre>
-       *竞技场挑战cd减少x秒
-       * </pre>
-       */
-      public boolean hasArenaChallengeDec() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 arenaChallengeDec = 4;</code>
-       *
-       * <pre>
-       *竞技场挑战cd减少x秒
-       * </pre>
-       */
-      public int getArenaChallengeDec() {
-        return arenaChallengeDec_;
-      }
-      /**
-       * <code>required int32 arenaChallengeDec = 4;</code>
-       *
-       * <pre>
-       *竞技场挑战cd减少x秒
-       * </pre>
-       */
-      public Builder setArenaChallengeDec(int value) {
-        bitField0_ |= 0x00000008;
-        arenaChallengeDec_ = value;
+        chargeType_ = getDefaultInstance().getChargeType();
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 arenaChallengeDec = 4;</code>
+       * <code>optional string chargeType = 3;</code>
        *
        * <pre>
-       *竞技场挑战cd减少x秒
+       *改变当前特权的充值类型
        * </pre>
        */
-      public Builder clearArenaChallengeDec() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        arenaChallengeDec_ = 0;
+      public Builder setChargeTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        chargeType_ = value;
         onChanged();
         return this;
       }
 
-      // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;
-      private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> chargeTipMap_ =
-        java.util.Collections.emptyList();
-      private void ensureChargeTipMapIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          chargeTipMap_ = new java.util.ArrayList<com.rwproto.PrivilegeProtos.PrivilegeChargeTip>(chargeTipMap_);
-          bitField0_ |= 0x00000010;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> chargeTipMapBuilder_;
-
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> getChargeTipMapList() {
-        if (chargeTipMapBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(chargeTipMap_);
-        } else {
-          return chargeTipMapBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public int getChargeTipMapCount() {
-        if (chargeTipMapBuilder_ == null) {
-          return chargeTipMap_.size();
-        } else {
-          return chargeTipMapBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index) {
-        if (chargeTipMapBuilder_ == null) {
-          return chargeTipMap_.get(index);
-        } else {
-          return chargeTipMapBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder setChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
-        if (chargeTipMapBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.set(index, value);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder setChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
-        if (chargeTipMapBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(value);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
-        if (chargeTipMapBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(index, value);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(
-          com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(builderForValue.build());
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addAllChargeTipMap(
-          java.lang.Iterable<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTip> values) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          super.addAll(values, chargeTipMap_);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder clearChargeTipMap() {
-        if (chargeTipMapBuilder_ == null) {
-          chargeTipMap_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder removeChargeTipMap(int index) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.remove(index);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder getChargeTipMapBuilder(
-          int index) {
-        return getChargeTipMapFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
-          int index) {
-        if (chargeTipMapBuilder_ == null) {
-          return chargeTipMap_.get(index);  } else {
-          return chargeTipMapBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
-           getChargeTipMapOrBuilderList() {
-        if (chargeTipMapBuilder_ != null) {
-          return chargeTipMapBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(chargeTipMap_);
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder addChargeTipMapBuilder() {
-        return getChargeTipMapFieldBuilder().addBuilder(
-            com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder addChargeTipMapBuilder(
-          int index) {
-        return getChargeTipMapFieldBuilder().addBuilder(
-            index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 5;</code>
-       *
-       * <pre>
-       *pName-&gt;ArenaPrivilegeNames
-       * </pre>
-       */
-      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder> 
-           getChargeTipMapBuilderList() {
-        return getChargeTipMapFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
-          getChargeTipMapFieldBuilder() {
-        if (chargeTipMapBuilder_ == null) {
-          chargeTipMapBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder>(
-                  chargeTipMap_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
-                  getParentForChildren(),
-                  isClean());
-          chargeTipMap_ = null;
-        }
-        return chargeTipMapBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:Privilege.ArenaPrivilege)
+      // @@protoc_insertion_point(builder_scope:Privilege.PrivilegeValue)
     }
 
     static {
-      defaultInstance = new ArenaPrivilege(true);
+      defaultInstance = new PrivilegeValue(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:Privilege.ArenaPrivilege)
+    // @@protoc_insertion_point(class_scope:Privilege.PrivilegeValue)
   }
 
-  public interface PeakArenaPrivilegeOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 peakMaxCount = 1;
-    /**
-     * <code>required int32 peakMaxCount = 1;</code>
-     *
-     * <pre>
-     *可购买巅峰竞技场门票次数
-     * </pre>
-     */
-    boolean hasPeakMaxCount();
-    /**
-     * <code>required int32 peakMaxCount = 1;</code>
-     *
-     * <pre>
-     *可购买巅峰竞技场门票次数
-     * </pre>
-     */
-    int getPeakMaxCount();
-
-    // required bool isAllowResetPeak = 2;
-    /**
-     * <code>required bool isAllowResetPeak = 2;</code>
-     *
-     * <pre>
-     *开启重置巅峰竞技场CD
-     * </pre>
-     */
-    boolean hasIsAllowResetPeak();
-    /**
-     * <code>required bool isAllowResetPeak = 2;</code>
-     *
-     * <pre>
-     *开启重置巅峰竞技场CD
-     * </pre>
-     */
-    boolean getIsAllowResetPeak();
-
-    // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> 
-        getChargeTipMapList();
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index);
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    int getChargeTipMapCount();
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
-        getChargeTipMapOrBuilderList();
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code Privilege.PeakArenaPrivilege}
-   */
-  public static final class PeakArenaPrivilege extends
-      com.google.protobuf.GeneratedMessage
-      implements PeakArenaPrivilegeOrBuilder {
-    // Use PeakArenaPrivilege.newBuilder() to construct.
-    private PeakArenaPrivilege(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private PeakArenaPrivilege(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PeakArenaPrivilege defaultInstance;
-    public static PeakArenaPrivilege getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public PeakArenaPrivilege getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PeakArenaPrivilege(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              peakMaxCount_ = input.readInt32();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              isAllowResetPeak_ = input.readBool();
-              break;
-            }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                chargeTipMap_ = new java.util.ArrayList<com.rwproto.PrivilegeProtos.PrivilegeChargeTip>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              chargeTipMap_.add(input.readMessage(com.rwproto.PrivilegeProtos.PrivilegeChargeTip.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          chargeTipMap_ = java.util.Collections.unmodifiableList(chargeTipMap_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PeakArenaPrivilege_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.PrivilegeProtos.internal_static_Privilege_PeakArenaPrivilege_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.PrivilegeProtos.PeakArenaPrivilege.class, com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<PeakArenaPrivilege> PARSER =
-        new com.google.protobuf.AbstractParser<PeakArenaPrivilege>() {
-      public PeakArenaPrivilege parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PeakArenaPrivilege(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PeakArenaPrivilege> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 peakMaxCount = 1;
-    public static final int PEAKMAXCOUNT_FIELD_NUMBER = 1;
-    private int peakMaxCount_;
-    /**
-     * <code>required int32 peakMaxCount = 1;</code>
-     *
-     * <pre>
-     *可购买巅峰竞技场门票次数
-     * </pre>
-     */
-    public boolean hasPeakMaxCount() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 peakMaxCount = 1;</code>
-     *
-     * <pre>
-     *可购买巅峰竞技场门票次数
-     * </pre>
-     */
-    public int getPeakMaxCount() {
-      return peakMaxCount_;
-    }
-
-    // required bool isAllowResetPeak = 2;
-    public static final int ISALLOWRESETPEAK_FIELD_NUMBER = 2;
-    private boolean isAllowResetPeak_;
-    /**
-     * <code>required bool isAllowResetPeak = 2;</code>
-     *
-     * <pre>
-     *开启重置巅峰竞技场CD
-     * </pre>
-     */
-    public boolean hasIsAllowResetPeak() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bool isAllowResetPeak = 2;</code>
-     *
-     * <pre>
-     *开启重置巅峰竞技场CD
-     * </pre>
-     */
-    public boolean getIsAllowResetPeak() {
-      return isAllowResetPeak_;
-    }
-
-    // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;
-    public static final int CHARGETIPMAP_FIELD_NUMBER = 4;
-    private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> chargeTipMap_;
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> getChargeTipMapList() {
-      return chargeTipMap_;
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
-        getChargeTipMapOrBuilderList() {
-      return chargeTipMap_;
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    public int getChargeTipMapCount() {
-      return chargeTipMap_.size();
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index) {
-      return chargeTipMap_.get(index);
-    }
-    /**
-     * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-     *
-     * <pre>
-     *pName-&gt;PeakArenaPrivilegeNames
-     * </pre>
-     */
-    public com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
-        int index) {
-      return chargeTipMap_.get(index);
-    }
-
-    private void initFields() {
-      peakMaxCount_ = 0;
-      isAllowResetPeak_ = false;
-      chargeTipMap_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasPeakMaxCount()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsAllowResetPeak()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getChargeTipMapCount(); i++) {
-        if (!getChargeTipMap(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, peakMaxCount_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, isAllowResetPeak_);
-      }
-      for (int i = 0; i < chargeTipMap_.size(); i++) {
-        output.writeMessage(4, chargeTipMap_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, peakMaxCount_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, isAllowResetPeak_);
-      }
-      for (int i = 0; i < chargeTipMap_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, chargeTipMap_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.PrivilegeProtos.PeakArenaPrivilege parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.PrivilegeProtos.PeakArenaPrivilege prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code Privilege.PeakArenaPrivilege}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.PrivilegeProtos.PeakArenaPrivilegeOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PeakArenaPrivilege_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PeakArenaPrivilege_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.PrivilegeProtos.PeakArenaPrivilege.class, com.rwproto.PrivilegeProtos.PeakArenaPrivilege.Builder.class);
-      }
-
-      // Construct using com.rwproto.PrivilegeProtos.PeakArenaPrivilege.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getChargeTipMapFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        peakMaxCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        isAllowResetPeak_ = false;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        if (chargeTipMapBuilder_ == null) {
-          chargeTipMap_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-        } else {
-          chargeTipMapBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.PrivilegeProtos.internal_static_Privilege_PeakArenaPrivilege_descriptor;
-      }
-
-      public com.rwproto.PrivilegeProtos.PeakArenaPrivilege getDefaultInstanceForType() {
-        return com.rwproto.PrivilegeProtos.PeakArenaPrivilege.getDefaultInstance();
-      }
-
-      public com.rwproto.PrivilegeProtos.PeakArenaPrivilege build() {
-        com.rwproto.PrivilegeProtos.PeakArenaPrivilege result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.PrivilegeProtos.PeakArenaPrivilege buildPartial() {
-        com.rwproto.PrivilegeProtos.PeakArenaPrivilege result = new com.rwproto.PrivilegeProtos.PeakArenaPrivilege(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.peakMaxCount_ = peakMaxCount_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.isAllowResetPeak_ = isAllowResetPeak_;
-        if (chargeTipMapBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            chargeTipMap_ = java.util.Collections.unmodifiableList(chargeTipMap_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.chargeTipMap_ = chargeTipMap_;
-        } else {
-          result.chargeTipMap_ = chargeTipMapBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.PrivilegeProtos.PeakArenaPrivilege) {
-          return mergeFrom((com.rwproto.PrivilegeProtos.PeakArenaPrivilege)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.PrivilegeProtos.PeakArenaPrivilege other) {
-        if (other == com.rwproto.PrivilegeProtos.PeakArenaPrivilege.getDefaultInstance()) return this;
-        if (other.hasPeakMaxCount()) {
-          setPeakMaxCount(other.getPeakMaxCount());
-        }
-        if (other.hasIsAllowResetPeak()) {
-          setIsAllowResetPeak(other.getIsAllowResetPeak());
-        }
-        if (chargeTipMapBuilder_ == null) {
-          if (!other.chargeTipMap_.isEmpty()) {
-            if (chargeTipMap_.isEmpty()) {
-              chargeTipMap_ = other.chargeTipMap_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureChargeTipMapIsMutable();
-              chargeTipMap_.addAll(other.chargeTipMap_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.chargeTipMap_.isEmpty()) {
-            if (chargeTipMapBuilder_.isEmpty()) {
-              chargeTipMapBuilder_.dispose();
-              chargeTipMapBuilder_ = null;
-              chargeTipMap_ = other.chargeTipMap_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              chargeTipMapBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getChargeTipMapFieldBuilder() : null;
-            } else {
-              chargeTipMapBuilder_.addAllMessages(other.chargeTipMap_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasPeakMaxCount()) {
-          
-          return false;
-        }
-        if (!hasIsAllowResetPeak()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getChargeTipMapCount(); i++) {
-          if (!getChargeTipMap(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.PrivilegeProtos.PeakArenaPrivilege parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.PrivilegeProtos.PeakArenaPrivilege) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 peakMaxCount = 1;
-      private int peakMaxCount_ ;
-      /**
-       * <code>required int32 peakMaxCount = 1;</code>
-       *
-       * <pre>
-       *可购买巅峰竞技场门票次数
-       * </pre>
-       */
-      public boolean hasPeakMaxCount() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 peakMaxCount = 1;</code>
-       *
-       * <pre>
-       *可购买巅峰竞技场门票次数
-       * </pre>
-       */
-      public int getPeakMaxCount() {
-        return peakMaxCount_;
-      }
-      /**
-       * <code>required int32 peakMaxCount = 1;</code>
-       *
-       * <pre>
-       *可购买巅峰竞技场门票次数
-       * </pre>
-       */
-      public Builder setPeakMaxCount(int value) {
-        bitField0_ |= 0x00000001;
-        peakMaxCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 peakMaxCount = 1;</code>
-       *
-       * <pre>
-       *可购买巅峰竞技场门票次数
-       * </pre>
-       */
-      public Builder clearPeakMaxCount() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        peakMaxCount_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool isAllowResetPeak = 2;
-      private boolean isAllowResetPeak_ ;
-      /**
-       * <code>required bool isAllowResetPeak = 2;</code>
-       *
-       * <pre>
-       *开启重置巅峰竞技场CD
-       * </pre>
-       */
-      public boolean hasIsAllowResetPeak() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bool isAllowResetPeak = 2;</code>
-       *
-       * <pre>
-       *开启重置巅峰竞技场CD
-       * </pre>
-       */
-      public boolean getIsAllowResetPeak() {
-        return isAllowResetPeak_;
-      }
-      /**
-       * <code>required bool isAllowResetPeak = 2;</code>
-       *
-       * <pre>
-       *开启重置巅峰竞技场CD
-       * </pre>
-       */
-      public Builder setIsAllowResetPeak(boolean value) {
-        bitField0_ |= 0x00000002;
-        isAllowResetPeak_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isAllowResetPeak = 2;</code>
-       *
-       * <pre>
-       *开启重置巅峰竞技场CD
-       * </pre>
-       */
-      public Builder clearIsAllowResetPeak() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        isAllowResetPeak_ = false;
-        onChanged();
-        return this;
-      }
-
-      // repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;
-      private java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> chargeTipMap_ =
-        java.util.Collections.emptyList();
-      private void ensureChargeTipMapIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          chargeTipMap_ = new java.util.ArrayList<com.rwproto.PrivilegeProtos.PrivilegeChargeTip>(chargeTipMap_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> chargeTipMapBuilder_;
-
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip> getChargeTipMapList() {
-        if (chargeTipMapBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(chargeTipMap_);
-        } else {
-          return chargeTipMapBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public int getChargeTipMapCount() {
-        if (chargeTipMapBuilder_ == null) {
-          return chargeTipMap_.size();
-        } else {
-          return chargeTipMapBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip getChargeTipMap(int index) {
-        if (chargeTipMapBuilder_ == null) {
-          return chargeTipMap_.get(index);
-        } else {
-          return chargeTipMapBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder setChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
-        if (chargeTipMapBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.set(index, value);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder setChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
-        if (chargeTipMapBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(value);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip value) {
-        if (chargeTipMapBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(index, value);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(
-          com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(builderForValue.build());
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addChargeTipMap(
-          int index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder builderForValue) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder addAllChargeTipMap(
-          java.lang.Iterable<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTip> values) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          super.addAll(values, chargeTipMap_);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder clearChargeTipMap() {
-        if (chargeTipMapBuilder_ == null) {
-          chargeTipMap_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public Builder removeChargeTipMap(int index) {
-        if (chargeTipMapBuilder_ == null) {
-          ensureChargeTipMapIsMutable();
-          chargeTipMap_.remove(index);
-          onChanged();
-        } else {
-          chargeTipMapBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder getChargeTipMapBuilder(
-          int index) {
-        return getChargeTipMapFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder getChargeTipMapOrBuilder(
-          int index) {
-        if (chargeTipMapBuilder_ == null) {
-          return chargeTipMap_.get(index);  } else {
-          return chargeTipMapBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public java.util.List<? extends com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
-           getChargeTipMapOrBuilderList() {
-        if (chargeTipMapBuilder_ != null) {
-          return chargeTipMapBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(chargeTipMap_);
-        }
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder addChargeTipMapBuilder() {
-        return getChargeTipMapFieldBuilder().addBuilder(
-            com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder addChargeTipMapBuilder(
-          int index) {
-        return getChargeTipMapFieldBuilder().addBuilder(
-            index, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .Privilege.PrivilegeChargeTip chargeTipMap = 4;</code>
-       *
-       * <pre>
-       *pName-&gt;PeakArenaPrivilegeNames
-       * </pre>
-       */
-      public java.util.List<com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder> 
-           getChargeTipMapBuilderList() {
-        return getChargeTipMapFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder> 
-          getChargeTipMapFieldBuilder() {
-        if (chargeTipMapBuilder_ == null) {
-          chargeTipMapBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.PrivilegeProtos.PrivilegeChargeTip, com.rwproto.PrivilegeProtos.PrivilegeChargeTip.Builder, com.rwproto.PrivilegeProtos.PrivilegeChargeTipOrBuilder>(
-                  chargeTipMap_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
-                  getParentForChildren(),
-                  isClean());
-          chargeTipMap_ = null;
-        }
-        return chargeTipMapBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:Privilege.PeakArenaPrivilege)
-    }
-
-    static {
-      defaultInstance = new PeakArenaPrivilege(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:Privilege.PeakArenaPrivilege)
-  }
-
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_Privilege_PrivilegeChargeTip_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_Privilege_AllPrivilege_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Privilege_AllPrivilege_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_Privilege_ArenaPrivilege_descriptor;
+    internal_static_Privilege_PrivilegeProperty_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Privilege_ArenaPrivilege_fieldAccessorTable;
+      internal_static_Privilege_PrivilegeProperty_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_Privilege_PeakArenaPrivilege_descriptor;
+    internal_static_Privilege_PrivilegeChargeTip_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Privilege_PeakArenaPrivilege_fieldAccessorTable;
+      internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_Privilege_PrivilegeValue_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Privilege_PrivilegeValue_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4159,55 +3937,51 @@ public final class PrivilegeProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026PrivilegeService.proto\022\tPrivilege\"M\n\022P" +
-      "rivilegeChargeTip\022\r\n\005pName\030\001 \002(\005\022\024\n\014isRe" +
-      "achLimit\030\002 \002(\010\022\022\n\nchargeType\030\003 \002(\t\"j\n\014Al" +
-      "lPrivilege\022(\n\005arena\030\001 \001(\0132\031.Privilege.Ar" +
-      "enaPrivilege\0220\n\tpeakArena\030\002 \001(\0132\035.Privil" +
-      "ege.PeakArenaPrivilege\"\252\001\n\016ArenaPrivileg" +
-      "e\022\025\n\rarenaMaxCount\030\001 \002(\005\022\031\n\021isAllowReset" +
-      "Arena\030\002 \002(\010\022\026\n\016arenaRewardAdd\030\003 \002(\005\022\031\n\021a" +
-      "renaChallengeDec\030\004 \002(\005\0223\n\014chargeTipMap\030\005" +
-      " \003(\0132\035.Privilege.PrivilegeChargeTip\"y\n\022P",
-      "eakArenaPrivilege\022\024\n\014peakMaxCount\030\001 \002(\005\022" +
-      "\030\n\020isAllowResetPeak\030\002 \002(\010\0223\n\014chargeTipMa" +
-      "p\030\004 \003(\0132\035.Privilege.PrivilegeChargeTip*j" +
-      "\n\023ArenaPrivilegeNames\022\021\n\rarenaMaxCount\020\001" +
-      "\022\025\n\021isAllowResetArena\020\002\022\022\n\016arenaRewardAd" +
-      "d\020\003\022\025\n\021arenaChallengeDec\020\004*A\n\027PeakArenaP" +
-      "rivilegeNames\022\020\n\014peakMaxCount\020\001\022\024\n\020isAll" +
-      "owResetPeak\020\002B\036\n\013com.rwprotoB\017PrivilegeP" +
-      "rotos"
+      "\n\026PrivilegeService.proto\022\tPrivilege\"l\n\014A" +
+      "llPrivilege\022+\n\005arena\030\001 \001(\0132\034.Privilege.P" +
+      "rivilegeProperty\022/\n\tpeakArena\030\002 \001(\0132\034.Pr" +
+      "ivilege.PrivilegeProperty\"o\n\021PrivilegePr" +
+      "operty\022%\n\002kv\030\001 \003(\0132\031.Privilege.Privilege" +
+      "Value\0223\n\014chargeTipMap\030\002 \003(\0132\035.Privilege." +
+      "PrivilegeChargeTip\"1\n\022PrivilegeChargeTip" +
+      "\022\014\n\004name\030\001 \002(\t\022\r\n\005isMax\030\002 \002(\010\"A\n\016Privile" +
+      "geValue\022\014\n\004name\030\001 \002(\t\022\r\n\005value\030\002 \002(\t\022\022\n\n" +
+      "chargeType\030\003 \001(\t*j\n\023ArenaPrivilegeNames\022",
+      "\021\n\rarenaMaxCount\020\001\022\025\n\021isAllowResetArena\020" +
+      "\002\022\022\n\016arenaRewardAdd\020\003\022\025\n\021arenaChallengeD" +
+      "ec\020\004*A\n\027PeakArenaPrivilegeNames\022\020\n\014peakM" +
+      "axCount\020\001\022\024\n\020isAllowResetPeak\020\002B\036\n\013com.r" +
+      "wprotoB\017PrivilegeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_Privilege_PrivilegeChargeTip_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_Privilege_PrivilegeChargeTip_descriptor,
-              new java.lang.String[] { "PName", "IsReachLimit", "ChargeType", });
           internal_static_Privilege_AllPrivilege_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(0);
           internal_static_Privilege_AllPrivilege_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Privilege_AllPrivilege_descriptor,
               new java.lang.String[] { "Arena", "PeakArena", });
-          internal_static_Privilege_ArenaPrivilege_descriptor =
+          internal_static_Privilege_PrivilegeProperty_descriptor =
+            getDescriptor().getMessageTypes().get(1);
+          internal_static_Privilege_PrivilegeProperty_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_Privilege_PrivilegeProperty_descriptor,
+              new java.lang.String[] { "Kv", "ChargeTipMap", });
+          internal_static_Privilege_PrivilegeChargeTip_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_Privilege_ArenaPrivilege_fieldAccessorTable = new
+          internal_static_Privilege_PrivilegeChargeTip_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_Privilege_ArenaPrivilege_descriptor,
-              new java.lang.String[] { "ArenaMaxCount", "IsAllowResetArena", "ArenaRewardAdd", "ArenaChallengeDec", "ChargeTipMap", });
-          internal_static_Privilege_PeakArenaPrivilege_descriptor =
+              internal_static_Privilege_PrivilegeChargeTip_descriptor,
+              new java.lang.String[] { "Name", "IsMax", });
+          internal_static_Privilege_PrivilegeValue_descriptor =
             getDescriptor().getMessageTypes().get(3);
-          internal_static_Privilege_PeakArenaPrivilege_fieldAccessorTable = new
+          internal_static_Privilege_PrivilegeValue_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_Privilege_PeakArenaPrivilege_descriptor,
-              new java.lang.String[] { "PeakMaxCount", "IsAllowResetPeak", "ChargeTipMap", });
+              internal_static_Privilege_PrivilegeValue_descriptor,
+              new java.lang.String[] { "Name", "Value", "ChargeType", });
           return null;
         }
       };

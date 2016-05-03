@@ -219,13 +219,13 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	}
 
 	@Override
-	public int getPrivilegeIndex(String[] sources) {
+	public int getBestMatchCharge(String[] sources) {
 		// TODO Auto-generated method stub
 		return -1;
 	}
 
 	@Override
-	public String getCurrentPrivilege() {
+	public String getCurrentChargeType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

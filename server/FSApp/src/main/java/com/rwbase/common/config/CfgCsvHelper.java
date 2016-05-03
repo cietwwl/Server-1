@@ -12,15 +12,18 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.RefParam;
 import com.log.GameLog;
 import com.rw.fsutil.common.EnumIndex;
 import com.rw.fsutil.common.EnumName;
 
 public class CfgCsvHelper {
-
-	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP) {
+	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP){
+		return readCsv2Map(configFileName,clazzP,null);
+	}
+	
+	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP,RefParam<String[]> headers) {
 		HashMap<String, T> map = new HashMap<String, T>();
-		
 		try {
 			
 			String csvFn = CfgCsvHelper.class.getResource("/config/"+configFileName).getFile();
@@ -36,6 +39,7 @@ public class CfgCsvHelper {
 				if(firstRecord){
 					firstRecord = false;
 					fieldNameArray = getFieldNameArray(csvRecord);
+					if (headers != null) headers.value = fieldNameArray;
 				}else{
 					T cfg = createFromCsv(fieldNameArray, csvRecord, clazzP);
 					if (map.put(csvRecord.get(0), cfg)!=null){
@@ -55,7 +59,7 @@ public class CfgCsvHelper {
 		return map;
 	}
 
-	public static String[] getFieldNameArray(CSVRecord csv) {
+	private static String[] getFieldNameArray(CSVRecord csv) {
 		int size = csv.size();
 		String[] fieldNameArray = new String[size];
 		for (int i =0; i < fieldNameArray.length; i++) {
@@ -94,7 +98,7 @@ public class CfgCsvHelper {
 		return newInstance;
 	}
 
-	private static Map<String, Field> getFieldMap(Class<?> clazzP) {
+	public static Map<String, Field> getFieldMap(Class<?> clazzP) {
 		Map<String, Field> fieldMap = new HashMap<String, Field>();
 		Field[] fields = clazzP.getDeclaredFields();
 		for (Field field : fields) {

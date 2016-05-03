@@ -16,6 +16,9 @@ public interface IPrivilegeConfigSourcer {
 	public void putPrivilege(IPrivilegeWare privilegeMgr,List<IPrivilegeProvider> providers);
 	
 	// 综合各个provider的结果：求最大值
-	public AllPrivilege.Builder combine(AllPrivilege.Builder acc, AllPrivilege.Builder pri);
+	public AllPrivilege.Builder combine(AllPrivilege.Builder acc, AllPrivilege pri);
 
+	public void setValue(AllPrivilege.Builder holder,PrivilegeProperty.Builder value);
+	
+	public PrivilegeProperty.Builder getValue(AllPrivilege.Builder holder);
 }

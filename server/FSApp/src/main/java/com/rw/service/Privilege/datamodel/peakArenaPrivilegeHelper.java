@@ -13,6 +13,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.service.Privilege.IPrivilegeProvider;
 import com.rw.service.Privilege.IPrivilegeWare;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwproto.PrivilegeProtos.AllPrivilege;
 import com.rwproto.PrivilegeProtos.AllPrivilege.Builder;
 
 public class peakArenaPrivilegeHelper extends CfgCsvDao<peakArenaPrivilege> implements IPrivilegeConfigSourcer{
@@ -50,7 +51,19 @@ public class peakArenaPrivilegeHelper extends CfgCsvDao<peakArenaPrivilege> impl
 	}
 
 	@Override
-	public Builder combine(Builder acc, Builder pri) {
+	public void setValue(Builder holder, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder getValue(Builder holder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Builder combine(Builder acc, AllPrivilege pri) {
 		// TODO Auto-generated method stub
 		return null;
 	}

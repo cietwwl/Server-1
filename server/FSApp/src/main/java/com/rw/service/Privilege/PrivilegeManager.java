@@ -15,18 +15,17 @@ import com.rw.service.Privilege.datamodel.IPrivilegeConfigSourcer;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rwproto.MsgDef;
 import com.rwproto.PrivilegeProtos.AllPrivilege;
-import com.rwproto.PrivilegeProtos.ArenaPrivilege;
-import com.rwproto.PrivilegeProtos.PeakArenaPrivilege;
+import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 
 public class PrivilegeManager
 		implements IPrivilegeWare, IPrivilegeManager, PlayerEventListener, IStreamListner<IPrivilegeProvider> {
 	private Player m_player;
 	private ArrayList<IPrivilegeProvider> privelegeProviders;
-	private HashMap<Pair<IPrivilegeConfigSourcer,IPrivilegeProvider>,AllPrivilege.Builder> cache;
+	private HashMap<Pair<IPrivilegeConfigSourcer,IPrivilegeProvider>,AllPrivilege> cache;
 	
 	//TODO 如果配置发生变化，需要对每个玩家调用这个方法重新初始化
 	public void initPrivilegeProvider() {
-		cache = new HashMap<Pair<IPrivilegeConfigSourcer,IPrivilegeProvider>, AllPrivilege.Builder>();
+		cache = new HashMap<Pair<IPrivilegeConfigSourcer,IPrivilegeProvider>, AllPrivilege>();
 		privelegeProviders = new ArrayList<IPrivilegeProvider>(2);
 		IPrivilegeProvider provider = m_player.getVipMgr();
 		privelegeProviders.add(provider);
@@ -42,10 +41,10 @@ public class PrivilegeManager
 	// 综合各个provider的结果
 	private AllPrivilege.Builder combinePrivilege() {
 		Iterable<IPrivilegeConfigSourcer> cfgSources = PrivilegeConfigHelper.getInstance().getSources();
-		Collection<AllPrivilege.Builder> vals = cache.values();
+		Collection<AllPrivilege> vals = cache.values();
 		AllPrivilege.Builder result = AllPrivilege.newBuilder();
-		for (AllPrivilege.Builder pri : vals) {
-			for (IPrivilegeConfigSourcer cfgsrc : cfgSources) {
+		for (IPrivilegeConfigSourcer cfgsrc : cfgSources) {
+			for (AllPrivilege pri : vals) {
 				result = cfgsrc.combine(result, pri);
 			}
 		}
@@ -72,13 +71,14 @@ public class PrivilegeManager
 
 	@Override
 	public void onClose() {
-		// TODO 回收资源
+		// 回收资源
 		privelegeProviders.clear();
+		cache.clear();
 	}
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		// TODO 玩家第一次创建
+		// 玩家第一次创建
 		m_player = player;
 		initPrivilegeProvider();
 	}
@@ -96,62 +96,53 @@ public class PrivilegeManager
 
 	@Override
 	public void init(Player player) {
-		// TODO 玩家初始化
+		// 玩家初始化
 		m_player = player;
-		//TODO 检查是否重复初始化
+		//TODO 检查是否重复初始化,notifyPlayerCreated
 		initPrivilegeProvider();
 	}
 	
 	
 	//竞技场
-	private StreamImpl<ArenaPrivilege> arenaPrivilege = new StreamImpl<ArenaPrivilege>();
+	private StreamImpl<PrivilegeProperty> arenaPrivilege = new StreamImpl<PrivilegeProperty>();
 
 	@Override
-	public IStream<ArenaPrivilege> getArenaPrivilege() {
+	public IStream<PrivilegeProperty> getArenaPrivilege() {
 		return arenaPrivilege;
 	}
 
 	@Override
-	public void putArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, ArenaPrivilege.Builder>> newPrivilegeMap) {
-		// 更新缓存
-		for (Pair<IPrivilegeProvider, ArenaPrivilege.Builder> pair : newPrivilegeMap) {
+	public void putArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setArena(pair.getT2());
+		arenaPrivilege.fire(config.getValue(all).build());//all.getArena()
+	}
+
+	private AllPrivilege.Builder putValueList(IPrivilegeConfigSourcer config,
+			List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
+		for (Pair<IPrivilegeProvider, PrivilegeProperty.Builder> pair : newPrivilegeMap) {
 			Pair<IPrivilegeConfigSourcer,IPrivilegeProvider> key=Pair.Create(config, pair.getT1());
-			AllPrivilege.Builder old = cache.get(key);
-			if (old == null){
-				old = AllPrivilege.newBuilder();
-			}
+			AllPrivilege old = cache.get(key);
 			AllPrivilege.Builder tmp = AllPrivilege.newBuilder();
-			tmp.setArena(pair.getT2());
-			old = config.combine(old, tmp);
-			cache.put(key, old);
+			config.setValue(tmp, pair.getT2());
+			tmp = config.combine(tmp,old);
+			cache.put(key, tmp.build());
 		}
 		AllPrivilege.Builder all = combinePrivilege();
-		arenaPrivilege.fire(all.getArena());
+		return all;
 	}
 
 	//巅峰竞技场
-	private StreamImpl<PeakArenaPrivilege> peakArenaPrivilege = new StreamImpl<PeakArenaPrivilege>();
+	private StreamImpl<PrivilegeProperty> peakArenaPrivilege = new StreamImpl<PrivilegeProperty>();
 	
 	@Override
-	public IStream<PeakArenaPrivilege> getPeakArenaPrivilege() {
+	public IStream<PrivilegeProperty> getPeakArenaPrivilege() {
 		return peakArenaPrivilege;
 	}
 
 	@Override
-	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, PeakArenaPrivilege.Builder>> newPrivilegeMap) {
-		for (Pair<IPrivilegeProvider, PeakArenaPrivilege.Builder> pair : newPrivilegeMap) {
-			Pair<IPrivilegeConfigSourcer,IPrivilegeProvider> key=Pair.Create(config, pair.getT1());
-			AllPrivilege.Builder old = cache.get(key);
-			if (old == null){
-				old = AllPrivilege.newBuilder();
-			}
-			AllPrivilege.Builder tmp = AllPrivilege.newBuilder();
-			tmp.setPeakArena(pair.getT2());
-			old = config.combine(old, tmp);
-			cache.put(key, old);
-		}
-		AllPrivilege.Builder all = combinePrivilege();
-		peakArenaPrivilege.fire(all.getPeakArena());
+	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setPeakArena(pair.getT2());
+		peakArenaPrivilege.fire(config.getValue(all).build());//all.getPeakArena()
 	}
 
 }

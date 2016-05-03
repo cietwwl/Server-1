@@ -14,10 +14,15 @@ public interface IPrivilegeProvider {
 	public IStream<IPrivilegeProvider> getPrivilegeProvider();
 	
 	/**
-	 * 如果允许多种类型叠加，就按照优先级从低到高返回
-	 * @param sources
+	 * 返回最佳匹配充值类型，如果没有应该返回-1
+	 * @param chargeSources
 	 * @return
 	 */
-	public int getPrivilegeIndex(String[] sources);
-	public String getCurrentPrivilege();
+	public int getBestMatchCharge(String[] chargeSources);
+	
+	/**
+	 * 返回当前充值或者月卡的类型名称
+	 * @return
+	 */
+	public String getCurrentChargeType();
 }
