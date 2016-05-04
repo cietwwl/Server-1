@@ -21,7 +21,7 @@ import com.rw.service.gamble.GambleLogic;
 import com.rw.service.gamble.GambleLogicHelper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "gamble_hotHeroPlan")
+@Table(name = "gamble_hotheroplan")
 public class GambleHotHeroPlan {
 	@NonSave
 	private static DateFormat dataFormat = new SimpleDateFormat("yyyy_MM_dd");

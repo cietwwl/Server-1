@@ -133,6 +133,7 @@
 	<bean class="com.playerdata.charge.cfg.ChargeCfgDao"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
 	
 	
 	<!--  
