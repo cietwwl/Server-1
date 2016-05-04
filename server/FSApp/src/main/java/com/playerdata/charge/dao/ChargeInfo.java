@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "charge_Info")
+@Table(name = "charge_info")
 @SynClass
 public class ChargeInfo {
 

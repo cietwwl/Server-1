@@ -8,6 +8,8 @@ import com.rwbase.common.attribute.AttributeType;
 
 public class AttrDataHelper {
 
+	public static final int DIVISION = 10000;// 百分比的属性
+
 	/**
 	 * 获取属性的值对应的Map，用来存储到数据库中优化
 	 * 

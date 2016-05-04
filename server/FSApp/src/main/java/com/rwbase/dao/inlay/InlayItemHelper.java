@@ -45,17 +45,22 @@ public class InlayItemHelper {
 		for (InlayItem inlayItem : inlayList) {
 			Integer modelId = inlayItem.getModelId();
 			GemCfg cfg = ItemCfgHelper.getGemCfg(modelId);
-			if (cfg != null) {
-				AttrData dataTmp = AttrData.fromObject(cfg);
-				attrData.plus(dataTmp);
-				int level = cfg.getLevel();
-				if (!levelNumMap.containsKey(level)) {
-					levelNumMap.put(level, 1);
-				} else {
-					levelNumMap.put(level, levelNumMap.get(level) + 1);
-				}
+			if (cfg == null) {
+				continue;
+			}
+
+			AttrData dataTmp = AttrData.fromObject(cfg);
+			attrData.plus(dataTmp);
+
+			int quality = cfg.getQuality();
+			Integer hasValue = levelNumMap.get(quality);
+			if (hasValue == null) {
+				levelNumMap.put(quality, 1);
+			} else {
+				levelNumMap.put(quality, hasValue + 1);
 			}
 		}
+
 		InlayCfg heroInlayCfg = InlayCfgDAO.getInstance().getConfig(heroModelId);
 		if (heroInlayCfg == null) {
 			return attrData;
@@ -74,7 +79,7 @@ public class InlayItemHelper {
 			Integer modelId = inlayItem.getModelId();
 			GemCfg cfg = ItemCfgHelper.getGemCfg(modelId);
 			if (cfg != null) {
-				AttrData dataTmp = AttrData.fromPercentObject(cfg);
+				AttrData dataTmp = AttrData.fromPercentObjectToAttrData(cfg);
 				attrData.plus(dataTmp);
 			}
 		}

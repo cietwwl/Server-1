@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.rw.fsutil.common.EnumIndex;
 import com.rw.fsutil.common.EnumName;
-import com.rw.fsutil.dao.annotation.NonSave;
 
 public class CfgCsvHelper {
 

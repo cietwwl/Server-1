@@ -85,8 +85,10 @@ public class UserEventMgr {
 	}
 	
 	public void GambleGold(Player player, int count) {
+		if(count != 6){
 			UserEvent userEvent = new UserEvent(UserEventType.GAMBLE_GOLD, count);
 			raiseEvent(player, userEvent);
+		}
 	}
 	
 	public void raiseEvent(Player player, UserEvent userEvent){
