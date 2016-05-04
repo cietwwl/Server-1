@@ -7,6 +7,9 @@ import com.rwproto.PrivilegeProtos.PrivilegeValue;
 import com.rwproto.PrivilegeProtos.PrivilegeValue.Builder;
 
 public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements PropertyWriter {
+	protected abstract T parse(String val);
+	protected abstract Class<T> getTypeClass();
+	
 	@Override
 	public Object extractValue(String value) {
 		return extractVal(value);
@@ -37,8 +40,16 @@ public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements
 		}
 		return val;
 	}
-	protected abstract T parse(String val);
-	protected abstract Class<T> getTypeClass();
+	
+	@Override
+	public boolean eq(Object left, Object right) {
+		T leftVal = extractVal(left);
+		T rightVal = extractVal(right);
+		if (leftVal != null && rightVal != null){
+			return leftVal.compareTo(rightVal) == 0;
+		}
+		return false;
+	}
 	
 	@Override
 	public boolean gt(Object left, Object right) {
@@ -49,6 +60,9 @@ public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements
 		}
 		if (leftVal != null && rightVal == null){
 			return true;
+		}
+		if (leftVal == null && rightVal != null){
+			return false;
 		}
 		return false;
 	}
@@ -74,5 +88,4 @@ public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements
 
 		return acc;
 	}
-
 }

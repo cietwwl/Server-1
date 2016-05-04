@@ -49,7 +49,7 @@ public class PrivilegeManager
 	private AllPrivilege.Builder combinePrivilege() {
 		Iterable<IPrivilegeConfigSourcer<?>> cfgSources = PrivilegeConfigHelper.getInstance().getSources();
 		Collection<AllPrivilege> vals = cache.values();
-		AllPrivilege.Builder result = AllPrivilege.newBuilder();
+		AllPrivilege.Builder result = null;
 		for (IPrivilegeConfigSourcer<?> cfgsrc : cfgSources) {
 			for (AllPrivilege pri : vals) {
 				result = cfgsrc.combine(result, pri);

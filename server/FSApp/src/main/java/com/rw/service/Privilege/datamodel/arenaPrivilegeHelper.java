@@ -11,7 +11,6 @@ import com.rwproto.PrivilegeProtos.AllPrivilege;
 import com.rwproto.PrivilegeProtos.AllPrivilege.Builder;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty;
-import com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder;
 
 //<bean class="com.rw.service.Privilege.datamodel.arenaPrivilegeHelper"  init-method="init" />
 public class arenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<ArenaPrivilegeNames, arenaPrivilege> {
@@ -48,7 +47,7 @@ public class arenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<ArenaPri
 	}
 
 	@Override
-	public PrivilegePropertyOrBuilder getValue(AllPrivilege pri) {
+	public PrivilegeProperty getValue(AllPrivilege pri) {
 		return pri.getArena();
 	}
 }

@@ -30,6 +30,7 @@ import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.Privilege.datamodel.BoolPropertyWriter;
 import com.rw.service.Privilege.datamodel.IntPropertyWriter;
 import com.rw.service.Privilege.datamodel.arenaPrivilegeHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -604,8 +605,14 @@ public class ArenaHandler {
 			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
+			//by franky
+			IPrivilegeManager priMgr = player.getPrivilegeMgr();
+			Object decVal = priMgr.getArenaPri(ArenaPrivilegeNames.arenaChallengeDec);
+			Integer decCount = IntPropertyWriter.getShareInstance().extractVal(decVal,0);
 			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
-			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + arenaInfoCfg.getCdTime() * 1000);
+			int cdTime = arenaInfoCfg.getCdTime() - decCount;
+			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + cdTime * 1000);
+			
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
@@ -668,6 +675,7 @@ public class ArenaHandler {
 		}
 		
 		int buyTimes = m_MyArenaData.getBuyTimes();
+		//by franky
 		IPrivilegeManager priMgr = player.getPrivilegeMgr();
 		Object arenaMaxCount = priMgr.getArenaPri(ArenaPrivilegeNames.arenaMaxCount);
 		Integer allowMaxBuyCount = IntPropertyWriter.getShareInstance().extractVal(arenaMaxCount);
@@ -729,6 +737,19 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		
+		//by franky
+		IPrivilegeManager priMgr = player.getPrivilegeMgr();
+		Object isOpenVal = priMgr.getArenaPri(ArenaPrivilegeNames.isAllowResetArena);
+		Boolean isOpen = BoolPropertyWriter.getShareInstance().extractVal(isOpenVal,false);
+		if (!isOpen){
+			GameLog.info("arena", player.getUserId(),"clearCD:未开启重置竞技场CD",null);
+			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		
+		/*
 		// 检查vip等级
 		int vipLevel = player.getVip();
 		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
@@ -743,6 +764,8 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		*/
+		
 		long nextFightingTime = m_MyArenaData.getNextFightTime();
 		if (nextFightingTime <= 0) {
 			response.setArenaData(getArenaData(m_MyArenaData));

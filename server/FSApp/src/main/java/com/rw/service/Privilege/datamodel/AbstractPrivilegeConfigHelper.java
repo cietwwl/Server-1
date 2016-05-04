@@ -104,6 +104,11 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				PropertyWriter combinator = combinatorMap.get(privilegeNameEnum);
 				if (combinator.gt(privilegeValue,maxVal)){
 					maxChargeType.put(privilegeNameEnum, cfg.getSource());
+				}else if (combinator.eq(privilegeValue,maxVal)){
+					// 取等级最小的充值类型!
+					if (ChargeTypePriorityGT(maxCfg.getSource(),cfg.getSource())){
+						maxChargeType.put(privilegeNameEnum, cfg.getSource());
+					}
 				}
 				
 				String priName = privilegeNameEnum.name();
@@ -149,6 +154,52 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		return cfgCacheMap;
 	}
 	
+	private boolean ChargeTypePriorityGT(String leftChargeType, String rightChargeType) {
+		boolean leftIsVip = leftChargeType.startsWith("vip");
+		boolean rightIsVip = rightChargeType.startsWith("vip");
+		boolean leftIsMonth = leftChargeType.startsWith("month");
+		boolean rightIsMonth = rightChargeType.startsWith("month");
+
+		if (leftIsVip && rightIsMonth){
+			return false;
+		}
+		
+		if (leftIsMonth && rightIsVip){
+			return true;
+		}
+		
+		if (leftIsVip && rightIsVip){
+			int leftVip = extractVipLevel(leftChargeType);
+			int rightVip = extractVipLevel(rightChargeType);
+			return leftVip > rightVip;
+		}
+		
+		if (leftIsMonth && rightIsMonth){
+			int leftMonthLevel = extractMonthLevel(leftChargeType);
+			int rightMonthLevel = extractMonthLevel(rightChargeType);
+			return leftMonthLevel > rightMonthLevel;
+		}
+		
+		GameLog.error("特权", "计算充值类型优先级", "未知充值类型:"+leftChargeType+","+rightChargeType);
+		return false;
+	}
+
+	private int extractMonthLevel(String chargeTy) {
+		String monthVal = chargeTy.substring(chargeTy.indexOf("month")+5);
+		if ("normal".equals(monthVal)){
+			return 0;
+		}
+		if ("vip".equals(monthVal)){
+			return 1;
+		}
+		
+		return -1;
+	}
+
+	private int extractVipLevel(String chargeTy) {
+		return Integer.parseInt(chargeTy.substring(chargeTy.indexOf("vip")+3));
+	}
+
 	@Override
 	public void CheckConfig() {
 		IPrivilegeThreshold<PrivilegeNameEnum> thresholdHelper = getThresholder();
@@ -186,8 +237,8 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 					ConfigClass priCfg = cfgCacheMap.get(sourceName);
 					privilegeValues.setValue(priCfg.getValueByName(privilegeEnum).toString());
 				} else {
-					GameLog.info("特权统计", pro.getClass().getName() + ":当前特权:" + pro.getCurrentChargeType(),
-							"没有找到对应的特权属性", null);
+					GameLog.info("特权", pro.getClass().getName() + ":当前特权:" + pro.getCurrentChargeType(),
+							"没有找到对应的特权属性:"+privilegeEnum, null);
 					privilegeValues.setValue("");
 				}
 				
@@ -203,6 +254,17 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 
 	@Override
 	public Builder combine(Builder acc, AllPrivilege pri) {
+		if (pri == null) return acc;
+		
+		if (acc == null) {
+			acc = AllPrivilege.newBuilder();
+			PrivilegeProperty.Builder copy = PrivilegeProperty.newBuilder();
+			PrivilegeProperty added = getValue(pri);
+			copy.mergeFrom(added);
+			setValue(acc, copy);
+			return acc;
+		}
+		
 		PrivilegeProperty.Builder accB = getValue(acc);
 		PrivilegePropertyOrBuilder added = getValue(pri);
 		if (accB.getKvCount() < privilegeNameEnums.length || added.getKvCount() < privilegeNameEnums.length){

@@ -35,6 +35,5 @@ enum PeakArenaPrivilegeNames {
 enum BattleTowerPrivilegeNames {
      maxResetCount = 1;
      sweepTimeDec = 2;
-
 }
 

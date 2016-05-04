@@ -14,4 +14,6 @@ public interface PropertyWriter {
 	public boolean gt(Object leftVal, Object rightVal);
 
 	public Object extractValue(String value);
+
+	public boolean eq(Object leftVal, Object rightVal);
 }
