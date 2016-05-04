@@ -29,6 +29,9 @@ import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.Privilege.datamodel.IntPropertyWriter;
+import com.rw.service.Privilege.datamodel.arenaPrivilegeHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
@@ -65,6 +68,8 @@ import com.rwproto.ArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class ArenaHandler {
@@ -661,6 +666,19 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		}
+		
+		int buyTimes = m_MyArenaData.getBuyTimes();
+		IPrivilegeManager priMgr = player.getPrivilegeMgr();
+		Object arenaMaxCount = priMgr.getArenaPri(ArenaPrivilegeNames.arenaMaxCount);
+		Integer allowMaxBuyCount = IntPropertyWriter.getShareInstance().extractVal(arenaMaxCount);
+		if (allowMaxBuyCount == null || allowMaxBuyCount < buyTimes){
+			GameLog.info("arena", player.getUserId(),"buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount="+allowMaxBuyCount,null);
+			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		
+		/*
 		// 检查vip等级
 		int vipLevel = player.getVip();
 		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
@@ -670,17 +688,18 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		int buyTimes = m_MyArenaData.getBuyTimes();
 		if (privilegeCfg.getSportBuyCount() <= buyTimes) {
 			GameLog.error("arena", "buyTimes", player + "当前vip购买次数已达上限," + buyTimes + "," + privilegeCfg.getSportBuyCount());
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		*/
+		
 		int nextBuyTimes = buyTimes + 1;
 		ArenaCost arenaCostCfg = ArenaCostCfgDAO.getInstance().get(nextBuyTimes);
 		if (arenaCostCfg == null) {
-			GameLog.error("arena", "buyTimes", player + "获取购买次数配置失败：" + nextBuyTimes);
+			GameLog.error("arena", "buyTimes", player + "获取竞技场购买配置失败：" + nextBuyTimes);
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_CONFIG_IS_NULL);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();

@@ -5,5 +5,13 @@ import com.rwproto.PrivilegeProtos.PrivilegeValue;
 public interface PropertyWriter {
 	public PrivilegeValue.Builder combine(PrivilegeValue.Builder acc, PrivilegeValue added,String name);
 
-	public boolean gt(Object privilegeValue, Object maxVal);
+	/**
+	 * 特殊处理：如果rightVal是空，而leftVal非空，则返回true！
+	 * @param leftVal
+	 * @param rightVal
+	 * @return
+	 */
+	public boolean gt(Object leftVal, Object rightVal);
+
+	public Object extractValue(String value);
 }

@@ -10,6 +10,7 @@ import com.rw.service.Privilege.IPrivilegeWare;
 import com.rwproto.PrivilegeProtos.AllPrivilege;
 import com.rwproto.PrivilegeProtos.AllPrivilege.Builder;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 import com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder;
 
 //<bean class="com.rw.service.Privilege.datamodel.arenaPrivilegeHelper"  init-method="init" />
@@ -24,12 +25,12 @@ public class arenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<ArenaPri
 	}
 
 	@Override
-	public void setValue(Builder holder, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder value) {
+	public void setValue(Builder holder, PrivilegeProperty.Builder value) {
 		holder.setArena(value);
 	}
 
 	@Override
-	public com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder getValue(Builder holder) {
+	public PrivilegeProperty.Builder getValue(Builder holder) {
 		return holder.getArenaBuilder();
 	}
 
@@ -42,7 +43,7 @@ public class arenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<ArenaPri
 	protected void putPrivilege(
 			AbstractPrivilegeConfigHelper<ArenaPrivilegeNames, arenaPrivilege> abstractPrivilegeConfigHelper,
 			IPrivilegeWare privilegeMgr,
-			List<Pair<IPrivilegeProvider, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder>> tmpMap) {
+			List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> tmpMap) {
 		privilegeMgr.putArenaPrivilege(this,tmpMap);
 	}
 
@@ -50,5 +51,4 @@ public class arenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<ArenaPri
 	public PrivilegePropertyOrBuilder getValue(AllPrivilege pri) {
 		return pri.getArena();
 	}
-
 }

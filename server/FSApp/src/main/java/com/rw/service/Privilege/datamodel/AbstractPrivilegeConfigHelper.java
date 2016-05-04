@@ -27,11 +27,17 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 	
 	protected String[] headers;
 	protected String[] sources;
-	protected HashMap<String,PropertyWriter> combinatorMap;
-	protected HashMap<String,String[]> chargeSources;
-	protected HashMap<String,String> maxChargeType;
+	protected HashMap<PrivilegeNameEnum,PropertyWriter> combinatorMap;
+	protected HashMap<PrivilegeNameEnum,String[]> chargeSources;
+	protected HashMap<PrivilegeNameEnum,String> maxChargeType;
 	protected PrivilegeNameEnum[] privilegeNameEnums;
 	private Map<String, Field> fieldMap;
+
+	abstract protected IPrivilegeThreshold<PrivilegeNameEnum> getThresholder();
+	
+	abstract protected void putPrivilege(
+			AbstractPrivilegeConfigHelper<PrivilegeNameEnum, ConfigClass> abstractPrivilegeConfigHelper,
+			IPrivilegeWare privilegeMgr, List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> tmpMap);
 
 	@Override
 	public Field getConfigField(PrivilegeNameEnum name){
@@ -44,12 +50,12 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		privilegeNameEnums = nameEnums;
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(csvFileName,cfgCl);
 		headers = new String[nameEnums.length];
-		combinatorMap = new HashMap<String,PropertyWriter>();
+		combinatorMap = new HashMap<PrivilegeNameEnum,PropertyWriter>();
 		fieldMap = CfgCsvHelper.getFieldMap(cfgCl);
 
 		for(int i = 0;i<headers.length;i++){
 			PropertyWriter combinator;
-			headers[i] = nameEnums[i-2].name();
+			headers[i] = nameEnums[i].name();
 			Field field = fieldMap.get(headers[i]);
 			if (field == null){
 				throw new RuntimeException("缺少特权属性名对应的配置列:"+headers[i]);
@@ -68,13 +74,13 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			}else{
 				throw new RuntimeException("无效属性类型，必须是整数或者布尔类型! "+headers[i]+":"+fieldType.getName());
 			}
-			PropertyWriter old = combinatorMap.put(headers[i], combinator);
+			PropertyWriter old = combinatorMap.put(nameEnums[i], combinator);
 			if (old != null){
 				throw new RuntimeException("特权属性名不能同名:"+headers[i]);
 			}
 		}
 
-		maxChargeType = new HashMap<String,String>(nameEnums.length);
+		maxChargeType = new HashMap<PrivilegeNameEnum,String>(nameEnums.length);
 		Collection<ConfigClass> vals = cfgCacheMap.values();
 		ArrayList<String> tmp = new ArrayList<String>(cfgCacheMap.size());
 		HashMap<String,List<String>> tmpPriMap = new HashMap<String,List<String>>();
@@ -90,16 +96,17 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			tmp.add(sourceName.toLowerCase());
 			
 			for(int i = 0; i< nameEnums.length; i++){
-				String priName = nameEnums[i].name();
-				Object privilegeValue = cfg.getValueByName(nameEnums[i]);
-				String maxType = maxChargeType.get(priName);
+				PrivilegeNameEnum privilegeNameEnum = nameEnums[i];
+				Object privilegeValue = cfg.getValueByName(privilegeNameEnum);
+				String maxType = maxChargeType.get(privilegeNameEnum);
 				ConfigClass maxCfg = maxType != null ? cfgCacheMap.get(maxType) : null;
-				Object maxVal = maxCfg.getValueByName(nameEnums[i]);
-				PropertyWriter combinator = combinatorMap.get(priName);
+				Object maxVal = maxCfg != null? maxCfg.getValueByName(privilegeNameEnum) : null;
+				PropertyWriter combinator = combinatorMap.get(privilegeNameEnum);
 				if (combinator.gt(privilegeValue,maxVal)){
-					maxChargeType.put(priName, cfg.getSource());
+					maxChargeType.put(privilegeNameEnum, cfg.getSource());
 				}
 				
+				String priName = privilegeNameEnum.name();
 				if (StringUtils.isBlank(privilegeValue.toString())){
 					GameLog.info("特权", configClName+",key="+cfg.getSource(), String.format("充值类型:%s,特权名称:%s,配置值空", cfg.getSource(),priName),null);
 					continue;
@@ -116,10 +123,12 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		sources = new String[tmp.size()];
 		sources = tmp.toArray(sources);
 		
+		chargeSources = new HashMap<PrivilegeNameEnum,String[]>();
 		for(int i = 0; i< nameEnums.length; i++){
-			String priName = nameEnums[i].name();
+			PrivilegeNameEnum privilegeNameEnum = nameEnums[i];
+			String priName = privilegeNameEnum.name();
 			
-			String maxType = maxChargeType.get(priName);
+			String maxType = maxChargeType.get(privilegeNameEnum);
 			if (StringUtils.isBlank(maxType)){
 				throw new RuntimeException("无效特权配置:特权"+priName+"没有配置有效值");
 			}
@@ -133,21 +142,19 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				chargeSrcs = new String[chargeSrc.size()];
 				chargeSrcs = chargeSrc.toArray(chargeSrcs);
 			}
-			chargeSources.put(priName, chargeSrcs);
+			chargeSources.put(privilegeNameEnum, chargeSrcs);
 		}
 		
 		PrivilegeConfigHelper.getInstance().addOrReplace(configClName, this);
 		return cfgCacheMap;
 	}
 	
-	abstract protected IPrivilegeThreshold<PrivilegeNameEnum> getThresholder();
-	
 	@Override
 	public void CheckConfig() {
 		IPrivilegeThreshold<PrivilegeNameEnum> thresholdHelper = getThresholder();
 		Collection<ConfigClass> vals = cfgCacheMap.values();
 		for (ConfigClass cfg : vals) {
-			cfg.checkThreshold(thresholdHelper);
+			cfg.checkThreshold(thresholdHelper,combinatorMap);
 		}
 	}
 
@@ -163,7 +170,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				String pname = privilegeEnum.name();
 				PrivilegeValue.Builder privilegeValues = PrivilegeValue.newBuilder();
 				privilegeValues.setName(pname);
-				String maxCharge = maxChargeType.get(pname);
+				String maxCharge = maxChargeType.get(privilegeEnum);
 				if (StringUtils.isNotBlank(maxCharge)){
 					//判断最高充值类型是否已经达到或者超过了
 					if (!pro.reachChargeLevel(maxCharge)){
@@ -173,7 +180,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 
 				// 从特权提供者获取可能的特权档次
 				// 对每个属性过滤无效sources
-				int sourceIndex = pro.getBestMatchCharge(chargeSources.get(pname));
+				int sourceIndex = pro.getBestMatchCharge(chargeSources.get(privilegeEnum));
 				if (0 <= sourceIndex && sourceIndex < sources.length) {
 					String sourceName = sources[sourceIndex];
 					ConfigClass priCfg = cfgCacheMap.get(sourceName);
@@ -194,10 +201,6 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		putPrivilege(this,privilegeMgr,tmpMap);
 	}
 
-	abstract protected void putPrivilege(
-			AbstractPrivilegeConfigHelper<PrivilegeNameEnum, ConfigClass> abstractPrivilegeConfigHelper,
-			IPrivilegeWare privilegeMgr, List<Pair<IPrivilegeProvider, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder>> tmpMap);
-
 	@Override
 	public Builder combine(Builder acc, AllPrivilege pri) {
 		PrivilegeProperty.Builder accB = getValue(acc);
@@ -210,7 +213,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		for(int i = 0; i< privilegeNameEnums.length; i++){
 			PrivilegeNameEnum privilegeEnum = privilegeNameEnums[i];
 			String pname = privilegeEnum.name();
-			PropertyWriter pwriter = combinatorMap.get(pname);
+			PropertyWriter pwriter = combinatorMap.get(privilegeEnum);
 			PrivilegeValue.Builder accVal = accB.getKvBuilder(privilegeEnum.ordinal());
 			PrivilegeValue right = added.getKv(privilegeEnum.ordinal());
 			
@@ -218,5 +221,28 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			accB.setKv(privilegeEnum.ordinal(), accVal);
 		}
 		return acc;
+	}
+
+	public Object getValue(PrivilegeProperty currentPri, PrivilegeNameEnum pname) {
+		if (currentPri == null || pname == null) {
+			return null;
+		}
+		
+		if (currentPri.getKvCount() < pname.ordinal()+1){
+			return null;
+		}
+		
+		String priName = pname.name();
+		PrivilegeValue kv = currentPri.getKv(pname.ordinal());
+		if (!priName.equals(kv.getName())){
+			return null;
+		}
+		
+		PropertyWriter pwriter = combinatorMap.get(pname);
+		if (pwriter == null){
+			return null;
+		}
+		
+		return pwriter.extractValue(kv.getValue());
 	}
 }

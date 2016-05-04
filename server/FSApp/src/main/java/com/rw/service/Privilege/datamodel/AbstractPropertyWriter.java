@@ -7,8 +7,19 @@ import com.rwproto.PrivilegeProtos.PrivilegeValue;
 import com.rwproto.PrivilegeProtos.PrivilegeValue.Builder;
 
 public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements PropertyWriter {
+	@Override
+	public Object extractValue(String value) {
+		return extractVal(value);
+	}
+	
+	public T extractVal(Object valObj,T defaultVal){
+		T result = extractVal(valObj);
+		if (result == null) result = defaultVal;
+		return result;
+	}
+	
 	@SuppressWarnings("unchecked")
-	protected T extractVal(Object valObj){
+	public T extractVal(Object valObj){
 		if (valObj == null) return null;
 		T val = null;
 		Class<T> clt = getTypeClass();
@@ -35,6 +46,9 @@ public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements
 		T rightVal = extractVal(right);
 		if (leftVal != null && rightVal != null){
 			return leftVal.compareTo(rightVal) > 0;
+		}
+		if (leftVal != null && rightVal == null){
+			return true;
 		}
 		return false;
 	}

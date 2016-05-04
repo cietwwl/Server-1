@@ -140,10 +140,11 @@ public class CfgCsvHelper {
 					value = enumLst[index];
 				}
 			}
+		}else if (fieldType == boolean.class || fieldType == Boolean.class){
+			value = Boolean.parseBoolean(strvalue);
 		}else if (fieldType == String.class) {
 			value = strvalue;
 		} else if (fieldType == int.class || fieldType == Integer.class) {
-			
 			value = Integer.parseInt(trim(strvalue));
 		} else if (fieldType == long.class || fieldType == Long.class) {
 			value = Long.parseLong(trim(strvalue));

@@ -13,8 +13,12 @@ import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.service.Privilege.datamodel.IPrivilegeConfigSourcer;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
+import com.rw.service.Privilege.datamodel.arenaPrivilegeHelper;
+import com.rw.service.Privilege.datamodel.peakArenaPrivilegeHelper;
 import com.rwproto.MsgDef;
 import com.rwproto.PrivilegeProtos.AllPrivilege;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 
 public class PrivilegeManager
@@ -110,6 +114,13 @@ public class PrivilegeManager
 	}
 
 	@Override
+	public Object getArenaPri(ArenaPrivilegeNames pname) {
+		PrivilegeProperty currentPri = arenaPrivilege.sample();
+		Object val = arenaPrivilegeHelper.getInstance().getValue(currentPri,pname);
+		return val;
+	}
+
+	@Override
 	public void putArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setArena(pair.getT2());
 		arenaPrivilege.fire(config.getValue(all).build());//all.getArena()
@@ -141,6 +152,13 @@ public class PrivilegeManager
 	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setPeakArena(pair.getT2());
 		peakArenaPrivilege.fire(config.getValue(all).build());//all.getPeakArena()
+	}
+
+	@Override
+	public Object getPeakArenaPri(PeakArenaPrivilegeNames pname) {
+		PrivilegeProperty currentPri = peakArenaPrivilege.sample();
+		Object val = peakArenaPrivilegeHelper.getInstance().getValue(currentPri,pname);
+		return val;
 	}
 
 }
