@@ -11,18 +11,12 @@ message AllPrivilege {
 
 message PrivilegeProperty {
 	repeated PrivilegeValue kv = 1;//按照名字的顺序进行存放
-	repeated PrivilegeChargeTip chargeTipMap = 2;//pName->ArenaPrivilegeNames，由具体模块填写
-}
-
-message PrivilegeChargeTip{
-	required string name = 1;//特权名对应的枚举值
-	required bool isMax = 2;//特权名对应的枚举值
 }
 
 message PrivilegeValue{
 	required string name = 1;//特权名对应的枚举值
-	required string value = 2;//特权名对应的数值或者布尔值
-	optional string chargeType = 3;//改变当前特权的充值类型
+	required string value = 2;//当前充值等级对应的数值或者布尔值
+	optional string chargeType = 3;//超出当前充值等级的值时可用于提高这个值的充值类型
 }
 
 enum ArenaPrivilegeNames {

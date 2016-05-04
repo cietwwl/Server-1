@@ -191,13 +191,17 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			tmpMap.add(pair);
 		}
 		
-		privilegeMgr.putArenaPrivilege(this,tmpMap);
+		putPrivilege(this,privilegeMgr,tmpMap);
 	}
+
+	abstract protected void putPrivilege(
+			AbstractPrivilegeConfigHelper<PrivilegeNameEnum, ConfigClass> abstractPrivilegeConfigHelper,
+			IPrivilegeWare privilegeMgr, List<Pair<IPrivilegeProvider, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder>> tmpMap);
 
 	@Override
 	public Builder combine(Builder acc, AllPrivilege pri) {
-		PrivilegeProperty.Builder accB = acc.getArenaBuilder();
-		PrivilegePropertyOrBuilder added = pri.getArena();
+		PrivilegeProperty.Builder accB = getValue(acc);
+		PrivilegePropertyOrBuilder added = getValue(pri);
 		if (accB.getKvCount() < privilegeNameEnums.length || added.getKvCount() < privilegeNameEnums.length){
 			GameLog.error("特权", "putPrivilege或者combinePrivilege有bug", "特权名数量不足");
 			return acc;
