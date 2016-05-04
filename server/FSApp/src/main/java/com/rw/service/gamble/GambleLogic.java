@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.UserGameDataMgr;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
@@ -210,6 +211,10 @@ public class GambleLogic {
 		
 		//通知统计服务
 		UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
+		
+		//抽卡完成后通知任务系统抽卡获得奖品的次数
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Altar,dropList.size());
+		
 		return response.build().toByteString();
 	}
 
