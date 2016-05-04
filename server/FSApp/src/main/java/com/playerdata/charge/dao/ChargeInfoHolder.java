@@ -46,6 +46,17 @@ public class ChargeInfoHolder {
 		}
 		return chargeInfo;
 	}
+	
+	public boolean addChargeOrder(Player player, ChargeOrder chargeOrder){
+		String userId = player.getUserId();
+		ChargeInfo chargeInfo = get(userId);
+		if(chargeInfo!=null){			
+			chargeInfo.addOrder(chargeOrder);
+			update(player);
+			return true;
+		}
+		return false;
+	}
 
 	public void update(Player player) {
 		

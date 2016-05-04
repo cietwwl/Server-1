@@ -17,6 +17,7 @@ import com.playerdata.charge.cfg.VipGiftCfg;
 import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
+import com.playerdata.charge.dao.ChargeOrder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.rw.chargeServer.ChargeContentPojo;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -91,9 +92,27 @@ public class ChargeMgr {
 	}
 
 	public boolean charge(ChargeContentPojo chargeContentPojo){
+		boolean success=false;
 		//TODO: 充值，保存订单，返回结果
+		Player player = get(chargeContentPojo);
+		if(player!=null){			
+			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+			if(!chargeInfo.isOrderExist(chargeContentPojo.getCpTradeNo())){
+				ChargeOrder chargeOrder = ChargeOrder.fromReq(chargeContentPojo);
+				success = ChargeInfoHolder.getInstance().addChargeOrder(player,chargeOrder);
+			}
+			
+		}
+		if(success){
+			//do charge
+		}
 		
-		return false;
+		return success;
+	}
+
+	private Player get(ChargeContentPojo chargeContentPojo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public ChargeResult charge(Player player, String itemId){

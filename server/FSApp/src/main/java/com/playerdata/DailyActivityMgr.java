@@ -82,9 +82,22 @@ public class DailyActivityMgr implements PlayerEventListener {
 			if (tempData != null) {
 				// 已经存在检查是否完成
 				// 检查完成条件
-				if (tempData.getCanGetReward() == 0 && entity.getFinishCondition().isMatchCondition(player, tempData)) {
-					tempData.setCanGetReward(1);
-					changed = true;
+				boolean matchCondition = entity.getFinishCondition().isMatchCondition(player, tempData);
+				if (tempData.getCanGetReward() == 0) {
+					if (matchCondition) {
+						tempData.setCanGetReward(1);
+						changed = true;
+					}
+				} else if (!matchCondition) {
+					// 不符合条件，删除任务
+					for (int i = currentList.size(); --i >= 0;) {
+						DailyActivityData data = currentList.get(i);
+						if (data.getTaskId() == tempData.getTaskId()) {
+							currentList.remove(i);
+							changed = true;
+							break;
+						}
+					}
 				}
 			} else {
 				// 检查开启条件

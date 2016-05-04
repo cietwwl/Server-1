@@ -1,0 +1,38 @@
+syntax = "proto2";
+
+option java_package = "com.rwproto";
+option java_outer_classname = "PrivilegeProtos";
+package Privilege;
+
+message AllPrivilege {
+	optional PrivilegeProperty arena = 1; //竞技场特权点
+	optional PrivilegeProperty peakArena = 2;//巅峰竞技场特权点
+}
+
+message PrivilegeProperty {
+	repeated PrivilegeValue kv = 1;//
+	repeated PrivilegeChargeTip chargeTipMap = 2;//pName->ArenaPrivilegeNames
+}
+
+message PrivilegeChargeTip{
+	required string name = 1;//特权名对应的枚举值
+	optional string chargeType = 3;//改变当前特权的充值类型
+}
+
+message PrivilegeValue{
+	required string name = 1;//特权名对应的枚举值
+	required string value = 2;//特权名对应的数值或者布尔值
+}
+
+enum ArenaPrivilegeNames {
+	arenaMaxCount = 1;
+	isAllowResetArena = 2;
+	arenaRewardAdd = 3;
+	arenaChallengeDec = 4;
+}
+
+enum PeakArenaPrivilegeNames {
+	peakMaxCount = 1;
+	isAllowResetPeak = 2;
+}
+

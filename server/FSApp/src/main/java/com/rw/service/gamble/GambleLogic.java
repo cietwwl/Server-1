@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.UserGameDataMgr;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
@@ -59,9 +60,9 @@ public class GambleLogic {
 		
 		int gamblePlanId = request.getGamblePlanId();
 		String planIdStr = String.valueOf(gamblePlanId);
-		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getCfgById(planIdStr);
+		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(gamblePlanId,player.getLevel());
 		if (planCfg == null){
-			return GambleLogicHelper.SetError(response,player,String.format("找不到配置:%s", planIdStr),"没有配置");
+			return GambleLogicHelper.SetError(response,player,String.format("找不到配置:ID=%s,level=%i", planIdStr,player.getLevel()),"没有配置");
 		}
 		
 		if (player.getLevel() < planCfg.getOpenLevel()){
@@ -90,7 +91,6 @@ public class GambleLogic {
 		int configFreeCount = planCfg.getFreeCountPerDay();
 		boolean isFree = historyRecord.getFreeLeftTime(planCfg) <= 2 && configFreeCount > historyRecord.getFreeCount();
 		isFree = historyRecord.canUseFree(planCfg);
-		isFree = historyRecord.canUseFree(gamblePlanId);
 		
 		
 		if (isFree){//使用免费方案
@@ -211,6 +211,10 @@ public class GambleLogic {
 		
 		//通知统计服务
 		UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
+		
+		//抽卡完成后通知任务系统抽卡获得奖品的次数
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Altar,dropList.size());
+		
 		return response.build().toByteString();
 	}
 
@@ -220,15 +224,15 @@ public class GambleLogic {
 		Random ranGen = getRandom();
 		// 热点保底默认值 燃灯道人(魂石)
 		String defaultItem = "704012";
-		response = GambleLogicHelper.prepareGambleData(request,ranGen, defaultItem,player.getUserId());
+		response = GambleLogicHelper.prepareGambleData(request,ranGen, defaultItem,player);
 		return response.build().toByteString();
 	}
 
-	public static boolean canGambleFreely(String userId) {
-		return GambleLogicHelper.canGambleFreely(userId);
+	public static boolean canGambleFreely(Player player) {
+		return GambleLogicHelper.canGambleFreely(player);
 	}
 
-	public static boolean isFree(String userId, int planId) {
-		return GambleLogicHelper.isFree(userId, planId);
+	public static boolean isFree(Player player, int dropType) {
+		return GambleLogicHelper.isFree(player, dropType);
 	}
 }
