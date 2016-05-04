@@ -15,11 +15,10 @@ public class peakArenaPrivilege extends AbstractConfigChargeSource<PeakArenaPriv
 	}
 
 	@Override
-	public void ExtraInitAfterLoad() {
+	public void ExtraInitAfterLoad(IPrivilegeConfigSourcer<PeakArenaPrivilegeNames> cfgHelper) {
 		Throwable cause = null;
 		try {
-			ExtraInitAfterLoad(PeakArenaPrivilegeNames.class, peakArenaPrivilegeHelper.getInstance(),
-					peakArenaPrivilegePropertiesHelper.getInstance());
+			ExtraInitAfterLoad(PeakArenaPrivilegeNames.class, cfgHelper);
 		} catch (IllegalArgumentException e) {
 			cause = e;
 			e.printStackTrace();

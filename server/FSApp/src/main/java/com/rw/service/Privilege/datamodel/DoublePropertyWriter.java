@@ -15,4 +15,9 @@ public class DoublePropertyWriter extends AbstractPropertyWriter<Double> {
 		return Double.parseDouble(val);
 	}
 
+	@Override
+	protected Class<Double> getTypeClass() {
+		return Double.class;
+	}
+
 }

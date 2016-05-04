@@ -25,4 +25,9 @@ public class peakArenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<Peak
 	public com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder getValue(Builder holder) {
 		return holder.getPeakArenaBuilder();
 	}
+
+	@Override
+	protected IPrivilegeThreshold<PeakArenaPrivilegeNames> getThresholder() {
+		return peakArenaPrivilegePropertiesHelper.getInstance();
+	}
 }

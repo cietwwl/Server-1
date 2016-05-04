@@ -80,7 +80,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		HashMap<String,List<String>> tmpPriMap = new HashMap<String,List<String>>();
 		String configClName = this.getClass().getName();
 		for (ConfigClass cfg : vals) {
-			cfg.ExtraInitAfterLoad();
+			cfg.ExtraInitAfterLoad(this);
 			String sourceName = cfg.getSource();
 			if (StringUtils.isBlank(sourceName)){
 				GameLog.error("特权", configClName+",key="+cfg.getSource(), "无效特权来源名称");
@@ -138,6 +138,17 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		
 		PrivilegeConfigHelper.getInstance().addOrReplace(configClName, this);
 		return cfgCacheMap;
+	}
+	
+	abstract protected IPrivilegeThreshold<PrivilegeNameEnum> getThresholder();
+	
+	@Override
+	public void CheckConfig() {
+		IPrivilegeThreshold<PrivilegeNameEnum> thresholdHelper = getThresholder();
+		Collection<ConfigClass> vals = cfgCacheMap.values();
+		for (ConfigClass cfg : vals) {
+			cfg.checkThreshold(thresholdHelper);
+		}
 	}
 
 	@Override

@@ -14,4 +14,9 @@ public class LongPropertyWriter extends AbstractPropertyWriter<Long> {
 	protected Long parse(String val) {
 		return Long.parseLong(val);
 	}
+
+	@Override
+	protected Class<Long> getTypeClass() {
+		return Long.class;
+	}
 }

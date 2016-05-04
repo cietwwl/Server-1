@@ -11,7 +11,8 @@ public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements
 	protected T extractVal(Object valObj){
 		if (valObj == null) return null;
 		T val = null;
-		if (valObj instanceof Comparable<?>){
+		Class<T> clt = getTypeClass();
+		if (valObj.getClass().equals(clt)){
 			val = (T) valObj;
 		}else{
 			String value = valObj.toString();
@@ -26,6 +27,7 @@ public abstract class AbstractPropertyWriter<T extends Comparable<T>> implements
 		return val;
 	}
 	protected abstract T parse(String val);
+	protected abstract Class<T> getTypeClass();
 	
 	@Override
 	public boolean gt(Object left, Object right) {

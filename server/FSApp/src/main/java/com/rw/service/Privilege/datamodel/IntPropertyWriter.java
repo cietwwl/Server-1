@@ -14,4 +14,9 @@ public class IntPropertyWriter extends AbstractPropertyWriter<Integer> {
 	protected Integer parse(String val) {
 		return Integer.parseInt(val);
 	}
+
+	@Override
+	protected Class<Integer> getTypeClass() {
+		return Integer.class;
+	}
 }

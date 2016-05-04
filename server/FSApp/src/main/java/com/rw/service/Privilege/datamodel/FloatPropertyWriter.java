@@ -15,4 +15,9 @@ public class FloatPropertyWriter extends AbstractPropertyWriter<Float> {
 		return Float.parseFloat(val);
 	}
 
+	@Override
+	protected Class<Float> getTypeClass() {
+		return Float.class;
+	}
+
 }

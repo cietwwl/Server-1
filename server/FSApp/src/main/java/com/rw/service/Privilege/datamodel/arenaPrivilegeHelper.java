@@ -26,4 +26,9 @@ public class arenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<ArenaPri
 		return holder.getArenaBuilder();
 	}
 
+	@Override
+	protected IPrivilegeThreshold<ArenaPrivilegeNames> getThresholder() {
+		return arenaPrivilegePropertiesHelper.getInstance();
+	}
+
 }

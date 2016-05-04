@@ -19,11 +19,10 @@ public class arenaPrivilege extends AbstractConfigChargeSource<ArenaPrivilegeNam
 	}
 
 	@Override
-	public void ExtraInitAfterLoad() {
+	public void ExtraInitAfterLoad(IPrivilegeConfigSourcer<ArenaPrivilegeNames> cfgHelper) {
 		Throwable cause = null;
 		try {
-			ExtraInitAfterLoad(ArenaPrivilegeNames.class, arenaPrivilegeHelper.getInstance(),
-					arenaPrivilegePropertiesHelper.getInstance());
+			ExtraInitAfterLoad(ArenaPrivilegeNames.class, cfgHelper);
 		} catch (IllegalArgumentException e) {
 			cause = e;
 			e.printStackTrace();
