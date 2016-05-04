@@ -109,6 +109,7 @@ public class ChargeInfo {
 	}
 	public void setPayTimesList(List<ChargeInfoSubRecording> payTimesList) {
 		this.payTimesList = payTimesList;
+	}
 	
 	public void addOrder(ChargeOrder chargeOrder){
 		if(chargeOrder == null){
@@ -135,5 +136,5 @@ public class ChargeInfo {
 		return isExist;
 	}
 	
-	}
+	
 }
