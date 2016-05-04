@@ -1,0 +1,5 @@
+source,Remarks,arenaMaxCount,isAllowResetArena,arenaRewardAdd,arenaChallengeDec
+vip0,,1,false,5,
+vip1,,2,true,10,5
+"普通月卡",,3,true,15,10
+"至尊月卡",,4,true,20,20

@@ -1,0 +1,5 @@
+name,Remarks,threshold,buyTip,nomoreTip
+arenaMaxCount,,10,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。
+isAllowResetArena,,10,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。
+arenaRewardAdd,,10,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。
+arenaChallengeDec,,10,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。

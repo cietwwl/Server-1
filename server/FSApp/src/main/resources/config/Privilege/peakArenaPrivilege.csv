@@ -1,0 +1,5 @@
+source,Remarks,peakMaxCount,isAllowResetPeak
+vip0,,1,false
+vip1,,2,true
+"普通月卡",,3,true
+"至尊月卡",,4,true
