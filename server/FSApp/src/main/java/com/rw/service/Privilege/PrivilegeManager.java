@@ -11,7 +11,9 @@ import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
+import com.rw.service.Privilege.datamodel.BoolPropertyWriter;
 import com.rw.service.Privilege.datamodel.IPrivilegeConfigSourcer;
+import com.rw.service.Privilege.datamodel.IntPropertyWriter;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rw.service.Privilege.datamodel.arenaPrivilegeHelper;
 import com.rw.service.Privilege.datamodel.peakArenaPrivilegeHelper;
@@ -20,6 +22,7 @@ import com.rwproto.PrivilegeProtos.AllPrivilege;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty;
+import com.rwproto.PrivilegeProtos.PrivilegeValue;
 
 public class PrivilegeManager
 		implements IPrivilegeWare, IPrivilegeManager, PlayerEventListener, IStreamListner<IPrivilegeProvider> {
@@ -104,6 +107,45 @@ public class PrivilegeManager
 		initPrivilegeProvider();
 	}
 	
+	private <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> PrivilegeValue getPrivilegeProperty(
+			PrivilegeProperty privilegeDataSet, PrivilegeNameEnums pname) {
+		if (privilegeDataSet == null || pname == null) {
+			return null;
+		}
+		
+		if (privilegeDataSet.getKvCount() < pname.ordinal()+1){
+			return null;
+		}
+		
+		String priName = pname.name();
+		PrivilegeValue kv = privilegeDataSet.getKv(pname.ordinal());
+		if (!priName.equals(kv.getName())){
+			return null;
+		}
+		return kv;
+	}
+	
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Integer getIntPrivilege(
+			PrivilegeProperty privilegeDataSet, PrivilegeNameEnums pname) {
+		PrivilegeValue kv = getPrivilegeProperty(privilegeDataSet,pname);
+		if (kv == null){
+			return null;
+		}
+		
+		IntPropertyWriter pwriter = IntPropertyWriter.getShareInstance();
+		return pwriter.extractVal(kv.getValue());
+	}
+	
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Boolean getBoolPrivilege(
+			PrivilegeProperty privilegeDataSet, PrivilegeNameEnums pname) {
+		PrivilegeValue kv = getPrivilegeProperty(privilegeDataSet,pname);
+		if (kv == null){
+			return null;
+		}
+		
+		BoolPropertyWriter pwriter = BoolPropertyWriter.getShareInstance();
+		return pwriter.extractVal(kv.getValue());
+	}
 	
 	//竞技场
 	private StreamImpl<PrivilegeProperty> arenaPrivilege = new StreamImpl<PrivilegeProperty>();

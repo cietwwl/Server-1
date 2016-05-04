@@ -3,7 +3,7 @@ package com.rw.service.Privilege.datamodel;
 public class BoolPropertyWriter extends AbstractPropertyWriter<Boolean> {
 	private static BoolPropertyWriter instance;
 
-	public static PropertyWriter getShareInstance() {
+	public static BoolPropertyWriter getShareInstance() {
 		if (instance == null) {
 			instance = new BoolPropertyWriter();
 		}
