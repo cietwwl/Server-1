@@ -1,12 +1,14 @@
 package com.rw.service.Privilege.datamodel;
 
 import java.util.Collection;
+
 import java.util.Map;
 
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 
+//<bean class="com.rw.service.Privilege.datamodel.arenaPrivilegePropertiesHelper"  init-method="init" />
 public class arenaPrivilegePropertiesHelper
 		extends AbstractPrivilegePropertiesHelper<ArenaPrivilegeNames, arenaPrivilegeProperties> {
 	public static arenaPrivilegePropertiesHelper getInstance() {

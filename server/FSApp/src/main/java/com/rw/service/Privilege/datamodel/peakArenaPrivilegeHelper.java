@@ -12,6 +12,7 @@ import com.rwproto.PrivilegeProtos.AllPrivilege.Builder;
 import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder;
 
+//<bean class="com.rw.service.Privilege.datamodel.peakArenaPrivilegeHelper"  init-method="init" />
 public class peakArenaPrivilegeHelper extends AbstractPrivilegeConfigHelper<PeakArenaPrivilegeNames, peakArenaPrivilege> {
 	public static peakArenaPrivilegeHelper getInstance() {
 		return SpringContextUtil.getBean(peakArenaPrivilegeHelper.class);
