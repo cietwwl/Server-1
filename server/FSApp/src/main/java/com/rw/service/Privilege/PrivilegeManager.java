@@ -74,6 +74,7 @@ public class PrivilegeManager
 		lst.add(provider);
 		privilegeByProvider(lst);
 		sendPrivilegeData();
+		System.out.println("特权发生变化:"+provider.getClass().getName());
 	}
 
 	@Override

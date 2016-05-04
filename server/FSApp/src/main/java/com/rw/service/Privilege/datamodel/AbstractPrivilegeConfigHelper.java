@@ -267,11 +267,15 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		
 		PrivilegeProperty.Builder accB = getValue(acc);
 		PrivilegeProperty added = getValue(pri);
-		if (accB.getKvCount() < privilegeNameEnums.length || added.getKvCount() < privilegeNameEnums.length){
+		if (accB.getKvCount() < privilegeNameEnums.length){
 			PrivilegeProperty.Builder copy = PrivilegeProperty.newBuilder();
 			copy.mergeFrom(added);
 			setValue(acc, copy);
 			//GameLog.error("特权", "putPrivilege或者combinePrivilege有bug", "特权名数量不足");
+			return acc;
+		}
+		
+		if (added.getKvCount() < privilegeNameEnums.length){
 			return acc;
 		}
 		
