@@ -7,6 +7,7 @@ package Privilege;
 message AllPrivilege {
 	optional PrivilegeProperty arena = 1; //竞技场特权点
 	optional PrivilegeProperty peakArena = 2;//巅峰竞技场特权点
+	optional PrivilegeProperty battleTower = 3;//封神台特权点
 }
 
 message PrivilegeProperty {
@@ -29,5 +30,11 @@ enum ArenaPrivilegeNames {
 enum PeakArenaPrivilegeNames {
 	peakMaxCount = 1;
 	isAllowResetPeak = 2;
+}
+
+enum BattleTowerPrivilegeNames {
+     maxResetCount = 1;
+     sweepTimeDec = 2;
+
 }
 
