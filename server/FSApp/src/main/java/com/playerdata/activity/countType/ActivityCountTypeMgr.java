@@ -145,10 +145,13 @@ public class ActivityCountTypeMgr {
 	
 	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
 		
-		long startTime = activityCountTypeCfg.getStartTime();
-		long endTime = activityCountTypeCfg.getEndTime();		
-		long currentTime = System.currentTimeMillis();
-		return currentTime < endTime && currentTime > startTime;
+		if(activityCountTypeCfg != null){
+			long startTime = activityCountTypeCfg.getStartTime();
+			long endTime = activityCountTypeCfg.getEndTime();		
+			long currentTime = System.currentTimeMillis();
+			return currentTime < endTime && currentTime > startTime;
+		}
+		return false;
 	}
 
 	public void addCount(Player player, ActivityCountTypeEnum countType,int countadd){
