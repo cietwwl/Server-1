@@ -70,7 +70,12 @@ enum eSynType	//数据同步类型
 	ActivityCountType = 60;//活动，计数类型
 	//月卡
 	ActivityTimeCardType = 61;//活动，计数类型
-
+	ActivityRateType = 62;//活动，奖励翻倍类型
+	ActivityDateType = 63;//活动，日期类型
+	ActivityTimeSaleType = 64;//活动，限时折扣
+	ActivityDateSaleType = 65;//活动，每日折扣
+	ActivityRankType = 66;//活动，排行榜
+	ActivityExchangeType = 67;//活动，兑换
 
 }
 

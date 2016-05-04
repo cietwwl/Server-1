@@ -134,5 +134,4 @@ public class RoleAttrDataHolder {
 		roleAttrData.setLog(log);
 		return roleAttrData;
 	}
-
 }

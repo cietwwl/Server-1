@@ -5,15 +5,23 @@ option java_outer_classname = "PrivilegeProtos";
 package Privilege;
 
 message AllPrivilege {
-	optional ArenaPrivilege arena = 1; //竞技场特权点
-	optional PeakArenaPrivilege peakArena = 2;//巅峰竞技场特权点
+	optional PrivilegeProperty arena = 1; //竞技场特权点
+	optional PrivilegeProperty peakArena = 2;//巅峰竞技场特权点
 }
 
-message ArenaPrivilege {
-	required int32 arenaMaxCount = 1; //可购买竞技场门票次数
-	required bool isAllowResetArena = 2; //开启重置竞技场CD
-	required int32 arenaRewardAdd = 3; //竞技场结算奖励增加x（万分比）
-	required int32 arenaChallengeDec = 4; //竞技场挑战cd减少x秒
+message PrivilegeProperty {
+	repeated PrivilegeValue kv = 1;//
+	repeated PrivilegeChargeTip chargeTipMap = 2;//pName->ArenaPrivilegeNames
+}
+
+message PrivilegeChargeTip{
+	required string name = 1;//特权名对应的枚举值
+	optional string chargeType = 3;//改变当前特权的充值类型
+}
+
+message PrivilegeValue{
+	required string name = 1;//特权名对应的枚举值
+	required string value = 2;//特权名对应的数值或者布尔值
 }
 
 enum ArenaPrivilegeNames {
@@ -21,11 +29,6 @@ enum ArenaPrivilegeNames {
 	isAllowResetArena = 2;
 	arenaRewardAdd = 3;
 	arenaChallengeDec = 4;
-}
-
-message PeakArenaPrivilege {
-	required int32 peakMaxCount = 1; //可购买巅峰竞技场门票次数
-	required bool isAllowResetPeak = 2; //开启重置巅峰竞技场CD
 }
 
 enum PeakArenaPrivilegeNames {
