@@ -1,25 +1,46 @@
 package com.playerdata.charge;
 
+import java.util.List;
+import java.util.Iterator;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.log.GameLog;
+import java.util.Set;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItemHolder;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeSubItem;
 import com.playerdata.PlayerMgr;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.cfg.ChargeTypeEnum;
 import com.playerdata.charge.cfg.FirstChargeCfg;
 import com.playerdata.charge.cfg.FirstChargeCfgDao;
+import com.playerdata.charge.cfg.VipGiftCfg;
+import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeOrder;
+import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
+import com.rwbase.dao.vip.VipDataHolder;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 
 public class ChargeMgr {
 
 	private static ChargeMgr instance = new ChargeMgr();
+	
 	
 	public static ChargeMgr getInstance(){
 		return instance;
@@ -33,30 +54,55 @@ public class ChargeMgr {
 		return ChargeInfoHolder.getInstance().get(userId);
 	}
 	
-	public ChargeResult chargeAndTakeGift(Player player, String itemId){
+	public ChargeResult buyAndTakeVipGift(Player player, String itemId){		
+		ChargeResult result = ChargeResult.newResult(false);		
+		VipGiftCfg target = VipGiftCfgDao.getInstance().getCfgById(itemId);
+		int viplevel = Integer.parseInt(itemId);
 		
-		ChargeResult result = ChargeResult.newResult(false);
-		
-		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
-		
-		if(target!=null){
-			boolean success = doCharge(player, target);
+		if(target!=null && !player.getVipMgr().isVipGiftTaken(viplevel)){			
+			boolean success = buyVipGift(player, target,result);
 			if(success){
-				success = takeChargeGift(target);
-			}
-			
-			result.setSuccess(success);
+				player.getVipMgr().setVipGiftTaken(viplevel);
+				success = takeVipGift(player,target);
+				result.setTips("购买成功");
+				result.setSuccess(success);	
+				
+			}else{
+				result.setTips("等级不足或货币不足");
+				result.setSuccess(false);	
+				player.getVipMgr().failToBuyVipGift(viplevel);
+			}			
 		}else{
-			result.setTips("充值类型错误.");
+			result.setSuccess(false);
+			result.setTips("购买失败！");
 		}
 		return result;
 	}
 	
-	private boolean takeChargeGift(ChargeCfg target) {int extraGiftId = target.getExtraGiftId();
-		// TODO takeGift logic
+	private boolean takeVipGift(Player player,VipGiftCfg target) {
+		ComGiftMgr.getInstance().addGiftById(player,target.getGift());			
 		return true;
 	}
-	
+
+	private boolean buyVipGift(Player player, VipGiftCfg target,ChargeResult result) {
+		if(player.getVip() < Integer.parseInt(target.getVipLv())){
+			result.setTips("Vip等级低于购买礼包等级");
+			GameLog.error("chargeMgr.Vip等级低于购买礼包等级");
+			return false;
+		}	
+		
+		if(player.getUserGameDataMgr().getGold() < Integer.parseInt(target.getCurCost())){
+			result.setTips("货币不够");
+			GameLog.error("chargeMgr.货币不够");
+			return false;
+		}
+		player.getUserGameDataMgr().addGold(-Integer.parseInt(target.getCurCost()));
+		
+		
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 	public boolean charge(ChargeContentPojo chargeContentPojo){
 		boolean success=false;
 		//TODO: 充值，保存订单，返回结果
@@ -113,7 +159,7 @@ public class ChargeMgr {
 		ChargeResult result = ChargeResult.newResult(false);
 		
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
-		
+		System.out.println("  target.getitemid" +   itemId  );
 		if(target!=null){
 			boolean success = doCharge(player, target);
 			result.setSuccess(success);
@@ -130,19 +176,43 @@ public class ChargeMgr {
 		int money = target.getMoneyCount();
 		
 		player.getUserGameDataMgr().addReCharge(addGold);
-		player.getUserGameDataMgr().addGold(addGold);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
 		
-		//限购派发奖励
+		//派发限购的钻石奖励
+		ChargeInfoSubRecording sublist = null;
+		Boolean isextragive = false;
+		Boolean ishasrecording = false;
+		for(ChargeInfoSubRecording sub :chargeInfo.getPayTimesList()){
+			if(Integer.parseInt(target.getId())==Integer.parseInt(sub.getId())){//有该道具的购买记录
+				ishasrecording = true;
+				if(target.getGiveCount()>sub.getCount()){//还有多余的限购次数
+					isextragive = true;
+					sublist = sub;
+				}
+			}
+		}
+		if(!ishasrecording&&target.getGiveCount() > 0){//可限购且没记录
+			isextragive = true;
+		}
+		if(isextragive){
+			if(sublist != null){//只有限购次数大于1才会有数据而进入；；
+				
+			}else{
+				ChargeInfoSubRecording sub = ChargeCfgDao.getInstance().newSubItem(target.getId());
+				sub.setCount(sub.getCount() + 1);
+				chargeInfo.getPayTimesList().add(sub);
+				player.getUserGameDataMgr().addGold(target.getExtraGive());//派出额外的钻石				
+			}
+		}
 		
 		
 		
-		//派发账号首冲额外奖励-------------------------------
+		//派发首冲的额外奖励-------------------------------
 		if(chargeInfo.getCount()==1){
 			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
 			int addgoldfirstcharge =  addGold*cfg.getAwardTimes() < cfg.getAwardMax() ?  addGold*cfg.getAwardTimes() : cfg.getAwardMax();
-			player.getUserGameDataMgr().addReCharge(addgoldfirstcharge);			
+			player.getUserGameDataMgr().addGold(addgoldfirstcharge);			
 		}
 		
 		ChargeInfoHolder.getInstance().update(player);		
@@ -163,12 +233,12 @@ public class ChargeMgr {
 		PrivilegeCfg cfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip() + 1);
 		while (cfg.getRechargeCount() <= totalChargeGold) {
 			player.AddVip(1);
-			totalChargeGold -= cfg.getRechargeCount();
+//			totalChargeGold -= cfg.getRechargeCount();
 			cfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip() + 1);
 		}
 	}
 
-	public ChargeResult gerReward(Player player) {
+	public ChargeResult gerRewardForFirstPay(Player player) {
 		ChargeResult result = ChargeResult.newResult(false);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		if(chargeInfo == null){
@@ -201,6 +271,51 @@ public class ChargeMgr {
 		}		
 		return result;
 	}
+
+	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
+		ChargeResult result = ChargeResult.newResult(false);
+		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
+		
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		if(dataItem == null){//首次读取创建记录
+			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player,ActivityTimeCardTypeEnum.Month);
+			if(dataItem != null){
+				dataHolder.addItem(player, dataItem);
+				}
+		}
+		
+		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
+		ActivityTimeCardTypeSubItem targetItem = null;
+		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
+			if(StringUtils.equals(itemTmp.getId(), chargeItemId)){
+				targetItem = itemTmp;
+				break;
+			}
+		}
+		
+		if(targetItem == null){//newitem已添加list，不会null
+			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！"+player);
+			result.setTips("购买月卡异常");
+		}else{
+			int tempdayleft = targetItem.getDayLeft();
+			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDays());
+			dataHolder.updateItem(player, dataItem);
+			result.setSuccess(true);
+			
+			DailyActivityHandler.getInstance().sendTaskList(player);
+			
+			
+			
+			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDaysLimit()){				
+				result.setTips("购买月卡成功");				
+			}else{				
+				result.setTips("剩余日期超过5天但依然冲了钱。。。");
+				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡类型 =" + chargeItemId);
+			}
+		}		
+		return result;
+	}
+
 	
 	
 	

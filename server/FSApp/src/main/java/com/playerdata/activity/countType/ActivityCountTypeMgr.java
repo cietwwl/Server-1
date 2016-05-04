@@ -1,13 +1,9 @@
 package com.playerdata.activity.countType;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bm.arena.ArenaConstant;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
@@ -17,16 +13,6 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.service.Email.EmailUtils;
-import com.rw.service.log.template.maker.LogTemplateMaker;
-import com.rwbase.dao.email.EEmailDeleteType;
-import com.rwbase.dao.email.EmailCfg;
-import com.rwbase.dao.email.EmailCfgDAO;
-import com.rwbase.dao.email.EmailData;
-import com.rwbase.dao.gift.ComGiftCfg;
-import com.rwbase.dao.gift.ComGiftCfgDAO;
-import com.rwproto.DataSynProtos.eSynOpType;
 
 
 public class ActivityCountTypeMgr {
@@ -42,6 +28,22 @@ public class ActivityCountTypeMgr {
 	public void synCountTypeData(Player player){
 		ActivityCountTypeItemHolder.getInstance().synAllData(player);
 	}
+	
+	public void refreshDateFreshActivity(Player player){
+		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
+		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
+			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
+			if(countTypeEnum != null && activityCountTypeCfg.isDateFresh()){
+				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
+				if(targetItem != null){
+					targetItem.reset();
+				}				
+			}
+			
+		}
+	}
+	
 	/**登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空*/
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);		
@@ -143,10 +145,13 @@ public class ActivityCountTypeMgr {
 	
 	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
 		
-		long startTime = activityCountTypeCfg.getStartTime();
-		long endTime = activityCountTypeCfg.getEndTime();		
-		long currentTime = System.currentTimeMillis();
-		return currentTime < endTime && currentTime > startTime;
+		if(activityCountTypeCfg != null){
+			long startTime = activityCountTypeCfg.getStartTime();
+			long endTime = activityCountTypeCfg.getEndTime();		
+			long currentTime = System.currentTimeMillis();
+			return currentTime < endTime && currentTime > startTime;
+		}
+		return false;
 	}
 
 	public void addCount(Player player, ActivityCountTypeEnum countType,int countadd){
