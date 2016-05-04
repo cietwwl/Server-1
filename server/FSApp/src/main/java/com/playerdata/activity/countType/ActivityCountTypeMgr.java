@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bm.arena.ArenaConstant;
 import com.log.GameLog;
+import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
@@ -60,7 +61,7 @@ public class ActivityCountTypeMgr {
 						if(targetItem.isClosed()){
 							dataHolder.removeitem(player, countTypeEnum);
 							
-						}						
+						}
 					}
 					
 					if(targetItem == null){
@@ -76,7 +77,6 @@ public class ActivityCountTypeMgr {
 		}
 	}
 	private void checkClose(Player player) {
-
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		
@@ -98,27 +98,16 @@ public class ActivityCountTypeMgr {
 							ActivityCountTypeSubItem targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(ActivityCountTypeEnum.getById(activityCountTypeItem.getCfgId()), subitem.getId());				
 							activityCountTypeItem.getTakenGiftList().add(targetItem);
 //							takeGift(player,targetItem);
-							dataHolder.updateItem(player, activityCountTypeItem);//写入数据库,领取为false=邮件派发.						
+												
 							
-						
-							
-							String sb = makegiftToMail(targetItem);							
-							EmailData emailData = new EmailData();
-							EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(MAKEUPEMAIL+"");							
-							if (cfg != null) {
-								emailData.setEmailAttachment(sb);
-								emailData.setTitle(cfg.getTitle());
-								emailData.setContent(cfg.getContent());
-								emailData.setSender(cfg.getSender());
-								emailData.setCheckIcon(cfg.getCheckIcon());
-								emailData.setSubjectIcon(cfg.getSubjectIcon());
-								emailData.setDeleteType(EEmailDeleteType.valueOf(cfg.getDeleteType()));
-								emailData.setDelayTime(cfg.getDelayTime());
-								emailData.setDeadlineTime(cfg.getDeadlineTime());
-								EmailUtils.sendEmail(player.getUserId(), emailData);
+							boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subitem.getGift(), MAKEUPEMAIL+"");	
+							if (isAdd) {
+								targetItem.setTaken(true);
 							} else {
 								GameLog.error("通用活动关闭后未领取奖励获取邮件内容失败：" + player.getUserId() + "," );
-							}							
+							}		
+							dataHolder.updateItem(player, activityCountTypeItem);//写入数据库,领取为false=邮件派发.	
+							
 						}						
 					}					
 				}						
@@ -127,7 +116,6 @@ public class ActivityCountTypeMgr {
 			}
 		}
 
-		
 		
 	}
 
@@ -256,47 +244,15 @@ public class ActivityCountTypeMgr {
 	}
 
 	private  void takeGift(Player player,ActivityCountTypeSubItem targetItem) {
-		
-		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(targetItem.getGift());
 		targetItem.setTaken(true);
 		targetItem.getCount();
 		targetItem.getGift();	
-		Set<String> keyset = giftcfg.getGiftMap().keySet();
-		Iterator<String> iterable = keyset.iterator();
-		while(iterable.hasNext()){
-			String giftid = iterable.next();
-			int count = giftcfg.getGiftMap().get(giftid);
-			player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
-		}
-		
-		
-		
-	
+		ComGiftMgr.getInstance().addGiftById(player,targetItem.getGift());	
 //		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getGift()),targetItem.getCount());		
 //		System.out.println("activitycounttypemgr派出了奖励 ，名字：" + targetItem.getGift());
 		//TODO: gift take logic
 	}
 	
-	private String makegiftToMail(ActivityCountTypeSubItem targetItem){
-		StringBuilder sb = new StringBuilder();
-		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(targetItem.getGift());
-		
-		
-		Set<String> keyset = giftcfg.getGiftMap().keySet();
-		Iterator<String> iterable = keyset.iterator();
-		int prizeSize = keyset.size();
-		while(iterable.hasNext()){
-			String giftid = iterable.next();
-			int count = giftcfg.getGiftMap().get(giftid);
-			sb.append(giftid).append("~").append(count);
-			if (--prizeSize > 0) {
-				sb.append(",");
-			}
-		}
-		
-		
-		return sb.toString();
-		
-	}
+	
 
 }
