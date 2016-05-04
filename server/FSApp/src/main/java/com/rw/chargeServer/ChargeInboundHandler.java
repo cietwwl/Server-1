@@ -53,7 +53,7 @@ public class ChargeInboundHandler extends ChannelInboundHandlerAdapter {
 				
 				boolean success = ChargeMgr.getInstance().charge(contenPojo);
 				String resp = "ok";
-				if(success){
+				if(!success){
 					resp = "fail";
 				}
 

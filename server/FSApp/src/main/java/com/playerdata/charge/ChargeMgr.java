@@ -1,9 +1,12 @@
 package com.playerdata.charge;
 
+import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
+import com.playerdata.charge.cfg.ChargeTypeEnum;
 import com.playerdata.charge.cfg.FirstChargeCfg;
 import com.playerdata.charge.cfg.FirstChargeCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
@@ -58,25 +61,52 @@ public class ChargeMgr {
 		boolean success=false;
 		//TODO: 充值，保存订单，返回结果
 		Player player = get(chargeContentPojo);
-		if(player!=null){			
+		if(player!=null){
 			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 			if(!chargeInfo.isOrderExist(chargeContentPojo.getCpTradeNo())){
 				ChargeOrder chargeOrder = ChargeOrder.fromReq(chargeContentPojo);
 				success = ChargeInfoHolder.getInstance().addChargeOrder(player,chargeOrder);
-			}
-			
+			}			
 		}
 		if(success){
-			//do charge
+			chargeType(player,chargeContentPojo);			
 		}
 		
 		return success;
 	}
-
+	
 	private Player get(ChargeContentPojo chargeContentPojo) {
-		// TODO Auto-generated method stub
-		return null;
+		Player player = PlayerMgr.getInstance().find(chargeContentPojo.getUserId());		
+		return player;
 	}
+
+	private void chargeType(Player player, ChargeContentPojo chargeContentPojo) {
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(chargeContentPojo.getItemId());
+
+		
+		
+		if(target!=null){
+			boolean success = false;
+			if(target.getChargeType() == ChargeTypeEnum.Normal){
+				success = doCharge(player, target);
+			}
+			if(target.getChargeType() == ChargeTypeEnum.MonthCard || target.getChargeType() == ChargeTypeEnum.VipMonthCard){
+				//月卡购买逻辑；需合入月卡分支后处理
+			}
+			
+			if(success){
+				GameLog.error("chargemgr", "sdk-充值", "充值成功" + chargeContentPojo.getMoney() + "元"+ "充值类型 =" + target.getChargeType());
+			}else{
+				GameLog.error("chargemgr", "sdk-充值", "充值失败" + chargeContentPojo.getMoney() + "元"+ "充值类型 =" + target.getChargeType());
+			}
+		}	
+	}
+
+	
+	
+	
+
+
 
 	public ChargeResult charge(Player player, String itemId){
 		
@@ -171,5 +201,8 @@ public class ChargeMgr {
 		}		
 		return result;
 	}
+	
+	
+	
 	
 }

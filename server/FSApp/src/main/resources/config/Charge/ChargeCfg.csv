@@ -1,3 +1,5 @@
 Key,Remarks,id,chargeType,slot,icon,title,desc,recommend,goldCount,moneyCount,extraGive,giveCount,daysDraw,extraGift
 0,,0,1,1,,300钻石,另赠送300钻石(限1次,1,300,30,300,1,,800701
-1,,1,2,2,,60钻石,另赠送60钻石(限1次,,60,6,60,1,,800701
+1,,1,1,2,,60钻石,另赠送60钻石(限1次,,60,6,60,1,,800701
+2,,2,2,2,,月卡,,,,,,,,
+3,,3,3,2,,至尊月卡,,,,,,,,

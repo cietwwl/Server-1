@@ -18,15 +18,17 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setServerId(20);
+		content.setServerId(1);
 		content.setChannelId("中国电信");
+		content.setUserId("100100000344");
+		content.setItemId("1");
 		
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		
 		params.put("content", FastJsonUtil.toJson(content));
-		String resp = HttpClientUtil.post("127.0.0.1", 9090, params);
-		System.out.println(resp);
+		String resp = HttpClientUtil.post("127.0.0.1", 10000, params);
+		System.out.println("!!!!!!!!!!     "+ resp);
 	}
 	
 }
