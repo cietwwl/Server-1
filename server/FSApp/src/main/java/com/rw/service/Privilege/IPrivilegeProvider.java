@@ -25,4 +25,11 @@ public interface IPrivilegeProvider {
 	 * @return
 	 */
 	public String getCurrentChargeType();
+
+	/**
+	 * 当前充值等级是否已经达到或者超过chargeType对应的充值等级
+	 * @param chargeType
+	 * @return
+	 */
+	public boolean reachChargeLevel(String chargeType);
 }

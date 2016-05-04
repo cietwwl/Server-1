@@ -165,7 +165,10 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				privilegeValues.setName(pname);
 				String maxCharge = maxChargeType.get(pname);
 				if (StringUtils.isNotBlank(maxCharge)){
-					privilegeValues.setChargeType(maxCharge);
+					//判断最高充值类型是否已经达到或者超过了
+					if (!pro.reachChargeLevel(maxCharge)){
+						privilegeValues.setChargeType(maxCharge);
+					}
 				}
 
 				// 从特权提供者获取可能的特权档次

@@ -250,5 +250,20 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	public String getCurrentChargeType() {
 		return "vip"+m_pPlayer.getVip();
 	}
+
+	@Override
+	public boolean reachChargeLevel(String chargeType) {
+		int index = chargeType.indexOf("vip");
+		if (index != -1) {
+			String vipLevelStr = chargeType.substring(index);
+			int lvl = -1;
+			try {
+				lvl = Integer.parseInt(vipLevelStr);
+				return lvl <= m_pPlayer.getVip();
+			} catch (Exception ex) {
+			}
+		}
+		return false;
+	}
 	
 }
