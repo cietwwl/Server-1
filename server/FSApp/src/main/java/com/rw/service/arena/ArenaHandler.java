@@ -851,8 +851,9 @@ public class ArenaHandler {
 		data.setLevel(arenaData.getLevel());
 		data.setName(arenaData.getName());
 		int fighting = 0;
-		arenaData.getHeroIdList().remove(arenaData.getUserId());
-		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), arenaData.getHeroIdList());
+		List<String> heroIdList = arenaData.getHeroIdList();
+		if (heroIdList != null) heroIdList.remove(arenaData.getUserId());
+		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), heroIdList);
 		List<ArmyHero> armyList = armyInfo.getHeroList();
 		int armySize = armyList.size();
 		for (int i = 0; i < armySize; i++) {
