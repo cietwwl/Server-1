@@ -528,13 +528,21 @@ public final class MsgDef {
      */
     MSG_ACTIVITY_COUNTTYPE(70, 175),
     /**
+     * <code>MSG_PRIVILEGE = 176;</code>
+     *
+     * <pre>
+     *特权数据推送
+     * </pre>
+     */
+    MSG_PRIVILEGE(71, 176),
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(71, 996),
+    MSG_SDK_VERIFY(72, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -542,7 +550,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(72, 997),
+    MSG_NUMERIC_ANALYSIS(73, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -550,7 +558,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(73, 998),
+    MSG_PLATFORMGS(74, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -558,7 +566,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(74, 999),
+    MSG_GAMEPRESS(75, 999),
     ;
 
     /**
@@ -1076,6 +1084,14 @@ public final class MsgDef {
      */
     public static final int MSG_ACTIVITY_COUNTTYPE_VALUE = 175;
     /**
+     * <code>MSG_PRIVILEGE = 176;</code>
+     *
+     * <pre>
+     *特权数据推送
+     * </pre>
+     */
+    public static final int MSG_PRIVILEGE_VALUE = 176;
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
@@ -1184,6 +1200,7 @@ public final class MsgDef {
         case 173: return MSG_GIFT_CODE;
         case 174: return MSG_CHARGE;
         case 175: return MSG_ACTIVITY_COUNTTYPE;
+        case 176: return MSG_PRIVILEGE;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
         case 998: return MSG_PLATFORMGS;
@@ -1248,7 +1265,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\276\013\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\322\013\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1283,9 +1300,10 @@ public final class MsgDef {
       "ER_MANAGER\020\252\001\022\027\n\022MSG_GROUP_PERSONAL\020\253\001\022\024" +
       "\n\017MSG_GROUP_SKILL\020\254\001\022\022\n\rMSG_GIFT_CODE\020\255\001" +
       "\022\017\n\nMSG_CHARGE\020\256\001\022\033\n\026MSG_ACTIVITY_COUNTT" +
-      "YPE\020\257\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMER" +
-      "IC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rM" +
-      "SG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
+      "YPE\020\257\001\022\022\n\rMSG_PRIVILEGE\020\260\001\022\023\n\016MSG_SDK_VE" +
+      "RIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MS" +
+      "G_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013c" +
+      "om.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
