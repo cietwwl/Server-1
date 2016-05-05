@@ -91,6 +91,7 @@ public class DataSynVersionHolder {
 		for (PlayerDataMgr playerDataMgr : notInVersionControlList) {
 			playerDataMgr.syn(player, -1);
 		}
+		player.getUserTmpGameDataFlag().setSynAll(true);
 	}
 
 	private boolean isInit = false;
