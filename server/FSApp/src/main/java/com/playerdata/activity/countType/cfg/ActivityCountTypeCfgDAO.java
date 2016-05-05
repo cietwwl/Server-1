@@ -24,6 +24,9 @@ import com.rwbase.common.config.CfgCsvHelper;
 public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCfg> {
 
 
+	
+
+
 	public static ActivityCountTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityCountTypeCfgDAO.class);
 	}
@@ -34,23 +37,12 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeCfg.csv", ActivityCountTypeCfg.class);
 		for (ActivityCountTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
-			parseSubItems(cfgTmp);
 		}
 		
 		return cfgCacheMap;
 	}
 	
-	/**每日刷新的活动类型解析*/
-	private void parseSubItems(ActivityCountTypeCfg cfgTmp) {
-		if(!StringUtils.isBlank(cfgTmp.getSubItems())){
-			String[] sub = cfgTmp.getSubItems().split(",");
-			List sublist = new ArrayList<String>();
-			for(String subitem : sub){
-				sublist.add(subitem);
-			}
-			
-		}		
-	}
+
 
 
 	public void parseTime(ActivityCountTypeCfg cfgItem){
@@ -66,7 +58,13 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		ActivityCountTypeCfg cfg = getCfgById(id);
 		return cfg;
 	}
-	
+	/**
+	 * 
+	 * @param player
+	 * @param countTypeEnum
+	 * @param subdaysNum  每日重置类型的活动,第几天
+	 * @return
+	 */
 	public ActivityCountTypeItem newItem(Player player, ActivityCountTypeEnum countTypeEnum){
 		
 		String cfgId = countTypeEnum.getCfgId();

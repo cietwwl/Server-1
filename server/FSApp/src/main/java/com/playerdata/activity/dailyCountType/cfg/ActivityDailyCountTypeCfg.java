@@ -1,11 +1,11 @@
-package com.playerdata.activity.countType.cfg;
+package com.playerdata.activity.dailyCountType.cfg;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 
-public class ActivityCountTypeCfg {
+public class ActivityDailyCountTypeCfg {
 
 	private String id;
 	
@@ -17,25 +17,7 @@ public class ActivityCountTypeCfg {
 	
 	private String endTimeStr;
 	
-	private String cion;
-	
-	private String title;
-	
-	private String titleBG;
-	
-	private String desc;	
-
-	private String goToType;
-	
-	private String group;
-		
-	//每天刷新
-	private int isAutoRefresh ;
-	
 	private String version;
-
-	
-
 
 	public String getVersion() {
 		return version;
@@ -45,13 +27,6 @@ public class ActivityCountTypeCfg {
 		this.version = version;
 	}
 
-	public String getGroup() {
-		return group;
-	}
-
-	public void setGroup(String group) {
-		this.group = group;
-	}
 
 	private int sortNum;
 	
@@ -66,26 +41,6 @@ public class ActivityCountTypeCfg {
 		return endTime;
 	}
 
-	public String getCion() {
-		return cion;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getTitleBG() {
-		return titleBG;
-	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-
-	public String getGoToType() {
-		return goToType;
-	}
 	
 	public int getSortNum() {
 		return sortNum;
@@ -110,7 +65,13 @@ public class ActivityCountTypeCfg {
 	public String getEndTimeStr() {
 		return endTimeStr;
 	}
+	public void setStartTimeStr(String startTimeStr) {
+		this.startTimeStr = startTimeStr;
+	}
 
+	public void setEndTimeStr(String endTimeStr) {
+		this.endTimeStr = endTimeStr;
+	}
 
 
 	public void setStartTime(long startTime) {
@@ -121,13 +82,7 @@ public class ActivityCountTypeCfg {
 		this.endTime = endTime;
 	}
 
-	public int getIsAutoRefresh() {
-		return isAutoRefresh;
-	}
 
-	public void setIsAutoRefresh(int isAutoRefresh) {
-		this.isAutoRefresh = isAutoRefresh;
-	}
 
 
 

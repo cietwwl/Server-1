@@ -136,6 +136,10 @@
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountSubCfgDAO"  init-method="init" />
+	
+	
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	

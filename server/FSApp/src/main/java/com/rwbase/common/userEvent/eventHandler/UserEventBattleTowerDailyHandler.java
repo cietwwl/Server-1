@@ -13,6 +13,11 @@ import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
@@ -30,12 +35,12 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.BattleTowerDaily.getCfgId()));
+					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.LoginDaily.getCfgId()));
 					
 					
-					ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
 					
-					ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), ActivityCountTypeEnum.BattleTowerDaily);
+					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), ActivityDailyCountTypeEnum.LoginDaily);
 					//试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
 					int addcount = Integer.parseInt(params.toString()) - dataItem.getCount();
 					
@@ -43,13 +48,13 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 					
 					
 					if(addcount > 0&&isBetweendays){
-						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.BattleTowerDaily,addcount);	
+						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.LoginDaily,addcount);	
 						
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.BattleTowerDaily.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.LoginDaily.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});

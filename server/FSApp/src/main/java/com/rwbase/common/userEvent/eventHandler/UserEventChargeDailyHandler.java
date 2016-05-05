@@ -11,6 +11,9 @@ import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
@@ -28,7 +31,7 @@ public class UserEventChargeDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.TreasureLandDaily.getCfgId()));
+					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.LoginDaily.getCfgId()));
 					/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
 					boolean isnewday = false;
 					if(StringUtils.equals(params+"","0")){//没有活动的登陆数据，首次登陆
@@ -39,13 +42,13 @@ public class UserEventChargeDailyHandler implements IUserEventHandler{
 						}
 					}
 					if(isBetweendays){
-						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.TreasureLandDaily,1);	
+						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.LoginDaily,1);	
 						
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.TreasureLandDaily.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.LoginDaily.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
