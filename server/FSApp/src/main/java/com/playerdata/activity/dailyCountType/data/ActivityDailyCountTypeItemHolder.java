@@ -25,7 +25,7 @@ public class ActivityDailyCountTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityCountType;
+	final private eSynType synType = eSynType.ActivityDailyType;
 	
 	
 	/*
@@ -49,9 +49,8 @@ public class ActivityDailyCountTypeItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityDailyCountTypeItem getItem(String userId, ActivityDailyCountTypeEnum countTypeEnum){		
-		String itemId = ActivityDailyCountTypeHelper.getItemId(userId, countTypeEnum);
-		return getItemStore(userId).getItem(itemId);
+	public ActivityDailyCountTypeItem getItem(String userId){
+		return getItemStore(userId).getItem(userId);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){

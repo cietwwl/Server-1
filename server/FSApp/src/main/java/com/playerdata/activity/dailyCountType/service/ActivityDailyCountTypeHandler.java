@@ -3,12 +3,10 @@ package com.playerdata.activity.dailyCountType.service;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
-import com.rwproto.ActivityCountTypeProto.ActivityCommonReqMsg;
-import com.rwproto.ActivityCountTypeProto.ActivityCommonRspMsg;
+import com.rwproto.ActivityDailyTypeProto.ActivityCommonReqMsg;
+import com.rwproto.ActivityDailyTypeProto.ActivityCommonRspMsg;
 
 public class ActivityDailyCountTypeHandler {
 	

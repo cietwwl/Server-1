@@ -46,7 +46,7 @@ public class ActivityDailyCountTypeMgr {
 			if(isOpen(activityCountTypeCfg)){
 				ActivityDailyCountTypeEnum countTypeEnum = ActivityDailyCountTypeEnum.getById(activityCountTypeCfg.getId());
 				if(countTypeEnum != null){
-					ActivityDailyCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
+					ActivityDailyCountTypeItem targetItem = dataHolder.getItem(player.getUserId());//已在之前生成数据的活动
 					if(targetItem != null){
 						dataHolder.updateItem(player, targetItem);
 					}				
@@ -80,30 +80,58 @@ public class ActivityDailyCountTypeMgr {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
 		List<ActivityDailyCountTypeCfg> allCfgList = ActivityDailyCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityDailyCountTypeItem> addItemList = null;
-		for (ActivityDailyCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(activityCountTypeCfg)) {
-				// 日常活动未开启
-				continue;
-			}
-			ActivityDailyCountTypeEnum countTypeEnum = ActivityDailyCountTypeEnum.getById(activityCountTypeCfg.getId());
-			if (countTypeEnum == null) {
-				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityCountTypeCfg.getId());
-				continue;
-			}
-			ActivityDailyCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
-			if (targetItem == null) {
-						
-				targetItem = ActivityDailyCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);// 生成新开启活动的数据
-				if (targetItem == null) {
-					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
-					continue;
-				}
-				if (addItemList == null) {
-					addItemList = new ArrayList<ActivityDailyCountTypeItem>();
-				}
-				addItemList.add(targetItem);
-			}
+		
+		if(allCfgList == null){
+			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" + allCfgList.size());
+			return;			
 		}
+		
+		if(allCfgList.size() != 1){
+			GameLog.error("activityDailyCountTypeMgr", "list", "同时存在多个每日活动" + allCfgList.size());
+			return;
+		}
+		
+		ActivityDailyCountTypeCfg activityCountTypeCfg = allCfgList.get(0);
+		if(!isOpen(activityCountTypeCfg)){
+			//活动未开启
+			return ;
+		}
+		
+		ActivityDailyCountTypeItem targetItem = dataHolder.getItem(player.getUserId());
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+			
+			
+			
+			
+//			ActivityDailyCountTypeEnum countTypeEnum = ActivityDailyCountTypeEnum.getById(activityCountTypeCfg.getId());
+//			if (countTypeEnum == null) {
+//				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityCountTypeCfg.getId());
+//				continue;
+//			}
+//			ActivityDailyCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
+//			if (targetItem == null) {
+//						
+//				targetItem = ActivityDailyCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);// 生成新开启活动的数据
+//				if (targetItem == null) {
+//					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
+//					continue;
+//				}
+//				if (addItemList == null) {
+//					addItemList = new ArrayList<ActivityDailyCountTypeItem>();
+//				}
+//				addItemList.add(targetItem);
+//			}
 		if (addItemList != null) {
 			dataHolder.addItemList(player, addItemList);
 		}
@@ -166,7 +194,7 @@ public class ActivityDailyCountTypeMgr {
 	public void addCount(Player player, ActivityDailyCountTypeEnum countType, int countadd) {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
 
-		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
+		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		dataItem.setCount(dataItem.getCount() + countadd);
 
 			dataHolder.updateItem(player, dataItem);
@@ -175,7 +203,7 @@ public class ActivityDailyCountTypeMgr {
 	public ActivityComResult takeGift(Player player, ActivityDailyCountTypeEnum countType, String subItemId) {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
 
-		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
+		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		ActivityComResult result = ActivityComResult.newInstance(false);
 
 		// 未激活

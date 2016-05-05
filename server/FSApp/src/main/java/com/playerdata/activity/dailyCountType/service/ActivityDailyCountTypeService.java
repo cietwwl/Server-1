@@ -5,8 +5,8 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
-import com.rwproto.ActivityCountTypeProto.ActivityCommonReqMsg;
-import com.rwproto.ActivityCountTypeProto.RequestType;
+import com.rwproto.ActivityDailyTypeProto.ActivityCommonReqMsg;
+import com.rwproto.ActivityDailyTypeProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 
@@ -22,7 +22,7 @@ public class ActivityDailyCountTypeService implements FsService {
 		try {
 			ActivityCommonReqMsg commonReq = ActivityCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 			
-			RequestType reqType = commonReq.getReqType();
+			RequestType reqType = commonReq.getReqType();			
 			switch (reqType) {	
 			case TAKE_GIFT:// 获取奖励
 				byteString = handler.takeGift(player, commonReq);
