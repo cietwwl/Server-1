@@ -268,4 +268,11 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		return false;
 	}
 	
+	public void failToBuyVipGift(int vipLevel){
+		vipDataHolder.get().failToBuyVipGift(vipLevel);
+		vipDataHolder.update(m_pPlayer);
+	}
+	
+	
+	
 }
