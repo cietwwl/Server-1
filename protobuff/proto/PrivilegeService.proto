@@ -21,19 +21,19 @@ message PrivilegeValue{
 }
 
 enum ArenaPrivilegeNames {
-	arenaMaxCount = 1;
-	isAllowResetArena = 2;
-	arenaRewardAdd = 3;
-	arenaChallengeDec = 4;
+	arenaMaxCount = 1;  //可购买竞技场门票次数
+	isAllowResetArena = 2; //开启重置竞技场CD
+	arenaRewardAdd = 3; //竞技场结算奖励增加x%（万分比）
+	arenaChallengeDec = 4; //竞技场挑战cd减少x秒
 }
 
 enum PeakArenaPrivilegeNames {
-	peakMaxCount = 1;
-	isAllowResetPeak = 2;
+	peakMaxCount = 1;  //可购买巅峰竞技场门票次数
+	isAllowResetPeak = 2; //开启重置巅峰竞技场CD
 }
 
 enum BattleTowerPrivilegeNames {
-     maxResetCount = 1;
-     sweepTimeDec = 2;
+     maxResetCount = 1; //封神台可重置次数
+     sweepTimeDec = 2;  //封神台每层扫荡时间减少x秒
 }
 
