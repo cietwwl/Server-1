@@ -12,9 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.fy.constant.Constant;
+import com.fy.json.JSONException;
 import com.fy.json.JSONObject;
+import com.fy.utils.DateTimeUtils;
 import com.fy.version.Version;
 import com.fy.version.VersionMgr;
+import com.fy.version.activity.ChannelAddressCfg;
+import com.fy.version.activity.ChannelAddressCfgDao;
+import com.fy.version.activity.VersionUpdateCfg;
+import com.fy.version.activity.VersionUpdateCfgDao;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class VerService extends ActionSupport implements ServletRequestAware,
@@ -78,12 +85,15 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			int sub = Integer.parseInt(json.get("sub").toString());
 			int third = Integer.parseInt(json.get("third").toString());
 			int patch = Integer.parseInt(json.get("patch").toString());
+			String packageName = json.get("package").toString();
 			version = new Version();
 			version.setChannel(channel);
 			version.setMain(main);
 			version.setSub(sub);
 			version.setThird(third);
 			version.setPatch(patch);
+			version.setPackageName(packageName);
+			
 			return version;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -95,20 +105,13 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		JSONObject json = new JSONObject();
 		try {
 			if (!(updateVersion.getChannel() == null ||  updateVersion.getChannel().equals(""))) {
-				json.put("update", 1);
-				json.put("name", updateVersion.getName()+".zip");
-				json.put("channel", updateVersion.getChannel());
-				json.put("main", updateVersion.getMain());
-				json.put("sub", updateVersion.getSub());
-				json.put("third", updateVersion.getThird());
-				json.put("patch", updateVersion.getPatch());
-				json.put("cdnDownloadUrl", updateVersion.getCdnDomain()
-						+ File.separator + updateVersion.getLocation());
-				json.put("cdnBackupDownloadUrl",
-						updateVersion.getCdnBackUpDomain() + File.separator
-								+ updateVersion.getLocation());
-				json.put("md5", updateVersion.getMd5());
-				json.put("size", updateVersion.getSize());
+				
+				
+				if (updateVersion.getPatchInstall().equals(Constant.PATCH_LINK)) {
+					packageBrowserLink(updateVersion, json);
+				} else {
+					packageDownloadInfo(updateVersion, json);
+				}
 				json.put("patchInstall", updateVersion.getPatchInstall());
 			} else {
 				json.put("update", 0);
@@ -119,6 +122,53 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			ex.printStackTrace();
 		}
 		return json.toString();
+	}
+
+	private void packageBrowserLink(Version updateVersion, JSONObject json)
+			throws JSONException {
+		String currentVersionNo = updateVersion.getCurrentVersionNo();
+		VersionUpdateCfg cfg = VersionUpdateCfgDao.getInstance().getCfgByKey(currentVersionNo);
+		if (cfg == null) {
+			json.put("update", 0);
+		} else {
+			json.put("update", 1);
+			String forceUpdateTime = cfg.getForceUpdateTime();
+			long time = DateTimeUtils.getTime(forceUpdateTime,
+					"yyyy-MM-dd");
+			boolean force = false;
+			String tips;
+			if (time < System.currentTimeMillis()) {
+				force = true;
+				tips = cfg.getForceTips();
+			} else {
+				tips = cfg.getUpdateTips();
+			}
+			json.put("tips", tips);
+			json.put("force", force);
+			System.out.println("package name:" + updateVersion.getPackageName());
+			ChannelAddressCfg channelAddressCfg = ChannelAddressCfgDao.getInstance().getCfgByKey(updateVersion.getPackageName());
+			String downloadAddress = channelAddressCfg.getDownloadAddress();
+			json.put("url", downloadAddress);
+			json.put("reward", cfg.getRewards() == null ? "" : cfg.getRewards());
+		}
+	}
+
+	private void packageDownloadInfo(Version updateVersion, JSONObject json)
+			throws JSONException {
+		json.put("update", 1);
+		json.put("name", updateVersion.getName() + ".zip");
+		json.put("channel", updateVersion.getChannel());
+		json.put("main", updateVersion.getMain());
+		json.put("sub", updateVersion.getSub());
+		json.put("third", updateVersion.getThird());
+		json.put("patch", updateVersion.getPatch());
+		json.put("cdnDownloadUrl", updateVersion.getCdnDomain()
+				+ File.separator + updateVersion.getLocation());
+		json.put("cdnBackupDownloadUrl",
+				updateVersion.getCdnBackUpDomain() + File.separator
+						+ updateVersion.getLocation());
+		json.put("md5", updateVersion.getMd5());
+		json.put("size", updateVersion.getSize());
 	}
 
 	private Version getClientVersion() {
