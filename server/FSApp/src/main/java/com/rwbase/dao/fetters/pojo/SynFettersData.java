@@ -1,6 +1,5 @@
 package com.rwbase.dao.fetters.pojo;
 
-import java.util.List;
 import java.util.Map;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -13,7 +12,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class SynFettersData {
 	private int heroModelId;// 英雄的模版Id
-	private Map<Integer, List<Integer>> openList;// 开放列表
+	private Map<Integer, SynConditionData> openList;// 开放列表
 
 	public int getHeroModelId() {
 		return heroModelId;
@@ -23,11 +22,11 @@ public class SynFettersData {
 		this.heroModelId = heroModelId;
 	}
 
-	public Map<Integer, List<Integer>> getOpenList() {
+	public Map<Integer, SynConditionData> getOpenList() {
 		return openList;
 	}
 
-	public void setOpenList(Map<Integer, List<Integer>> openList) {
+	public void setOpenList(Map<Integer, SynConditionData> openList) {
 		this.openList = openList;
 	}
 }

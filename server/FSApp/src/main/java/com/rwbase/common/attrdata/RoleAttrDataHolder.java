@@ -126,7 +126,7 @@ public class RoleAttrDataHolder {
 		int oldFighting = roleAttrData.getFighting();
 		roleAttrData.setFighting(calFighting);
 		// 战力修改
-		if (oldFighting < calFighting) {
+		if (oldFighting > 0 && oldFighting < calFighting) {
 			FettersBM.whenHeroChange(hero.getPlayer(), hero.getModelId());
 		}
 		log += "[总属性（固定值 + 万分比值）]-" + BeanOperationHelper.getPositiveValueDiscription(totalData) + "\n";

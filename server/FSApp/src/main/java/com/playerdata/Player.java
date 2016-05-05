@@ -344,9 +344,6 @@ public class Player implements PlayerIF {
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
 
-		// TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
-		checkAllHeroFetters();
-
 		if (initMgr) {
 			initMgr();
 		}
@@ -354,6 +351,9 @@ public class Player implements PlayerIF {
 		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
 
 		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
+		
+		// TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
+		checkAllHeroFetters();
 	}
 
 	public Player(String userId, boolean initMgr) {

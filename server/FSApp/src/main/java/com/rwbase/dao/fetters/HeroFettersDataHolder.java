@@ -42,6 +42,6 @@ public class HeroFettersDataHolder {
 			return;
 		}
 
-		ClientDataSynMgr.synData(player, allHeroFetters, synType, eSynOpType.UPDATE_LIST);
+		ClientDataSynMgr.synDataList(player, allHeroFetters, synType, eSynOpType.UPDATE_LIST);
 	}
 }

@@ -14,6 +14,7 @@ import com.rwbase.common.attrdata.AttrDataType;
 import com.rwbase.dao.fetters.pojo.IFettersCheckForceUseHeroId;
 import com.rwbase.dao.fetters.pojo.IFettersSubCondition;
 import com.rwbase.dao.fetters.pojo.IFettersSubRestrictCondition;
+import com.rwbase.dao.fetters.pojo.SynConditionData;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO;
@@ -184,6 +185,7 @@ public class FettersBM {
 
 		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
 
+		FettersBaseCfgDAO fettersBaseCfgDAO = FettersBaseCfgDAO.getCfgDAO();
 		for (int i = 0, size = heroFettersTemplateList.size(); i < size; i++) {
 			HeroFettersTemplate tmp = heroFettersTemplateList.get(i);
 			if (tmp == null) {
@@ -198,15 +200,28 @@ public class FettersBM {
 			int heroModelId = tmp.getHeroModelId();
 
 			for (int j = 0, idSize = fettersIdList.size(); j < idSize; j++) {
-				int fModelId = fettersIdList.get(j);
-				List<Integer> list = map.get(fModelId);
-				if (list == null) {
-					list = new ArrayList<Integer>();
-					map.put(fModelId, list);
+				int fettersId = fettersIdList.get(j);
+				FettersBaseTemplate fettersBaseTmp = fettersBaseCfgDAO.getFettersBaseTemplateById(fettersId);
+				if (fettersBaseTmp == null) {
+					continue;
 				}
 
-				if (!list.contains(heroModelId)) {
-					list.add(heroModelId);
+				List<Integer> fettersHeroIdList = fettersBaseTmp.getFettersHeroIdList();
+				if (fettersHeroIdList == null || fettersHeroIdList.isEmpty()) {
+					continue;
+				}
+
+				for (int k = 0, heroSize = fettersHeroIdList.size(); k < heroSize; k++) {
+					int fettersHeroModelId = fettersHeroIdList.get(k);
+					List<Integer> list = map.get(fettersHeroModelId);
+					if (list == null) {
+						list = new ArrayList<Integer>();
+						map.put(fettersHeroModelId, list);
+					}
+
+					if (!list.contains(heroModelId)) {
+						list.add(heroModelId);
+					}
 				}
 			}
 		}
@@ -250,7 +265,7 @@ public class FettersBM {
 			return;
 		}
 
-		Map<Integer, List<Integer>> openFettersMap = new HashMap<Integer, List<Integer>>();// 已经开启的羁绊列表
+		Map<Integer, SynConditionData> openFettersMap = new HashMap<Integer, SynConditionData>();// 已经开启的羁绊列表
 
 		for (Entry<Integer, List<FettersConditionTemplate>> e : matchFetters.entrySet()) {
 			List<FettersConditionTemplate> list = e.getValue();
@@ -271,7 +286,10 @@ public class FettersBM {
 
 			if (openList != null && !openList.isEmpty()) {
 				int fettersId = e.getKey();
-				openFettersMap.put(fettersId, openList);
+				SynConditionData synCondition = new SynConditionData();
+				synCondition.setConditionList(openList);
+
+				openFettersMap.put(fettersId, synCondition);
 			}
 		}
 
@@ -309,14 +327,19 @@ public class FettersBM {
 	 * @param openList
 	 * @return
 	 */
-	public static Map<Integer, AttrData> calcHeroFettersAttr(Map<Integer, List<Integer>> openList) {
+	public static Map<Integer, AttrData> calcHeroFettersAttr(Map<Integer, SynConditionData> openList) {
 		Map<Integer, Float> attrDataMap = new HashMap<Integer, Float>();// 固定值
 		Map<Integer, Float> precentAttrDataMap = new HashMap<Integer, Float>();// 百分比值
 
 		FettersConditionCfgDAO cfgDAO = FettersConditionCfgDAO.getCfgDAO();
 
-		for (Entry<Integer, List<Integer>> e : openList.entrySet()) {
-			List<Integer> list = e.getValue();
+		for (Entry<Integer, SynConditionData> e : openList.entrySet()) {
+			SynConditionData value = e.getValue();
+			if (value == null) {
+				continue;
+			}
+
+			List<Integer> list = value.getConditionList();
 			if (list == null || list.isEmpty()) {
 				continue;
 			}

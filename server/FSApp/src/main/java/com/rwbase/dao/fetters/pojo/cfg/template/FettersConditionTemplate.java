@@ -50,7 +50,7 @@ public class FettersConditionTemplate {
 					continue;
 				}
 
-				map.put(Integer.valueOf(token.nextToken()), Float.valueOf(token.nextToken()));
+				map.put(Integer.valueOf(token1.nextToken()), Float.valueOf(token1.nextToken()));
 			}
 
 			this.fettersAttrDataMap = Collections.unmodifiableMap(map);
@@ -68,7 +68,7 @@ public class FettersConditionTemplate {
 					continue;
 				}
 
-				map.put(Integer.valueOf(token.nextToken()), Float.valueOf(token.nextToken()));
+				map.put(Integer.valueOf(token1.nextToken()), Float.valueOf(token1.nextToken()));
 			}
 
 			this.fettersPrecentAttrDataMap = Collections.unmodifiableMap(map);
