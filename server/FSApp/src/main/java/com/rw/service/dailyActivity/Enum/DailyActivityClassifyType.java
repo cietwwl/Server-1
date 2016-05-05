@@ -4,4 +4,6 @@ public class DailyActivityClassifyType
 {
 	public static int Time_Type = 1; //时间类
 	public static int Function_Type = 2; //功能类
+	public static int Time_Card_Type = 3;  //时间卡类型
+	
 }

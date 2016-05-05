@@ -17,7 +17,7 @@ public class ChargeInfoHolder {
 		return instance;
 	}
 
-	public void syn(Player player) {
+	public void syn(Player player,int version) {
 		String userId = player.getUserId();
 		ChargeInfo chargeInfo = get(userId);	
 		if (chargeInfo != null) {
@@ -45,6 +45,17 @@ public class ChargeInfoHolder {
 			chargeInfo = newChargeInfo(userId);
 		}
 		return chargeInfo;
+	}
+	
+	public boolean addChargeOrder(Player player, ChargeOrder chargeOrder){
+		String userId = player.getUserId();
+		ChargeInfo chargeInfo = get(userId);
+		if(chargeInfo!=null){			
+			chargeInfo.addOrder(chargeOrder);
+			update(player);
+			return true;
+		}
+		return false;
 	}
 
 	public void update(Player player) {

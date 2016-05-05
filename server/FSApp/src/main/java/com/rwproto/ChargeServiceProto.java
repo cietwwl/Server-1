@@ -21,6 +21,30 @@ public final class ChargeServiceProto {
      * </pre>
      */
     Charge(0, 1),
+    /**
+     * <code>FirstChargeReward = 2;</code>
+     *
+     * <pre>
+     *领取首充奖励
+     * </pre>
+     */
+    FirstChargeReward(1, 2),
+    /**
+     * <code>BuyVipGift = 3;</code>
+     *
+     * <pre>
+     *购买VIP礼包
+     * </pre>
+     */
+    BuyVipGift(2, 3),
+    /**
+     * <code>TimeCard = 4;</code>
+     *
+     * <pre>
+     *购买月卡
+     * </pre>
+     */
+    TimeCard(3, 4),
     ;
 
     /**
@@ -31,6 +55,30 @@ public final class ChargeServiceProto {
      * </pre>
      */
     public static final int Charge_VALUE = 1;
+    /**
+     * <code>FirstChargeReward = 2;</code>
+     *
+     * <pre>
+     *领取首充奖励
+     * </pre>
+     */
+    public static final int FirstChargeReward_VALUE = 2;
+    /**
+     * <code>BuyVipGift = 3;</code>
+     *
+     * <pre>
+     *购买VIP礼包
+     * </pre>
+     */
+    public static final int BuyVipGift_VALUE = 3;
+    /**
+     * <code>TimeCard = 4;</code>
+     *
+     * <pre>
+     *购买月卡
+     * </pre>
+     */
+    public static final int TimeCard_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -38,6 +86,9 @@ public final class ChargeServiceProto {
     public static RequestType valueOf(int value) {
       switch (value) {
         case 1: return Charge;
+        case 2: return FirstChargeReward;
+        case 3: return BuyVipGift;
+        case 4: return TimeCard;
         default: return null;
       }
     }
@@ -110,23 +161,32 @@ public final class ChargeServiceProto {
      */
     com.rwproto.ChargeServiceProto.RequestType getReqType();
 
-    // required int32 chargeType = 2;
+    // required string chargeItemId = 2;
     /**
-     * <code>required int32 chargeType = 2;</code>
+     * <code>required string chargeItemId = 2;</code>
      *
      * <pre>
-     *充值类型
+     *充值项id
      * </pre>
      */
-    boolean hasChargeType();
+    boolean hasChargeItemId();
     /**
-     * <code>required int32 chargeType = 2;</code>
+     * <code>required string chargeItemId = 2;</code>
      *
      * <pre>
-     *充值类型
+     *充值项id
      * </pre>
      */
-    int getChargeType();
+    java.lang.String getChargeItemId();
+    /**
+     * <code>required string chargeItemId = 2;</code>
+     *
+     * <pre>
+     *充值项id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getChargeItemIdBytes();
   }
   /**
    * Protobuf type {@code chargeProto.ChargeServiceCommonReqMsg}
@@ -190,9 +250,9 @@ public final class ChargeServiceProto {
               }
               break;
             }
-            case 16: {
+            case 18: {
               bitField0_ |= 0x00000002;
-              chargeType_ = input.readInt32();
+              chargeItemId_ = input.readBytes();
               break;
             }
           }
@@ -259,33 +319,64 @@ public final class ChargeServiceProto {
       return reqType_;
     }
 
-    // required int32 chargeType = 2;
-    public static final int CHARGETYPE_FIELD_NUMBER = 2;
-    private int chargeType_;
+    // required string chargeItemId = 2;
+    public static final int CHARGEITEMID_FIELD_NUMBER = 2;
+    private java.lang.Object chargeItemId_;
     /**
-     * <code>required int32 chargeType = 2;</code>
+     * <code>required string chargeItemId = 2;</code>
      *
      * <pre>
-     *充值类型
+     *充值项id
      * </pre>
      */
-    public boolean hasChargeType() {
+    public boolean hasChargeItemId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 chargeType = 2;</code>
+     * <code>required string chargeItemId = 2;</code>
      *
      * <pre>
-     *充值类型
+     *充值项id
      * </pre>
      */
-    public int getChargeType() {
-      return chargeType_;
+    public java.lang.String getChargeItemId() {
+      java.lang.Object ref = chargeItemId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          chargeItemId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string chargeItemId = 2;</code>
+     *
+     * <pre>
+     *充值项id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getChargeItemIdBytes() {
+      java.lang.Object ref = chargeItemId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        chargeItemId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
       reqType_ = com.rwproto.ChargeServiceProto.RequestType.Charge;
-      chargeType_ = 0;
+      chargeItemId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -296,7 +387,7 @@ public final class ChargeServiceProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasChargeType()) {
+      if (!hasChargeItemId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -311,7 +402,7 @@ public final class ChargeServiceProto {
         output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, chargeType_);
+        output.writeBytes(2, getChargeItemIdBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -328,7 +419,7 @@ public final class ChargeServiceProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, chargeType_);
+          .computeBytesSize(2, getChargeItemIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -448,7 +539,7 @@ public final class ChargeServiceProto {
         super.clear();
         reqType_ = com.rwproto.ChargeServiceProto.RequestType.Charge;
         bitField0_ = (bitField0_ & ~0x00000001);
-        chargeType_ = 0;
+        chargeItemId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -485,7 +576,7 @@ public final class ChargeServiceProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.chargeType_ = chargeType_;
+        result.chargeItemId_ = chargeItemId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -505,8 +596,10 @@ public final class ChargeServiceProto {
         if (other.hasReqType()) {
           setReqType(other.getReqType());
         }
-        if (other.hasChargeType()) {
-          setChargeType(other.getChargeType());
+        if (other.hasChargeItemId()) {
+          bitField0_ |= 0x00000002;
+          chargeItemId_ = other.chargeItemId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -517,7 +610,7 @@ public final class ChargeServiceProto {
           
           return false;
         }
-        if (!hasChargeType()) {
+        if (!hasChargeItemId()) {
           
           return false;
         }
@@ -595,51 +688,100 @@ public final class ChargeServiceProto {
         return this;
       }
 
-      // required int32 chargeType = 2;
-      private int chargeType_ ;
+      // required string chargeItemId = 2;
+      private java.lang.Object chargeItemId_ = "";
       /**
-       * <code>required int32 chargeType = 2;</code>
+       * <code>required string chargeItemId = 2;</code>
        *
        * <pre>
-       *充值类型
+       *充值项id
        * </pre>
        */
-      public boolean hasChargeType() {
+      public boolean hasChargeItemId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 chargeType = 2;</code>
+       * <code>required string chargeItemId = 2;</code>
        *
        * <pre>
-       *充值类型
+       *充值项id
        * </pre>
        */
-      public int getChargeType() {
-        return chargeType_;
+      public java.lang.String getChargeItemId() {
+        java.lang.Object ref = chargeItemId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chargeItemId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 chargeType = 2;</code>
+       * <code>required string chargeItemId = 2;</code>
        *
        * <pre>
-       *充值类型
+       *充值项id
        * </pre>
        */
-      public Builder setChargeType(int value) {
-        bitField0_ |= 0x00000002;
-        chargeType_ = value;
+      public com.google.protobuf.ByteString
+          getChargeItemIdBytes() {
+        java.lang.Object ref = chargeItemId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          chargeItemId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string chargeItemId = 2;</code>
+       *
+       * <pre>
+       *充值项id
+       * </pre>
+       */
+      public Builder setChargeItemId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        chargeItemId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 chargeType = 2;</code>
+       * <code>required string chargeItemId = 2;</code>
        *
        * <pre>
-       *充值类型
+       *充值项id
        * </pre>
        */
-      public Builder clearChargeType() {
+      public Builder clearChargeItemId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        chargeType_ = 0;
+        chargeItemId_ = getDefaultInstance().getChargeItemId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string chargeItemId = 2;</code>
+       *
+       * <pre>
+       *充值项id
+       * </pre>
+       */
+      public Builder setChargeItemIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        chargeItemId_ = value;
         onChanged();
         return this;
       }
@@ -1444,14 +1586,15 @@ public final class ChargeServiceProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023ChargeService.proto\022\013chargeProto\"Z\n\031Ch" +
+      "\n\023ChargeService.proto\022\013chargeProto\"\\\n\031Ch" +
       "argeServiceCommonReqMsg\022)\n\007reqType\030\001 \002(\016" +
-      "2\030.chargeProto.RequestType\022\022\n\nchargeType" +
-      "\030\002 \002(\005\"i\n\031ChargeServiceCommonRspMsg\022)\n\007r" +
-      "eqType\030\001 \002(\0162\030.chargeProto.RequestType\022\021" +
-      "\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*\031\n\013Req" +
-      "uestType\022\n\n\006Charge\020\001B!\n\013com.rwprotoB\022Cha" +
-      "rgeServiceProto"
+      "2\030.chargeProto.RequestType\022\024\n\014chargeItem" +
+      "Id\030\002 \002(\t\"i\n\031ChargeServiceCommonRspMsg\022)\n" +
+      "\007reqType\030\001 \002(\0162\030.chargeProto.RequestType" +
+      "\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*N\n\013R" +
+      "equestType\022\n\n\006Charge\020\001\022\025\n\021FirstChargeRew" +
+      "ard\020\002\022\016\n\nBuyVipGift\020\003\022\014\n\010TimeCard\020\004B!\n\013c" +
+      "om.rwprotoB\022ChargeServiceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1463,7 +1606,7 @@ public final class ChargeServiceProto {
           internal_static_chargeProto_ChargeServiceCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_chargeProto_ChargeServiceCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "ChargeType", });
+              new java.lang.String[] { "ReqType", "ChargeItemId", });
           internal_static_chargeProto_ChargeServiceCommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_chargeProto_ChargeServiceCommonRspMsg_fieldAccessorTable = new

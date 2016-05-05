@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
+	
+	private static SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyyMMddHHmm");
 
 	public static Calendar getCurrent() {
 		return Calendar.getInstance();
@@ -92,6 +94,7 @@ public class DateUtils {
 		int dayOfYear = currentDay.get(Calendar.DAY_OF_YEAR);
 		int yearLast = dayFlag.get(Calendar.YEAR);
 		int dayOfYearLast = dayFlag.get(Calendar.DAY_OF_YEAR);
+//		System.out.println("dateutils.year" + year +" dayofyear" + dayOfYear +" yearlast +" + yearLast + " dayofyearlast" + dayOfYearLast);
 		if (year > yearLast) {
 			return true;
 		}
@@ -247,7 +250,25 @@ public class DateUtils {
 		int distance = (int) (distanceTime / (24 * 60 * 60 * 1000));
 		return distance;
 	}
-
+	/**
+	 * 传入yyyyMMddhhmm格式的日期字符串转换为毫秒
+	 * 
+	 * @param earyDay
+	 * @param lateDay
+	 * @return
+	 */
+	public static long YyyymmddhhmmToMillionseconds(String str){
+		try{
+			long millionseconds = yyyyMMddHHmm.parse(str).getTime();
+			return millionseconds;
+		}catch(Exception e){
+			
+		}		
+		return 0;
+	}
+	
+	
+	
 	public static void setDayZeroTime(Calendar c) {
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);

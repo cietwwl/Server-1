@@ -32,13 +32,23 @@
 	<bean class="com.rwbase.dao.dropitem.DropAdjustmentCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.dropitem.DropCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.email.EmailCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.fashion.FashionCfgDao"  init-method="init" />
+		
+	<bean class="com.rwbase.dao.fashion.FashionCommonCfgDao"  init-method="init" />
+	<bean class="com.rwbase.dao.fashion.FashionEffectCfgDao"  init-method="init" />
+	<bean class="com.rwbase.dao.fashion.FashionBuyRenewCfgDao"  init-method="init" />
+	<bean class="com.rwbase.dao.fashion.FashionQuantityEffectCfgDao"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.fighting.FightingWeightCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.fresherActivity.FresherActivityFinalRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.friend.CfgFriendGiftDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gamble.pojo.cfg.GambleRewardCfgDAO"  init-method="init" />
+	
+	<bean class="com.rw.service.gamble.datamodel.GamblePlanCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.gamble.datamodel.GambleDropCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.gamble.datamodel.HotGambleCfgHelper"  init-method="init" />
+	
 	<bean class="com.rw.service.guide.datamodel.GiveItemCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gulid.CfgGuildDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.gulid.CfgGuildLevelDAO"  init-method="init" />
@@ -110,11 +120,21 @@
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerBossCfgDao"  init-method="init" />
-	
+
 	<bean class="com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao"  init-method="init" />
-	
+	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
 	<bean class="com.gm.giftCenter.GiftCodeSenderBm"  init-method="init" />
+	<bean class="com.rwbase.dao.gift.ComGiftCfgDAO"  init-method="init" />
+	
+	<bean class="com.rwbase.dao.skill.SkillEffectCfgDAO" init-method="init" />
+	
+	<bean class="com.playerdata.charge.cfg.FirstChargeCfgDao"  init-method="init" />
+	<bean class="com.playerdata.charge.cfg.ChargeCfgDao"  init-method="init" />
+	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
+	
 	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />

@@ -1,5 +1,7 @@
 package com.gm.task;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.rw.manager.GameManager;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
@@ -90,8 +93,8 @@ public class GmUserInfo implements IGmTask{
 		
 		int chatBanStatus = userDataMgr.isChatBan() ? 1 : 0;
 		resultMap.put("talkStatus", chatBanStatus);
-		 Player onlinePlayer = PlayerMgr.getInstance().findPlayerFromMemory(player.getUserId());
-		 int onlineStatus = onlinePlayer == null ? 0 : 1;
+		 ChannelHandlerContext channelHandlerContext = UserChannelMgr.get(player.getUserId());
+		 int onlineStatus = channelHandlerContext == null ? 0 : 1;
 		 resultMap.put("onlineStatus", onlineStatus);
 	}
 

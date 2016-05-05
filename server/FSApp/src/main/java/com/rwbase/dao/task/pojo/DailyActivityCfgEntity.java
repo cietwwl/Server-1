@@ -31,10 +31,14 @@ public class DailyActivityCfgEntity {
 		if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Type) {
 			this.startCondition = new DailyTimeCondition(startConditionText);
 			this.finishCondition = new DailyTimeCondition(finishConditionText);
+		} else if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Card_Type) {
+			this.startCondition = new DailyTimeCardCondition(startConditionText);
+			this.finishCondition = new DailyTimeCardProgressCondition();
 		} else {
 			this.startCondition = new DailyLevelCondition(startConditionText);
 			this.finishCondition = new DailyProgressCondition(finishConditionText);
 		}
+		
 		String[] reward = taskCfg.getReward().split(";");
 		this.reward = new ArrayList<ItemInfo>(reward.length);
 		for (int i = 0; i < reward.length; i++) {

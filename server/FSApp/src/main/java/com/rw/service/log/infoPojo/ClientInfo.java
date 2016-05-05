@@ -26,11 +26,19 @@ public class ClientInfo {
 	
 	private String imac;
 	
+	private String sdkVersion;
+	
+	private String systemVersion;
+	
+	
+	private String adLinkId;
+
+
 	//运营商
 	private String phoneOp;
 	
-	private String sdkVersion;
-	
+
+
 	public static ClientInfo fromJson(String json){
 		ClientInfo clientInfo = JsonUtil.readValue(json, ClientInfo.class);
 		return clientInfo;
@@ -129,6 +137,20 @@ public class ClientInfo {
 		this.sdkVersion = sdkVersion;
 	}
 	
+	public String getSystemVersion() {
+		return systemVersion;
+	}
+
+	public void setSystemVersion(String systemVersion) {
+		this.systemVersion = systemVersion;
+	}
 	
+	public String getAdLinkId() {
+		return adLinkId;
+	}
+
+	public void setAdLinkId(String adLinkId) {
+		this.adLinkId = adLinkId;
+	}
 	
 }

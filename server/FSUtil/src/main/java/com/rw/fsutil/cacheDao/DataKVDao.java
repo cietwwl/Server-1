@@ -17,7 +17,6 @@ import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.LRUCacheListener;
 import com.rw.fsutil.dao.cache.PersistentLoader;
-import com.rw.fsutil.dao.common.DBThreadPoolMgr;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.log.SqlLog;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -125,9 +124,23 @@ public class DataKVDao<T> {
 		}
 		
 	};
-	
+
+	/**
+	 * 这个重载的方法是用来提交数据的！
+	 * @param id
+	 */
 	public void update(String id){
 		cache.submitUpdateTask(id);
+	}
+	
+	public boolean commit(T t){
+		if (update(t)){
+			String id = getId(t);
+			System.out.println("commit id="+id);
+			update(id);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean update(T t) {
@@ -186,11 +199,9 @@ public class DataKVDao<T> {
 			}
 			return entity.getValue();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}

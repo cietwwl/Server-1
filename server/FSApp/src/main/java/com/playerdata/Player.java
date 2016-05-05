@@ -11,6 +11,8 @@ import com.bm.arena.ArenaBM;
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Action;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
@@ -40,7 +42,9 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
+import com.rwbase.dao.power.pojo.PowerInfo;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
@@ -54,7 +58,6 @@ import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.CommonMsgProtos.CommonMsgResponse;
 import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
@@ -115,15 +118,17 @@ public class Player implements PlayerIF {
 	private PlayerSaveHelper saveHelper = new PlayerSaveHelper(this);
 	private ZoneLoginInfo zoneLoginInfo;
 
-
-
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
 	private volatile long groupRankRecommentCacheTime;// 帮派排行榜推荐的时间
 	private volatile long groupRandomRecommentCacheTime;// 帮派排行榜随机推荐的时间
 	private volatile int lastWorldChatId;// 聊天上次的版本号
 	private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
 
+	private TimeAction oneSecondTimeAction;// 秒时效
+
 	private final PlayerTempAttribute tempAttribute;
+
+	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
 
 	class PlayerSaveHelper {
 
@@ -213,10 +218,10 @@ public class Player implements PlayerIF {
 				player.getEmailMgr().save();
 				savedCount.incrementAndGet();
 			}
-			if (m_gambleMgr != null) {
-				player.getGambleMgr().save();
-				savedCount.incrementAndGet();
-			}
+//			if (m_gambleMgr != null) {
+//				player.getGambleMgr().save();
+//				savedCount.incrementAndGet();
+//			}
 			if (m_TaskMgr != null) {
 				player.getTaskMgr().save();
 				savedCount.incrementAndGet();
@@ -253,12 +258,12 @@ public class Player implements PlayerIF {
 		dataSynVersionHolder.synByVersion(this, versionList);
 	}
 
-	public static Player newFresh(String userId,ZoneLoginInfo zoneLoginInfo2) {
-		
+	public static Player newFresh(String userId, ZoneLoginInfo zoneLoginInfo2) {
+
 		Player fresh = new Player(userId, false);
-		//楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
+		// 楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
 		fresh.setZoneLoginInfo(zoneLoginInfo2);
-		
+
 		fresh.initMgr();
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(fresh);
@@ -333,6 +338,10 @@ public class Player implements PlayerIF {
 		if (initMgr) {
 			initMgr();
 		}
+
+		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
+
+		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
 	}
 
 	public Player(String userId, boolean initMgr) {
@@ -405,7 +414,7 @@ public class Player implements PlayerIF {
 					// // 推送个人的帮派技能数据
 					// getUserGroupAttributeDataMgr().synUserSkillData(player,
 					// -1);
-					getGambleMgr().syncGamble();
+					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
 					userGameDataMgr.setLastLoginTime(now);
@@ -417,6 +426,7 @@ public class Player implements PlayerIF {
 					ChatHandler.getInstance().sendChatAllMsg(player);
 					// 试练塔次数重置
 					getBattleTowerMgr().resetBattleTowerResetTimes(now);
+
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -427,7 +437,6 @@ public class Player implements PlayerIF {
 		notifyLogin();
 		initDataVersionControl();
 		onBSStart();// 合并数据同步信息
-
 		try {
 			dataSynVersionHolder.synAll(this);
 		} finally {
@@ -435,9 +444,13 @@ public class Player implements PlayerIF {
 		}
 
 		GroupMemberHelper.onPlayerLogin(this);
+		ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 		// TODO HC 登录之后检查一下万仙阵的数据
 		getTowerMgr().checkAndResetMatchData(this);
-		ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
+		// 当角色登录的时候，更新下登录的时间
+		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
+		// 登录之后推送体力信息
+		PowerInfoDataHolder.synPowerInfo(this);
 	}
 
 	public void notifyMainRoleCreation() {
@@ -466,7 +479,7 @@ public class Player implements PlayerIF {
 		if (blnNeedCoolTime) {
 			userDataMgr.setKickOffCoolTime();
 		}
-		
+
 		// 修改gm踢人立刻移除在线状态
 		KickOffImmediately(reason);
 		BILogMgr.getInstance().logZoneLogout(this);
@@ -479,16 +492,14 @@ public class Player implements PlayerIF {
 		if (reason != null) {
 			error = reason;
 		}
-		error ="封号原因:"+error;
+		error = "封号原因:" + error;
 		String releaseTime;
 		if (blockCoolTime > 0) {
-			releaseTime = "解封时间:"
-					+ DateUtils.getDateTimeFormatString(blockCoolTime,
-							"yyyy-MM-dd HH:mm");
+			releaseTime = "解封时间:" + DateUtils.getDateTimeFormatString(blockCoolTime, "yyyy-MM-dd HH:mm");
 		} else {
 			releaseTime = "解封时间:永久封号!";
 		}
-		error += "\n"+ releaseTime;
+		error += "\n" + releaseTime;
 		KickOff(error);
 	}
 
@@ -520,7 +531,7 @@ public class Player implements PlayerIF {
 	private TimeAction onMinutesTimeAction;
 
 	/** 每分钟执行 */
-	public synchronized void onMinutes() {
+	public void onMinutes() {
 
 		if (onMinutesTimeAction == null) {
 			onMinutesTimeAction = PlayerTimeActionHelper.onMinutes(this);
@@ -532,7 +543,7 @@ public class Player implements PlayerIF {
 	private TimeAction onNewDayZeroTimeAction;
 
 	/** 0点刷新 */
-	public synchronized void onNewDayZero() {
+	public void onNewDayZero() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDayZero()", "机器人不进行重置", null);
 			return;
@@ -555,7 +566,7 @@ public class Player implements PlayerIF {
 	private TimeAction onNewDay5ClockTimeAction;
 
 	/** 早点５点刷新 */
-	public synchronized void onNewDay5Clock() {
+	public void onNewDay5Clock() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDay5Clock()", "机器人不进行重置", null);
 			return;
@@ -574,7 +585,7 @@ public class Player implements PlayerIF {
 
 	private TimeAction onNewHourTimeAction;
 
-	public synchronized void onNewHour() {
+	public void onNewHour() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewHour()", "机器人不进行重置", null);
 			return;
@@ -720,6 +731,7 @@ public class Player implements PlayerIF {
 		}
 		getMainRoleHero().getRoleBaseInfoMgr().setExp(exp);
 	}
+
 	public ZoneLoginInfo getZoneLoginInfo() {
 		return zoneLoginInfo;
 	}
@@ -727,6 +739,7 @@ public class Player implements PlayerIF {
 	public void setZoneLoginInfo(ZoneLoginInfo zoneLoginInfo) {
 		this.zoneLoginInfo = zoneLoginInfo;
 	}
+
 	public void SetLevel(int newLevel) {
 		// 最高等级
 		if (newLevel > PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.PLAYER_MAX_LEVEL)) {
@@ -786,7 +799,7 @@ public class Player implements PlayerIF {
 
 			// TODO 暂时先通知
 			ArenaBM.getInstance().notifyPlayerLevelUp(getUserId(), getCareer(), newLevel);
-			BILogMgr.getInstance().logRoleUpgrade(this,currentLevel,fightbeforelevelup);
+			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);
 		}
 	}
 
@@ -959,27 +972,6 @@ public class Player implements PlayerIF {
 		getFriendMgr().onPlayerChange(this);
 	}
 
-	public int AddRecharge(int nValue) {
-
-		int totalValue = userGameDataMgr.getRecharge() + nValue;
-		if (totalValue >= 0) {
-			int value = totalValue;
-			PrivilegeCfg cfg = PrivilegeCfgDAO.getInstance().getCfg(getVip() + 1);
-			while (cfg.getRechargeCount() <= value) {
-				AddVip(1);
-				value -= cfg.getRechargeCount();
-				cfg = PrivilegeCfgDAO.getInstance().getCfg(getVip() + 1);
-			}
-			// 设置界面更新vip
-			getSettingMgr().checkOpen();
-			if (totalValue > userGameDataMgr.getRecharge()) {
-				getTaskMgr().AddTaskTimes(eTaskFinishDef.Recharge);
-			}
-			userGameDataMgr.setRecharge(nValue);
-			return 0;
-		}
-		return -1;
-	}
 
 	public boolean addPower(int value) {
 		return userGameDataMgr.addPower(value, getLevel());
@@ -1171,8 +1163,6 @@ public class Player implements PlayerIF {
 		return unendingWarMgr;
 	}
 
-
-
 	/**
 	 * 获取个人的帮派数据
 	 * 
@@ -1283,5 +1273,23 @@ public class Player implements PlayerIF {
 	 */
 	public boolean isRobot() {
 		return getUserId().length() > 20;
+	}
+
+	/** 每分钟执行 */
+	public void onSecond() {
+		if (oneSecondTimeAction == null) {
+			return;
+		}
+
+		oneSecondTimeAction.doAction();
+	}
+
+	/**
+	 * 获取体力信息
+	 * 
+	 * @return
+	 */
+	public PowerInfo getPowerInfo() {
+		return powerInfo;
 	}
 }

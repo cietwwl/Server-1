@@ -27,7 +27,7 @@ import com.rwproto.HeroServiceProtos.MsgHeroResponse;
 import com.rwproto.HeroServiceProtos.eHeroResultType;
 import com.rwproto.MsgDef.Command;
 
-public class HeroMgr implements HeroMgrIF{
+public class HeroMgr implements HeroMgrIF {
 
 	private ConcurrentHashMap<String, Hero> m_HeroMap = new ConcurrentHashMap<String, Hero>();
 	private UserHerosDataHolder userHerosDataHolder;
@@ -41,7 +41,7 @@ public class HeroMgr implements HeroMgrIF{
 		initHeros();
 	}
 
-	//@Override
+	// @Override
 	public void notifyPlayerCreated(Player player) {
 		TableUserHero userHeroTmp = new TableUserHero();
 		userHeroTmp.setUserId(player.getUserId());
@@ -64,7 +64,7 @@ public class HeroMgr implements HeroMgrIF{
 		}
 	}
 
-	//@Override
+	// @Override
 	public void notifyPlayerLogin(Player player) {
 	}
 
@@ -139,7 +139,7 @@ public class HeroMgr implements HeroMgrIF{
 		for (Iterator<Entry<String, Hero>> iterator = m_HeroMap.entrySet().iterator(); iterator.hasNext();) {
 			Entry<String, Hero> entry = iterator.next();
 			Hero tempHero = entry.getValue();
-			if (tempHero.getTemplateId() == templateId) {
+			if (tempHero.getTemplateId().equals(templateId)) {
 				return tempHero;
 			}
 		}
@@ -158,15 +158,15 @@ public class HeroMgr implements HeroMgrIF{
 		return list;
 	}
 
-	public Hero getHeroByHeroId(String heroId) {
-
-		for (Hero data : m_HeroMap.values()) {
-			if (heroId.equals(data.getHeroData().getTemplateId())) {
-				return data;
-			}
-		}
-		return null;
-	}
+	// public Hero getHeroByHeroId(String heroId) {
+	//
+	// for (Hero data : m_HeroMap.values()) {
+	// if (heroId.equals(data.getHeroData().getTemplateId())) {
+	// return data;
+	// }
+	// }
+	// return null;
+	// }
 
 	public void AddAllHeroExp(long exp) {
 		for (Hero data : m_HeroMap.values()) {
@@ -355,8 +355,7 @@ public class HeroMgr implements HeroMgrIF{
 	/**
 	 * 获取所有的佣兵数据
 	 * 
-	 * @param comparator
-	 *            排序的接口,如果不需要就直接填个Null
+	 * @param comparator 排序的接口,如果不需要就直接填个Null
 	 * @return
 	 */
 	public List<Hero> getAllHeros(Comparator<Hero> comparator) {

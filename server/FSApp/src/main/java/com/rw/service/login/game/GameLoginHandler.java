@@ -15,6 +15,8 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -30,6 +32,7 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
 import com.rwbase.dao.publicdata.PublicData;
@@ -219,9 +222,12 @@ public class GameLoginHandler {
 					}
 				});
 
+				long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
+				
 				UserChannelMgr.bindUserID(userId_, ctx);
 				// 增加清空重连时间
 				UserChannelMgr.clearDisConnectTime(userId_);
+				
 				player.onLogin();
 
 				if (StringUtils.isBlank(player.getUserName())) {
@@ -235,8 +241,16 @@ public class GameLoginHandler {
 				GameLog.debug("Game Login Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 				GameLog.debug("Game Login Finish --> userId:" + userId_);
 				player.setZoneLoginInfo(zoneLoginInfo);
-    			BILogMgr.getInstance().logZoneLogin(player);			
-    			// 补充进入主城需要同步的数据
+				BILogMgr.getInstance().logZoneLogin(player);
+				//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+				
+				//判断需要用到最后次登陆 时间。保存在活动内而不是player
+				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
+				
+
+				// 补充进入主城需要同步的数据
 				LoginSynDataHelper.setData(player, response);
 
 				// player.SendMsg(Command.MSG_LOGIN_GAME,
@@ -347,6 +361,13 @@ public class GameLoginHandler {
 			
 			
 			BILogMgr.getInstance().logZoneReg(player);
+			//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+			ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+			ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+			
+			//判断需要用到最后次登陆 时间。保存在活动内而不是player
+			UserEventMgr.getInstance().RoleLogin(player, 0);
+			
 
 			LoginSynDataHelper.setData(player, response);
 //			// --------------------------------------------------------START

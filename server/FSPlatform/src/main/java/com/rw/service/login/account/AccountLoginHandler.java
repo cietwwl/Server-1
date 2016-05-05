@@ -12,6 +12,7 @@ import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.account.Account;
 import com.rw.account.ZoneInfoCache;
+import com.rw.common.GameUtil;
 import com.rw.fsutil.util.TextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.platform.PlatformFactory;
@@ -102,11 +103,13 @@ public class AccountLoginHandler {
 		}
 		addAccount(account, accountId);
 	}
-
+	/**验证账号*/
 	private void handleAccountLogin(Account account,
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, int logType, String phoneInfo,
 			String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.login.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.login.phoneinfo = " + phoneInfo);
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setAccount(accountInfo);
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(
@@ -175,11 +178,13 @@ public class AccountLoginHandler {
 
 		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Finish --> accountId:" + accountId);
 	}
-
+	/**注册账号*/
 	private void handleRegByAccountId(Account account,
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, String password, String openAccountId,
 			int logType, String phoneInfo, String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.reg.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.reg.phoneinfo = " + phoneInfo);
 		if (isIllegalAccount(accountId)) {
 			response.setError("注册失败，账户名不符合规范");
 			response.setResultType(eLoginResultType.FAIL);
@@ -188,6 +193,7 @@ public class AccountLoginHandler {
 			if (newAccount != null) {
 				response.setResultType(eLoginResultType.SUCCESS);
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+				RegLog regLog = RegLog.fromJson(phoneInfo);
 				newAccount.setChannelId(clientInfo.getChannelId());
 				ILog log = processRegLog(logType, phoneInfo, accountId, clientInfo);
 				response.setAccount(accountInfo);
@@ -197,24 +203,28 @@ public class AccountLoginHandler {
 				if (log != null) {
 					log.fillInfoToClientInfo(clientInfo);
 				}
-				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), null,true);
+				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), regLog,true);
 			} else {
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(),null, false);
+				RegLog regLog = RegLog.fromJson(phoneInfo);
+				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(),regLog, false);
 			}
 		} else {
 			response.setError("未知错误，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), null,false);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog,false);
 		}
 	}
-
+	/**快速注册账号*/
 	private String handelRandomAccount(Account account,
 			AccountLoginResponse.Builder response, String accountId,
 			String openAccountId, int logType, String phoneInfo,
 			String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.quicklyreg.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.quicklyreg.phoneinfo = " + phoneInfo);
 		String password;
 		TableAccount newAccount = AccoutBM.getInstance().createRandomAccount(openAccountId);
 		if (newAccount != null) {
@@ -247,7 +257,8 @@ public class AccountLoginHandler {
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), null,false);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog,false);
 		}
 		return accountId;
 	}

@@ -45,7 +45,6 @@ public class GMHeroProcesser {
 			
 			@Override
 			public void run(Player player) {
-				// TODO Auto-generated method stub
 				player.setVip(15);
 				player.getUserGameDataMgr().addCoin(1999999999);
 				player.getUserGameDataMgr().addGold(1999999999);
@@ -183,7 +182,6 @@ public class GMHeroProcesser {
 				int gemLv = Integer.parseInt(arrCommandContents[7]);
 				
 				Map<String, RoleCfg> map = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
-				// TODO Auto-generated method stub
 				List<Hero> heroList = player.getHeroMgr().getAllHeros(new Comparator<Hero>() {
 					public int compare(Hero o1, Hero o2) {
 						if (o1.getFighting() < o2.getFighting())
@@ -248,7 +246,6 @@ public class GMHeroProcesser {
 			
 			@Override
 			public void run(Player player) {
-				// TODO Auto-generated method stub
 				int heroLevel = Integer.parseInt(arrCommandContents[0]);
 				int skillLevel = Integer.parseInt(arrCommandContents[1]);
 				int starLevel = Integer.parseInt(arrCommandContents[2]);

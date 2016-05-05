@@ -6,26 +6,35 @@ import java.util.List;
 import java.util.Map;
 
 import com.bm.rank.RankType;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Weight;
 import com.log.GameLog;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.common.PlayerEventListener;
+import com.playerdata.team.TeamInfo;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.tower.TowerHandler.FloorState;
+import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.anglearray.AngelArrayConst;
+import com.rwbase.dao.anglearray.AngelArrayUtils;
 import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
 import com.rwbase.dao.anglearray.pojo.cfg.AngleArrayMatchCfg;
 import com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayEnemyInfoData;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayFloorData;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
-import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayFloorData;
+import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayEnemyInfoDataHolder;
+import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayFloorDataHolder;
+import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngleArrayDataDao;
-import com.rwbase.dao.anglearray.pojo.db.dao.AngleArrayFloorDataDao;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.tower.TowerAwardCfg;
 import com.rwbase.dao.tower.TowerAwardCfgDAO;
@@ -36,10 +45,6 @@ import com.rwbase.dao.tower.pojo.TowerHeroChange;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 
 public class TowerMgr implements TowerMgrIF, PlayerEventListener {
-	private static final int MAX_HERO_FIGHTING_SIZE = 4;// 最多查找4个佣兵的战力
-	public static final int towerUpdateNum = 3;// 每次开放层
-	public static final int totalTowerNum = 15;// 总塔层
-	public static final int RESET_TIME = 21;// 晚上21点重置
 
 	/**
 	 * 获取英雄的排序方法
@@ -64,25 +69,14 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	};
 
 	private AngleArrayDataDao angleArrayDao = AngleArrayDataDao.getDao();
-	private AngleArrayFloorDataDao angleArrayFloorDao = AngleArrayFloorDataDao.getDao();
+	private AngelArrayFloorDataHolder angelArrayFloorDataHolder;// 万仙阵层数信息的Holder
+	private AngelArrayEnemyInfoDataHolder angelArrayEnemyInfoDataHolder;// 万仙阵敌人血量变化信息记录
 	private String userId;
 
 	public void init(Player player) {
 		userId = player.getUserId();
-		// System.err.println("万仙阵Init-----" + userId);
-		// // 检测万仙阵数据
-		// TableAngleArrayData angleData = angleArrayDao.getAngleArrayDataByKey(userId);
-		// if (angleData == null) {
-		// angleData = new TableAngleArrayData(userId);
-		// angleArrayDao.addOrUpdateAngleArrayData(angleData);
-		// }
-		//
-		// // 检测万仙阵层数据
-		// TableAngleArrayFloorData floorData = angleArrayFloorDao.get(userId);
-		// if (floorData == null) {
-		// floorData = new TableAngleArrayFloorData(userId);
-		// angleArrayFloorDao.update(floorData);
-		// }
+		angelArrayFloorDataHolder = new AngelArrayFloorDataHolder(userId);
+		angelArrayEnemyInfoDataHolder = new AngelArrayEnemyInfoDataHolder(userId);
 	}
 
 	/**
@@ -92,15 +86,6 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 */
 	public TableAngleArrayData getAngleArrayData() {
 		return angleArrayDao.getAngleArrayDataByKey(userId);
-	}
-
-	/**
-	 * 获取万仙阵的层数据
-	 * 
-	 * @return
-	 */
-	public TableAngleArrayFloorData getAngleArrayFloorData() {
-		return angleArrayFloorDao.get(userId);
 	}
 
 	/**
@@ -132,7 +117,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param angleArrayData
 	 */
 	private void checkAndResetMatchData(Player player, TableAngleArrayData angleArrayData) {
-		if (!DateUtils.isResetTime(RESET_TIME, 0, 0, angleArrayData.getResetTime())) {// 不需要重置
+		if (!DateUtils.isResetTime(AngelArrayConst.RESET_TIME, 0, 0, angleArrayData.getResetTime())) {// 不需要重置
 			return;
 		}
 
@@ -158,7 +143,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			List<Hero> allHeros = player.getHeroMgr().getAllHeros(comparator);
 
 			// 要看一下总共要获取多少个佣兵的战力
-			int maxSize = MAX_HERO_FIGHTING_SIZE + 1;// 包括主要角色在内的佣兵数据
+			int maxSize = AngelArrayConst.MAX_HERO_FIGHTING_SIZE + 1;// 包括主要角色在内的佣兵数据
 			maxSize = maxSize > allHeros.size() ? allHeros.size() : maxSize;
 
 			// 获取到佣兵要用于匹配的总战力
@@ -169,37 +154,6 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 
 		angleArrayData.setResetFighting(totalFighting);
 	}
-
-	// /**
-	// * 重置个人的万仙阵数据
-	// *
-	// * @param isInit 是否是初始化
-	// */
-	// public void resetAngleArrayData(boolean isInit) {
-	// TableAngleArrayData angleData = getAngleArrayData();
-	// if (angleData == null) {
-	// return;
-	// }
-	//
-	// TableAngleArrayFloorData floorData = getAngleArrayFloorData();
-	// if (floorData == null) {
-	// return;
-	// }
-	// // ////// 重置个人数据
-	// if (!isInit) {
-	// angleData.setResetTimes(angleData.getResetTimes() + 1);// 设置已经使用的重置次数
-	// }
-	//
-	// angleData.resetHeroChange();// 重置角色血量记录
-	// angleData.setCurFloor(0);
-	// angleData.setCurFloorState(FloorState.UN_PASS.ordinal());// 设置为未攻打状态
-	// angleArrayDao.addOrUpdateAngleArrayData(angleData);
-	//
-	// // ////// 重置前三关的关卡数据
-	// // 清空万仙阵缓存的关卡数据
-	// floorData.clearAllEnemyInfo();
-	// updateOpenFloorInfo(floorData, angleData.getUserId(), angleData.getResetLevel(), angleData.getResetFighting(), angleData.getCurFloor());
-	// }
 
 	/**
 	 * 重置数据
@@ -241,18 +195,18 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param needClearEnemy
 	 */
 	public void updateAngleArrayFloorData(String userId, int level, int fighting, int floor, boolean needClearEnemy) {
-		TableAngleArrayFloorData floorData = getAngleArrayFloorData();
-		if (floorData == null) {
-			return;
-		}
-
 		if (needClearEnemy) {
-			floorData.clearAllEnemyInfo();
+			angelArrayFloorDataHolder.resetAllAngelArrayFloorData();
+			angelArrayEnemyInfoDataHolder.resetAllAngelArrayEnemyInfoData();
 		}
 
-		List<String> allEnemyIdList = floorData.getAllEnemyIdList();
+		List<String> allEnemyIdList = angelArrayFloorDataHolder.getEnemyUserIdList();
 		AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
-		int size = floor + towerUpdateNum;
+		int size = floor + AngelArrayConst.TOWER_UPDATE_NUM;
+
+		AngelArrayTeamInfoDataHolder holder = AngelArrayTeamInfoDataHolder.getHolder();
+		List<String> hasUserIdList = holder.getAllUserIdList();
+
 		for (; floor < size; floor++) {
 			AngleArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor);
 			if (matchCfg == null) {
@@ -262,47 +216,37 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			int minFighting = (int) (fighting * matchCfg.getMinFightingRatio());
 			int maxFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
 
-			ArmyInfo armyInfo = AngleArrayMatchHelper.getMatchArmyInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList);
-			if (armyInfo == null) {
-				armyInfo = AngleArrayMatchHelper.getRobotArmyInfo(matchCfg.getRobotId());
+			AngelArrayTeamInfoData angelArrayTeamInfo = holder.getAngelArrayTeamInfo(minFighting, maxFighting, allEnemyIdList);
+			boolean isNewRobot = false;
+			if (angelArrayTeamInfo == null || allEnemyIdList.contains(angelArrayTeamInfo.getId())) {
+				angelArrayTeamInfo = AngleArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList,
+						matchCfg.getRobotId());
+				holder.addAngelArrayTeamInfo(angelArrayTeamInfo);
+				isNewRobot = true;
 			}
 
-			if (armyInfo != null) {
-				floorData.putNewEnemyInfo(floor, armyInfo);
+			TeamInfo teamInfo = angelArrayTeamInfo.getTeamInfo();
+			if (teamInfo != null) {
+				AngelArrayFloorData floorData = new AngelArrayFloorData();
+				floorData.setUserId(userId);
+				floorData.setFloor(floor);
+				floorData.setId(AngelArrayUtils.getAngelArrayFloorDataId(userId, floor));
+				floorData.setTeamInfo(teamInfo);
+
+				angelArrayFloorDataHolder.addAngelArrayFloorData(floorData);
+
+				String uuid = teamInfo.getUuid();
+				if (!allEnemyIdList.contains(uuid)) {
+					allEnemyIdList.add(uuid);
+				}
+
+				GameLog.info("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，己方等级[%s]，己方匹配战力区间战力是[%s,%s]，匹配到的玩家Id是[%s]，匹配阵容战力是[%s]，名字[%s]，来源于[%s]", floor, level, minFighting, maxFighting, uuid,
+						teamInfo.getTeamFighting(), teamInfo.getName(), isNewRobot ? "新生成万仙阵机器人" : "匹配阵容池"), null);
+			} else {
+				GameLog.error("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，匹配不到玩家阵容", floor));
 			}
 		}
-		saveAngleArrayFloorData();
 	}
-
-	// /**
-	// * 刷新开启层的信息
-	// *
-	// * @param floorData
-	// * @param level
-	// * @param fighting
-	// * @param floor 开始层的索引
-	// */
-	// public void updateOpenFloorInfo(TableAngleArrayFloorData floorData, String userId, int level, int fighting, int floor) {
-	// AngleArrayMatchCfgCsvDao cfgDAO = AngleArrayMatchCfgCsvDao.getCfgDAO();
-	// int size = floor + towerUpdateNum;
-	// for (; floor < size; floor++) {
-	// AngleArrayMatchCfg matchCfg = cfgDAO.getMatchCfg(level, floor + 1);
-	// if (matchCfg == null) {
-	// continue;
-	// }
-	//
-	// int minFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
-	// int maxFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
-	//
-	// ArmyInfo armyInfo = AngleArrayMatchHelper.getMatchArmyInfo(userId, level, minFighting, maxFighting);
-	// if (armyInfo == null) {
-	// armyInfo = AngleArrayMatchHelper.getRobotArmyInfo(matchCfg.getRobotId());
-	// }
-	//
-	// floorData.putNewEnemyInfo(floor, armyInfo);
-	// }
-	// angleArrayFloorDao.update(floorData);
-	// }
 
 	public void addTowerNum(int num) {
 	}
@@ -341,87 +285,42 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			return;
 		}
 
-		TableAngleArrayFloorData floorData = getAngleArrayFloorData();
-		if (floorData == null) {
-			return;
+		boolean isInsert = false;// 是否是要插入数据库
+		String userId = player.getUserId();
+		String angelArrayFloorDataId = AngelArrayUtils.getAngelArrayFloorDataId(userId, floor);
+		AngelArrayEnemyInfoData angelArrayEnemyInfoData = angelArrayEnemyInfoDataHolder.getAngelArrayEnemyInfoData(angelArrayFloorDataId);
+		if (angelArrayEnemyInfoData == null) {
+			angelArrayEnemyInfoData = new AngelArrayEnemyInfoData();
+			angelArrayEnemyInfoData.setUserId(userId);
+			angelArrayEnemyInfoData.setId(angelArrayFloorDataId);
+			angelArrayEnemyInfoData.setFloor(floor);
+			isInsert = true;
 		}
 
-		ArmyInfo enemyinfo = floorData.getEnemyInfo(floor);// 获取当前层敌人数据
-		if (enemyinfo == null) {
-			return;
-		}
-
-		CurAttrData curAttrData = enemyinfo.getPlayer().getCurAttrData();
-		TowerHeroChange heroChange = heroChangeList.get(0);
-		if (curAttrData == null) {
-			curAttrData = new CurAttrData();
-			enemyinfo.getPlayer().setCurAttrData(curAttrData);
-		}
-
-		curAttrData.setId(enemyinfo.getPlayer().getRoleBaseInfo().getId());
-		curAttrData.setCurLife(heroChange.getReduceLife());
-		curAttrData.setCurEnergy(heroChange.getReduceEnegy());
-		heroChangeList.remove(0);
-
-		// 敌人佣兵的信息修改
-		for (int i = 0, size = heroChangeList.size(); i < size; i++) {// 0 主角 1~n佣兵
-			heroChange = heroChangeList.get(i);
-			ArmyHero hero = getHeroTableById(enemyinfo, heroChange.getRoleId());
-			if (hero == null) {
-				GameLog.error("万仙阵", player.getUserId(), "没有找到改变的敌人数据 id=" + heroChange.getRoleId());
+		for (int i = 0, size = heroChangeList.size(); i < size; i++) {
+			TowerHeroChange towerHeroChange = heroChangeList.get(i);
+			if (towerHeroChange == null) {
 				continue;
 			}
 
-			CurAttrData heroAttrData = hero.getCurAttrData();
+			String heroId = towerHeroChange.getRoleId();
+			CurAttrData heroAttrData = angelArrayEnemyInfoData.getHeroAttrData(heroId);
 			if (heroAttrData == null) {
 				heroAttrData = new CurAttrData();
-				hero.setCurAttrData(heroAttrData);
 			}
 
-			heroAttrData.setId(hero.getRoleBaseInfo().getId());
-			heroAttrData.setCurLife((int) heroChange.getReduceLife());
-			heroAttrData.setCurEnergy((int) heroChange.getReduceEnegy());
+			heroAttrData.setId(heroId);
+			heroAttrData.setCurLife(towerHeroChange.getReduceLife());
+			heroAttrData.setCurEnergy(towerHeroChange.getReduceEnegy());
+			angelArrayEnemyInfoData.updateHeroAttrData(heroId, heroAttrData);
 		}
 
-		saveAngleArrayFloorData();
-	}
-
-	/**
-	 * 获取佣兵的信息
-	 * 
-	 * @param towerEnemyInfo
-	 * @param heroId
-	 * @return
-	 */
-	private ArmyHero getHeroTableById(ArmyInfo towerEnemyInfo, String heroId) {
-		List<ArmyHero> heroList = towerEnemyInfo.getHeroList();
-		for (ArmyHero data : heroList) {
-			String heroModerId = String.valueOf(data.getRoleBaseInfo().getModeId());
-			if (heroModerId.equals(heroId)) {
-				return data;
-			}
+		if (isInsert) {
+			angelArrayEnemyInfoDataHolder.addAngelArrayEnemyInfoData(angelArrayEnemyInfoData);
+		} else {
+			angelArrayEnemyInfoDataHolder.flush();
 		}
-		return null;
 	}
-
-	// /**
-	// * 获取所有的敌人信息
-	// *
-	// * @return
-	// */
-	// public Enumeration<ArmyInfo> getEnemyEnumeration() {
-	// return getAngleArrayFloorData().getEnemyEnumeration();
-	// }
-	//
-	// /**
-	// * 获取敌人信息
-	// *
-	// * @param floor
-	// * @return
-	// */
-	// public ArmyInfo getEnemy(int floor) {
-	// return getAngleArrayFloorData().getEnemyInfo(floor);
-	// }
 
 	/**
 	 * 5点重置数据
@@ -523,17 +422,98 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		}
 	}
 
+	/**
+	 * 获取只读的层Id列表
+	 * 
+	 * @return
+	 */
+	public List<String> getEnemyInfoIdList() {
+		return angelArrayFloorDataHolder.getReadOnlyKeyList();
+	}
+
+	/**
+	 * 通过敌人信息的Id获取到floor
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public int getKey4FloorId(String id) {
+		AngelArrayFloorData angelArrayFloorData = angelArrayFloorDataHolder.getAngelArrayFloorData(id);
+		if (angelArrayFloorData == null) {
+			return -1;
+		}
+
+		return angelArrayFloorData.getFloor();
+	}
+
+	/**
+	 * 获取某层的敌人信息
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public ArmyInfo getEnemyArmyInfo(String id) {
+		AngelArrayFloorData angelArrayFloorData = angelArrayFloorDataHolder.getAngelArrayFloorData(id);
+		if (angelArrayFloorData == null) {
+			return new ArmyInfo();
+		}
+
+		TeamInfo teamInfo = angelArrayFloorData.getTeamInfo();
+		if (teamInfo == null) {
+			return new ArmyInfo();
+		}
+
+		ArmyInfo armyInfo = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(teamInfo);
+
+		Map<String, CurAttrData> attrMap = null;
+		AngelArrayEnemyInfoData angelArrayEnemyInfoData = angelArrayEnemyInfoDataHolder.getAngelArrayEnemyInfoData(id);
+		if (angelArrayEnemyInfoData != null) {
+			attrMap = angelArrayEnemyInfoData.getEnemyChangeMap();
+		}
+
+		// 按照客户端的旧规则，主角存的是RoleBaseInfo的Id字段
+		ArmyHero player = armyInfo.getPlayer();
+		String mainRoleId = player.getRoleBaseInfo().getId();
+
+		// 按照客户端的旧规则，其他佣兵存的都是modelId
+		List<ArmyHero> heroList = armyInfo.getHeroList();
+		player.setCurAttrData(fillArmyHeroCurAttrData(mainRoleId, player.getAttrData(), attrMap));
+		for (int i = 0, size = heroList.size(); i < size; i++) {
+			ArmyHero armyHero = heroList.get(i);
+			String heroId = String.valueOf(armyHero.getRoleBaseInfo().getModeId());
+			armyHero.setCurAttrData(fillArmyHeroCurAttrData(heroId, armyHero.getAttrData(), attrMap));
+		}
+
+		return armyInfo;
+	}
+
+	/**
+	 * 填充当前的剩余血量和能量
+	 * 
+	 * @param heroId
+	 * @param attrData
+	 * @param map
+	 * @return
+	 */
+	private CurAttrData fillArmyHeroCurAttrData(String heroId, AttrData attrData, Map<String, CurAttrData> map) {
+		CurAttrData curAttrData = map == null ? null : map.get(heroId);
+
+		if (curAttrData == null) {
+			curAttrData = new CurAttrData();
+			curAttrData.setId(heroId);
+			curAttrData.setCurLife(attrData.getLife());
+			curAttrData.setCurEnergy(attrData.getEnergy());
+		}
+
+		return curAttrData;
+	}
+
 	@Override
 	public void notifyPlayerCreated(Player player) {
 		// 创建万仙阵数据
 		String userId = player.getUserId();
-		System.err.println("万仙阵----" + userId);
 		TableAngleArrayData angleData = new TableAngleArrayData(userId);
 		angleArrayDao.addOrUpdateAngleArrayData(angleData);
-
-		// 创建万仙阵的层数据
-		TableAngleArrayFloorData floorData = new TableAngleArrayFloorData(userId);
-		angleArrayFloorDao.update(floorData);
 	}
 
 	@Override
@@ -545,13 +525,6 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			angleData = new TableAngleArrayData(userId);
 			angleArrayDao.addOrUpdateAngleArrayData(angleData);
 		}
-
-		// 检测万仙阵层数据
-		TableAngleArrayFloorData floorData = angleArrayFloorDao.get(userId);
-		if (floorData == null) {
-			floorData = new TableAngleArrayFloorData(userId);
-			angleArrayFloorDao.update(floorData);
-		}
 	}
 
 	/**
@@ -560,69 +533,4 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	public void saveAngleArrayData() {
 		angleArrayDao.update(userId);
 	}
-
-	/**
-	 * 更新万仙阵层信息
-	 */
-	public void saveAngleArrayFloorData() {
-		angleArrayFloorDao.update(userId);
-	}
-	// static class Test {
-	// private int id;
-	// private String name;
-	//
-	// public Test(int id, String name) {
-	// this.id = id;
-	// this.name = name;
-	// }
-	// }
-	//
-	// static class Cache {
-	// Map<Integer, Test> testCache;
-	//
-	// public Cache() {
-	// testCache = new HashMap<Integer, Test>();
-	// for (int i = 0; i < 10; i++) {
-	// testCache.put(i, new Test(i, "HC" + i));
-	// }
-	// }
-	//
-	// public Test get(int id) {
-	// return testCache.get(id);
-	// }
-	// }
-	//
-	// static class TestMgr {
-	// final int id;
-	//
-	// public TestMgr(int id) {
-	// this.id = id;
-	// }
-	//
-	// public Test getTest() {
-	// return TowerMgr.CahceFactory.getCache().get(id);
-	// }
-	//
-	// public void tUpdate() {
-	// Test test = getTest();
-	// test.name = "zzzzzz";
-	// }
-	// }
-	//
-	// static class CahceFactory {
-	// static Cache cache = new Cache();
-	//
-	// public static Cache getCache() {
-	// return cache;
-	// }
-	// }
-	//
-	// public static void main(String[] args) {
-	// TestMgr TM = new TestMgr(1);
-	// Test test = TM.getTest();
-	// System.err.println(test.name);
-	// TM.tUpdate();
-	// System.err.println(test.name);
-	// System.err.println(TM.getTest().name);
-	// }
 }

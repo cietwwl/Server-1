@@ -74,11 +74,13 @@ enum Command {
 	MSG_GROUP_SKILL = 172;//帮派技能
 	MSG_GIFT_CODE = 173;//兑换码
 	MSG_CHARGE = 174;//充值
-
+	MSG_ACTIVITY_COUNTTYPE = 175;//通用活动
+	MSG_PRIVILEGE = 176;//特权数据推送
 
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议
 	MSG_PLATFORMGS = 998;//登陆服游戏服通讯协议
 	MSG_GAMEPRESS = 999;//压测协议
 	
+
 }

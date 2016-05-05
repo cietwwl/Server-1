@@ -21,6 +21,7 @@ import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -103,6 +104,8 @@ public class CopyHandler {
 		
 		if(!isWin){
 			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
+			
+			
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 
@@ -174,6 +177,12 @@ public class CopyHandler {
 		state.setLastCopyResponse(copyResponse);
 		
 		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL){
+			UserEventMgr.getInstance().CopyWin(player, 1);
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE){
+			UserEventMgr.getInstance().ElityCopyWin(player, 1);
+		}
+		
 		return copyResponse.build().toByteString();
 	}
 
@@ -321,6 +330,11 @@ public class CopyHandler {
 			copyResponse.addTagCopyLevelRecord(levelRecord4Client);
 		}
 		BILogMgr.getInstance().logSweep(player, copyCfg.getLevelID(), copyCfg.getLevelType());
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL){//游戏0普通1精英，银汉日志处理为1普通2精英
+			UserEventMgr.getInstance().CopyWin(player, times);
+		}else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE){
+			UserEventMgr.getInstance().ElityCopyWin(player, times);
+		}
 		return copyResponse.setEResultType(EResultType.SWEEP_SUCCESS).build().toByteString();
 	}
 

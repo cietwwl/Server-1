@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.Player;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.charge.ChargeMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
 import com.rwproto.DataSynProtos.eSynType;
@@ -196,7 +199,36 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.FRESHER_ATIVITY_DATA);
+		
+		versionMap.put(eSynType.ActivityCountType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityCountTypeMgr.getInstance().synCountTypeData(player);	
+//				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityCountType);
+		
+		versionMap.put(eSynType.Charge, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				ChargeMgr.getInstance().syn(player, version);
+			}
+		}));
+		orderList.add(eSynType.Charge);
+		
+		versionMap.put(eSynType.ActivityTimeCardType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityCountType);
 
 		notInVersionControlList.add(notInVersionControlP);
+		
+		
+		
+		
 	}
 }

@@ -16,7 +16,7 @@ public class TableAccountDAO extends PFDataRdbDao<TableAccount> {
 	}
 
 	public TableAccount getAccountByAccountId(String accountId){
-		TableAccount account = this.findOneByKey("accountId", accountId);
+		TableAccount account = this.getObject(accountId);
 		return account;
 	}
 	
@@ -27,15 +27,5 @@ public class TableAccountDAO extends PFDataRdbDao<TableAccount> {
 	
 	public boolean saveOrUpdate(TableAccount target) {
 		return super.saveOrUpdate(target);
-	}
-	
-	public TableAccount getByAccountId(String accountId){
-		this.account = getAccountByAccountId(accountId);
-		return this.account;
-	}
-	
-	public TableAccount getByOpenAccount(String openAccountId){
-		this.account = getAccountByOpenAccount(openAccountId);
-		return this.account;
 	}
 }

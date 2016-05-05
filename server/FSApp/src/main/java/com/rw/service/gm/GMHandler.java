@@ -15,13 +15,20 @@ import com.bm.guild.GuildGTSMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
+import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.activity.countType.service.ActivityCountTypeHandler;
+import com.playerdata.charge.ChargeMgr;
+import com.playerdata.charge.service.ChargeHandler;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.gamble.datamodel.GambleDropCfg;
+import com.rw.service.gamble.datamodel.GamblePlanCfg;
+import com.rw.service.gamble.datamodel.HotGambleCfg;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -33,6 +40,10 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
+import com.rwbase.dao.fashion.FashionBuyRenewCfg;
+import com.rwbase.dao.fashion.FashionCommonCfg;
+import com.rwbase.dao.fashion.FashionEffectCfg;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -109,6 +120,17 @@ public class GMHandler {
 		
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
+		
+		//获取vip道具，调试用
+		funcCallBackMap.put("getgift", "getgift");
+		
+		// 时装
+		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
+		funcCallBackMap.put("setfashion", "setFashion");
+		funcCallBackMap.put("reloadfashionconfig", "reloadFashionConfig");
+		
+		//钓鱼台配置更新并重新生成热点数据
+		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
 	}
 
 	public boolean isActive() {
@@ -119,18 +141,64 @@ public class GMHandler {
 		this.active = active;
 	}
 
-	/** GM命令 */
-
-	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
-		String clname = GiveItemCfgDAO.class.getName();
+	private boolean reloadOneConfigClass(String clname) {
 		try {
 			CfgCsvReloader.reloadByClassName(clname);
-			GameLog.info("GM", "ReloadNewGuideCfg", "reloadByClassName:"+clname+" success",null);
+			GameLog.info("GM", "reload config", "reloadByClassName:"+clname+" success",null);
 			return true;
 		} catch (Exception e) {
-			GameLog.error("GM", "reloadByClassName:(GiveItemCfgDAO):"+clname,"reload failed" ,e);
+			GameLog.error("GM", "reload config","reloadByClassName:"+clname+" failed" ,e);
 			return false;
 		}
+	}
+	
+	/** GM命令 */
+	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
+		boolean result = true;
+		result = result && reloadOneConfigClass(FashionBuyRenewCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionQuantityEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionCommonCfg.class.getName());
+		return result;
+	}
+
+	public boolean setFashionExpiredTime(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "调用设置过期时间命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			GameLog.info("时装", player.getUserId(), "调用设置过期时间命令,参数不足", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetExpiredTime(fashionId, minutes);
+	}
+	
+	public boolean setFashion(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetFashion(fashionId);
+	}
+	
+	//钓鱼台配置更新并重新生成热点数据
+	public boolean reloadGambleConfig(String[] arrCommandContents, Player player) {
+		boolean result = true;
+		result = result && reloadOneConfigClass(HotGambleCfg.class.getName());
+		result = result && reloadOneConfigClass(GamblePlanCfg.class.getName());
+		result = result && reloadOneConfigClass(GambleDropCfg.class.getName());
+		if (result){
+			player.getGambleMgr().resetHotHeroList();
+		}
+		return result;
+	}
+
+	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
+		return reloadOneConfigClass(GiveItemCfgDAO.class.getName());
 	}
 	
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
@@ -250,6 +318,20 @@ public class GMHandler {
 		}
 		return false;
 	}
+	
+	public boolean getgift(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int getGiftId = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			ChargeMgr.getInstance().buyMonthCard(player, null);
+			return true;
+		}
+		return false;
+	}
+	
 
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -311,9 +393,9 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
+		String itemId = arrCommandContents[0];
 		if (player != null) {
-			player.AddRecharge(addNum);
+			ChargeMgr.getInstance().charge(player, itemId);
 			return true;
 		}
 		return false;
@@ -386,7 +468,7 @@ public class GMHandler {
 	}
 	
 	public boolean resetWjzh(String[] arrCommandContents, Player player){
-		player.unendingWarMgr.getTable().setLastChallengeTime(System.currentTimeMillis());
+		player.unendingWarMgr.getTable().setLastChallengeTime(0);
 		player.unendingWarMgr.save();
 		return true;
 	}

@@ -10,7 +10,6 @@ import com.bm.secretArea.SecretAreaInfoGMgr;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.GambleMgr;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.dao.cache.SimpleThreadFactory;
@@ -19,7 +18,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rwbase.dao.Army.UserArmyDataDAO;
-import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
+import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.gulid.faction.GuildDAO;
 
@@ -35,15 +34,25 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn5Am;
 	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
+	private static TimeSpanOpHelper timeSecondOp;// 秒时效
 
-	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1,new SimpleThreadFactory("time_manager"));
+	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("time_manager"));
 	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1);
 
 	public static void init() {
-		final long MINUTE = 60 * 1000;
+		final long SECOND = 1000;// 秒
+		final long MINUTE = 60 * SECOND;
 		final long MINUTE_5 = 5 * MINUTE;
 		final long MINUTE_10 = 10 * MINUTE;
 		final long HOUR = 60 * MINUTE;
+
+		timeSecondOp = new TimeSpanOpHelper(new ITimeOp() {
+
+			@Override
+			public void doTask() {
+				PlayerMgr.getInstance().secondFunc4AllPlayer();
+			}
+		}, SECOND);
 
 		timeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
@@ -51,12 +60,13 @@ public class TimerManager {
 				minutesFun();
 			}
 		}, MINUTE);
+
 		time5MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
 			public void doTask() {
-				//PlayerMgr.getInstance().saveAllPlayer();
+				// PlayerMgr.getInstance().saveAllPlayer();
 				GuildDAO.getInstance().flush();
-				//SecretAreaInfoDAO.getInstance().flush();
+				// SecretAreaInfoDAO.getInstance().flush();
 				UserArmyDataDAO.getInstance().flush();
 
 			}
@@ -84,8 +94,7 @@ public class TimerManager {
 			public void doTask() {
 				RankingMgr.getInstance().resetUpdateState();
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
-				// 初始化万仙阵匹配的数据缓存
-				AngleArrayMatchHelper.resetMatchData();
+				AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
 			}
 		}, 5);
 
@@ -96,7 +105,19 @@ public class TimerManager {
 				RankingMgr.getInstance().arenaCalculate();
 			}
 		}, 21);
-		
+
+		timeService.scheduleAtFixedRate(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					timeSecondOp.tryRun();
+				} catch (Throwable e) {
+					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
+				}
+			}
+		}, 0, 1, TimeUnit.SECONDS);
+
 		timeService.scheduleAtFixedRate(new Runnable() {
 
 			@Override
@@ -123,11 +144,11 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				Map<String, eBILogRegSubChannelToClientPlatForm> subChannelCount = UserChannelMgr.getSubChannelCount();
-				if(subChannelCount.keySet().size() == 0){
-//					BILogMgr.getInstance().logOnlineCount(null,null);没人不打印
-				}else{
+				if (subChannelCount.keySet().size() == 0) {
+					// BILogMgr.getInstance().logOnlineCount(null,null);没人不打印
+				} else {
 					for (String regSubChannelIdandclientPlayForm : subChannelCount.keySet()) {
-						BILogMgr.getInstance().logOnlineCount(subChannelCount.get(regSubChannelIdandclientPlayForm),regSubChannelIdandclientPlayForm);
+						BILogMgr.getInstance().logOnlineCount(subChannelCount.get(regSubChannelIdandclientPlayForm), regSubChannelIdandclientPlayForm);
 					}
 				}
 
@@ -165,7 +186,7 @@ public class TimerManager {
 		/**** 排行 ***/
 		// RankingMgr.getInstance().onTimeMinute();
 
-		GambleMgr.minutesUpdate();
+		//GambleMgr.minutesUpdate();
 		/** 秘境 ***/
 		SecretAreaInfoGMgr.getInstance().flush();
 		/*** 检查帮派 ***/

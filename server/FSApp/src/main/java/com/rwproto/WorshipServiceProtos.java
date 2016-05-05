@@ -3038,6 +3038,32 @@ public final class WorshipServiceProtos {
      */
     com.google.protobuf.ByteString
         getSwingIDBytes();
+
+    // optional .FashionService.FashionUsed fashionUsage = 14;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    boolean hasFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
   }
   /**
    * Protobuf type {@code WorshipInfo}
@@ -3161,6 +3187,19 @@ public final class WorshipServiceProtos {
             case 106: {
               bitField0_ |= 0x00001000;
               swingID_ = input.readBytes();
+              break;
+            }
+            case 114: {
+              com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
+              if (((bitField0_ & 0x00002000) == 0x00002000)) {
+                subBuilder = fashionUsage_.toBuilder();
+              }
+              fashionUsage_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fashionUsage_);
+                fashionUsage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00002000;
               break;
             }
           }
@@ -3680,6 +3719,40 @@ public final class WorshipServiceProtos {
       }
     }
 
+    // optional .FashionService.FashionUsed fashionUsage = 14;
+    public static final int FASHIONUSAGE_FIELD_NUMBER = 14;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public boolean hasFashionUsage() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+      return fashionUsage_;
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+      return fashionUsage_;
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -3694,6 +3767,7 @@ public final class WorshipServiceProtos {
       time_ = "";
       modelId_ = 0;
       swingID_ = "";
+      fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3784,6 +3858,9 @@ public final class WorshipServiceProtos {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeBytes(13, getSwingIDBytes());
       }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeMessage(14, fashionUsage_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3844,6 +3921,10 @@ public final class WorshipServiceProtos {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(13, getSwingIDBytes());
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, fashionUsage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3954,6 +4035,7 @@ public final class WorshipServiceProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getRandomRwardFieldBuilder();
+          getFashionUsageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3992,6 +4074,12 @@ public final class WorshipServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000800);
         swingID_ = "";
         bitField0_ = (bitField0_ & ~0x00001000);
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
@@ -4076,6 +4164,14 @@ public final class WorshipServiceProtos {
           to_bitField0_ |= 0x00001000;
         }
         result.swingID_ = swingID_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        if (fashionUsageBuilder_ == null) {
+          result.fashionUsage_ = fashionUsage_;
+        } else {
+          result.fashionUsage_ = fashionUsageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4140,6 +4236,9 @@ public final class WorshipServiceProtos {
           bitField0_ |= 0x00001000;
           swingID_ = other.swingID_;
           onChanged();
+        }
+        if (other.hasFashionUsage()) {
+          mergeFashionUsage(other.getFashionUsage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5192,6 +5291,159 @@ public final class WorshipServiceProtos {
         return this;
       }
 
+      // optional .FashionService.FashionUsed fashionUsage = 14;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsageBuilder_;
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public boolean hasFashionUsage() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          return fashionUsage_;
+        } else {
+          return fashionUsageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fashionUsage_ = value;
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00002000;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(
+          com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = builderForValue.build();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00002000;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder mergeFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (((bitField0_ & 0x00002000) == 0x00002000) &&
+              fashionUsage_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsage_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsage_).mergeFrom(value).buildPartial();
+          } else {
+            fashionUsage_ = value;
+          }
+          onChanged();
+        } else {
+          fashionUsageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00002000;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder clearFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00002000);
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsageBuilder() {
+        bitField0_ |= 0x00002000;
+        onChanged();
+        return getFashionUsageFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+        if (fashionUsageBuilder_ != null) {
+          return fashionUsageBuilder_.getMessageOrBuilder();
+        } else {
+          return fashionUsage_;
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 14;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
+          getFashionUsageFieldBuilder() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
+                  fashionUsage_,
+                  getParentForChildren(),
+                  isClean());
+          fashionUsage_ = null;
+        }
+        return fashionUsageBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:WorshipInfo)
     }
 
@@ -5880,28 +6132,29 @@ public final class WorshipServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024WorshipService.proto\"R\n\016WorshipRequest" +
-      "\022)\n\013requestType\030\001 \002(\0162\024.EWorshipRequestT" +
-      "ype\022\025\n\rworshipCareer\030\002 \002(\005\"\357\001\n\017WorshipRe" +
-      "sponse\022)\n\013requestType\030\001 \002(\0162\024.EWorshipRe" +
-      "questType\022\'\n\nresultType\030\002 \002(\0162\023.EWorship" +
-      "ResultType\022!\n\013worshipList\030\003 \003(\0132\014.Worshi" +
-      "pInfo\022&\n\020byWorshippedList\030\004 \003(\0132\014.Worshi" +
-      "pInfo\022\022\n\nrewardList\030\005 \001(\t\022\022\n\ncanWorship\030" +
-      "\006 \001(\010\022\025\n\rworshipCareer\030\007 \001(\005\"\203\002\n\013Worship" +
-      "Info\022\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r",
-      "\n\005level\030\003 \002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career" +
-      "\030\005 \002(\005\022\013\n\003sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005" +
-      "\022\023\n\013fightingAll\030\010 \002(\005\022\022\n\ncanReceive\030\t \001(" +
-      "\010\022\'\n\013randomRward\030\n \001(\0132\022.WorshipRewardDa" +
-      "ta\022\014\n\004time\030\013 \001(\t\022\017\n\007modelId\030\014 \001(\005\022\017\n\007swi" +
-      "ngID\030\r \001(\t\"2\n\021WorshipRewardData\022\016\n\006itemI" +
-      "d\030\001 \002(\t\022\r\n\005count\030\002 \002(\005*d\n\023EWorshipReques" +
-      "tType\022\013\n\007WORSHIP\020\001\022\026\n\022BY_WORSHIPPED_LIST" +
-      "\020\002\022\021\n\rWORSHIP_STATE\020\003\022\025\n\021PUSH_WORSHIP_LI" +
-      "ST\020\004*+\n\022EWorshipResultType\022\013\n\007SUCCESS\020\000\022",
-      "\010\n\004FAIL\020\001B#\n\013com.rwprotoB\024WorshipService" +
-      "Protos"
+      "\n\024WorshipService.proto\032\024FashionService.p" +
+      "roto\"R\n\016WorshipRequest\022)\n\013requestType\030\001 " +
+      "\002(\0162\024.EWorshipRequestType\022\025\n\rworshipCare" +
+      "er\030\002 \002(\005\"\357\001\n\017WorshipResponse\022)\n\013requestT" +
+      "ype\030\001 \002(\0162\024.EWorshipRequestType\022\'\n\nresul" +
+      "tType\030\002 \002(\0162\023.EWorshipResultType\022!\n\013wors" +
+      "hipList\030\003 \003(\0132\014.WorshipInfo\022&\n\020byWorship" +
+      "pedList\030\004 \003(\0132\014.WorshipInfo\022\022\n\nrewardLis" +
+      "t\030\005 \001(\t\022\022\n\ncanWorship\030\006 \001(\010\022\025\n\rworshipCa" +
+      "reer\030\007 \001(\005\"\266\002\n\013WorshipInfo\022\016\n\006userId\030\001 \002",
+      "(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017\n\007i" +
+      "mageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006 \002(" +
+      "\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll\030\010 " +
+      "\002(\005\022\022\n\ncanReceive\030\t \001(\010\022\'\n\013randomRward\030\n" +
+      " \001(\0132\022.WorshipRewardData\022\014\n\004time\030\013 \001(\t\022\017" +
+      "\n\007modelId\030\014 \001(\005\022\017\n\007swingID\030\r \001(\t\0221\n\014fash" +
+      "ionUsage\030\016 \001(\0132\033.FashionService.FashionU" +
+      "sed\"2\n\021WorshipRewardData\022\016\n\006itemId\030\001 \002(\t" +
+      "\022\r\n\005count\030\002 \002(\005*d\n\023EWorshipRequestType\022\013" +
+      "\n\007WORSHIP\020\001\022\026\n\022BY_WORSHIPPED_LIST\020\002\022\021\n\rW",
+      "ORSHIP_STATE\020\003\022\025\n\021PUSH_WORSHIP_LIST\020\004*+\n" +
+      "\022EWorshipResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL" +
+      "\020\001B#\n\013com.rwprotoB\024WorshipServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5925,7 +6178,7 @@ public final class WorshipServiceProtos {
           internal_static_WorshipInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorshipInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "Level", "ImageId", "Career", "Sex", "CareerLevel", "FightingAll", "CanReceive", "RandomRward", "Time", "ModelId", "SwingID", });
+              new java.lang.String[] { "UserId", "UserName", "Level", "ImageId", "Career", "Sex", "CareerLevel", "FightingAll", "CanReceive", "RandomRward", "Time", "ModelId", "SwingID", "FashionUsage", });
           internal_static_WorshipRewardData_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_WorshipRewardData_fieldAccessorTable = new
@@ -5938,6 +6191,7 @@ public final class WorshipServiceProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.FashionServiceProtos.getDescriptor(),
         }, assigner);
   }
 

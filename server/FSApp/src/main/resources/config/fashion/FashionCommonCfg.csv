@@ -1,0 +1,7 @@
+id,Remarks,fashionType,name,desc,voice,actionName,specialEffect,rank
+10001,,Wing,时空之影,据说是可以穿梭时空的翅膀,,standby,,3
+10002,,Suit,星辰魔法,改良水手服样式的套装，青春气息十足,Sound_100005_01.mp3,standby,,3
+10003,,Suit,水晶之心,华丽的贵族礼服，高贵优雅,Sound_101005_01.mp3,standby,,3
+10004,,Pet,萌萌大宝,背着卷轴的熊猫大宝，小心会咬人,,mainidle,,3
+10005,,Suit,血色舞会,传说中穿上可化身恶魔的礼服。,Sound_100005_01.mp3,standby,,3
+10006,,Suit,盛夏海浪,炎炎夏日，去海边拥抱浪花吧！,,standby,,3
