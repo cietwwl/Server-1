@@ -1,11 +1,8 @@
 package com.rw.service.Privilege.datamodel;
 
-import java.util.Collection;
-
 import java.util.Map;
 
 import com.rw.fsutil.util.SpringContextUtil;
-import com.rwbase.common.config.CfgCsvHelper;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 
 //<bean class="com.rw.service.Privilege.datamodel.arenaPrivilegePropertiesHelper"  init-method="init" />
@@ -17,11 +14,6 @@ public class arenaPrivilegePropertiesHelper
 
 	@Override
 	public Map<String, arenaPrivilegeProperties> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Privilege/arenaPrivilegeProperties.csv",arenaPrivilegeProperties.class);
-		Collection<arenaPrivilegeProperties> vals = cfgCacheMap.values();
-		for (arenaPrivilegeProperties cfg : vals) {
-			cfg.ExtraInitAfterLoad();
-		}
-		return cfgCacheMap;
+		return initJson("Privilege/arenaPrivilegeProperties.csv",arenaPrivilegeProperties.class, ArenaPrivilegeNames.class);
 	}
 }

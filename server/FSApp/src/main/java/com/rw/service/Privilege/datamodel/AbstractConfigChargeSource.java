@@ -33,7 +33,7 @@ public abstract class AbstractConfigChargeSource<NameEnumCl extends Enum<NameEnu
 			if (threshold >0){
 				Integer val = intPro.extractVal(entry.getValue(), -1);
 				if (val > threshold){
-					GameLog.info("特权", "特权名:"+proName, "特权配置超过阀值,配置值："+val+",阀值:"+threshold, null);
+					GameLog.error("特权", "特权名:"+proName, "特权配置超过阀值,配置值："+val+",阀值:"+threshold, null);
 					fieldValues.put(proName, threshold);
 				}
 			}

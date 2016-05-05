@@ -18,7 +18,6 @@ import com.rwbase.common.config.CfgCsvHelper;
 import com.rwproto.PrivilegeProtos.AllPrivilege;
 import com.rwproto.PrivilegeProtos.AllPrivilege.Builder;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty;
-import com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder;
 import com.rwproto.PrivilegeProtos.PrivilegeValue;
 
 public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends Enum<PrivilegeNameEnum>, 
@@ -150,7 +149,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			chargeSources.put(privilegeNameEnum, chargeSrcs);
 		}
 		
-		PrivilegeConfigHelper.getInstance().addOrReplace(configClName, this);
+		PrivilegeConfigHelper.getInstance().update(configClName, this);
 		return cfgCacheMap;
 	}
 	

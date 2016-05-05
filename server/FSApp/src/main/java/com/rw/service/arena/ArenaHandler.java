@@ -30,9 +30,6 @@ import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
-import com.rw.service.Privilege.datamodel.BoolPropertyWriter;
-import com.rw.service.Privilege.datamodel.IntPropertyWriter;
-import com.rw.service.Privilege.datamodel.arenaPrivilegeHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
@@ -55,8 +52,6 @@ import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.skill.pojo.Skill;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ArenaServiceProtos.ArenaData;
 import com.rwproto.ArenaServiceProtos.ArenaInfo;
 import com.rwproto.ArenaServiceProtos.ArenaRecord;
@@ -70,7 +65,6 @@ import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
-import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class ArenaHandler {
@@ -446,7 +440,7 @@ public class ArenaHandler {
 						try {
 							ranking.replace(userId, arenaExt, enemyUserId);
 						} catch (ReplacerAlreadyExistException e) {
-							GameLog.error("严重错误@竞技场#replace失败：" + userId);
+							GameLog.error("竞技场", player.getUserId(), "严重错误@竞技场#replace失败：" + userId);
 							return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
 						} catch (ReplaceTargetNotExistException e) {
 							return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
@@ -458,7 +452,7 @@ public class ArenaHandler {
 					try {
 						entry = ranking.replace(userId, arenaExt, enemyUserId);
 					} catch (ReplacerAlreadyExistException e) {
-						GameLog.error("严重错误@竞技场#replace失败：" + userId);
+						GameLog.error("竞技场", player.getUserId(), "严重错误@竞技场#replace失败：" + userId);
 						return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
 					} catch (ReplaceTargetNotExistException e) {
 						// 对手也被打下来了
@@ -544,7 +538,7 @@ public class ArenaHandler {
 				PrizeInfo goldPrize = prizeList.get(eSpecialItemId.Gold);
 				if (goldPrize != null) {
 					if (builder == null) {
-						GameLog.error("竞技场排名错误：newPlace = " + newPlace + ",oldPlace = " + oldPlace + ",maxPlace = " + maxPlace);
+						GameLog.error("竞技场", player.getUserId(), "竞技场排名错误：newPlace = " + newPlace + ",oldPlace = " + oldPlace + ",maxPlace = " + maxPlace);
 						builder = HistoryRankingRise.newBuilder();
 						builder.setCurrentRanking(newPlace);
 						builder.setHistoryRanking(maxPlace);
@@ -552,7 +546,7 @@ public class ArenaHandler {
 					}
 					builder.setGoldAward(getRound(goldPrize.getCount()));
 				} else {
-					GameLog.error("竞技场历史排名上升奖励异常,userId = " + userId + "(" + maxPlace + "-" + newPlace + ")  " + prizeList);
+					GameLog.error("竞技场", player.getUserId(), "竞技场历史排名上升奖励异常,userId = " + userId + "(" + maxPlace + "-" + newPlace + ")  " + prizeList);
 				}
 				Collection<PrizeInfo> prizeCollection = prizeList.values();
 				int prizeSize = prizeCollection.size();
@@ -578,7 +572,7 @@ public class ArenaHandler {
 					emailData.setDeadlineTime(cfg.getDeadlineTime());
 					EmailUtils.sendEmail(userId, emailData);
 				} else {
-					GameLog.error("竞技场上升排名获取邮件内容失败：" + userId + "," + (maxPlace - newPlace));
+					GameLog.error("竞技场", player.getUserId(), "竞技场上升排名获取邮件内容失败：" + userId + "," + (maxPlace - newPlace));
 				}
 
 			}
@@ -607,8 +601,7 @@ public class ArenaHandler {
 
 			//by franky
 			IPrivilegeManager priMgr = player.getPrivilegeMgr();
-			Object decVal = priMgr.getArenaPri(ArenaPrivilegeNames.arenaChallengeDec);
-			Integer decCount = IntPropertyWriter.getShareInstance().extractVal(decVal,0);
+			Integer decCount = priMgr.getIntPrivilege(priMgr.getArenaPrivilege().sample(), ArenaPrivilegeNames.arenaChallengeDec);
 			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 			int cdTime = arenaInfoCfg.getCdTime() - decCount;
 			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + cdTime * 1000);
@@ -677,9 +670,8 @@ public class ArenaHandler {
 		int buyTimes = m_MyArenaData.getBuyTimes();
 		//by franky
 		IPrivilegeManager priMgr = player.getPrivilegeMgr();
-		Object arenaMaxCount = priMgr.getArenaPri(ArenaPrivilegeNames.arenaMaxCount);
-		Integer allowMaxBuyCount = IntPropertyWriter.getShareInstance().extractVal(arenaMaxCount);
-		if (allowMaxBuyCount == null || allowMaxBuyCount < buyTimes){
+		Integer allowMaxBuyCount = priMgr.getIntPrivilege(priMgr.getArenaPrivilege().sample(), ArenaPrivilegeNames.arenaMaxCount);
+		if (allowMaxBuyCount < buyTimes){
 			GameLog.info("arena", player.getUserId(),"buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount="+allowMaxBuyCount,null);
 			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
@@ -740,8 +732,7 @@ public class ArenaHandler {
 		
 		//by franky
 		IPrivilegeManager priMgr = player.getPrivilegeMgr();
-		Object isOpenVal = priMgr.getArenaPri(ArenaPrivilegeNames.isAllowResetArena);
-		Boolean isOpen = BoolPropertyWriter.getShareInstance().extractVal(isOpenVal,false);
+		Boolean isOpen = priMgr.getBoolPrivilege(priMgr.getArenaPrivilege().sample(), ArenaPrivilegeNames.isAllowResetArena);
 		if (!isOpen){
 			GameLog.info("arena", player.getUserId(),"clearCD:未开启重置竞技场CD",null);
 			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
@@ -868,7 +859,7 @@ public class ArenaHandler {
 		try {
 			data.setArmyInfo(armyInfo.toJson());
 		} catch (Exception e) {
-			GameLog.error("职业竞技场转换armyInfo异常", e);
+			GameLog.error("竞技场", enemyId, "职业竞技场转换armyInfo异常", e);
 		}
 
 		ArmyMagic magic = armyInfo.getArmyMagic();
