@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.dateType.cfg.ActivityDateTypeSubCfg;
@@ -39,6 +40,9 @@ public class ActivityDateTypeItem implements  IMapItem {
 
 	@CombineSave
 	private int day;//第几天
+	
+	@CombineSave
+	private boolean taken = false;//活动昂大奖是否领取
 
 
 	public String getId() {
@@ -98,20 +102,34 @@ public class ActivityDateTypeItem implements  IMapItem {
 		this.day = day;
 	}
 	
-	public ActivityDateTypeSubItem getCurentDaySubItem(){
-		return getSubItemByDay(this.day);
-	}
 
-	public ActivityDateTypeSubItem getSubItemByDay(int day){
+	public ActivityDateTypeSubItem getSubItemById(String subItemId){
 		ActivityDateTypeSubItem target = null;
 		for (ActivityDateTypeSubItem subItem : subItemList) {
-			ActivityDateTypeSubCfg subCfg = ActivityDateTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
-			
-			if(subCfg.getDay() == day){
+			if(StringUtils.equals(subItemId, subItem.getCfgId())){
 				target = subItem;
 			} 
 		}
 		return target;
+	}
+
+	public ActivityDateTypeSubItem getCurentDaySubItem() {
+		ActivityDateTypeSubItem target = null;
+		for (ActivityDateTypeSubItem subItem : subItemList) {
+			ActivityDateTypeSubCfg subItemCfg = ActivityDateTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
+			if(subItemCfg.getDay() == day){
+				target = subItem;
+			} 
+		}
+		return target;
+	}
+
+	public boolean isTaken() {
+		return taken;
+	}
+
+	public void setTaken(boolean taken) {
+		this.taken = taken;
 	}
 	
 

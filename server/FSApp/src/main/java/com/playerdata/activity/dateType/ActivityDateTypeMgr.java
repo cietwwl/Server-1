@@ -130,7 +130,7 @@ public class ActivityDateTypeMgr {
 
 
 
-	public ActivityComResult takeGift(Player player, ActivityDateTypeEnum DateType, int day){
+	public ActivityComResult takeGift(Player player, ActivityDateTypeEnum DateType, String subItemId){
 		ActivityDateTypeItemHolder dataHolder = ActivityDateTypeItemHolder.getInstance();
 		
 		ActivityDateTypeItem dataItem = dataHolder.getItem(player.getUserId(), DateType);
@@ -140,13 +140,16 @@ public class ActivityDateTypeMgr {
 		if(dataItem == null){
 			result.setReason("活动尚未开启");
 			
-		}else if(day > dataItem.getDay()){
-			result.setReason("未到领奖时间");
 		}else{			
-			ActivityDateTypeSubItem targetItem = dataItem.getSubItemByDay(day);			
+			ActivityDateTypeSubItem targetItem = dataItem.getSubItemById(subItemId);			
 		
+			ActivityDateTypeSubCfg subItemCfg = ActivityDateTypeSubCfgDAO.getInstance().getById(subItemId);
+			
+			
 			if(targetItem == null){
 				result.setReason("该奖励不存在 id:"+DateType.getCfgId());
+			}else if(subItemCfg.getDay() > dataItem.getDay()){
+				result.setReason("未到领奖时间");
 			}else if(targetItem.isTaken()){
 				//申请已领取过的奖励
 				result.setReason("奖励已领取");
@@ -161,10 +164,46 @@ public class ActivityDateTypeMgr {
 		
 		return result;
 	}
+	public ActivityComResult takeBigGift(Player player, ActivityDateTypeEnum DateType, String subItemId){
+		ActivityDateTypeItemHolder dataHolder = ActivityDateTypeItemHolder.getInstance();
+		
+		ActivityDateTypeItem dataItem = dataHolder.getItem(player.getUserId(), DateType);
+		ActivityComResult result = ActivityComResult.newInstance(false);
+		
+		//未激活
+		if(dataItem == null){
+			result.setReason("活动尚未开启");
+			
+		}else{			
+			ActivityDateTypeCfg itemCfg = ActivityDateTypeCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+			if(dataItem.getCount() < itemCfg.getAwardDount()){
+				result.setReason("不符合领奖条件");
+			}else if(dataItem.isTaken()){
+				//申请已领取过的奖励
+				result.setReason("奖励已领取");
+			}else{
+				takeGift(player,dataItem);			
+				result.setSuccess(true);
+				dataHolder.updateItem(player, dataItem);
+			}
+			
+		}
+		
+		
+		return result;
+	}
 
 	private  void takeGift(Player player,ActivityDateTypeSubItem targetItem) {
 		ActivityDateTypeSubCfg subItemCfg = ActivityDateTypeSubCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
 		String gift = subItemCfg.getAwardGift();
+		targetItem.setTaken(true);
+		targetItem.getCount();
+		ComGiftMgr.getInstance().addGiftById(player, gift);	
+	}
+	
+	private  void takeGift(Player player,ActivityDateTypeItem targetItem) {
+		ActivityDateTypeCfg itemCfg = ActivityDateTypeCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
+		String gift = itemCfg.getAwardGift();
 		targetItem.setTaken(true);
 		targetItem.getCount();
 		ComGiftMgr.getInstance().addGiftById(player, gift);	
