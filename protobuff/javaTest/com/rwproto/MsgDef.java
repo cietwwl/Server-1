@@ -520,13 +520,37 @@ public final class MsgDef {
      */
     MSG_CHARGE(69, 174),
     /**
+     * <code>MSG_ACTIVITY_COUNTTYPE = 175;</code>
+     *
+     * <pre>
+     *通用活动
+     * </pre>
+     */
+    MSG_ACTIVITY_COUNTTYPE(70, 175),
+    /**
+     * <code>MSG_PRIVILEGE = 176;</code>
+     *
+     * <pre>
+     *特权数据推送
+     * </pre>
+     */
+    MSG_PRIVILEGE(71, 176),
+    /**
+     * <code>MSG_ACTIVITY_DATETYPE = 177;</code>
+     *
+     * <pre>
+     *通用活动
+     * </pre>
+     */
+    MSG_ACTIVITY_DATETYPE(72, 177),
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(70, 996),
+    MSG_SDK_VERIFY(73, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -534,7 +558,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(71, 997),
+    MSG_NUMERIC_ANALYSIS(74, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -542,7 +566,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(72, 998),
+    MSG_PLATFORMGS(75, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -550,13 +574,9 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(73, 999),
+    MSG_GAMEPRESS(76, 999),
     ;
 
-    /**
-     * <code>MSG_ACTIVITY_COUNTTYPE = 174;</code>
-     */
-    public static final Command MSG_ACTIVITY_COUNTTYPE = MSG_CHARGE;
     /**
      * <code>MSG_HeartBeat = 100;</code>
      */
@@ -1064,6 +1084,30 @@ public final class MsgDef {
      */
     public static final int MSG_CHARGE_VALUE = 174;
     /**
+     * <code>MSG_ACTIVITY_COUNTTYPE = 175;</code>
+     *
+     * <pre>
+     *通用活动
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_COUNTTYPE_VALUE = 175;
+    /**
+     * <code>MSG_PRIVILEGE = 176;</code>
+     *
+     * <pre>
+     *特权数据推送
+     * </pre>
+     */
+    public static final int MSG_PRIVILEGE_VALUE = 176;
+    /**
+     * <code>MSG_ACTIVITY_DATETYPE = 177;</code>
+     *
+     * <pre>
+     *通用活动
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_DATETYPE_VALUE = 177;
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
@@ -1095,10 +1139,6 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_GAMEPRESS_VALUE = 999;
-    /**
-     * <code>MSG_ACTIVITY_COUNTTYPE = 174;</code>
-     */
-    public static final int MSG_ACTIVITY_COUNTTYPE_VALUE = 174;
 
 
     public final int getNumber() { return value; }
@@ -1175,6 +1215,9 @@ public final class MsgDef {
         case 172: return MSG_GROUP_SKILL;
         case 173: return MSG_GIFT_CODE;
         case 174: return MSG_CHARGE;
+        case 175: return MSG_ACTIVITY_COUNTTYPE;
+        case 176: return MSG_PRIVILEGE;
+        case 177: return MSG_ACTIVITY_DATETYPE;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
         case 998: return MSG_PLATFORMGS;
@@ -1208,9 +1251,7 @@ public final class MsgDef {
       return com.rwproto.MsgDef.getDescriptor().getEnumTypes().get(0);
     }
 
-    private static final Command[] VALUES = {
-      MSG_HeartBeat, MSG_Rs_DATA, MSG_DO_MAINROLE_CREATE, MSG_GET_ROLE_LIST, MSG_ROLE, MSG_DEL_ROLE, MSG_CHOOES_ROLE, MSG_MainService, MSG_CopyService, MSG_InitRoleData, MSG_SKILL, MSG_ItemBag, MSG_Hero, MSG_GM, MSG_EQUIP, MSG_RoleAttr, MSG_MAGIC, MSG_GAMBLE, MSG_CHAT, MSG_EMAIL, MSG_TRIAL, MSG_RANKING, MSG_SYNC_PLAYER, MSG_SYNC_HERO, MSG_SYNC_SKILL, MSG_SEND_HERO_INFO, MSG_COMMON_MESSAGE, MSG_DAILY_ACTIVITY, MSG_LOGIN_PLATFORM, MSG_LOGIN_GAME, MSG_LOAD_MAINCITY, MSG_PLAYER_OFF_LINE, MSG_FRIEND, MSG_SIGN, MSG_PEAK_ARENA, MSG_ARENA, MSG_VIP, MSG_HOT_POINT, MSG_SETTING, MSG_OtherRoleAttr, MSG_STORE, MSG_UnendingWar, MSG_Worship, MSG_TOWER, MSG_TASK, MSG_GROUP, MSG_TIME, MSG_GUIDE, MSG_SECRET_AREA, MSG_ERRORINFO, MSG_SECRET_MEMBER, MSG_Inlay, MSG_DATA_SYN, MSG_BATTLE_TOWER, MSG_FASHION, MSG_MainMsg, MSG_NEW_GUIDE, MSG_PLOT, MSG_PLAYER_LOGOUT, MSG_DailyGif, MSG_RED_POINT, MSG_FRSH_ACT, MSG_RECONNECT, MSG_PVE_INFO, MSG_NOTICE, MSG_GROUP_MEMBER_MANAGER, MSG_GROUP_PERSONAL, MSG_GROUP_SKILL, MSG_GIFT_CODE, MSG_CHARGE, MSG_SDK_VERIFY, MSG_NUMERIC_ANALYSIS, MSG_PLATFORMGS, MSG_GAMEPRESS, MSG_ACTIVITY_COUNTTYPE, 
-    };
+    private static final Command[] VALUES = values();
 
     public static Command valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
@@ -1241,7 +1282,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\276\013\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\356\013\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1275,10 +1316,12 @@ public final class MsgDef {
       "FO\020\250\001\022\017\n\nMSG_NOTICE\020\251\001\022\035\n\030MSG_GROUP_MEMB" +
       "ER_MANAGER\020\252\001\022\027\n\022MSG_GROUP_PERSONAL\020\253\001\022\024" +
       "\n\017MSG_GROUP_SKILL\020\254\001\022\022\n\rMSG_GIFT_CODE\020\255\001" +
-      "\022\017\n\nMSG_CHARGE\020\256\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031" +
-      "\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFOR" +
-      "MGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007\022\033\n\026MSG_ACTIVI" +
-      "TY_COUNTTYPE\020\256\001B\025\n\013com.rwprotoB\006MsgDef"
+      "\022\017\n\nMSG_CHARGE\020\256\001\022\033\n\026MSG_ACTIVITY_COUNTT" +
+      "YPE\020\257\001\022\022\n\rMSG_PRIVILEGE\020\260\001\022\032\n\025MSG_ACTIVI" +
+      "TY_DATETYPE\020\261\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024M" +
+      "SG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS" +
+      "\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006" +
+      "MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
