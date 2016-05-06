@@ -167,6 +167,10 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		sources = new String[tmp.size()];
 		sources = tmp.toArray(sources);
 		
+		for (ConfigClass cfg : vals) {
+			cfg.FixEmptyValue(this);
+		}
+		
 		chargeSources = new HashMap<PrivilegeNameEnum,String[]>();
 		for(int i = 0; i< nameEnums.length; i++){
 			PrivilegeNameEnum privilegeNameEnum = nameEnums[i];

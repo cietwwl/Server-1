@@ -40,6 +40,12 @@ public abstract class AbstractConfigChargeSource<NameEnumCl extends Enum<NameEnu
 		}
 	}
 
+	@Override
+	public void FixEmptyValue(IPrivilegeConfigSourcer<NameEnumCl> cfgHelper) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void ExtraInitAfterLoad(Class<NameEnumCl> nameEnumCl,
 			IPrivilegeConfigSourcer<NameEnumCl> cfgHelper)
 			throws IllegalArgumentException, IllegalAccessException {
