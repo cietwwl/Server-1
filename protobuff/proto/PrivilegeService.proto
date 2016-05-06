@@ -7,7 +7,13 @@ package Privilege;
 message AllPrivilege {
 	optional PrivilegeProperty arena = 1; //竞技场特权点
 	optional PrivilegeProperty peakArena = 2;//巅峰竞技场特权点
-	optional PrivilegeProperty battleTower = 3;//封神台特权点
+	optional PrivilegeProperty battleTower = 3;//PVE特权点
+	optional PrivilegeProperty group = 4;//帮派特权点
+	optional PrivilegeProperty store = 5;//商店特权点
+	optional PrivilegeProperty copy = 6;//副本特权点
+	optional PrivilegeProperty hero = 7;//英雄特权点
+	optional PrivilegeProperty login = 8;//登陆特权点
+	optional PrivilegeProperty general = 9;//其他特权点 (各种杂七杂八模块)
 }
 
 message PrivilegeProperty {
@@ -35,5 +41,56 @@ enum PeakArenaPrivilegeNames {
 enum BattleTowerPrivilegeNames {
      maxResetCount = 1; //封神台可重置次数
      sweepTimeDec = 2;  //封神台每层扫荡时间减少x秒
+     arrayTimeDec = 3; // 万仙阵可重置次数
+     warfareRewardAdd = 4; // 无尽战火积分增加x%（万分比）
+     warfareResetCnt = 5; // 无尽战火可重置次数
+     treasureTimeDec = 6; // 聚宝之地挑战cd减少x秒
+     treasureResetCnt = 7; // 聚宝之地可重置次数
+     expTimeDec = 8; // 炼气山谷挑战cd减少x秒
+     expResetCnt = 9; // 炼气山谷可重置次数
+     survivalTimeDec = 10; // 生存幻境挑战cd减少x秒
+     survivalResetCnt = 11; // 生存幻境可重置次数
 }
 
+enum GroupPrivilegeNames {
+     donateCount = 1; //帮派可捐献次数
+     mysteryChallengeCount = 2;  //帮派秘境挑战次数
+}
+
+enum StorePrivilegeNames {
+     isOpenBlackmarketStore = 1; //永久特殊商店1(黑市商店)开启
+     isOpenMysteryStore = 2;  //永久特殊商店2(神秘商人)开启
+     storeFreeRefreshCnt = 3; // 普通商店可以免费刷新x次
+     mysteryStoreFreeRefreshCnt = 4; // 神秘商人可以免费刷新x次
+     bmstoreFreeRefreshCnt = 5; // 黑市商人可以免费刷新x次
+}
+
+enum CopyPrivilegeNames {
+     copyRewardAdd = 1; //普通副本金币掉落提高x%（万分比）
+     isAllowTenSweep = 2;  //开启一键扫十次
+     copyResetCnt = 3; // 普通副本可重置次数
+     eliteRewardAdd = 4; // 精英副本金币收益增加x%（万分比）
+     eliteResetCnt = 5; // 精英副本可重置次数
+}
+
+enum LoginPrivilegeNames {
+     buyPowerCount = 1; //可购买体力次数
+     useCoinTransCount = 2;  //可使用点金手次数
+     getSweepTicketNum = 3;  //每日领取扫荡卷张数
+}
+
+enum HeroPrivilegeNames {
+     skillThreshold = 1; //技能点上限
+     isAllowBuySkillPoint = 2;  //开启购买技能点
+     skillTimeDec = 3;  //技能点回复减少x秒
+     isAllowAttach = 4;  //开启一键附灵
+}
+
+enum GeneralPrivilegeNames {
+     vipHeadLevel = 1; //VIP头像框(暂时不知道需求，我猜是不同VIP等级开启不同头像框)
+     vipGiftLevel = 2; //VIP特权礼包
+     battleSpeed = 3; //战斗加速倍数
+     isAllowBuyFashion = 4; //开启时装购买
+     isAllowSoulBox = 5; //开启第三宝箱（魂匣）开启
+     isAllowReplenish = 6;  //开启补签开启
+}
