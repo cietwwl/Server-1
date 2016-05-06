@@ -28,7 +28,7 @@ public class PrivilegeManager
 	
 	//TODO 如果配置发生变化，需要对每个玩家调用这个方法重新初始化
 	public void initPrivilegeProvider() {
-		privilegeNameRouter = new HashMap<>();
+		privilegeNameRouter = new HashMap<Class<? extends Enum<?>>,IStream<PrivilegeProperty>>();
 		privilegeNameRouter.put(ArenaPrivilegeNames.class, arenaPrivilege);
 		privilegeNameRouter.put(PeakArenaPrivilegeNames.class, peakArenaPrivilege);
 		
@@ -144,8 +144,10 @@ public class PrivilegeManager
 
 	private AllPrivilege.Builder putValueList(IPrivilegeConfigSourcer<?> config,
 			List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
+		@SuppressWarnings("rawtypes")
+		IPrivilegeConfigSourcer tmpcfg = config;
 		for (Pair<IPrivilegeProvider, PrivilegeProperty.Builder> pair : newPrivilegeMap) {
-			Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider> key=Pair.Create(config, pair.getT1());
+			Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider> key=Pair.<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>Create(tmpcfg, pair.getT1());
 			AllPrivilege old = cache.get(key);
 			AllPrivilege.Builder tmp = AllPrivilege.newBuilder();
 			config.setValue(tmp, pair.getT2());
