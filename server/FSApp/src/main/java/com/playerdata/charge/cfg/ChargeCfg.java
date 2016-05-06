@@ -19,10 +19,16 @@ public class ChargeCfg {
 	private int extraGiftId;//额外赠送礼包
 	@EnumIndex
 	private ChargeType chargeType;//充值类型...
-
+	private int giveCount;//单个商品 限购的次数
 	
 	public String getId() {
 		return id;
+	}
+	public int getGiveCount() {
+		return giveCount;
+	}
+	public void setGiveCount(int giveCount) {
+		this.giveCount = giveCount;
 	}
 	public void setId(String id) {
 		this.id = id;

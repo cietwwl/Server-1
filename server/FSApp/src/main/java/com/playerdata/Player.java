@@ -24,6 +24,7 @@ import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.SynDataInReqMgr;
+import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -122,6 +123,7 @@ public class Player implements PlayerIF {
 	private RedPointMgr redPointMgr = new RedPointMgr();
 
 	private PlayerSaveHelper saveHelper = new PlayerSaveHelper(this);
+	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -135,6 +137,9 @@ public class Player implements PlayerIF {
 	private final PlayerTempAttribute tempAttribute;
 
 	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
+	
+	
+	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();//用户临时数据的同步
 
 	/** 羁绊的缓存数据<英雄的ModelId,List<羁绊的推送数据>> */
 	private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>();
@@ -382,6 +387,7 @@ public class Player implements PlayerIF {
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
 		afterMgrInit();
+		upgradeMgr.init(this);
 
 	}
 
@@ -1176,6 +1182,10 @@ public class Player implements PlayerIF {
 		return unendingWarMgr;
 	}
 
+	public UpgradeMgr getUpgradeMgr() {
+		return upgradeMgr;
+	}
+
 	/**
 	 * 获取个人的帮派数据
 	 * 
@@ -1367,5 +1377,9 @@ public class Player implements PlayerIF {
 
 			FettersBM.checkOrUpdateHeroFetters(this, hero.getModelId(), false);
 		}
+	}
+	
+	public UserTmpGameDataFlag getUserTmpGameDataFlag() {
+		return userTmpGameDataFlag;
 	}
 }

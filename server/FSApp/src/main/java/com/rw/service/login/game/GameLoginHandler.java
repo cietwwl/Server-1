@@ -16,6 +16,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -179,6 +180,9 @@ public class GameLoginHandler {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
 				
+				
+				//检查发送版本更新
+				player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
 				// --------------------------------------------------------START
 				// TODO HC @Modify 2015-12-17
 				/**
@@ -243,6 +247,8 @@ public class GameLoginHandler {
 				BILogMgr.getInstance().logZoneLogin(player);
 				//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+				
 				//判断需要用到最后次登陆 时间。保存在活动内而不是player
 				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
 				
@@ -289,8 +295,9 @@ public class GameLoginHandler {
 		{
 			String clientInfoJson = request.getClientInfoJson();
 			ZoneLoginInfo zoneLoginInfo = null;
+			ClientInfo clientInfo = null;
 			if (StringUtils.isNotBlank(clientInfoJson)) {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+				clientInfo = ClientInfo.fromJson(clientInfoJson);
 				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
 				
 
@@ -345,6 +352,9 @@ public class GameLoginHandler {
 
 			EmailUtils.sendEmail(player.getUserId(), "10003");
 			
+			//检查发送版本更新
+			player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+			
 			//检查发送gm邮件
 			ServerStatusMgr.processGmMailWhenCreateRole(player);
 
@@ -360,6 +370,8 @@ public class GameLoginHandler {
 			BILogMgr.getInstance().logZoneReg(player);
 			//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 			ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+			ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+			
 			//判断需要用到最后次登陆 时间。保存在活动内而不是player
 			UserEventMgr.getInstance().RoleLogin(player, 0);
 			

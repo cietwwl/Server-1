@@ -61,6 +61,12 @@ public class ArenaService implements FsService {
 			case GET_REWARD:
 				result = arenaHandler.getScoreReward(msgArenaRequest, player);
 				break;
+			case HIS_RANK_REWARD_VIEW:
+				result = arenaHandler.getHistoryView(msgArenaRequest, player);
+				break;
+			case HIS_RANK_GET_REWARD:
+				result = arenaHandler.getHistoryReward(msgArenaRequest, player);
+				break;
 			default:
 				break;
 			}

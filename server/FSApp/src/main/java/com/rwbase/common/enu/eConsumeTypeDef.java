@@ -9,6 +9,8 @@ public enum eConsumeTypeDef {
 	CopySweepConsume(14), // 副本扫荡券
 	OnlySellConsume(15),// 仅用于出售
 	VipExpConsume(16);//Vip经验卡
+//	giftsPackage(17);//背包里使用的礼包
+	
 	private int order;
 
 	eConsumeTypeDef(int order) {

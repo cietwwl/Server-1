@@ -511,13 +511,21 @@ public final class DataSynProtos {
      */
     POWER_INFO(42, 43),
     /**
-     * <code>HERO_FETTERS = 44;</code>
+     * <code>USER_TMP_GAME_DATA = 44;</code>
+     *
+     * <pre>
+     *用户的临时内存数据
+     * </pre>
+     */
+    USER_TMP_GAME_DATA(43, 44),
+    /**
+     * <code>HERO_FETTERS = 45;</code>
      *
      * <pre>
      *英雄羁绊
      * </pre>
      */
-    HERO_FETTERS(43, 44),
+    HERO_FETTERS(44, 45),
     /**
      * <code>ActivityCountType = 60;</code>
      *
@@ -525,7 +533,7 @@ public final class DataSynProtos {
      *活动从60-69
      * </pre>
      */
-    ActivityCountType(44, 60),
+    ActivityCountType(45, 60),
     /**
      * <code>ActivityTimeCardType = 61;</code>
      *
@@ -533,7 +541,7 @@ public final class DataSynProtos {
      *月卡
      * </pre>
      */
-    ActivityTimeCardType(45, 61),
+    ActivityTimeCardType(46, 61),
     /**
      * <code>ActivityRateType = 62;</code>
      *
@@ -541,7 +549,7 @@ public final class DataSynProtos {
      *活动，奖励翻倍类型
      * </pre>
      */
-    ActivityRateType(46, 62),
+    ActivityRateType(47, 62),
     /**
      * <code>ActivityDateType = 63;</code>
      *
@@ -549,7 +557,7 @@ public final class DataSynProtos {
      *活动，日期类型
      * </pre>
      */
-    ActivityDateType(47, 63),
+    ActivityDateType(48, 63),
     /**
      * <code>ActivityTimeSaleType = 64;</code>
      *
@@ -557,7 +565,7 @@ public final class DataSynProtos {
      *活动，限时折扣
      * </pre>
      */
-    ActivityTimeSaleType(48, 64),
+    ActivityTimeSaleType(49, 64),
     /**
      * <code>ActivityDateSaleType = 65;</code>
      *
@@ -565,7 +573,7 @@ public final class DataSynProtos {
      *活动，每日折扣
      * </pre>
      */
-    ActivityDateSaleType(49, 65),
+    ActivityDateSaleType(50, 65),
     /**
      * <code>ActivityRankType = 66;</code>
      *
@@ -573,7 +581,7 @@ public final class DataSynProtos {
      *活动，排行榜
      * </pre>
      */
-    ActivityRankType(50, 66),
+    ActivityRankType(51, 66),
     /**
      * <code>ActivityExchangeType = 67;</code>
      *
@@ -581,7 +589,7 @@ public final class DataSynProtos {
      *活动，兑换
      * </pre>
      */
-    ActivityExchangeType(51, 67),
+    ActivityExchangeType(52, 67),
     ;
 
     /**
@@ -929,13 +937,21 @@ public final class DataSynProtos {
      */
     public static final int POWER_INFO_VALUE = 43;
     /**
-     * <code>HERO_FETTERS = 44;</code>
+     * <code>USER_TMP_GAME_DATA = 44;</code>
+     *
+     * <pre>
+     *用户的临时内存数据
+     * </pre>
+     */
+    public static final int USER_TMP_GAME_DATA_VALUE = 44;
+    /**
+     * <code>HERO_FETTERS = 45;</code>
      *
      * <pre>
      *英雄羁绊
      * </pre>
      */
-    public static final int HERO_FETTERS_VALUE = 44;
+    public static final int HERO_FETTERS_VALUE = 45;
     /**
      * <code>ActivityCountType = 60;</code>
      *
@@ -1049,7 +1065,8 @@ public final class DataSynProtos {
         case 41: return GroupStudySkill;
         case 42: return Charge;
         case 43: return POWER_INFO;
-        case 44: return HERO_FETTERS;
+        case 44: return USER_TMP_GAME_DATA;
+        case 45: return HERO_FETTERS;
         case 60: return ActivityCountType;
         case 61: return ActivityTimeCardType;
         case 62: return ActivityRateType;
@@ -4942,7 +4959,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\237\010\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\267\010\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
       "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
@@ -4963,13 +4980,14 @@ public final class DataSynProtos {
       "upCopyLevel\020$\022\020\n\014GroupCopyMap\020%\022\023\n\017Group" +
       "CopyReward\020&\022\030\n\024GroupApplyMemberData\020\'\022\026" +
       "\n\022GroupResearchSkill\020(\022\023\n\017GroupStudySkil" +
-      "l\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\020\n\014HERO_" +
-      "FETTERS\020,\022\025\n\021ActivityCountType\020<\022\030\n\024Acti" +
-      "vityTimeCardType\020=\022\024\n\020ActivityRateType\020>" +
-      "\022\024\n\020ActivityDateType\020?\022\030\n\024ActivityTimeSa" +
-      "leType\020@\022\030\n\024ActivityDateSaleType\020A\022\024\n\020Ac" +
-      "tivityRankType\020B\022\030\n\024ActivityExchangeType" +
-      "\020CB\034\n\013com.rwprotoB\rDataSynProtos"
+      "l\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\026\n\022USER_" +
+      "TMP_GAME_DATA\020,\022\020\n\014HERO_FETTERS\020-\022\025\n\021Act" +
+      "ivityCountType\020<\022\030\n\024ActivityTimeCardType" +
+      "\020=\022\024\n\020ActivityRateType\020>\022\024\n\020ActivityDate" +
+      "Type\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024Acti" +
+      "vityDateSaleType\020A\022\024\n\020ActivityRankType\020B" +
+      "\022\030\n\024ActivityExchangeType\020CB\034\n\013com.rwprot",
+      "oB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

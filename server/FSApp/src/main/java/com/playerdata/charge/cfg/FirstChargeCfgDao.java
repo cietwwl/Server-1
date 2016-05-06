@@ -23,19 +23,19 @@ public class FirstChargeCfgDao extends CfgCsvDao<FirstChargeCfg> {
 		return cfgCacheMap;
 	}
 	
-private void parseFirstChargeList(FirstChargeCfg cfgTmp) {
-//	String giftStr = cfgTmp.getReward();
-	String giftStr = "1:1";
-	Map<String,Integer> giftCountMap = new HashMap<String, Integer>();
-	String[] giftSplit = giftStr.split(";");
-	for (String giftTmp : giftSplit) {
-		String giftId = giftTmp.split(":")[0];
-		Integer giftCount = Integer.parseInt(giftTmp.split(":")[1]);
-		giftCountMap.put(giftId, giftCount);
-	}
-	cfgTmp.setGiftMap(giftCountMap);
-		
-	}
+//private void parseFirstChargeList(FirstChargeCfg cfgTmp) {
+////	String giftStr = cfgTmp.getReward();
+//	String giftStr = "1:1";
+//	Map<String,Integer> giftCountMap = new HashMap<String, Integer>();
+//	String[] giftSplit = giftStr.split(";");
+//	for (String giftTmp : giftSplit) {
+//		String giftId = giftTmp.split(":")[0];
+//		Integer giftCount = Integer.parseInt(giftTmp.split(":")[1]);
+//		giftCountMap.put(giftId, giftCount);
+//	}
+//	cfgTmp.setGiftMap(giftCountMap);
+//		
+//	}
 
 //	private void parseChargeItem(FirstChargeCfg FirstChargeCfg) {
 //		List<ChargeItem> itemList = new ArrayList<ChargeItem>();

@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
 	
+	<bean class="com.bm.arena.ArenaRankCfgDAO"  init-method="init" />
 	<bean class="com.bm.arena.ArenaScoreCfgDAO"  init-method="init" />
 	<bean class="com.bm.arena.RobotHeroCfgDAO"  init-method="init" />
 	<bean class="com.bm.arena.RobotCfgDAO"  init-method="init" />
@@ -120,7 +121,7 @@
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerBossCfgDao"  init-method="init" />
-	
+
 	<bean class="com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
@@ -131,12 +132,18 @@
 	
 	<bean class="com.playerdata.charge.cfg.FirstChargeCfgDao"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.ChargeCfgDao"  init-method="init" />
+	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
+	
+	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />
+	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.hero.HeroEquipStrenghCfgDAO"  init-method="init" />
