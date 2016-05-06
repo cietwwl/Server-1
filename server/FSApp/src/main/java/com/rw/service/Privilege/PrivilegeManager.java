@@ -18,6 +18,7 @@ import com.rwproto.PrivilegeProtos.AllPrivilege;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty;
+import com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder;
 
 public class PrivilegeManager
 		implements IPrivilegeWare, IPrivilegeManager, PlayerEventListener, IStreamListner<IPrivilegeProvider> {
@@ -128,20 +129,6 @@ public class PrivilegeManager
 		return result != null ? result : false;
 	}
 	
-	//竞技场
-	private StreamImpl<PrivilegeProperty> arenaPrivilege = new StreamImpl<PrivilegeProperty>();
-
-	@Override
-	public IStream<PrivilegeProperty> getArenaPrivilege() {
-		return arenaPrivilege;
-	}
-
-	@Override
-	public void putArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
-		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setArena(pair.getT2());
-		arenaPrivilege.fire(config.getValue(all).build());//all.getArena()
-	}
-
 	private AllPrivilege.Builder putValueList(IPrivilegeConfigSourcer<?> config,
 			List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		@SuppressWarnings("rawtypes")
@@ -158,17 +145,118 @@ public class PrivilegeManager
 		return all;
 	}
 
+	//竞技场
+	private StreamImpl<PrivilegeProperty> arenaPrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public IStream<PrivilegeProperty> getArenaPrivilege() {
+		return arenaPrivilege;
+	}
+	@Override
+	public void putArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		arenaPrivilege.fire(config.getValue(all).build());
+	}
+
 	//巅峰竞技场
 	private StreamImpl<PrivilegeProperty> peakArenaPrivilege = new StreamImpl<PrivilegeProperty>();
-	
 	@Override
 	public IStream<PrivilegeProperty> getPeakArenaPrivilege() {
 		return peakArenaPrivilege;
 	}
-
 	@Override
 	public void putPeakArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
-		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);//tmp.setPeakArena(pair.getT2());
-		peakArenaPrivilege.fire(config.getValue(all).build());//all.getPeakArena()
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		peakArenaPrivilege.fire(config.getValue(all).build());
+	}
+
+	//PVE试炼
+	private StreamImpl<PrivilegeProperty> pevPrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public void putBattleTowerPrivilege(IPrivilegeConfigSourcer<?> config,
+			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		pevPrivilege.fire(config.getValue(all).build());
+	}
+	@Override
+	public IStream<PrivilegeProperty> getPVEPrivilege() {
+		return pevPrivilege;
+	}
+
+	//副本
+	private StreamImpl<PrivilegeProperty> copyPrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public void putCopyPrivilege(IPrivilegeConfigSourcer<?> config,
+			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		copyPrivilege.fire(config.getValue(all).build());
+	}
+	@Override
+	public IStream<PrivilegeProperty> getCopyPrivilege() {
+		return copyPrivilege;
+	}
+
+	//其他模块
+	private StreamImpl<PrivilegeProperty> otherPrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public void putGeneralPrivilege(IPrivilegeConfigSourcer<?> config,
+			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		otherPrivilege.fire(config.getValue(all).build());
+	}
+	@Override
+	public IStream<PrivilegeProperty> getGeneralPrivilege() {
+		return otherPrivilege;
+	}
+
+	//帮派
+	private StreamImpl<PrivilegeProperty> groupPrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public void putGroupPrivilege(IPrivilegeConfigSourcer<?> config,
+			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		groupPrivilege.fire(config.getValue(all).build());
+	}
+	@Override
+	public IStream<PrivilegeProperty> getGroupPrivilege() {
+		return groupPrivilege;
+	}
+
+	//英雄
+	private StreamImpl<PrivilegeProperty> heroPrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public void putHeroPrivilege(IPrivilegeConfigSourcer<?> config,
+			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		heroPrivilege.fire(config.getValue(all).build());
+	}
+	@Override
+	public IStream<PrivilegeProperty> getHeroPrivilege() {
+		return heroPrivilege;
+	}
+
+	//登陆
+	private StreamImpl<PrivilegeProperty> loginPrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public void putLoginPrivilege(IPrivilegeConfigSourcer<?> config,
+			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		loginPrivilege.fire(config.getValue(all).build());
+	}
+	@Override
+	public IStream<PrivilegeProperty> getLoginPrivilege() {
+		return loginPrivilege;
+	}
+
+	//商店
+	private StreamImpl<PrivilegeProperty> storePrivilege = new StreamImpl<PrivilegeProperty>();
+	@Override
+	public void putStorePrivilege(IPrivilegeConfigSourcer<?> config,
+			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
+		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
+		storePrivilege.fire(config.getValue(all).build());
+	}
+	@Override
+	public IStream<PrivilegeProperty> getStorePrivilege() {
+		return storePrivilege;
 	}
 }

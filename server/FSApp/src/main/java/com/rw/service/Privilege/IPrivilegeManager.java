@@ -19,4 +19,25 @@ public interface IPrivilegeManager {
 	
 	//巅峰竞技场特权点
 	public IStream<PrivilegeProperty> getPeakArenaPrivilege();
+
+	//商店
+	public IStream<PrivilegeProperty> getStorePrivilege();
+
+	//登陆
+	public IStream<PrivilegeProperty> getLoginPrivilege();
+
+	//英雄
+	public IStream<PrivilegeProperty> getHeroPrivilege();
+
+	//帮派
+	public IStream<PrivilegeProperty> getGroupPrivilege();
+
+	//其他模块
+	public IStream<PrivilegeProperty> getGeneralPrivilege();
+
+	//副本
+	public IStream<PrivilegeProperty> getCopyPrivilege();
+
+	//PVE试炼
+	public IStream<PrivilegeProperty> getPVEPrivilege();
 }

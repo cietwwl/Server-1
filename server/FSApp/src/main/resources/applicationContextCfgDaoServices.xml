@@ -111,6 +111,20 @@
 	<bean class="com.rw.service.Privilege.datamodel.arenaPrivilegePropertiesHelper"  init-method="init" />
 	<bean class="com.rw.service.Privilege.datamodel.peakArenaPrivilegeHelper"  init-method="init" />
 	<bean class="com.rw.service.Privilege.datamodel.peakArenaPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.battleTowerPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.battleTowerPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.copyPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.copyPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.generalPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.generalPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.groupPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.groupPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.heroPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.heroPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.loginPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.loginPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.storePrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.storePrivilegePropertiesHelper"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.worship.CfgWorshipRandomRewardHelper"  init-method="init" />
 	<bean class="com.rwbase.dao.worship.CfgWorshipRankdomSchemeHelper"  init-method="init" />
