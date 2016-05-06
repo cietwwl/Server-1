@@ -137,6 +137,8 @@
 	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
 	
 	
+	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
+	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.hero.HeroEquipStrenghCfgDAO"  init-method="init" />
