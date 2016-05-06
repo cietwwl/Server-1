@@ -536,7 +536,7 @@ public class ArenaHandler {
 
 			//by franky
 			IPrivilegeManager priMgr = player.getPrivilegeMgr();
-			Integer decCount = priMgr.getIntPrivilege(priMgr.getArenaPrivilege().sample(), ArenaPrivilegeNames.arenaChallengeDec);
+			Integer decCount = priMgr.getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
 			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 			int cdTime = arenaInfoCfg.getCdTime() - decCount;
 			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + cdTime * 1000);
@@ -596,7 +596,7 @@ public class ArenaHandler {
 		int buyTimes = m_MyArenaData.getBuyTimes();
 		//by franky
 		IPrivilegeManager priMgr = player.getPrivilegeMgr();
-		Integer allowMaxBuyCount = priMgr.getIntPrivilege(priMgr.getArenaPrivilege().sample(), ArenaPrivilegeNames.arenaMaxCount);
+		Integer allowMaxBuyCount = priMgr.getIntPrivilege(ArenaPrivilegeNames.arenaMaxCount);
 		if (allowMaxBuyCount < buyTimes){
 			GameLog.info("arena", player.getUserId(),"buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount="+allowMaxBuyCount,null);
 			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
@@ -658,7 +658,7 @@ public class ArenaHandler {
 		
 		//by franky
 		IPrivilegeManager priMgr = player.getPrivilegeMgr();
-		Boolean isOpen = priMgr.getBoolPrivilege(priMgr.getArenaPrivilege().sample(), ArenaPrivilegeNames.isAllowResetArena);
+		Boolean isOpen = priMgr.getBoolPrivilege(ArenaPrivilegeNames.isAllowResetArena);
 		if (!isOpen){
 			GameLog.info("arena", player.getUserId(),"clearCD:未开启重置竞技场CD",null);
 			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);

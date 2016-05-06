@@ -15,6 +15,8 @@ import com.rw.service.Privilege.datamodel.IPrivilegeConfigSourcer;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rwproto.MsgDef;
 import com.rwproto.PrivilegeProtos.AllPrivilege;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 
 public class PrivilegeManager
@@ -22,9 +24,14 @@ public class PrivilegeManager
 	private Player m_player;
 	private ArrayList<IPrivilegeProvider> privelegeProviders;
 	private HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>,AllPrivilege> cache;
+	private HashMap<Class<? extends Enum<?>>,IStream<PrivilegeProperty>> privilegeNameRouter;
 	
 	//TODO 如果配置发生变化，需要对每个玩家调用这个方法重新初始化
 	public void initPrivilegeProvider() {
+		privilegeNameRouter = new HashMap<>();
+		privilegeNameRouter.put(ArenaPrivilegeNames.class, arenaPrivilege);
+		privilegeNameRouter.put(PeakArenaPrivilegeNames.class, peakArenaPrivilege);
+		
 		cache = new HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>, AllPrivilege>();
 		privelegeProviders = new ArrayList<IPrivilegeProvider>(2);
 		IPrivilegeProvider provider = m_player.getVipMgr();
@@ -102,15 +109,21 @@ public class PrivilegeManager
 	}
 	
 	@Override
-	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Integer getIntPrivilege(
-			PrivilegeProperty privilegeDataSet, PrivilegeNameEnums pname) {
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Integer getIntPrivilege(PrivilegeNameEnums pname) {
+		if (pname == null) return 0;
+		IStream<PrivilegeProperty> iStream = privilegeNameRouter.get(pname.getClass());
+		if (iStream == null) return 0;
+		PrivilegeProperty privilegeDataSet = iStream.sample();
 		Integer result = PrivilegeConfigHelper.getInstance().getIntPrivilege(privilegeDataSet, pname);
 		return result != null ? result : 0;
 	}
 	
 	@Override
-	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Boolean getBoolPrivilege(
-			PrivilegeProperty privilegeDataSet, PrivilegeNameEnums pname) {
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Boolean getBoolPrivilege(PrivilegeNameEnums pname) {
+		if (pname == null) return false;
+		IStream<PrivilegeProperty> iStream = privilegeNameRouter.get(pname.getClass());
+		if (iStream == null) return false;
+		PrivilegeProperty privilegeDataSet = iStream.sample();
 		Boolean result = PrivilegeConfigHelper.getInstance().getBoolPrivilege(privilegeDataSet, pname);
 		return result != null ? result : false;
 	}
