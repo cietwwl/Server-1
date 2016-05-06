@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.common.Pair;
@@ -14,10 +15,7 @@ import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.service.Privilege.datamodel.IPrivilegeConfigSourcer;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rwproto.MsgDef;
-import com.rwproto.PrivilegeProtos.AllPrivilege;
-import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
-import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
-import com.rwproto.PrivilegeProtos.PrivilegeProperty;
+import com.rwproto.PrivilegeProtos.*;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder;
 
 public class PrivilegeManager
@@ -32,6 +30,13 @@ public class PrivilegeManager
 		privilegeNameRouter = new HashMap<Class<? extends Enum<?>>,IStream<PrivilegeProperty>>();
 		privilegeNameRouter.put(ArenaPrivilegeNames.class, arenaPrivilege);
 		privilegeNameRouter.put(PeakArenaPrivilegeNames.class, peakArenaPrivilege);
+		privilegeNameRouter.put(BattleTowerPrivilegeNames.class, pvePrivilege);
+		privilegeNameRouter.put(GroupPrivilegeNames.class, groupPrivilege);
+		privilegeNameRouter.put(StorePrivilegeNames.class, storePrivilege);
+		privilegeNameRouter.put(CopyPrivilegeNames.class, copyPrivilege);
+		privilegeNameRouter.put(LoginPrivilegeNames.class, loginPrivilege);
+		privilegeNameRouter.put(HeroPrivilegeNames.class, heroPrivilege);
+		privilegeNameRouter.put(GeneralPrivilegeNames.class, otherPrivilege);
 		
 		cache = new HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>, AllPrivilege>();
 		privelegeProviders = new ArrayList<IPrivilegeProvider>(2);
@@ -109,22 +114,29 @@ public class PrivilegeManager
 		initPrivilegeProvider();
 	}
 	
+	private <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> PrivilegeProperty getPrivilegeDataSet(PrivilegeNameEnums pname){
+		if (pname == null) {
+			GameLog.error("特权", m_player.getUserId(), "getPrivilegeDataSet:无效特权名");
+			return null;
+		}
+		IStream<PrivilegeProperty> iStream = privilegeNameRouter.get(pname.getClass());
+		if (iStream == null) {
+			GameLog.error("特权", m_player.getUserId(), "getPrivilegeDataSet:找不到特权名对应的数据:"+pname);
+			return null;
+		}
+		return iStream.sample();
+	}
+	
 	@Override
 	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Integer getIntPrivilege(PrivilegeNameEnums pname) {
-		if (pname == null) return 0;
-		IStream<PrivilegeProperty> iStream = privilegeNameRouter.get(pname.getClass());
-		if (iStream == null) return 0;
-		PrivilegeProperty privilegeDataSet = iStream.sample();
+		PrivilegeProperty privilegeDataSet = getPrivilegeDataSet(pname);
 		Integer result = PrivilegeConfigHelper.getInstance().getIntPrivilege(privilegeDataSet, pname);
 		return result != null ? result : 0;
 	}
 	
 	@Override
 	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Boolean getBoolPrivilege(PrivilegeNameEnums pname) {
-		if (pname == null) return false;
-		IStream<PrivilegeProperty> iStream = privilegeNameRouter.get(pname.getClass());
-		if (iStream == null) return false;
-		PrivilegeProperty privilegeDataSet = iStream.sample();
+		PrivilegeProperty privilegeDataSet = getPrivilegeDataSet(pname);
 		Boolean result = PrivilegeConfigHelper.getInstance().getBoolPrivilege(privilegeDataSet, pname);
 		return result != null ? result : false;
 	}
@@ -170,16 +182,16 @@ public class PrivilegeManager
 	}
 
 	//PVE试炼
-	private StreamImpl<PrivilegeProperty> pevPrivilege = new StreamImpl<PrivilegeProperty>();
+	private StreamImpl<PrivilegeProperty> pvePrivilege = new StreamImpl<PrivilegeProperty>();
 	@Override
 	public void putBattleTowerPrivilege(IPrivilegeConfigSourcer<?> config,
 			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
 		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
-		pevPrivilege.fire(config.getValue(all).build());
+		pvePrivilege.fire(config.getValue(all).build());
 	}
 	@Override
 	public IStream<PrivilegeProperty> getPVEPrivilege() {
-		return pevPrivilege;
+		return pvePrivilege;
 	}
 
 	//副本
