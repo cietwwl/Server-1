@@ -14,8 +14,6 @@ import com.rwbase.dao.copypve.CopyEntryCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.pojo.CopyEntryCfg;
 import com.rwbase.dao.unendingwar.TableUnendingWar;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.BattleTowerPrivilegeNames;
 import com.rwproto.PveServiceProtos.PveActivity;
@@ -31,7 +29,6 @@ public class PveHandler {
 	}
 
 	public ByteString getPveInfo(Player player) {
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
 		PveServiceResponse.Builder reponse = PveServiceResponse.newBuilder();
 		long currentTime = System.currentTimeMillis();
 		PveActivity.Builder unendingActivity = PveActivity.newBuilder();
@@ -60,8 +57,13 @@ public class PveHandler {
 		PveActivity.Builder tower = PveActivity.newBuilder();
 		TableAngleArrayData angleData = player.getTowerMgr().getAngleArrayData();
 		int count = 0;
+		
+		//PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
 		if (angleData != null) {
-			count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
+			//by franky
+			int resetCount = player.getPrivilegeMgr().getIntPrivilege(BattleTowerPrivilegeNames.arrayTimeDec);
+			count = resetCount - angleData.getResetTimes();
+			//count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
 		}
 		tower.setCopyType(CopyType.COPY_TYPE_TOWER);
 		tower.setRemainSeconds(0);
@@ -110,8 +112,13 @@ public class PveHandler {
 		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player, currentTime));
 		PveActivity.Builder tower = PveActivity.newBuilder();
 		TableAngleArrayData angleData = player.getTowerMgr().getAngleArrayData();
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
-		int count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
+		
+		//PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
+		//int count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
+		//by franky
+		int resetCount = player.getPrivilegeMgr().getIntPrivilege(BattleTowerPrivilegeNames.arrayTimeDec);
+		int count = resetCount - angleData.getResetTimes();
+		
 		tower.setCopyType(CopyType.COPY_TYPE_TOWER);
 		tower.setRemainSeconds(0);
 		tower.setRemainTimes(count > 0 ? count : 0);
