@@ -17,6 +17,7 @@ import com.rwbase.dao.unendingwar.TableUnendingWar;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.PrivilegeProtos.BattleTowerPrivilegeNames;
 import com.rwproto.PveServiceProtos.PveActivity;
 import com.rwproto.PveServiceProtos.PveServiceResponse;
 
@@ -72,7 +73,10 @@ public class PveHandler {
 		TableBattleTower tableBattleTower = player.getBattleTowerMgr().getTableBattleTower();
 		int btCount = 0;
 		if (tableBattleTower != null) {
-			btCount = privilegeCfg.getBattleTowerResetTimes() - tableBattleTower.getResetTimes();
+			//by franky
+			int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(BattleTowerPrivilegeNames.maxResetCount);
+			btCount = battleTowerResetTimes - angleData.getResetTimes();
+			//btCount = privilegeCfg.getBattleTowerResetTimes() - tableBattleTower.getResetTimes();
 		}
 		battleTower.setCopyType(CopyType.COPY_TYPE_BATTLETOWER);
 		battleTower.setRemainSeconds(0);
