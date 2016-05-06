@@ -8,8 +8,8 @@ import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Privilege.IPrivilegeProvider;
+import com.rw.service.Privilege.datamodel.VipPrivilegeHelper;
 import com.rwbase.common.enu.EPrivilegeDef;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.TableVipDAO;
 import com.rwbase.dao.vip.VipDataHolder;
 import com.rwbase.dao.vip.pojo.TableVip;
@@ -189,11 +189,13 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	 * @return
 	 */
 	public int GetMaxPrivilege(EPrivilegeDef type){
-		return PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), type);
+		return GetPrivilegeInCfg(m_pPlayer.getVip(), type);
 	}
 
 	private int GetPrivilegeInCfg(int vip,EPrivilegeDef type){
-		return PrivilegeCfgDAO.getInstance().getDef(vip, type);
+		//by franky 重新按照特权系统的数据进行映射！
+		return VipPrivilegeHelper.getShareInstance().getDef(vip, type);
+		//return PrivilegeCfgDAO.getInstance().getDef(vip, type);
 	}
 	
 	/**
