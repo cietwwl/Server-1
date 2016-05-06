@@ -128,14 +128,14 @@ public class PrivilegeManager
 	}
 	
 	@Override
-	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Integer getIntPrivilege(PrivilegeNameEnums pname) {
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> int getIntPrivilege(PrivilegeNameEnums pname) {
 		PrivilegeProperty privilegeDataSet = getPrivilegeDataSet(pname);
 		Integer result = PrivilegeConfigHelper.getInstance().getIntPrivilege(privilegeDataSet, pname);
 		return result != null ? result : 0;
 	}
 	
 	@Override
-	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Boolean getBoolPrivilege(PrivilegeNameEnums pname) {
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> boolean getBoolPrivilege(PrivilegeNameEnums pname) {
 		PrivilegeProperty privilegeDataSet = getPrivilegeDataSet(pname);
 		Boolean result = PrivilegeConfigHelper.getInstance().getBoolPrivilege(privilegeDataSet, pname);
 		return result != null ? result : false;
@@ -166,7 +166,12 @@ public class PrivilegeManager
 	@Override
 	public void putArenaPrivilege(IPrivilegeConfigSourcer<?> config,List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> newPrivilegeMap) {
 		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
-		arenaPrivilege.fire(config.getValue(all).build());
+		Builder newValue = config.getValue(all);
+		PrivilegeProperty oldValue = arenaPrivilege.sample();
+		if (config.eq(oldValue,newValue)){
+			return;
+		}
+		arenaPrivilege.fire(newValue.build());
 	}
 
 	//巅峰竞技场

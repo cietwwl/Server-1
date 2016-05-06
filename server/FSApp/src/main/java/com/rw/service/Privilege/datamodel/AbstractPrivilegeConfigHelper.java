@@ -39,6 +39,46 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			IPrivilegeWare privilegeMgr, List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> tmpMap);
 
 	@Override
+	public boolean eq(PrivilegeProperty oldValue, PrivilegeProperty.Builder newValue) {
+		if (oldValue == null && newValue == null) {
+			return true;
+		}
+		if (oldValue != null && newValue == null) {
+			return false;
+		}
+		if (oldValue == null && newValue != null) {
+			return false;
+		}
+
+		if (oldValue.getKvCount() != privilegeNameEnums.length || newValue.getKvCount() != privilegeNameEnums.length){
+			return false;
+		}
+		
+		//为了提高效率，暂时不用这个方法
+		//return (oldValue.equals(newValue));
+		
+		for (int i =0;i<privilegeNameEnums.length;i++){
+			PrivilegeNameEnum privilegeNameEnum = privilegeNameEnums[i];
+			int ordinal = privilegeNameEnum.ordinal();
+			String name = privilegeNameEnum.name();
+			PrivilegeValue oldKv = oldValue.getKv(ordinal);
+			PrivilegeValue newKv = newValue.getKv(ordinal);
+			if (!oldKv.getName().equals(name) || !newKv.getName().equals(name)){
+				return false;
+			}
+			if (!oldKv.getValue().equals(newKv.getValue())){
+				return false;
+			}
+			String oldCharge = oldKv.hasChargeType() ? oldKv.getChargeType() : "";
+			String newCharge = newKv.hasChargeType() ? newKv.getChargeType() : "";
+			if ( !oldCharge.equals(newCharge)){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
 	public Field getConfigField(PrivilegeNameEnum name){
 		return fieldMap.get(String.valueOf(name));
 	}
@@ -82,7 +122,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		maxChargeType = new HashMap<PrivilegeNameEnum,String>(nameEnums.length);
 		Collection<ConfigClass> vals = cfgCacheMap.values();
 		ArrayList<String> tmp = new ArrayList<String>(cfgCacheMap.size());
-		HashMap<String,List<String>> tmpPriMap = new HashMap<String,List<String>>();
+		HashMap<PrivilegeNameEnum,List<String>> tmpPriMap = new HashMap<PrivilegeNameEnum,List<String>>();
 		String configClName = this.getClass().getName();
 		ChargeTypePriority chargePriority = ChargeTypePriority.getShareInstance();
 		for (ConfigClass cfg : vals) {
@@ -111,16 +151,15 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 					}
 				}
 				
-				String priName = privilegeNameEnum.name();
 				if (StringUtils.isBlank(privilegeValue.toString())){
-					GameLog.info("特权", configClName+",key="+cfg.getSource(), String.format("充值类型:%s,特权名称:%s,配置值空", cfg.getSource(),priName),null);
+					GameLog.info("特权", configClName+",key="+cfg.getSource(), String.format("充值类型:%s,特权名称:%s,配置值空", cfg.getSource(),privilegeNameEnum.name()),null);
 					continue;
 				}
 
-				List<String> chargeSrc = tmpPriMap.get(priName);
+				List<String> chargeSrc = tmpPriMap.get(privilegeNameEnum);
 				if (chargeSrc == null){
 					chargeSrc = new ArrayList<String>();
-					tmpPriMap.put(priName, chargeSrc);
+					tmpPriMap.put(privilegeNameEnum, chargeSrc);
 				}
 				chargeSrc.add(sourceName);
 			}
@@ -131,18 +170,17 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		chargeSources = new HashMap<PrivilegeNameEnum,String[]>();
 		for(int i = 0; i< nameEnums.length; i++){
 			PrivilegeNameEnum privilegeNameEnum = nameEnums[i];
-			String priName = privilegeNameEnum.name();
 			
 			String maxType = maxChargeType.get(privilegeNameEnum);
 			if (StringUtils.isBlank(maxType)){
-				throw new RuntimeException("无效特权配置:特权"+priName+"没有配置有效值");
+				throw new RuntimeException("无效特权配置:特权"+privilegeNameEnum+"没有配置有效值");
 			}
 
-			List<String> chargeSrc = tmpPriMap.get(priName);
+			List<String> chargeSrc = tmpPriMap.get(privilegeNameEnum);
 			String[] chargeSrcs;
 			if (chargeSrc == null){
 				chargeSrcs = new String[0];
-				GameLog.info("特权", configClName, String.format("特权名称:%s,没有配置充值类型", priName),null);
+				GameLog.info("特权", configClName, String.format("特权名称:%s,没有配置充值类型", privilegeNameEnum.name()),null);
 			}else{
 				chargeSrcs = new String[chargeSrc.size()];
 				chargeSrcs = chargeSrc.toArray(chargeSrcs);

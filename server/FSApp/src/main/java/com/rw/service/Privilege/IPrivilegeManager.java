@@ -10,9 +10,9 @@ public interface IPrivilegeManager {
 	 * @param pname
 	 * @return
 	 */
-	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Integer getIntPrivilege(PrivilegeNameEnums pname);
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> int getIntPrivilege(PrivilegeNameEnums pname);
 	
-	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> Boolean getBoolPrivilege(PrivilegeNameEnums pname);
+	public <PrivilegeNameEnums extends Enum<PrivilegeNameEnums>> boolean getBoolPrivilege(PrivilegeNameEnums pname);
 	
 	//竞技场特权点
 	public IStream<PrivilegeProperty> getArenaPrivilege();

@@ -7,6 +7,7 @@ import com.rw.service.Privilege.IPrivilegeProvider;
 import com.rw.service.Privilege.IPrivilegeWare;
 import com.rwproto.PrivilegeProtos.AllPrivilege;
 import com.rwproto.PrivilegeProtos.PrivilegeProperty;
+import com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder;
 
 public interface IPrivilegeConfigSourcer<PrivilegeNameEnum extends Enum<PrivilegeNameEnum>> {
 	/**
@@ -27,4 +28,6 @@ public interface IPrivilegeConfigSourcer<PrivilegeNameEnum extends Enum<Privileg
 	public PrivilegeProperty getValue(AllPrivilege pri);
 
 	public Field getConfigField(PrivilegeNameEnum name);
+
+	public boolean eq(PrivilegeProperty oldValue, Builder newValue);
 }
