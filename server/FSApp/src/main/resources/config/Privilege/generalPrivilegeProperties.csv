@@ -1,0 +1,6 @@
+name,Remarks,threshold,buyTip,nomoreTip,enableTip
+vipGiftLevel,,15,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
+battleSpeed,,3,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
+isAllowBuyFashion,,,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,VIP1开启重置竞技场CD功能，前往充值提升VIP等级。
+isAllowSoulBox,,,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,VIP1开启重置竞技场CD功能，前往充值提升VIP等级。
+isAllowReplenish,,,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,VIP1开启重置竞技场CD功能，前往充值提升VIP等级。
