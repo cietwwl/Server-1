@@ -29,7 +29,6 @@ import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
-import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
@@ -535,8 +534,7 @@ public class ArenaHandler {
 			ArenaRecord ar = getArenaRecord(record);
 
 			//by franky
-			IPrivilegeManager priMgr = player.getPrivilegeMgr();
-			Integer decCount = priMgr.getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
+			int decCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
 			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 			int cdTime = arenaInfoCfg.getCdTime() - decCount;
 			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + cdTime * 1000);
@@ -595,8 +593,7 @@ public class ArenaHandler {
 		
 		int buyTimes = m_MyArenaData.getBuyTimes();
 		//by franky
-		IPrivilegeManager priMgr = player.getPrivilegeMgr();
-		Integer allowMaxBuyCount = priMgr.getIntPrivilege(ArenaPrivilegeNames.arenaMaxCount);
+		int allowMaxBuyCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaMaxCount);
 		if (allowMaxBuyCount < buyTimes){
 			GameLog.info("arena", player.getUserId(),"buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount="+allowMaxBuyCount,null);
 			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
@@ -657,8 +654,7 @@ public class ArenaHandler {
 		}
 		
 		//by franky
-		IPrivilegeManager priMgr = player.getPrivilegeMgr();
-		Boolean isOpen = priMgr.getBoolPrivilege(ArenaPrivilegeNames.isAllowResetArena);
+		boolean isOpen = player.getPrivilegeMgr().getBoolPrivilege(ArenaPrivilegeNames.isAllowResetArena);
 		if (!isOpen){
 			GameLog.info("arena", player.getUserId(),"clearCD:未开启重置竞技场CD",null);
 			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
