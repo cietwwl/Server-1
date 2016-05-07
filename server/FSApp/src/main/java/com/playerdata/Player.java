@@ -133,8 +133,8 @@ public class Player implements PlayerIF {
 	private final PlayerTempAttribute tempAttribute;
 
 	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
-	
-	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();//用户临时数据的同步
+
+	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();// 用户临时数据的同步
 
 	/** 羁绊的缓存数据<英雄的ModelId,List<羁绊的推送数据>> */
 	private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>();
@@ -218,7 +218,7 @@ public class Player implements PlayerIF {
 			this.getHeroMgr().init(this, false);
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			notifyCreated();
-		}else{
+		} else {
 			m_HeroMgr.init(this, true);
 		}
 
@@ -236,7 +236,7 @@ public class Player implements PlayerIF {
 		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
 
 		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
-		
+
 		// TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
 		checkAllHeroFetters();
 	}
@@ -506,7 +506,7 @@ public class Player implements PlayerIF {
 			RedPointManager.getRedPointManager().checkRedPointVersion(this, this.redPointMgr.getVersion());
 		}
 	}
-	
+
 	// BusinessService start
 	public void onBSStart() {
 		synDataInReqMgr.setInReq(true);
@@ -1246,7 +1246,7 @@ public class Player implements PlayerIF {
 			FettersBM.checkOrUpdateHeroFetters(this, hero.getModelId(), false);
 		}
 	}
-	
+
 	public UserTmpGameDataFlag getUserTmpGameDataFlag() {
 		return userTmpGameDataFlag;
 	}
