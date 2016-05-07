@@ -19,8 +19,31 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	private int m_oldVip;
 	
 	private Player m_pPlayer;
-	private StreamImpl<IPrivilegeProvider> vipPrivilegeProvider = new StreamImpl<IPrivilegeProvider>();
 	
+	//by franky 实现特权系统与Vip的对接
+	private StreamImpl<IPrivilegeProvider> vipPrivilegeProvider = new StreamImpl<IPrivilegeProvider>();
+	@Override
+	public IStream<IPrivilegeProvider> getPrivilegeProvider() {
+		return vipPrivilegeProvider;
+	}
+
+	public static final String vipPrefix = "vip";
+	@Override
+	public int getBestMatchCharge(String[] sources) {
+		return VipPrivilegeHelper.getShareInstance().getBestMatchCharge(sources, m_pPlayer.getVip());
+	}
+
+	@Override
+	public String getCurrentChargeType() {
+		return vipPrefix+m_pPlayer.getVip();
+	}
+
+	@Override
+	public boolean reachChargeLevel(String chargeType) {
+		return VipPrivilegeHelper.getShareInstance().reachChargeLevel(chargeType, m_pPlayer.getVip());
+	}
+	//by franky end
+
 	@Override
 	public void notifyPlayerCreated(Player player) {
 		TableVip tableVip = new TableVip();
@@ -82,6 +105,7 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		m_oldVip = oldVip;
 		getVipVar(vipTable);
 		
+		//by franky vip修改成功后发出通知
 		vipPrivilegeProvider.fire(this);
 	}
 	
@@ -216,65 +240,9 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		vipDataHolder.update(m_pPlayer);
 	}
 
-	@Override
-	public IStream<IPrivilegeProvider> getPrivilegeProvider() {
-		return vipPrivilegeProvider;
-	}
-
-	public static final String vipPrefex = "vip";
-	@Override
-	public int getBestMatchCharge(String[] sources) {
-		int result = -1;
-		if (sources == null) return result;
-		int bestMatchVipLevel = -1;
-		int currentVip = m_pPlayer.getVip();
-		for(int i =0;i<sources.length;i++){
-			String chargeSource = sources[i];
-			if (chargeSource == null) continue;
-			int index = chargeSource.indexOf(vipPrefex);
-			if (index!=-1){
-				String vipLevelStr = chargeSource.substring(vipPrefex.length() + index);
-				int lvl = -1;
-				try{
-					lvl = Integer.parseInt(vipLevelStr);
-				}catch(Exception ex){
-					System.out.println("无法解释VIP等级:"+chargeSource);
-				}
-				//取比当前vip等级要低（或者相等），并且比已有最佳匹配值要大的等级
-				if (lvl > bestMatchVipLevel && lvl <= currentVip){
-					bestMatchVipLevel = lvl;
-					result = i;
-				}
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public String getCurrentChargeType() {
-		return vipPrefex+m_pPlayer.getVip();
-	}
-
-	@Override
-	public boolean reachChargeLevel(String chargeType) {
-		int index = chargeType.indexOf(vipPrefex);
-		if (index != -1) {
-			String vipLevelStr = chargeType.substring(vipPrefex.length()+index);
-			int lvl = -1;
-			try {
-				lvl = Integer.parseInt(vipLevelStr);
-				return lvl <= m_pPlayer.getVip();
-			} catch (Exception ex) {
-			}
-		}
-		return false;
-	}
-	
 	public void failToBuyVipGift(int vipLevel){
 		vipDataHolder.get().failToBuyVipGift(vipLevel);
 		vipDataHolder.update(m_pPlayer);
 	}
-	
-	
 	
 }
