@@ -3,6 +3,7 @@ package com.rw.service.Privilege.datamodel;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,52 +38,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 	abstract protected void putPrivilege(
 			AbstractPrivilegeConfigHelper<PrivilegeNameEnum, ConfigClass> abstractPrivilegeConfigHelper,
 			IPrivilegeWare privilegeMgr, List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> tmpMap);
-
-	@Override
-	public boolean eq(PrivilegeProperty oldValue, PrivilegeProperty.Builder newValue) {
-		if (oldValue == null && newValue == null) {
-			return true;
-		}
-		if (oldValue != null && newValue == null) {
-			return false;
-		}
-		if (oldValue == null && newValue != null) {
-			return false;
-		}
-
-		if (oldValue.getKvCount() != privilegeNameEnums.length || newValue.getKvCount() != privilegeNameEnums.length){
-			return false;
-		}
-		
-		//为了提高效率，暂时不用这个方法
-		//return (oldValue.equals(newValue));
-		
-		for (int i =0;i<privilegeNameEnums.length;i++){
-			PrivilegeNameEnum privilegeNameEnum = privilegeNameEnums[i];
-			int ordinal = privilegeNameEnum.ordinal();
-			String name = privilegeNameEnum.name();
-			PrivilegeValue oldKv = oldValue.getKv(ordinal);
-			PrivilegeValue newKv = newValue.getKv(ordinal);
-			if (!oldKv.getName().equals(name) || !newKv.getName().equals(name)){
-				return false;
-			}
-			if (!oldKv.getValue().equals(newKv.getValue())){
-				return false;
-			}
-			String oldCharge = oldKv.hasChargeType() ? oldKv.getChargeType() : "";
-			String newCharge = newKv.hasChargeType() ? newKv.getChargeType() : "";
-			if ( !oldCharge.equals(newCharge)){
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public Field getConfigField(PrivilegeNameEnum name){
-		return fieldMap.get(String.valueOf(name));
-	}
-
+	
 	protected Map<String, ConfigClass> initJsonCfg(String csvFileName, 
 			Class<ConfigClass> cfgCl,Class<PrivilegeNameEnum> priNameCl) {
 		PrivilegeNameEnum[] nameEnums = priNameCl.getEnumConstants();
@@ -164,6 +120,8 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				chargeSrc.add(sourceName);
 			}
 		}
+		// 按优先级排序tmp
+		Collections.sort(tmp,ChargeTypePriority.getShareInstance());
 		sources = new String[tmp.size()];
 		sources = tmp.toArray(sources);
 		
@@ -186,14 +144,71 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				chargeSrcs = new String[0];
 				GameLog.info("特权", configClName, String.format("特权名称:%s,没有配置充值类型", privilegeNameEnum.name()),null);
 			}else{
+				Collections.sort(chargeSrc,ChargeTypePriority.getShareInstance());
+				//chargeSrc.sort(ChargeTypePriority.getShareInstance());
 				chargeSrcs = new String[chargeSrc.size()];
 				chargeSrcs = chargeSrc.toArray(chargeSrcs);
 			}
 			chargeSources.put(privilegeNameEnum, chargeSrcs);
 		}
 		
-		PrivilegeConfigHelper.getInstance().update(configClName, this);
+		PrivilegeConfigHelper.getInstance().update(priNameCl, this);
 		return cfgCacheMap;
+	}
+	
+	@Override
+	public IConfigChargeSource<PrivilegeNameEnum> getCfg(String chargetType){
+		return cfgCacheMap.get(chargetType);
+	}
+	
+	@Override
+	public String[] getChargeSource(Enum<?> name){
+		return chargeSources.get(name);
+	}
+	
+	@Override
+	public boolean eq(PrivilegeProperty oldValue, PrivilegeProperty.Builder newValue) {
+		if (oldValue == null && newValue == null) {
+			return true;
+		}
+		if (oldValue != null && newValue == null) {
+			return false;
+		}
+		if (oldValue == null && newValue != null) {
+			return false;
+		}
+
+		if (oldValue.getKvCount() != privilegeNameEnums.length || newValue.getKvCount() != privilegeNameEnums.length){
+			return false;
+		}
+		
+		//为了提高效率，暂时不用这个方法
+		//return (oldValue.equals(newValue));
+		
+		for (int i =0;i<privilegeNameEnums.length;i++){
+			PrivilegeNameEnum privilegeNameEnum = privilegeNameEnums[i];
+			int ordinal = privilegeNameEnum.ordinal();
+			String name = privilegeNameEnum.name();
+			PrivilegeValue oldKv = oldValue.getKv(ordinal);
+			PrivilegeValue newKv = newValue.getKv(ordinal);
+			if (!oldKv.getName().equals(name) || !newKv.getName().equals(name)){
+				return false;
+			}
+			if (!oldKv.getValue().equals(newKv.getValue())){
+				return false;
+			}
+			String oldCharge = oldKv.hasChargeType() ? oldKv.getChargeType() : "";
+			String newCharge = newKv.hasChargeType() ? newKv.getChargeType() : "";
+			if ( !oldCharge.equals(newCharge)){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public Field getConfigField(PrivilegeNameEnum name){
+		return fieldMap.get(String.valueOf(name));
 	}
 	
 	@Override
@@ -288,6 +303,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		return acc;
 	}
 
+	@Override
 	public Object getValue(PrivilegeProperty currentPri, PrivilegeNameEnum pname) {
 		if (currentPri == null || pname == null) {
 			return null;

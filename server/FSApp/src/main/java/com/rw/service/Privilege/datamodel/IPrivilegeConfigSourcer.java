@@ -26,8 +26,14 @@ public interface IPrivilegeConfigSourcer<PrivilegeNameEnum extends Enum<Privileg
 	public PrivilegeProperty.Builder getValue(AllPrivilege.Builder holder);
 
 	public PrivilegeProperty getValue(AllPrivilege pri);
+	
+	public Object getValue(PrivilegeProperty currentPri, PrivilegeNameEnum pname);
 
 	public Field getConfigField(PrivilegeNameEnum name);
 
 	public boolean eq(PrivilegeProperty oldValue, Builder newValue);
+
+	public String[] getChargeSource(Enum<?> name);
+	
+	public IConfigChargeSource<PrivilegeNameEnum> getCfg(String chargetType);
 }

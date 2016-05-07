@@ -14,6 +14,11 @@ public abstract class AbstractConfigChargeSource<NameEnumCl extends Enum<NameEnu
 	private HashMap<NameEnumCl, Object> fieldValues = new HashMap<NameEnumCl, Object>();
 
 	@Override
+	public Object getValue(Enum<?> name){
+		return fieldValues.get(name);
+	}
+	
+	@Override
 	public Object getValueByName(NameEnumCl pname) {
 		return fieldValues.get(pname);
 	}

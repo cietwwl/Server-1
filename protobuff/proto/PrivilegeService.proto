@@ -7,7 +7,7 @@ package Privilege;
 message AllPrivilege {
 	optional PrivilegeProperty arena = 1; //竞技场特权点
 	optional PrivilegeProperty peakArena = 2;//巅峰竞技场特权点
-	optional PrivilegeProperty battleTower = 3;//PVE特权点
+	optional PrivilegeProperty pve = 3;//PVE特权点
 	optional PrivilegeProperty group = 4;//帮派特权点
 	optional PrivilegeProperty store = 5;//商店特权点
 	optional PrivilegeProperty copy = 6;//副本特权点
@@ -38,10 +38,10 @@ enum PeakArenaPrivilegeNames {
 	isAllowResetPeak = 2; //开启重置巅峰竞技场CD
 }
 
-enum BattleTowerPrivilegeNames {
+enum PvePrivilegeNames {
      maxResetCount = 1; //封神台可重置次数
      sweepTimeDec = 2;  //封神台每层扫荡时间减少x秒
-     arrayTimeDec = 3; // 万仙阵可重置次数
+     arrayMaxResetCnt = 3; // 万仙阵可重置次数
      warfareRewardAdd = 4; // 无尽战火积分增加x%（万分比）
      warfareResetCnt = 5; // 无尽战火可重置次数
      treasureTimeDec = 6; // 聚宝之地挑战cd减少x秒
@@ -68,9 +68,8 @@ enum StorePrivilegeNames {
 enum CopyPrivilegeNames {
      copyRewardAdd = 1; //普通副本金币掉落提高x%（万分比）
      isAllowTenSweep = 2;  //开启一键扫十次
-     copyResetCnt = 3; // 普通副本可重置次数
-     eliteRewardAdd = 4; // 精英副本金币收益增加x%（万分比）
-     eliteResetCnt = 5; // 精英副本可重置次数
+     eliteRewardAdd = 3; // 精英副本金币收益增加x%（万分比）
+     eliteResetCnt = 4; // 精英副本可重置次数
 }
 
 enum LoginPrivilegeNames {

@@ -1,9 +1,9 @@
 package com.rw.service.Privilege.datamodel;
 
-import com.rwproto.PrivilegeProtos.BattleTowerPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 
 @SuppressWarnings("unused")
-public class battleTowerPrivilege extends AbstractConfigChargeSource<BattleTowerPrivilegeNames> {
+public class pvePrivilege extends AbstractConfigChargeSource<PvePrivilegeNames> {
   private String source; //特权来源
   private int maxResetCount; //封神台可重置次数
   private int sweepTimeDec; //封神台每层扫荡时间减少X秒
@@ -24,10 +24,10 @@ public class battleTowerPrivilege extends AbstractConfigChargeSource<BattleTower
 	}
 
 	@Override
-	public void ExtraInitAfterLoad(IPrivilegeConfigSourcer<BattleTowerPrivilegeNames> cfgHelper) {
+	public void ExtraInitAfterLoad(IPrivilegeConfigSourcer<PvePrivilegeNames> cfgHelper) {
 		Throwable cause = null;
 		try {
-			ExtraInitAfterLoad(BattleTowerPrivilegeNames.class, cfgHelper);
+			ExtraInitAfterLoad(PvePrivilegeNames.class, cfgHelper);
 		} catch (IllegalArgumentException e) {
 			cause = e;
 			e.printStackTrace();

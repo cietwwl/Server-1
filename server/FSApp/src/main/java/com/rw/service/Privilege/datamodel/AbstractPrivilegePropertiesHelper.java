@@ -35,6 +35,7 @@ public abstract class AbstractPrivilegePropertiesHelper<PrivilegeNameEnum extend
 			}
 			priMap.put(privilegeNameEnum, cfg);
 		}
+		PrivilegeConfigHelper.getInstance().update(cfgCl.getClass().getName(), this);
 		return cfgCacheMap;
 	}
 	

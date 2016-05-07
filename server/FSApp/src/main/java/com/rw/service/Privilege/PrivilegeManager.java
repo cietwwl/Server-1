@@ -24,13 +24,13 @@ public class PrivilegeManager
 	private ArrayList<IPrivilegeProvider> privelegeProviders;
 	private HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>,AllPrivilege> cache;
 	private HashMap<Class<? extends Enum<?>>,IStream<PrivilegeProperty>> privilegeNameRouter;
-	
+
 	//TODO 如果配置发生变化，需要对每个玩家调用这个方法重新初始化
 	public void initPrivilegeProvider() {
 		privilegeNameRouter = new HashMap<Class<? extends Enum<?>>,IStream<PrivilegeProperty>>();
 		privilegeNameRouter.put(ArenaPrivilegeNames.class, arenaPrivilege);
 		privilegeNameRouter.put(PeakArenaPrivilegeNames.class, peakArenaPrivilege);
-		privilegeNameRouter.put(BattleTowerPrivilegeNames.class, pvePrivilege);
+		privilegeNameRouter.put(PvePrivilegeNames.class, pvePrivilege);
 		privilegeNameRouter.put(GroupPrivilegeNames.class, groupPrivilege);
 		privilegeNameRouter.put(StorePrivilegeNames.class, storePrivilege);
 		privilegeNameRouter.put(CopyPrivilegeNames.class, copyPrivilege);

@@ -239,9 +239,9 @@ public final class PrivilegeProtos {
   }
 
   /**
-   * Protobuf enum {@code Privilege.BattleTowerPrivilegeNames}
+   * Protobuf enum {@code Privilege.PvePrivilegeNames}
    */
-  public enum BattleTowerPrivilegeNames
+  public enum PvePrivilegeNames
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>maxResetCount = 1;</code>
@@ -260,13 +260,13 @@ public final class PrivilegeProtos {
      */
     sweepTimeDec(1, 2),
     /**
-     * <code>arrayTimeDec = 3;</code>
+     * <code>arrayMaxResetCnt = 3;</code>
      *
      * <pre>
      * 万仙阵可重置次数
      * </pre>
      */
-    arrayTimeDec(2, 3),
+    arrayMaxResetCnt(2, 3),
     /**
      * <code>warfareRewardAdd = 4;</code>
      *
@@ -350,13 +350,13 @@ public final class PrivilegeProtos {
      */
     public static final int sweepTimeDec_VALUE = 2;
     /**
-     * <code>arrayTimeDec = 3;</code>
+     * <code>arrayMaxResetCnt = 3;</code>
      *
      * <pre>
      * 万仙阵可重置次数
      * </pre>
      */
-    public static final int arrayTimeDec_VALUE = 3;
+    public static final int arrayMaxResetCnt_VALUE = 3;
     /**
      * <code>warfareRewardAdd = 4;</code>
      *
@@ -425,11 +425,11 @@ public final class PrivilegeProtos {
 
     public final int getNumber() { return value; }
 
-    public static BattleTowerPrivilegeNames valueOf(int value) {
+    public static PvePrivilegeNames valueOf(int value) {
       switch (value) {
         case 1: return maxResetCount;
         case 2: return sweepTimeDec;
-        case 3: return arrayTimeDec;
+        case 3: return arrayMaxResetCnt;
         case 4: return warfareRewardAdd;
         case 5: return warfareResetCnt;
         case 6: return treasureTimeDec;
@@ -442,15 +442,15 @@ public final class PrivilegeProtos {
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<BattleTowerPrivilegeNames>
+    public static com.google.protobuf.Internal.EnumLiteMap<PvePrivilegeNames>
         internalGetValueMap() {
       return internalValueMap;
     }
-    private static com.google.protobuf.Internal.EnumLiteMap<BattleTowerPrivilegeNames>
+    private static com.google.protobuf.Internal.EnumLiteMap<PvePrivilegeNames>
         internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<BattleTowerPrivilegeNames>() {
-            public BattleTowerPrivilegeNames findValueByNumber(int number) {
-              return BattleTowerPrivilegeNames.valueOf(number);
+          new com.google.protobuf.Internal.EnumLiteMap<PvePrivilegeNames>() {
+            public PvePrivilegeNames findValueByNumber(int number) {
+              return PvePrivilegeNames.valueOf(number);
             }
           };
 
@@ -467,9 +467,9 @@ public final class PrivilegeProtos {
       return com.rwproto.PrivilegeProtos.getDescriptor().getEnumTypes().get(2);
     }
 
-    private static final BattleTowerPrivilegeNames[] VALUES = values();
+    private static final PvePrivilegeNames[] VALUES = values();
 
-    public static BattleTowerPrivilegeNames valueOf(
+    public static PvePrivilegeNames valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -481,12 +481,12 @@ public final class PrivilegeProtos {
     private final int index;
     private final int value;
 
-    private BattleTowerPrivilegeNames(int index, int value) {
+    private PvePrivilegeNames(int index, int value) {
       this.index = index;
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:Privilege.BattleTowerPrivilegeNames)
+    // @@protoc_insertion_point(enum_scope:Privilege.PvePrivilegeNames)
   }
 
   /**
@@ -758,29 +758,21 @@ public final class PrivilegeProtos {
      */
     isAllowTenSweep(1, 2),
     /**
-     * <code>copyResetCnt = 3;</code>
-     *
-     * <pre>
-     * 普通副本可重置次数
-     * </pre>
-     */
-    copyResetCnt(2, 3),
-    /**
-     * <code>eliteRewardAdd = 4;</code>
+     * <code>eliteRewardAdd = 3;</code>
      *
      * <pre>
      * 精英副本金币收益增加x%（万分比）
      * </pre>
      */
-    eliteRewardAdd(3, 4),
+    eliteRewardAdd(2, 3),
     /**
-     * <code>eliteResetCnt = 5;</code>
+     * <code>eliteResetCnt = 4;</code>
      *
      * <pre>
      * 精英副本可重置次数
      * </pre>
      */
-    eliteResetCnt(4, 5),
+    eliteResetCnt(3, 4),
     ;
 
     /**
@@ -800,29 +792,21 @@ public final class PrivilegeProtos {
      */
     public static final int isAllowTenSweep_VALUE = 2;
     /**
-     * <code>copyResetCnt = 3;</code>
-     *
-     * <pre>
-     * 普通副本可重置次数
-     * </pre>
-     */
-    public static final int copyResetCnt_VALUE = 3;
-    /**
-     * <code>eliteRewardAdd = 4;</code>
+     * <code>eliteRewardAdd = 3;</code>
      *
      * <pre>
      * 精英副本金币收益增加x%（万分比）
      * </pre>
      */
-    public static final int eliteRewardAdd_VALUE = 4;
+    public static final int eliteRewardAdd_VALUE = 3;
     /**
-     * <code>eliteResetCnt = 5;</code>
+     * <code>eliteResetCnt = 4;</code>
      *
      * <pre>
      * 精英副本可重置次数
      * </pre>
      */
-    public static final int eliteResetCnt_VALUE = 5;
+    public static final int eliteResetCnt_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -831,9 +815,8 @@ public final class PrivilegeProtos {
       switch (value) {
         case 1: return copyRewardAdd;
         case 2: return isAllowTenSweep;
-        case 3: return copyResetCnt;
-        case 4: return eliteRewardAdd;
-        case 5: return eliteResetCnt;
+        case 3: return eliteRewardAdd;
+        case 4: return eliteResetCnt;
         default: return null;
       }
     }
@@ -1336,31 +1319,31 @@ public final class PrivilegeProtos {
      */
     com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getPeakArenaOrBuilder();
 
-    // optional .Privilege.PrivilegeProperty battleTower = 3;
+    // optional .Privilege.PrivilegeProperty pve = 3;
     /**
-     * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+     * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
      *
      * <pre>
      *PVE特权点
      * </pre>
      */
-    boolean hasBattleTower();
+    boolean hasPve();
     /**
-     * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+     * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
      *
      * <pre>
      *PVE特权点
      * </pre>
      */
-    com.rwproto.PrivilegeProtos.PrivilegeProperty getBattleTower();
+    com.rwproto.PrivilegeProtos.PrivilegeProperty getPve();
     /**
-     * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+     * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
      *
      * <pre>
      *PVE特权点
      * </pre>
      */
-    com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getBattleTowerOrBuilder();
+    com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getPveOrBuilder();
 
     // optional .Privilege.PrivilegeProperty group = 4;
     /**
@@ -1598,12 +1581,12 @@ public final class PrivilegeProtos {
             case 26: {
               com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                subBuilder = battleTower_.toBuilder();
+                subBuilder = pve_.toBuilder();
               }
-              battleTower_ = input.readMessage(com.rwproto.PrivilegeProtos.PrivilegeProperty.PARSER, extensionRegistry);
+              pve_ = input.readMessage(com.rwproto.PrivilegeProtos.PrivilegeProperty.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(battleTower_);
-                battleTower_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(pve_);
+                pve_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
               break;
@@ -1794,38 +1777,38 @@ public final class PrivilegeProtos {
       return peakArena_;
     }
 
-    // optional .Privilege.PrivilegeProperty battleTower = 3;
-    public static final int BATTLETOWER_FIELD_NUMBER = 3;
-    private com.rwproto.PrivilegeProtos.PrivilegeProperty battleTower_;
+    // optional .Privilege.PrivilegeProperty pve = 3;
+    public static final int PVE_FIELD_NUMBER = 3;
+    private com.rwproto.PrivilegeProtos.PrivilegeProperty pve_;
     /**
-     * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+     * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
      *
      * <pre>
      *PVE特权点
      * </pre>
      */
-    public boolean hasBattleTower() {
+    public boolean hasPve() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+     * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
      *
      * <pre>
      *PVE特权点
      * </pre>
      */
-    public com.rwproto.PrivilegeProtos.PrivilegeProperty getBattleTower() {
-      return battleTower_;
+    public com.rwproto.PrivilegeProtos.PrivilegeProperty getPve() {
+      return pve_;
     }
     /**
-     * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+     * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
      *
      * <pre>
      *PVE特权点
      * </pre>
      */
-    public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getBattleTowerOrBuilder() {
-      return battleTower_;
+    public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getPveOrBuilder() {
+      return pve_;
     }
 
     // optional .Privilege.PrivilegeProperty group = 4;
@@ -2035,7 +2018,7 @@ public final class PrivilegeProtos {
     private void initFields() {
       arena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
       peakArena_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
-      battleTower_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
+      pve_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
       group_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
       store_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
       copy_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
@@ -2060,8 +2043,8 @@ public final class PrivilegeProtos {
           return false;
         }
       }
-      if (hasBattleTower()) {
-        if (!getBattleTower().isInitialized()) {
+      if (hasPve()) {
+        if (!getPve().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2116,7 +2099,7 @@ public final class PrivilegeProtos {
         output.writeMessage(2, peakArena_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, battleTower_);
+        output.writeMessage(3, pve_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, group_);
@@ -2155,7 +2138,7 @@ public final class PrivilegeProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, battleTower_);
+          .computeMessageSize(3, pve_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -2291,7 +2274,7 @@ public final class PrivilegeProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getArenaFieldBuilder();
           getPeakArenaFieldBuilder();
-          getBattleTowerFieldBuilder();
+          getPveFieldBuilder();
           getGroupFieldBuilder();
           getStoreFieldBuilder();
           getCopyFieldBuilder();
@@ -2318,10 +2301,10 @@ public final class PrivilegeProtos {
           peakArenaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
-        if (battleTowerBuilder_ == null) {
-          battleTower_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
+        if (pveBuilder_ == null) {
+          pve_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
         } else {
-          battleTowerBuilder_.clear();
+          pveBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
         if (groupBuilder_ == null) {
@@ -2407,10 +2390,10 @@ public final class PrivilegeProtos {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        if (battleTowerBuilder_ == null) {
-          result.battleTower_ = battleTower_;
+        if (pveBuilder_ == null) {
+          result.pve_ = pve_;
         } else {
-          result.battleTower_ = battleTowerBuilder_.build();
+          result.pve_ = pveBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
@@ -2482,8 +2465,8 @@ public final class PrivilegeProtos {
         if (other.hasPeakArena()) {
           mergePeakArena(other.getPeakArena());
         }
-        if (other.hasBattleTower()) {
-          mergeBattleTower(other.getBattleTower());
+        if (other.hasPve()) {
+          mergePve(other.getPve());
         }
         if (other.hasGroup()) {
           mergeGroup(other.getGroup());
@@ -2520,8 +2503,8 @@ public final class PrivilegeProtos {
             return false;
           }
         }
-        if (hasBattleTower()) {
-          if (!getBattleTower().isInitialized()) {
+        if (hasPve()) {
+          if (!getPve().isInitialized()) {
             
             return false;
           }
@@ -2890,140 +2873,140 @@ public final class PrivilegeProtos {
         return peakArenaBuilder_;
       }
 
-      // optional .Privilege.PrivilegeProperty battleTower = 3;
-      private com.rwproto.PrivilegeProtos.PrivilegeProperty battleTower_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
+      // optional .Privilege.PrivilegeProperty pve = 3;
+      private com.rwproto.PrivilegeProtos.PrivilegeProperty pve_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder> battleTowerBuilder_;
+          com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder> pveBuilder_;
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public boolean hasBattleTower() {
+      public boolean hasPve() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.PrivilegeProperty getBattleTower() {
-        if (battleTowerBuilder_ == null) {
-          return battleTower_;
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty getPve() {
+        if (pveBuilder_ == null) {
+          return pve_;
         } else {
-          return battleTowerBuilder_.getMessage();
+          return pveBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public Builder setBattleTower(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
-        if (battleTowerBuilder_ == null) {
+      public Builder setPve(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
+        if (pveBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          battleTower_ = value;
+          pve_ = value;
           onChanged();
         } else {
-          battleTowerBuilder_.setMessage(value);
+          pveBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public Builder setBattleTower(
+      public Builder setPve(
           com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder builderForValue) {
-        if (battleTowerBuilder_ == null) {
-          battleTower_ = builderForValue.build();
+        if (pveBuilder_ == null) {
+          pve_ = builderForValue.build();
           onChanged();
         } else {
-          battleTowerBuilder_.setMessage(builderForValue.build());
+          pveBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public Builder mergeBattleTower(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
-        if (battleTowerBuilder_ == null) {
+      public Builder mergePve(com.rwproto.PrivilegeProtos.PrivilegeProperty value) {
+        if (pveBuilder_ == null) {
           if (((bitField0_ & 0x00000004) == 0x00000004) &&
-              battleTower_ != com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance()) {
-            battleTower_ =
-              com.rwproto.PrivilegeProtos.PrivilegeProperty.newBuilder(battleTower_).mergeFrom(value).buildPartial();
+              pve_ != com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance()) {
+            pve_ =
+              com.rwproto.PrivilegeProtos.PrivilegeProperty.newBuilder(pve_).mergeFrom(value).buildPartial();
           } else {
-            battleTower_ = value;
+            pve_ = value;
           }
           onChanged();
         } else {
-          battleTowerBuilder_.mergeFrom(value);
+          pveBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public Builder clearBattleTower() {
-        if (battleTowerBuilder_ == null) {
-          battleTower_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
+      public Builder clearPve() {
+        if (pveBuilder_ == null) {
+          pve_ = com.rwproto.PrivilegeProtos.PrivilegeProperty.getDefaultInstance();
           onChanged();
         } else {
-          battleTowerBuilder_.clear();
+          pveBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder getBattleTowerBuilder() {
+      public com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder getPveBuilder() {
         bitField0_ |= 0x00000004;
         onChanged();
-        return getBattleTowerFieldBuilder().getBuilder();
+        return getPveFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
        * </pre>
        */
-      public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getBattleTowerOrBuilder() {
-        if (battleTowerBuilder_ != null) {
-          return battleTowerBuilder_.getMessageOrBuilder();
+      public com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder getPveOrBuilder() {
+        if (pveBuilder_ != null) {
+          return pveBuilder_.getMessageOrBuilder();
         } else {
-          return battleTower_;
+          return pve_;
         }
       }
       /**
-       * <code>optional .Privilege.PrivilegeProperty battleTower = 3;</code>
+       * <code>optional .Privilege.PrivilegeProperty pve = 3;</code>
        *
        * <pre>
        *PVE特权点
@@ -3031,16 +3014,16 @@ public final class PrivilegeProtos {
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder> 
-          getBattleTowerFieldBuilder() {
-        if (battleTowerBuilder_ == null) {
-          battleTowerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getPveFieldBuilder() {
+        if (pveBuilder_ == null) {
+          pveBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.rwproto.PrivilegeProtos.PrivilegeProperty, com.rwproto.PrivilegeProtos.PrivilegeProperty.Builder, com.rwproto.PrivilegeProtos.PrivilegePropertyOrBuilder>(
-                  battleTower_,
+                  pve_,
                   getParentForChildren(),
                   isClean());
-          battleTower_ = null;
+          pve_ = null;
         }
-        return battleTowerBuilder_;
+        return pveBuilder_;
       }
 
       // optional .Privilege.PrivilegeProperty group = 4;
@@ -5737,49 +5720,49 @@ public final class PrivilegeProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026PrivilegeService.proto\022\tPrivilege\"\255\003\n\014" +
+      "\n\026PrivilegeService.proto\022\tPrivilege\"\245\003\n\014" +
       "AllPrivilege\022+\n\005arena\030\001 \001(\0132\034.Privilege." +
       "PrivilegeProperty\022/\n\tpeakArena\030\002 \001(\0132\034.P" +
-      "rivilege.PrivilegeProperty\0221\n\013battleTowe" +
-      "r\030\003 \001(\0132\034.Privilege.PrivilegeProperty\022+\n" +
-      "\005group\030\004 \001(\0132\034.Privilege.PrivilegeProper" +
-      "ty\022+\n\005store\030\005 \001(\0132\034.Privilege.PrivilegeP" +
-      "roperty\022*\n\004copy\030\006 \001(\0132\034.Privilege.Privil" +
-      "egeProperty\022*\n\004hero\030\007 \001(\0132\034.Privilege.Pr" +
-      "ivilegeProperty\022+\n\005login\030\010 \001(\0132\034.Privile",
-      "ge.PrivilegeProperty\022-\n\007general\030\t \001(\0132\034." +
-      "Privilege.PrivilegeProperty\":\n\021Privilege" +
-      "Property\022%\n\002kv\030\001 \003(\0132\031.Privilege.Privile" +
-      "geValue\"A\n\016PrivilegeValue\022\014\n\004name\030\001 \002(\t\022" +
-      "\r\n\005value\030\002 \002(\t\022\022\n\nchargeType\030\003 \001(\t*j\n\023Ar" +
-      "enaPrivilegeNames\022\021\n\rarenaMaxCount\020\001\022\025\n\021" +
-      "isAllowResetArena\020\002\022\022\n\016arenaRewardAdd\020\003\022" +
-      "\025\n\021arenaChallengeDec\020\004*A\n\027PeakArenaPrivi" +
-      "legeNames\022\020\n\014peakMaxCount\020\001\022\024\n\020isAllowRe" +
-      "setPeak\020\002*\364\001\n\031BattleTowerPrivilegeNames\022",
-      "\021\n\rmaxResetCount\020\001\022\020\n\014sweepTimeDec\020\002\022\020\n\014" +
-      "arrayTimeDec\020\003\022\024\n\020warfareRewardAdd\020\004\022\023\n\017" +
-      "warfareResetCnt\020\005\022\023\n\017treasureTimeDec\020\006\022\024" +
-      "\n\020treasureResetCnt\020\007\022\016\n\nexpTimeDec\020\010\022\017\n\013" +
-      "expResetCnt\020\t\022\023\n\017survivalTimeDec\020\n\022\024\n\020su" +
-      "rvivalResetCnt\020\013*A\n\023GroupPrivilegeNames\022" +
-      "\017\n\013donateCount\020\001\022\031\n\025mysteryChallengeCoun" +
-      "t\020\002*\235\001\n\023StorePrivilegeNames\022\032\n\026isOpenBla" +
-      "ckmarketStore\020\001\022\026\n\022isOpenMysteryStore\020\002\022" +
-      "\027\n\023storeFreeRefreshCnt\020\003\022\036\n\032mysteryStore",
-      "FreeRefreshCnt\020\004\022\031\n\025bmstoreFreeRefreshCn" +
-      "t\020\005*u\n\022CopyPrivilegeNames\022\021\n\rcopyRewardA" +
-      "dd\020\001\022\023\n\017isAllowTenSweep\020\002\022\020\n\014copyResetCn" +
-      "t\020\003\022\022\n\016eliteRewardAdd\020\004\022\021\n\reliteResetCnt" +
-      "\020\005*V\n\023LoginPrivilegeNames\022\021\n\rbuyPowerCou" +
-      "nt\020\001\022\025\n\021useCoinTransCount\020\002\022\025\n\021getSweepT" +
-      "icketNum\020\003*g\n\022HeroPrivilegeNames\022\022\n\016skil" +
-      "lThreshold\020\001\022\030\n\024isAllowBuySkillPoint\020\002\022\020" +
-      "\n\014skillTimeDec\020\003\022\021\n\risAllowAttach\020\004*{\n\025G" +
-      "eneralPrivilegeNames\022\020\n\014vipGiftLevel\020\001\022\017",
-      "\n\013battleSpeed\020\002\022\025\n\021isAllowBuyFashion\020\003\022\022" +
-      "\n\016isAllowSoulBox\020\004\022\024\n\020isAllowReplenish\020\005" +
-      "B\036\n\013com.rwprotoB\017PrivilegeProtos"
+      "rivilege.PrivilegeProperty\022)\n\003pve\030\003 \001(\0132" +
+      "\034.Privilege.PrivilegeProperty\022+\n\005group\030\004" +
+      " \001(\0132\034.Privilege.PrivilegeProperty\022+\n\005st" +
+      "ore\030\005 \001(\0132\034.Privilege.PrivilegeProperty\022" +
+      "*\n\004copy\030\006 \001(\0132\034.Privilege.PrivilegePrope" +
+      "rty\022*\n\004hero\030\007 \001(\0132\034.Privilege.PrivilegeP" +
+      "roperty\022+\n\005login\030\010 \001(\0132\034.Privilege.Privi",
+      "legeProperty\022-\n\007general\030\t \001(\0132\034.Privileg" +
+      "e.PrivilegeProperty\":\n\021PrivilegeProperty" +
+      "\022%\n\002kv\030\001 \003(\0132\031.Privilege.PrivilegeValue\"" +
+      "A\n\016PrivilegeValue\022\014\n\004name\030\001 \002(\t\022\r\n\005value" +
+      "\030\002 \002(\t\022\022\n\nchargeType\030\003 \001(\t*j\n\023ArenaPrivi" +
+      "legeNames\022\021\n\rarenaMaxCount\020\001\022\025\n\021isAllowR" +
+      "esetArena\020\002\022\022\n\016arenaRewardAdd\020\003\022\025\n\021arena" +
+      "ChallengeDec\020\004*A\n\027PeakArenaPrivilegeName" +
+      "s\022\020\n\014peakMaxCount\020\001\022\024\n\020isAllowResetPeak\020" +
+      "\002*\360\001\n\021PvePrivilegeNames\022\021\n\rmaxResetCount",
+      "\020\001\022\020\n\014sweepTimeDec\020\002\022\024\n\020arrayMaxResetCnt" +
+      "\020\003\022\024\n\020warfareRewardAdd\020\004\022\023\n\017warfareReset" +
+      "Cnt\020\005\022\023\n\017treasureTimeDec\020\006\022\024\n\020treasureRe" +
+      "setCnt\020\007\022\016\n\nexpTimeDec\020\010\022\017\n\013expResetCnt\020" +
+      "\t\022\023\n\017survivalTimeDec\020\n\022\024\n\020survivalResetC" +
+      "nt\020\013*A\n\023GroupPrivilegeNames\022\017\n\013donateCou" +
+      "nt\020\001\022\031\n\025mysteryChallengeCount\020\002*\235\001\n\023Stor" +
+      "ePrivilegeNames\022\032\n\026isOpenBlackmarketStor" +
+      "e\020\001\022\026\n\022isOpenMysteryStore\020\002\022\027\n\023storeFree" +
+      "RefreshCnt\020\003\022\036\n\032mysteryStoreFreeRefreshC",
+      "nt\020\004\022\031\n\025bmstoreFreeRefreshCnt\020\005*c\n\022CopyP" +
+      "rivilegeNames\022\021\n\rcopyRewardAdd\020\001\022\023\n\017isAl" +
+      "lowTenSweep\020\002\022\022\n\016eliteRewardAdd\020\003\022\021\n\reli" +
+      "teResetCnt\020\004*V\n\023LoginPrivilegeNames\022\021\n\rb" +
+      "uyPowerCount\020\001\022\025\n\021useCoinTransCount\020\002\022\025\n" +
+      "\021getSweepTicketNum\020\003*g\n\022HeroPrivilegeNam" +
+      "es\022\022\n\016skillThreshold\020\001\022\030\n\024isAllowBuySkil" +
+      "lPoint\020\002\022\020\n\014skillTimeDec\020\003\022\021\n\risAllowAtt" +
+      "ach\020\004*{\n\025GeneralPrivilegeNames\022\020\n\014vipGif" +
+      "tLevel\020\001\022\017\n\013battleSpeed\020\002\022\025\n\021isAllowBuyF",
+      "ashion\020\003\022\022\n\016isAllowSoulBox\020\004\022\024\n\020isAllowR" +
+      "eplenish\020\005B\036\n\013com.rwprotoB\017PrivilegeProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5791,7 +5774,7 @@ public final class PrivilegeProtos {
           internal_static_Privilege_AllPrivilege_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Privilege_AllPrivilege_descriptor,
-              new java.lang.String[] { "Arena", "PeakArena", "BattleTower", "Group", "Store", "Copy", "Hero", "Login", "General", });
+              new java.lang.String[] { "Arena", "PeakArena", "Pve", "Group", "Store", "Copy", "Hero", "Login", "General", });
           internal_static_Privilege_PrivilegeProperty_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_Privilege_PrivilegeProperty_fieldAccessorTable = new
