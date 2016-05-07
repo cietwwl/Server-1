@@ -124,13 +124,6 @@ public class DataKvManagerImpl implements DataKvManager {
 	}
 
 	public void batchInsert(String userId, final List<? extends DataKvEntity> list) throws Throwable {
-		for (Iterator<? extends DataKvEntity> it = list.iterator(); it.hasNext();) {
-			DataKvEntity entity = it.next();
-			if (entity.getType() == 11) {
-				it.remove();
-				break;
-			}
-		}
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
 		String sql = insertSqlArray[tableIndex];
 		TransactionStatus ts = tm.getTransaction(df);

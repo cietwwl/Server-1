@@ -28,10 +28,6 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
-/**
- * @author allen
- * @version 1.0
- */
 public abstract class BaseJdbc<T> {
 
 	protected final ClassInfo classInfoPojo;
@@ -58,6 +54,13 @@ public abstract class BaseJdbc<T> {
 		this.rowMapper = new CommonRowMapper<T>(classInfoPojo);
 	}
 
+	/**
+	 * 插入多条记录
+	 * @param sql
+	 * @param list
+	 * @throws DuplicatedKeyException
+	 * @throws Exception
+	 */
 	protected void insert(String sql, final List<T> list) throws DuplicatedKeyException, Exception {
 		final int size = list.size();
 		if (size == 0) {
@@ -87,6 +90,15 @@ public abstract class BaseJdbc<T> {
 		});
 	}
 
+	/**
+	 * 插入单条记录
+	 * @param sql
+	 * @param key
+	 * @param target
+	 * @return
+	 * @throws DuplicatedKeyException
+	 * @throws Exception
+	 */
 	protected boolean insert(final String sql, String key, T target) throws DuplicatedKeyException, Exception {
 		final List<Object> fieldValues = extractAttributes(target, false);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -109,11 +121,25 @@ public abstract class BaseJdbc<T> {
 		}
 	}
 
+	/**
+	 * 删除一条记录(实际是update操作)
+	 * @param sql
+	 * @param id
+	 * @return
+	 * @throws DataNotExistException
+	 * @throws Exception
+	 */
 	protected boolean delete(String sql, String id) throws DataNotExistException, Exception {
 		int result = template.update(sql, id);
 		return result > 0;
 	}
 
+	/**
+	 * 更新多条记录
+	 * @param sql
+	 * @param map
+	 * @return
+	 */
 	protected boolean updateToDB(String sql, Map<String, T> map) {
 		try {
 			final int size = map.size();
@@ -149,6 +175,13 @@ public abstract class BaseJdbc<T> {
 		}
 	}
 
+	/**
+	 * 更新单条记录
+	 * @param sql
+	 * @param key
+	 * @param target
+	 * @return
+	 */
 	protected boolean updateToDB(String sql, String key, T target) {
 		try {
 			final List<Object> fieldValues = extractAttributes(target, true);

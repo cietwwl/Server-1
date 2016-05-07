@@ -2,7 +2,7 @@ package com.rw.fsutil.cacheDao.loader;
 
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataNotExistHandler;
-import com.rw.fsutil.dao.kvdata.DataKvEntity;
+import com.rw.fsutil.dao.kvdata.DataKvEntityImpl;
 import com.rw.fsutil.dao.kvdata.DataKvManager;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 
@@ -28,23 +28,7 @@ public class DataKvNotExistHandler<T> implements DataNotExistHandler<String, T> 
 		T value = creator.create(key);
 		try {
 			final String json = classInfo.toJson(value);
-			DataKvEntity entity = new DataKvEntity() {
-
-				@Override
-				public String getValue() {
-					return json;
-				}
-
-				@Override
-				public String getUserId() {
-					return key;
-				}
-
-				@Override
-				public Integer getType() {
-					return type;
-				}
-			};
+			DataKvEntityImpl entity = new DataKvEntityImpl(key, json, type);
 			boolean result = dataKvManager.insert(key, entity);
 			if (result) {
 				return value;
