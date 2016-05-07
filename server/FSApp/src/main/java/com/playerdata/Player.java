@@ -18,6 +18,7 @@ import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.SynDataInReqMgr;
+import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -110,6 +111,7 @@ public class Player implements PlayerIF {
 
 	private RedPointMgr redPointMgr = new RedPointMgr();
 
+	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -123,6 +125,9 @@ public class Player implements PlayerIF {
 	private final PlayerTempAttribute tempAttribute;
 
 	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
+	
+	
+	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();//用户临时数据的同步
 
 	// private int logoutTimer = 0;
 
@@ -250,6 +255,8 @@ public class Player implements PlayerIF {
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
 		afterMgrInit();
+		upgradeMgr.init(this);
+
 	}
 
 	// 对mgr的初始化有依赖的初始化操作
@@ -1030,6 +1037,10 @@ public class Player implements PlayerIF {
 		return unendingWarMgr;
 	}
 
+	public UpgradeMgr getUpgradeMgr() {
+		return upgradeMgr;
+	}
+
 	/**
 	 * 获取个人的帮派数据
 	 * 
@@ -1159,4 +1170,12 @@ public class Player implements PlayerIF {
 	public PowerInfo getPowerInfo() {
 		return powerInfo;
 	}
+
+	public UserTmpGameDataFlag getUserTmpGameDataFlag() {
+		return userTmpGameDataFlag;
+	}
+
+
+	
+	
 }

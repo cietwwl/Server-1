@@ -64,6 +64,7 @@ enum eSynType	//数据同步类型
 	GroupStudySkill = 41;//帮派技能学习
 	Charge = 42;//充值
 	POWER_INFO = 43;//体力信息
+	USER_TMP_GAME_DATA = 44;//用户的临时内存数据
 
 	//活动从60-69
 	ActivityCountType = 60;//活动，计数类型

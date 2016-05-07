@@ -28,6 +28,8 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.guide.PlotProgressDAO;
+import com.rwbase.dao.guide.pojo.UserPlotProgress;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.User;
@@ -171,6 +173,27 @@ public class GameLoginHandler {
 				// public void run(Player player) {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
+				//检查发送版本更新
+				player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+				// --------------------------------------------------------START
+				// TODO HC @Modify 2015-12-17
+				/**
+				 * <pre>
+				 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
+				 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
+				 * </pre>
+				 */
+				PlotProgressDAO dao = PlotProgressDAO.getInstance();
+				UserPlotProgress userPlotProgress = dao.get(player.getUserId());
+				if (userPlotProgress == null) {
+					userPlotProgress = new UserPlotProgress();
+					userPlotProgress.setUserId(userId);
+				}
+				Integer hasValue = userPlotProgress.getProgressMap().putIfAbsent("0", -1);
+				if (hasValue == null) {
+					dao.update(userPlotProgress);
+				}
+				// --------------------------------------------------------END
 				
 				if (player != null) {
 					// modify@2015-12-28 by Jamaz 只断开非当前链接
@@ -264,8 +287,9 @@ public class GameLoginHandler {
 		{
 			String clientInfoJson = request.getClientInfoJson();
 			ZoneLoginInfo zoneLoginInfo = null;
+			ClientInfo clientInfo = null;
 			if (StringUtils.isNotBlank(clientInfoJson)) {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+				clientInfo = ClientInfo.fromJson(clientInfoJson);
 				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
 			}
 			
@@ -332,6 +356,9 @@ public class GameLoginHandler {
 			long end1 = System.currentTimeMillis();
 			System.out.println("-------------------" + (end1 - start));
 
+			//检查发送版本更新
+			player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+			
 			//检查发送gm邮件
 			ServerStatusMgr.processGmMailWhenCreateRole(player);
 			response.setResultType(eLoginResultType.SUCCESS);
