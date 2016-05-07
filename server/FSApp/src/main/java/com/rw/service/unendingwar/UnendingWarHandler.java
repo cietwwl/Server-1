@@ -9,12 +9,12 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.role.MainMsgHandler;
-import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.unendingwar.CfgUnendingWar;
 import com.rwbase.dao.unendingwar.CfgUnendingWarDAO;
 import com.rwbase.dao.unendingwar.TableUnendingWar;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 import com.rwproto.UnendingWarProtos.EUnendingWarType;
 import com.rwproto.UnendingWarProtos.UnendingWarResponse;
 
@@ -82,7 +82,7 @@ public class UnendingWarHandler {
 
 	/*** 发送结算奖励 ****/
 	private void setEnd(Player player, int num, int cMap) {
-		int dq = player.unendingWarMgr.getTable().getDqCj();
+		//int dq = player.unendingWarMgr.getTable().getDqCj();
 		if (player.unendingWarMgr.getTable().getZhCj() < num) {
 			player.unendingWarMgr.getTable().setZhCj(num);
 		}
@@ -100,7 +100,10 @@ public class UnendingWarHandler {
 
 	/*** 重置副本 ****/
 	public ByteString ResetNum(Player player) {
-		int count = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);
+		//int count = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);
+		//by franky
+		int count = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.warfareResetCnt);
+		count = count > 0 ? count : 1;
 
 		int num = player.unendingWarMgr.getTable().getResetNum();
 		if (num < count) {

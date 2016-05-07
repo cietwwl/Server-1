@@ -15,7 +15,7 @@ import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.pojo.CopyEntryCfg;
 import com.rwbase.dao.unendingwar.TableUnendingWar;
 import com.rwproto.MsgDef.Command;
-import com.rwproto.PrivilegeProtos.BattleTowerPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 import com.rwproto.PveServiceProtos.PveActivity;
 import com.rwproto.PveServiceProtos.PveServiceResponse;
 
@@ -46,10 +46,14 @@ public class PveHandler {
 		unendingActivity.setRemainSeconds(time);
 		// unendingActivity.setRemainSeconds(getRemainSeconds(unendingWar.getLastChallengeTime(),
 		// currentTime, CopyType.COPY_TYPE_WARFARE));
-		// TODO 无尽战火最多挑战次数现在是客户端写死1次，服务器先写，之后统一弄成配置吧
-		int unendingCount = 1 - player.unendingWarMgr.getTable().getNum();
+		// 无尽战火最多挑战次数现在是客户端写死1次，服务器先写，之后统一弄成配置吧
+		//by franky
+		int unendingCount = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.warfareResetCnt);
+		unendingCount = unendingCount > 0 ? unendingCount : 1;
+		unendingCount = unendingCount - player.unendingWarMgr.getTable().getNum();
 		unendingActivity.setRemainTimes(unendingCount > 0 ? unendingCount : 0);
 		reponse.addPveActivityList(unendingActivity);
+		//TODO 需要按照特权系统统一管理
 		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_LQSG, player, currentTime));
 		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_TRIAL_JBZD, player, currentTime));
 		reponse.addPveActivityList(fill(CopyType.COPY_TYPE_CELESTIAL, player, currentTime));
@@ -61,7 +65,7 @@ public class PveHandler {
 		//PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
 		if (angleData != null) {
 			//by franky
-			int resetCount = player.getPrivilegeMgr().getIntPrivilege(BattleTowerPrivilegeNames.arrayTimeDec);
+			int resetCount = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt);
 			count = resetCount - angleData.getResetTimes();
 			//count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
 		}
@@ -76,7 +80,7 @@ public class PveHandler {
 		int btCount = 0;
 		if (tableBattleTower != null) {
 			//by franky
-			int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(BattleTowerPrivilegeNames.maxResetCount);
+			int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
 			btCount = battleTowerResetTimes - angleData.getResetTimes();
 			//btCount = privilegeCfg.getBattleTowerResetTimes() - tableBattleTower.getResetTimes();
 		}
@@ -116,7 +120,7 @@ public class PveHandler {
 		//PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
 		//int count = privilegeCfg.getExpeditionCount() - angleData.getResetTimes();
 		//by franky
-		int resetCount = player.getPrivilegeMgr().getIntPrivilege(BattleTowerPrivilegeNames.arrayTimeDec);
+		int resetCount = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt);
 		int count = resetCount - angleData.getResetTimes();
 		
 		tower.setCopyType(CopyType.COPY_TYPE_TOWER);

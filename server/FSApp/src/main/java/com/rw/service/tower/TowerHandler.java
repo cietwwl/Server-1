@@ -20,7 +20,7 @@ import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.tower.pojo.TowerHeroChange;
-import com.rwproto.PrivilegeProtos.BattleTowerPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 import com.rwproto.TowerServiceProtos.MsgTowerRequest;
 import com.rwproto.TowerServiceProtos.MsgTowerResponse;
 import com.rwproto.TowerServiceProtos.TagTowerData;
@@ -481,7 +481,7 @@ public class TowerHandler {
 		}
 
 		//by franky
-		int resetCount = player.getPrivilegeMgr().getIntPrivilege(BattleTowerPrivilegeNames.arrayTimeDec);
+		int resetCount = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt);
 		if (resetCount - angleArrayData.getResetTimes() > 0) {
 		//PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
 		//if (privilegeCfg.getExpeditionCount() - angleArrayData.getResetTimes() > 0) {
