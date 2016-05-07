@@ -1,3 +1,3 @@
-name,Remarks,threshold,buyTip,nomoreTip
-peakMaxCount,,10,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。
-isAllowResetPeak,,10,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。
+name,Remarks,threshold,buyTip,nomoreTip,enableTip
+peakMaxCount,,10,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
+isAllowResetPeak,,,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,VIP1开启重置竞技场CD功能，前往充值提升VIP等级。
