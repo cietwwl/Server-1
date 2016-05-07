@@ -6,12 +6,73 @@ import com.log.GameLog;
 import com.playerdata.VipMgr;
 
 public class ChargeTypePriority implements Comparator<String> {
+	public static final String monthPrefix = "month";
+	private static String[] monthLevelStr = { "normal", "vip" };
 	private static ChargeTypePriority instance;
+
 	public static ChargeTypePriority getShareInstance(){
 		if (instance == null){
 			instance = new ChargeTypePriority();
 		}
 		return instance;
+	}
+	
+	public String guessPreviousChargeLevel(String chargeType){
+		if (chargeType == null) {
+			return null;
+		}
+		
+		if (chargeType.startsWith(VipMgr.vipPrefix)){
+			int vip = extractVipLevel(chargeType);
+			return VipMgr.vipPrefix + (vip > 0 ? vip - 1 : 0);
+		}
+		if (chargeType.startsWith(monthPrefix)){
+			int monthLevel = extractMonthLevel(chargeType);
+			//普通月卡的前一档定义为VIP0
+			return (monthLevel > 0 ? monthPrefix + monthLevelStr[monthLevel] : VipMgr.vipPrefix + "0");
+		}
+		//无法估计前一档充值等级！
+		return chargeType;
+	}
+	
+	public int getBestMatchCharge(String[] sources,String chargeType) {
+		if (chargeType == null || sources == null) {
+			return -1;
+		}
+		
+		if (chargeType.startsWith(VipMgr.vipPrefix)){
+			int vip = extractVipLevel(chargeType);
+			return VipPrivilegeHelper.getShareInstance().getBestMatchCharge(sources, vip);
+		}
+		
+		if (!chargeType.startsWith(monthPrefix)){
+			return -1;
+		}
+		
+		//搜索可以充值的最大优先级的月卡
+		int monthLevel = extractMonthLevel(chargeType);
+		int maxMonthLevel = -1;
+		int bestMatchIndex = -1; 
+		for(int i = 0;i<sources.length;i++){
+			if (sources[i].startsWith(monthPrefix)){
+				int srcMonthLevel = extractMonthLevel(sources[i]);
+				if (srcMonthLevel > maxMonthLevel && maxMonthLevel<=monthLevel){
+					maxMonthLevel = srcMonthLevel;
+					bestMatchIndex = i;
+				}
+			}
+		}
+		
+		if (bestMatchIndex == -1){
+			//还找不到就使用最后保底方案，使用Vip0!
+			for(int i = 0;i<sources.length;i++){
+				if (sources[i].equals(VipMgr.vipPrefix+"0")){
+					bestMatchIndex = i;
+				}
+			}
+		}
+		
+		return bestMatchIndex;
 	}
 	
 	@Override
@@ -46,7 +107,6 @@ public class ChargeTypePriority implements Comparator<String> {
 		return -1;
 	}
 	
-	public static final String monthPrefix = "month";
 	/**
 	 * hard code 充值类型的优先级判断：月卡优先于vip
 	 * @param leftChargeType
@@ -57,15 +117,14 @@ public class ChargeTypePriority implements Comparator<String> {
 		return compare(leftChargeType,rightChargeType)>0;
 	}
 
+	
 	private int extractMonthLevel(String chargeTy) {
-		String monthVal = chargeTy.substring(chargeTy.indexOf(monthPrefix)+5);
-		if ("normal".equals(monthVal)){
-			return 0;
+		String monthVal = chargeTy.substring(chargeTy.indexOf(monthPrefix)+monthPrefix.length());
+		for (int i= 0;i<monthLevelStr.length;i++){
+			if (monthLevelStr[i].equals(monthVal)){
+				return i;
+			}
 		}
-		if ("vip".equals(monthVal)){
-			return 1;
-		}
-		
 		return -1;
 	}
 

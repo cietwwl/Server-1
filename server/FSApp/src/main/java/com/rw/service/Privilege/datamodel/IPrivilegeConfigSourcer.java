@@ -36,4 +36,8 @@ public interface IPrivilegeConfigSourcer<PrivilegeNameEnum extends Enum<Privileg
 	public String[] getChargeSource(Enum<?> name);
 	
 	public IConfigChargeSource<PrivilegeNameEnum> getCfg(String chargetType);
+
+	public PropertyWriter getProWriter(PrivilegeNameEnum name);
+
+	public Field getConfigField(String name);
 }

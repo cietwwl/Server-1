@@ -7,7 +7,7 @@ public class pvePrivilege extends AbstractConfigChargeSource<PvePrivilegeNames> 
   private String source; //特权来源
   private int maxResetCount; //封神台可重置次数
   private int sweepTimeDec; //封神台每层扫荡时间减少X秒
-  private int arrayTimeDec; //万仙阵可重置次数
+  private int arrayMaxResetCnt; //万仙阵可重置次数
   private int warfareRewardAdd; //无尽战火积分增加x%（万分比）
   private int warfareResetCnt; //无尽战火可重置次数
   private int treasureTimeDec; //聚宝之地挑战cd减少x秒

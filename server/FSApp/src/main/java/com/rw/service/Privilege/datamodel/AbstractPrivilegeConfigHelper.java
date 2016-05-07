@@ -44,9 +44,23 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		PrivilegeNameEnum[] nameEnums = priNameCl.getEnumConstants();
 		privilegeNameEnums = nameEnums;
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(csvFileName,cfgCl);
+		fieldMap = CfgCsvHelper.getFieldMap(cfgCl);
+		Collection<ConfigClass> vals = cfgCacheMap.values();
+		//转换为小写!
+		for (ConfigClass cfg : vals) {
+			cfg.toLowerCase(this);
+		}
+		//按照新的小写充值类型重建映射
+		{
+			HashMap<String, ConfigClass> tmp = new HashMap<String, ConfigClass>(cfgCacheMap.size());
+			for (ConfigClass cfg : vals) {
+				tmp.put(cfg.getSource(), cfg);
+			}
+			cfgCacheMap = tmp;
+		}
+		
 		headers = new String[nameEnums.length];
 		combinatorMap = new HashMap<PrivilegeNameEnum,PropertyWriter>();
-		fieldMap = CfgCsvHelper.getFieldMap(cfgCl);
 
 		for(int i = 0;i<headers.length;i++){
 			PropertyWriter combinator;
@@ -76,20 +90,20 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		}
 
 		maxChargeType = new HashMap<PrivilegeNameEnum,String>(nameEnums.length);
-		Collection<ConfigClass> vals = cfgCacheMap.values();
 		ArrayList<String> tmp = new ArrayList<String>(cfgCacheMap.size());
 		HashMap<PrivilegeNameEnum,List<String>> tmpPriMap = new HashMap<PrivilegeNameEnum,List<String>>();
 		String configClName = this.getClass().getName();
-		ChargeTypePriority chargePriority = ChargeTypePriority.getShareInstance();
+		ChargeTypePriority chargePriorityHelper = ChargeTypePriority.getShareInstance();
+		ChargeTypePriority chargePriority = chargePriorityHelper;
 		for (ConfigClass cfg : vals) {
 			cfg.ExtraInitAfterLoad(this);
 			String sourceName = cfg.getSource();
 			if (StringUtils.isBlank(sourceName)){
 				GameLog.error("特权", configClName+",key="+cfg.getSource(), "无效特权来源名称");
-				continue;
+				throw new RuntimeException("无效特权来源名称");
 			}
 			
-			tmp.add(sourceName.toLowerCase());
+			tmp.add(sourceName);
 			
 			for(int i = 0; i< nameEnums.length; i++){
 				PrivilegeNameEnum privilegeNameEnum = nameEnums[i];
@@ -121,12 +135,28 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			}
 		}
 		// 按优先级排序tmp
-		Collections.sort(tmp,ChargeTypePriority.getShareInstance());
+		Collections.sort(tmp,chargePriorityHelper);
 		sources = new String[tmp.size()];
 		sources = tmp.toArray(sources);
 		
-		for (ConfigClass cfg : vals) {
-			cfg.FixEmptyValue(this);
+		//按优先级从小到大的顺序进行检查
+		for (int i = 0; i < sources.length; i++) {
+			ConfigClass cfg = cfgCacheMap.get(sources[i]);
+			if ( i > 0){
+				ConfigClass pre = cfgCacheMap.get(sources[i - 1]);
+				String preChargeLvl = chargePriorityHelper.guessPreviousChargeLevel(cfg.getSource());
+				if (!pre.getSource().equals(preChargeLvl)){
+					int idx = chargePriorityHelper.getBestMatchCharge(sources, preChargeLvl);
+					if (0 <= idx && idx < sources.length){
+						pre = cfgCacheMap.get(sources[idx]);
+					}else{
+						pre = null;
+					}
+				}
+				cfg.FixEmptyValue(this, pre);
+			}else{
+				cfg.FixEmptyValue(this, null);
+			}
 		}
 		
 		chargeSources = new HashMap<PrivilegeNameEnum,String[]>();
@@ -144,7 +174,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				chargeSrcs = new String[0];
 				GameLog.info("特权", configClName, String.format("特权名称:%s,没有配置充值类型", privilegeNameEnum.name()),null);
 			}else{
-				Collections.sort(chargeSrc,ChargeTypePriority.getShareInstance());
+				Collections.sort(chargeSrc,chargePriorityHelper);
 				//chargeSrc.sort(ChargeTypePriority.getShareInstance());
 				chargeSrcs = new String[chargeSrc.size()];
 				chargeSrcs = chargeSrc.toArray(chargeSrcs);
@@ -154,6 +184,11 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 		
 		PrivilegeConfigHelper.getInstance().update(priNameCl, this);
 		return cfgCacheMap;
+	}
+	
+	@Override
+	public PropertyWriter getProWriter(PrivilegeNameEnum name){
+		return combinatorMap.get(name);
 	}
 	
 	@Override
@@ -209,6 +244,11 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 	@Override
 	public Field getConfigField(PrivilegeNameEnum name){
 		return fieldMap.get(String.valueOf(name));
+	}
+	
+	@Override
+	public Field getConfigField(String name){
+		return fieldMap.get(name);
 	}
 	
 	@Override
