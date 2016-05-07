@@ -25,57 +25,23 @@ public class ActivityCountTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private int count;
-	
-	@CombineSave
-	private String group;
-	
 
 	@CombineSave
 	private String cfgId;
 	
 	@CombineSave
 	private boolean closed = false;
+
 	
 	@CombineSave
-	private List<ActivityCountTypeSubItem> takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
+	private List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
 
 
 	//重置活动
 	public void reset(){
-		takenGiftList = new ArrayList<ActivityCountTypeSubItem>();
+		subItemList = new ArrayList<ActivityCountTypeSubItem>();
 		count = 0;
 	}
-
-	public long getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public long getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
-	}
-
-	@CombineSave
-	private long startTime;
-	
-	@CombineSave
-	private long endTime;
-	
-	public String getGroup() {
-		return group;
-	}
-
-	public void setGroup(String group) {
-		this.group = group;
-	}
-	
 
 	public String getId() {
 		return id;
@@ -93,14 +59,12 @@ public class ActivityCountTypeItem implements  IMapItem {
 		this.count = count;
 	}
 
-
-
-	public List<ActivityCountTypeSubItem> getTakenGiftList() {
-		return takenGiftList;
+	public List<ActivityCountTypeSubItem> getSubItemList() {
+		return subItemList;
 	}
 
-	public void setTakenGiftList(List<ActivityCountTypeSubItem> takenGiftList) {
-		this.takenGiftList = takenGiftList;
+	public void setSubItemList(List<ActivityCountTypeSubItem> subItemList) {
+		this.subItemList = subItemList;
 	}
 
 	public String getUserId() {
