@@ -302,7 +302,6 @@ public class FsNettyControler {
 				resultContent = gameLoginHandler.createRoleAndLogin(loginRequest);
 				break;
 			case LOAD_MAINCITY:
-//				gameLoginHandler.loadMainCity();
 				return null;
 			}
 		} catch (InvalidProtocolBufferException e) {

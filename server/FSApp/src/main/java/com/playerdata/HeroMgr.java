@@ -36,17 +36,19 @@ public class HeroMgr implements HeroMgrIF {
 	private Player player;
 
 	// 初始化
-	public void init(Player playerP) {
+	public void init(Player playerP, boolean initHeros) {
 		player = playerP;
 		userHerosDataHolder = new UserHerosDataHolder(playerP.getUserId());
-		initHeros();
+		if(initHeros){
+			initHeros();
+		}
 	}
 
 	// @Override
 	public void notifyPlayerCreated(Player player) {
-		TableUserHero userHeroTmp = new TableUserHero();
-		userHeroTmp.setUserId(player.getUserId());
-		UserHeroDAO.getInstance().update(userHeroTmp);
+//		TableUserHero userHeroTmp = new TableUserHero();
+//		userHeroTmp.setUserId(player.getUserId());
+//		UserHeroDAO.getInstance().update(userHeroTmp);
 	}
 
 	private void initHeros() {
@@ -199,8 +201,11 @@ public class HeroMgr implements HeroMgrIF {
 	public Hero addMainRoleHero(Player playerP, RoleCfg playerCfg) {
 		Hero hero = new Hero(playerP, eRoleType.Player, playerCfg, playerP.getUserId());
 		m_HeroMap.put(hero.getUUId(), hero);
-		userHerosDataHolder.get().addHeroId(hero.getUUId());
-		userHerosDataHolder.update(player);
+		//这里会初始化两次Hero，因为前面已经初始化一次了，需要拆开逻辑来解决
+//		Hero hero = m_HeroMap.get(playerP.getUserId());
+//		hero.getSkillMgr().initSkill(playerCfg);
+//		userHerosDataHolder.get().addHeroId(hero.getUUId());
+//		userHerosDataHolder.update(player);
 		return hero;
 	}
 

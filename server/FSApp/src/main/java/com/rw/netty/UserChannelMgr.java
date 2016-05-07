@@ -94,9 +94,10 @@ public class UserChannelMgr {
 			userChannelMapCpy.remove(userId, ctx);
 		}
 	}
-	
+
 	/**
 	 * 踢出玩家移除连接数，不主动断开连接
+	 * 
 	 * @param userId
 	 */
 	public static void kickoffDisconnect(String userId) {
@@ -123,77 +124,65 @@ public class UserChannelMgr {
 	}
 
 	public static int getCount() {
-		
+
 		return userChannelMapCpy.size();
 	}
-	public static Map<String,eBILogRegSubChannelToClientPlatForm>  getSubChannelCount() {
 
-		
-		Map<String,eBILogRegSubChannelToClientPlatForm> countMap = new HashMap<String, eBILogRegSubChannelToClientPlatForm>();
+	public static Map<String, eBILogRegSubChannelToClientPlatForm> getSubChannelCount() {
+
+		Map<String, eBILogRegSubChannelToClientPlatForm> countMap = new HashMap<String, eBILogRegSubChannelToClientPlatForm>();
 		Enumeration<String> keys1 = userChannelMapCpy.keys();
-		while(keys1.hasMoreElements()){
+		while (keys1.hasMoreElements()) {
 			String nextkey = keys1.nextElement();
 			Player nextOnline = PlayerMgr.getInstance().find(nextkey);
-			if(nextOnline!=null){
-				doCount(countMap, nextOnline);
-			}			
-		}
-		Enumeration<String> keyDisconnet = disconnectMap.keys();
-		while(keyDisconnet.hasMoreElements()){
-			String nextkey = keyDisconnet.nextElement();
-			Player nextOnline = PlayerMgr.getInstance().find(nextkey);
-			if(nextOnline!=null){
+			if (nextOnline != null) {
 				doCount(countMap, nextOnline);
 			}
-			
 		}
-		
-		
-		
-		
-		
-		
-		
+		Enumeration<String> keyDisconnet = disconnectMap.keys();
+		while (keyDisconnet.hasMoreElements()) {
+			String nextkey = keyDisconnet.nextElement();
+			Player nextOnline = PlayerMgr.getInstance().find(nextkey);
+			if (nextOnline != null) {
+				doCount(countMap, nextOnline);
+			}
+
+		}
+
 		return countMap;
 	}
 
-
-	
 	private static void doCount(Map<String, eBILogRegSubChannelToClientPlatForm> countMap, Player nextOnline) {
-	UserDataMgr userDataMgr = nextOnline.getUserDataMgr();
-	if(userDataMgr!=null){
-		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
-		ZoneLoginInfo zoneLoginInfo = nextOnline.getZoneLoginInfo();
-		if(zoneRegInfo!=null&&zoneLoginInfo != null){
-			String regSubChannelId = zoneRegInfo.getRegSubChannelId();
-			String clientPlayForm = zoneLoginInfo.getLoginClientPlatForm();
-			if(StringUtils.isBlank(regSubChannelId)){
-				regSubChannelId = "-2";
-			}
-			if(StringUtils.isBlank(clientPlayForm)){
-				clientPlayForm = "-2";
-			}
-			
-			String str = new StringBuffer().append(regSubChannelId).append("平台").append(clientPlayForm).toString();
-			eBILogRegSubChannelToClientPlatForm  newregsubtoclient = countMap.get(str);
-			
-			
-			if(newregsubtoclient == null){
-				newregsubtoclient = new eBILogRegSubChannelToClientPlatForm();
-				newregsubtoclient.setCount(new AtomicInteger(1));
-				newregsubtoclient.setclientPlayForm(clientPlayForm);
-				newregsubtoclient.setregSubChannelId(regSubChannelId);
-				countMap.put(str,newregsubtoclient);
-			}else{
-				newregsubtoclient.getcount().incrementAndGet();
+		UserDataMgr userDataMgr = nextOnline.getUserDataMgr();
+		if (userDataMgr != null) {
+			ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+			ZoneLoginInfo zoneLoginInfo = nextOnline.getZoneLoginInfo();
+			if (zoneRegInfo != null && zoneLoginInfo != null) {
+				String regSubChannelId = zoneRegInfo.getRegSubChannelId();
+				String clientPlayForm = zoneLoginInfo.getLoginClientPlatForm();
+				if (StringUtils.isBlank(regSubChannelId)) {
+					regSubChannelId = "-2";
+				}
+				if (StringUtils.isBlank(clientPlayForm)) {
+					clientPlayForm = "-2";
+				}
+
+				String str = new StringBuffer().append(regSubChannelId).append("平台").append(clientPlayForm).toString();
+				eBILogRegSubChannelToClientPlatForm newregsubtoclient = countMap.get(str);
+
+				if (newregsubtoclient == null) {
+					newregsubtoclient = new eBILogRegSubChannelToClientPlatForm();
+					newregsubtoclient.setCount(new AtomicInteger(1));
+					newregsubtoclient.setclientPlayForm(clientPlayForm);
+					newregsubtoclient.setregSubChannelId(regSubChannelId);
+					countMap.put(str, newregsubtoclient);
+				} else {
+					newregsubtoclient.getcount().incrementAndGet();
+				}
 			}
 		}
 	}
-}
-	
 
-	
-	
 	/**
 	 * 获取所有在线角色的id列表
 	 * 
@@ -225,6 +214,7 @@ public class UserChannelMgr {
 
 	/**
 	 * 提取登出玩家id列表
+	 * 
 	 * @return
 	 */
 	public static List<String> extractLogoutUserIdList() {
@@ -244,6 +234,8 @@ public class UserChannelMgr {
 		return disconnectUserIds;
 	}
 
-	
+	public static Set<String> getShortDisconnectIds(){
+		return disconnectMap.keySet();
+	}
 
 }

@@ -14,6 +14,8 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class RoleBaseInfo implements RoleBaseInfoIF{
 
+	public RoleBaseInfo(){}
+	
 	@Id
 	private String id;    //英雄uuid
 	

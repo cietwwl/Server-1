@@ -1,5 +1,6 @@
 package com.common;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,6 +108,43 @@ public class HPCUtil {
 			array[t.getTypeValue()] = t;
 		}
 		return (T[]) array;
+	}
+	
+	/**
+	 * 转换成类型映射数组
+	 * 
+	 * @param orignalArray
+	 * @param intField
+	 * @return
+	 */
+	public static Object[] toMappedArray(Object[] orignalArray, String intField) {
+		Object[] array = null;
+		TreeMap<Integer, Object> treeMap = new TreeMap<Integer, Object>();
+		Field field = null;
+		for (Object t : orignalArray) {
+			if (field == null) {
+				try {
+					field = t.getClass().getDeclaredField(intField);
+					field.setAccessible(true);
+				} catch (Exception e) {
+					throw new ExceptionInInitializerError("不存在字段：" + intField + "," + t.getClass());
+				}
+			}
+			try {
+				int type = field.getInt(t);
+				if (treeMap.put(type, t) != null) {
+					throw new ExceptionInInitializerError("存在重复的类型：" + type);
+				}
+			} catch (Exception e) {
+				throw new ExceptionInInitializerError("获取int字段失败：" + intField + "," + t.getClass());
+			}
+		}
+		array = new Object[treeMap.lastKey() + 1];
+		for (Map.Entry<Integer, Object> entry : treeMap.entrySet()) {
+			int type = entry.getKey();
+			array[type] = entry.getValue();
+		}
+		return array;
 	}
 
 	/**

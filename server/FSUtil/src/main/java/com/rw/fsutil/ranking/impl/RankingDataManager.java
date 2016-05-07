@@ -6,11 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import javax.sql.DataSource;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,10 +14,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-
 import com.alibaba.druid.pool.DruidDataSource;
-import com.rw.fsutil.cacheDao.IdentityIdGenerator;
-import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.util.SpringContextUtil;
 
 /**
