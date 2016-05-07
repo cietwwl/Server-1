@@ -3,6 +3,7 @@ package com.rw.fsutil.dao.kvdata;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +27,7 @@ public class DataKvManagerImpl implements DataKvManager {
 	private PlatformTransactionManager tm;
 	private DefaultTransactionDefinition df;
 	private final String[] selectSqlArray;
+	private final String[] selectAllSqlArray;
 	private final String[] delectSqlArray;
 	private final String[] updateSqlArray;
 	private final String[] insertSqlArray;
@@ -33,6 +35,7 @@ public class DataKvManagerImpl implements DataKvManager {
 	private final int length;
 	private final HashMap<Class<? extends DataKVDao<?>>, Integer> dataKvMap;
 	private final HashMap<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> creatorMap;
+	private final DataKvRowMapper rowMapper = new DataKvRowMapper();
 	private final int dataKvCapacity;
 
 	public DataKvManagerImpl(Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity) {
@@ -48,6 +51,7 @@ public class DataKvManagerImpl implements DataKvManager {
 		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
 		List<String> tableNameList = DataAccessStaticSupport.getDataKVTableNameList(jdbcTemplate);
 		this.length = tableNameList.size();
+		this.selectAllSqlArray = new String[this.length];
 		this.selectSqlArray = new String[this.length];
 		this.delectSqlArray = new String[this.length];
 		this.updateSqlArray = new String[this.length];
@@ -55,6 +59,7 @@ public class DataKvManagerImpl implements DataKvManager {
 		this.checkSelectArray = new String[this.length];
 		for (int i = 0; i < this.length; i++) {
 			String tableName = tableNameList.get(i);
+			selectAllSqlArray[i] = "select dbkey,dbvalue,type from " + tableName + " where dbkey=?";
 			selectSqlArray[i] = "select dbvalue from " + tableName + " where dbkey=? and type=?";
 			delectSqlArray[i] = "delete from " + tableName + " where dbkey=? and type=?";
 			updateSqlArray[i] = "update " + tableName + " set dbvalue=? where dbkey=? and type=?";
@@ -114,11 +119,18 @@ public class DataKvManagerImpl implements DataKvManager {
 	}
 
 	@Override
-	public Integer getDataKvType(Class<? extends DataKVDao> clazz) {
+	public Integer getDataKvType(Class<? extends DataKVDao<?>> clazz) {
 		return dataKvMap.get(clazz);
 	}
 
 	public void batchInsert(String userId, final List<? extends DataKvEntity> list) throws Throwable {
+		for (Iterator<? extends DataKvEntity> it = list.iterator(); it.hasNext();) {
+			DataKvEntity entity = it.next();
+			if (entity.getType() == 11) {
+				it.remove();
+				break;
+			}
+		}
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
 		String sql = insertSqlArray[tableIndex];
 		TransactionStatus ts = tm.getTransaction(df);
@@ -154,14 +166,22 @@ public class DataKvManagerImpl implements DataKvManager {
 
 	public int getDataKVRecordCount(String userId) {
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
-		String sql = insertSqlArray[tableIndex];
-		Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+		String sql = checkSelectArray[tableIndex];
+		Integer count = jdbcTemplate.queryForObject(sql, Integer.class,userId);
 		return count == null ? 0 : count;
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> DataExtensionCreator<T> getCreator(Class<? extends DataKVDao<T>> clazz) {
 		return (DataExtensionCreator<T>) creatorMap.get(clazz);
+	}
+
+	@Override
+	public List<DataKvEntity> getAllDataKvEntitys(String userId) {
+		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
+		String sql = selectAllSqlArray[tableIndex];
+		return jdbcTemplate.query(sql, rowMapper, userId);
 	}
 
 }

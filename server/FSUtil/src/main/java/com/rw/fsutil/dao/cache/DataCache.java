@@ -46,8 +46,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private CacheJsonConverter<V> jsonConverter;
 	private final AtomicLong generator = new AtomicLong();
 
-	public DataCache(String name, int initialCapacity, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader,
-			DataNotExistHandler<K, V> dataNotExistHandler) {
+	public DataCache(String name, int initialCapacity, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler) {
 		this.name = name;
 		this.capacity = maxCapacity;
 		this.logger = CacheFactory.getLogger(name);
@@ -331,8 +330,10 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	}
 
 	/**
+	 * <pre>
 	 * 添加一个数据到缓存中
-	 * 
+	 * 尝试修改内存，若不存在会尝试插入到数据库
+	 * </pre>
 	 * @param key
 	 * @param value
 	 * @return
@@ -352,7 +353,15 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		return old == null ? null : old.getValue();
 	}
 
-	public boolean putAfterInsertDB(K key, V value) {
+	/**
+	 * <pre>
+	 * 当缓存中不存在此键值对时预插入
+	 * </pre>
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public boolean preInsertIfAbsent(K key, V value) {
 		if (key == null) {
 			throw new NullPointerException("key is null");
 		}
@@ -367,6 +376,40 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		} finally {
 			lock.unlock();
 		}
+		return safeInsertCache(key, value);
+	}
+
+	public boolean preInsertIfAbsent(K key, Callable<V> valueExtractor) {
+		if (key == null) {
+			throw new NullPointerException("key is null");
+		}
+		if (valueExtractor == null) {
+			throw new NullPointerException("valueExtractor is null");
+		}
+		lock.lock();
+		try {
+			if (this.cache.containsKey(key)) {
+				return false;
+			}
+		} finally {
+			lock.unlock();
+		}
+		try {
+			V value = valueExtractor.call();
+			if (value != null) {
+				return safeInsertCache(key, value);
+			} else {
+				logger.error("extract value is null:" + key);
+				return false;
+			}
+		} catch (Exception e) {
+			logger.error("extract value exception:" + key, e);
+			return false;
+		}
+
+	}
+
+	private boolean safeInsertCache(K key, V value) {
 		try {
 			ReentrantFutureTask task = getControlRight(key, new InsertTask(key, value, false));
 			task.run();
@@ -543,6 +586,8 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				if (oldValue == null) {
 					// 更新到缓存
 					DataCache.this.cache.put(key, cacheValue);
+				} else {
+					logger.error("put into cache exist data:" + key);
 				}
 			} finally {
 				lock.unlock();
@@ -623,7 +668,6 @@ public class DataCache<K, V> implements DataUpdater<K> {
 					if (state == CacheValueState.MARK_DELETE) {
 						old.setCacheValueState(state);
 					}
-					// return old.value;
 					return old;
 				} finally {
 					lock.unlock();

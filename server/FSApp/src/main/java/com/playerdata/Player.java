@@ -201,13 +201,14 @@ public class Player implements PlayerIF {
 
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-			this.getHeroMgr().init(this);
+			this.getHeroMgr().init(this, false);
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			notifyCreated();
+		}else{
+			m_HeroMgr.init(this, true);
 		}
 
 		// 这两个mgr一定要初始化
-		m_HeroMgr.init(this);
 		itemBagMgr.init(this);
 		// 法宝数据
 		magicMgr.init(this);

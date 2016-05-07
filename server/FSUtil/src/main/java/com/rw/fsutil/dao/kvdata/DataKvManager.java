@@ -1,6 +1,7 @@
 package com.rw.fsutil.dao.kvdata;
 
 import java.util.List;
+
 import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 
@@ -14,7 +15,7 @@ public interface DataKvManager {
 	 * @param clazz
 	 * @return
 	 */
-	public Integer getDataKvType(Class<? extends DataKVDao> clazz);
+	public Integer getDataKvType(Class<? extends DataKVDao<?>> clazz);
 	
 	/**
 	 * 获取指定{@link DataKVDao}对应的{@link DataExtensionCreator}
@@ -33,6 +34,15 @@ public interface DataKvManager {
 	 * @throws Throwable
 	 */
 	public void batchInsert(String userId, final List<? extends DataKvEntity> list) throws Throwable;
+	
+	/**
+	 * <pre>
+	 * 获取所有指定UserId的所有DataKv数据
+	 * </pre>
+	 * @param userId
+	 * @return
+	 */
+	public List<DataKvEntity> getAllDataKvEntitys(String userId);
 	
 	/**
 	 * <pre>

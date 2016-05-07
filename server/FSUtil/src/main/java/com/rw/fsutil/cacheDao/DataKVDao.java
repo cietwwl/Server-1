@@ -1,6 +1,7 @@
 package com.rw.fsutil.cacheDao;
 
 import java.lang.reflect.Field;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +26,6 @@ import com.rw.fsutil.log.SqlLog;
  * 前台数据(支持单表和多表) 数据库+memcached
  * 
  * @author Ace
- * @refactor Jamaz
  * @param <T>
  * @param <ID>
  */
@@ -158,8 +158,36 @@ public class DataKVDao<T> {
 		return this.cache.getFromMemory(id);
 	}
 
+	/**
+	 * <pre>
+	 * 当缓存中不存在指定键值对时，插入一个指定键值对到缓存，但不会发起数据库操作
+	 * </pre>
+	 * @param key
+	 * @param value
+	 * @return
+	 */
 	public boolean putIntoCache(String key, T value) {
-		return this.cache.putAfterInsertDB(key, value);
+		return this.cache.preInsertIfAbsent(key, value);
+	}
+	
+	/**
+	 * <pre>
+	 * 当缓存中不存在指定键值对时，通过dbString生成对应的对象插入缓存
+	 * 不会发起dbString
+	 * </pre>
+	 * @param key
+	 * @param dbString
+	 * @return
+	 */
+	public boolean putIntoCacheByDBString(String key,final String dbString){
+		return this.cache.preInsertIfAbsent(key, new Callable<T>() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public T call() throws Exception {
+				return (T) classInfo.fromJson(dbString);
+			}
+		});
 	}
 
 	@SuppressWarnings("unchecked")
