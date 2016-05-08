@@ -180,6 +180,9 @@ public class GameLoginHandler {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
 				
+				
+				//检查发送版本更新
+				player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
 				// --------------------------------------------------------START
 				// TODO HC @Modify 2015-12-17
 				/**
@@ -292,8 +295,9 @@ public class GameLoginHandler {
 		{
 			String clientInfoJson = request.getClientInfoJson();
 			ZoneLoginInfo zoneLoginInfo = null;
+			ClientInfo clientInfo = null;
 			if (StringUtils.isNotBlank(clientInfoJson)) {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
+				clientInfo = ClientInfo.fromJson(clientInfoJson);
 				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
 				
 
@@ -347,6 +351,9 @@ public class GameLoginHandler {
 			System.out.println("-------------------" + (end1 - start));
 
 			EmailUtils.sendEmail(player.getUserId(), "10003");
+			
+			//检查发送版本更新
+			player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
 			
 			//检查发送gm邮件
 			ServerStatusMgr.processGmMailWhenCreateRole(player);

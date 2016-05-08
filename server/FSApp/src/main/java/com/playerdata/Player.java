@@ -116,6 +116,7 @@ public class Player implements PlayerIF {
 	private RedPointMgr redPointMgr = new RedPointMgr();
 
 	private PlayerSaveHelper saveHelper = new PlayerSaveHelper(this);
+	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -370,6 +371,7 @@ public class Player implements PlayerIF {
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
 		afterMgrInit();
+		upgradeMgr.init(this);
 
 	}
 
@@ -1161,6 +1163,10 @@ public class Player implements PlayerIF {
 
 	public UnendingWarMgr getUnendingWarMgr() {
 		return unendingWarMgr;
+	}
+
+	public UpgradeMgr getUpgradeMgr() {
+		return upgradeMgr;
 	}
 
 	/**
