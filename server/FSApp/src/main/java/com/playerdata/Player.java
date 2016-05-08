@@ -21,6 +21,7 @@ import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.SynDataInReqMgr;
+import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -130,6 +131,9 @@ public class Player implements PlayerIF {
 	private final PlayerTempAttribute tempAttribute;
 
 	private PowerInfo powerInfo;// 体力信息，仅仅用于同步到前台数据
+	
+	
+	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();//用户临时数据的同步
 
 	class PlayerSaveHelper {
 
@@ -1298,4 +1302,12 @@ public class Player implements PlayerIF {
 	public PowerInfo getPowerInfo() {
 		return powerInfo;
 	}
+
+	public UserTmpGameDataFlag getUserTmpGameDataFlag() {
+		return userTmpGameDataFlag;
+	}
+
+
+	
+	
 }

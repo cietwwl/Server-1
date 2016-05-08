@@ -1,5 +1,5 @@
 quantity,Remarks,attrName1,attrValue1,attrValueType1,attrName2,attrValue2,attrValueType2,attrName3,attrValue3,attrValueType3,attrName4,attrValue4,attrValueType4,attrName5,attrValue5,attrValueType5
-1,,life,275,Percentage,attack,275,Percentage,physiqueDef,275,Percentage,spiritDef,275,Percentage,,,Percentage
-2,,life,275,Percentage,attack,275,Percentage,physiqueDef,275,Percentage,spiritDef,275,Percentage,,,Percentage
-3,,life,275,Percentage,attack,275,Percentage,physiqueDef,275,Percentage,spiritDef,275,Percentage,,,Percentage
-4,,life,275,Percentage,attack,275,Percentage,physiqueDef,275,Percentage,spiritDef,275,Percentage,,,Percentage
+1,,life,275,Percentage,,,Percentage,,,Percentage,,,Percentage,,,
+2,,life,275,Percentage,attack,275,Percentage,,,Percentage,,,Percentage,,,
+3,,life,275,Percentage,attack,275,Percentage,physiqueDef,275,Percentage,,,Percentage,,,
+4,,life,275,Percentage,attack,275,Percentage,physiqueDef,275,Percentage,spiritDef,275,Percentage,,,
