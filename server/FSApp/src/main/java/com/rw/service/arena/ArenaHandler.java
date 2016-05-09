@@ -45,8 +45,6 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.skill.pojo.Skill;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ArenaServiceProtos.ArenaData;
 import com.rwproto.ArenaServiceProtos.ArenaHisRewardView;
 import com.rwproto.ArenaServiceProtos.ArenaHistoryResponse;
@@ -62,6 +60,7 @@ import com.rwproto.ArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class ArenaHandler {
@@ -437,7 +436,7 @@ public class ArenaHandler {
 						try {
 							ranking.replace(userId, arenaExt, enemyUserId);
 						} catch (ReplacerAlreadyExistException e) {
-							GameLog.error("严重错误@竞技场#replace失败：" + userId);
+							GameLog.error("竞技场", player.getUserId(), "严重错误@竞技场#replace失败：" + userId);
 							return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
 						} catch (ReplaceTargetNotExistException e) {
 							return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
@@ -449,7 +448,7 @@ public class ArenaHandler {
 					try {
 						entry = ranking.replace(userId, arenaExt, enemyUserId);
 					} catch (ReplacerAlreadyExistException e) {
-						GameLog.error("严重错误@竞技场#replace失败：" + userId);
+						GameLog.error("竞技场", player.getUserId(), "严重错误@竞技场#replace失败：" + userId);
 						return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
 					} catch (ReplaceTargetNotExistException e) {
 						// 对手也被打下来了
@@ -534,8 +533,12 @@ public class ArenaHandler {
 			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
+			//by franky
+			int decCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
 			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
-			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + arenaInfoCfg.getCdTime() * 1000);
+			int cdTime = arenaInfoCfg.getCdTime() - decCount;
+			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + cdTime * 1000);
+			
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
@@ -587,6 +590,18 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		}
+		
+		int buyTimes = m_MyArenaData.getBuyTimes();
+		//by franky
+		int allowMaxBuyCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaMaxCount);
+		if (allowMaxBuyCount < buyTimes){
+			GameLog.info("arena", player.getUserId(),"buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount="+allowMaxBuyCount,null);
+			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		
+		/*
 		// 检查vip等级
 		int vipLevel = player.getVip();
 		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
@@ -596,17 +611,18 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		int buyTimes = m_MyArenaData.getBuyTimes();
 		if (privilegeCfg.getSportBuyCount() <= buyTimes) {
 			GameLog.error("arena", "buyTimes", player + "当前vip购买次数已达上限," + buyTimes + "," + privilegeCfg.getSportBuyCount());
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		*/
+		
 		int nextBuyTimes = buyTimes + 1;
 		ArenaCost arenaCostCfg = ArenaCostCfgDAO.getInstance().get(nextBuyTimes);
 		if (arenaCostCfg == null) {
-			GameLog.error("arena", "buyTimes", player + "获取购买次数配置失败：" + nextBuyTimes);
+			GameLog.error("arena", "buyTimes", player + "获取竞技场购买配置失败：" + nextBuyTimes);
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_CONFIG_IS_NULL);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
@@ -636,6 +652,17 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		
+		//by franky
+		boolean isOpen = player.getPrivilegeMgr().getBoolPrivilege(ArenaPrivilegeNames.isAllowResetArena);
+		if (!isOpen){
+			GameLog.info("arena", player.getUserId(),"clearCD:未开启重置竞技场CD",null);
+			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		
+		/*
 		// 检查vip等级
 		int vipLevel = player.getVip();
 		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
@@ -650,6 +677,8 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		*/
+		
 		long nextFightingTime = m_MyArenaData.getNextFightTime();
 		if (nextFightingTime <= 0) {
 			response.setArenaData(getArenaData(m_MyArenaData));
@@ -735,8 +764,9 @@ public class ArenaHandler {
 		data.setLevel(arenaData.getLevel());
 		data.setName(arenaData.getName());
 		int fighting = 0;
-		arenaData.getHeroIdList().remove(arenaData.getUserId());
-		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), arenaData.getHeroIdList());
+		List<String> heroIdList = arenaData.getHeroIdList();
+		if (heroIdList != null) heroIdList.remove(arenaData.getUserId());
+		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), heroIdList);
 		List<ArmyHero> armyList = armyInfo.getHeroList();
 		int armySize = armyList.size();
 		for (int i = 0; i < armySize; i++) {
@@ -751,7 +781,7 @@ public class ArenaHandler {
 		try {
 			data.setArmyInfo(armyInfo.toJson());
 		} catch (Exception e) {
-			GameLog.error("职业竞技场转换armyInfo异常", e);
+			GameLog.error("竞技场", enemyId, "职业竞技场转换armyInfo异常", e);
 		}
 
 		ArmyMagic magic = armyInfo.getArmyMagic();

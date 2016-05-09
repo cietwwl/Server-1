@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.common.BeanCopyer;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
@@ -34,7 +31,6 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	public Map<String, ActivityCountTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeCfg.csv", ActivityCountTypeCfg.class);
 		for (ActivityCountTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseSubItemList(cfgTmp);
 			parseTime(cfgTmp);
 		}
 		
@@ -49,28 +45,7 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getEndTimeStr());
 		cfgItem.setEndTime(endTime);		
 	}
-	
-	
-	public void parseSubItemList(ActivityCountTypeCfg cfgItem){
-		String subItems = cfgItem.getSubItems();
-		List<ActivityCountTypeSubItem>  itemList = new ArrayList<ActivityCountTypeSubItem>();
 		
-		//id-count-giftId
-		String[] itemArray = subItems.split(";");
-		for (String itemStr : itemArray) {
-			String[] params = itemStr.split(":");
-			String id = params[0];
-			int count = Integer.valueOf(params[1]);
-			String giftId = params[2];			
-			ActivityCountTypeSubItem item = new ActivityCountTypeSubItem();
-			item.setCount(count);
-			item.setId(id);
-			item.setGift(giftId);
-			itemList.add(item);
-		}
-		cfgItem.setSubItemList(itemList);		
-	}
-	
 	
 	public ActivityCountTypeCfg getConfig(String id){
 		ActivityCountTypeCfg cfg = getCfgById(id);
@@ -87,34 +62,26 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 			item.setId(itemId);
 			item.setCfgId(cfgId);
 			item.setUserId(player.getUserId());
+			item.setVersion(cfgById.getVersion());
+			item.setSubItemList(newItemList(player, cfgById));
 			return item;
 		}else{
 			return null;
-		}
-		
-		
+		}		
 		
 	}
 	
 	
-	public ActivityCountTypeSubItem newSubItem(ActivityCountTypeEnum countTypeEnum, String subItemId){
-		ActivityCountTypeCfg cfg = getCfgById(countTypeEnum.getCfgId());
-		List<ActivityCountTypeSubItem> subItemList = cfg.getSubItemList();
-		
-		ActivityCountTypeSubItem source = null;
-		for (ActivityCountTypeSubItem subItemTmp : subItemList) {
-			if(StringUtils.equals(subItemTmp.getId(), subItemId)){
-				source = subItemTmp;
-				break;
-			}
-		}
-		
-		ActivityCountTypeSubItem target = null;
-		if(source!=null){
-			target = new ActivityCountTypeSubItem();
-			BeanCopyer.copy(source, target);
-		}		
-		return target;
+	public List<ActivityCountTypeSubItem> newItemList(Player player, ActivityCountTypeCfg activityCountTypeCfg) {
+		List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
+		List<ActivityCountTypeSubCfg> subItemCfgList = ActivityCountTypeSubCfgDAO.getInstance().getByParentCfgId(activityCountTypeCfg.getId());
+		for (ActivityCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
+			ActivityCountTypeSubItem subItem = new ActivityCountTypeSubItem();
+			subItem.setCfgId(activityCountTypeSubCfg.getId());	
+			subItem.setCount(activityCountTypeSubCfg.getAwardCount());
+			subItemList.add(subItem);
+		}	
+		return subItemList;
 	}
 
 	

@@ -161,11 +161,11 @@ public class MainHandler {
 			return mainResponse.build().toByteString();
 		}
 		CfgBuyPower cfgBuyPower = getCfgBuyPower(pPlayer.getUserGameDataMgr().getBuyPowerTimes() + 1);
-		TagCfgBuyPower.Builder tagCfgBuyCoinBuilder = TagCfgBuyPower.newBuilder();
-		tagCfgBuyCoinBuilder.setTimes(pPlayer.getUserGameDataMgr().getBuyPowerTimes());
-		tagCfgBuyCoinBuilder.setNeedPurse(cfgBuyPower.getNeedPurse());
-		tagCfgBuyCoinBuilder.setPower(cfgBuyPower.getPower());
-		mainResponse.setTagCfgBuyPower(tagCfgBuyCoinBuilder.build());
+		TagCfgBuyPower.Builder tagCfgBuyPowerBuilder = TagCfgBuyPower.newBuilder();
+		tagCfgBuyPowerBuilder.setTimes(pPlayer.getUserGameDataMgr().getBuyPowerTimes());
+		tagCfgBuyPowerBuilder.setNeedPurse(cfgBuyPower.getNeedPurse());
+		tagCfgBuyPowerBuilder.setPower(cfgBuyPower.getPower());
+		mainResponse.setTagCfgBuyPower(tagCfgBuyPowerBuilder.build());
 		return mainResponse.build().toByteString();
 	}
 
@@ -179,6 +179,11 @@ public class MainHandler {
 		}
 		int times = pPlayer.getUserGameDataMgr().getBuyPowerTimes();
 		CfgBuyPower cfgBuyPower = getCfgBuyPower(times + 1);
+		TagCfgBuyPower.Builder tagCfgBuyPowerBuilder = TagCfgBuyPower.newBuilder();
+		tagCfgBuyPowerBuilder.setTimes(pPlayer.getUserGameDataMgr().getBuyPowerTimes());
+		tagCfgBuyPowerBuilder.setNeedPurse(cfgBuyPower.getNeedPurse());
+		tagCfgBuyPowerBuilder.setPower(cfgBuyPower.getPower());
+		mainResponse.setTagCfgBuyPower(tagCfgBuyPowerBuilder.build());
 
 		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(pPlayer.getLevel()));
 		if (pPlayer.getUserGameDataMgr().getPower() >= cfg.getMostPower()) {

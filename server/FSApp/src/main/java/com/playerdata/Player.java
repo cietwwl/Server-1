@@ -25,6 +25,8 @@ import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.Privilege.PrivilegeManager;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -99,6 +101,8 @@ public class Player implements PlayerIF {
 	private StoreMgr m_StoreMgr = new StoreMgr();
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
+	//特权管理器
+	private PrivilegeManager privilegeMgr = new PrivilegeManager();
 
 	// 个人帮派数据的Mgr
 	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
@@ -254,6 +258,9 @@ public class Player implements PlayerIF {
 		m_AssistantMgr.init(this);
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
+		
+		privilegeMgr.init(this);
+		
 		afterMgrInit();
 		upgradeMgr.init(this);
 
@@ -1175,6 +1182,9 @@ public class Player implements PlayerIF {
 		return userTmpGameDataFlag;
 	}
 
+	public IPrivilegeManager getPrivilegeMgr() {
+		return privilegeMgr;
+	}
 
 	
 	

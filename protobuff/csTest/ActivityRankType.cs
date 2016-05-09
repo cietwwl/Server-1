@@ -9,17 +9,17 @@
 
 // Option: missing-value detection (*Specified/ShouldSerialize*/Reset*) enabled
     
-// Generated from: ActivityDateType.proto
-namespace activityDateType
+// Generated from: ActivityRankType.proto
+namespace activityRankType
 {
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ActivityCommonReqMsg")]
   public partial class ActivityCommonReqMsg : global::ProtoBuf.IExtensible
   {
     public ActivityCommonReqMsg() {}
     
-    private activityDateType.RequestType _reqType;
+    private activityRankType.RequestType _reqType;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"reqType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public activityDateType.RequestType reqType
+    public activityRankType.RequestType reqType
     {
       get { return _reqType; }
       set { _reqType = value; }
@@ -41,22 +41,39 @@ namespace activityDateType
     private bool ShouldSerializeactivityId() { return activityIdSpecified; }
     private void ResetactivityId() { activityIdSpecified = false; }
     
-    private string _subItemId;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"subItemId", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string subItemId
+    private int? _offset;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"offset", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int offset
     {
-      get { return _subItemId?? ""; }
-      set { _subItemId = value; }
+      get { return _offset?? default(int); }
+      set { _offset = value; }
     }
     [global::System.Xml.Serialization.XmlIgnore]
     [global::System.ComponentModel.Browsable(false)]
-    public bool subItemIdSpecified
+    public bool offsetSpecified
     {
-      get { return this._subItemId != null; }
-      set { if (value == (this._subItemId== null)) this._subItemId = value ? this.subItemId : (string)null; }
+      get { return this._offset != null; }
+      set { if (value == (this._offset== null)) this._offset = value ? this.offset : (int?)null; }
     }
-    private bool ShouldSerializesubItemId() { return subItemIdSpecified; }
-    private void ResetsubItemId() { subItemIdSpecified = false; }
+    private bool ShouldSerializeoffset() { return offsetSpecified; }
+    private void Resetoffset() { offsetSpecified = false; }
+    
+    private int? _limit;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"limit", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int limit
+    {
+      get { return _limit?? default(int); }
+      set { _limit = value; }
+    }
+    [global::System.Xml.Serialization.XmlIgnore]
+    [global::System.ComponentModel.Browsable(false)]
+    public bool limitSpecified
+    {
+      get { return this._limit != null; }
+      set { if (value == (this._limit== null)) this._limit = value ? this.limit : (int?)null; }
+    }
+    private bool ShouldSerializelimit() { return limitSpecified; }
+    private void Resetlimit() { limitSpecified = false; }
     
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -68,9 +85,9 @@ namespace activityDateType
   {
     public ActivityCommonRspMsg() {}
     
-    private activityDateType.RequestType _reqType;
+    private activityRankType.RequestType _reqType;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"reqType", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public activityDateType.RequestType reqType
+    public activityRankType.RequestType reqType
     {
       get { return _reqType; }
       set { _reqType = value; }
@@ -99,6 +116,30 @@ namespace activityDateType
     private bool ShouldSerializetipMsg() { return tipMsgSpecified; }
     private void ResettipMsg() { tipMsgSpecified = false; }
     
+    private string _userInfoJson;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"userInfoJson", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string userInfoJson
+    {
+      get { return _userInfoJson?? ""; }
+      set { _userInfoJson = value; }
+    }
+    [global::System.Xml.Serialization.XmlIgnore]
+    [global::System.ComponentModel.Browsable(false)]
+    public bool userInfoJsonSpecified
+    {
+      get { return this._userInfoJson != null; }
+      set { if (value == (this._userInfoJson== null)) this._userInfoJson = value ? this.userInfoJson : (string)null; }
+    }
+    private bool ShouldSerializeuserInfoJson() { return userInfoJsonSpecified; }
+    private void ResetuserInfoJson() { userInfoJsonSpecified = false; }
+    
+    private readonly global::System.Collections.Generic.List<string> _rankEntryJson = new global::System.Collections.Generic.List<string>();
+    [global::ProtoBuf.ProtoMember(5, Name=@"rankEntryJson", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<string> rankEntryJson
+    {
+      get { return _rankEntryJson; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -108,11 +149,8 @@ namespace activityDateType
     public enum RequestType
     {
             
-      [global::ProtoBuf.ProtoEnum(Name=@"TAKE_DAY_GIFT", Value=1)]
-      TAKE_DAY_GIFT = 1,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"TAKE_BIG_GIFT", Value=2)]
-      TAKE_BIG_GIFT = 2
+      [global::ProtoBuf.ProtoEnum(Name=@"Get_Rank_Info", Value=1)]
+      Get_Rank_Info = 1
     }
   
 }
