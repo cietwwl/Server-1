@@ -3,6 +3,7 @@ package com.rw.netty;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -121,6 +122,17 @@ public class UserChannelMgr {
 			return userChannelMapCpy.get(userId);
 		}
 		return null;
+	}
+	
+	/**
+	 * 获取在线列表
+	 * @return
+	 */
+	public static List<String> getOnlineList(){
+		List<String> onlineList = new ArrayList<String>();
+		Collection<String> values = userChannelMap.values();
+		onlineList.addAll(values);
+		return onlineList;
 	}
 
 	public static int getCount() {
