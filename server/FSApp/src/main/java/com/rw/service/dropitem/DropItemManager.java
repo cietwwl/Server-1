@@ -31,7 +31,7 @@ public class DropItemManager {
 	}
 
 	/**
-	 * 掉落并记录必要信息
+	 * 无调用；掉落并记录必要信息
 	 * 
 	 * @param player
 	 * @param copyCfg
@@ -52,7 +52,7 @@ public class DropItemManager {
 	}
 
 	/**
-	 * 掉落并记录必要信息
+	 * 封神台 掉落并记录必要信息
 	 * 
 	 * @param player
 	 * @param copyCfg
@@ -70,7 +70,8 @@ public class DropItemManager {
 			return Collections.EMPTY_LIST;
 		}
 	}
-
+	
+	/**副本及扫荡类*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, CopyCfg copyCfg) throws DataAccessTimeoutException {
 		String userId = player.getUserId();
 		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
@@ -89,7 +90,7 @@ public class DropItemManager {
 		List<Integer> list = CopyHandler.convertToIntList(items);
 		return pretreatDrop(player, list, copyId, firstDrop);
 	}
-
+	
 	public List<? extends ItemInfo> pretreatDrop(Player player, List<Integer> list, int copyId) throws DataAccessTimeoutException {
 		return pretreatDrop(player, list, copyId, false);
 	}

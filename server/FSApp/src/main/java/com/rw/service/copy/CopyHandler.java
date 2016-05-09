@@ -10,6 +10,8 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.rateType.ActivityRateTypeEnum;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.copy.CopyCalculateState;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
@@ -216,12 +218,14 @@ public class CopyHandler {
 		} catch (DataAccessTimeoutException e) {
 			GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
 		}
+		boolean isActivityDouble = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0));
 		if (dropItems != null) {
+			int multiple = isActivityDouble?2 : 1;
 			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改
 			for (int i = 0; i < dropItems.size(); i++) {
 				ItemInfo itemInfo = dropItems.get(i);
 				int itemId = itemInfo.getItemID();
-				int itemNum = itemInfo.getItemNum();
+				int itemNum = itemInfo.getItemNum() * multiple;
 				itemList.add(itemId + "," + itemNum);
 			}
 		}
