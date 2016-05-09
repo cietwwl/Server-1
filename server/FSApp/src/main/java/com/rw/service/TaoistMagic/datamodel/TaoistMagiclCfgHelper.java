@@ -20,8 +20,24 @@ public class TaoistMagiclCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		Collection<TaoistMagicCfg> vals = cfgCacheMap.values();
 		for (TaoistMagicCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
-		}//检查开放等级与分页的关系，检查序号与分页的关系，检查属性是否存在，检查属性类型是否正确，检查公式参数是否有效，
-		//跨表检查，consumeId是否在TaoistConsumeCfg有定义
+			//TODO 检查属性是否存在, 每个分页的开放等级必须一样,序号应该连续且没有重复
+
+		}
+		
 		return cfgCacheMap;
+	}
+	
+	//@Override
+	public void CheckConfig(){
+		//跨表检查，consumeId是否在TaoistConsumeCfg有定义
+		TaoistConsumeCfgHelper helper = TaoistConsumeCfgHelper.getInstance();
+		Collection<TaoistMagicCfg> vals = cfgCacheMap.values();
+		for (TaoistMagicCfg cfg : vals) {
+			int consumeId = cfg.getConsumeId();
+			TaoistConsumeCfg consumeCfg = helper.getCfgById(String.valueOf(consumeId));
+			if (consumeCfg == null){
+				throw new RuntimeException("无效技能消耗ID="+consumeId);
+			}
+		}
 	}
 }

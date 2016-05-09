@@ -20,7 +20,7 @@ public class TaoistCriticalPlanCfgHelper extends CfgCsvDao<TaoistCriticalPlanCfg
 		Collection<TaoistCriticalPlanCfg> vals = cfgCacheMap.values();
 		for (TaoistCriticalPlanCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
-		}//解析暴击序列，看看是否正确
+		}
 		return cfgCacheMap;
 	}
 }
