@@ -19,13 +19,21 @@ import com.rw.fsutil.common.EnumName;
 
 public class CfgCsvHelper {
 	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP){
-		return readCsv2Map(configFileName,clazzP,null);
+		return readCsv2Map(configFileName,clazzP,null,null);
 	}
 	
-	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP,RefParam<String[]> headers) {
+	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP,
+			RefParam<Map<String, Field>> outFieldMap) {
+		return readCsv2Map(configFileName,clazzP,null,outFieldMap);
+	}
+	
+	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP, RefParam<String[]> headers,
+			RefParam<Map<String, Field>> outFieldMap) {
 		HashMap<String, T> map = new HashMap<String, T>();
 		try {
-			
+			Map<String, Field> fieldMap = getFieldMap(clazzP);
+			if (outFieldMap != null) outFieldMap.value = fieldMap;
+
 			String csvFn = CfgCsvHelper.class.getResource("/config/"+configFileName).getFile();
 			File csvFile = new File(csvFn);
 			
@@ -41,7 +49,8 @@ public class CfgCsvHelper {
 					fieldNameArray = getFieldNameArray(csvRecord);
 					if (headers != null) headers.value = fieldNameArray;
 				}else{
-					T cfg = createFromCsv(fieldNameArray, csvRecord, clazzP);
+					T newInstance = clazzP.newInstance();
+					T cfg = createFromCsv(fieldNameArray, csvRecord, newInstance,fieldMap);
 					if (map.put(csvRecord.get(0), cfg)!=null){
 						GameLog.error("配置错误", configFileName, "重复的关键字:"+csvRecord.get(0));
 					}
@@ -68,11 +77,9 @@ public class CfgCsvHelper {
 		return fieldNameArray;
 	}
 
-	private static <T> T createFromCsv(String[] fieldNameArray, CSVRecord csv, Class<T> clazzP) throws Exception {
-		T newInstance = clazzP.newInstance();
-		
+	private static <T> T createFromCsv(String[] fieldNameArray, CSVRecord csv,T newInstance,
+			Map<String, Field> fieldMap) throws Exception {
 		try {
-			Map<String, Field> fieldMap = getFieldMap(clazzP);
 			// String[] fieldNameArray = getFieldNameArray(csv);
 			for (int i = 0; i < fieldNameArray.length; i++) {
 				String fieldName = fieldNameArray[i];
@@ -106,7 +113,7 @@ public class CfgCsvHelper {
 			fieldMap.put(field.getName(), field);
 		}
 		
-		//TODO HC @Modify 2015-12-05 如果不是Object为父才检测
+		// HC @Modify 2015-12-05 如果不是Object为父才检测
 		Class<?> superclass = clazzP.getSuperclass();
 		if (superclass != Object.class) {
 			Field[] superfields = superclass.getDeclaredFields();
