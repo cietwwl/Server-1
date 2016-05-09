@@ -4,6 +4,7 @@ import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
@@ -88,8 +89,12 @@ public class PlayerTimeActionHelper {
 	public static TimeAction onNewDayZero(final Player player) {
 
 		TimeAction onNewDayZeroTimeAction = new TimeAction(player.getUserId());
+		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+		
 		return onNewDayZeroTimeAction;
-
+		
+		
+		
 		// RankingMgr.getInstance().resetUpdateState();
 		// m_ArenaMgr.resetDataInNewDay();
 		// String userId = getUserId();

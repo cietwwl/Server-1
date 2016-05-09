@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
+import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -61,6 +63,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityRateTypeItem> activityRateTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -102,6 +108,10 @@ public class MapItemStoreFactory {
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
 
 		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
+		
+//		register(activityRateTypeItemCache = new MapItemStoreCache<ActivityRateTypeItem>(ActivityRateTypeItem.class, "userId", heroCapacity));
+//		
+//		register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
 
 		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
 
@@ -230,6 +240,14 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
 		return activityTimeCardTypeItemCache;
+	}
+	
+
+	public static MapItemStoreCache<ActivityRateTypeItem> getActivityRateTypeItemCache() {
+		return activityRateTypeItemCache;
+	}
+	public static MapItemStoreCache<ActivityDateTypeItem> getActivityDateTypeItemCache() {
+		return activityDateTypeItemCache;
 	}
 
 	/**

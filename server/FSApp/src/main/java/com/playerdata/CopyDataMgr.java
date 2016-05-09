@@ -25,19 +25,24 @@ public class CopyDataMgr implements CopyDataMgrIF {
 	public static final int PVE_RESET_TIME_HOUR = 5;// PVE模块重置的时间点
 
 	private TableCopyDataDAO tableCopyDataDAO = TableCopyDataDAO.getInstance();
-	private TableCopyData pTableCopyData;
 	private Player player;
 
 	public void init(Player playerP) {
 		player = playerP;
-		pTableCopyData = tableCopyDataDAO.get(playerP.getUserId());
+		TableCopyData pTableCopyData = tableCopyDataDAO.get(playerP.getUserId());
 		List<CopyInfoCfg> cfgList = CopyInfoCfgDAO.getInstance().getAllCfg();
 		// 角色第一次初始化
-		if (pTableCopyData == null) {
-			pTableCopyData = new TableCopyData();
-			pTableCopyData.setUserId(playerP.getUserId());
-			List<CopyData> copyList = new ArrayList<CopyData>();
-			for (CopyInfoCfgIF cfg : cfgList) {
+		List<CopyData> copyList = pTableCopyData.getCopyList();
+		for (CopyInfoCfgIF cfg : cfgList) {
+			// 调整bAdd位置
+			boolean bAdd = true;
+			for (CopyData data : copyList) {
+				if (data.getInfoId() == cfg.getId()) {
+					bAdd = false;
+					break;
+				}
+			}
+			if (bAdd) {
 				CopyData data = new CopyData();
 				data.setCopyCount(cfg.getCount());
 				// data.setResetCount(getRestCountByCopyType(cfg.getType()));
@@ -46,43 +51,21 @@ public class CopyDataMgr implements CopyDataMgrIF {
 				data.setPassMap(getCelestialDegreeMap());
 				copyList.add(data);
 			}
-			pTableCopyData.setCopyList(copyList);
-		} else {
-			List<CopyData> copyList = pTableCopyData.getCopyList();
-			for (CopyInfoCfgIF cfg : cfgList) {
-				// 调整bAdd位置
-				boolean bAdd = true;
-				for (CopyData data : copyList) {
-					if (data.getInfoId() == cfg.getId()) {
-						bAdd = false;
-						break;
-					}
-				}
-				if (bAdd) {
-					CopyData data = new CopyData();
-					data.setCopyCount(cfg.getCount());
-					// data.setResetCount(getRestCountByCopyType(cfg.getType()));
-					data.setCopyType(cfg.getType());
-					data.setInfoId(cfg.getId());
-					data.setPassMap(getCelestialDegreeMap());
-					copyList.add(data);
-				}
-			}
 		}
 		this.save();
 	}
 
 	public boolean save() {
-		if (tableCopyDataDAO == null)
-			return false;
-		return tableCopyDataDAO.update(pTableCopyData);
+		tableCopyDataDAO.update(player.getUserId());
+		return true;
 	}
 
 	/**
 	 * 需要检查一下开启的时间是什么时候
 	 * 
 	 * @param copyType
-	 * @param hour 开启的时间 一般都是5点
+	 * @param hour
+	 *            开启的时间 一般都是5点
 	 * @return
 	 */
 	public List<CopyInfoCfgIF> getTodayInfoCfg(int copyType) {
@@ -138,12 +121,14 @@ public class CopyDataMgr implements CopyDataMgrIF {
 	}
 
 	/*
-	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList = pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy
-	 * : copyList){ if(copy.getCopyType() == copyType){ data = copy; break; } } return data; }
+	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList =
+	 * pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy :
+	 * copyList){ if(copy.getCopyType() == copyType){ data = copy; break; } }
+	 * return data; }
 	 */
 
 	private CopyData getByInfoWithId(int infoId) {
-		List<CopyData> copyList = pTableCopyData.getCopyList();
+		List<CopyData> copyList = getTableCopyData().getCopyList();
 		CopyData data = null;
 		for (CopyData copy : copyList) {
 			if (copy.getInfoId() == infoId) {
@@ -213,11 +198,8 @@ public class CopyDataMgr implements CopyDataMgrIF {
 
 	// 新的一天重置次数
 	public void resetDataInNewDay() {
-		if (pTableCopyData == null) {
-			return;
-		}
 		List<CopyInfoCfgIF> cfgList = getSameDayInfoList();
-		List<CopyData> copyList = pTableCopyData.getCopyList();
+		List<CopyData> copyList = getTableCopyData().getCopyList();
 		for (CopyData data : copyList) {
 			int copyType = data.getCopyType();
 			for (CopyInfoCfgIF cfg : cfgList) {
@@ -372,5 +354,9 @@ public class CopyDataMgr implements CopyDataMgrIF {
 
 		count = player.getVipMgr().GetMaxPrivilege(vipType);
 		return count;
+	}
+
+	private TableCopyData getTableCopyData() {
+		return TableCopyDataDAO.getInstance().get(player.getUserId());
 	}
 }

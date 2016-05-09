@@ -108,6 +108,9 @@ public class VersionDao {
 		//List<String> current = getFilePathList(fileList);
 		//boolean result = !(lastFilePathList.containsAll(current) && current.containsAll(lastFilePathList));
 		boolean reault = false;
+		if(fileList.size() < versionFileMap.size()){
+			return true;
+		}
 		for (File file : fileList) {
 			VersionFileInfo versionFileInfo = versionFileMap.get(file.getAbsolutePath());
 			if(versionFileInfo != null){

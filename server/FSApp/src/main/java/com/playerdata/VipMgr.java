@@ -19,9 +19,6 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 	
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		TableVip tableVip = new TableVip();
-		tableVip.setUserId(player.getUserId());
-		TableVipDAO.getInstance().update(tableVip);
 	}
 	
 	@Override
@@ -207,5 +204,12 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 		vipDataHolder.get().setLevelVipGiftTaken(vipLevel);
 		vipDataHolder.update(m_pPlayer);
 	}
+	
+	public void failToBuyVipGift(int vipLevel){
+		vipDataHolder.get().failToBuyVipGift(vipLevel);
+		vipDataHolder.update(m_pPlayer);
+	}
+	
+	
 	
 }

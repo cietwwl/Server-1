@@ -12,6 +12,10 @@ public class RoleBaseInfoDAO extends DataKVDao<RoleBaseInfo> {
 		return m_instance;
 	}
 	
+	public boolean update(RoleBaseInfo t) {
+		return super.update(t);
+	}
+	
 	/**
 	 * 获取缓存数量大小
 	 * @return

@@ -1,6 +1,7 @@
 package com.gm.task;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.netty.UserChannelMgr;
 
 public class GmKickOffPlayer implements IGmTask{
 
@@ -36,12 +38,15 @@ public class GmKickOffPlayer implements IGmTask{
 			
 		}else{
 			
-			String[] userIdArray = userIdList.split(",");			
+			String[] userIdArray = userIdList.split(",");
+			List<String> onlineList = UserChannelMgr.getOnlineList();
 			for (String userId : userIdArray) {
-				Player target = PlayerMgr.getInstance().findPlayerFromMemory(userId.trim());
-				if(target!=null){
-					String reason = "亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。";
-					target.KickOffWithCoolTime(reason, true);
+				if (onlineList.contains(userId)) {
+					Player target = PlayerMgr.getInstance().findPlayerFromMemory(userId.trim());
+					if (target != null) {
+						String reason = "亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。";
+						target.KickOffWithCoolTime(reason, true);
+					}
 				}
 			}
 		}
