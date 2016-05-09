@@ -1,5 +1,5 @@
 key,remarks,skillName,tagNum,openLevel,order,skillIcon,attribute,formulaParam,attrValueType,consumeId
-110001,,背刺,1,27,1,SmallTex/Skill/1100017,attack,初始值|每级递增|每X级后调整|每次调整增加,Value,101
+110001,,背刺,1,27,1,SmallTex/Skill/1100017,attack,10|10|5|5,Value,101
 110002,,斩击,1,27,2,SmallTex/Skill/1100019,attack,10|10|5|5,Value,101
 110003,,割裂,1,27,3,SmallTex/Skill/1100006,attack,10|10|0|0,Value,101
 120001,,疾风步,1,27,4,SmallTex/Skill/1100020,attack,10|10|0|0,Value,101
