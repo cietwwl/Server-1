@@ -48,8 +48,6 @@ public class DailyGifHandler {
 			return null;
 		}
 
-//		dailyGiftData.setGetCount(dailyGiftData.getGetCount() + 1);
-		
 		List<Integer> temps = dailyGiftData.getCounts();
 		temps.add(count);
 		dailyGiftData.setCounts(temps);

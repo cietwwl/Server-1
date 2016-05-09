@@ -21,4 +21,5 @@ public class EmailCfgDAO  extends CfgCsvDao<EmailCfg>{
 	public EmailCfg getEmailCfg(String cfgId){
 		return (EmailCfg)getCfgById(cfgId);
 	}
+	
 }

@@ -38,10 +38,8 @@ public class Hero implements HeroIF {
 
 	// 新添加的英雄做基本属性和技能的初始化
 	public Hero(Player pPlayer, eRoleType roleTypeP, RoleCfg heroCfg, String roleUUId) {
-
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;
-
 		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
 		roleBaseInfo.setId(roleUUId);
 		roleBaseInfo.setTemplateId(heroCfg.getRoleId());
@@ -52,9 +50,8 @@ public class Hero implements HeroIF {
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
 		m_SkillMgr.initSkill(heroCfg);
-
 	}
-
+	
 	public Hero(Player pPlayer, eRoleType roleTypeP, String roleUUId) {
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;

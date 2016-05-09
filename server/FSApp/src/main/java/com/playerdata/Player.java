@@ -3,10 +3,7 @@ package com.playerdata;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.commons.lang3.StringUtils;
-
 import com.bm.arena.ArenaBM;
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
@@ -96,10 +93,8 @@ public class Player implements PlayerIF {
 	private VipMgr m_VipMgr = new VipMgr();
 	private SettingMgr m_SettingMgr = new SettingMgr();
 	private TowerMgr m_TowerMgr = new TowerMgr();
-	// private SecretAreaMgr m_SecretMgr = new SecretAreaMgr();
 	private EmailMgr m_emailMgr = new EmailMgr();
 	private BattleTowerMgr m_battleTowerMgr = new BattleTowerMgr();
-	// private GuildUserMgr m_GuildUserMgr = new GuildUserMgr();
 	private GambleMgr m_gambleMgr = new GambleMgr();
 	private CopyDataMgr m_CopyDataMgr = new CopyDataMgr();
 	private TaskItemMgr m_TaskMgr = new TaskItemMgr();
@@ -120,7 +115,7 @@ public class Player implements PlayerIF {
 
 	private RedPointMgr redPointMgr = new RedPointMgr();
 
-	private PlayerSaveHelper saveHelper = new PlayerSaveHelper(this);
+	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -137,120 +132,6 @@ public class Player implements PlayerIF {
 	
 	
 	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();//用户临时数据的同步
-
-	class PlayerSaveHelper {
-
-		private Player player;
-
-		private boolean saving = false;
-
-		private AtomicInteger savedCount = new AtomicInteger(0);
-
-		public PlayerSaveHelper(Player playerP) {
-			this.player = playerP;
-		}
-
-		final int totalToSave = 22;
-
-		public int getProgress() {
-			return savedCount.get() * 100 / totalToSave;
-		}
-
-		public synchronized int save(boolean immediately) {
-			// int progress = 0;
-			// if (saving) {
-			// progress = getProgress();
-			// } else {
-			// saving = true;
-			// savedCount.set(0);
-			// try {
-			// // GameLog.error(LogModule.COMMON.getName(),
-			// // player.getUserId(), "保存数据。。。。。",null);
-			// doSave(immediately);
-			// } catch (Exception e) {
-			// GameLog.error(LogModule.COMMON.getName(), player.getUserId(),
-			// "PlayerSaveHelper[save]用户数据保存错误", e);
-			// } finally {
-			// saving = false;
-			// }
-			// }
-			// return progress;
-			return 0;
-		}
-
-		private void doSave(boolean immediately) {
-			// TODO 这里应该在内部做判断而不是在外面判null，容易漏掉和不好维护
-			// player.getUserGameDataMgr().flush();
-			// savedCount.incrementAndGet();
-			//
-			// player.getUserDataMgr().flush();
-			// savedCount.incrementAndGet();
-			//
-			// player.getItemBagMgr().save();
-			// savedCount.incrementAndGet();
-
-			player.getHeroMgr().save(immediately);
-			savedCount.incrementAndGet();
-
-			player.getFashionMgr().save();
-			savedCount.incrementAndGet();
-
-			player.getMagicMgr().save();
-			savedCount.incrementAndGet();
-
-			// player.getFresherActivityMgr().save();
-			// savedCount.incrementAndGet();
-
-			if (m_CopyRecordMgr != null) {
-				player.getCopyRecordMgr().flush();
-				savedCount.incrementAndGet();
-			}
-			if (m_SettingMgr != null) {
-				player.getSettingMgr().flush();
-				savedCount.incrementAndGet();
-			}
-
-			if (m_CopyDataMgr != null) {
-				player.getCopyDataMgr().save();
-				savedCount.incrementAndGet();
-			}
-			if (m_friendMgr != null) {
-				player.getFriendMgr().save();
-				savedCount.incrementAndGet();
-			}
-			if (m_VipMgr != null) {
-				player.getVipMgr().flush();
-				savedCount.incrementAndGet();
-			}
-			if (m_emailMgr != null) {
-				player.getEmailMgr().save();
-				savedCount.incrementAndGet();
-			}
-//			if (m_gambleMgr != null) {
-//				player.getGambleMgr().save();
-//				savedCount.incrementAndGet();
-//			}
-			if (m_TaskMgr != null) {
-				player.getTaskMgr().save();
-				savedCount.incrementAndGet();
-			}
-			if (m_StoreMgr != null) {
-				player.getStoreMgr().save();
-				savedCount.incrementAndGet();
-			}
-			if (m_SignMgr != null) {
-				player.getSignMgr().save();
-				savedCount.incrementAndGet();
-			}
-			if (m_DailyActivityMgr != null) {
-				savedCount.incrementAndGet();
-			}
-			// if (m_TowerMgr != null) {
-			// player.getTowerMgr().save();
-			// savedCount.incrementAndGet();
-			// }
-		}
-	}
 
 	// private int logoutTimer = 0;
 
@@ -329,14 +210,14 @@ public class Player implements PlayerIF {
 
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-			this.getHeroMgr().notifyPlayerCreated(this);
-			this.getHeroMgr().init(this);
+			this.getHeroMgr().init(this, false);
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			notifyCreated();
+		}else{
+			m_HeroMgr.init(this, true);
 		}
 
 		// 这两个mgr一定要初始化
-		m_HeroMgr.init(this);
 		itemBagMgr.init(this);
 		// 法宝数据
 		magicMgr.init(this);
@@ -381,6 +262,7 @@ public class Player implements PlayerIF {
 		privilegeMgr.init(this);
 		
 		afterMgrInit();
+		upgradeMgr.init(this);
 
 	}
 
@@ -520,8 +402,6 @@ public class Player implements PlayerIF {
 
 	public void KickOff(String reason) {
 		// 先保存再踢
-		save();
-
 		GameLoginResponse.Builder loginResponse = GameLoginResponse.newBuilder();
 		loginResponse.setResultType(eLoginResultType.SUCCESS);
 		loginResponse.setError(reason);
@@ -530,7 +410,6 @@ public class Player implements PlayerIF {
 	}
 
 	public void KickOffImmediately(String reason) {
-		save();
 
 		GameLoginResponse.Builder loginResponse = GameLoginResponse.newBuilder();
 		loginResponse.setResultType(eLoginResultType.SUCCESS);
@@ -620,16 +499,7 @@ public class Player implements PlayerIF {
 			RedPointManager.getRedPointManager().checkRedPointVersion(this, this.redPointMgr.getVersion());
 		}
 	}
-
-	public int save(boolean immediately) {
-
-		return saveHelper.save(immediately);
-	}
-
-	public int save() {
-		return this.save(false);
-	}
-
+	
 	// BusinessService start
 	public void onBSStart() {
 		synDataInReqMgr.setInReq(true);
@@ -1172,6 +1042,10 @@ public class Player implements PlayerIF {
 
 	public UnendingWarMgr getUnendingWarMgr() {
 		return unendingWarMgr;
+	}
+
+	public UpgradeMgr getUpgradeMgr() {
+		return upgradeMgr;
 	}
 
 	/**

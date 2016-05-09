@@ -1,0 +1,29 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ActivityRankTypeProto";
+
+package activityRankType;
+
+
+enum RequestType{
+
+	Get_Rank_Info = 1;//获取排名信息
+
+}
+
+message ActivityCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional string activityId = 2; //活动id
+	optional int32 offset = 3; //偏移量
+	optional int32 limit = 4;  //记录数
+}
+
+
+message ActivityCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional string userInfoJson = 4;//用户自己的排名信息
+	repeated string rankEntryJson = 5;//排名列表信息
+
+}

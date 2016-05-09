@@ -35,38 +35,6 @@ public class SignMgr implements PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		TableSignData pTableSignData = new TableSignData();
-		pTableSignData.setUserId(player.getUserId());
-		TreeMap<String,SignData> treeMap = new TreeMap<String, SignData>();
-		pTableSignData.setSignDataMap(treeMap);
-		Calendar calendar = Calendar.getInstance();
-		// 判断是否跨年
-		if (calendar.get(Calendar.DAY_OF_MONTH) == 0) {
-			if (calendar.get(Calendar.HOUR) < 5) {
-				calendar.roll(Calendar.MONTH, -1);
-				pTableSignData.setLastUpate(calendar);
-			} else {
-				pTableSignData.setLastUpate(calendar);
-			}
-		} else {
-			pTableSignData.setLastUpate(calendar);
-		}
-
-		int month = calendar.get(Calendar.MONTH) + 1;
-		int year = calendar.get(Calendar.YEAR);
-		String signID = year + "_" + month + "_" + 1; // 保证每天都有...
-		SignData newOpenSignData = new SignData();
-		newOpenSignData.setOpen(true); // 能否签到...
-		newOpenSignData.setOpenSignDate(Calendar.getInstance()); // 开放时间...
-		newOpenSignData.setDouble(false); // 是否有剩余的VIP双倍可用状态...
-		newOpenSignData.setResign(false);
-		newOpenSignData.setLastSignDate(null); // 有签到时间的话才可能有双倍...
-		treeMap.put(signID, newOpenSignData);
-		getStringRecordFromData(signID, newOpenSignData);
-		
-		TableSignDataDAO.getInstance().update(pTableSignData);
-
-		//this.signDataHolder.update(player);
 	}
 
 	@Override

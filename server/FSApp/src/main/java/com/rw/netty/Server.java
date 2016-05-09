@@ -31,19 +31,20 @@ public class Server {
 	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		GameWorldFactory.init(64, 16);
+		GameWorldFactory.init(32, 16);
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
-
+		
 		GameManager.initServerProperties();
 
 		ServerSwitch.initProperty();
 
+//		GameManager.initBeforeLoading();
 		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
 
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
 		int ioThreads = Runtime.getRuntime().availableProcessors() * 4;
 		// new PrintServerState().startPrintState();
-		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(128);
+		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(64);
 		// final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
 		try {
 			//检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
@@ -65,23 +66,12 @@ public class Server {
 				@Override
 				protected void initChannel(Channel ch) throws Exception {
 					ch.pipeline().addLast("idle", new IdleStateHandler(0, 0, 180));
-					// ch.pipeline().addLast("log1", new LoggingHandler());
-					// ch.pipeline().addLast("frameDecoder", new ProtobufFrameDecoder());
 					ch.pipeline().addLast("frameDecoder", new FrameDecoder());
-
-					// ch.pipeline().addLast("log2", new LoggingHandler());
-					// ch.pipeline().addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
 					// 构造函数传递要解码成的类型
 					ch.pipeline().addLast("protobufDecoder", new ProtobufDecoder(Request.getDefaultInstance()));
-					// handle in thread pool
-					// ch.pipeline().addLast(pool, new ServerHandler());
 					ch.pipeline().addLast("serverHandler", new ServerHandler());
-					// 编码
-					// ch.pipeline().addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
 					ch.pipeline().addLast("frameEncoder", new ProtobufFrameEncoder());
-					// ch.pipeline().addLast("log3", new LoggingHandler());
 					ch.pipeline().addLast("protobufEncoder", new ProtobufEncoder());
-					// ch.pipeline().addLast("log4", new LoggingHandler());
 				};
 			});
 
@@ -89,9 +79,10 @@ public class Server {
 			int port = Integer.valueOf(ServerConfig.getInstance().getServeZoneInfo().getPort());
 			ChannelFuture channelFuture = serverBootstrap.bind(new InetSocketAddress(port)).sync();
 			channelFuture.channel().closeFuture().sync();
-		} catch (Exception e) {
-			// e.printStackTrace();
+		} catch (Throwable e) {
+			e.printStackTrace();
 			GameLog.error("Server", "Server[]main", "", e);
+			System.exit(0);
 		} finally {
 			bossEventLoopGroup.shutdownGracefully();
 			workerEventLoopGroup.shutdownGracefully();
