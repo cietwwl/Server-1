@@ -927,7 +927,8 @@ public class ArenaHandler {
 			rewardSum.add(builder.build());
 		}
 		historyBuilder.addAllRewardSum(rewardSum);
-		return historyBuilder.build().toByteString();
+		response.setHistoryReward(historyBuilder.build());
+		return response.build().toByteString();
 	}
 
 	/**
@@ -946,7 +947,7 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return getHistoryView(request, player);
 		}
-		int id = request.getRewardId();
+		int id = request.getHistoryRewardId();
 		List<Integer> historyRewards = arenaData.getHistoryRewards();
 		if (historyRewards.contains(id)) {
 			GameLog.error("ArenaHandler", "#getHistoryReward()", "重复历史排名奖励：" + id);
