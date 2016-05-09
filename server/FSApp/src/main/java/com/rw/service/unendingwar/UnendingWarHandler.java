@@ -82,7 +82,7 @@ public class UnendingWarHandler {
 
 	/*** 发送结算奖励 ****/
 	private void setEnd(Player player, int num, int cMap) {
-		//int dq = player.unendingWarMgr.getTable().getDqCj();
+		// int dq = player.unendingWarMgr.getTable().getDqCj();
 		if (player.unendingWarMgr.getTable().getZhCj() < num) {
 			player.unendingWarMgr.getTable().setZhCj(num);
 		}
@@ -100,8 +100,8 @@ public class UnendingWarHandler {
 
 	/*** 重置副本 ****/
 	public ByteString ResetNum(Player player) {
-		//int count = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);
-		//by franky
+		// int count = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);
+		// by franky
 		int count = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.warfareResetCnt);
 		count = count > 0 ? count : 1;
 
