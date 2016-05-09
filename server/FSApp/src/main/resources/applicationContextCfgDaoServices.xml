@@ -99,7 +99,7 @@
 	
 	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistConsumeCfgHelper"  init-method="init" />
 	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistCriticalPlanCfgHelper"  init-method="init" />
-	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistMagiclCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.unendingwar.CfgUnendingWarDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.unendingwar.UnendingWarInfoCfgDAO"  init-method="init" />

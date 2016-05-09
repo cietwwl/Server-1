@@ -12,7 +12,7 @@ public class TaoistMagicFormula {
 		this.deltaInit = deltaInit;
 		this.accDelta = accDelta;
 		this.levelDelta = levelDelta;
-		if (valueInit <0 || deltaInit <0 || accDelta <0 || levelDelta <=0){
+		if (valueInit <0 || deltaInit <0 || accDelta <0 || levelDelta <0){
 			throw new RuntimeException("无效公式参数:"+this.toString());
 		}
 	}
@@ -42,6 +42,7 @@ public class TaoistMagicFormula {
 	//加速度
 	private int acc(int level) {
 		if (level <= 0) return 0;
+		if (levelDelta <=0) return 0;
 		return accDelta * ((level-1) / levelDelta);
 	}
 	

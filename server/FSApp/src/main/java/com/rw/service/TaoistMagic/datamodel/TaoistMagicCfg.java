@@ -7,6 +7,7 @@ public class TaoistMagicCfg extends BaseConfig {
 	private int key; // key
 	private int tagNum;// 分页
 	private int openLevel; // 分页开放等级
+	private int order;//序号
 	private String attribute; // 属性类型
 	private String formulaParam; // 属性计算公式参数
 	private com.rwbase.dao.fashion.AttrValueType attrValueType; // 属性值的类型
@@ -23,6 +24,10 @@ public class TaoistMagicCfg extends BaseConfig {
 
 	public int getOpenLevel() {
 		return openLevel;
+	}
+
+	public int getOrder() {
+		return order;
 	}
 
 	public String getAttribute() {
@@ -47,7 +52,7 @@ public class TaoistMagicCfg extends BaseConfig {
 		if (attrValueType == null){
 			throw new RuntimeException("无效属性类型,key="+key);
 		}
-		int[] params = ListParser.ParseIntList(formulaParam, "|", "道术", "属性计算参数无效", "key="+key+",");
+		int[] params = ListParser.ParseIntList(formulaParam, "\\|", "道术", "属性计算参数无效", "key="+key+",");
 		if (params.length <4){
 			throw new RuntimeException("属性计算参数无效,key="+key+",参数:"+formulaParam);
 		}

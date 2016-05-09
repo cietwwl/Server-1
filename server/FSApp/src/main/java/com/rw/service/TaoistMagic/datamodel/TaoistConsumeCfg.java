@@ -41,7 +41,7 @@ public class TaoistConsumeCfg extends BaseConfig {
 		if (coinCount <= 0){
 			throw new RuntimeException("无效消耗值:"+coinCount+",key="+key);
 		}
-		seqList = ListParser.ParseIntList(criticalPlans, "|", "道术", "配置错误", "暴击方案序列无效:");
+		seqList = ListParser.ParseIntList(criticalPlans, "\\|", "道术", "配置错误", "暴击方案序列无效:");
 	}
 
 	public int[] getSeqList() {

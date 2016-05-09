@@ -58,7 +58,7 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 		return cfgCacheMap;
 	}
 	
-	//@Override
+	@Override
 	public void CheckConfig(){
 		//跨表检查：暴击组合序列是否存在TaoistCriticalPlanCfg
 		TaoistCriticalPlanCfgHelper helper = TaoistCriticalPlanCfgHelper.getInstance();
