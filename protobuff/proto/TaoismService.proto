@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+option java_package = "com.rwproto";
+option java_outer_classname = "TaoistMagicProtos";
+package TaoistMagic;
+
+enum TaoistRequestType {
+	getTaoistData = 1; // 获取 道术【id， level】
+	updateTaoist = 2; //升级道术
+	getRandom = 3; //获取随机参数，不需要其他参数，返回criticalRamdom
+}
+
+message TaoistRequest {
+	required TaoistRequestType reqType = 1;
+	optional int32 taoistId = 2; //策划配表(TaoistMagicCfg)的key
+	optional int32 taoistLevel = 3; //升级道术目标等级，包含暴击升级
+}
+
+message TaoistResponse {
+	repeated TaoistInfo taoistInfoList = 1;
+	optional int32 errorCode = 2;//操作结果代码，0表示成功
+	optional string resultTip = 3; //如果可能，服务端会定义一个成功或者失败的提示信息
+	optional int32 criticalRamdom = 4; //暴击需要的随机参数
+}
+
+message TaoistInfo {
+	required int32 taoistID = 1;
+	required int32 level = 2;
+}
