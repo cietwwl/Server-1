@@ -28,9 +28,6 @@ public class EmailMgr implements PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		TableEmail email = new TableEmail();
-		email.setUserId(player.getUserId());
-		m_emailDAO.update(email);
 	}
 
 	@Override

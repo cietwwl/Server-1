@@ -826,57 +826,6 @@ namespace ArenaService
       get { return _atkIdList; }
     }
   
-    private int? _rewardId;
-    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"rewardId", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int rewardId
-    {
-      get { return _rewardId?? default(int); }
-      set { _rewardId = value; }
-    }
-    [global::System.Xml.Serialization.XmlIgnore]
-    [global::System.ComponentModel.Browsable(false)]
-    public bool rewardIdSpecified
-    {
-      get { return this._rewardId != null; }
-      set { if (value == (this._rewardId== null)) this._rewardId = value ? this.rewardId : (int?)null; }
-    }
-    private bool ShouldSerializerewardId() { return rewardIdSpecified; }
-    private void ResetrewardId() { rewardIdSpecified = false; }
-    
-    private int? _historyRewardList;
-    [global::ProtoBuf.ProtoMember(15, IsRequired = false, Name=@"historyRewardList", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int historyRewardList
-    {
-      get { return _historyRewardList?? default(int); }
-      set { _historyRewardList = value; }
-    }
-    [global::System.Xml.Serialization.XmlIgnore]
-    [global::System.ComponentModel.Browsable(false)]
-    public bool historyRewardListSpecified
-    {
-      get { return this._historyRewardList != null; }
-      set { if (value == (this._historyRewardList== null)) this._historyRewardList = value ? this.historyRewardList : (int?)null; }
-    }
-    private bool ShouldSerializehistoryRewardList() { return historyRewardListSpecified; }
-    private void ResethistoryRewardList() { historyRewardListSpecified = false; }
-    
-    private int? _historyRewardStage;
-    [global::ProtoBuf.ProtoMember(16, IsRequired = false, Name=@"historyRewardStage", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int historyRewardStage
-    {
-      get { return _historyRewardStage?? default(int); }
-      set { _historyRewardStage = value; }
-    }
-    [global::System.Xml.Serialization.XmlIgnore]
-    [global::System.ComponentModel.Browsable(false)]
-    public bool historyRewardStageSpecified
-    {
-      get { return this._historyRewardStage != null; }
-      set { if (value == (this._historyRewardStage== null)) this._historyRewardStage = value ? this.historyRewardStage : (int?)null; }
-    }
-    private bool ShouldSerializehistoryRewardStage() { return historyRewardStageSpecified; }
-    private void ResethistoryRewardStage() { historyRewardStageSpecified = false; }
-    
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1103,54 +1052,6 @@ namespace ArenaService
     private bool ShouldSerializebuyTimes() { return buyTimesSpecified; }
     private void ResetbuyTimes() { buyTimesSpecified = false; }
     
-    private int? _currentScore;
-    [global::ProtoBuf.ProtoMember(13, IsRequired = false, Name=@"currentScore", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int currentScore
-    {
-      get { return _currentScore?? default(int); }
-      set { _currentScore = value; }
-    }
-    [global::System.Xml.Serialization.XmlIgnore]
-    [global::System.ComponentModel.Browsable(false)]
-    public bool currentScoreSpecified
-    {
-      get { return this._currentScore != null; }
-      set { if (value == (this._currentScore== null)) this._currentScore = value ? this.currentScore : (int?)null; }
-    }
-    private bool ShouldSerializecurrentScore() { return currentScoreSpecified; }
-    private void ResetcurrentScore() { currentScoreSpecified = false; }
-    
-    private readonly global::System.Collections.Generic.List<int> _getCount = new global::System.Collections.Generic.List<int>();
-    [global::ProtoBuf.ProtoMember(14, Name=@"getCount", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<int> getCount
-    {
-      get { return _getCount; }
-    }
-  
-    private readonly global::System.Collections.Generic.List<ArenaHistoryRewardSum> _historyReward = new global::System.Collections.Generic.List<ArenaHistoryRewardSum>();
-    [global::ProtoBuf.ProtoMember(15, Name=@"historyReward", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<ArenaHistoryRewardSum> historyReward
-    {
-      get { return _historyReward; }
-    }
-  
-    private eArenaResultType? _gainRewardResult;
-    [global::ProtoBuf.ProtoMember(16, IsRequired = false, Name=@"gainRewardResult", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public eArenaResultType gainRewardResult
-    {
-      get { return _gainRewardResult?? eArenaResultType.ARENA_SUCCESS; }
-      set { _gainRewardResult = value; }
-    }
-    [global::System.Xml.Serialization.XmlIgnore]
-    [global::System.ComponentModel.Browsable(false)]
-    public bool gainRewardResultSpecified
-    {
-      get { return this._gainRewardResult != null; }
-      set { if (value == (this._gainRewardResult== null)) this._gainRewardResult = value ? this.gainRewardResult : (eArenaResultType?)null; }
-    }
-    private bool ShouldSerializegainRewardResult() { return gainRewardResultSpecified; }
-    private void ResetgainRewardResult() { gainRewardResultSpecified = false; }
-    
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -1204,30 +1105,6 @@ namespace ArenaService
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ArenaHistoryRewardSum")]
-  public partial class ArenaHistoryRewardSum : global::ProtoBuf.IExtensible
-  {
-    public ArenaHistoryRewardSum() {}
-    
-    private string _itemId;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"itemId", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string itemId
-    {
-      get { return _itemId; }
-      set { _itemId = value; }
-    }
-    private int _num;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"num", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int num
-    {
-      get { return _num; }
-      set { _num = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
     [global::ProtoBuf.ProtoContract(Name=@"eArenaType")]
     public enum eArenaType
     {
@@ -1269,13 +1146,7 @@ namespace ArenaService
       GET_HURT_VALUE = 11,
             
       [global::ProtoBuf.ProtoEnum(Name=@"BUY_TIMES", Value=12)]
-      BUY_TIMES = 12,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"SCORE", Value=13)]
-      SCORE = 13,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"GET_REWARD", Value=14)]
-      GET_REWARD = 14
+      BUY_TIMES = 12
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"eArenaResultType")]

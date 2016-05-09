@@ -96,7 +96,6 @@ public class ClientDataSynMgr {
 	public static void synData(Player player, Object serverData, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
-
 			SynData.Builder synData = transferToClientData(serverData);
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
