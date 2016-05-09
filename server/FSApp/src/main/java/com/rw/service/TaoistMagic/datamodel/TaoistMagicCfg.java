@@ -1,8 +1,9 @@
 package com.rw.service.TaoistMagic.datamodel;
 import com.common.BaseConfig;
 
-public class TaoistMagiclCfg extends BaseConfig {
+public class TaoistMagicCfg extends BaseConfig {
   private int key; //key
+  private int tagNum;//分页
   private int openLevel; //分页开放等级
   private String attribute; //属性类型
   private String formulaParam; //属性计算公式参数
@@ -11,6 +12,9 @@ public class TaoistMagiclCfg extends BaseConfig {
 
   public int getKey() {
     return key;
+  }
+  public int getTagNum() {
+    return tagNum;
   }
   public int getOpenLevel() {
     return openLevel;

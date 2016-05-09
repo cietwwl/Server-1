@@ -20,7 +20,8 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 		Collection<TaoistConsumeCfg> vals = cfgCacheMap.values();
 		for (TaoistConsumeCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
-		}
+		}//检查技能等级是否连续,检查货币类型是否正确，数量是否为正数
+		//跨表检查：暴击组合序列是否存在TaoistCriticalPlanCfg
 		return cfgCacheMap;
 	}
 }
