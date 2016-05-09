@@ -44,7 +44,7 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			Class<ConfigClass> cfgCl,Class<PrivilegeNameEnum> priNameCl) {
 		PrivilegeNameEnum[] nameEnums = priNameCl.getEnumConstants();
 		privilegeNameEnums = nameEnums;
-		RefParam<Map<String, Field>> outFieldMap = new RefParam<>();
+		RefParam<Map<String, Field>> outFieldMap = new RefParam<Map<String, Field>>();
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(csvFileName,cfgCl,outFieldMap);
 		fieldMap = outFieldMap.value;
 		Collection<ConfigClass> vals = cfgCacheMap.values();
