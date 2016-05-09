@@ -210,10 +210,10 @@ public class HPCUtil {
 	 * @return
 	 */
 	public static List<ItemInfo> createItemInfo(String text){
-		String[] reward = text.split(";");
+		String[] reward = text.split(",");
 		ArrayList<ItemInfo> rewardList = new ArrayList<ItemInfo>(reward.length);
 		for (int i = 0; i < reward.length; i++) {
-			String[] rewardItem = reward[i].split(":");
+			String[] rewardItem = reward[i].split("_");
 			ItemInfo info = new ItemInfo();
 			info.setItemID(Integer.parseInt(rewardItem[0]));
 			info.setItemNum(Integer.parseInt(rewardItem[1]));
