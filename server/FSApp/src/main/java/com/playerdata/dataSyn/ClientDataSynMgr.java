@@ -158,6 +158,18 @@ public class ClientDataSynMgr {
 					+ synOpType, e);
 		}
 	}
+	
+	public static String toClientData(Object serverData){
+		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(serverData.getClass());
+
+		String jsonData = null;
+		try {
+			jsonData = serverClassInfo.toJson(serverData);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), serverData.getClass().toString(), "ClientDataSynMgr[toClientData]", e);
+		}
+		return jsonData;
+	}
 
 	public static SynData.Builder transferToClientData(Object serverData) throws Exception {		
 		return transferToClientData(serverData, null);
