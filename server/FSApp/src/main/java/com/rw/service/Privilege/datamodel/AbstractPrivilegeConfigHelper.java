@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.RefParam;
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.common.Pair;
@@ -43,8 +44,9 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 			Class<ConfigClass> cfgCl,Class<PrivilegeNameEnum> priNameCl) {
 		PrivilegeNameEnum[] nameEnums = priNameCl.getEnumConstants();
 		privilegeNameEnums = nameEnums;
-		cfgCacheMap = CfgCsvHelper.readCsv2Map(csvFileName,cfgCl);
-		fieldMap = CfgCsvHelper.getFieldMap(cfgCl);
+		RefParam<Map<String, Field>> outFieldMap = new RefParam<>();
+		cfgCacheMap = CfgCsvHelper.readCsv2Map(csvFileName,cfgCl,outFieldMap);
+		fieldMap = outFieldMap.value;
 		Collection<ConfigClass> vals = cfgCacheMap.values();
 		//转换为小写!
 		for (ConfigClass cfg : vals) {
