@@ -86,6 +86,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 		userGroupData.setGroupName(groupData.getGroupName());
 		userGroupData.setContribution(memberData.getContribution());
+		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
 
 	@Override
@@ -156,6 +157,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		baseData.clearApplyGroupIdList();// 清除申请队列
 		baseData.setGroupId(groupId);
 		baseData.setGroupName(groupName);
+		baseData.setJoinTime(System.currentTimeMillis());
 		// 同步数据
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
