@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -93,7 +92,7 @@ public class ItemData implements IMapItem, ItemDataIF {
 		}
 	}
 
-	public void setExtendAttr(Map<Integer, String> m_ExtendAttr) {
+	public void setExtendAttr(HashMap<Integer, String> m_ExtendAttr) {
 		synchronized (this) {
 			this.allExtendAttr = new HashMap<Integer, String>(m_ExtendAttr);
 		}
