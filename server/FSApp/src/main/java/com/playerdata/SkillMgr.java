@@ -28,7 +28,7 @@ import com.rwbase.dao.skill.pojo.SkillItemHolder;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.dao.user.CfgBuySkill;
 import com.rwbase.dao.user.CfgBuySkillDAO;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
+import com.rwproto.PrivilegeProtos.HeroPrivilegeNames;
 import com.rwproto.SkillServiceProtos.SkillResponse;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
@@ -174,7 +174,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 
 	private void AddSkillPointCount(int value) {
 		int count = m_pPlayer.getUserGameDataMgr().getSkillPointCount();
-		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int max = getMaxSkillCount();
 		if (count + value == max - 1) {
 			m_pPlayer.getUserGameDataMgr().setLastRecoverSkillPointTime(System.currentTimeMillis());
 		}
@@ -197,7 +197,8 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		SkillResponse.Builder response = SkillResponse.newBuilder();
 		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
 		reshSkillPoint();
-		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+//		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int max = getMaxSkillCount();
 		int count = userGameDataMgr.getSkillPointCount();
 		response.setRemainSkillPoints(count);
 		int rs = 0;
@@ -471,7 +472,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			return;
 		}
 		int skillTotalCount = m_pPlayer.getUserGameDataMgr().getSkillPointCount() + cfgBuySkill.getSkillpoint();
-		int maxSkillCount = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int maxSkillCount = getMaxSkillCount();
 		if (skillTotalCount > maxSkillCount) {
 			skillTotalCount = maxSkillCount;
 		}
@@ -516,7 +517,8 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	 */
 	public void reshSkillPoint() {
 		int count = m_pPlayer.getUserGameDataMgr().getSkillPointCount();
-		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+//		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int max = getMaxSkillCount();
 		if (count >= max) {
 			return;
 		}
@@ -579,8 +581,13 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	}
 
 	public long getCoolTime() {
-		int cooltime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.SKILL_POINT_COOL_TIME);
-		return cooltime * 1000L;
+		long cooltime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.SKILL_POINT_COOL_TIME);
+		int decSecond = m_pPlayer.getPrivilegeMgr().getIntPrivilege(HeroPrivilegeNames.skillTimeDec);
+		if(decSecond > 0){
+			cooltime -= decSecond;
+		}
+		cooltime = cooltime * 1000L;
+		return cooltime > 0 ? cooltime : 0;
 	}
 
 	/**
@@ -592,6 +599,10 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	public void gmUpgradeSkillLv(Skill skill) {
 		updateMoreInfo(skill, null);
 		skillItemHolder.updateItem(m_pPlayer, skill);
+	}
+	
+	public int getMaxSkillCount(){
+		return m_pPlayer.getPrivilegeMgr().getIntPrivilege(HeroPrivilegeNames.skillThreshold);
 	}
 
 }
