@@ -128,12 +128,12 @@ public class ChargeMgr {
 	
 	private Player get(ChargeContentPojo chargeContentPojo) {
 		Player player = null;		
-		String uid = chargeContentPojo.getUserId();
+		String uid = chargeContentPojo.getRoleId();
 		if(StringUtils.isBlank(uid)){
-			GameLog.error("chargemgr", "sdk-充值", "uid异常，无法找到用户，订单号为" + chargeContentPojo.getCpTradeNo());
+			GameLog.error("chargemgr", "sdk-充值", "uid异常，无法获取uid，订单号为" + chargeContentPojo.getCpTradeNo());
 			return player;
 		}
-		player = PlayerMgr.getInstance().find(uid);				
+		player = PlayerMgr.getInstance().find(uid);
 		return player;
 	}
 
