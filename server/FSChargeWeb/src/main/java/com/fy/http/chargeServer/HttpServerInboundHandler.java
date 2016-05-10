@@ -88,6 +88,8 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 				String resp = HttpClientUtil.post(targetZone.getServerIp(),targetZone.getChargePort(), params);
 				success = StringUtils.contains(resp, "ok");
 				ChargeLog.info("charge", contentPojo.getCpTradeNo(), "游戏服处理结果："+resp);
+			}else{
+				ChargeLog.info("charge", "zone", "zone为空 ");
 			}
 			
 		} catch (Exception e) {			
