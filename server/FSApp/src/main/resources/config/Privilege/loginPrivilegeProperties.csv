@@ -1,4 +1,4 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
-buyPowerCount,,20,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
-useCoinTransCount,,300,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
-getSweepTicketNum,,100,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
+buyPowerCount,,999,今日购买体力次数已用完，{buyCharge}可以增加购买次数。,今日购买体力次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
+useCoinTransCount,,999,今日使用点金手次数已用完，{buyCharge}可以增加使用次数。,今日使用点金手次数已用完，大神，您已经无法再增加使用次数。,升级到VIP可增加购买竞技场门票次数
+getSweepTicketNum,,999,,,
