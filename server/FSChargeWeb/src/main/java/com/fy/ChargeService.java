@@ -38,7 +38,6 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 			boolean success  = reqGameServer(jsonContent, contentPojo);
 			String result = success?"0":"-1";			
 			
-			String result = success?"0":"-1";			
 			
 				PrintWriter writer = response.getWriter();
 				writer.write(result);	
