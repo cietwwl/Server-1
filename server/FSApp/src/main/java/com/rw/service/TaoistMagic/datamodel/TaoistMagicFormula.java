@@ -30,7 +30,7 @@ public class TaoistMagicFormula {
 
 	private int value(int level) {
 		if (level <= 0) return valueInit;
-		return value(level-1)+delta(level-1);
+		return value(level-1)+delta(level);
 	}
 
 	//速度
