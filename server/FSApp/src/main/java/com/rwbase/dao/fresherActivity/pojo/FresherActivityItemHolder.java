@@ -16,6 +16,7 @@ import com.rw.manager.GameManager;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
@@ -100,6 +101,7 @@ public class FresherActivityItemHolder {
 		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
 		User user = UserDataDao.getInstance().getByUserId(ownerId);
 		boolean blnUpdate =false;
+		ArrayList<FresherActivityBigItem> addItemList = null;
 		for (FresherActivityCfg fresherActivityCfg : allCfg) {
 			int cfgId = fresherActivityCfg.getCfgId();
 			int activityType = fresherActivityCfg.getActivityType();
@@ -133,12 +135,22 @@ public class FresherActivityItemHolder {
 				eActivityType type = eActivityType.getTypeByOrder(fresherActivityCfg.getActivityType());
 				fresherActivityBigItem.setActivityType(type);
 				if(createNewFresherActivity(fresherActivityCfg, fresherActivityBigItem, ownerId, user)){
-					mapItemStroe.addItem(fresherActivityBigItem);
+//					mapItemStroe.addItem(fresherActivityBigItem);
+					if(addItemList == null){
+						addItemList = new ArrayList<FresherActivityBigItem>();
+					}
+					addItemList.add(fresherActivityBigItem);
 				}
 				mapItemStoreList.put(type.ordinal(), fresherActivityBigItem);
 			}
 		}
-		
+		if(addItemList!=null){
+			try {
+				mapItemStroe.addItem(addItemList);
+			} catch (DuplicatedKeyException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 	
