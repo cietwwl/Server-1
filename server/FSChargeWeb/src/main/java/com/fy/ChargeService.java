@@ -36,7 +36,7 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 			
 			ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
 			boolean success  = reqGameServer(jsonContent, contentPojo);
-			
+			String result = success?"0":"-1";			
 			
 			
 				PrintWriter writer = response.getWriter();
@@ -46,10 +46,7 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else{
-			ChargeLog.info("charge", "订单初始化失败", "异常申请：json为空");
 		}
-	}
 
 	
 	@SuppressWarnings("rawtypes")

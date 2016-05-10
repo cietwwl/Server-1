@@ -24,9 +24,9 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setCpTradeNo("1024");
+		content.setCpTradeNo("1038");
 		content.setGameId(3);
-		content.setUserId("100100000452");
+		content.setUserId("100100000460");
 		content.setRoleId("10010000");
 		
 		content.setServerId(20);
@@ -35,7 +35,7 @@ public class TestService {
 		content.setItemId("1");
 		content.setItemAmount(1);
 		content.setPrivateField("");
-		content.setMoney(600);
+		content.setMoney(1);
 		content.setCurrencyType("CNY");
 		content.setFee(6);
 		
@@ -93,7 +93,7 @@ public class TestService {
 				}
 				response[1] = buffer.toString();
 				
-				
+				System.out.println("response" + response[1]);
 			}else{
 				response[0] = String.valueOf(con.getResponseCode());
 			}

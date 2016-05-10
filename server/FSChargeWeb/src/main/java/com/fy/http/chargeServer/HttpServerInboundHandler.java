@@ -44,12 +44,12 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 			reader.reading(content);
 			content.release();
 
-			if (reader.isEnd()) {				
+			if (reader.isEnd()) {
 				
 				String jsonContent = new String(reader.readFull());
 				ChargeLog.info("charge", "收到 jsonContent:", jsonContent);
 				String result = doService(jsonContent);
-
+				ChargeLog.info("charge", "反馈给支付中心信息:", result);
 				FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(result.getBytes("UTF-8")));
 				response.headers().set(CONTENT_TYPE, "text/plain");
 				response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
@@ -67,7 +67,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 		ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
 		boolean success  = reqGameServer(jsonContent, contentPojo);
 		
-		String result = success?"0":"-1";	
+		String result = success?contentPojo.getCpTradeNo():"-1";	
 		return result;
 					
 
