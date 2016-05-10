@@ -1,0 +1,7 @@
+key,Remarks,id,name,describe,requireNum,buffId,level,iconPath
+1,,1,陈塘关李家,是陈塘关李家中一员,2,90000100,1,Assets/Textures/PackIn/Fetter/fetter_01.png
+2,,2,九龙岛四圣,是九龙岛四圣中一员,2,90000200,1,Assets/Textures/PackIn/Fetter/fetter_02.png
+3,,3,魔家四将,是魔家四将中一员,2,90000300,1,Assets/Textures/PackIn/Fetter/fetter_03.png
+4,,4,昆仑山仙人,是昆仑山仙人中一员,3,90000400,1,Assets/Textures/PackIn/Fetter/fetter_04.png
+5,,5,金鳌岛天君,是金鳌岛天君中一员,3,90010100,1,Assets/Textures/PackIn/Fetter/fetter_05.png
+6,,6,蓬莱岛神族,是蓬莱岛神族中一员,3,90010200,1,Assets/Textures/PackIn/Fetter/fetter_06.png

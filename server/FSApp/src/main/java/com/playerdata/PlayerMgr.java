@@ -198,15 +198,9 @@ public class PlayerMgr {
 	public int gmKickOffAllPlayer(String reason, boolean _blnNeedCoolTime) {
 		offReason = reason;
 		blnNeedCoolTime = _blnNeedCoolTime;
-		
-		List<Player> playerList = new ArrayList<Player>();
-		List<String> onlineList = UserChannelMgr.getOnlineList();
-		for (String userId : onlineList) {
-			Player target = PlayerMgr.getInstance().findPlayerFromMemory(userId);
-			if(target != null){
-				playerList.add(target);
-			}
-		}
+
+		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, kickOffTask);
 	}
 

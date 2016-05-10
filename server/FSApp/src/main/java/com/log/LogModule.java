@@ -17,8 +17,7 @@ public enum LogModule {
 	Charge("充值"),
 	UserEvent("用户事件"),
 	ComActivityCount("通用活动_CountType"),
-	ComActivityDate("通用活动_DateType"),
-	ComActivityRank("通用活动_DateType")
+	ComActivityDate("通用活动_DateType")
 	;
 	
 	private String name;

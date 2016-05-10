@@ -78,7 +78,6 @@ import com.rwproto.GroupPersonalProto.TransferGroupLeaderPostReqMsg;
 public class GroupPersonalHandler {
 
 	private static final String QUIT_GROUP_TIME_TIP_FOR_JOIN = "%s后才可再次加入帮派";
-	private static final String JOIN_COOLING_TIME_FOR_DONATE = "%s后才可以捐献";
 
 	private static GroupPersonalHandler handler;
 
@@ -331,7 +330,7 @@ public class GroupPersonalHandler {
 		long quitGroupTime = baseData.getQuitGroupTime();
 		long needCoolingMillisTime = TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime());
 		if (quitGroupTime > 0 && (nowTime - quitGroupTime) < needCoolingMillisTime) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(QUIT_GROUP_TIME_TIP_FOR_JOIN, GroupUtils.coolingTimeTip(nowTime, quitGroupTime, needCoolingMillisTime)));
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(QUIT_GROUP_TIME_TIP_FOR_JOIN, GroupUtils.quitGroupTimeTip(nowTime, quitGroupTime, needCoolingMillisTime)));
 		}
 
 		// 检查一下次数
@@ -499,17 +498,6 @@ public class GroupPersonalHandler {
 
 		// 检查次数
 		long now = System.currentTimeMillis();
-		// 检查是否过了加入帮派N秒的冷却
-		long joinTime = baseData.getJoinTime();
-		int canDonateCoolingTime = gbct.getCanDonateCoolingTime();
-		if (canDonateCoolingTime > 0 && joinTime > 0) {
-			long coolingTimeMillis = TimeUnit.SECONDS.toMillis(canDonateCoolingTime);
-			String tip = GroupUtils.coolingTimeTip(now, joinTime, coolingTimeMillis);
-			if (!StringUtils.isEmpty(tip)) {
-				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(JOIN_COOLING_TIME_FOR_DONATE, tip));
-			}
-		}
-
 		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
 			memberMgr.updateMemberDataDonateTimes(playerId, 0, now);
 		}
@@ -600,22 +588,11 @@ public class GroupPersonalHandler {
 		}
 
 		if (player.getVip() < donateCfg.getVipLevelLimit()) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("VIP%s及以上才能使用", donateCfg.getVipLevelLimit()));
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "VIP" + donateCfg.getVipLevelLimit() + "及以上才能使用");
 		}
 
 		// 检查次数
 		long now = System.currentTimeMillis();
-		// 检查是否过了加入帮派N秒的冷却
-		long joinTime = baseData.getJoinTime();
-		int canDonateCoolingTime = gbct.getCanDonateCoolingTime();
-		if (canDonateCoolingTime > 0 && joinTime > 0) {
-			long coolingTimeMillis = TimeUnit.SECONDS.toMillis(canDonateCoolingTime);
-			String tip = GroupUtils.coolingTimeTip(now, joinTime, coolingTimeMillis);
-			if (!StringUtils.isEmpty(tip)) {
-				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(JOIN_COOLING_TIME_FOR_DONATE, tip));
-			}
-		}
-
 		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
 			memberMgr.updateMemberDataDonateTimes(playerId, 0, now);
 		}
@@ -656,7 +633,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 更新数据
-		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + 1, now, donateCfg.getRewardContribution());
+		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + 1, now, memberData.getContribution() + donateCfg.getRewardContribution());
 
 		// 更新捐献后的帮派数据
 		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp());

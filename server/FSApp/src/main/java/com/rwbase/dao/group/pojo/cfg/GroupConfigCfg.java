@@ -33,7 +33,6 @@ public class GroupConfigCfg {
 	private int groupEmailCoolingTime;// 帮派邮件冷却时间（秒为单位）
 	private int leaderLogoutTimeNoneRecommend;// 帮主离线多长时间不推荐(天为单位)
 	private int groupLogCacheSize;// 帮派日志缓存的最大条数
-	private int canDonateCoolingTime;// 进入帮派之后多久可以捐献
 
 	public String getCfgId() {
 		return cfgId;
@@ -211,9 +210,5 @@ public class GroupConfigCfg {
 
 	public int getGroupLogCacheSize() {
 		return groupLogCacheSize;
-	}
-
-	public int getCanDonateCoolingTime() {
-		return canDonateCoolingTime;
 	}
 }

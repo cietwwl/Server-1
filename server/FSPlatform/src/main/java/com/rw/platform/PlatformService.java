@@ -137,7 +137,7 @@ public class PlatformService {
 					zoneCache = zoneInfoCache;
 					continue;
 				}
-				if((!zoneCache.getIsOpen(zoneCache.getStatus()) && zoneInfoCache.getIsOpen(zoneInfoCache.getStatus())) || (zoneInfoCache.getZoneId() > zoneCache.getZoneId() && zoneInfoCache.getIsOpen(zoneInfoCache.getStatus()))){
+				if((!zoneCache.getIsOpen(zoneCache.getStatus()) && zoneInfoCache.getIsOpen(zoneCache.getStatus())) || (zoneInfoCache.getZoneId() > zoneCache.getZoneId() && zoneInfoCache.getIsOpen(zoneCache.getStatus()))){
 					zoneCache = zoneInfoCache;
 				}
 			}

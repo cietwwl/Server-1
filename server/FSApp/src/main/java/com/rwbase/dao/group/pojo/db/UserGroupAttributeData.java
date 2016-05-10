@@ -42,8 +42,6 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	private String groupName;// 帮派名字
 	@NonSave
 	private int contribution;// 个人贡献
-	@NonSave
-	private long joinTime;// 加入帮派的时间
 
 	public UserGroupAttributeData() {
 		studySkill = new HashMap<Integer, GroupSkillItem>();
@@ -140,16 +138,6 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 		return groupName;
 	}
 
-	/**
-	 * 获取距离可以捐献还剩余多少时间
-	 * 
-	 * @return
-	 */
-	@JsonIgnore
-	public long getJoinTime() {
-		return joinTime;
-	}
-
 	// ///////////////////////////////////////////////SET区域
 	/**
 	 * 设置角色Id
@@ -228,15 +216,6 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	 */
 	public void setContribution(int contribution) {
 		this.contribution = contribution;
-	}
-
-	/**
-	 * 设置进入帮派的时间
-	 * 
-	 * @param joinTime
-	 */
-	public void setJoinTime(long joinTime) {
-		this.joinTime = joinTime;
 	}
 
 	// ///////////////////////////////////////////////逻辑处理区域

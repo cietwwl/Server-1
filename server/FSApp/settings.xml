@@ -202,18 +202,6 @@ under the License.
 	    </pluginRepositories>
 	    
 		</profile>
-		<profile>
-			<id>jdk-1.6</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<jdk>1.6</jdk>
-			</activation>
-			<properties>
-				<maven.compiler.source>1.6</maven.compiler.source>
-				<maven.compiler.target>1.6</maven.compiler.target>
-				<maven.compiler.compilerVersion>1.6</maven.compiler.compilerVersion>
-			</properties>
-		</profile>
   </profiles>
   
   <activeProfiles>

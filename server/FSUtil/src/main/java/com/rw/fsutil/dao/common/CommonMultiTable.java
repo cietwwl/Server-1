@@ -84,7 +84,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T>{
 	@Deprecated
 	public List<T> findByKey(String key, Object value) throws Exception {
 		// 获得表名
-		String tableName = getTableName(String.valueOf(value));
+		String tableName = getTableName(key);
 		return super.findByKey(tableName, key, value);
 	}
 

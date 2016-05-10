@@ -42,7 +42,6 @@ public class GroupBaseConfigTemplate {
 	private final int memberNumRankMaxLimit;// 帮派成员数量排行榜的最高成员数量
 	private final int leaderLogoutTimeNoneRecommend;// 帮主离线多久不推荐（天为单位）
 	private final int groupLogCacheSize;// 帮派日志缓存的最大条数
-	private final int canDonateCoolingTime;// 进入帮派之后多久可以捐献
 
 	public GroupBaseConfigTemplate(GroupConfigCfg baseCfg) {
 		this.cfgId = baseCfg.getCfgId();
@@ -68,7 +67,6 @@ public class GroupBaseConfigTemplate {
 		this.memberNumRankMaxLimit = baseCfg.getMemberNumRankMaxLimit();
 		this.leaderLogoutTimeNoneRecommend = baseCfg.getLeaderLogoutTimeNoneRecommend();
 		this.groupLogCacheSize = baseCfg.getGroupLogCacheSize();
-		this.canDonateCoolingTime = baseCfg.getCanDonateCoolingTime();
 
 		this.createGroupPriceArr = switchStr2CreateGroupPriceArr(baseCfg.getCreateGroupPrice());
 		this.renamePriceArr = switchStr2RenamePriceArr(baseCfg.getRenamePrice());
@@ -374,14 +372,5 @@ public class GroupBaseConfigTemplate {
 	 */
 	public int getGroupLogCacheSize() {
 		return groupLogCacheSize;
-	}
-
-	/**
-	 * 获取进入帮派多久可以捐献（秒）
-	 * 
-	 * @return
-	 */
-	public int getCanDonateCoolingTime() {
-		return canDonateCoolingTime;
 	}
 }

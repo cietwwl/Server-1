@@ -7,10 +7,10 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -35,7 +35,12 @@ public class ActivityCountTypeItemHolder{
 		List<ActivityCountTypeItem> itemList = new ArrayList<ActivityCountTypeItem>();
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();			
+			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum.nextElement();
+			long startTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getStartTime();
+			item.setStartTime(startTime);
+			long endTime = ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getEndTime();
+			item.setEndTime(endTime);
+			item.setGroup(ActivityCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()).getGroup());
 			itemList.add(item);
 		}
 		
@@ -70,27 +75,13 @@ public class ActivityCountTypeItemHolder{
 		return addSuccess;
 	}
 	
-	public boolean addItemList(Player player, List<ActivityCountTypeItem> itemList){
-		try {
-			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
-			}
-			return addSuccess;
-		} catch (DuplicatedKeyException e) {
-			//handle..
-			e.printStackTrace();
-			return false;
-		}
+	public boolean removeitem(Player player,ActivityCountTypeEnum type){
+		
+		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
+		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
+		return addSuccess;
 	}
 	
-//	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-//		
-//		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-//		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-//		return addSuccess;
-//	}
-//	
 	public void synAllData(Player player){
 		List<ActivityCountTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);

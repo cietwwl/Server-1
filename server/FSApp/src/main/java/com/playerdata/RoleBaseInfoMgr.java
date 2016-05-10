@@ -2,7 +2,6 @@ package com.playerdata;
 
 import com.common.Action;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoHolder;
 
@@ -45,16 +44,8 @@ public class RoleBaseInfoMgr extends IDataMgr {
 
 	public void setQualityId(String id) {
 		RoleBaseInfo roleBaseInfo = roleBaseInfoHolder.get();
-
-		String oldQuality = roleBaseInfo.getQualityId();
-
 		roleBaseInfo.setQualityId(id);
 		roleBaseInfoHolder.update(m_pPlayer);
-
-		// 品质修改
-		if (!oldQuality.equals(id)) {
-			FettersBM.whenHeroChange(m_pPlayer, m_pOwner.getModelId());
-		}
 	}
 
 	public void setCareerType(int career) {
@@ -77,28 +68,15 @@ public class RoleBaseInfoMgr extends IDataMgr {
 
 	public void setStarLevel(int starLevel) {
 		RoleBaseInfo roleBaseInfo = roleBaseInfoHolder.get();
-
-		int oldStar = roleBaseInfo.getStarLevel();
-
 		roleBaseInfo.setStarLevel(starLevel);
 		roleBaseInfoHolder.update(m_pPlayer);
-		// 星级修改
-		if (oldStar != starLevel) {
-			FettersBM.whenHeroChange(m_pPlayer, m_pOwner.getModelId());
-		}
 	}
 
 	public void setLevel(int level) {
 		RoleBaseInfo roleBaseInfo = roleBaseInfoHolder.get();
-
-		int oldLevel = roleBaseInfo.getLevel();
-
 		roleBaseInfo.setLevel(level);
 		roleBaseInfoHolder.update(m_pPlayer);
-		// 等级修改
-		if (oldLevel != level) {
-			FettersBM.whenHeroChange(m_pPlayer, m_pOwner.getModelId());
-		}
+
 	}
 
 	public void setExp(long exp) {
@@ -116,16 +94,9 @@ public class RoleBaseInfoMgr extends IDataMgr {
 	 */
 	public void setLevelAndExp(int level, int exp) {
 		RoleBaseInfo roleBaseInfo = roleBaseInfoHolder.get();
-
-		int oldLevel = roleBaseInfo.getLevel();
-
 		roleBaseInfo.setLevel(level);
 		roleBaseInfo.setExp(exp);
 		roleBaseInfoHolder.update(m_pPlayer);
-
-		// 等级修改
-		if (oldLevel != level) {
-			FettersBM.whenHeroChange(m_pPlayer, m_pOwner.getModelId());
-		}
 	}
+
 }

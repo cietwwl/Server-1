@@ -41,7 +41,6 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private int fighting;// 战斗力
 	private long applyTime;// 申请加入帮派的时间
 	private long receiveTime;// 接受加入帮派的时间
-	private int totalContribution;// 帮派个人总贡献
 
 	// ////////////////////////////////////////////GET区域
 	/**
@@ -194,15 +193,6 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public long getLastDonateTime() {
 		return lastDonateTime;
-	}
-
-	/**
-	 * 获取帮派个人总贡献
-	 * 
-	 * @return
-	 */
-	public int getTotalContribution() {
-		return totalContribution;
 	}
 
 	// ////////////////////////////////////////////SET区域
@@ -362,14 +352,5 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public void setLastDonateTime(long lastDonateTime) {
 		this.lastDonateTime = lastDonateTime;
-	}
-
-	/**
-	 * 设置帮派个人总贡献
-	 * 
-	 * @param totalContribution
-	 */
-	public void setTotalContribution(int totalContribution) {
-		this.totalContribution = totalContribution;
 	}
 }

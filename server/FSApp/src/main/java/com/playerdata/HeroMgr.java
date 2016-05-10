@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.readonly.HeroMgrIF;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
-import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.hero.UserHeroDAO;
 import com.rwbase.dao.hero.pojo.TableUserHero;
 import com.rwbase.dao.hero.pojo.UserHerosDataHolder;
@@ -241,8 +240,6 @@ public class HeroMgr implements HeroMgrIF {
 		userHerosDataHolder.update(player);
 		hero.syn(-1);
 		player.getTempAttribute().setHeroFightingChanged();
-		//通知羁绊
-		FettersBM.whenHeroChange(player, hero.getModelId());
 		return hero;
 	}
 

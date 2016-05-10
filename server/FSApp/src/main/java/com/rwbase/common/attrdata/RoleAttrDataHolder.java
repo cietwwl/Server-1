@@ -8,9 +8,8 @@ import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr.GroupSkillAttrType;
 import com.rwbase.dao.fashion.IEffectCfg;
-import com.rwbase.dao.fetters.FettersBM;
-import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -94,42 +93,19 @@ public class RoleAttrDataHolder {
 
 		// 帮派技能属性加成
 		Map<Integer, AttrData> groupSkillAttrDataMap = player.getUserGroupAttributeDataMgr().getGroupSkillAttrData();
-		AttrData groupSkillAttrData = groupSkillAttrDataMap.get(AttrDataType.ATTR_DATA_TYPE.type);
-		AttrData groupSkillPercentAttrData = groupSkillAttrDataMap.get(AttrDataType.ATTR_DATA_PRECENT_TYPE.type);
+		AttrData groupSkillAttrData = groupSkillAttrDataMap.get(GroupSkillAttrType.GROUP_SKILL_ATTR.type);
+		AttrData groupSkillPercentAttrData = groupSkillAttrDataMap.get(GroupSkillAttrType.GROUP_SKILL_PRECENT_ATTR.type);
 		percentTotalData.plus(groupSkillPercentAttrData);
 		log += "[帮派技能（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(groupSkillAttrData) + "\n";
 		log += "[帮派技能（万份比值）]-" + BeanOperationHelper.getPositiveValueDiscription(groupSkillPercentAttrData) + "\n";
 
-		// 羁绊属性加成
-		AttrData fettersAttrData = null;
-		AttrData fettersPrecentAttrData = null;
-		SynFettersData heroFetters = hero.getPlayer().getHeroFettersByModelId(hero.getModelId());
-		if (heroFetters != null) {
-			Map<Integer, AttrData> calcHeroFettersAttr = FettersBM.calcHeroFettersAttr(heroFetters.getOpenList());
-			if (calcHeroFettersAttr != null) {
-				fettersAttrData = calcHeroFettersAttr.get(AttrDataType.ATTR_DATA_TYPE.type);
-				fettersPrecentAttrData = calcHeroFettersAttr.get(AttrDataType.ATTR_DATA_PRECENT_TYPE.type);
-				if (fettersPrecentAttrData != null) {
-					percentTotalData.plus(fettersPrecentAttrData);
-				}
-			}
-		}
-		log += "[羁绊（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(fettersAttrData) + "\n";
-		log += "[羁绊（万份比值）]-" + BeanOperationHelper.getPositiveValueDiscription(fettersPrecentAttrData) + "\n";
-
-		RoleAttrData roleAttrData = new RoleAttrData(pRole.getUUId(), equipTotalData, inlayTotalData, roleBaseTotalData, skillTotalData, fashionTotalData, groupSkillAttrData, fettersAttrData);
+		RoleAttrData roleAttrData = new RoleAttrData(pRole.getUUId(), equipTotalData, inlayTotalData, roleBaseTotalData, skillTotalData, fashionTotalData, groupSkillAttrData);
 		AttrData totalData = roleAttrData.getTotalData();
 		log += "[总属性（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(totalData) + "\n";
 		log += "[总属性（万分比值）]-" + BeanOperationHelper.getPositiveValueDiscription(percentTotalData) + "\n";
 
 		totalData.addPercent(percentTotalData);
-		int calFighting = FightingCalculator.calFighting(pRole, totalData);
-		int oldFighting = roleAttrData.getFighting();
-		roleAttrData.setFighting(calFighting);
-		// 战力修改
-		if (oldFighting > 0 && oldFighting < calFighting) {
-			FettersBM.whenHeroChange(hero.getPlayer(), hero.getModelId());
-		}
+		roleAttrData.setFighting(FightingCalculator.calFighting(pRole, totalData));
 		log += "[总属性（固定值 + 万分比值）]-" + BeanOperationHelper.getPositiveValueDiscription(totalData) + "\n";
 
 		roleAttrData.setLog(log);

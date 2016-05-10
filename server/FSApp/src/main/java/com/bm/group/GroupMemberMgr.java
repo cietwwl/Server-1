@@ -342,9 +342,6 @@ public class GroupMemberMgr {
 		contribution += offsetContribution;
 		contribution = contribution < 0 ? 0 : contribution;
 		memberData.setContribution(contribution);
-		if (offsetContribution > 0) {
-			memberData.setTotalContribution(memberData.getTotalContribution() + offsetContribution);
-		}
 		holder.updateMemberData(memberData.getId());
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		holder.synMemberData(memberPlayer, false, -1);
@@ -457,7 +454,7 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param donateTimes
 	 * @param lastDonateTime
-	 * @param contribution 增加了多少贡献
+	 * @param contribution
 	 */
 	public void updateMemberDataWhenDonate(String userId, int donateTimes, long lastDonateTime, int contribution) {
 		GroupMemberData item = holder.getMemberData(userId, false);
@@ -467,10 +464,7 @@ public class GroupMemberMgr {
 
 		item.setDonateTimes(donateTimes);
 		item.setLastDonateTime(lastDonateTime);
-		item.setContribution(item.getContribution() + contribution);
-		if (contribution > 0) {
-			item.setTotalContribution(item.getTotalContribution() + contribution);
-		}
+		item.setContribution(contribution);
 		holder.updateMemberData(item.getId());
 
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);

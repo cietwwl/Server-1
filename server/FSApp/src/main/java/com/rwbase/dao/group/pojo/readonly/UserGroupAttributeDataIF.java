@@ -64,11 +64,4 @@ public interface UserGroupAttributeDataIF {
 	 * @return
 	 */
 	public String getGroupName();
-
-	/**
-	 * 获取加入帮派的时间
-	 * 
-	 * @return
-	 */
-	public long getJoinTime();
 }
