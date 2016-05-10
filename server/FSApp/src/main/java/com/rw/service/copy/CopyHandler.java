@@ -12,7 +12,7 @@ import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.rateType.data.ActivityRateTypeUserInfo;
+import com.playerdata.activity.rateType.eSpecialItemIDUserInfo;
 import com.playerdata.copy.CopyCalculateState;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
@@ -229,19 +229,17 @@ public class CopyHandler {
 				itemList.add(itemId + "," + itemNum);
 			}
 		}
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
 		int multiple = isRateOpen?2:1; 
-////		ActivityRateTypeUserInfo activityRateTypeUserinfo = ActivityRateTypeMgr.getInstance().getUserinfo();
-//		
-//		String clientData = ClientDataSynMgr.toClientData(activityRateTypeUserinfo);
-//		
-////		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
-//		if(activityRateTypeUserinfo!=null){
-//			String userInfoJson = clientData;
-//			if(StringUtils.isNotBlank(userInfoJson)){
-//				copyResponse.setUserInfoJson(userInfoJson);
-//			}
-//		}
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnum, copyCfg.getPlayerExp()*multiple);
+		if(eSpecialItemIDUserInfo!=null){
+			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
+			if(StringUtils.isNotBlank(clientData)){
+				copyResponse.setESpecialItemIdList(clientData);
+			}
+		}
+//		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
 			
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
 		//
@@ -250,10 +248,10 @@ public class CopyHandler {
 		copyResponse.setEResultType(EResultType.ITEM_BACK);
 		
 		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(),copyCfg.getLevelType(),copyRecord.isFirst(),eBILogCopyEntrance.Empty);
-
+		
 		return copyResponse.build().toByteString();
+		
 	}
-
 	public static List<Integer> convertToIntList(String str) {
 		if (str == null || str.isEmpty()) {
 			return Collections.EMPTY_LIST;
@@ -344,9 +342,19 @@ public class CopyHandler {
 		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
 		
 		/**扫荡处发送经验双倍字段给客户端显示*/
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
-		int multiple = isRateOpen?2:1; 
-		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
+		int multiple = isRateOpen?2:1; 		
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnum, copyCfg.getPlayerExp()*multiple);
+		if(eSpecialItemIDUserInfo!=null){
+			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
+			if(StringUtils.isNotBlank(clientData)){
+				copyResponse.setESpecialItemIdList(clientData);
+			}
+		}
+		
+		
+		
 		
 		
 		copyResponse.addAllTagSweepInfoList(listSweepInfo);

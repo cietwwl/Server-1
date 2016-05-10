@@ -225,15 +225,15 @@ public class DataSynVersionHolder {
 				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
-		orderList.add(eSynType.ActivityCountType);
+		orderList.add(eSynType.ActivityTimeCardType);
 		
-		versionMap.put(eSynType.ActivityTimeCardType, new PlayerDataMgr(new RecordSynchronization() {
+		versionMap.put(eSynType.ActivityRateType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
 				ActivityRateTypeMgr.getInstance().synData(player);
 			}
 		}));
-		orderList.add(eSynType.ActivityCountType);
+		orderList.add(eSynType.ActivityRateType);
 		
 		
 

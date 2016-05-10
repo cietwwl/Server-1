@@ -10,7 +10,6 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
-import com.playerdata.activity.rateType.data.ActivityRateTypeUserInfo;
 
 
 public class ActivityRateTypeMgr {
@@ -115,10 +114,20 @@ public class ActivityRateTypeMgr {
 		long currentTime = System.currentTimeMillis();
 		return currentTime < endTime && currentTime > startTime;
 	}
+	
+	/**通用活动三可能扩展的双倍需要发送给客户端显示的在此处理*/
+	public eSpecialItemIDUserInfo getesESpecialItemIDUserInfo(ActivityRateTypeEnum activityRateEnum,int value) {
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();
+		switch (activityRateEnum) {
+		case Normal_copy_EXP_DOUBLE:
+		case ELITE_copy_EXP_DOUBLE:
+			eSpecialItemIDUserInfo.setPlayerExp(value);
+			break;
 
-	public ActivityRateTypeUserInfo getUserinfo(Player player) {
-		
-		return null;
+		default:
+			break;
+		}
+		return eSpecialItemIDUserInfo;
 	}
 
 
