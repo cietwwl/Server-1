@@ -11,6 +11,7 @@ import java.util.Set;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attrdata.AttrDataIF;
 import com.rwbase.common.config.CfgCsvHelper;
 
 //	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper"  init-method="init" />
@@ -20,10 +21,26 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		return SpringContextUtil.getBean(TaoistMagicCfgHelper.class);
 	}
 
+
+	public AttrDataIF getEffect(int skillId,int level){
+		TaoistMagicCfg cfg = cfgCacheMap.get(String.valueOf(skillId));
+		AttrData attr = new AttrData();
+		Field field = attrMap.get(cfg.getAttribute());
+		try {
+			field.set(attr, cfg.getMagicValue(level));
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return attr;
+	}
+	private Map<String, Field> attrMap;
+	
 	@Override
 	public Map<String, TaoistMagicCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("TaoistMagic/TaoistMagicCfg.csv", TaoistMagicCfg.class);
-		Map<String, Field> attrMap = CfgCsvHelper.getFieldMap(AttrData.class);
+		attrMap = CfgCsvHelper.getFieldMap(AttrData.class);
 		Collection<TaoistMagicCfg> vals = cfgCacheMap.values();
 		HashMap<Integer, Integer> tagMap = new HashMap<Integer, Integer>();
 		HashMap<Integer, HashSet<Integer>> orderMap = new HashMap<Integer, HashSet<Integer>>();

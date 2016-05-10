@@ -12,6 +12,7 @@ public class TaoistMagicCfg extends BaseConfig {
 	private String formulaParam; // 属性计算公式参数
 	private com.rwbase.dao.fashion.AttrValueType attrValueType; // 属性值的类型
 	private int consumeId; // 技能消耗ID
+	
 	private TaoistMagicFormula formula;
 
 	public int getKey() {
