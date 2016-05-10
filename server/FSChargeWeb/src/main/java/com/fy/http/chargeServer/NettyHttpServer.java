@@ -57,7 +57,7 @@ public class NettyHttpServer {
 
 	public static void main(String[] args) throws Exception {
 		NettyHttpServer server = new NettyHttpServer();
-		Resource resource = new ClassPathResource("server.properties");
+		Resource resource = new ClassPathResource("charge.properties");
 		int serverPort = 10000;
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(resource);
