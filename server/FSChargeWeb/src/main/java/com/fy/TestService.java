@@ -1,8 +1,10 @@
 package com.fy;
 
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 
 import com.fy.common.FastJsonUtil;
 import com.fy.http.HttpClientUtil;
@@ -25,6 +27,13 @@ public class TestService {
 		Map<String, Object> params = new HashMap<String, Object>();
 		
 		params.put("content", FastJsonUtil.toJson(content));
+		
+		String serverIp = "127.0.0.1";
+		int port = 9090;
+		String url = "http://"+serverIp+":"+port+"/charge";
+		HttpPost httppost = new HttpPost(url);
+		httppost.setEntity(new StringEntity(FastJsonUtil.toJson(content),"UTF-8"));
+		
 		String resp = HttpClientUtil.post("127.0.0.1", 9090, params);
 		System.out.println(resp);
 	}

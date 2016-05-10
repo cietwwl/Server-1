@@ -1,6 +1,9 @@
 package com.fy;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.protocol.HTTP;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
@@ -28,12 +32,12 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 	public void doService() {
 
 		
-		String jsonContent = request.getParameter("content");
-		
-		ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
-		
-		ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
 		try {
+			String jsonContent = receivePost(request);
+			
+			ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
+			
+			ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
 			boolean success  = reqGameServer(jsonContent, contentPojo);
 			
 			String result = success?"0":"-1";			
@@ -49,6 +53,21 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 
 	}
 
+	
+	@SuppressWarnings({"deprecation"})
+	private String receivePost(HttpServletRequest request) throws Exception{
+		
+		BufferedReader br =  new BufferedReader(new InputStreamReader(request.getInputStream()));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while((line = br.readLine())!=null){
+			sb.append(line);
+		}
+		
+		String reqBody = sb.toString();
+		return URLDecoder.decode(reqBody,HTTP.UTF_8);
+		
+	}
 
 
 	private boolean reqGameServer(String jsonContent,ContentPojo contentPojo){
