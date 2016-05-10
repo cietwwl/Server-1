@@ -15,11 +15,13 @@ import com.rwbase.dao.fetters.pojo.cfg.FettersBaseCfg;
  */
 public class FettersBaseTemplate {
 	private final int fettersId;// 羁绊Id
+	private final int heroModelId;// 英雄的ModelId
 	private final List<Integer> fettersConditionList;// 羁绊的条件列表
 	private final List<Integer> fettersHeroIdList;// 羁绊的英雄Id列表
 
 	public FettersBaseTemplate(FettersBaseCfg cfg) {
 		this.fettersId = cfg.getFettersId();
+		this.heroModelId = cfg.getHeroModelId();
 
 		// ===================================条件
 		String fettersConditions = cfg.getFettersConditions();
@@ -45,6 +47,15 @@ public class FettersBaseTemplate {
 	 */
 	public int getFettersId() {
 		return fettersId;
+	}
+
+	/**
+	 * 获取英雄的ModelId
+	 * 
+	 * @return
+	 */
+	public int getHeroModelId() {
+		return heroModelId;
 	}
 
 	/**

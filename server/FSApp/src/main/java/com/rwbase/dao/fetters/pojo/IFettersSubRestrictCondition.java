@@ -3,6 +3,7 @@ package com.rwbase.dao.fetters.pojo;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
 
 /*
  * @author HC
@@ -19,7 +20,7 @@ public interface IFettersSubRestrictCondition {
 	 * @param subConditionId
 	 * @return
 	 */
-	public boolean match(Player player, List<Integer> fettersHeroIdList, List<Integer> forceUseHeroIdList, int subConditionId);
+	public boolean match(Player player, List<Integer> fettersHeroIdList, List<Integer> forceUseHeroIdList, FettersSubConditionTemplate fettersSubCondition);
 
 	/**
 	 * 获取子条件限定类型

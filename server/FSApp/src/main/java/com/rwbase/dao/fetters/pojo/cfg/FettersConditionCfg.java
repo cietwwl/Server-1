@@ -12,6 +12,8 @@ public class FettersConditionCfg {
 	private String subConditionId;// 子条件Id
 	private String fettersAttrData;// 羁绊增加属性
 	private String fettersPrecentAttrData;// 羁绊增加的百分比属性
+	private String subConditionRestrict;// 限定条件
+	private String subConditionValue;// 子条件其他值
 
 	/**
 	 * 获取唯一Id
@@ -65,5 +67,23 @@ public class FettersConditionCfg {
 	 */
 	public String getFettersPrecentAttrData() {
 		return fettersPrecentAttrData;
+	}
+
+	/**
+	 * 获取限定条件
+	 * 
+	 * @return
+	 */
+	public String getSubConditionRestrict() {
+		return subConditionRestrict;
+	}
+
+	/**
+	 * 获取子条件值
+	 * 
+	 * @return
+	 */
+	public String getSubConditionValue() {
+		return subConditionValue;
 	}
 }
