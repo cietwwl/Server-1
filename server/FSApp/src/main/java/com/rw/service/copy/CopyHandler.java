@@ -12,7 +12,9 @@ import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.rateType.data.ActivityRateTypeUserInfo;
 import com.playerdata.copy.CopyCalculateState;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -229,9 +231,17 @@ public class CopyHandler {
 		}
 		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
 		int multiple = isRateOpen?2:1; 
-//		itemList.add(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
-		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
-		
+////		ActivityRateTypeUserInfo activityRateTypeUserinfo = ActivityRateTypeMgr.getInstance().getUserinfo();
+//		
+//		String clientData = ClientDataSynMgr.toClientData(activityRateTypeUserinfo);
+//		
+////		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
+//		if(activityRateTypeUserinfo!=null){
+//			String userInfoJson = clientData;
+//			if(StringUtils.isNotBlank(userInfoJson)){
+//				copyResponse.setUserInfoJson(userInfoJson);
+//			}
+//		}
 			
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
 		//

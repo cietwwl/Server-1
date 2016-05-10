@@ -10,6 +10,7 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.playerdata.activity.rateType.data.ActivityRateTypeUserInfo;
 
 
 public class ActivityRateTypeMgr {
@@ -113,6 +114,11 @@ public class ActivityRateTypeMgr {
 		long endTime = ActivityRateTypeCfg.getEndTime();		
 		long currentTime = System.currentTimeMillis();
 		return currentTime < endTime && currentTime > startTime;
+	}
+
+	public ActivityRateTypeUserInfo getUserinfo(Player player) {
+		
+		return null;
 	}
 
 
