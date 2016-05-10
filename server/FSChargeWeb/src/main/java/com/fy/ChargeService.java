@@ -1,9 +1,7 @@
 package com.fy;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.protocol.HTTP;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
@@ -54,18 +51,30 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 	}
 
 	
-	@SuppressWarnings({"deprecation"})
+	@SuppressWarnings("rawtypes")
 	private String receivePost(HttpServletRequest request) throws Exception{
 		
-		BufferedReader br =  new BufferedReader(new InputStreamReader(request.getInputStream()));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while((line = br.readLine())!=null){
-			sb.append(line);
+		Enumeration parameterNames = request.getParameterNames();
+		
+		//无语啊 yh post过来的参数是不带参数名的，只能从名字来获取了。
+		String json = null;
+		while (parameterNames.hasMoreElements()) {
+			json = (String) parameterNames.nextElement();
+			break;
 		}
 		
-		String reqBody = sb.toString();
-		return URLDecoder.decode(reqBody,HTTP.UTF_8);
+//		ServletInputStream inputStream = request.getInputStream();
+//		inputStream.reset();
+//		BufferedReader br =  new BufferedReader(new InputStreamReader(inputStream));
+//		String line = null;
+//		StringBuilder sb = new StringBuilder();
+//		while((line = br.readLine())!=null){
+//			sb.append(line);
+//		}
+//		
+//		String reqBody = sb.toString();
+//		return URLDecoder.decode(reqBody,HTTP.UTF_8);
+		return json;
 		
 	}
 
