@@ -1,6 +1,7 @@
 package com.fy;
 
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,17 +29,13 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 	public  void doService() {
 
 		System.out.println("!!!!!!!!!!!!!!!入口" );
-		String jsonContent = request.getParameter("content");
-		System.out.println("jsoncontent = " + jsonContent);
-		
-		
-		ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
-		if(contentPojo != null){
+		try {
+			String jsonContent = receivePost(request);
+			
+			ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
+			
 			ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
-			try {
-				boolean success  = reqGameServer(jsonContent, contentPojo);
-				String successStr = contentPojo.getCpTradeNo();
-				String result = success?successStr:"-1";	
+			boolean success  = reqGameServer(jsonContent, contentPojo);
 			
 			
 			
@@ -54,6 +51,33 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 		}
 	}
 
+	
+	@SuppressWarnings("rawtypes")
+	private String receivePost(HttpServletRequest request) throws Exception{
+		
+		Enumeration parameterNames = request.getParameterNames();
+		
+		//无语啊 yh post过来的参数是不带参数名的，只能从名字来获取了。
+		String json = null;
+		while (parameterNames.hasMoreElements()) {
+			json = (String) parameterNames.nextElement();
+			break;
+		}
+		
+//		ServletInputStream inputStream = request.getInputStream();
+//		inputStream.reset();
+//		BufferedReader br =  new BufferedReader(new InputStreamReader(inputStream));
+//		String line = null;
+//		StringBuilder sb = new StringBuilder();
+//		while((line = br.readLine())!=null){
+//			sb.append(line);
+//		}
+//		
+//		String reqBody = sb.toString();
+//		return URLDecoder.decode(reqBody,HTTP.UTF_8);
+		return json;
+		
+	}
 
 
 	public   boolean reqGameServer(String jsonContent,ContentPojo contentPojo){

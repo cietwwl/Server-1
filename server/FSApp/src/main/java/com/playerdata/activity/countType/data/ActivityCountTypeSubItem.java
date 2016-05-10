@@ -8,22 +8,20 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ActivityCountTypeSubItem {
 	
-	private String id;
+	private String cfgId;
 	
 	private int count;
-	
-	private String gift;
-	
+
 	//是否已经领取
 	private boolean taken = false;
 
 
-	public String getId() {
-		return id;
+	public String getCfgId() {
+		return cfgId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCfgId(String cfgId) {
+		this.cfgId = cfgId;
 	}
 
 	public int getCount() {
@@ -34,13 +32,6 @@ public class ActivityCountTypeSubItem {
 		this.count = count;
 	}
 
-	public String getGift() {
-		return gift;
-	}
-
-	public void setGift(String gift) {
-		this.gift = gift;
-	}
 
 	public boolean isTaken() {
 		return taken;

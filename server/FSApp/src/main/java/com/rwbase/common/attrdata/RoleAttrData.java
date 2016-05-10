@@ -22,13 +22,16 @@ public class RoleAttrData {
 
 	private AttrData groupSkillTotalData;// 帮派技能属性
 
+	private AttrData heroFettersTotalData;// 羁绊属性
+
 	private AttrData totalData;
 
 	private int fighting;
 
 	private String log;
 
-	public RoleAttrData(String heroIdP, AttrData equipTotalDataP, AttrData inlayTotalDataP, AttrData roleBaseTotalDataP, AttrData skillAttrDataP, AttrData fashionAttrDataP, AttrData groupSkillTotalData) {
+	public RoleAttrData(String heroIdP, AttrData equipTotalDataP, AttrData inlayTotalDataP, AttrData roleBaseTotalDataP, AttrData skillAttrDataP, AttrData fashionAttrDataP,
+			AttrData groupSkillTotalData, AttrData heroFettersTotalData) {
 		this.heroId = heroIdP;
 		this.equipTotalData = equipTotalDataP;
 		this.inlayTotalData = inlayTotalDataP;
@@ -36,6 +39,7 @@ public class RoleAttrData {
 		this.skillTotalData = skillAttrDataP;
 		this.groupSkillTotalData = groupSkillTotalData;
 		this.fashionTotalData = fashionAttrDataP;
+		this.heroFettersTotalData = heroFettersTotalData;
 		this.totalData = getTotalData();
 	}
 
@@ -113,11 +117,24 @@ public class RoleAttrData {
 		this.fighting = fighting;
 	}
 
+	public AttrData getHeroFettersTotalData() {
+		return heroFettersTotalData;
+	}
+
+	public void setHeroFettersTotalData(AttrData heroFettersTotalData) {
+		this.heroFettersTotalData = heroFettersTotalData;
+	}
+
 	public AttrData getTotalData() {
 		AttrData total = new AttrData().plus(roleBaseTotalData).plus(equipTotalData).plus(inlayTotalData).plus(skillTotalData).plus(groupSkillTotalData);
 		if (fashionTotalData != null) {
 			total.plus(fashionTotalData);
 		}
+
+		if (heroFettersTotalData != null) {
+			total.plus(heroFettersTotalData);
+		}
+
 		this.totalData = total;
 		return this.totalData;
 	}
@@ -129,5 +146,4 @@ public class RoleAttrData {
 	public void setLog(String log) {
 		this.log = log;
 	}
-
 }
