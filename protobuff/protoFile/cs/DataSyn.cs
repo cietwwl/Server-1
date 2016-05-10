@@ -318,6 +318,9 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"USER_TMP_GAME_DATA", Value=44)]
       USER_TMP_GAME_DATA = 44,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"HERO_FETTERS", Value=45)]
+      HERO_FETTERS = 45,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
       ActivityCountType = 60,
             
