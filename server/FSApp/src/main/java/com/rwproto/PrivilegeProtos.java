@@ -1121,98 +1121,81 @@ public final class PrivilegeProtos {
   public enum GeneralPrivilegeNames
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>vipGiftLevel = 1;</code>
-     *
-     * <pre>
-     *VIP特权礼包
-     * </pre>
-     */
-    vipGiftLevel(0, 1),
-    /**
-     * <code>battleSpeed = 2;</code>
+     * <code>battleSpeed = 1;</code>
      *
      * <pre>
      *战斗加速倍数
      * </pre>
      */
-    battleSpeed(1, 2),
+    battleSpeed(0, 1),
     /**
-     * <code>isAllowBuyFashion = 3;</code>
+     * <code>isAllowBuyFashion = 2;</code>
      *
      * <pre>
      *开启时装购买
      * </pre>
      */
-    isAllowBuyFashion(2, 3),
+    isAllowBuyFashion(1, 2),
     /**
-     * <code>isAllowSoulBox = 4;</code>
+     * <code>isAllowSoulBox = 3;</code>
      *
      * <pre>
      *开启第三宝箱（魂匣）开启
      * </pre>
      */
-    isAllowSoulBox(3, 4),
+    isAllowSoulBox(2, 3),
     /**
-     * <code>isAllowReplenish = 5;</code>
+     * <code>isAllowReplenish = 4;</code>
      *
      * <pre>
      *开启补签开启
      * </pre>
      */
-    isAllowReplenish(4, 5),
+    isAllowReplenish(3, 4),
     ;
 
     /**
-     * <code>vipGiftLevel = 1;</code>
-     *
-     * <pre>
-     *VIP特权礼包
-     * </pre>
-     */
-    public static final int vipGiftLevel_VALUE = 1;
-    /**
-     * <code>battleSpeed = 2;</code>
+     * <code>battleSpeed = 1;</code>
      *
      * <pre>
      *战斗加速倍数
      * </pre>
      */
-    public static final int battleSpeed_VALUE = 2;
+    public static final int battleSpeed_VALUE = 1;
     /**
-     * <code>isAllowBuyFashion = 3;</code>
+     * <code>isAllowBuyFashion = 2;</code>
      *
      * <pre>
      *开启时装购买
      * </pre>
      */
-    public static final int isAllowBuyFashion_VALUE = 3;
+    public static final int isAllowBuyFashion_VALUE = 2;
     /**
-     * <code>isAllowSoulBox = 4;</code>
+     * <code>isAllowSoulBox = 3;</code>
      *
      * <pre>
      *开启第三宝箱（魂匣）开启
      * </pre>
      */
-    public static final int isAllowSoulBox_VALUE = 4;
+    public static final int isAllowSoulBox_VALUE = 3;
     /**
-     * <code>isAllowReplenish = 5;</code>
+     * <code>isAllowReplenish = 4;</code>
      *
      * <pre>
      *开启补签开启
      * </pre>
      */
-    public static final int isAllowReplenish_VALUE = 5;
+    public static final int isAllowReplenish_VALUE = 4;
 
 
     public final int getNumber() { return value; }
 
     public static GeneralPrivilegeNames valueOf(int value) {
       switch (value) {
-        case 1: return vipGiftLevel;
-        case 2: return battleSpeed;
-        case 3: return isAllowBuyFashion;
-        case 4: return isAllowSoulBox;
-        case 5: return isAllowReplenish;
+        case 1: return battleSpeed;
+        case 2: return isAllowBuyFashion;
+        case 3: return isAllowSoulBox;
+        case 4: return isAllowReplenish;
         default: return null;
       }
     }
@@ -5758,11 +5741,10 @@ public final class PrivilegeProtos {
       "\021getSweepTicketNum\020\003*g\n\022HeroPrivilegeNam" +
       "es\022\022\n\016skillThreshold\020\001\022\030\n\024isAllowBuySkil" +
       "lPoint\020\002\022\020\n\014skillTimeDec\020\003\022\021\n\risAllowAtt" +
-      "ach\020\004*{\n\025GeneralPrivilegeNames\022\020\n\014vipGif" +
-      "tLevel\020\001\022\017\n\013battleSpeed\020\002\022\025\n\021isAllowBuyF",
-      "ashion\020\003\022\022\n\016isAllowSoulBox\020\004\022\024\n\020isAllowR" +
-      "eplenish\020\005B\036\n\013com.rwprotoB\017PrivilegeProt" +
-      "os"
+      "ach\020\004*i\n\025GeneralPrivilegeNames\022\017\n\013battle" +
+      "Speed\020\001\022\025\n\021isAllowBuyFashion\020\002\022\022\n\016isAllo",
+      "wSoulBox\020\003\022\024\n\020isAllowReplenish\020\004B\036\n\013com." +
+      "rwprotoB\017PrivilegeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
