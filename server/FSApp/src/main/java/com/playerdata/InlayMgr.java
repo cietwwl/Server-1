@@ -24,7 +24,7 @@ public class InlayMgr extends IDataMgr {
 	public boolean init(Hero pOwner) {
 		initPlayer(pOwner);
 
-		inlayItemHolder = new InlayItemHolder(pOwner.getUUId(), pOwner.getModelId());
+		inlayItemHolder = new InlayItemHolder(pOwner);
 
 		return true;
 	}

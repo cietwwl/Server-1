@@ -46,11 +46,11 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		if (!player.isRobot()) {
-			TableFriend tableFriend = new TableFriend();
-			tableFriend.setUserId(player.getUserId());
-			friendDAO.update(tableFriend);
-		}
+//		if (!player.isRobot()) {
+//			TableFriend tableFriend = new TableFriend();
+//			tableFriend.setUserId(player.getUserId());
+//			friendDAO.update(tableFriend);
+//		}
 	}
 
 	@Override

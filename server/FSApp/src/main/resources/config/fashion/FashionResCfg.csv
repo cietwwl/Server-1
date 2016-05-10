@@ -1,5 +1,5 @@
 key,Remarks,CareerType,Gender,fashionID,icon,model,hangPoint
-1,,None,None,10001,Equipment/fasion_jixiechibang,500050,Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1
+1,,None,None,10001,Equipment/fashion_600020,600020,Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1
 2,,Warrior,men,10002,Equipment/fasion_nanxizhuang,50002011,
 3,,SwordsMan,men,10002,Equipment/fasion_nanxizhuang,50002012,
 4,,Magican,men,10002,Equipment/fasion_nanxizhuang,50002013,
@@ -33,3 +33,6 @@ key,Remarks,CareerType,Gender,fashionID,icon,model,hangPoint
 33,,SwordsMan,women,10006,Equipment/fashion_500051,50005112,
 34,,Magican,women,10006,Equipment/fashion_500051,50005113,
 35,,Priest,women,10006,Equipment/fashion_500051,50005114,
+36,,None,None,10007,Equipment/fashion_600030,600030,Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1
+37,,None,None,10008,Equipment/fashion_600040,600040,Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1
+38,,None,None,10009,Equipment/fashion_501001,501001,

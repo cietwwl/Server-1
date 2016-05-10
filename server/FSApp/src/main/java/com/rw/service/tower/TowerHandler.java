@@ -83,6 +83,7 @@ public class TowerHandler {
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
 		if (angleArrayData == null) {
+			GameLog.error("万仙阵获取面板信息", userId, "万仙阵获取不到个人的TableAngleArrayData数据");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
@@ -108,9 +109,11 @@ public class TowerHandler {
 	 * @return
 	 */
 	private TagTowerData getTowerData(Player player, int floor, boolean isAddInfo) {
+		String userId = player.getUserId();
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
 		if (angleArrayData == null) {
+			GameLog.error("getTowerData()-Method", userId, "万仙阵获取不到个人的TableAngleArrayData数据");
 			return null;
 		}
 
@@ -168,7 +171,7 @@ public class TowerHandler {
 		towerData.addAllTowerGetArardList(awardList);
 
 		List<TowerHeroChange> playerChangeList = angleArrayData.getHeroChangleList();
-		for (int i = 0; i < playerChangeList.size(); i++) {
+		for (int i = 0, heroChangeSize = playerChangeList.size(); i < heroChangeSize; i++) {
 			TowerHeroChange tHeroChange = playerChangeList.get(i);
 			TagTowerHeroChange.Builder heroChange = TagTowerHeroChange.newBuilder();
 			heroChange.setUserId(tHeroChange.getRoleId());
@@ -178,9 +181,13 @@ public class TowerHandler {
 			towerData.addHeroChageMap(heroChange);
 		}
 
-		// StringBuilder sb = new StringBuilder();
 		// 敌方阵容信息
 		List<String> readOnlyKeyList = towerMgr.getEnemyInfoIdList();
+
+		if (readOnlyKeyList.isEmpty()) {
+			GameLog.error("getTowerData()-Method", userId, "个人万仙阵匹配的敌人信息是空的，EnemyInfoList.isEmpty");
+		}
+
 		List<TagTowerHeadInfo> enemyHeadList = new ArrayList<TagTowerHeadInfo>();
 		for (int i = 0, size = readOnlyKeyList.size(); i < size; i++) {
 			String id = readOnlyKeyList.get(i);
@@ -192,12 +199,12 @@ public class TowerHandler {
 		towerData.addAllHeadInfos(enemyHeadList);
 
 		if (isAddInfo) {
-			ArmyInfo enemyInfo = towerMgr.getEnemyArmyInfo(AngelArrayUtils.getAngelArrayFloorDataId(player.getUserId(), floor));// 层敌人数据
+			ArmyInfo enemyInfo = towerMgr.getEnemyArmyInfo(AngelArrayUtils.getAngelArrayFloorDataId(userId, floor));// 层敌人数据
 			try {
 				String armyInfoClient = enemyInfo.toJson();
 				towerData.setEnemyArmyInfo(armyInfoClient);
 			} catch (Exception e) {
-				e.printStackTrace();
+				GameLog.error("getTowerData()-Method", userId, "附加敌人信息的时候，不能正常处理，AttachEnemyInfo，throwException", e);
 			}
 		}
 		return towerData.build();
@@ -249,15 +256,10 @@ public class TowerHandler {
 			return response.build().toByteString();
 		}
 
-		// TableAngleArrayFloorData floorData = player.getTowerMgr().getAngleArrayFloorData();
-		// if (floorData == null) {
-		// response.setTowerResultType(eTowerResultType.TOWER_FAIL);
-		// return response.build().toByteString();
-		// }
-
 		int towerId = request.getTowerID();
 		ArmyInfo enemyInfo = player.getTowerMgr().getEnemyArmyInfo(AngelArrayUtils.getAngelArrayFloorDataId(userId, towerId));
 		if (enemyInfo == null) {
+			GameLog.error("万仙阵获取敌人信息", userId, String.format("万仙阵获取第[%s]层，EnemyInfo Not Exist!", towerId));
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
@@ -268,6 +270,7 @@ public class TowerHandler {
 			response.setArmyInfo(enemyJon);
 			response.setTowerResultType(eTowerResultType.TOWER_SUCCESS);
 		} catch (Exception e) {
+			GameLog.error("万仙阵获取敌人信息", userId, "Set EnemyInfo Json To Protobuf throw Exception", e);
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "数据转换错误");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 		}
@@ -396,24 +399,20 @@ public class TowerHandler {
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleData = towerMgr.getAngleArrayData();
 		if (angleData == null) {
-			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
-			return response.build().toByteString();
-		}
-
-		// TableAngleArrayFloorData floorData = towerMgr.getAngleArrayFloorData();
-		// if (floorData == null) {
-		// response.setTowerResultType(eTowerResultType.TOWER_FAIL);
-		// return response.build().toByteString();
-		// }
-
-		if (angleData.getCurFloorState() != FloorState.UN_AWARD.ordinal()) {// 如果是未通过状态不能领奖
+			GameLog.error("万仙阵获取奖励", userId, "万仙阵获取不到TableAngleArrayData Null");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
 
 		int currTowerId = request.getTowerID();
+		if (angleData.getCurFloorState() != FloorState.UN_AWARD.ordinal()) {// 如果是未通过状态不能领奖
+			GameLog.error("万仙阵获取奖励", userId, String.format("万仙阵第[%s]层，状态是[%s]，Can't Award", currTowerId, angleData.getCurFloorState()));
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			return response.build().toByteString();
+		}
+
 		if (currTowerId != angleData.getCurFloor()) {
-			GameLog.error("万仙阵获取奖励", userId, String.format("当前记录层是[%s],请求领奖层是[%s],数据不一致", angleData.getCurFloor(), currTowerId));
+			GameLog.error("万仙阵获取奖励", userId, String.format("当前记录层是[%s],请求领奖层是[%s],数据不一致,client&server data not same", angleData.getCurFloor(), currTowerId));
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
@@ -424,6 +423,7 @@ public class TowerHandler {
 			response.setTowerResultType(eTowerResultType.TOWER_SUCCESS);
 		} else {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			GameLog.error("万仙阵获取奖励", userId, String.format("请求领奖层是[%s],no rewardItems", currTowerId));
 		}
 
 		// 开放下层人物
@@ -476,6 +476,7 @@ public class TowerHandler {
 		TowerMgr towerMgr = player.getTowerMgr();
 		TableAngleArrayData angleArrayData = towerMgr.getAngleArrayData();
 		if (angleArrayData == null) {
+			GameLog.error("万仙阵重置数据", userId, "万仙阵个人的数据TableAngelArrayData Is Null");
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
@@ -491,6 +492,7 @@ public class TowerHandler {
 			response.setTowerResultType(eTowerResultType.TOWER_SUCCESS);
 		} else {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			GameLog.error("万仙阵重置数据", userId, "万仙阵个人的数据重置次数用完了。Reset Times less 1");
 		}
 		return response.build().toByteString();
 	}

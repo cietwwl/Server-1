@@ -23,11 +23,17 @@ public class VersionMgr {
 		if(targetVersion == null){
 			targetVersion = versionDao.getNextCodePatch(clientVersion);
 		}
+		if(targetVersion != null){
+			targetVersion.setPackageName(clientVersion.getPackageName());
+		}
 		return targetVersion;
 	}
 	
 	public Version getMaxVersion(Version clientVersion){
 		Version maxCompVersion = versionDao.getMaxVersion(clientVersion);
+		if(maxCompVersion != null){
+			maxCompVersion.setPackageName(clientVersion.getPackageName());
+		}
 		return  maxCompVersion;
 	}
 

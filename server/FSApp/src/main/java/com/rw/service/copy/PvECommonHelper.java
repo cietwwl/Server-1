@@ -6,11 +6,9 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.CopyRecordMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
-import com.playerdata.readonly.CopyRewardsIF;
 import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.fsutil.util.jackson.JsonUtil;
@@ -20,8 +18,6 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
 import com.rwbase.dao.copy.cfg.BuyLevelCfgDAO;
 import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copy.cfg.ItemProbabilityCfgDAO;
-import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
@@ -32,8 +28,6 @@ import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
-
-import freemarker.cache.StrongCacheStorage;
 
 public class PvECommonHelper {
 
@@ -196,14 +190,14 @@ public class PvECommonHelper {
 		try {
 			int levelType = copyCfg.getLevelType();
 			CopyInfoCfg infoCfg = player.getCopyDataMgr().getCopyInfoCfgByLevelID(String.valueOf(copyCfg.getLevelID()));
-			if(infoCfg != null){
+			if (infoCfg != null) {
 				CopyData copyData = player.getCopyDataMgr().getByInfoId(infoCfg.getId());
-				if (copyData != null && copyData.getResetCount() <= 0 && PveHandler.getInstance().getRemainSeconds(copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
+				if (copyData != null && copyData.getResetCount() <= 0 && PveHandler.getInstance().getRemainSeconds(player, copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
 					player.NotifyCommonMsg(CommonTip.COOL_DOWN);
 					return EResultType.NOT_ENOUGH_TIMES;
 				}
 			}
-			
+
 		} catch (Exception e) {
 			GameLog.error("PvECommonHelper", "#checkLimit()", "", e);
 		}

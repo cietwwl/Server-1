@@ -96,7 +96,6 @@ public class ClientDataSynMgr {
 	public static void synData(Player player, Object serverData, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
-
 			SynData.Builder synData = transferToClientData(serverData);
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
@@ -158,6 +157,18 @@ public class ClientDataSynMgr {
 			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[updateDataList] synType:" + synType + " synOpType:"
 					+ synOpType, e);
 		}
+	}
+	
+	public static String toClientData(Object serverData){
+		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(serverData.getClass());
+
+		String jsonData = null;
+		try {
+			jsonData = serverClassInfo.toJson(serverData);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), serverData.getClass().toString(), "ClientDataSynMgr[toClientData]", e);
+		}
+		return jsonData;
 	}
 
 	public static SynData.Builder transferToClientData(Object serverData) throws Exception {		

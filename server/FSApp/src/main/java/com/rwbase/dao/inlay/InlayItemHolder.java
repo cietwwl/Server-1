@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.common.Action;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -16,13 +17,15 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class InlayItemHolder {
 
-	private final String heroModelId;// 英雄的模版Id
+	//private final String heroModelId;// 英雄的模版Id
 	final private String ownerId; //
 	final private eSynType inlaySynType = eSynType.INLAY_ITEM;
-
-	public InlayItemHolder(String ownerIdP, int heroModelId) {
-		ownerId = ownerIdP;
-		this.heroModelId = String.valueOf(heroModelId);
+	private final Hero pOwner;
+	
+	public InlayItemHolder(Hero pOwner) {
+		ownerId = pOwner.getUUId();
+		this.pOwner = pOwner;
+		//this.heroModelId = String.valueOf(heroModelId);
 	}
 
 	/*
@@ -86,7 +89,7 @@ public class InlayItemHolder {
 
 	public AttrData toAttrData() {
 		List<InlayItem> itemList = getItemList();
-		AttrData totalAttrData = InlayItemHelper.getInlayAttrData(itemList, heroModelId);
+		AttrData totalAttrData = InlayItemHelper.getInlayAttrData(itemList, String.valueOf(this.pOwner.getModelId()));
 		return totalAttrData;
 	}
 
