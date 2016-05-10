@@ -1,8 +1,8 @@
-Key,Remarks,id,sort,activityType,goToType,group,title,subTitle,titleBG,startTimeStr,endTimeStr,subItems,isAutoRefresh,autoRetime,vipLimit,levelLimit,version
-1,,1,3,,,,精英掉落道具翻倍,,,201606050001,201607012359,,,0,,2,2
-2,,2,2,,,,普通掉落道具翻倍,,,201606050001,201607012359,,,0,,2,2
-3,,3,4,,,,藏宝掉落道具翻倍,,,201606050001,201607012359,,,0,,2,2
-4,,4,5,,,,炼息掉落道具翻倍,,,201606050001,201607012359,,,0,,2,2
-5,,5,7,,,,生存掉落道具翻倍,,,201606050001,201607012359,,,0,,2,2
-6,,6,6,,,,精英经验翻倍,,,201606050001,201607012359,,,0,,2,2
-7,,7,1,,,,普通经验翻倍,,,201605050001,201606012359,,,0,,2,1
+Key,Remarks,id,sort,activityType,goToType,title,titleBG,icon,zt1,zt2,desc,startTimeStr,endTimeStr,isAutoRefresh,autoRetime,vipLimit,levelLimit,version
+31,,31,3,,3,精英掉落道具翻倍,精英掉落道具翻倍,Hero_head/head_YangSen,ZT_lianqi1,ZT_lianqi2,活动双倍不骗人1,201605050001,201607012359,,0,,2,2
+32,,32,2,,2,普通掉落道具翻倍,普通掉落道具翻倍,Hero_head/head_YaoHuaWuShi,ZT_cangbaozhidi,ZT_lianqi2,活动双倍不骗人2,201605050001,201607012359,,0,,2,2
+33,,33,4,,7,藏宝掉落道具翻倍,藏宝掉落道具翻倍,Hero_head/head_YangSen,ZT_fbdiaoluo2,ZT_lianqi2,活动双倍不骗人3,201605050001,201607012359,,0,,2,2
+34,,34,5,,8,炼息掉落道具翻倍,炼息掉落道具翻倍,Hero_head/head_YaoHuaWuShi,ZT_fbexp2,ZT_mother,活动双倍不骗人4,201605050001,201607012359,,0,,2,2
+35,,35,7,,9,生存掉落道具翻倍,生存掉落道具翻倍,Hero_head/head_YangSen,ZT_lianqi1,ZT_mother,活动双倍不骗人5,201605050001,201607012359,,0,,2,2
+36,,36,6,,3,精英经验翻倍,精英经验翻倍,Hero_head/head_YaoHuaWuShi,ZT_lianqi1,ZT_mother,活动双倍不骗人6,201605050001,201607012359,,0,,2,2
+37,,37,1,,2,普通经验翻倍,普通经验翻倍,Hero_head/head_YangSen,ZT_lianqi1,ZT_mother,活动双倍不骗人7,201605050001,201606012359,,0,,2,1
