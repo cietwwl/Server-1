@@ -6,7 +6,6 @@ import com.rwproto.PrivilegeProtos.GeneralPrivilegeNames;
 public class generalPrivilege extends AbstractConfigChargeSource<GeneralPrivilegeNames> {
   private String source; //特权来源
   private boolean isAllowVipHeadIcon; //VIP头像框
-  private int vipGiftLevel; //VIP特权礼包
   private int battleSpeed; //战斗加速倍数
   private boolean isAllowBuyFashion; //开启时装购买
   private boolean isAllowSoulBox; //开启第三宝箱（魂匣）开启

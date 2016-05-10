@@ -86,9 +86,8 @@ enum HeroPrivilegeNames {
 }
 
 enum GeneralPrivilegeNames {
-     vipGiftLevel = 1; //VIP特权礼包
-     battleSpeed = 2; //战斗加速倍数
-     isAllowBuyFashion = 3; //开启时装购买
-     isAllowSoulBox = 4; //开启第三宝箱（魂匣）开启
-     isAllowReplenish = 5;  //开启补签开启
+     battleSpeed = 1; //战斗加速倍数
+     isAllowBuyFashion = 2; //开启时装购买
+     isAllowSoulBox = 3; //开启第三宝箱（魂匣）开启
+     isAllowReplenish = 4;  //开启补签开启
 }
