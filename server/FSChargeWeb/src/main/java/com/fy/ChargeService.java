@@ -24,11 +24,11 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 
 	private HttpServletResponse response;
 
-	private  HttpServletRequest request;
+	private HttpServletRequest request;
 
-	public  void doService() {
+	public void doService() {
 
-		System.out.println("!!!!!!!!!!!!!!!入口" );
+		
 		try {
 			String jsonContent = receivePost(request);
 			
@@ -38,6 +38,7 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 			boolean success  = reqGameServer(jsonContent, contentPojo);
 			String result = success?"0":"-1";			
 			
+			String result = success?"0":"-1";			
 			
 				PrintWriter writer = response.getWriter();
 				writer.write(result);	
@@ -77,7 +78,7 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 	}
 
 
-	public   boolean reqGameServer(String jsonContent,ContentPojo contentPojo){
+	private boolean reqGameServer(String jsonContent,ContentPojo contentPojo){
 		
 		boolean success = false;
 		
@@ -88,12 +89,10 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 			if(targetZone!=null){
 				Map<String,Object> params = new HashMap<String, Object>();
 				params.put("content", jsonContent);
-				System.out.println("ip= " + targetZone.getServerIp() + "  port=" + targetZone.getChargePort());
+				
 				String resp = HttpClientUtil.post(targetZone.getServerIp(),targetZone.getChargePort(), params);
 				success = StringUtils.contains(resp, "ok");
 				ChargeLog.info("charge", contentPojo.getCpTradeNo(), "游戏服处理结果："+resp);
-			}else{
-				System.out.println("targetZone == null ");
 			}
 			
 		} catch (Exception e) {			
