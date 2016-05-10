@@ -5,6 +5,7 @@
 "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
 "http://struts.apache.org/dtds/struts-2.0.dtd">  
 <struts>  
+	<constant name="struts.devMode" value="false"/>
 	<constant name="struts.action.excludePattern" value="/download"/>
 	<constant name="struts.allowed.action.names" value="[a-zA-Z]*" />
     <package name="" namespace="/" extends="struts-default">  
