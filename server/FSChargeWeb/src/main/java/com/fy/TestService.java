@@ -24,9 +24,9 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setCpTradeNo("1025");
+		content.setCpTradeNo("1024");
 		content.setGameId(3);
-		content.setUserId("100100000455");
+		content.setUserId("100100000452");
 		content.setRoleId("10010000");
 		
 		content.setServerId(20);
@@ -72,6 +72,7 @@ public class TestService {
 		String[] response = new String[2];
 		try{
 			con = (HttpURLConnection)(new URL(url).openConnection());
+//			con.setRequestProperty("content-type", "text/html");
 			con.setDoInput(true);
 			con.setDoOutput(true);
 			con.setRequestMethod("POST");
