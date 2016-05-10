@@ -235,6 +235,9 @@ namespace MsgDef
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_DATETYPE", Value=177)]
       MSG_ACTIVITY_DATETYPE = 177,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_RANKTYPE", Value=178)]
+      MSG_ACTIVITY_RANKTYPE = 178,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SDK_VERIFY", Value=996)]
       MSG_SDK_VERIFY = 996,
             
