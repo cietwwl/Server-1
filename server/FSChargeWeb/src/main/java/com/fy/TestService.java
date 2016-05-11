@@ -17,10 +17,10 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setCpTradeNo("1025");
+		content.setCpTradeNo("1027");
 		content.setGameId(3);
 		content.setUserId("100100000455");
-		content.setRoleId("10010000");
+		content.setRoleId("100100000466");
 		
 		content.setServerId(20);
 		content.setChannelId("0");
@@ -28,7 +28,7 @@ public class TestService {
 		content.setItemId("1");
 		content.setItemAmount(1);
 		content.setPrivateField("");
-		content.setMoney(1);
+		content.setMoney(600);
 		content.setCurrencyType("CNY");
 		content.setFee(6);
 		
