@@ -1,7 +1,9 @@
 package com.rwbase.dao.item.pojo;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -38,8 +40,8 @@ public class ItemData implements IMapItem, ItemDataIF {
 	// @IgnoreSynField
 	// private EItemTypeDef type;// 物品类型
 	@SaveAsJson
-	private ConcurrentHashMap<Integer, String> allExtendAttr = new ConcurrentHashMap<Integer, String>();// 扩展属性,
-	
+	private HashMap<Integer, String> allExtendAttr = new HashMap<Integer, String>();// 扩展属性,
+
 	public ItemData() {
 	}
 
@@ -48,7 +50,7 @@ public class ItemData implements IMapItem, ItemDataIF {
 		this.modelId = itemData.modelId;
 		this.count = itemData.count;
 		this.userId = itemData.userId;
-		this.allExtendAttr = new ConcurrentHashMap<Integer, String>(itemData.allExtendAttr);
+		this.allExtendAttr = new HashMap<Integer, String>(itemData.allExtendAttr);
 	}
 
 	public boolean init(int modelId, int count) {
@@ -84,26 +86,52 @@ public class ItemData implements IMapItem, ItemDataIF {
 	}
 
 	/** 仅仅是为了防止出错 */
-	public ConcurrentHashMap<Integer, String> getAllExtendAttr() {
-		return allExtendAttr;
+	public HashMap<Integer, String> getAllExtendAttr() {
+		synchronized (this) {
+			return new HashMap<Integer, String>(this.allExtendAttr);
+		}
 	}
 
-	public void setExtendAttr(ConcurrentHashMap<Integer, String> m_ExtendAttr) {
-		this.allExtendAttr = new ConcurrentHashMap<Integer, String>(m_ExtendAttr);
+	public void setExtendAttr(HashMap<Integer, String> m_ExtendAttr) {
+		synchronized (this) {
+			this.allExtendAttr = new HashMap<Integer, String>(m_ExtendAttr);
+		}
 	}
 
 	@JsonIgnore
 	public String getExtendAttr(int itemAttrId) {
-		return allExtendAttr.get(itemAttrId);
+		synchronized (this) {
+			return allExtendAttr.get(itemAttrId);
+		}
 	}
 
 	public void setExtendAttr(int itemAttrId, String nValue) {
-		allExtendAttr.put(itemAttrId, nValue);
+		synchronized (this) {
+			allExtendAttr.put(itemAttrId, nValue);
+		}
 	}
 
 	@JsonIgnore
 	public Enumeration<Integer> getEnumerationKeys() {
-		return this.allExtendAttr.keys();
+		ArrayList<Integer> list;
+		synchronized (this) {
+			list = new ArrayList<Integer>(allExtendAttr.keySet());
+		}
+
+		final Iterator<Integer> iterator = list.iterator();
+		Enumeration<Integer> enumeration = new Enumeration<Integer>() {
+
+			@Override
+			public boolean hasMoreElements() {
+				return iterator.hasNext();
+			}
+
+			@Override
+			public Integer nextElement() {
+				return iterator.next();
+			}
+		};
+		return enumeration;
 	}
 
 	public void modifyItemCount(int count) {
@@ -112,8 +140,10 @@ public class ItemData implements IMapItem, ItemDataIF {
 
 	@JsonIgnore
 	public int getMagicLevel() {
-		String magicLevel = this.allExtendAttr.get(EItemAttributeType.Magic_Level_VALUE);
-		return StringUtils.isEmpty(magicLevel) ? 1 : Integer.parseInt(magicLevel);
+		synchronized (this) {
+			String magicLevel = this.allExtendAttr.get(EItemAttributeType.Magic_Level_VALUE);
+			return StringUtils.isEmpty(magicLevel) ? 1 : Integer.parseInt(magicLevel);
+		}
 	}
 
 	public int getModelId() {

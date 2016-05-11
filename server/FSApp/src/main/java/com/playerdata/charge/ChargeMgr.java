@@ -128,12 +128,12 @@ public class ChargeMgr {
 	
 	private Player get(ChargeContentPojo chargeContentPojo) {
 		Player player = null;		
-		String uid = chargeContentPojo.getUserId();
+		String uid = chargeContentPojo.getRoleId();
 		if(StringUtils.isBlank(uid)){
-			GameLog.error("chargemgr", "sdk-充值", "uid异常，无法找到用户，订单号为" + chargeContentPojo.getCpTradeNo());
+			GameLog.error("chargemgr", "sdk-充值", "uid异常，无法获取uid，订单号为" + chargeContentPojo.getCpTradeNo());
 			return player;
 		}
-		player = PlayerMgr.getInstance().find(uid);				
+		player = PlayerMgr.getInstance().find(uid);
 		return player;
 	}
 
@@ -143,9 +143,10 @@ public class ChargeMgr {
 		
 		
 		if(target!=null){
-			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
-				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+//			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
+//				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+//			}else 
+			if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}

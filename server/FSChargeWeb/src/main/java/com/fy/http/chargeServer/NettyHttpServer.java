@@ -1,6 +1,9 @@
 package com.fy.http.chargeServer;
 
 
+import java.io.IOException;
+import java.util.Properties;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -12,8 +15,20 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+
 public class NettyHttpServer {
 	public void start(int port) throws Exception {
+		PropertyConfigurator.configure(NettyHttpServer.class.getClassLoader().getResource("log4j.properties"));
+
+		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
+		
+		
 		EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -42,7 +57,18 @@ public class NettyHttpServer {
 
 	public static void main(String[] args) throws Exception {
 		NettyHttpServer server = new NettyHttpServer();
-		server.start(8080);
+		Resource resource = new ClassPathResource("charge.properties");
+		int serverPort = 10000;
+		try {
+			Properties props = PropertiesLoaderUtils.loadProperties(resource);
+			serverPort = Integer.parseInt(props.getProperty("serverPort"));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		server.start(serverPort);
 	}
 }
 

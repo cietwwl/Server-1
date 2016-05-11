@@ -1,6 +1,5 @@
 package com.fy.http.chargeServer;
 
-import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
@@ -13,8 +12,19 @@ import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpHeaders.Values;
 import io.netty.handler.codec.http.HttpRequest;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.fy.ChargeLog;
+import com.fy.ContentPojo;
+import com.fy.common.FastJsonUtil;
+import com.fy.db.ZoneInfo;
+import com.fy.db.ZoneInfoMgr;
+import com.fy.http.HttpClientUtil;
 
 public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 	private ByteBufToBytes reader;
@@ -23,8 +33,6 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (msg instanceof HttpRequest) {
 			HttpRequest request = (HttpRequest) msg;
-			System.out.println("messageType:" + request.headers().get("messageType"));
-			System.out.println("businessType:" + request.headers().get("businessType"));
 			if (HttpHeaders.isContentLengthSet(request)) {
 				reader = new ByteBufToBytes((int) HttpHeaders.getContentLength(request));
 			}
@@ -37,17 +45,57 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 			content.release();
 
 			if (reader.isEnd()) {
-				String resultStr = new String(reader.readFull());
-				System.out.println("Client said:" + resultStr);
-
-				FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer("ok".getBytes()));
+				
+				String jsonContent = new String(reader.readFull());
+				ChargeLog.info("charge", "收到 jsonContent:", jsonContent);
+				String result = doService(jsonContent);
+				ChargeLog.info("charge", "反馈给支付中心信息:", result);
+				FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(result.getBytes("UTF-8")));
 				response.headers().set(CONTENT_TYPE, "text/plain");
 				response.headers().set(CONTENT_LENGTH, response.content().readableBytes());
 //				response.headers().set(CONNECTION, Values.KEEP_ALIVE);
+				
 				ctx.write(response);
 				ctx.flush();
 			}
 		}
+	}
+	
+	public String doService(String jsonContent) {		
+			
+		ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);		
+		ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
+		boolean success  = reqGameServer(jsonContent, contentPojo);
+		
+		String result = success?contentPojo.getCpTradeNo():"-1";	
+		return result;
+					
+
+	}
+	
+	private boolean reqGameServer(String jsonContent,ContentPojo contentPojo){
+		
+		boolean success = false;
+		
+		try {
+			
+			ZoneInfo targetZone = ZoneInfoMgr.getInstance().getZone(contentPojo.getServerId());
+			
+			if(targetZone!=null){
+				Map<String,Object> params = new HashMap<String, Object>();
+				params.put("content", jsonContent);
+				
+				String resp = HttpClientUtil.post(targetZone.getServerIp(),targetZone.getChargePort(), params);
+				success = StringUtils.contains(resp, "ok");
+				ChargeLog.info("charge", contentPojo.getCpTradeNo(), "游戏服处理结果："+resp);
+			}else{
+				ChargeLog.info("charge", "zone", "zone为空 ");
+			}
+			
+		} catch (Exception e) {			
+			ChargeLog.error("charge", contentPojo.getCpTradeNo(), "请求游戏服处理异常",e);
+		}
+		return success;
 	}
 
 	@Override
