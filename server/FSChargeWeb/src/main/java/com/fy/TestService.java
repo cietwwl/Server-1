@@ -34,24 +34,15 @@ public class TestService {
 		content.setGiftId("800701");
 		content.setSign("cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey");
 		
-//		Map<String, Object> params = new HashMap<String, Object>();		
-//		params.put("content", FastJsonUtil.toJson(content));
+		
+		
 		
 		String serverIp = "127.0.0.1";
 		int port = 9090;
 		String url = "http://"+serverIp+":"+port+"/charge";
-//		HttpPost httppost = new HttpPost(url);
-//		httppost.setEntity(new StringEntity(FastJsonUtil.toJson(content),"UTF-8"));
-//		
-//		CloseableHttpClient httpClient = HttpClients.createDefault();
-//		httpClient.execute(httppost);
 		
 		String jsonContent = FastJsonUtil.toJson(content);
 		post(url,jsonContent,"utf-8",1000,1000);
-		
-		
-//		String resp = HttpClientUtil.post("127.0.0.1", 9090, params);
-//		System.out.println(resp);
 	}
 	
 	public static void post(String url ,String requestData ,String charset,int connectTimeout,int responseTimeout) throws IOException{
