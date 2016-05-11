@@ -10,6 +10,12 @@ enum TaoistRequestType {
 	getRandom = 3; //获取随机参数，不需要其他参数，返回criticalRamdom
 }
 
+enum ErrorCode_Taoist{
+	Success = 0;//
+	NotEnoughMoney = 1;//
+	ExceedPlayerLevel = 2;//
+}
+
 message TaoistRequest {
 	required TaoistRequestType reqType = 1;
 	optional int32 taoistId = 2; //策划配表(TaoistMagicCfg)的key
@@ -17,10 +23,10 @@ message TaoistRequest {
 }
 
 message TaoistResponse {
-	repeated TaoistInfo taoistInfoList = 1;
-	optional int32 errorCode = 2;//操作结果代码，0表示成功
-	optional string resultTip = 3; //如果可能，服务端会定义一个成功或者失败的提示信息
-	optional int32 criticalRamdom = 4; //暴击需要的随机参数
+	required ErrorCode_Taoist errorCode = 1;//操作结果代码，0表示成功
+	optional string resultTip = 2; //如果可能，服务端会定义一个成功或者失败的提示信息
+	optional int32 criticalRamdom = 3; //暴击需要的随机参数
+	repeated TaoistInfo taoistInfoList = 4;
 }
 
 message TaoistInfo {
