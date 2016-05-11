@@ -7,16 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import com.fy.common.FastJsonUtil;
-import com.fy.http.HttpClientUtil;
 
 public class TestService {
 
@@ -24,23 +17,29 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setServerId(1);
-		content.setChannelId("�й�����");
+		content.setCpTradeNo("1025");
+		content.setGameId(3);
+		content.setUserId("100100000455");
+		content.setRoleId("10010000");
 		
+		content.setServerId(20);
+		content.setChannelId("0");
 		
-		Map<String, Object> params = new HashMap<String, Object>();
+		content.setItemId("1");
+		content.setItemAmount(1);
+		content.setPrivateField("");
+		content.setMoney(1);
+		content.setCurrencyType("CNY");
+		content.setFee(6);
 		
-		content.setStatus("1");
+		content.setStatus("0");
 		content.setGiftId("800701");
 		content.setSign("cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey");
-		
-		
-		
 		
 		String serverIp = "127.0.0.1";
 		int port = 9090;
 		String url = "http://"+serverIp+":"+port+"/charge";
-		
+
 		String jsonContent = FastJsonUtil.toJson(content);
 		post(url,jsonContent,"utf-8",1000,1000);
 	}
