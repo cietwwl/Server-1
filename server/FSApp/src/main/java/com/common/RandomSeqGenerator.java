@@ -1,5 +1,6 @@
 package com.common;
 
+//客户端的实现需要与服务器保持一致
 public class RandomSeqGenerator {
 	/**
 	 * 返回－1表示无效
@@ -15,7 +16,7 @@ public class RandomSeqGenerator {
 
 		int result = seqList[seqIndex];
 
-		final int seqSize = seqList.length;
+		int seqSize = seqList.length;
 		if (seqIndex + 1 < seqSize) {// 当前组未用完
 			seqIndex++;
 		} else {// 当前组已经用完
@@ -34,7 +35,7 @@ public class RandomSeqGenerator {
 		this.seedRange = seedRange;
 		this.tmpseed = seed;
 
-		final int seqSize = findNextGroup();
+		int seqSize = findNextGroup();
 		if (seqSize > 0) {
 			// startIndex
 			seqIndex = GeneratePsudoRandomSeq(seed, SeqCtl2, seqSize);
@@ -52,19 +53,19 @@ public class RandomSeqGenerator {
 		if (seedRange <= 0)
 			return -1;
 
-		final int groupSize = seqPlanIdList.length;
+		int groupSize = seqPlanIdList.length;
 		if (groupSize <= 0)
 			return -1;
 
 		tmpseed = GeneratePsudoRandomSeq(tmpseed, SeqCtl1, seedRange);
 		int groupIndex = tmpseed % groupSize;
-		final int planId = seqPlanIdList[groupIndex];
+		int planId = seqPlanIdList[groupIndex];
 
 		currentPlan = helper.getPlan(planId);
 		if (currentPlan == null)
 			return -1;
 
-		final int seqSize = currentPlan.length;
+		int seqSize = currentPlan.length;
 
 		if (seqSize <= 0)
 			return -1;
