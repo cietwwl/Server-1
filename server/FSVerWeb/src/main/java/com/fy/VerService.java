@@ -15,6 +15,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import com.fy.constant.Constant;
 import com.fy.json.JSONException;
 import com.fy.json.JSONObject;
+import com.fy.json.JSONUtil;
 import com.fy.utils.DateTimeUtils;
 import com.fy.version.Version;
 import com.fy.version.VersionMgr;
@@ -79,21 +80,8 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		}
 		Version version = null;
 		try {
-			JSONObject json = new JSONObject(jsonVersion);
-			String channel = json.get("channel").toString();
-			int main = Integer.parseInt(json.get("main").toString());
-			int sub = Integer.parseInt(json.get("sub").toString());
-			int third = Integer.parseInt(json.get("third").toString());
-			int patch = Integer.parseInt(json.get("patch").toString());
-			String packageName = json.get("package").toString();
 			version = new Version();
-			version.setChannel(channel);
-			version.setMain(main);
-			version.setSub(sub);
-			version.setThird(third);
-			version.setPatch(patch);
-			version.setPackageName(packageName);
-			
+			version = JSONUtil.readValue(jsonVersion, Version.class);
 			return version;
 		} catch (Exception ex) {
 			ex.printStackTrace();

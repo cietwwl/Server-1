@@ -12,8 +12,16 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class NettyHttpServer {
 	public void start(int port) throws Exception {
+		PropertyConfigurator.configure(NettyHttpServer.class.getClassLoader().getResource("log4j.properties"));
+
+		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
+		
+		
 		EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -42,7 +50,7 @@ public class NettyHttpServer {
 
 	public static void main(String[] args) throws Exception {
 		NettyHttpServer server = new NettyHttpServer();
-		server.start(8080);
+		server.start(9090);
 	}
 }
 

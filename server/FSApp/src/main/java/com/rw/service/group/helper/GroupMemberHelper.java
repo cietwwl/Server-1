@@ -78,6 +78,7 @@ public class GroupMemberHelper {
 			return 0;
 		}
 	};
+
 	/**
 	 * <pre>
 	 * 排列请求队列比较器
@@ -94,6 +95,29 @@ public class GroupMemberHelper {
 
 			long result = o1.getApplyTime() - o2.getApplyTime();
 			return result == 0 ? 0 : (result > 0 ? -1 : 1);
+		}
+	};
+
+	/**
+	 * <pre>
+	 * 成员排序
+	 * 这个按照，职位>个人历史总贡献
+	 * </pre>
+	 */
+	public static final Comparator<GroupMemberDataIF> memberComparator = new Comparator<GroupMemberDataIF>() {
+
+		@Override
+		public int compare(GroupMemberDataIF o1, GroupMemberDataIF o2) {
+			int post1 = o1.getPost();
+			int post2 = o2.getPost();
+			int result = post1 - post2;
+			if (result != 0) {
+				return result;
+			}
+
+			int totalContribution1 = o1.getTotalContribution();
+			int totalContribution2 = o2.getTotalContribution();
+			return totalContribution2 - totalContribution1;
 		}
 	};
 
