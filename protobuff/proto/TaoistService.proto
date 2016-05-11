@@ -6,20 +6,22 @@ package TaoistMagic;
 
 enum TaoistRequestType {
 	getTaoistData = 1; // 获取 道术【id， level】
-	updateTaoist = 2; //升级道术
-	getRandom = 3; //获取随机参数，不需要其他参数，返回criticalRamdom
+	synTaoistData = 2; // 暂时未实现：同步数据，发送更新列表，存放在taoistInfoList
+	updateTaoist = 3; //升级道术，发送更新列表，存放在taoistInfoList
+	getRandom = 4; //获取随机参数，不需要其他参数，返回criticalRamdom
 }
 
 enum ErrorCode_Taoist{
-	Success = 0;//
-	NotEnoughMoney = 1;//
-	ExceedPlayerLevel = 2;//
+	Success = 0;//成功
+	IllegalArguments = 1;//无效参数
+	NotEnoughMoney = 2;//不够钱
+	ExceedPlayerLevel = 3;//超出玩家等级
 }
 
 message TaoistRequest {
 	required TaoistRequestType reqType = 1;
 	optional int32 taoistId = 2; //策划配表(TaoistMagicCfg)的key
-	optional int32 taoistLevel = 3; //升级道术目标等级，包含暴击升级
+	optional int32 upgradeCount = 3; //升级道术技能的次数
 }
 
 message TaoistResponse {
