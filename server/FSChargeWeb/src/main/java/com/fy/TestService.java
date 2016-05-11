@@ -25,12 +25,12 @@ public class TestService {
 		
 		ContentPojo content = new ContentPojo();
 		content.setServerId(1);
-		content.setChannelId("ÖÐ¹úµçÐÅ");
+		content.setChannelId("ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½");
 		
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		
-		content.setStatus("0");
+		content.setStatus("1");
 		content.setGiftId("800701");
 		content.setSign("cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey");
 		
