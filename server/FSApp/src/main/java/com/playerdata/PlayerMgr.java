@@ -184,25 +184,6 @@ public class PlayerMgr {
 		return gamePlayerOpHelper.getProgress();
 	}
 
-	private final PlayerTask saveTask = new PlayerTask() {
-		public void doCallBack(Player player) {
-			player.save(true);
-
-		}
-
-		@Override
-		public String getName() {
-			return "saveTask";
-		}
-	};
-
-	public int saveAllPlayer() {
-		List<Player> playerList = new ArrayList<Player>(getAllPlayer().values());
-		int progress = gamePlayerOpHelper.addTask(playerList, saveTask);
-		CommonUpdateMgr.getInstance().flushData();
-		return progress;
-	}
-
 	private String offReason = "亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。";
 	private boolean blnNeedCoolTime = true; // 是否需要设置kickOffCoolTime
 	private final PlayerTask kickOffTask = new PlayerTask() {

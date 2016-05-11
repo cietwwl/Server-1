@@ -1,25 +1,25 @@
 package com.rw.fsutil.cacheDao;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.alibaba.druid.pool.DruidDataSource;
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
+import com.rw.fsutil.cacheDao.loader.DataKVIntegration;
+import com.rw.fsutil.cacheDao.loader.DataKVSactter;
+import com.rw.fsutil.cacheDao.loader.DataKvNotExistHandler;
 import com.rw.fsutil.dao.annotation.ClassHelper;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.CacheValueEntity;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
-import com.rw.fsutil.dao.cache.DataNotExistException;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.cache.LRUCacheListener;
+import com.rw.fsutil.dao.cache.DataNotExistHandler;
 import com.rw.fsutil.dao.cache.PersistentLoader;
-import com.rw.fsutil.dao.common.JdbcTemplateFactory;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.dao.optimize.DataAccessSimpleSupport;
 import com.rw.fsutil.log.SqlLog;
-import com.rw.fsutil.util.SpringContextUtil;
 
 /**
  * 前台数据(支持单表和多表) 数据库+memcached
@@ -31,112 +31,55 @@ import com.rw.fsutil.util.SpringContextUtil;
  */
 public class DataKVDao<T> {
 
-	private final ClassInfo classInfoPojo;
-	
+	private final ClassInfo classInfo;
 	private final DataCache<String, T> cache;
-	
-	private JdbcTemplate template = null;
+	private final JdbcTemplate template;
+	private final Integer type;
+
 	public DataKVDao(Class<T> clazz) {
-		try {
-			this.classInfoPojo = new ClassInfo(clazz);
-		} catch (Throwable e) {
-			e.printStackTrace();
-			throw new ExceptionInInitializerError("初始化ClassInfo失败："+clazz);
-		}
-		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
-		this.template = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
+		this.classInfo = new ClassInfo(clazz);
+		DataAccessSimpleSupport simpleSupport = DataAccessFactory.getSimpleSupport();
+		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
-//		this.cache = new DataCache<String, T>(clazz.getName(), cacheSize, cacheSize, getUpdatedSeconds(), DBThreadPoolMgr.getExecutor(), loader, cacheListener);
-		this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), loader);
+		this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template));
+		this.type = null;
 	}
-	
+
 	public DataKVDao() {
-		Class<T> clazz = ClassHelper.getEntityClass(this.getClass());
-		try {
-			this.classInfoPojo = new ClassInfo(clazz);
-		} catch (Throwable e) {
-			e.printStackTrace();
-			throw new ExceptionInInitializerError("初始化ClassInfo失败："+clazz);
-		}
-		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
-		this.template = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
+		this.classInfo = new ClassInfo(ClassHelper.getEntityClass(getClass()));
+		this.template = DataAccessFactory.getSimpleSupport().getMainTemplate();
 		int cacheSize = getCacheSize();
-//		this.cache = new DataCache<String, T>(clazz.getName(), cacheSize, cacheSize, getUpdatedSeconds(), DBThreadPoolMgr.getExecutor(), loader, cacheListener);
-		this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), loader);
+		Class<? extends DataKVDao<T>> clazz = (Class<? extends DataKVDao<T>>) getClass();
+		this.type = DataAccessFactory.getDataKvManager().getDataKvType(clazz);
+		PersistentLoader<String, T> persistentLoader;
+		if (this.type == null) {
+			persistentLoader = new DataKVSactter<T>(classInfo, template);
+		} else {
+			persistentLoader = new DataKVIntegration<T>(type, classInfo, template);
+		}
+		final DataExtensionCreator<T> creator = DataAccessFactory.getDataKvManager().getCreator(clazz);
+		DataNotExistHandler<String, T> handler;
+		if (creator == null) {
+			handler = null;
+		} else {
+			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
+		}
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz().getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler);
 	}
-	
-	private LRUCacheListener<String,T> cacheListener = new LRUCacheListener<String,T>() {
-
-		@Override
-		public void notifyElementEvicted(String key, T value) {
-		}
-	};
-
-	private PersistentLoader<String, T> loader = new PersistentLoader<String, T>(){
-
-		@Override
-		public T load(String key) throws DataNotExistException, Exception {
-			if (StringUtils.isBlank(key)) {
-				return null;
-			}
-			String sql = "select dbvalue from " + classInfoPojo.getTableName() + " where dbkey=?";
-			String value = null;
-			List<String> result = template.queryForList(sql, String.class, key);
-			if (result != null && result.size() > 0) {
-				value = new String(result.get(0));
-				T t = toT(value);
-				return t;
-			}
-			return null;
-		}
-
-		@Override
-		public boolean delete(String key) throws DataNotExistException, Exception {
-			if (StringUtils.isBlank(key)) {
-				return false;
-			}
-			String sql = "delete from " + classInfoPojo.getTableName() + " where dbkey=?";
-			int result = template.update(sql, key);
-			return result > 0;
-		}
-
-		@Override
-		public boolean insert(String key, T value) throws DuplicatedKeyException, Exception {
-			if(StringUtils.isBlank(key)){
-				return false;
-			}
-			StringBuilder sql = new StringBuilder();
-			sql.append("insert into ").append(classInfoPojo.getTableName()).append(" (dbkey, dbvalue) values(?,?)");
-			// this.template.update(sql.toString(),new Object[]{key, HexUtil.bytes2HexStr(value.getBytes("UTF-8"))});
-			String writeValue = toJson(value);
-			int affectedRows = template.update(sql.toString(), new Object[] { key, writeValue });
-			//lida 2015-09-23 执行成功返回的结果是2
-			return affectedRows > 0;
-		}
-
-		@Override
-		public boolean updateToDB(String key, T value) {
-			String sql = "update "+ classInfoPojo.getTableName() + " set dbvalue = ? where dbkey = ?";
-			String writeValue = toJson(value);
-			int affectedRows = template.update(sql.toString(), new Object[] {writeValue,key});
-			//lida 2015-09-23 执行成功返回的结果是2
-			return affectedRows > 0;
-		}
-		
-	};
 
 	/**
 	 * 这个重载的方法是用来提交数据的！
+	 * 
 	 * @param id
 	 */
-	public void update(String id){
+	public void update(String id) {
 		cache.submitUpdateTask(id);
 	}
-	
-	public boolean commit(T t){
-		if (update(t)){
+
+	public boolean commit(T t) {
+		if (update(t)) {
 			String id = getId(t);
-			System.out.println("commit id="+id);
+			System.out.println("commit id=" + id);
 			update(id);
 			return true;
 		}
@@ -145,7 +88,7 @@ public class DataKVDao<T> {
 
 	public boolean update(T t) {
 		String id = getId(t);
-		if(!StringUtils.isNotBlank(id)){
+		if (!StringUtils.isNotBlank(id)) {
 			return false;
 		}
 		try {
@@ -163,18 +106,16 @@ public class DataKVDao<T> {
 		}
 	}
 
-
-	public String getId(T t){
-		Field idField = classInfoPojo.getIdField();
+	public String getId(T t) {
+		Field idField = classInfo.getIdField();
 		String id = null;
 		try {
 			id = String.valueOf(idField.get(t));
 		} catch (Exception e) {
 			SqlLog.error(e);
-		} 
-		return  id;
-	};
-
+		}
+		return id;
+	}
 
 	public boolean delete(String id) {
 		try {
@@ -194,7 +135,7 @@ public class DataKVDao<T> {
 		}
 		try {
 			CacheValueEntity<T> entity = this.cache.getOrLoadCacheFromDB(id);
-			if(entity == null){
+			if (entity == null) {
 				return null;
 			}
 			return entity.getValue();
@@ -209,59 +150,43 @@ public class DataKVDao<T> {
 
 	/**
 	 * 尝试从内存获取对象
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public T getFromMemory(String id){
+	public T getFromMemory(String id) {
 		return this.cache.getFromMemory(id);
 	}
-	
-	private String toJson(T t) {
-		String json = null;
-		
-		try {
-			json = classInfoPojo.toJson(t);
-		} catch (Exception e) {
-			//数据解释出错，不能往下继续，直接抛出RuntimeException给顶层捕获
-			throw(new RuntimeException("DataKVDao[toJson] json转换异常", e));
-		}	
-		return json;
-	}
 
-	@SuppressWarnings("unchecked")
-	private T toT(String value) {
-		T t = null;
-		if (StringUtils.isNotBlank(value)) {
-			try {
-				t = (T) classInfoPojo.fromJson(value);
-			} catch (Exception e) {
-				//数据解释出错，不能往下继续，直接抛出RuntimeException给顶层捕获
-				throw(new RuntimeException("DataKVDao[toT] json转换异常", e));
-			}				
-			
-		}
-		return t;
+	public boolean putIntoCache(String key, T value) {
+		return this.cache.putAfterInsertDB(key, value);
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	public Class<T> getEntityClass() {
-		return (Class<T>) classInfoPojo.getClazz();
+		return (Class<T>) classInfo.getClazz();
 	}
-	
+
+	public ClassInfo getClassInfo() {
+		return this.classInfo;
+	}
+
 	/**
 	 * 获取缓存数量大小
+	 * 
 	 * @return
 	 */
-	protected int getCacheSize(){
-		return 3000;
+	protected int getCacheSize() {
+		return DataAccessFactory.getDataKvManager().getDataKvCapacity();
 	}
-	
+
 	/**
 	 * 获取更新周期间隔(单位：秒)
+	 * 
 	 * @return
 	 */
-	protected int getUpdatedSeconds(){
+	protected int getUpdatedSeconds() {
 		return 60;
 	}
+
 }

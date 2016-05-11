@@ -98,7 +98,6 @@ public class MapItemStoreFactory {
 		register(taskItemCache = new MapItemStoreCache<TaskItem>(TaskItem.class, "userId", heroCapacity));
 
 		register(groupMemberCache = new MapItemStoreCache<GroupMemberData>(GroupMemberData.class, "groupId", heroCapacity));
-
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
 
 		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));

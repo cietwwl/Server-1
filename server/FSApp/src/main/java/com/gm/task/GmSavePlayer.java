@@ -26,7 +26,7 @@ public class GmSavePlayer implements IGmTask{
 				@Override
 				public void run() {
 					try {
-						PlayerMgr.getInstance().saveAllPlayer();
+						//PlayerMgr.getInstance().saveAllPlayer();
 					} catch (Throwable e) {
 						GameLog.error(LogModule.GM.getName(), "GmSavePlayer", "GmSavePlayer[doTask] GmExecutor run", e);
 					}
@@ -39,7 +39,7 @@ public class GmSavePlayer implements IGmTask{
 			for (String userId : userIdArray) {
 				Player target = PlayerMgr.getInstance().findPlayerFromMemory(userId.trim());
 				if(target!=null){
-					target.save(true);
+					//target.save(true);
 				}
 			}
 		}

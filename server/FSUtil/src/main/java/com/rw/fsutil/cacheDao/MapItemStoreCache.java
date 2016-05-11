@@ -15,8 +15,7 @@ import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
-import com.rw.fsutil.dao.common.CommonJdbc;
-import com.rw.fsutil.dao.common.DBThreadPoolMgr;
+import com.rw.fsutil.dao.common.CommonMultiTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.util.SpringContextUtil;
 
@@ -33,7 +32,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 
 	private final DataCache<String, MapItemStore<T>> cache;
 	private final String searchFieldP;
-	private CommonJdbc<T> commonJdbc;
+	private CommonMultiTable<T> commonJdbc;
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
 //		this.cache = new DataCache<String, MapItemStore<T>>(entityClazz.getSimpleName(), itemBagCount, itemBagCount, 60, DBThreadPoolMgr.getExecutor(), loader, null);
@@ -42,7 +41,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(entityClazz);
-		this.commonJdbc = new CommonJdbc<T>(jdbcTemplate, classInfo);
+		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo);
 	}
 	
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName) {
@@ -52,7 +51,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(entityClazz);
-		this.commonJdbc = new CommonJdbc<T>(jdbcTemplate, classInfo);
+		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo);
 	}
 
 	public MapItemStore<T> getMapItemStore(String userId, Class<T> clazz) {
@@ -69,7 +68,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	
 	public void notifyPlayerCreate(String userId){
 		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this);
-		cache.putIfAbsent(userId, m);
+		cache.putAfterInsertDB(userId, m);
 	}
 
 	private PersistentLoader<String, MapItemStore<T>> loader = new PersistentLoader<String, MapItemStore<T>>() {
