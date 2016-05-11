@@ -42,7 +42,7 @@ public class NettyHttpServer {
 
 	public static void main(String[] args) throws Exception {
 		NettyHttpServer server = new NettyHttpServer();
-		server.start(8080);
+		server.start(9090);
 	}
 }
 

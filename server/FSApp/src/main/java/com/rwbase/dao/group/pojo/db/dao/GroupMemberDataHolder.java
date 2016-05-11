@@ -415,7 +415,7 @@ public final class GroupMemberDataHolder {
 		} else {// 正式成员
 			int newVersion = memberVersion.get();
 			if (newVersion != version) {
-				ClientDataSynMgr.synDataList(player, getMemberSortList(null), memberSynType, eSynOpType.UPDATE_LIST);
+				ClientDataSynMgr.synDataList(player, getMemberSortList(GroupMemberHelper.memberComparator), memberSynType, eSynOpType.UPDATE_LIST);
 			}
 		}
 	}

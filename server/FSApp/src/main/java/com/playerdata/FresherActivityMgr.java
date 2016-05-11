@@ -42,11 +42,11 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		if(m_Player == null || !m_Player.getUserId().contains(GameManager.getServerId())){
 			return;
 		}
-		FresherActivityCheckerResult returnResult = fresherActivityChecker.checkActivityCondition(m_Player, type);
-		if (returnResult == null) {
-			return;
-		}
-		fresherActivityItemHolder.completeFresherActivity(m_Player, returnResult);
+//		FresherActivityCheckerResult returnResult = fresherActivityChecker.checkActivityCondition(m_Player, type);
+//		if (returnResult == null) {
+//			return;
+//		}
+//		fresherActivityItemHolder.completeFresherActivity(m_Player, returnResult);
 	}
 
 	@Override

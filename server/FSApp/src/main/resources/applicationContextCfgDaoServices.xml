@@ -124,6 +124,7 @@
 
 	<bean class="com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
 	<bean class="com.gm.giftCenter.GiftCodeSenderBm"  init-method="init" />
 	<bean class="com.rwbase.dao.gift.ComGiftCfgDAO"  init-method="init" />
@@ -136,8 +137,13 @@
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
 	
-	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
+	
+	<!-- 羁绊 -->
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />
 	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />

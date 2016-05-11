@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  * 更新优先级
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author lida
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Version {
 
 	// name=chanel_v.*.*.*_patch(0 完整包, >1 patch)

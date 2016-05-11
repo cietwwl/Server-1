@@ -219,7 +219,7 @@ public class GroupMemberManagerHandler {
 				final String applyMemberId = req.getApplyMemberId();
 				// 检查帮派是否满员
 				int groupMemberSize = memberMgr.getGroupMemberSize();
-				if (groupMemberSize > maxMemberLimit) {
+				if (groupMemberSize >= maxMemberLimit) {
 					return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "该帮派已经满员");
 				}
 
@@ -270,7 +270,7 @@ public class GroupMemberManagerHandler {
 				for (int i = 0; i < size; i++) {
 					// 检查帮派是否满员
 					int groupMemberSize = memberMgr.getGroupMemberSize();
-					if (groupMemberSize > maxMemberLimit) {
+					if (groupMemberSize >= maxMemberLimit) {
 						break;
 					}
 
