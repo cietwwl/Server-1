@@ -18,12 +18,9 @@ import com.rwbase.dao.fetters.pojo.SynConditionData;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO;
-import com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO;
-import com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersBaseTemplate;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersConditionTemplate;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
-import com.rwbase.dao.fetters.pojo.cfg.template.HeroFettersTemplate;
 import com.rwbase.dao.fetters.pojo.impl.checkforceuse.FettersForceDirectHeroIdImpl;
 import com.rwbase.dao.fetters.pojo.impl.condition.ForceDirectHeroIdConditionImpl;
 import com.rwbase.dao.fetters.pojo.impl.condition.HeroNumConditionImpl;
@@ -177,51 +174,34 @@ public class FettersBM {
 	 * 初始化羁绊关联
 	 */
 	private static void initHeroFetterLink() {
-		HeroFettersCfgDAO fettersCfgDAO = HeroFettersCfgDAO.getCfgDAO();
-		List<HeroFettersTemplate> heroFettersTemplateList = fettersCfgDAO.getHeroFettersTemplateList();
-		if (heroFettersTemplateList == null || heroFettersTemplateList.isEmpty()) {
+		List<FettersBaseTemplate> fettersBaseTemplateList = FettersBaseCfgDAO.getCfgDAO().getFettersBaseTemplateList();
+		if (fettersBaseTemplateList == null || fettersBaseTemplateList.isEmpty()) {
 			return;
 		}
 
 		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
-
-		FettersBaseCfgDAO fettersBaseCfgDAO = FettersBaseCfgDAO.getCfgDAO();
-		for (int i = 0, size = heroFettersTemplateList.size(); i < size; i++) {
-			HeroFettersTemplate tmp = heroFettersTemplateList.get(i);
-			if (tmp == null) {
+		for (int i = 0, size = fettersBaseTemplateList.size(); i < size; i++) {
+			FettersBaseTemplate fettersBaseTmp = fettersBaseTemplateList.get(i);
+			if (fettersBaseTmp == null) {
 				continue;
 			}
 
-			List<Integer> fettersIdList = tmp.getFettersIdList();
-			if (fettersIdList == null || fettersIdList.isEmpty()) {
+			List<Integer> fettersHeroIdList = fettersBaseTmp.getFettersHeroIdList();
+			if (fettersHeroIdList == null || fettersHeroIdList.isEmpty()) {
 				continue;
 			}
 
-			int heroModelId = tmp.getHeroModelId();
-
-			for (int j = 0, idSize = fettersIdList.size(); j < idSize; j++) {
-				int fettersId = fettersIdList.get(j);
-				FettersBaseTemplate fettersBaseTmp = fettersBaseCfgDAO.getFettersBaseTemplateById(fettersId);
-				if (fettersBaseTmp == null) {
-					continue;
+			int heroModelId = fettersBaseTmp.getHeroModelId();
+			for (int k = 0, heroSize = fettersHeroIdList.size(); k < heroSize; k++) {
+				int fettersHeroModelId = fettersHeroIdList.get(k);
+				List<Integer> list = map.get(fettersHeroModelId);
+				if (list == null) {
+					list = new ArrayList<Integer>();
+					map.put(fettersHeroModelId, list);
 				}
 
-				List<Integer> fettersHeroIdList = fettersBaseTmp.getFettersHeroIdList();
-				if (fettersHeroIdList == null || fettersHeroIdList.isEmpty()) {
-					continue;
-				}
-
-				for (int k = 0, heroSize = fettersHeroIdList.size(); k < heroSize; k++) {
-					int fettersHeroModelId = fettersHeroIdList.get(k);
-					List<Integer> list = map.get(fettersHeroModelId);
-					if (list == null) {
-						list = new ArrayList<Integer>();
-						map.put(fettersHeroModelId, list);
-					}
-
-					if (!list.contains(heroModelId)) {
-						list.add(heroModelId);
-					}
+				if (!list.contains(heroModelId)) {
+					list.add(heroModelId);
 				}
 			}
 		}
@@ -236,28 +216,27 @@ public class FettersBM {
 	 * @param heroModelId 英雄ModelId
 	 */
 	public static void checkOrUpdateHeroFetters(Player player, int heroModelId, boolean canSyn) {
-		HeroFettersTemplate heroFettersTemplate = HeroFettersCfgDAO.getCfgDAO().getHeroFettersTemplateByModelId(heroModelId);
-		if (heroFettersTemplate == null) {
-			return;
-		}
-
-		List<Integer> fettersIdList = heroFettersTemplate.getFettersIdList();// 羁绊Id列表
-		if (fettersIdList == null || fettersIdList.isEmpty()) {
+		List<FettersBaseTemplate> fettersList = FettersBaseCfgDAO.getCfgDAO().getFettersBaseTemplateListByHeroModelId(heroModelId);
+		if (fettersList == null || fettersList.isEmpty()) {
 			return;
 		}
 
 		// 完成的羁绊列表
 		Map<Integer, List<FettersConditionTemplate>> matchFetters = new HashMap<Integer, List<FettersConditionTemplate>>();
 
-		int fettersIdSize = fettersIdList.size();
-		for (int i = 0; i < fettersIdSize; i++) {
-			int fettersId = fettersIdList.get(i);
-			List<FettersConditionTemplate> matchList = checkFettersMatchCondition(player, fettersId);
+		int fettersSize = fettersList.size();
+		for (int i = 0; i < fettersSize; i++) {
+			FettersBaseTemplate fettersBaseTemplate = fettersList.get(i);
+			if (fettersBaseTemplate == null) {
+				continue;
+			}
+
+			List<FettersConditionTemplate> matchList = checkFettersMatchCondition(player, fettersBaseTemplate);
 			if (matchList == null || matchList.isEmpty()) {
 				continue;
 			}
 
-			matchFetters.put(fettersId, matchList);
+			matchFetters.put(fettersBaseTemplate.getFettersId(), matchList);
 		}
 
 		// 没有任何羁绊
@@ -398,11 +377,8 @@ public class FettersBM {
 	 * @param fettersId
 	 * @return
 	 */
-	private static List<FettersConditionTemplate> checkFettersMatchCondition(Player player, int fettersId) {
-		FettersBaseCfgDAO fettersBaseCfgDAO = FettersBaseCfgDAO.getCfgDAO();// 羁绊基础配置DAO
-
+	private static List<FettersConditionTemplate> checkFettersMatchCondition(Player player, FettersBaseTemplate fettersBaseTemplate) {
 		// 模版信息
-		FettersBaseTemplate fettersBaseTemplate = fettersBaseCfgDAO.getFettersBaseTemplateById(fettersId);
 		if (fettersBaseTemplate == null) {
 			return null;
 		}
@@ -482,17 +458,17 @@ public class FettersBM {
 			return false;
 		}
 
-		FettersSubConditionCfgDAO cfgDAO = FettersSubConditionCfgDAO.getCfgDAO();
-
-		List<Integer> subConditionIdList = fettersConditionTemplate.getSubConditionIdList();
+		List<FettersSubConditionTemplate> subConditionList = fettersConditionTemplate.getSubConditionList();
+		if (subConditionList == null || subConditionList.isEmpty()) {
+			return true;
+		}
 
 		// 检查强制占用的英雄列表
 		List<Integer> forceUseHeroIdList = new ArrayList<Integer>();// 强制占用的英雄Id列表
 
-		int subConditionSize = subConditionIdList.size();
+		int subConditionSize = subConditionList.size();
 		for (int i = 0; i < subConditionSize; i++) {
-			int subConditionId = subConditionIdList.get(i);
-			FettersSubConditionTemplate subConditionTmp = cfgDAO.getFettersSubConditionTemplateById(subConditionId);
+			FettersSubConditionTemplate subConditionTmp = subConditionList.get(i);
 			if (subConditionTmp == null) {
 				continue;
 			}
@@ -502,7 +478,7 @@ public class FettersBM {
 				continue;
 			}
 
-			int checkForceUseHeroId = checkForceUserHeroId.checkForceUseHeroId(subConditionId);
+			int checkForceUseHeroId = checkForceUserHeroId.checkForceUseHeroId(subConditionTmp);
 			if (checkForceUseHeroId > 0) {
 				forceUseHeroIdList.add(checkForceUseHeroId);
 			}
@@ -510,8 +486,7 @@ public class FettersBM {
 
 		// 检查每个条件是否可以达成
 		for (int i = 0; i < subConditionSize; i++) {
-			int subConditionId = subConditionIdList.get(i);
-			FettersSubConditionTemplate subConditionTmp = cfgDAO.getFettersSubConditionTemplateById(subConditionId);
+			FettersSubConditionTemplate subConditionTmp = subConditionList.get(i);
 			if (subConditionTmp == null) {
 				return false;
 			}
@@ -522,7 +497,7 @@ public class FettersBM {
 				return false;
 			}
 
-			if (!check.match(player, fettersHeroIdList, forceUseHeroIdList, subConditionId)) {
+			if (!check.match(player, fettersHeroIdList, forceUseHeroIdList, subConditionTmp)) {
 				return false;
 			}
 		}
