@@ -3,7 +3,6 @@ package com.rw.fsutil.dao.kvdata;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +37,8 @@ public class DataKvManagerImpl implements DataKvManager {
 	private final DataKvRowMapper rowMapper = new DataKvRowMapper();
 	private final int dataKvCapacity;
 
-	public DataKvManagerImpl(Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity) {
-		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
+	public DataKvManagerImpl(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity) {
+		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("Ranking dataSource is null");
 		}

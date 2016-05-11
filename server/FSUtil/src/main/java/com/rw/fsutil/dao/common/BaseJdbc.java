@@ -43,14 +43,6 @@ public abstract class BaseJdbc<T> {
 		if (size == 1 && !list.get(0).equals(tableName)) {
 			throw new ExceptionInInitializerError("数据表名不对应：expect=" + tableName + ",actual=" + list.get(0));
 		}
-		StringBuilder insertFields = new StringBuilder();
-		StringBuilder insertHolds = new StringBuilder();
-		StringBuilder updateFields = new StringBuilder();
-		try {
-			extractColumn(insertFields, insertHolds, updateFields);
-		} catch (Throwable t) {
-			throw new ExceptionInInitializerError(t);
-		}
 		this.rowMapper = new CommonRowMapper<T>(classInfoPojo);
 	}
 
@@ -211,14 +203,18 @@ public abstract class BaseJdbc<T> {
 		return resultList;
 	}
 
+	private StringBuilder addSplit(StringBuilder sb){
+		if(sb.length() > 0){
+			sb.append(",");
+		}
+		return sb;
+	}
+	
 	// 提取数据库列名
 	protected void extractColumn(StringBuilder fieldNames, StringBuilder placeholders, StringBuilder updateFieldNames) throws IllegalAccessException {
 		Field combinSaveField = null;
 		Collection<Field> collection = classInfoPojo.getFields();
-		int size = collection.size();
-		int count = 0;
 		for (Field field : collection) {
-			count++;
 			if (field.isAnnotationPresent(CombineSave.class)) {
 				// 随便一个就得
 				combinSaveField = field;
@@ -228,40 +224,20 @@ public abstract class BaseJdbc<T> {
 				continue;
 			}
 			boolean isId = field.isAnnotationPresent(Id.class);
-			boolean addSpilt = count < size;
 			String columnName = field.getName();
 			// 区分insert与update语句
-			fieldNames.append(columnName);
-			placeholders.append("?");
+			addSplit(fieldNames).append(columnName);
+			addSplit(placeholders).append("?");
 			if (!isId) {
-				updateFieldNames.append(columnName).append("=?");
-			}
-			// update语句
-			if (addSpilt) {
-				fieldNames.append(",");
-				placeholders.append(",");
-				if (!isId) {
-					updateFieldNames.append(",");
-				}
+				addSplit(updateFieldNames).append(columnName).append("=?");
 			}
 		}
-		int lastIndex = fieldNames.length() - 1;
-		boolean hasComma = fieldNames.charAt(lastIndex) == ',';
 		if (combinSaveField != null) {
 			CombineSave combineInfo = combinSaveField.getAnnotation(CombineSave.class);
 			String columnName = combineInfo.Column();
-			if (!hasComma) {
-				fieldNames.append(",");
-				placeholders.append(",");
-				updateFieldNames.append(",");
-			}
-			fieldNames.append(columnName);
-			placeholders.append("?");
-			updateFieldNames.append(columnName).append("=?");
-		} else if (hasComma) {
-			fieldNames.deleteCharAt(lastIndex);
-			placeholders.deleteCharAt(placeholders.length() - 1);
-			updateFieldNames.deleteCharAt(updateFieldNames.length() - 1);
+			addSplit(fieldNames).append(columnName);
+			addSplit(placeholders).append("?");
+			addSplit(updateFieldNames).append(columnName).append("=?");
 		}
 	}
 
