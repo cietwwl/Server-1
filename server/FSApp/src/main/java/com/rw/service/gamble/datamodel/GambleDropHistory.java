@@ -198,6 +198,7 @@ public class GambleDropHistory {
 	}
 
 	public boolean canUseFree(GamblePlanCfg planCfg) {
+		if (planCfg == null) return false;
 		return freeCount < planCfg.getFreeCountPerDay() && GambleLogicHelper.isLeftTimeOver(getFreeLeftTime(planCfg));
 	}
 }

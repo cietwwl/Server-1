@@ -42,8 +42,7 @@ public class HeroChecker implements RedPointCollector {
 		ArrayList<String> upgradeStarList = new ArrayList<String>();
 		HeroMgr heroMgr = player.getHeroMgr();
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		Map<String, RoleCfg> roleCfgCopys = RoleCfgDAO.getInstance()
-				.getAllRoleCfgCopy();
+		Map<String, RoleCfg> roleCfgCopys = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
 		for (String id : heroIdList) {
 			Hero hero = heroMgr.getHeroById(id);
 			String templateId = hero.getTemplateId();
@@ -55,8 +54,7 @@ public class HeroChecker implements RedPointCollector {
 				heroRedPointList.add(templateId);
 			} else {
 				// 英雄对应品质的装备配置id(对应modelId)
-				List<Integer> equipCfgList = RoleQualityCfgDAO.getInstance()
-						.getEquipList(hero.getQualityId());
+				List<Integer> equipCfgList = RoleQualityCfgDAO.getInstance().getEquipList(hero.getQualityId());
 				int size = equipList.size();
 				LinkedList<Integer> needEquipList;
 				if (size == 0) {
@@ -73,28 +71,22 @@ public class HeroChecker implements RedPointCollector {
 				for (int equipIndex : needEquipList) {
 					int equipCfgId = equipCfgList.get(equipIndex);
 					// 先检查等级
-					HeroEquipCfg equipCfg = ItemCfgHelper
-							.getHeroEquipCfg(equipCfgId);
+					HeroEquipCfg equipCfg = ItemCfgHelper.getHeroEquipCfg(equipCfgId);
 					if (equipCfg == null) {
 						continue;
 					}
 					if (equipCfg.getLevel() > hero.getLevel()) {
 						continue;
 					}
-					ItemData itemData = itemBagMgr
-							.getFirstItemByModelId(equipCfgId);
+					ItemData itemData = itemBagMgr.getFirstItemByModelId(equipCfgId);
 					if (itemData == null) {
-						HashMap<Integer, Integer> composeItems = ComposeCfgDAO
-								.getInstance().getMate(equipCfgId);
+						HashMap<Integer, Integer> composeItems = ComposeCfgDAO.getInstance().getMate(equipCfgId);
 						if (composeItems == null) {
 							continue;
 						}
 						boolean canCompose = true;
-						for (Map.Entry<Integer, Integer> entry : composeItems
-								.entrySet()) {
-							if (itemBagMgr
-									.getItemCountByModelId(entry.getKey()) < entry
-									.getValue()) {
+						for (Map.Entry<Integer, Integer> entry : composeItems.entrySet()) {
+							if (itemBagMgr.getItemCountByModelId(entry.getKey()) < entry.getValue()) {
 								canCompose = false;
 								break;
 							}
@@ -109,8 +101,7 @@ public class HeroChecker implements RedPointCollector {
 				}
 			}
 
-			RoleCfg heroCfg = RoleCfgDAO.getInstance().getConfig(
-					hero.getTemplateId());
+			RoleCfg heroCfg = RoleCfgDAO.getInstance().getConfig(hero.getTemplateId());
 			int risingNumber = heroCfg.getRisingNumber();
 			if (risingNumber <= 0) {
 				continue;
@@ -120,8 +111,7 @@ public class HeroChecker implements RedPointCollector {
 			if (nextRoleId == null || nextRoleId.isEmpty()) {
 				continue;
 			}
-			int soulStoneCount = itemBagMgr.getItemCountByModelId(heroCfg
-					.getSoulStoneId());
+			int soulStoneCount = itemBagMgr.getItemCountByModelId(heroCfg.getSoulStoneId());
 			if (soulStoneCount >= risingNumber) {
 				upgradeStarList.add(templateId);
 			}
@@ -152,8 +142,7 @@ public class HeroChecker implements RedPointCollector {
 	}
 
 	private void removeByModelId(Map<String, RoleCfg> roleCfgCopys, int modelId) {
-		for (Iterator<RoleCfg> it = roleCfgCopys.values().iterator(); it
-				.hasNext();) {
+		for (Iterator<RoleCfg> it = roleCfgCopys.values().iterator(); it.hasNext();) {
 			RoleCfg cfg = it.next();
 			if (cfg.getModelId() == modelId) {
 				it.remove();

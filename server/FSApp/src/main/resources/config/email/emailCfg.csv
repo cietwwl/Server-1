@@ -97,3 +97,4 @@ Key,Remarks,id,title,deleteType,delayTime,deadlineTime,sender,subjectIcon,checkI
 10052,,10052,加入帮派,2,604800,,帮派,btn_YouJian_n,btn_YouJian_h,恭喜您成为了[ff0000]%s[-]帮派的一份子,
 10053,,10053,被踢出帮派,2,604800,,帮派,btn_YouJian_n,btn_YouJian_h,很遗憾您被移出了[ff0000]%s[-]帮派,
 10054,,10054,帮派解散,2,604800,,帮派,btn_YouJian_n,btn_YouJian_h,您的帮派[ff0000]%s[-]已于[ff0000]%s[-]成功解散。,
+10055,,10055,通用活动奖励补发,1,604800,,小狐仙,btn_YouJian_n,btn_YouJian_h,您忘记领取的活动奖励，请查收,"1~300000,2~50,804003~2"

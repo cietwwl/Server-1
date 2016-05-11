@@ -121,7 +121,7 @@
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerBossCfgDao"  init-method="init" />
-	
+
 	<bean class="com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
@@ -132,6 +132,11 @@
 	
 	<bean class="com.playerdata.charge.cfg.FirstChargeCfgDao"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.ChargeCfgDao"  init-method="init" />
+	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
+	
+	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.hero.HeroEquipStrenghCfgDAO"  init-method="init" />
