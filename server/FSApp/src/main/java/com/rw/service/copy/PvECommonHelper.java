@@ -28,6 +28,7 @@ import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
+import com.rwproto.PrivilegeProtos.CopyPrivilegeNames;
 
 public class PvECommonHelper {
 
@@ -146,8 +147,9 @@ public class PvECommonHelper {
 			return copyResponse.setEResultType(EResultType.NOT_OPEN).build().toByteString();// 关卡未开放
 		}
 		BuyLevelCfg pCfgBuyLevel = (BuyLevelCfg) BuyLevelCfgDAO.getInstance().getCfgById(String.valueOf(copyLevelData.getBuyCount() + 1)); // 购买关卡的配置...
-		PrivilegeCfg pPrivilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
-		if (copyLevelData.getBuyCount() >= pPrivilege.getCopyCount()) {
+		// PrivilegeCfg pPrivilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
+		int resetCopyTimes = player.getPrivilegeMgr().getIntPrivilege(CopyPrivilegeNames.eliteResetCnt);
+		if (copyLevelData.getBuyCount() >= resetCopyTimes) {
 			player.NotifyCommonMsg(CommonTip.VIP_NOT_ENOUGH);
 			copyResponse.setEResultType(EResultType.LOW_VIP); // VIP等级不足...
 			return copyResponse.build().toByteString();
