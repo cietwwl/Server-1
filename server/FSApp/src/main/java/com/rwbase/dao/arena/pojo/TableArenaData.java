@@ -1,6 +1,7 @@
 package com.rwbase.dao.arena.pojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class TableArenaData {
 	private long nextFightTime;
 	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
 	private List<String> atkHeroList = new ArrayList<String>(); // 进攻阵容的id列表
-	private List<String> heroIdList; // 队伍佣兵id列表
+	private List<String> heroIdList = new ArrayList<String>(); // 队伍佣兵id列表
 	// private volatile long lastResetMillis; // 上次重置的毫秒
 	private int resetTimes; // 重置的次数
 	// private volatile long lastBuyTimesMillis;// 上次购买挑战次数的时间
@@ -101,8 +102,9 @@ public class TableArenaData {
 		return level;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<String> getHeroIdList() {
-		return heroIdList;
+		return heroIdList == null ? Collections.EMPTY_LIST : heroIdList;
 	}
 
 	public void setHeroIdList(List<String> heroIdList) {
