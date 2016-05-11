@@ -7,7 +7,6 @@ public class TaoistConsumeCfg extends BaseConfig {
 	private int key; // key
 	private int consumeId; // 技能消耗ID
 	private int skillLevel; // 技能等级
-	private com.rwbase.common.enu.eSpecialItemId coinType; // 货币类型
 	private int coinCount; // 消耗
 	private String criticalPlans; // 暴击组合序列
 	private int[] seqList;
@@ -24,20 +23,13 @@ public class TaoistConsumeCfg extends BaseConfig {
 		return skillLevel;
 	}
 
-	public com.rwbase.common.enu.eSpecialItemId getCoinType() {
-		return coinType;
-	}
-
 	public int getCoinCount() {
 		return coinCount;
 	}
 
 	@Override
 	public void ExtraInitAfterLoad() {
-		// 检查货币类型是否正确，数量是否为正数
-		if (coinType == null){
-			throw new RuntimeException("无效货币类型,key="+key);
-		}
+		// 检查数量是否为正数
 		if (coinCount <= 0){
 			throw new RuntimeException("无效消耗值:"+coinCount+",key="+key);
 		}

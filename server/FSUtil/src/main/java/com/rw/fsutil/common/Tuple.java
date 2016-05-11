@@ -7,6 +7,15 @@ public class Tuple<T1, T2, T3> extends Pair<T1, T2> implements IReadonlyTuple<T1
 		super(t1, t2);
 		this.t3 = t3;
 	}
+
+	public static <T1, T2, T3> Tuple<T1, T2, T3> Create(T1 t1, T2 t2, T3 t3) {
+		return new Tuple<T1, T2, T3>(t1, t2, t3);
+	}
+
+	public static <T1, T2, T3> IReadonlyTuple<T1, T2, T3> CreateReadonly(T1 t1, T2 t2, T3 t3) {
+		return new Tuple<T1, T2, T3>(t1, t2, t3);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

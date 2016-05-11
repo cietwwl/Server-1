@@ -22,21 +22,29 @@ public final class TaoistMagicProtos {
      */
     getTaoistData(0, 1),
     /**
-     * <code>updateTaoist = 2;</code>
+     * <code>synTaoistData = 2;</code>
      *
      * <pre>
-     *升级道术
+     * 暂时未实现：同步数据，发送更新列表，存放在taoistInfoList
      * </pre>
      */
-    updateTaoist(1, 2),
+    synTaoistData(1, 2),
     /**
-     * <code>getRandom = 3;</code>
+     * <code>updateTaoist = 3;</code>
+     *
+     * <pre>
+     *升级道术，发送更新列表，存放在taoistInfoList
+     * </pre>
+     */
+    updateTaoist(2, 3),
+    /**
+     * <code>getRandom = 4;</code>
      *
      * <pre>
      *获取随机参数，不需要其他参数，返回criticalRamdom
      * </pre>
      */
-    getRandom(2, 3),
+    getRandom(3, 4),
     ;
 
     /**
@@ -48,21 +56,29 @@ public final class TaoistMagicProtos {
      */
     public static final int getTaoistData_VALUE = 1;
     /**
-     * <code>updateTaoist = 2;</code>
+     * <code>synTaoistData = 2;</code>
      *
      * <pre>
-     *升级道术
+     * 暂时未实现：同步数据，发送更新列表，存放在taoistInfoList
      * </pre>
      */
-    public static final int updateTaoist_VALUE = 2;
+    public static final int synTaoistData_VALUE = 2;
     /**
-     * <code>getRandom = 3;</code>
+     * <code>updateTaoist = 3;</code>
+     *
+     * <pre>
+     *升级道术，发送更新列表，存放在taoistInfoList
+     * </pre>
+     */
+    public static final int updateTaoist_VALUE = 3;
+    /**
+     * <code>getRandom = 4;</code>
      *
      * <pre>
      *获取随机参数，不需要其他参数，返回criticalRamdom
      * </pre>
      */
-    public static final int getRandom_VALUE = 3;
+    public static final int getRandom_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -70,8 +86,9 @@ public final class TaoistMagicProtos {
     public static TaoistRequestType valueOf(int value) {
       switch (value) {
         case 1: return getTaoistData;
-        case 2: return updateTaoist;
-        case 3: return getRandom;
+        case 2: return synTaoistData;
+        case 3: return updateTaoist;
+        case 4: return getRandom;
         default: return null;
       }
     }
@@ -132,46 +149,68 @@ public final class TaoistMagicProtos {
      * <code>Success = 0;</code>
      *
      * <pre>
+     *成功
      * </pre>
      */
     Success(0, 0),
     /**
-     * <code>NotEnoughMoney = 1;</code>
+     * <code>IllegalArguments = 1;</code>
      *
      * <pre>
+     *无效参数
      * </pre>
      */
-    NotEnoughMoney(1, 1),
+    IllegalArguments(1, 1),
     /**
-     * <code>ExceedPlayerLevel = 2;</code>
+     * <code>NotEnoughMoney = 2;</code>
      *
      * <pre>
+     *不够钱
      * </pre>
      */
-    ExceedPlayerLevel(2, 2),
+    NotEnoughMoney(2, 2),
+    /**
+     * <code>ExceedPlayerLevel = 3;</code>
+     *
+     * <pre>
+     *超出玩家等级
+     * </pre>
+     */
+    ExceedPlayerLevel(3, 3),
     ;
 
     /**
      * <code>Success = 0;</code>
      *
      * <pre>
+     *成功
      * </pre>
      */
     public static final int Success_VALUE = 0;
     /**
-     * <code>NotEnoughMoney = 1;</code>
+     * <code>IllegalArguments = 1;</code>
      *
      * <pre>
+     *无效参数
      * </pre>
      */
-    public static final int NotEnoughMoney_VALUE = 1;
+    public static final int IllegalArguments_VALUE = 1;
     /**
-     * <code>ExceedPlayerLevel = 2;</code>
+     * <code>NotEnoughMoney = 2;</code>
      *
      * <pre>
+     *不够钱
      * </pre>
      */
-    public static final int ExceedPlayerLevel_VALUE = 2;
+    public static final int NotEnoughMoney_VALUE = 2;
+    /**
+     * <code>ExceedPlayerLevel = 3;</code>
+     *
+     * <pre>
+     *超出玩家等级
+     * </pre>
+     */
+    public static final int ExceedPlayerLevel_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -179,8 +218,9 @@ public final class TaoistMagicProtos {
     public static ErrorCode_Taoist valueOf(int value) {
       switch (value) {
         case 0: return Success;
-        case 1: return NotEnoughMoney;
-        case 2: return ExceedPlayerLevel;
+        case 1: return IllegalArguments;
+        case 2: return NotEnoughMoney;
+        case 3: return ExceedPlayerLevel;
         default: return null;
       }
     }
@@ -263,23 +303,23 @@ public final class TaoistMagicProtos {
      */
     int getTaoistId();
 
-    // optional int32 taoistLevel = 3;
+    // optional int32 upgradeCount = 3;
     /**
-     * <code>optional int32 taoistLevel = 3;</code>
+     * <code>optional int32 upgradeCount = 3;</code>
      *
      * <pre>
-     *升级道术目标等级，包含暴击升级
+     *升级道术技能的次数
      * </pre>
      */
-    boolean hasTaoistLevel();
+    boolean hasUpgradeCount();
     /**
-     * <code>optional int32 taoistLevel = 3;</code>
+     * <code>optional int32 upgradeCount = 3;</code>
      *
      * <pre>
-     *升级道术目标等级，包含暴击升级
+     *升级道术技能的次数
      * </pre>
      */
-    int getTaoistLevel();
+    int getUpgradeCount();
   }
   /**
    * Protobuf type {@code TaoistMagic.TaoistRequest}
@@ -350,7 +390,7 @@ public final class TaoistMagicProtos {
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              taoistLevel_ = input.readInt32();
+              upgradeCount_ = input.readInt32();
               break;
             }
           }
@@ -433,34 +473,34 @@ public final class TaoistMagicProtos {
       return taoistId_;
     }
 
-    // optional int32 taoistLevel = 3;
-    public static final int TAOISTLEVEL_FIELD_NUMBER = 3;
-    private int taoistLevel_;
+    // optional int32 upgradeCount = 3;
+    public static final int UPGRADECOUNT_FIELD_NUMBER = 3;
+    private int upgradeCount_;
     /**
-     * <code>optional int32 taoistLevel = 3;</code>
+     * <code>optional int32 upgradeCount = 3;</code>
      *
      * <pre>
-     *升级道术目标等级，包含暴击升级
+     *升级道术技能的次数
      * </pre>
      */
-    public boolean hasTaoistLevel() {
+    public boolean hasUpgradeCount() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int32 taoistLevel = 3;</code>
+     * <code>optional int32 upgradeCount = 3;</code>
      *
      * <pre>
-     *升级道术目标等级，包含暴击升级
+     *升级道术技能的次数
      * </pre>
      */
-    public int getTaoistLevel() {
-      return taoistLevel_;
+    public int getUpgradeCount() {
+      return upgradeCount_;
     }
 
     private void initFields() {
       reqType_ = com.rwproto.TaoistMagicProtos.TaoistRequestType.getTaoistData;
       taoistId_ = 0;
-      taoistLevel_ = 0;
+      upgradeCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -485,7 +525,7 @@ public final class TaoistMagicProtos {
         output.writeInt32(2, taoistId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, taoistLevel_);
+        output.writeInt32(3, upgradeCount_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -506,7 +546,7 @@ public final class TaoistMagicProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, taoistLevel_);
+          .computeInt32Size(3, upgradeCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -628,7 +668,7 @@ public final class TaoistMagicProtos {
         bitField0_ = (bitField0_ & ~0x00000001);
         taoistId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        taoistLevel_ = 0;
+        upgradeCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -669,7 +709,7 @@ public final class TaoistMagicProtos {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.taoistLevel_ = taoistLevel_;
+        result.upgradeCount_ = upgradeCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -692,8 +732,8 @@ public final class TaoistMagicProtos {
         if (other.hasTaoistId()) {
           setTaoistId(other.getTaoistId());
         }
-        if (other.hasTaoistLevel()) {
-          setTaoistLevel(other.getTaoistLevel());
+        if (other.hasUpgradeCount()) {
+          setUpgradeCount(other.getUpgradeCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -811,51 +851,51 @@ public final class TaoistMagicProtos {
         return this;
       }
 
-      // optional int32 taoistLevel = 3;
-      private int taoistLevel_ ;
+      // optional int32 upgradeCount = 3;
+      private int upgradeCount_ ;
       /**
-       * <code>optional int32 taoistLevel = 3;</code>
+       * <code>optional int32 upgradeCount = 3;</code>
        *
        * <pre>
-       *升级道术目标等级，包含暴击升级
+       *升级道术技能的次数
        * </pre>
        */
-      public boolean hasTaoistLevel() {
+      public boolean hasUpgradeCount() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int32 taoistLevel = 3;</code>
+       * <code>optional int32 upgradeCount = 3;</code>
        *
        * <pre>
-       *升级道术目标等级，包含暴击升级
+       *升级道术技能的次数
        * </pre>
        */
-      public int getTaoistLevel() {
-        return taoistLevel_;
+      public int getUpgradeCount() {
+        return upgradeCount_;
       }
       /**
-       * <code>optional int32 taoistLevel = 3;</code>
+       * <code>optional int32 upgradeCount = 3;</code>
        *
        * <pre>
-       *升级道术目标等级，包含暴击升级
+       *升级道术技能的次数
        * </pre>
        */
-      public Builder setTaoistLevel(int value) {
+      public Builder setUpgradeCount(int value) {
         bitField0_ |= 0x00000004;
-        taoistLevel_ = value;
+        upgradeCount_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 taoistLevel = 3;</code>
+       * <code>optional int32 upgradeCount = 3;</code>
        *
        * <pre>
-       *升级道术目标等级，包含暴击升级
+       *升级道术技能的次数
        * </pre>
        */
-      public Builder clearTaoistLevel() {
+      public Builder clearUpgradeCount() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        taoistLevel_ = 0;
+        upgradeCount_ = 0;
         onChanged();
         return this;
       }
@@ -2524,20 +2564,21 @@ public final class TaoistMagicProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023TaoistService.proto\022\013TaoistMagic\"g\n\rTa" +
+      "\n\023TaoistService.proto\022\013TaoistMagic\"h\n\rTa" +
       "oistRequest\022/\n\007reqType\030\001 \002(\0162\036.TaoistMag" +
-      "ic.TaoistRequestType\022\020\n\010taoistId\030\002 \001(\005\022\023" +
-      "\n\013taoistLevel\030\003 \001(\005\"\236\001\n\016TaoistResponse\0220" +
-      "\n\terrorCode\030\001 \002(\0162\035.TaoistMagic.ErrorCod" +
-      "e_Taoist\022\021\n\tresultTip\030\002 \001(\t\022\026\n\016criticalR" +
-      "amdom\030\003 \001(\005\022/\n\016taoistInfoList\030\004 \003(\0132\027.Ta" +
-      "oistMagic.TaoistInfo\"-\n\nTaoistInfo\022\020\n\010ta" +
-      "oistID\030\001 \002(\005\022\r\n\005level\030\002 \002(\005*G\n\021TaoistReq" +
-      "uestType\022\021\n\rgetTaoistData\020\001\022\020\n\014updateTao",
-      "ist\020\002\022\r\n\tgetRandom\020\003*J\n\020ErrorCode_Taoist" +
-      "\022\013\n\007Success\020\000\022\022\n\016NotEnoughMoney\020\001\022\025\n\021Exc" +
-      "eedPlayerLevel\020\002B \n\013com.rwprotoB\021TaoistM" +
-      "agicProtos"
+      "ic.TaoistRequestType\022\020\n\010taoistId\030\002 \001(\005\022\024" +
+      "\n\014upgradeCount\030\003 \001(\005\"\236\001\n\016TaoistResponse\022" +
+      "0\n\terrorCode\030\001 \002(\0162\035.TaoistMagic.ErrorCo" +
+      "de_Taoist\022\021\n\tresultTip\030\002 \001(\t\022\026\n\016critical" +
+      "Ramdom\030\003 \001(\005\022/\n\016taoistInfoList\030\004 \003(\0132\027.T" +
+      "aoistMagic.TaoistInfo\"-\n\nTaoistInfo\022\020\n\010t" +
+      "aoistID\030\001 \002(\005\022\r\n\005level\030\002 \002(\005*Z\n\021TaoistRe" +
+      "questType\022\021\n\rgetTaoistData\020\001\022\021\n\rsynTaois",
+      "tData\020\002\022\020\n\014updateTaoist\020\003\022\r\n\tgetRandom\020\004" +
+      "*`\n\020ErrorCode_Taoist\022\013\n\007Success\020\000\022\024\n\020Ill" +
+      "egalArguments\020\001\022\022\n\016NotEnoughMoney\020\002\022\025\n\021E" +
+      "xceedPlayerLevel\020\003B \n\013com.rwprotoB\021Taois" +
+      "tMagicProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2549,7 +2590,7 @@ public final class TaoistMagicProtos {
           internal_static_TaoistMagic_TaoistRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TaoistMagic_TaoistRequest_descriptor,
-              new java.lang.String[] { "ReqType", "TaoistId", "TaoistLevel", });
+              new java.lang.String[] { "ReqType", "TaoistId", "UpgradeCount", });
           internal_static_TaoistMagic_TaoistResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_TaoistMagic_TaoistResponse_fieldAccessorTable = new

@@ -856,7 +856,7 @@ public class MagicHandler {
 	private int RefreshSeed(Player player, MsgMagicResponse.Builder msgMagicResponse) {
 		MagicMgr magicMgr = player.getMagicMgr();
 		int result = magicMgr.RefreshSeed();
-		msgMagicResponse.setCriticalRamdom(magicMgr.getNewRamdomSeed());
+		msgMagicResponse.setCriticalRamdom(magicMgr.getRandomSeed());
 		return result;
 	}
 

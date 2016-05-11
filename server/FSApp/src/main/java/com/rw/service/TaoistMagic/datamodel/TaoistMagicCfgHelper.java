@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.common.RandomSeqGenerator;
+import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.attrdata.AttrData;
@@ -21,8 +23,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		return SpringContextUtil.getBean(TaoistMagicCfgHelper.class);
 	}
 
-
-	public AttrDataIF getEffect(int skillId,int level){
+	public AttrDataIF getEffect(int skillId, int level) {
 		TaoistMagicCfg cfg = cfgCacheMap.get(String.valueOf(skillId));
 		AttrData attr = new AttrData();
 		Field field = attrMap.get(cfg.getAttribute());
@@ -35,8 +36,9 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		}
 		return attr;
 	}
+
 	private Map<String, Field> attrMap;
-	
+
 	@Override
 	public Map<String, TaoistMagicCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("TaoistMagic/TaoistMagicCfg.csv", TaoistMagicCfg.class);
@@ -49,8 +51,8 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			cfg.ExtraInitAfterLoad();
 			// 检查属性是否存在, 每个分页的开放等级必须一样,序号应该连续且没有重复
 			String attribute = cfg.getAttribute();
-			if (!attrMap.containsKey(attribute)){
-				throw new RuntimeException("无效属性名:"+attribute);
+			if (!attrMap.containsKey(attribute)) {
+				throw new RuntimeException("无效属性名:" + attribute);
 			}
 			int tagNum = cfg.getTagNum();
 			int openLevel = cfg.getOpenLevel();
@@ -79,7 +81,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			int size = orderSet.size();
 			for (int i = 1; i <= size; i++) {
 				if (!orderSet.contains(i)) {
-					throw new RuntimeException("分页:"+entry.getKey()+",缺少道术排列序号" + i);
+					throw new RuntimeException("分页:" + entry.getKey() + ",缺少道术排列序号" + i);
 				}
 			}
 		}
@@ -98,5 +100,40 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				throw new RuntimeException("无效技能消耗ID=" + consumeId);
 			}
 		}
+	}
+
+	public int generateCriticalCount(int seed, int seedRange, int magicId, int upgradeCount) {
+		int[] seqPlanIdList = findSeqPlanIdList(magicId);
+		if (seqPlanIdList == null) {
+			GameLog.error("道术", "找不到道术技能", "ID=" + magicId);
+			return 0;
+		}
+
+		RandomSeqGenerator seqg = new RandomSeqGenerator(seed, seqPlanIdList, TaoistCriticalPlanCfgHelper.getInstance(),
+				seedRange);
+		int count = 0;
+		int result = 0;
+		while (count < upgradeCount) {
+			count++;
+			int num = seqg.nextNum();
+			if (num <= 0) {
+				result++;
+			} else {
+				result += num;
+			}
+		}
+		return result;
+	}
+
+	private int[] findSeqPlanIdList(int magicId) {
+		TaoistMagicCfg mcfg = cfgCacheMap.get(String.valueOf(magicId));
+		if (mcfg == null)
+			return null;
+		int consumeId = mcfg.getConsumeId();
+		TaoistConsumeCfg tcCfg = TaoistConsumeCfgHelper.getInstance().getCfgById(String.valueOf(consumeId));
+		if (tcCfg == null)
+			return null;
+		int[] seqPlanIdList = tcCfg.getSeqList();
+		return seqPlanIdList;
 	}
 }

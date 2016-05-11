@@ -2,11 +2,11 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.util.StringUtils;
 
 import com.common.Action;
+import com.common.RandomMgr;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.MagicHolder;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
@@ -17,7 +17,7 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  * @date 2015年10月15日 下午5:43:08
  * @Description 法宝Mgr
  */
-public class MagicMgr {
+public class MagicMgr extends RandomMgr {
 
 	private MagicHolder holder;// 法宝Holder
 	private Player player;// 角色
@@ -107,19 +107,5 @@ public class MagicMgr {
 	public boolean save() {
 		holder.flush();
 		return true;
-	}
-	
-	private Random randomGenerator = new Random();
-	//0-100的随机数种子
-	public static final int SeedRange = 101;
-	private int newRamdomSeed;
-	public int getNewRamdomSeed() {
-		return newRamdomSeed;
-	}
-
-	public int RefreshSeed() {
-		int result = newRamdomSeed;
-		newRamdomSeed = randomGenerator.nextInt(SeedRange);
-		return result;
 	}
 }

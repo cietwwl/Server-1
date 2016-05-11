@@ -23,10 +23,12 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.Privilege.PrivilegeManager;
+import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -41,6 +43,7 @@ import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.playerext.PlayerTempAttribute;
+import com.rwbase.dao.fashion.IEffectCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
@@ -114,6 +117,8 @@ public class Player implements PlayerIF {
 	private AssistantMgr m_AssistantMgr = new AssistantMgr();
 
 	private RedPointMgr redPointMgr = new RedPointMgr();
+	
+	private TaoistMgr taoistMgr = new TaoistMgr();
 
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 	private ZoneLoginInfo zoneLoginInfo;
@@ -192,10 +197,8 @@ public class Player implements PlayerIF {
 					listener.notifyPlayerLogin(this);
 				}
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -253,6 +256,7 @@ public class Player implements PlayerIF {
 		dailyGifMgr.init(this);
 		m_FashionMgr.init(this);
 		m_TaskMgr.init(this);
+		taoistMgr.init(this);
 		m_gambleMgr.init(this);
 		// m_GuideMgr.init(this);
 		m_AssistantMgr.init(this);
@@ -282,6 +286,16 @@ public class Player implements PlayerIF {
 		m_FashionMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
+				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+			}
+		});
+		
+		taoistMgr.getEff().subscribe(new IStreamListner<IEffectCfg>() {
+			@Override
+			public void onClose() {
+			}
+			@Override
+			public void onChange(IEffectCfg newValue) {
 				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
 			}
 		});
@@ -1186,6 +1200,7 @@ public class Player implements PlayerIF {
 		return privilegeMgr;
 	}
 
-	
-	
+	public ITaoistMgr getTaoistMgr() {
+		return taoistMgr;
+	}
 }

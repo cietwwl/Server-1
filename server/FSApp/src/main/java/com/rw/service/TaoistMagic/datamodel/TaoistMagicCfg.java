@@ -12,7 +12,8 @@ public class TaoistMagicCfg extends BaseConfig {
 	private String formulaParam; // 属性计算公式参数
 	private com.rwbase.dao.fashion.AttrValueType attrValueType; // 属性值的类型
 	private int consumeId; // 技能消耗ID
-	
+	private com.rwbase.common.enu.eSpecialItemId coinType; // 货币类型
+
 	private TaoistMagicFormula formula;
 
 	public int getKey() {
@@ -47,9 +48,16 @@ public class TaoistMagicCfg extends BaseConfig {
 		return consumeId;
 	}
 
+	public com.rwbase.common.enu.eSpecialItemId getCoinType() {
+		return coinType;
+	}
+
 	@Override
 	public void ExtraInitAfterLoad() {
-		// 检查属性类型是否正确，检查公式参数是否有效，
+		// 检查属性类型是否正确，检查公式参数是否有效，货币类型是否正确
+		if (coinType == null){
+			throw new RuntimeException("无效货币类型,key="+key);
+		}
 		if (attrValueType == null){
 			throw new RuntimeException("无效属性类型,key="+key);
 		}

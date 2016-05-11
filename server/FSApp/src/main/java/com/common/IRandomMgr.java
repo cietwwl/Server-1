@@ -4,6 +4,8 @@ public interface IRandomMgr {
 
 	public int RefreshSeed();
 
-	public int getNewRamdomSeed();
+	public int getRandomSeed();
+
+	public int getSeedRange();
 
 }

@@ -20,6 +20,7 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 
 	private HashMap<Pair<Integer,Integer>,TaoistConsumeCfg> consumePlanMap;
 	private HashMap<Integer,Integer> consumeMaxLevelMap;
+	private HashMap<Pair<Integer,Integer>,Integer> consumeSegmentMap;
 	
 	@Override
 	public Map<String, TaoistConsumeCfg> initJsonCfg() {
@@ -47,6 +48,7 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 		for (Entry<Integer, Integer> entry : idlvlmap) {
 			int maxLvl = entry.getValue();
 			int consumePlanId = entry.getKey();
+			int acc = 0;
 			for(int i = 1;i<=maxLvl;i++){
 				Pair<Integer,Integer> pair = Pair.Create(consumePlanId, i);
 				TaoistConsumeCfg cfg = consumePlanMap.get(pair);
@@ -54,6 +56,7 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 					throw new RuntimeException("技能消耗ID="+consumePlanId+"缺少配置等级:"+i);
 				}
 			}
+			//consumeSegmentMap.put(key, value)
 		}
 		return cfgCacheMap;
 	}
@@ -73,5 +76,38 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 				}
 			}
 		}
+	}
+
+	public int getMaxLevel(int consumeId) {
+		Integer val = consumeMaxLevelMap.get(consumeId);
+		return val == null ? 0 : val;
+	}
+	
+	public TaoistConsumeCfg getCfg(int consumeId,int level){
+		Pair<Integer,Integer> pair = Pair.Create(consumeId,	level);
+		return consumePlanMap.get(pair);
+	}
+
+	/**
+	 * 返回-1表示参数无效
+	 * @param consumeId
+	 * @param currentLvl
+	 * @param newLevel
+	 * @return
+	 */
+	public int getConsumeCoin(int consumeId, int currentLvl, int newLevel) {
+		if (currentLvl <1 || newLevel > getMaxLevel(consumeId)){
+			return -1;
+		}
+		int startAcc = 0;
+		int endAcc = 0;
+		if (currentLvl > 1){
+			Pair<Integer,Integer> start = Pair.Create(consumeId, currentLvl-1);
+			startAcc = consumeSegmentMap.get(start);
+		}
+		Pair<Integer,Integer> end = Pair.Create(consumeId, newLevel);
+		endAcc = consumeSegmentMap.get(end);
+		
+		return endAcc - startAcc;
 	}
 }
