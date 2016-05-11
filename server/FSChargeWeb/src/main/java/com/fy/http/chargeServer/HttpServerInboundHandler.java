@@ -33,8 +33,6 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (msg instanceof HttpRequest) {
 			HttpRequest request = (HttpRequest) msg;
-			System.out.println("messageType:" + request.headers().get("messageType"));
-			System.out.println("businessType:" + request.headers().get("businessType"));
 			if (HttpHeaders.isContentLengthSet(request)) {
 				reader = new ByteBufToBytes((int) HttpHeaders.getContentLength(request));
 			}
@@ -49,7 +47,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 			if (reader.isEnd()) {				
 				
 				String jsonContent = new String(reader.readFull());
-				System.out.println("Client said:" + jsonContent);
+				ChargeLog.info("charge", "收到 jsonContent:", jsonContent);
 				String result = doService(jsonContent);
 
 				FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(result.getBytes("UTF-8")));
