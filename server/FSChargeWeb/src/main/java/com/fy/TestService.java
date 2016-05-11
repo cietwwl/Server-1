@@ -72,6 +72,7 @@ public class TestService {
 		String[] response = new String[2];
 		try{
 			con = (HttpURLConnection)(new URL(url).openConnection());
+//			con.setRequestProperty("content-type", "text/html");
 			con.setDoInput(true);
 			con.setDoOutput(true);
 			con.setRequestMethod("POST");
