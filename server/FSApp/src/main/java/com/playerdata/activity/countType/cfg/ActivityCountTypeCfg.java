@@ -30,8 +30,7 @@ public class ActivityCountTypeCfg {
 	private int isAutoRefresh ;
 	
 	private String version;
-	
-	
+
 	
 
 	
