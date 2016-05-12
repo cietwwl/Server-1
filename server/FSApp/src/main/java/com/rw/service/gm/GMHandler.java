@@ -24,6 +24,7 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfg;
 import com.rw.service.gamble.datamodel.GamblePlanCfg;
 import com.rw.service.gamble.datamodel.HotGambleCfg;
@@ -129,6 +130,9 @@ public class GMHandler {
 
 		// 钓鱼台配置更新并重新生成热点数据
 		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
+		
+		//特权系统重新加载所有特权相关配置
+		funcCallBackMap.put("reloadprivilegeconfig", "reloadPrivilegeConfig");
 	}
 
 	public boolean isActive() {
@@ -151,7 +155,15 @@ public class GMHandler {
 	}
 
 	/** GM命令 */
-	public boolean reloadFashionConfig(String[] arrCommandContents, Player player) {
+	//reloadPrivilegeConfig
+	public boolean reloadPrivilegeConfig(String[] arrCommandContents, Player player){
+		GameLog.info("GM", "reloadPrivilegeConfig", "start",null);
+		PrivilegeConfigHelper.getInstance().reloadAllPrivilegeConfigs();
+		GameLog.info("GM", "reloadPrivilegeConfig", "finished",null);
+		return true;
+	}
+	
+	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
 		boolean result = true;
 		result = result && reloadOneConfigClass(FashionBuyRenewCfg.class.getName());
 		result = result && reloadOneConfigClass(FashionEffectCfg.class.getName());
@@ -322,7 +334,6 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int getGiftId = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
 			ChargeMgr.getInstance().buyMonthCard(player, null);
 			return true;

@@ -4,19 +4,46 @@ import java.util.Calendar;
 
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.VipMgrIF;
+import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.Privilege.IPrivilegeProvider;
+import com.rw.service.Privilege.datamodel.VipPrivilegeHelper;
 import com.rwbase.common.enu.EPrivilegeDef;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.TableVipDAO;
 import com.rwbase.dao.vip.VipDataHolder;
 import com.rwbase.dao.vip.pojo.TableVip;
 
-public class VipMgr implements VipMgrIF,PlayerEventListener{
+public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 	private VipDataHolder vipDataHolder;
 	private int m_oldVip;
 	
 	private Player m_pPlayer;
 	
+	//by franky 实现特权系统与Vip的对接
+	private StreamImpl<IPrivilegeProvider> vipPrivilegeProvider = new StreamImpl<IPrivilegeProvider>();
+	@Override
+	public IStream<IPrivilegeProvider> getPrivilegeProvider() {
+		return vipPrivilegeProvider;
+	}
+
+	public static final String vipPrefix = "vip";
+	@Override
+	public int getBestMatchCharge(String[] sources) {
+		return VipPrivilegeHelper.getShareInstance().getBestMatchCharge(sources, m_pPlayer.getVip());
+	}
+
+	@Override
+	public String getCurrentChargeType() {
+		return vipPrefix+m_pPlayer.getVip();
+	}
+
+	@Override
+	public boolean reachChargeLevel(String chargeType) {
+		return VipPrivilegeHelper.getShareInstance().reachChargeLevel(chargeType, m_pPlayer.getVip());
+	}
+	//by franky end
+
 	@Override
 	public void notifyPlayerCreated(Player player) {
 	}
@@ -74,6 +101,9 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 		refreshConst(vipTable);
 		m_oldVip = oldVip;
 		getVipVar(vipTable);
+		
+		//by franky vip修改成功后发出通知
+		vipPrivilegeProvider.fire(this);
 	}
 	
 	public void initVipPrivilege(){
@@ -180,11 +210,13 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 	 * @return
 	 */
 	public int GetMaxPrivilege(EPrivilegeDef type){
-		return PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), type);
+		return GetPrivilegeInCfg(m_pPlayer.getVip(), type);
 	}
 
 	private int GetPrivilegeInCfg(int vip,EPrivilegeDef type){
-		return PrivilegeCfgDAO.getInstance().getDef(vip, type);
+		//by franky 重新按照特权系统的数据进行映射！
+		return VipPrivilegeHelper.getShareInstance().getDef(vip, type);
+		//return PrivilegeCfgDAO.getInstance().getDef(vip, type);
 	}
 	
 	/**
@@ -204,12 +236,10 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 		vipDataHolder.get().setLevelVipGiftTaken(vipLevel);
 		vipDataHolder.update(m_pPlayer);
 	}
-	
+
 	public void failToBuyVipGift(int vipLevel){
 		vipDataHolder.get().failToBuyVipGift(vipLevel);
 		vipDataHolder.update(m_pPlayer);
 	}
-	
-	
 	
 }

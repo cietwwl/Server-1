@@ -13,11 +13,19 @@ public class DataCacheFactory {
 	private static ConcurrentHashMap<String, DataCache> cacheMap = new ConcurrentHashMap<String, DataCache>();
 
 	public static <K, V> DataCache<K, V> createDataDache(String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler) {
-		DataCache<K, V> cache = new DataCache<K, V>(name, initialCapacity, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, handler);
-		if (cacheMap.putIfAbsent(name, cache) != null) {
-			throw new ExceptionInInitializerError("DataCache名字重复：" + name);
+		DataCache<K, V> oldCache = cacheMap.get(name);
+		if (oldCache != null) {
+			System.err.println("DataCache名字重复1：" + name);
+			return oldCache;
 		}
-		return cache;
+		DataCache<K, V> cache = new DataCache<K, V>(name, initialCapacity, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, null);
+		oldCache = cacheMap.putIfAbsent(name, cache);
+		if (oldCache == null) {
+			return cache;
+		} else {
+			System.err.println("DataCache名字重复2：" + name);
+			return oldCache;
+		}
 	}
 
 	public static <K, V> DataCache<K, V> createDataDache(String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
