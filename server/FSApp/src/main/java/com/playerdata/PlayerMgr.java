@@ -10,7 +10,6 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.google.protobuf.ByteString;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.fsutil.cacheDao.CommonUpdateMgr;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
@@ -19,7 +18,7 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
 import com.rw.manager.GameManager;
 import com.rw.manager.GamePlayerOpHelper;
-import com.rw.manager.PlayerTask;
+import com.rw.manager.PlayerCallBackTask;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -55,7 +54,6 @@ public class PlayerMgr {
 
 	public PlayerMgr() {
 		int cacheSize = GameManager.getPerformanceConfig().getPlayerCapacity();
-		// cache = new DataCache<String, Player>("player", cacheSize, cacheSize, 60, DBThreadPoolMgr.getExecutor(), loader,null);
 		cache = DataCacheFactory.createDataDache("player", cacheSize, cacheSize, 60, loader);
 	}
 
@@ -186,7 +184,7 @@ public class PlayerMgr {
 
 	private String offReason = "亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。";
 	private boolean blnNeedCoolTime = true; // 是否需要设置kickOffCoolTime
-	private final PlayerTask kickOffTask = new PlayerTask() {
+	private final PlayerCallBackTask kickOffTask = new PlayerCallBackTask() {
 		public void doCallBack(Player player) {
 			player.KickOffWithCoolTime(offReason.toString(), blnNeedCoolTime);
 		}
@@ -202,11 +200,11 @@ public class PlayerMgr {
 		blnNeedCoolTime = _blnNeedCoolTime;
 
 		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, kickOffTask);
 	}
 
-	private final PlayerTask minuteFuncTask = new PlayerTask() {
+	private final PlayerCallBackTask minuteFuncTask = new PlayerCallBackTask() {
 		public void doCallBack(Player player) {
 			player.onMinutes();
 		}
@@ -219,11 +217,11 @@ public class PlayerMgr {
 
 	public int minutesFunc4AllPlayer() {
 		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, minuteFuncTask);
 	}
 
-	private final PlayerTask hourFuncTask = new PlayerTask() {
+	private final PlayerCallBackTask hourFuncTask = new PlayerCallBackTask() {
 		@Override
 		public void doCallBack(Player player) {
 			player.onNewHour();
@@ -237,11 +235,11 @@ public class PlayerMgr {
 
 	public int hourFunc4AllPlayer() {
 		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, hourFuncTask);
 	}
 
-	private final PlayerTask day5pmFuncTask = new PlayerTask() {
+	private final PlayerCallBackTask day5pmFuncTask = new PlayerCallBackTask() {
 		@Override
 		public void doCallBack(Player player) {
 			player.onNewDay5Clock();
@@ -255,11 +253,11 @@ public class PlayerMgr {
 
 	public int day5amFunc4AllPlayer() {
 		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, day5pmFuncTask);
 	}
 
-	private final PlayerTask dayZero4FuncTask = new PlayerTask() {
+	private final PlayerCallBackTask dayZero4FuncTask = new PlayerCallBackTask() {
 		@Override
 		public void doCallBack(Player player) {
 			player.onNewDayZero();
@@ -273,7 +271,7 @@ public class PlayerMgr {
 
 	public int dayZero4Func4AllPlayer() {
 		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = cache.values();
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, dayZero4FuncTask);
 	}
 
@@ -282,7 +280,7 @@ public class PlayerMgr {
 	}
 
 	public int sendEmailToList(List<Player> playerList, final EmailData emailData, final List<PlayerFilterCondition> conditionList) {
-		PlayerTask playerTask = new PlayerTask() {
+		PlayerCallBackTask playerTask = new PlayerCallBackTask() {
 			@Override
 			public void doCallBack(Player player) {
 				boolean filted = false;
@@ -309,7 +307,7 @@ public class PlayerMgr {
 	}
 
 	public int callbackEmailToList(List<Player> playerList, final EmailData emailData) {
-		PlayerTask playerTask = new PlayerTask() {
+		PlayerCallBackTask playerTask = new PlayerCallBackTask() {
 			@Override
 			public void doCallBack(Player player) {
 				long taskId = emailData.getTaskId();
@@ -370,35 +368,12 @@ public class PlayerMgr {
 				}
 			}
 		}
-
 		return targetList;
-
 	}
-
-	// public void sendToOtherPlayer(MsgDef.Command cmd, ByteString pBuffer, Player me) {
-	// try {
-	// Set<Entry<String, Player>> players = m_PlayerMap.entrySet();
-	// for (Entry<String, Player> entry : players) {
-	// Player player = entry.getValue();
-	// if (player != null && !player.getUserId().equals(me.getUserId())) {
-	// player.SendMsgByOther(cmd, pBuffer);
-	// }
-	// }
-	// } catch (Exception ex) {
-	// ex.printStackTrace();
-	// }
-	// }
 
 	public void SendToPlayer(MsgDef.Command cmd, ByteString pBuffer, PlayerIF p) {
 		try {
-			// Set<Entry<String, Player>> players = cache.entrySet();
-			// for (Entry<String, Player> entry : players) {
-			// Player player = entry.getValue();
-			// if (player != null && player.getUserId().equals(p.getTableUser().getUserId())) {
-			// player.SendMsgByOther(cmd, pBuffer);
-			// }
-			// }
-			List<Player> players = cache.values();
+			List<Player> players = getOnlinePlayers();
 			for (Player player : players) {
 				if (player != null && player.getUserId().equals(p.getTableUser().getUserId())) {
 					player.SendMsgByOther(cmd, pBuffer);
@@ -431,7 +406,7 @@ public class PlayerMgr {
 		return UserChannelMgr.get(userId) != null;
 	}
 
-	private static PlayerTask timeSecondTask = new PlayerTask() {
+	private static PlayerCallBackTask timeSecondTask = new PlayerCallBackTask() {
 
 		@Override
 		public String getName() {
@@ -450,7 +425,19 @@ public class PlayerMgr {
 	 * @return
 	 */
 	public int secondFunc4AllPlayer() {
-		List<Player> playerList = cache.values();
+		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, timeSecondTask);
 	}
+	
+	public List<Player> getOnlinePlayers() {
+		ArrayList<Player> list = new ArrayList<Player>();
+		for (String s : UserChannelMgr.getOnlinePlayerIdSet()) {
+			Player p = find(s);
+			if (p != null) {
+				list.add(p);
+			}
+		}
+		return list;
+	}
+	
 }

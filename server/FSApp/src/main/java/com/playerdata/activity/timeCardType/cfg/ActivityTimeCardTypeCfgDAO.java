@@ -28,7 +28,7 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 	
 	@Override
 	public Map<String, ActivityTimeCardTypeCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTmeCardTypeCfg.csv", ActivityTimeCardTypeCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTimeCardTypeCfg.csv", ActivityTimeCardTypeCfg.class);
 		return cfgCacheMap;
 	}
 	
@@ -45,8 +45,8 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
 			String itemId = ActivityTimeCardTypeHelper.getItemId(player.getUserId(), typeEnum);
 			item.setId(itemId);
-			item.setCfgId(cfgId);
 			item.setUserId(player.getUserId());
+			item.setCfgId(cfgId);
 			newAndAddSubItemList(item);
 			
 			return item;

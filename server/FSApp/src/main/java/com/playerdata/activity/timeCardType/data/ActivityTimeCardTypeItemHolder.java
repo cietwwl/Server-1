@@ -24,7 +24,7 @@ public class ActivityTimeCardTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityCountType;
+	final private eSynType synType = eSynType.ActivityTimeCardType;
 	
 
 	public List<ActivityTimeCardTypeItem> getItemList(String userId)	

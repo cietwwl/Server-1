@@ -114,7 +114,7 @@ public class FashionMgr implements FashionMgrIF{
 				expiredTime = now;
 			}
 			//在上次有效期内延长对应的时间，如果已经过期，使用当前时间作为基数
-			expiredTime +=  TimeUnit.DAYS.toMillis(renewDay);
+			expiredTime +=  TimeUnit.HOURS.toMillis(renewDay);
 		}
 		item.setExpiredTime(expiredTime);
 		item.setBrought(true);
@@ -327,6 +327,10 @@ public class FashionMgr implements FashionMgrIF{
 		FashionItem item = fashionItemHolder.getItem(fashionModelId);
 		if (item == null) {
 			FashionCommonCfg fashionCfg = FashionCommonCfgDao.getInstance().getConfig(fashionModelId);
+			if (fashionCfg == null){
+				GameLog.info("时装", m_player.getUserId(), "GM赠送时装失败,无效时装ID:"+fashionModelId,null);
+				return false;
+			}
 			item = newFashionItem(fashionCfg,-1);
 			fashionItemHolder.addItem(m_player, item);
 			GameLog.info("时装", m_player.getUserId(), "GM赠送时装:"+fashionModelId, null);

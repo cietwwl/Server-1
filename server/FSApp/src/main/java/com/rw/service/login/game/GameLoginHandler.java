@@ -15,6 +15,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -215,6 +216,8 @@ public class GameLoginHandler {
 				BILogMgr.getInstance().logZoneLogin(player);
 				//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+				
 				//判断需要用到最后次登陆 时间。保存在活动内而不是player
 				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
 				
@@ -264,8 +267,6 @@ public class GameLoginHandler {
 			if (StringUtils.isNotBlank(clientInfoJson)) {
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson);
 				zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
-				
-
 			}
 			
 			String nick = request.getNick();
@@ -287,7 +288,6 @@ public class GameLoginHandler {
 				return response.build().toByteString();
 			}
 
-			// userId = UUID.randomUUID().toString();
 			// modify@2015-08-07 by Jamaz
 			// 用serverId+identifier的方式生成userId
 			String userId = newUserId();
@@ -334,41 +334,18 @@ public class GameLoginHandler {
 
 			//检查发送gm邮件
 			ServerStatusMgr.processGmMailWhenCreateRole(player);
-
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setUserId(userId);
 			GameLog.debug("Create Role ...,userId:" + userId);
 			GameLog.debug("Game Create Role Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
 			GameLog.debug("Game Create Role Finish --> userId:" + userId);
-			
-			
-			
-			
 			BILogMgr.getInstance().logZoneReg(player);
 			//通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 			ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+			ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 			//判断需要用到最后次登陆 时间。保存在活动内而不是player
 			UserEventMgr.getInstance().RoleLogin(player, 0);
-			
-
 			LoginSynDataHelper.setData(player, response);
-//			// --------------------------------------------------------START
-//			// TODO HC @Modify 2015-12-17
-//			/**
-//			 * <pre>
-//			 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
-//			 * 保证不管角色当前是故意退出游戏跳过剧情，或者是出现意外退出，在下次进来都不会有剧情的重复问题
-//			 * </pre>
-//			 */
-//			PlotProgressDAO dao = PlotProgressDAO.getInstance();
-//			UserPlotProgress userPlotProgress = dao.get(player.getUserId());
-//			if (userPlotProgress == null) {
-//				userPlotProgress = new UserPlotProgress();
-//				userPlotProgress.setUserId(userId);
-//			}
-//			userPlotProgress.getProgressMap().putIfAbsent("0", -1);
-//			dao.update(userPlotProgress);
-//			// --------------------------------------------------------END
 		}
 		response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
 		// 补充进入主城需要同步的数据
@@ -436,7 +413,6 @@ public class GameLoginHandler {
 	}
 
 	private void createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {
-
 		User baseInfo = new User();
 		baseInfo.setUserId(userId);
 		baseInfo.setAccount(accountId);

@@ -51,6 +51,7 @@ public class ChargeInfoHolder {
 		String userId = player.getUserId();
 		ChargeInfo chargeInfo = get(userId);
 		if(chargeInfo!=null){			
+			chargeInfo.addOrder(chargeOrder);
 			update(player);
 			return true;
 		}

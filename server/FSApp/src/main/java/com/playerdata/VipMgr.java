@@ -205,4 +205,11 @@ public class VipMgr implements VipMgrIF,PlayerEventListener{
 		vipDataHolder.update(m_pPlayer);
 	}
 	
+	public void failToBuyVipGift(int vipLevel){
+		vipDataHolder.get().failToBuyVipGift(vipLevel);
+		vipDataHolder.update(m_pPlayer);
+	}
+	
+	
+	
 }

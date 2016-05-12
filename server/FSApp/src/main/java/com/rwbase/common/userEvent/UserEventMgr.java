@@ -85,9 +85,8 @@ public class UserEventMgr {
 	}
 	
 	public void GambleGold(Player player, int count) {
-		
-		UserEvent userEvent = new UserEvent(UserEventType.GAMBLE_GOLD, count);
-		raiseEvent(player, userEvent);
+			UserEvent userEvent = new UserEvent(UserEventType.GAMBLE_GOLD, count);
+			raiseEvent(player, userEvent);
 	}
 	
 	public void raiseEvent(Player player, UserEvent userEvent){

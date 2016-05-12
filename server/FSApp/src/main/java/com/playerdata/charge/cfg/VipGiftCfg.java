@@ -6,29 +6,43 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class VipGiftCfg {
 		
 	//id就是vip等级
-	private String id;
+	private String vipLv;
 	
 	//对应vip可购买的商品id
-	private String chargeCfgId;
+	private String gift;
 	
-	public String getId() {
-		return id;
+	//实际购买价格
+	private String curCost;
+
+	public String getVipLv() {
+		return vipLv;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setVipLv(String vipLv) {
+		this.vipLv = vipLv;
 	}
 
-	public String getChargeCfgId() {
-		return chargeCfgId;
+	public String getGift() {
+		return gift;
 	}
 
-	public void setChargeCfgId(String chargeCfgId) {
-		this.chargeCfgId = chargeCfgId;
+	public void setGift(String gift) {
+		this.gift = gift;
 	}
-
 
 	
+	
+
+
+
+
+	public String getCurCost() {
+		return curCost;
+	}
+
+	public void setCurCost(String curCost) {
+		this.curCost = curCost;
+	}
 	
 	
 	

@@ -406,7 +406,7 @@ public class Player implements PlayerIF {
 	private TimeAction onMinutesTimeAction;
 
 	/** 每分钟执行 */
-	public synchronized void onMinutes() {
+	public void onMinutes() {
 
 		if (onMinutesTimeAction == null) {
 			onMinutesTimeAction = PlayerTimeActionHelper.onMinutes(this);
@@ -418,7 +418,7 @@ public class Player implements PlayerIF {
 	private TimeAction onNewDayZeroTimeAction;
 
 	/** 0点刷新 */
-	public synchronized void onNewDayZero() {
+	public void onNewDayZero() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDayZero()", "机器人不进行重置", null);
 			return;
@@ -441,7 +441,7 @@ public class Player implements PlayerIF {
 	private TimeAction onNewDay5ClockTimeAction;
 
 	/** 早点５点刷新 */
-	public synchronized void onNewDay5Clock() {
+	public void onNewDay5Clock() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewDay5Clock()", "机器人不进行重置", null);
 			return;
@@ -460,7 +460,7 @@ public class Player implements PlayerIF {
 
 	private TimeAction onNewHourTimeAction;
 
-	public synchronized void onNewHour() {
+	public void onNewHour() {
 		if (isRobot()) {
 			GameLog.info("Player", "#onNewHour()", "机器人不进行重置", null);
 			return;
@@ -1142,7 +1142,7 @@ public class Player implements PlayerIF {
 	}
 
 	/** 每分钟执行 */
-	public synchronized void onSecond() {
+	public void onSecond() {
 		if (oneSecondTimeAction == null) {
 			return;
 		}
