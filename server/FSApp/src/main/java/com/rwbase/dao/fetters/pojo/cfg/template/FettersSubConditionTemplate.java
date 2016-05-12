@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.util.StringUtils;
 
 import com.common.HPCUtil;
-import com.rwbase.dao.fetters.pojo.cfg.FettersSubConditionCfg;
 
 /*
  * @author HC
@@ -14,17 +13,32 @@ import com.rwbase.dao.fetters.pojo.cfg.FettersSubConditionCfg;
  * @Description 
  */
 public class FettersSubConditionTemplate {
-	private final int subConditionId;// 子条件Id
+	// private final int subConditionId;// 子条件Id
 	private final int subConditionRestrictType;// 子条件限定
 	private final int subConditionRestrictValue;// 子条件限定值
 	private final Map<Integer, Integer> subConditionValueMap;
 
-	public FettersSubConditionTemplate(FettersSubConditionCfg cfg) {
-		this.subConditionId = cfg.getSubConditionId();
-		this.subConditionRestrictType = cfg.getSubConditionRestrictType();
-		this.subConditionRestrictValue = cfg.getSubConditionRestrictValue();
+	// public FettersSubConditionTemplate(FettersSubConditionCfg cfg) {
+	// this.subConditionId = cfg.getSubConditionId();
+	// this.subConditionRestrictType = cfg.getSubConditionRestrictType();
+	// this.subConditionRestrictValue = cfg.getSubConditionRestrictValue();
+	//
+	// String subConditionValue = cfg.getSubConditionValue();
+	// if (StringUtils.isEmpty(subConditionValue)) {
+	// this.subConditionValueMap = Collections.emptyMap();
+	// } else {
+	// this.subConditionValueMap = Collections.unmodifiableMap(HPCUtil.parseIntegerMap(subConditionValue, ";", "_"));
+	// }
+	// }
 
-		String subConditionValue = cfg.getSubConditionValue();
+	public FettersSubConditionTemplate(String restrictStr, String subConditionValue) {
+		// this.subConditionId = 0;
+		// 限定
+		String[] split = restrictStr.split("_");
+		this.subConditionRestrictType = Integer.parseInt(split[0]);
+		this.subConditionRestrictValue = Integer.parseInt(split[1]);
+
+		// 条件值
 		if (StringUtils.isEmpty(subConditionValue)) {
 			this.subConditionValueMap = Collections.emptyMap();
 		} else {
@@ -32,14 +46,14 @@ public class FettersSubConditionTemplate {
 		}
 	}
 
-	/**
-	 * 获取限定的子条件Id
-	 * 
-	 * @return
-	 */
-	public int getSubConditionId() {
-		return subConditionId;
-	}
+	// /**
+	// * 获取限定的子条件Id
+	// *
+	// * @return
+	// */
+	// public int getSubConditionId() {
+	// return subConditionId;
+	// }
 
 	/**
 	 * 获取强制限定子条件的类型

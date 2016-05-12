@@ -2,7 +2,6 @@ package com.rwbase.dao.fetters.pojo.impl.checkforceuse;
 
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.pojo.IFettersCheckForceUseHeroId;
-import com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
 
 /*
@@ -13,8 +12,7 @@ import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
 public class FettersForceDirectHeroIdImpl implements IFettersCheckForceUseHeroId {
 
 	@Override
-	public int checkForceUseHeroId(int subConditionId) {
-		FettersSubConditionTemplate fettersSubCondition = FettersSubConditionCfgDAO.getCfgDAO().getFettersSubConditionTemplateById(subConditionId);
+	public int checkForceUseHeroId(FettersSubConditionTemplate fettersSubCondition) {
 		if (fettersSubCondition == null) {
 			return 0;
 		}
