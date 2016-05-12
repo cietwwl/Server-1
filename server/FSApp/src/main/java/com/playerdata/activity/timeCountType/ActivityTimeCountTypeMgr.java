@@ -28,7 +28,8 @@ public class ActivityTimeCountTypeMgr {
 		return instance;
 	}
 
-	public void synTimeCountTypeData(Player player) {
+	public void synTimeCountTypeData(Player player) {		
+		doTimeCount(player, ActivityTimeCountTypeEnum.role_online);
 		ActivityTimeCountTypeItemHolder.getInstance().synAllData(player);
 	}
 
@@ -125,16 +126,31 @@ public class ActivityTimeCountTypeMgr {
 		return false;
 	}
 
-	public void addCount(Player player, ActivityTimeCountTypeEnum TimeCountType, int countadd) {
-		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-
-		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
-		dataItem.setCount(dataItem.getCount() + countadd);
-
-		dataHolder.updateItem(player, dataItem);
+	public void doTimeCount(Player player, ActivityTimeCountTypeEnum TimeCountType) {
+//		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
+//
+//		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
+//		
+//		if(dataItem!=null){
+//			
+//			long currentTimeMillis = System.currentTimeMillis();
+//			long lastCountTime = dataItem.getLastCountTime();
+//			long timeSpan = currentTimeMillis - lastCountTime;
+//			
+//			if( timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond*1000){
+//				dataItem.setCount(dataItem.getCount() + (int)(timeSpan/1000));
+//			}
+//			
+//			dataItem.setLastCountTime(currentTimeMillis);
+//			dataHolder.updateItem(player, dataItem);
+//		}
+		
 	}
 
 	public ActivityComResult takeGift(Player player, ActivityTimeCountTypeEnum TimeCountType, String subItemId) {
+		
+	
+		
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 
 		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
@@ -155,6 +171,7 @@ public class ActivityTimeCountTypeMgr {
 				}
 			}
 			if (targetItem != null && !targetItem.isTaken()) {
+				doTimeCount(player, TimeCountType);
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
@@ -165,7 +182,8 @@ public class ActivityTimeCountTypeMgr {
 		return result;
 	}
 
-	private void takeGift(Player player, ActivityTimeCountTypeSubItem targetItem) {
+	private void takeGift(Player player, ActivityTimeCountTypeSubItem targetItem) {	
+		
 		ActivityTimeCountTypeSubCfg subCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());

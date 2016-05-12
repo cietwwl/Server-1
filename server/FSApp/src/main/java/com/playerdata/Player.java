@@ -19,6 +19,8 @@ import com.common.Action;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
@@ -522,6 +524,8 @@ public class Player implements PlayerIF {
 	public void heartBeatCheck() {
 		// getSecretMgr().updateKeyNumByTime();
 		// getSecretMgr().updateSecretByTime();
+		
+		ActivityTimeCountTypeMgr.getInstance().doTimeCount(this, ActivityTimeCountTypeEnum.role_online);
 		getAssistantMgr().doCheck();
 		if (this.tempAttribute.checkAndResetRedPoint()) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(this, this.redPointMgr.getVersion());

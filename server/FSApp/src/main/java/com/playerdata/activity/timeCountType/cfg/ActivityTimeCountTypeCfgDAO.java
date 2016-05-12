@@ -79,7 +79,6 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 		for (ActivityTimeCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
 			ActivityTimeCountTypeSubItem subItem = new ActivityTimeCountTypeSubItem();
 			subItem.setCfgId(activityCountTypeSubCfg.getId());	
-			subItem.setCount(activityCountTypeSubCfg.getAwardCount());
 			subItemList.add(subItem);
 		}	
 		return subItemList;

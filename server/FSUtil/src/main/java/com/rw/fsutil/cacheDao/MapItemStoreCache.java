@@ -67,6 +67,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 	
 	public void notifyPlayerCreate(String userId){
+		@SuppressWarnings("unchecked")
 		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this);
 		cache.preInsertIfAbsent(userId, m);
 	}
