@@ -29,7 +29,7 @@ public class TableArenaData {
 	private int magicLevel;
 	private String templeteId;
 	private int winCount;
-	private long nextFightTime;
+	private long lastFightTime;
 	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
 	private List<String> atkHeroList = new ArrayList<String>(); // 进攻阵容的id列表
 	private List<String> heroIdList = new ArrayList<String>(); // 队伍佣兵id列表
@@ -155,12 +155,12 @@ public class TableArenaData {
 		this.winCount = winCount;
 	}
 
-	public long getNextFightTime() {
-		return nextFightTime;
+	public long getLastFightTime() {
+		return lastFightTime;
 	}
 
-	public void setNextFightTime(long nextFightTime) {
-		this.nextFightTime = nextFightTime;
+	public void setLastFightTime(long lastFightTime) {
+		this.lastFightTime = lastFightTime;
 	}
 
 	public List<RecordInfo> getRecordList() {

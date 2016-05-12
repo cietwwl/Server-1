@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.springframework.util.StringUtils;
+
 import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -35,6 +37,7 @@ import com.rwproto.EquipProtos.EquipEventType;
 import com.rwproto.EquipProtos.EquipResponse;
 import com.rwproto.EquipProtos.TagMate;
 import com.rwproto.ErrorService.ErrorType;
+import com.rwproto.PrivilegeProtos.HeroPrivilegeNames;
 
 public class EquipHandler {
 
@@ -135,6 +138,13 @@ public class EquipHandler {
 	public ByteString equipOnekeyAttach(Player player, String roleId, int equipIndex) {
 		EquipResponse.Builder response = EquipResponse.newBuilder();
 		response.setEventType(EquipEventType.Equip_OnekeyAttach);
+		boolean isOpen = player.getPrivilegeMgr().getBoolPrivilege(HeroPrivilegeNames.isAllowAttach);
+		if (!isOpen) {
+			GameLog.error("一键附灵", player.getUserId(), String.format("对英雄Id为[%s]的英雄进行一键附灵,Vip等级不足", roleId));
+			response.setError(ErrorType.NOT_ENOUGH_VIP);
+			return response.build().toByteString();
+		}
+
 		EquipMgr pEquipMgr = getEquipMgr(player, roleId);
 		if (pEquipMgr == null) {
 			response.setError(ErrorType.NOT_ROLE);
