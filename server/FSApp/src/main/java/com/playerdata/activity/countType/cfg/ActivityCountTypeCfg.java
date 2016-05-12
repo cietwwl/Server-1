@@ -31,9 +31,17 @@ public class ActivityCountTypeCfg {
 	
 	private String version;
 
-	
+	private String subItems;
 
 	
+	public String getSubItems() {
+		return subItems;
+	}
+
+	public void setSubItems(String subItems) {
+		this.subItems = subItems;
+	}
+
 	public String getVersion() {
 		return version;
 	}

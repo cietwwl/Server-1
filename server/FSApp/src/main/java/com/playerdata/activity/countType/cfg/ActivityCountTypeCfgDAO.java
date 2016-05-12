@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
@@ -32,12 +34,25 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeCfg.csv", ActivityCountTypeCfg.class);
 		for (ActivityCountTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
+			parseSubItems(cfgTmp);
 		}
 		
 		return cfgCacheMap;
 	}
 	
-	
+	/**每日刷新的活动类型解析*/
+	private void parseSubItems(ActivityCountTypeCfg cfgTmp) {
+		if(!StringUtils.isBlank(cfgTmp.getSubItems())){
+			String[] sub = cfgTmp.getSubItems().split(",");
+			List sublist = new ArrayList<String>();
+			for(String subitem : sub){
+				sublist.add(subitem);
+			}
+			
+		}		
+	}
+
+
 	public void parseTime(ActivityCountTypeCfg cfgItem){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getStartTimeStr());
 		cfgItem.setStartTime(startTime);

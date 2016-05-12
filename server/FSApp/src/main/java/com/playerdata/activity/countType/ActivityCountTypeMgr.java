@@ -86,6 +86,10 @@ public class ActivityCountTypeMgr {
 			}
 			ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
+				int days = 0;
+				if(activityCountTypeCfg.getIsAutoRefresh() == 1){//是否每日变更类型的计数活动
+					
+				}
 				targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);// 生成新开启活动的数据
 				if (targetItem == null) {
 					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
