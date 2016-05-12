@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.bm.arena.RobotCfgDAO;
 import com.common.HPCUtil;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -13,8 +12,6 @@ import com.rwbase.dao.arena.pojo.ArenaCost;
 import com.rwbase.dao.arena.pojo.ArenaCostCfg;
 
 public class ArenaCostCfgDAO extends CfgCsvDao<ArenaCostCfg> {
-
-	private static ArenaCostCfgDAO instance;
 	private TreeMap<Integer, ArenaCost> map;
 
 	public static ArenaCostCfgDAO getInstance() {

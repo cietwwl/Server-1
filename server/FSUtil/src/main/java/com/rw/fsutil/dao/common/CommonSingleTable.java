@@ -67,6 +67,11 @@ public class CommonSingleTable<T> extends BaseJdbc<T>{
 		return resultList;
 	}
 
+	@Deprecated
+	public <E> E queryForObject(String sql,Object[] params,Class<E> requiredType){
+		return template.queryForObject(sql, params, requiredType);
+	}
+	
 	/**
 	 * 返回查询结果
 	 * 
