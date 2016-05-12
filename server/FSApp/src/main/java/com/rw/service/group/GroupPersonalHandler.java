@@ -69,6 +69,7 @@ import com.rwproto.GroupPersonalProto.GroupRecommentRspMsg;
 import com.rwproto.GroupPersonalProto.GroupSimpleInfo;
 import com.rwproto.GroupPersonalProto.OpenDonateViewRspMsg;
 import com.rwproto.GroupPersonalProto.TransferGroupLeaderPostReqMsg;
+import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
 
 /*
  * @author HC
@@ -515,7 +516,10 @@ public class GroupPersonalHandler {
 		}
 
 		// 每天可以捐献的次数
-		int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//by franky
+		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
+		
 		// 角色当天捐献的次数
 		int donateTimes = memberData.getDonateTimes();
 
@@ -621,7 +625,10 @@ public class GroupPersonalHandler {
 		}
 
 		// 每天可以捐献的次数
-		int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//by franky
+		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
+		
 		// 角色当天捐献的次数
 		int donateTimes = memberData.getDonateTimes();
 

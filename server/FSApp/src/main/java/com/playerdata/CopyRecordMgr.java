@@ -23,11 +23,10 @@ import com.rwbase.dao.copy.cfg.MapCfgDAO;
 import com.rwbase.dao.copy.common.CopySubType;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
+import com.rwproto.PrivilegeProtos.CopyPrivilegeNames;
 
 public class CopyRecordMgr implements CopyRecordMgrIF {
 
@@ -341,11 +340,16 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		}
 
 		if (times > 1) {
-			PrivilegeCfg pPrivilege = PrivilegeCfgDAO.getInstance().getCfg(m_pPlayer.getVip());
-			if (pPrivilege.getCopyCount() <= 0) {
+			boolean isAllow = m_pPlayer.getPrivilegeMgr().getBoolPrivilege(CopyPrivilegeNames.isAllowTenSweep);
+			if (!isAllow) {
 				m_pPlayer.NotifyCommonMsg(CommonTip.VIP_NOT_ENOUGH);
 				return false;
 			}
+			// PrivilegeCfg pPrivilege = PrivilegeCfgDAO.getInstance().getCfg(m_pPlayer.getVip());
+			// if (pPrivilege.getCopyCount() <= 0) {
+			// m_pPlayer.NotifyCommonMsg(CommonTip.VIP_NOT_ENOUGH);
+			// return false;
+			// }
 		}
 
 		return true;

@@ -47,6 +47,9 @@ public class Server {
 		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(64);
 		// final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
 		try {
+			//检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
+			GameManager.CheckAllConfig();
+			
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
