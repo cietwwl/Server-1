@@ -1,4 +1,4 @@
-﻿package com.playerdata;
+package com.playerdata;
 
 import java.util.Comparator;
 import java.util.HashMap;

@@ -8,6 +8,7 @@ import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
+import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -70,6 +71,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 	
 	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -117,6 +120,8 @@ public class MapItemStoreFactory {
 //		register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
 //
 //		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
+		
+//		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
 
 		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
 
@@ -256,6 +261,9 @@ public class MapItemStoreFactory {
 	}
 	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
 		return activityRankTypeItemCache;
+	}
+	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
+		return activityTimeCountTypeItemCache;
 	}
 
 	/**
