@@ -23,6 +23,8 @@ import com.rwproto.MainServiceProtos.PowerInfo;
 import com.rwproto.MainServiceProtos.TagCfgBuyCoin;
 import com.rwproto.MainServiceProtos.TagCfgBuyPower;
 import com.rwproto.MainServiceProtos.TagIndexInfo;
+import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
+import com.rwproto.PrivilegeProtos.LoginPrivilegeNames;
 
 public class MainHandler {
 	private static MainHandler instance = new MainHandler();
@@ -100,8 +102,9 @@ public class MainHandler {
 	/** 点金手购买金币 */
 	public ByteString buyCoin(MsgMainRequest mainRequest, Player pPlayer) {
 		MsgMainResponse.Builder mainResponse = MsgMainResponse.newBuilder().setRequest(mainRequest);
-		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
-		if (pPlayer.getUserGameDataMgr().getBuyCoinTimes() >= privilege.getMoneyCount()) {
+//		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
+		int useCoinTransCount = pPlayer.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.useCoinTransCount);
+		if (pPlayer.getUserGameDataMgr().getBuyCoinTimes() >= useCoinTransCount) {
 			mainResponse.setEMainResultType(EMainResultType.LOW_VIP);
 			return mainResponse.build().toByteString();
 		}
@@ -172,8 +175,9 @@ public class MainHandler {
 	/** 购买体力 */
 	public ByteString buyPower(MsgMainRequest mainRequest, Player pPlayer) {
 		MsgMainResponse.Builder mainResponse = MsgMainResponse.newBuilder().setRequest(mainRequest);
-		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
-		if (pPlayer.getUserGameDataMgr().getBuyPowerTimes() >= privilege.getPowerCount()) {
+//		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
+		int buyPowerCount = pPlayer.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.buyPowerCount);
+		if (pPlayer.getUserGameDataMgr().getBuyPowerTimes() >= buyPowerCount) {
 			mainResponse.setEMainResultType(EMainResultType.LOW_VIP);
 			return mainResponse.build().toByteString();
 		}

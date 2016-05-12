@@ -20,6 +20,7 @@ public class PlatformFactory {
 	private static int threadSize;
 	private static String logServerIp;
 	private static int logServerPort;
+	private static int defaultCapacity;
 	
 	public static ClientManager clientManager;
 	
@@ -34,6 +35,10 @@ public class PlatformFactory {
 			platform_connect_num = Integer.parseInt(props.getProperty("platform_connect_num"));
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
+			String pDefaultCapacity = props.getProperty("defaultCapacity");
+			if(pDefaultCapacity != null){
+				defaultCapacity = Integer.parseInt(pDefaultCapacity);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -71,5 +76,9 @@ public class PlatformFactory {
 
 	public static int getLogServerPort() {
 		return logServerPort;
+	}
+
+	public static int getDefaultCapacity() {
+		return defaultCapacity;
 	}
 }

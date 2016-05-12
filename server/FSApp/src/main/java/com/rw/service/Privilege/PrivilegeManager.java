@@ -189,7 +189,7 @@ public class PrivilegeManager
 	//PVE试炼
 	private StreamImpl<PrivilegeProperty> pvePrivilege = new StreamImpl<PrivilegeProperty>();
 	@Override
-	public void putBattleTowerPrivilege(IPrivilegeConfigSourcer<?> config,
+	public void putPvePrivilege(IPrivilegeConfigSourcer<?> config,
 			List<Pair<IPrivilegeProvider, Builder>> newPrivilegeMap) {
 		AllPrivilege.Builder all = putValueList(config, newPrivilegeMap);
 		pvePrivilege.fire(config.getValue(all).build());

@@ -44,7 +44,7 @@ public class pvePrivilegeHelper extends AbstractPrivilegeConfigHelper<PvePrivile
 			AbstractPrivilegeConfigHelper<PvePrivilegeNames, pvePrivilege> abstractPrivilegeConfigHelper,
 			IPrivilegeWare privilegeMgr,
 			List<Pair<IPrivilegeProvider, PrivilegeProperty.Builder>> tmpMap) {
-		privilegeMgr.putBattleTowerPrivilege(this,tmpMap);
+		privilegeMgr.putPvePrivilege(this,tmpMap);
 	}
 
 	@Override

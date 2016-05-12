@@ -59,6 +59,7 @@ import com.rwproto.ArenaServiceProtos.MsgArenaRequest;
 import com.rwproto.ArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
+import com.rwproto.BattleCommon.ePlayerCamp;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
@@ -155,7 +156,7 @@ public class ArenaHandler {
 		for (ListRankingEntry<String, ArenaExtAttribute> info : listInfo) {
 			response.addListInfo(getArenaInfo(info));
 		}
-		response.setArenaData(getArenaData(arenaData));
+		response.setArenaData(getArenaData(arenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 
 		int resetTimes = arenaData.getResetTimes();
@@ -206,7 +207,7 @@ public class ArenaHandler {
 		}
 
 		setArenaHero(player, m_MyArenaData, request.getHeroIdsList());
-		response.setArenaData(getArenaData(m_MyArenaData));
+		response.setArenaData(getArenaData(m_MyArenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -237,7 +238,7 @@ public class ArenaHandler {
 		if (arenaData == null) {
 			return sendFailResponse(response, "找不到该玩家数据", player);
 		}
-		response.setArenaData(getArenaData(arenaData));
+		response.setArenaData(getArenaData(arenaData, null));
 
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
@@ -271,7 +272,7 @@ public class ArenaHandler {
 		if (m_MyArenaData == null) {
 			return sendFailResponse(response, "数据错误", player);
 		}
-		if (m_MyArenaData.getNextFightTime() > System.currentTimeMillis()) {
+		if (getNextFightTime(m_MyArenaData, player) > System.currentTimeMillis()) {
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, ArenaConstant.COOL_DOWN);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
@@ -296,7 +297,7 @@ public class ArenaHandler {
 			return sendFailResponse(response, "对手正在战斗中，请重新选择对手", player);
 		}
 
-		response.setArenaData(getArenaData(enemyArenaData));
+		response.setArenaData(getArenaData(enemyArenaData, null));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		response.addAllAtkList(ArenaBM.getInstance().getAtkHeroList(player.getUserId()));
 		return response.build().toByteString();
@@ -465,20 +466,11 @@ public class ArenaHandler {
 			List<com.rwproto.ArenaServiceProtos.HurtValue> hurtValueList = request.getHurtValueList();
 			int size = hurtValueList.size();
 			ArrayList<HurtValueRecord> hurtValueList_ = new ArrayList<HurtValueRecord>(size);
+			ArrayList<HurtValueRecord> enemyHurtList = new ArrayList<HurtValueRecord>(size);
 			for (int i = 0; i < size; i++) {
 				com.rwproto.ArenaServiceProtos.HurtValue value = hurtValueList.get(i);
-				HurtValueRecord valueRecord = new HurtValueRecord();
-				valueRecord.setCamp(value.getCamp());
-				valueRecord.setDead(value.getIsDead());
-				valueRecord.setHeroId(value.getHeroId());
-				valueRecord.setHp(value.getHp());
-				valueRecord.setSp(value.getSp());
-				valueRecord.setLevel(value.getLevel());
-				valueRecord.setStartlevel(value.getStartlevel());
-				valueRecord.setPlayerType(value.getPlayerType());
-				valueRecord.setIcon(value.getIcon());
-				valueRecord.setValue(value.getValue());
-				hurtValueList_.add(valueRecord);
+				hurtValueList_.add(createHurtRecord(value, false));
+				enemyHurtList.add(createHurtRecord(value, true));
 			}
 			RecordInfo record = new RecordInfo();
 
@@ -514,7 +506,7 @@ public class ArenaHandler {
 			ArenaBM.getInstance().addRecord(m_MyArenaData, record, false);
 
 			RecordInfo recordForEnemy = new RecordInfo();
-			recordForEnemy.setHurtList(hurtValueList_);
+			recordForEnemy.setHurtList(enemyHurtList);
 			recordForEnemy.setUserId(m_MyArenaData.getUserId());
 			recordForEnemy.setWin(1 - win);
 			if (!isWin) {
@@ -533,12 +525,8 @@ public class ArenaHandler {
 			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
-			//by franky
-			int decCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
-			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
-			int cdTime = arenaInfoCfg.getCdTime() - decCount;
-			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + cdTime * 1000);
-			
+			m_MyArenaData.setLastFightTime(System.currentTimeMillis());
+
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
@@ -574,6 +562,26 @@ public class ArenaHandler {
 			enemyExt.setNotFighting();
 		}
 	}
+	
+	private HurtValueRecord createHurtRecord(com.rwproto.ArenaServiceProtos.HurtValue value,boolean reverse){
+		HurtValueRecord valueRecord = new HurtValueRecord();
+		if(reverse){
+			ePlayerCamp camp = value.getCamp();
+			valueRecord.setCamp(camp == ePlayerCamp.Me ? ePlayerCamp.Enemy:ePlayerCamp.Me);
+		}else{
+			valueRecord.setCamp(value.getCamp());
+		}
+		valueRecord.setDead(value.getIsDead());
+		valueRecord.setHeroId(value.getHeroId());
+		valueRecord.setHp(value.getHp());
+		valueRecord.setSp(value.getSp());
+		valueRecord.setLevel(value.getLevel());
+		valueRecord.setStartlevel(value.getStartlevel());
+		valueRecord.setPlayerType(value.getPlayerType());
+		valueRecord.setIcon(value.getIcon());
+		valueRecord.setValue(value.getValue());
+		return valueRecord;
+	}
 
 	public ByteString buyTimes(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
@@ -586,39 +594,40 @@ public class ArenaHandler {
 		}
 		int remainCount = m_MyArenaData.getRemainCount();
 		if (remainCount > 0) {
-			response.setArenaData(getArenaData(m_MyArenaData));
+			response.setArenaData(getArenaData(m_MyArenaData, player));
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		}
-		
+
 		int buyTimes = m_MyArenaData.getBuyTimes();
-		//by franky
+		// by franky
 		int allowMaxBuyCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaMaxCount);
-		if (allowMaxBuyCount < buyTimes){
-			GameLog.info("arena", player.getUserId(),"buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount="+allowMaxBuyCount,null);
-			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+		if (allowMaxBuyCount < buyTimes) {
+			GameLog.info("arena", player.getUserId(), "buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount=" + allowMaxBuyCount, null);
+			// player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+			// ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		
+
 		/*
-		// 检查vip等级
-		int vipLevel = player.getVip();
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
-		if (privilegeCfg == null) {
-			GameLog.error("arena", "buyTimes", player + "获取特权配置失败,vipLevle = " + vipLevel);
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_CONFIG_IS_NULL);
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
-		}
-		if (privilegeCfg.getSportBuyCount() <= buyTimes) {
-			GameLog.error("arena", "buyTimes", player + "当前vip购买次数已达上限," + buyTimes + "," + privilegeCfg.getSportBuyCount());
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
-		}
-		*/
-		
+		 * // 检查vip等级 int vipLevel = player.getVip(); PrivilegeCfg privilegeCfg
+		 * = PrivilegeCfgDAO.getInstance().getCfg(vipLevel); if (privilegeCfg ==
+		 * null) { GameLog.error("arena", "buyTimes", player +
+		 * "获取特权配置失败,vipLevle = " + vipLevel);
+		 * player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_CONFIG_IS_NULL);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); } if
+		 * (privilegeCfg.getSportBuyCount() <= buyTimes) {
+		 * GameLog.error("arena", "buyTimes", player + "当前vip购买次数已达上限," +
+		 * buyTimes + "," + privilegeCfg.getSportBuyCount());
+		 * player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); }
+		 */
+
 		int nextBuyTimes = buyTimes + 1;
 		ArenaCost arenaCostCfg = ArenaCostCfgDAO.getInstance().get(nextBuyTimes);
 		if (arenaCostCfg == null) {
@@ -636,9 +645,9 @@ public class ArenaHandler {
 		player.getUserGameDataMgr().addGold(-costGold);
 		m_MyArenaData.setBuyTimes(nextBuyTimes);
 		m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() + 1);
-		m_MyArenaData.setNextFightTime(0);
+		m_MyArenaData.setLastFightTime(0);
 		TableArenaDataDAO.getInstance().update(m_MyArenaData);
-		response.setArenaData(getArenaData(m_MyArenaData));
+		response.setArenaData(getArenaData(m_MyArenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -652,36 +661,34 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		
-		//by franky
+
+		// by franky
 		boolean isOpen = player.getPrivilegeMgr().getBoolPrivilege(ArenaPrivilegeNames.isAllowResetArena);
-		if (!isOpen){
-			GameLog.info("arena", player.getUserId(),"clearCD:未开启重置竞技场CD",null);
-			//player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+		if (!isOpen) {
+			GameLog.info("arena", player.getUserId(), "clearCD:未开启重置竞技场CD", null);
+			// player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+			// ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		
+
 		/*
-		// 检查vip等级
-		int vipLevel = player.getVip();
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
-		if (privilegeCfg == null) {
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_CONFIG_IS_NULL);
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
-		}
-		// 检查vip等级是否开启该功能
-		if (privilegeCfg.getArenaResetCDOpen() == 0) {
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
-		}
-		*/
-		
-		long nextFightingTime = m_MyArenaData.getNextFightTime();
+		 * // 检查vip等级 int vipLevel = player.getVip(); PrivilegeCfg privilegeCfg
+		 * = PrivilegeCfgDAO.getInstance().getCfg(vipLevel); if (privilegeCfg ==
+		 * null) { player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_CONFIG_IS_NULL);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); } // 检查vip等级是否开启该功能 if
+		 * (privilegeCfg.getArenaResetCDOpen() == 0) {
+		 * player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); }
+		 */
+
+		long nextFightingTime = m_MyArenaData.getLastFightTime();
 		if (nextFightingTime <= 0) {
-			response.setArenaData(getArenaData(m_MyArenaData));
+			response.setArenaData(getArenaData(m_MyArenaData, player));
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		}
@@ -701,10 +708,10 @@ public class ArenaHandler {
 			return response.build().toByteString();
 		}
 		player.getUserGameDataMgr().addGold(-costGold);
-		m_MyArenaData.setNextFightTime(0);
+		m_MyArenaData.setLastFightTime(0);
 		m_MyArenaData.setResetTimes(clearCDTimes);
 		TableArenaDataDAO.getInstance().update(m_MyArenaData);
-		response.setArenaData(getArenaData(m_MyArenaData));
+		response.setArenaData(getArenaData(m_MyArenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -741,7 +748,17 @@ public class ArenaHandler {
 		return result.build();
 	}
 
-	public ArenaData getArenaData(TableArenaData arenaData) {
+	private long getNextFightTime(TableArenaData arenaData, Player player) {
+		int decCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
+		ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
+		int cdTime = arenaInfoCfg.getCdTime() - decCount;
+		if (cdTime < 0) {
+			cdTime = 0;
+		}
+		return arenaData.getLastFightTime() + cdTime * 1000L;
+	}
+
+	public ArenaData getArenaData(TableArenaData arenaData, Player player) {
 		ArenaData.Builder data = ArenaData.newBuilder();
 		String enemyId = arenaData.getUserId();
 		int career = arenaData.getCareer();
@@ -751,10 +768,12 @@ public class ArenaHandler {
 		data.setMaxPlace(arenaData.getMaxPlace());
 		int remainCount = arenaData.getRemainCount();
 		data.setRemainCount(remainCount);
-		long nextFightTime = arenaData.getNextFightTime();
+		long lastFightTime = arenaData.getLastFightTime();
 		// 这里不为0的时候才设置冷却时间
-		if (nextFightTime > 0 && remainCount > 0) {
+		if (player != null && lastFightTime > 0 && remainCount > 0) {
+			// by franky
 			long currentTime = System.currentTimeMillis();
+			long nextFightTime = getNextFightTime(arenaData, player);
 			if (nextFightTime > currentTime) {
 				data.setCdTime(TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime));
 			}
@@ -765,7 +784,8 @@ public class ArenaHandler {
 		data.setName(arenaData.getName());
 		int fighting = 0;
 		List<String> heroIdList = arenaData.getHeroIdList();
-		if (heroIdList != null) heroIdList.remove(arenaData.getUserId());
+		if (heroIdList != null)
+			heroIdList.remove(arenaData.getUserId());
 		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), heroIdList);
 		List<ArmyHero> armyList = armyInfo.getHeroList();
 		int armySize = armyList.size();

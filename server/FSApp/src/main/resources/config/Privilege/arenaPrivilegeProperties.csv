@@ -1,5 +1,5 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
-arenaMaxCount,,20,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
-isAllowResetArena,,,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,VIP1开启重置竞技场CD功能，前往充值提升VIP等级。
-arenaRewardAdd,,,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,竞技场结算奖励增加x（万分比）
-arenaChallengeDec,,120,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可减少竞技场挑战cd时间
+arenaMaxCount,,999,今日竞技场门票购买次数已用完，提高VIP等级可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,VIP3开启购买竞技场门票功能，充值可提升VIP等级。
+isAllowResetArena,,,,,VIP3开启重置竞技场CD功能，充值可提升VIP等级。
+arenaRewardAdd,,,,,
+arenaChallengeDec,,300,,,

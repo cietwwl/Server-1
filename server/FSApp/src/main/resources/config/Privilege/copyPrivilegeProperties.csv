@@ -1,5 +1,5 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
-copyRewardAdd,,200,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
-isAllowTenSweep,,,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,VIP1开启重置竞技场CD功能，前往充值提升VIP等级。
-eliteRewardAdd,,200,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
-eliteResetCnt,,20,今日竞技场门票购买次数已用完，{buyCharge}可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,升级到VIP可增加购买竞技场门票次数
+copyRewardAdd,,,,,
+isAllowTenSweep,,,,,VIP4开启一键扫荡功能，充值可提升VIP等级。
+eliteRewardAdd,,,,,
+eliteResetCnt,,999,今日精英副本重置次数已用完，提高VIP等级可以增加重置次数,今日精英副本重置次数已用完，大神，您已经无法再增加重置次数,
