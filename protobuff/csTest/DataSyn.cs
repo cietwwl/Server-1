@@ -315,8 +315,32 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"POWER_INFO", Value=43)]
       POWER_INFO = 43,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"USER_TMP_GAME_DATA", Value=44)]
+      USER_TMP_GAME_DATA = 44,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
-      ActivityCountType = 60
+      ActivityCountType = 60,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityTimeCardType", Value=61)]
+      ActivityTimeCardType = 61,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityRateType", Value=62)]
+      ActivityRateType = 62,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityDateType", Value=63)]
+      ActivityDateType = 63,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityTimeSaleType", Value=64)]
+      ActivityTimeSaleType = 64,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityDateSaleType", Value=65)]
+      ActivityDateSaleType = 65,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityRankType", Value=66)]
+      ActivityRankType = 66,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityExchangeType", Value=67)]
+      ActivityExchangeType = 67
     }
   
 }

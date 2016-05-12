@@ -62,6 +62,7 @@ import com.rwproto.ArenaServiceProtos.MsgArenaRequest;
 import com.rwproto.ArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
+import com.rwproto.BattleCommon.ePlayerCamp;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
@@ -467,20 +468,11 @@ public class ArenaHandler {
 			List<com.rwproto.ArenaServiceProtos.HurtValue> hurtValueList = request.getHurtValueList();
 			int size = hurtValueList.size();
 			ArrayList<HurtValueRecord> hurtValueList_ = new ArrayList<HurtValueRecord>(size);
+			ArrayList<HurtValueRecord> enemyHurtList = new ArrayList<HurtValueRecord>(size);
 			for (int i = 0; i < size; i++) {
 				com.rwproto.ArenaServiceProtos.HurtValue value = hurtValueList.get(i);
-				HurtValueRecord valueRecord = new HurtValueRecord();
-				valueRecord.setCamp(value.getCamp());
-				valueRecord.setDead(value.getIsDead());
-				valueRecord.setHeroId(value.getHeroId());
-				valueRecord.setHp(value.getHp());
-				valueRecord.setSp(value.getSp());
-				valueRecord.setLevel(value.getLevel());
-				valueRecord.setStartlevel(value.getStartlevel());
-				valueRecord.setPlayerType(value.getPlayerType());
-				valueRecord.setIcon(value.getIcon());
-				valueRecord.setValue(value.getValue());
-				hurtValueList_.add(valueRecord);
+				hurtValueList_.add(createHurtRecord(value, false));
+				enemyHurtList.add(createHurtRecord(value, true));
 			}
 			RecordInfo record = new RecordInfo();
 
@@ -516,7 +508,7 @@ public class ArenaHandler {
 			ArenaBM.getInstance().addRecord(m_MyArenaData, record, false);
 
 			RecordInfo recordForEnemy = new RecordInfo();
-			recordForEnemy.setHurtList(hurtValueList_);
+			recordForEnemy.setHurtList(enemyHurtList);
 			recordForEnemy.setUserId(m_MyArenaData.getUserId());
 			recordForEnemy.setWin(1 - win);
 			if (!isWin) {
@@ -572,6 +564,26 @@ public class ArenaHandler {
 			arenaExt.setNotFighting();
 			enemyExt.setNotFighting();
 		}
+	}
+	
+	private HurtValueRecord createHurtRecord(com.rwproto.ArenaServiceProtos.HurtValue value,boolean reverse){
+		HurtValueRecord valueRecord = new HurtValueRecord();
+		if(reverse){
+			ePlayerCamp camp = value.getCamp();
+			valueRecord.setCamp(camp == ePlayerCamp.Me ? ePlayerCamp.Enemy:ePlayerCamp.Me);
+		}else{
+			valueRecord.setCamp(value.getCamp());
+		}
+		valueRecord.setDead(value.getIsDead());
+		valueRecord.setHeroId(value.getHeroId());
+		valueRecord.setHp(value.getHp());
+		valueRecord.setSp(value.getSp());
+		valueRecord.setLevel(value.getLevel());
+		valueRecord.setStartlevel(value.getStartlevel());
+		valueRecord.setPlayerType(value.getPlayerType());
+		valueRecord.setIcon(value.getIcon());
+		valueRecord.setValue(value.getValue());
+		return valueRecord;
 	}
 
 	public ByteString buyTimes(MsgArenaRequest request, Player player) {

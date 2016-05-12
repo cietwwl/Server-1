@@ -57,7 +57,7 @@ public class GameOperationFactory {
 			}
 		}
 		// 初始化DataAccessFactory
-		DataAccessFactory.init(dataKvMap, extensionMap, defaultCapacity);
+		DataAccessFactory.init("dataSourceMT", dataKvMap, extensionMap, defaultCapacity);
 		// 接着初始化各个DAO实例，这两个有顺序依赖
 		for (int i = 0; i < size; i++) {
 			DataKVType dataKVType = array[i];

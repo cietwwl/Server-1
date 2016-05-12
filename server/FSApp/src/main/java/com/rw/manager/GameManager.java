@@ -12,10 +12,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -42,6 +45,7 @@ import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
+import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.zone.TableZoneInfo;
@@ -116,7 +120,7 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
-		//RobotManager.getInstance().createRobots();
+		RobotManager.getInstance().createRobots();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
@@ -132,6 +136,9 @@ public class GameManager {
 		// 初始化字符过滤
 		CharFilterFactory.init();
 		addShutdownHook();
+
+		// 羁绊的初始化
+		FettersBM.init();
 
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
@@ -239,7 +246,8 @@ public class GameManager {
 		GameLog.debug("服务器关闭完成...");
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({
+			"rawtypes", "unchecked" })
 	private static void shutDownService() {
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();

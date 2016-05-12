@@ -67,7 +67,7 @@ enum eSynType	//数据同步类型
 	USER_TMP_GAME_DATA = 44;//用户的临时内存数据
 	HERO_FETTERS = 45;//英雄羁绊
 
-	//活动从60-69
+	//活动从60-79
 	ActivityCountType = 60;//活动，计数类型
 	//月卡
 	ActivityTimeCardType = 61;//活动，计数类型
@@ -77,7 +77,7 @@ enum eSynType	//数据同步类型
 	ActivityDateSaleType = 65;//活动，每日折扣
 	ActivityRankType = 66;//活动，排行榜
 	ActivityExchangeType = 67;//活动，兑换
-
+	ActivityTimeCountType = 68;//活动，在线奖励
 }
 
 message MsgDataSynList

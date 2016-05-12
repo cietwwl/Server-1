@@ -176,7 +176,7 @@ public class ClientDataSynMgr {
 	}
 	private static SynData.Builder transferToClientData(Object serverData, List<String> synFieldList) throws Exception {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(serverData.getClass());
-
+		
 		String jsonData = null;
 		if(synFieldList!=null){
 			jsonData = serverClassInfo.toJson(serverData, synFieldList);
