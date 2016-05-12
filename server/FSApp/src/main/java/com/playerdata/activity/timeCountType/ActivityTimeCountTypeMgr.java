@@ -127,23 +127,23 @@ public class ActivityTimeCountTypeMgr {
 	}
 
 	public void doTimeCount(Player player, ActivityTimeCountTypeEnum TimeCountType) {
-		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-
-		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
-		
-		if(dataItem!=null){
-			
-			long currentTimeMillis = System.currentTimeMillis();
-			long lastCountTime = dataItem.getLastCountTime();
-			long timeSpan = currentTimeMillis - lastCountTime;
-			
-			if( timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond*1000){
-				dataItem.setCount(dataItem.getCount() + (int)(timeSpan/1000));
-			}
-			
-			dataItem.setLastCountTime(currentTimeMillis);
-			dataHolder.updateItem(player, dataItem);
-		}
+//		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
+//
+//		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
+//		
+//		if(dataItem!=null){
+//			
+//			long currentTimeMillis = System.currentTimeMillis();
+//			long lastCountTime = dataItem.getLastCountTime();
+//			long timeSpan = currentTimeMillis - lastCountTime;
+//			
+//			if( timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond*1000){
+//				dataItem.setCount(dataItem.getCount() + (int)(timeSpan/1000));
+//			}
+//			
+//			dataItem.setLastCountTime(currentTimeMillis);
+//			dataHolder.updateItem(player, dataItem);
+//		}
 		
 	}
 
