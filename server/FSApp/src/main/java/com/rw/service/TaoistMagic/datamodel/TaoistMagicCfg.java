@@ -71,4 +71,8 @@ public class TaoistMagicCfg extends BaseConfig {
 	public int getMagicValue(int level){
 		return formula.getValue(level);
 	}
+
+	public void cacheToLevel(int maxLvl) {
+		formula.cacheToLevel(maxLvl);
+	}
 }

@@ -5,7 +5,7 @@ import java.util.Collection;
 
 /**
  * 这个类不允许多线程进行更新
- * @author rainwings
+ * @author franky
  *
  * @param <T>
  */
@@ -85,6 +85,18 @@ public class StreamImpl<T> implements IStream<T> {
 			listners = new ArrayList<IStreamListner<T>>();
 		}
 		listners.add(listner);
+	}
+	
+	@Override
+	public void unsubscribe(IStreamListner<T> listner) {
+		if (listner == null){
+			System.out.println("Warning: null listner parameter!");
+			return;
+		}
+		if (listners == null){
+			return;
+		}
+		listners.remove(listner);
 	}
 
 }

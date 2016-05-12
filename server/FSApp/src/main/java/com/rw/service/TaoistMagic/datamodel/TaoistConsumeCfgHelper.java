@@ -20,14 +20,14 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 
 	private HashMap<Pair<Integer,Integer>,TaoistConsumeCfg> consumePlanMap;
 	private HashMap<Integer,Integer> consumeMaxLevelMap;
-	private HashMap<Pair<Integer,Integer>,Integer> consumeSegmentMap;
+	private HashMap<Integer,TaoistConsumeCfg[]> consumeLevelMap;
 	
 	@Override
 	public Map<String, TaoistConsumeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("TaoistMagic/TaoistConsumeCfg.csv",TaoistConsumeCfg.class);
 		Collection<TaoistConsumeCfg> vals = cfgCacheMap.values();
-		consumeMaxLevelMap = new HashMap<>();
-		consumePlanMap = new HashMap<>(vals.size());
+		consumeMaxLevelMap = new HashMap<Integer,Integer>();
+		consumePlanMap = new HashMap<Pair<Integer,Integer>,TaoistConsumeCfg>(vals.size());
 		for (TaoistConsumeCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
 			int consumePlanId = cfg.getConsumeId();
@@ -43,20 +43,23 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 				consumeMaxLevelMap.put(consumePlanId, maxLvl);
 			}
 		}
+		
+		consumeLevelMap = new HashMap<Integer,TaoistConsumeCfg[]>();
 		//检查技能等级是否连续
 		Set<Entry<Integer, Integer>> idlvlmap = consumeMaxLevelMap.entrySet();
 		for (Entry<Integer, Integer> entry : idlvlmap) {
 			int maxLvl = entry.getValue();
 			int consumePlanId = entry.getKey();
-			int acc = 0;
+			TaoistConsumeCfg[] consumeCoinList = new TaoistConsumeCfg[maxLvl+1];
 			for(int i = 1;i<=maxLvl;i++){
 				Pair<Integer,Integer> pair = Pair.Create(consumePlanId, i);
 				TaoistConsumeCfg cfg = consumePlanMap.get(pair);
 				if (cfg == null){
 					throw new RuntimeException("技能消耗ID="+consumePlanId+"缺少配置等级:"+i);
 				}
+				consumeCoinList[i]=cfg;
 			}
-			//consumeSegmentMap.put(key, value)
+			consumeLevelMap.put(consumePlanId, consumeCoinList);
 		}
 		return cfgCacheMap;
 	}
@@ -88,26 +91,39 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 		return consumePlanMap.get(pair);
 	}
 
+	public static final int initLevel = 1;
+	
 	/**
 	 * 返回-1表示参数无效
 	 * @param consumeId
 	 * @param currentLvl
-	 * @param newLevel
+	 * @param planNums
 	 * @return
 	 */
-	public int getConsumeCoin(int consumeId, int currentLvl, int newLevel) {
-		if (currentLvl <1 || newLevel > getMaxLevel(consumeId)){
+	public int getConsumeCoin(int consumeId, int currentLvl, int[] planNums) {
+		if (currentLvl < initLevel || planNums == null){
 			return -1;
 		}
-		int startAcc = 0;
-		int endAcc = 0;
-		if (currentLvl > 1){
-			Pair<Integer,Integer> start = Pair.Create(consumeId, currentLvl-1);
-			startAcc = consumeSegmentMap.get(start);
+		TaoistConsumeCfg[] consumeM = consumeLevelMap.get(consumeId);
+		int maxLevel = getMaxLevel(consumeId);
+		if (consumeM == null || maxLevel > consumeM.length-1){
+			return -1;
 		}
-		Pair<Integer,Integer> end = Pair.Create(consumeId, newLevel);
-		endAcc = consumeSegmentMap.get(end);
 		
-		return endAcc - startAcc;
+		int result = 0;
+		int level = currentLvl;
+		for (int i = 0; i < planNums.length; i++) {
+			int jump = planNums[i];
+			if (jump <= 0){
+				break;
+			}
+			if (level>maxLevel){
+				break;
+			}
+			TaoistConsumeCfg cfg = consumeM[level];
+			result += cfg.getCoinCount();
+			level += jump;
+		}
+		return result;
 	}
 }

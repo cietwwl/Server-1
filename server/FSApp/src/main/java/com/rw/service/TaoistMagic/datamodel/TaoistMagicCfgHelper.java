@@ -9,12 +9,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.common.RandomSeqGenerator;
+import com.common.RefInt;
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attrdata.AttrDataIF;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.fashion.AttrValueType;
+import com.rwbase.dao.fashion.BattleAddedEffects;
+import com.rwbase.dao.fashion.IEffectCfg;
 
 //	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper"  init-method="init" />
 
@@ -22,7 +25,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 	public static TaoistMagicCfgHelper getInstance() {
 		return SpringContextUtil.getBean(TaoistMagicCfgHelper.class);
 	}
-
+/*
 	public AttrDataIF getEffect(int skillId, int level) {
 		TaoistMagicCfg cfg = cfgCacheMap.get(String.valueOf(skillId));
 		AttrData attr = new AttrData();
@@ -36,7 +39,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		}
 		return attr;
 	}
-
+*/
 	private Map<String, Field> attrMap;
 
 	@Override
@@ -99,27 +102,59 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			if (consumeCfg == null) {
 				throw new RuntimeException("无效技能消耗ID=" + consumeId);
 			}
+			int maxLvl = helper.getMaxLevel(consumeId);
+			cfg.cacheToLevel(maxLvl);
 		}
 	}
 
-	public int generateCriticalCount(int seed, int seedRange, int magicId, int upgradeCount) {
+	/**
+	 * 生成暴击方案，每次点击对应的升级数量放在返回的数组，总数存放在outTotal
+	 * 产生的总数不会超过maxUpgradeCount
+	 * @param seed
+	 * @param seedRange
+	 * @param magicId 道术技能ID
+	 * @param upgradeCount 升级次数
+	 * @param maxUpgradeCount 最大升级总数
+	 * @param outTotal 总数升级数，包含暴击
+	 * @return 暴击方案
+	 */
+	public int[] generateCriticalPlan(int seed, int seedRange, int magicId,
+			int upgradeCount, int maxUpgradeCount,RefInt outTotal) {
+		if (upgradeCount > maxUpgradeCount){
+			return null;
+		}
+		if (seed < 0 || seedRange <=0){
+			return null;
+		}
 		int[] seqPlanIdList = findSeqPlanIdList(magicId);
 		if (seqPlanIdList == null) {
 			GameLog.error("道术", "找不到道术技能", "ID=" + magicId);
-			return 0;
+			return null;
 		}
 
-		RandomSeqGenerator seqg = new RandomSeqGenerator(seed, seqPlanIdList, TaoistCriticalPlanCfgHelper.getInstance(),
-				seedRange);
+		RandomSeqGenerator seqg = new RandomSeqGenerator(seed, seqPlanIdList,
+				TaoistCriticalPlanCfgHelper.getInstance(),seedRange);
 		int count = 0;
-		int result = 0;
+		int[] result = new int[upgradeCount];
+		outTotal.value = 0;
 		while (count < upgradeCount) {
 			count++;
 			int num = seqg.nextNum();
 			if (num <= 0) {
-				result++;
+				if (outTotal.value+1 > maxUpgradeCount){
+					break;
+				}
+				result[count] = 1;
+				outTotal.value++;
 			} else {
-				result += num;
+				if (outTotal.value + num > maxUpgradeCount){
+					int maxAdd = maxUpgradeCount - outTotal.value;
+					result[count] = maxAdd;
+					outTotal.value += maxAdd;
+					break;
+				}
+				result[count] = num;
+				outTotal.value += num;
 			}
 		}
 		return result;
@@ -135,5 +170,36 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			return null;
 		int[] seqPlanIdList = tcCfg.getSeqList();
 		return seqPlanIdList;
+	}
+
+	public IEffectCfg getEffect(Iterable<Entry<Integer, Integer>> lst) {
+		AttrData addedPercentages = new AttrData();
+		AttrData addedValues = new AttrData();
+		for (Entry<Integer, Integer> entry : lst) {
+			String taoistMagicId = String.valueOf(entry.getKey());
+			TaoistMagicCfg cfg = cfgCacheMap.get(taoistMagicId);
+			if (cfg == null) {
+				GameLog.error("道术", taoistMagicId, "无效道术技能ID");
+				continue;
+			}
+			Field field = attrMap.get(cfg.getAttribute());
+			if (field == null) {
+				GameLog.error("道术", cfg.getAttribute(), "无效属性名");
+				continue;
+			}
+			AttrData attr = new AttrData();
+			try {
+				field.set(attr, cfg.getMagicValue(entry.getValue()));
+			} catch (Exception e) {
+				GameLog.error("道术", cfg.getAttribute(), "无法设置属性值",e);
+			}
+			if (cfg.getAttrValueType() == AttrValueType.Value){
+				addedValues.plus(attr);
+			}else{
+				addedPercentages.plus(attr);
+			}
+		}
+		IEffectCfg result = new BattleAddedEffects(addedValues, addedPercentages);
+		return result;
 	}
 }

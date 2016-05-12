@@ -22,6 +22,11 @@ public class TaoistMagicRecord {
 		levelMap = new HashMap<Integer, Integer>();
 	}
 	
+	public TaoistMagicRecord(String uid) {
+		this();
+		userId = uid;
+	}
+
 	public Iterable<Entry<Integer, Integer>> getAll(){
 		return levelMap.entrySet();
 	}

@@ -4,7 +4,7 @@ import com.log.GameLog;
 import com.rw.fsutil.cacheDao.DataKVDao;
 
 public class TaoistMagicHolder extends DataKVDao<TaoistMagicRecord>{
-	private static TaoistMagicHolder instance;
+	private static TaoistMagicHolder instance = new TaoistMagicHolder();
 
 	public static TaoistMagicHolder getInstance() {
 		if (instance == null) {
