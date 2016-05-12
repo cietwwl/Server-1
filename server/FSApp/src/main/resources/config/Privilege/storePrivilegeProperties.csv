@@ -1,6 +1,6 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
 isOpenBlackmarketStore,,,,,VIP9永久开启黑市商人功能，充值可提升VIP等级。
 isOpenMysteryStore,,,,,VIP11永久开启神秘商人功能，充值可提升VIP等级。
-storeFreeRefreshCnt,,10,今日普通商店免费刷新次数已用完，{buyCharge}可以增加免费刷新次数。,今日普通商店免费刷新次数已用完，大神，您已经无法再增加免费刷新次数。,
-mysteryStoreFreeRefreshCnt,,20,今日神秘商人免费刷新次数已用完，{buyCharge}可以增加免费刷新次数。,今日神秘商人免费刷新次数已用完，大神，您已经无法再增加免费刷新次数。,
-bmstoreFreeRefreshCnt,,15,今日黑市商人免费刷新次数已用完，{buyCharge}可以增加免费刷新次数。,今日黑市商人免费刷新次数已用完，大神，您已经无法再增加免费刷新次数。,
+storeFreeRefreshCnt,,99,今日普通商店免费刷新次数已用完，购买至尊月卡可以增加免费刷新次数。,今日普通商店免费刷新次数已用完，大神，您已经无法再增加免费刷新次数。,
+mysteryStoreFreeRefreshCnt,,99,今日神秘商人免费刷新次数已用完，购买至尊月卡可以增加免费刷新次数。,今日神秘商人免费刷新次数已用完，大神，您已经无法再增加免费刷新次数。,
+bmstoreFreeRefreshCnt,,99,今日黑市商人免费刷新次数已用完，购买至尊月卡可以增加免费刷新次数。,今日黑市商人免费刷新次数已用完，大神，您已经无法再增加免费刷新次数。,

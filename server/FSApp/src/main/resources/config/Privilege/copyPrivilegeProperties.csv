@@ -2,4 +2,4 @@ name,Remarks,threshold,buyTip,nomoreTip,enableTip
 copyRewardAdd,,,,,
 isAllowTenSweep,,,,,VIP4开启一键扫荡功能，充值可提升VIP等级。
 eliteRewardAdd,,,,,
-eliteResetCnt,,999,今日精英副本重置次数已用完，{buyCharge}可以增加重置次数,今日精英副本重置次数已用完，大神，您已经无法再增加重置次数,
+eliteResetCnt,,999,今日精英副本重置次数已用完，提高VIP等级可以增加重置次数,今日精英副本重置次数已用完，大神，您已经无法再增加重置次数,

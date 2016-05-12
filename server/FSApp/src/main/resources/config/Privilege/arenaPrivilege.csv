@@ -1,7 +1,7 @@
 source,Remarks,arenaMaxCount,isAllowResetArena,arenaRewardAdd,arenaChallengeDec
 vip0,,,false,,
-vip1,,,true,,120
-vip2,,,true,,
+vip1,,,false,,
+vip2,,,false,,
 vip3,,5,true,,
 vip4,,10,true,,
 vip5,,15,true,,
@@ -15,5 +15,5 @@ vip12,,50,true,,
 vip13,,55,true,,
 vip14,,60,true,,
 vip15,,65,true,,
-monthNormal,,5,true,,
-monthVip,,6,true,20,20
+monthNormal,,,,,
+monthVip,,,,,
