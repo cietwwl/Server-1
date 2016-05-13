@@ -1,4 +1,4 @@
-package com.rwbase.common.userEvent.eventHandler;
+package com.rwbase.common.userEvent.dailyEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
+import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
 public class UserEventAttachDailyHandler implements IUserEventHandler{
 

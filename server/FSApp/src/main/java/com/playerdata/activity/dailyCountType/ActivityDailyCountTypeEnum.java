@@ -10,6 +10,7 @@ public enum ActivityDailyCountTypeEnum{	// implements TypeIdentification
 //	BattleTower("15"),
 //	GambleCoin("16"),
 //	GambleGold("18"),
+	Daily("201"),
 	LoginDaily("1"),
 	TreasureLandDaily("2"),//聚宝之地
 	UpGradeStarDaily("3"),//升星

@@ -9,10 +9,13 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeHelper;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -69,22 +72,43 @@ public final class ActivityDailyCountTypeCfgDAO extends CfgCsvDao<ActivityDailyC
 	 * @param subdaysNum  每日重置类型的活动,第几天
 	 * @return
 	 */
-	public ActivityDailyCountTypeItem newItem(Player player, ActivityDailyCountTypeEnum countTypeEnum){
-		
-		String cfgId = countTypeEnum.getCfgId();
-		ActivityDailyCountTypeCfg cfgById = getCfgById(cfgId );
+	public ActivityDailyCountTypeItem newItem(Player player){
+		ActivityDailyCountTypeCfg cfgById = getConfig(ActivityDailyCountTypeEnum.Daily.getCfgId());
 		if(cfgById!=null){			
 			ActivityDailyCountTypeItem item = new ActivityDailyCountTypeItem();
-			String itemId = ActivityDailyCountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
-			item.setId(itemId);
-			item.setCfgId(cfgId);
+			
+			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
+			item.setSubItemList(newItemList(cfgById));
+			item.setLastTime(System.currentTimeMillis());
 			return item;
 		}else{
 			return null;
 		}		
 		
+	}
+
+
+	public List<ActivityDailyCountTypeSubItem> newItemList(ActivityDailyCountTypeCfg cfgById) {
+		List<ActivityDailyCountTypeSubItem> subItemList = new ArrayList<ActivityDailyCountTypeSubItem>();
+		List<ActivityDailyCountTypeSubCfg> allsubCfgList = ActivityDailyCountTypeSubCfgDAO.getInstance().getAllCfg();	
+		for(ActivityDailyCountTypeSubCfg activityDailyCountTypeSubCfg : allsubCfgList){
+			if(!ActivityDailyCountTypeMgr.getInstance().isOpen(activityDailyCountTypeSubCfg)){
+				//该子类型活动当天没开启
+				continue;					
+			}
+			ActivityDailyCountTypeSubItem subitem = new ActivityDailyCountTypeSubItem();
+			subitem.setCfgId(activityDailyCountTypeSubCfg.getId());
+			subitem.setCount(activityDailyCountTypeSubCfg.getCount());
+			subitem.setTaken(false);
+			subitem.setGiftId(activityDailyCountTypeSubCfg.getGiftId());
+			subItemList.add(subitem);
+		}
+		
+		
+		
+		return subItemList;
 	}
 	
 	

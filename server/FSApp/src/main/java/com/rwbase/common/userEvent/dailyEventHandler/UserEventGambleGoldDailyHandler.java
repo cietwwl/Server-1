@@ -1,4 +1,4 @@
-package com.rwbase.common.userEvent.eventHandler;
+package com.rwbase.common.userEvent.dailyEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +16,14 @@ import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
+import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
-public class UserEventCoinSpendDailyHandler implements IUserEventHandler{
+public class UserEventGambleGoldDailyHandler implements IUserEventHandler{
 
 	
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
 	
-	public UserEventCoinSpendDailyHandler(){
+	public UserEventGambleGoldDailyHandler(){
 		init();	
 	}
 	
@@ -32,10 +33,9 @@ public class UserEventCoinSpendDailyHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.LoginDaily.getCfgId()));
-					
+			
 					if(isBetweendays){
-						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.LoginDaily,Integer.parseInt(params.toString()));	
-						
+						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.LoginDaily,Integer.parseInt(params.toString()));							
 					}
 				}
 			@Override

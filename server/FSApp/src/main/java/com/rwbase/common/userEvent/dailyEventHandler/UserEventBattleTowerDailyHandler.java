@@ -1,4 +1,4 @@
-package com.rwbase.common.userEvent.eventHandler;
+package com.rwbase.common.userEvent.dailyEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +20,14 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
+import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
-public class UserEventArenaDailyHandler implements IUserEventHandler{
+public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 
 	
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
 	
-	public UserEventArenaDailyHandler(){
+	public UserEventBattleTowerDailyHandler(){
 		init();	
 	}
 	
@@ -37,12 +38,18 @@ public class UserEventArenaDailyHandler implements IUserEventHandler{
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.LoginDaily.getCfgId()));
 					
-					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();					
-					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), ActivityDailyCountTypeEnum.LoginDaily);
-					//胜利或失败获得的积分不一致。
-					int addcount = Integer.parseInt(params.toString()) - dataItem.getCount();
 					
-					if(addcount>0&&isBetweendays){
+					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
+					
+					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
+					//试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
+					int addcount = 1;
+//					Integer.parseInt(params.toString()) - dataItem.getCount();
+					
+					
+					
+					
+					if(addcount > 0&&isBetweendays){
 						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.LoginDaily,addcount);	
 						
 					}

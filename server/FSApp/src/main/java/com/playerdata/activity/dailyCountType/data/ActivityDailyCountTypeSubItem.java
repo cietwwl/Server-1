@@ -15,6 +15,14 @@ public class ActivityDailyCountTypeSubItem {
 	//是否已经领取
 	private boolean taken = false;
 
+	private String giftId ;
+	public String getGiftId() {
+		return giftId;
+	}
+
+	public void setGiftId(String giftId) {
+		this.giftId = giftId;
+	}
 
 	public String getCfgId() {
 		return cfgId;

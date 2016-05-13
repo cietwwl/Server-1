@@ -11,6 +11,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -27,15 +28,13 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	
 	private String userId;// 对应的角色Id
 	
-	@CombineSave
-	private int count;
 
-	@CombineSave
-	private String cfgId;
 	
 	@CombineSave
 	private boolean closed = false;
 
+	@CombineSave
+	private long lastTime;
 	
 	@CombineSave
 	private List<ActivityDailyCountTypeSubItem> subItemList = new ArrayList<ActivityDailyCountTypeSubItem>();
@@ -46,9 +45,9 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	
 	public void reset(ActivityDailyCountTypeCfg cfg){
 		closed = false;
-		count=0;
 		version = cfg.getVersion();
-		
+		setSubItemList(ActivityDailyCountTypeCfgDAO.getInstance().newItemList(cfg));
+		lastTime = System.currentTimeMillis();
 	}
 
 	public String getVersion() {
@@ -60,10 +59,14 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	}
 
 
-	//重置活动
-	public void reset(){
-		subItemList = new ArrayList<ActivityDailyCountTypeSubItem>();
-		count = 0;
+
+
+	public long getLastTime() {
+		return lastTime;
+	}
+
+	public void setLastTime(long lastTime) {
+		this.lastTime = lastTime;
 	}
 
 	public String getId() {
@@ -74,13 +77,6 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 		this.id = id;
 	}
 
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
 
 	public List<ActivityDailyCountTypeSubItem> getSubItemList() {
 		return subItemList;
@@ -98,13 +94,7 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 		this.userId = userId;
 	}
 
-	public String getCfgId() {
-		return cfgId;
-	}
 
-	public void setCfgId(String cfgId) {
-		this.cfgId = cfgId;
-	}
 
 	public boolean isClosed() {
 		return closed;
