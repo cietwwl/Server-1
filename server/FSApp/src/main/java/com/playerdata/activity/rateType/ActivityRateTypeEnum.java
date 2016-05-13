@@ -7,16 +7,22 @@ import com.rwbase.dao.copypve.CopyType;
 
 public enum ActivityRateTypeEnum{	
 	// implements TypeIdentification
-	ELITE_copy_DOUBLE("301"),//精英副本道具双倍
-	Normal_copy_DOUBLE("302"),//普通副本道具双倍
-	JBZD_DOUBLE("303"),//聚宝之地道具双倍
-	LXSG_DOUBLE("304"),//炼息山谷道具双倍
-	SCHJ_DOUBLE("305"),//生存幻境道具双倍
-	ELITE_copy_EXP_DOUBLE("306"),//精英副本经验双倍
+	
 	Normal_copy_EXP_DOUBLE("307"),//普通副本经验双倍
+	Normal_copy_DOUBLE("302"),//普通副本道具双倍
+	
+	ELITE_copy_DOUBLE("301"),//精英副本道具双倍
+	ELITE_copy_EXP_DOUBLE("306"),//精英副本经验双倍
+	
+	JBZD_DOUBLE("303"),//聚宝之地道具双倍
+	
+	LXSG_DOUBLE("304"),//炼息山谷道具双倍
+	
+	SCHJ_DOUBLE("305"),//生存幻境道具双倍		
+	
 	TOWER_DOUBLE("308"),//万仙阵道具金币双倍
+	
 	WARFARE_DOUBLE("309");//无尽战火道具双倍
-
 	
 	private String cfgId;
 	private ActivityRateTypeEnum(String cfgId){
@@ -59,13 +65,13 @@ public enum ActivityRateTypeEnum{
 				return ELITE_copy_EXP_DOUBLE;
 			}
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD){
-			GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
+			GameLog.error("ActivityRateEnum", "双倍触发", "类型聚宝" + copyType);
 			return JBZD_DOUBLE;
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
-			GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
+			GameLog.error("ActivityRateEnum", "双倍触发", "类型练熄" + copyType);
 			return LXSG_DOUBLE;
 		}else if (copyType == CopyType.COPY_TYPE_CELESTIAL){
-			GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
+			GameLog.error("ActivityRateEnum", "双倍触发", "类型幻境" + copyType);
 			return SCHJ_DOUBLE;
 		}else if(copyType == CopyType.COPY_TYPE_TOWER){
 			if(rewardsType == 3){

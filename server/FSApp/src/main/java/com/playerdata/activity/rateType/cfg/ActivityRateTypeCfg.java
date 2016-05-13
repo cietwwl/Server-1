@@ -3,8 +3,6 @@ package com.playerdata.activity.rateType.cfg;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-
 
 public class ActivityRateTypeCfg {
 
