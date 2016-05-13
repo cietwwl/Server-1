@@ -158,8 +158,10 @@ public class GameLoginHandler {
 				// public void run(Player player) {
 				// Player player = checkIsPlayerOnLine(userId);
 				Player player = PlayerMgr.getInstance().find(userId_);
-				// 检查发送版本更新
-				player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+				//检查发送版本更新 机器人clientInfo这个值为null
+				if (clientInfo != null) {
+					player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+				}
 				// --------------------------------------------------------START
 				// TODO HC @Modify 2015-12-17
 				/**
@@ -335,7 +337,9 @@ public class GameLoginHandler {
 		System.out.println("-------------------" + (end1 - start));
 
 		// 检查发送版本更新
-		player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+		if (clientInfo != null) {
+			player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+		}
 
 		// 检查发送gm邮件
 		ServerStatusMgr.processGmMailWhenCreateRole(player);
