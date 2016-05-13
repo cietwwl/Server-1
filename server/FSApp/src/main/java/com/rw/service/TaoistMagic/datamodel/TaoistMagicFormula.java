@@ -52,7 +52,8 @@ public class TaoistMagicFormula {
 	}
 
 	private int value(int level) {
-		if (level <= 0) return valueInit;
+		if (level <= 0) return 0;
+		if (level == 1) return valueInit;
 		if (valueCache != null && valueCache.length > level){
 			if (valueCache[level] <= 0){
 				valueCache[level] = value(level - 1) + delta(level);
