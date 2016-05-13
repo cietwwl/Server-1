@@ -9,7 +9,6 @@ import com.playerdata.Player;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.pojo.IFettersSubCondition;
 import com.rwbase.dao.fetters.pojo.IFettersSubRestrictCondition;
-import com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
 
 /*
@@ -20,9 +19,7 @@ import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
 public class WeakDirectHeroIdConditionImpl implements IFettersSubRestrictCondition {
 
 	@Override
-	public boolean match(Player player, List<Integer> fettersHeroIdList, List<Integer> forceUseHeroIdList, int subConditionId) {
-		FettersSubConditionCfgDAO cfgDAO = FettersSubConditionCfgDAO.getCfgDAO();
-		FettersSubConditionTemplate subCondition = cfgDAO.getFettersSubConditionTemplateById(subConditionId);
+	public boolean match(Player player, List<Integer> fettersHeroIdList, List<Integer> forceUseHeroIdList, FettersSubConditionTemplate subCondition) {
 		if (subCondition == null) {
 			return false;
 		}

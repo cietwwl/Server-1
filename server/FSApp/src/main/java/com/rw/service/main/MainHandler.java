@@ -23,6 +23,8 @@ import com.rwproto.MainServiceProtos.PowerInfo;
 import com.rwproto.MainServiceProtos.TagCfgBuyCoin;
 import com.rwproto.MainServiceProtos.TagCfgBuyPower;
 import com.rwproto.MainServiceProtos.TagIndexInfo;
+import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
+import com.rwproto.PrivilegeProtos.LoginPrivilegeNames;
 
 public class MainHandler {
 	private static MainHandler instance = new MainHandler();
@@ -100,8 +102,9 @@ public class MainHandler {
 	/** 点金手购买金币 */
 	public ByteString buyCoin(MsgMainRequest mainRequest, Player pPlayer) {
 		MsgMainResponse.Builder mainResponse = MsgMainResponse.newBuilder().setRequest(mainRequest);
-		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
-		if (pPlayer.getUserGameDataMgr().getBuyCoinTimes() >= privilege.getMoneyCount()) {
+//		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
+		int useCoinTransCount = pPlayer.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.useCoinTransCount);
+		if (pPlayer.getUserGameDataMgr().getBuyCoinTimes() >= useCoinTransCount) {
 			mainResponse.setEMainResultType(EMainResultType.LOW_VIP);
 			return mainResponse.build().toByteString();
 		}
@@ -161,24 +164,30 @@ public class MainHandler {
 			return mainResponse.build().toByteString();
 		}
 		CfgBuyPower cfgBuyPower = getCfgBuyPower(pPlayer.getUserGameDataMgr().getBuyPowerTimes() + 1);
-		TagCfgBuyPower.Builder tagCfgBuyCoinBuilder = TagCfgBuyPower.newBuilder();
-		tagCfgBuyCoinBuilder.setTimes(pPlayer.getUserGameDataMgr().getBuyPowerTimes());
-		tagCfgBuyCoinBuilder.setNeedPurse(cfgBuyPower.getNeedPurse());
-		tagCfgBuyCoinBuilder.setPower(cfgBuyPower.getPower());
-		mainResponse.setTagCfgBuyPower(tagCfgBuyCoinBuilder.build());
+		TagCfgBuyPower.Builder tagCfgBuyPowerBuilder = TagCfgBuyPower.newBuilder();
+		tagCfgBuyPowerBuilder.setTimes(pPlayer.getUserGameDataMgr().getBuyPowerTimes());
+		tagCfgBuyPowerBuilder.setNeedPurse(cfgBuyPower.getNeedPurse());
+		tagCfgBuyPowerBuilder.setPower(cfgBuyPower.getPower());
+		mainResponse.setTagCfgBuyPower(tagCfgBuyPowerBuilder.build());
 		return mainResponse.build().toByteString();
 	}
 
 	/** 购买体力 */
 	public ByteString buyPower(MsgMainRequest mainRequest, Player pPlayer) {
 		MsgMainResponse.Builder mainResponse = MsgMainResponse.newBuilder().setRequest(mainRequest);
-		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
-		if (pPlayer.getUserGameDataMgr().getBuyPowerTimes() >= privilege.getPowerCount()) {
+//		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
+		int buyPowerCount = pPlayer.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.buyPowerCount);
+		if (pPlayer.getUserGameDataMgr().getBuyPowerTimes() >= buyPowerCount) {
 			mainResponse.setEMainResultType(EMainResultType.LOW_VIP);
 			return mainResponse.build().toByteString();
 		}
 		int times = pPlayer.getUserGameDataMgr().getBuyPowerTimes();
 		CfgBuyPower cfgBuyPower = getCfgBuyPower(times + 1);
+		TagCfgBuyPower.Builder tagCfgBuyPowerBuilder = TagCfgBuyPower.newBuilder();
+		tagCfgBuyPowerBuilder.setTimes(pPlayer.getUserGameDataMgr().getBuyPowerTimes());
+		tagCfgBuyPowerBuilder.setNeedPurse(cfgBuyPower.getNeedPurse());
+		tagCfgBuyPowerBuilder.setPower(cfgBuyPower.getPower());
+		mainResponse.setTagCfgBuyPower(tagCfgBuyPowerBuilder.build());
 
 		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(pPlayer.getLevel()));
 		if (pPlayer.getUserGameDataMgr().getPower() >= cfg.getMostPower()) {

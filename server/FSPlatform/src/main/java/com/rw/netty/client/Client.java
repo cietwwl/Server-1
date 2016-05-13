@@ -87,6 +87,8 @@ public class Client  implements Runnable{
 		synchronized (this) {
 			this.status = ClientManager.CLIENT_STATUS_WORKING;
 			clientMsg.addProcessMsg(gsMsg);
+			this.host = gsMsg.getHost();
+			this.port = gsMsg.getPort();
 			this.lastHost = gsMsg.getHost();
 			this.lastPort = gsMsg.getPort();
 			notify();
