@@ -105,10 +105,6 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			int maxLvl = helper.getMaxLevel(consumeId);
 			cfg.cacheToLevel(maxLvl);
 		}
-		
-		//TODO test
-		//generateCriticalPlan(seed, seedRange, magicId, currentLevel, upgradeCount, maxUpgradeCount, outTotal)
-		//TaoistConsumeCfgHelper.getInstance().getConsumeCoin(consumeId, currentLvl, planNums)
 	}
 
 	/**
@@ -150,7 +146,6 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		int[] result = new int[upgradeCount];
 		outTotal.value = 0;
 		while (count < upgradeCount) {
-			count++;
 			int num = seqg.nextNum();
 			if (num <= 0) {
 				if (outTotal.value+1 > maxUpgradeCount){
@@ -177,6 +172,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				return null;
 			}
 			seqg.ChangeSeqPlanIdList(seqPlanIdList);
+			count++;
 		}
 		return result;
 	}

@@ -79,6 +79,11 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 				}
 			}
 		}
+		
+		// test code
+//		RefInt outTotal = new RefInt();
+//		int[] planNums = TaoistMagicCfgHelper.getInstance().generateCriticalPlan(0, 101, 110001, 1, 3, 5, outTotal);
+//		int consume = TaoistConsumeCfgHelper.getInstance().getConsumeCoin(101, 1, planNums);
 	}
 
 	public int getMaxLevel(int consumeId) {
