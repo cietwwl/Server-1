@@ -8,7 +8,7 @@ public class RandomSeqGenerator {
 	 * @return
 	 */
 	public int nextNum() {
-		final int[] seqList = currentPlan;
+		int[] seqList = currentPlan;
 		if (seqList == null)
 			return -1;
 		if (seqIndex < 0 || seqIndex >= seqList.length)
