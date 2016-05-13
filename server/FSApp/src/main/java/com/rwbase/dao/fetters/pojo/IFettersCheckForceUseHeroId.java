@@ -1,5 +1,7 @@
 package com.rwbase.dao.fetters.pojo;
 
+import com.rwbase.dao.fetters.pojo.cfg.template.FettersSubConditionTemplate;
+
 /*
  * @author HC
  * @date 2016年4月28日 下午3:08:38
@@ -10,10 +12,9 @@ public interface IFettersCheckForceUseHeroId {
 	/**
 	 * 检查某个条件是否有强制占用的英雄Id
 	 * 
-	 * @param subConditionId
 	 * @return
 	 */
-	public int checkForceUseHeroId(int subConditionId);
+	public int checkForceUseHeroId(FettersSubConditionTemplate fettersSubCondition);
 
 	/**
 	 * 获取检查的类型

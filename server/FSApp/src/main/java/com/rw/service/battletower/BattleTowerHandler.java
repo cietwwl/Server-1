@@ -47,6 +47,7 @@ import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonRspMsg;
+import com.rwproto.BattleTowerServiceProtos.BattleTowerConfig;
 import com.rwproto.BattleTowerServiceProtos.BossInfoMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeBossEndReqMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeBossEndRspMsg;
@@ -73,6 +74,7 @@ import com.rwproto.BattleTowerServiceProtos.SweepStartReqMsg;
 import com.rwproto.BattleTowerServiceProtos.SweepStartRspMsg;
 import com.rwproto.BattleTowerServiceProtos.UseLuckyKeyReqMsg;
 import com.rwproto.BattleTowerServiceProtos.UseLuckyKeyRspMsg;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 
 /*
  * @author HC
@@ -106,7 +108,9 @@ public class BattleTowerHandler {
 			return;
 		}
 
-		int battleTowerResetTimes = cfg.getBattleTowerResetTimes();
+		//int battleTowerResetTimes = cfg.getBattleTowerResetTimes();
+		//by franky
+		int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
 
 		// 填充消息
 		rsp.setHighestFloor(tableBattleTower.getHighestFloor());
@@ -116,7 +120,9 @@ public class BattleTowerHandler {
 		int curFloor = tableBattleTower.getCurFloor();// 当前层数
 		boolean result = tableBattleTower.getResult();// 是否有了战斗结果
 
-		int theSweepTime4PerFloor = uniqueCfg.getTheSweepTime4PerFloor();// 每层扫荡的用时
+		//by franky 每层扫荡的用时
+		int theSweepTime4PerFloor = getSweepTimePerFloor(player, tableBattleTower, uniqueCfg);
+		
 		long now = System.currentTimeMillis();
 		// 扫荡信息
 		long sweepStartTime = tableBattleTower.getSweepStartTime();// 开始时间
@@ -131,6 +137,8 @@ public class BattleTowerHandler {
 
 				// 更新数据
 				tableBattleTower.setSweepStartTime(0);
+				//by franky 扫荡结束时需要重置每层扫荡时间，下次开始扫荡就按照新的特权值进行设置
+				tableBattleTower.setSweepTimePerFloor(0);
 				tableBattleTower.setSweepState(false);
 				tableBattleTower.setSweepStartFloor(0);
 				tableBattleTower.setCurFloor(highestFloor);
@@ -211,10 +219,23 @@ public class BattleTowerHandler {
 		rsp.setUseKeyCount(commonCfgHelper.getUsekeycount());
 
 		// System.err.println(rsp.build());
+		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
+		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
+		commonRsp.setConfig(config);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		// 更新数据到数据库
 		TableBattleTowerDao.getDao().update(tableBattleTower);
+	}
+
+	private static int getSweepTimePerFloor(Player player, TableBattleTower tableBattleTower,
+			BattleTowerConfigCfg uniqueCfg) {
+		int theSweepTime4PerFloor = tableBattleTower.getSweepTimePerFloor();
+		if (theSweepTime4PerFloor<=0){
+			theSweepTime4PerFloor = uniqueCfg.getTheSweepTime4PerFloor();
+			theSweepTime4PerFloor -= player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.sweepTimeDec);
+		}
+		return theSweepTime4PerFloor;
 	}
 
 	/**
@@ -530,6 +551,8 @@ public class BattleTowerHandler {
 		BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();
 		int perDayBossSize = uniqueCfg.getPerDayBossSize();// 每天产生Boss的上限数量
 		int theSweepTime4PerFloor = uniqueCfg.getTheSweepTime4PerFloor();// 每层扫荡需要的时间（秒）
+		//by franky
+		theSweepTime4PerFloor -= player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.sweepTimeDec);
 
 		if (tableBattleTower.getCurBossTimes() < perDayBossSize) {
 			int leftBossSize = perDayBossSize - tableBattleTower.getCurBossTimes();// 剩下产生几个Boss
@@ -616,9 +639,13 @@ public class BattleTowerHandler {
 		tableBattleTower.setSweepStartTime(now);// 扫荡开始时间
 		tableBattleTower.setSweepStartFloor(startFloor);// 开始扫荡的层数
 		tableBattleTower.setSweepState(true);// 扫荡的状态设置
+		tableBattleTower.setSweepTimePerFloor(theSweepTime4PerFloor);
 		dao.update(tableBattleTower);// 更新数据
 
 		// 发送协议
+		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
+		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
+		commonRsp.setConfig(config);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
@@ -647,8 +674,9 @@ public class BattleTowerHandler {
 		}
 
 		// 单层扫荡时间
-		BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();
-		int theSweepTime4PerFloor = uniqueCfg.getTheSweepTime4PerFloor();
+		//by franky
+		BattleTowerConfigCfg uniqueCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();// 唯一的配置
+		int theSweepTime4PerFloor = getSweepTimePerFloor(player, tableBattleTower, uniqueCfg);
 
 		// 时间验证
 		long now = System.currentTimeMillis();
@@ -668,19 +696,21 @@ public class BattleTowerHandler {
 
 		// 更新数据
 		tableBattleTower.setSweepStartTime(0);
+		//by franky 扫荡结束时需要重置每层扫荡时间，下次开始扫荡就按照新的特权值进行设置
+		tableBattleTower.setSweepTimePerFloor(0);
 		tableBattleTower.setSweepState(false);
 		tableBattleTower.setSweepStartFloor(0);
 		tableBattleTower.setCurFloor(highestFloor);
 		tableBattleTower.setResult(true);
 		tableBattleTower.setRewardGroupId(groupIdList.get(groupIdList.size() - 1));
 		
-		
-		
-		
 		UserEventMgr.getInstance().BattleTower(player, highestFloor);
 		dao.update(tableBattleTower);
 
 		// 发送协议
+		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
+		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
+		commonRsp.setConfig(config);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		commonRsp.setRspBody(rsp.build().toByteString());
 	}
@@ -812,14 +842,17 @@ public class BattleTowerHandler {
 			return;
 		}
 
+		/*
 		int vipLevel = player.getVip();
 		PrivilegeCfg cfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
 		if (cfg == null) {
 			SetFail(commonRsp, "重置试练塔次数", userId, String.format("角色是Vip%s，并没有找到PrivilegeCfg的配置表", vipLevel), "数据异常");
 			return;
 		}
-
 		int battleTowerResetTimes = cfg.getBattleTowerResetTimes();
+		*/
+		//by franky
+		int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
 		if (tableBattleTower.getResetTimes() >= battleTowerResetTimes) {// 重置次数满了
 			SetFail(commonRsp, "重置试练塔次数", userId, "今天的重置次数已经用完了", "今日重置次数已经用完");
 			return;
@@ -979,8 +1012,9 @@ public class BattleTowerHandler {
 
 		tableBattleTower.setResult(true);// 设置已经拿到战斗结果的标记
 		if (!result) {// 失败了
-			tableBattleTower.setCurFloor(floor - 1);// 设置当前新的层
-			tableBattleTower.setBreak(true);
+			//by frnaky 战败了允许再次挑战
+			tableBattleTower.setCurFloor(floorList.get(0));// 设置当前新的层
+			//tableBattleTower.setBreak(true);
 		} else {// 成功
 			if (floor < curFloor) {
 				SetFail(commonRsp, "试练塔模块-战斗结束", userId, String.format("请求胜利%s层，存储的是%s层，请求胜利的层<=当前存储的层", floor, curFloor), "不能跳过当前层进行挑战");

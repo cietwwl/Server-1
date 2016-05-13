@@ -7,16 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import com.fy.common.FastJsonUtil;
-import com.fy.http.HttpClientUtil;
 
 public class TestService {
 
@@ -24,10 +17,10 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setCpTradeNo("1024");
+		content.setCpTradeNo("1027");
 		content.setGameId(3);
-		content.setUserId("100100000452");
-		content.setRoleId("10010000");
+		content.setUserId("100100000455");
+		content.setRoleId("100100000466");
 		
 		content.setServerId(20);
 		content.setChannelId("0");
@@ -43,24 +36,12 @@ public class TestService {
 		content.setGiftId("800701");
 		content.setSign("cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey");
 		
-//		Map<String, Object> params = new HashMap<String, Object>();		
-//		params.put("content", FastJsonUtil.toJson(content));
-		
 		String serverIp = "127.0.0.1";
 		int port = 9090;
 		String url = "http://"+serverIp+":"+port+"/charge";
-//		HttpPost httppost = new HttpPost(url);
-//		httppost.setEntity(new StringEntity(FastJsonUtil.toJson(content),"UTF-8"));
-//		
-//		CloseableHttpClient httpClient = HttpClients.createDefault();
-//		httpClient.execute(httppost);
-		
+
 		String jsonContent = FastJsonUtil.toJson(content);
 		post(url,jsonContent,"utf-8",1000,1000);
-		
-		
-//		String resp = HttpClientUtil.post("127.0.0.1", 9090, params);
-//		System.out.println(resp);
 	}
 	
 	public static void post(String url ,String requestData ,String charset,int connectTimeout,int responseTimeout) throws IOException{

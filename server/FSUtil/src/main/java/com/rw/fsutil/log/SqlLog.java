@@ -21,4 +21,7 @@ public class SqlLog {
 		logger.error(throwableP);
 	}
 
+	public static void error(String message){
+		logger.error(message);
+	}
 }

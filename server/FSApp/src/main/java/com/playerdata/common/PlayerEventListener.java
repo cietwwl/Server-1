@@ -5,7 +5,7 @@ import com.playerdata.Player;
 public interface PlayerEventListener {
 
 	/**
-	 * 玩家创建的通知
+	 * 玩家创建的通知 这时不会调用init
 	 * @param player
 	 */
 	public void notifyPlayerCreated(Player player);

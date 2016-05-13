@@ -530,7 +530,7 @@ public final class DataSynProtos {
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
-     *活动从60-69
+     *活动从60-79
      * </pre>
      */
     ActivityCountType(45, 60),
@@ -590,6 +590,14 @@ public final class DataSynProtos {
      * </pre>
      */
     ActivityExchangeType(52, 67),
+    /**
+     * <code>ActivityTimeCountType = 68;</code>
+     *
+     * <pre>
+     *活动，在线奖励
+     * </pre>
+     */
+    ActivityTimeCountType(53, 68),
     ;
 
     /**
@@ -956,7 +964,7 @@ public final class DataSynProtos {
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
-     *活动从60-69
+     *活动从60-79
      * </pre>
      */
     public static final int ActivityCountType_VALUE = 60;
@@ -1016,6 +1024,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int ActivityExchangeType_VALUE = 67;
+    /**
+     * <code>ActivityTimeCountType = 68;</code>
+     *
+     * <pre>
+     *活动，在线奖励
+     * </pre>
+     */
+    public static final int ActivityTimeCountType_VALUE = 68;
 
 
     public final int getNumber() { return value; }
@@ -1075,6 +1091,7 @@ public final class DataSynProtos {
         case 65: return ActivityDateSaleType;
         case 66: return ActivityRankType;
         case 67: return ActivityExchangeType;
+        case 68: return ActivityTimeCountType;
         default: return null;
       }
     }
@@ -4959,7 +4976,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\267\010\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\322\010\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
       "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
@@ -4986,8 +5003,9 @@ public final class DataSynProtos {
       "\020=\022\024\n\020ActivityRateType\020>\022\024\n\020ActivityDate" +
       "Type\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024Acti" +
       "vityDateSaleType\020A\022\024\n\020ActivityRankType\020B" +
-      "\022\030\n\024ActivityExchangeType\020CB\034\n\013com.rwprot",
-      "oB\rDataSynProtos"
+      "\022\030\n\024ActivityExchangeType\020C\022\031\n\025ActivityTi",
+      "meCountType\020DB\034\n\013com.rwprotoB\rDataSynPro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -19,6 +19,7 @@ import com.rwbase.dao.user.CfgBuySkill;
 import com.rwbase.dao.user.CfgBuySkillDAO;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
+import com.rwproto.PrivilegeProtos.HeroPrivilegeNames;
 import com.rwproto.SkillServiceProtos.SkillData;
 import com.rwproto.SkillServiceProtos.SkillEventType;
 import com.rwproto.SkillServiceProtos.SkillResponse;
@@ -122,7 +123,7 @@ public class SkillHandler {
 			// 扣除金币
 			gameDataMgr.addCoin(-costCoin);
 		}
-		int max = PrivilegeCfgDAO.getInstance().getDef(player.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int max = player.getSkillMgr().getMaxSkillCount();
 		if (gameDataMgr.getLastRecoverSkillPointTime() == 0 || currentPoints == max) {
 			gameDataMgr.setLastRecoverSkillPointTime(System.currentTimeMillis());
 		}
@@ -194,9 +195,11 @@ public class SkillHandler {
 	// }
 
 	public ByteString buySkillPoint(Player player) {
-		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
+//		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
+		
+		boolean openBuySkillPoint = player.getPrivilegeMgr().getBoolPrivilege(HeroPrivilegeNames.isAllowBuySkillPoint);
 		// 未开放购买
-		if (privilege.getBuySkillPointOpen() == 0) {// 未开放购买getBuySkillPointOpen
+		if (!openBuySkillPoint) {// 未开放购买getBuySkillPointOpen
 			return getFailResponse(player, "VIP等级不足！", SkillEventType.Buy_Skill_Point);
 		}
 

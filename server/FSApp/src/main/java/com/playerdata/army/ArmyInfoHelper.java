@@ -40,6 +40,7 @@ public class ArmyInfoHelper {
 
 	private static List<ArmyHero> getArmyHeros(Player player, List<String> heroIdList) {
 		List<ArmyHero> heroList = new ArrayList<ArmyHero>();
+		if (heroIdList == null) return heroList;
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
 			Hero heroTmp = heroMgr.getHeroById(heroId);

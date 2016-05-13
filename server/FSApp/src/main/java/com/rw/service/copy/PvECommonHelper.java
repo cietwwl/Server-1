@@ -6,13 +6,11 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.CopyRecordMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
-import com.playerdata.readonly.CopyRewardsIF;
 import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.fsutil.util.jackson.JsonUtil;
@@ -22,8 +20,6 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
 import com.rwbase.dao.copy.cfg.BuyLevelCfgDAO;
 import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copy.cfg.ItemProbabilityCfgDAO;
-import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
@@ -34,8 +30,7 @@ import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
-
-import freemarker.cache.StrongCacheStorage;
+import com.rwproto.PrivilegeProtos.CopyPrivilegeNames;
 
 public class PvECommonHelper {
 
@@ -172,8 +167,9 @@ public class PvECommonHelper {
 			return copyResponse.setEResultType(EResultType.NOT_OPEN).build().toByteString();// 关卡未开放
 		}
 		BuyLevelCfg pCfgBuyLevel = (BuyLevelCfg) BuyLevelCfgDAO.getInstance().getCfgById(String.valueOf(copyLevelData.getBuyCount() + 1)); // 购买关卡的配置...
-		PrivilegeCfg pPrivilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
-		if (copyLevelData.getBuyCount() >= pPrivilege.getCopyCount()) {
+		// PrivilegeCfg pPrivilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
+		int resetCopyTimes = player.getPrivilegeMgr().getIntPrivilege(CopyPrivilegeNames.eliteResetCnt);
+		if (copyLevelData.getBuyCount() >= resetCopyTimes) {
 			player.NotifyCommonMsg(CommonTip.VIP_NOT_ENOUGH);
 			copyResponse.setEResultType(EResultType.LOW_VIP); // VIP等级不足...
 			return copyResponse.build().toByteString();
@@ -216,14 +212,14 @@ public class PvECommonHelper {
 		try {
 			int levelType = copyCfg.getLevelType();
 			CopyInfoCfg infoCfg = player.getCopyDataMgr().getCopyInfoCfgByLevelID(String.valueOf(copyCfg.getLevelID()));
-			if(infoCfg != null){
+			if (infoCfg != null) {
 				CopyData copyData = player.getCopyDataMgr().getByInfoId(infoCfg.getId());
-				if (copyData != null && copyData.getResetCount() <= 0 && PveHandler.getInstance().getRemainSeconds(copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
+				if (copyData != null && copyData.getResetCount() <= 0 && PveHandler.getInstance().getRemainSeconds(player, copyData.getLastChallengeTime(), System.currentTimeMillis(), levelType) > 0) {
 					player.NotifyCommonMsg(CommonTip.COOL_DOWN);
 					return EResultType.NOT_ENOUGH_TIMES;
 				}
 			}
-			
+
 		} catch (Exception e) {
 			GameLog.error("PvECommonHelper", "#checkLimit()", "", e);
 		}

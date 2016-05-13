@@ -16,9 +16,9 @@
 		<property name="gmPassword" value="${gmPassword}" />
 	</bean>
 	<!-- 
+	 -->
 	<bean id="chargeHttpServer" class="com.rw.chargeServer.ChargeHttpServer" depends-on="serverConfig">
 	</bean>
-	 -->
 	
 	<bean id="serverVersionConfig" class="com.rw.manager.ServerVersionConfig">
 		<property name="version" value="${version}" />

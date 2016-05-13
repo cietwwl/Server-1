@@ -1,8 +1,6 @@
 package com.rw.fsutil.cacheDao;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,7 +48,11 @@ public class CfgCsvReloader {
 		cfgCsvDao.reverse(lastMap);		
 	}
 	
-
-	
+	public static void CheckAllConfig() {
+		Collection<CfgCsvDao> cfgHelpers = daoMap.values();
+		for (CfgCsvDao cfgCsvDao : cfgHelpers) {
+			cfgCsvDao.CheckConfig();
+		}
+	}	
 	
 }
