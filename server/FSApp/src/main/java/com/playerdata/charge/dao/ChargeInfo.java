@@ -41,6 +41,14 @@ public class ChargeInfo {
 	
 	private List<ChargeOrder> chargeOrderList = new ArrayList<ChargeOrder>();
 	
+	private boolean isChargeOn ;
+	
+	public boolean isChargeOn() {
+		return isChargeOn;
+	}
+	public void setChargeOn(boolean isChargeOn) {
+		this.isChargeOn = isChargeOn;
+	}
 	public String getUserId() {
 		return userId;
 	}
