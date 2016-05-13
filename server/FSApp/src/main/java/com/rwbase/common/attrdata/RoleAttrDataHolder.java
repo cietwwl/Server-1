@@ -91,6 +91,17 @@ public class RoleAttrDataHolder {
 			log += "[时装属性（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(fashionTotalData) + "\n";
 			log += "[时装属性（万分比值）]-" + BeanOperationHelper.getPositiveValueDiscription(eff.getAddedPercentages()) + "\n";
 		}
+		
+		//道术技能，加全体人员
+		AttrData taoistAddedValues = null;
+		{
+			IEffectCfg eff = player.getTaoistMgr().getEff().sample();
+			percentTotalData.plus(eff.getAddedPercentages());
+			BeanCopyer.copy(eff.getAddedValues(), taoistAddedValues);
+			log += "[道术技能（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(taoistAddedValues) + "\n";
+			log += "[道术技能（万份比值）]-" + BeanOperationHelper.getPositiveValueDiscription(eff.getAddedPercentages()) + "\n";
+		}
+		
 
 		// 帮派技能属性加成
 		Map<Integer, AttrData> groupSkillAttrDataMap = player.getUserGroupAttributeDataMgr().getGroupSkillAttrData();
@@ -117,7 +128,7 @@ public class RoleAttrDataHolder {
 		log += "[羁绊（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(fettersAttrData) + "\n";
 		log += "[羁绊（万份比值）]-" + BeanOperationHelper.getPositiveValueDiscription(fettersPrecentAttrData) + "\n";
 
-		RoleAttrData roleAttrData = new RoleAttrData(pRole.getUUId(), equipTotalData, inlayTotalData, roleBaseTotalData, skillTotalData, fashionTotalData, groupSkillAttrData, fettersAttrData);
+		RoleAttrData roleAttrData = new RoleAttrData(pRole.getUUId(), equipTotalData, inlayTotalData, roleBaseTotalData, skillTotalData, fashionTotalData, groupSkillAttrData, fettersAttrData,taoistAddedValues);
 		AttrData totalData = roleAttrData.getTotalData();
 		log += "[总属性（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(totalData) + "\n";
 		log += "[总属性（万分比值）]-" + BeanOperationHelper.getPositiveValueDiscription(percentTotalData) + "\n";
