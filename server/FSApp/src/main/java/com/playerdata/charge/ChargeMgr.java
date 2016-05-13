@@ -138,7 +138,11 @@ public class ChargeMgr {
 	}
 
 	private boolean chargeType(Player player, ChargeContentPojo chargeContentPojo) {
-		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(chargeContentPojo.getItemId());
+		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
+		if(StringUtils.isBlank(itemId)){
+			itemId= chargeContentPojo.getPrivateField();//保留字段 
+		}
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
 
 		
 		
