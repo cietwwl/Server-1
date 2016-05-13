@@ -308,7 +308,7 @@ public class FashionMgr implements FashionMgrIF{
 		return;
 	}
 	
-	public boolean GMSetExpiredTime(int fashionId,int minutes){
+	public boolean GMSetExpiredTime(int fashionId,long minutes){
 		FashionItem item = fashionItemHolder.getItem(fashionId);
 		if (item == null) {
 			GameLog.info("时装", m_player.getUserId(), "无法重置时装过期时间，找不到时装:"+fashionId, null);
@@ -337,9 +337,9 @@ public class FashionMgr implements FashionMgrIF{
 		}
 		item.setBrought(true);
 		fashionItemHolder.updateItem(m_player, item);
-		FashionBeingUsed fashionUsed = createOrUpdate();
-		putOn(item, fashionUsed);
-		fashionUsedHolder.update(fashionUsed);
+//		FashionBeingUsed fashionUsed = createOrUpdate();
+//		putOn(item, fashionUsed);
+//		fashionUsedHolder.update(fashionUsed);
 		GameLog.info("时装", m_player.getUserId(), "成功设置永久时装:"+fashionModelId, null);
 		notifyProxy.checkDelayNotify();
 		return true;
