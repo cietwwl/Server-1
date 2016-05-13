@@ -41,6 +41,18 @@ public class RandomSeqGenerator {
 			seqIndex = GeneratePsudoRandomSeq(seed, SeqCtl2, seqSize);
 		}
 	}
+	
+	public void ChangeSeqPlanIdList(int[] seqPlanIdList){
+		if (seqPlanIdList == null || seqPlanIdList.length <= 0){
+			return;
+		}
+		this.seqPlanIdList = seqPlanIdList;
+		int groupSize = seqPlanIdList.length;
+		int groupIndex = tmpseed % groupSize;
+		int planId = seqPlanIdList[groupIndex];
+		currentPlan = helper.getPlan(planId);
+		seqIndex = seqIndex % currentPlan.length;
+	}
 
 	/**
 	 * 返回－1表示无效

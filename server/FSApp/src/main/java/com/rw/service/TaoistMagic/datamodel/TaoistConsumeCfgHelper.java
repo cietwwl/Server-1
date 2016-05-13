@@ -86,9 +86,12 @@ public class TaoistConsumeCfgHelper extends CfgCsvDao<TaoistConsumeCfg> {
 		return val == null ? 0 : val;
 	}
 	
-	public TaoistConsumeCfg getCfg(int consumeId,int level){
-		Pair<Integer,Integer> pair = Pair.Create(consumeId,	level);
-		return consumePlanMap.get(pair);
+	public int[] getCriticalPlanIdList(int consumeId,int level){
+		TaoistConsumeCfg[] consumeM = consumeLevelMap.get(consumeId);
+		if (initLevel<=level && level <consumeM.length){
+			return consumeM[level].getSeqList();
+		}
+		return null;
 	}
 
 	public static final int initLevel = 1;

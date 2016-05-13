@@ -105,6 +105,10 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			int maxLvl = helper.getMaxLevel(consumeId);
 			cfg.cacheToLevel(maxLvl);
 		}
+		
+		//TODO test
+		//generateCriticalPlan(seed, seedRange, magicId, currentLevel, upgradeCount, maxUpgradeCount, outTotal)
+		//TaoistConsumeCfgHelper.getInstance().getConsumeCoin(consumeId, currentLvl, planNums)
 	}
 
 	/**
@@ -118,7 +122,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 	 * @param outTotal 总数升级数，包含暴击
 	 * @return 暴击方案
 	 */
-	public int[] generateCriticalPlan(int seed, int seedRange, int magicId,
+	public int[] generateCriticalPlan(int seed, int seedRange, int magicId,int currentLevel,
 			int upgradeCount, int maxUpgradeCount,RefInt outTotal) {
 		if (upgradeCount > maxUpgradeCount){
 			return null;
@@ -126,9 +130,17 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		if (seed < 0 || seedRange <=0){
 			return null;
 		}
-		int[] seqPlanIdList = findSeqPlanIdList(magicId);
+		
+		TaoistMagicCfg mcfg = cfgCacheMap.get(String.valueOf(magicId));
+		if (mcfg == null){
+			return null;
+		}
+
+		int level = currentLevel;
+		TaoistConsumeCfgHelper helper = TaoistConsumeCfgHelper.getInstance();
+		int[] seqPlanIdList = helper.getCriticalPlanIdList(mcfg.getConsumeId(),level);
 		if (seqPlanIdList == null) {
-			GameLog.error("道术", "找不到道术技能", "ID=" + magicId);
+			GameLog.error("道术", "找不到道术技能消耗配置", "consumeId=" + mcfg.getConsumeId()+",level="+level);
 			return null;
 		}
 
@@ -146,6 +158,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				}
 				result[count] = 1;
 				outTotal.value++;
+				level ++;
 			} else {
 				if (outTotal.value + num > maxUpgradeCount){
 					int maxAdd = maxUpgradeCount - outTotal.value;
@@ -155,21 +168,17 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				}
 				result[count] = num;
 				outTotal.value += num;
+				level += num;
 			}
+			
+			seqPlanIdList = helper.getCriticalPlanIdList(mcfg.getConsumeId(),level);
+			if (seqPlanIdList == null) {
+				GameLog.error("道术", "找不到道术技能消耗配置", "consumeId=" + mcfg.getConsumeId()+",level="+level);
+				return null;
+			}
+			seqg.ChangeSeqPlanIdList(seqPlanIdList);
 		}
 		return result;
-	}
-
-	private int[] findSeqPlanIdList(int magicId) {
-		TaoistMagicCfg mcfg = cfgCacheMap.get(String.valueOf(magicId));
-		if (mcfg == null)
-			return null;
-		int consumeId = mcfg.getConsumeId();
-		TaoistConsumeCfg tcCfg = TaoistConsumeCfgHelper.getInstance().getCfgById(String.valueOf(consumeId));
-		if (tcCfg == null)
-			return null;
-		int[] seqPlanIdList = tcCfg.getSeqList();
-		return seqPlanIdList;
 	}
 
 	public IEffectCfg getEffect(Iterable<Entry<Integer, Integer>> lst) {

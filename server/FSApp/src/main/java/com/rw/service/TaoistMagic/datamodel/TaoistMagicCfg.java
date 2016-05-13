@@ -65,7 +65,7 @@ public class TaoistMagicCfg extends BaseConfig {
 		if (params.length <4){
 			throw new RuntimeException("属性计算参数无效,key="+key+",参数:"+formulaParam);
 		}
-		formula = new TaoistMagicFormula(params[0],params[1],params[2],params[3]);
+		formula = TaoistMagicFormula.Create(params[0],params[1],params[2],params[3]);
 	}
 
 	public int getMagicValue(int level){

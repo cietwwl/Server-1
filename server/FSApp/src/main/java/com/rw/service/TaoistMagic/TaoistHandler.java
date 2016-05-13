@@ -68,7 +68,7 @@ public class TaoistHandler {
 		// 验证暴击次数
 		RefInt total = new RefInt();
 		int[] planNums = helper.generateCriticalPlan(taoistMgr.getRandomSeed(), taoistMgr.getSeedRange(), tid,
-				upgradeCount, maxUpgradeCount, total);
+				currentLvl,upgradeCount, maxUpgradeCount, total);
 		if (planNums == null) {
 			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
 		}
