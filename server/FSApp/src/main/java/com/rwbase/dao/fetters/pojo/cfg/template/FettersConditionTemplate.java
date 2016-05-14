@@ -80,7 +80,7 @@ public class FettersConditionTemplate {
 		// ===============================子条件列表
 		String subConditionRestrict = cfg.getSubConditionRestrict();// 限定类型
 		String subConditionValue = cfg.getSubConditionValue();// 限定类型
-		if (StringUtils.isEmpty(subConditionRestrict) || StringUtils.isEmpty(subConditionValue)) {
+		if (StringUtils.isEmpty(subConditionRestrict) && StringUtils.isEmpty(subConditionValue)) {
 			throw new ExceptionInInitializerError(String.format("唯一Id[%s]解析羁绊表，表中的子条件限定，或者条件值有空", uniqueId));
 		}
 

@@ -30,6 +30,8 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Privilege.IPrivilegeManager;
@@ -639,6 +641,12 @@ public class Player implements PlayerIF {
 		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
+	//by franky 升级通知，响应时可以通过sample方法获取旧的等级
+	private StreamImpl<Integer> levelNotification = new StreamImpl<Integer>();
+	public IStream<Integer> getLevelNotification(){
+		return levelNotification;
+	}
+	
 	public void SetLevel(int newLevel) {
 		// 最高等级
 		if (newLevel > PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.PLAYER_MAX_LEVEL)) {
@@ -654,6 +662,8 @@ public class Player implements PlayerIF {
 		if (observer != null) {
 			observer.playerChangeLevel(this);
 		}
+		
+		levelNotification.fire(newLevel);
 	}
 
 	// 升级之后业务逻辑

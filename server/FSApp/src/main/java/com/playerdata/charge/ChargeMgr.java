@@ -49,6 +49,10 @@ public class ChargeMgr {
 		return instance;
 	}
 	
+	public boolean isValid(ChargeTypeEnum monthCardType){
+		return false;
+	}
+	
 	public void syn(Player player, int version){		
 		ChargeInfoHolder.getInstance().syn(player,version);
 	}
