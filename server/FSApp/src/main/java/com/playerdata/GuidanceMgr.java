@@ -2,6 +2,7 @@ package com.playerdata;
 
 import com.common.RefParam;
 import com.playerdata.common.PlayerEventListener;
+import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.service.guide.NewGuideService;
 import com.rw.service.guide.datamodel.GiveItemCfg;
@@ -15,11 +16,12 @@ public class GuidanceMgr implements PlayerEventListener, IStreamListner<Integer>
 		player.getLevelNotification().subscribe(this);
 		isSubscribed = true;
 	}
+	
 	@Override
-	public void onClose() {
+	public void onClose(IStream<Integer> whichStream) {
 		isSubscribed = false;
 	}
-	
+
 	@Override
 	public void onChange(Integer newLevel) {
 		GiveItemCfg cfg = GiveItemCfgDAO.getInstance().getAutoSentCfg(newLevel);

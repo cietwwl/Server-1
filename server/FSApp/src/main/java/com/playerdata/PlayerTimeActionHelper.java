@@ -6,6 +6,7 @@ import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
@@ -93,6 +94,13 @@ public class PlayerTimeActionHelper {
 
 		TimeAction onNewDayZeroTimeAction = new TimeAction(player.getUserId());
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+		
+		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
+				MonthCardPrivilegeMgr.getShareInstance().checkPrivilege(player);
+			}
+		});
 		
 		return onNewDayZeroTimeAction;
 		
