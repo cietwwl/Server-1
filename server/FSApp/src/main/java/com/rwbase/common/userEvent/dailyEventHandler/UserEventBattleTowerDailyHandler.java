@@ -36,7 +36,7 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.LoginDaily.getCfgId()));
+					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.BattleTowerDaily.getCfgId()));
 					
 					
 					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
@@ -50,13 +50,13 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 					
 					
 					if(addcount > 0&&isBetweendays){
-						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.LoginDaily,addcount);	
+						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.BattleTowerDaily,addcount);	
 						
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.LoginDaily.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.BattleTowerDaily.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
