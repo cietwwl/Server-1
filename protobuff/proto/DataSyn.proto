@@ -66,6 +66,8 @@ enum eSynType	//数据同步类型
 	POWER_INFO = 43;//体力信息
 	USER_TMP_GAME_DATA = 44;//用户的临时内存数据
 	HERO_FETTERS = 45;//英雄羁绊
+	FIX_NORM_EQUIP=46; //专属装备普通
+	FIX_EXP_EQUIP=47; //专属装备经验类型
 
 	//活动从60-79
 	ActivityCountType = 60;//活动，计数类型
