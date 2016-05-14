@@ -28,8 +28,16 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	
 	private String userId;// 对应的角色Id
 	
-
+    private String cfgid;
 	
+	public String getCfgid() {
+		return cfgid;
+	}
+
+	public void setCfgid(String cfgid) {
+		this.cfgid = cfgid;
+	}
+
 	@CombineSave
 	private boolean closed = false;
 

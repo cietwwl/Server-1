@@ -79,6 +79,7 @@ public final class ActivityDailyCountTypeCfgDAO extends CfgCsvDao<ActivityDailyC
 			
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
+			item.setCfgid(cfgById.getId());
 			item.setVersion(cfgById.getVersion());
 			item.setSubItemList(newItemList(cfgById));
 			item.setLastTime(System.currentTimeMillis());
