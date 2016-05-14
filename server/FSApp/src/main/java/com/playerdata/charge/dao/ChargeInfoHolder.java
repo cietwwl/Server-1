@@ -1,9 +1,11 @@
 package com.playerdata.charge.dao;
 
+import com.bm.serverStatus.ServerStatusMgr;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rwbase.dao.serverData.ServerData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -30,6 +32,7 @@ public class ChargeInfoHolder {
 	private ChargeInfo newChargeInfo(String userId){
 		ChargeInfo chargeInfo = new ChargeInfo();
 		chargeInfo.setUserId(userId);
+		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
 		if(ChargeInfoDao.getInstance().update(chargeInfo)){
 			GameLog.info(LogModule.Charge.getName(), "ChargeInfoHolder[newChargeInfo]", "success userId:" + userId,null);
 			return chargeInfo;

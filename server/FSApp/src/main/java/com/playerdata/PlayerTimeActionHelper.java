@@ -4,7 +4,9 @@ import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
@@ -79,6 +81,8 @@ public class PlayerTimeActionHelper {
 			public void doTask() {
 				//每个小时都检查一下活动的开启关闭状态
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;
@@ -90,6 +94,13 @@ public class PlayerTimeActionHelper {
 
 		TimeAction onNewDayZeroTimeAction = new TimeAction(player.getUserId());
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+		
+		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
+				MonthCardPrivilegeMgr.getShareInstance().checkPrivilege(player);
+			}
+		});
 		
 		return onNewDayZeroTimeAction;
 		

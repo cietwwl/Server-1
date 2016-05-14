@@ -3,11 +3,12 @@ package com.rw.service.Privilege.datamodel;
 import java.util.Comparator;
 
 import com.log.GameLog;
-import com.playerdata.VipMgr;
+import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 
 public class ChargeTypePriority implements Comparator<String> {
 	public static final String monthPrefix = "month";
-	private static String[] monthLevelStr = { "normal", "vip" };
+	public static final String vipPrefix = "vip";
+	
 	private static ChargeTypePriority instance;
 
 	public static ChargeTypePriority getShareInstance(){
@@ -22,17 +23,11 @@ public class ChargeTypePriority implements Comparator<String> {
 			return null;
 		}
 		
-		if (chargeType.startsWith(VipMgr.vipPrefix)){
-			int vip = extractVipLevel(chargeType);
-			return VipMgr.vipPrefix + (vip > 0 ? vip - 1 : 0);
+		int vip = VipPrivilegeHelper.getShareInstance().extractVipLevel(chargeType);
+		if (vip >= 0){
+			return vipPrefix + (vip > 0 ? vip - 1 : 0);
 		}
-		if (chargeType.startsWith(monthPrefix)){
-			int monthLevel = extractMonthLevel(chargeType);
-			//普通月卡的前一档定义为VIP0
-			return (monthLevel > 0 ? monthPrefix + monthLevelStr[monthLevel] : VipMgr.vipPrefix + "0");
-		}
-		//无法估计前一档充值等级！
-		return chargeType;
+		return MonthCardPrivilegeMgr.getShareInstance().guessPreviousChargeLevel(chargeType);
 	}
 	
 	public int getBestMatchCharge(String[] sources,String chargeType) {
@@ -40,9 +35,10 @@ public class ChargeTypePriority implements Comparator<String> {
 			return -1;
 		}
 		
-		if (chargeType.startsWith(VipMgr.vipPrefix)){
-			int vip = extractVipLevel(chargeType);
-			return VipPrivilegeHelper.getShareInstance().getBestMatchCharge(sources, vip);
+		VipPrivilegeHelper vipHelper = VipPrivilegeHelper.getShareInstance();
+		int vip = vipHelper.extractVipLevel(chargeType);
+		if (vip >= 0){
+			return vipHelper.getBestMatchCharge(sources, vip);
 		}
 		
 		if (!chargeType.startsWith(monthPrefix)){
@@ -50,23 +46,14 @@ public class ChargeTypePriority implements Comparator<String> {
 		}
 		
 		//搜索可以充值的最大优先级的月卡
-		int monthLevel = extractMonthLevel(chargeType);
-		int maxMonthLevel = -1;
-		int bestMatchIndex = -1; 
-		for(int i = 0;i<sources.length;i++){
-			if (sources[i].startsWith(monthPrefix)){
-				int srcMonthLevel = extractMonthLevel(sources[i]);
-				if (srcMonthLevel > maxMonthLevel && maxMonthLevel<=monthLevel){
-					maxMonthLevel = srcMonthLevel;
-					bestMatchIndex = i;
-				}
-			}
-		}
+		MonthCardPrivilegeMgr monthHelper = MonthCardPrivilegeMgr.getShareInstance();
+		int monthLevel = monthHelper.extractMonthLevel(chargeType);
+		int bestMatchIndex = monthHelper.getBestMatchCharge(sources, monthLevel);
 		
 		if (bestMatchIndex == -1){
 			//还找不到就使用最后保底方案，使用Vip0!
 			for(int i = 0;i<sources.length;i++){
-				if (sources[i].equals(VipMgr.vipPrefix+"0")){
+				if (sources[i].equals(vipPrefix+"0")){
 					bestMatchIndex = i;
 				}
 			}
@@ -77,8 +64,8 @@ public class ChargeTypePriority implements Comparator<String> {
 	
 	@Override
 	public int compare(String leftChargeType, String rightChargeType) {
-		boolean leftIsVip = leftChargeType.startsWith(VipMgr.vipPrefix);
-		boolean rightIsVip = rightChargeType.startsWith(VipMgr.vipPrefix);
+		boolean leftIsVip = leftChargeType.startsWith(vipPrefix);
+		boolean rightIsVip = rightChargeType.startsWith(vipPrefix);
 		boolean leftIsMonth = leftChargeType.startsWith(monthPrefix);
 		boolean rightIsMonth = rightChargeType.startsWith(monthPrefix);
 
@@ -91,14 +78,16 @@ public class ChargeTypePriority implements Comparator<String> {
 		}
 		
 		if (leftIsVip && rightIsVip){
-			int leftVip = extractVipLevel(leftChargeType);
-			int rightVip = extractVipLevel(rightChargeType);
+			VipPrivilegeHelper vipHelper = VipPrivilegeHelper.getShareInstance();
+			int leftVip = vipHelper.extractVipLevel(leftChargeType);
+			int rightVip = vipHelper.extractVipLevel(rightChargeType);
 			return leftVip - rightVip;
 		}
 		
 		if (leftIsMonth && rightIsMonth){
-			int leftMonthLevel = extractMonthLevel(leftChargeType);
-			int rightMonthLevel = extractMonthLevel(rightChargeType);
+			MonthCardPrivilegeMgr monthHelper = MonthCardPrivilegeMgr.getShareInstance();
+			int leftMonthLevel = monthHelper.extractMonthLevel(leftChargeType);
+			int rightMonthLevel = monthHelper.extractMonthLevel(rightChargeType);
 			return leftMonthLevel - rightMonthLevel;
 		}
 		
@@ -115,20 +104,5 @@ public class ChargeTypePriority implements Comparator<String> {
 	 */
 	public boolean gt(String leftChargeType, String rightChargeType) {
 		return compare(leftChargeType,rightChargeType)>0;
-	}
-
-	
-	private int extractMonthLevel(String chargeTy) {
-		String monthVal = chargeTy.substring(chargeTy.indexOf(monthPrefix)+monthPrefix.length());
-		for (int i= 0;i<monthLevelStr.length;i++){
-			if (monthLevelStr[i].equals(monthVal)){
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	private int extractVipLevel(String chargeTy) {
-		return Integer.parseInt(chargeTy.substring(chargeTy.indexOf(VipMgr.vipPrefix)+VipMgr.vipPrefix.length()));
 	}
 }

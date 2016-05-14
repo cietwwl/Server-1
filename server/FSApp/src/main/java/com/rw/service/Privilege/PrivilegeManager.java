@@ -40,10 +40,14 @@ public class PrivilegeManager
 		
 		cache = new HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>, AllPrivilege>();
 		privelegeProviders = new ArrayList<IPrivilegeProvider>(2);
+		// 月卡特权比VIP要优先
+		IPrivilegeProvider mprovider = MonthCardPrivilegeMgr.getShareInstance().getPrivilige(m_player);
+		privelegeProviders.add(mprovider);
+		mprovider.getPrivilegeProvider().subscribe(this);
+		
 		IPrivilegeProvider provider = m_player.getVipMgr();
 		privelegeProviders.add(provider);
 		provider.getPrivilegeProvider().subscribe(this);
-		// TODO 月卡特权待增加，月卡应该比VIP要优先
 		
 		//每个provider计算特权点，并缓存起来
 		privilegeByProvider(privelegeProviders);
@@ -84,10 +88,11 @@ public class PrivilegeManager
 	}
 
 	@Override
-	public void onClose() {
+	public void onClose(IStream<IPrivilegeProvider> stream) {
 		// 回收资源
-		privelegeProviders.clear();
-		cache.clear();
+		IPrivilegeProvider pro = stream.sample();
+		privelegeProviders.remove(pro);
+		//cache.clear();
 	}
 
 	@Override

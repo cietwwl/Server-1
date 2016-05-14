@@ -13,7 +13,7 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
  * @author allen
  * @version 1.0
  */
-public class CommonSingleTable<T> extends BaseJdbc<T>{
+public class CommonSingleTable<T> extends BaseJdbc<T> {
 
 	private final String selectSql;
 	private final String deleteSql;
@@ -68,10 +68,14 @@ public class CommonSingleTable<T> extends BaseJdbc<T>{
 	}
 
 	@Deprecated
-	public <E> E queryForObject(String sql,Object[] params,Class<E> requiredType){
-		return template.queryForObject(sql, params, requiredType);
+	public <E> E queryForObject(String sql, Object[] params, Class<E> requiredType) {
+		List<E> list = template.queryForList(sql, params, requiredType);
+		if (list.isEmpty()) {
+			return null;
+		}
+		return list.get(0);
 	}
-	
+
 	/**
 	 * 返回查询结果
 	 * 
