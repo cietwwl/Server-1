@@ -27,7 +27,7 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	private String id;
 	
 	private String userId;// 对应的角色Id
-	
+	@CombineSave
     private String cfgid;
 	
 	public String getCfgid() {
