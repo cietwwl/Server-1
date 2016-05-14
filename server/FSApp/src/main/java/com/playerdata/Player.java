@@ -115,6 +115,7 @@ public class Player implements PlayerIF {
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
 	//特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
+	private GuidanceMgr guideMgr = new GuidanceMgr();
 
 	// 个人帮派数据的Mgr
 	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
@@ -276,6 +277,7 @@ public class Player implements PlayerIF {
 		m_battleTowerMgr.init(this);
 		
 		privilegeMgr.init(this);
+		guideMgr.init(this);
 		
 		afterMgrInit();
 		upgradeMgr.init(this);
