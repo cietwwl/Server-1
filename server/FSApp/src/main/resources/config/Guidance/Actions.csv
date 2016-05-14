@@ -104,6 +104,7 @@ key,Remarks,target,guideActType,extraParam,openConditionalID,skipConditionalID,o
 100050030,,UI_DailyActivity(Clone)/Scroll View/grid/20195_1,Hand,,1000501,1000502,-10,10,Left,UIDailyView,true,,,1010,,,
 100060000,,ViewBg/RoleLevelUpgrade,Hand,"if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1000601,1000602,-10,-200,Left,RoleLevelUpgrade,true,,1.2,1011,1011,,
 100060010,,PART_ActionIcon/offset/Fashion/Button,Hand_MM,100060010,1000601,1000602,-10,,Left,MainView,true,,,1010,,,
+100060020,,Grid/PartFashionItem_3/button_pulldown,Hand,,1000601,1000602,-10,,Left,Fashion,true,,,1010,,,
 100070000,,ViewBg/RoleLevelUpgrade,Hand,"if_then_else(isBattling(),JumpBackFromBattle(),ShowMainView())",1000701,1000702,-10,-200,Left,RoleLevelUpgrade,true,,1.2,1011,1011,,
 100070010,,Activity_Building,Hand_MM,100070010,1000701,1000702,-8,52,Left,MainView,true,,,1010,,,PART_CityTitle/Activity
 100070020,,GridPVE/PveItem_2,Hand,,1000701,1000702,-10,10,Left,UIPVEEntry,true,,,1010,,,
