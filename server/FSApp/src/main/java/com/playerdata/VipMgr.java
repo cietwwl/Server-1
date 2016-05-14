@@ -8,9 +8,9 @@ import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Privilege.IPrivilegeProvider;
+import com.rw.service.Privilege.datamodel.ChargeTypePriority;
 import com.rw.service.Privilege.datamodel.VipPrivilegeHelper;
 import com.rwbase.common.enu.EPrivilegeDef;
-import com.rwbase.dao.vip.TableVipDAO;
 import com.rwbase.dao.vip.VipDataHolder;
 import com.rwbase.dao.vip.pojo.TableVip;
 
@@ -27,7 +27,6 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		return vipPrivilegeProvider;
 	}
 
-	public static final String vipPrefix = "vip";
 	@Override
 	public int getBestMatchCharge(String[] sources) {
 		return VipPrivilegeHelper.getShareInstance().getBestMatchCharge(sources, m_pPlayer.getVip());
@@ -35,7 +34,7 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 
 	@Override
 	public String getCurrentChargeType() {
-		return vipPrefix+m_pPlayer.getVip();
+		return ChargeTypePriority.vipPrefix+m_pPlayer.getVip();
 	}
 
 	@Override

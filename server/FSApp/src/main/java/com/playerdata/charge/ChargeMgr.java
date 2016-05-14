@@ -1,19 +1,13 @@
 package com.playerdata.charge;
 
 import java.util.List;
-import java.util.Iterator;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
-
-import java.util.Set;
-
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
@@ -21,7 +15,6 @@ import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItemHolder;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeSubItem;
-import com.playerdata.PlayerMgr;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.cfg.ChargeTypeEnum;
@@ -31,13 +24,13 @@ import com.playerdata.charge.cfg.VipGiftCfg;
 import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
-import com.playerdata.charge.dao.ChargeOrder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
+import com.playerdata.charge.dao.ChargeOrder;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.VipDataHolder;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 
 public class ChargeMgr {
@@ -108,19 +101,17 @@ public class ChargeMgr {
 	private boolean buyVipGift(Player player, VipGiftCfg target,ChargeResult result) {
 		if(player.getVip() < Integer.parseInt(target.getVipLv())){
 			result.setTips("Vip等级低于购买礼包等级");
-			GameLog.error("chargeMgr.Vip等级低于购买礼包等级");
+			GameLog.error("chargeMgr", player.getUserId(), "Vip等级低于购买礼包等级");
 			return false;
 		}	
 		
 		if(player.getUserGameDataMgr().getGold() < Integer.parseInt(target.getCurCost())){
 			result.setTips("货币不够");
-			GameLog.error("chargeMgr.货币不够");
+			GameLog.error("chargeMgr", player.getUserId(), "货币不够");
 			return false;
 		}
 		player.getUserGameDataMgr().addGold(-Integer.parseInt(target.getCurCost()));
 		
-		
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -363,7 +354,15 @@ public class ChargeMgr {
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
 				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡类型 =" + chargeItemId);
 			}
-		}		
+		}
+		if (result.isSuccess()){
+			int timeCardTypeOrdinal = targetItem.getTimeCardType();
+			ChargeTypeEnum[] enumvalues = ChargeTypeEnum.values();
+			if (0<=timeCardTypeOrdinal && timeCardTypeOrdinal < enumvalues.length){
+				ChargeTypeEnum type = enumvalues[timeCardTypeOrdinal];
+				MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(player, type, true);
+			}
+		}
 		return result;
 	}
 
