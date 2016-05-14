@@ -14,66 +14,71 @@ import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class ActivityRateTypeItemHolder{
-	
+public class ActivityRateTypeItemHolder {
+
 	private static ActivityRateTypeItemHolder instance = new ActivityRateTypeItemHolder();
-	
-	public static ActivityRateTypeItemHolder getInstance(){
+
+	public static ActivityRateTypeItemHolder getInstance() {
 		return instance;
 	}
 
 	final private eSynType synType = eSynType.ActivityRateType;
-	
 
-	public List<ActivityRateTypeItem> getItemList(String userId)	
-	{
-		
+	public List<ActivityRateTypeItem> getItemList(String userId) {
+
 		List<ActivityRateTypeItem> itemList = new ArrayList<ActivityRateTypeItem>();
-		Enumeration<ActivityRateTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityRateTypeItem> mapEnum = getItemStore(userId)
+				.getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityRateTypeItem item = (ActivityRateTypeItem) mapEnum.nextElement();
+			ActivityRateTypeItem item = (ActivityRateTypeItem) mapEnum
+					.nextElement();
 			itemList.add(item);
 		}
-		
+
 		return itemList;
 	}
-	
-	public void updateItem(Player player, ActivityRateTypeItem item){
+
+	public void updateItem(Player player, ActivityRateTypeItem item) {
 		getItemStore(player.getUserId()).updateItem(item);
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		ClientDataSynMgr.updateData(player, item, synType,
+				eSynOpType.UPDATE_SINGLE);
 	}
-	
-	public ActivityRateTypeItem getItem(String userId, ActivityRateTypeEnum typeEnum){		
+
+	public ActivityRateTypeItem getItem(String userId,
+			ActivityRateTypeEnum typeEnum) {
 		String itemId = ActivityRateTypeHelper.getItemId(userId, typeEnum);
 		return getItemStore(userId).getItem(itemId);
 	}
-	
-	
-	public boolean addItem(Player player, ActivityRateTypeItem item){
-	
+
+	public boolean addItem(Player player, ActivityRateTypeItem item) {
+
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
-		if(addSuccess){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
+		if (addSuccess) {
+			ClientDataSynMgr.updateData(player, item, synType,
+					eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
 	}
-	
-	public boolean removeItem(Player player,ActivityRateTypeEnum type){
-		
-		String uidAndId = ActivityRateTypeHelper.getItemId(player.getUserId(), type);
-		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
+
+	public boolean removeItem(Player player, ActivityRateTypeEnum type) {
+
+		String uidAndId = ActivityRateTypeHelper.getItemId(player.getUserId(),
+				type);
+		boolean addSuccess = getItemStore(player.getUserId()).removeItem(
+				uidAndId);
 		return addSuccess;
 	}
-	
-	public void synAllData(Player player){
-		List<ActivityRateTypeItem> itemList = getItemList(player.getUserId());			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+
+	public void synAllData(Player player) {
+		List<ActivityRateTypeItem> itemList = getItemList(player.getUserId());
+		ClientDataSynMgr.synDataList(player, itemList, synType,
+				eSynOpType.UPDATE_LIST);
 	}
 
-	
 	private MapItemStore<ActivityRateTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityRateTypeItem> cache = MapItemStoreFactory.getActivityRateTypeItemCache();
+		MapItemStoreCache<ActivityRateTypeItem> cache = MapItemStoreFactory
+				.getActivityRateTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityRateTypeItem.class);
 	}
-	
+
 }
