@@ -36,7 +36,7 @@ public class UserEventArenaDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.LoginDaily.getCfgId()));
+					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.ArenaDaily.getCfgId()));
 					
 					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();					
 					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
@@ -45,13 +45,13 @@ public class UserEventArenaDailyHandler implements IUserEventHandler{
 //					Integer.parseInt(params.toString()) - dataItem.getCount();
 					
 					if(addcount>0&&isBetweendays){
-						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.LoginDaily,addcount);	
+						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.ArenaDaily,addcount);	
 						
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.LoginDaily.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.ArenaDaily.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});

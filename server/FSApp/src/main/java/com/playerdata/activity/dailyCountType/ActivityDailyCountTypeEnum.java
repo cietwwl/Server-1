@@ -11,17 +11,17 @@ public enum ActivityDailyCountTypeEnum{	// implements TypeIdentification
 //	GambleCoin("16"),
 //	GambleGold("18"),
 	Daily("201"),
-	LoginDaily("1"),
-	TreasureLandDaily("2"),//聚宝之地
-	UpGradeStarDaily("3"),//升星
-	AdvanceDaily("4"),//进阶
-	BattleTowerDaily("5"),
-	ArenaDaily("6"),
-	CoinSpendDaily("7"),
-	ChargeDaily("8"),
-	GambleGoldDaily("9"),
-	AttachDaily("10"),
-	GoldSpendDaily("11");
+	LoginDaily("20101"),
+	TreasureLandDaily("20102"),//聚宝之地
+	UpGradeStarDaily("20103"),//升星
+	AdvanceDaily("20104"),//进阶
+	BattleTowerDaily("20105"),//???
+	ArenaDaily("20106"),//???
+	CoinSpendDaily("20107"),
+	ChargeDaily("20108"),
+	GambleGoldDaily("20109"),
+	AttachDaily("20110"),
+	GoldSpendDaily("20111");
 	
 	
 	

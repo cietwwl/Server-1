@@ -168,11 +168,33 @@ public class ActivityDailyCountTypeMgr {
 	
 	public void addCount(Player player, ActivityDailyCountTypeEnum countType, int countadd) {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-
 		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
-//		dataItem.setCount(dataItem.getCount() + countadd);
-
-			dataHolder.updateItem(player, dataItem);
+		List<ActivityDailyCountTypeSubItem> sublist = dataItem.getSubItemList();
+		
+		ActivityDailyCountTypeSubCfg cfg = null;
+		List<ActivityDailyCountTypeSubCfg> subcfglist = ActivityDailyCountTypeSubCfgDAO.getInstance().getAllCfg();
+		for(ActivityDailyCountTypeSubCfg subcfg :subcfglist){
+			if(subcfg.getId() == countType.getCfgId());
+			cfg = subcfg;
+			break;
+		}
+		if(cfg == null){
+			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
+			return;
+		}
+		ActivityDailyCountTypeSubItem subItem = null;
+		for(ActivityDailyCountTypeSubItem subitem : sublist){
+			if(StringUtils.equals(cfg.getId(), subitem.getCfgId()))
+			subItem = subitem;
+			break;
+		}
+		if(subItem == null){
+			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item");
+			return;
+		}
+		
+		subItem.setCount(subItem.getCount() + countadd);
+		dataHolder.updateItem(player, dataItem);
 	}
 
 	public ActivityComResult takeGift(Player player, ActivityDailyCountTypeEnum countType, String subItemId) {
