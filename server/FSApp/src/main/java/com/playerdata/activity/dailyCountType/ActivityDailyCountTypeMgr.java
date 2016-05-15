@@ -185,7 +185,6 @@ public class ActivityDailyCountTypeMgr {
 		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		ActivityDailyCountTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);	
 		subItem.setCount(subItem.getCount() + countadd);
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@activitydaily.itemtype =" + subItem.getCfgId() + " count =" + subItem.getCount());
 		dataHolder.updateItem(player, dataItem);
 	}
 	

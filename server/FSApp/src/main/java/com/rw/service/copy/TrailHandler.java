@@ -67,7 +67,7 @@ public class TrailHandler {
 		{
 			//聚宝之地
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_JBZD, 1);
-			UserEventMgr.getInstance().TreasureLandCopyWin(player, 1);
+			UserEventMgr.getInstance().TreasureLandCopyWinDaily(player, 1);
 		}
 		else
 		{

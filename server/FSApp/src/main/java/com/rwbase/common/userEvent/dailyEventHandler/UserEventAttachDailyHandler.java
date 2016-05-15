@@ -32,16 +32,16 @@ public class UserEventAttachDailyHandler implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-					/**活动是否开启*/
-					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
-							.getInstance().getById(ActivityDailyCountTypeEnum.AttachDaily.getCfgId()));
+			/**活动是否开启*/
+			boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
+					.getInstance().getById(ActivityDailyCountTypeEnum.AttachDaily.getCfgId()));
 					
 					
-					if(isBetweendays && Integer.parseInt(params.toString()) > 0){
-						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.AttachDaily,Integer.parseInt(params.toString()));	
+			if(isBetweendays){
+				ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.AttachDaily,Integer.parseInt(params.toString()));	
 						
-					}
-				}
+			}
+		}
 			@Override
 			public void logError(Player player,Throwable ex) {
 				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.AttachDaily.toString()).append(" error");				

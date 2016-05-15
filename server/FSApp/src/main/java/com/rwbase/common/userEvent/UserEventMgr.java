@@ -25,6 +25,9 @@ import com.rwbase.common.userEvent.eventHandler.UserEventLoginHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventUseGoldHandler;
 
 public class UserEventMgr {
+	private static final String Player = null;
+
+
 	private static UserEventMgr instance = new UserEventMgr();
 	
 	
@@ -66,12 +69,19 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.LOGIN, lastLoginTime);
 		raiseEvent(player, userEvent);
 		
-		UserEvent userEventOther = new UserEvent(UserEventType.LOGINDAILY, lastLoginTime);
-		raiseEvent(player, userEventOther);
+		RoleLoginDaily(player, lastLoginTime);
+	}
+	
+	public void charge(Player player ,int chargevalue){
+		UserEvent userEvent = new UserEvent(UserEventType.CHARGE, chargevalue);
+		raiseEvent(player, userEvent);		
+		chargeDaily(player ,chargevalue);
 	}
 	
 	
 	
+	
+
 	public void UseGold(Player player, int GoldSpending) {
 		
 		UserEvent userEvent = new UserEvent(UserEventType.USE_GOLD, GoldSpending);
@@ -92,13 +102,7 @@ public class UserEventMgr {
 		raiseEvent(player, userEvent);
 	}
 	
-	public void TreasureLandCopyWin(Player player, int winnum) {
 		
-		UserEvent userEvent = new UserEvent(UserEventType.TREASURELANDDAILY, winnum);
-		raiseEvent(player, userEvent);
-	}
-	
-	
 	public void BattleTower(Player player, int winnum) {
 		
 		UserEvent userEvent = new UserEvent(UserEventType.BATTLETOWER, winnum);
@@ -131,6 +135,22 @@ public class UserEventMgr {
 			
 	}
 	
+	
+	private void RoleLoginDaily(Player player, long lastLoginTime) {
+		UserEvent userEventOther = new UserEvent(UserEventType.LOGINDAILY, lastLoginTime);
+		raiseEvent(player, userEventOther);
+	}
+	
+	
+	
+	public void TreasureLandCopyWinDaily(Player player, int winnum) {
+		
+		UserEvent userEvent = new UserEvent(UserEventType.TREASURELANDDAILY, winnum);
+		raiseEvent(player, userEvent);
+	}
+	
+	
+	
 	public void GambleGoldDaily(Player player, int count) {
 		UserEvent userEvent = new UserEvent(UserEventType.GAMBLEGOLDDAILY, count);
 		raiseEvent(player, userEvent);
@@ -151,6 +171,11 @@ public class UserEventMgr {
 	public void battleTowerDaily(Player player,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.BATTLETOWERDAILY, count);
 		raiseEvent(player, userEvent);
+	}
+	
+	private void chargeDaily(com.playerdata.Player player2, int chargevalue) {
+		UserEvent userEvent = new UserEvent(UserEventType.CHARGEDAILY, chargevalue);
+		raiseEvent(player2, userEvent);		
 	}
 	
 	public void ArenaDaily(Player player,int count){
@@ -178,6 +203,7 @@ public class UserEventMgr {
 		IUserEventHandler eventHandler = eventHandlerMap.get(userEvent.getEventType());
 		if(eventHandler!=null){
 			eventHandler.doEvent(player, userEvent.getParam());
+		
 		}
 	}
 	

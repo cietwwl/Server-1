@@ -9,6 +9,7 @@ public enum ActivityCountTypeEnum{	// implements TypeIdentification
 	ElityCopyWin("14"),
 	BattleTower("15"),
 	GambleCoin("16"),
+	Charge("17"),
 	GambleGold("18");
 //	LoginDaily("19");
 //	TreasureLandDaily("20"),//聚宝之地
