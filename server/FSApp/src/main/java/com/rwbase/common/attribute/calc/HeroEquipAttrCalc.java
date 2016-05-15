@@ -30,7 +30,7 @@ public class HeroEquipAttrCalc implements IComponentCalc {
 		String userId = param.getUserId();
 		List<EquipInfo> equipList = param.getEquipList();
 		if (equipList == null || equipList.isEmpty()) {
-			GameLog.error("计算英雄装备属性", userId, "英雄的装备列表是空的");
+			GameLog.error("计算英雄装备属性", userId, String.format("Id为[%s]的英雄身上没有任何装备", param.getHeroId()));
 			return null;
 		}
 
@@ -60,7 +60,7 @@ public class HeroEquipAttrCalc implements IComponentCalc {
 		}
 
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄装备属性", userId, "英雄装备计算出来的属性是空的");
+			GameLog.error("计算英雄装备属性", userId, String.format("Id为[%s]的英雄计算出来的装备属性是空的", param.getHeroId()));
 			return null;
 		}
 

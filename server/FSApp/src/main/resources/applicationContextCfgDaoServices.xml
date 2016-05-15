@@ -165,6 +165,9 @@
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO"  init-method="init" />
 	
+	<!-- Buffer表 -->
+	<bean class="com.rwbase.dao.battle.pojo.BufferCfgDAO"  init-method="init" />
+	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

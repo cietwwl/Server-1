@@ -7,17 +7,23 @@ package com.rwbase.common.attribute.param;
  */
 public class MagicParam {
 	private final String userId;
+	private final String heroId;
 	private final String magicId;
 	private final int magicLevel;
 
-	private MagicParam(String userId, String magicId, int magicLevel) {
+	private MagicParam(String userId, String heroId, String magicId, int magicLevel) {
 		this.userId = userId;
+		this.heroId = heroId;
 		this.magicId = magicId;
 		this.magicLevel = magicLevel;
 	}
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public String getHeroId() {
+		return heroId;
 	}
 
 	public String getMagicId() {
@@ -30,11 +36,16 @@ public class MagicParam {
 
 	public static class MagicBuilder {
 		private String userId;
+		private String heroId;
 		private String magicId;
 		private int magicLevel;
 
 		public void setUserId(String userId) {
 			this.userId = userId;
+		}
+
+		public void setHeroId(String heroId) {
+			this.heroId = heroId;
 		}
 
 		public void setMagicId(String magicId) {
@@ -46,7 +57,7 @@ public class MagicParam {
 		}
 
 		public MagicParam build() {
-			return new MagicParam(userId, magicId, magicLevel);
+			return new MagicParam(userId, heroId, magicId, magicLevel);
 		}
 	}
 }

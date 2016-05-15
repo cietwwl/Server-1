@@ -32,7 +32,7 @@ public class HeroBaseAttrCalc implements IComponentCalc {
 		String userId = param.getUserId();
 		RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(param.getHeroTmpId());
 		if (roleCfg == null) {
-			GameLog.error("计算英雄基础属性", userId, String.format("[%s]的英雄获取不到对应的RoleCfg配置表", param.getHeroTmpId()));
+			GameLog.error("计算英雄基础属性", userId, String.format("Id为[%s]模版Id为[%s]的英雄获取不到对应的RoleCfg配置表", param.getHeroId(), param.getHeroTmpId()));
 			return null;
 		}
 
@@ -51,11 +51,11 @@ public class HeroBaseAttrCalc implements IComponentCalc {
 				continue;
 			}
 
+			Integer growUp = e.getValue();
 			if (attrType.impactAttrType > 0) {
+				map.put(type, new AttributeItem(attrType, growUp, 0));
 				type = attrType.impactAttrType;
 			}
-
-			Integer growUp = e.getValue();
 
 			AttributeItem attributeItem = map.get(type);
 			if (attributeItem == null) {
@@ -65,7 +65,7 @@ public class HeroBaseAttrCalc implements IComponentCalc {
 			int increaseValue = attributeItem.getIncreaseValue();
 			int incPerTenthousand = attributeItem.getIncPerTenthousand();
 
-			increaseValue += (increaseValue * growUp / AttributeConst.GROW_UP_RATE) * level;
+			increaseValue += (growUp / AttributeConst.GROW_UP_RATE) * level;
 
 			attributeItem = new AttributeItem(AttributeType.getAttributeType(type), increaseValue, incPerTenthousand);
 			map.put(type, attributeItem);
@@ -78,7 +78,7 @@ public class HeroBaseAttrCalc implements IComponentCalc {
 		}
 
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄基础属性", userId, "英雄基础计算出来的属性是空的");
+			GameLog.error("计算英雄基础属性", userId, String.format("Id为[%s]的英雄计算出来的基础属性是空的", param.getHeroId()));
 			return null;
 		}
 

@@ -23,7 +23,7 @@ public class HeroGroupSkillAttributeComponent extends AbstractAttributeCalc {
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		Map<Integer, AttributeItem> groupSkillAttrDataMap = player.getUserGroupAttributeDataMgr().getGroupSkillAttrDataMap();
 		if (groupSkillAttrDataMap == null || groupSkillAttrDataMap.isEmpty()) {
-			GameLog.error("计算英雄帮派属性", player.getUserId(), "帮派技能计算出来的属性是空的");
+			GameLog.error("计算英雄帮派属性", player.getUserId(), String.format("Id为[%s]的英雄帮派技能计算出来的属性是空的", hero.getUUId()));
 			return null;
 		}
 

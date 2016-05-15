@@ -7,12 +7,14 @@ package com.rwbase.common.attribute.param;
  */
 public class HeroBaseParam {
 	private final String userId;
+	private final String heroId;
 	private final String heroTmpId;
 	private final int level;
 	private final String qualityId;
 
-	private HeroBaseParam(String userId, String heroTmpId, int level, String qualityId) {
+	private HeroBaseParam(String userId, String heroId, String heroTmpId, int level, String qualityId) {
 		this.userId = userId;
+		this.heroId = heroId;
 		this.heroTmpId = heroTmpId;
 		this.level = level;
 		this.qualityId = qualityId;
@@ -20,6 +22,10 @@ public class HeroBaseParam {
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public String getHeroId() {
+		return heroId;
 	}
 
 	public String getHeroTmpId() {
@@ -36,12 +42,17 @@ public class HeroBaseParam {
 
 	public static class HeroBaseBuilder {
 		private String userId;
+		private String heroId;
 		private String heroTmpId;
 		private int level;
 		private String qualityId;
 
 		public void setUserId(String userId) {
 			this.userId = userId;
+		}
+
+		public void setHeroId(String heroId) {
+			this.heroId = heroId;
 		}
 
 		public void setHeroTmpId(String heroTmpId) {
@@ -57,7 +68,7 @@ public class HeroBaseParam {
 		}
 
 		public HeroBaseParam build() {
-			return new HeroBaseParam(userId, heroTmpId, level, qualityId);
+			return new HeroBaseParam(userId, heroId, heroTmpId, level, qualityId);
 		}
 	}
 }

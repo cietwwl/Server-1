@@ -19,14 +19,12 @@ import com.rwbase.dao.item.pojo.ItemData;
  */
 public class HeroMagicAttributeComponent extends AbstractAttributeCalc {
 
-	private String userId;
-
 	@Override
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
-		userId = player.getUserId();
+		String userId = player.getUserId();
 		ItemData magic = player.getMagic();
 		if (magic == null) {
-			GameLog.error("计算法宝属性", userId, "获取不到角色的法宝");
+			GameLog.error("计算法宝属性", userId, String.format("Id为[%s]的英雄获取不到角色的法宝", hero.getUUId()));
 			return null;
 		}
 
@@ -39,12 +37,13 @@ public class HeroMagicAttributeComponent extends AbstractAttributeCalc {
 
 		MagicParam.MagicBuilder builder = new MagicBuilder();
 		builder.setUserId(userId);
+		builder.setHeroId(hero.getUUId());
 		builder.setMagicId(String.valueOf(modelId));
 		builder.setMagicLevel(magicLevel);
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {
-			GameLog.error("计算英雄法宝属性", player.getUserId(), String.format("[%s]对应类型的IComponentCacl的实现类为Null", getComponentTypeEnum()));
+			GameLog.error("计算英雄法宝属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(), getComponentTypeEnum()));
 			return null;
 		}
 		return calc.calc(builder.build());

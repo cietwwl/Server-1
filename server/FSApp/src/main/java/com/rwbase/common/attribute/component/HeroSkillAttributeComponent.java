@@ -27,7 +27,7 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		List<Skill> skillList = hero.getSkillMgr().getSkillList();
 		if (skillList == null || skillList.isEmpty()) {
-			GameLog.error("计算英雄基础属性", player.getUserId(), "英雄身上的技能是空的");
+			GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄身上的技能是空的", hero.getUUId()));
 			return null;
 		}
 
@@ -48,11 +48,12 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 
 		SkillParam.SkillBuilder builder = new SkillBuilder();
 		builder.setUserId(player.getUserId());
+		builder.setHeroId(hero.getUUId());
 		builder.setSkillList(skillInfoList);
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {
-			GameLog.error("计算英雄技能属性", player.getUserId(), String.format("[%s]对应类型的IComponentCacl的实现类为Null", getComponentTypeEnum()));
+			GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(), getComponentTypeEnum()));
 			return null;
 		}
 		return calc.calc(builder.build());

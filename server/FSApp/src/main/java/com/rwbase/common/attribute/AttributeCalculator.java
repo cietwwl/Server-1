@@ -4,6 +4,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.log.GameLog;
+
 public class AttributeCalculator<T> {
 
 	private final ReentrantLock lock = new ReentrantLock();
@@ -44,9 +46,15 @@ public class AttributeCalculator<T> {
 
 	private T calcAttributeNode(List<IAttributeComponent> list) {
 		AttributeSet current = null;
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(roleId).append("<<<<<<").append(heroId).append(">>>>>>");
+
 		for (int i = list.size(); --i >= 0;) {
 			IAttributeComponent component = list.get(i);
 			AttributeSet att = component.convertToAttribute(roleId, heroId);
+
+			sb.append(component.getComponentTypeEnum()).append(":").append(att).append(",");
 			if (att == null) {
 				continue;
 			}
@@ -56,6 +64,10 @@ public class AttributeCalculator<T> {
 			} else {
 				current = current.add(att);
 			}
+		}
+
+		if (current == null) {
+			GameLog.error("计算属性", roleId, sb.toString());
 		}
 
 		attribute = current;

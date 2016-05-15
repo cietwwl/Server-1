@@ -11,15 +11,21 @@ import com.playerdata.team.EquipInfo;
  */
 public class EquipParam {
 	private final String userId;
+	private final String heroId;
 	private final List<EquipInfo> equipList;
 
-	private EquipParam(String userId, List<EquipInfo> equipList) {
+	private EquipParam(String userId, String heroId, List<EquipInfo> equipList) {
 		this.userId = userId;
+		this.heroId = heroId;
 		this.equipList = equipList;
 	}
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public String getHeroId() {
+		return heroId;
 	}
 
 	public List<EquipInfo> getEquipList() {
@@ -28,10 +34,15 @@ public class EquipParam {
 
 	public static class EquipBuilder {
 		private String userId;
+		private String heroId;
 		private List<EquipInfo> equipList;
 
 		public void setUserId(String userId) {
 			this.userId = userId;
+		}
+
+		public void setHeroId(String heroId) {
+			this.heroId = heroId;
 		}
 
 		public void setEquipList(List<EquipInfo> equipList) {
@@ -39,7 +50,7 @@ public class EquipParam {
 		}
 
 		public EquipParam build() {
-			return new EquipParam(userId, equipList);
+			return new EquipParam(userId, heroId, equipList);
 		}
 	}
 }

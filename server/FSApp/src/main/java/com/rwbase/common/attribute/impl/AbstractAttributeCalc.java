@@ -1,5 +1,6 @@
 package com.rwbase.common.attribute.impl;
 
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -17,11 +18,13 @@ public abstract class AbstractAttributeCalc implements IAttributeComponent {
 	public AttributeSet convertToAttribute(String userId, String heroId) {
 		Player player = PlayerMgr.getInstance().find(userId);
 		if (player == null) {
+			GameLog.error("计算佣兵属性", userId, String.format("Id为[%s]的英雄查找不到自己的Player对象", heroId));
 			return null;
 		}
 
 		Hero hero = player.getHeroMgr().getHeroById(heroId);
 		if (hero == null) {
+			GameLog.error("计算佣兵属性", userId, String.format("Id为[%s]的英雄不能从Player身上查找到", heroId));
 			return null;
 		}
 

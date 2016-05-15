@@ -27,7 +27,7 @@ public class HeroEquipAttributeComponent extends AbstractAttributeCalc {
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		List<EquipItem> equipList = hero.getEquipMgr().getEquipList();
 		if (equipList == null || equipList.isEmpty()) {
-			GameLog.error("计算英雄基础属性", player.getUserId(), "英雄身上的装备列表是空的");
+			GameLog.error("计算英雄装备属性", player.getUserId(), String.format("Id为[%s]的英雄身上的装备列表是空的", hero.getUUId()));
 			return null;
 		}
 
@@ -41,18 +41,19 @@ public class HeroEquipAttributeComponent extends AbstractAttributeCalc {
 
 			EquipInfo info = new EquipInfo();
 			info.seteLevel(item.getLevel());
-			info.settId(info.gettId());
+			info.settId(String.valueOf(item.getModelId()));
 
 			equipInfoList.add(info);
 		}
 
 		EquipParam.EquipBuilder builder = new EquipBuilder();
 		builder.setUserId(player.getUserId());
+		builder.setHeroId(hero.getUUId());
 		builder.setEquipList(equipInfoList);
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {
-			GameLog.error("计算英雄装备属性", player.getUserId(), String.format("[%s]对应类型的IComponentCacl的实现类为Null", getComponentTypeEnum()));
+			GameLog.error("计算英雄装备属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(), getComponentTypeEnum()));
 			return null;
 		}
 		return calc.calc(builder.build());

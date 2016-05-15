@@ -27,7 +27,7 @@ public class HeroSkillAttrCalc implements IComponentCalc {
 		String userId = param.getUserId();
 		List<SkillInfo> skillList = param.getSkillList();
 		if (skillList == null || skillList.isEmpty()) {
-			GameLog.error("计算英雄技能属性", userId, "英雄身上没有任何技能");
+			GameLog.error("计算英雄技能属性", userId, String.format("Id为[%s]的英雄身上没有任何技能", param.getHeroId()));
 			return null;
 		}
 
@@ -50,7 +50,7 @@ public class HeroSkillAttrCalc implements IComponentCalc {
 		}
 
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄技能属性", userId, "英雄技能计算出来的属性是空的");
+			GameLog.error("计算英雄技能属性", userId, String.format("Id为[%s]的英雄技能计算出来的属性是空的", param.getHeroId()));
 			return null;
 		}
 

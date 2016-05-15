@@ -22,13 +22,14 @@ public class HeroBaseAttributeComponent extends AbstractAttributeCalc {
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		HeroBaseParam.HeroBaseBuilder builder = new HeroBaseBuilder();
 		builder.setUserId(player.getUserId());
+		builder.setHeroId(hero.getUUId());
 		builder.setHeroTmpId(hero.getTemplateId());
 		builder.setLevel(hero.getLevel());
 		builder.setQualityId(hero.getQualityId());
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {
-			GameLog.error("计算英雄基础属性", player.getUserId(), String.format("[%s]对应类型的IComponentCacl的实现类为Null", getComponentTypeEnum()));
+			GameLog.error("计算英雄基础属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(), getComponentTypeEnum()));
 			return null;
 		}
 		return calc.calc(builder.build());

@@ -33,7 +33,7 @@ public class HeroGemAttrCalc implements IComponentCalc {
 		String userId = param.getUserId();
 		List<String> inlayGemList = param.getGemList();
 		if (inlayGemList == null || inlayGemList.isEmpty()) {
-			GameLog.error("计算英雄宝石属性", userId, "英雄身上没有宝石");
+			GameLog.error("计算英雄宝石属性", userId, String.format("Id为[%s]的英雄身上没有任何宝石", param.getHeroId()));
 			return null;
 		}
 
@@ -76,7 +76,7 @@ public class HeroGemAttrCalc implements IComponentCalc {
 
 		// 计算属性
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄宝石属性", userId, "英雄宝石计算出来的属性是空的");
+			GameLog.error("计算英雄宝石属性", userId, String.format("Id为[%s]的英雄计算出来的宝石属性是空的", param.getHeroId()));
 			return null;
 		}
 

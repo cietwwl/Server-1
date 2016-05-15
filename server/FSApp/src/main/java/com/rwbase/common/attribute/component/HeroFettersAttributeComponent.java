@@ -33,13 +33,13 @@ public class HeroFettersAttributeComponent extends AbstractAttributeCalc {
 		String userId = player.getUserId();
 		SynFettersData heroFetters = player.getHeroFettersByModelId(hero.getModelId());
 		if (heroFetters == null) {
-			GameLog.error("计算英雄羁绊属性", userId, String.format("模版为[%s]的英雄没有激活的羁绊数据", hero.getModelId()));
+			GameLog.error("计算英雄羁绊属性", userId, String.format("Id为[%s]模版为[%s]的英雄没有激活的羁绊数据", hero.getUUId(), hero.getModelId()));
 			return null;
 		}
 
 		Map<Integer, SynConditionData> openList = heroFetters.getOpenList();
 		if (openList == null || openList.isEmpty()) {
-			GameLog.error("计算英雄羁绊属性", userId, String.format("模版为[%s]的英雄所有的羁绊都没有被激活过", hero.getModelId()));
+			GameLog.error("计算英雄羁绊属性", userId, String.format("Id为[%s]模版为[%s]的英雄所有的羁绊都没有被激活过", hero.getUUId(), hero.getModelId()));
 			return null;
 		}
 
@@ -102,7 +102,7 @@ public class HeroFettersAttributeComponent extends AbstractAttributeCalc {
 
 		// 计算属性
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄羁绊属性", userId, String.format("模版为[%s]的英雄羁绊计算出来的属性是空的", hero.getModelId()));
+			GameLog.error("计算英雄羁绊属性", userId, String.format("Id为[%s]模版为[%s]的英雄羁绊计算出来的属性是空的", hero.getUUId(), hero.getModelId()));
 			return null;
 		}
 
