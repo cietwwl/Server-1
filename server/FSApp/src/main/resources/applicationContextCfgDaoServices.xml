@@ -159,6 +159,9 @@
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO"  init-method="init" />
+	
+	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->

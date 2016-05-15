@@ -9,6 +9,8 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
+import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
+import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -73,6 +75,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
 	
 	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
+	
+	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
+	
+	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -115,7 +121,7 @@ public class MapItemStoreFactory {
 
 		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
 		
-//		register(activityRateTypeItemCache = new MapItemStoreCache<ActivityRateTypeItem>(ActivityRateTypeItem.class, "userId", heroCapacity));
+		register(activityRateTypeItemCache = new MapItemStoreCache<ActivityRateTypeItem>(ActivityRateTypeItem.class, "userId", heroCapacity));
 //		
 //		register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
 //
@@ -123,6 +129,10 @@ public class MapItemStoreFactory {
 		
 //		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
 
+//		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
+		
+//		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
+		
 		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
 
 		register(angelArrayFloorData = new MapItemStoreCache<AngelArrayFloorData>(AngelArrayFloorData.class, "userId", heroCapacity));
@@ -264,6 +274,16 @@ public class MapItemStoreFactory {
 	}
 	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
 		return activityTimeCountTypeItemCache;
+	}
+
+	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
+		return fixExpEquipDataItemCache;
+	}
+	
+	
+
+	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
+		return fixNormEquipDataItemCache;
 	}
 
 	/**

@@ -80,6 +80,7 @@ enum Command {
 	MSG_ACTIVITY_RANKTYPE = 178;//通用活动
 	MSG_ACTIVITY_TIME_COUNT_TYPE = 179;//通用活动
 	MSG_TAOIST = 200;//道术系统
+	MSG_FIX_EQUIP = 201;//专属装备
 
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议
