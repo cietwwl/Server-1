@@ -1,5 +1,6 @@
 package com.playerdata.activity.rateType.cfg;
 
+import java.util.List;
 import java.util.Map;
 
 import com.playerdata.Player;
@@ -30,10 +31,30 @@ public final class ActivityRateTypeCfgDAO extends CfgCsvDao<ActivityRateTypeCfg>
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRateTypeCfg.csv", ActivityRateTypeCfg.class);
 		for (ActivityRateTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
+			parseTimeByHour(cfgTmp);
 		}
 		return cfgCacheMap;
 	}
 	
+	private void parseTimeByHour(ActivityRateTypeCfg cfgTmp) {
+		try {
+			String[] startAndEndgroup = cfgTmp.getTimeStr().split(";");
+			List<ActivityRateTypeStartAndEndHourHelper> timeList = cfgTmp.getStartAndEnd();
+			for(String subStartAndEnd : startAndEndgroup){
+				String[] substartAndEndlist = subStartAndEnd.split(":");
+				ActivityRateTypeStartAndEndHourHelper timebyHour = new ActivityRateTypeStartAndEndHourHelper();
+				timebyHour.setStarthour(Integer.parseInt(substartAndEndlist[0])/100);
+				timebyHour.setEndhour(Integer.parseInt(substartAndEndlist[1])/100);
+				timeList.add(timebyHour);
+//				System.out.println("activityrate.." + cfgTmp.getTitle() +  " start=" +timebyHour.getStarthour() + " end=" + timebyHour.getEndhour());
+			}			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+
+
 	private void parseTime(ActivityRateTypeCfg cfgItem){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getStartTimeStr());
 		cfgItem.setStartTime(startTime);
@@ -58,6 +79,7 @@ public final class ActivityRateTypeCfgDAO extends CfgCsvDao<ActivityRateTypeCfg>
 			item.setCfgId(cfgId);
 			item.setUserId(player.getUserId());	
 			item.setVersion(cfgById.getVersion());
+			item.setMultiple(cfgById.getMultiple());
 			return item;
 		}else{
 			return null;

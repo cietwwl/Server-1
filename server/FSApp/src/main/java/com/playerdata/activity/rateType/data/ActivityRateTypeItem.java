@@ -29,6 +29,16 @@ public class ActivityRateTypeItem implements  IMapItem {
 	@CombineSave
 	private String version;
 	
+	@CombineSave
+	private int multiple;
+	public int getMultiple() {
+		return multiple;
+	}
+
+	public void setMultiple(int multiple) {
+		this.multiple = multiple;
+	}
+
 	public String getVersion() {
 		return version;
 	}

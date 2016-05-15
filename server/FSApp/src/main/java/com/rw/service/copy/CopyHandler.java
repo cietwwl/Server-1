@@ -191,7 +191,7 @@ public class CopyHandler {
 	}
 
 	/*
-	 * 战前物品计算返回...
+	 * 副本战前物品-经验计算返回...
 	 */
 	public ByteString battleItemsBack(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder().setRequestType(ERequestType.BATTLE_ITEMS_BACK);
@@ -229,10 +229,11 @@ public class CopyHandler {
 				itemList.add(itemId + "," + itemNum);
 			}
 		}
-		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
-		int multiple = isRateOpen?2:1; 
-		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnum, copyCfg.getPlayerExp()*multiple);
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
+		setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);
+		
+		
+		
 		if(eSpecialItemIDUserInfo!=null){
 			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
 			if(StringUtils.isNotBlank(clientData)){
@@ -252,6 +253,25 @@ public class CopyHandler {
 		return copyResponse.build().toByteString();
 		
 	}
+	
+	/**对金币,经验等是否处于双倍活动进行处理*/
+	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
+		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 
+		ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnum, eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiple,0);
+		
+		ActivityRateTypeEnum activityRateTypeEnumcoin = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 2);
+		boolean isRateOpencoin = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnumcoin);
+		int multiplecoin = isRateOpencoin?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnumcoin):1; 		
+		ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnumcoin, eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multiplecoin);
+		
+		
+		
+	}
+	
+	
+	
 	public static List<Integer> convertToIntList(String str) {
 		if (str == null || str.isEmpty()) {
 			return Collections.EMPTY_LIST;
@@ -304,6 +324,7 @@ public class CopyHandler {
 	/*
 	 * 扫荡关卡...
 	 * 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
+	 * 副本扫荡经验双倍预计掉落
 	 */
 	public ByteString copySweep(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
@@ -342,10 +363,10 @@ public class CopyHandler {
 		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
 		
 		/**扫荡处发送经验双倍字段给客户端显示*/
-		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
-		int multiple = isRateOpen?2:1; 		
-		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnum, copyCfg.getPlayerExp()*multiple);
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
+		setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);
+		
+		
 		if(eSpecialItemIDUserInfo!=null){
 			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
 			if(StringUtils.isNotBlank(clientData)){

@@ -13,7 +13,9 @@ public enum ActivityRateTypeEnum{
 	LXSG_DOUBLE("304"),//炼息山谷道具双倍
 	SCHJ_DOUBLE("305"),//生存幻境道具双倍
 	ELITE_copy_EXP_DOUBLE("306"),//精英副本经验双倍
-	Normal_copy_EXP_DOUBLE("307");//普通副本经验双倍
+	Normal_copy_EXP_DOUBLE("307"),//普通副本经验双倍
+	TOWER_DOUBLE("308"),//万仙阵道具金币双倍
+	WARFARE_DOUBLE("309");//无尽战火道具双倍
 
 	
 	private String cfgId;
@@ -38,13 +40,13 @@ public enum ActivityRateTypeEnum{
 		return target;
 	}
 	
-	/**rewardsType ,0为道具，1为经验*/
+	/**rewardsType ,0为道具，1为经验,2为金币,3为金币+道具*/
 	public static ActivityRateTypeEnum getByCopyTypeAndRewardsType(int copyType,int rewardsType){
 		if(copyType == CopyType.COPY_TYPE_NORMAL){
 			if(rewardsType == 0){
 				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return Normal_copy_DOUBLE;
-			}else{
+			}else if(rewardsType == 1){
 				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return Normal_copy_EXP_DOUBLE;
 			}
@@ -52,7 +54,7 @@ public enum ActivityRateTypeEnum{
 			if(rewardsType == 0){
 				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return ELITE_copy_DOUBLE;
-			}else{
+			}else if(rewardsType == 1){
 				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return ELITE_copy_EXP_DOUBLE;
 			}
@@ -65,7 +67,15 @@ public enum ActivityRateTypeEnum{
 		}else if (copyType == CopyType.COPY_TYPE_CELESTIAL){
 			GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 			return SCHJ_DOUBLE;
-		}		
+		}else if(copyType == CopyType.COPY_TYPE_TOWER){
+			if(rewardsType == 3){
+				GameLog.error("ActivityRateEnum", "双倍触发", "类型万仙道具+金币" + copyType);
+				return TOWER_DOUBLE;
+			}		
+		}else if (copyType == CopyType.COPY_TYPE_WARFARE){
+			GameLog.error("ActivityRateEnum", "双倍触发", "类型战火" + copyType);
+			return WARFARE_DOUBLE;
+		}
 		return null;
 	}	
 }

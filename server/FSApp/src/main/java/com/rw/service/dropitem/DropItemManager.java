@@ -75,7 +75,7 @@ public class DropItemManager {
 		}
 	}
 	
-	/**聚宝之地 ！炼息山谷！生存幻境；普通本精英本,扫荡*/
+	/**聚宝之地 ！炼息山谷！生存幻境；普通本精英本,扫荡，道具预计掉落*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, CopyCfg copyCfg) throws DataAccessTimeoutException {
 		String userId = player.getUserId();
 		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
@@ -94,7 +94,7 @@ public class DropItemManager {
 		List<Integer> list = CopyHandler.convertToIntList(items);
 		return pretreatDrop(player, list, copyId, firstDrop);
 	}
-	
+	/**无尽战火奖励*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, List<Integer> list, int copyId) throws DataAccessTimeoutException {
 		return pretreatDrop(player, list, copyId, false);
 	}
@@ -159,7 +159,7 @@ public class DropItemManager {
 					// 达到最小概率时必掉
 					if (minRate > 0) {
 						if (currentRate <= minRate) {
-							addOrMerge(dropItemInfoList, dropCfg,copyCfg,player,firstDrop);
+							addOrMerge(dropItemInfoList, dropCfg);
 							adjustmentMap.put(dropRecordId, DropAdjustmentState.MIN_RATE);
 							minRateDrop = true;
 							break;
@@ -194,7 +194,7 @@ public class DropItemManager {
 						}
 					}
 					if (random < rate) {
-						addOrMerge(dropItemInfoList, dropCfg,copyCfg,player,firstDrop);
+						addOrMerge(dropItemInfoList, dropCfg);
 						if (addRate) {
 							adjustmentMap.put(dropRecordId, DropAdjustmentState.ADD_RATE);
 						}
@@ -206,6 +206,20 @@ public class DropItemManager {
 					}
 				}
 			}
+			
+			int multiple = 1;
+			if(!firstDrop){
+				ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0);
+				boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
+				multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
+//				System.out.println("dropitem.multiple" + multiple + "  enum =" + activityRateTypeEnum.getCfgId() + isRateOpen);				
+			}
+			if(multiple != 1){
+				for(ItemInfo iteminfo : dropItemInfoList){
+					iteminfo.setItemNum(iteminfo.getItemNum()*multiple);
+				}
+			}			
+			
 			if (copyId > 0) {
 				List<ItemInfo> result = Collections.unmodifiableList(dropItemInfoList);
 				record.putPretreatDropList(copyId, new DropResult(result, adjustmentMap, firstDrop));
@@ -216,15 +230,18 @@ public class DropItemManager {
 		} catch (Throwable t) {
 			GameLog.error(t);
 		}
+		
+		
+		
+		
+		
+		
 		return dropItemInfoList;
 	}
-	/**传入copy对象，在此判断是否激活了通用活动双倍*/
-	private void addOrMerge(List<ItemInfo> list, DropCfg dropCfg,CopyCfg copyCfg,Player player,boolean isfirst) {
-		int multiple = 1;
-		if(!isfirst){
-			boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0));
-			multiple = isRateOpen?2:1;
-		}
+	
+	private void addOrMerge(List<ItemInfo> list, DropCfg dropCfg) {
+		
+		
 		int id = dropCfg.getItemCfgId();
 		for (int i = list.size(); --i >= 0;) {
 			ItemInfo info = list.get(i);
@@ -235,7 +252,7 @@ public class DropItemManager {
 		}
 		ItemInfo itemInfo = new ItemInfo();
 		itemInfo.setItemID(id);
-		itemInfo.setItemNum(dropCfg.getDropCount()*multiple);
+		itemInfo.setItemNum(dropCfg.getDropCount());
 		list.add(itemInfo);
 	}
 

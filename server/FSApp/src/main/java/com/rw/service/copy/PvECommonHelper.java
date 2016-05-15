@@ -81,18 +81,25 @@ public class PvECommonHelper {
 			GameLog.info(LogModule.COPY.getName(), player.getUserId(), rewardInfo.toString(), null);
 		}
 	}
-
+	/**手动副本经验金币增加*/
 	public static void addPlayerAttr4Battle(Player player, CopyCfg copyCfg) {
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
-		int multiple = isRateOpen?2:1; 	
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
+		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 	
+		
+		ActivityRateTypeEnum activityRateTypeEnumcoin = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 2);
+		boolean isRateOpencoin = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnumcoin);		
+		int multiplecoin = isRateOpencoin?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnumcoin):1; 	
+		
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -(copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()));
 		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp()*multiple);
-		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin());
+		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin()*multiplecoin);
 	}
-
+	/**副本扫荡经验增加*/
 	public static void addPlayerAttr4Sweep(Player player, CopyCfg copyCfg, int times) {
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
-		int multiple = isRateOpen?2:1; 	
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
+		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 	
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getSuccSubPower() * times);
 		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times*multiple);
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times);
