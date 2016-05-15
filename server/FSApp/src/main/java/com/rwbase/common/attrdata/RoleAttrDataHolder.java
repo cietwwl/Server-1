@@ -9,7 +9,6 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.common.attrdata.RoleAttrData.Builder;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.AttributeCalculator;
-import com.rwbase.dao.fetters.FettersBM;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -81,13 +80,13 @@ public class RoleAttrDataHolder {
 
 		builder.setLog(sb.toString());
 
-		int oldFighting = heroAttrData == null ? 0 : heroAttrData.getFighting();
+		// int oldFighting = heroAttrData == null ? 0 : heroAttrData.getFighting();
 		int calFighting = FightingCalculator.calFighting(hero, totalData);
 		builder.setFighting(calFighting);
-		// 战力修改
-		if (oldFighting > 0 && oldFighting < calFighting) {
-			FettersBM.whenHeroChange(hero.getPlayer(), hero.getModelId());
-		}
+		// TODO HC 现在战力先不通知羁绊
+		// if (oldFighting > 0 && oldFighting < calFighting) {
+		// FettersBM.whenHeroChange(hero.getPlayer(), hero.getModelId());
+		// }
 
 		return builder.build();
 	}
