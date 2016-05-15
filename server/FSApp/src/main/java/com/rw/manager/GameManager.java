@@ -18,6 +18,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -31,6 +32,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.dataaccess.GameOperationFactory;
+import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -119,7 +121,7 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
-		// RobotManager.getInstance().createRobots();
+		RobotManager.getInstance().createRobots();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
@@ -405,5 +407,12 @@ public class GameManager {
 
 	public static String getGmPassword() {
 		return gmPassword;
+	}
+
+	/**
+	 * 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
+	 */
+	public static void CheckAllConfig() {
+		CfgCsvReloader.CheckAllConfig();
 	}
 }

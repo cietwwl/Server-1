@@ -1,0 +1,5 @@
+name,Remarks,threshold,buyTip,nomoreTip,enableTip
+battleSpeed,,3,,,等级达到10级或者VIP4开启战斗加速功能，充值可提升VIP等级。
+isAllowBuyFashion,,,,,VIP6开启时装购买功能，充值可提升VIP等级。
+isAllowSoulBox,,,,,VIP11开启钓鱼台购买高级经验丹功能，充值可提升VIP等级。
+isAllowReplenish,,,,,VIP2开启补签功能，充值可提升VIP等级。

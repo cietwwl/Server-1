@@ -31,6 +31,7 @@ import com.rwbase.dao.store.pojo.StoreData;
 import com.rwbase.dao.store.pojo.StoreDataHolder;
 import com.rwbase.dao.store.pojo.TableStore;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.PrivilegeProtos.StorePrivilegeNames;
 import com.rwproto.StoreProtos.StoreResponse;
 import com.rwproto.StoreProtos.eProbType;
 import com.rwproto.StoreProtos.eStoreRequestType;
@@ -71,6 +72,45 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
 		for (StoreCfg cfg : allStore) {
 			type = cfg.getType();
+			//by franky 升级vip的时候会先更新特权，然后再调用AddStore!
+			StorePrivilegeNames pname = null;
+			eStoreType storeType = eStoreType.getDef(type);
+			switch (storeType) {
+			case Secret:
+				pname = StorePrivilegeNames.isOpenMysteryStore;
+				break;
+			case Blackmark:
+				pname = StorePrivilegeNames.isOpenBlackmarketStore;
+				break;
+			default:
+				break;
+			}
+			if (pname != null){
+				boolean isOpen = m_pPlayer.getPrivilegeMgr().getBoolPrivilege(pname);
+				if (isOpen){
+					if (!m_StoreData.containsKey(type)) {
+						pStoreData = new StoreData();
+						pStoreData.setId(getStoreId(type, m_pPlayer));
+						pStoreData.setVersion(cfg.getVersion());
+						pStoreData.setCommodity(RandomList(type));
+						pStoreData.setLastRefreshTime(System.currentTimeMillis());
+						pStoreData.setRefreshNum(0);
+						pStoreData.setExistType(eStoreExistType.Always);
+						pStoreData.setType(storeType);
+						m_StoreData.put(type, pStoreData);
+					} else if (m_StoreData.containsKey(type)) {
+						pStoreData = getStore(type);
+						pStoreData.setVersion(cfg.getVersion());
+						pStoreData.setCommodity(RandomList(type));
+						pStoreData.setLastRefreshTime(System.currentTimeMillis());
+						pStoreData.setRefreshNum(0);
+						pStoreData.setExistType(eStoreExistType.Always);
+					}
+					storeDataHolder.add(m_pPlayer, type);
+					continue;
+				}
+			}
+			
 			if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
 				// boolean hasGuild =
 				// StringUtils.isNotBlank(m_pPlayer.getGuildUserMgr().getGuildId());
@@ -81,6 +121,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				if (type == eStoreType.Union.getOrder() && !hasGroup) {
 					continue;
 				}
+				
 				if (!m_StoreData.containsKey(type)) {
 					pStoreData = new StoreData();
 					pStoreData.setId(getStoreId(type, m_pPlayer));
@@ -89,10 +130,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 					pStoreData.setLastRefreshTime(System.currentTimeMillis());
 					pStoreData.setRefreshNum(0);
 					pStoreData.setExistType(eStoreExistType.Always);
-					pStoreData.setType(eStoreType.getDef(type));
+					pStoreData.setType(storeType);
 					m_StoreData.put(type, pStoreData);
 				} else if (m_StoreData.containsKey(type) && cfg.getVersion() != getStore(type).getVersion()) {
-
 					pStoreData = getStore(type);
 					pStoreData.setVersion(cfg.getVersion());
 					pStoreData.setCommodity(RandomList(type));
@@ -100,6 +140,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 					pStoreData.setRefreshNum(0);
 					pStoreData.setExistType(eStoreExistType.Always);
 				}
+				
 				storeDataHolder.add(m_pPlayer, type);
 			}
 		}
@@ -387,7 +428,25 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		if (m_pPlayer.getReward(etype) < cost) {
 			return -2;
 		}
-		if (pStoreData.getRefreshNum() > cfg.getRefreshCount()) {
+		//by franky
+		StorePrivilegeNames pname = null;
+		eStoreType stype = eStoreType.getDef(storeType);
+		switch (stype) {
+		case General:
+			pname = StorePrivilegeNames.storeFreeRefreshCnt;
+			break;
+		case Secret:
+			pname = StorePrivilegeNames.mysteryStoreFreeRefreshCnt;
+			break;
+		case Blackmark:
+			pname = StorePrivilegeNames.bmstoreFreeRefreshCnt;
+			break;
+		default:
+			break;
+		}
+		int freeRefreshCount = pname != null ? m_pPlayer.getPrivilegeMgr().getIntPrivilege(pname) : cfg.getRefreshCount();
+		if (pStoreData.getRefreshNum() > freeRefreshCount) {
+		//if (pStoreData.getRefreshNum() > cfg.getRefreshCount()) {
 			return -3;
 		}
 		List<CommodityData> randomList = RandomList(storeType);

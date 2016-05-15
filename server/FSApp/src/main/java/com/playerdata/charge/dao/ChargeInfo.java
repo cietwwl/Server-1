@@ -41,6 +41,14 @@ public class ChargeInfo {
 	
 	private List<ChargeOrder> chargeOrderList = new ArrayList<ChargeOrder>();
 	
+	private boolean isChargeOn ;
+	
+	public boolean isChargeOn() {
+		return isChargeOn;
+	}
+	public void setChargeOn(boolean isChargeOn) {
+		this.isChargeOn = isChargeOn;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -112,6 +120,7 @@ public class ChargeInfo {
 	}
 	
 	public void addOrder(ChargeOrder chargeOrder){
+
 		if(chargeOrder == null){
 			return;
 		}
@@ -120,6 +129,9 @@ public class ChargeInfo {
 		if(chargeOrderList.size()>=maxSizeKeep){
 			chargeOrderList.remove(0);
 			chargeOrderList.add(0,chargeOrder);
+			Collections.sort(chargeOrderList);//排序，最新的排在后面
+		}else{
+			chargeOrderList.add(chargeOrder);
 			Collections.sort(chargeOrderList);//排序，最新的排在后面
 		}
 	

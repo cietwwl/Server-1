@@ -94,7 +94,6 @@ public class FsNettyControler {
 				return;
 			}
 			handleGuildance(header);
-			// modify@2015-8-29 by Jamaz 通过异步角色任务的方式处理逻辑消息
 			GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerTask() {
 
 				@Override

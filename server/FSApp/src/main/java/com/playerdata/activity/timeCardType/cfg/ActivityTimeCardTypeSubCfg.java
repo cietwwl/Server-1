@@ -1,5 +1,8 @@
 package com.playerdata.activity.timeCardType.cfg;
 
+import com.playerdata.charge.cfg.ChargeTypeEnum;
+import com.rw.fsutil.common.EnumIndex;
+
 
 public class ActivityTimeCardTypeSubCfg {
 
@@ -16,6 +19,20 @@ public class ActivityTimeCardTypeSubCfg {
 	//每日领取钻石
 	private int dayAwardCount;
 	private int daysLimit;//超过天数不可再续费
+	@EnumIndex
+	private ChargeTypeEnum chargeType;//类型
+	
+	
+
+
+	public ChargeTypeEnum getChargeType() {
+		return chargeType;
+	}
+
+	public void setChargeType(ChargeTypeEnum chargeType) {
+		this.chargeType = chargeType;
+	}
+
 	public int getDaysLimit() {
 		return daysLimit;
 	}

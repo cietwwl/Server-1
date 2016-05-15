@@ -5,8 +5,6 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.playerdata.Player;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -60,12 +58,6 @@ public class ActivityTimeCardTypeItemHolder{
 		return addSuccess;
 	}
 	
-	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-		
-		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-		return addSuccess;
-	}
 	
 	public void synAllData(Player player){
 		List<ActivityTimeCardTypeItem> itemList = getItemList(player.getUserId());			
