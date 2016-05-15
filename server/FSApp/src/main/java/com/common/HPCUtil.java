@@ -48,8 +48,7 @@ public class HPCUtil {
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
 	 * @param value
-	 * @param expectLength
-	 *            预期的位数
+	 * @param expectLength 预期的位数
 	 * @return
 	 */
 	public static String fillZero(long value, int expectLength) {
@@ -59,11 +58,9 @@ public class HPCUtil {
 	/**
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
-	 * @param sb
-	 *            补0后的String填充到此StringBuilder中
+	 * @param sb 补0后的String填充到此StringBuilder中
 	 * @param value
-	 * @param expectLength
-	 *            预期的位数
+	 * @param expectLength 预期的位数
 	 * @return
 	 */
 	public static String fillZero(StringBuilder sb, long value, int expectLength) {
@@ -109,7 +106,7 @@ public class HPCUtil {
 		}
 		return (T[]) array;
 	}
-	
+
 	/**
 	 * 转换成类型映射数组
 	 * 
@@ -192,13 +189,14 @@ public class HPCUtil {
 
 	/**
 	 * 通过一级与二级分隔符，把文本解析成Map<Integer,Integer>
+	 * 
 	 * @param text
 	 * @param firstSplit
 	 * @param secondSplit
 	 * @return
 	 */
 	public static Map<Integer, Integer> parseIntegerMap(String text, String firstSplit, String secondSplit) {
-		HashMap<Integer,Integer> map = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		StringTokenizer token = new StringTokenizer(text, firstSplit);
 		while (token.hasMoreTokens()) {
 			fillIntoMap(token.nextToken(), secondSplit, map);
@@ -241,13 +239,14 @@ public class HPCUtil {
 	public static boolean isResetTime(long lastTime) {
 		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
 	}
-	
+
 	/**
 	 * 通过文本按照默认格式创建{@link ItemInfo}列表
+	 * 
 	 * @param text
 	 * @return
 	 */
-	public static List<ItemInfo> createItemInfo(String text){
+	public static List<ItemInfo> createItemInfo(String text) {
 		String[] reward = text.split(",");
 		ArrayList<ItemInfo> rewardList = new ArrayList<ItemInfo>(reward.length);
 		for (int i = 0; i < reward.length; i++) {

@@ -26,7 +26,7 @@ public class FashionBeingUsed implements FashionUsedIF{
 		result[0]=wingId;
 		result[1]=suitId;
 		result[2]=petId;
-		return null;
+		return result;
 	}
 	
 	public IEffectCfg[] getEffectList(int validCount,int career){

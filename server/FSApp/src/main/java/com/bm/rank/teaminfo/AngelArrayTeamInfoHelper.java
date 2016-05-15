@@ -27,7 +27,9 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attrdata.calc.AttrDataCalcFactory;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.common.attribute.param.MagicParam;
+import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -394,15 +396,13 @@ public class AngelArrayTeamInfoHelper {
 		ArmyMagic magic = teamInfo.getMagic();
 		armyInfo.setArmyMagic(magic);
 
-		int magicLevel = magic.getLevel();
-
 		List<HeroInfo> heroList = teamInfo.getHero();
 		int size = heroList.size();
 
 		// 英雄属性
 		List<ArmyHero> armyHeroList = new ArrayList<ArmyHero>(size);
 		for (int i = 0; i < size; i++) {
-			ArmyHero armyHero = parseHeroInfo2ArmyHero(heroList.get(i), magicLevel);
+			ArmyHero armyHero = parseHeroInfo2ArmyHero(heroList.get(i), magic);
 
 			if (armyHero.isPlayer()) {
 				armyInfo.setPlayer(armyHero);
@@ -425,7 +425,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param magicLevel
 	 * @return
 	 */
-	private static ArmyHero parseHeroInfo2ArmyHero(HeroInfo heroInfo, int magicLevel) {
+	private static ArmyHero parseHeroInfo2ArmyHero(HeroInfo heroInfo, ArmyMagic magic) {
 		ArmyHero armyHero = new ArmyHero();
 
 		RoleCfgDAO cfgDAO = RoleCfgDAO.getInstance();
@@ -489,7 +489,13 @@ public class AngelArrayTeamInfoHelper {
 
 		armyHero.setSkillList(skillList);
 		// 其他属性
-		AttrData heroAttrData = AttrDataCalcFactory.getHeroAttrData(heroInfo);
+		// AttrData heroAttrData = AttrDataCalcFactory.getHeroAttrData(heroInfo);
+		MagicParam.MagicBuilder builder = new MagicBuilder();
+		builder.setMagicId(String.valueOf(magic.getModelId()));
+		builder.setMagicLevel(magic.getLevel());
+		builder.setUserId(tmpId);
+
+		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, builder.build());
 		armyHero.setAttrData(heroAttrData);
 		// 当前血量
 		CurAttrData curAttrData = new CurAttrData();
@@ -500,7 +506,7 @@ public class AngelArrayTeamInfoHelper {
 		boolean isPlayer = roleCfg.getRoleType() == 1;
 		armyHero.setPlayer(isPlayer);
 		// 计算战斗力
-		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? magicLevel : 0, heroAttrData));
+		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? magic.getLevel() : 0, heroAttrData));
 
 		return armyHero;
 	}

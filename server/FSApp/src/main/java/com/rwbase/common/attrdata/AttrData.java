@@ -58,6 +58,50 @@ public class AttrData implements AttrDataIF {
 	public AttrData() {
 	}
 
+	public AttrData(int life, int energy, int attack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive, int energyReceive,
+			int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int attackGrowUp, int physicqueDefGrowUp,
+			int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight, float reactionTime, float attackDistance,
+			float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
+		this.life = life;
+		this.energy = energy;
+		this.attack = attack;
+		this.physiqueDef = physiqueDef;
+		this.spiritDef = spiritDef;
+		this.attackVampire = attackVampire;
+		this.critical = critical;
+		this.criticalHurt = criticalHurt;
+		this.toughness = toughness;
+		this.lifeReceive = lifeReceive;
+		this.energyReceive = energyReceive;
+		this.struckEnergy = struckEnergy;
+		this.attackEnergy = attackEnergy;
+		this.energyTrans = energyTrans;
+		this.cutHurt = cutHurt;
+		this.cutCritHurt = cutCritHurt;
+		this.resist = resist;
+		this.addCure = addCure;
+		this.cutCure = cutCure;
+		this.lifeGrowUp = lifeGrowUp;
+		this.attackGrowUp = attackGrowUp;
+		this.physicqueDefGrowUp = physicqueDefGrowUp;
+		this.spiritDefGrowUp = spiritDefGrowUp;
+		this.enchantExp = enchantExp;
+		this.skillLevel = skillLevel;
+		this.attackType = attackType;
+		this.dodge = dodge;
+		this.hit = hit;
+		this.energyPerSecond = energyPerSecond;
+		this.hardStraight = hardStraight;
+		this.reactionTime = reactionTime;
+		this.attackDistance = attackDistance;
+		this.attackSpeed = attackSpeed;
+		this.moveSpeed = moveSpeed;
+		this.attackHurt = attackHurt;
+		this.viewRange = viewRange;
+		this.volumeRadius = volumeRadius;
+		this.doHurt = doHurt;
+	}
+
 	public AttrData addPercent(AttrData target) {
 		if (target == null) {
 			return this;
@@ -146,318 +190,511 @@ public class AttrData implements AttrDataIF {
 		return data;
 	}
 
-	public static void main(String[] args) {
-		AttrData data = new AttrData();
-		data.setLife(103423);
-
-		AttrData percentData = new AttrData();
-		percentData.setLife(200);
-		data.addPercent(percentData);
-		System.out.println(data.getLife());
-	}
-
 	public int getLife() {
 		return life;
-	}
-
-	public void setLife(int life) {
-		this.life = life;
 	}
 
 	public int getEnergy() {
 		return energy;
 	}
 
-	public void setEnergy(int energy) {
-		this.energy = energy;
-	}
-
 	public int getAttack() {
 		return attack;
-	}
-
-	public void setAttack(int attack) {
-		this.attack = attack;
 	}
 
 	public int getPhysiqueDef() {
 		return physiqueDef;
 	}
 
-	public void setPhysiqueDef(int physiqueDef) {
-		this.physiqueDef = physiqueDef;
-	}
-
 	public int getSpiritDef() {
 		return spiritDef;
-	}
-
-	public void setSpiritDef(int spiritDef) {
-		this.spiritDef = spiritDef;
 	}
 
 	public int getAttackVampire() {
 		return attackVampire;
 	}
 
-	public void setAttackVampire(int attackVampire) {
-		this.attackVampire = attackVampire;
-	}
-
 	public int getCritical() {
 		return critical;
-	}
-
-	public void setCritical(int critical) {
-		this.critical = critical;
 	}
 
 	public int getCriticalHurt() {
 		return criticalHurt;
 	}
 
-	public void setCriticalHurt(int criticalHurt) {
-		this.criticalHurt = criticalHurt;
-	}
-
 	public int getToughness() {
 		return toughness;
-	}
-
-	public void setToughness(int toughness) {
-		this.toughness = toughness;
 	}
 
 	public int getLifeReceive() {
 		return lifeReceive;
 	}
 
-	public void setLifeReceive(int lifeReceive) {
-		this.lifeReceive = lifeReceive;
-	}
-
 	public int getEnergyReceive() {
 		return energyReceive;
-	}
-
-	public void setEnergyReceive(int energyReceive) {
-		this.energyReceive = energyReceive;
 	}
 
 	public int getStruckEnergy() {
 		return struckEnergy;
 	}
 
-	public void setStruckEnergy(int struckEnergy) {
-		this.struckEnergy = struckEnergy;
-	}
-
 	public int getAttackEnergy() {
 		return attackEnergy;
-	}
-
-	public void setAttackEnergy(int attackEnergy) {
-		this.attackEnergy = attackEnergy;
 	}
 
 	public int getEnergyTrans() {
 		return energyTrans;
 	}
 
-	public void setEnergyTrans(int energyTrans) {
-		this.energyTrans = energyTrans;
-	}
-
 	public int getCutHurt() {
 		return cutHurt;
-	}
-
-	public void setCutHurt(int cutHurt) {
-		this.cutHurt = cutHurt;
 	}
 
 	public int getCutCritHurt() {
 		return cutCritHurt;
 	}
 
-	public void setCutCritHurt(int cutCritHurt) {
-		this.cutCritHurt = cutCritHurt;
-	}
-
 	public int getResist() {
 		return resist;
-	}
-
-	public void setResist(int resist) {
-		this.resist = resist;
 	}
 
 	public int getAddCure() {
 		return addCure;
 	}
 
-	public void setAddCure(int addCure) {
-		this.addCure = addCure;
-	}
-
 	public int getCutCure() {
 		return cutCure;
-	}
-
-	public void setCutCure(int cutCure) {
-		this.cutCure = cutCure;
 	}
 
 	public int getLifeGrowUp() {
 		return lifeGrowUp;
 	}
 
-	public void setLifeGrowUp(int lifeGrowUp) {
-		this.lifeGrowUp = lifeGrowUp;
-	}
-
 	public int getAttackGrowUp() {
 		return attackGrowUp;
-	}
-
-	public void setAttackGrowUp(int attackGrowUp) {
-		this.attackGrowUp = attackGrowUp;
 	}
 
 	public int getPhysicqueDefGrowUp() {
 		return physicqueDefGrowUp;
 	}
 
-	public void setPhysicqueDefGrowUp(int physicqueDefGrouUp) {
-		this.physicqueDefGrowUp = physicqueDefGrouUp;
-	}
-
 	public int getSpiritDefGrowUp() {
 		return spiritDefGrowUp;
-	}
-
-	public void setSpiritDefGrowUp(int spiritDefGrowUP) {
-		this.spiritDefGrowUp = spiritDefGrowUP;
 	}
 
 	public int getEnchantExp() {
 		return enchantExp;
 	}
 
-	public void setEnchantExp(int enchantExp) {
-		this.enchantExp = enchantExp;
-	}
-
 	public int getSkillLevel() {
 		return skillLevel;
-	}
-
-	public void setSkillLevel(int skillLevel) {
-		this.skillLevel = skillLevel;
 	}
 
 	public int getAttackType() {
 		return attackType;
 	}
 
-	public void setAttackType(int attackType) {
-		this.attackType = attackType;
-	}
-
 	public int getDodge() {
 		return dodge;
-	}
-
-	public void setDodge(int dodge) {
-		this.dodge = dodge;
 	}
 
 	public int getHit() {
 		return hit;
 	}
 
-	public void setHit(int hit) {
-		this.hit = hit;
-	}
-
 	public int getEnergyPerSecond() {
 		return energyPerSecond;
-	}
-
-	public void setEnergyPerSecond(int energyPerSecond) {
-		this.energyPerSecond = energyPerSecond;
 	}
 
 	public float getHardStraight() {
 		return hardStraight;
 	}
 
-	public void setHardStraight(float hardStraight) {
-		this.hardStraight = hardStraight;
-	}
-
 	public float getReactionTime() {
 		return reactionTime;
-	}
-
-	public void setReactionTime(float reactionTime) {
-		this.reactionTime = reactionTime;
 	}
 
 	public float getAttackDistance() {
 		return attackDistance;
 	}
 
-	public void setAttackDistance(float attackDistance) {
-		this.attackDistance = attackDistance;
-	}
-
 	public float getAttackSpeed() {
 		return attackSpeed;
-	}
-
-	public void setAttackSpeed(float attackSpeed) {
-		this.attackSpeed = attackSpeed;
 	}
 
 	public float getMoveSpeed() {
 		return moveSpeed;
 	}
 
-	public void setMoveSpeed(float moveSpeed) {
-		this.moveSpeed = moveSpeed;
-	}
-
 	public float getAttackHurt() {
 		return attackHurt;
-	}
-
-	public void setAttackHurt(float attackHurt) {
-		this.attackHurt = attackHurt;
 	}
 
 	public float getViewRange() {
 		return viewRange;
 	}
 
-	public void setViewRange(float viewRange) {
-		this.viewRange = viewRange;
-	}
-
 	public float getVolumeRadius() {
 		return volumeRadius;
-	}
-
-	public void setVolumeRadius(float volumeRadius) {
-		this.volumeRadius = volumeRadius;
 	}
 
 	public float getDoHurt() {
 		return doHurt;
 	}
 
+	// TODO HC ////////////////////////////////////////////以后会删除掉
+
+	public void setLife(int life) {
+		this.life = life;
+	}
+
+	public void setEnergy(int energy) {
+		this.energy = energy;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+
+	public void setPhysiqueDef(int physiqueDef) {
+		this.physiqueDef = physiqueDef;
+	}
+
+	public void setSpiritDef(int spiritDef) {
+		this.spiritDef = spiritDef;
+	}
+
+	public void setAttackVampire(int attackVampire) {
+		this.attackVampire = attackVampire;
+	}
+
+	public void setCritical(int critical) {
+		this.critical = critical;
+	}
+
+	public void setCriticalHurt(int criticalHurt) {
+		this.criticalHurt = criticalHurt;
+	}
+
+	public void setToughness(int toughness) {
+		this.toughness = toughness;
+	}
+
+	public void setLifeReceive(int lifeReceive) {
+		this.lifeReceive = lifeReceive;
+	}
+
+	public void setEnergyReceive(int energyReceive) {
+		this.energyReceive = energyReceive;
+	}
+
+	public void setStruckEnergy(int struckEnergy) {
+		this.struckEnergy = struckEnergy;
+	}
+
+	public void setAttackEnergy(int attackEnergy) {
+		this.attackEnergy = attackEnergy;
+	}
+
+	public void setEnergyTrans(int energyTrans) {
+		this.energyTrans = energyTrans;
+	}
+
+	public void setCutHurt(int cutHurt) {
+		this.cutHurt = cutHurt;
+	}
+
+	public void setCutCritHurt(int cutCritHurt) {
+		this.cutCritHurt = cutCritHurt;
+	}
+
+	public void setResist(int resist) {
+		this.resist = resist;
+	}
+
+	public void setAddCure(int addCure) {
+		this.addCure = addCure;
+	}
+
+	public void setCutCure(int cutCure) {
+		this.cutCure = cutCure;
+	}
+
+	public void setLifeGrowUp(int lifeGrowUp) {
+		this.lifeGrowUp = lifeGrowUp;
+	}
+
+	public void setAttackGrowUp(int attackGrowUp) {
+		this.attackGrowUp = attackGrowUp;
+	}
+
+	public void setPhysicqueDefGrowUp(int physicqueDefGrowUp) {
+		this.physicqueDefGrowUp = physicqueDefGrowUp;
+	}
+
+	public void setSpiritDefGrowUp(int spiritDefGrowUp) {
+		this.spiritDefGrowUp = spiritDefGrowUp;
+	}
+
+	public void setEnchantExp(int enchantExp) {
+		this.enchantExp = enchantExp;
+	}
+
+	public void setSkillLevel(int skillLevel) {
+		this.skillLevel = skillLevel;
+	}
+
+	public void setAttackType(int attackType) {
+		this.attackType = attackType;
+	}
+
+	public void setDodge(int dodge) {
+		this.dodge = dodge;
+	}
+
+	public void setHit(int hit) {
+		this.hit = hit;
+	}
+
+	public void setEnergyPerSecond(int energyPerSecond) {
+		this.energyPerSecond = energyPerSecond;
+	}
+
+	public void setHardStraight(float hardStraight) {
+		this.hardStraight = hardStraight;
+	}
+
+	public void setReactionTime(float reactionTime) {
+		this.reactionTime = reactionTime;
+	}
+
+	public void setAttackDistance(float attackDistance) {
+		this.attackDistance = attackDistance;
+	}
+
+	public void setAttackSpeed(float attackSpeed) {
+		this.attackSpeed = attackSpeed;
+	}
+
+	public void setMoveSpeed(float moveSpeed) {
+		this.moveSpeed = moveSpeed;
+	}
+
+	public void setAttackHurt(float attackHurt) {
+		this.attackHurt = attackHurt;
+	}
+
+	public void setViewRange(float viewRange) {
+		this.viewRange = viewRange;
+	}
+
+	public void setVolumeRadius(float volumeRadius) {
+		this.volumeRadius = volumeRadius;
+	}
+
 	public void setDoHurt(float doHurt) {
 		this.doHurt = doHurt;
 	}
 
+	public static class Builder {
+		private int life; // 最大生命值...
+		private int energy; // 能量值...
+		private int attack; // 攻击...
+		private int physiqueDef; // 体魄防御...
+		private int spiritDef; // 精神防御...
+		private int attackVampire; // 攻击吸血...
+		private int critical; // 暴击率...
+		private int criticalHurt; // 暴击伤害提升...
+		private int toughness; // 韧性...
+		private int lifeReceive; // 生命回复...
+		private int energyReceive; // 能量值回复...
+		private int struckEnergy;// 击杀增加能量...
+		private int attackEnergy;// 攻击能量...
+		private int energyTrans; // 能量转化...
+		private int cutHurt;// 伤害减免
+		private int cutCritHurt;// 暴击伤害减免
+		private int resist;// 抵抗
+		private int addCure;// 受到治疗效果增加
+		private int cutCure;// 受到治疗效果减少
+		private int lifeGrowUp; // 生命成长...
+		private int attackGrowUp; // 攻击成长...
+		private int physicqueDefGrowUp; // 体魄防御成长...
+		private int spiritDefGrowUp; // 精神防御成长...
+		private int enchantExp;// 附灵经验...
+		private int skillLevel;// 技能总等级
+		private int attackType;// 攻击类型
+		private int dodge; // 闪避
+		private int hit; // 命中
+		private int energyPerSecond; // 每秒恢复的能量
+
+		private float hardStraight;
+		private float reactionTime;
+		private float attackDistance; // 攻击距离...
+		private float attackSpeed; // 攻击速度...
+		private float moveSpeed; // 移动速度...
+		private float attackHurt;// 攻击伤害
+		private float viewRange; // 视野范围
+
+		private float volumeRadius; // 人物半径
+
+		private float doHurt; // 硬直界限
+
+		public void setLife(int life) {
+			this.life = life;
+		}
+
+		public void setEnergy(int energy) {
+			this.energy = energy;
+		}
+
+		public void setAttack(int attack) {
+			this.attack = attack;
+		}
+
+		public void setPhysiqueDef(int physiqueDef) {
+			this.physiqueDef = physiqueDef;
+		}
+
+		public void setSpiritDef(int spiritDef) {
+			this.spiritDef = spiritDef;
+		}
+
+		public void setAttackVampire(int attackVampire) {
+			this.attackVampire = attackVampire;
+		}
+
+		public void setCritical(int critical) {
+			this.critical = critical;
+		}
+
+		public void setCriticalHurt(int criticalHurt) {
+			this.criticalHurt = criticalHurt;
+		}
+
+		public void setToughness(int toughness) {
+			this.toughness = toughness;
+		}
+
+		public void setLifeReceive(int lifeReceive) {
+			this.lifeReceive = lifeReceive;
+		}
+
+		public void setEnergyReceive(int energyReceive) {
+			this.energyReceive = energyReceive;
+		}
+
+		public void setStruckEnergy(int struckEnergy) {
+			this.struckEnergy = struckEnergy;
+		}
+
+		public void setAttackEnergy(int attackEnergy) {
+			this.attackEnergy = attackEnergy;
+		}
+
+		public void setEnergyTrans(int energyTrans) {
+			this.energyTrans = energyTrans;
+		}
+
+		public void setCutHurt(int cutHurt) {
+			this.cutHurt = cutHurt;
+		}
+
+		public void setCutCritHurt(int cutCritHurt) {
+			this.cutCritHurt = cutCritHurt;
+		}
+
+		public void setResist(int resist) {
+			this.resist = resist;
+		}
+
+		public void setAddCure(int addCure) {
+			this.addCure = addCure;
+		}
+
+		public void setCutCure(int cutCure) {
+			this.cutCure = cutCure;
+		}
+
+		public void setLifeGrowUp(int lifeGrowUp) {
+			this.lifeGrowUp = lifeGrowUp;
+		}
+
+		public void setAttackGrowUp(int attackGrowUp) {
+			this.attackGrowUp = attackGrowUp;
+		}
+
+		public void setPhysicqueDefGrowUp(int physicqueDefGrowUp) {
+			this.physicqueDefGrowUp = physicqueDefGrowUp;
+		}
+
+		public void setSpiritDefGrowUp(int spiritDefGrowUp) {
+			this.spiritDefGrowUp = spiritDefGrowUp;
+		}
+
+		public void setEnchantExp(int enchantExp) {
+			this.enchantExp = enchantExp;
+		}
+
+		public void setSkillLevel(int skillLevel) {
+			this.skillLevel = skillLevel;
+		}
+
+		public void setAttackType(int attackType) {
+			this.attackType = attackType;
+		}
+
+		public void setDodge(int dodge) {
+			this.dodge = dodge;
+		}
+
+		public void setHit(int hit) {
+			this.hit = hit;
+		}
+
+		public void setEnergyPerSecond(int energyPerSecond) {
+			this.energyPerSecond = energyPerSecond;
+		}
+
+		public void setHardStraight(float hardStraight) {
+			this.hardStraight = hardStraight;
+		}
+
+		public void setReactionTime(float reactionTime) {
+			this.reactionTime = reactionTime;
+		}
+
+		public void setAttackDistance(float attackDistance) {
+			this.attackDistance = attackDistance;
+		}
+
+		public void setAttackSpeed(float attackSpeed) {
+			this.attackSpeed = attackSpeed;
+		}
+
+		public void setMoveSpeed(float moveSpeed) {
+			this.moveSpeed = moveSpeed;
+		}
+
+		public void setAttackHurt(float attackHurt) {
+			this.attackHurt = attackHurt;
+		}
+
+		public void setViewRange(float viewRange) {
+			this.viewRange = viewRange;
+		}
+
+		public void setVolumeRadius(float volumeRadius) {
+			this.volumeRadius = volumeRadius;
+		}
+
+		public void setDoHurt(float doHurt) {
+			this.doHurt = doHurt;
+		}
+
+		public AttrData build() {
+			return new AttrData(life, energy, attack, physiqueDef, spiritDef, attackVampire, critical, criticalHurt, toughness, lifeReceive, energyReceive, struckEnergy, attackEnergy, energyTrans,
+					cutHurt, cutCritHurt, resist, addCure, cutCure, lifeGrowUp, attackGrowUp, physicqueDefGrowUp, spiritDefGrowUp, enchantExp, skillLevel, attackType, dodge, hit, energyPerSecond,
+					hardStraight, reactionTime, attackDistance, attackSpeed, moveSpeed, attackHurt, viewRange, volumeRadius, doHurt);
+		}
+	}
 }

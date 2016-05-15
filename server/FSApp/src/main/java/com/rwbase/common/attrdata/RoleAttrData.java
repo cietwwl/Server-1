@@ -9,12 +9,13 @@ public class RoleAttrData {
 
 	@Id
 	private String heroId;
+	private AttrData roleBaseTotalData;
+	private AttrData totalData;
+	private int fighting;
 
 	private AttrData equipTotalData;
 
 	private AttrData inlayTotalData;
-
-	private AttrData roleBaseTotalData;
 
 	private AttrData fashionTotalData;
 
@@ -24,11 +25,14 @@ public class RoleAttrData {
 
 	private AttrData heroFettersTotalData;// 羁绊属性
 
-	private AttrData totalData;
-
-	private int fighting;
-
 	private String log;
+
+	public RoleAttrData(String heroId, AttrData roleBaseTotalData, AttrData totalData, int fighting) {
+		this.heroId = heroId;
+		this.roleBaseTotalData = roleBaseTotalData;
+		this.totalData = totalData;
+		this.fighting = fighting;
+	}
 
 	public RoleAttrData(String heroIdP, AttrData equipTotalDataP, AttrData inlayTotalDataP, AttrData roleBaseTotalDataP, AttrData skillAttrDataP, AttrData fashionAttrDataP,
 			AttrData groupSkillTotalData, AttrData heroFettersTotalData) {
@@ -145,5 +149,32 @@ public class RoleAttrData {
 
 	public void setLog(String log) {
 		this.log = log;
+	}
+
+	public static class Builder {
+		private String heroId;
+		private AttrData roleBaseTotalData;
+		private AttrData totalData;
+		private int fighting;
+
+		public void setHeroId(String heroId) {
+			this.heroId = heroId;
+		}
+
+		public void setRoleBaseTotalData(AttrData roleBaseTotalData) {
+			this.roleBaseTotalData = roleBaseTotalData;
+		}
+
+		public void setTotalData(AttrData totalData) {
+			this.totalData = totalData;
+		}
+
+		public void setFighting(int fighting) {
+			this.fighting = fighting;
+		}
+
+		public RoleAttrData build() {
+			return new RoleAttrData(heroId, roleBaseTotalData, totalData, fighting);
+		}
 	}
 }

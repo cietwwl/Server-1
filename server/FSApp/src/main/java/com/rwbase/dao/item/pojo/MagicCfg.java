@@ -1,13 +1,14 @@
 package com.rwbase.dao.item.pojo;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.common.HPCUtil;
 import com.common.ListParser;
 import com.log.GameLog;
 import com.rw.fsutil.common.Pair;
-
 
 public class MagicCfg extends ItemBaseCfg {
 	private int property; // 属性
@@ -25,19 +26,22 @@ public class MagicCfg extends ItemBaseCfg {
 	private String inlayLimit;
 	private String hideAttr;
 	private int initialEnergy;// 初始能量值
-	
-	public void ExtraInitAfterLoad(){
+	private String skillId_passive;// 法宝的被动技能列表
+	private List<Integer> passiveSkillIdList;// 被动技能列表
+
+	public void ExtraInitAfterLoad() {
 		ParseConversionGoods();
 		ParseDecomposeGoods();
 		ParseUpgradeNeedGoodList();
 	}
-	
+
 	// region 法宝进阶用到的属性
 	private String upMagic;
 	private int uplevel;
 	private String goods;
 	private int upMagicCost;
 	private int upMagicMoneyType;
+
 	public int getUpMagicMoneyType() {
 		return upMagicMoneyType;
 	}
@@ -46,60 +50,66 @@ public class MagicCfg extends ItemBaseCfg {
 		return upMagicCost;
 	}
 
-	private List<Pair<Integer,Integer>> upgradeNeedGoodList;
+	private List<Pair<Integer, Integer>> upgradeNeedGoodList;
 
 	public List<Pair<Integer, Integer>> getUpgradeNeedGoodList() {
 		return upgradeNeedGoodList;
 	}
-	
-	private void ParseUpgradeNeedGoodList(){
-		if (upgradeNeedGoodList == null){
+
+	private void ParseUpgradeNeedGoodList() {
+		if (upgradeNeedGoodList == null) {
 			String module = "法宝";
 			String moduleID = "配置不是一对值";
-			upgradeNeedGoodList = ListParser.ParsePairList(module, moduleID, ",","_",goods);
+			upgradeNeedGoodList = ListParser.ParsePairList(module, moduleID, ",", "_", goods);
 		}
 	}
-	
+
 	public String getUpMagic() {
 		return upMagic;
 	}
+
 	public int getUplevel() {
 		return uplevel;
 	}
+
 	public String getGoods() {
 		return goods;
 	}
+
 	// end region
-	
+
 	// region 分解材料需要用到的属性
 	private String decomposeGoods;
 	private float coefficient;
 	private String conversionGoods;
 
-	//derived read only properties
+	// derived read only properties
 	private int convertedGoodModelId;
+
 	public int getConvertedGoodModelId() {
 		return convertedGoodModelId;
 	}
-	private void ParseConversionGoods(){
-		try{
+
+	private void ParseConversionGoods() {
+		try {
 			if (!StringUtils.isBlank(conversionGoods))
-			convertedGoodModelId = Integer.parseInt(conversionGoods);
-		}catch(Exception ex){
-			GameLog.error("法宝", "配置错误", "无效ModelID:"+conversionGoods);
+				convertedGoodModelId = Integer.parseInt(conversionGoods);
+		} catch (Exception ex) {
+			GameLog.error("法宝", "配置错误", "无效ModelID:" + conversionGoods);
 		}
 	}
 
-	private List<Pair<Integer,Integer>> decomposeGoodList;
+	private List<Pair<Integer, Integer>> decomposeGoodList;
+
 	public List<Pair<Integer, Integer>> getDecomposeGoodList() {
 		return decomposeGoodList;
 	}
 
-	private void ParseDecomposeGoods(){
-		if (decomposeGoodList == null){
+	private void ParseDecomposeGoods() {
+		if (decomposeGoodList == null) {
 			String module = "法宝";
 			String moduleID = "配置不是一对值";
-			decomposeGoodList = ListParser.ParsePairList(module, moduleID, ",","_",decomposeGoods);
+			decomposeGoodList = ListParser.ParsePairList(module, moduleID, ",", "_", decomposeGoods);
 		}
 	}
 
@@ -114,8 +124,9 @@ public class MagicCfg extends ItemBaseCfg {
 	public String getConversionGoods() {
 		return conversionGoods;
 	}
+
 	// end region
-	
+
 	public String getItemspit() {
 		return itemspit;
 	}
@@ -234,5 +245,22 @@ public class MagicCfg extends ItemBaseCfg {
 
 	public void setInitialEnergy(int initialEnergy) {
 		this.initialEnergy = initialEnergy;
+	}
+
+	/**
+	 * 获取法宝对应的被动技能列表
+	 * 
+	 * @return
+	 */
+	public List<Integer> getPassiveSkillIdList() {
+		return passiveSkillIdList;
+	}
+
+	public void initData() {
+		if (StringUtils.isEmpty(skillId_passive)) {
+			this.passiveSkillIdList = Collections.emptyList();
+		} else {
+			this.passiveSkillIdList = Collections.unmodifiableList(HPCUtil.parseIntegerList(skillId_passive, ","));
+		}
 	}
 }

@@ -40,7 +40,9 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.attrdata.calc.AttrDataCalcFactory;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.common.attribute.param.MagicParam;
+import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
@@ -452,13 +454,20 @@ public final class AngleArrayMatchHelper {
 		ArmyMagic magicInfo = new ArmyMagic();
 		// 法宝Id
 		int[] magicId = angelRobotCfg.getMagicId();
-		magicInfo.setModelId(magicId[getRandomIndex(r, magicId.length)]);
+		int finalMagicId = magicId[getRandomIndex(r, magicId.length)];
+		magicInfo.setModelId(finalMagicId);
 		// 法宝等级
 		int[] magicLevelArray = angelRobotCfg.getMagicLevel();
 		int magicLevel = magicLevelArray[getRandomIndex(r, magicLevelArray.length)];
 		magicLevel = magicLevel > mainRoleLevel ? mainRoleLevel : magicLevel;
 		magicInfo.setLevel(magicLevel);
 		teamInfo.setMagic(magicInfo);
+		// 转换成计算属性要传递的数据
+		MagicParam.MagicBuilder builder = new MagicBuilder();
+		builder.setMagicId(String.valueOf(finalMagicId));
+		builder.setMagicLevel(magicLevel);
+		builder.setUserId(userId);
+		MagicParam magicParam = builder.build();
 
 		int heroSize = heroTmpIdList.size();
 		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
@@ -547,7 +556,8 @@ public final class AngleArrayMatchHelper {
 				}
 
 				// 战力
-				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, AttrDataCalcFactory.getHeroAttrData(heroInfo));
+				int calFighting = FightingCalculator
+						.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, AttributeBM.getRobotAttrData(userId, heroInfo, magicParam));
 				fighting += calFighting;
 				// System.err.println(String.format("[%s]的英雄，战力是[%s]", heroModelId, calFighting));
 			}

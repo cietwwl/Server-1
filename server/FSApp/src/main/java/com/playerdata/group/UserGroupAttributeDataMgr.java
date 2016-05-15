@@ -16,6 +16,8 @@ import com.playerdata.common.PlayerEventListener;
 import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.AttrDataType;
+import com.rwbase.common.attribute.AttributeItem;
+import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillAttributeCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -489,6 +491,66 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		attrMap.put(AttrDataType.ATTR_DATA_PRECENT_TYPE.type, precentAttrData);
 
 		return attrMap;
+	}
+
+	/**
+	 * 获取帮派增加的属性
+	 * 
+	 * @return
+	 */
+	public Map<Integer, AttributeItem> getGroupSkillAttrDataMap() {
+		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		if (userGroupData == null) {
+			GameLog.error("计算英雄帮派属性", userId, "角色没有对应的UserGroupAttributeData数据");
+			return map;
+		}
+
+		String groupId = userGroupData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {// 没有帮派
+			GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
+			return map;
+		}
+
+		if (!userGroupData.hasStudySkill()) {
+			GameLog.error("计算英雄帮派属性", userId, "角色没有学习过任何技能");
+			return map;
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
+			return map;
+		}
+
+		GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
+		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		Enumeration<GroupSkillItem> researchSkill = groupData.getResearchSkill();
+		while (researchSkill.hasMoreElements()) {
+			GroupSkillItem skillItem = researchSkill.nextElement();// 帮派研发的技能
+			int skillId = Integer.parseInt(skillItem.getId());
+			int researchLevel = skillItem.getLevel();// 研发到的等级
+			int studySkillLevel = userGroupData.getStudySkillLevel(skillId);
+			studySkillLevel = researchLevel <= studySkillLevel ? researchLevel : studySkillLevel;
+			if (studySkillLevel <= 0) {// 没学习
+				continue;
+			}
+
+			GroupSkillLevelTemplate tmp = dao.getSkillLevelTemplate(skillId, studySkillLevel);
+			if (tmp == null) {
+				continue;
+			}
+
+			GroupSkillAttributeCfg skillAttr = cfgDAO.getGroupSkillAttribute(tmp.getAttributeId());
+			if (skillAttr == null) {
+				continue;
+			}
+
+			AttributeUtils.calcAttribute(skillAttr.getAttrDataMap(), skillAttr.getPrecentAttrDataMap(), map);
+		}
+
+		return map;
 	}
 	// /**
 	// * 推送个人帮派学习技能的数据

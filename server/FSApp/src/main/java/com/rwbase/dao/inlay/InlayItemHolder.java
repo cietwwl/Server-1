@@ -17,15 +17,15 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class InlayItemHolder {
 
-	//private final String heroModelId;// 英雄的模版Id
+	// private final String heroModelId;// 英雄的模版Id
 	final private String ownerId; //
 	final private eSynType inlaySynType = eSynType.INLAY_ITEM;
 	private final Hero pOwner;
-	
+
 	public InlayItemHolder(Hero pOwner) {
 		ownerId = pOwner.getUUId();
 		this.pOwner = pOwner;
-		//this.heroModelId = String.valueOf(heroModelId);
+		// this.heroModelId = String.valueOf(heroModelId);
 	}
 
 	/*

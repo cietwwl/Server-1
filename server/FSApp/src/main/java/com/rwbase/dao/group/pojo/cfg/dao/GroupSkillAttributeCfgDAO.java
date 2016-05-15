@@ -1,6 +1,7 @@
 package com.rwbase.dao.group.pojo.cfg.dao;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -23,8 +24,15 @@ public class GroupSkillAttributeCfgDAO extends CfgCsvDao<GroupSkillAttributeCfg>
 
 	@Override
 	public Map<String, GroupSkillAttributeCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Group/GroupSkillAttribute.csv", GroupSkillAttributeCfg.class);
-		return cfgCacheMap;
+		Map<String, GroupSkillAttributeCfg> readCsv2Map = CfgCsvHelper.readCsv2Map("Group/GroupSkillAttribute.csv", GroupSkillAttributeCfg.class);
+
+		if (readCsv2Map != null && !readCsv2Map.isEmpty()) {
+			for (Entry<String, GroupSkillAttributeCfg> e : readCsv2Map.entrySet()) {
+				e.getValue().initData();
+			}
+		}
+
+		return cfgCacheMap = readCsv2Map;
 	}
 
 	/**

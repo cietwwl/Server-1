@@ -52,12 +52,12 @@ public class InlayItemHelper {
 			AttrData dataTmp = AttrData.fromObject(cfg);
 			attrData.plus(dataTmp);
 
-			int quality = cfg.getQuality();
-			Integer hasValue = levelNumMap.get(quality);
+			int level = cfg.getLevel();
+			Integer hasValue = levelNumMap.get(level);
 			if (hasValue == null) {
-				levelNumMap.put(quality, 1);
+				levelNumMap.put(level, 1);
 			} else {
-				levelNumMap.put(quality, hasValue + 1);
+				levelNumMap.put(level, hasValue + 1);
 			}
 		}
 
