@@ -134,7 +134,11 @@ public class AttributeUtils {
 	}
 
 	/**
+	 * <pre>
 	 * 计算每个部分的属性，然后整合到<Integer,AttributeItem>的Map中去
+	 * 这个方法只适合于，增加的倍数仅限于传递进来的attrDataMap的属性
+	 * E.g 装备附灵
+	 * </pre>
 	 * 
 	 * @param attrDataMap
 	 * @param precentAttrDataMap
@@ -148,15 +152,18 @@ public class AttributeUtils {
 		for (Entry<Integer, Integer> entry : attrDataMap.entrySet()) {
 			Integer key = entry.getKey();
 			AttributeItem attributeItem = attrMap.get(key);
-			int value = 0;
+
+			// 基础增加属性 * 附灵增加的属性
+			int value = entry.getValue();
+			value += value * addPrecent / AttributeConst.DIVISION;
+
 			int precentValue = 0;
 			if (attributeItem != null) {
-				value = attributeItem.getIncreaseValue();
-				value += value * addPrecent / AttributeConst.DIVISION;
+				value += attributeItem.getIncreaseValue();
 				precentValue = attributeItem.getIncPerTenthousand();
 			}
 
-			attributeItem = new AttributeItem(AttributeType.getAttributeType(key), entry.getValue() + value, precentValue);
+			attributeItem = new AttributeItem(AttributeType.getAttributeType(key), value, precentValue);
 			attrMap.put(key, attributeItem);
 		}
 
@@ -173,6 +180,22 @@ public class AttributeUtils {
 
 			attributeItem = new AttributeItem(AttributeType.getAttributeType(key), value, entry.getValue() + precentValue);
 			attrMap.put(key, attributeItem);
+		}
+
+		// 把这一块装备属性加到属性上
+		for (Entry<Integer, AttributeItem> e : attrMap.entrySet()) {
+			Integer key = e.getKey();
+			AttributeItem value = e.getValue();
+			if (value == null) {
+				continue;
+			}
+
+			AttributeItem hasAttrItem = map.get(key);
+			if (hasAttrItem == null) {
+				map.put(key, value);
+			} else {
+				map.put(key, new AttributeItem(hasAttrItem.getType(), hasAttrItem.getIncreaseValue() + value.getIncreaseValue(), hasAttrItem.getIncPerTenthousand() + value.getIncPerTenthousand()));
+			}
 		}
 	}
 

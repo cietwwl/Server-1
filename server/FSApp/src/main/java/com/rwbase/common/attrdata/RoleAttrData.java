@@ -27,11 +27,12 @@ public class RoleAttrData {
 
 	private String log;
 
-	public RoleAttrData(String heroId, AttrData roleBaseTotalData, AttrData totalData, int fighting) {
+	public RoleAttrData(String heroId, AttrData roleBaseTotalData, AttrData totalData, int fighting, String log) {
 		this.heroId = heroId;
 		this.roleBaseTotalData = roleBaseTotalData;
 		this.totalData = totalData;
 		this.fighting = fighting;
+		this.log = log;
 	}
 
 	public RoleAttrData(String heroIdP, AttrData equipTotalDataP, AttrData inlayTotalDataP, AttrData roleBaseTotalDataP, AttrData skillAttrDataP, AttrData fashionAttrDataP,
@@ -156,6 +157,7 @@ public class RoleAttrData {
 		private AttrData roleBaseTotalData;
 		private AttrData totalData;
 		private int fighting;
+		private String log;
 
 		public void setHeroId(String heroId) {
 			this.heroId = heroId;
@@ -173,8 +175,12 @@ public class RoleAttrData {
 			this.fighting = fighting;
 		}
 
+		public void setLog(String log) {
+			this.log = log;
+		}
+
 		public RoleAttrData build() {
-			return new RoleAttrData(heroId, roleBaseTotalData, totalData, fighting);
+			return new RoleAttrData(heroId, roleBaseTotalData, totalData, fighting, log);
 		}
 	}
 }

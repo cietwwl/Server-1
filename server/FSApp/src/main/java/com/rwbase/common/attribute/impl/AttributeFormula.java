@@ -45,6 +45,7 @@ public class AttributeFormula implements IAttributeFormula<AttrData> {
 			AttributeType type = item.getType();
 			type.setAttributeValue(builder, isRate ? percent : add);
 		}
+
 		return builder.build();
 	}
 
@@ -56,6 +57,7 @@ public class AttributeFormula implements IAttributeFormula<AttrData> {
 			int value = e.getValue();
 			key.setAttributeValue(builder, value);
 		}
+
 		return builder.build();
 	}
 
