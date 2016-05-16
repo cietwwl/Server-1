@@ -205,7 +205,7 @@ public class InlayCfg {
 			extraLvList1 = Collections.unmodifiableList(HPCUtil.parseIntegerList(extraLv1, ","));
 		}
 
-		attrDataInfoMap1 = AttributeUtils.parseStr2AttrInfoReadOnlyMap(extraLvList1, attrData1, precentAttrData1);
+		attrDataInfoMap1 = AttributeUtils.parseStr2AttrInfoReadOnlyMap("InlayCfg", extraLvList1, attrData1, precentAttrData1);
 		// 数据解析2
 		if (StringUtils.isEmpty(extraLv2)) {
 			extraLvList2 = Collections.emptyList();
@@ -213,13 +213,13 @@ public class InlayCfg {
 			extraLvList2 = Collections.unmodifiableList(HPCUtil.parseIntegerList(extraLv2, ","));
 		}
 
-		attrDataInfoMap2 = AttributeUtils.parseStr2AttrInfoReadOnlyMap(extraLvList2, attrData2, precentAttrData2);
+		attrDataInfoMap2 = AttributeUtils.parseStr2AttrInfoReadOnlyMap("InlayCfg", extraLvList2, attrData2, precentAttrData2);
 		// 数据解析3
 		if (StringUtils.isEmpty(extraLv3)) {
 			extraLvList3 = Collections.emptyList();
 		} else {
 			extraLvList3 = Collections.unmodifiableList(HPCUtil.parseIntegerList(extraLv3, ","));
 		}
-		attrDataInfoMap3 = AttributeUtils.parseStr2AttrInfoReadOnlyMap(extraLvList3, attrData3, precentAttrData3);
+		attrDataInfoMap3 = AttributeUtils.parseStr2AttrInfoReadOnlyMap("InlayCfg", extraLvList3, attrData3, precentAttrData3);
 	}
 }

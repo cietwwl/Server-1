@@ -15,10 +15,8 @@ import com.log.GameLog;
 import com.playerdata.readonly.FashionMgrIF;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.NotifyChangeCallBack;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
-import com.rwbase.dao.fashion.BattleAddedEffects;
 import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.fashion.FashionBuyRenewCfg;
@@ -32,7 +30,6 @@ import com.rwbase.dao.fashion.FashionItemIF;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.fashion.FashionUsedIF;
-import com.rwbase.dao.fashion.IEffectCfg;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.ErrorService.ErrorType;
@@ -54,8 +51,8 @@ public class FashionMgr implements FashionMgrIF {
 	private boolean isInited = false;
 	private NotifyChangeCallBack notifyProxy = new NotifyChangeCallBack();
 
-	// 缓存的增益数据，清空会重新计算
-	private BattleAddedEffects totalEffects = null;
+	// // 缓存的增益数据，清空会重新计算
+	// private BattleAddedEffects totalEffects = null;
 	private int validCountCache;
 
 	public void init(Player playerP) {
@@ -183,31 +180,32 @@ public class FashionMgr implements FashionMgrIF {
 		return false;
 	}
 
-	/**
-	 * 计算增益数据并缓存
-	 * 
-	 * @return
-	 */
-	public IEffectCfg getEffectData() {
-		if (totalEffects == null) {
-			AttrData addedValues = new AttrData();
-			AttrData addedPercentages = new AttrData();
-			FashionBeingUsed used = createOrUpdate();
-			if (used != null) {
-				int career = m_player.getCareer();
-				IEffectCfg[] list = used.getEffectList(getValidCount(), career);
-				for (int i = 0; i < list.length; i++) {
-					IEffectCfg eff = list[i];
-					if (eff != null) {
-						addedValues.plus(eff.getAddedValues());
-						addedPercentages.plus(eff.getAddedPercentages());
-					}
-				}
-			}
-			totalEffects = new BattleAddedEffects(addedValues, addedPercentages);
-		}
-		return totalEffects;
-	}
+	//
+	// /**
+	// * 计算增益数据并缓存
+	// *
+	// * @return
+	// */
+	// public IEffectCfg getEffectData() {
+	// if (totalEffects == null) {
+	// AttrData addedValues = new AttrData();
+	// AttrData addedPercentages = new AttrData();
+	// FashionBeingUsed used = createOrUpdate();
+	// if (used != null) {
+	// int career = m_player.getCareer();
+	// IEffectCfg[] list = used.getEffectList(getValidCount(), career);
+	// for (int i = 0; i < list.length; i++) {
+	// IEffectCfg eff = list[i];
+	// if (eff != null) {
+	// addedValues.plus(eff.getAddedValues());
+	// addedPercentages.plus(eff.getAddedPercentages());
+	// }
+	// }
+	// }
+	// totalEffects = new BattleAddedEffects(addedValues, addedPercentages);
+	// }
+	// return totalEffects;
+	// }
 
 	/**
 	 * 获取时装增加的总属性
@@ -617,7 +615,7 @@ public class FashionMgr implements FashionMgrIF {
 	 * 有效期时装数量或者变更（购买，续费，过期）会导致变化
 	 */
 	private void RecomputeBattleAdded() {
-		totalEffects = null;
+		// totalEffects = null;
 		createOrUpdate();
 	}
 
@@ -664,11 +662,13 @@ public class FashionMgr implements FashionMgrIF {
 		if (validCount != validCountCache) {
 			validCountCache = validCount;
 			FashionQuantityEffectCfg eff = FashionQuantityEffectCfgDao.getInstance().searchOption(validCount);
-			int quantity = eff.getQuantity();
-			if (quantity != result.getTotalEffectPlanId()) {
-				result.setTotalEffectPlanId(quantity);
-				fashionUsedHolder.update(result);
-				notifyProxy.delayNotify();
+			if (eff != null) {
+				int quantity = eff.getQuantity();
+				if (quantity != result.getTotalEffectPlanId()) {
+					result.setTotalEffectPlanId(quantity);
+					fashionUsedHolder.update(result);
+					notifyProxy.delayNotify();
+				}
 			}
 		}
 	}

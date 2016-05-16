@@ -763,11 +763,11 @@ public class RoleCfg {
 		if (StringUtils.isEmpty(growUp)) {
 			this.growUpMap = Collections.emptyMap();
 		} else {
-			this.growUpMap = AttributeUtils.parseAttrDataStr2Map(growUp);
+			this.growUpMap = AttributeUtils.parseAttrDataStr2Map("RoleCfg#GrowUp", growUp);
 		}
 		// ===============================增加的固定属性
-		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map(attrData);
+		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map("RoleCfg", attrData);
 		// ===============================增加的百分比属性
-		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map(precentAttrData);
+		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("RoleCfg", precentAttrData);
 	}
 }

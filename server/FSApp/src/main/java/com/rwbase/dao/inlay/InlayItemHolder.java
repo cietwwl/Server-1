@@ -11,7 +11,6 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -20,11 +19,12 @@ public class InlayItemHolder {
 	// private final String heroModelId;// 英雄的模版Id
 	final private String ownerId; //
 	final private eSynType inlaySynType = eSynType.INLAY_ITEM;
-	private final Hero pOwner;
+
+	// private final Hero pOwner;
 
 	public InlayItemHolder(Hero pOwner) {
 		ownerId = pOwner.getUUId();
-		this.pOwner = pOwner;
+		// this.pOwner = pOwner;
 		// this.heroModelId = String.valueOf(heroModelId);
 	}
 
@@ -87,17 +87,17 @@ public class InlayItemHolder {
 		getMapItemStore().flush();
 	}
 
-	public AttrData toAttrData() {
-		List<InlayItem> itemList = getItemList();
-		AttrData totalAttrData = InlayItemHelper.getInlayAttrData(itemList, String.valueOf(this.pOwner.getModelId()));
-		return totalAttrData;
-	}
+	// public AttrData toAttrData() {
+	// List<InlayItem> itemList = getItemList();
+	// AttrData totalAttrData = InlayItemHelper.getInlayAttrData(itemList, String.valueOf(this.pOwner.getModelId()));
+	// return totalAttrData;
+	// }
 
-	public AttrData toPercentAttrData() {
-		List<InlayItem> itemList = getItemList();
-		AttrData totalAttrData = InlayItemHelper.getPercentInlayAttrData(itemList);
-		return totalAttrData;
-	}
+	// public AttrData toPercentAttrData() {
+	// List<InlayItem> itemList = getItemList();
+	// AttrData totalAttrData = InlayItemHelper.getPercentInlayAttrData(itemList);
+	// return totalAttrData;
+	// }
 
 	private List<Action> callbackList = new ArrayList<Action>();
 

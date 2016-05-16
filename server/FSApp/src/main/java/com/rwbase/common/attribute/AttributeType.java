@@ -49,14 +49,14 @@ public enum AttributeType implements TypeIdentification {
 		public void setAttributeValue(Builder builder, int value) {
 		}
 	},
-	/** 攻击.. */
+	/** 物理攻击.. */
 	PHYSIQUE_ATTACK(5, "physiqueAttack", false, -1) {
 		@Override
 		public void setAttributeValue(Builder builder, int value) {
 			builder.setPhysiqueAttack(value);
 		}
 	},
-	/** 攻击.. */
+	/** 法术攻击.. */
 	SPIRIT_ATTACK(23, "spiritAttack", false, -1) {
 		@Override
 		public void setAttributeValue(Builder builder, int value) {
@@ -254,11 +254,18 @@ public enum AttributeType implements TypeIdentification {
 			builder.setLifeGrowUp(value);
 		}
 	},
-	/** 攻击成长 */
-	ATTACK_GROWUP(36, "attackGrowUp", false, 5) {
+	/** 法术攻击成长 */
+	S_ATTACK_GROWUP(33, "sAttackGrowUp", false, 23) {
 		@Override
 		public void setAttributeValue(Builder builder, int value) {
-			builder.setAttackGrowUp(value);
+			builder.setsAttackGrowUp(value);
+		}
+	},
+	/** 物理攻击成长 */
+	P_ATTACK_GROWUP(36, "pAttackGrowUp", false, 5) {
+		@Override
+		public void setAttributeValue(Builder builder, int value) {
+			builder.setpAttackGrowUp(value);
 		}
 	},
 	/** 体魄防御成长 */

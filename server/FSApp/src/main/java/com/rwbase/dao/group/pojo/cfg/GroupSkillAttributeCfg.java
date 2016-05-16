@@ -212,8 +212,8 @@ public class GroupSkillAttributeCfg {
 	 */
 	public void initData() {
 		// ===============================增加的固定属性
-		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map(attrData);
+		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map("GroupSkillAttributeCfg", attrData);
 		// ===============================增加的百分比属性
-		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map(precentAttrData);
+		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("GroupSkillAttributeCfg", precentAttrData);
 	}
 }

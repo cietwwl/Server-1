@@ -16,9 +16,9 @@ public class AttrDataInfo {
 	private final Map<Integer, Integer> attrDataMap;// 固定属性
 	private final Map<Integer, Integer> precentAttrDataMap;// 百分比属性
 
-	public AttrDataInfo(String attrDataStr, String precentAttrDataStr) {
-		attrDataMap = AttributeUtils.parseAttrDataStr2Map(attrDataStr);
-		precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map(precentAttrDataStr);
+	public AttrDataInfo(String fileName, String attrDataStr, String precentAttrDataStr) {
+		attrDataMap = AttributeUtils.parseAttrDataStr2Map(fileName, attrDataStr);
+		precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map(fileName, precentAttrDataStr);
 	}
 
 	/**

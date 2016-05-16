@@ -2,18 +2,16 @@ package com.rwbase.dao.fetters.pojo.cfg.template;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.springframework.util.StringUtils;
 
 import com.common.HPCUtil;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.attribute.AttributeType;
+import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.dao.fetters.pojo.cfg.FettersConditionCfg;
 
 /*
@@ -26,8 +24,8 @@ public class FettersConditionTemplate {
 	private final int conditionId;// 条件Id
 	private final int conditionLevel;// 条件的等级
 	private final List<Integer> subConditionIdList;// 羁绊的子条件Id
-	private final Map<Integer, Float> fettersAttrDataMap;// 羁绊增加属性
-	private final Map<Integer, Float> fettersPrecentAttrDataMap;// 羁绊增加的百分比属性
+	// private final Map<Integer, Float> fettersAttrDataMap;// 羁绊增加属性
+	// private final Map<Integer, Float> fettersPrecentAttrDataMap;// 羁绊增加的百分比属性
 	private final Map<Integer, Integer> attrDataMap;// 羁绊增加属性
 	private final Map<Integer, Integer> precentAttrDataMap;// 羁绊增加的百分比属性
 	private final List<FettersSubConditionTemplate> subConditionList;// 子条件的列表
@@ -46,75 +44,80 @@ public class FettersConditionTemplate {
 		}
 
 		// ===============================增加的固定属性
-		String fettersAttrData = cfg.getFettersAttrData();
-		if (StringUtils.isEmpty(fettersAttrData)) {
-			this.fettersAttrDataMap = Collections.emptyMap();
-
-			this.attrDataMap = Collections.emptyMap();
-		} else {
-			HashMap<Integer, Float> map = new HashMap<Integer, Float>();
-			Map<Integer, Integer> heroFettersAttrDataMap = new HashMap<Integer, Integer>();
-
-			StringTokenizer token = new StringTokenizer(fettersAttrData, ";");
-			while (token.hasMoreTokens()) {
-				StringTokenizer token1 = new StringTokenizer(token.nextToken(), "_");
-				if (token1.countTokens() != 2) {
-					continue;
-				}
-
-				String firstToken = token1.nextToken();
-				String secondToken = token1.nextToken();
-				Integer type = Integer.valueOf(firstToken);
-
-				map.put(type, Float.valueOf(secondToken));
-
-				// 检查属性类型是不是int
-				if (!AttributeBM.isInt(type)) {
-					heroFettersAttrDataMap.put(type, (int) (Float.valueOf(secondToken) * AttributeConst.BIG_FLOAT));
-				} else {
-					heroFettersAttrDataMap.put(type, Integer.valueOf(secondToken));
-				}
-			}
-
-			this.fettersAttrDataMap = Collections.unmodifiableMap(map);
-
-			this.attrDataMap = Collections.unmodifiableMap(heroFettersAttrDataMap);
-		}
-
+		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map("FettersConditionCfg", cfg.getFettersAttrData());
 		// ===============================增加的百分比属性
-		String fettersPrecentAttrData = cfg.getFettersPrecentAttrData();
-		if (StringUtils.isEmpty(fettersPrecentAttrData)) {
-			this.fettersPrecentAttrDataMap = Collections.emptyMap();
+		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("FettersConditionCfg", cfg.getFettersPrecentAttrData());
 
-			this.precentAttrDataMap = Collections.emptyMap();
-		} else {
-			HashMap<Integer, Float> map = new HashMap<Integer, Float>();
-			Map<Integer, Integer> heroFettersPrecentAttrDataMap = new HashMap<Integer, Integer>();
-
-			StringTokenizer token = new StringTokenizer(fettersPrecentAttrData, ";");
-			while (token.hasMoreTokens()) {
-				StringTokenizer token1 = new StringTokenizer(token.nextToken(), "_");
-				if (token1.countTokens() != 2) {
-					continue;
-				}
-
-				String firstToken = token1.nextToken();
-				String secondToken = token1.nextToken();
-				Integer type = Integer.valueOf(firstToken);
-				map.put(type, Float.valueOf(secondToken));
-
-				// 检查属性类型是不是int
-				if (!AttributeBM.isInt(type)) {
-					heroFettersPrecentAttrDataMap.put(type, (int) (Float.valueOf(secondToken) * AttributeConst.BIG_FLOAT));
-				} else {
-					heroFettersPrecentAttrDataMap.put(type, Integer.valueOf(secondToken));
-				}
-			}
-
-			this.fettersPrecentAttrDataMap = Collections.unmodifiableMap(map);
-
-			this.precentAttrDataMap = Collections.unmodifiableMap(heroFettersPrecentAttrDataMap);
-		}
+		// // ===============================增加的固定属性
+		// String fettersAttrData = cfg.getFettersAttrData();
+		// if (StringUtils.isEmpty(fettersAttrData)) {
+		// this.fettersAttrDataMap = Collections.emptyMap();
+		//
+		// this.attrDataMap = Collections.emptyMap();
+		// } else {
+		// HashMap<Integer, Float> map = new HashMap<Integer, Float>();
+		// Map<Integer, Integer> heroFettersAttrDataMap = new HashMap<Integer, Integer>();
+		//
+		// StringTokenizer token = new StringTokenizer(fettersAttrData, ";");
+		// while (token.hasMoreTokens()) {
+		// StringTokenizer token1 = new StringTokenizer(token.nextToken(), "_");
+		// if (token1.countTokens() != 2) {
+		// continue;
+		// }
+		//
+		// String firstToken = token1.nextToken();
+		// String secondToken = token1.nextToken();
+		// Integer type = Integer.valueOf(firstToken);
+		//
+		// map.put(type, Float.valueOf(secondToken));
+		//
+		// // 检查属性类型是不是int
+		// if (!AttributeBM.isInt(type)) {
+		// heroFettersAttrDataMap.put(type, (int) (Float.valueOf(secondToken) * AttributeConst.BIG_FLOAT));
+		// } else {
+		// heroFettersAttrDataMap.put(type, Integer.valueOf(secondToken));
+		// }
+		// }
+		//
+		// this.fettersAttrDataMap = Collections.unmodifiableMap(map);
+		//
+		// this.attrDataMap = Collections.unmodifiableMap(heroFettersAttrDataMap);
+		// }
+		//
+		// // ===============================增加的百分比属性
+		// String fettersPrecentAttrData = cfg.getFettersPrecentAttrData();
+		// if (StringUtils.isEmpty(fettersPrecentAttrData)) {
+		// this.fettersPrecentAttrDataMap = Collections.emptyMap();
+		//
+		// this.precentAttrDataMap = Collections.emptyMap();
+		// } else {
+		// HashMap<Integer, Float> map = new HashMap<Integer, Float>();
+		// Map<Integer, Integer> heroFettersPrecentAttrDataMap = new HashMap<Integer, Integer>();
+		//
+		// StringTokenizer token = new StringTokenizer(fettersPrecentAttrData, ";");
+		// while (token.hasMoreTokens()) {
+		// StringTokenizer token1 = new StringTokenizer(token.nextToken(), "_");
+		// if (token1.countTokens() != 2) {
+		// continue;
+		// }
+		//
+		// String firstToken = token1.nextToken();
+		// String secondToken = token1.nextToken();
+		// Integer type = Integer.valueOf(firstToken);
+		// map.put(type, Float.valueOf(secondToken));
+		//
+		// // 检查属性类型是不是int
+		// if (!AttributeBM.isInt(type)) {
+		// heroFettersPrecentAttrDataMap.put(type, (int) (Float.valueOf(secondToken) * AttributeConst.BIG_FLOAT));
+		// } else {
+		// heroFettersPrecentAttrDataMap.put(type, Integer.valueOf(secondToken));
+		// }
+		// }
+		//
+		// this.fettersPrecentAttrDataMap = Collections.unmodifiableMap(map);
+		//
+		// this.precentAttrDataMap = Collections.unmodifiableMap(heroFettersPrecentAttrDataMap);
+		// }
 
 		// ===============================子条件列表
 		String subConditionRestrict = cfg.getSubConditionRestrict();// 限定类型
@@ -182,23 +185,23 @@ public class FettersConditionTemplate {
 		return subConditionIdList;
 	}
 
-	/**
-	 * 获取条件增加的固定属性
-	 * 
-	 * @return
-	 */
-	public Map<Integer, Float> getFettersAttrDataMap() {
-		return fettersAttrDataMap;
-	}
-
-	/**
-	 * 获取条件增加的百分比属性
-	 * 
-	 * @return
-	 */
-	public Map<Integer, Float> getFettersPrecentAttrDataMap() {
-		return fettersPrecentAttrDataMap;
-	}
+	// /**
+	// * 获取条件增加的固定属性
+	// *
+	// * @return
+	// */
+	// public Map<Integer, Float> getFettersAttrDataMap() {
+	// return fettersAttrDataMap;
+	// }
+	//
+	// /**
+	// * 获取条件增加的百分比属性
+	// *
+	// * @return
+	// */
+	// public Map<Integer, Float> getFettersPrecentAttrDataMap() {
+	// return fettersPrecentAttrDataMap;
+	// }
 
 	/**
 	 * 子条件列表

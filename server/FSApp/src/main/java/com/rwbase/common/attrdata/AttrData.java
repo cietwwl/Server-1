@@ -1,67 +1,58 @@
 package com.rwbase.common.attrdata;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.common.BeanCopyer;
 import com.common.BeanOperationHelper;
-import com.common.IBeanNameFixAction;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attribute.AttributeConst;
 
 @SynClass
 public class AttrData implements AttrDataIF {
 
-	private int life; // 最大生命值...
-	private int energy; // 能量值...
-	private int physiqueAttack; // 物理攻击...
-	private int spiritAttack;// 魔法攻击...
-	private int physiqueDef; // 体魄防御...
-	private int spiritDef; // 精神防御...
-	private int attackVampire; // 攻击吸血...
-	private int critical; // 暴击率...
-	private int criticalHurt; // 暴击伤害提升...
-	private int toughness; // 韧性...
-	private int lifeReceive; // 生命回复...
-	private int energyReceive; // 能量值回复...
-	private int struckEnergy;// 击杀增加能量...
-	private int attackEnergy;// 攻击能量...
-	private int energyTrans; // 能量转化...
-	private int cutHurt;// 伤害减免
-	private int cutCritHurt;// 暴击伤害减免
-	private int resist;// 抵抗
-	private int addCure;// 受到治疗效果增加
-	private int cutCure;// 受到治疗效果减少
-	private int lifeGrowUp; // 生命成长...
-	private int attackGrowUp; // 攻击成长...
-	private int physicqueDefGrowUp; // 体魄防御成长...
-	private int spiritDefGrowUp; // 精神防御成长...
-	private int enchantExp;// 附灵经验...
-	private int skillLevel;// 技能总等级
-	private int attackType;// 攻击类型
-	private int dodge; // 闪避
-	private int hit; // 命中
-	private int energyPerSecond; // 每秒恢复的能量
+	private final int life; // 最大生命值...
+	private final int energy; // 能量值...
+	private final int physiqueAttack; // 物理攻击...
+	private final int spiritAttack;// 魔法攻击...
+	private final int physiqueDef; // 体魄防御...
+	private final int spiritDef; // 精神防御...
+	private final int attackVampire; // 攻击吸血...
+	private final int critical; // 暴击率...
+	private final int criticalHurt; // 暴击伤害提升...
+	private final int toughness; // 韧性...
+	private final int lifeReceive; // 生命回复...
+	private final int energyReceive; // 能量值回复...
+	private final int struckEnergy;// 击杀增加能量...
+	private final int attackEnergy;// 攻击能量...
+	private final int energyTrans; // 能量转化...
+	private final int cutHurt;// 伤害减免
+	private final int cutCritHurt;// 暴击伤害减免
+	private final int resist;// 抵抗
+	private final int addCure;// 受到治疗效果增加
+	private final int cutCure;// 受到治疗效果减少
+	private final int lifeGrowUp; // 生命成长...
+	private final int pAttackGrowUp; // 物理攻击成长...
+	private final int sAttackGrowUp; // 法术攻击成长...
+	private final int physicqueDefGrowUp; // 体魄防御成长...
+	private final int spiritDefGrowUp; // 精神防御成长...
+	private final int enchantExp;// 附灵经验...
+	private final int skillLevel;// 技能总等级
+	private final int attackType;// 攻击类型
+	private final int dodge; // 闪避
+	private final int hit; // 命中
+	private final int energyPerSecond; // 每秒恢复的能量
 
-	private float hardStraight;
-	private float reactionTime;
-	private float attackDistance; // 攻击距离...
-	private float attackSpeed; // 攻击速度...
-	private float moveSpeed; // 移动速度...
-	private float attackHurt;// 攻击伤害
-	private float viewRange; // 视野范围
-	private float volumeRadius; // 人物半径
-	private float doHurt; // 硬直界限
-
-	public AttrData() {
-	}
+	private final float hardStraight;
+	private final float reactionTime;
+	private final float attackDistance; // 攻击距离...
+	private final float attackSpeed; // 攻击速度...
+	private final float moveSpeed; // 移动速度...
+	private final float attackHurt;// 攻击伤害
+	private final float viewRange; // 视野范围
+	private final float volumeRadius; // 人物半径
+	private final float doHurt; // 硬直界限
 
 	public AttrData(int life, int energy, int physiqueAttack, int spiritAttack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive,
-			int energyReceive, int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int attackGrowUp,
-			int physicqueDefGrowUp, int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight, float reactionTime,
-			float attackDistance, float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
+			int energyReceive, int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int pAttackGrowUp,
+			int sAttackGrowUp, int physicqueDefGrowUp, int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight,
+			float reactionTime, float attackDistance, float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
 		this.life = life;
 		this.energy = energy;
 		this.physiqueAttack = physiqueAttack;
@@ -83,7 +74,8 @@ public class AttrData implements AttrDataIF {
 		this.addCure = addCure;
 		this.cutCure = cutCure;
 		this.lifeGrowUp = lifeGrowUp;
-		this.attackGrowUp = attackGrowUp;
+		this.pAttackGrowUp = pAttackGrowUp;
+		this.sAttackGrowUp = sAttackGrowUp;
 		this.physicqueDefGrowUp = physicqueDefGrowUp;
 		this.spiritDefGrowUp = spiritDefGrowUp;
 		this.enchantExp = enchantExp;
@@ -131,65 +123,65 @@ public class AttrData implements AttrDataIF {
 		return BeanOperationHelper.getPositiveValueDiscription(source);
 	}
 
-	public static AttrData fromObject(Object source) {
-		AttrData data = new AttrData();
-		BeanCopyer.copy(source, data);
-		return data;
-	}
-
-	public static AttrData fromPercentObject(Object source) {
-		AttrData data = new AttrData();
-		BeanCopyer.copy(source, data, new IBeanNameFixAction() {
-			@Override
-			public String doFix(String name) {
-				return StringUtils.substringBefore(name, "Percent");
-			}
-		});
-		return data;
-	}
-
-	public static AttrData fromPercentObjectToAttrData(Object source) {
-		AttrData data = new AttrData();
-		BeanCopyer.copyFormPercentObject(source, data, new IBeanNameFixAction() {
-			@Override
-			public String doFix(String name) {
-				return StringUtils.substringBefore(name, "Percent");
-			}
-		});
-		return data;
-	}
-
-	/**
-	 * 根据配置表字符串加入值
-	 * 
-	 * @param cfgStr example: life:30,attack:40
-	 * @return
-	 */
-	public static AttrData fromCfgStr(String cfgStr) {
-		AttrData data = null;
-		final String Attr_Split = ",";
-		final String File_Value_Split = ":";
-		String[] attrCfg = cfgStr.split(Attr_Split);
-		Map<String, String> attrMap = new HashMap<String, String>();
-		for (String attrValueTmp : attrCfg) {
-			String[] split = attrValueTmp.trim().split(File_Value_Split);
-			if (split.length == 2) {
-				String filedName = split[0];
-				String filedValue = split[1];
-				attrMap.put(filedName, filedValue);
-			}
-		}
-		if (attrMap.size() > 0) {
-			data = fromMap(attrMap);
-		}
-		return data;
-	}
-
-	private static AttrData fromMap(Map<String, String> mapData) {
-		AttrData data = new AttrData();
-		BeanOperationHelper.plus(data, mapData);
-		return data;
-	}
+	// public static AttrData fromObject(Object source) {
+	// AttrData data = new AttrData();
+	// BeanCopyer.copy(source, data);
+	// return data;
+	// }
+	//
+	// public static AttrData fromPercentObject(Object source) {
+	// AttrData data = new AttrData();
+	// BeanCopyer.copy(source, data, new IBeanNameFixAction() {
+	// @Override
+	// public String doFix(String name) {
+	// return StringUtils.substringBefore(name, "Percent");
+	// }
+	// });
+	// return data;
+	// }
+	//
+	// public static AttrData fromPercentObjectToAttrData(Object source) {
+	// AttrData data = new AttrData();
+	// BeanCopyer.copyFormPercentObject(source, data, new IBeanNameFixAction() {
+	// @Override
+	// public String doFix(String name) {
+	// return StringUtils.substringBefore(name, "Percent");
+	// }
+	// });
+	// return data;
+	// }
+	//
+	// /**
+	// * 根据配置表字符串加入值
+	// *
+	// * @param cfgStr example: life:30,attack:40
+	// * @return
+	// */
+	// public static AttrData fromCfgStr(String cfgStr) {
+	// AttrData data = null;
+	// final String Attr_Split = ",";
+	// final String File_Value_Split = ":";
+	// String[] attrCfg = cfgStr.split(Attr_Split);
+	// Map<String, String> attrMap = new HashMap<String, String>();
+	// for (String attrValueTmp : attrCfg) {
+	// String[] split = attrValueTmp.trim().split(File_Value_Split);
+	// if (split.length == 2) {
+	// String filedName = split[0];
+	// String filedValue = split[1];
+	// attrMap.put(filedName, filedValue);
+	// }
+	// }
+	// if (attrMap.size() > 0) {
+	// data = fromMap(attrMap);
+	// }
+	// return data;
+	// }
+	//
+	// private static AttrData fromMap(Map<String, String> mapData) {
+	// AttrData data = new AttrData();
+	// BeanOperationHelper.plus(data, mapData);
+	// return data;
+	// }
 
 	public int getLife() {
 		return life;
@@ -275,8 +267,12 @@ public class AttrData implements AttrDataIF {
 		return lifeGrowUp;
 	}
 
-	public int getAttackGrowUp() {
-		return attackGrowUp;
+	public int getpAttackGrowUp() {
+		return pAttackGrowUp;
+	}
+
+	public int getSAttackGrowUp() {
+		return sAttackGrowUp;
 	}
 
 	public int getPhysicqueDefGrowUp() {
@@ -347,7 +343,6 @@ public class AttrData implements AttrDataIF {
 		return doHurt;
 	}
 
-	// // TODO HC ////////////////////////////////////////////以后会删除掉
 	//
 	// public void setLife(int life) {
 	// this.life = life;
@@ -519,7 +514,8 @@ public class AttrData implements AttrDataIF {
 		private int addCure;// 受到治疗效果增加
 		private int cutCure;// 受到治疗效果减少
 		private int lifeGrowUp; // 生命成长...
-		private int attackGrowUp; // 攻击成长...
+		private int pAttackGrowUp; // 物理攻击成长...
+		private int sAttackGrowUp; // 法术攻击成长...
 		private int physicqueDefGrowUp; // 体魄防御成长...
 		private int spiritDefGrowUp; // 精神防御成长...
 		private int enchantExp;// 附灵经验...
@@ -625,8 +621,12 @@ public class AttrData implements AttrDataIF {
 			this.lifeGrowUp = lifeGrowUp;
 		}
 
-		public void setAttackGrowUp(int attackGrowUp) {
-			this.attackGrowUp = attackGrowUp;
+		public void setpAttackGrowUp(int pAttackGrowUp) {
+			this.pAttackGrowUp = pAttackGrowUp;
+		}
+
+		public void setsAttackGrowUp(int sAttackGrowUp) {
+			this.sAttackGrowUp = sAttackGrowUp;
 		}
 
 		public void setPhysicqueDefGrowUp(int physicqueDefGrowUp) {
@@ -699,8 +699,8 @@ public class AttrData implements AttrDataIF {
 
 		public AttrData build() {
 			return new AttrData(life, energy, physiqueAttack, spiritAttack, physiqueDef, spiritDef, attackVampire, critical, criticalHurt, toughness, lifeReceive, energyReceive, struckEnergy,
-					attackEnergy, energyTrans, cutHurt, cutCritHurt, resist, addCure, cutCure, lifeGrowUp, attackGrowUp, physicqueDefGrowUp, spiritDefGrowUp, enchantExp, skillLevel, attackType,
-					dodge, hit, energyPerSecond, hardStraight, reactionTime, attackDistance, attackSpeed, moveSpeed, attackHurt, viewRange, volumeRadius, doHurt);
+					attackEnergy, energyTrans, cutHurt, cutCritHurt, resist, addCure, cutCure, lifeGrowUp, pAttackGrowUp, sAttackGrowUp, physicqueDefGrowUp, spiritDefGrowUp, enchantExp, skillLevel,
+					attackType, dodge, hit, energyPerSecond, hardStraight, reactionTime, attackDistance, attackSpeed, moveSpeed, attackHurt, viewRange, volumeRadius, doHurt);
 		}
 	}
 }

@@ -27,7 +27,7 @@ public class AttributeUtils {
 	 * @param precentAttrDataStr
 	 * @return
 	 */
-	public static Map<Integer, AttrDataInfo> parseStr2AttrInfoReadOnlyMap(List<Integer> levelList, String attrDataStr, String precentAttrDataStr) {
+	public static Map<Integer, AttrDataInfo> parseStr2AttrInfoReadOnlyMap(String fileName, List<Integer> levelList, String attrDataStr, String precentAttrDataStr) {
 		if (StringUtils.isEmpty(attrDataStr)) {
 			return Collections.emptyMap();
 		}
@@ -43,7 +43,7 @@ public class AttributeUtils {
 		Map<Integer, AttrDataInfo> attrDataInfoMap = new HashMap<Integer, AttrDataInfo>(levelSize);
 
 		for (int i = levelSize - 1; i >= 0; --i) {
-			attrDataInfoMap.put(levelList.get(i), new AttrDataInfo(attrDataArr[i], precentAttrDataArr[i]));
+			attrDataInfoMap.put(levelList.get(i), new AttrDataInfo(fileName, attrDataArr[i], precentAttrDataArr[i]));
 		}
 
 		return Collections.unmodifiableMap(attrDataInfoMap);
@@ -55,7 +55,7 @@ public class AttributeUtils {
 	 * @param attrData
 	 * @return
 	 */
-	public static Map<Integer, Integer> parseAttrDataStr2Map(String attrData) {
+	public static Map<Integer, Integer> parseAttrDataStr2Map(String fileName, String attrData) {
 		if (StringUtils.isEmpty(attrData)) {
 			return Collections.emptyMap();
 		} else {
@@ -75,7 +75,7 @@ public class AttributeUtils {
 				}
 				AttributeType attributeType = cfgDAO.getAttributeType(name);
 				if (attributeType == null) {
-					GameLog.error("解析属性到对应的AttributeType", "系统解析配置", String.format("配置表中的中文名字[%s]，无法找到能够映射的AttributeType", name));
+					GameLog.error("解析属性到对应的AttributeType", "系统解析配置", String.format("配置表[%s]中的中文名字[%s]，无法找到能够映射的AttributeType", fileName, name));
 					continue;
 				}
 

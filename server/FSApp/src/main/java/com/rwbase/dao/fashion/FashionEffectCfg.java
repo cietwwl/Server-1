@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.common.BeanCopyer;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attrdata.AttrDataIF;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.attribute.AttributeType;
 import com.rwbase.common.attribute.AttributeUtils;
@@ -19,7 +17,7 @@ import com.rwbase.common.enu.ECareer;
  * @author franky
  *
  */
-public class FashionEffectCfg implements IEffectCfg {
+public class FashionEffectCfg {
 	private String key; // 关键字
 	private int id; // 时装id
 	private ECareer CareerType = ECareer.None; // 职业
@@ -39,10 +37,10 @@ public class FashionEffectCfg implements IEffectCfg {
 	private String attrName5; // 属性名
 	private int attrValue5; // 属性值
 	private AttrValueType attrValueType5 = AttrValueType.Value; // 属性值的类型
-	// 这个配置所有值（Value）的增益效果
-	private AttrData addedValues;
-	// 这个配置所有百分比（Percentage）的增益效果
-	private AttrData addedPercentages;
+	// // 这个配置所有值（Value）的增益效果
+	// private AttrData addedValues;
+	// // 这个配置所有百分比（Percentage）的增益效果
+	// private AttrData addedPercentages;
 
 	private String attrData;// 增加的固定值属性
 	private String precentAttrData;// 增加的百分比属性
@@ -51,8 +49,8 @@ public class FashionEffectCfg implements IEffectCfg {
 
 	public void ExtraInit() {
 		// 求增益值和百分比
-		addedValues = new AttrData();
-		addedPercentages = new AttrData();
+		// addedValues = new AttrData();
+		// addedPercentages = new AttrData();
 		List<IReadOnlyPair<String, Object>> sourceValues = new ArrayList<IReadOnlyPair<String, Object>>();
 		List<IReadOnlyPair<String, Object>> sourcePer = new ArrayList<IReadOnlyPair<String, Object>>();
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType1, attrName1, attrValue1);
@@ -60,8 +58,8 @@ public class FashionEffectCfg implements IEffectCfg {
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType3, attrName3, attrValue3);
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType4, attrName4, attrValue4);
 		AttrValueType.collectValue(sourceValues, sourcePer, attrValueType5, attrName5, attrValue5);
-		BeanCopyer.SetFields(sourceValues, addedValues, null);
-		BeanCopyer.SetFields(sourcePer, addedPercentages, null);
+		// BeanCopyer.SetFields(sourceValues, addedValues, null);
+		// BeanCopyer.SetFields(sourcePer, addedPercentages, null);
 	}
 
 	public String getKey() {
@@ -76,15 +74,15 @@ public class FashionEffectCfg implements IEffectCfg {
 		return CareerType;
 	}
 
-	@Override
-	public AttrDataIF getAddedValues() {
-		return addedValues;
-	}
-
-	@Override
-	public AttrDataIF getAddedPercentages() {
-		return addedPercentages;
-	}
+	// @Override
+	// public AttrDataIF getAddedValues() {
+	// return addedValues;
+	// }
+	//
+	// @Override
+	// public AttrDataIF getAddedPercentages() {
+	// return addedPercentages;
+	// }
 
 	/**
 	 * <pre>
@@ -123,8 +121,8 @@ public class FashionEffectCfg implements IEffectCfg {
 	 */
 	public void initData() {
 		// ===============================增加的固定属性
-		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map(attrData);
+		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map("FashionEffectCfg", attrData);
 		// ===============================增加的百分比属性
-		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map(precentAttrData);
+		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("FashionEffectCfg", precentAttrData);
 	}
 }

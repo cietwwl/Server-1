@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -16,7 +15,7 @@ public class FashionQuantityEffectCfgDao extends CfgCsvDao<FashionQuantityEffect
 		return SpringContextUtil.getBean(FashionQuantityEffectCfgDao.class);
 	}
 
-	private FashionQuantityEffectCfg initZeroEff;
+	// private FashionQuantityEffectCfg initZeroEff;
 	private FashionQuantityEffectCfg[] effLst = new FashionQuantityEffectCfg[0];
 
 	@Override
@@ -36,10 +35,10 @@ public class FashionQuantityEffectCfgDao extends CfgCsvDao<FashionQuantityEffect
 
 			Collections.sort(lst, FashionQuantityEffectCfg.getComparator());
 			effLst = lst.toArray(effLst);
-			initZeroEff = FashionQuantityEffectCfg.ZeroEffect();
-			if (initZeroEff == null) {
-				GameLog.error("时装", "初始化失败", "无法构造ZeroEffect");
-			}
+			// initZeroEff = FashionQuantityEffectCfg.ZeroEffect();
+			// if (initZeroEff == null) {
+			// GameLog.error("时装", "初始化失败", "无法构造ZeroEffect");
+			// }
 		}
 		return cfgCacheMap = readCsv2Map;
 	}
@@ -51,7 +50,7 @@ public class FashionQuantityEffectCfgDao extends CfgCsvDao<FashionQuantityEffect
 	 * @return
 	 */
 	public FashionQuantityEffectCfg searchOption(int quantity) {
-		FashionQuantityEffectCfg result = initZeroEff;
+		FashionQuantityEffectCfg result = null;
 		for (int i = effLst.length - 1; i >= 0; i--) {
 			FashionQuantityEffectCfg cfg = effLst[i];
 			if (quantity >= cfg.getQuantity()) {
