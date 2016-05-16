@@ -19,6 +19,7 @@ public class StoreData implements StoreDataIF{
 	private String id; // ownerId + type 装备唯一id
 	private List<CommodityData> commodity = new ArrayList<CommodityData>();
 	private int refreshNum;
+	private int freeRefreshNum;
 	private long lastRefreshTime;
 	private eStoreExistType existType;
 	private eStoreType type;
@@ -65,5 +66,11 @@ public class StoreData implements StoreDataIF{
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public int getFreeRefreshNum() {
+		return freeRefreshNum;
+	}
+	public void setFreeRefreshNum(int fressRefreshNum) {
+		this.freeRefreshNum = fressRefreshNum;
 	}
 }

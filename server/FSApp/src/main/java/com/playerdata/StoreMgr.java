@@ -95,6 +95,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 						pStoreData.setCommodity(RandomList(type));
 						pStoreData.setLastRefreshTime(System.currentTimeMillis());
 						pStoreData.setRefreshNum(0);
+						pStoreData.setFreeRefreshNum(0);
 						pStoreData.setExistType(eStoreExistType.Always);
 						pStoreData.setType(storeType);
 						m_StoreData.put(type, pStoreData);
@@ -104,6 +105,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 						pStoreData.setCommodity(RandomList(type));
 						pStoreData.setLastRefreshTime(System.currentTimeMillis());
 						pStoreData.setRefreshNum(0);
+						pStoreData.setFreeRefreshNum(0);
 						pStoreData.setExistType(eStoreExistType.Always);
 					}
 					storeDataHolder.add(m_pPlayer, type);
@@ -206,6 +208,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 					pStoreData.setCommodity(RandomList(storetype));
 					pStoreData.setLastRefreshTime(System.currentTimeMillis());
 					pStoreData.setRefreshNum(0);
+					pStoreData.setFreeRefreshNum(0);
 					pStoreData.setType(eStoreType.getDef(storetype));
 					pStoreData.setExistType(eStoreExistType.Interval);
 					m_StoreData.put(storetype, pStoreData);
@@ -421,14 +424,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：store表没有类型为" + storeType + "的数据", null);
 			return -1;
 		}
-		StoreData pStoreData = getStore(storeType);
-		eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
-		int refreshnum = pStoreData.getRefreshNum();
-		int cost = Integer.parseInt(cfg.getRefreshCost().split("_")[refreshnum]);
-		if (m_pPlayer.getReward(etype) < cost) {
-			return -2;
-		}
-		//by franky
+		// by franky
 		StorePrivilegeNames pname = null;
 		eStoreType stype = eStoreType.getDef(storeType);
 		switch (stype) {
@@ -444,20 +440,39 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		default:
 			break;
 		}
-		int freeRefreshCount = pname != null ? m_pPlayer.getPrivilegeMgr().getIntPrivilege(pname) : cfg.getRefreshCount();
-		if (pStoreData.getRefreshNum() > freeRefreshCount) {
-		//if (pStoreData.getRefreshNum() > cfg.getRefreshCount()) {
-			return -3;
+		int freeRefreshCount = pname != null ? m_pPlayer.getPrivilegeMgr().getIntPrivilege(pname) : 0;
+
+		StoreData pStoreData = getStore(storeType);
+		boolean blnFree = false;
+		int cost = 0;
+		int refreshnum = 0;
+		int freeRefreshNum = pStoreData.getFreeRefreshNum();
+		if (freeRefreshNum > freeRefreshCount) {
+			blnFree = false;
+			eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
+			refreshnum = pStoreData.getRefreshNum();
+			cost = Integer.parseInt(cfg.getRefreshCost().split("_")[refreshnum]);
+			if (m_pPlayer.getReward(etype) < cost) {
+				return -2;
+			}
+		} else {
+			blnFree = true;
 		}
+
 		List<CommodityData> randomList = RandomList(storeType);
 		int rightSize = getStoreCommodityListLength(storeType);
-		if(rightSize == 0 || rightSize != randomList.size()){
+		if (rightSize == 0 || rightSize != randomList.size()) {
 			return -1;
 		}
-		m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -cost);
-		refreshnum++;
-		pStoreData.setRefreshNum(refreshnum);
-		
+		if (!blnFree) {
+			m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -cost);
+			refreshnum++;
+			pStoreData.setRefreshNum(refreshnum);
+		} else {
+			freeRefreshNum++;
+			pStoreData.setFreeRefreshNum(freeRefreshNum);
+		}
+
 		pStoreData.setCommodity(randomList);
 		storeDataHolder.add(m_pPlayer, storeType);
 		return 1;
@@ -573,7 +588,18 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			Entry<Integer, StoreData> entry = iterator.next();
 			StoreData storeData = entry.getValue();
 			storeData.setRefreshNum(0);
+			storeData.setFreeRefreshNum(0);
 		}
 	}
 
+	public void notifyVipUpgrade() {
+		ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
+		for (Iterator<Entry<Integer, StoreData>> iterator = m_StoreData.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, StoreData> entry = iterator.next();
+			StoreData data = entry.getValue();
+			if (data != null) {
+				data.setFreeRefreshNum(0);
+			}
+		}
+	}
 }

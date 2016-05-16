@@ -697,16 +697,6 @@ public class GMHandler {
 		}
 	}
 
-	public boolean getAllSecret(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null) {
-			return false;
-		}
-		if (player != null) {
-			player.getSecretMgr().getAllSecret();;
-			return true;
-		}
-		return false;
-	}
 
 	public boolean teamBringit(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
