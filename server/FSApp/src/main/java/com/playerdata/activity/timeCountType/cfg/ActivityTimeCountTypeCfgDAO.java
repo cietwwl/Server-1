@@ -29,7 +29,7 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 	
 	@Override
 	public Map<String, ActivityTimeCountTypeCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeCfg.csv", ActivityTimeCountTypeCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTimeCountTypeCfg.csv", ActivityTimeCountTypeCfg.class);
 		for (ActivityTimeCountTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}

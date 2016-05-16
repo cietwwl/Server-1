@@ -66,7 +66,7 @@ public class ActivityTimeCountTypeMgr {
 				}
 				addItemList.add(targetItem);
 			} else {
-				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {
+				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
 					targetItem.reset(activityTimeCountTypeCfg, ActivityTimeCountTypeCfgDAO.getInstance().newItemList(player, activityTimeCountTypeCfg));
 					dataHolder.updateItem(player, targetItem);
 				}
