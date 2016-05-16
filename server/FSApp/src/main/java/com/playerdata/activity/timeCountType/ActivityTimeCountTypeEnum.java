@@ -3,7 +3,7 @@ package com.playerdata.activity.timeCountType;
 import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityTimeCountTypeEnum{	// implements TypeIdentification
-	role_online("1"),
+	role_online("401"),
 	;
 	
 	private String cfgId;

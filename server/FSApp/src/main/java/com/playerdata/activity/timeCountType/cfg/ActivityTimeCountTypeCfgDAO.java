@@ -44,6 +44,7 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 		
 		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getEndTimeStr());
 		cfgItem.setEndTime(endTime);		
+//		System.out.println("activitytimecounttypecfgdao.  starttimestr = " + cfgItem.getStartTimeStr() + " starttime=" + startTime + " endtimestr ="+ cfgItem.getEndTimeStr() + " endtime= " + endTime );
 	}
 		
 	
@@ -65,6 +66,7 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 			item.setVersion(cfgById.getVersion());
 			List<ActivityTimeCountTypeSubItem> newItemList = newItemList(player, cfgById);
 			item.setSubItemList(newItemList);
+			item.setCount(1);
 			return item;
 		}else{
 			return null;
@@ -79,6 +81,7 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 		for (ActivityTimeCountTypeSubCfg activityCountTypeSubCfg : subItemCfgList) {
 			ActivityTimeCountTypeSubItem subItem = new ActivityTimeCountTypeSubItem();
 			subItem.setCfgId(activityCountTypeSubCfg.getId());	
+			subItem.setTaken(false);
 			subItemList.add(subItem);
 		}	
 		return subItemList;

@@ -35,7 +35,7 @@ public final class ActivityTimeCountTypeSubCfgDAO extends CfgCsvDao<ActivityTime
 		List<ActivityTimeCountTypeSubCfg> targetList = new ArrayList<ActivityTimeCountTypeSubCfg>();
 		List<ActivityTimeCountTypeSubCfg> allCfg = getAllCfg();
 		for (ActivityTimeCountTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfg(), parentCfgId)){
+			if(StringUtils.equals(tmpItem.getParentId(), parentCfgId)){
 				targetList.add(tmpItem);
 			}
 		}
