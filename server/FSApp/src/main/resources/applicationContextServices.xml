@@ -80,6 +80,7 @@
 			     <entry key="MSG_ACTIVITY_COUNTTYPE" value-ref="activityCountTypeService" />
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
+			     <entry key="MSG_TAOIST" value-ref="taoistService" />
 			</map>
 		</property>
 	</bean>
@@ -136,4 +137,5 @@
 	
 	<bean id="activityCountTypeService" class="com.playerdata.activity.countType.service.ActivityCountTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
+	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
 </beans>  
