@@ -31,6 +31,7 @@ import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
@@ -309,11 +310,11 @@ public class Player implements PlayerIF {
 		
 		taoistMgr.getEff().subscribe(new IStreamListner<IEffectCfg>() {
 			@Override
-			public void onClose() {
-			}
-			@Override
 			public void onChange(IEffectCfg newValue) {
 				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+			}
+			@Override
+			public void onClose(IStream<IEffectCfg> whichStream) {
 			}
 		});
 		// initDataVersionControl();
