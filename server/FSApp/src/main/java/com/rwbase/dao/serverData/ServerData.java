@@ -19,7 +19,7 @@ public class ServerData {
 	//白名单
 	private List<String> whiteList = new ArrayList<String>();	
 	//是否开启充值
-	private boolean chargeOn= false;
+	private boolean chargeOn= true;
 	//全服邮件列表
 	private List<ServerGmEmail> gmMailList = new ArrayList<ServerGmEmail>();
 	

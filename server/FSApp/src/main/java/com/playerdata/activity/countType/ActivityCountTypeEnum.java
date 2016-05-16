@@ -9,7 +9,21 @@ public enum ActivityCountTypeEnum{	// implements TypeIdentification
 	ElityCopyWin("14"),
 	BattleTower("15"),
 	GambleCoin("16"),
+	Charge("17"),
 	GambleGold("18");
+//	LoginDaily("19");
+//	TreasureLandDaily("20"),//聚宝之地
+//	UpGradeStarDaily("21"),//升星
+//	AdvanceDaily("22"),//进阶
+//	BattleTowerDaily("23"),
+//	ArenaDaily("24"),
+//	CoinSpendDaily("25"),
+//	ChargeDaily("26"),
+//	GambleGoldDaily("27"),
+//	AttachDaily("28"),
+//	GoldSpendDaily("29");
+	
+	
 	
 	private String cfgId;
 	private ActivityCountTypeEnum(String cfgId){

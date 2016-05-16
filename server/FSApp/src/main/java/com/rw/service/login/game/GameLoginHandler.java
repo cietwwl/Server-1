@@ -14,6 +14,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
@@ -232,6 +233,7 @@ public class GameLoginHandler {
 				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
 				
 				//判断需要用到最后次登陆 时间。保存在活动内而不是player
 				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);

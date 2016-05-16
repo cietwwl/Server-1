@@ -8,6 +8,7 @@ import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.pve.PveHandler;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
@@ -66,6 +67,7 @@ public class TrailHandler {
 		{
 			//聚宝之地
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_JBZD, 1);
+			UserEventMgr.getInstance().TreasureLandCopyWinDaily(player, 1);
 		}
 		else
 		{
