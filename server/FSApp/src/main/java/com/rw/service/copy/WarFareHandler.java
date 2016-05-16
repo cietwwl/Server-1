@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.rateType.ActivityRateTypeEnum;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.pve.PveHandler;
@@ -56,7 +58,11 @@ public class WarFareHandler {
 
 		AtomicInteger unendingWarCoin = new AtomicInteger();
 		List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, times-1, copyCfg.getLevelID(),unendingWarCoin);
-
+	
+		
+		
+		
+		
 		List<String> itemList = new ArrayList<String>();
 		for (int i = 0; i < addList.size(); i++) {
 			int itemId = addList.get(i).getItemID();
@@ -64,7 +70,7 @@ public class WarFareHandler {
 			String strItemInfo = itemId + "," + itemNum;
 			itemList.add(strItemInfo);
 		}
-
+		
 		copyResponse.addAllTagItemList(itemList);
 		int zjd = UnendingWarHandler.getInstance().getJlNum(player, times, copyCfg.getLevelID());
 		copyResponse.setUnendingWar(zjd);

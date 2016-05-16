@@ -9,9 +9,13 @@ import java.util.Map;
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.activity.rateType.ActivityRateTypeEnum;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.copy.CopyHandler;
 import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.dropitem.DropAdjustmentCfg;
 import com.rwbase.dao.dropitem.DropAdjustmentCfgDAO;
@@ -31,7 +35,7 @@ public class DropItemManager {
 	}
 
 	/**
-	 * 掉落并记录必要信息
+	 * 无调用；掉落并记录必要信息
 	 * 
 	 * @param player
 	 * @param copyCfg
@@ -52,7 +56,7 @@ public class DropItemManager {
 	}
 
 	/**
-	 * 掉落并记录必要信息
+	 * 封神台 掉落并记录必要信息
 	 * 
 	 * @param player
 	 * @param copyCfg
@@ -70,7 +74,8 @@ public class DropItemManager {
 			return Collections.EMPTY_LIST;
 		}
 	}
-
+	
+	/**聚宝之地 ！炼息山谷！生存幻境；普通本精英本,扫荡，道具预计掉落*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, CopyCfg copyCfg) throws DataAccessTimeoutException {
 		String userId = player.getUserId();
 		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
@@ -89,7 +94,7 @@ public class DropItemManager {
 		List<Integer> list = CopyHandler.convertToIntList(items);
 		return pretreatDrop(player, list, copyId, firstDrop);
 	}
-
+	/**无尽战火奖励*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, List<Integer> list, int copyId) throws DataAccessTimeoutException {
 		return pretreatDrop(player, list, copyId, false);
 	}
@@ -101,6 +106,7 @@ public class DropItemManager {
 	 * @throws DataAccessTimeoutException
 	 */
 	public List<ItemInfo> pretreatDrop(Player player, List<Integer> dropRuleList, int copyId, boolean firstDrop) throws DataAccessTimeoutException {
+		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(copyId);
 		ArrayList<ItemInfo> dropItemInfoList = new ArrayList<ItemInfo>();
 		try {
 			String userId = player.getUserId();
@@ -200,6 +206,20 @@ public class DropItemManager {
 					}
 				}
 			}
+			
+			int multiple = 1;
+			if(!firstDrop){
+				ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0);
+				boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
+				multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
+//				System.out.println("dropitem.multiple" + multiple + "  enum =" + activityRateTypeEnum.getCfgId() + isRateOpen);				
+			}
+			if(multiple != 1){
+				for(ItemInfo iteminfo : dropItemInfoList){
+					iteminfo.setItemNum(iteminfo.getItemNum()*multiple);
+				}
+			}			
+			
 			if (copyId > 0) {
 				List<ItemInfo> result = Collections.unmodifiableList(dropItemInfoList);
 				record.putPretreatDropList(copyId, new DropResult(result, adjustmentMap, firstDrop));
@@ -210,10 +230,18 @@ public class DropItemManager {
 		} catch (Throwable t) {
 			GameLog.error(t);
 		}
+		
+		
+		
+		
+		
+		
 		return dropItemInfoList;
 	}
-
+	
 	private void addOrMerge(List<ItemInfo> list, DropCfg dropCfg) {
+		
+		
 		int id = dropCfg.getItemCfgId();
 		for (int i = list.size(); --i >= 0;) {
 			ItemInfo info = list.get(i);

@@ -79,9 +79,7 @@
 	<bean class="com.rwbase.dao.role.InlayCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.role.RoleCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.role.RoleQualityCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.secretArea.SecretAreaCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.secretArea.SecretBuyCoinCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.secretArea.SecretFindExpendCfgDAO"  init-method="init" />
+
 	<bean class="com.rwbase.dao.setting.HeadBoxCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.setting.HeadCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.sign.ReSignCfgDAO"  init-method="init" />
@@ -161,6 +159,9 @@
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
+	
+	<bean class="com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO"  init-method="init" />
+	
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	

@@ -1,12 +1,9 @@
 package com.playerdata.charge.cfg;
 
+import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 
-import com.common.BeanCopyer;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.charge.dao.ChargeInfoDao;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -31,14 +28,16 @@ public class ChargeCfgDao extends CfgCsvDao<ChargeCfg> {
 	}
 	
 	
-	public ChargeInfoSubRecording newSubItem(String subItemId){
-		
-		
+	public ChargeInfoSubRecording newSubItem(String subItemId){		
 		ChargeInfoSubRecording target = new ChargeInfoSubRecording();
 		target.setId(subItemId);
 		target.setCount(0);
 		return target;
 	}
+	
+
+	
+	
 	
 	
 }
