@@ -174,7 +174,7 @@ public class ChargeMgr {
 					}
 				}
 			}
-//			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
+			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
 			
 			if(success){
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
@@ -315,7 +315,7 @@ public class ChargeMgr {
 	}
 
 	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
-//		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
+		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
 		
