@@ -23,7 +23,7 @@ public class ActivityTimeCountTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityCountType;	
+	final private eSynType synType = eSynType.ActivityTimeCountType;	
 	
 	/*
 	 * 获取用户已经拥有的时装

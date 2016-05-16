@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
@@ -235,7 +236,13 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityRateType);
 		
-		
+		versionMap.put(eSynType.ActivityTimeCountType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityTimeCountTypeMgr.getInstance().synTimeCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityTimeCountType);
 
 		notInVersionControlList.add(notInVersionControlP);
 		

@@ -18,6 +18,7 @@ import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -230,6 +231,7 @@ public class GameLoginHandler {
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
 				
 				//判断需要用到最后次登陆 时间。保存在活动内而不是player
 				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
@@ -355,6 +357,8 @@ public class GameLoginHandler {
 		// 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 		ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, 0);
 		LoginSynDataHelper.setData(player, response);

@@ -1,0 +1,7 @@
+CREATE TABLE `activity_time_count_type_item` (
+  `id` varchar(128) NOT NULL,
+  `userId` varchar(128) DEFAULT NULL,
+  `extention` varchar(4096) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userId` (`extention`(255)) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
