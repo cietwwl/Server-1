@@ -3,6 +3,7 @@ package com.playerdata.fixEquip.exp;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipResult;
 import com.rwproto.FixEquipProto.CommonReqMsg;
@@ -22,7 +23,8 @@ public class FixExpEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixExpEquipMgr.getInstance().levelUp(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().levelUp(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -38,7 +40,8 @@ public class FixExpEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixExpEquipMgr.getInstance().qualityUp(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().qualityUp(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -54,7 +57,8 @@ public class FixExpEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixExpEquipMgr.getInstance().starUp(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().starUp(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -69,7 +73,8 @@ public class FixExpEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixExpEquipMgr.getInstance().starDown(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().starDown(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
