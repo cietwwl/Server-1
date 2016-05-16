@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -13,7 +12,6 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "taoist_record")
 public class TaoistMagicRecord {
 	@Id
 	private String userId;

@@ -98,6 +98,7 @@ public class RoleAttrDataHolder {
 			IEffectCfg eff = player.getTaoistMgr().getEff().sample();
 			if (eff != null){
 				percentTotalData.plus(eff.getAddedPercentages());
+				taoistAddedValues = new AttrData();
 				BeanCopyer.copy(eff.getAddedValues(), taoistAddedValues);
 				log += "[道术技能（固定值）]-" + BeanOperationHelper.getPositiveValueDiscription(taoistAddedValues) + "\n";
 				log += "[道术技能（万份比值）]-" + BeanOperationHelper.getPositiveValueDiscription(eff.getAddedPercentages()) + "\n";

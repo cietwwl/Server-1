@@ -46,7 +46,7 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener,ITaoistM
 			IEffectCfg old = taoistMagicEff.sample();
 			IEffectCfg newVal = getEffects(record);
 			//TODO IEffectCfg的实现应该重载object.equals方法
-			if (!old.equals(newVal)){
+			if ((old==null && newVal !=null) || !old.equals(newVal)){
 				taoistMagicEff.fire(newVal);
 			}
 		}
