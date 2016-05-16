@@ -92,8 +92,8 @@ public class TaoistHandler {
 			return ErrorResponse("不够钱升级", ",新等级为:" + newLevel, ErrorCode_Taoist.NotEnoughMoney, response, player, req);
 		}
 
-		if (!taoistMgr.setLevel(tid, upgradeCount)) {
-			return ErrorResponse("升级次数无效", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player,
+		if (!taoistMgr.setLevel(tid, newLevel)) {
+			return ErrorResponse("升级失败，次数", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player,
 					req);
 		}
 
