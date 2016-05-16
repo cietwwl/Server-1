@@ -16,6 +16,8 @@ import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -227,8 +229,9 @@ public class GameLoginHandler {
 				// 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
-
-				// 判断需要用到最后次登陆 时间。保存在活动内而不是player
+				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+				
+				//判断需要用到最后次登陆 时间。保存在活动内而不是player
 				UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
 
 				// 补充进入主城需要同步的数据

@@ -1,5 +1,8 @@
 package com.playerdata.activity.rateType.cfg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ActivityRateTypeCfg {
 
@@ -13,8 +16,21 @@ public class ActivityRateTypeCfg {
 	
 	private String endTimeStr;
 	
+	private String timeStr;
+	
+	private List<ActivityRateTypeStartAndEndHourHelper> startAndEnd = new ArrayList<ActivityRateTypeStartAndEndHourHelper>();
+	
 	private String cion;
 	
+	public List<ActivityRateTypeStartAndEndHourHelper> getStartAndEnd() {
+		return startAndEnd;
+	}
+
+	public void setStartAndEnd(
+			List<ActivityRateTypeStartAndEndHourHelper> startAndEnd) {
+		this.startAndEnd = startAndEnd;
+	}
+
 	private String title;
 	
 	private String titleBG;
@@ -25,6 +41,25 @@ public class ActivityRateTypeCfg {
 	
 	private float rate;
 
+	private String version;
+	
+	private int multiple;
+
+	public int getMultiple() {
+		return multiple;
+	}
+
+	public void setMultiple(int multiple) {
+		this.multiple = multiple;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	public String getId() {
 		return id;
@@ -77,6 +112,18 @@ public class ActivityRateTypeCfg {
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
+
+
+
+	public String getTimeStr() {
+		return timeStr;
+	}
+
+	public void setTimeStr(String timeStr) {
+		this.timeStr = timeStr;
+	}
+
+
 
 	
 	

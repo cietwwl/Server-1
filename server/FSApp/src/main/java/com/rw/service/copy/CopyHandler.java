@@ -10,7 +10,11 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.rateType.ActivityRateTypeEnum;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.rateType.eSpecialItemIDUserInfo;
 import com.playerdata.copy.CopyCalculateState;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -187,7 +191,7 @@ public class CopyHandler {
 	}
 
 	/*
-	 * 战前物品计算返回...
+	 * 副本战前物品-经验计算返回...
 	 */
 	public ByteString battleItemsBack(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder().setRequestType(ERequestType.BATTLE_ITEMS_BACK);
@@ -216,15 +220,28 @@ public class CopyHandler {
 		} catch (DataAccessTimeoutException e) {
 			GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
 		}
-		if (dropItems != null) {
-			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改
+			if (dropItems != null) {
+			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改;经验和物品反馈信息拼接在一起
 			for (int i = 0; i < dropItems.size(); i++) {
 				ItemInfo itemInfo = dropItems.get(i);
 				int itemId = itemInfo.getItemID();
-				int itemNum = itemInfo.getItemNum();
+				int itemNum = itemInfo.getItemNum() ;
 				itemList.add(itemId + "," + itemNum);
 			}
 		}
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
+		setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);
+		
+		
+		
+		if(eSpecialItemIDUserInfo!=null){
+			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
+			if(StringUtils.isNotBlank(clientData)){
+				copyResponse.setESpecialItemIdList(clientData);
+			}
+		}
+//		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
+			
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
 		//
 		copyResponse.addAllTagItemList(itemList);
@@ -232,10 +249,29 @@ public class CopyHandler {
 		copyResponse.setEResultType(EResultType.ITEM_BACK);
 		
 		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(),copyCfg.getLevelType(),copyRecord.isFirst(),eBILogCopyEntrance.Empty);
-
+		
 		return copyResponse.build().toByteString();
+		
 	}
-
+	
+	/**对金币,经验等是否处于双倍活动进行处理*/
+	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
+		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 
+		ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnum, eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiple,0);
+		
+		ActivityRateTypeEnum activityRateTypeEnumcoin = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 2);
+		boolean isRateOpencoin = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnumcoin);
+		int multiplecoin = isRateOpencoin?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnumcoin):1; 		
+		ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnumcoin, eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multiplecoin);
+		
+		
+		
+	}
+	
+	
+	
 	public static List<Integer> convertToIntList(String str) {
 		if (str == null || str.isEmpty()) {
 			return Collections.EMPTY_LIST;
@@ -288,6 +324,7 @@ public class CopyHandler {
 	/*
 	 * 扫荡关卡...
 	 * 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
+	 * 副本扫荡经验双倍预计掉落
 	 */
 	public ByteString copySweep(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
@@ -324,7 +361,23 @@ public class CopyHandler {
 		PvECommonHelper.addPlayerAttr4Sweep(player, copyCfg, times);
 
 		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
-
+		
+		/**扫荡处发送经验双倍字段给客户端显示*/
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
+		setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);
+		
+		
+		if(eSpecialItemIDUserInfo!=null){
+			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
+			if(StringUtils.isNotBlank(clientData)){
+				copyResponse.setESpecialItemIdList(clientData);
+			}
+		}
+		
+		
+		
+		
+		
 		copyResponse.addAllTagSweepInfoList(listSweepInfo);
 		if (levelRecord4Client != null) {
 			copyResponse.addTagCopyLevelRecord(levelRecord4Client);

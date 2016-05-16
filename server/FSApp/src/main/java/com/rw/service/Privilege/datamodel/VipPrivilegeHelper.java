@@ -1,9 +1,16 @@
 package com.rw.service.Privilege.datamodel;
 
-import com.playerdata.VipMgr;
 import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwproto.PrivilegeProtos.*;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
+import com.rwproto.PrivilegeProtos.CopyPrivilegeNames;
+import com.rwproto.PrivilegeProtos.GeneralPrivilegeNames;
+import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
+import com.rwproto.PrivilegeProtos.HeroPrivilegeNames;
+import com.rwproto.PrivilegeProtos.LoginPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
+import com.rwproto.PrivilegeProtos.StorePrivilegeNames;
 
 public class VipPrivilegeHelper {
 	private static VipPrivilegeHelper instance = new VipPrivilegeHelper();
@@ -13,6 +20,11 @@ public class VipPrivilegeHelper {
 		}
 		return instance;
 	}
+	
+	public int extractVipLevel(String chargeTy) {
+		if (chargeTy == null || !chargeTy.startsWith(ChargeTypePriority.vipPrefix)) return -1;
+		return Integer.parseInt(chargeTy.substring(chargeTy.indexOf(ChargeTypePriority.vipPrefix)+ChargeTypePriority.vipPrefix.length()));
+	}
 
 	public int getBestMatchCharge(String[] sources,int currentVip) {
 		int result = -1;
@@ -21,9 +33,9 @@ public class VipPrivilegeHelper {
 		for(int i =0;i<sources.length;i++){
 			String chargeSource = sources[i];
 			if (chargeSource == null) continue;
-			int index = chargeSource.indexOf(VipMgr.vipPrefix);
+			int index = chargeSource.indexOf(ChargeTypePriority.vipPrefix);
 			if (index!=-1){
-				String vipLevelStr = chargeSource.substring(VipMgr.vipPrefix.length() + index);
+				String vipLevelStr = chargeSource.substring(ChargeTypePriority.vipPrefix.length() + index);
 				int lvl = -1;
 				try{
 					lvl = Integer.parseInt(vipLevelStr);
@@ -41,9 +53,9 @@ public class VipPrivilegeHelper {
 	}
 	
 	public boolean reachChargeLevel(String chargeType,int currentVip) {
-		int index = chargeType.indexOf(VipMgr.vipPrefix);
+		int index = chargeType.indexOf(ChargeTypePriority.vipPrefix);
 		if (index != -1) {
-			String vipLevelStr = chargeType.substring(VipMgr.vipPrefix.length()+index);
+			String vipLevelStr = chargeType.substring(ChargeTypePriority.vipPrefix.length()+index);
 			int lvl = -1;
 			try {
 				lvl = Integer.parseInt(vipLevelStr);

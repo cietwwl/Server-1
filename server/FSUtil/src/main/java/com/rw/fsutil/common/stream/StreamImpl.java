@@ -63,7 +63,7 @@ public class StreamImpl<T> implements IStream<T> {
 			IStreamListner<T>[] localListners = synchronizedCopy();
 			for (IStreamListner<T> listner : localListners) {
 				if (listner != null){
-					listner.onClose();
+					listner.onClose(this);
 				}
 			}
 			listners = null;
