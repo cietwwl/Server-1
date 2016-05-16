@@ -22,6 +22,8 @@ public class ActivityTimeCardTypeSubCfg {
 	@EnumIndex
 	private ChargeTypeEnum chargeType;//类型
 	
+
+	
 	
 
 

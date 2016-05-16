@@ -82,40 +82,7 @@ public class ActivityTimeCardTypeMgr {
 		targetSubItem = getSubItem(player, timeCardTypeCfgId,
 				timeCardTypeSubItemCfgId);
 		if (targetSubItem != null) {
-			// if(targetSubItem.getDayLeft()>
-			// DateUtils.getDayDistance(targetSubItem.getLastTakeAwardTime(),
-			// System.currentTimeMillis())&&DateUtils.dayChanged(targetSubItem.getLastTakeAwardTime())){
-			// targetSubItem.setLastTakeAwardTime(System.currentTimeMillis());//生成奖励的日期更新
-			// isTimeCardOnGoing = true;
-			// }
-
-			isTimeCardOnGoing = (targetSubItem.getDayLeft()) > 0;
-			if (isTimeCardOnGoing) {
-				isTimeCardOnGoing = DateUtils.dayChanged(targetSubItem
-						.getLastTakeAwardTime());// 隔天登陆或注册当天核实
-			}
-			if (isTimeCardOnGoing) {
-				if (StringUtils.isBlank(targetSubItem.getLastTakeAwardTime()
-						+ "")
-						|| StringUtils.equals(
-								targetSubItem.getLastTakeAwardTime() + "", "0")) {// 注册当天getlasttake可能为空或0；无购买记录时购买触发
-
-				} else {
-					isTimeCardOnGoing = targetSubItem.getDayLeft() > DateUtils
-							.getDayDistance(
-									targetSubItem.getLastTakeAwardTime(),
-									System.currentTimeMillis());// 确定隔天没超过月卡期限
-					if (!isTimeCardOnGoing) {
-						targetSubItem.setLastTakeAwardTime(0);// 月卡还有，隔天登陆，且隔天数超过月卡天数，登陆的时候将获取奖励时间改为0，默认为清空记录；有购买记录但过期时修正为无购买
-						targetSubItem.setDayLeft(0);
-
-					}
-				}
-			}
-			if (isTimeCardOnGoing) {
-				targetSubItem.setLastTakeAwardTime(System.currentTimeMillis());
-
-			}
+			isTimeCardOnGoing = (targetSubItem.getDayLeft()) > 0;			
 		}
 		return isTimeCardOnGoing;
 	}

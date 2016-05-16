@@ -20,6 +20,21 @@ public class ActivityTimeCardTypeSubItem {
 	//月卡类型
 	private int timeCardType;
 	
+	//月卡商品类型
+	private String chargetype;
+
+
+
+	
+
+	public String getChargetype() {
+		return chargetype;
+	}
+
+	public void setChargetype(String chargetype) {
+		this.chargetype = chargetype;
+	}
+
 	public int getTimeCardType() {
 		return timeCardType;
 	}
@@ -58,6 +73,7 @@ public class ActivityTimeCardTypeSubItem {
 		subItem.setId(subItemCfg.getId());
 		subItem.setDayLeft(0);
 		subItem.setTimeCardType(subItemCfg.getTimeCardType());
+		subItem.setChargetype(subItemCfg.getChargeType().getCfgId());
 		return subItem;
 		
 	}

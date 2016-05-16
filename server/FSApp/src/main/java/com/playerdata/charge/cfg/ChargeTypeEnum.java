@@ -5,10 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 
 public enum ChargeTypeEnum {
-	None,
-	Normal,//普通充值
-	MonthCard,//月卡
-	VipMonthCard;//至尊月卡
+	None("0"),
+	Normal("1"),//普通充值
+	MonthCard("2"),//月卡
+	VipMonthCard("3");//至尊月卡
 	
 	private String cfgId;
 
@@ -16,6 +16,10 @@ public enum ChargeTypeEnum {
 	public String getCfgId(){
 		return cfgId;
 	}
+	
+	private ChargeTypeEnum (String cfgId){
+		this.cfgId = cfgId;
+	} 
 	
 	public static ChargeTypeEnum getById(String cfgId){
 		ChargeTypeEnum target = null;
@@ -30,3 +34,4 @@ public enum ChargeTypeEnum {
 	}
 	
 }
+
