@@ -151,9 +151,13 @@ public class ActivityDailyCountTypeMgr {
 	public boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
 		if (activityCountTypeItem != null) {
 			ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
-			long endTime = cfgById.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime > endTime;
+			if(cfgById!=null){
+				long endTime = cfgById.getEndTime();
+				long currentTime = System.currentTimeMillis();
+				return currentTime > endTime;
+			}else{
+				GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动"+ activityCountTypeItem.getCfgId());
+			}
 		}
 		return false;
 	}
