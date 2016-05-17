@@ -26,9 +26,9 @@ public class UserEventChargeHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Charge.getCfgId()));
-					
-				if(isBetweendays){
+				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Charge.getCfgId()));
+				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Charge.getCfgId()));	
+				if(isBetweendays&&isLevelEnough){
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Charge,Integer.parseInt(params.toString()));	
 						
 				}
