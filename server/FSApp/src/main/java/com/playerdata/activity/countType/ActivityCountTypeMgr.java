@@ -128,7 +128,10 @@ public class ActivityCountTypeMgr {
 	private void sendEmailIfGiftNotTaken(Player player,ActivityCountTypeItem activityCountTypeItem,List<ActivityCountTypeSubItem> list) {
 		for (ActivityCountTypeSubItem subItem : list) {// 配置表里的每种奖励
 			ActivityCountTypeSubCfg subItemCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
-
+			if(subItemCfg == null){
+				GameLog.error(LogModule.ComActivityCount, player.getUserId(), "发送邮件失败，没有配置文件", null);
+				continue;
+			}			
 			if (!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
 
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "");
@@ -144,7 +147,10 @@ public class ActivityCountTypeMgr {
 	public boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
 
 		ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
-
+		if(cfgById == null){
+			GameLog.error(LogModule.ComActivityCount, null, "发送邮件失败，没有配置文件", null);
+			return false;
+		}
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
 
