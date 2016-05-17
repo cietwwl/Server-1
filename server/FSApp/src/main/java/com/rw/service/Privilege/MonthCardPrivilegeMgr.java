@@ -1,8 +1,8 @@
 package com.rw.service.Privilege;
 
-import java.util.Collection;
 import java.util.HashMap;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.cfg.ChargeTypeEnum;
@@ -17,49 +17,36 @@ public class MonthCardPrivilegeMgr{
 		return instance;
 	}
 
+	private final String[] monthLevelStr = { "none","normal", "vip" };
+	private final HashMap<Integer,String> previousLevelMap;
 	private MonthCardPrivilegeMgr() {
-		cache = new HashMap<String, MonthCardPrivilegeMgr.PriProvider>();
+		previousLevelMap = new HashMap<Integer,String>();
+		previousLevelMap.put(0, ChargeTypePriority.vipPrefix + "0");
+		previousLevelMap.put(1, ChargeTypePriority.vipPrefix + "0");
+		previousLevelMap.put(2, ChargeTypePriority.monthPrefix + monthLevelStr[1]);
 	}
 
-	private HashMap<String,PriProvider> cache;
-	public void ClearCache(){
-		if (cache != null){
-			Collection<PriProvider> pros = cache.values();
-			for (PriProvider priProvider : pros) {
-				priProvider.close();
-			}
-			cache.clear();
-			cache = null;
-		}
-	}
-	
-	//TODO 监听玩家下线消息，清理内存，否则会内存泄漏
-	public void onPlayerOffLine(Player player){
-		if (cache != null){
-			cache.remove(player.getUserId());
-		}
-	}
-	
+	//TODO 改为放在player里面，避免内存泄漏
 	public IPrivilegeProvider getPrivilige(Player player) {
-		if (cache == null){
-			cache = new HashMap<String, MonthCardPrivilegeMgr.PriProvider>();
-		}
-		PriProvider impl = cache.get(player.getUserId());
-		if (impl == null){
-			impl = new PriProvider();
-		}
+		IPrivilegeProvider impl = player.getMonthCardPrivilegeProvider();
 		return impl;
 	}
+	
+	public String getChargeTypeStr(int level){
+		String levelName = "";
+		if (0 <= level && level < monthLevelStr.length){
+			levelName = monthLevelStr[level];
+		}
+		return ChargeTypePriority.monthPrefix + levelName;
+	}
 
-	//特意不用final，方便热更
-	private static String[] monthLevelStr = { "none","normal", "vip" };
 	public int extractMonthLevel(String chargeTy) {
-		if (chargeTy == null || !chargeTy.startsWith(ChargeTypePriority.monthPrefix)){
+		if (chargeTy == null || !chargeTy.startsWith(ChargeTypePriority.monthPrefix)) {
 			return -1;
 		}
-		String monthVal = chargeTy.substring(chargeTy.indexOf(ChargeTypePriority.monthPrefix)+ChargeTypePriority.monthPrefix.length());
-		for (int i= 0;i<MonthCardPrivilegeMgr.monthLevelStr.length;i++){
-			if (MonthCardPrivilegeMgr.monthLevelStr[i].equals(monthVal)){
+		String monthVal = chargeTy.substring(chargeTy.indexOf(ChargeTypePriority.monthPrefix) + ChargeTypePriority.monthPrefix.length());
+		for (int i = 0; i < monthLevelStr.length; i++) {
+			if (monthLevelStr[i].equals(monthVal)) {
 				return i;
 			}
 		}
@@ -82,10 +69,14 @@ public class MonthCardPrivilegeMgr{
 	}
 	
 	public String guessPreviousChargeLevel(String chargeType){
-		if (chargeType != null && chargeType.startsWith(ChargeTypePriority.monthPrefix)){
-			int monthLevel = extractMonthLevel(chargeType);
+		int monthLevel = extractMonthLevel(chargeType);
+		if (monthLevel >= 0){
 			//普通月卡的前一档定义为VIP0
-			return (monthLevel > 0 ? ChargeTypePriority.monthPrefix + monthLevelStr[monthLevel] : ChargeTypePriority.vipPrefix + "0");
+			//return (monthLevel > 1 ? ChargeTypePriority.monthPrefix + monthLevelStr[monthLevel-1] : ChargeTypePriority.vipPrefix + "0");
+			String pre = previousLevelMap.get(monthLevel);
+			if (pre != null){
+				return pre;
+			}
 		}
 		//无法估计前一档充值等级！
 		return chargeType;
@@ -100,8 +91,8 @@ public class MonthCardPrivilegeMgr{
 	}
 	
 	public void signalMonthCardChange(Player player,ChargeTypeEnum type,boolean isOn){
-		if (cache == null) return;
-		PriProvider impl = cache.get(player.getUserId());
+		IPrivilegeProvider tmp = player.getMonthCardPrivilegeProvider();
+		PriProvider impl = (PriProvider) tmp;
 		if (impl != null){
 			switch (type) {
 			case MonthCard:
@@ -115,9 +106,14 @@ public class MonthCardPrivilegeMgr{
 				}
 				break;
 			default:
+				GameLog.info("特权：月卡", player.getUserId(), "不支持该月卡类型:"+type,null);
 				break;
 			}
 		}
+	}
+	
+	public static IPrivilegeProvider CreateProvider(Player player){
+		return new PriProvider(player);
 	}
 	
 	private static class PriProvider implements IPrivilegeProvider{
@@ -136,12 +132,9 @@ public class MonthCardPrivilegeMgr{
 			}
 		}
 
-		public void close(){
-			stream.close();
-			stream = null;
-		}
-		
-		public PriProvider() {
+		public PriProvider(Player player) {
+			normal = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.MonthCard);
+			vip = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.VipMonthCard);
 		}
 
 		public boolean normal = false;
@@ -166,7 +159,7 @@ public class MonthCardPrivilegeMgr{
 		
 		@Override
 		public String getCurrentChargeType() {
-			return ChargeTypePriority.monthPrefix+getLevel();
+			return MonthCardPrivilegeMgr.getShareInstance().getChargeTypeStr(getLevel());
 		}
 
 		@Override

@@ -36,6 +36,8 @@ import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.Privilege.IPrivilegeProvider;
+import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.Privilege.PrivilegeManager;
 import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.chat.ChatHandler;
@@ -280,12 +282,12 @@ public class Player implements PlayerIF {
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
 		
-		privilegeMgr.init(this);
 		guideMgr.init(this);
 		
 		afterMgrInit();
 		upgradeMgr.init(this);
-
+		
+		privilegeMgr.init(this);
 	}
 
 	// 对mgr的初始化有依赖的初始化操作
@@ -1286,5 +1288,13 @@ public class Player implements PlayerIF {
 
 	public UserTmpGameDataFlag getUserTmpGameDataFlag() {
 		return userTmpGameDataFlag;
+	}
+
+	private IPrivilegeProvider monthProvider;
+	public IPrivilegeProvider getMonthCardPrivilegeProvider() {
+		 if (monthProvider == null){
+			 monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
+		 }
+		 return monthProvider;
 	}
 }
