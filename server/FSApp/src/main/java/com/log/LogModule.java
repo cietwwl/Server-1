@@ -24,6 +24,7 @@ public enum LogModule {
 	ComActivityDate("通用活动_DateType"),
 	ComActivityRank("通用活动_DateType"),
 	FixEquip("专属装备"),
+	GroupSecret("帮派秘境"),
 	;
 	
 	private String name;
