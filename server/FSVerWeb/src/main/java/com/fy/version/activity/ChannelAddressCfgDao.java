@@ -30,6 +30,9 @@ public class ChannelAddressCfgDao extends CfgCsvDao<ChannelAddressCfg> {
 
 	public ChannelAddressCfg getCfgByKey(String key) {
 		ChannelAddressCfg cfg = (ChannelAddressCfg) getCfgById(key);
+		if(cfg == null){
+			cfg = getCfgById("default");
+		}
 		return cfg;
 	}
 }

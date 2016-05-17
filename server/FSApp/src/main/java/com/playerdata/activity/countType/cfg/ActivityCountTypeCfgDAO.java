@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
@@ -22,6 +24,9 @@ import com.rwbase.common.config.CfgCsvHelper;
 public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCfg> {
 
 
+	
+
+
 	public static ActivityCountTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityCountTypeCfgDAO.class);
 	}
@@ -37,7 +42,9 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		return cfgCacheMap;
 	}
 	
-	
+
+
+
 	public void parseTime(ActivityCountTypeCfg cfgItem){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getStartTimeStr());
 		cfgItem.setStartTime(startTime);
@@ -51,7 +58,13 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 		ActivityCountTypeCfg cfg = getCfgById(id);
 		return cfg;
 	}
-	
+	/**
+	 * 
+	 * @param player
+	 * @param countTypeEnum
+	 * @param subdaysNum  每日重置类型的活动,第几天
+	 * @return
+	 */
 	public ActivityCountTypeItem newItem(Player player, ActivityCountTypeEnum countTypeEnum){
 		
 		String cfgId = countTypeEnum.getCfgId();
