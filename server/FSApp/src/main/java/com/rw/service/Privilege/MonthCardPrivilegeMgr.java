@@ -17,7 +17,14 @@ public class MonthCardPrivilegeMgr{
 		return instance;
 	}
 
+	private final String[] monthLevelStr = { "none","normal", "vip" };
+	private final HashMap<Integer,String> previousLevelMap;
 	private MonthCardPrivilegeMgr() {
+		previousLevelMap = new HashMap<Integer,String>();
+		previousLevelMap.put(0, ChargeTypePriority.vipPrefix + "0");
+		previousLevelMap.put(1, ChargeTypePriority.vipPrefix + "0");
+		previousLevelMap.put(2, ChargeTypePriority.monthPrefix + monthLevelStr[1]);
+
 		cache = new HashMap<String, MonthCardPrivilegeMgr.PriProvider>();
 	}
 
@@ -61,15 +68,13 @@ public class MonthCardPrivilegeMgr{
 		return ChargeTypePriority.monthPrefix + levelName;
 	}
 
-	//特意不用final，方便热更
-	private static String[] monthLevelStr = { "none","normal", "vip" };
 	public int extractMonthLevel(String chargeTy) {
-		if (chargeTy == null || !chargeTy.startsWith(ChargeTypePriority.monthPrefix)){
+		if (chargeTy == null || !chargeTy.startsWith(ChargeTypePriority.monthPrefix)) {
 			return -1;
 		}
-		String monthVal = chargeTy.substring(chargeTy.indexOf(ChargeTypePriority.monthPrefix)+ChargeTypePriority.monthPrefix.length());
-		for (int i= 0;i<MonthCardPrivilegeMgr.monthLevelStr.length;i++){
-			if (MonthCardPrivilegeMgr.monthLevelStr[i].equals(monthVal)){
+		String monthVal = chargeTy.substring(chargeTy.indexOf(ChargeTypePriority.monthPrefix) + ChargeTypePriority.monthPrefix.length());
+		for (int i = 0; i < monthLevelStr.length; i++) {
+			if (monthLevelStr[i].equals(monthVal)) {
 				return i;
 			}
 		}
@@ -92,10 +97,14 @@ public class MonthCardPrivilegeMgr{
 	}
 	
 	public String guessPreviousChargeLevel(String chargeType){
-		if (chargeType != null && chargeType.startsWith(ChargeTypePriority.monthPrefix)){
-			int monthLevel = extractMonthLevel(chargeType);
+		int monthLevel = extractMonthLevel(chargeType);
+		if (monthLevel >= 0){
 			//普通月卡的前一档定义为VIP0
-			return (monthLevel > 0 ? ChargeTypePriority.monthPrefix + monthLevelStr[monthLevel] : ChargeTypePriority.vipPrefix + "0");
+			//return (monthLevel > 1 ? ChargeTypePriority.monthPrefix + monthLevelStr[monthLevel-1] : ChargeTypePriority.vipPrefix + "0");
+			String pre = previousLevelMap.get(monthLevel);
+			if (pre != null){
+				return pre;
+			}
 		}
 		//无法估计前一档充值等级！
 		return chargeType;
