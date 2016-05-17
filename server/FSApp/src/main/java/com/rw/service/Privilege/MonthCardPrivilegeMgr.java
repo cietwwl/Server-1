@@ -47,6 +47,7 @@ public class MonthCardPrivilegeMgr{
 		}
 	}
 	
+	//TODO 改为放在player里面，避免内存泄漏
 	public IPrivilegeProvider getPrivilige(Player player) {
 		if (cache == null){
 			cache = new HashMap<String, MonthCardPrivilegeMgr.PriProvider>();
@@ -54,7 +55,7 @@ public class MonthCardPrivilegeMgr{
 		String userId = player.getUserId();
 		PriProvider impl = cache.get(userId);
 		if (impl == null){
-			impl = new PriProvider();
+			impl = new PriProvider(player);
 			cache.put(userId, impl);
 		}
 		return impl;
@@ -160,7 +161,9 @@ public class MonthCardPrivilegeMgr{
 			stream = null;
 		}
 		
-		public PriProvider() {
+		public PriProvider(Player player) {
+			normal = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.MonthCard);
+			vip = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.VipMonthCard);
 		}
 
 		public boolean normal = false;
