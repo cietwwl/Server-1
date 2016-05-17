@@ -245,14 +245,14 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityTimeCountType);
 		
-		versionMap.put(eSynType.ActivityDailyType, new PlayerDataMgr(new RecordSynchronization() {
+		versionMap.put(eSynType.ActivityDailyCountType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
 				ActivityDailyCountTypeMgr.getInstance().synCountTypeData(player);	
 //				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
-		orderList.add(eSynType.ActivityDailyType);
+		orderList.add(eSynType.ActivityDailyCountType);
 
 		notInVersionControlList.add(notInVersionControlP);
 		
