@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -46,6 +47,10 @@ public class ChargeMgr {
 	public boolean isValid(Player player,ChargeTypeEnum monthCardType){
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();		
 		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		if(dataItem == null){
+			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
+			return false;
+		}
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
 		ActivityTimeCardTypeSubItem targetItem = null;
 		String cardtype= monthCardType.getCfgId();
@@ -118,7 +123,7 @@ public class ChargeMgr {
 
 	public boolean charge(ChargeContentPojo chargeContentPojo){
 		boolean success=false;
-		//TODO: 充值，保存订单，返回结果
+		// 充值，保存订单，返回结果
 		Player player = get(chargeContentPojo);
 		if(player!=null){
 			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
@@ -362,11 +367,18 @@ public class ChargeMgr {
 			}
 		}
 		if (result.isSuccess()){
-			int timeCardTypeOrdinal = targetItem.getTimeCardType();
-			ChargeTypeEnum[] enumvalues = ChargeTypeEnum.values();
-			if (0<=timeCardTypeOrdinal && timeCardTypeOrdinal < enumvalues.length){
-				ChargeTypeEnum type = enumvalues[timeCardTypeOrdinal];
-				MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(player, type, true);
+			String orderStr = targetItem.getChargetype();
+			try {
+				if (StringUtils.isNotBlank(orderStr)){
+					int order = Integer.parseInt(orderStr);
+					ChargeTypeEnum[] values = ChargeTypeEnum.values();
+					if (0 <= order && order < values.length){
+						ChargeTypeEnum type = values[order];
+						MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(player, type, true);
+					}
+				}
+			} catch (Exception e) {
+				GameLog.info("特权", player.getUserId(), "无法获取充值类型:"+orderStr, e);
 			}
 		}
 		return result;
