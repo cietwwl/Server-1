@@ -63,6 +63,10 @@ public class ActivityCountTypeMgr {
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityCountTypeItem targetItem : itemList) {			
 			ActivityCountTypeCfg targetCfg = ActivityCountTypeCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
+			if(targetCfg == null){
+				GameLog.error("activitycounttypemgr", "uid=" + player.getUserId(), "数据库有活动id，但当前配置无该类型");
+				continue;
+			}
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
 				targetItem.reset(targetCfg, ActivityCountTypeCfgDAO.getInstance().newItemList(player, targetCfg));
 				dataHolder.updateItem(player, targetItem);
