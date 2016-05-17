@@ -21,7 +21,7 @@ public class ActivityDailyCountTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityDailyCountType;
+	final private eSynType synType = eSynType.ActivityDailyType;
 	
 	
 	/*
