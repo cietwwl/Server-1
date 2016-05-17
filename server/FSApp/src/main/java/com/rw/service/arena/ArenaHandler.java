@@ -533,7 +533,7 @@ public class ArenaHandler {
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
 			m_MyArenaData.setScore(m_MyArenaData.getScore() + addScore);
-			UserEventMgr.getInstance().ArenaDaily(player, m_MyArenaData.getScore());
+			UserEventMgr.getInstance().ArenaDaily(player, addScore);
 			TableArenaDataDAO.getInstance().update(m_MyArenaData);
 			if (isWin) {
 				Player enemyPlayer = PlayerMgr.getInstance().find(enemyUserId);

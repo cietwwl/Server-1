@@ -53,14 +53,27 @@ public class ActivityDailyCountTypeMgr {
 
 	private void checkOtherDay(Player player) {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-		List<ActivityDailyCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		List<ActivityDailyCountTypeItem> item = dataHolder.getItemList(player.getUserId());
 		ActivityDailyCountTypeCfg targetCfg = ActivityDailyCountTypeCfgDAO.getInstance().getConfig(ActivityDailyCountTypeEnum.Daily.getCfgId());
-		for (ActivityDailyCountTypeItem targetItem : itemList) {
+		for (ActivityDailyCountTypeItem targetItem : item) {
 			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
+				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
 		}
+	}
+
+	private void sendEmailIfGiftNotTaken(Player player,
+			List<ActivityDailyCountTypeSubItem> subItemList) {
+		for (ActivityDailyCountTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
+			ActivityDailyCountTypeSubCfg subItemCfg = ActivityDailyCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
+			if (subItem.getCount() >= subItemCfg.getCount()) {
+				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
+				if (!isAdd) 
+					GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
+				}
+		}		
 	}
 
 	private void checkCfgVersion(Player player) {
@@ -136,13 +149,13 @@ public class ActivityDailyCountTypeMgr {
 	}
 
 	public boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
-
-		ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
-
-		long endTime = cfgById.getEndTime();
-		long currentTime = System.currentTimeMillis();
-
-		return currentTime > endTime;
+		if (activityCountTypeItem != null) {
+			ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
+			long endTime = cfgById.getEndTime();
+			long currentTime = System.currentTimeMillis();
+			return currentTime > endTime;
+		}
+		return false;
 	}
 
 	public boolean isOpen(ActivityDailyCountTypeCfg activityCountTypeCfg) {
@@ -155,6 +168,7 @@ public class ActivityDailyCountTypeMgr {
 		}
 		return false;
 	}
+	
 	public boolean isOpen(ActivityDailyCountTypeSubCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
@@ -169,34 +183,43 @@ public class ActivityDailyCountTypeMgr {
 	public void addCount(Player player, ActivityDailyCountTypeEnum countType, int countadd) {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
 		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
-		List<ActivityDailyCountTypeSubItem> sublist = dataItem.getSubItemList();
-		
+		ActivityDailyCountTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);	
+		subItem.setCount(subItem.getCount() + countadd);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@activitydaily.itemtype =" + subItem.getCfgId() + " count =" + subItem.getCount());
+		dataHolder.updateItem(player, dataItem);
+	}
+	
+	public ActivityDailyCountTypeSubItem getbyDailyCountTypeEnum (Player player,ActivityDailyCountTypeEnum typeEnum,ActivityDailyCountTypeItem dataItem){		
+		ActivityDailyCountTypeSubItem subItem = null;
 		ActivityDailyCountTypeSubCfg cfg = null;
 		List<ActivityDailyCountTypeSubCfg> subcfglist = ActivityDailyCountTypeSubCfgDAO.getInstance().getAllCfg();
 		for(ActivityDailyCountTypeSubCfg subcfg :subcfglist){
-			if(subcfg.getId() == countType.getCfgId());
+			if(StringUtils.equals(subcfg.getId(), typeEnum.getCfgId())){
 			cfg = subcfg;
 			break;
+			}
 		}
 		if(cfg == null){
 			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
-			return;
+			return subItem;
 		}
-		ActivityDailyCountTypeSubItem subItem = null;
+		
+		List<ActivityDailyCountTypeSubItem> sublist = dataItem.getSubItemList();
 		for(ActivityDailyCountTypeSubItem subitem : sublist){
-			if(StringUtils.equals(cfg.getId(), subitem.getCfgId()))
-			subItem = subitem;
-			break;
+			if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
+				subItem = subitem;
+				break;
+			}
 		}
 		if(subItem == null){
 			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item");
-			return;
+			return subItem;
 		}
-		
-		subItem.setCount(subItem.getCount() + countadd);
-		dataHolder.updateItem(player, dataItem);
+		return   subItem;
 	}
-
+	
+	
+	
 	public ActivityComResult takeGift(Player player, ActivityDailyCountTypeEnum countType, String subItemId) {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
 

@@ -16,8 +16,10 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItemHolder;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeSubItem;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
@@ -36,13 +38,18 @@ public class UserEventArenaDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.ArenaDaily.getCfgId()));
+					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
+							.getInstance().getById(ActivityDailyCountTypeEnum.ArenaDaily.getCfgId()));
 					
-					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();					
-					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
+//					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();					
+//					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
+//					ActivityDailyCountTypeSubItem subItem = ActivityDailyCountTypeMgr
+//							.getInstance().getbyDailyCountTypeEnum(player,
+//									ActivityDailyCountTypeEnum.ArenaDaily,
+//									dataItem);
+//					
 					//胜利或失败获得的积分不一致。
-					int addcount = 1;
-//					Integer.parseInt(params.toString()) - dataItem.getCount();
+					int addcount = Integer.parseInt(params.toString());					
 					
 					if(addcount>0&&isBetweendays){
 						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.ArenaDaily,addcount);	

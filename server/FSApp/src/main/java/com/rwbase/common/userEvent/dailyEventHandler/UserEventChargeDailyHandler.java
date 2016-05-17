@@ -14,6 +14,7 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
@@ -32,7 +33,8 @@ public class UserEventChargeDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.ChargeDaily.getCfgId()));
+					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
+							.getInstance().getById(ActivityDailyCountTypeEnum.ChargeDaily.getCfgId()));
 					/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
 					boolean isnewday = false;
 					if(StringUtils.equals(params+"","0")){//没有活动的登陆数据，首次登陆
