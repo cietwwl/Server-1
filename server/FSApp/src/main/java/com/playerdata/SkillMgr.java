@@ -399,36 +399,40 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		pSkill.getBuffId().clear();
 		// 查找控制技能的buff
 		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getBuffId())) {
-			String[] skillBufflist = pSkillCfg.getBuffId().split(";");// SkillBuffList
-																		// xxxx_xxx
-			Skill targetSkill;
-			String[] targetBuffarr;
-			for (String skillBuff : skillBufflist) {
-				targetBuffarr = skillBuff.split("_");// skillBuff xxxx
-				targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
+			parseSkillBuffs(skillList, pSkillCfg.getBuffId(), false);
+		}
+		
+		pSkill.getSelfBuffId().clear();
+		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getSelfBuffId())) {
+			parseSkillBuffs(skillList, pSkillCfg.getSelfBuffId(), true);
+		}
+	}
+	
+	private void parseSkillBuffs(List<Skill> skillList, String id, boolean isSelf) {
+		String[] skillBufflist = id.split(";");
+		Skill targetSkill;
+		String[] targetBuffarr;
+		for (String skillBuff : skillBufflist) {
+			targetBuffarr = skillBuff.split("_");// skillBuff xxxx
+			targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
 
-				if (targetSkill != null && targetSkill.getLevel() > 0) {
-					for (int j = 1; j < targetBuffarr.length; j++) {
-						String targetBuff = targetBuffarr[j];
-						if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
-							List<Integer> curBuffList = targetSkill.getBuffId();
-							if (curBuffList.size() > j - 1) {
-								curBuffList.set(j - 1, Integer.parseInt(targetBuff));
-							} else {
-								curBuffList.add(Integer.parseInt(targetBuff));
-							}
+			if (targetSkill != null && targetSkill.getLevel() > 0) {
+				for (int j = 1; j < targetBuffarr.length; j++) {
+					String targetBuff = targetBuffarr[j];
+					if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
+						List<Integer> curBuffList = null;
+						if (isSelf) {
+							curBuffList = targetSkill.getSelfBuffId();
+						} else {
+							curBuffList = targetSkill.getBuffId();
+						}
+						if (curBuffList.size() > j - 1) {
+							curBuffList.set(j - 1, Integer.parseInt(targetBuff));
+						} else {
+							curBuffList.add(Integer.parseInt(targetBuff));
 						}
 					}
 				}
-			}
-		}
-
-		pSkill.getSelfBuffId().clear();
-		String[] selbuff = pSkillCfg.getSelfBuffId().split("_");// SkillBuffList
-																// xxxx_xxx
-		for (int i = 0; i < selbuff.length; i++) {
-			if (!StringUtils.isBlank(selbuff[i])) {
-				pSkill.getSelfBuffId().add(Integer.valueOf(selbuff[i]));
 			}
 		}
 	}
