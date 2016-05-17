@@ -44,11 +44,21 @@ public class MonthCardPrivilegeMgr{
 		if (cache == null){
 			cache = new HashMap<String, MonthCardPrivilegeMgr.PriProvider>();
 		}
-		PriProvider impl = cache.get(player.getUserId());
+		String userId = player.getUserId();
+		PriProvider impl = cache.get(userId);
 		if (impl == null){
 			impl = new PriProvider();
+			cache.put(userId, impl);
 		}
 		return impl;
+	}
+	
+	public String getChargeTypeStr(int level){
+		String levelName = "";
+		if (0 <= level && level < monthLevelStr.length){
+			levelName = monthLevelStr[level];
+		}
+		return ChargeTypePriority.monthPrefix + levelName;
 	}
 
 	//特意不用final，方便热更
@@ -166,7 +176,7 @@ public class MonthCardPrivilegeMgr{
 		
 		@Override
 		public String getCurrentChargeType() {
-			return ChargeTypePriority.monthPrefix+getLevel();
+			return MonthCardPrivilegeMgr.getShareInstance().getChargeTypeStr(getLevel());
 		}
 
 		@Override
