@@ -147,14 +147,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		outTotal.value = 0;
 		while (count < upgradeCount) {
 			int num = seqg.nextNum();
-			if (num <= 0) {
-				if (outTotal.value+1 > maxUpgradeCount){
-					break;
-				}
-				result[count] = 1;
-				outTotal.value++;
-				level ++;
-			} else {
+			if (num > 0) {
 				if (outTotal.value + num > maxUpgradeCount){
 					int maxAdd = maxUpgradeCount - outTotal.value;
 					result[count] = maxAdd;
@@ -164,6 +157,13 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				result[count] = num;
 				outTotal.value += num;
 				level += num;
+			} else {
+				if (outTotal.value+1 > maxUpgradeCount){
+					break;
+				}
+				result[count] = 1;
+				outTotal.value++;
+				level ++;
 			}
 			
 			seqPlanIdList = helper.getCriticalPlanIdList(mcfg.getConsumeId(),level);
