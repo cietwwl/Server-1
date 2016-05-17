@@ -1,6 +1,5 @@
 package com.playerdata.activity.dailyCountType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +54,10 @@ public class ActivityDailyCountTypeMgr {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
 		List<ActivityDailyCountTypeItem> item = dataHolder.getItemList(player.getUserId());
 		ActivityDailyCountTypeCfg targetCfg = ActivityDailyCountTypeCfgDAO.getInstance().getConfig(ActivityDailyCountTypeEnum.Daily.getCfgId());
+		if(targetCfg == null){
+			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
+			return;
+		}
 		for (ActivityDailyCountTypeItem targetItem : item) {
 			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
 				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
@@ -68,6 +71,10 @@ public class ActivityDailyCountTypeMgr {
 			List<ActivityDailyCountTypeSubItem> subItemList) {
 		for (ActivityDailyCountTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
 			ActivityDailyCountTypeSubCfg subItemCfg = ActivityDailyCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
+			if(subItemCfg == null){
+				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
+				return;
+			}
 			if (subItem.getCount() >= subItemCfg.getCount()) {
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
 				if (!isAdd) 
@@ -81,6 +88,11 @@ public class ActivityDailyCountTypeMgr {
 		List<ActivityDailyCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityDailyCountTypeItem targetItem : itemList) {			
 			ActivityDailyCountTypeCfg targetCfg = ActivityDailyCountTypeCfgDAO.getInstance().getConfig(ActivityDailyCountTypeEnum.Daily.getCfgId());
+			if(targetCfg == null){
+				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
+				return;
+			}			
+			
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
@@ -135,9 +147,12 @@ public class ActivityDailyCountTypeMgr {
 	private void sendEmailIfGiftNotTaken(Player player,ActivityCountTypeItem activityCountTypeItem,List<ActivityCountTypeSubItem> list) {
 		for (ActivityCountTypeSubItem subItem : list) {// 配置表里的每种奖励
 			ActivityCountTypeSubCfg subItemCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
-
+			if(subItemCfg == null){
+				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
+				return;
+			}
+			
 			if (!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
-
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "");
 				if (isAdd) {
 					subItem.setTaken(true);
@@ -148,7 +163,7 @@ public class ActivityDailyCountTypeMgr {
 		}
 	}
 
-	public boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
+	private boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
 		if (activityCountTypeItem != null) {
 			ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
 			if(cfgById!=null){
@@ -162,7 +177,7 @@ public class ActivityDailyCountTypeMgr {
 		return false;
 	}
 
-	public boolean isOpen(ActivityDailyCountTypeCfg activityCountTypeCfg) {
+	private boolean isOpen(ActivityDailyCountTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
 			long startTime = activityCountTypeCfg.getStartTime();
@@ -256,6 +271,10 @@ public class ActivityDailyCountTypeMgr {
 
 	private void takeGift(Player player, ActivityDailyCountTypeSubItem targetItem) {
 		ActivityDailyCountTypeSubCfg subCfg = ActivityDailyCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
+		if(subCfg == null){
+			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
+			return;
+		}
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
 

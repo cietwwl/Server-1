@@ -18,7 +18,9 @@ public enum LogModule {
 	UserEvent("用户事件"),
 	ComActivityCount("通用活动_CountType"),
 	ComActivityDailyCount("通用活动_DailyCountType"),
+	ComActivityRate("通用活动_RateType"),
 	ComActivityTimeCount("通用活动_TimeCountType"),
+	
 	ComActivityDate("通用活动_DateType"),
 	ComActivityRank("通用活动_DateType"),
 	FixEquip("专属装备"),

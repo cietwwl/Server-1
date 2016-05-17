@@ -361,6 +361,7 @@ public class GameLoginHandler {
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, 0);
 		LoginSynDataHelper.setData(player, response);
