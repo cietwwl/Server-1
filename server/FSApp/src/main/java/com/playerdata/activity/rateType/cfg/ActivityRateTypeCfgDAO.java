@@ -68,10 +68,7 @@ public final class ActivityRateTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);
 	}
 
-	public ActivityRateTypeCfg getConfig(String id) {
-		ActivityRateTypeCfg cfg = getCfgById(id);
-		return cfg;
-	}
+
 
 	public ActivityRateTypeItem newItem(Player player,
 			ActivityRateTypeEnum typeEnum) {

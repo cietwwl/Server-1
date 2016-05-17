@@ -225,6 +225,10 @@ public final class CopyServiceProtos {
      * <code>NULL = 3;</code>
      */
     NULL(2, 3),
+    /**
+     * <code>FAIL = 4;</code>
+     */
+    FAIL(3, 4),
     ;
 
     /**
@@ -239,6 +243,10 @@ public final class CopyServiceProtos {
      * <code>NULL = 3;</code>
      */
     public static final int NULL_VALUE = 3;
+    /**
+     * <code>FAIL = 4;</code>
+     */
+    public static final int FAIL_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -248,6 +256,7 @@ public final class CopyServiceProtos {
         case 1: return WIN;
         case 2: return TIMES_UP;
         case 3: return NULL;
+        case 4: return FAIL;
         default: return null;
       }
     }
@@ -7625,15 +7634,16 @@ public final class CopyServiceProtos {
       "ND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_USER_CHECKPOI" +
       "NT_INFO\020\004\022\023\n\017BATTLE_CLEARING\020\005\022\025\n\021BATTLE" +
       "_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GET_GI" +
-      "FT\020\010*0\n\rEBattleStatus\022\007\n\003WIN\020\001\022\014\n\010TIMES_" +
-      "UP\020\002\022\010\n\004NULL\020\003*\213\002\n\013EResultType\022\010\n\004NONE\020\001" +
-      "\022\024\n\020PURCHASE_SUCCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022N",
-      "OT_ENOUGH_DIAMOND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014" +
-      "\n\010NOT_OPEN\020\006\022\025\n\021NOT_ENOUGH_TICKET\020\007\022\024\n\020N" +
-      "OT_ENOUGH_TIMES\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_" +
-      "BACK\020\n\022\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM_SETSUCCES" +
-      "S\020\014\022\021\n\rSWEEP_SUCCESS\020\r\022\024\n\020GET_GIFT_SUCCE" +
-      "SS\020\016B \n\013com.rwprotoB\021CopyServiceProtos"
+      "FT\020\010*:\n\rEBattleStatus\022\007\n\003WIN\020\001\022\014\n\010TIMES_" +
+      "UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*\213\002\n\013EResultType" +
+      "\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SUCCESS\020\002\022\013\n\007LOW_",
+      "VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMOND\020\004\022\021\n\rNOT_ENO" +
+      "UGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n\021NOT_ENOUGH_TIC" +
+      "KET\020\007\022\024\n\020NOT_ENOUGH_TIMES\020\010\022\014\n\010INIT_MAP\020" +
+      "\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM" +
+      "_SETSUCCESS\020\014\022\021\n\rSWEEP_SUCCESS\020\r\022\024\n\020GET_" +
+      "GIFT_SUCCESS\020\016B \n\013com.rwprotoB\021CopyServi" +
+      "ceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

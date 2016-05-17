@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
@@ -124,6 +125,11 @@ public class ActivityRateTypeMgr {
 		boolean isclose = false;
 		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance()
 				.getCfgById(ActivityRateTypeItem.getCfgId());
+		if(cfgById == null){
+			GameLog.error(LogModule.ComActivityRate, null, "通用活动找不到配置文件", null);
+			return true;
+		}
+		
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
 		long startTime = cfgById.getStartTime();

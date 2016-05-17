@@ -40,7 +40,6 @@ public class UserEventLoginHandler implements IUserEventHandler{
 					}
 					if(isnewday&&isBetweendays){					
 						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login,1);	
-						ActivityCountTypeMgr.getInstance().refreshDateFreshActivity(player);
 					}
 				}
 			@Override

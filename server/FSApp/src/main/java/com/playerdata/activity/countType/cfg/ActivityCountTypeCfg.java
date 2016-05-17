@@ -1,5 +1,8 @@
 package com.playerdata.activity.countType.cfg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 public class ActivityCountTypeCfg {
@@ -27,14 +30,13 @@ public class ActivityCountTypeCfg {
 	private String group;
 		
 	//每天刷新
-	private boolean dateFresh = false;
+	private int isAutoRefresh ;
 	
 	private String version;
-	
-	
-	
 
 	
+
+
 	public String getVersion() {
 		return version;
 	}
@@ -109,6 +111,8 @@ public class ActivityCountTypeCfg {
 		return endTimeStr;
 	}
 
+
+
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
@@ -117,9 +121,19 @@ public class ActivityCountTypeCfg {
 		this.endTime = endTime;
 	}
 
-	public boolean isDateFresh() {
-		return dateFresh;
+	public int getIsAutoRefresh() {
+		return isAutoRefresh;
 	}
+
+	public void setIsAutoRefresh(int isAutoRefresh) {
+		this.isAutoRefresh = isAutoRefresh;
+	}
+
+
+
+
+
+
 
 	
 	

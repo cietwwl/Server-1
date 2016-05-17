@@ -6,26 +6,49 @@ public class ActivityTimeCountTypeSubCfg {
 	private String id;
 	
 	//所属活动配置id
-	private String parentCfg;
+	private String parentId;
 	
 	//计数
-	private int awardCount;
+	private int count;
 	//计数奖励
-	private String awardGift;	
+	private String giftId;	
 	
 	public String getId() {
 		return id;
 	}
-	public String getParentCfg() {
-		return parentCfg;
+
+	
+	public String getParentId() {
+		return parentId;
+	}
+
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+
+
+
+	public int getCount() {
+		return count;
+	}
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
+	public String getGiftId() {
+		return giftId;
+	}
+
+
+	public void setGiftId(String giftId) {
+		this.giftId = giftId;
 	}
 	
-	public int getAwardCount() {
-		return awardCount;
-	}
-	public String getAwardGift() {
-		return awardGift;
-	}
 
 
 	

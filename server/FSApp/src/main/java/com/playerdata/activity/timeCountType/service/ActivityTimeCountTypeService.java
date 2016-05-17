@@ -28,12 +28,12 @@ public class ActivityTimeCountTypeService implements FsService {
 				byteString = handler.takeGift(player, commonReq);
 				break;
 			default:
-				GameLog.error(LogModule.ComActivityCount, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
+				GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
 			
 		} catch (Exception e) {
-			GameLog.error(LogModule.ComActivityCount, player.getUserId(), "出现了Exception异常", e);
+			GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "出现了Exception异常", e);
 		}
 		return byteString;
 		
