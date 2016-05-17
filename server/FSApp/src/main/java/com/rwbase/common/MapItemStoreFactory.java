@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
@@ -65,6 +66,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<AngelArrayEnemyInfoData> angelArrayEnemyInfoData;
 
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityDailyCountTypeItem> activityDailyCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
 	
@@ -82,11 +85,20 @@ public class MapItemStoreFactory {
 
 	private static List<MapItemStoreCache> list;
 
+	private static boolean init = false;
+	
 	static {
 		init();
 	}
 
 	public static void init() {
+		synchronized (MapItemStoreFactory.class) {
+			if (init) {
+				return;
+			}else{
+				init = true;
+			}
+		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
 
 		// int playerCapacity = config.getPlayerCapacity();
@@ -127,8 +139,10 @@ public class MapItemStoreFactory {
 //
 //		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
 		
-//		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
-
+		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
+		
+		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyCountTypeItem>(ActivityDailyCountTypeItem.class, "userId", heroCapacity));
+		
 //		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
 		
 //		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
@@ -256,6 +270,10 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
 		return activityCountTypeItemCache;
+	}
+	
+	public static MapItemStoreCache<ActivityDailyCountTypeItem> getActivityDailyCountTypeItemCache() {
+		return activityDailyCountTypeItemCache;
 	}
 
 	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {

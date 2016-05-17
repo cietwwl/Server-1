@@ -30,6 +30,7 @@ import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 
@@ -147,15 +148,18 @@ public class ChargeMgr {
 	}
 
 	private boolean chargeType(Player player, ChargeContentPojo chargeContentPojo) {
-		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(chargeContentPojo.getItemId());
-
+		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
+		if(target == null){//ios
+			itemId= chargeContentPojo.getPrivateField();
+			target = ChargeCfgDao.getInstance().getConfig(itemId);
+		}
 		
 		
 		if(target!=null){
-//			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
-//				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-//			}else 
-			if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
+				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}
@@ -173,6 +177,7 @@ public class ChargeMgr {
 					}
 				}
 			}
+			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
 			
 			if(success){
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
@@ -313,6 +318,7 @@ public class ChargeMgr {
 	}
 
 	public ChargeResult buyMonthCard(Player player, String chargeItemId) {
+		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
 		

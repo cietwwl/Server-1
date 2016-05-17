@@ -44,6 +44,7 @@ import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
 import com.rwbase.dao.fetters.FettersBM;
@@ -89,6 +90,9 @@ public class GameManager {
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
+		
+		//初始化MapItemStoreFactory
+		MapItemStoreFactory.init();
 
 		// initServerProperties();
 		initServerOpenTime();

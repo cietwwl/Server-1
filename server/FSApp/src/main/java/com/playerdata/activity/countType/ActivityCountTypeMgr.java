@@ -17,6 +17,7 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.rw.fsutil.util.DateUtils;
 
 public class ActivityCountTypeMgr {
 
@@ -32,20 +33,22 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItemHolder.getInstance().synAllData(player);
 	}
 
-	public void refreshDateFreshActivity(Player player) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
-		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
-			if (countTypeEnum != null && activityCountTypeCfg.isDateFresh()) {
-				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
-				if (targetItem != null) {
-					targetItem.reset();
-				}
-			}
-
-		}
-	}
+//	public void refreshDateFreshActivity(Player player) {
+//		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+//		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
+//		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
+//			if(isOpen(activityCountTypeCfg)){
+//				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
+//				if(countTypeEnum != null && activityCountTypeCfg.getIsAutoRefresh() == 1){
+//					ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
+//					if(targetItem != null){
+//						targetItem.reset(activityCountTypeCfg,ActivityCountTypeCfgDAO.getInstance().newItemList(player, activityCountTypeCfg));
+//						dataHolder.updateItem(player, targetItem);
+//					}				
+//				}
+//			}
+//		}
+//	}
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
@@ -84,6 +87,7 @@ public class ActivityCountTypeMgr {
 			}
 			ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
+						
 				targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);// 生成新开启活动的数据
 				if (targetItem == null) {
 					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
@@ -99,6 +103,7 @@ public class ActivityCountTypeMgr {
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
+
 
 	private void checkClose(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
@@ -159,7 +164,7 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		dataItem.setCount(dataItem.getCount() + countadd);
 
-		dataHolder.updateItem(player, dataItem);
+			dataHolder.updateItem(player, dataItem);
 	}
 
 	public ActivityComResult takeGift(Player player, ActivityCountTypeEnum countType, String subItemId) {

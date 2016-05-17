@@ -28,7 +28,7 @@ public class ActivityTimeCountTypeMgr {
 		return instance;
 	}
 
-	public void synTimeCountTypeData(Player player) {		
+	public void synTimeCountTypeData(Player player) {
 		doTimeCount(player, ActivityTimeCountTypeEnum.role_online);
 		ActivityTimeCountTypeItemHolder.getInstance().synAllData(player);
 	}
@@ -66,7 +66,7 @@ public class ActivityTimeCountTypeMgr {
 				}
 				addItemList.add(targetItem);
 			} else {
-				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {
+				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
 					targetItem.reset(activityTimeCountTypeCfg, ActivityTimeCountTypeCfgDAO.getInstance().newItemList(player, activityTimeCountTypeCfg));
 					dataHolder.updateItem(player, targetItem);
 				}
@@ -88,9 +88,9 @@ public class ActivityTimeCountTypeMgr {
 				for (ActivityTimeCountTypeSubItem subItem : list) {// 配置表里的每种奖励
 					ActivityTimeCountTypeSubCfg subItemCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
 
-					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
+					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
 
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "");
+						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
 						if (isAdd) {
 							subItem.setTaken(true);
 						} else {
@@ -105,7 +105,7 @@ public class ActivityTimeCountTypeMgr {
 
 	}
 
-	public boolean isClose(ActivityTimeCountTypeItem activityTimeCountTypeItem) {
+	private boolean isClose(ActivityTimeCountTypeItem activityTimeCountTypeItem) {
 
 		ActivityTimeCountTypeCfg cfgById = ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(activityTimeCountTypeItem.getCfgId());
 
@@ -115,7 +115,7 @@ public class ActivityTimeCountTypeMgr {
 		return currentTime > endTime;
 	}
 
-	public boolean isOpen(ActivityTimeCountTypeCfg activityTimeCountTypeCfg) {
+	private boolean isOpen(ActivityTimeCountTypeCfg activityTimeCountTypeCfg) {
 
 		if (activityTimeCountTypeCfg != null) {
 			long startTime = activityTimeCountTypeCfg.getStartTime();
@@ -127,32 +127,34 @@ public class ActivityTimeCountTypeMgr {
 	}
 
 	public void doTimeCount(Player player, ActivityTimeCountTypeEnum TimeCountType) {
-//		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-//
-//		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
-//		
-//		if(dataItem!=null){
-//			
-//			long currentTimeMillis = System.currentTimeMillis();
-//			long lastCountTime = dataItem.getLastCountTime();
-//			long timeSpan = currentTimeMillis - lastCountTime;
-//			
-//			if( timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond*1000){
-//				dataItem.setCount(dataItem.getCount() + (int)(timeSpan/1000));
-//			}
-//			
-//			dataItem.setLastCountTime(currentTimeMillis);
-//			dataHolder.updateItem(player, dataItem);
-//		}
+		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
+
+		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
 		
+		if(dataItem!=null){
+			
+			long currentTimeMillis = System.currentTimeMillis();
+			long lastCountTime = dataItem.getLastCountTime();
+			long timeSpan = currentTimeMillis - lastCountTime;
+			
+			if( timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond*1000){
+				dataItem.setCount(dataItem.getCount() + (int)(timeSpan/1000));
+			}
+			
+			dataItem.setLastCountTime(currentTimeMillis);
+			dataHolder.updateItem(player, dataItem);
+		}		
 	}
+
+	
+	
 
 	public ActivityComResult takeGift(Player player, ActivityTimeCountTypeEnum TimeCountType, String subItemId) {
 		
 	
 		
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-
+		doTimeCount(player, TimeCountType);
 		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
 		ActivityComResult result = ActivityComResult.newInstance(false);
 
@@ -162,6 +164,21 @@ public class ActivityTimeCountTypeMgr {
 
 		} else {
 			ActivityTimeCountTypeSubItem targetItem = null;
+			
+			ActivityTimeCountTypeSubCfg subcfg = null;
+			List<ActivityTimeCountTypeSubCfg> subCfgList = ActivityTimeCountTypeSubCfgDAO.getInstance().getAllCfg();
+			for(ActivityTimeCountTypeSubCfg cfg : subCfgList){
+				if(StringUtils.equals(cfg.getId(), subItemId)){
+					subcfg = cfg;
+					break;
+				}				
+			}		
+			if(dataItem.getCount() < subcfg.getCount()){
+				GameLog.error("activitytimecounttypemgr", "uid=" + player.getUserId(), "时间未到但申请领取");
+				result.setReason("时间未到");
+				return result;
+			}
+			
 
 			List<ActivityTimeCountTypeSubItem> subItemList = dataItem.getSubItemList();
 			for (ActivityTimeCountTypeSubItem itemTmp : subItemList) {
@@ -170,23 +187,38 @@ public class ActivityTimeCountTypeMgr {
 					break;
 				}
 			}
-			if (targetItem != null && !targetItem.isTaken()) {
-				doTimeCount(player, TimeCountType);
+			
+			
+			
+			if (targetItem != null && !targetItem.isTaken()) {			
+				dataItem.setCount(1);
 				takeGift(player, targetItem);
 				result.setSuccess(true);
+				result.setReason("领取成功");
+				checkGiftIsAllTake(player,dataItem);
 				dataHolder.updateItem(player, dataItem);
 			}
-
 		}
-
 		return result;
+	}
+	/**此类活动室无限开启，直到奖励全部领取完毕为止*/
+	private void checkGiftIsAllTake(Player player,ActivityTimeCountTypeItem dataItem) {
+		List<ActivityTimeCountTypeSubItem> subItemList = dataItem.getSubItemList();
+		boolean isTakeAll = true;
+		for (ActivityTimeCountTypeSubItem itemTmp : subItemList) {
+			if(!itemTmp.isTaken()){
+				isTakeAll = false;
+			}
+		}
+		dataItem.setClosed(isTakeAll);
+		
 	}
 
 	private void takeGift(Player player, ActivityTimeCountTypeSubItem targetItem) {	
 		
 		ActivityTimeCountTypeSubCfg subCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		targetItem.setTaken(true);
-		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
+		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
 
 	}
 
