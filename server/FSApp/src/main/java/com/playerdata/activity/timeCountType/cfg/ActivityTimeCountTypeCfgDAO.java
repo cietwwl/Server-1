@@ -38,7 +38,7 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 	}
 	
 	
-	public void parseTime(ActivityTimeCountTypeCfg cfgItem){
+	private void parseTime(ActivityTimeCountTypeCfg cfgItem){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getStartTimeStr());
 		cfgItem.setStartTime(startTime);
 		
@@ -48,10 +48,7 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 	}
 		
 	
-	public ActivityTimeCountTypeCfg getConfig(String id){
-		ActivityTimeCountTypeCfg cfg = getCfgById(id);
-		return cfg;
-	}
+
 	
 	public ActivityTimeCountTypeItem newItem(Player player, ActivityTimeCountTypeEnum countTypeEnum){
 		

@@ -105,7 +105,7 @@ public class ActivityTimeCountTypeMgr {
 
 	}
 
-	public boolean isClose(ActivityTimeCountTypeItem activityTimeCountTypeItem) {
+	private boolean isClose(ActivityTimeCountTypeItem activityTimeCountTypeItem) {
 
 		ActivityTimeCountTypeCfg cfgById = ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(activityTimeCountTypeItem.getCfgId());
 
@@ -115,7 +115,7 @@ public class ActivityTimeCountTypeMgr {
 		return currentTime > endTime;
 	}
 
-	public boolean isOpen(ActivityTimeCountTypeCfg activityTimeCountTypeCfg) {
+	private boolean isOpen(ActivityTimeCountTypeCfg activityTimeCountTypeCfg) {
 
 		if (activityTimeCountTypeCfg != null) {
 			long startTime = activityTimeCountTypeCfg.getStartTime();
@@ -203,7 +203,6 @@ public class ActivityTimeCountTypeMgr {
 	}
 	/**此类活动室无限开启，直到奖励全部领取完毕为止*/
 	private void checkGiftIsAllTake(Player player,ActivityTimeCountTypeItem dataItem) {
-		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 		List<ActivityTimeCountTypeSubItem> subItemList = dataItem.getSubItemList();
 		boolean isTakeAll = true;
 		for (ActivityTimeCountTypeSubItem itemTmp : subItemList) {

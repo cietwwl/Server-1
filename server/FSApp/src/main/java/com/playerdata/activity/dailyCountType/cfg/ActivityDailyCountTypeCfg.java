@@ -1,8 +1,5 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 
 public class ActivityDailyCountTypeCfg {

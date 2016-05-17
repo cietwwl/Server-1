@@ -4,17 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.ActivityCountTypeHelper;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeHelper;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeSubItem;
@@ -52,7 +44,7 @@ public final class ActivityDailyCountTypeCfgDAO extends CfgCsvDao<ActivityDailyC
 
 
 
-	public void parseTime(ActivityDailyCountTypeCfg cfgItem){
+	private void parseTime(ActivityDailyCountTypeCfg cfgItem){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getStartTimeStr());
 		cfgItem.setStartTime(startTime);
 		

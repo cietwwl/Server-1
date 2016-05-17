@@ -1,6 +1,5 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public final class ActivityDailyCountTypeSubCfgDAO extends CfgCsvDao<ActivityDai
 		return cfgCacheMap;
 	}
 	
-	public void parseTime(ActivityDailyCountTypeSubCfg cfgTmp){
+	private void parseTime(ActivityDailyCountTypeSubCfg cfgTmp){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgTmp.getStartTimeStr());
 		cfgTmp.setStartTime(startTime);
 		

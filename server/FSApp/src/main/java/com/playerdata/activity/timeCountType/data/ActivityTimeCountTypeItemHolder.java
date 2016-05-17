@@ -51,14 +51,7 @@ public class ActivityTimeCountTypeItemHolder{
 		return getItemStore(userId).getItem(itemId);
 	}
 	
-	public boolean addItem(Player player, ActivityTimeCountTypeItem item){
-	
-		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
-		if(addSuccess){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
-	}
+
 	
 	public boolean addItemList(Player player, List<ActivityTimeCountTypeItem> itemList){
 		try {

@@ -3,7 +3,6 @@ package com.playerdata.activity.timeCountType.service;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.rwproto.ActivityTimeCountTypeProto.ActivityCommonReqMsg;

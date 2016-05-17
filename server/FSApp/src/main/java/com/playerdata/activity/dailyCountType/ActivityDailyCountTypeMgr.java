@@ -1,6 +1,5 @@
 package com.playerdata.activity.dailyCountType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -148,7 +147,7 @@ public class ActivityDailyCountTypeMgr {
 		}
 	}
 
-	public boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
+	private boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
 		if (activityCountTypeItem != null) {
 			ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
 			if(cfgById!=null){
@@ -162,7 +161,7 @@ public class ActivityDailyCountTypeMgr {
 		return false;
 	}
 
-	public boolean isOpen(ActivityDailyCountTypeCfg activityCountTypeCfg) {
+	private boolean isOpen(ActivityDailyCountTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
 			long startTime = activityCountTypeCfg.getStartTime();
