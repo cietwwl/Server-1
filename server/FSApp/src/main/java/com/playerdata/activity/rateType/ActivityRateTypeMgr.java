@@ -26,14 +26,15 @@ public class ActivityRateTypeMgr {
 		ActivityRateTypeItemHolder.getInstance().synAllData(player);
 	}
 
+	/**判断是否活动开启以及玩家是否满足活动需求等级*/
 	public boolean isActivityOnGoing(Player player,
 			ActivityRateTypeEnum activityRateTypeEnum) {
-		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
+				ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
 				.getInstance();
-		if (activityRateTypeEnum != null) {
+		if (activityRateTypeEnum != null) {	
 			ActivityRateTypeItem targetItem = dataHolder.getItem(
-					player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
-			return targetItem != null && !targetItem.isClosed();
+					player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动			
+			return targetItem != null && !targetItem.isClosed()&&player.getLevel() >= targetItem.getLevelLimit();			
 		} else {
 			GameLog.error("activityratetypemgr", "enmu为空", "没有找到对应活动类型");
 			return false;

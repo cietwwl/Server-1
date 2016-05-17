@@ -31,6 +31,18 @@ public class ActivityRateTypeItem implements IMapItem {
 
 	@CombineSave
 	private int multiple;
+	
+	@CombineSave
+	private int levelLimit;
+	
+	
+	public int getLevelLimit() {
+		return levelLimit;
+	}
+
+	public void setLevelLimit(int levelLimit) {
+		this.levelLimit = levelLimit;
+	}
 
 	public int getMultiple() {
 		return multiple;

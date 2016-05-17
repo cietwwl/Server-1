@@ -43,6 +43,8 @@ public class ActivityTimeCountTypeItem implements  IMapItem {
 	@CombineSave
 	private String version ;
 	
+	
+	
 	public void reset(ActivityTimeCountTypeCfg cfg,List<ActivityTimeCountTypeSubItem> sublist){
 		closed = false;
 		count = 0;

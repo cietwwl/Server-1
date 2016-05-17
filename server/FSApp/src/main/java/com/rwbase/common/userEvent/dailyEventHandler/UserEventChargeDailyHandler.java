@@ -31,8 +31,8 @@ public class UserEventChargeDailyHandler implements IUserEventHandler{
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
 							.getInstance().getById(ActivityDailyCountTypeEnum.ChargeDaily.getCfgId()));
-					
-					if(isBetweendays){
+					boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
+					if(isBetweendays&&isLevelEnough){
 						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.ChargeDaily,Integer.parseInt(params.toString()));	
 						
 					}

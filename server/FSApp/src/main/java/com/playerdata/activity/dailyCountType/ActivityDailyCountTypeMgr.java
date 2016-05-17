@@ -103,19 +103,12 @@ public class ActivityDailyCountTypeMgr {
 	}
 	private void checkNewOpen(Player player) {
 		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-		List<ActivityDailyCountTypeCfg> allCfgList = ActivityDailyCountTypeCfgDAO.getInstance().getAllCfg();
-		
-		if(allCfgList == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
-			return;			
-		}
-		
-		if(allCfgList.size() != 1){
-			GameLog.error("activityDailyCountTypeMgr", "list", "同时存在多个每日活动" + allCfgList.size());
+		ActivityDailyCountTypeCfg activityCountTypeCfg = getparentCfg();
+		if(activityCountTypeCfg == null){
+			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 			return;
 		}
 		
-		ActivityDailyCountTypeCfg activityCountTypeCfg = allCfgList.get(0);
 		if(!isOpen(activityCountTypeCfg)){
 			//活动未开启
 			return ;
@@ -127,7 +120,21 @@ public class ActivityDailyCountTypeMgr {
 			dataHolder.addItem(player, targetItem);
 		}
 	}
-
+	
+	public ActivityDailyCountTypeCfg getparentCfg(){
+		List<ActivityDailyCountTypeCfg> allCfgList = ActivityDailyCountTypeCfgDAO.getInstance().getAllCfg();		
+		if(allCfgList == null){
+			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
+			return null;			
+		}		
+		if(allCfgList.size() != 1){
+			GameLog.error("activityDailyCountTypeMgr", "list", "同时存在多个每日活动" + allCfgList.size());
+			return null;
+		}		
+		ActivityDailyCountTypeCfg activityCountTypeCfg = allCfgList.get(0);		
+		return activityCountTypeCfg;
+	}
+	
 
 	private void checkClose(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
@@ -188,11 +195,25 @@ public class ActivityDailyCountTypeMgr {
 		return false;
 	}
 	
-	public boolean isOpen(ActivityDailyCountTypeSubCfg activityCountTypeCfg) {
-
-		if (activityCountTypeCfg != null) {
-			long startTime = activityCountTypeCfg.getStartTime();
-			long endTime = activityCountTypeCfg.getEndTime();
+	public boolean isLevelEnough(Player player) {
+		ActivityDailyCountTypeCfg activityCountTypeCfg = getparentCfg();
+		if(activityCountTypeCfg == null){
+			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
+			return false;
+		}
+		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+			return false;
+		}		
+		return false;
+	}
+	
+	public boolean isOpen(ActivityDailyCountTypeSubCfg activityCountTypesubCfg) {
+		
+		
+		if (activityCountTypesubCfg != null) {
+			
+			long startTime = activityCountTypesubCfg.getStartTime();
+			long endTime = activityCountTypesubCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
 			return currentTime < endTime && currentTime > startTime;
 		}
