@@ -79,7 +79,7 @@ public class ActivityCountTypeMgr {
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityCountTypeItem> addItemList = null;
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(activityCountTypeCfg)) {
+			if (!isOpen(player,activityCountTypeCfg)) {
 				// 活动未开启
 				continue;
 			}
@@ -156,9 +156,12 @@ public class ActivityCountTypeMgr {
 		return currentTime > endTime;
 	}
 
-	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
+	public boolean isOpen(Player player,ActivityCountTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
+			if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+				return false;
+			}
 			long startTime = activityCountTypeCfg.getStartTime();
 			long endTime = activityCountTypeCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();

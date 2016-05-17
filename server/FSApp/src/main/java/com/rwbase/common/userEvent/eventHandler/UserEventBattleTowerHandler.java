@@ -28,7 +28,7 @@ private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleT
 			@Override
 			public void doAction(Player player, Object params) {
 				/**活动是否开启*/
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.BattleTower.getCfgId()));
+				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.BattleTower.getCfgId()));
 				
 				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 				
