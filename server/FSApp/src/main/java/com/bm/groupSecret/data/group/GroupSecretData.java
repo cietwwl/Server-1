@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -20,13 +21,14 @@ public class GroupSecretData {
 	//秘境的主人
 	private String ownerId;
 
-	private GroupSecretBaseData groupSecretBaseData;
+	private GroupSecretBaseData groupSecretBaseData = new GroupSecretBaseData();
 	
-	private GroupSecretReward groupSecretReward;
+	private GroupSecretReward groupSecretReward = new GroupSecretReward();
 	
-	private GroupSecretDefData groupSecretDefData;
+	private GroupSecretDefData groupSecretDefData = new GroupSecretDefData();
 	
 	//邀请的用户id列表
+	@IgnoreSynField
 	private List<String> invitedUserIdList;
 	
 	//参与驻守的用户Id列表
@@ -34,6 +36,9 @@ public class GroupSecretData {
 	
 	//秘境开启时间
 	private long startTime;
+	
+	@IgnoreSynField
+	private int defLogNo = 1;
 
 	public String getId() {
 		return id;
