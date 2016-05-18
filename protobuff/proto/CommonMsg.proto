@@ -8,3 +8,8 @@ message CommonMsgResponse {
 	optional string message = 2;
 	required ErrorService.ErrorType error = 3 ;
 }
+
+message RewardInfo{
+	required string rewardId = 1;//奖励的物品Id
+	required int32 rewardCount = 2;//奖励的数量
+}

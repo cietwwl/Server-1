@@ -2,6 +2,8 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "ItemBagProtos";
 
+import "CommonMsg.proto";
+
 enum EItemBagEventType {
 	ItemBag_Index = 0;//请求全部背包列表
 	ItemBag_Compose = 1;//合成
@@ -103,4 +105,5 @@ message MsgItemBagResponse {
 	required EItemBagEventType eventType = 1;
 	repeated TagItemData itemSyncDatas = 2;
 	optional ResponseInfo rspInfo = 3;//协议处理的响应状态
+	repeated RewardInfo rewardInfo = 4;//通用奖励的信息
 }

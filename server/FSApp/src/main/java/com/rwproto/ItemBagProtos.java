@@ -6950,6 +6950,51 @@ public final class ItemBagProtos {
      * </pre>
      */
     com.rwproto.ItemBagProtos.ResponseInfoOrBuilder getRspInfoOrBuilder();
+
+    // repeated .RewardInfo rewardInfo = 4;
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> 
+        getRewardInfoList();
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    com.rwproto.CommonMsgProtos.RewardInfo getRewardInfo(int index);
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    int getRewardInfoCount();
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+        getRewardInfoOrBuilderList();
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    com.rwproto.CommonMsgProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code MsgItemBagResponse}
@@ -7034,6 +7079,14 @@ public final class ItemBagProtos {
               bitField0_ |= 0x00000002;
               break;
             }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                rewardInfo_ = new java.util.ArrayList<com.rwproto.CommonMsgProtos.RewardInfo>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              rewardInfo_.add(input.readMessage(com.rwproto.CommonMsgProtos.RewardInfo.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7044,6 +7097,9 @@ public final class ItemBagProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           itemSyncDatas_ = java.util.Collections.unmodifiableList(itemSyncDatas_);
+        }
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          rewardInfo_ = java.util.Collections.unmodifiableList(rewardInfo_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -7163,10 +7219,67 @@ public final class ItemBagProtos {
       return rspInfo_;
     }
 
+    // repeated .RewardInfo rewardInfo = 4;
+    public static final int REWARDINFO_FIELD_NUMBER = 4;
+    private java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> rewardInfo_;
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    public java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> getRewardInfoList() {
+      return rewardInfo_;
+    }
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+        getRewardInfoOrBuilderList() {
+      return rewardInfo_;
+    }
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    public int getRewardInfoCount() {
+      return rewardInfo_.size();
+    }
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    public com.rwproto.CommonMsgProtos.RewardInfo getRewardInfo(int index) {
+      return rewardInfo_.get(index);
+    }
+    /**
+     * <code>repeated .RewardInfo rewardInfo = 4;</code>
+     *
+     * <pre>
+     *通用奖励的信息
+     * </pre>
+     */
+    public com.rwproto.CommonMsgProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
+        int index) {
+      return rewardInfo_.get(index);
+    }
+
     private void initFields() {
       eventType_ = com.rwproto.ItemBagProtos.EItemBagEventType.ItemBag_Index;
       itemSyncDatas_ = java.util.Collections.emptyList();
       rspInfo_ = com.rwproto.ItemBagProtos.ResponseInfo.getDefaultInstance();
+      rewardInfo_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7189,6 +7302,12 @@ public final class ItemBagProtos {
           return false;
         }
       }
+      for (int i = 0; i < getRewardInfoCount(); i++) {
+        if (!getRewardInfo(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -7204,6 +7323,9 @@ public final class ItemBagProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(3, rspInfo_);
+      }
+      for (int i = 0; i < rewardInfo_.size(); i++) {
+        output.writeMessage(4, rewardInfo_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -7225,6 +7347,10 @@ public final class ItemBagProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, rspInfo_);
+      }
+      for (int i = 0; i < rewardInfo_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, rewardInfo_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7336,6 +7462,7 @@ public final class ItemBagProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getItemSyncDatasFieldBuilder();
           getRspInfoFieldBuilder();
+          getRewardInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -7358,6 +7485,12 @@ public final class ItemBagProtos {
           rspInfoBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (rewardInfoBuilder_ == null) {
+          rewardInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          rewardInfoBuilder_.clear();
+        }
         return this;
       }
 
@@ -7407,6 +7540,15 @@ public final class ItemBagProtos {
         } else {
           result.rspInfo_ = rspInfoBuilder_.build();
         }
+        if (rewardInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            rewardInfo_ = java.util.Collections.unmodifiableList(rewardInfo_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.rewardInfo_ = rewardInfo_;
+        } else {
+          result.rewardInfo_ = rewardInfoBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7455,6 +7597,32 @@ public final class ItemBagProtos {
         if (other.hasRspInfo()) {
           mergeRspInfo(other.getRspInfo());
         }
+        if (rewardInfoBuilder_ == null) {
+          if (!other.rewardInfo_.isEmpty()) {
+            if (rewardInfo_.isEmpty()) {
+              rewardInfo_ = other.rewardInfo_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureRewardInfoIsMutable();
+              rewardInfo_.addAll(other.rewardInfo_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.rewardInfo_.isEmpty()) {
+            if (rewardInfoBuilder_.isEmpty()) {
+              rewardInfoBuilder_.dispose();
+              rewardInfoBuilder_ = null;
+              rewardInfo_ = other.rewardInfo_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              rewardInfoBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRewardInfoFieldBuilder() : null;
+            } else {
+              rewardInfoBuilder_.addAllMessages(other.rewardInfo_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -7472,6 +7640,12 @@ public final class ItemBagProtos {
         }
         if (hasRspInfo()) {
           if (!getRspInfo().isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getRewardInfoCount(); i++) {
+          if (!getRewardInfo(i).isInitialized()) {
             
             return false;
           }
@@ -7927,6 +8101,318 @@ public final class ItemBagProtos {
         return rspInfoBuilder_;
       }
 
+      // repeated .RewardInfo rewardInfo = 4;
+      private java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> rewardInfo_ =
+        java.util.Collections.emptyList();
+      private void ensureRewardInfoIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          rewardInfo_ = new java.util.ArrayList<com.rwproto.CommonMsgProtos.RewardInfo>(rewardInfo_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.CommonMsgProtos.RewardInfo, com.rwproto.CommonMsgProtos.RewardInfo.Builder, com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> rewardInfoBuilder_;
+
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> getRewardInfoList() {
+        if (rewardInfoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rewardInfo_);
+        } else {
+          return rewardInfoBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public int getRewardInfoCount() {
+        if (rewardInfoBuilder_ == null) {
+          return rewardInfo_.size();
+        } else {
+          return rewardInfoBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public com.rwproto.CommonMsgProtos.RewardInfo getRewardInfo(int index) {
+        if (rewardInfoBuilder_ == null) {
+          return rewardInfo_.get(index);
+        } else {
+          return rewardInfoBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder setRewardInfo(
+          int index, com.rwproto.CommonMsgProtos.RewardInfo value) {
+        if (rewardInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardInfoIsMutable();
+          rewardInfo_.set(index, value);
+          onChanged();
+        } else {
+          rewardInfoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder setRewardInfo(
+          int index, com.rwproto.CommonMsgProtos.RewardInfo.Builder builderForValue) {
+        if (rewardInfoBuilder_ == null) {
+          ensureRewardInfoIsMutable();
+          rewardInfo_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardInfoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder addRewardInfo(com.rwproto.CommonMsgProtos.RewardInfo value) {
+        if (rewardInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardInfoIsMutable();
+          rewardInfo_.add(value);
+          onChanged();
+        } else {
+          rewardInfoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder addRewardInfo(
+          int index, com.rwproto.CommonMsgProtos.RewardInfo value) {
+        if (rewardInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardInfoIsMutable();
+          rewardInfo_.add(index, value);
+          onChanged();
+        } else {
+          rewardInfoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder addRewardInfo(
+          com.rwproto.CommonMsgProtos.RewardInfo.Builder builderForValue) {
+        if (rewardInfoBuilder_ == null) {
+          ensureRewardInfoIsMutable();
+          rewardInfo_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rewardInfoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder addRewardInfo(
+          int index, com.rwproto.CommonMsgProtos.RewardInfo.Builder builderForValue) {
+        if (rewardInfoBuilder_ == null) {
+          ensureRewardInfoIsMutable();
+          rewardInfo_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardInfoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder addAllRewardInfo(
+          java.lang.Iterable<? extends com.rwproto.CommonMsgProtos.RewardInfo> values) {
+        if (rewardInfoBuilder_ == null) {
+          ensureRewardInfoIsMutable();
+          super.addAll(values, rewardInfo_);
+          onChanged();
+        } else {
+          rewardInfoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder clearRewardInfo() {
+        if (rewardInfoBuilder_ == null) {
+          rewardInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          rewardInfoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public Builder removeRewardInfo(int index) {
+        if (rewardInfoBuilder_ == null) {
+          ensureRewardInfoIsMutable();
+          rewardInfo_.remove(index);
+          onChanged();
+        } else {
+          rewardInfoBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public com.rwproto.CommonMsgProtos.RewardInfo.Builder getRewardInfoBuilder(
+          int index) {
+        return getRewardInfoFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public com.rwproto.CommonMsgProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
+          int index) {
+        if (rewardInfoBuilder_ == null) {
+          return rewardInfo_.get(index);  } else {
+          return rewardInfoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+           getRewardInfoOrBuilderList() {
+        if (rewardInfoBuilder_ != null) {
+          return rewardInfoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rewardInfo_);
+        }
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public com.rwproto.CommonMsgProtos.RewardInfo.Builder addRewardInfoBuilder() {
+        return getRewardInfoFieldBuilder().addBuilder(
+            com.rwproto.CommonMsgProtos.RewardInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public com.rwproto.CommonMsgProtos.RewardInfo.Builder addRewardInfoBuilder(
+          int index) {
+        return getRewardInfoFieldBuilder().addBuilder(
+            index, com.rwproto.CommonMsgProtos.RewardInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RewardInfo rewardInfo = 4;</code>
+       *
+       * <pre>
+       *通用奖励的信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.CommonMsgProtos.RewardInfo.Builder> 
+           getRewardInfoBuilderList() {
+        return getRewardInfoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.CommonMsgProtos.RewardInfo, com.rwproto.CommonMsgProtos.RewardInfo.Builder, com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+          getRewardInfoFieldBuilder() {
+        if (rewardInfoBuilder_ == null) {
+          rewardInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.CommonMsgProtos.RewardInfo, com.rwproto.CommonMsgProtos.RewardInfo.Builder, com.rwproto.CommonMsgProtos.RewardInfoOrBuilder>(
+                  rewardInfo_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          rewardInfo_ = null;
+        }
+        return rewardInfoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgItemBagResponse)
     }
 
@@ -7987,47 +8473,48 @@ public final class ItemBagProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rItemBag.proto\"4\n\020TagItemAttriData\022\016\n\006A" +
-      "ttrId\030\001 \002(\005\022\020\n\010AttValue\030\002 \002(\t\"2\n\nTagComp" +
-      "ose\022\016\n\006mateId\030\001 \001(\005\022\024\n\014composeCount\030\002 \001(" +
-      "\005\"b\n\013TagItemData\022\017\n\007modelId\030\001 \002(\005\022\r\n\005cou" +
-      "nt\030\002 \002(\005\022\014\n\004dbId\030\003 \002(\t\022%\n\nExtendAttr\030\004 \003" +
-      "(\0132\021.TagItemAttriData\"*\n\013UseItemInfo\022\014\n\004" +
-      "dbId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005\"-\n\013BuyItemInfo" +
-      "\022\017\n\007modelId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005\"/\n\014Resp" +
-      "onseInfo\022\017\n\007success\030\001 \002(\010\022\016\n\006tipMsg\030\002 \002(" +
-      "\t\"\306\001\n\021MsgItemBagRequest\022\'\n\013requestType\030\001",
-      " \002(\0162\022.EItemBagEventType\022$\n\016itemUpdateDa" +
-      "ta\030\002 \003(\0132\014.TagItemData\022\034\n\007compose\030\003 \003(\0132" +
-      "\013.TagCompose\022!\n\013useItemInfo\030\004 \001(\0132\014.UseI" +
-      "temInfo\022!\n\013buyItemInfo\030\005 \001(\0132\014.BuyItemIn" +
-      "fo\"\200\001\n\022MsgItemBagResponse\022%\n\teventType\030\001" +
-      " \002(\0162\022.EItemBagEventType\022#\n\ritemSyncData" +
-      "s\030\002 \003(\0132\014.TagItemData\022\036\n\007rspInfo\030\003 \001(\0132\r" +
-      ".ResponseInfo*\321\001\n\021EItemBagEventType\022\021\n\rI" +
-      "temBag_Index\020\000\022\023\n\017ItemBag_Compose\020\001\022\017\n\013I" +
-      "temBag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003\022\020\n\014ItemBa",
-      "g_Drop\020\004\022\020\n\014ItemBag_Sync\020\005\022\013\n\007UseItem\020\006\022" +
-      "!\n\035ItemBag_MagicWeapon_Decompose\020\007\022\035\n\031It" +
-      "emBag_MagicForgeMat_Buy\020\010*\267\001\n\014EItemTypeD" +
-      "ef\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRoleEquip\020\001\022\r\n\t" +
-      "HeroEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005Piece\020\004\022\t\n\005M" +
-      "agic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003Gem\020\007\022\013\n\007Cons" +
-      "ume\020\010\022\r\n\tSoulStone\020\t\022\014\n\010HeroItem\020\n\022\017\n\013Sp" +
-      "ecialItem\020\013*\323\002\n\016ConsumeTypeDef\022\025\n\021Consum" +
-      "e_RoleEquip\020\001\022\021\n\rConsume_Magic\020\002\022\023\n\017Cons" +
-      "ume_Fashion\020\003\022\025\n\021Consume_HeroEquip\020\004\022\027\n\023",
-      "Consume_Magic_Piece\020\005\022\027\n\023Consume_EquipSc" +
-      "roll\020\006\022\025\n\021Consume_SoulStone\020\007\022\017\n\013Consume" +
-      "_Gem\020\010\022\032\n\026Consume_EquipEhanceMat\020\t\022\031\n\025Co" +
-      "nsume_MagicForgeMat\020\n\022\023\n\017Consume_ExpItem" +
-      "\020\013\022\026\n\022Consume_AttachSoul\020\014\022\025\n\021Consume_Po" +
-      "werItem\020\r\022\026\n\022Consume_ScanTicket\020\016*\227\001\n\022EI" +
-      "temAttributeType\022\r\n\tMagic_Exp\020\001\022\017\n\013Magic" +
-      "_Level\020\002\022\017\n\013Magic_State\020\003\022\017\n\013Equip_Level" +
-      "\020\004\022\023\n\017Equip_AttachExp\020\005\022\025\n\021Equip_AttachL" +
-      "evel\020\006\022\023\n\017Magic_Total_Exp\020\007B\034\n\013com.rwpro",
-      "toB\rItemBagProtos"
+      "\n\rItemBag.proto\032\017CommonMsg.proto\"4\n\020TagI" +
+      "temAttriData\022\016\n\006AttrId\030\001 \002(\005\022\020\n\010AttValue" +
+      "\030\002 \002(\t\"2\n\nTagCompose\022\016\n\006mateId\030\001 \001(\005\022\024\n\014" +
+      "composeCount\030\002 \001(\005\"b\n\013TagItemData\022\017\n\007mod" +
+      "elId\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\022\014\n\004dbId\030\003 \002(\t\022" +
+      "%\n\nExtendAttr\030\004 \003(\0132\021.TagItemAttriData\"*" +
+      "\n\013UseItemInfo\022\014\n\004dbId\030\001 \002(\t\022\r\n\005count\030\002 \002" +
+      "(\005\"-\n\013BuyItemInfo\022\017\n\007modelId\030\001 \002(\t\022\r\n\005co" +
+      "unt\030\002 \002(\005\"/\n\014ResponseInfo\022\017\n\007success\030\001 \002" +
+      "(\010\022\016\n\006tipMsg\030\002 \002(\t\"\306\001\n\021MsgItemBagRequest",
+      "\022\'\n\013requestType\030\001 \002(\0162\022.EItemBagEventTyp" +
+      "e\022$\n\016itemUpdateData\030\002 \003(\0132\014.TagItemData\022" +
+      "\034\n\007compose\030\003 \003(\0132\013.TagCompose\022!\n\013useItem" +
+      "Info\030\004 \001(\0132\014.UseItemInfo\022!\n\013buyItemInfo\030" +
+      "\005 \001(\0132\014.BuyItemInfo\"\241\001\n\022MsgItemBagRespon" +
+      "se\022%\n\teventType\030\001 \002(\0162\022.EItemBagEventTyp" +
+      "e\022#\n\ritemSyncDatas\030\002 \003(\0132\014.TagItemData\022\036" +
+      "\n\007rspInfo\030\003 \001(\0132\r.ResponseInfo\022\037\n\nreward" +
+      "Info\030\004 \003(\0132\013.RewardInfo*\321\001\n\021EItemBagEven" +
+      "tType\022\021\n\rItemBag_Index\020\000\022\023\n\017ItemBag_Comp",
+      "ose\020\001\022\017\n\013ItemBag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003" +
+      "\022\020\n\014ItemBag_Drop\020\004\022\020\n\014ItemBag_Sync\020\005\022\013\n\007" +
+      "UseItem\020\006\022!\n\035ItemBag_MagicWeapon_Decompo" +
+      "se\020\007\022\035\n\031ItemBag_MagicForgeMat_Buy\020\010*\267\001\n\014" +
+      "EItemTypeDef\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRoleE" +
+      "quip\020\001\022\r\n\tHeroEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005Pi" +
+      "ece\020\004\022\t\n\005Magic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003Gem" +
+      "\020\007\022\013\n\007Consume\020\010\022\r\n\tSoulStone\020\t\022\014\n\010HeroIt" +
+      "em\020\n\022\017\n\013SpecialItem\020\013*\323\002\n\016ConsumeTypeDef" +
+      "\022\025\n\021Consume_RoleEquip\020\001\022\021\n\rConsume_Magic",
+      "\020\002\022\023\n\017Consume_Fashion\020\003\022\025\n\021Consume_HeroE" +
+      "quip\020\004\022\027\n\023Consume_Magic_Piece\020\005\022\027\n\023Consu" +
+      "me_EquipScroll\020\006\022\025\n\021Consume_SoulStone\020\007\022" +
+      "\017\n\013Consume_Gem\020\010\022\032\n\026Consume_EquipEhanceM" +
+      "at\020\t\022\031\n\025Consume_MagicForgeMat\020\n\022\023\n\017Consu" +
+      "me_ExpItem\020\013\022\026\n\022Consume_AttachSoul\020\014\022\025\n\021" +
+      "Consume_PowerItem\020\r\022\026\n\022Consume_ScanTicke" +
+      "t\020\016*\227\001\n\022EItemAttributeType\022\r\n\tMagic_Exp\020" +
+      "\001\022\017\n\013Magic_Level\020\002\022\017\n\013Magic_State\020\003\022\017\n\013E" +
+      "quip_Level\020\004\022\023\n\017Equip_AttachExp\020\005\022\025\n\021Equ",
+      "ip_AttachLevel\020\006\022\023\n\017Magic_Total_Exp\020\007B\034\n" +
+      "\013com.rwprotoB\rItemBagProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8081,13 +8568,14 @@ public final class ItemBagProtos {
           internal_static_MsgItemBagResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgItemBagResponse_descriptor,
-              new java.lang.String[] { "EventType", "ItemSyncDatas", "RspInfo", });
+              new java.lang.String[] { "EventType", "ItemSyncDatas", "RspInfo", "RewardInfo", });
           return null;
         }
       };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.CommonMsgProtos.getDescriptor(),
         }, assigner);
   }
 
