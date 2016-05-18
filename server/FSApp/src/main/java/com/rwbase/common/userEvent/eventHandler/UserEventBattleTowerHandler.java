@@ -28,14 +28,14 @@ private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleT
 			@Override
 			public void doAction(Player player, Object params) {
 				/**活动是否开启*/
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.BattleTower.getCfgId()));
-				
+				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.BattleTower.getCfgId()));
+				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.BattleTower.getCfgId()));
 				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 				
 				ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), ActivityCountTypeEnum.BattleTower);
 				//试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
 				int addcount = Integer.parseInt(params.toString()) - dataItem.getCount();
-				if(addcount > 0&&isBetweendays){
+				if(addcount > 0&&isBetweendays&&isLevelEnough){
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.BattleTower,addcount);	
 					}
 				}

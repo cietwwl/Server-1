@@ -79,7 +79,7 @@ public class ActivityCountTypeMgr {
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityCountTypeItem> addItemList = null;
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(player,activityCountTypeCfg)) {
+			if (!isOpen(activityCountTypeCfg)) {
 				// 活动未开启
 				continue;
 			}
@@ -156,18 +156,25 @@ public class ActivityCountTypeMgr {
 		return currentTime > endTime;
 	}
 
-	public boolean isOpen(Player player,ActivityCountTypeCfg activityCountTypeCfg) {
+	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
-			if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
-				return false;
-			}
+//			if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+//				return false;
+//			}
 			long startTime = activityCountTypeCfg.getStartTime();
 			long endTime = activityCountTypeCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
 			return currentTime < endTime && currentTime > startTime;
 		}
 		return false;
+	}
+	
+	public boolean isLevelEnough(Player player, ActivityCountTypeCfg cfgById) {
+		if(player.getLevel() < cfgById.getLevelLimit()){
+			return false;
+		}
+		return true;
 	}
 
 	public void addCount(Player player, ActivityCountTypeEnum countType, int countadd) {
@@ -216,5 +223,7 @@ public class ActivityCountTypeMgr {
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
 
 	}
+
+	
 
 }

@@ -23,9 +23,9 @@ public class UserEventGambleCoinHandler implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleCoin.getCfgId()));
-				
-				if(isBetweendays){					
+				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleCoin.getCfgId()));
+				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleCoin.getCfgId()));
+				if(isBetweendays&&isLevelEnough){					
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.GambleCoin,Integer.parseInt(params.toString()));	
 					}
 				}
