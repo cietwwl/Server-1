@@ -6,7 +6,9 @@ public interface AttrDataIF {
 
 	public int getEnergy();
 
-	public int getAttack();
+	public int getPhysiqueAttack();
+	
+	public int getSpiritAttack();
 
 	public int getPhysiqueDef();
 

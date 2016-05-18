@@ -50,10 +50,17 @@ public enum AttributeType implements TypeIdentification {
 		}
 	},
 	/** 攻击.. */
-	ATTACK(5, "attack", false, -1) {
+	PHYSIQUE_ATTACK(5, "physiqueAttack", false, -1) {
 		@Override
 		public void setAttributeValue(Builder builder, int value) {
-			builder.setAttack(value);
+			builder.setPhysiqueAttack(value);
+		}
+	},
+	/** 攻击.. */
+	SPIRIT_ATTACK(23, "spiritAttack", false, -1) {
+		@Override
+		public void setAttributeValue(Builder builder, int value) {
+			builder.setSpiritAttack(value);
 		}
 	},
 	/** 体魄防御... */
@@ -174,8 +181,6 @@ public enum AttributeType implements TypeIdentification {
 			builder.setMoveSpeed(value / AttributeConst.BIG_FLOAT);
 		}
 	},
-	// /** 伤害增加 */
-	// ATTACK_HURT_ADD(23),
 	/** 伤害减免 */
 	CUT_HURT(24, "cutHurt", false, -1) {
 		@Override

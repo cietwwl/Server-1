@@ -9,13 +9,15 @@ import com.common.BeanCopyer;
 import com.common.BeanOperationHelper;
 import com.common.IBeanNameFixAction;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwbase.common.attribute.AttributeConst;
 
 @SynClass
 public class AttrData implements AttrDataIF {
 
 	private int life; // 最大生命值...
 	private int energy; // 能量值...
-	private int attack; // 攻击...
+	private int physiqueAttack; // 物理攻击...
+	private int spiritAttack;// 魔法攻击...
 	private int physiqueDef; // 体魄防御...
 	private int spiritDef; // 精神防御...
 	private int attackVampire; // 攻击吸血...
@@ -50,21 +52,20 @@ public class AttrData implements AttrDataIF {
 	private float moveSpeed; // 移动速度...
 	private float attackHurt;// 攻击伤害
 	private float viewRange; // 视野范围
-
 	private float volumeRadius; // 人物半径
-
 	private float doHurt; // 硬直界限
 
 	public AttrData() {
 	}
 
-	public AttrData(int life, int energy, int attack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive, int energyReceive,
-			int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int attackGrowUp, int physicqueDefGrowUp,
-			int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight, float reactionTime, float attackDistance,
-			float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
+	public AttrData(int life, int energy, int physiqueAttack, int spiritAttack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive,
+			int energyReceive, int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int attackGrowUp,
+			int physicqueDefGrowUp, int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight, float reactionTime,
+			float attackDistance, float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
 		this.life = life;
 		this.energy = energy;
-		this.attack = attack;
+		this.physiqueAttack = physiqueAttack;
+		this.spiritAttack = spiritAttack;
 		this.physiqueDef = physiqueDef;
 		this.spiritDef = spiritDef;
 		this.attackVampire = attackVampire;
@@ -106,12 +107,12 @@ public class AttrData implements AttrDataIF {
 		if (target == null) {
 			return this;
 		}
-		BeanOperationHelper.addPercentObject(this, target, AttrDataHelper.DIVISION);
+		BeanOperationHelper.addPercentObject(this, target, AttributeConst.DIVISION);
 		return this;
 	}
 
 	public AttrData addPercent(int mutiNumber) {
-		BeanOperationHelper.addPercent(this, mutiNumber, AttrDataHelper.DIVISION);
+		BeanOperationHelper.addPercent(this, mutiNumber, AttributeConst.DIVISION);
 		return this;
 	}
 
@@ -198,8 +199,12 @@ public class AttrData implements AttrDataIF {
 		return energy;
 	}
 
-	public int getAttack() {
-		return attack;
+	public int getPhysiqueAttack() {
+		return physiqueAttack;
+	}
+
+	public int getSpiritAttack() {
+		return spiritAttack;
 	}
 
 	public int getPhysiqueDef() {
@@ -342,164 +347,161 @@ public class AttrData implements AttrDataIF {
 		return doHurt;
 	}
 
-	// TODO HC ////////////////////////////////////////////以后会删除掉
-
-	public void setLife(int life) {
-		this.life = life;
-	}
-
-	public void setEnergy(int energy) {
-		this.energy = energy;
-	}
-
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
-
-	public void setPhysiqueDef(int physiqueDef) {
-		this.physiqueDef = physiqueDef;
-	}
-
-	public void setSpiritDef(int spiritDef) {
-		this.spiritDef = spiritDef;
-	}
-
-	public void setAttackVampire(int attackVampire) {
-		this.attackVampire = attackVampire;
-	}
-
-	public void setCritical(int critical) {
-		this.critical = critical;
-	}
-
-	public void setCriticalHurt(int criticalHurt) {
-		this.criticalHurt = criticalHurt;
-	}
-
-	public void setToughness(int toughness) {
-		this.toughness = toughness;
-	}
-
-	public void setLifeReceive(int lifeReceive) {
-		this.lifeReceive = lifeReceive;
-	}
-
-	public void setEnergyReceive(int energyReceive) {
-		this.energyReceive = energyReceive;
-	}
-
-	public void setStruckEnergy(int struckEnergy) {
-		this.struckEnergy = struckEnergy;
-	}
-
-	public void setAttackEnergy(int attackEnergy) {
-		this.attackEnergy = attackEnergy;
-	}
-
-	public void setEnergyTrans(int energyTrans) {
-		this.energyTrans = energyTrans;
-	}
-
-	public void setCutHurt(int cutHurt) {
-		this.cutHurt = cutHurt;
-	}
-
-	public void setCutCritHurt(int cutCritHurt) {
-		this.cutCritHurt = cutCritHurt;
-	}
-
-	public void setResist(int resist) {
-		this.resist = resist;
-	}
-
-	public void setAddCure(int addCure) {
-		this.addCure = addCure;
-	}
-
-	public void setCutCure(int cutCure) {
-		this.cutCure = cutCure;
-	}
-
-	public void setLifeGrowUp(int lifeGrowUp) {
-		this.lifeGrowUp = lifeGrowUp;
-	}
-
-	public void setAttackGrowUp(int attackGrowUp) {
-		this.attackGrowUp = attackGrowUp;
-	}
-
-	public void setPhysicqueDefGrowUp(int physicqueDefGrowUp) {
-		this.physicqueDefGrowUp = physicqueDefGrowUp;
-	}
-
-	public void setSpiritDefGrowUp(int spiritDefGrowUp) {
-		this.spiritDefGrowUp = spiritDefGrowUp;
-	}
-
-	public void setEnchantExp(int enchantExp) {
-		this.enchantExp = enchantExp;
-	}
-
-	public void setSkillLevel(int skillLevel) {
-		this.skillLevel = skillLevel;
-	}
-
-	public void setAttackType(int attackType) {
-		this.attackType = attackType;
-	}
-
-	public void setDodge(int dodge) {
-		this.dodge = dodge;
-	}
-
-	public void setHit(int hit) {
-		this.hit = hit;
-	}
-
-	public void setEnergyPerSecond(int energyPerSecond) {
-		this.energyPerSecond = energyPerSecond;
-	}
-
-	public void setHardStraight(float hardStraight) {
-		this.hardStraight = hardStraight;
-	}
-
-	public void setReactionTime(float reactionTime) {
-		this.reactionTime = reactionTime;
-	}
-
-	public void setAttackDistance(float attackDistance) {
-		this.attackDistance = attackDistance;
-	}
-
-	public void setAttackSpeed(float attackSpeed) {
-		this.attackSpeed = attackSpeed;
-	}
-
-	public void setMoveSpeed(float moveSpeed) {
-		this.moveSpeed = moveSpeed;
-	}
-
-	public void setAttackHurt(float attackHurt) {
-		this.attackHurt = attackHurt;
-	}
-
-	public void setViewRange(float viewRange) {
-		this.viewRange = viewRange;
-	}
-
-	public void setVolumeRadius(float volumeRadius) {
-		this.volumeRadius = volumeRadius;
-	}
-
-	public void setDoHurt(float doHurt) {
-		this.doHurt = doHurt;
-	}
+	// // TODO HC ////////////////////////////////////////////以后会删除掉
+	//
+	// public void setLife(int life) {
+	// this.life = life;
+	// }
+	//
+	// public void setEnergy(int energy) {
+	// this.energy = energy;
+	// }
+	//
+	// public void setPhysiqueDef(int physiqueDef) {
+	// this.physiqueDef = physiqueDef;
+	// }
+	//
+	// public void setSpiritDef(int spiritDef) {
+	// this.spiritDef = spiritDef;
+	// }
+	//
+	// public void setAttackVampire(int attackVampire) {
+	// this.attackVampire = attackVampire;
+	// }
+	//
+	// public void setCritical(int critical) {
+	// this.critical = critical;
+	// }
+	//
+	// public void setCriticalHurt(int criticalHurt) {
+	// this.criticalHurt = criticalHurt;
+	// }
+	//
+	// public void setToughness(int toughness) {
+	// this.toughness = toughness;
+	// }
+	//
+	// public void setLifeReceive(int lifeReceive) {
+	// this.lifeReceive = lifeReceive;
+	// }
+	//
+	// public void setEnergyReceive(int energyReceive) {
+	// this.energyReceive = energyReceive;
+	// }
+	//
+	// public void setStruckEnergy(int struckEnergy) {
+	// this.struckEnergy = struckEnergy;
+	// }
+	//
+	// public void setAttackEnergy(int attackEnergy) {
+	// this.attackEnergy = attackEnergy;
+	// }
+	//
+	// public void setEnergyTrans(int energyTrans) {
+	// this.energyTrans = energyTrans;
+	// }
+	//
+	// public void setCutHurt(int cutHurt) {
+	// this.cutHurt = cutHurt;
+	// }
+	//
+	// public void setCutCritHurt(int cutCritHurt) {
+	// this.cutCritHurt = cutCritHurt;
+	// }
+	//
+	// public void setResist(int resist) {
+	// this.resist = resist;
+	// }
+	//
+	// public void setAddCure(int addCure) {
+	// this.addCure = addCure;
+	// }
+	//
+	// public void setCutCure(int cutCure) {
+	// this.cutCure = cutCure;
+	// }
+	//
+	// public void setLifeGrowUp(int lifeGrowUp) {
+	// this.lifeGrowUp = lifeGrowUp;
+	// }
+	//
+	// public void setAttackGrowUp(int attackGrowUp) {
+	// this.attackGrowUp = attackGrowUp;
+	// }
+	//
+	// public void setPhysicqueDefGrowUp(int physicqueDefGrowUp) {
+	// this.physicqueDefGrowUp = physicqueDefGrowUp;
+	// }
+	//
+	// public void setSpiritDefGrowUp(int spiritDefGrowUp) {
+	// this.spiritDefGrowUp = spiritDefGrowUp;
+	// }
+	//
+	// public void setEnchantExp(int enchantExp) {
+	// this.enchantExp = enchantExp;
+	// }
+	//
+	// public void setSkillLevel(int skillLevel) {
+	// this.skillLevel = skillLevel;
+	// }
+	//
+	// public void setAttackType(int attackType) {
+	// this.attackType = attackType;
+	// }
+	//
+	// public void setDodge(int dodge) {
+	// this.dodge = dodge;
+	// }
+	//
+	// public void setHit(int hit) {
+	// this.hit = hit;
+	// }
+	//
+	// public void setEnergyPerSecond(int energyPerSecond) {
+	// this.energyPerSecond = energyPerSecond;
+	// }
+	//
+	// public void setHardStraight(float hardStraight) {
+	// this.hardStraight = hardStraight;
+	// }
+	//
+	// public void setReactionTime(float reactionTime) {
+	// this.reactionTime = reactionTime;
+	// }
+	//
+	// public void setAttackDistance(float attackDistance) {
+	// this.attackDistance = attackDistance;
+	// }
+	//
+	// public void setAttackSpeed(float attackSpeed) {
+	// this.attackSpeed = attackSpeed;
+	// }
+	//
+	// public void setMoveSpeed(float moveSpeed) {
+	// this.moveSpeed = moveSpeed;
+	// }
+	//
+	// public void setAttackHurt(float attackHurt) {
+	// this.attackHurt = attackHurt;
+	// }
+	//
+	// public void setViewRange(float viewRange) {
+	// this.viewRange = viewRange;
+	// }
+	//
+	// public void setVolumeRadius(float volumeRadius) {
+	// this.volumeRadius = volumeRadius;
+	// }
+	//
+	// public void setDoHurt(float doHurt) {
+	// this.doHurt = doHurt;
+	// }
 
 	public static class Builder {
 		private int life; // 最大生命值...
 		private int energy; // 能量值...
-		private int attack; // 攻击...
+		private int physiqueAttack; // 物理攻击...
+		private int spiritAttack;// 魔法攻击...
 		private int physiqueDef; // 体魄防御...
 		private int spiritDef; // 精神防御...
 		private int attackVampire; // 攻击吸血...
@@ -547,8 +549,12 @@ public class AttrData implements AttrDataIF {
 			this.energy = energy;
 		}
 
-		public void setAttack(int attack) {
-			this.attack = attack;
+		public void setPhysiqueAttack(int physiqueAttack) {
+			this.physiqueAttack = physiqueAttack;
+		}
+
+		public void setSpiritAttack(int spiritAttack) {
+			this.spiritAttack = spiritAttack;
 		}
 
 		public void setPhysiqueDef(int physiqueDef) {
@@ -692,9 +698,9 @@ public class AttrData implements AttrDataIF {
 		}
 
 		public AttrData build() {
-			return new AttrData(life, energy, attack, physiqueDef, spiritDef, attackVampire, critical, criticalHurt, toughness, lifeReceive, energyReceive, struckEnergy, attackEnergy, energyTrans,
-					cutHurt, cutCritHurt, resist, addCure, cutCure, lifeGrowUp, attackGrowUp, physicqueDefGrowUp, spiritDefGrowUp, enchantExp, skillLevel, attackType, dodge, hit, energyPerSecond,
-					hardStraight, reactionTime, attackDistance, attackSpeed, moveSpeed, attackHurt, viewRange, volumeRadius, doHurt);
+			return new AttrData(life, energy, physiqueAttack, spiritAttack, physiqueDef, spiritDef, attackVampire, critical, criticalHurt, toughness, lifeReceive, energyReceive, struckEnergy,
+					attackEnergy, energyTrans, cutHurt, cutCritHurt, resist, addCure, cutCure, lifeGrowUp, attackGrowUp, physicqueDefGrowUp, spiritDefGrowUp, enchantExp, skillLevel, attackType,
+					dodge, hit, energyPerSecond, hardStraight, reactionTime, attackDistance, attackSpeed, moveSpeed, attackHurt, viewRange, volumeRadius, doHurt);
 		}
 	}
 }
