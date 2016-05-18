@@ -17,7 +17,6 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.rw.fsutil.util.DateUtils;
 
 public class ActivityCountTypeMgr {
 
@@ -160,12 +159,22 @@ public class ActivityCountTypeMgr {
 	public boolean isOpen(ActivityCountTypeCfg activityCountTypeCfg) {
 
 		if (activityCountTypeCfg != null) {
+//			if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+//				return false;
+//			}
 			long startTime = activityCountTypeCfg.getStartTime();
 			long endTime = activityCountTypeCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
 			return currentTime < endTime && currentTime > startTime;
 		}
 		return false;
+	}
+	
+	public boolean isLevelEnough(Player player, ActivityCountTypeCfg cfgById) {
+		if(player.getLevel() < cfgById.getLevelLimit()){
+			return false;
+		}
+		return true;
 	}
 
 	public void addCount(Player player, ActivityCountTypeEnum countType, int countadd) {
@@ -214,5 +223,7 @@ public class ActivityCountTypeMgr {
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
 
 	}
+
+	
 
 }

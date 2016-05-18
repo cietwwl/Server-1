@@ -180,7 +180,7 @@ public class PveHandler {
 	 * @return
 	 */
 	public int getRemainSeconds(Player player, long lastTime, long currentTime, int copyType) {
-		CopyEntryCfg entry = (CopyEntryCfg) CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
+		CopyEntryCfg entry = CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
 		if (entry == null) {
 			return 0;
 		}

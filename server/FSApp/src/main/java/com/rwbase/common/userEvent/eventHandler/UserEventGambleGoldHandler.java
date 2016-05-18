@@ -24,8 +24,8 @@ private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleT
 			@Override
 			public void doAction(Player player, Object params) {
 				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleGold.getCfgId()));
-				
-				if(isBetweendays){					
+				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleGold.getCfgId()));
+				if(isBetweendays&&isLevelEnough){					
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.GambleGold,Integer.parseInt(params.toString()));	
 					}
 				}

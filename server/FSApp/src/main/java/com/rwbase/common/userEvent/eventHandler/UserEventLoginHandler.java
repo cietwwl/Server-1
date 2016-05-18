@@ -29,6 +29,8 @@ public class UserEventLoginHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Login.getCfgId()));
+					boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Login.getCfgId()));
+					
 					/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
 					boolean isnewday = false;
 					if(StringUtils.equals(params+"","0")){//没有活动的登陆数据，首次登陆
@@ -38,7 +40,7 @@ public class UserEventLoginHandler implements IUserEventHandler{
 							isnewday = DateUtils.dayChanged(Long.parseLong(params.toString()));
 						}
 					}
-					if(isnewday&&isBetweendays){					
+					if(isnewday&&isBetweendays&&isLevelEnough){					
 						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login,1);	
 					}
 				}

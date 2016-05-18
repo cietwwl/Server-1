@@ -15,5 +15,5 @@ vip12,,true,true,,,
 vip13,,true,true,,,
 vip14,,true,true,,,
 vip15,,true,true,,,
-monthNormal,,,,,,
-monthVip,,,,,,
+monthNormal,,,,2,,
+monthVip,,,,2,2,2

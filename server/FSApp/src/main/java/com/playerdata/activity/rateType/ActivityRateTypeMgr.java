@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
@@ -25,17 +26,25 @@ public class ActivityRateTypeMgr {
 		ActivityRateTypeItemHolder.getInstance().synAllData(player);
 	}
 
+	/**判断是否活动开启以及玩家是否满足活动需求等级*/
 	public boolean isActivityOnGoing(Player player,
 			ActivityRateTypeEnum activityRateTypeEnum) {
-		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
+				ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
 				.getInstance();
-		if (activityRateTypeEnum != null) {
-			ActivityRateTypeItem targetItem = dataHolder.getItem(
-					player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动
-			return targetItem != null && !targetItem.isClosed();
-		} else {
-			GameLog.error("activityratetypemgr", "enmu为空", "没有找到对应活动类型");
+		if(activityRateTypeEnum == null){
 			return false;
+		}
+		String cfgId = activityRateTypeEnum.getCfgId();
+		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance().getCfgById(cfgId);		
+		if(cfgById == null){
+			
+			return false;
+		}
+				
+		{
+			ActivityRateTypeItem targetItem = dataHolder.getItem(
+					player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动			
+			return targetItem != null && !targetItem.isClosed()&&player.getLevel() >= cfgById.getLevelLimit();			
 		}
 	}
 
@@ -124,6 +133,11 @@ public class ActivityRateTypeMgr {
 		boolean isclose = false;
 		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance()
 				.getCfgById(ActivityRateTypeItem.getCfgId());
+		if(cfgById == null){
+			GameLog.error(LogModule.ComActivityRate, null, "通用活动找不到配置文件", null);
+			return true;
+		}
+		
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
 		long startTime = cfgById.getStartTime();

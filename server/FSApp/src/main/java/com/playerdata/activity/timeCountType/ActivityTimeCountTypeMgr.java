@@ -87,7 +87,10 @@ public class ActivityTimeCountTypeMgr {
 				List<ActivityTimeCountTypeSubItem> list = activityTimeCountTypeItem.getSubItemList();
 				for (ActivityTimeCountTypeSubItem subItem : list) {// 配置表里的每种奖励
 					ActivityTimeCountTypeSubCfg subItemCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
-
+					if(subItemCfg == null){
+						GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动找不到配置文件", null);
+						continue;
+					}					
 					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
 
 						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
@@ -108,7 +111,10 @@ public class ActivityTimeCountTypeMgr {
 	private boolean isClose(ActivityTimeCountTypeItem activityTimeCountTypeItem) {
 
 		ActivityTimeCountTypeCfg cfgById = ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(activityTimeCountTypeItem.getCfgId());
-
+		if(cfgById == null){
+			GameLog.error(LogModule.ComActivityTimeCount, null, "通用活动找不到配置文件", null);
+			return true;
+		}		
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
 
@@ -217,6 +223,10 @@ public class ActivityTimeCountTypeMgr {
 	private void takeGift(Player player, ActivityTimeCountTypeSubItem targetItem) {	
 		
 		ActivityTimeCountTypeSubCfg subCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
+		if(subCfg == null){
+			GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动找不到配置文件", null);
+			return;
+		}	
 		targetItem.setTaken(true);
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
 
