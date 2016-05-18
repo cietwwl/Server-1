@@ -1,4 +1,4 @@
-package com.rwbase.gameworld;
+package com.rw.fsutil.common;
 
 public interface TaskExceptionHandler {
 

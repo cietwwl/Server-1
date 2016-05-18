@@ -1,4 +1,4 @@
-package com.rw.fsutil.common;
+package com.rw.fsutil.concurrent;
 
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 

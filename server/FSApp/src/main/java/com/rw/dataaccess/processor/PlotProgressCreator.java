@@ -8,8 +8,8 @@ public class PlotProgressCreator implements DataExtensionCreator<UserPlotProgres
 	@Override
 	public UserPlotProgress create(String userId) {
 		UserPlotProgress userPlotProgress = new UserPlotProgress();
-//		userPlotProgress = new UserPlotProgress();
-//		userPlotProgress.setUserId(userId);
+		userPlotProgress = new UserPlotProgress();
+		userPlotProgress.setUserId(userId);
 //		/**
 //		 * <pre>
 //		 * 序章特殊剧情，当我创建完角色之后，登录数据推送完毕，我就直接把剧情设置一个假想值
