@@ -1,4 +1,4 @@
-key,Remarks,Id,BuffEffectId,DelayTime,LoopDuration,Tick,ActiveBuff,IsCancel,BuffValue,TriggerBuffId,AttackType,TargetType,EffectRange,Property,BuffRate,AbilityChange,fk1,fk2,fk3,fk4
+﻿key,Remarks,Id,BuffEffectId,DelayTime,LoopDuration,Tick,ActiveBuff,IsCancel,BuffValue,TriggerBuffId,AttackType,TargetType,EffectRange,Property,BuffRate,AbilityChange,fk1,fk2,fk3,fk4
 200001_1,,200001_1,200001,,3,,,,10,0,,,,,1,,,,,
 200002_1,,200002_1,200002,,4,1,,,10,0,,,,,1,,,,,
 200003_1,,200003_1,200003,,2,,,,10,0,,,,,1,,,,,
@@ -2267,8 +2267,8 @@ key,Remarks,Id,BuffEffectId,DelayTime,LoopDuration,Tick,ActiveBuff,IsCancel,Buff
 10201001_88,,10201001_88,10201001,,10,1,,,,0,,,,,1,cutcure:3304,,,,
 10201001_89,,10201001_89,10201001,,10,1,,,,0,,,,,1,cutcure:3340,,,,
 10201001_90,,10201001_90,10201001,,10,1,,,,0,,,,,1,cutcure:3377,,,,
-10201201,,10201201,10201201,,3,,,1,,0,,,,,1,,,,,
-10201202,,10201202,10201202,,3,,,1,,0,,,,,1,,,,,
+10201201,,10201201,10201201,,10,,,1,,0,,,,,1,,,,,
+10201202,,10201202,10201202,,10,,,1,,0,,,,,1,,,,,
 10201301_1,,10201301_1,10201301,,10,,,,,0,,,,,1,mdef:146,,,,
 10201301_2,,10201301_2,10201301,,10,,,,,0,,,,,1,mdef:182,,,,
 10201301_3,,10201301_3,10201301,,10,,,,,0,,,,,1,mdef:218,,,,
