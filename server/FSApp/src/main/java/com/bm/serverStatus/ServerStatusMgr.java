@@ -1,6 +1,7 @@
 package com.bm.serverStatus;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.print.attribute.standard.Severity;
 
@@ -25,6 +26,8 @@ public class ServerStatusMgr {
 	
 	private static ServerDataHolder dataHolder = new ServerDataHolder();
 	private static ServerGmEmailHolder mailHolder = new ServerGmEmailHolder();
+	
+	private static AtomicLong iSequenceNum = new AtomicLong(0);
 
 	public static ServerStatus getStatus() {
 		return status;
@@ -138,5 +141,9 @@ public class ServerStatusMgr {
 				EmailUtils.sendEmail(player.getUserId(), emailData);
 			}
 		}
+	}
+
+	public static long getiSequenceNum() {
+		return iSequenceNum.getAndIncrement();
 	}
 }

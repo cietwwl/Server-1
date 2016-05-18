@@ -126,6 +126,10 @@ public class Player implements PlayerIF {
 	private RedPointMgr redPointMgr = new RedPointMgr();
 
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
+	
+	//客户端管理工具
+	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
+	
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -1063,6 +1067,10 @@ public class Player implements PlayerIF {
 
 	public UpgradeMgr getUpgradeMgr() {
 		return upgradeMgr;
+	}
+	
+	public PlayerQuestionMgr getPlayerQuestionMgr(){
+		return playerQuestionMgr;
 	}
 
 	/**

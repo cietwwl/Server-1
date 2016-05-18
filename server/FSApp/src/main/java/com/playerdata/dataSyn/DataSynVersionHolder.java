@@ -12,6 +12,7 @@ import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
+import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.ReConnectionProtos.SyncVersion;
 
@@ -228,8 +229,15 @@ public class DataSynVersionHolder {
 
 		notInVersionControlList.add(notInVersionControlP);
 		
-		
-		
+		versionMap.put(eSynType.QuestionList, new PlayerDataMgr(new RecordSynchronization() {
+			
+			@Override
+			public void synAllData(Player player, int version) {
+				// TODO Auto-generated method stub
+				player.getPlayerQuestionMgr().sync(version);
+			}
+		}));
+		orderList.add(eSynType.QuestionList);
 		
 	}
 }
