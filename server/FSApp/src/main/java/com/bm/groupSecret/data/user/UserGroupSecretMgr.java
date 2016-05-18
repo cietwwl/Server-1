@@ -3,6 +3,7 @@ package com.bm.groupSecret.data.user;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.groupSecret.data.group.GroupSecretDataHolder;
 import com.bm.groupSecret.data.user.UserGroupSecretData;
 import com.bm.groupSecret.data.user.UserGroupSecretDataHolder;
 import com.playerdata.Player;
@@ -29,5 +30,13 @@ public class UserGroupSecretMgr {
 	
 	}
 	
+	public void synUserSecrets(Player player){
+		List<String> secretIdList = getUserSecretIds(player);
+		GroupSecretDataHolder.getInstance().synList(player, secretIdList);		
+	}
+	
+	public void synSingleSecret(Player player,String secretId){		
+		GroupSecretDataHolder.getInstance().synSingle(player, secretId);	
+	}
 	
 }
