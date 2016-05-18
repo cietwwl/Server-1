@@ -85,11 +85,20 @@ public class MapItemStoreFactory {
 
 	private static List<MapItemStoreCache> list;
 
+	private static boolean init = false;
+	
 	static {
 		init();
 	}
 
 	public static void init() {
+		synchronized (MapItemStoreFactory.class) {
+			if (init) {
+				return;
+			}else{
+				init = true;
+			}
+		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
 
 		// int playerCapacity = config.getPlayerCapacity();
