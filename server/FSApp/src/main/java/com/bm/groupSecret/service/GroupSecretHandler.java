@@ -1,23 +1,16 @@
 package com.bm.groupSecret.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.bm.groupSecret.GroupSecretBM;
 import com.bm.groupSecret.GroupSecretComResult;
 import com.bm.groupSecret.GroupSecretMgr;
 import com.bm.groupSecret.GroupSecretType;
-import com.bm.groupSecret.data.group.GroupSecretData;
 import com.bm.groupSecret.data.user.UserGroupSecretMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwproto.GroupSecretProto.CommonReqMsg;
 import com.rwproto.GroupSecretProto.CommonRspMsg;
 import com.rwproto.GroupSecretProto.GetDefRewardMsg;
-import com.rwproto.GroupSecretProto.GetUserSecretsRspMsg;
 import com.rwproto.GroupSecretProto.OpenReqMsg;
-import com.rwproto.GroupSecretProto.OpenSecretRspMsg;
 
 public class GroupSecretHandler {
 	
@@ -31,27 +24,32 @@ public class GroupSecretHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		List<String> secretDataList = new ArrayList<String>();
-		
-		List<String> userSecretIds = UserGroupSecretMgr.getInstance().getUserSecretIds(player);
-		for (String secretId : userSecretIds) {
-			GroupSecretMgr secretMgr = GroupSecretBM.getInstance().getSecret(secretId);
-			if(secretMgr!=null){
-				GroupSecretData secretData = secretMgr.getSecretData();
-				if(secretData!=null){					
-					secretDataList.add(ClientDataSynMgr.toClientData(secretData));
-				}
-			}
-		}
-		
-		GetUserSecretsRspMsg getUserSecretsRspMsg = GetUserSecretsRspMsg.newBuilder().addAllGroupSecretData(secretDataList).build();
-		response.setGetUserSecretsRspMsg(getUserSecretsRspMsg);
+		UserGroupSecretMgr.getInstance().synUserSecrets(player);
 		
 		response.setIsSuccess(true);
 		response.setTipMsg("");
 		return response.build().toByteString();
 	}
 	
+//	private GroupSecretDataJson buildGroupSecretDataJson(GroupSecretMgr secretMgr) {
+//
+//		GroupSecretDataJson data = null;
+//		GroupSecretData secretData = secretMgr.getSecretData();
+//		if(secretData!=null){			
+//			Builder dataBuilder = GroupSecretDataJson.newBuilder().setGroupSecretData(ClientDataSynMgr.toClientData(secretData));
+//			
+//			List<GroupSecretDefLog> defLogList = secretMgr.getDefLogList();
+//			for (GroupSecretDefLog groupSecretDefLog : defLogList) {
+//				dataBuilder.addGroupSecretDefLogData(ClientDataSynMgr.toClientData(groupSecretDefLog));
+//			}
+//			
+//			data = dataBuilder.build();
+//		}
+//		
+//		
+//		return data;
+//	}
+
 	public ByteString openSecret(Player player, CommonReqMsg commonReq) {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
@@ -62,11 +60,9 @@ public class GroupSecretHandler {
 		GroupSecretType groupSecretType = GroupSecretType.valueOf(typeOrdinal);
 		
 		GroupSecretMgr secretMgr = GroupSecretBM.getInstance().openSecret(player, groupSecretType);
+		
 		if(secretMgr!=null){
-			String clientData = ClientDataSynMgr.toClientData(secretMgr.getSecretData());
-			OpenSecretRspMsg openSecretRspMsg = OpenSecretRspMsg.newBuilder().setGroupSecretData(clientData).build();
-			response.setOpenSecretRspMsg( openSecretRspMsg );
-			
+			secretMgr.synToClient(player);
 			response.setIsSuccess(true);
 			
 		}else{
@@ -82,10 +78,18 @@ public class GroupSecretHandler {
 		String secretId = commonReq.getGetSecretRewardMsg().getSecretId();
 		GroupSecretMgr secretMgr = GroupSecretBM.getInstance().getSecret(secretId);
 		
-		GroupSecretComResult secretReward = secretMgr.getSecretReward(player);
+		if(secretMgr!=null){
+			GroupSecretComResult secretReward = secretMgr.getSecretReward(player);
+			secretMgr.synToClient(player);			
+			
+			response.setIsSuccess(secretReward.isSuccess());			
+			response.setTipMsg(secretReward.getReason());
+		}else{
+			response.setIsSuccess(false);			
+			response.setTipMsg("秘境不存在");
+			
+		}
 		
-		response.setIsSuccess(secretReward.isSuccess());			
-		response.setTipMsg(secretReward.getReason());
 		
 		return response.build().toByteString();
 	}
@@ -99,10 +103,16 @@ public class GroupSecretHandler {
 		
 		GroupSecretMgr secretMgr = GroupSecretBM.getInstance().getSecret(secretId);
 		
-		GroupSecretComResult secretReward = secretMgr.getDefReward(player, secretId, defLogId);
-		
-		response.setIsSuccess(secretReward.isSuccess());			
-		response.setTipMsg(secretReward.getReason());
+		if(secretMgr!=null){
+			GroupSecretComResult secretReward = secretMgr.getDefReward(player, secretId, defLogId);
+			secretMgr.synToClient(player);			
+			
+			response.setIsSuccess(secretReward.isSuccess());			
+			response.setTipMsg(secretReward.getReason());
+		}else{
+			response.setIsSuccess(false);			
+			response.setTipMsg("秘境不存在");
+		}
 		
 		return response.build().toByteString();
 	}

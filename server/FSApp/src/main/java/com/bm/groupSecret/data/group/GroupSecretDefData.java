@@ -13,8 +13,6 @@ import com.playerdata.dataSyn.annotation.SynClass;
 public class GroupSecretDefData {
 
 	private List<GroupSecretDeferInfo> deferInfoList = new ArrayList<GroupSecretDeferInfo>();
-	
-	private List<GroupSecretDefLog> defLogList = new ArrayList<GroupSecretDefLog>();
 
 	public List<GroupSecretDeferInfo> getDeferInfoList() {
 		return deferInfoList;
@@ -24,14 +22,6 @@ public class GroupSecretDefData {
 		this.deferInfoList = deferInfoList;
 	}
 
-	public List<GroupSecretDefLog> getDefLogList() {
-		return defLogList;
-	}
-
-	public void setDefLogList(List<GroupSecretDefLog> defLogList) {
-		this.defLogList = defLogList;
-	}
-	
 	
 	
 }
