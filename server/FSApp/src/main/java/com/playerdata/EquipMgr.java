@@ -121,7 +121,7 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 				equipItem.setExp(totalExp);
 				equipItemHolder.updateItem(m_pPlayer, equipItem);
 				
-				UserEventMgr.getInstance().attachDaily(m_pPlayer, pEquipAttachCfg.getId()-levelBeforeAttach);
+				UserEventMgr.getInstance().attachDaily(m_pPlayer, 1);//pEquipAttachCfg.getId()-levelBeforeAttach;1次附灵升70级也计数1
 			}
 			//
 			//
