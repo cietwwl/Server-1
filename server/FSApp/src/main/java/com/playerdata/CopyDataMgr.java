@@ -10,7 +10,6 @@ import com.playerdata.readonly.CopyDataMgrIF;
 import com.playerdata.readonly.CopyInfoCfgIF;
 import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyInfoCfgDAO;
 import com.rwbase.dao.copypve.CopyLevelCfgDAO;
@@ -20,6 +19,7 @@ import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
 import com.rwbase.dao.copypve.pojo.CopyLevelCfg;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 
 public class CopyDataMgr implements CopyDataMgrIF {
 	public static final int PVE_RESET_TIME_HOUR = 5;// PVE模块重置的时间点
@@ -121,10 +121,8 @@ public class CopyDataMgr implements CopyDataMgrIF {
 	}
 
 	/*
-	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList =
-	 * pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy :
-	 * copyList){ if(copy.getCopyType() == copyType){ data = copy; break; } }
-	 * return data; }
+	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList = pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy
+	 * : copyList){ if(copy.getCopyType() == copyType){ data = copy; break; } } return data; }
 	 */
 
 	private CopyData getByInfoWithId(int infoId) {
@@ -326,34 +324,32 @@ public class CopyDataMgr implements CopyDataMgrIF {
 	}
 
 	public int getRestCountByCopyType(int copyType) {
-		EPrivilegeDef vipType;
-		int count;
+		// EPrivilegeDef vipType;
+		// int count;
 		switch (copyType) {
 		case CopyType.COPY_TYPE_TRIAL_LQSG:// 练气山谷
-			vipType = EPrivilegeDef.TRIAL2_COPY_RESET_TIMES;
-			break;
+			// vipType = EPrivilegeDef.TRIAL2_COPY_RESET_TIMES;
+			return player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.expResetCnt);
 		case CopyType.COPY_TYPE_TRIAL_JBZD:// 聚宝之地
-			vipType = EPrivilegeDef.TRIAL1_COPY_RESET_TIMES;
-			break;
+			// vipType = EPrivilegeDef.TRIAL1_COPY_RESET_TIMES;
+			return player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.treasureResetCnt);
 		case CopyType.COPY_TYPE_CELESTIAL:// 生存幻境
-			vipType = EPrivilegeDef.COPY_CELESTAL;
-			break;
+			// vipType = EPrivilegeDef.COPY_CELESTAL;
+			return player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.survivalResetCnt);
 		case CopyType.COPY_TYPE_WARFARE:// 无尽战火
-			vipType = EPrivilegeDef.WARFARE_COPY_RESET_TIMES;
-			break;
+			// vipType = EPrivilegeDef.WARFARE_COPY_RESET_TIMES;
+			return player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.warfareResetCnt);
 		case CopyType.COPY_TYPE_TOWER:// 万仙阵
-			vipType = EPrivilegeDef.TOWER_RESET_TIMES;
-			break;
+			// vipType = EPrivilegeDef.TOWER_RESET_TIMES;
+			return player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt);
 		case CopyType.COPY_TYPE_BATTLETOWER:// 封神台
-			vipType = EPrivilegeDef.BATTLE_TOWER_TIMES;
-			break;
-		default:
-			vipType = EPrivilegeDef.TRIAL2_COPY_RESET_TIMES;
-			break;
+			// vipType = EPrivilegeDef.BATTLE_TOWER_TIMES;
+			return player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
 		}
 
-		count = player.getVipMgr().GetMaxPrivilege(vipType);
-		return count;
+		return 0;
+		// count = player.getVipMgr().GetMaxPrivilege(vipType);
+		// return count;
 	}
 
 	private TableCopyData getTableCopyData() {

@@ -60,6 +60,7 @@ message MsgCopyResponse
 	repeated string tagItemList = 9; 									//战前所获得的物品结果返回，以"806001,20"的形式记录下"物品id,物品数量"
 	optional int32 copyCount = 10;										//剩余次数
 	optional int32 unendingWar = 11;									//战绩点 
+	optional string eSpecialItemIdList = 12; 							//战前所获得的经验货币结果返回，以"eSpecialItemId.power.getvalue,num"的形式记录下"类型,值"
 }
 
 message TagSweepInfo	//扫荡结果数据类

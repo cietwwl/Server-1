@@ -9,8 +9,6 @@ import com.playerdata.dataSyn.annotation.SynClass;
 public class ActivityTimeCountTypeSubItem {
 	
 	private String cfgId;
-	
-	private int count;
 
 	//是否已经领取
 	private boolean taken = false;
@@ -22,14 +20,6 @@ public class ActivityTimeCountTypeSubItem {
 
 	public void setCfgId(String cfgId) {
 		this.cfgId = cfgId;
-	}
-
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
 	}
 
 

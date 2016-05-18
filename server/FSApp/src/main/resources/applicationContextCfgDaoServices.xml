@@ -106,6 +106,26 @@
 	<bean class="com.rwbase.dao.version.VersionConfigDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.vip.PrivilegeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.vip.RechargeCfgDAO"  init-method="init" />
+	
+	<bean class="com.rw.service.Privilege.datamodel.arenaPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.arenaPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.peakArenaPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.peakArenaPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.pvePrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.pvePrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.copyPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.copyPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.generalPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.generalPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.groupPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.groupPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.heroPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.heroPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.loginPrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.loginPrivilegePropertiesHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.storePrivilegeHelper"  init-method="init" />
+	<bean class="com.rw.service.Privilege.datamodel.storePrivilegePropertiesHelper"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.worship.CfgWorshipRandomRewardHelper"  init-method="init" />
 	<bean class="com.rwbase.dao.worship.CfgWorshipRankdomSchemeHelper"  init-method="init" />
 	<bean class="com.rwbase.dao.worship.CfgWorshipRewardHelper"  init-method="init" />
@@ -139,6 +159,9 @@
 	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO"  init-method="init" />
 	
+	
+	
+	<bean class="com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO"  init-method="init" />
 	
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />

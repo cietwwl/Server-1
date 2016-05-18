@@ -2,7 +2,9 @@ package com.rw.service.guide;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
@@ -48,61 +50,9 @@ public class NewGuideService implements FsService {
 			case GiveItem:
 				int actId = req.getGiveActionId();
 				GiveItemCfg cfg = GiveItemCfgDAO.getInstance().getCfgById(String.valueOf(actId));
-				String tip="success";
-				boolean result=true;
-				if (cfg == null){
-					tip="找不到配置";
-					result=false;
-					return setResponse(builder, tip, result);
-				}
-				
-				GiveItemHistory history = GiveItemHistoryHolder.getInstance().getHistory(player.getUserId(),actId);
-				if (history != null && history.isGiven()){
-					tip="只能赠送一次";
-					result=false;
-					return setResponse(builder, tip, result);
-				}
-				
-				if (history == null){
-					history = GiveItemHistory.Add(null, player.getUserId(), actId);
-					if (history == null){
-						tip="无法新增赠品";
-						result=false;
-						return setResponse(builder, tip, result);
-					}
-				}
-				
-				String[] arg = new String[2];
-				arg[0] = cfg.getModleId();
-				arg[1] = String.valueOf(cfg.getCount());
-				
-				//首先判断是否为时装
-				boolean isFashionId = false;
-				try {
-					int fashionModelId = Integer.parseInt(cfg.getModleId());
-					FashionMgr fashionMgr = player.getFashionMgr();
-					if (fashionMgr.GMSetFashion(fashionModelId)){
-						if (fashionMgr.GMSetExpiredTime(fashionModelId, cfg.getCount())){
-							isFashionId = true;
-						}
-					}
-				} catch (Exception e) {
-					GameLog.info("引导", player.getUserId(), "不是赠送时装",null);
-				}
-				
-				if (!isFashionId){
-					//不是时装，考虑作为道具赠送
-					if (!GMHandler.getInstance().addItem(arg , player)){
-						tip="赠送失败";
-						result=false;
-					}
-				}
-				
-				if (!history.setGiven(null, true)){
-					GameLog.error("引导", player.getUserId(), "更新赠送历史失败！");
-				}
-				GameLog.info("引导", player.getUserId(), "成功赠送物品,actId:"+actId, null);
-				return setResponse(builder, tip, result);
+				RefParam<String> outTip=new RefParam<String>();
+				boolean result = giveItem(cfg, player, outTip);
+				return setResponse(builder, outTip.value, result);
 			default:
 				break;
 			}
@@ -119,6 +69,65 @@ public class NewGuideService implements FsService {
 		builder.setTip(tip);
 		builder.setIsSuccess(result);
 		return builder.build().toByteString();
+	}
+	
+	public static boolean giveItem(GiveItemCfg cfg,Player player,RefParam<String> outTip){
+		outTip.value="success";
+		boolean result=true;
+		if (cfg == null){
+			outTip.value="找不到配置";
+			result=false;
+			return result;
+		}
+		int actId = cfg.getKey();
+		
+		GiveItemHistory history = GiveItemHistoryHolder.getInstance().getHistory(player.getUserId(),actId);
+		if (history != null && history.isGiven()){
+			outTip.value="只能赠送一次";
+			result=false;
+			return result;
+		}
+		
+		if (history == null){
+			history = GiveItemHistory.Add(null, player.getUserId(), actId);
+			if (history == null){
+				outTip.value="无法新增赠品";
+				result=false;
+				return result;
+			}
+		}
+		
+		String[] arg = new String[2];
+		arg[0] = cfg.getModleId();
+		arg[1] = String.valueOf(cfg.getCount());
+		
+		//首先判断是否为时装
+		boolean isFashionId = false;
+		try {
+			int fashionModelId = Integer.parseInt(cfg.getModleId());
+			FashionMgr fashionMgr = player.getFashionMgr();
+			if (fashionMgr.GMSetFashion(fashionModelId)){
+				if (fashionMgr.GMSetExpiredTime(fashionModelId, TimeUnit.DAYS.toMinutes(cfg.getCount()))){
+					isFashionId = true;
+				}
+			}
+		} catch (Exception e) {
+			GameLog.info("引导", player.getUserId(), "不是赠送时装",null);
+		}
+		
+		if (!isFashionId){
+			//不是时装，考虑作为道具赠送
+			if (!GMHandler.getInstance().addItem(arg , player)){
+				outTip.value="赠送失败";
+				result=false;
+			}
+		}
+		
+		if (!history.setGiven(null, true)){
+			GameLog.error("引导", player.getUserId(), "更新赠送历史失败！");
+		}
+		GameLog.info("引导", player.getUserId(), "成功赠送物品,actId:"+actId, null);
+		return result;
 	}
 
 }

@@ -20,7 +20,8 @@ public enum LogModule {
 	ComActivityDailyCount("通用活动_DailyCountType"),
 	ComActivityTimeCount("通用活动_TimeCountType"),
 	ComActivityDate("通用活动_DateType"),
-	ComActivityRank("通用活动_DateType")
+	ComActivityRank("通用活动_DateType"),
+	FixEquip("专属装备"),
 	;
 	
 	private String name;

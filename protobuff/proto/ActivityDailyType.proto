@@ -1,28 +1,36 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
-option java_outer_classname = "ActivityDailyTypeProto";
+option java_outer_classname = "DailyActivityProtos";
 
-package activityDailyType;
-
-
-enum RequestType{
-
-//	ENTER = 1;//è¿›å…¥æ´»åŠ¨ä¸»é¡µ
-	TAKE_GIFT = 1;//é¢†å–å¥–åŠ±
-
+enum EDailyActivityRequestType
+{
+	Task_List = 0; //ÈÎÎñÁĞ±í
+	Task_Finish = 1; //ÇëÇóÍê³ÉÈÎÎñ
 }
 
-message ActivityCommonReqMsg{
-	required RequestType reqType = 1;//è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
-	optional string activityId = 2; //æ´»åŠ¨id
-	optional string subItemId = 3;  //å­é¡¹id å¯¹åº”è¿™ä¸ªæ´»åŠ¨çš„æ¯ä¸€ä¸ªå¥–åŠ±å’Œæ¡ä»¶
-
+message MsgDailyActivityRequest
+{
+	required EDailyActivityRequestType requestType = 1; //ÇëÇóÀàĞÍ
+	optional int32 TaskId = 2; //ÈÎÎñid
 }
 
-
-message ActivityCommonRspMsg{
-	required RequestType reqType = 1;//å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
-	required bool isSuccess = 2;//æ˜¯å¦æˆåŠŸå¤„ç†
-	optional string tipMsg = 3;//æç¤ºæ¶ˆæ¯ï¼Œå¯ä»¥æ˜¯æˆåŠŸï¼Œä¹Ÿå¯ä»¥æ˜¯å¤±è´¥çš„æç¤ºæ¶ˆæ¯
-
+enum eDailyActivityResultType{
+	SUCCESS = 1;
+	FAIL = 2;
 }
+
+message MsgDailyActivityResponse
+{
+	required EDailyActivityRequestType responseType = 1; //·µ»ØÀàĞÍ
+	repeated DailyActivityInfo taskList = 2; //ÈÎÎñÁĞ±í
+	optional eDailyActivityResultType resultType = 3; //·µ»ØµÄ½á¹ûÀàĞÍ
+	optional int32 TaskId = 4; //ÈÎÎñid
+}
+
+message DailyActivityInfo
+{
+	required int32 taskId = 1; //ÈÎÎñid
+	optional int32 canGetReward = 2; //ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
+	optional int32 currentProgress = 3; //µ±Ç°½ø¶È(ÓÃÊı×Ö±íÊ¾)
+}
+

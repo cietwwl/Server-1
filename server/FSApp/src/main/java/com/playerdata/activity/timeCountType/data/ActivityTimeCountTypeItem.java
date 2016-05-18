@@ -16,7 +16,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_counttype_item")
+@Table(name = "activity_time_count_type_item")
 public class ActivityTimeCountTypeItem implements  IMapItem {
 
 	@Id
@@ -32,7 +32,9 @@ public class ActivityTimeCountTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private boolean closed = false;
-
+	
+	@CombineSave
+	private long lastCountTime = 0;
 	
 	@CombineSave
 	private List<ActivityTimeCountTypeSubItem> subItemList = new ArrayList<ActivityTimeCountTypeSubItem>();
@@ -102,6 +104,14 @@ public class ActivityTimeCountTypeItem implements  IMapItem {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	public long getLastCountTime() {
+		return lastCountTime;
+	}
+
+	public void setLastCountTime(long lastCountTime) {
+		this.lastCountTime = lastCountTime;
 	}
 
 	

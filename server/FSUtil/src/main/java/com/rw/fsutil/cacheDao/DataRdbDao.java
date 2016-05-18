@@ -1,13 +1,22 @@
 package com.rw.fsutil.cacheDao;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.rw.fsutil.dao.JdbcDataRdbDao;
+import org.springframework.jdbc.core.JdbcTemplate;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassHelper;
+import com.rw.fsutil.dao.annotation.ClassInfo;
+import com.rw.fsutil.dao.cache.DataCache;
+import com.rw.fsutil.dao.cache.DataCacheFactory;
+import com.rw.fsutil.dao.cache.DataNotExistException;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.common.CommonSingleTable;
+import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.log.SqlLog;
+import com.rw.fsutil.util.SpringContextUtil;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 前台数据(支持单表和多表) 数据库+memcached
@@ -19,62 +28,102 @@ import com.rw.fsutil.log.SqlLog;
  */
 public class DataRdbDao<T> {
 
-	protected JdbcDataRdbDao<T> jdbcRdbDao;
-
 	public DataRdbDao() {
-		Class<T> clazz = ClassHelper.getEntityClass(this.getClass());
-
-		jdbcRdbDao = new JdbcDataRdbDao<T>(clazz, "dataSourceMT");
-	}
-	
-	public DataRdbDao(String dataSourceName){
-		Class<T> clazz = ClassHelper.getEntityClass(this.getClass());
-
-		jdbcRdbDao = new JdbcDataRdbDao<T>(clazz, dataSourceName);
-	}
-	
-	public void update(String key){
-		jdbcRdbDao.update(key);
+		this("dataSourceMT");
 	}
 
-	protected T getObject(Object id) {
+	public DataRdbDao(String dsName) {
 		try {
-			return jdbcRdbDao.get(id);
+			Class<T> clazz = ClassHelper.getEntityClass(this.getClass());
+			DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
+			this.jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
+			classInfo = new ClassInfo(clazz);
+			commonJdbc = new CommonSingleTable<T>(jdbcTemplate, classInfo);
+			int cacheSize = getCacheSize();
+			this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), loader);
+		} catch (Exception e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
+
+	private final ClassInfo classInfo;
+	private final CommonSingleTable<T> commonJdbc;
+	private final DataCache<String, T> cache;
+	private final JdbcTemplate jdbcTemplate;
+
+	private PersistentLoader<String, T> loader = new PersistentLoader<String, T>() {
+
+		@Override
+		public T load(String key) throws DataNotExistException, Exception {
+			return commonJdbc.load(key);
+		}
+
+		@Override
+		public boolean delete(String key) throws DataNotExistException, Exception {
+			return commonJdbc.delete(key);
+		}
+
+		@Override
+		public boolean insert(String key, T value) throws DuplicatedKeyException, Exception {
+			return commonJdbc.insert(key, value);
+		}
+
+		@Override
+		public boolean updateToDB(String key, T value) {
+			return commonJdbc.updateToDB(key, value);
+		}
+	};
+
+	public T getObject(Object id) {
+		try {
+			return cache.getOrLoadFromDB(id.toString());
+		} catch (Throwable e) {
+			SqlLog.error(e);
+			return null;
+		}
+	}
+
+	/**
+	 * 提交缓存更新任务
+	 *
+	 * @param key
+	 */
+	public void update(String key) {
+		this.cache.submitUpdateTask(key);
+	}
+
+	public List<T> findBySql(String sql) {
+		try {
+			return commonJdbc.findBySql(sql);
 		} catch (Exception e) {
 			SqlLog.error(e);
+			return null;
 		}
-		return null;
-
 	}
 
-	protected List<T> findBySql(String sql) {
+	protected List<Map<String, Object>> queryForList(String sql) {
 		try {
-			return jdbcRdbDao.findBySql(sql);
-		} catch (Exception e) {
-			SqlLog.error(e);
-		}
-		return null;
-	}
-	
-	protected List<Map<String, Object>> queryForList(String sql){
-		try{
-			return jdbcRdbDao.queryForList(sql);
-		}catch(Exception ex){
+			return commonJdbc.queryForList(sql);
+		} catch (Exception ex) {
 			SqlLog.error(ex);
 		}
 		return null;
 	}
 
-	protected boolean saveOrUpdate(T target) {
+	public boolean saveOrUpdate(T t) {
 		try {
-			jdbcRdbDao.saveOrUpdate(target);
+			Field idField = classInfo.getIdField();
+			String id = String.valueOf(idField.get(t));
+			if (id == null) {
+				SqlLog.error("can not find primary key:" + t);
+				return false;
+			}
+			this.cache.put(id, t);
 			return true;
-		} catch (Exception e) {
-
+		} catch (Throwable e) {
 			SqlLog.error(e);
 			return false;
 		}
-
 	}
 
 	public boolean delete(String id) {
@@ -82,8 +131,8 @@ public class DataRdbDao<T> {
 			if (StringUtils.isBlank(id)) {
 				return false;
 			}
-			jdbcRdbDao.delete(id);
-		} catch (Exception e) {
+			return this.cache.removeAndUpdateToDB(id.toString());
+		} catch (Throwable e) {
 			SqlLog.error(e);
 		}
 
@@ -92,26 +141,21 @@ public class DataRdbDao<T> {
 
 	@Deprecated
 	protected List<T> getAll() {
-
-		String sql = "select * from " + jdbcRdbDao.getTableName();
+		String sql = "select * from " + this.classInfo.getTableName();
 		List<T> result = null;
 		try {
-			result = jdbcRdbDao.findBySql(sql);
+			result = commonJdbc.findBySql(sql);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			SqlLog.error(e);
 		}
-
 		return result;
 	}
 
 	@Deprecated
 	protected List<T> findByKey(String key, Object value) {
 		try {
-			return jdbcRdbDao.findByKey(key, value);
+			return commonJdbc.findByKey(key, value);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			SqlLog.error(e);
 		}
@@ -120,13 +164,11 @@ public class DataRdbDao<T> {
 
 	protected T findOneByKey(String key, Object value) {
 		try {
-			List<T> list = jdbcRdbDao.findByKey(key, value);
+			List<T> list = commonJdbc.findByKey(key, value);
 			if (list != null && list.size() > 0) {
 				return list.get(0);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			SqlLog.error(e);
 		}
 		return null;
@@ -135,30 +177,67 @@ public class DataRdbDao<T> {
 	@Deprecated
 	protected List<T> findListByKey(String key, Object value) {
 		try {
-			List<T> list = jdbcRdbDao.findByKey(key, value);
+			List<T> list = commonJdbc.findByKey(key, value);
 			if (list != null && list.size() > 0) {
 				return list;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			SqlLog.error(e);
 		}
 		return null;
 	}
 
 	@Deprecated
-	protected void insertToDB(T t){
-		jdbcRdbDao.insertToDB(t);
+	public void insertToDB(T t) {
+		try {
+			Field idField = classInfo.getIdField();
+			String id = String.valueOf(idField.get(t));
+			this.commonJdbc.insert(id, t);
+		} catch (Throwable e) {
+			SqlLog.error(e);
+		}
 	}
-	
+
 	@Deprecated
-	protected void updateToDB(T t){
-		jdbcRdbDao.updateToDB(t);
+	public void updateToDB(T t) {
+		try {
+			Field idField = classInfo.getIdField();
+			String id = String.valueOf(idField.get(t));
+			this.commonJdbc.updateToDB(id, t);
+		} catch (Throwable e) {
+			SqlLog.error(e);
+		}
 	}
-	
+
 	@Deprecated
-	protected void deleteToDB(Object id){
-		jdbcRdbDao.deleteToDB(id);
+	public void deleteToDB(String id) {
+		try {
+			this.commonJdbc.delete(id);
+		} catch (Exception ex) {
+			SqlLog.error(ex);
+		}
 	}
+
+	/**
+	 * 获取缓存数量大小
+	 * 
+	 * @return
+	 */
+	protected int getCacheSize() {
+		return 10000;
+	}
+
+	/**
+	 * 获取更新周期间隔(单位：秒)
+	 * 
+	 * @return
+	 */
+	protected int getUpdatedSeconds() {
+		return 60;
+	}
+
+	public String getTableName() {
+		return commonJdbc.getTableName();
+	}
+
 }

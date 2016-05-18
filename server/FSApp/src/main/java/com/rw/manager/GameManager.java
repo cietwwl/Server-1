@@ -32,6 +32,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.dataaccess.GameOperationFactory;
+import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -406,5 +407,12 @@ public class GameManager {
 
 	public static String getGmPassword() {
 		return gmPassword;
+	}
+	
+	/**
+	 * 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
+	 */
+	public static void CheckAllConfig() {
+		CfgCsvReloader.CheckAllConfig();
 	}
 }
