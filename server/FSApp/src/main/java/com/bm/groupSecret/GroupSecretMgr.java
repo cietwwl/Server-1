@@ -17,28 +17,28 @@ public class GroupSecretMgr {
 		this.secretId = secretIdP;
 	}
 	
-	public GroupSecretComResult joinDef(Player player){
+	public synchronized GroupSecretComResult joinDef(Player player){
 		return null;
 	}
 	
-	public GroupSecretComResult getSecretReward(Player player){
+	public synchronized GroupSecretComResult getSecretReward(Player player){
 		return null;
 	}
 	
-	public GroupSecretComResult getDefReward(Player player, String secretId, String defLogId){
+	public synchronized GroupSecretComResult getDefReward(Player player, String secretId, String defLogId){
 		return null;
 	}
 	
-	public GroupSecretData getSecretData(){
+	public synchronized GroupSecretData getSecretData(){
 		return GroupSecretDataDAO.getInstance().get(secretId);
 	}
 	
-	public List<GroupSecretDefLog> getDefLogList(){
+	public synchronized List<GroupSecretDefLog> getDefLogList(){
 		
 		return GroupSecretDefLogHolder.getInstance().getItemList(secretId);
 	}
 	
-	public void synToClient(Player player){
+	public synchronized void synToClient(Player player){
 		UserGroupSecretMgr.getInstance().synSingleSecret(player, secretId);
 	}
 	
