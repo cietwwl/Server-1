@@ -204,7 +204,7 @@ public class ActivityDailyCountTypeMgr {
 		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
 			return false;
 		}		
-		return false;
+		return true;
 	}
 	
 	public boolean isOpen(ActivityDailyCountTypeSubCfg activityCountTypesubCfg) {

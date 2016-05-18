@@ -31,13 +31,20 @@ public class ActivityRateTypeMgr {
 			ActivityRateTypeEnum activityRateTypeEnum) {
 				ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
 				.getInstance();
-		if (activityRateTypeEnum != null) {	
+		if(activityRateTypeEnum == null){
+			return false;
+		}
+		String cfgId = activityRateTypeEnum.getCfgId();
+		ActivityRateTypeCfg cfgById = ActivityRateTypeCfgDAO.getInstance().getCfgById(cfgId);		
+		if(cfgById == null){
+			
+			return false;
+		}
+				
+		{
 			ActivityRateTypeItem targetItem = dataHolder.getItem(
 					player.getUserId(), activityRateTypeEnum);// 已在之前生成数据的活动			
-			return targetItem != null && !targetItem.isClosed()&&player.getLevel() >= targetItem.getLevelLimit();			
-		} else {
-			GameLog.error("activityratetypemgr", "enmu为空", "没有找到对应活动类型");
-			return false;
+			return targetItem != null && !targetItem.isClosed()&&player.getLevel() >= cfgById.getLevelLimit();			
 		}
 	}
 
