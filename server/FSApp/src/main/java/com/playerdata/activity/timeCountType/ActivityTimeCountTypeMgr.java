@@ -172,10 +172,9 @@ public class ActivityTimeCountTypeMgr {
 					subcfg = cfg;
 					break;
 				}				
-			}
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@datacount" + dataItem.getCount() + "   subcfg=" + subcfg.getCount());		
+			}		
 			if(dataItem.getCount() < subcfg.getCount()){
-				System.out.println("失败@@@@@@@@@@@@@@@@@@@@datacount" + dataItem.getCount() + "   subcfg=" + subcfg.getCount());
+				GameLog.error("activitytimecounttypemgr", "uid=" + player.getUserId(), "时间未到但申请领取");
 				result.setReason("时间未到");
 				return result;
 			}
