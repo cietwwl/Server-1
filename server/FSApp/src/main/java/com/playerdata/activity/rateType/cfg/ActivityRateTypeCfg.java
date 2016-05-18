@@ -22,6 +22,8 @@ public class ActivityRateTypeCfg {
 	
 	private String cion;
 	
+	private int levelLimit;
+	
 	public List<ActivityRateTypeStartAndEndHourHelper> getStartAndEnd() {
 		return startAndEnd;
 	}
@@ -44,6 +46,16 @@ public class ActivityRateTypeCfg {
 	private String version;
 	
 	private int multiple;
+	
+	
+
+	public int getLevelLimit() {
+		return levelLimit;
+	}
+
+	public void setLevelLimit(int levelLimit) {
+		this.levelLimit = levelLimit;
+	}
 
 	public int getMultiple() {
 		return multiple;

@@ -35,8 +35,8 @@ public class UserEventUpGradeStarDailyHandler implements IUserEventHandler{
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
 							.getInstance().getById(ActivityDailyCountTypeEnum.UpGradeStarDaily.getCfgId()));
-
-					if(isBetweendays){
+					boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
+					if(isBetweendays&&isLevelEnough){
 						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.UpGradeStarDaily,1);	
 						
 					}
