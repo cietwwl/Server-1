@@ -1005,14 +1005,6 @@ public class Player implements PlayerIF {
 		// return null;
 	}
 
-	public SecretAreaMgr getSecretMgr() {
-		// if (m_SecretMgr == null) {
-		// m_SecretMgr = new SecretAreaMgr();
-		// m_SecretMgr.init(this);
-		// }
-		// return m_SecretMgr;
-		return null;
-	}
 
 	public MagicMgr getMagicMgr() {
 		return this.magicMgr;

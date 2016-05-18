@@ -3,6 +3,7 @@ package com.playerdata.fixEquip.norm;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipResult;
 import com.rwproto.FixEquipProto.CommonReqMsg;
@@ -22,7 +23,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixNormEquipMgr.getInstance().levelUp(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().levelUp(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -38,7 +40,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixNormEquipMgr.getInstance().qualityUp(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().qualityUp(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -54,7 +57,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixNormEquipMgr.getInstance().starUp(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().starUp(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -69,7 +73,8 @@ public class FixNormEquipHandler {
 		String ownerId = commonReq.getOwnerId();
 		String cfgId = commonReq.getCfgId();
 		
-		FixEquipResult result = FixNormEquipMgr.getInstance().starDown(player, ownerId, cfgId);
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().starDown(player, ownerId, cfgId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){

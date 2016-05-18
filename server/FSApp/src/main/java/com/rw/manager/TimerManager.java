@@ -6,7 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.guild.GuildGTSMgr;
-import com.bm.secretArea.SecretAreaInfoGMgr;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -187,8 +186,6 @@ public class TimerManager {
 		// RankingMgr.getInstance().onTimeMinute();
 
 		//GambleMgr.minutesUpdate();
-		/** 秘境 ***/
-		SecretAreaInfoGMgr.getInstance().flush();
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
 	}
