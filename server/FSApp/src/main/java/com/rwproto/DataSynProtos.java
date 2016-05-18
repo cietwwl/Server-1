@@ -614,16 +614,16 @@ public final class DataSynProtos {
      * </pre>
      */
     ActivityTimeCountType(55, 68),
-    ;
-
     /**
-     * <code>ActivityDailyCountType = 68;</code>
+     * <code>ActivityDailyCountType = 69;</code>
      *
      * <pre>
      *活动，每日福利
      * </pre>
      */
-    public static final eSynType ActivityDailyCountType = ActivityTimeCountType;
+    ActivityDailyCountType(56, 69),
+    ;
+
     /**
      * <code>COPY_LEVEL_RECORD = 1;</code>
      *
@@ -1073,13 +1073,13 @@ public final class DataSynProtos {
      */
     public static final int ActivityTimeCountType_VALUE = 68;
     /**
-     * <code>ActivityDailyCountType = 68;</code>
+     * <code>ActivityDailyCountType = 69;</code>
      *
      * <pre>
      *活动，每日福利
      * </pre>
      */
-    public static final int ActivityDailyCountType_VALUE = 68;
+    public static final int ActivityDailyCountType_VALUE = 69;
 
 
     public final int getNumber() { return value; }
@@ -1142,6 +1142,7 @@ public final class DataSynProtos {
         case 66: return ActivityRankType;
         case 67: return ActivityExchangeType;
         case 68: return ActivityTimeCountType;
+        case 69: return ActivityDailyCountType;
         default: return null;
       }
     }
@@ -1171,9 +1172,7 @@ public final class DataSynProtos {
       return com.rwproto.DataSynProtos.getDescriptor().getEnumTypes().get(1);
     }
 
-    private static final eSynType[] VALUES = {
-      COPY_LEVEL_RECORD, COPY_MAP_RECORD, SECRETAREA_INFO, SECRETAREA_DEF_RECORD, SECRETAREA_USER_INFO, SECRETAREA_BATTLE_INFO, SECRETAREA_USER_RECORD, FASHION_ITEM, EQUIP_ITEM, SKILL_ITEM, INLAY_ITEM, ROLE_ATTR_ITEM, ROLE_BASE_ITEM, USER_HEROS, USER_DATA, USER_GAME_DATA, USER_MAGIC, USER_ITEM_BAG, DailyActivity, Guild, Pve_UnendingWar, Pve_Trial, Store_Data, TASK_DATA, VIP_DATA, SETTING_DATA, GUILD_USER_INFO, SEVEN_DAY_GIF, FRESHER_ATIVITY_DATA, ASSISTANT, VERSION_COPY, GroupBaseData, GroupMemberData, GroupLog, UserGroupAttributeData, GroupCopyLevel, GroupCopyMap, GroupCopyReward, GroupApplyMemberData, GroupResearchSkill, GroupStudySkill, Charge, POWER_INFO, USER_TMP_GAME_DATA, HERO_FETTERS, FIX_NORM_EQUIP, FIX_EXP_EQUIP, ActivityCountType, ActivityTimeCardType, ActivityRateType, ActivityDateType, ActivityTimeSaleType, ActivityDateSaleType, ActivityRankType, ActivityExchangeType, ActivityTimeCountType, ActivityDailyCountType, 
-    };
+    private static final eSynType[] VALUES = values();
 
     public static eSynType valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
@@ -5057,7 +5056,7 @@ public final class DataSynProtos {
       "ype\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024Activ" +
       "ityDateSaleType\020A\022\024\n\020ActivityRankType\020B\022",
       "\030\n\024ActivityExchangeType\020C\022\031\n\025ActivityTim" +
-      "eCountType\020D\022\032\n\026ActivityDailyCountType\020D" +
+      "eCountType\020D\022\032\n\026ActivityDailyCountType\020E" +
       "B\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =

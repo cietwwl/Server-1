@@ -80,7 +80,7 @@ enum eSynType	//数据同步类型
 	ActivityRankType = 66;//活动，排行榜
 	ActivityExchangeType = 67;//活动，兑换
 	ActivityTimeCountType = 68;//活动，在线奖励
-	ActivityDailyCountType = 68;//活动，每日福利
+	ActivityDailyCountType = 69;//活动，每日福利
 }
 
 message MsgDataSynList
