@@ -556,8 +556,8 @@ public final class AngleArrayMatchHelper {
 				}
 
 				// 战力
-				int calFighting = FightingCalculator
-						.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, AttributeBM.getRobotAttrData(userId, heroInfo, magicParam));
+				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
+						AttributeBM.getRobotAttrData(userId, heroInfo, magicParam));
 				fighting += calFighting;
 				// System.err.println(String.format("[%s]的英雄，战力是[%s]", heroModelId, calFighting));
 			}
