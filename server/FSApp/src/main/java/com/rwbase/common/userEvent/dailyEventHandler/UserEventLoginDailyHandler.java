@@ -40,8 +40,8 @@ public class UserEventLoginDailyHandler implements IUserEventHandler{
 						.getInstance().getById(id);
 				boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance()
 						.isOpen(cfg);
-
-				if (isBetweendays) {// 每日福利任务的登陆类型子任务在此触发
+				boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
+				if (isBetweendays&&isLevelEnough) {// 每日福利任务的登陆类型子任务在此触发
 					ActivityDailyCountTypeMgr.getInstance().addCount(player,
 							ActivityDailyCountTypeEnum.LoginDaily, 1);
 				}

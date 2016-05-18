@@ -40,7 +40,7 @@ public class UserEventArenaDailyHandler implements IUserEventHandler{
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
 							.getInstance().getById(ActivityDailyCountTypeEnum.ArenaDaily.getCfgId()));
-					
+					boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
 //					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();					
 //					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
 //					ActivityDailyCountTypeSubItem subItem = ActivityDailyCountTypeMgr
@@ -51,7 +51,7 @@ public class UserEventArenaDailyHandler implements IUserEventHandler{
 					//胜利或失败获得的积分不一致。
 					int addcount = Integer.parseInt(params.toString());					
 					
-					if(addcount>0&&isBetweendays){
+					if(addcount>0&&isBetweendays&&isLevelEnough){
 						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.ArenaDaily,addcount);	
 						
 					}

@@ -35,7 +35,17 @@ public class ActivityCountTypeCfg {
 	private String version;
 
 	
+	private int levelLimit;
+	
 
+	
+	public int getLevelLimit() {
+		return levelLimit;
+	}
+
+	public void setLevelLimit(int levelLimit) {
+		this.levelLimit = levelLimit;
+	}
 
 	public String getVersion() {
 		return version;

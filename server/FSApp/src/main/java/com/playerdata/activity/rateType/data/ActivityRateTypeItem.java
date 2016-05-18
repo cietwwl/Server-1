@@ -31,6 +31,10 @@ public class ActivityRateTypeItem implements IMapItem {
 
 	@CombineSave
 	private int multiple;
+	
+	
+	
+
 
 	public int getMultiple() {
 		return multiple;
