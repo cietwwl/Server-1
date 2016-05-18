@@ -70,7 +70,7 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 
 			HashSet<Integer> orderSet = orderMap.get(tagNum);
 			if (orderSet == null) {
-				orderSet = new HashSet<>();
+				orderSet = new HashSet<Integer>();
 				orderMap.put(tagNum, orderSet);
 			}
 			if (!orderSet.add(cfg.getOrder())) {
