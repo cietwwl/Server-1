@@ -52,10 +52,10 @@ public class PvECommonHelper {
 		return listUpHero;
 	}
 
-	public static void addCopyRewards(Player player, CopyCfg copyCfg) {
+	public static String addCopyRewards(Player player, CopyCfg copyCfg) {
 		// CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
 		// CopyRewardsIF copyRewards = copyRecordMgr.getCopyRewards();
-
+		String rewardInfoActivity="";
 		int levelId = copyCfg.getLevelID();
 		List<? extends ItemInfo> dropItems = null;
 		try {
@@ -74,7 +74,9 @@ public class PvECommonHelper {
 			StringBuilder rewardInfo = new StringBuilder();
 			rewardInfo.append("成功获取战斗奖励 levelId=").append(levelId).append(" rewards:").append(JsonUtil.writeValue(dropItems));
 			GameLog.info(LogModule.COPY.getName(), player.getUserId(), rewardInfo.toString(), null);
+			rewardInfoActivity = JsonUtil.writeValue(dropItems);
 		}
+		return rewardInfoActivity;
 	}
 	/**手动副本经验金币增加*/
 	public static void addPlayerAttr4Battle(Player player, CopyCfg copyCfg) {

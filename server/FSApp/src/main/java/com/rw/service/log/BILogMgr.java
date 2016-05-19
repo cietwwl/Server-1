@@ -233,23 +233,40 @@ public class BILogMgr {
 		}
 
 	}
-
-	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode) {
+	
+	/**
+	 * 
+	 * @param player
+	 * @param activityEntry 活动入口
+	 * @param activityCode  活动code
+	 */
+	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode,int copyLevelId) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("activityEntry", "" + activityEntry.getEntry());
+		if(activityEntry != null){
+			moreInfo.put("activityEntry", "" + activityEntry.getEntry());
+		}
 		moreInfo.put("activityCode", "" + activityCode.getCode());
+		moreInfo.put("copyId", "" + copyLevelId);
 		moreInfo.put("result", "1");
 
 		logPlayer(eBILogType.ActivityBegin, player, moreInfo);
 	}
 
-	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int activityTime) {
+	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int copyLevelId,boolean isWin,int activityTime,String rewardinfoactivity) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("activityEntry", "" + activityEntry.getEntry());
+		if(activityEntry != null){
+			moreInfo.put("activityEntry", "" + activityEntry.getEntry());
+		}
 		moreInfo.put("activityCode", "" + activityCode.getCode());
+		moreInfo.put("copyId", "" + copyLevelId);
 		moreInfo.put("activityTime", "" + activityTime);
 		moreInfo.put("result", "1");
-
+		if (isWin) {
+			moreInfo.put("operationCode", "activity_win");
+		} else {
+			moreInfo.put("operationCode", "activity_fail");
+		}
+		moreInfo.put("rewardsinfoactivity", rewardinfoactivity);
 		logPlayer(eBILogType.ActivityEnd, player, moreInfo);
 	}
 

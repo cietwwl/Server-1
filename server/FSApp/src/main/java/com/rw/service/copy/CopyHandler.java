@@ -21,6 +21,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
+import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreConditionType;
@@ -106,10 +107,14 @@ public class CopyHandler {
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		boolean isFirst = copyRecord.isFirst();
 		
+		
 		if(!isWin){
 			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
-			
-			
+//			if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
+//				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,null);
+//			}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
+//				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,null);
+//			}			
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 
@@ -187,13 +192,16 @@ public class CopyHandler {
 			UserEventMgr.getInstance().ElityCopyWin(player, 1);
 		}
 		
+		
+		
+		
 		return copyResponse.build().toByteString();
 	}
 
 	/*
 	 * 副本战前物品-经验计算返回...
 	 */
-	public ByteString battleItemsBack(Player player, MsgCopyRequest copyRequest) {
+	public ByteString battleItemsBack(Player player, MsgCopyRequest copyRequest) {		
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder().setRequestType(ERequestType.BATTLE_ITEMS_BACK);
 		int levelId = copyRequest.getLevelId();
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId); // 地图的配置...
@@ -249,6 +257,12 @@ public class CopyHandler {
 		copyResponse.setEResultType(EResultType.ITEM_BACK);
 		
 		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(),copyCfg.getLevelType(),copyRecord.isFirst(),eBILogCopyEntrance.Empty);
+		
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD,copyCfg.getLevelID());
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG,copyCfg.getLevelID());
+		}
 		
 		return copyResponse.build().toByteString();
 		

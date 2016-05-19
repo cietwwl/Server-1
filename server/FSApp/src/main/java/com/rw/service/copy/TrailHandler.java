@@ -7,15 +7,19 @@ import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.pve.PveHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
+import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagBattleClearingResult;
+import com.rwproto.CopyServiceProtos.TagBattleData;
 import com.rwproto.CopyServiceProtos.TagSweepInfo;
 
 public class TrailHandler {
@@ -32,8 +36,12 @@ public class TrailHandler {
 	public ByteString battleClear(Player player, MsgCopyRequest copyRequest,int copyType)
 	{
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+		TagBattleData tagBattleData = copyRequest.getTagBattleData();
+		boolean isWin = tagBattleData.getFightResult()==EBattleStatus.WIN;
+		int fightTime = tagBattleData.getFightTime();
+		
 		int levelId = copyRequest.getTagBattleData().getLevelId();
-
+		
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
 
 		CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
@@ -43,12 +51,24 @@ public class TrailHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
-
+		String rewardInfoActivity="";
+		
+		if(!isWin){
+			if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+			}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity);
+			}
+			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
+		}
+		
+		
+		
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
-
+		
 		//TODO HC @Modify 2015-11-30 bug fix 没有把掉落物品放进去发送给玩家
-		PvECommonHelper.addCopyRewards(player, copyCfg);
+		rewardInfoActivity = PvECommonHelper.addCopyRewards(player, copyCfg);
 
 		// 英雄经验
 		List<String> listUpHero = PvECommonHelper.addHerosExp(player, copyRequest, copyCfg);
@@ -75,7 +95,11 @@ public class TrailHandler {
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_LQSG, 1);
 		}
 		
-		
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity);
+		}
 		//战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();

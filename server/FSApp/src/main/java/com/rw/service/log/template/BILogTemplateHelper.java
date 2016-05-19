@@ -60,6 +60,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
 		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("副本统计信息", "$copyInfo$");
+		addTemplateToken("活动统计信息", "$activityInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
 		addTemplateToken("1=主线/2=支线", "$biTaskType$");
 		addTemplateToken("参考操作码对照表", "$optype$");

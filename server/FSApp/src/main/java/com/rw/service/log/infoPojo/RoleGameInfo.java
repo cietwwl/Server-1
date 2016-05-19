@@ -39,8 +39,8 @@ public class RoleGameInfo {
 	private String statInfo;
 	/**副本统计信息*/
 	private String copyInfo;
-	
-
+	/**活动统计信息*/
+	private String activityInfo;
 
 	//在线时长
 	private String onlineTime;
@@ -91,23 +91,20 @@ public class RoleGameInfo {
 		}
 		if(player.getZoneLoginInfo()!=null){
 			long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
-			StringBuilder statInfo = new StringBuilder();
-			
-			
+			StringBuilder statInfo = new StringBuilder();			
 			int giftGold = player.getUserGameDataMgr().getGiftGold();
 			int chargeGold = player.getUserGameDataMgr().getChargeGold();
-			long coin = player.getUserGameDataMgr().getCoin();			
-			
+			long coin = player.getUserGameDataMgr().getCoin();						
 			statInfo.append("online_time:").append(onlineTime).append("#")
 					.append("main_coin:").append(chargeGold).append("#")
 					.append("gift_coin:").append(giftGold).append("#")
 					.append("sub_coin:").append(coin);
-			roleGameInfo.setStatInfo(statInfo.toString());
-			
+			roleGameInfo.setStatInfo(statInfo.toString());			
 			roleGameInfo.setOnlineTime("online_time:" + onlineTime);
 			
+			
 			int spcase = 3;
-			long nmcase = 3;	
+			long nmcase = 3;
 			String fighttime="";
 			if(moreinfo!= null){
 				if(moreinfo.containsKey("fightTime")){
@@ -119,7 +116,31 @@ public class RoleGameInfo {
 			.append("sp_case:").append(spcase).append("#")
 			.append("nm_case:").append(nmcase);
 			roleGameInfo.setCopyInfo(copyInfo.toString());
+			
+			
+			String activityTime="";
+			String rewardsinfoactivity = "";
+			if(moreinfo!= null){
+				if(moreinfo.containsKey("activityTime")){
+					activityTime = moreinfo.get("activityTime");
+				}
+				if(moreinfo.containsKey("rewardsinfoactivity")){
+					rewardsinfoactivity = moreinfo.get("rewardsinfoactivity");
+				}
+			}
+			
+			StringBuilder activityInfo = new StringBuilder();
+			activityInfo.append("activity_time:").append(activityTime).append("#")
+			.append("activity_reward:").append(rewardsinfoactivity);
+			roleGameInfo.setActivityInfo(activityInfo.toString());
+			
+			
+			
 		}
+		
+		
+		
+		
 		if(player.getCopyRecordMgr().getCalculateState() != null){
 			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
 		}
@@ -232,6 +253,14 @@ public class RoleGameInfo {
 
 	public void setCopyInfo(String copyInfo) {
 		this.copyInfo = copyInfo;
+	}
+
+	public String getActivityInfo() {
+		return activityInfo;
+	}
+
+	public void setActivityInfo(String activityInfo) {
+		this.activityInfo = activityInfo;
 	}
 	
 
