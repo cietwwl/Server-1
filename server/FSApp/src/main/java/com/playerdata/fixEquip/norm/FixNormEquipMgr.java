@@ -1,10 +1,15 @@
 package com.playerdata.fixEquip.norm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.common.Action;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.fixEquip.FixEquipResult;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipCfg;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfg;
@@ -17,12 +22,32 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
 
 public class FixNormEquipMgr {
 	
-	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder;
+	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
 
-	public boolean init(Hero pOwner) {
-		fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
-		return true;
+	public boolean newHeroInit(Player player, String ownerId, int modelId ){
+		List<FixNormEquipDataItem> equipItemList = new ArrayList<FixNormEquipDataItem>();
+		List<FixExpEquipCfg> equipCfgList = FixExpEquipCfgDAO.getInstance().getByHeroModelId(modelId);
+		for (FixExpEquipCfg fixExpEquipCfg : equipCfgList) {
+			
+			String cfgId = fixExpEquipCfg.getId();
+			String id = FixEquipHelper.getNormItemId(ownerId, cfgId);
+			
+			FixNormEquipDataItem  FixNormEquipDataItem = new FixNormEquipDataItem();
+			FixNormEquipDataItem.setId( id );
+			FixNormEquipDataItem.setCfgId(cfgId);
+			FixNormEquipDataItem.setOwnerId(ownerId);
+			FixNormEquipDataItem.setQuality(0);
+			FixNormEquipDataItem.setLevel(0);
+			FixNormEquipDataItem.setStar(0);
+			equipItemList.add(FixNormEquipDataItem);
+			
+		}
+		
+		return fixNormEquipDataItemHolder.initItems(player, ownerId, equipItemList);
+		
+		
 	}
+	
 
 	public void regChangeCallBack(Action callBack) {
 		fixNormEquipDataItemHolder.regChangeCallBack(callBack);
@@ -33,9 +58,9 @@ public class FixNormEquipMgr {
 	}
 	
 
-	public FixEquipResult levelUp(Player player, String ownerId, String cfgId){
+	public FixEquipResult levelUp(Player player, String ownerId, String itemId){
 		
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, cfgId);
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		//未激活
@@ -59,9 +84,9 @@ public class FixNormEquipMgr {
 		
 		return result;
 	}
-	public FixEquipResult qualityUp(Player player, String ownerId, String cfgId){
+	public FixEquipResult qualityUp(Player player, String ownerId, String itemId){
 		
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, cfgId);
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		//未激活
@@ -86,9 +111,9 @@ public class FixNormEquipMgr {
 		return result;
 	}
 	
-	public FixEquipResult starUp(Player player, String ownerId, String cfgId){
+	public FixEquipResult starUp(Player player, String ownerId, String itemId){
 		
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, cfgId);
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		//未激活
@@ -114,9 +139,9 @@ public class FixNormEquipMgr {
 	}
 
 	
-	public FixEquipResult starDown(Player player, String ownerId, String cfgId){
+	public FixEquipResult starDown(Player player, String ownerId, String itemId){
 		
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, cfgId);
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
 		return result;

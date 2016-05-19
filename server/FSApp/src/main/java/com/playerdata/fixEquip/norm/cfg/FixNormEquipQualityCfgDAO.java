@@ -23,7 +23,7 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 	
 	@Override
 	public Map<String, FixNormEquipQualityCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("FixEquip/FixNormEquipQualityCfg.csv", FixNormEquipQualityCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/norm/FixNormEquipQualityCfg.csv", FixNormEquipQualityCfg.class);
 		groupByParentId(cfgCacheMap);
 		return cfgCacheMap;
 	}

@@ -21,10 +21,10 @@ public class FixExpEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixExpEquipMgr().levelUp(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().levelUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -38,10 +38,10 @@ public class FixExpEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixExpEquipMgr().qualityUp(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().qualityUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -55,10 +55,10 @@ public class FixExpEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixExpEquipMgr().starUp(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().starUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -71,10 +71,10 @@ public class FixExpEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixExpEquipMgr().starDown(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().starDown(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){

@@ -1,5 +1,8 @@
 package com.playerdata.fixEquip.exp.cfg;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -19,12 +22,36 @@ public final class FixExpEquipCfgDAO extends CfgCsvDao<FixExpEquipCfg> {
 	}
 
 	
+	private Map<Integer,List<FixExpEquipCfg>> heroEquipMap = new HashMap<Integer,List<FixExpEquipCfg>>();
+	
 	@Override
 	public Map<String, FixExpEquipCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("FixEquip/FixExpEquipCfg.csv", FixExpEquipCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/exp/FixExpEquipCfg.csv", FixExpEquipCfg.class);
+		toHeroEquipMap(cfgCacheMap);	
 		return cfgCacheMap;
 	}
 	
+	private void toHeroEquipMap(Map<String, FixExpEquipCfg> cfgCacheMap) {
+		
+		Map<Integer,List<FixExpEquipCfg>>  heroEquipMapTmp = new HashMap<Integer,List<FixExpEquipCfg>>();
+		for (FixExpEquipCfg cfgTmp : cfgCacheMap.values()) {
+			int heroModelId = cfgTmp.getHeroModelId();
+			List<FixExpEquipCfg> heroEquplist = heroEquipMapTmp.get(heroModelId);
+			if(heroEquplist == null){
+				heroEquplist = new ArrayList<FixExpEquipCfg>();
+				heroEquipMapTmp.put(heroModelId, heroEquplist);
+			}
+			heroEquplist.add(cfgTmp);
+		}
+		
+		heroEquipMap = heroEquipMapTmp;
+		
+	}
+	
+	public List<FixExpEquipCfg> getByHeroModelId(int modelId){
+		return heroEquipMap.get(modelId);
+	}
+
 	public FixExpEquipCfg getConfig(String id){
 		FixExpEquipCfg cfg = getCfgById(id);
 		return cfg;

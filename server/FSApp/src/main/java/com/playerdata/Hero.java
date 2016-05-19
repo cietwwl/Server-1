@@ -37,8 +37,8 @@ public class Hero implements HeroIF {
 	private SkillMgr m_SkillMgr = new SkillMgr();
 	private EquipMgr m_EquipMgr = new EquipMgr();
 	private InlayMgr m_inlayMgr = new InlayMgr();// 镶嵌宝石
-//	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr();  //专属装备
-//	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr();  //专属装备
+	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr();  //专属装备
+	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr();  //专属装备
 
 	// 新添加的英雄做基本属性和技能的初始化
 	public Hero(Player pPlayer, eRoleType roleTypeP, RoleCfg heroCfg, String roleUUId) {
@@ -47,13 +47,17 @@ public class Hero implements HeroIF {
 		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
 		roleBaseInfo.setId(roleUUId);
 		roleBaseInfo.setTemplateId(heroCfg.getRoleId());
-		roleBaseInfo.setModeId(heroCfg.getModelId());
+		int modelId = heroCfg.getModelId();
+		roleBaseInfo.setModeId(modelId);
 		roleBaseInfo.setLevel(1);
 		roleBaseInfo.setCareerType(heroCfg.getCareerType());
 		roleBaseInfo.setStarLevel(heroCfg.getStarLevel());
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
 		m_SkillMgr.initSkill(heroCfg);
+		
+		m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
+		
 	}
 	
 	public Hero(Player pPlayer, eRoleType roleTypeP, String roleUUId) {
@@ -68,8 +72,7 @@ public class Hero implements HeroIF {
 		m_SkillMgr.init(this);
 		m_inlayMgr.init(this);
 		m_EquipMgr.init(this);
-//		m_FixNormEquipMgr.init(this);
-//		m_FixExpEquipMgr.init(this);
+
 		// Attrmgr要在最后做初始化
 		m_AttrMgr.init(this);
 	}
@@ -105,18 +108,18 @@ public class Hero implements HeroIF {
 
 			}
 		});
-//		m_FixNormEquipMgr.regChangeCallBack(new Action() {
-//			@Override
-//			public void doAction() {
-//				m_AttrMgr.reCal();				
-//			}
-//		});
-//		m_FixExpEquipMgr.regChangeCallBack(new Action() {
-//			@Override
-//			public void doAction() {
-//				m_AttrMgr.reCal();				
-//			}
-//		});
+		m_FixNormEquipMgr.regChangeCallBack(new Action() {
+			@Override
+			public void doAction() {
+				m_AttrMgr.reCal();				
+			}
+		});
+		m_FixExpEquipMgr.regChangeCallBack(new Action() {
+			@Override
+			public void doAction() {
+				m_AttrMgr.reCal();				
+			}
+		});
 
 	}
 
@@ -126,8 +129,8 @@ public class Hero implements HeroIF {
 		m_SkillMgr.syncAllSkill(version);
 		m_inlayMgr.syncAllInlay(version);
 		m_EquipMgr.syncAllEquip(version);
-//		m_FixNormEquipMgr.synAllData(m_pPlayer, this);
-//		m_FixExpEquipMgr.synAllData(m_pPlayer, this);
+		m_FixNormEquipMgr.synAllData(m_pPlayer, this);
+		m_FixExpEquipMgr.synAllData(m_pPlayer, this);
 		m_AttrMgr.syncAllAttr(version);
 
 	}

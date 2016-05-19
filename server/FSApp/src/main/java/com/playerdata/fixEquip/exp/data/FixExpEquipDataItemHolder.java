@@ -42,8 +42,7 @@ public class FixExpEquipDataItemHolder{
 		notifyChange();
 	}
 	
-	public FixExpEquipDataItem getItem(String ownerId, String cfgId){		
-		String itemId = FixEquipHelper.getExpItemId(ownerId, cfgId);
+	public FixExpEquipDataItem getItem(String ownerId, String itemId){		
 		return getItemStore(ownerId).getItem(itemId);
 	}
 	

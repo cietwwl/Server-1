@@ -1561,32 +1561,32 @@ public final class FixEquipProto {
     com.google.protobuf.ByteString
         getOwnerIdBytes();
 
-    // optional string cfgId = 3;
+    // optional string equipId = 3;
     /**
-     * <code>optional string cfgId = 3;</code>
+     * <code>optional string equipId = 3;</code>
      *
      * <pre>
-     *装备配置id
+     *装备id
      * </pre>
      */
-    boolean hasCfgId();
+    boolean hasEquipId();
     /**
-     * <code>optional string cfgId = 3;</code>
+     * <code>optional string equipId = 3;</code>
      *
      * <pre>
-     *装备配置id
+     *装备id
      * </pre>
      */
-    java.lang.String getCfgId();
+    java.lang.String getEquipId();
     /**
-     * <code>optional string cfgId = 3;</code>
+     * <code>optional string equipId = 3;</code>
      *
      * <pre>
-     *装备配置id
+     *装备id
      * </pre>
      */
     com.google.protobuf.ByteString
-        getCfgIdBytes();
+        getEquipIdBytes();
 
     // optional .fixEquip.ExpLevelUpReqParams expLevelUpReqParams = 4;
     /**
@@ -1671,7 +1671,7 @@ public final class FixEquipProto {
             }
             case 26: {
               bitField0_ |= 0x00000004;
-              cfgId_ = input.readBytes();
+              equipId_ = input.readBytes();
               break;
             }
             case 34: {
@@ -1806,28 +1806,28 @@ public final class FixEquipProto {
       }
     }
 
-    // optional string cfgId = 3;
-    public static final int CFGID_FIELD_NUMBER = 3;
-    private java.lang.Object cfgId_;
+    // optional string equipId = 3;
+    public static final int EQUIPID_FIELD_NUMBER = 3;
+    private java.lang.Object equipId_;
     /**
-     * <code>optional string cfgId = 3;</code>
+     * <code>optional string equipId = 3;</code>
      *
      * <pre>
-     *装备配置id
+     *装备id
      * </pre>
      */
-    public boolean hasCfgId() {
+    public boolean hasEquipId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string cfgId = 3;</code>
+     * <code>optional string equipId = 3;</code>
      *
      * <pre>
-     *装备配置id
+     *装备id
      * </pre>
      */
-    public java.lang.String getCfgId() {
-      java.lang.Object ref = cfgId_;
+    public java.lang.String getEquipId() {
+      java.lang.Object ref = equipId_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -1835,26 +1835,26 @@ public final class FixEquipProto {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          cfgId_ = s;
+          equipId_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string cfgId = 3;</code>
+     * <code>optional string equipId = 3;</code>
      *
      * <pre>
-     *装备配置id
+     *装备id
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getCfgIdBytes() {
-      java.lang.Object ref = cfgId_;
+        getEquipIdBytes() {
+      java.lang.Object ref = equipId_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        cfgId_ = b;
+        equipId_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -1886,7 +1886,7 @@ public final class FixEquipProto {
     private void initFields() {
       reqType_ = com.rwproto.FixEquipProto.RequestType.Norm_level_up;
       ownerId_ = "";
-      cfgId_ = "";
+      equipId_ = "";
       expLevelUpReqParams_ = com.rwproto.FixEquipProto.ExpLevelUpReqParams.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
@@ -1912,7 +1912,7 @@ public final class FixEquipProto {
         output.writeBytes(2, getOwnerIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getCfgIdBytes());
+        output.writeBytes(3, getEquipIdBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, expLevelUpReqParams_);
@@ -1936,7 +1936,7 @@ public final class FixEquipProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getCfgIdBytes());
+          .computeBytesSize(3, getEquipIdBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -2063,7 +2063,7 @@ public final class FixEquipProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         ownerId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        cfgId_ = "";
+        equipId_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
         if (expLevelUpReqParamsBuilder_ == null) {
           expLevelUpReqParams_ = com.rwproto.FixEquipProto.ExpLevelUpReqParams.getDefaultInstance();
@@ -2110,7 +2110,7 @@ public final class FixEquipProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.cfgId_ = cfgId_;
+        result.equipId_ = equipId_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
@@ -2143,9 +2143,9 @@ public final class FixEquipProto {
           ownerId_ = other.ownerId_;
           onChanged();
         }
-        if (other.hasCfgId()) {
+        if (other.hasEquipId()) {
           bitField0_ |= 0x00000004;
-          cfgId_ = other.cfgId_;
+          equipId_ = other.equipId_;
           onChanged();
         }
         if (other.hasExpLevelUpReqParams()) {
@@ -2332,100 +2332,100 @@ public final class FixEquipProto {
         return this;
       }
 
-      // optional string cfgId = 3;
-      private java.lang.Object cfgId_ = "";
+      // optional string equipId = 3;
+      private java.lang.Object equipId_ = "";
       /**
-       * <code>optional string cfgId = 3;</code>
+       * <code>optional string equipId = 3;</code>
        *
        * <pre>
-       *装备配置id
+       *装备id
        * </pre>
        */
-      public boolean hasCfgId() {
+      public boolean hasEquipId() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string cfgId = 3;</code>
+       * <code>optional string equipId = 3;</code>
        *
        * <pre>
-       *装备配置id
+       *装备id
        * </pre>
        */
-      public java.lang.String getCfgId() {
-        java.lang.Object ref = cfgId_;
+      public java.lang.String getEquipId() {
+        java.lang.Object ref = equipId_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          cfgId_ = s;
+          equipId_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string cfgId = 3;</code>
+       * <code>optional string equipId = 3;</code>
        *
        * <pre>
-       *装备配置id
+       *装备id
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getCfgIdBytes() {
-        java.lang.Object ref = cfgId_;
+          getEquipIdBytes() {
+        java.lang.Object ref = equipId_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          cfgId_ = b;
+          equipId_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string cfgId = 3;</code>
+       * <code>optional string equipId = 3;</code>
        *
        * <pre>
-       *装备配置id
+       *装备id
        * </pre>
        */
-      public Builder setCfgId(
+      public Builder setEquipId(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000004;
-        cfgId_ = value;
+        equipId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string cfgId = 3;</code>
+       * <code>optional string equipId = 3;</code>
        *
        * <pre>
-       *装备配置id
+       *装备id
        * </pre>
        */
-      public Builder clearCfgId() {
+      public Builder clearEquipId() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        cfgId_ = getDefaultInstance().getCfgId();
+        equipId_ = getDefaultInstance().getEquipId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string cfgId = 3;</code>
+       * <code>optional string equipId = 3;</code>
        *
        * <pre>
-       *装备配置id
+       *装备id
        * </pre>
        */
-      public Builder setCfgIdBytes(
+      public Builder setEquipIdBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000004;
-        cfgId_ = value;
+        equipId_ = value;
         onChanged();
         return this;
       }
@@ -3360,18 +3360,18 @@ public final class FixEquipProto {
       "\n\016FixEquip.proto\022\010fixEquip\"?\n\023ExpLevelUp" +
       "ReqParams\022(\n\nselectItem\030\001 \003(\0132\024.fixEquip" +
       ".SelectItem\",\n\nSelectItem\022\017\n\007modelId\030\001 \001" +
-      "(\005\022\r\n\005count\030\003 \001(\005\"\222\001\n\014CommonReqMsg\022&\n\007re" +
+      "(\005\022\r\n\005count\030\003 \001(\005\"\224\001\n\014CommonReqMsg\022&\n\007re" +
       "qType\030\001 \002(\0162\025.fixEquip.RequestType\022\017\n\007ow" +
-      "nerId\030\002 \001(\t\022\r\n\005cfgId\030\003 \001(\t\022:\n\023expLevelUp" +
-      "ReqParams\030\004 \001(\0132\035.fixEquip.ExpLevelUpReq" +
-      "Params\"Y\n\014CommonRspMsg\022&\n\007reqType\030\001 \002(\0162" +
-      "\025.fixEquip.RequestType\022\021\n\tisSuccess\030\002 \002(" +
-      "\010\022\016\n\006tipMsg\030\003 \001(\t*\245\001\n\013RequestType\022\021\n\rNor",
-      "m_level_up\020\001\022\023\n\017Norm_quality_up\020\002\022\020\n\014Nor" +
-      "m_star_up\020\003\022\022\n\016Norm_star_down\020\004\022\020\n\014Exp_l" +
-      "evel_up\020\005\022\022\n\016Exp_quality_up\020\006\022\017\n\013Exp_sta" +
-      "r_up\020\007\022\021\n\rExp_star_down\020\010B\034\n\013com.rwproto" +
-      "B\rFixEquipProto"
+      "nerId\030\002 \001(\t\022\017\n\007equipId\030\003 \001(\t\022:\n\023expLevel" +
+      "UpReqParams\030\004 \001(\0132\035.fixEquip.ExpLevelUpR" +
+      "eqParams\"Y\n\014CommonRspMsg\022&\n\007reqType\030\001 \002(" +
+      "\0162\025.fixEquip.RequestType\022\021\n\tisSuccess\030\002 " +
+      "\002(\010\022\016\n\006tipMsg\030\003 \001(\t*\245\001\n\013RequestType\022\021\n\rN",
+      "orm_level_up\020\001\022\023\n\017Norm_quality_up\020\002\022\020\n\014N" +
+      "orm_star_up\020\003\022\022\n\016Norm_star_down\020\004\022\020\n\014Exp" +
+      "_level_up\020\005\022\022\n\016Exp_quality_up\020\006\022\017\n\013Exp_s" +
+      "tar_up\020\007\022\021\n\rExp_star_down\020\010B\034\n\013com.rwpro" +
+      "toB\rFixEquipProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3395,7 +3395,7 @@ public final class FixEquipProto {
           internal_static_fixEquip_CommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_fixEquip_CommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "OwnerId", "CfgId", "ExpLevelUpReqParams", });
+              new java.lang.String[] { "ReqType", "OwnerId", "EquipId", "ExpLevelUpReqParams", });
           internal_static_fixEquip_CommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_fixEquip_CommonRspMsg_fieldAccessorTable = new

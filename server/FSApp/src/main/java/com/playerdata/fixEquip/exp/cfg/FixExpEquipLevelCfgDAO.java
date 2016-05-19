@@ -23,7 +23,7 @@ public final class FixExpEquipLevelCfgDAO extends CfgCsvDao<FixExpEquipLevelCfg>
 	
 	@Override
 	public Map<String, FixExpEquipLevelCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("FixEquip/FixExpEquipLevelCfg.csv", FixExpEquipLevelCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/exp/FixExpEquipLevelCfg.csv", FixExpEquipLevelCfg.class);
 		groupByParentId(cfgCacheMap);
 		return cfgCacheMap;
 	}

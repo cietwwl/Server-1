@@ -36,7 +36,7 @@ message SelectItem{
 message CommonReqMsg{
 	required RequestType reqType = 1;//请求功能协议类型
 	optional string ownerId = 2; //装备英雄id
-	optional string cfgId = 3;  //装备配置id
+	optional string equipId = 3;  //装备id
 	optional ExpLevelUpReqParams expLevelUpReqParams =4;
 
 }
