@@ -81,6 +81,7 @@
 			     <entry key="MSG_ACTIVITY_TIME_COUNT_TYPE" value-ref="activityTimeCountTypeService" />
 			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyCountTypeService" />
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
+			     <entry key="MSG_MGCSECRET" value-ref="magicSecretService" />
 			</map>
 		</property>
 	</bean>
@@ -139,4 +140,5 @@
 	<bean id="activityTimeCountTypeService" class="com.playerdata.activity.timeCountType.service.ActivityTimeCountTypeService"  />
 	<bean id="activityDailyCountTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyCountTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
+	<bean id="magicSecretService" class="com.playerdata.mgcsecret.service.MagicSecretService"  />
 </beans>  
