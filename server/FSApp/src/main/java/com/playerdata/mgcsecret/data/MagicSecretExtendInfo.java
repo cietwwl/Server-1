@@ -1,4 +1,4 @@
-package com.rwbase.dao.magicsecret;
+package com.playerdata.mgcsecret.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 

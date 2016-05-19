@@ -1,8 +1,8 @@
-package com.rw.service.magicsecret;
+package com.playerdata.mgcsecret.service;
 
 import com.google.protobuf.ByteString;
-import com.playerdata.MagicSecretMgr;
 import com.playerdata.Player;
+import com.playerdata.mgcsecret.MagicSecretMgr;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msResultType;
@@ -39,6 +39,7 @@ public class MagicSecretHandler {
 		msRsp.setReqType(msgMSRequest.getReqType());
 
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
+		msMgr.enterMSFight();
 		msRsp.setRstType(msResultType.SUCCESS);
 		return msRsp.build().toByteString();
 	}

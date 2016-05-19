@@ -13,6 +13,7 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -30,7 +31,6 @@ import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.Magic;
-import com.rwbase.dao.magicsecret.MagicChapterInfo;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.task.pojo.TaskItem;
 

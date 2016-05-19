@@ -1,4 +1,4 @@
-package com.rwbase.dao.magicsecret;
+package com.playerdata.mgcsecret.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;

@@ -1,4 +1,4 @@
-package com.rwbase.dao.magicsecret;
+package com.playerdata.mgcsecret.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,9 @@ public class MagicChapterInfo implements  IMapItem {
 	
 	@CombineSave
 	private String maxStageID;	//关卡历史最高纪录
+	
+	@CombineSave
+	private String currentStageID = null;	//正在打的副本
 	
 	@CombineSave
 	private List<ItemInfo> canOpenBoxes = new ArrayList<ItemInfo>();  //可以打开的箱子(对应箱子ID和数量)

@@ -1,4 +1,4 @@
-package com.rw.service.magicsecret;
+package com.playerdata.mgcsecret.service;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -8,6 +8,11 @@ import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.msRequestType;
 import com.rwproto.RequestProtos.Request;
 
+/**
+ * 法宝秘境的分发
+ * @author AkenWang
+ *
+ */
 public class MagicSecretService implements FsService {
 
 	private MagicSecretHandler mHandler = MagicSecretHandler.getInstance();

@@ -27,6 +27,7 @@ import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.mgcsecret.MagicSecretMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;

@@ -1,13 +1,13 @@
 package com.bm.rank.magicsecret;
 
 import com.bm.rank.RankType;
+import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
-import com.rwbase.dao.magicsecret.UserMagicSecretData;
 
 public class MSScoreRankMgr {
-
+	
 	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public static int addOrUpdateMSScoreRank(UserMagicSecretData msInfo) {	
 		// 获取排行榜

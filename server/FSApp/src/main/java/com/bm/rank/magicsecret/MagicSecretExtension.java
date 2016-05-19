@@ -1,9 +1,9 @@
 package com.bm.rank.magicsecret;
 
 import com.bm.rank.RankingJacksonExtension;
+import com.playerdata.mgcsecret.data.MSScoreDataItem;
+import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.rw.fsutil.ranking.RankingEntry;
-import com.rwbase.dao.magicsecret.MSScoreDataItem;
-import com.rwbase.dao.magicsecret.UserMagicSecretData;
 
 public class MagicSecretExtension extends RankingJacksonExtension<MagicSecretComparable, MSScoreDataItem>{
 

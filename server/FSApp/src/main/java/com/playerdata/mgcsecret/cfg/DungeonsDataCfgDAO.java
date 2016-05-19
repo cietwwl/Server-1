@@ -1,4 +1,4 @@
-package com.rwbase.dao.magicsecret.cfg;
+package com.playerdata.mgcsecret.cfg;
 
 import java.util.Map;
 import java.util.Map.Entry;
