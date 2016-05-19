@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.alibaba.druid.support.logging.Log;
 import com.common.Action;
 import com.playerdata.readonly.SkillMgrIF;
 import com.rwbase.common.enu.EPrivilegeDef;
@@ -227,12 +228,12 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
 				updateMoreInfo(skill, null);
-				skillItemHolder.updateItem(m_pPlayer, skill);
 				if (maxOrder < skill.getOrder()) {
 					maxOrder = skill.getOrder();
 				}
 			}
 		}
+		skillItemHolder.synAllData(m_pPlayer, -1);
 		// if (maxOrder > 0) {
 		// openSkillOnClient(maxOrder);
 		// }
@@ -401,13 +402,13 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getBuffId())) {
 			parseSkillBuffs(skillList, pSkillCfg.getBuffId(), false);
 		}
-		
+
 		pSkill.getSelfBuffId().clear();
 		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getSelfBuffId())) {
 			parseSkillBuffs(skillList, pSkillCfg.getSelfBuffId(), true);
 		}
 	}
-	
+
 	private void parseSkillBuffs(List<Skill> skillList, String id, boolean isSelf) {
 		String[] skillBufflist = id.split(";");
 		Skill targetSkill;
@@ -415,7 +416,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		for (String skillBuff : skillBufflist) {
 			targetBuffarr = skillBuff.split("_");// skillBuff xxxx
 			targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
-
 			if (targetSkill != null && targetSkill.getLevel() > 0) {
 				for (int j = 1; j < targetBuffarr.length; j++) {
 					String targetBuff = targetBuffarr[j];
