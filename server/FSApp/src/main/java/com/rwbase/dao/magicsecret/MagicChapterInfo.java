@@ -25,7 +25,7 @@ public class MagicChapterInfo implements  IMapItem {
 	private String userId;// 对应的角色Id
 	
 	@CombineSave
-	private List<RewardBoxInfo> canOpenBoxes = new ArrayList<RewardBoxInfo>();  //可以打开的箱子
+	private List<Integer> canOpenBoxes = new ArrayList<Integer>();  //可以打开的箱子
 	
 	@CombineSave
 	private List<StageInfo> finishedStages = new ArrayList<StageInfo>();  //完成的关卡
@@ -34,10 +34,10 @@ public class MagicChapterInfo implements  IMapItem {
 	private List<StageInfo> selectableStages = new ArrayList<StageInfo>(); //可选的关卡
 	
 	@CombineSave
-	private List<BuffInfo> selectedBuff = new ArrayList<BuffInfo>(); //已选择的Buff
+	private List<Integer> selectedBuff = new ArrayList<Integer>(); //已选择的Buff
 	
 	@CombineSave
-	private List<BuffInfo> unselectedBuff = new ArrayList<BuffInfo>(); //可选择的buff
+	private List<Integer> unselectedBuff = new ArrayList<Integer>(); //可选择的buff
 	
 	@CombineSave
 	private int starCount; //星星数量
@@ -61,19 +61,19 @@ public class MagicChapterInfo implements  IMapItem {
 		this.userId = userId;
 	}
 
-	public List<RewardBoxInfo> getCanOpenBoxes() {
+	public List<Integer> getCanOpenBoxes() {
 		return canOpenBoxes;
 	}
 
-	public void setCanOpenBoxes(List<RewardBoxInfo> canOpenBoxes) {
+	public void setCanOpenBoxes(List<Integer> canOpenBoxes) {
 		this.canOpenBoxes = canOpenBoxes;
 	}
 
-	public List<StageInfo> getFinishedStages() {
+	public List<Integer> getFinishedStages() {
 		return finishedStages;
 	}
 
-	public void setFinishedStages(List<StageInfo> finishedStages) {
+	public void setFinishedStages(List<Integer> finishedStages) {
 		this.finishedStages = finishedStages;
 	}
 

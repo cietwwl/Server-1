@@ -7,18 +7,15 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.SkillMgr;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
-import com.rwbase.dao.user.readonly.TableUserOtherIF;
-import com.sun.tools.javac.util.List;
+import com.rw.fsutil.dao.annotation.SaveAsJson;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "magic_secret_info")
 @SynClass
-public class UserMagicSecretData {
+public class UserMagicSecretData{
 
 	@Id
 	private String userId; // 用户ID
@@ -44,7 +41,10 @@ public class UserMagicSecretData {
 	@CombineSave
 	private String version ;
 
-	private UserGameExtendInfo extendInfo;
+	//TODO ???????
+	@CombineSave
+	@SaveAsJson
+	private MagicSecretExtendInfo extendInfo;
 
 	public String getUserId() {
 		return userId;
@@ -110,7 +110,7 @@ public class UserMagicSecretData {
 		this.version = version;
 	}
 	
-	public UserGameExtendInfo getExtendInfo() {
+	public MagicSecretExtendInfo getExtendInfo() {
 		return extendInfo;
 	}
 }

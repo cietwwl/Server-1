@@ -21,7 +21,7 @@ public class UserMagicSecretHolder {
 	public void syn(Player player, int version) {
 		UserMagicSecretData userMagicSecret = get();
 		if (userMagicSecret != null) {
-			ClientDataSynMgr.synData(player, userMagicSecret, synType, eSynOpType.UPDATE_MAGIC_SECRET);
+			ClientDataSynMgr.synData(player, userMagicSecret, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
 			GameLog.error("UserMagicSecretHolder", "#syn()", "find UserMagicSecretData fail:" + userId);
 		}
@@ -35,7 +35,7 @@ public class UserMagicSecretHolder {
 		userMagicSecretDao.update(userId);
 		UserMagicSecretData userMagicSecret = get();
 		if (userMagicSecret != null) {
-			ClientDataSynMgr.updateData(player, userMagicSecret, synType, eSynOpType.UPDATE_MAGIC_SECRET);
+			ClientDataSynMgr.updateData(player, userMagicSecret, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
 			GameLog.error("UserMagicSecretHolder", "#update()", "find UserMagicSecretData fail:" + userId);
 		}

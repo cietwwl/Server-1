@@ -25,7 +25,6 @@ public class MagicChapterInfoHolder{
 
 	final private eSynType synType = eSynType.Magic_Chapter_Info;
 	
-	
 	/*
 	 * 获取已经通关的章节情况
 	 */
@@ -80,6 +79,8 @@ public class MagicChapterInfoHolder{
 			e.printStackTrace();
 			return false;
 		}
+		
+		
 	}
 	
 	//TODO 删除的逻辑，每日刷新的时候，会清除掉所有的数据
@@ -97,7 +98,7 @@ public class MagicChapterInfoHolder{
 
 	
 	private MapItemStore<MagicChapterInfo> getItemStore(String userId) {
-		MapItemStoreCache<MagicChapterInfo> cache = MapItemStoreFactory.getMagicChapterInfoData();
+		MapItemStoreCache<MagicChapterInfo> cache = MapItemStoreFactory.getMagicChapterInfoCache();
 		return cache.getMapItemStore(userId, MagicChapterInfo.class);
 	}
 	

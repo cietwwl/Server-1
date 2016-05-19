@@ -30,6 +30,7 @@ import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.Magic;
+import com.rwbase.dao.magicsecret.MagicChapterInfo;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.task.pojo.TaskItem;
 
@@ -85,6 +86,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 	
 	private static MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache;
+	
+	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -157,6 +160,8 @@ public class MapItemStoreFactory {
 		register(angelArrayFloorData = new MapItemStoreCache<AngelArrayFloorData>(AngelArrayFloorData.class, "userId", heroCapacity));
 
 		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
+		
+		register(magicChapterInfoCache = new MapItemStoreCache<MagicChapterInfo>(MagicChapterInfo.class, "userId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -344,5 +349,14 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<AngelArrayEnemyInfoData> getAngelArrayEnemyInfoData() {
 		return angelArrayEnemyInfoData;
+	}
+	
+	/**
+	 * 获取法宝秘境的章节缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<MagicChapterInfo> getMagicChapterInfoCache() {
+		return magicChapterInfoCache;
 	}
 }
