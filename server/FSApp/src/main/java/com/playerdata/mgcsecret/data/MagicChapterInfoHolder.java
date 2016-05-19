@@ -21,7 +21,7 @@ public class MagicChapterInfoHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.MagicSecretData;
+	final private eSynType synType = eSynType.MagicChapterData;
 	
 	/*
 	 * 获取已经通关的章节情况
