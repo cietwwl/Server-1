@@ -65,18 +65,17 @@ public class GameLogicTask implements PlayerTask {
 				}
 				Response response = nettyControler.getResponse(userId, seqID);
 				if (response != null) {
-					System.err.println("发送重连信息：" + header.getCommand() + ",seqId=" + seqID);
-					System.err.println("重连ctx:" + sessionId + "," + UserChannelMgr.getCurrentSessionId(userId));
+					System.err.println("发送重连信息：" + header.getCommand() + ",seqId=" + seqID + sessionId + "," + UserChannelMgr.getCurrentSessionId(userId));
 					nettyControler.sendResponse(request.getHeader(), response.getSerializedContent(), UserChannelMgr.get(userId));
 					return;
 				}
 				handleGuildance(header, userId);
 			}
-			try {
-				Thread.sleep(11000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Thread.sleep(10100);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 			try {
 				player.onBSStart();
 				resultContent = nettyControler.getSerivice(command).doTask(request, player);

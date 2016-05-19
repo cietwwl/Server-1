@@ -113,18 +113,20 @@ public class FsNettyControler {
 	}
 
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId) {
-		ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-		if (ctx == null) {
+		if (userId == null) {
 			return;
 		}
-		if (sessionId != UserChannelMgr.getSessionId(ctx)) {
-			return;
+		ChannelHandlerContext ctx = UserChannelMgr.get(userId);
+		if (ctx != null && sessionId != UserChannelMgr.getSessionId(ctx)) {
+			ctx = null;
 		}
 		sendResponse(userId, header, resultContent, 200, ctx);
 	}
 
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx) {
-		if (ctx == null) {
+		boolean sendMsg = ctx != null;
+		boolean saveMsg = userId != null;
+		if (!sendMsg && !saveMsg) {
 			return;
 		}
 		Response.Builder builder = Response.newBuilder().setHeader(getResponseHeader(header, header.getCommand(), statusCode));
@@ -135,11 +137,13 @@ public class FsNettyControler {
 		if (!GameUtil.checkMsgSize(result)) {
 			return;
 		}
-		ctx.channel().writeAndFlush(result);
-		if (userId != null) {
+		if (saveMsg) {
 			addResponse(userId, result);
 		}
-		GameLog.debug("##发送消息" + "  " + result.getHeader().getCommand().toString() + "  Size:" + result.getSerializedContent().size());
+		if (sendMsg) {
+			ctx.channel().writeAndFlush(result);
+			GameLog.debug("##发送消息" + "  " + result.getHeader().getCommand().toString() + "  Size:" + result.getSerializedContent().size());
+		}
 	}
 
 	public ResponseHeader getResponseHeader(RequestHeader header, Command command) {

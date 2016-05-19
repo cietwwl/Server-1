@@ -51,7 +51,7 @@ public class UserChannelMgr {
 	}
 
 	public static boolean bindUserID(String userId, ChannelHandlerContext ctx) {
-		if (ctx != null && StringUtils.isNotBlank(userId)) {
+		if (ctx == null || !StringUtils.isNotBlank(userId)) {
 			return false;
 		}
 		GameLog.info("UserChannelMgr", "#bindUserID", "bingding connection:" + userId + "," + ctx);
@@ -71,6 +71,10 @@ public class UserChannelMgr {
 		if (old != null) {
 			// TODO 通过消息通知
 			old.close();
+		}
+		if (ctx.channel().attr(USER_ID) == CLOSE_SESSION) {
+			userChannelMap.remove(userId, ctx);
+			return false;
 		}
 		return true;
 	}
