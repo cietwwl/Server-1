@@ -23,6 +23,8 @@ public class ChargeInfoHolder {
 		String userId = player.getUserId();
 		ChargeInfo chargeInfo = get(userId);	
 		if (chargeInfo != null) {
+			chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());//同步数据前先获取当前服务器充值开关
+			update(player);
 			ClientDataSynMgr.synData(player, chargeInfo, synType, eSynOpType.UPDATE_SINGLE);
 		} else {			
 			GameLog.error(LogModule.Charge, "ChargeInfoHolder[newChargeInfo]", "chargeInfo is null. userId:" + userId,null);

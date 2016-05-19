@@ -12,6 +12,7 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.guild.GuildGTSMgr;
+import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
@@ -133,6 +134,9 @@ public class GMHandler {
 		
 		//特权系统重新加载所有特权相关配置
 		funcCallBackMap.put("reloadprivilegeconfig", "reloadPrivilegeConfig");
+		
+		//设置充值开关,0开启1关闭
+		funcCallBackMap.put("setchargeon", "setChargeOn");
 	}
 
 	public boolean isActive() {
@@ -340,7 +344,26 @@ public class GMHandler {
 		}
 		return false;
 	}
-
+	
+	public boolean setChargeOn(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			int isChargeOn = Integer.parseInt(arrCommandContents[0]);
+			boolean ChargeOn= false;
+			if(isChargeOn == 0){
+				ChargeOn = true;
+			}
+			ServerStatusMgr.setChargeOn(ChargeOn);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
