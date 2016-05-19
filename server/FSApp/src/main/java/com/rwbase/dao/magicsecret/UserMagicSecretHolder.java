@@ -12,7 +12,7 @@ public class UserMagicSecretHolder {
 
 	private UserMagicSecretDao userMagicSecretDao = UserMagicSecretDao.getInstance();
 	private final String userId;
-	private static eSynType synType = eSynType.USER_MAGIC_SECRET;
+	private static eSynType synType = eSynType.MagicSecretData;
 
 	public UserMagicSecretHolder(String userId) {
 		this.userId = userId;

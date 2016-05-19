@@ -5,8 +5,6 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.playerdata.Player;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -23,7 +21,7 @@ public class MagicChapterInfoHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.Magic_Chapter_Info;
+	final private eSynType synType = eSynType.MagicSecretData;
 	
 	/*
 	 * 获取已经通关的章节情况

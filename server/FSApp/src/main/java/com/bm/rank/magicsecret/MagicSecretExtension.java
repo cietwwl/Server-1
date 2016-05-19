@@ -1,39 +1,31 @@
 package com.bm.rank.magicsecret;
 
 import com.bm.rank.RankingJacksonExtension;
-import com.playerdata.Player;
 import com.rw.fsutil.ranking.RankingEntry;
-import com.rwbase.dao.ranking.pojo.RankingLevelData;
+import com.rwbase.dao.magicsecret.MSScoreDataItem;
+import com.rwbase.dao.magicsecret.UserMagicSecretData;
 
-public class MagicSecretExtension extends RankingJacksonExtension<MagicSecretComparable, RankingLevelData>{
+public class MagicSecretExtension extends RankingJacksonExtension<MagicSecretComparable, MSScoreDataItem>{
 
 	public MagicSecretExtension() {
-		super(MagicSecretComparable.class, RankingLevelData.class);
+		super(MagicSecretComparable.class, MSScoreDataItem.class);
 	}
 
 	@Override
-	public void notifyEntryEvicted(RankingEntry<MagicSecretComparable, RankingLevelData> entry) {
+	public void notifyEntryEvicted(RankingEntry<MagicSecretComparable, MSScoreDataItem> entry) {
 	}
 
 	@Override
-	public <P> RankingLevelData newEntryExtension(String key, P param) {
-		if(param instanceof RankingLevelData){
-			return (RankingLevelData)param;
+	public <P> MSScoreDataItem newEntryExtension(String key, P param) {
+		if(param instanceof MSScoreDataItem){
+			return (MSScoreDataItem)param;
 		}
-		Player player = (Player)param;
-		RankingLevelData toData = new RankingLevelData();
-		toData.setUserId(player.getUserId());
-		toData.setUserName(player.getUserName());
-		toData.setLevel(player.getLevel());
-		toData.setExp(player.getExp());
-		toData.setFightingAll(player.getHeroMgr().getFightingAll());
-		toData.setFightingTeam(player.getHeroMgr().getFightingTeam());
-		toData.setUserHead(player.getHeadImage());
-		toData.setModelId(player.getModelId());
-		toData.setJob(player.getCareer());
-		toData.setSex(player.getSex());
-		toData.setCareerLevel(player.getStarLevel());
+		UserMagicSecretData magicData = (UserMagicSecretData)param;
+		MSScoreDataItem toData = new MSScoreDataItem();
+		toData.setUserId(magicData.getUserId());
+		toData.setHistoryScore(magicData.getHistoryScore());
+		toData.setTodayScore(magicData.getTodayScore());
+		toData.setRecentScoreTime(magicData.getRecentScoreTime());
 		return toData;
 	}
-
 }

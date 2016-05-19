@@ -8,11 +8,10 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
-
+import com.rwbase.dao.copy.pojo.ItemInfo;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,19 +24,22 @@ public class MagicChapterInfo implements  IMapItem {
 	private String userId;// 对应的角色Id
 	
 	@CombineSave
-	private List<Integer> canOpenBoxes = new ArrayList<Integer>();  //可以打开的箱子
+	private String maxStageID;	//关卡历史最高纪录
 	
 	@CombineSave
-	private List<StageInfo> finishedStages = new ArrayList<StageInfo>();  //完成的关卡
+	private List<ItemInfo> canOpenBoxes = new ArrayList<ItemInfo>();  //可以打开的箱子(对应箱子ID和数量)
 	
 	@CombineSave
-	private List<StageInfo> selectableStages = new ArrayList<StageInfo>(); //可选的关卡
+	private List<Integer> finishedStages = new ArrayList<Integer>();  //完成的关卡
+	
+	@CombineSave
+	private List<MSStageInfo> selectableStages = new ArrayList<MSStageInfo>(); //可挑选的关卡
 	
 	@CombineSave
 	private List<Integer> selectedBuff = new ArrayList<Integer>(); //已选择的Buff
 	
 	@CombineSave
-	private List<Integer> unselectedBuff = new ArrayList<Integer>(); //可选择的buff
+	private List<ItemInfo> unselectedBuff = new ArrayList<ItemInfo>(); //可选择的buff
 	
 	@CombineSave
 	private int starCount; //星星数量
@@ -60,12 +62,20 @@ public class MagicChapterInfo implements  IMapItem {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
+	public String getMaxStageID() {
+		return maxStageID;
+	}
 
-	public List<Integer> getCanOpenBoxes() {
+	public void setMaxStageID(String maxStageID) {
+		this.maxStageID = maxStageID;
+	}
+
+	public List<ItemInfo> getCanOpenBoxes() {
 		return canOpenBoxes;
 	}
 
-	public void setCanOpenBoxes(List<Integer> canOpenBoxes) {
+	public void setCanOpenBoxes(List<ItemInfo> canOpenBoxes) {
 		this.canOpenBoxes = canOpenBoxes;
 	}
 
@@ -77,27 +87,27 @@ public class MagicChapterInfo implements  IMapItem {
 		this.finishedStages = finishedStages;
 	}
 
-	public List<StageInfo> getSelectableStages() {
+	public List<MSStageInfo> getSelectableStages() {
 		return selectableStages;
 	}
 
-	public void setSelectableStages(List<StageInfo> selectableStages) {
+	public void setSelectableStages(List<MSStageInfo> selectableStages) {
 		this.selectableStages = selectableStages;
 	}
 
-	public List<BuffInfo> getSelectedBuff() {
+	public List<Integer> getSelectedBuff() {
 		return selectedBuff;
 	}
 
-	public void setSelectedBuff(List<BuffInfo> selectedBuff) {
+	public void setSelectedBuff(List<Integer> selectedBuff) {
 		this.selectedBuff = selectedBuff;
 	}
 
-	public List<BuffInfo> getUnselectedBuff() {
+	public List<ItemInfo> getUnselectedBuff() {
 		return unselectedBuff;
 	}
 
-	public void setUnselectedBuff(List<BuffInfo> unselectedBuff) {
+	public void setUnselectedBuff(List<ItemInfo> unselectedBuff) {
 		this.unselectedBuff = unselectedBuff;
 	}
 

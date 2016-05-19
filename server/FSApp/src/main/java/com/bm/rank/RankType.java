@@ -9,6 +9,7 @@ import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
 import com.bm.rank.level.LevelExtension;
+import com.bm.rank.magicsecret.MagicSecretExtension;
 import com.bm.rank.peakArena.PeakArenaExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
 import com.rw.fsutil.common.TypeIdentification;
@@ -40,6 +41,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 //	ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),
 	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class),
 	ANGEL_TEAM_INFO_RANK(22, 20000, "万仙阵匹配玩家阵容", 1, AngelArrayTeamInfoExtension.class),
+	MAGIC_SECRET_SCORE_RANK(23, 30000, "法宝秘境积分榜", 1, MagicSecretExtension.class),
 //	CHARGE_RANK(23, 5000, "充值排行榜", 1, ChargeRankExtension.class),
 	;
 
