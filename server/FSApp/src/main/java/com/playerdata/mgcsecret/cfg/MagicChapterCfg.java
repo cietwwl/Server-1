@@ -1,12 +1,11 @@
 package com.playerdata.mgcsecret.cfg;
+import com.common.BaseConfig;
 
-
-public class MagicChapterCfg
-{
-	private int chapterId; 
-	private int dungeonCount; 
-	private int levelLimit; 
-	private String data; 
+public class MagicChapterCfg extends BaseConfig {
+	private int chapterId; //章节id
+	private int dungeonCount; //空间层数
+	private int levelLimit; //开启等级
+	private String data; //层数id
 
 	public int getChapterId() {
 		return chapterId;
@@ -23,21 +22,5 @@ public class MagicChapterCfg
 	public String getData() {
 		return data;
 	}
-
-	public void setChapterId(int chapterId) {
-		this.chapterId = chapterId;
-	}
-
-	public void setDungeonCount(int dungeonCount) {
-		this.dungeonCount = dungeonCount;
-	}
-
-	public void setLevelLimit(int levelLimit) {
-		this.levelLimit = levelLimit;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-
+  
 }

@@ -38,10 +38,10 @@ public class UserMagicSecretData{
 	long recentScoreTime; //最新获得积分时间
 	
 	@CombineSave
-	private String maxStageID;	//关卡历史最高纪录
+	private int maxStageID;	//关卡历史最高纪录
 	
 	@CombineSave
-	private String currentStageID = null;	//正在打的副本
+	private String currentDungeonID = null;	//正在打的副本
 	
 	@CombineSave
 	private String version ;
@@ -110,19 +110,19 @@ public class UserMagicSecretData{
 		this.version = version;
 	}
 	
-	public String getMaxStageID() {
+	public int getMaxStageID() {
 		return maxStageID;
 	}
 
-	public void setMaxStageID(String maxStageID) {
+	public void setMaxStageID(int maxStageID) {
 		this.maxStageID = maxStageID;
 	}
 
-	public String getCurrentStageID() {
-		return currentStageID;
+	public String getCurrentDungeonID() {
+		return currentDungeonID;
 	}
 
-	public void setCurrentStageID(String currentStageID) {
-		this.currentStageID = currentStageID;
+	public void setCurrentDungeonID(String currentDungeonID) {
+		this.currentDungeonID = currentDungeonID;
 	}
 }

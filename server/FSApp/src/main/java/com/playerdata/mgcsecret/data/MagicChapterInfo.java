@@ -36,7 +36,7 @@ public class MagicChapterInfo implements  IMapItem {
 	private List<Integer> selectedBuff = new ArrayList<Integer>(); //已选择的Buff
 	
 	@CombineSave
-	private List<ItemInfo> unselectedBuff = new ArrayList<ItemInfo>(); //可选择的buff
+	private List<Integer> unselectedBuff = new ArrayList<Integer>(); //可选择的buff
 	
 	@CombineSave
 	private int starCount; //星星数量
@@ -92,11 +92,11 @@ public class MagicChapterInfo implements  IMapItem {
 		this.selectedBuff = selectedBuff;
 	}
 
-	public List<ItemInfo> getUnselectedBuff() {
+	public List<Integer> getUnselectedBuff() {
 		return unselectedBuff;
 	}
 
-	public void setUnselectedBuff(List<ItemInfo> unselectedBuff) {
+	public void setUnselectedBuff(List<Integer> unselectedBuff) {
 		this.unselectedBuff = unselectedBuff;
 	}
 

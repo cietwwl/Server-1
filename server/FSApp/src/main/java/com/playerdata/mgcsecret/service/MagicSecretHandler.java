@@ -32,7 +32,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msRsp.setRstType(msMgr.enterMSFight());
+		msRsp.setRstType(msMgr.enterMSFight(msgMSRequest.getDungeonId()));
 		return msRsp.build().toByteString();
 	}
 
@@ -64,7 +64,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msRsp.setRstType(msMgr.exchangeBuff());
+		msRsp.setRstType(msMgr.exchangeBuff(msgMSRequest.getChapterId(), msgMSRequest.getBuffId()));
 		return msRsp.build().toByteString();
 	}
 }

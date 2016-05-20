@@ -43,7 +43,7 @@ public class MagicChapterInfoHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public MagicChapterInfo getItem(String userId, int chapterId){		
+	public MagicChapterInfo getItem(String userId, String chapterId){		
 		String itemId = userId + "_" + chapterId;
 		return getItemStore(userId).getItem(itemId);
 	}

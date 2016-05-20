@@ -69,6 +69,22 @@ public final class MagicSecretProto {
      * </pre>
      */
     CHANGE_ARMY(6, 7),
+    /**
+     * <code>GET_SCORE_REWARD = 8;</code>
+     *
+     * <pre>
+     *领取积分奖励
+     * </pre>
+     */
+    GET_SCORE_REWARD(7, 8),
+    /**
+     * <code>GET_SELF_MS_RANK = 9;</code>
+     *
+     * <pre>
+     *获取自己的排名
+     * </pre>
+     */
+    GET_SELF_MS_RANK(8, 9),
     ;
 
     /**
@@ -127,6 +143,22 @@ public final class MagicSecretProto {
      * </pre>
      */
     public static final int CHANGE_ARMY_VALUE = 7;
+    /**
+     * <code>GET_SCORE_REWARD = 8;</code>
+     *
+     * <pre>
+     *领取积分奖励
+     * </pre>
+     */
+    public static final int GET_SCORE_REWARD_VALUE = 8;
+    /**
+     * <code>GET_SELF_MS_RANK = 9;</code>
+     *
+     * <pre>
+     *获取自己的排名
+     * </pre>
+     */
+    public static final int GET_SELF_MS_RANK_VALUE = 9;
 
 
     public final int getNumber() { return value; }
@@ -140,6 +172,8 @@ public final class MagicSecretProto {
         case 5: return EXCHANGE_BUFF;
         case 6: return OPEN_REWARD_BOX;
         case 7: return CHANGE_ARMY;
+        case 8: return GET_SCORE_REWARD;
+        case 9: return GET_SELF_MS_RANK;
         default: return null;
       }
     }
@@ -261,13 +295,21 @@ public final class MagicSecretProto {
      */
     NOT_ENOUGH_STAR(7, 8),
     /**
-     * <code>DATA_ERROR = 9;</code>
+     * <code>NO_EXCHANGE_BUFF = 9;</code>
+     *
+     * <pre>
+     *没有可以交换的buff
+     * </pre>
+     */
+    NO_EXCHANGE_BUFF(8, 9),
+    /**
+     * <code>DATA_ERROR = 10;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    DATA_ERROR(8, 9),
+    DATA_ERROR(9, 10),
     ;
 
     /**
@@ -335,13 +377,21 @@ public final class MagicSecretProto {
      */
     public static final int NOT_ENOUGH_STAR_VALUE = 8;
     /**
-     * <code>DATA_ERROR = 9;</code>
+     * <code>NO_EXCHANGE_BUFF = 9;</code>
+     *
+     * <pre>
+     *没有可以交换的buff
+     * </pre>
+     */
+    public static final int NO_EXCHANGE_BUFF_VALUE = 9;
+    /**
+     * <code>DATA_ERROR = 10;</code>
      *
      * <pre>
      *数据异常
      * </pre>
      */
-    public static final int DATA_ERROR_VALUE = 9;
+    public static final int DATA_ERROR_VALUE = 10;
 
 
     public final int getNumber() { return value; }
@@ -356,7 +406,8 @@ public final class MagicSecretProto {
         case 6: return NO_REWARD_BOX;
         case 7: return NOT_ENOUGH_GOLD;
         case 8: return NOT_ENOUGH_STAR;
-        case 9: return DATA_ERROR;
+        case 9: return NO_EXCHANGE_BUFF;
+        case 10: return DATA_ERROR;
         default: return null;
       }
     }
@@ -1972,32 +2023,95 @@ public final class MagicSecretProto {
      */
     com.rwproto.MagicSecretProto.msResultType getRstType();
 
-    // optional string msRankData = 3;
+    // repeated string msRankData = 3;
     /**
-     * <code>optional string msRankData = 3;</code>
+     * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    boolean hasMsRankData();
+    java.util.List<java.lang.String>
+    getMsRankDataList();
     /**
-     * <code>optional string msRankData = 3;</code>
+     * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    java.lang.String getMsRankData();
+    int getMsRankDataCount();
     /**
-     * <code>optional string msRankData = 3;</code>
+     * <code>repeated string msRankData = 3;</code>
+     *
+     * <pre>
+     *排行榜的数据
+     * </pre>
+     */
+    java.lang.String getMsRankData(int index);
+    /**
+     * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
     com.google.protobuf.ByteString
-        getMsRankDataBytes();
+        getMsRankDataBytes(int index);
+
+    // optional int32 selfRank = 4;
+    /**
+     * <code>optional int32 selfRank = 4;</code>
+     *
+     * <pre>
+     *自己的排名
+     * </pre>
+     */
+    boolean hasSelfRank();
+    /**
+     * <code>optional int32 selfRank = 4;</code>
+     *
+     * <pre>
+     *自己的排名
+     * </pre>
+     */
+    int getSelfRank();
+
+    // repeated string rewardData = 5;
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getRewardDataList();
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    int getRewardDataCount();
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    java.lang.String getRewardData(int index);
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getRewardDataBytes(int index);
   }
   /**
    * Protobuf type {@code magicSecret.MagicSecretRspMsg}
@@ -2073,8 +2187,24 @@ public final class MagicSecretProto {
               break;
             }
             case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                msRankData_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              msRankData_.add(input.readBytes());
+              break;
+            }
+            case 32: {
               bitField0_ |= 0x00000004;
-              msRankData_ = input.readBytes();
+              selfRank_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                rewardData_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              rewardData_.add(input.readBytes());
               break;
             }
           }
@@ -2085,6 +2215,12 @@ public final class MagicSecretProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          msRankData_ = new com.google.protobuf.UnmodifiableLazyStringList(msRankData_);
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          rewardData_ = new com.google.protobuf.UnmodifiableLazyStringList(rewardData_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -2165,65 +2301,128 @@ public final class MagicSecretProto {
       return rstType_;
     }
 
-    // optional string msRankData = 3;
+    // repeated string msRankData = 3;
     public static final int MSRANKDATA_FIELD_NUMBER = 3;
-    private java.lang.Object msRankData_;
+    private com.google.protobuf.LazyStringList msRankData_;
     /**
-     * <code>optional string msRankData = 3;</code>
+     * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    public boolean hasMsRankData() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public java.util.List<java.lang.String>
+        getMsRankDataList() {
+      return msRankData_;
     }
     /**
-     * <code>optional string msRankData = 3;</code>
+     * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
-    public java.lang.String getMsRankData() {
-      java.lang.Object ref = msRankData_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          msRankData_ = s;
-        }
-        return s;
-      }
+    public int getMsRankDataCount() {
+      return msRankData_.size();
     }
     /**
-     * <code>optional string msRankData = 3;</code>
+     * <code>repeated string msRankData = 3;</code>
+     *
+     * <pre>
+     *排行榜的数据
+     * </pre>
+     */
+    public java.lang.String getMsRankData(int index) {
+      return msRankData_.get(index);
+    }
+    /**
+     * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
      *排行榜的数据
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getMsRankDataBytes() {
-      java.lang.Object ref = msRankData_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        msRankData_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getMsRankDataBytes(int index) {
+      return msRankData_.getByteString(index);
+    }
+
+    // optional int32 selfRank = 4;
+    public static final int SELFRANK_FIELD_NUMBER = 4;
+    private int selfRank_;
+    /**
+     * <code>optional int32 selfRank = 4;</code>
+     *
+     * <pre>
+     *自己的排名
+     * </pre>
+     */
+    public boolean hasSelfRank() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 selfRank = 4;</code>
+     *
+     * <pre>
+     *自己的排名
+     * </pre>
+     */
+    public int getSelfRank() {
+      return selfRank_;
+    }
+
+    // repeated string rewardData = 5;
+    public static final int REWARDDATA_FIELD_NUMBER = 5;
+    private com.google.protobuf.LazyStringList rewardData_;
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getRewardDataList() {
+      return rewardData_;
+    }
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    public int getRewardDataCount() {
+      return rewardData_.size();
+    }
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    public java.lang.String getRewardData(int index) {
+      return rewardData_.get(index);
+    }
+    /**
+     * <code>repeated string rewardData = 5;</code>
+     *
+     * <pre>
+     *获得的物品，包括星星，积分，秘境货币和实际的物品
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getRewardDataBytes(int index) {
+      return rewardData_.getByteString(index);
     }
 
     private void initFields() {
       reqType_ = com.rwproto.MagicSecretProto.msRequestType.GET_MS_RANK;
       rstType_ = com.rwproto.MagicSecretProto.msResultType.SUCCESS;
-      msRankData_ = "";
+      msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      selfRank_ = 0;
+      rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2251,8 +2450,14 @@ public final class MagicSecretProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, rstType_.getNumber());
       }
+      for (int i = 0; i < msRankData_.size(); i++) {
+        output.writeBytes(3, msRankData_.getByteString(i));
+      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getMsRankDataBytes());
+        output.writeInt32(4, selfRank_);
+      }
+      for (int i = 0; i < rewardData_.size(); i++) {
+        output.writeBytes(5, rewardData_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2271,9 +2476,27 @@ public final class MagicSecretProto {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, rstType_.getNumber());
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < msRankData_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(msRankData_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getMsRankDataList().size();
+      }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getMsRankDataBytes());
+          .computeInt32Size(4, selfRank_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < rewardData_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(rewardData_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getRewardDataList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2395,8 +2618,12 @@ public final class MagicSecretProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         rstType_ = com.rwproto.MagicSecretProto.msResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000002);
-        msRankData_ = "";
+        msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
+        selfRank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2433,10 +2660,22 @@ public final class MagicSecretProto {
           to_bitField0_ |= 0x00000002;
         }
         result.rstType_ = rstType_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          msRankData_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              msRankData_);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.msRankData_ = msRankData_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.selfRank_ = selfRank_;
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          rewardData_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              rewardData_);
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.rewardData_ = rewardData_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2459,9 +2698,27 @@ public final class MagicSecretProto {
         if (other.hasRstType()) {
           setRstType(other.getRstType());
         }
-        if (other.hasMsRankData()) {
-          bitField0_ |= 0x00000004;
-          msRankData_ = other.msRankData_;
+        if (!other.msRankData_.isEmpty()) {
+          if (msRankData_.isEmpty()) {
+            msRankData_ = other.msRankData_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureMsRankDataIsMutable();
+            msRankData_.addAll(other.msRankData_);
+          }
+          onChanged();
+        }
+        if (other.hasSelfRank()) {
+          setSelfRank(other.getSelfRank());
+        }
+        if (!other.rewardData_.isEmpty()) {
+          if (rewardData_.isEmpty()) {
+            rewardData_ = other.rewardData_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureRewardDataIsMutable();
+            rewardData_.addAll(other.rewardData_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -2603,100 +2860,309 @@ public final class MagicSecretProto {
         return this;
       }
 
-      // optional string msRankData = 3;
-      private java.lang.Object msRankData_ = "";
+      // repeated string msRankData = 3;
+      private com.google.protobuf.LazyStringList msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureMsRankDataIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          msRankData_ = new com.google.protobuf.LazyStringArrayList(msRankData_);
+          bitField0_ |= 0x00000004;
+         }
+      }
       /**
-       * <code>optional string msRankData = 3;</code>
+       * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
-      public boolean hasMsRankData() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+      public java.util.List<java.lang.String>
+          getMsRankDataList() {
+        return java.util.Collections.unmodifiableList(msRankData_);
       }
       /**
-       * <code>optional string msRankData = 3;</code>
+       * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
-      public java.lang.String getMsRankData() {
-        java.lang.Object ref = msRankData_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          msRankData_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getMsRankDataCount() {
+        return msRankData_.size();
       }
       /**
-       * <code>optional string msRankData = 3;</code>
+       * <code>repeated string msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public java.lang.String getMsRankData(int index) {
+        return msRankData_.get(index);
+      }
+      /**
+       * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getMsRankDataBytes() {
-        java.lang.Object ref = msRankData_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          msRankData_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getMsRankDataBytes(int index) {
+        return msRankData_.getByteString(index);
       }
       /**
-       * <code>optional string msRankData = 3;</code>
+       * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public Builder setMsRankData(
-          java.lang.String value) {
+          int index, java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
-        msRankData_ = value;
+  ensureMsRankDataIsMutable();
+        msRankData_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>optional string msRankData = 3;</code>
+       * <code>repeated string msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public Builder addMsRankData(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureMsRankDataIsMutable();
+        msRankData_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string msRankData = 3;</code>
+       *
+       * <pre>
+       *排行榜的数据
+       * </pre>
+       */
+      public Builder addAllMsRankData(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureMsRankDataIsMutable();
+        super.addAll(values, msRankData_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
       public Builder clearMsRankData() {
+        msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        msRankData_ = getDefaultInstance().getMsRankData();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string msRankData = 3;</code>
+       * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
        *排行榜的数据
        * </pre>
        */
-      public Builder setMsRankDataBytes(
+      public Builder addMsRankDataBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
-        msRankData_ = value;
+  ensureMsRankDataIsMutable();
+        msRankData_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional int32 selfRank = 4;
+      private int selfRank_ ;
+      /**
+       * <code>optional int32 selfRank = 4;</code>
+       *
+       * <pre>
+       *自己的排名
+       * </pre>
+       */
+      public boolean hasSelfRank() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 selfRank = 4;</code>
+       *
+       * <pre>
+       *自己的排名
+       * </pre>
+       */
+      public int getSelfRank() {
+        return selfRank_;
+      }
+      /**
+       * <code>optional int32 selfRank = 4;</code>
+       *
+       * <pre>
+       *自己的排名
+       * </pre>
+       */
+      public Builder setSelfRank(int value) {
+        bitField0_ |= 0x00000008;
+        selfRank_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 selfRank = 4;</code>
+       *
+       * <pre>
+       *自己的排名
+       * </pre>
+       */
+      public Builder clearSelfRank() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        selfRank_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated string rewardData = 5;
+      private com.google.protobuf.LazyStringList rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureRewardDataIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          rewardData_ = new com.google.protobuf.LazyStringArrayList(rewardData_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getRewardDataList() {
+        return java.util.Collections.unmodifiableList(rewardData_);
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public int getRewardDataCount() {
+        return rewardData_.size();
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public java.lang.String getRewardData(int index) {
+        return rewardData_.get(index);
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getRewardDataBytes(int index) {
+        return rewardData_.getByteString(index);
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public Builder setRewardData(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureRewardDataIsMutable();
+        rewardData_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public Builder addRewardData(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureRewardDataIsMutable();
+        rewardData_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public Builder addAllRewardData(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureRewardDataIsMutable();
+        super.addAll(values, rewardData_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public Builder clearRewardData() {
+        rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string rewardData = 5;</code>
+       *
+       * <pre>
+       *获得的物品，包括星星，积分，秘境货币和实际的物品
+       * </pre>
+       */
+      public Builder addRewardDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureRewardDataIsMutable();
+        rewardData_.add(value);
         onChanged();
         return this;
       }
@@ -3389,21 +3855,24 @@ public final class MagicSecretProto {
       "ecret.msRequestType\022\021\n\tdungeonId\030\002 \001(\t\022\021" +
       "\n\tchapterId\030\003 \001(\t\022\016\n\006buffId\030\004 \001(\t\022(\n\006rwd" +
       "Box\030\005 \001(\0132\030.magicSecret.msRewardBox\022\020\n\010a" +
-      "rmyInfo\030\006 \001(\t\"\200\001\n\021MagicSecretRspMsg\022+\n\007r" +
+      "rmyInfo\030\006 \001(\t\"\246\001\n\021MagicSecretRspMsg\022+\n\007r" +
       "eqType\030\001 \002(\0162\032.magicSecret.msRequestType" +
       "\022*\n\007rstType\030\002 \002(\0162\031.magicSecret.msResult" +
-      "Type\022\022\n\nmsRankData\030\003 \001(\t\".\n\013msRewardBox\022" +
-      "\r\n\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\240\001\n\rmsR",
-      "equestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_MS_" +
-      "FIGHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023GET" +
-      "_MS_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022\023\n" +
-      "\017OPEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007*\273\001\n\014" +
-      "msResultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT_E" +
-      "NOUGH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDITION_UNRE" +
-      "ACH\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\rNO_REWAR" +
-      "D_BOX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT_ENOU" +
-      "GH_STAR\020\010\022\016\n\nDATA_ERROR\020\tB\037\n\013com.rwproto" +
-      "B\020MagicSecretProto"
+      "Type\022\022\n\nmsRankData\030\003 \003(\t\022\020\n\010selfRank\030\004 \001" +
+      "(\005\022\022\n\nrewardData\030\005 \003(\t\".\n\013msRewardBox\022\r\n",
+      "\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\314\001\n\rmsReq" +
+      "uestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_MS_FI" +
+      "GHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023GET_M" +
+      "S_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022\023\n\017O" +
+      "PEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n\020GET" +
+      "_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020\t*\321\001" +
+      "\n\014msResultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT" +
+      "_ENOUGH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDITION_UN" +
+      "REACH\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\rNO_REW" +
+      "ARD_BOX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT_EN",
+      "OUGH_STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t\022\016\n\nDAT" +
+      "A_ERROR\020\nB\037\n\013com.rwprotoB\020MagicSecretPro" +
+      "to"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3421,7 +3890,7 @@ public final class MagicSecretProto {
           internal_static_magicSecret_MagicSecretRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_magicSecret_MagicSecretRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "MsRankData", });
+              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", });
           internal_static_magicSecret_msRewardBox_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_magicSecret_msRewardBox_fieldAccessorTable = new

@@ -1,9 +1,12 @@
 package com.playerdata.mgcsecret.cfg;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.playerdata.mgcsecret.data.MSStageInfo;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -27,7 +30,20 @@ public class DungeonsDataCfgDAO extends CfgCsvDao<DungeonsDataCfg> {
 				}
 			}
 		}
-
 		return cfgCacheMap;
+	}
+	
+	public List<MSStageInfo> getNextStages(String stageID){
+		List<MSStageInfo> listStages = new ArrayList<MSStageInfo>();
+		DungeonsDataCfg stageInfo = getCfgById(stageID);
+		for(int i = 1; i <= 3; i++){
+			String stgID = (stageInfo.getId() + 1) + "_" + i;
+			DungeonsDataCfg stgInfo = getCfgById(stgID);
+			if(stgInfo != null){
+				MSStageInfo msStgInfo = new MSStageInfo(stgID, String.valueOf(stgInfo.getFabaoBuff()), stgInfo.getEnimy(), stgInfo.getDrop());
+				listStages.add(msStgInfo);
+			}
+		}
+		return listStages;
 	}
 }
