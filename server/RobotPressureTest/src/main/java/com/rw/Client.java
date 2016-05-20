@@ -5,6 +5,7 @@ import java.util.List;
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.handler.activity.ActivityCountHolder;
+import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
@@ -17,6 +18,7 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
+import com.rw.handler.sevenDayGift.DailyGiftHolder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.task.TaskItemHolder;
@@ -64,8 +66,13 @@ public class Client {
 		
 	//玩家通用活动一数据
 	private ActivityCountHolder activityCountHolder = new ActivityCountHolder();
+	//玩家通用活动二数据
+	private ActivityDailyCountHolder activityDailyCountHolder = new ActivityDailyCountHolder();
+
 	
 	
+
+
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -230,7 +237,11 @@ public class Client {
 	public ActivityCountHolder getActivityCountHolder() {
 		return activityCountHolder;
 	}
-
+	
+	public ActivityDailyCountHolder getActivityDailyCountHolder() {
+		return activityDailyCountHolder;
+	}
+	
 	public SignDataHolder getSignDataHolder() {
 		return signDataHolder;
 	}
@@ -246,6 +257,8 @@ public class Client {
 	public void setDailyActivityDataHolder(DailyActivityDataHolder dailyActivityDataHolder) {
 		this.dailyActivityDataHolder = dailyActivityDataHolder;
 	}
+	
+
 
 	public String getGroupVersion() {
 		groupVersion.setApplyMemberData(applyMemberHolder.getVersion());

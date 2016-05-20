@@ -5,6 +5,8 @@ import org.apache.log4j.PropertyConfigurator;
 import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
 import com.rw.handler.DailyActivity.DailyActivityHandler;
+import com.rw.handler.activity.ActivityCountHandler;
+import com.rw.handler.activity.daily.ActivityDailyCountHandler;
 import com.rw.handler.battle.PVEHandler;
 import com.rw.handler.battle.PVPHandler;
 import com.rw.handler.battletower.BattleTowerHandler;
@@ -26,6 +28,7 @@ import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.magic.MagicHandler;
 import com.rw.handler.mainService.MainHandler;
 import com.rw.handler.platform.PlatformHandler;
+import com.rw.handler.sevenDayGift.DailyGiftHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.worShip.worShipHandler;
@@ -708,28 +711,25 @@ public class Robot {
 	/**
 	 * 通用活动一领奖all
 	 */
-	public  boolean testActivityCountTakeGift() {
-		
-		
-		
-		
-		
-		return MainHandler.getHandler().buyTower(client);
+	public  boolean testActivityCountTakeGift() {					
+				
+		return	ActivityCountHandler.getHandler().ActivityCountTakeGift(client);				
 	}
 	
 	/**
 	 * 通用活动二领奖all
 	 */
-	public  boolean testActivityDailyCountTakeGift() {
-		
-		
-		
-		return MainHandler.getHandler().buyTower(client);
+	public  boolean testActivityDailyCountTakeGift() {		
+		return ActivityDailyCountHandler.getHandler().ActivityDailyCountTakeGift(client);	
 	}
 	
-	
-	
-	
+	/**
+	 * 七日礼包领取
+	 */
+	public  boolean testSevenDayGiftTake(){		
+		DailyGiftHandler.getHandler().getSevenDayGiftItem(client);
+		return false;
+	}
 	
 	
 
