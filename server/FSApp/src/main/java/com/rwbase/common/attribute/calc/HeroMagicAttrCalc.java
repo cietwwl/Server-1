@@ -61,6 +61,7 @@ public class HeroMagicAttrCalc implements IComponentCalc {
 			return null;
 		}
 
+		GameLog.info("计算法宝属性", userId, AttributeUtils.partAttrMap2Str("英雄法宝", map), null);
 		return new AttributeSet.Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
 

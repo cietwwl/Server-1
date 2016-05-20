@@ -115,7 +115,7 @@ public class Player implements PlayerIF {
 	private StoreMgr m_StoreMgr = new StoreMgr();
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
-	//特权管理器
+	// 特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
 	private GuidanceMgr guideMgr = new GuidanceMgr();
 
@@ -277,12 +277,12 @@ public class Player implements PlayerIF {
 		m_AssistantMgr.init(this);
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
-		
+
 		guideMgr.init(this);
-		
+
 		afterMgrInit();
 		upgradeMgr.init(this);
-		
+
 		privilegeMgr.init(this);
 	}
 
@@ -295,7 +295,11 @@ public class Player implements PlayerIF {
 
 			@Override
 			public void doAction() {
-				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				// m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				while (heros.hasMoreElements()) {
+					heros.nextElement().getAttrMgr().reCal();
+				}
 			}
 		});
 
@@ -516,7 +520,7 @@ public class Player implements PlayerIF {
 	public void heartBeatCheck() {
 		// getSecretMgr().updateKeyNumByTime();
 		// getSecretMgr().updateSecretByTime();
-		
+
 		ActivityTimeCountTypeMgr.getInstance().doTimeCount(this, ActivityTimeCountTypeEnum.role_online);
 		getAssistantMgr().doCheck();
 		if (this.tempAttribute.checkAndResetRedPoint()) {
@@ -645,12 +649,13 @@ public class Player implements PlayerIF {
 		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
-	//by franky 升级通知，响应时可以通过sample方法获取旧的等级
+	// by franky 升级通知，响应时可以通过sample方法获取旧的等级
 	private StreamImpl<Integer> levelNotification = new StreamImpl<Integer>();
-	public IStream<Integer> getLevelNotification(){
+
+	public IStream<Integer> getLevelNotification() {
 		return levelNotification;
 	}
-	
+
 	public void SetLevel(int newLevel) {
 		// 最高等级
 		if (newLevel > PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.PLAYER_MAX_LEVEL)) {
@@ -666,7 +671,7 @@ public class Player implements PlayerIF {
 		if (observer != null) {
 			observer.playerChangeLevel(this);
 		}
-		
+
 		levelNotification.fire(newLevel);
 	}
 
@@ -1007,7 +1012,6 @@ public class Player implements PlayerIF {
 		// return null;
 	}
 
-
 	public MagicMgr getMagicMgr() {
 		return this.magicMgr;
 	}
@@ -1214,7 +1218,7 @@ public class Player implements PlayerIF {
 	public IPrivilegeManager getPrivilegeMgr() {
 		return privilegeMgr;
 	}
-	
+
 	/**
 	 * 获取所有的英雄羁绊
 	 * 
@@ -1273,10 +1277,11 @@ public class Player implements PlayerIF {
 	}
 
 	private IPrivilegeProvider monthProvider;
+
 	public IPrivilegeProvider getMonthCardPrivilegeProvider() {
-		 if (monthProvider == null){
-			 monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
-		 }
-		 return monthProvider;
+		if (monthProvider == null) {
+			monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
+		}
+		return monthProvider;
 	}
 }
