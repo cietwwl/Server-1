@@ -14,7 +14,6 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.item.useeffect.IItemUseEffect;
-import com.rwbase.common.enu.eConsumeTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.ItemUseEffectCfgDAO;
@@ -317,12 +316,12 @@ public class ItemBagHandler {
 			return rsp.build().toByteString();
 		}
 
-		int consumeType = itemBaseCfg.getConsumeType();
-		if (consumeType != eConsumeTypeDef.PowerConsume.getOrder() && consumeType != eConsumeTypeDef.VipExpConsume.getOrder()) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具不能被使用", itemTemplateId));
-			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
-			return rsp.build().toByteString();
-		}
+		// int consumeType = itemBaseCfg.getConsumeType();
+		// if (consumeType != eConsumeTypeDef.PowerConsume.getOrder() && consumeType != eConsumeTypeDef.VipExpConsume.getOrder()) {
+		// GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具不能被使用", itemTemplateId));
+		// rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
+		// return rsp.build().toByteString();
+		// }
 
 		ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(itemTemplateId);
 		if (consumeCfg == null) {

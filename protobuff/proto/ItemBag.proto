@@ -2,8 +2,6 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "ItemBagProtos";
 
-import "CommonMsg.proto";
-
 enum EItemBagEventType {
 	ItemBag_Index = 0;//请求全部背包列表
 	ItemBag_Compose = 1;//合成
@@ -59,6 +57,11 @@ enum EItemAttributeType{
 	Equip_AttachExp = 5;//装备附灵经验
 	Equip_AttachLevel = 6;//装备附灵等级
 	Magic_Total_Exp=7;//纪录法宝总经验，暂时用于服务端日志跟踪，其他逻辑不涉及，客户端不需要用
+}
+
+message RewardInfo{
+	required string rewardId = 1;//奖励的物品Id
+	required int32 rewardCount = 2;//奖励的数量
 }
 
 message TagItemAttriData{

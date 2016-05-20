@@ -990,6 +990,654 @@ public final class ItemBagProtos {
     // @@protoc_insertion_point(enum_scope:EItemAttributeType)
   }
 
+  public interface RewardInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string rewardId = 1;
+    /**
+     * <code>required string rewardId = 1;</code>
+     *
+     * <pre>
+     *奖励的物品Id
+     * </pre>
+     */
+    boolean hasRewardId();
+    /**
+     * <code>required string rewardId = 1;</code>
+     *
+     * <pre>
+     *奖励的物品Id
+     * </pre>
+     */
+    java.lang.String getRewardId();
+    /**
+     * <code>required string rewardId = 1;</code>
+     *
+     * <pre>
+     *奖励的物品Id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getRewardIdBytes();
+
+    // required int32 rewardCount = 2;
+    /**
+     * <code>required int32 rewardCount = 2;</code>
+     *
+     * <pre>
+     *奖励的数量
+     * </pre>
+     */
+    boolean hasRewardCount();
+    /**
+     * <code>required int32 rewardCount = 2;</code>
+     *
+     * <pre>
+     *奖励的数量
+     * </pre>
+     */
+    int getRewardCount();
+  }
+  /**
+   * Protobuf type {@code RewardInfo}
+   */
+  public static final class RewardInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements RewardInfoOrBuilder {
+    // Use RewardInfo.newBuilder() to construct.
+    private RewardInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private RewardInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final RewardInfo defaultInstance;
+    public static RewardInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public RewardInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RewardInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              rewardId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              rewardCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ItemBagProtos.internal_static_RewardInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ItemBagProtos.internal_static_RewardInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ItemBagProtos.RewardInfo.class, com.rwproto.ItemBagProtos.RewardInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<RewardInfo> PARSER =
+        new com.google.protobuf.AbstractParser<RewardInfo>() {
+      public RewardInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RewardInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RewardInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string rewardId = 1;
+    public static final int REWARDID_FIELD_NUMBER = 1;
+    private java.lang.Object rewardId_;
+    /**
+     * <code>required string rewardId = 1;</code>
+     *
+     * <pre>
+     *奖励的物品Id
+     * </pre>
+     */
+    public boolean hasRewardId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string rewardId = 1;</code>
+     *
+     * <pre>
+     *奖励的物品Id
+     * </pre>
+     */
+    public java.lang.String getRewardId() {
+      java.lang.Object ref = rewardId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          rewardId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string rewardId = 1;</code>
+     *
+     * <pre>
+     *奖励的物品Id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getRewardIdBytes() {
+      java.lang.Object ref = rewardId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rewardId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 rewardCount = 2;
+    public static final int REWARDCOUNT_FIELD_NUMBER = 2;
+    private int rewardCount_;
+    /**
+     * <code>required int32 rewardCount = 2;</code>
+     *
+     * <pre>
+     *奖励的数量
+     * </pre>
+     */
+    public boolean hasRewardCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 rewardCount = 2;</code>
+     *
+     * <pre>
+     *奖励的数量
+     * </pre>
+     */
+    public int getRewardCount() {
+      return rewardCount_;
+    }
+
+    private void initFields() {
+      rewardId_ = "";
+      rewardCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasRewardId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRewardCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getRewardIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, rewardCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getRewardIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, rewardCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ItemBagProtos.RewardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ItemBagProtos.RewardInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RewardInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ItemBagProtos.RewardInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ItemBagProtos.internal_static_RewardInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ItemBagProtos.internal_static_RewardInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ItemBagProtos.RewardInfo.class, com.rwproto.ItemBagProtos.RewardInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.ItemBagProtos.RewardInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        rewardId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        rewardCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ItemBagProtos.internal_static_RewardInfo_descriptor;
+      }
+
+      public com.rwproto.ItemBagProtos.RewardInfo getDefaultInstanceForType() {
+        return com.rwproto.ItemBagProtos.RewardInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.ItemBagProtos.RewardInfo build() {
+        com.rwproto.ItemBagProtos.RewardInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ItemBagProtos.RewardInfo buildPartial() {
+        com.rwproto.ItemBagProtos.RewardInfo result = new com.rwproto.ItemBagProtos.RewardInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.rewardId_ = rewardId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.rewardCount_ = rewardCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ItemBagProtos.RewardInfo) {
+          return mergeFrom((com.rwproto.ItemBagProtos.RewardInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ItemBagProtos.RewardInfo other) {
+        if (other == com.rwproto.ItemBagProtos.RewardInfo.getDefaultInstance()) return this;
+        if (other.hasRewardId()) {
+          bitField0_ |= 0x00000001;
+          rewardId_ = other.rewardId_;
+          onChanged();
+        }
+        if (other.hasRewardCount()) {
+          setRewardCount(other.getRewardCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasRewardId()) {
+          
+          return false;
+        }
+        if (!hasRewardCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ItemBagProtos.RewardInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ItemBagProtos.RewardInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string rewardId = 1;
+      private java.lang.Object rewardId_ = "";
+      /**
+       * <code>required string rewardId = 1;</code>
+       *
+       * <pre>
+       *奖励的物品Id
+       * </pre>
+       */
+      public boolean hasRewardId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string rewardId = 1;</code>
+       *
+       * <pre>
+       *奖励的物品Id
+       * </pre>
+       */
+      public java.lang.String getRewardId() {
+        java.lang.Object ref = rewardId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          rewardId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string rewardId = 1;</code>
+       *
+       * <pre>
+       *奖励的物品Id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getRewardIdBytes() {
+        java.lang.Object ref = rewardId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          rewardId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string rewardId = 1;</code>
+       *
+       * <pre>
+       *奖励的物品Id
+       * </pre>
+       */
+      public Builder setRewardId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        rewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string rewardId = 1;</code>
+       *
+       * <pre>
+       *奖励的物品Id
+       * </pre>
+       */
+      public Builder clearRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        rewardId_ = getDefaultInstance().getRewardId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string rewardId = 1;</code>
+       *
+       * <pre>
+       *奖励的物品Id
+       * </pre>
+       */
+      public Builder setRewardIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        rewardId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 rewardCount = 2;
+      private int rewardCount_ ;
+      /**
+       * <code>required int32 rewardCount = 2;</code>
+       *
+       * <pre>
+       *奖励的数量
+       * </pre>
+       */
+      public boolean hasRewardCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 rewardCount = 2;</code>
+       *
+       * <pre>
+       *奖励的数量
+       * </pre>
+       */
+      public int getRewardCount() {
+        return rewardCount_;
+      }
+      /**
+       * <code>required int32 rewardCount = 2;</code>
+       *
+       * <pre>
+       *奖励的数量
+       * </pre>
+       */
+      public Builder setRewardCount(int value) {
+        bitField0_ |= 0x00000002;
+        rewardCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 rewardCount = 2;</code>
+       *
+       * <pre>
+       *奖励的数量
+       * </pre>
+       */
+      public Builder clearRewardCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        rewardCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:RewardInfo)
+    }
+
+    static {
+      defaultInstance = new RewardInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:RewardInfo)
+  }
+
   public interface TagItemAttriDataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -6959,7 +7607,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> 
+    java.util.List<com.rwproto.ItemBagProtos.RewardInfo> 
         getRewardInfoList();
     /**
      * <code>repeated .RewardInfo rewardInfo = 4;</code>
@@ -6968,7 +7616,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    com.rwproto.CommonMsgProtos.RewardInfo getRewardInfo(int index);
+    com.rwproto.ItemBagProtos.RewardInfo getRewardInfo(int index);
     /**
      * <code>repeated .RewardInfo rewardInfo = 4;</code>
      *
@@ -6984,7 +7632,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    java.util.List<? extends com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+    java.util.List<? extends com.rwproto.ItemBagProtos.RewardInfoOrBuilder> 
         getRewardInfoOrBuilderList();
     /**
      * <code>repeated .RewardInfo rewardInfo = 4;</code>
@@ -6993,7 +7641,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    com.rwproto.CommonMsgProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
+    com.rwproto.ItemBagProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
         int index);
   }
   /**
@@ -7081,10 +7729,10 @@ public final class ItemBagProtos {
             }
             case 34: {
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                rewardInfo_ = new java.util.ArrayList<com.rwproto.CommonMsgProtos.RewardInfo>();
+                rewardInfo_ = new java.util.ArrayList<com.rwproto.ItemBagProtos.RewardInfo>();
                 mutable_bitField0_ |= 0x00000008;
               }
-              rewardInfo_.add(input.readMessage(com.rwproto.CommonMsgProtos.RewardInfo.PARSER, extensionRegistry));
+              rewardInfo_.add(input.readMessage(com.rwproto.ItemBagProtos.RewardInfo.PARSER, extensionRegistry));
               break;
             }
           }
@@ -7221,7 +7869,7 @@ public final class ItemBagProtos {
 
     // repeated .RewardInfo rewardInfo = 4;
     public static final int REWARDINFO_FIELD_NUMBER = 4;
-    private java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> rewardInfo_;
+    private java.util.List<com.rwproto.ItemBagProtos.RewardInfo> rewardInfo_;
     /**
      * <code>repeated .RewardInfo rewardInfo = 4;</code>
      *
@@ -7229,7 +7877,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    public java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> getRewardInfoList() {
+    public java.util.List<com.rwproto.ItemBagProtos.RewardInfo> getRewardInfoList() {
       return rewardInfo_;
     }
     /**
@@ -7239,7 +7887,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    public java.util.List<? extends com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+    public java.util.List<? extends com.rwproto.ItemBagProtos.RewardInfoOrBuilder> 
         getRewardInfoOrBuilderList() {
       return rewardInfo_;
     }
@@ -7260,7 +7908,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    public com.rwproto.CommonMsgProtos.RewardInfo getRewardInfo(int index) {
+    public com.rwproto.ItemBagProtos.RewardInfo getRewardInfo(int index) {
       return rewardInfo_.get(index);
     }
     /**
@@ -7270,7 +7918,7 @@ public final class ItemBagProtos {
      *通用奖励的信息
      * </pre>
      */
-    public com.rwproto.CommonMsgProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
+    public com.rwproto.ItemBagProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
         int index) {
       return rewardInfo_.get(index);
     }
@@ -8102,17 +8750,17 @@ public final class ItemBagProtos {
       }
 
       // repeated .RewardInfo rewardInfo = 4;
-      private java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> rewardInfo_ =
+      private java.util.List<com.rwproto.ItemBagProtos.RewardInfo> rewardInfo_ =
         java.util.Collections.emptyList();
       private void ensureRewardInfoIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          rewardInfo_ = new java.util.ArrayList<com.rwproto.CommonMsgProtos.RewardInfo>(rewardInfo_);
+          rewardInfo_ = new java.util.ArrayList<com.rwproto.ItemBagProtos.RewardInfo>(rewardInfo_);
           bitField0_ |= 0x00000008;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.CommonMsgProtos.RewardInfo, com.rwproto.CommonMsgProtos.RewardInfo.Builder, com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> rewardInfoBuilder_;
+          com.rwproto.ItemBagProtos.RewardInfo, com.rwproto.ItemBagProtos.RewardInfo.Builder, com.rwproto.ItemBagProtos.RewardInfoOrBuilder> rewardInfoBuilder_;
 
       /**
        * <code>repeated .RewardInfo rewardInfo = 4;</code>
@@ -8121,7 +8769,7 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public java.util.List<com.rwproto.CommonMsgProtos.RewardInfo> getRewardInfoList() {
+      public java.util.List<com.rwproto.ItemBagProtos.RewardInfo> getRewardInfoList() {
         if (rewardInfoBuilder_ == null) {
           return java.util.Collections.unmodifiableList(rewardInfo_);
         } else {
@@ -8149,7 +8797,7 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public com.rwproto.CommonMsgProtos.RewardInfo getRewardInfo(int index) {
+      public com.rwproto.ItemBagProtos.RewardInfo getRewardInfo(int index) {
         if (rewardInfoBuilder_ == null) {
           return rewardInfo_.get(index);
         } else {
@@ -8164,7 +8812,7 @@ public final class ItemBagProtos {
        * </pre>
        */
       public Builder setRewardInfo(
-          int index, com.rwproto.CommonMsgProtos.RewardInfo value) {
+          int index, com.rwproto.ItemBagProtos.RewardInfo value) {
         if (rewardInfoBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8185,7 +8833,7 @@ public final class ItemBagProtos {
        * </pre>
        */
       public Builder setRewardInfo(
-          int index, com.rwproto.CommonMsgProtos.RewardInfo.Builder builderForValue) {
+          int index, com.rwproto.ItemBagProtos.RewardInfo.Builder builderForValue) {
         if (rewardInfoBuilder_ == null) {
           ensureRewardInfoIsMutable();
           rewardInfo_.set(index, builderForValue.build());
@@ -8202,7 +8850,7 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public Builder addRewardInfo(com.rwproto.CommonMsgProtos.RewardInfo value) {
+      public Builder addRewardInfo(com.rwproto.ItemBagProtos.RewardInfo value) {
         if (rewardInfoBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8223,7 +8871,7 @@ public final class ItemBagProtos {
        * </pre>
        */
       public Builder addRewardInfo(
-          int index, com.rwproto.CommonMsgProtos.RewardInfo value) {
+          int index, com.rwproto.ItemBagProtos.RewardInfo value) {
         if (rewardInfoBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -8244,7 +8892,7 @@ public final class ItemBagProtos {
        * </pre>
        */
       public Builder addRewardInfo(
-          com.rwproto.CommonMsgProtos.RewardInfo.Builder builderForValue) {
+          com.rwproto.ItemBagProtos.RewardInfo.Builder builderForValue) {
         if (rewardInfoBuilder_ == null) {
           ensureRewardInfoIsMutable();
           rewardInfo_.add(builderForValue.build());
@@ -8262,7 +8910,7 @@ public final class ItemBagProtos {
        * </pre>
        */
       public Builder addRewardInfo(
-          int index, com.rwproto.CommonMsgProtos.RewardInfo.Builder builderForValue) {
+          int index, com.rwproto.ItemBagProtos.RewardInfo.Builder builderForValue) {
         if (rewardInfoBuilder_ == null) {
           ensureRewardInfoIsMutable();
           rewardInfo_.add(index, builderForValue.build());
@@ -8280,7 +8928,7 @@ public final class ItemBagProtos {
        * </pre>
        */
       public Builder addAllRewardInfo(
-          java.lang.Iterable<? extends com.rwproto.CommonMsgProtos.RewardInfo> values) {
+          java.lang.Iterable<? extends com.rwproto.ItemBagProtos.RewardInfo> values) {
         if (rewardInfoBuilder_ == null) {
           ensureRewardInfoIsMutable();
           super.addAll(values, rewardInfo_);
@@ -8331,7 +8979,7 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public com.rwproto.CommonMsgProtos.RewardInfo.Builder getRewardInfoBuilder(
+      public com.rwproto.ItemBagProtos.RewardInfo.Builder getRewardInfoBuilder(
           int index) {
         return getRewardInfoFieldBuilder().getBuilder(index);
       }
@@ -8342,7 +8990,7 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public com.rwproto.CommonMsgProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
+      public com.rwproto.ItemBagProtos.RewardInfoOrBuilder getRewardInfoOrBuilder(
           int index) {
         if (rewardInfoBuilder_ == null) {
           return rewardInfo_.get(index);  } else {
@@ -8356,7 +9004,7 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public java.util.List<? extends com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+      public java.util.List<? extends com.rwproto.ItemBagProtos.RewardInfoOrBuilder> 
            getRewardInfoOrBuilderList() {
         if (rewardInfoBuilder_ != null) {
           return rewardInfoBuilder_.getMessageOrBuilderList();
@@ -8371,9 +9019,9 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public com.rwproto.CommonMsgProtos.RewardInfo.Builder addRewardInfoBuilder() {
+      public com.rwproto.ItemBagProtos.RewardInfo.Builder addRewardInfoBuilder() {
         return getRewardInfoFieldBuilder().addBuilder(
-            com.rwproto.CommonMsgProtos.RewardInfo.getDefaultInstance());
+            com.rwproto.ItemBagProtos.RewardInfo.getDefaultInstance());
       }
       /**
        * <code>repeated .RewardInfo rewardInfo = 4;</code>
@@ -8382,10 +9030,10 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public com.rwproto.CommonMsgProtos.RewardInfo.Builder addRewardInfoBuilder(
+      public com.rwproto.ItemBagProtos.RewardInfo.Builder addRewardInfoBuilder(
           int index) {
         return getRewardInfoFieldBuilder().addBuilder(
-            index, com.rwproto.CommonMsgProtos.RewardInfo.getDefaultInstance());
+            index, com.rwproto.ItemBagProtos.RewardInfo.getDefaultInstance());
       }
       /**
        * <code>repeated .RewardInfo rewardInfo = 4;</code>
@@ -8394,16 +9042,16 @@ public final class ItemBagProtos {
        *通用奖励的信息
        * </pre>
        */
-      public java.util.List<com.rwproto.CommonMsgProtos.RewardInfo.Builder> 
+      public java.util.List<com.rwproto.ItemBagProtos.RewardInfo.Builder> 
            getRewardInfoBuilderList() {
         return getRewardInfoFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.CommonMsgProtos.RewardInfo, com.rwproto.CommonMsgProtos.RewardInfo.Builder, com.rwproto.CommonMsgProtos.RewardInfoOrBuilder> 
+          com.rwproto.ItemBagProtos.RewardInfo, com.rwproto.ItemBagProtos.RewardInfo.Builder, com.rwproto.ItemBagProtos.RewardInfoOrBuilder> 
           getRewardInfoFieldBuilder() {
         if (rewardInfoBuilder_ == null) {
           rewardInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.CommonMsgProtos.RewardInfo, com.rwproto.CommonMsgProtos.RewardInfo.Builder, com.rwproto.CommonMsgProtos.RewardInfoOrBuilder>(
+              com.rwproto.ItemBagProtos.RewardInfo, com.rwproto.ItemBagProtos.RewardInfo.Builder, com.rwproto.ItemBagProtos.RewardInfoOrBuilder>(
                   rewardInfo_,
                   ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
@@ -8424,6 +9072,11 @@ public final class ItemBagProtos {
     // @@protoc_insertion_point(class_scope:MsgItemBagResponse)
   }
 
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_RewardInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_RewardInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_TagItemAttriData_descriptor;
   private static
@@ -8473,98 +9126,105 @@ public final class ItemBagProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rItemBag.proto\032\017CommonMsg.proto\"4\n\020TagI" +
-      "temAttriData\022\016\n\006AttrId\030\001 \002(\005\022\020\n\010AttValue" +
-      "\030\002 \002(\t\"2\n\nTagCompose\022\016\n\006mateId\030\001 \001(\005\022\024\n\014" +
-      "composeCount\030\002 \001(\005\"b\n\013TagItemData\022\017\n\007mod" +
-      "elId\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\022\014\n\004dbId\030\003 \002(\t\022" +
-      "%\n\nExtendAttr\030\004 \003(\0132\021.TagItemAttriData\"*" +
-      "\n\013UseItemInfo\022\014\n\004dbId\030\001 \002(\t\022\r\n\005count\030\002 \002" +
-      "(\005\"-\n\013BuyItemInfo\022\017\n\007modelId\030\001 \002(\t\022\r\n\005co" +
-      "unt\030\002 \002(\005\"/\n\014ResponseInfo\022\017\n\007success\030\001 \002" +
-      "(\010\022\016\n\006tipMsg\030\002 \002(\t\"\306\001\n\021MsgItemBagRequest",
-      "\022\'\n\013requestType\030\001 \002(\0162\022.EItemBagEventTyp" +
-      "e\022$\n\016itemUpdateData\030\002 \003(\0132\014.TagItemData\022" +
-      "\034\n\007compose\030\003 \003(\0132\013.TagCompose\022!\n\013useItem" +
-      "Info\030\004 \001(\0132\014.UseItemInfo\022!\n\013buyItemInfo\030" +
-      "\005 \001(\0132\014.BuyItemInfo\"\241\001\n\022MsgItemBagRespon" +
-      "se\022%\n\teventType\030\001 \002(\0162\022.EItemBagEventTyp" +
-      "e\022#\n\ritemSyncDatas\030\002 \003(\0132\014.TagItemData\022\036" +
-      "\n\007rspInfo\030\003 \001(\0132\r.ResponseInfo\022\037\n\nreward" +
-      "Info\030\004 \003(\0132\013.RewardInfo*\321\001\n\021EItemBagEven" +
-      "tType\022\021\n\rItemBag_Index\020\000\022\023\n\017ItemBag_Comp",
-      "ose\020\001\022\017\n\013ItemBag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003" +
-      "\022\020\n\014ItemBag_Drop\020\004\022\020\n\014ItemBag_Sync\020\005\022\013\n\007" +
-      "UseItem\020\006\022!\n\035ItemBag_MagicWeapon_Decompo" +
-      "se\020\007\022\035\n\031ItemBag_MagicForgeMat_Buy\020\010*\267\001\n\014" +
-      "EItemTypeDef\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRoleE" +
-      "quip\020\001\022\r\n\tHeroEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005Pi" +
-      "ece\020\004\022\t\n\005Magic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003Gem" +
-      "\020\007\022\013\n\007Consume\020\010\022\r\n\tSoulStone\020\t\022\014\n\010HeroIt" +
-      "em\020\n\022\017\n\013SpecialItem\020\013*\323\002\n\016ConsumeTypeDef" +
-      "\022\025\n\021Consume_RoleEquip\020\001\022\021\n\rConsume_Magic",
-      "\020\002\022\023\n\017Consume_Fashion\020\003\022\025\n\021Consume_HeroE" +
-      "quip\020\004\022\027\n\023Consume_Magic_Piece\020\005\022\027\n\023Consu" +
-      "me_EquipScroll\020\006\022\025\n\021Consume_SoulStone\020\007\022" +
-      "\017\n\013Consume_Gem\020\010\022\032\n\026Consume_EquipEhanceM" +
-      "at\020\t\022\031\n\025Consume_MagicForgeMat\020\n\022\023\n\017Consu" +
-      "me_ExpItem\020\013\022\026\n\022Consume_AttachSoul\020\014\022\025\n\021" +
-      "Consume_PowerItem\020\r\022\026\n\022Consume_ScanTicke" +
-      "t\020\016*\227\001\n\022EItemAttributeType\022\r\n\tMagic_Exp\020" +
-      "\001\022\017\n\013Magic_Level\020\002\022\017\n\013Magic_State\020\003\022\017\n\013E" +
-      "quip_Level\020\004\022\023\n\017Equip_AttachExp\020\005\022\025\n\021Equ",
-      "ip_AttachLevel\020\006\022\023\n\017Magic_Total_Exp\020\007B\034\n" +
-      "\013com.rwprotoB\rItemBagProtos"
+      "\n\rItemBag.proto\"3\n\nRewardInfo\022\020\n\010rewardI" +
+      "d\030\001 \002(\t\022\023\n\013rewardCount\030\002 \002(\005\"4\n\020TagItemA" +
+      "ttriData\022\016\n\006AttrId\030\001 \002(\005\022\020\n\010AttValue\030\002 \002" +
+      "(\t\"2\n\nTagCompose\022\016\n\006mateId\030\001 \001(\005\022\024\n\014comp" +
+      "oseCount\030\002 \001(\005\"b\n\013TagItemData\022\017\n\007modelId" +
+      "\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\022\014\n\004dbId\030\003 \002(\t\022%\n\nE" +
+      "xtendAttr\030\004 \003(\0132\021.TagItemAttriData\"*\n\013Us" +
+      "eItemInfo\022\014\n\004dbId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005\"-" +
+      "\n\013BuyItemInfo\022\017\n\007modelId\030\001 \002(\t\022\r\n\005count\030" +
+      "\002 \002(\005\"/\n\014ResponseInfo\022\017\n\007success\030\001 \002(\010\022\016",
+      "\n\006tipMsg\030\002 \002(\t\"\306\001\n\021MsgItemBagRequest\022\'\n\013" +
+      "requestType\030\001 \002(\0162\022.EItemBagEventType\022$\n" +
+      "\016itemUpdateData\030\002 \003(\0132\014.TagItemData\022\034\n\007c" +
+      "ompose\030\003 \003(\0132\013.TagCompose\022!\n\013useItemInfo" +
+      "\030\004 \001(\0132\014.UseItemInfo\022!\n\013buyItemInfo\030\005 \001(" +
+      "\0132\014.BuyItemInfo\"\241\001\n\022MsgItemBagResponse\022%" +
+      "\n\teventType\030\001 \002(\0162\022.EItemBagEventType\022#\n" +
+      "\ritemSyncDatas\030\002 \003(\0132\014.TagItemData\022\036\n\007rs" +
+      "pInfo\030\003 \001(\0132\r.ResponseInfo\022\037\n\nrewardInfo" +
+      "\030\004 \003(\0132\013.RewardInfo*\321\001\n\021EItemBagEventTyp",
+      "e\022\021\n\rItemBag_Index\020\000\022\023\n\017ItemBag_Compose\020" +
+      "\001\022\017\n\013ItemBag_Buy\020\002\022\020\n\014ItemBag_Sell\020\003\022\020\n\014" +
+      "ItemBag_Drop\020\004\022\020\n\014ItemBag_Sync\020\005\022\013\n\007UseI" +
+      "tem\020\006\022!\n\035ItemBag_MagicWeapon_Decompose\020\007" +
+      "\022\035\n\031ItemBag_MagicForgeMat_Buy\020\010*\267\001\n\014EIte" +
+      "mTypeDef\022\021\n\004None\020\377\377\377\377\377\377\377\377\377\001\022\r\n\tRoleEquip" +
+      "\020\001\022\r\n\tHeroEquip\020\002\022\013\n\007Fashion\020\003\022\t\n\005Piece\020" +
+      "\004\022\t\n\005Magic\020\005\022\017\n\013Magic_Piece\020\006\022\007\n\003Gem\020\007\022\013" +
+      "\n\007Consume\020\010\022\r\n\tSoulStone\020\t\022\014\n\010HeroItem\020\n" +
+      "\022\017\n\013SpecialItem\020\013*\323\002\n\016ConsumeTypeDef\022\025\n\021",
+      "Consume_RoleEquip\020\001\022\021\n\rConsume_Magic\020\002\022\023" +
+      "\n\017Consume_Fashion\020\003\022\025\n\021Consume_HeroEquip" +
+      "\020\004\022\027\n\023Consume_Magic_Piece\020\005\022\027\n\023Consume_E" +
+      "quipScroll\020\006\022\025\n\021Consume_SoulStone\020\007\022\017\n\013C" +
+      "onsume_Gem\020\010\022\032\n\026Consume_EquipEhanceMat\020\t" +
+      "\022\031\n\025Consume_MagicForgeMat\020\n\022\023\n\017Consume_E" +
+      "xpItem\020\013\022\026\n\022Consume_AttachSoul\020\014\022\025\n\021Cons" +
+      "ume_PowerItem\020\r\022\026\n\022Consume_ScanTicket\020\016*" +
+      "\227\001\n\022EItemAttributeType\022\r\n\tMagic_Exp\020\001\022\017\n" +
+      "\013Magic_Level\020\002\022\017\n\013Magic_State\020\003\022\017\n\013Equip",
+      "_Level\020\004\022\023\n\017Equip_AttachExp\020\005\022\025\n\021Equip_A" +
+      "ttachLevel\020\006\022\023\n\017Magic_Total_Exp\020\007B\034\n\013com" +
+      ".rwprotoB\rItemBagProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_TagItemAttriData_descriptor =
+          internal_static_RewardInfo_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_RewardInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_RewardInfo_descriptor,
+              new java.lang.String[] { "RewardId", "RewardCount", });
+          internal_static_TagItemAttriData_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_TagItemAttriData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagItemAttriData_descriptor,
               new java.lang.String[] { "AttrId", "AttValue", });
           internal_static_TagCompose_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_TagCompose_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagCompose_descriptor,
               new java.lang.String[] { "MateId", "ComposeCount", });
           internal_static_TagItemData_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_TagItemData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagItemData_descriptor,
               new java.lang.String[] { "ModelId", "Count", "DbId", "ExtendAttr", });
           internal_static_UseItemInfo_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_UseItemInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UseItemInfo_descriptor,
               new java.lang.String[] { "DbId", "Count", });
           internal_static_BuyItemInfo_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_BuyItemInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BuyItemInfo_descriptor,
               new java.lang.String[] { "ModelId", "Count", });
           internal_static_ResponseInfo_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_ResponseInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ResponseInfo_descriptor,
               new java.lang.String[] { "Success", "TipMsg", });
           internal_static_MsgItemBagRequest_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_MsgItemBagRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgItemBagRequest_descriptor,
               new java.lang.String[] { "RequestType", "ItemUpdateData", "Compose", "UseItemInfo", "BuyItemInfo", });
           internal_static_MsgItemBagResponse_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_MsgItemBagResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgItemBagResponse_descriptor,
@@ -8575,7 +9235,6 @@ public final class ItemBagProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          com.rwproto.CommonMsgProtos.getDescriptor(),
         }, assigner);
   }
 

@@ -36,7 +36,7 @@ public class ItemUseEffectTemplate {
 		if (StringUtils.isEmpty(dropResult)) {
 			this.dropList = Collections.emptyList();
 		} else {
-			this.dropList = Collections.unmodifiableList(HPCUtil.parseIntegerList(dropResult, ","));
+			this.dropList = Collections.unmodifiableList(HPCUtil.parseIntegerList(dropResult, ";"));
 		}
 	}
 

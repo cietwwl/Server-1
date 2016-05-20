@@ -23,6 +23,7 @@ import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwproto.ItemBagProtos.MsgItemBagResponse.Builder;
+import com.rwproto.ItemBagProtos.RewardInfo;
 
 /*
  * @author HC
@@ -50,12 +51,13 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 				if (key < eSpecialItemId.eSpecial_End.getValue()) {
 					itemBagMgr.addItem(key, -value * useCount);
 				} else {
-					useItemList.add(new UseItem(itemBagMgr.getFirstItemByModelId(modelId).getId(), value * useCount));
+					useItemList.add(new UseItem(itemBagMgr.getFirstItemByModelId(key).getId(), value * useCount));
 				}
 			}
 		}
 
 		List<INewItem> newItemList = new ArrayList<INewItem>();
+		List<RewardInfo> rewardInfoList = new ArrayList<RewardInfo>();
 
 		// 产生的掉落物品
 		try {
@@ -72,7 +74,18 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 					continue;
 				}
 
-				newItemList.add(new NewItem(itemInfo.getItemID(), itemInfo.getItemNum(), null));
+				int itemNum = itemInfo.getItemNum();
+
+				if (itemNum <= 0) {
+					continue;
+				}
+
+				newItemList.add(new NewItem(itemInfo.getItemID(), itemNum, null));
+
+				RewardInfo.Builder rewardInfo = RewardInfo.newBuilder();
+				rewardInfo.setRewardId(String.valueOf(itemInfo.getItemID()));
+				rewardInfo.setRewardCount(itemNum);
+				rewardInfoList.add(rewardInfo.build());
 			}
 		} catch (DataAccessTimeoutException e) {
 			GameLog.error("使用宝箱类道具", "宝箱模版Id：" + modelId, "宝箱产出掉落的时候出现了异常情况", e);
@@ -86,6 +99,7 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 			return rsp.build().toByteString();
 		}
 
+		rsp.addAllRewardInfo(rewardInfoList);
 		return rsp.build().toByteString();
 	}
 }
