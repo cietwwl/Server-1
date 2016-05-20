@@ -150,7 +150,9 @@ public class UserGameDataMgr {
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
 			ItemChangedEventType_2 type_2 = null;// 暂时留空
 			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, tableUserOther.getCoin());
-
+			if(nValue < 0){
+				UserEventMgr.getInstance().coinSpendDaily(player, -nValue);
+			}
 			return 0;
 		}
 		return -1;

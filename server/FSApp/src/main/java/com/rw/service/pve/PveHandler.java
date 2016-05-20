@@ -76,7 +76,7 @@ public class PveHandler {
 		int btCount = 0;
 		if (tableBattleTower != null) {
 			int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
-			btCount = battleTowerResetTimes - angleData.getResetTimes();
+			btCount = battleTowerResetTimes - tableBattleTower.getResetTimes();
 		}
 		battleTower.setCopyType(CopyType.COPY_TYPE_BATTLETOWER);
 		battleTower.setRemainSeconds(0);
@@ -180,7 +180,7 @@ public class PveHandler {
 	 * @return
 	 */
 	public int getRemainSeconds(Player player, long lastTime, long currentTime, int copyType) {
-		CopyEntryCfg entry = (CopyEntryCfg) CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
+		CopyEntryCfg entry = CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
 		if (entry == null) {
 			return 0;
 		}

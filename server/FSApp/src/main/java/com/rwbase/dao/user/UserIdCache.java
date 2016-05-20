@@ -23,7 +23,7 @@ public class UserIdCache {
 		CommonSingleTable<User> commonJdbc = new CommonSingleTable<User>(jdbcTemplate, classInfo);
 		//数量需要做成配置
 		int capcity = 5000;
-		this.cache = DataCacheFactory.createDataDache(getClass().getSimpleName(), capcity, capcity, 120, new UserIdLoader(commonJdbc));
+		this.cache = DataCacheFactory.createDataDache(getClass(), capcity, capcity, 120, new UserIdLoader(commonJdbc));
 	}
 
 	/**

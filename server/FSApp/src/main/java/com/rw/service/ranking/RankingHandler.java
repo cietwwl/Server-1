@@ -50,7 +50,7 @@ public class RankingHandler {
 		response.setBaseRankInfo(getBaseRankInfo(request.getUserId(), ERankingType.valueOf(requestType)));
 		RankType rankType = RankType.getRankType(requestType, cfgRanking.getRealTime());
 		Ranking ranking = RankingFactory.getRanking(rankType);
-		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId),ranking.getRanking(requestUserId)));
+		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId),RankingMgr.getInstance().getRankLevel(rankType,requestUserId)));
 		return response.build().toByteString();
 	}
 	

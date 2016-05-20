@@ -12,6 +12,7 @@ import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
+import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
@@ -112,6 +113,7 @@ public class PlayerCreateTask implements Runnable {
 
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
+		BILogMgr.getInstance().logZoneReg(player);
 		// author：lida 2015-09-21 通知登陆服务器更新账号信息 确保账号添加成功
 		world.asynExecute(new Runnable() {
 

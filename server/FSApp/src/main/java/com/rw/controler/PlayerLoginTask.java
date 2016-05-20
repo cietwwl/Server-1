@@ -7,7 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
@@ -101,7 +104,9 @@ public class PlayerLoginTask implements PlayerTask {
 			}
 		}
 		// 检查发送版本更新
-		player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+		if (clientInfo != null) {
+			player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
+		}
 		// TODO HC @Modify 2015-12-17
 		/**
 		 * <pre>
@@ -153,13 +158,15 @@ public class PlayerLoginTask implements PlayerTask {
 		// 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 		ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
-
+		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
 
 		// 补充进入主城需要同步的数据
 		LoginSynDataHelper.setData(player, response);
-		//clear操作有风险
+		// clear操作有风险
 		nettyControler.clearMsgCache(userId);
 		nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx);
 	}

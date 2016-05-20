@@ -1,0 +1,75 @@
+package com.playerdata.fixEquip.norm.cfg;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
+import com.rwbase.common.config.CfgCsvHelper;
+
+public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQualityCfg> {
+
+	
+	private Map<String,List<FixNormEquipQualityCfg>> parentCfgLevelMap = new HashMap<String, List<FixNormEquipQualityCfg>>();
+
+	public static FixNormEquipQualityCfgDAO getInstance() {
+		return SpringContextUtil.getBean(FixNormEquipQualityCfgDAO.class);
+	}
+
+	
+	@Override
+	public Map<String, FixNormEquipQualityCfg> initJsonCfg() {
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("FixEquip/FixNormEquipQualityCfg.csv", FixNormEquipQualityCfg.class);
+		groupByParentId(cfgCacheMap);
+		return cfgCacheMap;
+	}
+	
+
+
+	private void groupByParentId(Map<String, FixNormEquipQualityCfg> cfgCacheMap) {
+	
+		List<String> parentCfgList = new ArrayList<String>();
+		for (FixNormEquipQualityCfg tmpCfg : cfgCacheMap.values()) {
+			String parentCfgId = tmpCfg.getParentCfgId();
+			if(!parentCfgList.contains(parentCfgId)){
+				parentCfgList.add(parentCfgId);
+			}
+		}
+		
+		for (String pCfgId : parentCfgList) {
+			parentCfgLevelMap.put(pCfgId, getByParentCfgId(pCfgId));
+		}
+	}
+	
+	private List<FixNormEquipQualityCfg> getByParentCfgId(String parentCfgId){
+		List<FixNormEquipQualityCfg> targetList = new ArrayList<FixNormEquipQualityCfg>();
+		List<FixNormEquipQualityCfg> allCfg = getAllCfg();
+		for (FixNormEquipQualityCfg tmpItem : allCfg) {
+			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
+				targetList.add(tmpItem);
+			}
+		}
+		return targetList;
+		
+	}
+
+
+	public FixNormEquipQualityCfg getByParentCfgIdAndQuality(String parentCfgId, int quality){
+		List<FixNormEquipQualityCfg> allCfg = parentCfgLevelMap.get(parentCfgId);
+		FixNormEquipQualityCfg target = null;
+		if(allCfg!=null){
+			for (FixNormEquipQualityCfg tmpItem : allCfg) {
+				if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId) && tmpItem.getQuality() == quality){
+					target = tmpItem;
+				}
+			}
+		}
+		return target;
+		
+	}
+
+}

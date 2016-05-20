@@ -81,12 +81,35 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		Version version = null;
 		try {
 			version = new Version();
-			version = JSONUtil.readValue(jsonVersion, Version.class);
+			JSONObject json = new JSONObject(jsonVersion);
+			String channel = json.get("channel").toString();
+			int main = Integer.parseInt(json.get("main").toString());
+			int sub = Integer.parseInt(json.get("sub").toString());
+			int third = Integer.parseInt(json.get("third").toString());
+			int patch = Integer.parseInt(json.get("patch").toString());
+			version = new Version();
+			version.setChannel(channel);
+			version.setMain(main);
+			version.setSub(sub);
+			version.setThird(third);
+			version.setPatch(patch);
+			String packageName = getJsonValue("package", json);
+			version.setPackageName(packageName);
 			return version;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return null;
+	}
+	
+	public String getJsonValue(String key,JSONObject json){
+		String result = null;
+		try{
+			result = json.get(key).toString();
+		}catch(Exception ex){
+			result ="";
+		}
+		return result;
 	}
 
 	private String packVerifyVersionResult(Version updateVersion) {

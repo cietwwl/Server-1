@@ -1,13 +1,9 @@
 package com.rwbase.dao.whiteList;
 
 import java.util.Enumeration;
-
 import com.rw.common.MapItemStoreFactory;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.PFDataRdbDao;
 import com.rw.fsutil.cacheDao.PFMapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rw.fsutil.cacheDao.mapItem.PFMapItemStore;
 
 public class TableWhiteListHolder{
 	

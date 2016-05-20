@@ -119,6 +119,8 @@ public class RobotManager {
 			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
 			roleBaseInfoMgr.setLevel(level);
 			player.getUserDataMgr().setHeadId(headImage);
+			player.initMgr();
+			player.getUserDataMgr().setUserName(userName);
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
@@ -138,6 +140,7 @@ public class RobotManager {
 			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
 			player.getMagicMgr().wearMagic(magic.getId());
 			HeroMgr heroMgr = player.getHeroMgr();
+
 			String heroGroupId = getRandom(cfg.getHeroGroupId());
 			List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroGroupId);
 			if (heroCfgList == null) {
@@ -173,8 +176,6 @@ public class RobotManager {
 				changeSkill(hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
 				arenaList.add(hero.getUUId());
 			}
-			player.initMgr();
-			player.getUserDataMgr().setUserName(userName);
 			player.getAttrMgr().reCal();
 			for (Hero hero : heroList) {
 				hero.getAttrMgr().reCal();
@@ -276,7 +277,7 @@ public class RobotManager {
 				}
 			}
 			if (!productPlayerList.isEmpty()) {
-				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 20, productPlayerList);
+				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 5, productPlayerList);
 				Future f = futureExecutor.submit(productionCompletionTask);
 				futures.put(f, productionCompletionTask);
 			}

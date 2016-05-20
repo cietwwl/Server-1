@@ -8,7 +8,6 @@ public class PlotProgressCreator implements DataExtensionCreator<UserPlotProgres
 	@Override
 	public UserPlotProgress create(String userId) {
 		UserPlotProgress userPlotProgress = new UserPlotProgress();
-		userPlotProgress = new UserPlotProgress();
 		userPlotProgress.setUserId(userId);
 //		/**
 //		 * <pre>

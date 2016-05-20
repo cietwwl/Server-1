@@ -18,7 +18,7 @@ public class ChargeCfg {
 	private int moneyCount;//充值金额	
 	private int extraGiftId;//额外赠送礼包
 	@EnumIndex
-	private ChargeType chargeType;//充值类型...
+	private ChargeTypeEnum chargeType;//充值类型...
 	private int giveCount;//单个商品 限购的次数
 	
 	public String getId() {
@@ -87,10 +87,10 @@ public class ChargeCfg {
 	public void setExtraGiftId(int extraGiftId) {
 		this.extraGiftId = extraGiftId;
 	}
-	public ChargeType getChargeType() {
+	public ChargeTypeEnum getChargeType() {
 		return chargeType;
 	}
-	public void setChargeType(ChargeType chargeType) {
+	public void setChargeType(ChargeTypeEnum chargeType) {
 		this.chargeType = chargeType;
 	}
 

@@ -23,7 +23,7 @@ public class ActivityTimeCountTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityCountType;	
+	final private eSynType synType = eSynType.ActivityTimeCountType;	
 	
 	/*
 	 * 获取用户已经拥有的时装
@@ -51,14 +51,7 @@ public class ActivityTimeCountTypeItemHolder{
 		return getItemStore(userId).getItem(itemId);
 	}
 	
-	public boolean addItem(Player player, ActivityTimeCountTypeItem item){
-	
-		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
-		if(addSuccess){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
-	}
+
 	
 	public boolean addItemList(Player player, List<ActivityTimeCountTypeItem> itemList){
 		try {
