@@ -41,12 +41,19 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 		if (msg instanceof HttpContent) {
 			HttpContent httpContent = (HttpContent) msg;
 			ByteBuf content = httpContent.content();
+			if(content== null){
+				return;
+			}
+			
 			reader.reading(content);
 			content.release();
 
 			if (reader.isEnd()) {
 				
 				String jsonContent = new String(reader.readFull());
+				if(StringUtils.isBlank(jsonContent)){
+					return;
+				}
 				ChargeLog.info("charge", "收到 jsonContent:", jsonContent);
 				String result = doService(jsonContent);
 				ChargeLog.info("charge", "反馈给支付中心信息:", result);

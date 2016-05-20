@@ -13,7 +13,7 @@ public class UserGroupSecretDataHolder {
 	public static UserGroupSecretDataHolder getInstance(){
 		return instance;
 	}
-	private static eSynType synType = eSynType.USER_GAME_DATA;
+	private static eSynType synType = eSynType.UserGroupSecretData;
 
 	public void syn(Player player, int version) {
 		String userId = player.getUserId();

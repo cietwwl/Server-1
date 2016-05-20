@@ -76,7 +76,7 @@ public class PveHandler {
 		int btCount = 0;
 		if (tableBattleTower != null) {
 			int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
-			btCount = battleTowerResetTimes - angleData.getResetTimes();
+			btCount = battleTowerResetTimes - tableBattleTower.getResetTimes();
 		}
 		battleTower.setCopyType(CopyType.COPY_TYPE_BATTLETOWER);
 		battleTower.setRemainSeconds(0);
