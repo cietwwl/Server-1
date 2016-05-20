@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -48,12 +49,13 @@ public abstract class BaseJdbc<T> {
 
 	/**
 	 * 插入多条记录
+	 * 
 	 * @param sql
 	 * @param list
 	 * @throws DuplicatedKeyException
 	 * @throws Exception
 	 */
-	protected void insert(String sql, final List<T> list) throws DuplicatedKeyException, Exception {
+	protected void insert(String sql, final List<T> list) throws Exception {
 		final int size = list.size();
 		if (size == 0) {
 			return;
@@ -84,6 +86,7 @@ public abstract class BaseJdbc<T> {
 
 	/**
 	 * 插入单条记录
+	 * 
 	 * @param sql
 	 * @param key
 	 * @param target
@@ -114,25 +117,65 @@ public abstract class BaseJdbc<T> {
 	}
 
 	/**
-	 * 删除一条记录(实际是update操作)
+	 * <pre>
+	 * 执行SQL语句的更新操作
+	 * </pre>
+	 * 
 	 * @param sql
 	 * @param id
 	 * @return
-	 * @throws DataNotExistException
 	 * @throws Exception
 	 */
-	protected boolean delete(String sql, String id) throws DataNotExistException, Exception {
-		int result = template.update(sql, id);
-		return result > 0;
+	protected int update(String sql, String id) throws Exception {
+		return template.update(sql, id);
 	}
 
 	/**
-	 * 更新多条记录
+	 * <pre>
+	 * 执行多个指定id的delete操作，返回实际在数据库删除成功的id列表
+	 * 抛出异常表示全部删除失败
+	 * </pre>
+	 * 
+	 * @param sql
+	 * @param idList
+	 * @return
+	 * @throws Exception
+	 */
+	protected List<String> delete(String sql, final List<String> idList) throws Exception {
+		final int size = idList.size();
+		int[] result = this.template.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				String id = idList.get(i);
+				ps.setString(1, id);
+			}
+
+			@Override
+			public int getBatchSize() {
+				return idList.size();
+			}
+		});
+		ArrayList<String> resultList = new ArrayList<String>(size);
+		for (int i = 0; i < result.length; i++) {
+			if (result[i] > 0) {
+				resultList.add(idList.get(i));
+			}
+		}
+		return resultList;
+	}
+
+	/**
+	 * <pre>
+	 * 更新多条记录，忽略数据库中是否真的更新成功
+	 * 抛出异常表示更新失败
+	 * </pre>
+	 * 
 	 * @param sql
 	 * @param map
 	 * @return
 	 */
-	protected boolean updateToDB(String sql, Map<String, T> map) {
+	protected boolean updateToDB(String sql, Map<String, T> map) throws Exception {
 		try {
 			final int size = map.size();
 			final ArrayList<List<Object>> fieldValues = new ArrayList<List<Object>>(); // 字段值
@@ -169,16 +212,17 @@ public abstract class BaseJdbc<T> {
 
 	/**
 	 * 更新单条记录
+	 * 
 	 * @param sql
 	 * @param key
 	 * @param target
 	 * @return
 	 */
-	protected boolean updateToDB(String sql, String key, T target) {
+	protected boolean updateToDB(String sql, String key, T target) throws Exception {
 		try {
 			final List<Object> fieldValues = extractAttributes(target, true);
 			fieldValues.add(key);
-			int result = template.update(sql, new PreparedStatementSetter() {
+			template.update(sql, new PreparedStatementSetter() {
 
 				@Override
 				public void setValues(PreparedStatement ps) throws SQLException {
@@ -188,7 +232,7 @@ public abstract class BaseJdbc<T> {
 					}
 				}
 			});
-			return result > 0;
+			return true;
 		} catch (Throwable t) {
 			t.printStackTrace();
 			return false;
@@ -203,13 +247,13 @@ public abstract class BaseJdbc<T> {
 		return resultList;
 	}
 
-	private StringBuilder addSplit(StringBuilder sb){
-		if(sb.length() > 0){
+	private StringBuilder addSplit(StringBuilder sb) {
+		if (sb.length() > 0) {
 			sb.append(",");
 		}
 		return sb;
 	}
-	
+
 	// 提取数据库列名
 	protected void extractColumn(StringBuilder fieldNames, StringBuilder placeholders, StringBuilder updateFieldNames) throws IllegalAccessException {
 		Field combinSaveField = null;

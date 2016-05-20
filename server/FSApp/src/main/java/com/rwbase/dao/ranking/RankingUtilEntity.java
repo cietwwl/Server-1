@@ -96,22 +96,30 @@ public class RankingUtilEntity {
 	public List<RankServiceProtos.RankInfo> createRankList(RankType rankType) {
 		List<RankingLevelData> tableRankInfoList = RankingMgr.getInstance().getRankList(rankType);
 		List<RankServiceProtos.RankInfo> rankInfoList = new ArrayList<RankServiceProtos.RankInfo>();
-		RankingLevelData levelData;
 		for (int i = 0; i < tableRankInfoList.size(); i++) {
-			levelData = tableRankInfoList.get(i);
-			rankInfoList.add(createOneRankInfo(levelData, i + 1));
+			RankingLevelData levelData = tableRankInfoList.get(i);
+			RankInfo rankInfo = createOneRankInfo(levelData, i + 1, true);
+			rankInfoList.add(rankInfo);
 		}
 		return rankInfoList;
 	}
 
-	/** 写入一条数据 */
 	public RankInfo createOneRankInfo(RankingLevelData levelData, int ranking) {
+		return createOneRankInfo(levelData, ranking, false);
+	}
+
+	/** 写入一条数据 */
+	public RankInfo createOneRankInfo(RankingLevelData levelData, int ranking, boolean realTime) {
 		RankInfo.Builder rankInfo;
 		rankInfo = RankInfo.newBuilder();
 		if (levelData != null) {
 			rankInfo.setHeroUUID(levelData.getUserId());
 			int rankLevel = levelData.getRankLevel();
-			rankInfo.setRankingLevel(rankLevel > 0 ? rankLevel : ranking);
+			if (realTime) {
+				rankInfo.setRankingLevel(ranking);
+			} else {
+				rankInfo.setRankingLevel(rankLevel > 0 ? rankLevel : ranking);
+			}
 			rankInfo.setLevel(levelData.getLevel());
 			rankInfo.setHeroName(levelData.getUserName());
 			rankInfo.setImageId(levelData.getUserHead());
