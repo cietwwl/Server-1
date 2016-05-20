@@ -2,12 +2,15 @@ package com.common;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+
+import org.springframework.util.StringUtils;
 
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
@@ -259,4 +262,30 @@ public class HPCUtil {
 		return rewardList;
 	}
 
+	/**
+	 * 解析字符串成为List
+	 * 
+	 * @param text
+	 * @param split
+	 * @return
+	 */
+	public static List<String> parseStr2List(String text, String split) {
+		if (StringUtils.isEmpty(text)) {
+			return Collections.emptyList();
+		}
+
+		if (!text.contains(split)) {
+			ArrayList<String> list = new ArrayList<String>(1);
+			list.add(text);
+			return list;
+		}
+
+		ArrayList<String> list = new ArrayList<String>();
+		StringTokenizer token = new StringTokenizer(text, split);
+		while (token.hasMoreTokens()) {
+			list.add(token.nextToken());
+		}
+
+		return list;
+	}
 }

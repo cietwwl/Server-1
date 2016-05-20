@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import com.log.GameLog;
 import com.rwbase.common.attribute.AttributeComponentEnum;
@@ -38,7 +37,7 @@ public class HeroGemAttrCalc implements IComponentCalc {
 		}
 
 		// 镶嵌宝石的等级划分
-		TreeMap<Integer, Integer> gemLevelNumMap = new TreeMap<Integer, Integer>();
+		HashMap<Integer, Integer> gemLevelNumMap = new HashMap<Integer, Integer>();
 
 		GemCfgDAO cfgDAO = GemCfgDAO.getInstance();
 		// 属性Map集合
@@ -52,7 +51,7 @@ public class HeroGemAttrCalc implements IComponentCalc {
 
 			AttributeUtils.calcAttribute(cfg.getAttrDataMap(), cfg.getPrecentAttrDataMap(), map);
 
-			int level = cfg.getLevel();
+			int level = cfg.getGemLevel();
 			Integer hasValue = gemLevelNumMap.get(level);
 			if (hasValue == null) {
 				gemLevelNumMap.put(level, 1);
@@ -93,17 +92,22 @@ public class HeroGemAttrCalc implements IComponentCalc {
 	 * @param extraNum1
 	 * @param inlayCfg
 	 */
-	private static void addHeroInlayExtraAttrValue(HashMap<Integer, AttributeItem> map, TreeMap<Integer, Integer> levelNumMap, List<Integer> extraLvList, int extraNum1, InlayCfg inlayCfg) {
+	private static void addHeroInlayExtraAttrValue(HashMap<Integer, AttributeItem> map, HashMap<Integer, Integer> levelNumMap, List<Integer> extraLvList, int extraNum1, InlayCfg inlayCfg) {
 		int maxLevel = 0;// 最大的等级
 		for (int i = extraLvList.size() - 1; i >= 0; --i) {
 			Integer level = extraLvList.get(i);
-			Entry<Integer, Integer> floorEntry = levelNumMap.floorEntry(level);
-			if (floorEntry == null) {
-				continue;
+
+			int canNum = 0;
+			for (Entry<Integer, Integer> entry : levelNumMap.entrySet()) {
+				Integer hasLevel = entry.getKey();
+				if (hasLevel < level) {
+					continue;
+				}
+
+				canNum += entry.getValue();
 			}
 
-			Integer num = floorEntry.getValue();
-			if (num < extraNum1) {
+			if (canNum < extraNum1) {
 				continue;
 			}
 

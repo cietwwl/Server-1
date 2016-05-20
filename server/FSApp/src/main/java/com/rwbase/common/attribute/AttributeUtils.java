@@ -37,7 +37,7 @@ public class AttributeUtils {
 
 		int levelSize = levelList.size();
 		if (levelSize != attrDataArr.length || levelSize != precentAttrDataArr.length) {
-			return Collections.emptyMap();
+			throw new ExceptionInInitializerError(String.format("配置表[%s],对应的几个属性长度不一", fileName));
 		}
 
 		Map<Integer, AttrDataInfo> attrDataInfoMap = new HashMap<Integer, AttrDataInfo>(levelSize);
@@ -56,7 +56,7 @@ public class AttributeUtils {
 	 * @return
 	 */
 	public static Map<Integer, Integer> parseAttrDataStr2Map(String fileName, String attrData) {
-		if (StringUtils.isEmpty(attrData)) {
+		if (StringUtils.isEmpty(attrData) || attrData.equalsIgnoreCase("0")) {
 			return Collections.emptyMap();
 		} else {
 			Map<Integer, Integer> heroFettersAttrDataMap = new HashMap<Integer, Integer>();
@@ -70,9 +70,6 @@ public class AttributeUtils {
 				}
 
 				String name = token1.nextToken();
-				if (name.equals("生命恢复")) {
-					System.err.println(name + "------------------------");
-				}
 				AttributeType attributeType = cfgDAO.getAttributeType(name);
 				if (attributeType == null) {
 					GameLog.error("解析属性到对应的AttributeType", "系统解析配置", String.format("配置表[%s]中的中文名字[%s]，无法找到能够映射的AttributeType", fileName, name));

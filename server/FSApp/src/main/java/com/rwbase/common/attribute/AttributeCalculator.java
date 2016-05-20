@@ -50,7 +50,12 @@ public class AttributeCalculator<T> {
 
 		for (int i = list.size(); --i >= 0;) {
 			IAttributeComponent component = list.get(i);
+
 			AttributeSet att = component.convertToAttribute(roleId, heroId);
+
+			if (component.getComponentTypeEnum() == AttributeComponentEnum.Hero_Base) {
+				resultBaseObject = formula.convertOne(att.getReadOnlyAttributes(), false);
+			}
 
 			// sb.append(component.getComponentTypeEnum()).append(":").append(att).append(",");
 			if (att == null) {
@@ -73,8 +78,6 @@ public class AttributeCalculator<T> {
 		EnumMap<AttributeType, Integer> result = extracter.result;
 		// 第一次计算
 		List<AttributeItem> attributes = current.getReadOnlyAttributes();
-
-		resultBaseObject = formula.convertOne(attributes, false);
 
 		// 转换成Map
 		for (int i = attributes.size(); --i >= 0;) {
