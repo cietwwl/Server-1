@@ -41,6 +41,10 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 		if (msg instanceof HttpContent) {
 			HttpContent httpContent = (HttpContent) msg;
 			ByteBuf content = httpContent.content();
+			if(content== null){
+				return;
+			}
+			
 			reader.reading(content);
 			content.release();
 

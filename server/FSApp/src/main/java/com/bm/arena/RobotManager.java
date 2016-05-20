@@ -277,7 +277,7 @@ public class RobotManager {
 				}
 			}
 			if (!productPlayerList.isEmpty()) {
-				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 20, productPlayerList);
+				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 5, productPlayerList);
 				Future f = futureExecutor.submit(productionCompletionTask);
 				futures.put(f, productionCompletionTask);
 			}

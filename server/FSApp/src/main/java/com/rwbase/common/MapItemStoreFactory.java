@@ -3,6 +3,7 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.groupSecret.data.group.GroupSecretDefLog;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
@@ -82,6 +83,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 	
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
+	
+	private static MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -146,6 +149,8 @@ public class MapItemStoreFactory {
 //		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
 		
 //		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
+		
+//		register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
 		
 		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
 
@@ -302,6 +307,16 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
 		return fixNormEquipDataItemCache;
+	}
+	
+
+	public static MapItemStoreCache<GroupSecretDefLog> getGroupSecretDefLogCache() {
+		return groupSecretDefLogCache;
+	}
+
+	public static void setGroupSecretDefLogCache(
+			MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache) {
+		MapItemStoreFactory.groupSecretDefLogCache = groupSecretDefLogCache;
 	}
 
 	/**

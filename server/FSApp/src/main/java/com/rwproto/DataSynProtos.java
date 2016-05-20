@@ -551,13 +551,21 @@ public final class DataSynProtos {
      */
     UserGroupSecretData(47, 48),
     /**
+     * <code>GroupSecretData = 49;</code>
+     *
+     * <pre>
+     *秘境数据
+     * </pre>
+     */
+    GroupSecretData(48, 49),
+    /**
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
      *活动从60-79
      * </pre>
      */
-    ActivityCountType(48, 60),
+    ActivityCountType(49, 60),
     /**
      * <code>ActivityTimeCardType = 61;</code>
      *
@@ -565,7 +573,7 @@ public final class DataSynProtos {
      *月卡
      * </pre>
      */
-    ActivityTimeCardType(49, 61),
+    ActivityTimeCardType(50, 61),
     /**
      * <code>ActivityRateType = 62;</code>
      *
@@ -573,7 +581,7 @@ public final class DataSynProtos {
      *活动，奖励翻倍类型
      * </pre>
      */
-    ActivityRateType(50, 62),
+    ActivityRateType(51, 62),
     /**
      * <code>ActivityDateType = 63;</code>
      *
@@ -581,7 +589,7 @@ public final class DataSynProtos {
      *活动，日期类型
      * </pre>
      */
-    ActivityDateType(51, 63),
+    ActivityDateType(52, 63),
     /**
      * <code>ActivityTimeSaleType = 64;</code>
      *
@@ -589,7 +597,7 @@ public final class DataSynProtos {
      *活动，限时折扣
      * </pre>
      */
-    ActivityTimeSaleType(52, 64),
+    ActivityTimeSaleType(53, 64),
     /**
      * <code>ActivityDateSaleType = 65;</code>
      *
@@ -597,7 +605,7 @@ public final class DataSynProtos {
      *活动，每日折扣
      * </pre>
      */
-    ActivityDateSaleType(53, 65),
+    ActivityDateSaleType(54, 65),
     /**
      * <code>ActivityRankType = 66;</code>
      *
@@ -605,7 +613,7 @@ public final class DataSynProtos {
      *活动，排行榜
      * </pre>
      */
-    ActivityRankType(54, 66),
+    ActivityRankType(55, 66),
     /**
      * <code>ActivityExchangeType = 67;</code>
      *
@@ -613,7 +621,7 @@ public final class DataSynProtos {
      *活动，兑换
      * </pre>
      */
-    ActivityExchangeType(55, 67),
+    ActivityExchangeType(56, 67),
     /**
      * <code>ActivityTimeCountType = 68;</code>
      *
@@ -621,7 +629,7 @@ public final class DataSynProtos {
      *活动，在线奖励
      * </pre>
      */
-    ActivityTimeCountType(56, 68),
+    ActivityTimeCountType(57, 68),
     /**
      * <code>ActivityDailyType = 69;</code>
      *
@@ -629,7 +637,7 @@ public final class DataSynProtos {
      *活动，每日福利
      * </pre>
      */
-    ActivityDailyType(57, 69),
+    ActivityDailyType(58, 69),
     ;
 
     /**
@@ -1017,6 +1025,14 @@ public final class DataSynProtos {
      */
     public static final int UserGroupSecretData_VALUE = 48;
     /**
+     * <code>GroupSecretData = 49;</code>
+     *
+     * <pre>
+     *秘境数据
+     * </pre>
+     */
+    public static final int GroupSecretData_VALUE = 49;
+    /**
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
@@ -1150,6 +1166,7 @@ public final class DataSynProtos {
         case 46: return FIX_NORM_EQUIP;
         case 47: return FIX_EXP_EQUIP;
         case 48: return UserGroupSecretData;
+        case 49: return GroupSecretData;
         case 60: return ActivityCountType;
         case 61: return ActivityTimeCardType;
         case 62: return ActivityRateType;
@@ -5044,7 +5061,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\251\t\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\276\t\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
       "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
@@ -5068,14 +5085,14 @@ public final class DataSynProtos {
       "l\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\026\n\022USER_" +
       "TMP_GAME_DATA\020,\022\020\n\014HERO_FETTERS\020-\022\022\n\016FIX" +
       "_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP\020/\022\027\n\023User" +
-      "GroupSecretData\0200\022\025\n\021ActivityCountType\020<" +
-      "\022\030\n\024ActivityTimeCardType\020=\022\024\n\020ActivityRa" +
-      "teType\020>\022\024\n\020ActivityDateType\020?\022\030\n\024Activi" +
-      "tyTimeSaleType\020@\022\030\n\024ActivityDateSaleType",
-      "\020A\022\024\n\020ActivityRankType\020B\022\030\n\024ActivityExch" +
-      "angeType\020C\022\031\n\025ActivityTimeCountType\020D\022\025\n" +
-      "\021ActivityDailyType\020EB\034\n\013com.rwprotoB\rDat" +
-      "aSynProtos"
+      "GroupSecretData\0200\022\023\n\017GroupSecretData\0201\022\025" +
+      "\n\021ActivityCountType\020<\022\030\n\024ActivityTimeCar" +
+      "dType\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Activit" +
+      "yDateType\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n",
+      "\024ActivityDateSaleType\020A\022\024\n\020ActivityRankT" +
+      "ype\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activ" +
+      "ityTimeCountType\020D\022\025\n\021ActivityDailyType\020" +
+      "EB\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
