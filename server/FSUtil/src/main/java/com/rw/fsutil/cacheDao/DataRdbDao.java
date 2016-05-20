@@ -3,7 +3,9 @@ package com.rw.fsutil.cacheDao;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassHelper;
 import com.rw.fsutil.dao.annotation.ClassInfo;
@@ -16,6 +18,7 @@ import com.rw.fsutil.dao.common.CommonSingleTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.log.SqlLog;
 import com.rw.fsutil.util.SpringContextUtil;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -40,7 +43,7 @@ public class DataRdbDao<T> {
 			classInfo = new ClassInfo(clazz);
 			commonJdbc = new CommonSingleTable<T>(jdbcTemplate, classInfo);
 			int cacheSize = getCacheSize();
-			this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), loader);
+			this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), loader);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -70,7 +73,12 @@ public class DataRdbDao<T> {
 
 		@Override
 		public boolean updateToDB(String key, T value) {
-			return commonJdbc.updateToDB(key, value);
+			try {
+				return commonJdbc.updateToDB(key, value);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
 	};
 

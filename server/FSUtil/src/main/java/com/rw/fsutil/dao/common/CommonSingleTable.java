@@ -49,10 +49,10 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 	}
 
 	public boolean delete(String id) throws DataNotExistException, Exception {
-		return super.delete(deleteSql, id);
+		return super.update(deleteSql, id) > 0;
 	}
 
-	public boolean updateToDB(String key, T target) {
+	public boolean updateToDB(String key, T target) throws Exception{
 		return super.updateToDB(updateSql, key, target);
 	}
 
