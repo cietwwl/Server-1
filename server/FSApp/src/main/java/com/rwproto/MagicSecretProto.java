@@ -85,6 +85,14 @@ public final class MagicSecretProto {
      * </pre>
      */
     GET_SELF_MS_RANK(8, 9),
+    /**
+     * <code>GIVE_UP_REWARD_BOX = 10;</code>
+     *
+     * <pre>
+     *放弃可以领取的箱子（因为要花费钻石，所以可以放弃不开）
+     * </pre>
+     */
+    GIVE_UP_REWARD_BOX(9, 10),
     ;
 
     /**
@@ -159,6 +167,14 @@ public final class MagicSecretProto {
      * </pre>
      */
     public static final int GET_SELF_MS_RANK_VALUE = 9;
+    /**
+     * <code>GIVE_UP_REWARD_BOX = 10;</code>
+     *
+     * <pre>
+     *放弃可以领取的箱子（因为要花费钻石，所以可以放弃不开）
+     * </pre>
+     */
+    public static final int GIVE_UP_REWARD_BOX_VALUE = 10;
 
 
     public final int getNumber() { return value; }
@@ -174,6 +190,7 @@ public final class MagicSecretProto {
         case 7: return CHANGE_ARMY;
         case 8: return GET_SCORE_REWARD;
         case 9: return GET_SELF_MS_RANK;
+        case 10: return GIVE_UP_REWARD_BOX;
         default: return null;
       }
     }
@@ -3860,19 +3877,19 @@ public final class MagicSecretProto {
       "\022*\n\007rstType\030\002 \002(\0162\031.magicSecret.msResult" +
       "Type\022\022\n\nmsRankData\030\003 \003(\t\022\020\n\010selfRank\030\004 \001" +
       "(\005\022\022\n\nrewardData\030\005 \003(\t\".\n\013msRewardBox\022\r\n",
-      "\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\314\001\n\rmsReq" +
+      "\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\344\001\n\rmsReq" +
       "uestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_MS_FI" +
       "GHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023GET_M" +
       "S_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022\023\n\017O" +
       "PEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n\020GET" +
-      "_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020\t*\321\001" +
-      "\n\014msResultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT" +
-      "_ENOUGH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDITION_UN" +
-      "REACH\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\rNO_REW" +
-      "ARD_BOX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT_EN",
-      "OUGH_STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t\022\016\n\nDAT" +
-      "A_ERROR\020\nB\037\n\013com.rwprotoB\020MagicSecretPro" +
-      "to"
+      "_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020\t\022\026\n" +
+      "\022GIVE_UP_REWARD_BOX\020\n*\321\001\n\014msResultType\022\013" +
+      "\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT_ENOUGH\020\002\022\r\n\tLOW" +
+      "_LEVEL\020\003\022\025\n\021CONDITION_UNREACH\020\004\022\025\n\021NO_RE" +
+      "WARD_CAN_GET\020\005\022\021\n\rNO_REWARD_BOX\020\006\022\023\n\017NOT",
+      "_ENOUGH_GOLD\020\007\022\023\n\017NOT_ENOUGH_STAR\020\010\022\024\n\020N" +
+      "O_EXCHANGE_BUFF\020\t\022\016\n\nDATA_ERROR\020\nB\037\n\013com" +
+      ".rwprotoB\020MagicSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

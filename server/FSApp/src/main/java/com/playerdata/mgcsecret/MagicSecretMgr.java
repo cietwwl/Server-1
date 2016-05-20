@@ -1,11 +1,14 @@
 package com.playerdata.mgcsecret;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
+import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
 import com.playerdata.mgcsecret.data.MSStageInfo;
@@ -57,11 +60,28 @@ public class MagicSecretMgr extends MSConditionJudgeMgr{
 		if(!judgeBuffLegal(chapterID, buffID)) return msResultType.DATA_ERROR;
 		if(!judgeEnoughStar(chapterID, buffID)) return msResultType.NOT_ENOUGH_STAR;
 		
+		// 将buff从可选列表，转移到已选择列表
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+		Iterator<Integer> unselectItor = mcInfo.getUnselectedBuff().iterator();
+		while(unselectItor.hasNext()){
+			int bID= unselectItor.next();
+			if(bID == Integer.parseInt(buffID)) unselectItor.remove();
+		}
+		mcInfo.getUnselectedBuff().add(Integer.parseInt(buffID));
+		
+		// 扣除星星数
+		BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getCfgById(buffID);
+		mcInfo.setStarCount(mcInfo.getStarCount() - buffCfg.getCost());
+		
+		userMSHolder.update(m_pPlayer);
+		mChapterHolder.updateItem(m_pPlayer, mcInfo);
 		return msResultType.SUCCESS;
 	}
 	
 	public void openRewardBox(MagicSecretRspMsg.Builder msRsp) {
-		
+		if(!judgeRewardBoxLegal()){
+			msRsp.setRstType(msResultType.NO_REWARD_BOX);
+		}
 	}
 
 	public void getMSSweepReward(MagicSecretRspMsg.Builder msRsp) {
