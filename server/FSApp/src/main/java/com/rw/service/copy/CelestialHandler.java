@@ -56,10 +56,11 @@ public class CelestialHandler {
 		}
 		String rewardInfoActivity="";
 		rewardInfoActivity = getCelestialRewardsInfo(player, copyRequest, levelId);
+		
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+		}
 		if(!isWin){			
-			if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
-				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
-			}
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}	
 		
@@ -81,9 +82,7 @@ public class CelestialHandler {
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
-		}
+		
 		// 战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();

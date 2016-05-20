@@ -97,12 +97,12 @@ public class WarFareHandler {
 		table.setLastChallengeTime(System.currentTimeMillis());
 		table.setNum(table.getNum() + 1);
 		
+		
 		String rewardInfoActivity=getWarFareRewardsInfo(addList);
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_WARFARE, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
 		}
-		
-		
+				
 		// 战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();
@@ -110,6 +110,7 @@ public class WarFareHandler {
 	
 	private String getWarFareRewardsInfo(List<? extends ItemInfo> addList){
 		StringBuilder rewardInfoActivity=new StringBuilder();
+		rewardInfoActivity.append("");
 		for (int i = 0; i < addList.size(); i++) {
 			int itemId = addList.get(i).getItemID();
 			int itemNum = addList.get(i).getItemNum();

@@ -51,14 +51,16 @@ public class TrailHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
+		
+		
 		String rewardInfoActivity="";
 		rewardInfoActivity = PvECommonHelper.getCopyRewardsInfo(player, copyCfg);
-		if(!isWin){			
-			if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
-				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
-			}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
-				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity);
-			}
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity);
+		}
+		if(!isWin){
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 		
@@ -95,11 +97,7 @@ public class TrailHandler {
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_LQSG, 1);
 		}
 		
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity);
-		}
+		
 		//战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();
