@@ -8,6 +8,7 @@ import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipResult;
 import com.rwproto.FixEquipProto.CommonReqMsg;
 import com.rwproto.FixEquipProto.CommonRspMsg;
+import com.rwproto.FixEquipProto.ExpLevelUpReqParams;
 
 public class FixExpEquipHandler {
 	
@@ -21,10 +22,11 @@ public class FixExpEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String itemId = commonReq.getEquipId();
+		String itemId = commonReq.getEquipId();		
+		ExpLevelUpReqParams reqParams = commonReq.getExpLevelUpReqParams();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixExpEquipMgr().levelUp(player, ownerId, itemId);
+		FixEquipResult result = targetHero.getFixExpEquipMgr().levelUp(player, ownerId, itemId, reqParams);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){

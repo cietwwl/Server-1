@@ -10,39 +10,43 @@ public class FixNormEquipCfg {
 	private int slot;
 	
 	private int heroModelId;
-
+	
+	private int maxLevel;
+	
+	private int maxQuality;
+	
+	private int maxStar;
 
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public int getModelId() {
 		return modelId;
 	}
 
-	public void setModelId(int modelId) {
-		this.modelId = modelId;
-	}
-
 	public int getSlot() {
 		return slot;
-	}
-
-	public void setSlot(int slot) {
-		this.slot = slot;
 	}
 
 	public int getHeroModelId() {
 		return heroModelId;
 	}
 
-	public void setHeroModelId(int heroModelId) {
-		this.heroModelId = heroModelId;
+	public int getMaxLevel() {
+		return maxLevel;
 	}
+
+	public int getMaxQuality() {
+		return maxQuality;
+	}
+
+	public int getMaxStar() {
+		return maxStar;
+	}
+
+
+
 	
 
 	

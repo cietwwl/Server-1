@@ -24,6 +24,8 @@ public class FixExpEquipDataItem implements  IMapItem {
 	private String cfgId;
 	
 	@CombineSave
+	private int exp;
+	@CombineSave
 	private int level;
 	@CombineSave
 	private int quality;
@@ -66,6 +68,12 @@ public class FixExpEquipDataItem implements  IMapItem {
 	}
 	public void setStar(int star) {
 		this.star = star;
+	}
+	public int getExp() {
+		return exp;
+	}
+	public void setExp(int exp) {
+		this.exp = exp;
 	}	
 
 

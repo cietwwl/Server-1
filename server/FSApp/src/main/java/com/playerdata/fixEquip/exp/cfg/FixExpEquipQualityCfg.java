@@ -24,7 +24,7 @@ public class FixExpEquipQualityCfg {
 	//modelAId:count;modelBId:count
 	private String itemsNeedStr;
 	
-	private Map<String,Integer> itemsNeed = new HashMap<String,Integer>();
+	private Map<Integer,Integer> itemsNeed = new HashMap<Integer,Integer>();
 	
 	public String getId() {
 		return id;
@@ -54,11 +54,11 @@ public class FixExpEquipQualityCfg {
 		return itemsNeedStr;
 	}
 
-	public Map<String, Integer> getItemsNeed() {
+	public Map<Integer, Integer> getItemsNeed() {
 		return itemsNeed;
 	}
 
-	public void setItemsNeed(Map<String, Integer> itemsNeed) {
+	public void setItemsNeed(Map<Integer, Integer> itemsNeed) {
 		this.itemsNeed = itemsNeed;
 	}
 

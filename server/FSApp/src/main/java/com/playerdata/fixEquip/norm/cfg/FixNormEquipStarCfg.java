@@ -18,13 +18,15 @@ public class FixNormEquipStarCfg {
 	
 	private FixEquipCostType costType;
 	
-	private int costCount;
+	private int upCost;
+	
+	private int downCost;
 	
 	
 	//modelAId:count;modelBId:count
 	private String itemsNeedStr;
 	
-	private Map<String,Integer> itemsNeed = new HashMap<String,Integer>();
+	private Map<Integer,Integer> itemsNeed = new HashMap<Integer,Integer>();
 	
 	public String getId() {
 		return id;
@@ -47,20 +49,26 @@ public class FixNormEquipStarCfg {
 		return costType;
 	}
 
-	public int getCostCount() {
-		return costCount;
-	}
 
 	public String getItemsNeedStr() {
 		return itemsNeedStr;
 	}
 
-	public Map<String, Integer> getItemsNeed() {
+	public Map<Integer, Integer> getItemsNeed() {
 		return itemsNeed;
 	}
 
-	public void setItemsNeed(Map<String, Integer> itemsNeed) {
+	public void setItemsNeed(Map<Integer, Integer> itemsNeed) {
 		this.itemsNeed = itemsNeed;
+	}
+
+
+	public int getUpCost() {
+		return upCost;
+	}
+
+	public int getDownCost() {
+		return downCost;
 	}
 
 	

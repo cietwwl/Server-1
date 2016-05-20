@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.fixEquip.FixEquipHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -24,16 +25,17 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 	@Override
 	public Map<String, FixNormEquipQualityCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/norm/FixNormEquipQualityCfg.csv", FixNormEquipQualityCfg.class);
-		groupByParentId(cfgCacheMap);
+		parseNeedItemsAndGroupByParentId(cfgCacheMap);
 		return cfgCacheMap;
 	}
 	
 
 
-	private void groupByParentId(Map<String, FixNormEquipQualityCfg> cfgCacheMap) {
+	private void parseNeedItemsAndGroupByParentId(Map<String, FixNormEquipQualityCfg> cfgCacheMap) {
 	
 		List<String> parentCfgList = new ArrayList<String>();
 		for (FixNormEquipQualityCfg tmpCfg : cfgCacheMap.values()) {
+			parseNeedItems(tmpCfg);
 			String parentCfgId = tmpCfg.getParentCfgId();
 			if(!parentCfgList.contains(parentCfgId)){
 				parentCfgList.add(parentCfgId);
@@ -45,6 +47,14 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 		}
 	}
 	
+	private void parseNeedItems(FixNormEquipQualityCfg tmpCfg) {		
+		
+		Map<Integer, Integer> itemsNeed = FixEquipHelper.parseNeedItems(tmpCfg.getItemsNeedStr());		
+		tmpCfg.setItemsNeed(itemsNeed);
+		
+	}
+
+
 	private List<FixNormEquipQualityCfg> getByParentCfgId(String parentCfgId){
 		List<FixNormEquipQualityCfg> targetList = new ArrayList<FixNormEquipQualityCfg>();
 		List<FixNormEquipQualityCfg> allCfg = getAllCfg();

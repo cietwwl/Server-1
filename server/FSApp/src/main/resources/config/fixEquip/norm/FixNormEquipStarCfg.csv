@@ -1,1 +1,1 @@
-key,Remarks,id,parentCfgId,star,levelNeed,costType,costCount
+key,Remarks,id,parentCfgId,star,levelNeed,costType,upCost,downCost,itemsNeedStr

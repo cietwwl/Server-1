@@ -9,8 +9,6 @@ public class FixNormEquipLevelCfg {
 	//所属活动配置id
 	private String parentCfgId;	
 	private int level;
-	//所需经验
-	private int expNeed;
 	
 	private FixEquipCostType costType;
 	
@@ -26,10 +24,6 @@ public class FixNormEquipLevelCfg {
 
 	public int getLevel() {
 		return level;
-	}
-
-	public int getExpNeed() {
-		return expNeed;
 	}
 
 	public FixEquipCostType getCostType() {
