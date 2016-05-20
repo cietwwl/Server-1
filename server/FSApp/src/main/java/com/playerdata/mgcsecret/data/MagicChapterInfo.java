@@ -24,12 +24,6 @@ public class MagicChapterInfo implements  IMapItem {
 	private String userId;// 对应的角色Id
 	
 	@CombineSave
-	private String maxStageID;	//关卡历史最高纪录
-	
-	@CombineSave
-	private String currentStageID = null;	//正在打的副本
-	
-	@CombineSave
 	private List<ItemInfo> canOpenBoxes = new ArrayList<ItemInfo>();  //可以打开的箱子(对应箱子ID和数量)
 	
 	@CombineSave
@@ -64,14 +58,6 @@ public class MagicChapterInfo implements  IMapItem {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-	
-	public String getMaxStageID() {
-		return maxStageID;
-	}
-
-	public void setMaxStageID(String maxStageID) {
-		this.maxStageID = maxStageID;
 	}
 
 	public List<ItemInfo> getCanOpenBoxes() {

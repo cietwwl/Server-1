@@ -2,6 +2,8 @@ package com.playerdata.mgcsecret.service;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
@@ -34,7 +36,7 @@ public class MagicSecretService implements FsService {
 				result = mHandler.getMSSingleReward(player, msgMSRequest);
 				break;
 			case GET_MS_SWEEP_REWARD:
-				result = mHandler.getMSSingleReward(player, msgMSRequest);
+				result = mHandler.getMSSweepReward(player, msgMSRequest);
 				break;
 			case EXCHANGE_BUFF:
 				result = mHandler.exchangeBuff(player, msgMSRequest);
@@ -42,10 +44,11 @@ public class MagicSecretService implements FsService {
 				result = mHandler.openRewardBox(player, msgMSRequest);
 				break;
 			default:
+				GameLog.error(LogModule.MagicSecret, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
 		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), "出现了Exception异常", e);
 		} finally {
 			return result;
 		}

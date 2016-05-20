@@ -10,7 +10,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
-import com.rw.fsutil.dao.annotation.SaveAsJson;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "magic_secret_info")
@@ -39,12 +38,13 @@ public class UserMagicSecretData{
 	long recentScoreTime; //最新获得积分时间
 	
 	@CombineSave
-	private String version ;
-
-	//TODO ???????
+	private String maxStageID;	//关卡历史最高纪录
+	
 	@CombineSave
-	@SaveAsJson
-	private MagicSecretExtendInfo extendInfo;
+	private String currentStageID = null;	//正在打的副本
+	
+	@CombineSave
+	private String version ;
 
 	public String getUserId() {
 		return userId;
@@ -110,7 +110,19 @@ public class UserMagicSecretData{
 		this.version = version;
 	}
 	
-	public MagicSecretExtendInfo getExtendInfo() {
-		return extendInfo;
+	public String getMaxStageID() {
+		return maxStageID;
+	}
+
+	public void setMaxStageID(String maxStageID) {
+		this.maxStageID = maxStageID;
+	}
+
+	public String getCurrentStageID() {
+		return currentStageID;
+	}
+
+	public void setCurrentStageID(String currentStageID) {
+		this.currentStageID = currentStageID;
 	}
 }

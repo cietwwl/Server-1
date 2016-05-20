@@ -3,6 +3,7 @@ package com.playerdata.mgcsecret;
 import com.playerdata.Player;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
+import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msResultType;
 
 // 有积分改变的时候通知排行榜
@@ -23,9 +24,28 @@ public class MagicSecretMgr{
 	}
 
 	public msResultType enterMSFight() {
+		
+		return msResultType.SUCCESS;
+	}
 
+	public msResultType exchangeBuff() {
+		
 		return msResultType.SUCCESS;
 	}
 	
+	public void openRewardBox(MagicSecretRspMsg.Builder msRsp) {
+		
+	}
+
+	public void getMSSweepReward(MagicSecretRspMsg.Builder msRsp) {
+		
+	}
 	
+	public void getSingleReward(MagicSecretRspMsg.Builder msRsp) {
+		
+	}
+
+	public void getMSRankData(MagicSecretRspMsg.Builder msRsp) {
+		
+	}
 }
