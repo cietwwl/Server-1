@@ -502,7 +502,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *请求进入的副本
+     *请求的副本(进入战斗会用到，获取单关奖励也会用到)
      * </pre>
      */
     boolean hasDungeonId();
@@ -510,7 +510,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *请求进入的副本
+     *请求的副本(进入战斗会用到，获取单关奖励也会用到)
      * </pre>
      */
     java.lang.String getDungeonId();
@@ -518,15 +518,42 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *请求进入的副本
+     *请求的副本(进入战斗会用到，获取单关奖励也会用到)
      * </pre>
      */
     com.google.protobuf.ByteString
         getDungeonIdBytes();
 
-    // optional string chapterId = 3;
+    // optional string finishState = 3;
     /**
-     * <code>optional string chapterId = 3;</code>
+     * <code>optional string finishState = 3;</code>
+     *
+     * <pre>
+     *副本通关情况(目前只用来表示通关星级：0表示失败)
+     * </pre>
+     */
+    boolean hasFinishState();
+    /**
+     * <code>optional string finishState = 3;</code>
+     *
+     * <pre>
+     *副本通关情况(目前只用来表示通关星级：0表示失败)
+     * </pre>
+     */
+    java.lang.String getFinishState();
+    /**
+     * <code>optional string finishState = 3;</code>
+     *
+     * <pre>
+     *副本通关情况(目前只用来表示通关星级：0表示失败)
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getFinishStateBytes();
+
+    // optional string chapterId = 4;
+    /**
+     * <code>optional string chapterId = 4;</code>
      *
      * <pre>
      *请求扫荡的章节
@@ -534,7 +561,7 @@ public final class MagicSecretProto {
      */
     boolean hasChapterId();
     /**
-     * <code>optional string chapterId = 3;</code>
+     * <code>optional string chapterId = 4;</code>
      *
      * <pre>
      *请求扫荡的章节
@@ -542,7 +569,7 @@ public final class MagicSecretProto {
      */
     java.lang.String getChapterId();
     /**
-     * <code>optional string chapterId = 3;</code>
+     * <code>optional string chapterId = 4;</code>
      *
      * <pre>
      *请求扫荡的章节
@@ -551,9 +578,9 @@ public final class MagicSecretProto {
     com.google.protobuf.ByteString
         getChapterIdBytes();
 
-    // optional string buffId = 4;
+    // optional string buffId = 5;
     /**
-     * <code>optional string buffId = 4;</code>
+     * <code>optional string buffId = 5;</code>
      *
      * <pre>
      *请求兑换的buff
@@ -561,7 +588,7 @@ public final class MagicSecretProto {
      */
     boolean hasBuffId();
     /**
-     * <code>optional string buffId = 4;</code>
+     * <code>optional string buffId = 5;</code>
      *
      * <pre>
      *请求兑换的buff
@@ -569,7 +596,7 @@ public final class MagicSecretProto {
      */
     java.lang.String getBuffId();
     /**
-     * <code>optional string buffId = 4;</code>
+     * <code>optional string buffId = 5;</code>
      *
      * <pre>
      *请求兑换的buff
@@ -578,9 +605,9 @@ public final class MagicSecretProto {
     com.google.protobuf.ByteString
         getBuffIdBytes();
 
-    // optional .magicSecret.msRewardBox rwdBox = 5;
+    // optional .magicSecret.msRewardBox rwdBox = 6;
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
@@ -588,7 +615,7 @@ public final class MagicSecretProto {
      */
     boolean hasRwdBox();
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
@@ -596,7 +623,7 @@ public final class MagicSecretProto {
      */
     com.rwproto.MagicSecretProto.msRewardBox getRwdBox();
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
@@ -604,9 +631,9 @@ public final class MagicSecretProto {
      */
     com.rwproto.MagicSecretProto.msRewardBoxOrBuilder getRwdBoxOrBuilder();
 
-    // optional string armyInfo = 6;
+    // optional string armyInfo = 7;
     /**
-     * <code>optional string armyInfo = 6;</code>
+     * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
      *调整后的队伍信息
@@ -614,7 +641,7 @@ public final class MagicSecretProto {
      */
     boolean hasArmyInfo();
     /**
-     * <code>optional string armyInfo = 6;</code>
+     * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
      *调整后的队伍信息
@@ -622,7 +649,7 @@ public final class MagicSecretProto {
      */
     java.lang.String getArmyInfo();
     /**
-     * <code>optional string armyInfo = 6;</code>
+     * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
      *调整后的队伍信息
@@ -700,17 +727,22 @@ public final class MagicSecretProto {
             }
             case 26: {
               bitField0_ |= 0x00000004;
-              chapterId_ = input.readBytes();
+              finishState_ = input.readBytes();
               break;
             }
             case 34: {
               bitField0_ |= 0x00000008;
-              buffId_ = input.readBytes();
+              chapterId_ = input.readBytes();
               break;
             }
             case 42: {
+              bitField0_ |= 0x00000010;
+              buffId_ = input.readBytes();
+              break;
+            }
+            case 50: {
               com.rwproto.MagicSecretProto.msRewardBox.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
                 subBuilder = rwdBox_.toBuilder();
               }
               rwdBox_ = input.readMessage(com.rwproto.MagicSecretProto.msRewardBox.PARSER, extensionRegistry);
@@ -718,11 +750,11 @@ public final class MagicSecretProto {
                 subBuilder.mergeFrom(rwdBox_);
                 rwdBox_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000020;
               break;
             }
-            case 50: {
-              bitField0_ |= 0x00000020;
+            case 58: {
+              bitField0_ |= 0x00000040;
               armyInfo_ = input.readBytes();
               break;
             }
@@ -797,7 +829,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *请求进入的副本
+     *请求的副本(进入战斗会用到，获取单关奖励也会用到)
      * </pre>
      */
     public boolean hasDungeonId() {
@@ -807,7 +839,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *请求进入的副本
+     *请求的副本(进入战斗会用到，获取单关奖励也会用到)
      * </pre>
      */
     public java.lang.String getDungeonId() {
@@ -828,7 +860,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *请求进入的副本
+     *请求的副本(进入战斗会用到，获取单关奖励也会用到)
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -845,21 +877,76 @@ public final class MagicSecretProto {
       }
     }
 
-    // optional string chapterId = 3;
-    public static final int CHAPTERID_FIELD_NUMBER = 3;
+    // optional string finishState = 3;
+    public static final int FINISHSTATE_FIELD_NUMBER = 3;
+    private java.lang.Object finishState_;
+    /**
+     * <code>optional string finishState = 3;</code>
+     *
+     * <pre>
+     *副本通关情况(目前只用来表示通关星级：0表示失败)
+     * </pre>
+     */
+    public boolean hasFinishState() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string finishState = 3;</code>
+     *
+     * <pre>
+     *副本通关情况(目前只用来表示通关星级：0表示失败)
+     * </pre>
+     */
+    public java.lang.String getFinishState() {
+      java.lang.Object ref = finishState_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          finishState_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string finishState = 3;</code>
+     *
+     * <pre>
+     *副本通关情况(目前只用来表示通关星级：0表示失败)
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getFinishStateBytes() {
+      java.lang.Object ref = finishState_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        finishState_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string chapterId = 4;
+    public static final int CHAPTERID_FIELD_NUMBER = 4;
     private java.lang.Object chapterId_;
     /**
-     * <code>optional string chapterId = 3;</code>
+     * <code>optional string chapterId = 4;</code>
      *
      * <pre>
      *请求扫荡的章节
      * </pre>
      */
     public boolean hasChapterId() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional string chapterId = 3;</code>
+     * <code>optional string chapterId = 4;</code>
      *
      * <pre>
      *请求扫荡的章节
@@ -880,7 +967,7 @@ public final class MagicSecretProto {
       }
     }
     /**
-     * <code>optional string chapterId = 3;</code>
+     * <code>optional string chapterId = 4;</code>
      *
      * <pre>
      *请求扫荡的章节
@@ -900,21 +987,21 @@ public final class MagicSecretProto {
       }
     }
 
-    // optional string buffId = 4;
-    public static final int BUFFID_FIELD_NUMBER = 4;
+    // optional string buffId = 5;
+    public static final int BUFFID_FIELD_NUMBER = 5;
     private java.lang.Object buffId_;
     /**
-     * <code>optional string buffId = 4;</code>
+     * <code>optional string buffId = 5;</code>
      *
      * <pre>
      *请求兑换的buff
      * </pre>
      */
     public boolean hasBuffId() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional string buffId = 4;</code>
+     * <code>optional string buffId = 5;</code>
      *
      * <pre>
      *请求兑换的buff
@@ -935,7 +1022,7 @@ public final class MagicSecretProto {
       }
     }
     /**
-     * <code>optional string buffId = 4;</code>
+     * <code>optional string buffId = 5;</code>
      *
      * <pre>
      *请求兑换的buff
@@ -955,21 +1042,21 @@ public final class MagicSecretProto {
       }
     }
 
-    // optional .magicSecret.msRewardBox rwdBox = 5;
-    public static final int RWDBOX_FIELD_NUMBER = 5;
+    // optional .magicSecret.msRewardBox rwdBox = 6;
+    public static final int RWDBOX_FIELD_NUMBER = 6;
     private com.rwproto.MagicSecretProto.msRewardBox rwdBox_;
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
      * </pre>
      */
     public boolean hasRwdBox() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
@@ -979,7 +1066,7 @@ public final class MagicSecretProto {
       return rwdBox_;
     }
     /**
-     * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+     * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
      *请求打开的箱子及数量
@@ -989,21 +1076,21 @@ public final class MagicSecretProto {
       return rwdBox_;
     }
 
-    // optional string armyInfo = 6;
-    public static final int ARMYINFO_FIELD_NUMBER = 6;
+    // optional string armyInfo = 7;
+    public static final int ARMYINFO_FIELD_NUMBER = 7;
     private java.lang.Object armyInfo_;
     /**
-     * <code>optional string armyInfo = 6;</code>
+     * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
      *调整后的队伍信息
      * </pre>
      */
     public boolean hasArmyInfo() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional string armyInfo = 6;</code>
+     * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
      *调整后的队伍信息
@@ -1024,7 +1111,7 @@ public final class MagicSecretProto {
       }
     }
     /**
-     * <code>optional string armyInfo = 6;</code>
+     * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
      *调整后的队伍信息
@@ -1047,6 +1134,7 @@ public final class MagicSecretProto {
     private void initFields() {
       reqType_ = com.rwproto.MagicSecretProto.msRequestType.GET_MS_RANK;
       dungeonId_ = "";
+      finishState_ = "";
       chapterId_ = "";
       buffId_ = "";
       rwdBox_ = com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
@@ -1081,16 +1169,19 @@ public final class MagicSecretProto {
         output.writeBytes(2, getDungeonIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getChapterIdBytes());
+        output.writeBytes(3, getFinishStateBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBytes(4, getBuffIdBytes());
+        output.writeBytes(4, getChapterIdBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(5, rwdBox_);
+        output.writeBytes(5, getBuffIdBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(6, getArmyInfoBytes());
+        output.writeMessage(6, rwdBox_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getArmyInfoBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1111,19 +1202,23 @@ public final class MagicSecretProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getChapterIdBytes());
+          .computeBytesSize(3, getFinishStateBytes());
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, getBuffIdBytes());
+          .computeBytesSize(4, getChapterIdBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, rwdBox_);
+          .computeBytesSize(5, getBuffIdBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getArmyInfoBytes());
+          .computeMessageSize(6, rwdBox_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getArmyInfoBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1246,18 +1341,20 @@ public final class MagicSecretProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         dungeonId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        chapterId_ = "";
+        finishState_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        buffId_ = "";
+        chapterId_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        buffId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (rwdBoxBuilder_ == null) {
           rwdBox_ = com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
         } else {
           rwdBoxBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
-        armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
+        armyInfo_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -1297,21 +1394,25 @@ public final class MagicSecretProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.chapterId_ = chapterId_;
+        result.finishState_ = finishState_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.buffId_ = buffId_;
+        result.chapterId_ = chapterId_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
+        }
+        result.buffId_ = buffId_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
         }
         if (rwdBoxBuilder_ == null) {
           result.rwdBox_ = rwdBox_;
         } else {
           result.rwdBox_ = rwdBoxBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
-          to_bitField0_ |= 0x00000020;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
         }
         result.armyInfo_ = armyInfo_;
         result.bitField0_ = to_bitField0_;
@@ -1338,13 +1439,18 @@ public final class MagicSecretProto {
           dungeonId_ = other.dungeonId_;
           onChanged();
         }
-        if (other.hasChapterId()) {
+        if (other.hasFinishState()) {
           bitField0_ |= 0x00000004;
+          finishState_ = other.finishState_;
+          onChanged();
+        }
+        if (other.hasChapterId()) {
+          bitField0_ |= 0x00000008;
           chapterId_ = other.chapterId_;
           onChanged();
         }
         if (other.hasBuffId()) {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
           buffId_ = other.buffId_;
           onChanged();
         }
@@ -1352,7 +1458,7 @@ public final class MagicSecretProto {
           mergeRwdBox(other.getRwdBox());
         }
         if (other.hasArmyInfo()) {
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
           armyInfo_ = other.armyInfo_;
           onChanged();
         }
@@ -1451,7 +1557,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *请求进入的副本
+       *请求的副本(进入战斗会用到，获取单关奖励也会用到)
        * </pre>
        */
       public boolean hasDungeonId() {
@@ -1461,7 +1567,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *请求进入的副本
+       *请求的副本(进入战斗会用到，获取单关奖励也会用到)
        * </pre>
        */
       public java.lang.String getDungeonId() {
@@ -1479,7 +1585,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *请求进入的副本
+       *请求的副本(进入战斗会用到，获取单关奖励也会用到)
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1499,7 +1605,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *请求进入的副本
+       *请求的副本(进入战斗会用到，获取单关奖励也会用到)
        * </pre>
        */
       public Builder setDungeonId(
@@ -1516,7 +1622,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *请求进入的副本
+       *请求的副本(进入战斗会用到，获取单关奖励也会用到)
        * </pre>
        */
       public Builder clearDungeonId() {
@@ -1529,7 +1635,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *请求进入的副本
+       *请求的副本(进入战斗会用到，获取单关奖励也会用到)
        * </pre>
        */
       public Builder setDungeonIdBytes(
@@ -1543,20 +1649,118 @@ public final class MagicSecretProto {
         return this;
       }
 
-      // optional string chapterId = 3;
+      // optional string finishState = 3;
+      private java.lang.Object finishState_ = "";
+      /**
+       * <code>optional string finishState = 3;</code>
+       *
+       * <pre>
+       *副本通关情况(目前只用来表示通关星级：0表示失败)
+       * </pre>
+       */
+      public boolean hasFinishState() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string finishState = 3;</code>
+       *
+       * <pre>
+       *副本通关情况(目前只用来表示通关星级：0表示失败)
+       * </pre>
+       */
+      public java.lang.String getFinishState() {
+        java.lang.Object ref = finishState_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          finishState_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string finishState = 3;</code>
+       *
+       * <pre>
+       *副本通关情况(目前只用来表示通关星级：0表示失败)
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getFinishStateBytes() {
+        java.lang.Object ref = finishState_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          finishState_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string finishState = 3;</code>
+       *
+       * <pre>
+       *副本通关情况(目前只用来表示通关星级：0表示失败)
+       * </pre>
+       */
+      public Builder setFinishState(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        finishState_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string finishState = 3;</code>
+       *
+       * <pre>
+       *副本通关情况(目前只用来表示通关星级：0表示失败)
+       * </pre>
+       */
+      public Builder clearFinishState() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        finishState_ = getDefaultInstance().getFinishState();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string finishState = 3;</code>
+       *
+       * <pre>
+       *副本通关情况(目前只用来表示通关星级：0表示失败)
+       * </pre>
+       */
+      public Builder setFinishStateBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        finishState_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string chapterId = 4;
       private java.lang.Object chapterId_ = "";
       /**
-       * <code>optional string chapterId = 3;</code>
+       * <code>optional string chapterId = 4;</code>
        *
        * <pre>
        *请求扫荡的章节
        * </pre>
        */
       public boolean hasChapterId() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string chapterId = 3;</code>
+       * <code>optional string chapterId = 4;</code>
        *
        * <pre>
        *请求扫荡的章节
@@ -1574,7 +1778,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string chapterId = 3;</code>
+       * <code>optional string chapterId = 4;</code>
        *
        * <pre>
        *请求扫荡的章节
@@ -1594,7 +1798,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string chapterId = 3;</code>
+       * <code>optional string chapterId = 4;</code>
        *
        * <pre>
        *请求扫荡的章节
@@ -1605,26 +1809,26 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         chapterId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string chapterId = 3;</code>
+       * <code>optional string chapterId = 4;</code>
        *
        * <pre>
        *请求扫荡的章节
        * </pre>
        */
       public Builder clearChapterId() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         chapterId_ = getDefaultInstance().getChapterId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string chapterId = 3;</code>
+       * <code>optional string chapterId = 4;</code>
        *
        * <pre>
        *请求扫荡的章节
@@ -1635,26 +1839,26 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         chapterId_ = value;
         onChanged();
         return this;
       }
 
-      // optional string buffId = 4;
+      // optional string buffId = 5;
       private java.lang.Object buffId_ = "";
       /**
-       * <code>optional string buffId = 4;</code>
+       * <code>optional string buffId = 5;</code>
        *
        * <pre>
        *请求兑换的buff
        * </pre>
        */
       public boolean hasBuffId() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional string buffId = 4;</code>
+       * <code>optional string buffId = 5;</code>
        *
        * <pre>
        *请求兑换的buff
@@ -1672,7 +1876,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string buffId = 4;</code>
+       * <code>optional string buffId = 5;</code>
        *
        * <pre>
        *请求兑换的buff
@@ -1692,7 +1896,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string buffId = 4;</code>
+       * <code>optional string buffId = 5;</code>
        *
        * <pre>
        *请求兑换的buff
@@ -1703,26 +1907,26 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         buffId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string buffId = 4;</code>
+       * <code>optional string buffId = 5;</code>
        *
        * <pre>
        *请求兑换的buff
        * </pre>
        */
       public Builder clearBuffId() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         buffId_ = getDefaultInstance().getBuffId();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string buffId = 4;</code>
+       * <code>optional string buffId = 5;</code>
        *
        * <pre>
        *请求兑换的buff
@@ -1733,28 +1937,28 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         buffId_ = value;
         onChanged();
         return this;
       }
 
-      // optional .magicSecret.msRewardBox rwdBox = 5;
+      // optional .magicSecret.msRewardBox rwdBox = 6;
       private com.rwproto.MagicSecretProto.msRewardBox rwdBox_ = com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.MagicSecretProto.msRewardBox, com.rwproto.MagicSecretProto.msRewardBox.Builder, com.rwproto.MagicSecretProto.msRewardBoxOrBuilder> rwdBoxBuilder_;
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
       public boolean hasRwdBox() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -1768,7 +1972,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -1784,11 +1988,11 @@ public final class MagicSecretProto {
         } else {
           rwdBoxBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -1802,11 +2006,11 @@ public final class MagicSecretProto {
         } else {
           rwdBoxBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -1814,7 +2018,7 @@ public final class MagicSecretProto {
        */
       public Builder mergeRwdBox(com.rwproto.MagicSecretProto.msRewardBox value) {
         if (rwdBoxBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
               rwdBox_ != com.rwproto.MagicSecretProto.msRewardBox.getDefaultInstance()) {
             rwdBox_ =
               com.rwproto.MagicSecretProto.msRewardBox.newBuilder(rwdBox_).mergeFrom(value).buildPartial();
@@ -1825,11 +2029,11 @@ public final class MagicSecretProto {
         } else {
           rwdBoxBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -1842,23 +2046,23 @@ public final class MagicSecretProto {
         } else {
           rwdBoxBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
        * </pre>
        */
       public com.rwproto.MagicSecretProto.msRewardBox.Builder getRwdBoxBuilder() {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         onChanged();
         return getRwdBoxFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -1872,7 +2076,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional .magicSecret.msRewardBox rwdBox = 5;</code>
+       * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
        *请求打开的箱子及数量
@@ -1892,20 +2096,20 @@ public final class MagicSecretProto {
         return rwdBoxBuilder_;
       }
 
-      // optional string armyInfo = 6;
+      // optional string armyInfo = 7;
       private java.lang.Object armyInfo_ = "";
       /**
-       * <code>optional string armyInfo = 6;</code>
+       * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
        *调整后的队伍信息
        * </pre>
        */
       public boolean hasArmyInfo() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional string armyInfo = 6;</code>
+       * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
        *调整后的队伍信息
@@ -1923,7 +2127,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string armyInfo = 6;</code>
+       * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
        *调整后的队伍信息
@@ -1943,7 +2147,7 @@ public final class MagicSecretProto {
         }
       }
       /**
-       * <code>optional string armyInfo = 6;</code>
+       * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
        *调整后的队伍信息
@@ -1954,26 +2158,26 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000020;
+  bitField0_ |= 0x00000040;
         armyInfo_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string armyInfo = 6;</code>
+       * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
        *调整后的队伍信息
        * </pre>
        */
       public Builder clearArmyInfo() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         armyInfo_ = getDefaultInstance().getArmyInfo();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string armyInfo = 6;</code>
+       * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
        *调整后的队伍信息
@@ -1984,7 +2188,7 @@ public final class MagicSecretProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000020;
+  bitField0_ |= 0x00000040;
         armyInfo_ = value;
         onChanged();
         return this;
@@ -3867,29 +4071,30 @@ public final class MagicSecretProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021MagicSecret.proto\022\013magicSecret\"\262\001\n\021Mag" +
+      "\n\021MagicSecret.proto\022\013magicSecret\"\307\001\n\021Mag" +
       "icSecretReqMsg\022+\n\007reqType\030\001 \002(\0162\032.magicS" +
-      "ecret.msRequestType\022\021\n\tdungeonId\030\002 \001(\t\022\021" +
-      "\n\tchapterId\030\003 \001(\t\022\016\n\006buffId\030\004 \001(\t\022(\n\006rwd" +
-      "Box\030\005 \001(\0132\030.magicSecret.msRewardBox\022\020\n\010a" +
-      "rmyInfo\030\006 \001(\t\"\246\001\n\021MagicSecretRspMsg\022+\n\007r" +
-      "eqType\030\001 \002(\0162\032.magicSecret.msRequestType" +
-      "\022*\n\007rstType\030\002 \002(\0162\031.magicSecret.msResult" +
-      "Type\022\022\n\nmsRankData\030\003 \003(\t\022\020\n\010selfRank\030\004 \001" +
-      "(\005\022\022\n\nrewardData\030\005 \003(\t\".\n\013msRewardBox\022\r\n",
-      "\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\344\001\n\rmsReq" +
-      "uestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_MS_FI" +
-      "GHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023GET_M" +
-      "S_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022\023\n\017O" +
-      "PEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n\020GET" +
-      "_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020\t\022\026\n" +
-      "\022GIVE_UP_REWARD_BOX\020\n*\321\001\n\014msResultType\022\013" +
-      "\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT_ENOUGH\020\002\022\r\n\tLOW" +
-      "_LEVEL\020\003\022\025\n\021CONDITION_UNREACH\020\004\022\025\n\021NO_RE" +
-      "WARD_CAN_GET\020\005\022\021\n\rNO_REWARD_BOX\020\006\022\023\n\017NOT",
-      "_ENOUGH_GOLD\020\007\022\023\n\017NOT_ENOUGH_STAR\020\010\022\024\n\020N" +
-      "O_EXCHANGE_BUFF\020\t\022\016\n\nDATA_ERROR\020\nB\037\n\013com" +
-      ".rwprotoB\020MagicSecretProto"
+      "ecret.msRequestType\022\021\n\tdungeonId\030\002 \001(\t\022\023" +
+      "\n\013finishState\030\003 \001(\t\022\021\n\tchapterId\030\004 \001(\t\022\016" +
+      "\n\006buffId\030\005 \001(\t\022(\n\006rwdBox\030\006 \001(\0132\030.magicSe" +
+      "cret.msRewardBox\022\020\n\010armyInfo\030\007 \001(\t\"\246\001\n\021M" +
+      "agicSecretRspMsg\022+\n\007reqType\030\001 \002(\0162\032.magi" +
+      "cSecret.msRequestType\022*\n\007rstType\030\002 \002(\0162\031" +
+      ".magicSecret.msResultType\022\022\n\nmsRankData\030" +
+      "\003 \003(\t\022\020\n\010selfRank\030\004 \001(\005\022\022\n\nrewardData\030\005 ",
+      "\003(\t\".\n\013msRewardBox\022\r\n\005boxID\030\001 \002(\t\022\020\n\010box" +
+      "Count\030\002 \002(\005*\344\001\n\rmsRequestType\022\017\n\013GET_MS_" +
+      "RANK\020\001\022\022\n\016ENTER_MS_FIGHT\020\002\022\030\n\024GET_MS_SIN" +
+      "GLE_REWARD\020\003\022\027\n\023GET_MS_SWEEP_REWARD\020\004\022\021\n" +
+      "\rEXCHANGE_BUFF\020\005\022\023\n\017OPEN_REWARD_BOX\020\006\022\017\n" +
+      "\013CHANGE_ARMY\020\007\022\024\n\020GET_SCORE_REWARD\020\010\022\024\n\020" +
+      "GET_SELF_MS_RANK\020\t\022\026\n\022GIVE_UP_REWARD_BOX" +
+      "\020\n*\321\001\n\014msResultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIME" +
+      "S_NOT_ENOUGH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDITI" +
+      "ON_UNREACH\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\rN",
+      "O_REWARD_BOX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017N" +
+      "OT_ENOUGH_STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t\022\016" +
+      "\n\nDATA_ERROR\020\nB\037\n\013com.rwprotoB\020MagicSecr" +
+      "etProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3901,7 +4106,7 @@ public final class MagicSecretProto {
           internal_static_magicSecret_MagicSecretReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_magicSecret_MagicSecretReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "DungeonId", "ChapterId", "BuffId", "RwdBox", "ArmyInfo", });
+              new java.lang.String[] { "ReqType", "DungeonId", "FinishState", "ChapterId", "BuffId", "RwdBox", "ArmyInfo", });
           internal_static_magicSecret_MagicSecretRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_magicSecret_MagicSecretRspMsg_fieldAccessorTable = new

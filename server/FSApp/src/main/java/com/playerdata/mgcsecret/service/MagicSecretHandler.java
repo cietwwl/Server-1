@@ -2,7 +2,7 @@ package com.playerdata.mgcsecret.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.playerdata.mgcsecret.MagicSecretMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 
@@ -40,7 +40,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.getSingleReward(msRsp);
+		msMgr.getSingleReward(msRsp, msgMSRequest.getDungeonId(), msgMSRequest.getFinishState());
 		return msRsp.build().toByteString();
 	}
 	
@@ -48,7 +48,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.getMSSweepReward(msRsp);
+		msMgr.getMSSweepReward(msRsp, msgMSRequest.getChapterId());
 		return msRsp.build().toByteString();
 	}
 
@@ -56,7 +56,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.openRewardBox(msRsp);
+		msMgr.openRewardBox(msRsp, msgMSRequest.getChapterId(), msgMSRequest.getRwdBox());
 		return msRsp.build().toByteString();
 	}
 

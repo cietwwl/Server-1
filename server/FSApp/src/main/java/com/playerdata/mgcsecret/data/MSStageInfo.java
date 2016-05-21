@@ -9,12 +9,21 @@ public class MSStageInfo {
 	private ArrayList<Integer> monsterBuff; //关卡怪物buff
 	private int enimyGroupId; //怪物组id
 	private ArrayList<ItemInfo> dropItem;	//关卡掉落物品
+	private int finishStar;
 	
 	public MSStageInfo(String stageKey, String monsterBuffStr, String enimyStr, String dropStr){
 		this.stageKey = stageKey;
 		this.monsterBuff = getRandomMonsterBuff(monsterBuffStr);
 		this.enimyGroupId = getRandomEnimyGroupID(enimyStr);
 		this.dropItem = getDropItem(dropStr);
+	}
+	
+	public int getFinishStar() {
+		return finishStar;
+	}
+
+	public void setFinishStar(int finishStar) {
+		this.finishStar = finishStar;
 	}
 	
 	public String getStageKey() {
