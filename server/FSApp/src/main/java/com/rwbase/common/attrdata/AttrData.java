@@ -9,10 +9,14 @@ import com.common.BeanCopyer;
 import com.common.BeanOperationHelper;
 import com.common.IBeanNameFixAction;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwbase.common.attribute.AttributeType;
 
 @SynClass
 public class AttrData implements AttrDataIF {
 
+	//private Map<AttributeType,Number> map;
+	//Json
+	
 	private int life; // 最大生命值...
 	private int energy; // 能量值...
 	private int attack; // 攻击...

@@ -243,17 +243,21 @@ public class ActivityDailyCountTypeMgr {
 			return subItem;
 		}
 		
-		List<ActivityDailyCountTypeSubItem> sublist = dataItem.getSubItemList();
-		for(ActivityDailyCountTypeSubItem subitem : sublist){
-			if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
-				subItem = subitem;
-				break;
+		if(dataItem != null){
+			List<ActivityDailyCountTypeSubItem> sublist = dataItem.getSubItemList();
+			for(ActivityDailyCountTypeSubItem subitem : sublist){
+				if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
+					subItem = subitem;
+					break;
+				}
 			}
+			
 		}
+		
 		if(subItem == null){
-			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item");
-			return subItem;
+			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item或subitem");
 		}
+		
 		return   subItem;
 	}
 	

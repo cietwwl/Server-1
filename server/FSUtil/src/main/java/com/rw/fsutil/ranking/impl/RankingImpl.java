@@ -15,11 +15,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.common.EnumerateListImpl;
-import com.rw.fsutil.common.FixTaskLatch;
 import com.rw.fsutil.common.ReverseEnumerateList;
 import com.rw.fsutil.common.SegmentEnumeration;
 import com.rw.fsutil.common.SegmentList;
 import com.rw.fsutil.common.SegmentListImpl;
+import com.rw.fsutil.concurrent.FixTaskLatch;
 import com.rw.fsutil.log.EngineLoggerImpl;
 import com.rw.fsutil.ranking.DataUpdater;
 import com.rw.fsutil.ranking.MomentRankingEntry;
