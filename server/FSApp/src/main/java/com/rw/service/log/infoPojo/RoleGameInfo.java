@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupCmdHelper;
+import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 
 
@@ -119,12 +120,20 @@ public class RoleGameInfo {
 			roleGameInfo.setOnlineTime("online_time:" + onlineTime);
 			
 			
-			int spcase = 3;
-			long nmcase = 3;
+			int spcase = -1;
+			long nmcase = -1;
+			
 			String fighttime="";
 			if(moreinfo!= null){
 				if(moreinfo.containsKey("fightTime")){
 					fighttime = moreinfo.get("fightTime");
+				}
+				if(moreinfo.containsKey("copyLevel")&&moreinfo.containsKey("enemyTimes")){					
+					if(Integer.parseInt(moreinfo.get("copyLevel")) == CopyType.COPY_TYPE_NORMAL){
+						spcase = Integer.parseInt(moreinfo.get("enemyTimes"));
+					}else{
+						nmcase = Integer.parseInt(moreinfo.get("enemyTimes"));
+					}
 				}
 			}
 			StringBuilder copyInfo = new StringBuilder();

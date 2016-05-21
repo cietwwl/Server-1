@@ -10,6 +10,8 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
@@ -234,15 +236,16 @@ public class BILogTemplateHelper {
 			break;					
 		default:
 			break;
-		}
-		
-		
-		
-		
+		}		
 		return code;
 	}
 	
-	
+	/**根据id和类型返回地图波数*/
+	public static int getTimes(int levelId,int type){
+		CopyCfg cfg = CopyCfgDAO.getInstance().getCfgById(levelId+"");
+		return cfg.getSubtype();
+		
+	}
 	
 	
 	public static void main(String[] args) {

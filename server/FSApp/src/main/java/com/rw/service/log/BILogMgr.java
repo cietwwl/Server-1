@@ -28,6 +28,7 @@ import com.rw.service.log.template.ActivityEndLogTemplate;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BIActivityEntry;
 import com.rw.service.log.template.BILogTemplate;
+import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
@@ -382,6 +383,7 @@ public class BILogMgr {
 		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
 			return;
 		}
+		
 		moreInfo.put("fightTime", "" + fightTime);		
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
@@ -394,7 +396,7 @@ public class BILogMgr {
 		} else {
 			moreInfo.put("operationCode", "case_fail");
 		}
-		
+		moreInfo.put("enemyTimes", BILogTemplateHelper.getTimes(copyId,copyLevel)+"");
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
 
