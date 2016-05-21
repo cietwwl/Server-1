@@ -1,22 +1,25 @@
 package com.rw.handler.sevenDayGift;
 
+import java.util.List;
+
 
 
 public class DailyGiftDao {
 	private int count ;
-	private int counts;
+	private List<Integer> counts ;
 	public int getCount() {
 		return count;
 	}
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public int getCounts() {
+	public List<Integer> getCounts() {
 		return counts;
 	}
-	public void setCounts(int counts) {
+	public void setCounts(List<Integer> counts) {
 		this.counts = counts;
 	}
+
 	
 	
 }

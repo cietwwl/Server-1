@@ -18,7 +18,6 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
-import com.rw.handler.sevenDayGift.DailyGiftHolder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.task.TaskItemHolder;

@@ -726,9 +726,10 @@ public class Robot {
 	/**
 	 * 七日礼包领取
 	 */
-	public  boolean testSevenDayGiftTake(){		
+	public  boolean testDailyGiftTake(){		
 		DailyGiftHandler.getHandler().getSevenDayGiftItem(client);
-		return false;
+		return DailyGiftHandler.getHandler().getSevenDayGift(client);
+		
 	}
 	
 	

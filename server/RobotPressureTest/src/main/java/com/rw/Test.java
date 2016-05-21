@@ -18,7 +18,7 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-//			 issucc=robot.testActivityDailyCountTakeGift();
+			 issucc=robot.testDailyGiftTake();
 			 
 			 
 			 System.out.println("@@@@@@@@@@@test" + issucc);
