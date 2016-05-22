@@ -91,7 +91,7 @@ public class CopyHandler {
 	}
 
 	/*
-	 * 副本战斗结算
+	 * 副本战斗结算;万仙阵不结算但会进入
 	 */
 	public ByteString copyBattleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
@@ -108,13 +108,15 @@ public class CopyHandler {
 		boolean isFirst = copyRecord.isFirst();
 		
 		
+		String rewardInfoActivity="";
+		rewardInfoActivity = PvECommonHelper.getCopyRewardsInfo(player, copyCfg);
+		
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+		}		
 		if(!isWin){
 			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
-//			if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
-//				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,null);
-//			}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
-//				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,null);
-//			}			
+			
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 
@@ -266,6 +268,8 @@ public class CopyHandler {
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_CELESTIAL,copyCfg.getLevelID());
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_WARFARE,copyCfg.getLevelID());
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER,copyCfg.getLevelID());
 		}
 		
 		return copyResponse.build().toByteString();

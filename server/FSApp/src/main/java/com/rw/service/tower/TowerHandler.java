@@ -386,7 +386,6 @@ public class TowerHandler {
 	public ByteString getAward(MsgTowerRequest request, Player player) {
 		MsgTowerResponse.Builder response = MsgTowerResponse.newBuilder();
 		response.setTowerType(request.getTowerType());
-
 		String userId = player.getUserId();
 		int level = player.getLevel();
 		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.TOWER, level);
