@@ -225,7 +225,7 @@ public class GameLoginHandler {
 				}
 				response.setUserId(userId_);
 				GameLog.debug("Game Login Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
-				GameLog.debug("Game Login Finish --> userId:" + userId_);
+				GameLog.debug("Game Login Finish --> userId:" + userId_ + " json串 = " + clientInfoJson);
 				player.setZoneLoginInfo(zoneLoginInfo);
 				BILogMgr.getInstance().logZoneLogin(player);
 				// 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
@@ -354,7 +354,7 @@ public class GameLoginHandler {
 		response.setUserId(userId);
 		GameLog.debug("Create Role ...,userId:" + userId);
 		GameLog.debug("Game Create Role Finish --> accountId:" + accountId + " , zoneId:" + zoneId);
-		GameLog.debug("Game Create Role Finish --> userId:" + userId);
+		GameLog.debug("Game Create Role Finish --> userId:" + userId + " json串 = " + clientInfoJson);
 		BILogMgr.getInstance().logZoneReg(player);
 		// 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
 		ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
