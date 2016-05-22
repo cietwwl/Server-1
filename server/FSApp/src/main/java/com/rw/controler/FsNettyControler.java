@@ -132,6 +132,8 @@ public class FsNettyControler {
 		Response.Builder builder = Response.newBuilder().setHeader(getResponseHeader(header, header.getCommand(), statusCode));
 		if (resultContent != null) {
 			builder.setSerializedContent(resultContent);
+		}else{
+			builder.setSerializedContent(com.google.protobuf.ByteString.EMPTY);
 		}
 		Response result = builder.build();
 		if (!GameUtil.checkMsgSize(result)) {
