@@ -52,9 +52,8 @@ public class TrailHandler {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
 		String rewardInfoActivity="";
-		
-		if(!isWin){
-			rewardInfoActivity = PvECommonHelper.getCopyRewardsInfo(player, copyCfg);
+		rewardInfoActivity = PvECommonHelper.getCopyRewardsInfo(player, copyCfg);
+		if(!isWin){			
 			if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
 				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
 			}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
@@ -69,7 +68,6 @@ public class TrailHandler {
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
 		
 		//TODO HC @Modify 2015-11-30 bug fix 没有把掉落物品放进去发送给玩家
-		rewardInfoActivity = PvECommonHelper.getCopyRewardsInfo(player, copyCfg);
 		PvECommonHelper.addCopyRewards(player, copyCfg);
 
 		// 英雄经验

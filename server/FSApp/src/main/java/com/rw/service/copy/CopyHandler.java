@@ -262,6 +262,10 @@ public class CopyHandler {
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD,copyCfg.getLevelID());
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG,copyCfg.getLevelID());
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_CELESTIAL,copyCfg.getLevelID());
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_WARFARE,copyCfg.getLevelID());
 		}
 		
 		return copyResponse.build().toByteString();

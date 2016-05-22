@@ -11,16 +11,22 @@ import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.dropitem.DropItemManager;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.unendingwar.UnendingWarHandler;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.unendingwar.TableUnendingWar;
+import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.CopyServiceProtos.TagBattleClearingResult;
+import com.rwproto.CopyServiceProtos.TagBattleData;
 
 public class WarFareHandler {
 
@@ -35,6 +41,9 @@ public class WarFareHandler {
 	 */
 	public ByteString battleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+		TagBattleData tagBattleData = copyRequest.getTagBattleData();
+		boolean isWin = tagBattleData.getFightResult()==EBattleStatus.WIN;
+		int fightTime = tagBattleData.getFightTime();
 		int levelId = copyRequest.getTagBattleData().getLevelId();
 
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
@@ -58,7 +67,7 @@ public class WarFareHandler {
 
 		AtomicInteger unendingWarCoin = new AtomicInteger();
 		List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, times-1, copyCfg.getLevelID(),unendingWarCoin);
-	
+		
 		
 		
 		
@@ -87,9 +96,27 @@ public class WarFareHandler {
 		TableUnendingWar table = player.unendingWarMgr.getTable();
 		table.setLastChallengeTime(System.currentTimeMillis());
 		table.setNum(table.getNum() + 1);
-
+		
+		String rewardInfoActivity=getWarFareRewardsInfo(addList);
+		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_WARFARE, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+		}
+		
+		
 		// 战斗结束，推送pve消息给前端
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();
 	}
+	
+	private String getWarFareRewardsInfo(List<? extends ItemInfo> addList){
+		StringBuilder rewardInfoActivity=new StringBuilder();
+		for (int i = 0; i < addList.size(); i++) {
+			int itemId = addList.get(i).getItemID();
+			int itemNum = addList.get(i).getItemNum();
+			String strItemInfo = itemId + "," + itemNum;
+			rewardInfoActivity.append(strItemInfo);
+		}
+		return rewardInfoActivity.toString();
+	}
+	
 }
