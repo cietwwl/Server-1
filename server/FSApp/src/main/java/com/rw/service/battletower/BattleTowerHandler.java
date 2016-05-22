@@ -16,6 +16,8 @@ import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -42,6 +44,7 @@ import com.rwbase.dao.battletower.pojo.readonly.BattleTowerHeroInfoIF;
 import com.rwbase.dao.battletower.pojo.readonly.BattleTowerRoleInfoIF;
 import com.rwbase.dao.battletower.pojo.readonly.TableBattleTowerRankIF;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
@@ -945,11 +948,19 @@ public class BattleTowerHandler {
 
 		tableBattleTower.setCurFloor(floor);// 设置当前要打的层
 		tableBattleTower.setResult(false);// 当前还没有结果
+		
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD,floor);
+		
+		
+		
 		// 更新数据
 		dao.update(tableBattleTower);
 
 		commonRsp.setReqType(ERequestType.CHALLENGE_START);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
+		
+		
+		
 	}
 
 	/**
