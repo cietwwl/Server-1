@@ -123,6 +123,88 @@ public final class InlayProtos {
     // @@protoc_insertion_point(enum_scope:Inlay.EInlayType)
   }
 
+  /**
+   * Protobuf enum {@code Inlay.InlayResult}
+   */
+  public enum InlayResult
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>InlaySuccess = 0;</code>
+     */
+    InlaySuccess(0, 0),
+    /**
+     * <code>InlayFailed = 1;</code>
+     */
+    InlayFailed(1, 1),
+    ;
+
+    /**
+     * <code>InlaySuccess = 0;</code>
+     */
+    public static final int InlaySuccess_VALUE = 0;
+    /**
+     * <code>InlayFailed = 1;</code>
+     */
+    public static final int InlayFailed_VALUE = 1;
+
+
+    public final int getNumber() { return value; }
+
+    public static InlayResult valueOf(int value) {
+      switch (value) {
+        case 0: return InlaySuccess;
+        case 1: return InlayFailed;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<InlayResult>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<InlayResult>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<InlayResult>() {
+            public InlayResult findValueByNumber(int number) {
+              return InlayResult.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.InlayProtos.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final InlayResult[] VALUES = values();
+
+    public static InlayResult valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private InlayResult(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:Inlay.InlayResult)
+  }
+
   public interface MsgInlayRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -931,6 +1013,22 @@ public final class InlayProtos {
      */
     com.rwproto.InlayProtos.EInlayType getType();
 
+    // optional .Inlay.InlayResult result = 2;
+    /**
+     * <code>optional .Inlay.InlayResult result = 2;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    boolean hasResult();
+    /**
+     * <code>optional .Inlay.InlayResult result = 2;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    com.rwproto.InlayProtos.InlayResult getResult();
+
     // optional string roleId = 3;
     /**
      * <code>optional string roleId = 3;</code>
@@ -1008,8 +1106,19 @@ public final class InlayProtos {
               }
               break;
             }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.InlayProtos.InlayResult value = com.rwproto.InlayProtos.InlayResult.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                result_ = value;
+              }
+              break;
+            }
             case 26: {
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               roleId_ = input.readBytes();
               break;
             }
@@ -1069,6 +1178,28 @@ public final class InlayProtos {
       return type_;
     }
 
+    // optional .Inlay.InlayResult result = 2;
+    public static final int RESULT_FIELD_NUMBER = 2;
+    private com.rwproto.InlayProtos.InlayResult result_;
+    /**
+     * <code>optional .Inlay.InlayResult result = 2;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public boolean hasResult() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional .Inlay.InlayResult result = 2;</code>
+     *
+     * <pre>
+     * </pre>
+     */
+    public com.rwproto.InlayProtos.InlayResult getResult() {
+      return result_;
+    }
+
     // optional string roleId = 3;
     public static final int ROLEID_FIELD_NUMBER = 3;
     private java.lang.Object roleId_;
@@ -1076,7 +1207,7 @@ public final class InlayProtos {
      * <code>optional string roleId = 3;</code>
      */
     public boolean hasRoleId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional string roleId = 3;</code>
@@ -1114,6 +1245,7 @@ public final class InlayProtos {
 
     private void initFields() {
       type_ = com.rwproto.InlayProtos.EInlayType.Inlay_One;
+      result_ = com.rwproto.InlayProtos.InlayResult.InlaySuccess;
       roleId_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -1136,6 +1268,9 @@ public final class InlayProtos {
         output.writeEnum(1, type_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, result_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getRoleIdBytes());
       }
       getUnknownFields().writeTo(output);
@@ -1152,6 +1287,10 @@ public final class InlayProtos {
           .computeEnumSize(1, type_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, result_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getRoleIdBytes());
       }
@@ -1273,8 +1412,10 @@ public final class InlayProtos {
         super.clear();
         type_ = com.rwproto.InlayProtos.EInlayType.Inlay_One;
         bitField0_ = (bitField0_ & ~0x00000001);
-        roleId_ = "";
+        result_ = com.rwproto.InlayProtos.InlayResult.InlaySuccess;
         bitField0_ = (bitField0_ & ~0x00000002);
+        roleId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1310,6 +1451,10 @@ public final class InlayProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.result_ = result_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         result.roleId_ = roleId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -1330,8 +1475,11 @@ public final class InlayProtos {
         if (other.hasType()) {
           setType(other.getType());
         }
+        if (other.hasResult()) {
+          setResult(other.getResult());
+        }
         if (other.hasRoleId()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           roleId_ = other.roleId_;
           onChanged();
         }
@@ -1402,13 +1550,61 @@ public final class InlayProtos {
         return this;
       }
 
+      // optional .Inlay.InlayResult result = 2;
+      private com.rwproto.InlayProtos.InlayResult result_ = com.rwproto.InlayProtos.InlayResult.InlaySuccess;
+      /**
+       * <code>optional .Inlay.InlayResult result = 2;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public boolean hasResult() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .Inlay.InlayResult result = 2;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public com.rwproto.InlayProtos.InlayResult getResult() {
+        return result_;
+      }
+      /**
+       * <code>optional .Inlay.InlayResult result = 2;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder setResult(com.rwproto.InlayProtos.InlayResult value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        result_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .Inlay.InlayResult result = 2;</code>
+       *
+       * <pre>
+       * </pre>
+       */
+      public Builder clearResult() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        result_ = com.rwproto.InlayProtos.InlayResult.InlaySuccess;
+        onChanged();
+        return this;
+      }
+
       // optional string roleId = 3;
       private java.lang.Object roleId_ = "";
       /**
        * <code>optional string roleId = 3;</code>
        */
       public boolean hasRoleId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional string roleId = 3;</code>
@@ -1448,7 +1644,7 @@ public final class InlayProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         roleId_ = value;
         onChanged();
         return this;
@@ -1457,7 +1653,7 @@ public final class InlayProtos {
        * <code>optional string roleId = 3;</code>
        */
       public Builder clearRoleId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         roleId_ = getDefaultInstance().getRoleId();
         onChanged();
         return this;
@@ -1470,7 +1666,7 @@ public final class InlayProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         roleId_ = value;
         onChanged();
         return this;
@@ -1509,10 +1705,13 @@ public final class InlayProtos {
       "\n\013Inlay.proto\022\005Inlay\"b\n\017MsgInlayRequest\022" +
       "\037\n\004type\030\001 \002(\0162\021.Inlay.EInlayType\022\016\n\006role" +
       "Id\030\002 \001(\t\022\r\n\005GemId\030\003 \001(\005\022\017\n\007GemSolt\030\004 \001(\005" +
-      "\"C\n\020MsgInlayResponse\022\037\n\004type\030\001 \002(\0162\021.Inl" +
-      "ay.EInlayType\022\016\n\006roleId\030\003 \001(\t*:\n\nEInlayT" +
-      "ype\022\r\n\tInlay_One\020\001\022\r\n\tInlay_All\020\002\022\016\n\nXie" +
-      "Xia_All\020\003B\032\n\013com.rwprotoB\013InlayProtos"
+      "\"g\n\020MsgInlayResponse\022\037\n\004type\030\001 \002(\0162\021.Inl" +
+      "ay.EInlayType\022\"\n\006result\030\002 \001(\0162\022.Inlay.In" +
+      "layResult\022\016\n\006roleId\030\003 \001(\t*:\n\nEInlayType\022" +
+      "\r\n\tInlay_One\020\001\022\r\n\tInlay_All\020\002\022\016\n\nXieXia_" +
+      "All\020\003*0\n\013InlayResult\022\020\n\014InlaySuccess\020\000\022\017" +
+      "\n\013InlayFailed\020\001B\032\n\013com.rwprotoB\013InlayPro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1530,7 +1729,7 @@ public final class InlayProtos {
           internal_static_Inlay_MsgInlayResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Inlay_MsgInlayResponse_descriptor,
-              new java.lang.String[] { "Type", "RoleId", });
+              new java.lang.String[] { "Type", "Result", "RoleId", });
           return null;
         }
       };
