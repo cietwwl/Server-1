@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,7 @@ import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
@@ -38,6 +40,7 @@ import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.Privilege.IPrivilegeProvider;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.Privilege.PrivilegeManager;
+import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -47,6 +50,7 @@ import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
+import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -130,6 +134,8 @@ public class Player implements PlayerIF {
 
 	private RedPointMgr redPointMgr = new RedPointMgr();
 
+	private TaoistMgr taoistMgr = new TaoistMgr();
+
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 	private ZoneLoginInfo zoneLoginInfo;
 
@@ -208,10 +214,8 @@ public class Player implements PlayerIF {
 					listener.notifyPlayerLogin(this);
 				}
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -272,6 +276,7 @@ public class Player implements PlayerIF {
 		dailyGifMgr.init(this);
 		m_FashionMgr.init(this);
 		m_TaskMgr.init(this);
+		taoistMgr.init(this);
 		m_gambleMgr.init(this);
 		// m_GuideMgr.init(this);
 		m_AssistantMgr.init(this);
@@ -307,6 +312,21 @@ public class Player implements PlayerIF {
 			@Override
 			public void doAction() {
 				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+			}
+		});
+
+		taoistMgr.getEff().subscribe(new IStreamListner<Map<Integer, AttributeItem>>() {
+			@Override
+			public void onChange(Map<Integer, AttributeItem> newValue) {
+				// m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				while (heros.hasMoreElements()) {
+					heros.nextElement().getAttrMgr().reCal();
+				}
+			}
+
+			@Override
+			public void onClose(IStream<Map<Integer, AttributeItem>> whichStream) {
 			}
 		});
 		// initDataVersionControl();
@@ -1217,6 +1237,10 @@ public class Player implements PlayerIF {
 
 	public IPrivilegeManager getPrivilegeMgr() {
 		return privilegeMgr;
+	}
+
+	public ITaoistMgr getTaoistMgr() {
+		return taoistMgr;
 	}
 
 	/**

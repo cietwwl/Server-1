@@ -21,5 +21,4 @@
 //	public AttrDataIF getAddedPercentages() {
 //		return addedPercentages;
 //	}
-//
-// }
+//}

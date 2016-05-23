@@ -23,6 +23,7 @@ import com.rwbase.common.attribute.component.HeroGemAttributeComponent;
 import com.rwbase.common.attribute.component.HeroGroupSkillAttributeComponent;
 import com.rwbase.common.attribute.component.HeroMagicAttributeComponent;
 import com.rwbase.common.attribute.component.HeroSkillAttributeComponent;
+import com.rwbase.common.attribute.component.HeroTaoistAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotBaseAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotEquipAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotGemAttributeComponent;
@@ -56,6 +57,7 @@ public class AttributeBM {
 		componentList.add(new HeroFettersAttributeComponent());
 		componentList.add(new HeroFashionAttributeComponent());
 		componentList.add(new HeroGroupSkillAttributeComponent());
+		componentList.add(new HeroTaoistAttributeComponent());
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();

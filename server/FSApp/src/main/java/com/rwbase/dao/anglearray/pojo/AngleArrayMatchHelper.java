@@ -44,6 +44,7 @@ import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.attribute.param.MagicParam;
 import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
@@ -219,6 +220,8 @@ public final class AngleArrayMatchHelper {
 				headId = readOnlyPlayer.getHeadImage();
 				playerName = readOnlyPlayer.getUserName();
 				career = readOnlyPlayer.getMainRoleHero().getCareer();
+
+				hasTeam = true;
 			}
 		} else {
 			teamFighting = teamInfo.getTeamFighting();
@@ -400,7 +403,14 @@ public final class AngleArrayMatchHelper {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(roleCfg.getModelId()).append("_").append(System.currentTimeMillis());// 模拟生成一个角色Id，modelId_时间
-		return getRobotTeamInfo(robotId, sb.toString(), name, roleCfg.getImageId(), "", career, heroTmpIdList);
+
+		String headImage;
+		if (sex == ESex.Men.getOrder()) {
+			headImage = "10001";
+		} else {
+			headImage = "10002";
+		}
+		return getRobotTeamInfo(robotId, sb.toString(), name, headImage, "", career, heroTmpIdList);
 	}
 
 	/**
@@ -685,7 +695,8 @@ public final class AngleArrayMatchHelper {
 		ArrayList<String> gemList_ = new ArrayList<String>();
 		GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
 		for (int i = 0, gemSize = canGemList.size(); i < gemSize; i++) {
-			String nextGemId = canGemList.get(i).toString();;
+			String nextGemId = canGemList.get(i).toString();
+			;
 			int gemLevel = gemLevelArray[getRandomIndex(r, gemLevelArray.length)];
 			for (int j = gemLevel; --j >= 0;) {
 				GemCfg gemCfg = (GemCfg) gemCfgDAO.getCfgById(nextGemId);

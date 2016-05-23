@@ -172,7 +172,7 @@ public class RoleAttrData {
 		public void setTotalData(AttrData totalData) {
 			this.totalData = totalData;
 		}
-
+		
 		public void setFighting(int fighting) {
 			this.fighting = fighting;
 		}

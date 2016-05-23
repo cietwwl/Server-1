@@ -21,5 +21,7 @@ public enum AttributeComponentEnum {
 	/** 法宝 */
 	Hero_Magic,
 	/** 个人技能 */
-	Hero_Skill;
+	Hero_Skill,
+	/** 道术 */
+	Hero_Taoist;
 }
