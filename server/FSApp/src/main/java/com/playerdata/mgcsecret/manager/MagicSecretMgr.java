@@ -16,6 +16,7 @@ import com.playerdata.mgcsecret.cfg.DungeonScoreCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
 import com.playerdata.mgcsecret.data.MSDungeonInfo;
+import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
@@ -43,7 +44,12 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param msRsp
 	 */
 	public void getMSRankData(MagicSecretRspMsg.Builder msRsp) {
-		
+		List<MSScoreDataItem> rankList = MSScoreRankMgr.getMSScoreRankList();
+		int size = rankList.size();
+		for(int i = 0; i < size; i++){
+			msRsp.setMsRankData(i, JsonUtil.writeValue(rankList.get(i)));
+		}
+		msRsp.setRstType(msResultType.SUCCESS);
 	}	
 	
 	/**

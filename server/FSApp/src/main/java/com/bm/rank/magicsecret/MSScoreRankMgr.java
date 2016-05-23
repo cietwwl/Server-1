@@ -1,10 +1,14 @@
 package com.bm.rank.magicsecret;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bm.rank.RankType;
+import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.playerdata.mgcsecret.data.MagicSecretExtendInfo;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
-import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.common.EnumerateList;
+import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -22,7 +26,7 @@ public class MSScoreRankMgr {
 		// 比较数据
 		MagicSecretComparable comparable = new MagicSecretComparable(msInfo.getHistoryScore(), msInfo.getTodayScore(), msInfo.getRecentScoreTime());	
 		String userId = msInfo.getUserId();
-		RankingEntry rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<MagicSecretComparable, MagicSecretExtendInfo> rankingEntry = ranking.getRankingEntry(userId);
 		// 加入榜
 		ranking.addOrUpdateRankingEntry(userId, comparable, msInfo);
 
@@ -30,7 +34,7 @@ public class MSScoreRankMgr {
 	}
 
 	/**
-	 * 获取帮派在基础排行榜中的排名
+	 * 获取法宝秘境在基础排行榜中的排名
 	 * 
 	 * @param userId
 	 * @return
@@ -45,15 +49,20 @@ public class MSScoreRankMgr {
 		return ranking.getRanking(userId);
 	}
 	
-	public List<MSScoreDataItem> getMSScoreRankList(){
-		Ranking ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		
-		EnumerateList<RankingEntry<MagicSecretComparable, MagicSecretMgr>> a = ranking.getEntriesEnumeration(0, 50);
-		for(RankingEntry entry : ranking.getEntriesEnumeration(0, 50)){
-			
+	public static List<MSScoreDataItem> getMSScoreRankList(){
+		List<MSScoreDataItem> itemList = new ArrayList<MSScoreDataItem>();
+		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
+		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(0, 50);
+		for(;it.hasMoreElements();){
+			MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
+			itemList.add(entry.getExtendedAttribute());
 		}
+		return itemList;
 	}
 	
+	/**
+	 * 发放法宝秘境每日排行奖励
+	 */
 	public static void dispatchMSDailyReward(){
 		
 	}

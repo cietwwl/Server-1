@@ -6,6 +6,8 @@ import java.util.List;
 import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.ItemBagMgr;
+import com.playerdata.manager.ItemBagHolder;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
@@ -18,17 +20,29 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class MSInnerProcessor extends MSConditionJudger{
 	
-	// 通知排行榜做出排名更改
+	/**
+	 * 通知排行榜做出排名更改
+	 */
 	protected void informRankModule(){
-		MSScoreRankMgr.addOrUpdateMSScoreRank(msInfo)
+		MSScoreRankMgr.addOrUpdateMSScoreRank(userMSHolder.get());
 	}
 	
-	//  处理掉落，这里面包括了秘境货币的特殊处理
+	/**
+	 * 处理掉落，这里面包括了秘境货币的特殊处理
+	 * @param dropItems
+	 */
 	protected void handleDropItem(List<ItemInfo> dropItems){
-		
+		ItemBagMgr bagMgr = m_pPlayer.getItemBagMgr();
+		for(ItemInfo itm : dropItems){
+			if(!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
+				GameLog.error(LogModule.MagicSecret, userId, String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+		} 
 	}
 	
-	// 增加可以购买的箱子(普通和高级各一个)
+	/**
+	 * 增加可以购买的箱子(普通和高级各一个)
+	 * @param chapterID
+	 */
 	protected void addCanOpenBoxes(String chapterID){
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
 		if(mcInfo == null)
@@ -47,20 +61,31 @@ public class MSInnerProcessor extends MSConditionJudger{
 		}
 	}
 	
-	// 清除可选的buff
+	/**
+	 * 清除可选的buff
+	 * @param chapteID
+	 */
 	protected void dropSelectableBuff(String chapteID){
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapteID);
 		mcInfo.getSelectedBuff().clear();
 	}
 	
-	// 设置玩家最高闯关纪录
+	/**
+	 * 设置玩家最高闯关纪录
+	 * @param dungeonID
+	 */
 	protected void updateSelfMaxStage(String dungeonID){
 		UserMagicSecretData umsData = userMSHolder.get();
 		int paraStageID = fromDungeonIDToStageID(dungeonID);
 		if(paraStageID > umsData.getMaxStageID())
 			umsData.setMaxStageID(paraStageID);
 	}
-		
+	
+	/**
+	 * 获取副本星级对应的得分系数
+	 * @param finishStar
+	 * @return
+	 */
 	protected float getScoreRatio(int finishStar){
 		switch (finishStar) {
 		case 1:
@@ -125,12 +150,20 @@ public class MSInnerProcessor extends MSConditionJudger{
 		mcInfo.setSelectableDungeons(selectableDungeons);
 	}
 	
-	// 为下个阶段生成怪物
+	/**
+	 * 为下个阶段生成怪物组
+	 * @param enimyStr
+	 * @return
+	 */
 	private int generateEnimyForDungeon(String enimyStr){
 		return Integer.parseInt(enimyStr);
 	}
 
-	// 提供下个stage的怪物法宝buff
+	/**
+	 * 提供下个stage的怪物法宝buff
+	 * @param fabaoBuffStr
+	 * @return
+	 */
 	private ArrayList<Integer> provideNextFabaoBuff(String fabaoBuffStr){
 		ArrayList<Integer> resultBuff = new ArrayList<Integer>();
 		String[] strLayerArr = fabaoBuffStr.split(",");
@@ -141,7 +174,11 @@ public class MSInnerProcessor extends MSConditionJudger{
 		return resultBuff;
 	}
 	
-	// 计算副本的掉落
+	/**
+	 * 根据掉落字符串计算物品掉落
+	 * @param dropStr
+	 * @return
+	 */
 	private ArrayList<ItemInfo> generateDropItem(String dropStr){
 		ArrayList<ItemInfo> itemList = new ArrayList<ItemInfo>();
 		return itemList;
