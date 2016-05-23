@@ -54,7 +54,7 @@ public class PlayerMgr {
 
 	public PlayerMgr() {
 		int cacheSize = GameManager.getPerformanceConfig().getPlayerCapacity();
-		cache = DataCacheFactory.createDataDache("player", cacheSize, cacheSize, 60, loader);
+		cache = DataCacheFactory.createDataDache(Player.class, cacheSize, cacheSize, 60, loader);
 	}
 
 	private PersistentLoader<String, Player> loader = new PersistentLoader<String, Player>() {
