@@ -23,10 +23,7 @@ public class DailyGifHandler {
 
 	/*** 获取基本信息 ***/
 	public ByteString getInfo(Player player) 
-	{
-		//检测是否是系统活动时间内
-		player.getDailyGifMgr().checkIsSevenDay(player);
-		
+	{	
 		DailyGifResponse.Builder res = DailyGifResponse.newBuilder();
 		// res.setInfo(otherRoleAttr);
 		res.setType(EType.InfoMsg);
