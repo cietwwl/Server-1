@@ -8,7 +8,7 @@ message ReConnectRequest{
 	required string accountId = 1;			//账号ID(后面可能会改)
 	required int32 zoneId = 2;				//所有游戏区(后面可能会改)
 	repeated SyncVersion versionList = 3;	//版本验证列表
-	optional String userId = 4;				//角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
+	optional string userId = 4;				//角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
 }
 message SyncVersion{
 
