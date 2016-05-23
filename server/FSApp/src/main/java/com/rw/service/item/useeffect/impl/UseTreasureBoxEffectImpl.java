@@ -21,6 +21,7 @@ import com.rwbase.dao.item.ItemUseEffectCfgDAO;
 import com.rwbase.dao.item.pojo.ItemUseEffectTemplate;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
+import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwproto.ItemBagProtos.MsgItemBagResponse.Builder;
 import com.rwproto.ItemBagProtos.RewardInfo;
@@ -107,20 +108,25 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 			return rsp.build().toByteString();
 		}
 
+		List<RewardInfo> rewardInfoList = new ArrayList<RewardInfo>();
+
+		// 填充消息
+		for (Entry<Integer, Integer> e : rewardInfoMap.entrySet()) {
+			newItemList.add(new NewItem(e.getKey(), e.getValue(), null));
+
+			RewardInfo.Builder rewardInfo = RewardInfo.newBuilder();
+			rewardInfo.setRewardId(String.valueOf(e.getKey()));
+			rewardInfo.setRewardCount(e.getValue());
+			rewardInfoList.add(rewardInfo.build());
+		}
+
 		// 使用道具
 		if (!itemBagMgr.useLikeBoxItem(useItemList, newItemList, useMoneyMap)) {
 			rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "使用失败"));
 			return rsp.build().toByteString();
 		}
 
-		// 填充消息
-		for (Entry<Integer, Integer> e : rewardInfoMap.entrySet()) {
-			RewardInfo.Builder rewardInfo = RewardInfo.newBuilder();
-			rewardInfo.setRewardId(String.valueOf(e.getKey()));
-			rewardInfo.setRewardCount(e.getValue());
-			rsp.addRewardInfo(rewardInfo);
-		}
-
+		rsp.addAllRewardInfo(rewardInfoList);
 		return rsp.build().toByteString();
 	}
 }
