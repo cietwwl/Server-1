@@ -313,24 +313,19 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * 
 	 * @param useItemList 要使用物品列表(只能是物品类，不能是货币)
 	 * @param addItemList 要产生的物品
-	 * @param useMoneyMap 要使用的货币，数量必须要大于0才行
+	 * @param modifyMoneyMap 要使用的货币，使用货币的修改<如果是正数：加；如果是负数：减>
 	 * @return
 	 */
-	public boolean useLikeBoxItem(List<IUseItem> useItemList, List<INewItem> addItemList, Map<Integer, Integer> useMoneyMap) {
+	public boolean useLikeBoxItem(List<IUseItem> useItemList, List<INewItem> addItemList, Map<Integer, Integer> modifyMoneyMap) {
 		// 金钱操作
-		if (useMoneyMap != null) {
-			for (Entry<Integer, Integer> e : useMoneyMap.entrySet()) {
+		if (modifyMoneyMap != null) {
+			for (Entry<Integer, Integer> e : modifyMoneyMap.entrySet()) {
 				Integer useCount = e.getValue();
-				// 使用数量不能为负数
-				if (useCount < 0) {
-					return false;
-				}
-
 				if (useCount == 0) {
 					continue;
 				}
 
-				if (!addItem(e.getKey(), -useCount)) {
+				if (!addItem(e.getKey(), useCount)) {
 					return false;
 				}
 			}
