@@ -46,19 +46,21 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 										ActivityDailyCountTypeEnum.BattleTowerDaily
 												.getCfgId()));
 				boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
+				int addcount = 0;
 				ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder
 						.getInstance();
 				ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player
 						.getUserId());
-				ActivityDailyCountTypeSubItem subItem = ActivityDailyCountTypeMgr
-						.getInstance().getbyDailyCountTypeEnum(player,
-								ActivityDailyCountTypeEnum.BattleTowerDaily,
-								dataItem);
-
-				// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
-				int addcount = Integer.parseInt(params.toString())
-						- subItem.getCount();
-				if (addcount > 0 && isBetweendays&&isLevelEnough) {
+				
+					ActivityDailyCountTypeSubItem subItem = ActivityDailyCountTypeMgr.getInstance().getbyDailyCountTypeEnum(player,
+								ActivityDailyCountTypeEnum.BattleTowerDaily,dataItem);
+				if(subItem != null){
+					// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
+					addcount = Integer.parseInt(params.toString()) - subItem.getCount();
+				}else{
+					addcount =  Integer.parseInt(params.toString());
+				}
+				if (isBetweendays&&isLevelEnough) {
 					ActivityDailyCountTypeMgr.getInstance().addCount(player,
 							ActivityDailyCountTypeEnum.BattleTowerDaily,
 							addcount);
