@@ -30,8 +30,10 @@ public class RoleAttrData {
 
 	private String log;
 
+	private AttrData taoistAddedValues;
+
 	public RoleAttrData(String heroIdP, AttrData equipTotalDataP, AttrData inlayTotalDataP, AttrData roleBaseTotalDataP, AttrData skillAttrDataP, AttrData fashionAttrDataP,
-			AttrData groupSkillTotalData, AttrData heroFettersTotalData) {
+			AttrData groupSkillTotalData, AttrData heroFettersTotalData,AttrData taoistAddedValues) {
 		this.heroId = heroIdP;
 		this.equipTotalData = equipTotalDataP;
 		this.inlayTotalData = inlayTotalDataP;
@@ -40,6 +42,7 @@ public class RoleAttrData {
 		this.groupSkillTotalData = groupSkillTotalData;
 		this.fashionTotalData = fashionAttrDataP;
 		this.heroFettersTotalData = heroFettersTotalData;
+		this.taoistAddedValues=taoistAddedValues;
 		this.totalData = getTotalData();
 	}
 
@@ -133,6 +136,10 @@ public class RoleAttrData {
 
 		if (heroFettersTotalData != null) {
 			total.plus(heroFettersTotalData);
+		}
+		
+		if (taoistAddedValues != null){
+			total.plus(taoistAddedValues);
 		}
 
 		this.totalData = total;
