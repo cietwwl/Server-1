@@ -6,7 +6,7 @@ public class ActivityCountTypeSubCfg {
 	private String id;
 	
 	//所属活动配置id
-	private String parentCfgId;
+	private String parentCfg;
 	
 	//计数
 	private int awardCount;
@@ -16,8 +16,8 @@ public class ActivityCountTypeSubCfg {
 	public String getId() {
 		return id;
 	}
-	public String getParentCfgId() {
-		return parentCfgId;
+	public String getParentCfg() {
+		return parentCfg;
 	}
 	
 	public int getAwardCount() {

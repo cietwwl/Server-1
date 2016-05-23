@@ -25,7 +25,7 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 	
 	@Override
 	public Map<String, ActivityCountTypeSubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeSubCfg.csv", ActivityCountTypeSubCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeSubCfg.csv", ActivityCountTypeSubCfg.class);	
 		return cfgCacheMap;
 	}
 	
@@ -35,7 +35,7 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 		List<ActivityCountTypeSubCfg> targetList = new ArrayList<ActivityCountTypeSubCfg>();
 		List<ActivityCountTypeSubCfg> allCfg = getAllCfg();
 		for (ActivityCountTypeSubCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
+			if(StringUtils.equals(tmpItem.getParentCfg(), parentCfgId)){
 				targetList.add(tmpItem);
 			}
 		}
