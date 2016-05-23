@@ -40,6 +40,8 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("tower/Match.csv", AngleArrayMatchCfg.class);
 
 		if (cfgCacheMap != null) {
+			List<Integer> uniqueIdList = new ArrayList<Integer>(cfgCacheMap.size());
+
 			TreeMap<Integer, Map<Integer, Integer>> matchMap = new TreeMap<Integer, Map<Integer, Integer>>();// 初始化
 			TreeMap<Integer, Integer> levelMap = new TreeMap<Integer, Integer>();// 初始化
 			for (Entry<String, AngleArrayMatchCfg> e : cfgCacheMap.entrySet()) {
@@ -57,6 +59,12 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 				Integer hasLevel = levelMap.get(minLevel);
 				if (hasLevel == null) {
 					levelMap.put(minLevel, cfg.getMaxLevel());
+				}
+
+				if (uniqueIdList.contains(cfg.getUniqueId())) {
+					throw new ExceptionInInitializerError("万仙阵表有重复的唯一Id");
+				} else {
+					uniqueIdList.add(cfg.getUniqueId());
 				}
 			}
 			this.matchMap = matchMap;

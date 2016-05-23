@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.rw.fsutil.cacheDao.CommonUpdateMgr;
-import com.rw.fsutil.cacheDao.CommonUpdateTask;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.common.CommonJdbc;
+import com.rw.fsutil.dao.common.CommonSingleTable;
 
 public class PFMapItemStore<T extends IMapItem> {
 
@@ -20,7 +18,7 @@ public class PFMapItemStore<T extends IMapItem> {
 
 	private final Map<String, T> itemMap;
 	// 暂时用这个对象,实际上需要再封装
-	private final CommonJdbc<T> commonJdbc;
+	private final CommonSingleTable<T> commonJdbc;
 
 	private final ConcurrentHashMap<String, Boolean> updatedMap = new ConcurrentHashMap<String, Boolean>();
 
@@ -28,7 +26,7 @@ public class PFMapItemStore<T extends IMapItem> {
 
 	private DataUpdater<String> updater;
 
-	public PFMapItemStore(List<T> itemList, String searchIdP, CommonJdbc<T> commonJdbc, DataUpdater<String> updater) {
+	public PFMapItemStore(List<T> itemList, String searchIdP, CommonSingleTable<T> commonJdbc, DataUpdater<String> updater) {
 		this.searchId = searchIdP;
 		this.updater = updater;
 		this.commonJdbc = commonJdbc;

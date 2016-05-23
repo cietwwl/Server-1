@@ -16,7 +16,8 @@ public enum LogModule {
 	GmSender("gm对外请求"),
 	Charge("充值"),
 	UserEvent("用户事件"),
-	ComActivityCount("通用活动_CountType");
+	ComActivityCount("通用活动_CountType"),
+	ComActivityDate("通用活动_DateType")
 	;
 	
 	private String name;

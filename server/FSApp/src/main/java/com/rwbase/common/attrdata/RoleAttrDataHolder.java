@@ -43,6 +43,7 @@ public class RoleAttrDataHolder {
 		// 设置player战力改变
 		if (player != null) {
 			player.getTempAttribute().setHeroFightingChanged();
+			player.getUserTmpGameDataFlag().setSynFightingAll(true);
 		}
 		return heroAttrData;
 	}
