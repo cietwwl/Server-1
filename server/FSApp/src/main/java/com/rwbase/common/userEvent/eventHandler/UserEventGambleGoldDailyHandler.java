@@ -14,12 +14,12 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
-public class UserEventLoginHandler implements IUserEventHandler{
+public class UserEventGambleGoldDailyHandler implements IUserEventHandler{
 
 	
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
 	
-	public UserEventLoginHandler(){
+	public UserEventGambleGoldDailyHandler(){
 		init();	
 	}
 	
@@ -28,23 +28,15 @@ public class UserEventLoginHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Login.getCfgId()));
-					/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
-					boolean isnewday = false;
-					if(StringUtils.equals(params+"","0")){//没有活动的登陆数据，首次登陆
-					isnewday = true;
-					}else{
-						if(!isnewday){					
-							isnewday = DateUtils.dayChanged(Long.parseLong(params.toString()));
-						}
-					}
-					if(isnewday&&isBetweendays){					
-						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login,1);	
+					boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleGoldDaily.getCfgId()));
+			
+					if(isBetweendays){
+						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.GambleGoldDaily,Integer.parseInt(params.toString()));							
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.Login.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.GambleGoldDaily.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});

@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.springframework.util.StringUtils;
+
 import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -20,6 +22,7 @@ import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.EHeroQuality;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.ComposeCfg;
@@ -70,6 +73,7 @@ public class EquipHandler {
 				} else {
 					pEquipMgr.EquipAdvance(pNextCfg.getId(), true);
 					response.setError(ErrorType.SUCCESS);
+					UserEventMgr.getInstance().advanceDaily(player, 1);
 				}
 			} else {
 				response.setError(ErrorType.FAIL);

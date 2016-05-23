@@ -34,6 +34,7 @@ import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.playerext.PlayerTempAttribute;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.arena.ArenaCostCfgDAO;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.ArenaUpPrizeCfgDAO;
@@ -605,6 +606,7 @@ public class ArenaHandler {
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
 			m_MyArenaData.setScore(m_MyArenaData.getScore() + addScore);
+			UserEventMgr.getInstance().ArenaDaily(player, m_MyArenaData.getScore());
 			TableArenaDataDAO.getInstance().update(m_MyArenaData);
 			if (isWin) {
 				Player enemyPlayer = PlayerMgr.getInstance().find(enemyUserId);

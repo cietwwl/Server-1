@@ -9,6 +9,7 @@ import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
@@ -89,6 +90,8 @@ public class HeroHandler {
 			role.setTemplateId(nextHeroCfg.getRoleId());// 佣兵升星
 			role.setStarLevel(nextHeroCfg.getStarLevel());
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
+			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
+			
 			break;
 		case -1:
 			msgHeroResponse.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);

@@ -30,7 +30,7 @@ public class ActivityCountTypeCfg {
 	private String group;
 		
 	//每天刷新
-	private boolean dateFresh = false;
+	private int isAutoRefresh ;
 	
 	public String getGroup() {
 		return group;
@@ -129,6 +129,8 @@ public class ActivityCountTypeCfg {
 		return endTimeStr;
 	}
 
+
+
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
@@ -137,9 +139,19 @@ public class ActivityCountTypeCfg {
 		this.endTime = endTime;
 	}
 
-	public boolean isDateFresh() {
-		return dateFresh;
+	public int getIsAutoRefresh() {
+		return isAutoRefresh;
 	}
+
+	public void setIsAutoRefresh(int isAutoRefresh) {
+		this.isAutoRefresh = isAutoRefresh;
+	}
+
+
+
+
+
+
 
 	
 	
