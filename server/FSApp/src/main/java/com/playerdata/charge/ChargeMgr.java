@@ -6,7 +6,9 @@ import java.util.Iterator;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+
 import java.util.Set;
+
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
@@ -14,6 +16,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItemHolder;
@@ -112,40 +115,63 @@ public class ChargeMgr {
 			if(!chargeInfo.isOrderExist(chargeContentPojo.getCpTradeNo())){
 				ChargeOrder chargeOrder = ChargeOrder.fromReq(chargeContentPojo);
 				success = ChargeInfoHolder.getInstance().addChargeOrder(player,chargeOrder);
-			}			
+			}else{
+				GameLog.error("chargemgr", "sdk-充值", "充值失败,订单号异常！面额" + chargeContentPojo.getMoney() + "元"+ " ； uid ="  + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
+			}
 		}
 		if(success){
-			chargeType(player,chargeContentPojo);			
+			success = chargeType(player,chargeContentPojo);			
 		}
 		
 		return success;
 	}
 	
 	private Player get(ChargeContentPojo chargeContentPojo) {
-		Player player = PlayerMgr.getInstance().find(chargeContentPojo.getUserId());		
+		Player player = null;		
+		String uid = chargeContentPojo.getUserId();
+		if(StringUtils.isBlank(uid)){
+			GameLog.error("chargemgr", "sdk-充值", "uid异常，无法找到用户，订单号为" + chargeContentPojo.getCpTradeNo());
+			return player;
+		}
+		player = PlayerMgr.getInstance().find(uid);				
 		return player;
 	}
 
-	private void chargeType(Player player, ChargeContentPojo chargeContentPojo) {
+	private boolean chargeType(Player player, ChargeContentPojo chargeContentPojo) {
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(chargeContentPojo.getItemId());
 
 		
 		
 		if(target!=null){
+			if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+				return false;
+			}
+			
 			boolean success = false;
 			if(target.getChargeType() == ChargeTypeEnum.Normal){
 				success = doCharge(player, target);
 			}
 			if(target.getChargeType() == ChargeTypeEnum.MonthCard || target.getChargeType() == ChargeTypeEnum.VipMonthCard){
-				//月卡购买逻辑；需合入月卡分支后处理
+				List<ActivityTimeCardTypeSubCfg>  timeCardList = ActivityTimeCardTypeSubCfgDAO.getInstance().getAllCfg();
+				for(ActivityTimeCardTypeSubCfg timecardcfg : timeCardList){
+					if(timecardcfg.getChargeType() == target.getChargeType()){
+						success = buyMonthCard(player, timecardcfg.getId()).isSuccess();
+						break;
+					}
+				}
 			}
 			
 			if(success){
-				GameLog.error("chargemgr", "sdk-充值", "充值成功" + chargeContentPojo.getMoney() + "元"+ "充值类型 =" + target.getChargeType());
+				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}else{
-				GameLog.error("chargemgr", "sdk-充值", "充值失败" + chargeContentPojo.getMoney() + "元"+ "充值类型 =" + target.getChargeType());
+				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}
-		}	
+		}else{
+			GameLog.error("chargemgr", "sdk-充值", "充值失败,未找到商品  ； 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
+		}
+		
+		return true;
 	}
 
 	

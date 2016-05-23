@@ -1,7 +1,6 @@
 package com.rwbase.dao.role.pojo;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.junit.Ignore;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleQualityCfg {

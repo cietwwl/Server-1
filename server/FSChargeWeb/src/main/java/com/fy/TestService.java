@@ -18,17 +18,32 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setServerId(1);
-		content.setChannelId("中国电信");
-		content.setUserId("100100000344");
-		content.setItemId("1");
+		content.setCpTradeNo("1023");
+		content.setGameId(3);
+		content.setUserId("100100000353");
+		content.setRoleId("10010000");
 		
+		content.setServerId(20);
+		content.setChannelId("0");
+		
+		content.setItemId("1");
+		content.setItemAmount(1);
+		content.setPrivateField("");
+		content.setMoney(600);
+		content.setCurrencyType("CNY");
+		content.setFee(6);
+		
+		content.setStatus("0");
+		content.setGiftId("800701");
+		content.setSign("cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
 		
 		params.put("content", FastJsonUtil.toJson(content));
-		String resp = HttpClientUtil.post("127.0.0.1", 10000, params);
+		String resp = HttpClientUtil.post("127.0.0.1", 9090, params);
+//		String resp = ChargeService?
 		System.out.println("!!!!!!!!!!     "+ resp);
+		
 	}
 	
 }

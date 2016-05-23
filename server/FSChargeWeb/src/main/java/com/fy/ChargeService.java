@@ -23,23 +23,26 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 
 	private HttpServletResponse response;
 
-	private HttpServletRequest request;
+	private  HttpServletRequest request;
 
-	public void doService() {
+	public  void doService() {
 
-		
+		System.out.println("!!!!!!!!!!!!!!!入口");
 		String jsonContent = request.getParameter("content");
+//		String jsonContent = jsString;
+		
 		
 		ContentPojo contentPojo = FastJsonUtil.fromJson(jsonContent, ContentPojo.class);
 		
 		ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
 		try {
 			boolean success  = reqGameServer(jsonContent, contentPojo);
+			String successStr = contentPojo.getCpTradeNo();
+			String result = success?successStr:"-1";	
 			
-			String result = success?"0":"-1";			
+			
 			
 			PrintWriter writer = response.getWriter();
-			
 			writer.write(result);	
 			writer.flush();
 			writer.close();			
@@ -51,7 +54,7 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 
 
 
-	private boolean reqGameServer(String jsonContent,ContentPojo contentPojo){
+	public   boolean reqGameServer(String jsonContent,ContentPojo contentPojo){
 		
 		boolean success = false;
 		
