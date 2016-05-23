@@ -7,7 +7,7 @@ public class BuffBonusCfg extends BaseConfig {
 	private int rate; //权重
 	private int buffId; //属性类型
 	private int cost; //价格(消耗星星)
-
+	
 	public String getKey() {
 		return key;
 	}
@@ -27,5 +27,4 @@ public class BuffBonusCfg extends BaseConfig {
 	public int getCost() {
 		return cost;
 	}
-
 }

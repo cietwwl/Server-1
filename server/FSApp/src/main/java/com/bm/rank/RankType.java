@@ -87,6 +87,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 		realTimeMap.put(201, FIGHTING_ALL);
 		realTimeMap.put(203, TEAM_FIGHTING);
 		realTimeMap.put(301, LEVEL_ALL);
+		realTimeMap.put(401, MAGIC_SECRET_SCORE_RANK);
 	}
 	
 	public static RankType getRankType(int type,int realTime){

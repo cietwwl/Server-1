@@ -30,7 +30,10 @@ public class MagicChapterInfo implements  IMapItem {
 	private List<Integer> finishedStages = new ArrayList<Integer>();  //完成的关卡
 	
 	@CombineSave
-	private List<MSStageInfo> selectableStages = new ArrayList<MSStageInfo>(); //可挑选的关卡
+	private int selectedDungeonIndex = -1;  //对应的是，selectableDungeons数组中的下标（-1表示未选中）
+	
+	@CombineSave
+	private List<MSDungeonInfo> selectableDungeons = new ArrayList<MSDungeonInfo>(); //可挑选的关卡
 	
 	@CombineSave
 	private List<Integer> selectedBuff = new ArrayList<Integer>(); //已选择的Buff
@@ -75,13 +78,21 @@ public class MagicChapterInfo implements  IMapItem {
 	public void setFinishedStages(List<Integer> finishedStages) {
 		this.finishedStages = finishedStages;
 	}
-
-	public List<MSStageInfo> getSelectableStages() {
-		return selectableStages;
+	
+	public int getSelectedDungeonIndex() {
+		return selectedDungeonIndex;
 	}
 
-	public void setSelectableStages(List<MSStageInfo> selectableStages) {
-		this.selectableStages = selectableStages;
+	public void setSelectedDungeonIndex(int selectedDungeonIndex) {
+		this.selectedDungeonIndex = selectedDungeonIndex;
+	}
+
+	public List<MSDungeonInfo> getSelectableDungeons() {
+		return selectableDungeons;
+	}
+
+	public void setSelectableDungeons(List<MSDungeonInfo> selectableDungeons) {
+		this.selectableDungeons = selectableDungeons;
 	}
 
 	public List<Integer> getSelectedBuff() {

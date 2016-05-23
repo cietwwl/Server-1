@@ -11,7 +11,7 @@ import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
 import com.playerdata.mgcsecret.cfg.MagicChapterCfg;
 import com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO;
-import com.playerdata.mgcsecret.data.MSStageInfo;
+import com.playerdata.mgcsecret.data.MSDungeonInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
@@ -21,6 +21,13 @@ import com.rwproto.MagicSecretProto.msRewardBox;
 
 public class MSConditionJudger {
 	public final static int STAGE_COUNT_EACH_CHATPER = 8;
+	public final static int DUNGEON_FINISH_MAX_STAR = 3;
+	public final static int DUNGEON_MAX_LEVEL = 3;
+	public final static float SCORE_COEFFICIENT = 0.08f;
+	
+	public final static float ONE_STAR_SCORE_COEFFICIENT = 1.0f;
+	public final static float TWO_STAR_SCORE_COEFFICIENT = 1.5f;
+	public final static float THREE_STAR_SCORE_COEFFICIENT = 2.5f;
 	
 	protected MagicChapterInfoHolder mChapterHolder;
 	protected UserMagicSecretHolder userMSHolder;
@@ -64,8 +71,8 @@ public class MSConditionJudger {
 			GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsLegal, 不合法的章节[%s], 有可能是没开启或不存在", dungDataCfg.getChapterID()), null);
 			return false;
 		}
-		for(MSStageInfo stage : mcInfo.getSelectableStages()){
-			if(stage.getStageKey().equalsIgnoreCase(dungeonID))
+		for(MSDungeonInfo stage : mcInfo.getSelectableDungeons()){
+			if(stage.getDungeonKey().equalsIgnoreCase(dungeonID))
 				return true;
 		}
 		GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsLegal, 该副本[%s]目前不可选择", dungeonID), null);
@@ -75,7 +82,7 @@ public class MSConditionJudger {
 	// 判断副本的次数（主要是看今天有没有通关过）
 	protected boolean judgeDungeonsCount(String dungeonID){
 		int stageID = fromDungeonIDToStageID(dungeonID);
-		String chapterID = String.valueOf(stageIDToChapterID(stageID));
+		String chapterID = String.valueOf(fromStageIDToChapterID(stageID));
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsCount, 不合法的章节[%s], dungeonID[%s]", chapterID, dungeonID), null);
@@ -140,8 +147,26 @@ public class MSConditionJudger {
 		return false;
 	}
 	
-	// 判断打开箱子的花费
+	// 判断打开箱子的花费(如果够，直接扣除)
 	protected boolean judgeOpenBoxCost(String chapterID, msRewardBox msRwdBox){
+		String firstDungeonID = chapterID + "01_1";
+		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(firstDungeonID);
+		if(dungDataCfg == null){
+			GameLog.error(LogModule.MagicSecret, userId, String.format("judgeOpenBoxCost, 章节[%s]中缺失第一个关卡[%s]的信息", chapterID, firstDungeonID), null);
+			return false;
+		}
+		ItemInfo cost = new ItemInfo();
+		if(msRwdBox.getBoxID().equalsIgnoreCase("1")){
+			cost.setItemID(dungDataCfg.getObjCoBox().getBoxCost().getItemID());
+			cost.setItemNum(dungDataCfg.getObjCoBox().getBoxCost().getItemNum());
+		}else{
+			cost.setItemID(dungDataCfg.getObjHiBox().getBoxCost().getItemID());
+			cost.setItemNum(dungDataCfg.getObjHiBox().getBoxCost().getItemNum());
+		}
+		cost.setItemNum(cost.getItemNum() * msRwdBox.getBoxCount());
+		
+		//TODO 资源比对
+		//TODO 资源扣除
 		
 		return true;
 	}
@@ -159,9 +184,9 @@ public class MSConditionJudger {
 		// 判断历史通关
 		UserMagicSecretData msData = userMSHolder.get();
 		int maxStageID = msData.getMaxStageID();
-		int maxChatperID = stageIDToChapterID(maxStageID);
+		int maxChatperID = fromStageIDToChapterID(maxStageID);
 		if(maxChatperID > Integer.parseInt(chapterID)) return true;
-		if(stageIDToLayerID(maxStageID) == STAGE_COUNT_EACH_CHATPER) return true;
+		if(fromStageIDToLayerID(maxStageID) == STAGE_COUNT_EACH_CHATPER) return true;
 		GameLog.error(LogModule.MagicSecret.toString(), userId, String.format("judgeSweepCount, 章节[%s]当日全部通关，扫荡次数不足", chapterID), null);
 		return true;
 	}
@@ -175,11 +200,11 @@ public class MSConditionJudger {
 		return Integer.parseInt(splitArr[0]);
 	}
 	
-	protected int stageIDToChapterID(int stageID){
+	protected int fromStageIDToChapterID(int stageID){
 		return stageID/100;
 	}
 	
-	protected int stageIDToLayerID(int stageID){
+	protected int fromStageIDToLayerID(int stageID){
 		return stageID%100;
 	}
 	

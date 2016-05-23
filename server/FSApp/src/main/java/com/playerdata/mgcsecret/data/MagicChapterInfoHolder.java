@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.mgcsecret.cfg.MagicChapterCfg;
+import com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -77,11 +79,25 @@ public class MagicChapterInfoHolder{
 			e.printStackTrace();
 			return false;
 		}
-		
-		
 	}
 	
-	//TODO 删除的逻辑，每日刷新的时候，会清除掉所有的数据
+	/**
+	 * 重置所有的章节信息
+	 * @param player
+	 */
+	public boolean resetAllItem(Player player){
+		clearAllItemStore(player.getUserId());
+		List<MagicChapterInfo> itemList = new ArrayList<MagicChapterInfo>();
+		for(MagicChapterCfg mcCfg : MagicChapterCfgDAO.getInstance().getAllCfg()){
+			MagicChapterInfo mcInfo = new MagicChapterInfo();
+			mcInfo.setId(String.valueOf(mcCfg.getChapterId()));
+			mcInfo.setUserId(player.getUserId());
+			mcInfo.setStarCount(0);
+			itemList.add(mcInfo);
+		}
+		return addItemList(player, itemList);
+	}
+	
 //	public boolean removeitem(Player player,ActivityCountTypeEnum type){
 //		
 //		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
@@ -100,4 +116,7 @@ public class MagicChapterInfoHolder{
 		return cache.getMapItemStore(userId, MagicChapterInfo.class);
 	}
 	
+	private void clearAllItemStore(String userId){
+		
+	}
 }

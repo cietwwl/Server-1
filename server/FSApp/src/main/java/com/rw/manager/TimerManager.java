@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.dao.cache.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
@@ -94,6 +95,7 @@ public class TimerManager {
 				RankingMgr.getInstance().resetUpdateState();
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
 				AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
+				MagicSecretMgr.
 			}
 		}, 5);
 

@@ -1,5 +1,7 @@
 package com.playerdata.mgcsecret.data;
 
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+
 public class MSScoreDataItem {
 	private String userId;
 	private int historyScore; //历史积分
@@ -36,5 +38,9 @@ public class MSScoreDataItem {
 
 	public void setRecentScoreTime(long recentScoreTime) {
 		this.recentScoreTime = recentScoreTime;
+	}
+	
+	public int getTotalScore(){
+		return (int)(historyScore * MagicSecretMgr.SCORE_COEFFICIENT) + todayScore;
 	}
 }

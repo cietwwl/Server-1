@@ -1,5 +1,6 @@
 package com.playerdata.mgcsecret.cfg;
 import com.common.BaseConfig;
+import com.playerdata.mgcsecret.data.MSRewardBox;
 
 public class DungeonsDataCfg extends BaseConfig {
 	private String key; //关键字段
@@ -8,7 +9,9 @@ public class DungeonsDataCfg extends BaseConfig {
 	private String fabaoBuff; //怪物buff
 	private String buffBonus; //buff
 	private String coBox; //普通宝箱
+	private MSRewardBox objCoBox = new MSRewardBox();
 	private String hiBox; //高级宝箱
+	private MSRewardBox objHiBox = new MSRewardBox();
 	private String enimy; //敌人
 	private int score; //积分
 	private int starReward; //简单难度星星奖励
@@ -61,5 +64,27 @@ public class DungeonsDataCfg extends BaseConfig {
 	public int getChapterID(){
 		return id/100;
 	}
+	
+	public MSRewardBox getObjCoBox() {
+		return objCoBox;
+	}
 
+	public MSRewardBox getObjHiBox() {
+		return objHiBox;
+	}
+
+	@Override
+	public void ExtraInitAfterLoad(){
+		String[] coboxArr = this.coBox.split(":");
+		String[] coCostArr = coboxArr[0].split("_");
+		objCoBox.getBoxCost().setItemID(Integer.parseInt(coCostArr[0]));
+		objCoBox.getBoxCost().setItemNum(Integer.parseInt(coCostArr[1]));
+		objCoBox.setDropStr(coboxArr[1]);
+		
+		String[] hiboxArr = this.hiBox.split(":");
+		String[] hiCostArr = hiboxArr[0].split("_");
+		objHiBox.getBoxCost().setItemID(Integer.parseInt(hiCostArr[0]));
+		objHiBox.getBoxCost().setItemNum(Integer.parseInt(hiCostArr[1]));
+		objHiBox.setDropStr(hiboxArr[1]);
+	}
 }

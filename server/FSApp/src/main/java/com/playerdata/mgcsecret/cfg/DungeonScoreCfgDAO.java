@@ -1,8 +1,7 @@
 package com.playerdata.mgcsecret.cfg;
 
+import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -16,18 +15,10 @@ public class DungeonScoreCfgDAO extends CfgCsvDao<DungeonScoreCfg> {
 	@Override
 	public Map<String, DungeonScoreCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("magicSecret/dungeonScore.csv", DungeonScoreCfg.class);
-		Set<Entry<String, DungeonScoreCfg>> entrySet = cfgCacheMap.entrySet();
-		for (Entry<String, DungeonScoreCfg> entry : entrySet) {
-			if(entry != null){
-				DungeonScoreCfg cfg = entry.getValue();
-				if (cfg != null) {
-					//cfg.ExtraInit();
-				}else{
-					//GameLog.error("法宝", "CriticalEnhance.csv", "invalid cfg");
-				}
-			}
+		Collection<DungeonScoreCfg> vals = cfgCacheMap.values();
+		for (DungeonScoreCfg cfg : vals) {
+			cfg.ExtraInitAfterLoad();
 		}
-
 		return cfgCacheMap;
 	}
 }

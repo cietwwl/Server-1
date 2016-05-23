@@ -1,7 +1,10 @@
 package com.bm.rank.magicsecret;
 
 import com.bm.rank.RankType;
+import com.playerdata.mgcsecret.data.MagicSecretExtendInfo;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -42,4 +45,16 @@ public class MSScoreRankMgr {
 		return ranking.getRanking(userId);
 	}
 	
+	public List<MSScoreDataItem> getMSScoreRankList(){
+		Ranking ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
+		
+		EnumerateList<RankingEntry<MagicSecretComparable, MagicSecretMgr>> a = ranking.getEntriesEnumeration(0, 50);
+		for(RankingEntry entry : ranking.getEntriesEnumeration(0, 50)){
+			
+		}
+	}
+	
+	public static void dispatchMSDailyReward(){
+		
+	}
 }

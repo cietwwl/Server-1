@@ -1,14 +1,17 @@
 package com.playerdata.mgcsecret.cfg;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class BuffBonusCfgDAO extends CfgCsvDao<BuffBonusCfg> {
+	private HashMap<Integer, ArrayList<BuffBonusCfg>> buffBonusMap = new HashMap<Integer, ArrayList<BuffBonusCfg>>();
+	
 	public static BuffBonusCfgDAO getInstance(){
 		return SpringContextUtil.getBean(BuffBonusCfgDAO.class);
 	}
@@ -16,18 +19,40 @@ public class BuffBonusCfgDAO extends CfgCsvDao<BuffBonusCfg> {
 	@Override
 	public Map<String, BuffBonusCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("magicSecret/buffBonus.csv", BuffBonusCfg.class);
-		Set<Entry<String, BuffBonusCfg>> entrySet = cfgCacheMap.entrySet();
-		for (Entry<String, BuffBonusCfg> entry : entrySet) {
-			if(entry != null){
-				BuffBonusCfg cfg = entry.getValue();
-				if (cfg != null) {
-					//cfg.ExtraInit();
-				}else{
-					//GameLog.error("法宝", "CriticalEnhance.csv", "invalid cfg");
-				}
-			}
+		Collection<BuffBonusCfg> vals = cfgCacheMap.values();
+		for (BuffBonusCfg cfg : vals) {
+			cfg.ExtraInitAfterLoad();
+			addMemIntoMap(cfg);
 		}
-
 		return cfgCacheMap;
+	}
+	
+	private void addMemIntoMap(BuffBonusCfg cfg){
+		ArrayList<BuffBonusCfg> cfgList = buffBonusMap.get(cfg.getLayerID());
+		if(cfgList == null) {
+			cfgList = new ArrayList<BuffBonusCfg>();
+			buffBonusMap.put(cfg.getLayerID(), cfgList);
+		}
+		cfgList.add(cfg);
+	}
+	
+	/**
+	 * 通过buff的方案类型，随机一个方案
+	 * @param layerID
+	 * @return 
+	 */
+	public BuffBonusCfg getRandomBuffByLayerID(int layerID){
+		if(!buffBonusMap.containsKey(layerID)) return null;
+		ArrayList<BuffBonusCfg> cfgList = buffBonusMap.get(layerID);
+		int totalRate  = 0;
+		for(BuffBonusCfg cfg : cfgList){
+			totalRate += cfg.getRate();
+		}
+		int rankNum = (int)(Math.random() * totalRate);
+		for(BuffBonusCfg cfg : cfgList){
+			if(rankNum < cfg.getRate()) return cfg;
+			rankNum -= cfg.getRate();
+		}
+		return cfgList.get(0);
 	}
 }
