@@ -50,7 +50,6 @@ public class PlayerMsgMgr {
 			response.setHeader(header.build());
 			response.setSerializedContent(builder.getSerializedContent());
 			if (!GameUtil.checkMsgSize(response, userId)) {
-				UserChannelMgr.removeThreadLocalCTX();
 				return;
 			}
 			ctx.channel().writeAndFlush(response.build());

@@ -84,6 +84,7 @@ public class PlayerTimeActionHelper {
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;
@@ -95,7 +96,7 @@ public class PlayerTimeActionHelper {
 
 		TimeAction onNewDayZeroTimeAction = new TimeAction(player.getUserId());
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
+		
 		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {

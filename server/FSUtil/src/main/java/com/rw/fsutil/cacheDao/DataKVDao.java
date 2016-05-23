@@ -41,7 +41,7 @@ public class DataKVDao<T> {
 		DataAccessSimpleSupport simpleSupport = DataAccessFactory.getSimpleSupport();
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
-		this.cache = DataCacheFactory.createDataDache(clazz.getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template));
+		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template));
 		this.type = null;
 	}
 
@@ -64,7 +64,7 @@ public class DataKVDao<T> {
 		} else {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz().getSimpleName(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler);
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize, cacheSize, getUpdatedSeconds(), persistentLoader, handler);
 	}
 
 	/**

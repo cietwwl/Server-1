@@ -1,6 +1,7 @@
 package com.rwbase.gameworld;
 
 import com.playerdata.Player;
+import com.rw.fsutil.concurrent.ParametricTask;
 
 /**
  * <pre>
@@ -9,12 +10,7 @@ import com.playerdata.Player;
  * @author Jamaz
  *
  */
-public interface PlayerTask {
+public interface PlayerTask extends ParametricTask<Player>{
 
-	/**
-	 * 运行角色任务的逻辑
-	 * @param player
-	 */
-	public void run(Player player);
 }
 
