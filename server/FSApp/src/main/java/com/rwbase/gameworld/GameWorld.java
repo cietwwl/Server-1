@@ -37,7 +37,7 @@ public interface GameWorld {
 	 * @param accountId
 	 * @param task
 	 */
-	public void executeAccountTask(String accountId, final Runnable task);
+	public void executeAccountTask(String accountId, Runnable task);
 
 	/**
 	 * 获取某个账号当前正在执行的任务数量

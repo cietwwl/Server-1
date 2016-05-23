@@ -54,11 +54,11 @@ public class RankingUtils {
 		return entity.createOneRankInfo(levelData, ranking);
 	}
 
-	/** 转换通迅数据 */
-	public static List<RankingTeamData> createTeamData(List<com.rwbase.dao.ranking.pojo.RankingTeamData> list) {
-		return entity.createTeamData(list);
+	public static List<RankingTeamData> createTeamData(ERankingType rankType, String userId) {
+		return entity.createTeamData(rankType, userId);
+		
 	}
-
+	
 	public static int getModelId(RankingLevelData data) {
 		return entity.getModelId(data);
 	}
