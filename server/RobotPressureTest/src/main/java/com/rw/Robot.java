@@ -41,6 +41,8 @@ public class Robot {
 
 	// private int zoneId;
 
+	private int chatCount;
+
 	private static void init() {
 		PropertyConfigurator.configureAndWatch("log4j.properties");
 		PlatformConfig.InitPlatformConfig();
@@ -187,7 +189,8 @@ public class Robot {
 	/**
 	 * 作弊添加装备
 	 * 
-	 * @param heroModelId 如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
+	 * @param heroModelId
+	 *            如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
 	 * @return
 	 */
 	public boolean gmGainHeroEquip(int heroModelId) {
@@ -198,7 +201,8 @@ public class Robot {
 	/**
 	 * 作弊穿装备
 	 * 
-	 * @param heroModelId 如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
+	 * @param heroModelId
+	 *            如果是0是主角，其他的佣兵要填入具体的模版Id，例如姜子牙就填入202001
 	 * @return
 	 */
 	public boolean gmWearEquip(int heroModelId) {
@@ -525,7 +529,8 @@ public class Robot {
 	 * 如果传入的userId是null，就会从申请列表中随机通过一个
 	 * </pre>
 	 * 
-	 * @param userId 申请成员的Id
+	 * @param userId
+	 *            申请成员的Id
 	 */
 	public boolean receiveApplyMemberOne(String userId) {
 		return groupMemberHandler.memberReceive(client, userId);
@@ -537,7 +542,8 @@ public class Robot {
 	 * 如果传入的userId是null，就会从申请列表中随机拒绝一个
 	 * </pre>
 	 * 
-	 * @param userId 要拒绝的申请成员的Id
+	 * @param userId
+	 *            要拒绝的申请成员的Id
 	 */
 	public boolean refuseApplyMemberOne(String userId) {
 		return groupMemberHandler.memberRefuse(client, userId);
@@ -570,4 +576,13 @@ public class Robot {
 	public boolean memberCancelNominate() {
 		return groupMemberHandler.memberCancelNominate(client);
 	}
+
+	public int getChatCount() {
+		return chatCount;
+	}
+
+	public void setChatCount(int chatCount) {
+		this.chatCount = chatCount;
+	}
+
 }
