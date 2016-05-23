@@ -1,6 +1,5 @@
 package com.rw.service.TaoistMagic.datamodel;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +12,6 @@ import com.common.RefInt;
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeType;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -31,12 +29,12 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 	 * AttrData(); Field field = attrMap.get(cfg.getAttribute()); try { field.set(attr, cfg.getMagicValue(level)); } catch (IllegalArgumentException
 	 * e) { e.printStackTrace(); } catch (IllegalAccessException e) { e.printStackTrace(); } return attr; }
 	 */
-	private Map<String, Field> attrMap;
+	// private Map<String, Field> attrMap;
 
 	@Override
 	public Map<String, TaoistMagicCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("TaoistMagic/TaoistMagicCfg.csv", TaoistMagicCfg.class);
-		attrMap = CfgCsvHelper.getFieldMap(AttrData.class);
+		// attrMap = CfgCsvHelper.getFieldMap(AttrData.class);
 		Collection<TaoistMagicCfg> vals = cfgCacheMap.values();
 		HashMap<Integer, Integer> tagMap = new HashMap<Integer, Integer>();
 		HashMap<Integer, HashSet<Integer>> orderMap = new HashMap<Integer, HashSet<Integer>>();
@@ -44,10 +42,10 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		for (TaoistMagicCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
 			// 检查属性是否存在, 每个分页的开放等级必须一样,序号应该连续且没有重复
-			String attribute = cfg.getAttribute();
-			if (!attrMap.containsKey(attribute)) {
-				throw new RuntimeException("无效属性名:" + attribute);
-			}
+			// String attribute = cfg.getAttribute();
+			// if (!attrMap.containsKey(attribute)) {
+			// throw new RuntimeException("无效属性名:" + attribute);
+			// }
 			int tagNum = cfg.getTagNum();
 			int openLevel = cfg.getOpenLevel();
 			Integer oldTagCfg = tagMap.get(tagNum);
@@ -86,7 +84,10 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 	public void CheckConfig() {
 		// 跨表检查，consumeId是否在TaoistConsumeCfg有定义
 		TaoistConsumeCfgHelper helper = TaoistConsumeCfgHelper.getInstance();
+		AttributeLanguageCfgDAO cfgDAO = AttributeLanguageCfgDAO.getCfgDAO();
+
 		Collection<TaoistMagicCfg> vals = cfgCacheMap.values();
+
 		for (TaoistMagicCfg cfg : vals) {
 			int consumeId = cfg.getConsumeId();
 			TaoistConsumeCfg consumeCfg = helper.getCfgById(String.valueOf(consumeId));
@@ -94,7 +95,25 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				throw new RuntimeException("无效技能消耗ID=" + consumeId);
 			}
 			int maxLvl = helper.getMaxLevel(consumeId);
-			cfg.cacheToLevel(maxLvl);
+
+			Map<String, TaoistMagicFormula> attrDataMap = cfg.getAttrDataMap();
+			for (Entry<String, TaoistMagicFormula> e : attrDataMap.entrySet()) {
+				String attrType = e.getKey();
+
+				TaoistMagicFormula formula = e.getValue();
+				if (formula == null) {
+					GameLog.error("道术", attrType, "没有找到对应的公式");
+					continue;
+				}
+
+				AttributeType attributeType = cfgDAO.getAttributeType(attrType);
+				if (attributeType == null) {
+					GameLog.error("道术", attrType, "无效属性名");
+					continue;
+				}
+
+				formula.cacheToLevel(maxLvl);
+			}
 		}
 	}
 
@@ -216,23 +235,33 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				continue;
 			}
 
-			String attrType = cfg.getAttribute();
-			AttributeType attributeType = cfgDAO.getAttributeType(attrType);
-			if (attributeType == null) {
-				GameLog.error("道术", attrType, "无效属性名");
-				continue;
-			}
+			Map<String, TaoistMagicFormula> attrDataMap = cfg.getAttrDataMap();
+			for (Entry<String, TaoistMagicFormula> e : attrDataMap.entrySet()) {
+				String attrType = e.getKey();
 
-			AttributeItem attributeItem = attrMap.get(attributeType.getTypeValue());
-			int attrDataValue = 0;
-			int precentAttrDataValue = 0;
-			if (attributeItem != null) {
-				attrDataValue = attributeItem.getIncreaseValue();
-				precentAttrDataValue = attributeItem.getIncPerTenthousand();
-			}
+				TaoistMagicFormula formula = e.getValue();
+				if (formula == null) {
+					GameLog.error("道术", attrType, "没有找到对应的公式");
+					continue;
+				}
 
-			attributeItem = new AttributeItem(attributeType, attrDataValue + cfg.getMagicValue(entry.getValue()), precentAttrDataValue);
-			attrMap.put(attributeType.getTypeValue(), attributeItem);
+				AttributeType attributeType = cfgDAO.getAttributeType(attrType);
+				if (attributeType == null) {
+					GameLog.error("道术", attrType, "无效属性名");
+					continue;
+				}
+
+				AttributeItem attributeItem = attrMap.get(attributeType.getTypeValue());
+				int attrDataValue = 0;
+				int precentAttrDataValue = 0;
+				if (attributeItem != null) {
+					attrDataValue = attributeItem.getIncreaseValue();
+					precentAttrDataValue = attributeItem.getIncPerTenthousand();
+				}
+
+				attributeItem = new AttributeItem(attributeType, attrDataValue + formula.getValue(entry.getValue()), precentAttrDataValue);
+				attrMap.put(attributeType.getTypeValue(), attributeItem);
+			}
 
 			// Field field = attrMap.get(attrType);
 			// if (field == null) {
