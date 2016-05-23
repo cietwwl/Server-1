@@ -302,6 +302,7 @@ public class AccountLoginHandler {
 		
 		String accountId = request.getAccount().getAccountId();
 		if (account == null) {
+			response.setLoginType(eAccountLoginType.ZONE_LIST);
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("服务器繁忙，请稍候尝试。");
 			return response.build().toByteString();
@@ -309,6 +310,7 @@ public class AccountLoginHandler {
 		try {
 			handleZoneList(account, response, accountId);
 		} catch (Exception e) {
+			response.setLoginType(eAccountLoginType.ZONE_LIST);
 			PlatformLog.error("AccountLoginHandler", accountId, "", e);
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("服务器繁忙，请稍候尝试。");
