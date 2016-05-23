@@ -77,6 +77,7 @@ public class HeroBaseAttrCalc implements IComponentCalc {
 			AttributeUtils.calcAttribute(qualityCfg.getAttrDataMap(), qualityCfg.getPrecentAttrDataMap(), map);
 		}
 
+		map.put(AttributeType.ATTACK_TYPE.getTypeValue(), new AttributeItem(AttributeType.ATTACK_TYPE, roleCfg.getAttackType(), 0));
 		if (map.isEmpty()) {
 			GameLog.error("计算英雄基础属性", userId, String.format("Id为[%s]的英雄计算出来的基础属性是空的", param.getHeroId()));
 			return null;
