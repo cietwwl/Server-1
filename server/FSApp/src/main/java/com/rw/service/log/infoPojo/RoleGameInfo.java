@@ -41,6 +41,8 @@ public class RoleGameInfo {
 	private String copyInfo;
 	/**活动统计信息*/
 	private String activityInfo;
+	/**任务统计信息*/
+	private String taskInfo;
 
 	//在线时长
 	private String onlineTime;
@@ -127,14 +129,25 @@ public class RoleGameInfo {
 				if(moreinfo.containsKey("rewardsinfoactivity")){
 					rewardsinfoactivity = moreinfo.get("rewardsinfoactivity");
 				}
-			}
-			
+			}			
 			StringBuilder activityInfo = new StringBuilder();
 			activityInfo.append("activity_time:").append(activityTime).append("#")
 			.append("activity_reward:").append(rewardsinfoactivity);
 			roleGameInfo.setActivityInfo(activityInfo.toString());
 			
 			
+			
+			String rewardsinfotask = "";
+			if(moreinfo!= null){
+				if(moreinfo.containsKey("rewardsinfotask")){
+					rewardsinfotask = moreinfo.get("rewardsinfotask");
+				}
+			}			
+			StringBuilder taskInfo = new StringBuilder();
+			taskInfo.append("activity_time:").append("").append("#")
+			.append("task_reward:").append(rewardsinfotask);
+			roleGameInfo.setTaskInfo(taskInfo.toString());
+					
 			
 		}
 		
@@ -262,6 +275,14 @@ public class RoleGameInfo {
 	public void setActivityInfo(String activityInfo) {
 		this.activityInfo = activityInfo;
 	}
-	
 
+	public String getTaskInfo() {
+		return taskInfo;
+	}
+
+	public void setTaskInfo(String taskInfo) {
+		this.taskInfo = taskInfo;
+	}
+	
+	
 }

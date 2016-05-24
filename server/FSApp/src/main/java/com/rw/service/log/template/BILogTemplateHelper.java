@@ -67,6 +67,7 @@ public class BILogTemplateHelper {
 		addTemplateToken("用户统计信息", "$statInfo$");
 		addTemplateToken("副本统计信息", "$copyInfo$");
 		addTemplateToken("活动统计信息", "$activityInfo$");
+		addTemplateToken("任务统计信息", "$taskInfo$");
 		addTemplateToken("fight_time", "fight_time:$fightTime$");
 		addTemplateToken("1=主线/2=支线", "$biTaskType$");
 		addTemplateToken("参考操作码对照表", "$optype$");
@@ -94,7 +95,6 @@ public class BILogTemplateHelper {
 		addTemplateToken("IMEI信息", "$loginImei$");
 		addTemplateToken("关卡code", "$copyId$");		
 		addTemplateToken("充值币余额", "$zoneGiftGoldRemain$");
-		
 		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");

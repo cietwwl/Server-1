@@ -12,7 +12,7 @@ RoleLoginLogTemplate     = "打印时间|core_role|用户登录区ID|日志的�
 RoleLogoutLogTemplate    = "打印时间|core_role|用户登录区ID|日志的触发时间|role_act|用户登录区ID|注册渠道ID_UID|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职业等级|此处为空|此处为空|role_logout|此处为空|1|用户统计信息|广告短链接id";
 RoleUpgradeLogTemplate   = "打印时间|core_action|用户登录区ID|日志的触发时间|upgrade|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|map_id|此处为空|角色ID|此处为空|upgrade_role|升级前等级|1|last_fight_power|广告短链接id";
 TaskBeginLogTemplate     = "打印时间|core_task|用户登录区ID|日志的触发时间|task|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|任务入口|此处为空|任务ID|1=主线/2=支线|参考操作码对照表|此处为空|1|参考操作码对照表对应统计信息|广告短链接id";
-TaskEndLogTemplate       = "打印时间|core_task|用户登录区ID|日志的触发时间|task|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|任务入口|此处为空|任务ID|1=主线/2=支线|参考操作码对照表|此处为空|1|参考操作码对照表对应统计信息|广告短链接id";
+TaskEndLogTemplate       = "打印时间|core_task|用户登录区ID|日志的触发时间|task|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|任务入口|此处为空|任务ID|1=主线/2=支线|参考操作码对照表|此处为空|1|任务统计信息|广告短链接id";
 ZoneCountCoinLogTemplate = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_sub_coin|用户登录区ID|注册渠道ID|游戏币余额|4=安卓/5=ios/7=wm|进程id";
 ZoneCountLevelSpreadLogTemplate = "打印时间|core_stat_2|用户登录区ID|日志的触发时间|stat_role_level|用户登录区ID|注册子渠道ID|用户角色等级|角色统计|4=安卓/5=ios/7=wm|进程id";
 ZoneCountTotalAccountLogTemplate = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_account|用户登录区ID|注册渠道ID|总账号统计|4=安卓/5=ios/7=wm|进程id";

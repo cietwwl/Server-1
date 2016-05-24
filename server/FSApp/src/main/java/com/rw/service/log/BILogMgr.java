@@ -318,7 +318,7 @@ public class BILogMgr {
 	 * @param taskId
 	 * @param biTaskType
 	 */
-	public void logTaskEnd(Player player, Integer taskId, BITaskType biTaskType, boolean success) {
+	public void logTaskEnd(Player player, Integer taskId, BITaskType biTaskType, boolean success,String rewardinfoactivity) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 
 		if (success) {
@@ -330,7 +330,8 @@ public class BILogMgr {
 		moreInfo.put("taskId", taskId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("biTaskType", "" + biTaskType.getTypeNo());
-
+		moreInfo.put("activityTime", "" + 0);
+		moreInfo.put("rewardsinfotask", rewardinfoactivity);
 		logPlayer(eBILogType.TaskEnd, player, moreInfo);
 	}
 

@@ -290,8 +290,8 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 					ConfigClass priCfg = cfgCacheMap.get(sourceName);
 					privilegeValues.setValue(priCfg.getValueByName(privilegeEnum).toString());
 				} else {
-					GameLog.info("特权", pro.getClass().getName() + ":当前特权:" + pro.getCurrentChargeType(),
-							"没有找到对应的特权属性:"+privilegeEnum, null);
+//					GameLog.info("特权", pro.getClass().getName() + ":当前特权:" + pro.getCurrentChargeType(),
+//							"没有找到对应的特权属性:"+privilegeEnum, null);
 					privilegeValues.setValue("");
 				}
 				
