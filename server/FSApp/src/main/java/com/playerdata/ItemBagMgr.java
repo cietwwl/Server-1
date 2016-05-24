@@ -463,6 +463,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				player.getBattleTowerMgr().getTableBattleTower().modifySilverKey(count);
 			} else if (cfgId == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
 				player.getBattleTowerMgr().getTableBattleTower().modifyGoldKey(count);
+			} else if (cfgId == eSpecialItemId.MagicSecretCoin.getValue()){
+				return player.getMagicSecretMgr().addSecretGold(count);
 			}
 		} else {// 操作道具
 			if (count <= 0) {

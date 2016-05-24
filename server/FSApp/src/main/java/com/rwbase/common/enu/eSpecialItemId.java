@@ -13,6 +13,7 @@ public enum eSpecialItemId {
 	BATTLE_TOWER_COPPER_KEY(10, null), // 试练塔铜钥匙
 	BATTLE_TOWER_SILVER_KEY(11, null), // 试练塔银钥匙
 	BATTLE_TOWER_GOLD_KEY(12, null), // 试练塔金钥匙
+	MagicSecretCoin(13, null),		//法宝秘境货币
 	eSpecial_End(20, null);
 
 	private final int value;

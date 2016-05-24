@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
@@ -16,6 +17,7 @@ import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.MagicSecretProto.msRewardBox;
 
@@ -35,7 +37,11 @@ public class MSConditionJudger {
 	protected Player m_pPlayer = null;
 	protected String userId;
 	
-	// 判断玩家等级
+	/**
+	 * 判断玩家等级
+	 * @param dungeonID
+	 * @return
+	 */
 	protected boolean judgeUserLevel(String dungeonID){
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
 		MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(String.valueOf(dungDataCfg.getChapterID()));
@@ -47,7 +53,11 @@ public class MSConditionJudger {
 		return true;
 	}
 	
-	// 判断进入副本的条件
+	/**
+	 * 判断进入副本的条件
+	 * @param dungeonID
+	 * @return
+	 */
 	protected boolean judgeDungeonsCondition(String dungeonID){
 		UserMagicSecretData msData = userMSHolder.get();
 		int maxStageID = msData.getMaxStageID();
@@ -59,7 +69,11 @@ public class MSConditionJudger {
 		return true;
 	}
 	
-	// 判断副本的合法性
+	/**
+	 * 判断副本的合法性
+	 * @param dungeonID
+	 * @return
+	 */
 	protected boolean judgeDungeonsLegal(String dungeonID){
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
 		if(dungDataCfg == null){
@@ -71,15 +85,29 @@ public class MSConditionJudger {
 			GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsLegal, 不合法的章节[%s], 有可能是没开启或不存在", dungDataCfg.getChapterID()), null);
 			return false;
 		}
-		for(MSDungeonInfo stage : mcInfo.getSelectableDungeons()){
-			if(stage.getDungeonKey().equalsIgnoreCase(dungeonID))
+		if(mcInfo.getSelectedDungeonIndex() >= 0){
+			//表示曾经打过这个关卡
+			MSDungeonInfo dungeon = mcInfo.getSelectableDungeons().get(mcInfo.getSelectedDungeonIndex());
+			if(dungeon != null && dungeon.getDungeonKey().equalsIgnoreCase(dungeonID))
+				return true;
+			else{
+				GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsLegal, 曾选择了打难度[%s], 现在不能打不同的难度副本[%s]", mcInfo.getSelectedDungeonIndex(), dungeonID), null);
+				return false;
+			}
+		}
+		for(MSDungeonInfo dungeon : mcInfo.getSelectableDungeons()){
+			if(dungeon.getDungeonKey().equalsIgnoreCase(dungeonID))
 				return true;
 		}
 		GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsLegal, 该副本[%s]目前不可选择", dungeonID), null);
 		return false;
 	}
 	
-	// 判断副本的次数（主要是看今天有没有通关过）
+	/**
+	 * 判断副本的次数（主要是看今天有没有通关过）
+	 * @param dungeonID
+	 * @return
+	 */
 	protected boolean judgeDungeonsCount(String dungeonID){
 		int stageID = fromDungeonIDToStageID(dungeonID);
 		String chapterID = String.valueOf(fromStageIDToChapterID(stageID));
@@ -94,8 +122,13 @@ public class MSConditionJudger {
 		}
 		return true;
 	}
-	
-	// 判断buff的合法性
+
+	/**
+	 * 判断buff的合法性
+	 * @param chapterID
+	 * @param buffID
+	 * @return
+	 */
 	protected boolean judgeBuffLegal(String chapterID, String buffID){
 		BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getCfgById(buffID);
 		if(buffCfg == null){
@@ -119,7 +152,12 @@ public class MSConditionJudger {
 		return false;
 	}
 	
-	// 判断星星数量
+	/**
+	 * 判断星星数量
+	 * @param chapterID
+	 * @param buffID
+	 * @return
+	 */
 	protected boolean judgeEnoughStar(String chapterID, String buffID){
 		BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getCfgById(buffID);
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
@@ -131,7 +169,12 @@ public class MSConditionJudger {
 		return true;
 	}
 
-	// 判断箱子数量
+	/**
+	 * 判断箱子数量
+	 * @param chapterID
+	 * @param msRwdBox
+	 * @return
+	 */
 	protected boolean judgeRewardBoxLegal(String chapterID, msRewardBox msRwdBox){
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
 		if(mcInfo == null){
@@ -147,7 +190,12 @@ public class MSConditionJudger {
 		return false;
 	}
 	
-	// 判断打开箱子的花费(如果够，直接扣除)
+	/**
+	 * 判断打开箱子的花费(如果够，直接扣除)
+	 * @param chapterID
+	 * @param msRwdBox
+	 * @return
+	 */
 	protected boolean judgeOpenBoxCost(String chapterID, msRewardBox msRwdBox){
 		String firstDungeonID = chapterID + "01_1";
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(firstDungeonID);
@@ -164,14 +212,36 @@ public class MSConditionJudger {
 			cost.setItemNum(dungDataCfg.getObjHiBox().getBoxCost().getItemNum());
 		}
 		cost.setItemNum(cost.getItemNum() * msRwdBox.getBoxCount());
-		
-		//TODO 资源比对
-		//TODO 资源扣除
-		
+		// 资源比对
+		if (cost.getItemID() <= eSpecialItemId.eSpecial_End.getValue()) {
+			if (cost.getItemID() == eSpecialItemId.Coin.getValue()) {
+				if(cost.getItemNum() > m_pPlayer.getUserGameDataMgr().getCoin())
+					return false;
+			} else if (cost.getItemID() == eSpecialItemId.Gold.getValue()) {
+				if(cost.getItemNum() > m_pPlayer.getUserGameDataMgr().getGold())
+					return false;
+			} else if (cost.getItemID() == eSpecialItemId.MagicSecretCoin.getValue()){
+				if(cost.getItemNum() > m_pPlayer.getMagicSecretMgr().userMSHolder.get().getSecretGold())
+					return false;
+			} else{
+				GameLog.error(LogModule.MagicSecret, userId, String.format("judgeOpenBoxCost, 需要消耗一种未处理的资源[%s]", cost.getItemID()), null);
+				return false;
+			}
+		}
+		// 资源扣除
+		ItemBagMgr bagMgr = m_pPlayer.getItemBagMgr();
+		if(!bagMgr.addItem(cost.getItemID(), cost.getItemNum())){
+			GameLog.error(LogModule.MagicSecret, userId, String.format("judgeOpenBoxCost, 扣除物品[%s]的时候不成功，有[%s]未能扣除", cost.getItemID(), cost.getItemNum()), null);
+			return false;
+		}
 		return true;
 	}
 	
-	// 判断今天是否有扫荡次数
+	/**
+	 * 判断今天是否有扫荡次数
+	 * @param chapterID
+	 * @return
+	 */
 	protected boolean judgeSweepCount(String chapterID){
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
 		if(mcInfo == null || mcInfo.getFinishedStages().size() == STAGE_COUNT_EACH_CHATPER) return true;
@@ -179,7 +249,11 @@ public class MSConditionJudger {
 		return false;
 	}
 	
-	// 判断章节是否可以扫荡(根据历史最高纪录)
+	/**
+	 * 判断章节是否可以扫荡(根据历史最高纪录)
+	 * @param chapterID
+	 * @return
+	 */
 	protected boolean judgeSweepAble(String chapterID){		
 		// 判断历史通关
 		UserMagicSecretData msData = userMSHolder.get();
@@ -206,17 +280,5 @@ public class MSConditionJudger {
 	
 	protected int fromStageIDToLayerID(int stageID){
 		return stageID%100;
-	}
-	
-	public static void main(String[] args) {
-		// userMSHolder.get().getMaxStageID();
-//				List<MSStageInfo> newSelectableStages = new ArrayList<MSStageInfo>();
-//				for(MSStageInfo stage : mcInfo.getSelectableStages()){	
-//					if(stage.getStageKey().equalsIgnoreCase(dungeonID))
-//						newSelectableStages.add(stage);
-//				}
-//				if(newSelectableStages.isEmpty()) return false;
-//				mcInfo.setSelectableStages(newSelectableStages);
-//				return true;
 	}
 }

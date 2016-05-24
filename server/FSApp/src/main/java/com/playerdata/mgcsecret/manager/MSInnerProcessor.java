@@ -7,7 +7,6 @@ import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
-import com.playerdata.manager.ItemBagHolder;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
@@ -34,9 +33,10 @@ public class MSInnerProcessor extends MSConditionJudger{
 	protected void handleDropItem(List<ItemInfo> dropItems){
 		ItemBagMgr bagMgr = m_pPlayer.getItemBagMgr();
 		for(ItemInfo itm : dropItems){
+			GameLog.info(LogModule.MagicSecret.getName(), userId, String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
 			if(!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
 				GameLog.error(LogModule.MagicSecret, userId, String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
-		} 
+		}
 	}
 	
 	/**
@@ -179,7 +179,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param dropStr
 	 * @return
 	 */
-	private ArrayList<ItemInfo> generateDropItem(String dropStr){
+	protected ArrayList<ItemInfo> generateDropItem(String dropStr){
 		ArrayList<ItemInfo> itemList = new ArrayList<ItemInfo>();
 		return itemList;
 	}

@@ -3,8 +3,8 @@ package com.playerdata.mgcsecret.data;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class MSRewardBox {
-	private ItemInfo boxCost;
-	private String dropStr;
+	private ItemInfo boxCost = new ItemInfo();
+	private String dropStr = null;
 	
 	public ItemInfo getBoxCost() {
 		return boxCost;
