@@ -52,7 +52,7 @@ public class ItemBagHolder implements RecordSynchronization {
 		}
 
 		if (!itemDataList.isEmpty()) {
-			ClientDataSynMgr.synDataList(player, itemDataList, type, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, itemDataList, type, eSynOpType.UPDATE_LIST, -1);
 		}
 	}
 
