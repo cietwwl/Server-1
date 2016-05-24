@@ -81,7 +81,7 @@ public class RobotManager {
 				GameLog.error("robot", "product player", "arena robot already exist , continue...");
 				return null;
 			}
-			
+
 			// 创建User，并初始化基本属性
 			User user = new User();
 			String userId = UUID.randomUUID().toString();
@@ -93,18 +93,17 @@ public class RobotManager {
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);
 			UserDataDao.getInstance().saveOrUpdate(user);
-//			UserGameData userOther = new UserGameData();
-//			userOther.setUserId(userId);
-//			userOther.setIphone(false);
-//			UserGameDataDao.getInstance().update(userOther);
+			// UserGameData userOther = new UserGameData();
+			// userOther.setUserId(userId);
+			// userOther.setIphone(false);
+			// UserGameDataDao.getInstance().update(userOther);
 			int star = getRandom(cfg.getStar());
 			int quality = getRandom(cfg.getQuality());
 
 			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
-			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex,
-					System.currentTimeMillis(), playerCfg, headImage, "");
-			
+			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
+
 			GameOperationFactory.getCreatedOperation().execute(param);
 			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
 			// 初始化主角
@@ -121,6 +120,8 @@ public class RobotManager {
 			player.getUserDataMgr().setHeadId(headImage);
 			player.initMgr();
 			player.getUserDataMgr().setUserName(userName);
+
+			PlayerMgr.getInstance().putToMap(player);
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
@@ -130,7 +131,7 @@ public class RobotManager {
 			String fashonId = getRandom(cfg.getFashions());
 			if (!fashonId.equals("0")) {
 				int fashionID = Integer.parseInt(fashonId);
-				player.getFashionMgr().giveFashionItem(fashionID,-1,true,false);
+				player.getFashionMgr().giveFashionItem(fashionID, -1, true, false);
 			}
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
@@ -180,8 +181,7 @@ public class RobotManager {
 			for (Hero hero : heroList) {
 				hero.getAttrMgr().reCal();
 			}
-			//player.save(true);
-			PlayerMgr.getInstance().putToMap(player);
+			// player.save(true);
 			printHeroSkill(mainRoleHero);
 			for (Hero hero : heroList) {
 				printHeroSkill(hero);

@@ -22,6 +22,7 @@ import com.log.GameLog;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.http.HttpServer;
+import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
 
@@ -33,13 +34,17 @@ public class Server {
 	public static void main(String[] args) {
 		GameWorldFactory.init(32, 16);
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
-		
+
 		GameManager.initServerProperties();
 
 		ServerSwitch.initProperty();
 
-//		GameManager.initBeforeLoading();
-		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
+		// 初始化属性的映射关系
+		AttributeBM.initAttributeMap();
+
+		// GameManager.initBeforeLoading();
+		new ClassPathXmlApplicationContext(new String[] {
+			"classpath:applicationContext.xml" });
 
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
 		int ioThreads = Runtime.getRuntime().availableProcessors() * 4;

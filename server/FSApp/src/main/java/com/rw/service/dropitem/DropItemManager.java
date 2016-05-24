@@ -209,10 +209,12 @@ public class DropItemManager {
 			
 			int multiple = 1;
 			if(!firstDrop){
-				ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0);
-				boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
-				multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
+				if(copyCfg != null){
+					ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0);
+					boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
+					multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
 //				System.out.println("dropitem.multiple" + multiple + "  enum =" + activityRateTypeEnum.getCfgId() + isRateOpen);				
+				}
 			}
 			if(multiple != 1){
 				for(ItemInfo iteminfo : dropItemInfoList){

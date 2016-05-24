@@ -40,8 +40,11 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.attrdata.calc.AttrDataCalcFactory;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.common.attribute.param.MagicParam;
+import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
@@ -217,6 +220,8 @@ public final class AngleArrayMatchHelper {
 				headId = readOnlyPlayer.getHeadImage();
 				playerName = readOnlyPlayer.getUserName();
 				career = readOnlyPlayer.getMainRoleHero().getCareer();
+
+				hasTeam = true;
 			}
 		} else {
 			teamFighting = teamInfo.getTeamFighting();
@@ -398,7 +403,14 @@ public final class AngleArrayMatchHelper {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(roleCfg.getModelId()).append("_").append(System.currentTimeMillis());// 模拟生成一个角色Id，modelId_时间
-		return getRobotTeamInfo(robotId, sb.toString(), name, roleCfg.getImageId(), "", career, heroTmpIdList);
+
+		String headImage;
+		if (sex == ESex.Men.getOrder()) {
+			headImage = "10001";
+		} else {
+			headImage = "10002";
+		}
+		return getRobotTeamInfo(robotId, sb.toString(), name, headImage, "", career, heroTmpIdList);
 	}
 
 	/**
@@ -452,13 +464,20 @@ public final class AngleArrayMatchHelper {
 		ArmyMagic magicInfo = new ArmyMagic();
 		// 法宝Id
 		int[] magicId = angelRobotCfg.getMagicId();
-		magicInfo.setModelId(magicId[getRandomIndex(r, magicId.length)]);
+		int finalMagicId = magicId[getRandomIndex(r, magicId.length)];
+		magicInfo.setModelId(finalMagicId);
 		// 法宝等级
 		int[] magicLevelArray = angelRobotCfg.getMagicLevel();
 		int magicLevel = magicLevelArray[getRandomIndex(r, magicLevelArray.length)];
 		magicLevel = magicLevel > mainRoleLevel ? mainRoleLevel : magicLevel;
 		magicInfo.setLevel(magicLevel);
 		teamInfo.setMagic(magicInfo);
+		// 转换成计算属性要传递的数据
+		MagicParam.MagicBuilder builder = new MagicBuilder();
+		builder.setMagicId(String.valueOf(finalMagicId));
+		builder.setMagicLevel(magicLevel);
+		builder.setUserId(userId);
+		MagicParam magicParam = builder.build();
 
 		int heroSize = heroTmpIdList.size();
 		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
@@ -547,7 +566,8 @@ public final class AngleArrayMatchHelper {
 				}
 
 				// 战力
-				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, AttrDataCalcFactory.getHeroAttrData(heroInfo));
+				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
+						AttributeBM.getRobotAttrData(userId, heroInfo, magicParam));
 				fighting += calFighting;
 				// System.err.println(String.format("[%s]的英雄，战力是[%s]", heroModelId, calFighting));
 			}
@@ -675,7 +695,8 @@ public final class AngleArrayMatchHelper {
 		ArrayList<String> gemList_ = new ArrayList<String>();
 		GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
 		for (int i = 0, gemSize = canGemList.size(); i < gemSize; i++) {
-			String nextGemId = canGemList.get(i).toString();;
+			String nextGemId = canGemList.get(i).toString();
+			;
 			int gemLevel = gemLevelArray[getRandomIndex(r, gemLevelArray.length)];
 			for (int j = gemLevel; --j >= 0;) {
 				GemCfg gemCfg = (GemCfg) gemCfgDAO.getCfgById(nextGemId);
