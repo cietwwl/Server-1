@@ -238,6 +238,24 @@ namespace MsgDef
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_RANKTYPE", Value=178)]
       MSG_ACTIVITY_RANKTYPE = 178,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_TIME_COUNT_TYPE", Value=179)]
+      MSG_ACTIVITY_TIME_COUNT_TYPE = 179,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_DAILY_TYPE", Value=180)]
+      MSG_ACTIVITY_DAILY_TYPE = 180,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_TAOIST", Value=200)]
+      MSG_TAOIST = 200,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_FIX_EQUIP", Value=201)]
+      MSG_FIX_EQUIP = 201,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_GROUP_SECRET", Value=202)]
+      MSG_GROUP_SECRET = 202,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_MAGIC_SECRET", Value=203)]
+      MSG_MAGIC_SECRET = 203,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SDK_VERIFY", Value=996)]
       MSG_SDK_VERIFY = 996,
             

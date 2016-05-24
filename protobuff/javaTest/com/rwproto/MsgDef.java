@@ -552,13 +552,61 @@ public final class MsgDef {
      */
     MSG_ACTIVITY_RANKTYPE(73, 178),
     /**
+     * <code>MSG_ACTIVITY_TIME_COUNT_TYPE = 179;</code>
+     *
+     * <pre>
+     *通用活动
+     * </pre>
+     */
+    MSG_ACTIVITY_TIME_COUNT_TYPE(74, 179),
+    /**
+     * <code>MSG_ACTIVITY_DAILY_TYPE = 180;</code>
+     *
+     * <pre>
+     *通用活动每日
+     * </pre>
+     */
+    MSG_ACTIVITY_DAILY_TYPE(75, 180),
+    /**
+     * <code>MSG_TAOIST = 200;</code>
+     *
+     * <pre>
+     *道术系统
+     * </pre>
+     */
+    MSG_TAOIST(76, 200),
+    /**
+     * <code>MSG_FIX_EQUIP = 201;</code>
+     *
+     * <pre>
+     *专属装备
+     * </pre>
+     */
+    MSG_FIX_EQUIP(77, 201),
+    /**
+     * <code>MSG_GROUP_SECRET = 202;</code>
+     *
+     * <pre>
+     *帮派秘境
+     * </pre>
+     */
+    MSG_GROUP_SECRET(78, 202),
+    /**
+     * <code>MSG_MAGIC_SECRET = 203;</code>
+     *
+     * <pre>
+     *法宝秘境
+     * </pre>
+     */
+    MSG_MAGIC_SECRET(79, 203),
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(74, 996),
+    MSG_SDK_VERIFY(80, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -566,7 +614,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(75, 997),
+    MSG_NUMERIC_ANALYSIS(81, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -574,7 +622,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(76, 998),
+    MSG_PLATFORMGS(82, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -582,7 +630,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(77, 999),
+    MSG_GAMEPRESS(83, 999),
     ;
 
     /**
@@ -1124,6 +1172,54 @@ public final class MsgDef {
      */
     public static final int MSG_ACTIVITY_RANKTYPE_VALUE = 178;
     /**
+     * <code>MSG_ACTIVITY_TIME_COUNT_TYPE = 179;</code>
+     *
+     * <pre>
+     *通用活动
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_TIME_COUNT_TYPE_VALUE = 179;
+    /**
+     * <code>MSG_ACTIVITY_DAILY_TYPE = 180;</code>
+     *
+     * <pre>
+     *通用活动每日
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_DAILY_TYPE_VALUE = 180;
+    /**
+     * <code>MSG_TAOIST = 200;</code>
+     *
+     * <pre>
+     *道术系统
+     * </pre>
+     */
+    public static final int MSG_TAOIST_VALUE = 200;
+    /**
+     * <code>MSG_FIX_EQUIP = 201;</code>
+     *
+     * <pre>
+     *专属装备
+     * </pre>
+     */
+    public static final int MSG_FIX_EQUIP_VALUE = 201;
+    /**
+     * <code>MSG_GROUP_SECRET = 202;</code>
+     *
+     * <pre>
+     *帮派秘境
+     * </pre>
+     */
+    public static final int MSG_GROUP_SECRET_VALUE = 202;
+    /**
+     * <code>MSG_MAGIC_SECRET = 203;</code>
+     *
+     * <pre>
+     *法宝秘境
+     * </pre>
+     */
+    public static final int MSG_MAGIC_SECRET_VALUE = 203;
+    /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
      * <pre>
@@ -1235,6 +1331,12 @@ public final class MsgDef {
         case 176: return MSG_PRIVILEGE;
         case 177: return MSG_ACTIVITY_DATETYPE;
         case 178: return MSG_ACTIVITY_RANKTYPE;
+        case 179: return MSG_ACTIVITY_TIME_COUNT_TYPE;
+        case 180: return MSG_ACTIVITY_DAILY_TYPE;
+        case 200: return MSG_TAOIST;
+        case 201: return MSG_FIX_EQUIP;
+        case 202: return MSG_GROUP_SECRET;
+        case 203: return MSG_MAGIC_SECRET;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
         case 998: return MSG_PLATFORMGS;
@@ -1299,7 +1401,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\212\014\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\236\r\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1336,9 +1438,13 @@ public final class MsgDef {
       "\022\017\n\nMSG_CHARGE\020\256\001\022\033\n\026MSG_ACTIVITY_COUNTT" +
       "YPE\020\257\001\022\022\n\rMSG_PRIVILEGE\020\260\001\022\032\n\025MSG_ACTIVI" +
       "TY_DATETYPE\020\261\001\022\032\n\025MSG_ACTIVITY_RANKTYPE\020" +
-      "\262\001\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_A" +
-      "NALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_G" +
-      "AMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
+      "\262\001\022!\n\034MSG_ACTIVITY_TIME_COUNT_TYPE\020\263\001\022\034\n" +
+      "\027MSG_ACTIVITY_DAILY_TYPE\020\264\001\022\017\n\nMSG_TAOIS" +
+      "T\020\310\001\022\022\n\rMSG_FIX_EQUIP\020\311\001\022\025\n\020MSG_GROUP_SE",
+      "CRET\020\312\001\022\025\n\020MSG_MAGIC_SECRET\020\313\001\022\023\n\016MSG_SD" +
+      "K_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023" +
+      "\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B" +
+      "\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

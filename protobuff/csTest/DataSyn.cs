@@ -318,6 +318,27 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"USER_TMP_GAME_DATA", Value=44)]
       USER_TMP_GAME_DATA = 44,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"HERO_FETTERS", Value=45)]
+      HERO_FETTERS = 45,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"FIX_NORM_EQUIP", Value=46)]
+      FIX_NORM_EQUIP = 46,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"FIX_EXP_EQUIP", Value=47)]
+      FIX_EXP_EQUIP = 47,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"UserGroupSecretData", Value=48)]
+      UserGroupSecretData = 48,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"GroupSecretData", Value=49)]
+      GroupSecretData = 49,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MagicSecretData", Value=50)]
+      MagicSecretData = 50,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MagicChapterData", Value=51)]
+      MagicChapterData = 51,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
       ActivityCountType = 60,
             
@@ -340,7 +361,13 @@ namespace DataSyn
       ActivityRankType = 66,
             
       [global::ProtoBuf.ProtoEnum(Name=@"ActivityExchangeType", Value=67)]
-      ActivityExchangeType = 67
+      ActivityExchangeType = 67,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityTimeCountType", Value=68)]
+      ActivityTimeCountType = 68,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"ActivityDailyType", Value=69)]
+      ActivityDailyType = 69
     }
   
 }
