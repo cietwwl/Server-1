@@ -10,9 +10,6 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.item.HeroEquipCfgDAO;
-import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -101,18 +98,18 @@ public class EquipItemHolder {
 		return addSuccess;
 	}
 
-	public AttrData toAttrData() {
-		AttrData totalAttrData = new AttrData();
-		Enumeration<EquipItem> mapEnum = getItemStore().getEnum();
-		while (mapEnum.hasMoreElements()) {
-			EquipItem item = (EquipItem) mapEnum.nextElement();
-			HeroEquipCfg cfg = HeroEquipCfgDAO.getInstance().getConfig(item.getModelId());
-			if (cfg != null) {
-				totalAttrData.plus(EquipItemHelper.toAttrData(cfg, item.getLevel()));
-			}
-		}
-		return totalAttrData;
-	}
+	// public AttrData toAttrData() {
+	// AttrData totalAttrData = new AttrData();
+	// Enumeration<EquipItem> mapEnum = getItemStore().getEnum();
+	// while (mapEnum.hasMoreElements()) {
+	// EquipItem item = (EquipItem) mapEnum.nextElement();
+	// HeroEquipCfg cfg = HeroEquipCfgDAO.getInstance().getConfig(item.getModelId());
+	// if (cfg != null) {
+	// totalAttrData.plus(EquipItemHelper.toAttrData(cfg, item.getLevel()));
+	// }
+	// }
+	// return totalAttrData;
+	// }
 
 	public void synAllData(Player player, int version) {
 		List<EquipItem> itemList = getItemList();

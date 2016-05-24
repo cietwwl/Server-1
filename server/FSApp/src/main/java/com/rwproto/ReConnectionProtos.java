@@ -199,23 +199,32 @@ public final class ReConnectionProtos {
     com.rwproto.ReConnectionProtos.SyncVersionOrBuilder getVersionListOrBuilder(
         int index);
 
-    // required int32 viewId = 4;
+    // optional string userId = 4;
     /**
-     * <code>required int32 viewId = 4;</code>
+     * <code>optional string userId = 4;</code>
      *
      * <pre>
-     *客户端当前所在界面id
+     *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
      * </pre>
      */
-    boolean hasViewId();
+    boolean hasUserId();
     /**
-     * <code>required int32 viewId = 4;</code>
+     * <code>optional string userId = 4;</code>
      *
      * <pre>
-     *客户端当前所在界面id
+     *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
      * </pre>
      */
-    int getViewId();
+    java.lang.String getUserId();
+    /**
+     * <code>optional string userId = 4;</code>
+     *
+     * <pre>
+     *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUserIdBytes();
   }
   /**
    * Protobuf type {@code ReConnectRequest}
@@ -286,9 +295,9 @@ public final class ReConnectionProtos {
               versionList_.add(input.readMessage(com.rwproto.ReConnectionProtos.SyncVersion.PARSER, extensionRegistry));
               break;
             }
-            case 32: {
+            case 34: {
               bitField0_ |= 0x00000004;
-              viewId_ = input.readInt32();
+              userId_ = input.readBytes();
               break;
             }
           }
@@ -469,35 +478,66 @@ public final class ReConnectionProtos {
       return versionList_.get(index);
     }
 
-    // required int32 viewId = 4;
-    public static final int VIEWID_FIELD_NUMBER = 4;
-    private int viewId_;
+    // optional string userId = 4;
+    public static final int USERID_FIELD_NUMBER = 4;
+    private java.lang.Object userId_;
     /**
-     * <code>required int32 viewId = 4;</code>
+     * <code>optional string userId = 4;</code>
      *
      * <pre>
-     *客户端当前所在界面id
+     *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
      * </pre>
      */
-    public boolean hasViewId() {
+    public boolean hasUserId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 viewId = 4;</code>
+     * <code>optional string userId = 4;</code>
      *
      * <pre>
-     *客户端当前所在界面id
+     *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
      * </pre>
      */
-    public int getViewId() {
-      return viewId_;
+    public java.lang.String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string userId = 4;</code>
+     *
+     * <pre>
+     *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
       accountId_ = "";
       zoneId_ = 0;
       versionList_ = java.util.Collections.emptyList();
-      viewId_ = 0;
+      userId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -509,10 +549,6 @@ public final class ReConnectionProtos {
         return false;
       }
       if (!hasZoneId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasViewId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -539,7 +575,7 @@ public final class ReConnectionProtos {
         output.writeMessage(3, versionList_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(4, viewId_);
+        output.writeBytes(4, getUserIdBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -564,7 +600,7 @@ public final class ReConnectionProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, viewId_);
+          .computeBytesSize(4, getUserIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -693,7 +729,7 @@ public final class ReConnectionProtos {
         } else {
           versionListBuilder_.clear();
         }
-        viewId_ = 0;
+        userId_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
@@ -743,7 +779,7 @@ public final class ReConnectionProtos {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.viewId_ = viewId_;
+        result.userId_ = userId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -794,8 +830,10 @@ public final class ReConnectionProtos {
             }
           }
         }
-        if (other.hasViewId()) {
-          setViewId(other.getViewId());
+        if (other.hasUserId()) {
+          bitField0_ |= 0x00000008;
+          userId_ = other.userId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -807,10 +845,6 @@ public final class ReConnectionProtos {
           return false;
         }
         if (!hasZoneId()) {
-          
-          return false;
-        }
-        if (!hasViewId()) {
           
           return false;
         }
@@ -1301,51 +1335,100 @@ public final class ReConnectionProtos {
         return versionListBuilder_;
       }
 
-      // required int32 viewId = 4;
-      private int viewId_ ;
+      // optional string userId = 4;
+      private java.lang.Object userId_ = "";
       /**
-       * <code>required int32 viewId = 4;</code>
+       * <code>optional string userId = 4;</code>
        *
        * <pre>
-       *客户端当前所在界面id
+       *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
        * </pre>
        */
-      public boolean hasViewId() {
+      public boolean hasUserId() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 viewId = 4;</code>
+       * <code>optional string userId = 4;</code>
        *
        * <pre>
-       *客户端当前所在界面id
+       *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
        * </pre>
        */
-      public int getViewId() {
-        return viewId_;
+      public java.lang.String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 viewId = 4;</code>
+       * <code>optional string userId = 4;</code>
        *
        * <pre>
-       *客户端当前所在界面id
+       *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
        * </pre>
        */
-      public Builder setViewId(int value) {
-        bitField0_ |= 0x00000008;
-        viewId_ = value;
+      public com.google.protobuf.ByteString
+          getUserIdBytes() {
+        java.lang.Object ref = userId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string userId = 4;</code>
+       *
+       * <pre>
+       *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
+       * </pre>
+       */
+      public Builder setUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        userId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 viewId = 4;</code>
+       * <code>optional string userId = 4;</code>
        *
        * <pre>
-       *客户端当前所在界面id
+       *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
        * </pre>
        */
-      public Builder clearViewId() {
+      public Builder clearUserId() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        viewId_ = 0;
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string userId = 4;</code>
+       *
+       * <pre>
+       *角色ID，没有角色ID(表示不在游戏中，如创建角色、登录游戏时断网)
+       * </pre>
+       */
+      public Builder setUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        userId_ = value;
         onChanged();
         return this;
       }
@@ -2399,7 +2482,7 @@ public final class ReConnectionProtos {
       "\n\022ReConnection.proto\032\rDataSyn.proto\"h\n\020R" +
       "eConnectRequest\022\021\n\taccountId\030\001 \002(\t\022\016\n\006zo" +
       "neId\030\002 \002(\005\022!\n\013versionList\030\003 \003(\0132\014.SyncVe" +
-      "rsion\022\016\n\006viewId\030\004 \002(\005\"?\n\013SyncVersion\022\037\n\004" +
+      "rsion\022\016\n\006userId\030\004 \001(\t\"?\n\013SyncVersion\022\037\n\004" +
       "type\030\001 \002(\0162\021.DataSyn.eSynType\022\017\n\007version" +
       "\030\002 \002(\005\"=\n\021ReConnectResponse\022(\n\nresultTyp" +
       "e\030\001 \002(\0162\024.ReConnectResultType*C\n\023ReConne" +
@@ -2417,7 +2500,7 @@ public final class ReConnectionProtos {
           internal_static_ReConnectRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ReConnectRequest_descriptor,
-              new java.lang.String[] { "AccountId", "ZoneId", "VersionList", "ViewId", });
+              new java.lang.String[] { "AccountId", "ZoneId", "VersionList", "UserId", });
           internal_static_SyncVersion_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_SyncVersion_fieldAccessorTable = new

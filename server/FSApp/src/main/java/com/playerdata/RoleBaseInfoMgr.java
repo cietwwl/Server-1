@@ -1,7 +1,6 @@
 package com.playerdata;
 
 import com.common.Action;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoHolder;
@@ -35,13 +34,13 @@ public class RoleBaseInfoMgr extends IDataMgr {
 		return false;
 	}
 
-	public AttrData getTotalBaseAttrData() {
-		return roleBaseInfoHolder.toAttrData();
-	}
-
-	public AttrData getTotalQualityAttrDataForLog() {
-		return roleBaseInfoHolder.toQualityAttrDataForLog();
-	}
+	// public AttrData getTotalBaseAttrData() {
+	// return roleBaseInfoHolder.toAttrData();
+	// }
+	//
+	// public AttrData getTotalQualityAttrDataForLog() {
+	// return roleBaseInfoHolder.toQualityAttrDataForLog();
+	// }
 
 	public void setQualityId(String id) {
 		RoleBaseInfo roleBaseInfo = roleBaseInfoHolder.get();
