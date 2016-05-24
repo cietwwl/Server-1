@@ -31,6 +31,8 @@ public class MSConditionJudger {
 	public final static float TWO_STAR_SCORE_COEFFICIENT = 1.5f;
 	public final static float THREE_STAR_SCORE_COEFFICIENT = 2.5f;
 	
+	public final static int MS_RANK_FETCH_COUNT = 100;
+	
 	protected MagicChapterInfoHolder mChapterHolder;
 	protected UserMagicSecretHolder userMSHolder;
 	

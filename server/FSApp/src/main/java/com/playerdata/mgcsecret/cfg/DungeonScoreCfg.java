@@ -1,5 +1,7 @@
 package com.playerdata.mgcsecret.cfg;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.common.BaseConfig;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -8,7 +10,7 @@ public class DungeonScoreCfg extends BaseConfig {
 	private int key; //关键字段
 	private int score; //积分
 	private String reward; //奖励
-	private ArrayList<ItemInfo> list_reward = new ArrayList<ItemInfo>();
+	private List<ItemInfo> list_reward = new ArrayList<ItemInfo>();
 
 	public int getKey() {
 		return key;
@@ -22,8 +24,8 @@ public class DungeonScoreCfg extends BaseConfig {
 		return reward;
 	}
 
-	public ArrayList<ItemInfo> getRewardList(){
-		return list_reward;
+	public List<ItemInfo> getRewardList(){
+		return Collections.unmodifiableList(list_reward);
 	}
 	
 	@Override

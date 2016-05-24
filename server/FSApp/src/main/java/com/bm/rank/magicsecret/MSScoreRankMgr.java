@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.rank.RankType;
+import com.playerdata.mgcsecret.cfg.MagicScoreRankCfg;
+import com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.playerdata.mgcsecret.data.MagicSecretExtendInfo;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -52,7 +55,7 @@ public class MSScoreRankMgr {
 	public static List<MSScoreDataItem> getMSScoreRankList(){
 		List<MSScoreDataItem> itemList = new ArrayList<MSScoreDataItem>();
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(0, 50);
+		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(0, MagicSecretMgr.MS_RANK_FETCH_COUNT);
 		for(;it.hasMoreElements();){
 			MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
 			itemList.add(entry.getExtendedAttribute());
@@ -64,6 +67,22 @@ public class MSScoreRankMgr {
 	 * 发放法宝秘境每日排行奖励
 	 */
 	public static void dispatchMSDailyReward(){
-		
+		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
+		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(0, MagicSecretMgr.MS_RANK_FETCH_COUNT);
+		int rewardCfgCount = MagicScoreRankCfgDAO.getInstance().getEntryCount();
+		for(int i = 1; i <= rewardCfgCount; i++){
+			int startRank = 1;
+			if(i != 1) startRank = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i-1)).getRankEnd() + 1;
+			MagicScoreRankCfg rewardCfg = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i));
+			int endRank = rewardCfg.getRankEnd();
+			for(int j = startRank; j <= endRank; j++){
+				while(it.hasMoreElements()){
+					MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
+					entry.getExtendedAttribute().getUserId();
+					//TODO 给玩家发放邮件
+					rewardCfg.getReward();
+				}
+			}
+		}
 	}
 }
