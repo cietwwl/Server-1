@@ -77,7 +77,7 @@ public class TaoistMagicCfg extends BaseConfig {
 		Map<String, TaoistMagicFormula> attrDataMap = new HashMap<String, TaoistMagicFormula>();
 
 		if (StringUtils.isEmpty(formulaParam)) {
-			attrDataMap = Collections.emptyMap();
+			this.attrDataMap = Collections.emptyMap();
 		} else {
 			String[] attrArr = formulaParam.split(";");
 			for (int i = 0, len = attrArr.length; i < len; i++) {
@@ -99,6 +99,8 @@ public class TaoistMagicCfg extends BaseConfig {
 
 				attrDataMap.put(attrName, TaoistMagicFormula.Create(params[0], params[1], params[2], params[3]));
 			}
+
+			this.attrDataMap = Collections.unmodifiableMap(attrDataMap);
 		}
 	}
 
