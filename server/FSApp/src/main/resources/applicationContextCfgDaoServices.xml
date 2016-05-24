@@ -180,12 +180,15 @@
 	<bean class="com.rwbase.dao.item.ItemUseEffectCfgDAO"  init-method="init" />
 	
 	<!-- 专属装备 -->
-	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.cfg.FixEquipCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCostCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO"  init-method="init" />
 	
-	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO"  init-method="init" />

@@ -1,7 +1,5 @@
 package com.playerdata.fixEquip.cfg;
 
-import java.util.List;
-
 import com.playerdata.fixEquip.FixEquipCostType;
 import com.playerdata.fixEquip.FixEquipType;
 
