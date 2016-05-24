@@ -357,15 +357,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			firstReward.append(TowerFirstAwardCfgDAO.getInstance().GetGooldListStr(String.valueOf(floor + 1)));
 		}
 		
-		int multiple = 1;
-		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(CopyType.COPY_TYPE_TOWER, 3);
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
-		multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
-		
-		
-		
-		
-		
+		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,CopyType.COPY_TYPE_TOWER, 3);		
 		TowerAwardCfg awardCfg = TowerAwardCfgDAO.getLevelTowerCfgByFloor(angleArrayData.getResetLevel(), floor);
 		if (awardCfg != null) {
 			// 过关奖励

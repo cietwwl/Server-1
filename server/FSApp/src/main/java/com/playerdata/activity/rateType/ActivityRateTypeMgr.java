@@ -13,6 +13,8 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelpe
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copypve.CopyType;
 
 public class ActivityRateTypeMgr {
 
@@ -204,4 +206,34 @@ public class ActivityRateTypeMgr {
 		}
 		return eSpecialItemIDUserInfo;
 	}
+	
+	/**对金币,经验等是否处于双倍活动进行处理*/
+	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
+		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 
+		getesESpecialItemIDUserInfo(activityRateTypeEnum, eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiple,0);
+		
+		ActivityRateTypeEnum activityRateTypeEnumcoin = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 2);
+		boolean isRateOpencoin = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnumcoin);
+		int multiplecoin = isRateOpencoin?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnumcoin):1; 		
+		getesESpecialItemIDUserInfo(activityRateTypeEnumcoin, eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multiplecoin);
+	}
+	
+	/**
+	 * 核实与当前副本相关的活动是否存在，活动是否开启，以及返回倍数
+	 * @param copyType 战斗类型
+	 * @param doubleType 奖励双倍的类型 
+	 * @return  倍数
+	 */
+	public int  checkEnumIsExistAndActivityIsOpen(Player player,int copyType,int doubleType){
+		int multiple = 1;
+		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyType, doubleType);
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
+		multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;		
+		return multiple;
+	}
+	
+	
+	
 }
