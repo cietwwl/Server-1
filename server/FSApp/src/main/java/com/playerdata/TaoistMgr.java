@@ -48,8 +48,8 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 		if (result) {
 			// IEffectCfg old = taoistMagicEff.sample();
 			// IEffectCfg newVal = getEffects(record);
-			getEffects(record);
-			taoistMagicEff.fire(null);
+			Map<Integer, AttributeItem> effects = getEffects(record);
+			taoistMagicEff.fire(effects);
 			// if ((old == null && newVal != null) || !old.equals(newVal)) {
 			// taoistMagicEff.fire(newVal);
 			// }
