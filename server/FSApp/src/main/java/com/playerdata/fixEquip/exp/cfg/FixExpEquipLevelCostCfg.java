@@ -2,17 +2,15 @@ package com.playerdata.fixEquip.exp.cfg;
 
 
 
-public class FixExpEquipLevelCfg {
+public class FixExpEquipLevelCostCfg {
 
 	private String id;
 
 	private String planId;	
 	
 	private int level;
-	
-	private String attrData;
-	
-	private String precentAttrData;
+
+	private int expNeed;
 
 	public String getId() {
 		return id;
@@ -26,12 +24,8 @@ public class FixExpEquipLevelCfg {
 		return level;
 	}
 
-	public String getAttrData() {
-		return attrData;
-	}
-
-	public String getPrecentAttrData() {
-		return precentAttrData;
+	public int getExpNeed() {
+		return expNeed;
 	}
 	
 

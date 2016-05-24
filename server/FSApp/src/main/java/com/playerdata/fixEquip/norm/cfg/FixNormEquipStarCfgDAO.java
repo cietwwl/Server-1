@@ -25,25 +25,25 @@ public final class FixNormEquipStarCfgDAO extends CfgCsvDao<FixNormEquipStarCfg>
 	@Override
 	public Map<String, FixNormEquipStarCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/norm/FixNormEquipStarCfg.csv", FixNormEquipStarCfg.class);
-		parseNeedItemsAndGroupByParentId(cfgCacheMap);
+		parseNeedItemsAndGroupByPlanId(cfgCacheMap);
 		return cfgCacheMap;
 	}
 	
 
 
-	private void parseNeedItemsAndGroupByParentId(Map<String, FixNormEquipStarCfg> cfgCacheMap) {
+	private void parseNeedItemsAndGroupByPlanId(Map<String, FixNormEquipStarCfg> cfgCacheMap) {
 	
-		List<String> parentCfgList = new ArrayList<String>();
+		List<String> planIdList = new ArrayList<String>();
 		for (FixNormEquipStarCfg tmpCfg : cfgCacheMap.values()) {
 			parseNeedItems(tmpCfg);
-			String parentCfgId = tmpCfg.getParentCfgId();
-			if(!parentCfgList.contains(parentCfgId)){
-				parentCfgList.add(parentCfgId);
+			String planId = tmpCfg.getPlanId();
+			if(!planIdList.contains(planId)){
+				planIdList.add(planId);
 			}
 		}
 		
-		for (String pCfgId : parentCfgList) {
-			parentCfgLevelMap.put(pCfgId, getByParentCfgId(pCfgId));
+		for (String planId : planIdList) {
+			parentCfgLevelMap.put(planId, getByPlanId(planId));
 		}
 	}
 	
@@ -52,11 +52,11 @@ public final class FixNormEquipStarCfgDAO extends CfgCsvDao<FixNormEquipStarCfg>
 		tmpCfg.setItemsNeed(itemsNeed);
 	}
 	
-	private List<FixNormEquipStarCfg> getByParentCfgId(String parentCfgId){
+	private List<FixNormEquipStarCfg> getByPlanId(String parentCfgId){
 		List<FixNormEquipStarCfg> targetList = new ArrayList<FixNormEquipStarCfg>();
 		List<FixNormEquipStarCfg> allCfg = getAllCfg();
 		for (FixNormEquipStarCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
+			if(StringUtils.equals(tmpItem.getPlanId(), parentCfgId)){
 				targetList.add(tmpItem);
 			}
 		}
@@ -65,12 +65,12 @@ public final class FixNormEquipStarCfgDAO extends CfgCsvDao<FixNormEquipStarCfg>
 	}
 
 
-	public FixNormEquipStarCfg getByParentCfgIdAndStar(String parentCfgId, int star){
-		List<FixNormEquipStarCfg> allCfg = parentCfgLevelMap.get(parentCfgId);
+	public FixNormEquipStarCfg getByPlanIdAndStar(String planId, int star){
+		List<FixNormEquipStarCfg> allCfg = parentCfgLevelMap.get(planId);
 		FixNormEquipStarCfg target = null;
 		if(allCfg!=null){
 			for (FixNormEquipStarCfg tmpItem : allCfg) {
-				if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId) && tmpItem.getStar() == star){
+				if(StringUtils.equals(tmpItem.getPlanId(), planId) && tmpItem.getStar() == star){
 					target = tmpItem;
 				}
 			}

@@ -10,17 +10,19 @@ public class FixNormEquipStarCfg {
 
 	private String id;
 	//所属活动配置id
-	private String parentCfgId;	
+	private String planId;	
 	
 	private int star;	
 
 	private int levelNeed;
 	
-	private FixEquipCostType costType;
+	private FixEquipCostType upCostType;
 	
-	private int upCost;
+	private int upCount;
 	
-	private int downCost;
+	private FixEquipCostType downCostType;
+	
+	private int downCount;
 	
 	
 	//modelAId:count;modelBId:count
@@ -32,8 +34,9 @@ public class FixNormEquipStarCfg {
 		return id;
 	}
 
-	public String getParentCfgId() {
-		return parentCfgId;
+
+	public String getPlanId() {
+		return planId;
 	}
 
 
@@ -43,10 +46,6 @@ public class FixNormEquipStarCfg {
 
 	public int getLevelNeed() {
 		return levelNeed;
-	}
-
-	public FixEquipCostType getCostType() {
-		return costType;
 	}
 
 
@@ -63,14 +62,27 @@ public class FixNormEquipStarCfg {
 	}
 
 
-	public int getUpCost() {
-		return upCost;
+	public FixEquipCostType getUpCostType() {
+		return upCostType;
 	}
 
-	public int getDownCost() {
-		return downCost;
+
+	public int getUpCount() {
+		return upCount;
 	}
 
+
+	public FixEquipCostType getDownCostType() {
+		return downCostType;
+	}
+
+
+	public int getDownCount() {
+		return downCount;
+	}
+
+
+	
 	
 
 	

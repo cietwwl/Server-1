@@ -9,8 +9,8 @@ import com.playerdata.fixEquip.FixEquipCostType;
 public class FixExpEquipQualityCfg {
 
 	private String id;
-	//所属活动配置id
-	private String parentCfgId;	
+
+	private String planId;	
 	
 	private int quality;	
 
@@ -18,20 +18,20 @@ public class FixExpEquipQualityCfg {
 	
 	private FixEquipCostType costType;
 	
-	private int costCount;
-	
+	private int costCount;	
 	
 	//modelAId:count;modelBId:count
 	private String itemsNeedStr;
 	
 	private Map<Integer,Integer> itemsNeed = new HashMap<Integer,Integer>();
 	
+	private String attrData;
+	
+	private String precentAttrData;
+	
+	
 	public String getId() {
 		return id;
-	}
-
-	public String getParentCfgId() {
-		return parentCfgId;
 	}
 
 	public int getQuality() {
@@ -60,6 +60,18 @@ public class FixExpEquipQualityCfg {
 
 	public void setItemsNeed(Map<Integer, Integer> itemsNeed) {
 		this.itemsNeed = itemsNeed;
+	}
+
+	public String getPlanId() {
+		return planId;
+	}
+
+	public String getAttrData() {
+		return attrData;
+	}
+
+	public String getPrecentAttrData() {
+		return precentAttrData;
 	}
 
 	

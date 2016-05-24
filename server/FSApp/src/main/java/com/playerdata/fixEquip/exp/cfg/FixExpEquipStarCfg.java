@@ -9,18 +9,20 @@ import com.playerdata.fixEquip.FixEquipCostType;
 public class FixExpEquipStarCfg {
 
 	private String id;
-	//所属活动配置id
-	private String parentCfgId;	
+	
+	private String planId;	
 	
 	private int star;	
 
 	private int levelNeed;
 	
-	private FixEquipCostType costType;
+	private FixEquipCostType upCostType;
 	
-	private int upCost;
+	private int upCount;
 	
-	private int downCost;
+	private FixEquipCostType downCostType;
+	
+	private int downCount;
 	
 	
 	//modelAId:count;modelBId:count
@@ -32,11 +34,6 @@ public class FixExpEquipStarCfg {
 		return id;
 	}
 
-	public String getParentCfgId() {
-		return parentCfgId;
-	}
-
-
 	public int getStar() {
 		return star;
 	}
@@ -45,17 +42,7 @@ public class FixExpEquipStarCfg {
 		return levelNeed;
 	}
 
-	public FixEquipCostType getCostType() {
-		return costType;
-	}
 
-	public int getUpCost() {
-		return upCost;
-	}
-
-	public int getDownCost() {
-		return downCost;
-	}
 
 	public String getItemsNeedStr() {
 		return itemsNeedStr;
@@ -69,4 +56,26 @@ public class FixExpEquipStarCfg {
 		this.itemsNeed = itemsNeed;
 	}
 
+	public String getPlanId() {
+		return planId;
+	}
+
+	public FixEquipCostType getUpCostType() {
+		return upCostType;
+	}
+
+	public int getUpCount() {
+		return upCount;
+	}
+
+	public FixEquipCostType getDownCostType() {
+		return downCostType;
+	}
+
+	public int getDownCount() {
+		return downCount;
+	}
+
+
+	
 }

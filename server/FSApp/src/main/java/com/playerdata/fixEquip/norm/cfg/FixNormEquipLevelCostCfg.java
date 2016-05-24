@@ -1,23 +1,23 @@
 package com.playerdata.fixEquip.norm.cfg;
 
+import com.playerdata.fixEquip.FixEquipCostType;
 
 
-public class FixNormEquipLevelCfg {
+public class FixNormEquipLevelCostCfg {
 
 	private String id;
 	//所属活动配置id
 	private String planId;	
-	
 	private int level;
 	
+	private FixEquipCostType costType;
 	
-	private String attrData;
-	
-	private String precentAttrData;
+	private int costCount;
 
 	public String getId() {
 		return id;
-	}	
+	}
+
 
 	public String getPlanId() {
 		return planId;
@@ -27,15 +27,15 @@ public class FixNormEquipLevelCfg {
 		return level;
 	}
 
-	public String getAttrData() {
-		return attrData;
+	public FixEquipCostType getCostType() {
+		return costType;
 	}
 
-	public String getPrecentAttrData() {
-		return precentAttrData;
+	public int getCostCount() {
+		return costCount;
 	}
-
-
+	
+	
 	
 
 	

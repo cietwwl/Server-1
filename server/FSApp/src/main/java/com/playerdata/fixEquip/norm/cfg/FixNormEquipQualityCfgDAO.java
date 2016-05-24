@@ -25,25 +25,25 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 	@Override
 	public Map<String, FixNormEquipQualityCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/norm/FixNormEquipQualityCfg.csv", FixNormEquipQualityCfg.class);
-		parseNeedItemsAndGroupByParentId(cfgCacheMap);
+		parseNeedItemsAndGroupByPlanId(cfgCacheMap);
 		return cfgCacheMap;
 	}
 	
 
 
-	private void parseNeedItemsAndGroupByParentId(Map<String, FixNormEquipQualityCfg> cfgCacheMap) {
+	private void parseNeedItemsAndGroupByPlanId(Map<String, FixNormEquipQualityCfg> cfgCacheMap) {
 	
-		List<String> parentCfgList = new ArrayList<String>();
+		List<String> planIdList = new ArrayList<String>();
 		for (FixNormEquipQualityCfg tmpCfg : cfgCacheMap.values()) {
 			parseNeedItems(tmpCfg);
-			String parentCfgId = tmpCfg.getParentCfgId();
-			if(!parentCfgList.contains(parentCfgId)){
-				parentCfgList.add(parentCfgId);
+			String parentCfgId = tmpCfg.getPlanId();
+			if(!planIdList.contains(parentCfgId)){
+				planIdList.add(parentCfgId);
 			}
 		}
 		
-		for (String pCfgId : parentCfgList) {
-			parentCfgLevelMap.put(pCfgId, getByParentCfgId(pCfgId));
+		for (String planId : planIdList) {
+			parentCfgLevelMap.put(planId, getByPlanId(planId));
 		}
 	}
 	
@@ -55,11 +55,11 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 	}
 
 
-	private List<FixNormEquipQualityCfg> getByParentCfgId(String parentCfgId){
+	private List<FixNormEquipQualityCfg> getByPlanId(String planId){
 		List<FixNormEquipQualityCfg> targetList = new ArrayList<FixNormEquipQualityCfg>();
 		List<FixNormEquipQualityCfg> allCfg = getAllCfg();
 		for (FixNormEquipQualityCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
+			if(StringUtils.equals(tmpItem.getPlanId(), planId)){
 				targetList.add(tmpItem);
 			}
 		}
@@ -68,12 +68,12 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 	}
 
 
-	public FixNormEquipQualityCfg getByParentCfgIdAndQuality(String parentCfgId, int quality){
-		List<FixNormEquipQualityCfg> allCfg = parentCfgLevelMap.get(parentCfgId);
+	public FixNormEquipQualityCfg getByPlanIdAndQuality(String planId, int quality){
+		List<FixNormEquipQualityCfg> allCfg = parentCfgLevelMap.get(planId);
 		FixNormEquipQualityCfg target = null;
 		if(allCfg!=null){
 			for (FixNormEquipQualityCfg tmpItem : allCfg) {
-				if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId) && tmpItem.getQuality() == quality){
+				if(StringUtils.equals(tmpItem.getPlanId(), planId) && tmpItem.getQuality() == quality){
 					target = tmpItem;
 				}
 			}

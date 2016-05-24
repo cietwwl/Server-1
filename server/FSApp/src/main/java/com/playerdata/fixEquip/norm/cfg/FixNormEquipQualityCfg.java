@@ -10,7 +10,7 @@ public class FixNormEquipQualityCfg {
 
 	private String id;
 	//所属活动配置id
-	private String parentCfgId;	
+	private String planId;	
 	
 	private int quality;	
 
@@ -30,9 +30,10 @@ public class FixNormEquipQualityCfg {
 		return id;
 	}
 
-	public String getParentCfgId() {
-		return parentCfgId;
+	public String getPlanId() {
+		return planId;
 	}
+
 
 	public int getQuality() {
 		return quality;
