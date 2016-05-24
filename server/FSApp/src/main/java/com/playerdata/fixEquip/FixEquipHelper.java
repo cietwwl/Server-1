@@ -3,6 +3,8 @@ package com.playerdata.fixEquip;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 
@@ -20,14 +22,16 @@ public class FixEquipHelper {
 	
 	public static Map<Integer, Integer> parseNeedItems(String itemsNeedStr) {
 		 Map<Integer, Integer> itemsNeed = new HashMap<Integer, Integer>();
-		//modelAId:count;modelBId:count
-		String[] itemArray = itemsNeedStr.split(";");
-		for (String itemTmp : itemArray) {
-			String[] split = itemTmp.split(":");
-			int modelId = Integer.valueOf(split[0]) ;
-			int count = Integer.valueOf(split[1]) ;
-			itemsNeed.put(modelId, count);
-		}
+		 if(StringUtils.isNotBlank(itemsNeedStr)){
+			 //modelAId:count;modelBId:count
+			 String[] itemArray = itemsNeedStr.split(";");
+			 for (String itemTmp : itemArray) {
+				 String[] split = itemTmp.split(":");
+				 int modelId = Integer.valueOf(split[0]) ;
+				 int count = Integer.valueOf(split[1]) ;
+				 itemsNeed.put(modelId, count);
+			 }
+		 }
 		return itemsNeed;
 	}
 	

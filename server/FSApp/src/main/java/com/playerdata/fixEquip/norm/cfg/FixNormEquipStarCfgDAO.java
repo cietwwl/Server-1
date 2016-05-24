@@ -24,7 +24,7 @@ public final class FixNormEquipStarCfgDAO extends CfgCsvDao<FixNormEquipStarCfg>
 	
 	@Override
 	public Map<String, FixNormEquipStarCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/norm/FixNormEquipStarCfg.csv", FixNormEquipStarCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/FixNormEquipStarCfg.csv", FixNormEquipStarCfg.class);
 		parseNeedItemsAndGroupByPlanId(cfgCacheMap);
 		return cfgCacheMap;
 	}
