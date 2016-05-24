@@ -82,7 +82,7 @@
 			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyCountTypeService" />
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
-			     <entry key="MSG_MGCSECRET" value-ref="magicSecretService" />
+			     <entry key="MSG_MAGIC_SECRET" value-ref="magicSecretService" />
 			</map>
 		</property>
 	</bean>
