@@ -197,6 +197,7 @@ public class AccountLoginHandler {
 				newAccount.setChannelId(clientInfo.getChannelId());
 				ILog log = processRegLog(logType, phoneInfo, accountId, clientInfo);
 				response.setAccount(accountInfo);
+				account.setAccountId(accountId);
 				ZoneInfoCache lastZoneCfg = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
 				response.setLastZone(getZoneInfo(lastZoneCfg, account.isWhiteList()));
 

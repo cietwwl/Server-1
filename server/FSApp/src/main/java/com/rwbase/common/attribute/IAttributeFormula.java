@@ -23,9 +23,19 @@ public interface IAttributeFormula<T> {
 	 * @return
 	 */
 	public int recalculate(IAttributeExtracter extracter, AttributeType type);
-	
+
+	/**
+	 * 拆分属性成为一个百分比或者是固定值，这个需要自己选择
+	 * 
+	 * @param attributes
+	 * @param isRate 是否只拆分百分比的属性
+	 * @return
+	 */
+	public T convertOne(List<AttributeItem> attributes, boolean isRate);
+
 	/**
 	 * 转换成指定对象
+	 * 
 	 * @param result
 	 * @return
 	 */

@@ -6,7 +6,9 @@ public interface AttrDataIF {
 
 	public int getEnergy();
 
-	public int getAttack();
+	public int getPhysiqueAttack();
+	
+	public int getSpiritAttack();
 
 	public int getPhysiqueDef();
 
@@ -42,7 +44,7 @@ public interface AttrDataIF {
 
 	public int getLifeGrowUp();
 
-	public int getAttackGrowUp();
+	public int getpAttackGrowUp();
 
 	public int getPhysicqueDefGrowUp();
 

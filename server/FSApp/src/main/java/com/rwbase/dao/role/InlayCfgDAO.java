@@ -21,20 +21,21 @@ public class InlayCfgDAO extends CfgCsvDao<InlayCfg> {
 
 	@Override
 	public Map<String, InlayCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Inlay/InlayCfg.csv", InlayCfg.class);
+		Map<String, InlayCfg> readCsv2Map = CfgCsvHelper.readCsv2Map("Inlay/InlayCfg.csv", InlayCfg.class);
 
-		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
+		if (readCsv2Map != null && !readCsv2Map.isEmpty()) {
 
 			Map<String, InlayTemplate> inlayTmpMap = new HashMap<String, InlayTemplate>();
-			for (Entry<String, InlayCfg> e : cfgCacheMap.entrySet()) {
-				InlayTemplate tmp = new InlayTemplate(e.getValue());
-				inlayTmpMap.put(e.getKey(), tmp);
+			for (Entry<String, InlayCfg> e : readCsv2Map.entrySet()) {
+				e.getValue().initData();
+				// InlayTemplate tmp = new InlayTemplate(value);
+				// inlayTmpMap.put(e.getKey(), tmp);
 			}
 
 			this.inlayTmpMap = inlayTmpMap;
 		}
 
-		return cfgCacheMap;
+		return cfgCacheMap = readCsv2Map;
 	}
 
 	public InlayCfg getConfig(String roleId) {

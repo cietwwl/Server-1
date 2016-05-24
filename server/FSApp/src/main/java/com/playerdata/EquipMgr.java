@@ -44,9 +44,9 @@ public class EquipMgr extends IDataMgr implements EquipMgrIF {
 		equipItemHolder.regChangeCallBack(callBack);
 	}
 
-	public AttrData getTotalEquipAttrData() {
-		return equipItemHolder.toAttrData();
-	}
+	// public AttrData getTotalEquipAttrData() {
+	// return equipItemHolder.toAttrData();
+	// }
 
 	/**
 	 * 装备附灵

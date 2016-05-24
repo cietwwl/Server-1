@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.common.RandomMgr;
@@ -11,17 +12,19 @@ import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicHolder;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicRecord;
-import com.rwbase.dao.fashion.IEffectCfg;
+import com.rwbase.common.attribute.AttributeItem;
 import com.rwproto.TaoistMagicProtos.TaoistInfo;
 
-public class TaoistMgr extends RandomMgr implements PlayerEventListener,ITaoistMgr{
-	private StreamImpl<IEffectCfg> taoistMagicEff = new StreamImpl<IEffectCfg>();
+public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoistMgr {
+	private StreamImpl<Map<Integer, AttributeItem>> taoistMagicEff = new StreamImpl<Map<Integer, AttributeItem>>();
+
 	@Override
-	public IStream<IEffectCfg> getEff(){
+	public IStream<Map<Integer, AttributeItem>> getEff() {
 		return taoistMagicEff;
 	}
-	
+
 	private Player player;
+
 	@Override
 	public void notifyPlayerCreated(Player player) {
 		this.player = player;
@@ -41,22 +44,27 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener,ITaoistM
 	public boolean setLevel(int tid, int level) {
 		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
-		boolean result = holder.setLevel(record,tid, level);
-		if (result){
-			IEffectCfg old = taoistMagicEff.sample();
-			IEffectCfg newVal = getEffects(record);
-			//TODO IEffectCfg的实现应该重载object.equals方法
-			if ((old==null && newVal !=null) || !old.equals(newVal)){
-				taoistMagicEff.fire(newVal);
-			}
+		boolean result = holder.setLevel(record, tid, level);
+		if (result) {
+			// IEffectCfg old = taoistMagicEff.sample();
+			// IEffectCfg newVal = getEffects(record);
+			Map<Integer, AttributeItem> effects = getEffects(record);
+			taoistMagicEff.fire(effects);
+			// if ((old == null && newVal != null) || !old.equals(newVal)) {
+			// taoistMagicEff.fire(newVal);
+			// }
 		}
 		return result;
 	}
-	
-	private IEffectCfg getEffects(TaoistMagicRecord record){
-		Iterable<Entry<Integer, Integer>> lst = record.getAll();
-		IEffectCfg result = TaoistMagicCfgHelper.getInstance().getEffect(lst);
-		return result;
+
+	// private IEffectCfg getEffects(TaoistMagicRecord record){
+	// Iterable<Entry<Integer, Integer>> lst = record.getAll();
+	// IEffectCfg result = TaoistMagicCfgHelper.getInstance().getEffect(lst);
+	// return result;
+	// }
+
+	private Map<Integer, AttributeItem> getEffects(TaoistMagicRecord record) {
+		return TaoistMagicCfgHelper.getInstance().getEffectAttr(record.getAll());
 	}
 
 	@Override
@@ -64,7 +72,7 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener,ITaoistM
 		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
 		Iterable<Entry<Integer, Integer>> lst = record.getAll();
-		ArrayList<TaoistInfo> result = new ArrayList<TaoistInfo>(); 
+		ArrayList<TaoistInfo> result = new ArrayList<TaoistInfo>();
 		for (Entry<Integer, Integer> entry : lst) {
 			TaoistInfo.Builder item = TaoistInfo.newBuilder();
 			item.setTaoistID(entry.getKey());
