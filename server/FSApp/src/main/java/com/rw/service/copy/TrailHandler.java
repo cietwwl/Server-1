@@ -6,13 +6,18 @@ import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
+import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
@@ -52,13 +57,20 @@ public class TrailHandler {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
 		
-		
+		List<? extends ItemInfo> dropItems = null;
+		try {
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+		} catch (DataAccessTimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String rewardInfoActivity="";
-		rewardInfoActivity = PvECommonHelper.getCopyRewardsInfo(player, copyCfg);
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
+		rewardInfoActivity = BILogTemplateHelper.getString(list);
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity,0);
 		}
 		if(!isWin){
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();

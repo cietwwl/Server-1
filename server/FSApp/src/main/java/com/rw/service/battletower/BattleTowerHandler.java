@@ -20,6 +20,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -138,7 +139,7 @@ public class BattleTowerHandler {
 			int needTime = (int) TimeUnit.SECONDS.toMillis((highestFloor - sweepStartFloor + 1) * theSweepTime4PerFloor);// 扫荡完成需要的时间
 			if (sweepStartTime + needTime < now) {// 已经完成了，发送奖励
 				List<Integer> groupIdList = new ArrayList<Integer>();
-				List<RewardInfoMsg> reward = reward(player, sweepStartFloor, highestFloor, tableBattleTower, groupIdList);// 收到的奖励信息
+				List<RewardInfoMsg> reward = reward(player, sweepStartFloor, highestFloor, tableBattleTower, groupIdList,needTime);// 收到的奖励信息
 
 				// 更新数据
 				tableBattleTower.setSweepStartTime(0);
@@ -651,7 +652,7 @@ public class BattleTowerHandler {
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
 		int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(startFloor);
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER,copyId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER,copyId,0);
 		commonRsp.setConfig(config);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
@@ -689,7 +690,7 @@ public class BattleTowerHandler {
 		long now = System.currentTimeMillis();
 		int sweepStartFloor = tableBattleTower.getSweepStartFloor();
 		int highestFloor = tableBattleTower.getHighestFloor();
-		long needTime = TimeUnit.SECONDS.toMillis((highestFloor - sweepStartFloor + 1) * theSweepTime4PerFloor);
+		int needTime = (int)TimeUnit.SECONDS.toMillis((highestFloor - sweepStartFloor + 1) * theSweepTime4PerFloor);
 
 		// 检查时间是否已经到了完成时间
 		if (tableBattleTower.getSweepStartTime() + needTime > now) {
@@ -698,7 +699,7 @@ public class BattleTowerHandler {
 		}
 
 		List<Integer> groupIdList = new ArrayList<Integer>();// 可以获取奖励的组Id
-		List<RewardInfoMsg> reward = reward(player, sweepStartFloor, highestFloor, tableBattleTower, groupIdList);
+		List<RewardInfoMsg> reward = reward(player, sweepStartFloor, highestFloor, tableBattleTower, groupIdList,needTime);
 		rsp.addAllRewardInfoMsg(reward);
 
 		// 更新数据
@@ -714,10 +715,6 @@ public class BattleTowerHandler {
 		UserEventMgr.getInstance().BattleTower(player, highestFloor);
 		dao.update(tableBattleTower);
 		
-		String strOfActivityLog = null;
-		strOfActivityLog = BILogTemplateHelper.getString(reward);
-		int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(highestFloor);
-		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, true,(int)needTime,strOfActivityLog);
 		// 发送协议
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
@@ -958,7 +955,7 @@ public class BattleTowerHandler {
 		tableBattleTower.setResult(false);// 当前还没有结果
 		
 		int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(floor);
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER,copyId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER,copyId,0);
 		
 		
 		
@@ -1152,10 +1149,10 @@ public class BattleTowerHandler {
 					
 				}
 				
-				String strOfActivityLog = null;
 				int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(floor);
-				strOfActivityLog = BILogTemplateHelper.getString(itemInfoList);
-				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, result,0,strOfActivityLog);
+				List<BilogItemInfo> list = BilogItemInfo.fromItemList(itemInfoList);
+				String  strOfActivityLog = BILogTemplateHelper.getString(list);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, result,0,strOfActivityLog,0);
 			}
 			
 			
@@ -1263,7 +1260,7 @@ public class BattleTowerHandler {
 
 		tableBattleTower.setChallengeBossId(bossId);
 		dao.update(tableBattleTower);
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER_BOSS,bossId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER_BOSS,bossId,0);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
 
@@ -1316,10 +1313,10 @@ public class BattleTowerHandler {
 		BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
 		List<ItemInfo> itemInfoList = rewardCfgDao.getRanRewardItem(bossCfg.getDropIdArr(), player);
 		
-		String strOfActivityLog = null;
 		boolean result = req.getResult();
-		strOfActivityLog = BILogTemplateHelper.getString(itemInfoList);
-		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER_BOSS, bossId, result,0,strOfActivityLog);
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(itemInfoList);
+		String strOfActivityLog = BILogTemplateHelper.getString(list);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER_BOSS, bossId, result,0,strOfActivityLog,0);
 		
 		if (!result) {// 失败了，就直接清空缓存数据
 			tableBattleTower.setChallengeBossId(0);
@@ -1383,7 +1380,7 @@ public class BattleTowerHandler {
 	 * @param tableBattleTower
 	 * @return
 	 */
-	private static List<RewardInfoMsg> reward(Player player, int sweepStartFloor, int highestFloor, TableBattleTower tableBattleTower, List<Integer> groupIdList) {
+	private static List<RewardInfoMsg> reward(Player player, int sweepStartFloor, int highestFloor, TableBattleTower tableBattleTower, List<Integer> groupIdList,int needtime) {
 		// 获取要奖励的物品
 		BattleTowerFloorCfgDao cfgDao = BattleTowerFloorCfgDao.getCfgDao();
 		// List<Integer> groupIdList = new ArrayList<Integer>();// 可以获取奖励的组Id
@@ -1426,6 +1423,13 @@ public class BattleTowerHandler {
 					rewardItemMap.put(itemInfo.getItemID(), itemInfo.getItemNum() + hasValue.intValue());
 				}
 			}
+			List<BilogItemInfo> list = BilogItemInfo.fromItemList(ranRewardItem);
+			String strOfActivityLog = BILogTemplateHelper.getString(list);
+			int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(highestFloor);
+		
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, true,(int)needtime,strOfActivityLog,0);
+			
+			
 		}
 
 		List<RewardInfoMsg> rewardList = new ArrayList<RewardInfoMsg>();
@@ -1442,7 +1446,11 @@ public class BattleTowerHandler {
 			} else {
 				player.getItemBagMgr().addItem(key, num);
 			}
-
+			
+		
+			
+			
+			
 			RewardInfoMsg.Builder rewardInfoMsg = RewardInfoMsg.newBuilder();
 			rewardInfoMsg.setType(key);
 			rewardInfoMsg.setCount(num);

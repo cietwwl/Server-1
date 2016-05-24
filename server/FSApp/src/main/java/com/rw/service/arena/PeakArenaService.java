@@ -17,7 +17,7 @@ public class PeakArenaService implements FsService {
 		ByteString result = null;
 		try {
 			MsgArenaRequest msgArenaRequest = MsgArenaRequest.parseFrom(request.getBody().getSerializedContent());
-			eArenaType arenaType = msgArenaRequest.getArenaType();
+			eArenaType arenaType = msgArenaRequest.getArenaType();			
 			switch (arenaType) {
 			case GET_DATA:
 				result = peakArenaHandler.getPeakArenaData(msgArenaRequest, player);

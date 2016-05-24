@@ -8,6 +8,8 @@ import com.playerdata.readonly.FresherActivityMgrIF;
 import com.rw.manager.GameManager;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
@@ -76,7 +78,10 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		if (item.isGiftTaken() || item.isClosed()) {
 			return "当前活动已经领取奖励并结束!";
 		}
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE,0,cfgId);
 		fresherActivityChecker.achieveActivityReward(player, cfgId, fresherActivityCfg.geteType(), fresherActivityItemHolder);
+		
+		
 		return null;
 	}
 

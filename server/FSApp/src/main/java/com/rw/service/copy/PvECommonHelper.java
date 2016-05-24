@@ -51,19 +51,19 @@ public class PvECommonHelper {
 		}
 		return listUpHero;
 	}
-	public static String getCopyRewardsInfo(Player player, CopyCfg copyCfg){
-		String rewardInfoActivity="";
-		int levelId = copyCfg.getLevelID();
-		List<? extends ItemInfo> dropItems = null;
-		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
-		} catch (DataAccessTimeoutException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		rewardInfoActivity = JsonUtil.writeValue(dropItems);
-		return rewardInfoActivity;
-	}
+//	public static String getCopyRewardsInfo(Player player, CopyCfg copyCfg){
+//		String rewardInfoActivity="";
+//		int levelId = copyCfg.getLevelID();
+//		List<? extends ItemInfo> dropItems = null;
+//		try {
+//			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+//		} catch (DataAccessTimeoutException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		rewardInfoActivity = JsonUtil.writeValue(dropItems);
+//		return rewardInfoActivity;
+//	}
 	
 	
 	public static void addCopyRewards(Player player, CopyCfg copyCfg) {

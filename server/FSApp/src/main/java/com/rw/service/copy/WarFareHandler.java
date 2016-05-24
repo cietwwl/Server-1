@@ -14,6 +14,8 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.unendingwar.UnendingWarHandler;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -97,10 +99,10 @@ public class WarFareHandler {
 		table.setLastChallengeTime(System.currentTimeMillis());
 		table.setNum(table.getNum() + 1);
 		
-		
-		String rewardInfoActivity=getWarFareRewardsInfo(addList);
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(addList);
+		String rewardInfoActivity = BILogTemplateHelper.getString(list);
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_WARFARE, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_WARFARE, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
 		}
 				
 		// 战斗结束，推送pve消息给前端
@@ -108,16 +110,6 @@ public class WarFareHandler {
 		return copyResponse.build().toByteString();
 	}
 	
-	private String getWarFareRewardsInfo(List<? extends ItemInfo> addList){
-		StringBuilder rewardInfoActivity=new StringBuilder();
-		rewardInfoActivity.append("");
-		for (int i = 0; i < addList.size(); i++) {
-			int itemId = addList.get(i).getItemID();
-			int itemNum = addList.get(i).getItemNum();
-			String strItemInfo = itemId + "," + itemNum;
-			rewardInfoActivity.append(strItemInfo);
-		}
-		return rewardInfoActivity.toString();
-	}
+
 	
 }

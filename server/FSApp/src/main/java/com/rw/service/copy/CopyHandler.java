@@ -22,6 +22,8 @@ import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
 import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreConditionType;
@@ -82,7 +84,7 @@ public class CopyHandler {
 			break;
 
 		default:
-			// 副本战斗结算
+			// 副本万仙战斗结算
 			result = copyBattleClear(player, copyRequest);
 			break;
 		}
@@ -109,10 +111,18 @@ public class CopyHandler {
 		
 		
 		String rewardInfoActivity="";
-		rewardInfoActivity = PvECommonHelper.getCopyRewardsInfo(player, copyCfg);
+		List<? extends ItemInfo> dropItems = null;
+		try {
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+		} catch (DataAccessTimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
+		rewardInfoActivity = BILogTemplateHelper.getString(list);
 		
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
 		}		
 		if(!isWin){
 			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
@@ -261,15 +271,15 @@ public class CopyHandler {
 		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(),copyCfg.getLevelType(),copyRecord.isFirst(),eBILogCopyEntrance.Empty);
 		
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD,copyCfg.getLevelID());
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD,copyCfg.getLevelID(),0);
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG,copyCfg.getLevelID());
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG,copyCfg.getLevelID(),0);
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_CELESTIAL,copyCfg.getLevelID());
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_CELESTIAL,copyCfg.getLevelID(),0);
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_WARFARE,copyCfg.getLevelID());
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_WARFARE,copyCfg.getLevelID(),0);
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER,copyCfg.getLevelID());
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER,copyCfg.getLevelID(),0);
 		}
 		
 		return copyResponse.build().toByteString();

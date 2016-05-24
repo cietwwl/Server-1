@@ -9,6 +9,10 @@ import java.util.TreeMap;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.sign.ReSignCfgDAO;
 import com.rwbase.dao.sign.SignCfgDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
@@ -114,6 +118,7 @@ public class SignMgr implements PlayerEventListener {
 		SignCfg signCfg = (SignCfg) SignCfgDAO.getInstance().getCfgById(signId);
 		SignData signData = getSignData(signId); // 获取签到记录...
 		if (signData.isOpen()) {
+			boolean isResign = false;
 			if (signData.getLastSignDate() == null) // 开放并且没有签到过,有可能是补签有可能是正常签到...
 			{
 				if (signData.isResign()) // 如果是补签则需要扣除钻石...
@@ -125,6 +130,7 @@ public class SignMgr implements PlayerEventListener {
 						return;
 					} else {
 						player.getUserGameDataMgr().addGold(-reSignCfg.getDiamondNum());
+						isResign = true;
 						signData.setResign(false);
 
 						signDataHolder.setCurrentResignCount(signDataHolder.getCurrentResignCount() + 1);
@@ -146,6 +152,19 @@ public class SignMgr implements PlayerEventListener {
 					GameLog.debug("非法请求");
 				}
 			}
+			
+			
+			List<BilogItemInfo> list = BilogItemInfo.fromSignCfg(signCfg);
+			String rewardInfoActivity = BILogTemplateHelper.getString(list);
+			
+			if(isResign){
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.RETROACTIVE,0,0);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.RETROACTIVE, 0, true, 0, rewardInfoActivity,0);
+			}else{
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SIGN_IN,0,0);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SIGN_IN, 0, true, 0, rewardInfoActivity,0);
+			}
+			
 		} else {
 			GameLog.debug("未开放");
 		}
@@ -200,6 +219,7 @@ public class SignMgr implements PlayerEventListener {
 			// signCfg.getItemNum());
 			sendReward(signCfg.getItemID(), signCfg.getItemNum());
 		}
+		
 		// } else
 		// // 英雄整卡...
 		// {

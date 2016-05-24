@@ -9,6 +9,12 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.task.DailyActivityCfgDAO;
+import com.rwbase.dao.task.pojo.DailyActivityCfg;
+import com.rwbase.dao.task.pojo.DailyActivityCfgEntity;
+
 public class BILogTemplateHelper {
 
 	
@@ -138,12 +144,102 @@ public class BILogTemplateHelper {
 		
 	}
 	
-	/**将传来的奖励数据统一转为银汉可识别的格式*/
-	public static String getString(Object obj){
-		
-		
-		return "";
+	/**将传来的奖励数据统一转为银汉可识别的格式
+	 * @param class1 */
+	public static String getString(List<BilogItemInfo> list){
+		StringBuilder str = new StringBuilder();
+		int num = list.size();
+		for(BilogItemInfo subitem : list){
+			str.append(subitem.getItemId()).append("@").append(subitem.getNum());
+			if(--num >0){
+				str.append("&");
+			}			
+		}		
+		return str.toString();		
 	}
+	
+	/**
+	 * 根据传进来的日常任务id返回银汉序列的活动code
+	 * */
+	public static BIActivityCode getByDailyTaskId(int taskid){
+		BIActivityCode code = null;
+		DailyActivityCfgEntity entity = DailyActivityCfgDAO.getInstance().getCfgEntity(taskid);
+		DailyActivityCfg cfg = entity.getCfg();
+		int type = cfg.getTaskType();
+		
+		switch (type) {
+		case DailyActivityType.FS_Lanch:
+			code = BIActivityCode.DAILY_TASK_FS_Lanch;
+			break;
+		case DailyActivityType.FS_Dinner:
+			code = BIActivityCode.DAILY_TASK_FS_Dinner;
+			break;
+		case DailyActivityType.FS_Supper:
+			code = BIActivityCode.DAILY_TASK_FS_Supper;
+			break;
+		case DailyActivityType.Dup_Normal:
+			code = BIActivityCode.DAILY_TASK_Dup_Normal;
+			break;	
+		case DailyActivityType.Dup_Elite:
+			code = BIActivityCode.DAILY_TASK_Dup_Elite;
+			break;
+		case DailyActivityType.Gold_Point:
+			code = BIActivityCode.DAILY_TASK_Gold_Point;
+			break;
+		case DailyActivityType.Hero_SkillUpgrade:
+			code = BIActivityCode.DAILY_TASK_Hero_SkillUpgrade;
+			break;
+		case DailyActivityType.Altar:
+			code = BIActivityCode.DAILY_TASK_Altar;
+			break;	
+			
+		case DailyActivityType.Hero_Strength:
+			code = BIActivityCode.DAILY_TASK_Hero_Strength;
+			break;
+		case DailyActivityType.Arena:
+			code = BIActivityCode.DAILY_TASK_Arena;
+			break;
+		case DailyActivityType.Trial_JBZD:
+			code = BIActivityCode.DAILY_TASK_Trial_JBZD;
+			break;
+		case DailyActivityType.Trial2:
+			code = BIActivityCode.DAILY_TASK_Trial2;
+			break;	
+		case DailyActivityType.Tower:
+			code = BIActivityCode.DAILY_TASK_Tower;
+			break;
+		case DailyActivityType.Power:
+			code = BIActivityCode.DAILY_TASK_Power;
+			break;
+		case DailyActivityType.UNENDINGWAR:
+			code = BIActivityCode.DAILY_TASK_UNENDINGWAR;
+			break;
+		case DailyActivityType.CONST:
+			code = BIActivityCode.DAILY_TASK_CONST;
+			break;		
+		case DailyActivityType.Trial_LQSG:
+			code = BIActivityCode.DAILY_TASK_Trial_LQSG;
+			break;
+		case DailyActivityType.HSQJ:
+			code = BIActivityCode.DAILY_TASK_HSQJ;
+			break;
+		case DailyActivityType.LOGIN_DAY:
+			code = BIActivityCode.DAILY_TASK_LOGIN_DAY;
+			break;
+		case DailyActivityType.BREAKFAST:
+			code = BIActivityCode.DAILY_TASK_BREAKFAST;
+			break;					
+		default:
+			break;
+		}
+		
+		
+		
+		
+		return code;
+	}
+	
+	
 	
 	
 	public static void main(String[] args) {

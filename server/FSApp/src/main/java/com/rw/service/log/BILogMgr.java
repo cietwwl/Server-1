@@ -51,6 +51,8 @@ import com.rw.service.log.template.ZoneLoginLogTemplate;
 import com.rw.service.log.template.ZoneLogoutLogTemplate;
 import com.rw.service.log.template.ZoneRegLogTemplate;
 import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
+import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.gameworld.GameWorldFactory;
 
@@ -239,25 +241,47 @@ public class BILogMgr {
 	 * @param player
 	 * @param activityEntry 活动入口
 	 * @param activityCode  活动code
+	 * @param severBegin  为开服活动时传入的子参数
 	 */
-	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode,int copyLevelId) {
+	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode,int copyLevelId,int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		if(activityEntry != null){
 			moreInfo.put("activityEntry", "" + activityEntry.getEntry());
 		}
-		moreInfo.put("activityCode", "" + activityCode.getCode());
+		
+		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
+			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
+			moreInfo.put("activityCode", "" + fresherActivityCfg.getActivityCode());
+		}else{
+			moreInfo.put("activityCode", "" + activityCode.getCode());
+		}
 		moreInfo.put("copyId", "" + copyLevelId);
 		moreInfo.put("result", "1");
 
 		logPlayer(eBILogType.ActivityBegin, player, moreInfo);
 	}
-
-	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int copyLevelId,boolean isWin,int activityTime,String rewardinfoactivity) {
+	/**
+	 * 
+	 * @param player
+	 * @param activityEntry 入口id
+	 * @param activityCode  活动code
+	 * @param copyLevelId   副本id
+	 * @param isWin         是否成功
+	 * @param activityTime  耗时
+	 * @param rewardinfoactivity  奖励文字
+	 * @param severBegin  为开服活动时传入的子参数
+	 */
+	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int copyLevelId,boolean isWin,int activityTime,String rewardinfoactivity,int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		if(activityEntry != null){
 			moreInfo.put("activityEntry", "" + activityEntry.getEntry());
 		}
-		moreInfo.put("activityCode", "" + activityCode.getCode());
+		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
+			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
+			moreInfo.put("activityCode", "" + fresherActivityCfg.getActivityCode());
+		}else{
+			moreInfo.put("activityCode", "" + activityCode.getCode());
+		}
 		moreInfo.put("copyId", "" + copyLevelId);
 		moreInfo.put("activityTime", "" + activityTime);
 		moreInfo.put("result", "1");

@@ -11,6 +11,10 @@ import com.playerdata.Player;
 import com.playerdata.TowerMgr;
 import com.playerdata.army.ArmyInfo;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
@@ -415,8 +419,12 @@ public class TowerHandler {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
 		}
-
+		
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER_GETREWARDS,0,0);
 		String totalArardStr = towerMgr.getAwardByFloor(player, currTowerId);// 奖品数据字符串
+		List<BilogItemInfo> list = BilogItemInfo.fromStr(totalArardStr);
+		String rewardInfoActivity = BILogTemplateHelper.getString(list);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER_GETREWARDS, 0, true, 0, rewardInfoActivity, 0);
 		if (totalArardStr.length() > 0) {
 			response.setAwardListStr(totalArardStr);
 			response.setTowerResultType(eTowerResultType.TOWER_SUCCESS);

@@ -8,10 +8,13 @@ import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
 import com.playerdata.readonly.CopyLevelRecordIF;
+import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
@@ -55,10 +58,19 @@ public class CelestialHandler {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
 		String rewardInfoActivity="";
-		rewardInfoActivity = getCelestialRewardsInfo(player, copyRequest, levelId);
+		List<? extends ItemInfo> listItemBattle = null;
+		try {
+			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+		} catch (DataAccessTimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(listItemBattle);
+		rewardInfoActivity = BILogTemplateHelper.getString(list);
 		
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
 		}
 		if(!isWin){			
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
@@ -88,28 +100,28 @@ public class CelestialHandler {
 		return copyResponse.build().toByteString();
 	}
 	
-	private String getCelestialRewardsInfo(Player player, MsgCopyRequest copyRequest, int levelId){
-		StringBuilder rewardInfoActivity=new StringBuilder();
-		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
-		List<? extends ItemInfo> listItemBattle = null;
-		try {
-			//DropItemManager.getInstance().pretreatDrop(player, copyCfg);
-			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		if (listItemBattle != null) {
-			for (ItemInfo item : listItemBattle) {
-				int itemId = item.getItemID();
-				int itemNum = item.getItemNum();
-				if (player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum())) {
-					String strItemInfo = itemId + "," + itemNum+";";
-					rewardInfoActivity.append(strItemInfo);
-				}
-			}
-		} 
-		return rewardInfoActivity.toString();
-	}
+//	private String getCelestialRewardsInfo(Player player, MsgCopyRequest copyRequest, int levelId){
+//		StringBuilder rewardInfoActivity=new StringBuilder();
+//		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
+//		List<? extends ItemInfo> listItemBattle = null;
+//		try {
+//			//DropItemManager.getInstance().pretreatDrop(player, copyCfg);
+//			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
+//		if (listItemBattle != null) {
+//			for (ItemInfo item : listItemBattle) {
+//				int itemId = item.getItemID();
+//				int itemNum = item.getItemNum();
+//				if (player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum())) {
+//					String strItemInfo = itemId + "," + itemNum+";";
+//					rewardInfoActivity.append(strItemInfo);
+//				}
+//			}
+//		} 
+//		return rewardInfoActivity.toString();
+//	}
 	
 	
 	
