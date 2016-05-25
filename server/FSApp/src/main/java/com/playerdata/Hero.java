@@ -402,13 +402,11 @@ public class Hero implements HeroIF {
 	}
 
 	public FixNormEquipMgr getFixNormEquipMgr() {
-//		return m_FixNormEquipMgr;
-		return null;
+		return m_FixNormEquipMgr;
 	}
 
 	public FixExpEquipMgr getFixExpEquipMgr() {
-//		return m_FixExpEquipMgr;
-		return null;
+		return m_FixExpEquipMgr;
 	}
 
 	
