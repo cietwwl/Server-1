@@ -34,9 +34,10 @@ public final class FixNormEquipLevelCfgDAO extends CfgCsvDao<FixNormEquipLevelCf
 	
 		List<String> planIdList = new ArrayList<String>();
 		for (FixNormEquipLevelCfg tmpCfg : cfgCacheMap.values()) {
-			String parentCfgId = tmpCfg.getPlanId();
-			if(!planIdList.contains(parentCfgId)){
-				planIdList.add(parentCfgId);
+			tmpCfg.initData();
+			String planId = tmpCfg.getPlanId();
+			if(!planIdList.contains(planId)){
+				planIdList.add(planId);
 			}
 		}
 		

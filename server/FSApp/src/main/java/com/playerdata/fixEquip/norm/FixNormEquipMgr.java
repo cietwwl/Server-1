@@ -1,6 +1,7 @@
 package com.playerdata.fixEquip.norm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +10,12 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.fixEquip.FixEquipResult;
+import com.playerdata.fixEquip.cfg.FixEquipCfg;
+import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfg;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO;
+import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfg;
+import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfg;
@@ -19,6 +24,8 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
+import com.rwbase.common.attribute.AttributeItem;
+import com.rwbase.common.attribute.AttributeUtils;
 
 
 public class FixNormEquipMgr {
@@ -58,6 +65,30 @@ public class FixNormEquipMgr {
 	public void synAllData(Player player, Hero hero){
 		fixNormEquipDataItemHolder.synAllData(player, hero);
 	}
+	
+	public List<AttributeItem> toAttrItems(String ownerId){
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
+		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
+		for (FixNormEquipDataItem fixNormEquipDataItem : itemList) {
+			String cfgId = fixNormEquipDataItem.getCfgId();
+			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(cfgId);
+			
+
+			FixNormEquipLevelCfg curLevelCfg = FixNormEquipLevelCfgDAO.getInstance().getByPlanIdAndLevel(equipCfg.getLevelPlanId(), fixNormEquipDataItem.getLevel());
+			
+			AttributeUtils.calcAttribute(curLevelCfg.getAttrDataMap(),  curLevelCfg.getPrecentAttrDataMap(), attrMap );
+			
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(equipCfg.getQualityPlanId(), fixNormEquipDataItem.getQuality());
+			AttributeUtils.calcAttribute(curQualityCfg.getAttrDataMap(),  curQualityCfg.getPrecentAttrDataMap(), attrMap );
+			
+			FixNormEquipStarCfg curStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(equipCfg.getStarPlanId(), fixNormEquipDataItem.getStar());
+			AttributeUtils.calcAttribute(curStarCfg.getAttrDataMap(),  curStarCfg.getPrecentAttrDataMap(), attrMap );
+			
+		}
+		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
+		return attrItemList;
+	}
+	
 	
 
 	public FixEquipResult levelUp(Player player, String ownerId, String itemId){

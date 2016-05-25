@@ -35,6 +35,7 @@ public final class FixExpEquipStarCfgDAO extends CfgCsvDao<FixExpEquipStarCfg> {
 	
 		List<String> planIdList = new ArrayList<String>();
 		for (FixExpEquipStarCfg tmpCfg : cfgCacheMap.values()) {
+			tmpCfg.initData();
 			parseNeedItems(tmpCfg);
 			String parentCfgId = tmpCfg.getPlanId();
 			if(!planIdList.contains(parentCfgId)){

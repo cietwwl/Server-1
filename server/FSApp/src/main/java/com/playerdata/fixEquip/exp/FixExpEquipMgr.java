@@ -15,6 +15,8 @@ import com.playerdata.fixEquip.cfg.FixEquipCfg;
 import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfg;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfg;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfgDAO;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCostCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCostCfgDAO;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfg;
@@ -23,6 +25,8 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
+import com.rwbase.common.attribute.AttributeItem;
+import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.common.enu.eConsumeTypeDef;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwproto.FixEquipProto.ExpLevelUpReqParams;
@@ -31,7 +35,7 @@ import com.rwproto.FixEquipProto.SelectItem;
 
 public class FixExpEquipMgr {
 	
-	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder;
+	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
 
 	public boolean newHeroInit(Player player, String ownerId, int modelId ){
 		List<FixExpEquipDataItem> equipItemList = new ArrayList<FixExpEquipDataItem>();
@@ -66,7 +70,30 @@ public class FixExpEquipMgr {
 	}
 	
 
-public FixEquipResult levelUp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams){
+	public List<AttributeItem> toAttrItems(String ownerId){
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
+		for (FixExpEquipDataItem fixExpEquipDataItem : itemList) {
+			String cfgId = fixExpEquipDataItem.getCfgId();
+			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(cfgId);
+			
+
+			FixExpEquipLevelCfg curLevelCfg = FixExpEquipLevelCfgDAO.getInstance().getByPlanIdAndLevel(equipCfg.getLevelPlanId(), fixExpEquipDataItem.getLevel());
+			
+			AttributeUtils.calcAttribute(curLevelCfg.getAttrDataMap(),  curLevelCfg.getPrecentAttrDataMap(), attrMap );
+			
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(equipCfg.getQualityPlanId(), fixExpEquipDataItem.getQuality());
+			AttributeUtils.calcAttribute(curQualityCfg.getAttrDataMap(),  curQualityCfg.getPrecentAttrDataMap(), attrMap );
+			
+			FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(equipCfg.getStarPlanId(), fixExpEquipDataItem.getStar());
+			AttributeUtils.calcAttribute(curStarCfg.getAttrDataMap(),  curStarCfg.getPrecentAttrDataMap(), attrMap );
+			
+		}
+		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
+		return attrItemList;
+	}
+	
+	public FixEquipResult levelUp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams){
 		
 		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
 		FixEquipResult result = checkLevel(player, ownerId, dataItem);

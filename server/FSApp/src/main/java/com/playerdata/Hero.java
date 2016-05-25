@@ -57,7 +57,7 @@ public class Hero implements HeroIF {
 		m_SkillMgr.initSkill(heroCfg);
 		
 		m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
-		
+		m_FixExpEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
 	}
 	
 	public Hero(Player pPlayer, eRoleType roleTypeP, String roleUUId) {

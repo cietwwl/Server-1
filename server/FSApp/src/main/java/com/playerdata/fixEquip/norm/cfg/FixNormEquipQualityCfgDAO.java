@@ -35,6 +35,7 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 	
 		List<String> planIdList = new ArrayList<String>();
 		for (FixNormEquipQualityCfg tmpCfg : cfgCacheMap.values()) {
+			tmpCfg.initData();
 			parseNeedItems(tmpCfg);
 			String parentCfgId = tmpCfg.getPlanId();
 			if(!planIdList.contains(parentCfgId)){

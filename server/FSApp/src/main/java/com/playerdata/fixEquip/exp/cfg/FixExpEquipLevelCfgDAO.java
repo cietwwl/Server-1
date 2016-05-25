@@ -34,14 +34,15 @@ public final class FixExpEquipLevelCfgDAO extends CfgCsvDao<FixExpEquipLevelCfg>
 	
 		List<String> planIdList = new ArrayList<String>();
 		for (FixExpEquipLevelCfg tmpCfg : cfgCacheMap.values()) {
-			String parentCfgId = tmpCfg.getPlanId();
-			if(!planIdList.contains(parentCfgId)){
-				planIdList.add(parentCfgId);
+			tmpCfg.initData();
+			String planId = tmpCfg.getPlanId();
+			if(!planIdList.contains(planId)){
+				planIdList.add(planId);
 			}
 		}
 		
-		for (String pCfgId : planIdList) {
-			parentCfgLevelMap.put(pCfgId, getByPlanId(pCfgId));
+		for (String planId : planIdList) {
+			parentCfgLevelMap.put(planId, getByPlanId(planId));
 		}
 	}
 	
