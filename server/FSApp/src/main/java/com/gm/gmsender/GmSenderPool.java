@@ -28,8 +28,7 @@ public class GmSenderPool {
 		
 		Object borrowObject = null;
 		try {
-			borrowObject = new GmSender(senderConfig);
-//			borrowObject = senderPool.borrowObject();
+			borrowObject = senderPool.borrowObject();
 		} catch (Exception e) {
 			GameLog.error(LogModule.GmSender, "GmSenderPool[borrowSender]", "",e);
 		}
@@ -39,8 +38,7 @@ public class GmSenderPool {
 	public void returnSender(GmSender gmSender){
 		if(gmSender!=null){
 			try {
-				gmSender.destroy();
-//				senderPool.returnObject(gmSender);
+				senderPool.returnObject(gmSender);
 			} catch (Exception e) {
 				GameLog.error(LogModule.GmSender, "GmSenderPool[returnSender]", "",e);
 			}
