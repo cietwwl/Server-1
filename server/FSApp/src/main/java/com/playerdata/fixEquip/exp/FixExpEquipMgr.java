@@ -50,8 +50,8 @@ public class FixExpEquipMgr {
 			FixExpEquipDataItem.setId( id );
 			FixExpEquipDataItem.setCfgId(cfgId);
 			FixExpEquipDataItem.setOwnerId(ownerId);
-			FixExpEquipDataItem.setQuality(0);
-			FixExpEquipDataItem.setLevel(0);
+			FixExpEquipDataItem.setQuality(1);
+			FixExpEquipDataItem.setLevel(1);
 			FixExpEquipDataItem.setStar(0);
 			equipItemList.add(FixExpEquipDataItem);
 			
