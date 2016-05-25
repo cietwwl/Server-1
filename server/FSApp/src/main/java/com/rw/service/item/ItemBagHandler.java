@@ -61,6 +61,7 @@ public class ItemBagHandler {
 		response.setEventType(EItemBagEventType.ItemBag_Sell);
 
 		if (sellItemList == null || sellItemList.isEmpty()) {
+			response.setRspInfo(fillResponseInfo(false, "出售物品不能为空"));
 			return response.build().toByteString();
 		}
 
@@ -72,17 +73,20 @@ public class ItemBagHandler {
 			TagItemData data = sellItemList.get(i);
 			String dbId = data.getDbId();
 			if (idList.contains(dbId)) {
+				response.setRspInfo(fillResponseInfo(false, "同一物品不能多次出售"));
 				return response.build().toByteString();
 			}
 
 			ItemData itemData = player.getItemBagMgr().findBySlotId(dbId);
 			if (itemData == null) {
+				response.setRspInfo(fillResponseInfo(false, "道具不存在"));
 				return response.build().toByteString();
 			}
 
 			int templateId = itemData.getModelId();
 			ItemBaseCfg baseCfg = ItemCfgHelper.GetConfig(templateId);
 			if (baseCfg == null) {
+				response.setRspInfo(fillResponseInfo(false, "道具模版不存在"));
 				return response.build().toByteString();
 			}
 
@@ -99,6 +103,7 @@ public class ItemBagHandler {
 			player.getUserGameDataMgr().addCoin(totalSellCoin);
 		} else {
 			GameLog.error("背包模块", player.getUserId(), "出售的过程当中出现了错误，导致出售失败", null);
+			response.setRspInfo(fillResponseInfo(false, "道具出售失败"));
 		}
 		return response.build().toByteString();
 	}

@@ -17,7 +17,7 @@ public class DataCacheFactory {
 			System.err.println("DataCache名字重复1：" + clazz);
 			return oldCache;
 		}
-		DataCache<K, V> cache = new DataCache<K, V>(clazz.getSimpleName(), initialCapacity, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, null);
+		DataCache<K, V> cache = new DataCache<K, V>(clazz.getSimpleName(), initialCapacity, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, handler);
 		oldCache = cacheMap.putIfAbsent(clazz, cache);
 		if (oldCache == null) {
 			return cache;

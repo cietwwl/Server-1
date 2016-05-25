@@ -153,13 +153,13 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	*/
 	public static RankType getJobCurrent(int job){
 		switch(job){
-			case 0:
-				return WARRIOR_ARENA;
 			case 1:
-				return SWORDMAN_ARENA;
+				return WARRIOR_ARENA;
 			case 2:
-				return MAGICAN_ARENA;
+				return SWORDMAN_ARENA;
 			case 3:
+				return MAGICAN_ARENA;
+			case 4:
 				return PRIEST_ARENA;
 		}
 		return RankType.WARRIOR_ARENA;

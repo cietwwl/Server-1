@@ -115,13 +115,13 @@ public class PlayerCreateTask implements Runnable {
 		player.setZoneLoginInfo(zoneLoginInfo);
 		BILogMgr.getInstance().logZoneReg(player);
 		// author：lida 2015-09-21 通知登陆服务器更新账号信息 确保账号添加成功
-		world.asynExecute(new Runnable() {
-
-			@Override
-			public void run() {
-				nettyControler.getGameLoginHandler().notifyPlatformPlayerLogin(zoneId, accountId, player);
-			}
-		});
+//		world.asynExecute(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				nettyControler.getGameLoginHandler().notifyPlatformPlayerLogin(zoneId, accountId, player);
+//			}
+//		});
 		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request,false));
 	}
 

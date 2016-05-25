@@ -85,6 +85,7 @@ enum Command {
 	MSG_GROUP_SECRET = 202;//帮派秘境
 	MSG_MAGIC_SECRET = 203;//法宝秘境
 
+	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议
 	MSG_PLATFORMGS = 998;//登陆服游戏服通讯协议

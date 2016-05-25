@@ -137,6 +137,10 @@ public class Player implements PlayerIF {
 	private TaoistMgr taoistMgr = new TaoistMgr();
 
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
+	
+	//客户端管理工具
+	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
+	
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -243,6 +247,8 @@ public class Player implements PlayerIF {
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
+		
+		playerQuestionMgr.init(this);
 
 		if (initMgr) {
 			initMgr();
@@ -1093,6 +1099,10 @@ public class Player implements PlayerIF {
 
 	public UpgradeMgr getUpgradeMgr() {
 		return upgradeMgr;
+	}
+	
+	public PlayerQuestionMgr getPlayerQuestionMgr(){
+		return playerQuestionMgr;
 	}
 
 	/**
