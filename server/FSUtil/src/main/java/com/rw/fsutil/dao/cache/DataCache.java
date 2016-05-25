@@ -24,6 +24,7 @@ import com.rw.fsutil.json.JSONObject;
  * 
  * @author Jamaz
  */
+@SuppressWarnings("rawtypes")
 public class DataCache<K, V> implements DataUpdater<K> {
 
 	private static final Object PRESENT = new Object();
@@ -32,21 +33,20 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private final ConcurrentHashMap<K, Object> delayUpdateMap; // 延迟更新任务，表示一个一段时间后执行的任务
 	private final ConcurrentHashMap<K, Object> delayRemoveMap; // 延迟删除任务，表示一个一段时间后删除的任务
 	private final ConcurrentHashMap<K, ReentrantFutureTask> taskMap; // 任务集合，表示一个以主键互斥的任务
-	private final ConcurrentHashMap<K, Object> penetrationCache; // 缓存穿透，表示在数据库找不到的任务，缓存一段时间防止缓存穿透
+	private final SimpleCache<K, Long> penetrationCache;// 缓存穿透，表示在数据库找不到的任务，缓存一段时间防止缓存穿透
+	private final long penetrationTimeOutMillis;
 	private final PersistentLoader<K, V> loader;
 	private final int capacity;
 	private final int updatePeriod;
 	private final long timeoutNanos;
 	private final ScheduledThreadPoolExecutor scheduledExecutor;
-	private final LRUCacheListener<K, V> listener;
+	private final DataNotExistHandler<K, V> dataNotExistHandler;
 	private CacheLogger logger;
 	private String name;
 	private CacheJsonConverter<V> jsonConverter;
+	private final AtomicLong generator = new AtomicLong();
 
-	static AtomicLong evcitDeleted = new AtomicLong();
-	static AtomicLong evcitMarkDeleted = new AtomicLong();
-
-	public DataCache(String name, int initialCapacity, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, LRUCacheListener<K, V> listener) {
+	public DataCache(String name, int initialCapacity, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler) {
 		this.name = name;
 		this.capacity = maxCapacity;
 		this.logger = CacheFactory.getLogger(name);
@@ -56,40 +56,54 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		this.delayUpdateMap = new ConcurrentHashMap<K, Object>(initialCapacity, 0.5f);
 		this.delayRemoveMap = new ConcurrentHashMap<K, Object>(initialCapacity, 0.5f);
 		this.taskMap = new ConcurrentHashMap<K, ReentrantFutureTask>();
-		this.penetrationCache = new ConcurrentHashMap<K, Object>();
+		this.penetrationCache = new SimpleCache<K, Long>(1000);
+		this.penetrationTimeOutMillis = TimeUnit.MINUTES.toMillis(5);
 		this.loader = loader;
 		this.timeoutNanos = TimeUnit.SECONDS.toNanos(6);
+		if (dataNotExistHandler != null) {
+			this.dataNotExistHandler = dataNotExistHandler;
+		} else {
+			this.dataNotExistHandler = new DataNotExistHandler<K, V>() {
+
+				@Override
+				public V callInLoadTask(K key) {
+					// 缓存穿透处理
+					logger.info("load not exist data:" + key);
+					penetrationCache.put(key, System.currentTimeMillis());
+					return null;
+				}
+			};
+		}
+
 		this.cache = new LinkedHashMap<K, CacheValueEntity<V>>(initialCapacity, 0.5f, true) {
 
 			@Override
 			protected boolean removeEldestEntry(Entry<K, CacheValueEntity<V>> eldest) {
-				if (size() > capacity) {
-					K key = eldest.getKey();
-					logger.info("evict:" + key);
-					CacheValueEntity<V> value = eldest.getValue();
-					if (value.getState() == CacheValueState.DELETED) {
-						// 已删除数据的正常移除
-						evcitDeleted.incrementAndGet();
-						logger.info("evict deleted:" + key);
-						return true;
-					}
-					if (delayUpdateMap.containsKey(key) || delayRemoveMap.containsKey(key)) {
-						// 有一种情况是添加失败的，就是这个数据刚被加载进来
-						ReentrantFutureTask evictedTask = createTask(new EvictedTask(key, value, value.getState() == CacheValueState.MARK_DELETE));
-						// 还没来得及执行finnaly的时候又被T走，这个可能性极低，而且也超过了缓存的负载能力
-						if (DataCache.this.taskMap.putIfAbsent(key, evictedTask) != null) {
-							logger.error("严重错误@缓存添加移除任务失败:" + key);
-						} else {
-							logger.info("添加主键任务：" + key + "," + evictedTask);
-							DataCache.this.scheduledExecutor.schedule(evictedTask, 0, TimeUnit.NANOSECONDS);
-						}
-					}
+				if (size() <= capacity) {
+					return false;
+				}
+				K key = eldest.getKey();
+				logger.info("evict:" + key);
+				CacheValueEntity<V> value = eldest.getValue();
+				if (value.getState() == CacheValueState.DELETED) {
+					// 已删除数据的正常移除
+					logger.info("evict deleted:" + key);
 					return true;
 				}
-				return false;
+				if (delayUpdateMap.containsKey(key) || delayRemoveMap.containsKey(key)) {
+					// 有一种情况是添加失败的，就是这个数据刚被加载进来
+					ReentrantFutureTask evictedTask = createTask(new EvictedTask(key, value, value.getState() == CacheValueState.MARK_DELETE));
+					// 还没来得及执行finnaly的时候又被T走，这个可能性极低，而且也超过了缓存的负载能力
+					if (DataCache.this.taskMap.putIfAbsent(key, evictedTask) != null) {
+						logger.error("fatal@缓存添加移除任务失败:" + key);
+					} else {
+						logger.info("添加主键任务：" + key + "," + evictedTask);
+						DataCache.this.scheduledExecutor.schedule(evictedTask, 0, TimeUnit.NANOSECONDS);
+					}
+				}
+				return true;
 			}
 		};
-		this.listener = listener;
 		this.logger.info("create DAO = " + name + ",maxCapacity = " + maxCapacity + ",updatePeriod = " + updatePeriod);
 	}
 
@@ -125,8 +139,15 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 		// 命中缓存穿透
 		// TODO 这里可用LRU代替
-		if (this.penetrationCache.containsKey(key)) {
-			return null;
+		if (penetrationCache != null) {
+			Long time = this.penetrationCache.get(key);
+			if (time != null) {
+				if (System.currentTimeMillis() - time < penetrationTimeOutMillis) {
+					return null;
+				} else {
+					this.penetrationCache.remove(key);
+				}
+			}
 		}
 		// 从数据库加载
 		return loadFromDB(key, CacheValueState.PERSISTENT);
@@ -171,7 +192,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			// 先看看是否已经存在缓存中，因为有可能其他人加载成功了
 			boolean aquired = lock.tryLock(remainNanos, TimeUnit.NANOSECONDS);
 			if (!aquired) {
-				throw new TimeoutException("wait for lock timeout :" + TimeUnit.NANOSECONDS.toMillis(remainNanos));
+				throw new TimeoutException("wait for lock timeout:" + TimeUnit.NANOSECONDS.toMillis(remainNanos));
 			}
 			try {
 				CacheValueEntity<V> value = this.cache.get(key);
@@ -202,21 +223,21 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			CacheValueEntity<V> old = this.cache.get(key);
 			if (old != null) {
 				if (isDeleted(old)) {
-					logger.warn("删除一个已删除的数据：" + key);
+					logger.warn("data has delete:" + key);
 					return false;
 				}
 				// 标记为已经被删除
 				old.setCacheValueState(CacheValueState.MARK_DELETE);
 				// 提交删除任务
 				boolean submit = submitRemoveTask(key);
-				logger.info("标记删除：" + key + "," + submit, true);
+				logger.info("mark delete:" + key + "," + submit, true);
 				return true;
 			}
 		} finally {
 			lock.unlock();
 		}
 		// 不存在必须去数据库查一次
-		logger.info("加载将要删除的数据：" + key, true);
+		logger.info("load data by delete operation:" + key, true);
 		CacheValueEntity<V> cacheValue = loadFromDB(key, CacheValueState.MARK_DELETE);
 		if (cacheValue == null) {
 			return false;
@@ -268,17 +289,10 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				return null;
 			}
 			if (isDeleted(old)) {
-				logger.error("试图插入已经被删除的数据：" + key + "," + value);
+				logger.error("insert delete data:" + key + "," + value);
 				throw new DataDeletedException();
 			} else {
 				old.setValue(value);
-				// newVersion = old.getVersion() + 1;
-				// this.cache.put(key, new CacheValueEntity<V>(value,
-				// old.getState(), newVersion, trace));
-				// 通知CacheVersionReader读取新的版本号
-				// if (reader != null) {
-				// reader.readVersion(newVersion, old.getTrace());
-				// }
 			}
 		} finally {
 			lock.unlock();
@@ -316,8 +330,10 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	}
 
 	/**
+	 * <pre>
 	 * 添加一个数据到缓存中
-	 * 
+	 * 尝试修改内存，若不存在会尝试插入到数据库
+	 * </pre>
 	 * @param key
 	 * @param value
 	 * @return
@@ -337,24 +353,75 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		return old == null ? null : old.getValue();
 	}
 
-	public boolean putIfAbsent(K key, V value) {
+	/**
+	 * <pre>
+	 * 当缓存中不存在此键值对时预插入
+	 * </pre>
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public boolean preInsertIfAbsent(K key, V value) {
 		if (key == null) {
 			throw new NullPointerException("key is null");
 		}
 		if (value == null) {
 			throw new NullPointerException("value is null");
 		}
-		CacheValueEntity<V> entity = new CacheValueEntity<V>(value, CacheValueState.PERSISTENT, 0, new CacheStackTrace(), null);
 		lock.lock();
 		try {
 			if (this.cache.containsKey(key)) {
 				return false;
 			}
-			this.cache.put(key, entity);
-			return true;
 		} finally {
 			lock.unlock();
 		}
+		return safeInsertCache(key, value);
+	}
+
+	public boolean preInsertIfAbsent(K key, Callable<V> valueExtractor) {
+		if (key == null) {
+			throw new NullPointerException("key is null");
+		}
+		if (valueExtractor == null) {
+			throw new NullPointerException("valueExtractor is null");
+		}
+		lock.lock();
+		try {
+			if (this.cache.containsKey(key)) {
+				return false;
+			}
+		} finally {
+			lock.unlock();
+		}
+		try {
+			V value = valueExtractor.call();
+			if (value != null) {
+				return safeInsertCache(key, value);
+			} else {
+				logger.error("extract value is null:" + key);
+				return false;
+			}
+		} catch (Exception e) {
+			logger.error("extract value exception:" + key, e);
+			return false;
+		}
+
+	}
+
+	private boolean safeInsertCache(K key, V value) {
+		try {
+			ReentrantFutureTask task = getControlRight(key, new InsertTask(key, value, false));
+			task.run();
+			return task.get() == null;
+		} catch (InterruptedException e) {
+			logger.error("insert cache fail by interrupted:" + key + "," + value);
+		} catch (TimeoutException e) {
+			logger.error("insert cache fail by timeout:" + key + "," + value);
+		} catch (ExecutionException e) {
+			logger.error("insert cache exception:" + key + "," + value, e);
+		}
+		return false;
 	}
 
 	private CacheValueEntity<V> putAndGet(K key, V value) throws DataDeletedException, InterruptedException, Throwable {
@@ -369,7 +436,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				return result;
 			}
 			if (insertTask == null) {
-				insertTask = createTask(new InsertTask(key, value));
+				insertTask = createTask(new InsertTask(key, value, true));
 			}
 			// 数据不存缓存，起一个插入数据库任务
 			// 为了适应逻辑，主键重复会直接捕捉和记log，并直接执行插入工作
@@ -392,14 +459,14 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			otherTask = this.taskMap.putIfAbsent(key, task);
 			// 获取了任务的执行权
 			if (otherTask == null) {
-				logger.info("add task：" + key + "," + task);
+				logger.info("add task:" + key + "," + task);
 				return null;
 			}
 		}
 
 		// 如果该任务是由当前线程执行，直接返回
 		if (otherTask.getRunner() == Thread.currentThread()) {
-			logger.warn("run in same thread：" + otherTask + "," + task);
+			logger.warn("run in same thread:" + otherTask + "," + task);
 			task.setUnderControl();
 			return null;
 		}
@@ -410,7 +477,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		} catch (ExecutionException ex) {
 			// ignore
 		} catch (TimeoutException e) {
-			logger.error("等待超时：" + otherTask, e);
+			logger.error("wait task timeout:" + otherTask, e);
 			throw e;
 		}
 		return otherTask;
@@ -481,24 +548,27 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	class InsertTask extends TaskCallable<CacheValueEntity<V>> {
 
 		private final V value;
+		private final boolean insertDB;
 
-		public InsertTask(K key, V value) {
+		public InsertTask(K key, V value, boolean insertDB) {
 			super(key);
 			this.value = value;
+			this.insertDB = insertDB;
 		}
 
 		@Override
 		public CacheValueEntity<V> call() throws Exception {
-			boolean exist = false;
-			boolean result = false;
-			try {
-				if (jsonConverter != null) {
-					logger.info("insert：" + key + "," + value);
+			boolean duplicatedKey = false;
+			if (jsonConverter != null) {
+				logger.info("insert:" + key + "," + value);
+			}
+			if (insertDB) {
+				try {
+					loader.insert(key, value);
+				} catch (DuplicatedKeyException ex) {
+					logger.error("insert db DuplicatedKey:" + key + "," + value, ex);
+					duplicatedKey = true;
 				}
-				result = loader.insert(key, value);
-			} catch (DuplicatedKeyException ex) {
-				logger.error("更新时已存在重复主键：" + key + "," + value, ex);
-				exist = true;
 			}
 
 			CacheStackTrace trace;
@@ -516,6 +586,8 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				if (oldValue == null) {
 					// 更新到缓存
 					DataCache.this.cache.put(key, cacheValue);
+				} else {
+					logger.error("put into cache exist data:" + key);
 				}
 			} finally {
 				lock.unlock();
@@ -526,8 +598,9 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			if (record != null) {
 				logger.executeAysnEvent(CacheLoggerPriority.INFO, new CacheLoggerAsynEvent(null, record));
 			}
-			if (oldValue != null || exist) {
-				logger.error("insert后已存在数据：" + key + ",exist = " + exist + "," + oldValue + "," + value);
+			// 缓存有旧值
+			if (oldValue != null || duplicatedKey) {
+				logger.error("insert cache fail:" + insertDB + "," + key + ",exist=" + duplicatedKey + "," + oldValue + "," + value);
 				DataCache.this.submitUpdateTask(key);
 			}
 			return oldValue;
@@ -535,7 +608,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 		@Override
 		public String getErrorInfo() {
-			return "InsertTask移除失败：" + key;
+			return "InsertTask移除失败:" + key;
 		}
 
 		@Override
@@ -561,11 +634,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				// 从db加载数据
 				v = loader.load(key);
 			} catch (DataNotExistException ex) {
-				// 缓存穿透处理
-				logger.info("加载缓存穿透数据：" + key);
-				penetrationCache.put(key, PRESENT);
-				scheduledExecutor.schedule(new PenetrantionTask(key), 300, TimeUnit.SECONDS);
-				return null;
+				v = dataNotExistHandler.callInLoadTask(key);
 			}
 			if (v != null) {
 				CacheStackTrace trace;
@@ -587,19 +656,18 @@ public class DataCache<K, V> implements DataUpdater<K> {
 						}
 						return cacheValue;
 					}
-					logger.info("load data exsit：" + key + "," + old.getState() + "," + state + "," + old.getValue());
+					logger.info("load data exsit:" + key + "," + old.getState() + "," + state + "," + old.getValue());
 					// 到这里表示，从内存命中失败后，到执行这个loadTask(包括插入)之间
 					// 已经完成了一次loadTask的执行(可能是get发起的或者remove发起的)
 					if (isDeleted(old)) {
 						// 数据已被删除
-						logger.warn("从db加载已被删除的数据：" + key + "," + v);
+						logger.warn("load delete data:" + key + "," + v);
 						return null;
 					}
 					// 如果是删除操作发起的加载，要在lock的情况下设置MARK_DELETE标志
 					if (state == CacheValueState.MARK_DELETE) {
 						old.setCacheValueState(state);
 					}
-					// return old.value;
 					return old;
 				} finally {
 					lock.unlock();
@@ -612,30 +680,13 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 		@Override
 		public String getErrorInfo() {
-			return "LoadTask移除失败：" + key;
+			return "LoadTask fail:" + key + "," + state;
 		}
 
 		@Override
 		public String getName() {
-			return "loadTask：" + state;
+			return "loadTask:" + state;
 		}
-	}
-
-	/** 缓存穿透清理任务 **/
-	class PenetrantionTask implements Callable {
-
-		private final K key;
-
-		public PenetrantionTask(K key) {
-			this.key = key;
-		}
-
-		@Override
-		public Object call() throws Exception {
-			penetrationCache.remove(key);
-			return null;
-		}
-
 	}
 
 	/** LRU移除任务 **/
@@ -659,27 +710,22 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		public V call() throws Exception {
 			if (!remove) {
 				Object exist = DataCache.this.delayUpdateMap.remove(key);
-				logger.info("evict_update：" + key + "," + (exist != null));
+				logger.info("evict_update:" + key + "," + (exist != null));
 				// if (!loader.updateToDB(key, value.value)) {
 				if (!loader.updateToDB(key, value.getValue())) {
-					logger.error("严重错误@evict_update fail：" + key);
-				}
-				if (listener != null) {
-					// listener.notifyElementEvicted(key, value.value);
-					listener.notifyElementEvicted(key, value.getValue());
+					logger.error("fatal@evict_update fail:" + key + "," + value.getValue());
 				}
 				return null;
 			}
 			if (DataCache.this.delayRemoveMap.remove(key) == null) {
 				// 只用一种可能，在LRU的时候判断到MARK_DELETE状态到提交任务之间，执行了一个完整的RemoveOpertaion
-				logger.warn("EvictedTask移除时已被删除：" + key);
+				logger.warn("remove operation has been executed@EvictedTask" + key);
 				return null;
 			}
-			evcitMarkDeleted.incrementAndGet();
 			logger.info("evict_remove：" + key);
 			boolean result = loader.delete(key);
 			if (!result) {
-				logger.error("严重错误@evict_remove faile：" + key);
+				logger.error("fatal@evict_remove faile:" + key);
 			}
 			return null;
 		}
@@ -708,7 +754,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		public Object call() {
 			// 更新任务必须保证互斥
 			if (DataCache.this.delayRemoveMap.remove(key) == null) {
-				logger.info("deleteTask已被执行：" + key);
+				logger.info("remove operation has been executed@RemoveOperation" + key);
 				return null;
 			}
 			if (removeTask == null) {
@@ -720,13 +766,13 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				task.run();
 				return task.get();
 			} catch (InterruptedException e) {
-				logger.error("删除数据interrupt：" + key, e);
+				logger.error("remove operation interrupted:" + key, e);
 				submitRemoveTask(key, removeTask);
 			} catch (TimeoutException e) {
-				logger.error("删除数据超时：" + key, e);
+				logger.error("remove operation is timeout:" + key, e);
 				submitRemoveTask(key, removeTask);
 			} catch (ExecutionException e) {
-				logger.error("删除数据异常：" + key, e);
+				logger.error("remove operation exception:" + key, e);
 				submitRemoveTask(key, removeTask);
 			}
 			return null;
@@ -823,32 +869,40 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		private final K key;
 		private volatile int times;
 		private final CacheStackTrace trace;
+		private final long version;
 
 		public UpdateTask(K key) {
 			this.key = key;
 			this.trace = new CacheStackTrace();
+			this.version = generator.incrementAndGet();
 		}
 
 		public UpdateTask(K key, CacheStackTrace trace) {
 			this.key = key;
 			this.trace = trace;
+			this.version = generator.incrementAndGet();
 		}
 
 		@Override
 		public Object call() throws Exception {
 			// 更新任务必须保证互斥
 			if (DataCache.this.delayUpdateMap.remove(key) == null) {
-				logger.warn("updatetask已被执行：" + key+","+name);
+				logger.warn("updatetask已被执行：" + key + "," + name);
 				return null;
 			}
 			CacheValueEntity<V> value = DataCache.this.get(key);
 			if (value == null) {
-				logger.warn("update fail:" + key + "," + name);
+				String taskName = null;
+				ReentrantFutureTask task = taskMap.get(key);
+				if (task != null) {
+					taskName = task.getTask().getClass().getName();
+				}
+				logger.warn("update fail:" + key + "," + name + "," + CacheFactory.getStackTrace(trace) + ",version = " + version + "," + taskName);
 				return null;
 			}
 			V v = value.getValue();
 			if (v == null) {
-				logger.error("更新数据为null：" + key + "," + value);
+				logger.error("update value is null：" + key + "," + value + "," + name);
 				return null;
 			}
 			CacheValueState state = value.getState();
@@ -1063,7 +1117,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				if (controller) {
 					Future old = DataCache.this.taskMap.remove(task.key);
 					if (old != this) {
-						logger.error("严重错误@" + task.getErrorInfo());
+						logger.error("fatal@" + task.getErrorInfo());
 					}
 				}
 			}
@@ -1077,19 +1131,10 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			return task.getName();
 		}
 
-	}
-
-	public Map getTaskMap() {
-		return this.taskMap;
-	}
-
-	List<CacheValueEntity> getCacheCopy() {
-		lock.lock();
-		try {
-			return new ArrayList<CacheValueEntity>(this.cache.values());
-		} finally {
-			lock.unlock();
+		public TaskCallable getTask() {
+			return task;
 		}
+
 	}
 
 	private Map<K, CacheValueEntity<V>> getCopy() {
@@ -1147,7 +1192,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	public CacheLogger getLogger() {
 		return this.logger;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

@@ -1,8 +1,8 @@
 package com.playerdata.activity.countType.cfg;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 
 
 public class ActivityCountTypeCfg {
@@ -22,13 +22,39 @@ public class ActivityCountTypeCfg {
 	private String title;
 	
 	private String titleBG;
-	private String desc;
 	
-//	private GoToType goToType;
+	private String desc;	
+
 	private String goToType;
 	
 	private String group;
+		
+	//每天刷新
+	private int isAutoRefresh ;
 	
+	private String version;
+
+	
+	private int levelLimit;
+	
+
+	
+	public int getLevelLimit() {
+		return levelLimit;
+	}
+
+	public void setLevelLimit(int levelLimit) {
+		this.levelLimit = levelLimit;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
 	public String getGroup() {
 		return group;
 	}
@@ -40,23 +66,11 @@ public class ActivityCountTypeCfg {
 	private int sortNum;
 	
 	private String countLimit;
-	
-	//id-count-giftId;
-	private String subItems;
-	
-	
-	//parse from subItems
-	private List<ActivityCountTypeSubItem>  subItemList;
-	
-
-
 
 
 	public String getId() {
 		return id;
 	}
-
-
 
 	public long getEndTime() {
 		return endTime;
@@ -78,33 +92,14 @@ public class ActivityCountTypeCfg {
 		return desc;
 	}
 
-//	public GoToType getGoToType() {
-//		return goToType;
-//	}
+
 	public String getGoToType() {
-	return goToType;
-}
+		return goToType;
+	}
+	
 	public int getSortNum() {
 		return sortNum;
 	}
-
-	public String getSubItems() {
-		return subItems;
-	}
-
-	public List<ActivityCountTypeSubItem> getSubItemList() {
-		return subItemList;
-	}
-
-
-
-
-
-	public void setSubItemList(List<ActivityCountTypeSubItem> subItemList) {
-		this.subItemList = subItemList;
-	}
-
-
 	
 	public String getCountLimit() {
 		return countLimit;
@@ -126,6 +121,8 @@ public class ActivityCountTypeCfg {
 		return endTimeStr;
 	}
 
+
+
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
@@ -134,10 +131,20 @@ public class ActivityCountTypeCfg {
 		this.endTime = endTime;
 	}
 
+	public int getIsAutoRefresh() {
+		return isAutoRefresh;
+	}
+
+	public void setIsAutoRefresh(int isAutoRefresh) {
+		this.isAutoRefresh = isAutoRefresh;
+	}
 
 
-	
-	
+
+
+
+
+
 	
 	
 }

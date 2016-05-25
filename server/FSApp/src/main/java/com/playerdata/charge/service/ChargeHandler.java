@@ -2,8 +2,11 @@ package com.playerdata.charge.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.ChargeResult;
+import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.cfg.VipGiftCfg;
 import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.rwproto.ChargeServiceProto.ChargeServiceCommonReqMsg;
@@ -30,12 +33,12 @@ public class ChargeHandler {
 		
 		return response.build().toByteString();
 	}
-	public ByteString getReward(Player player, ChargeServiceCommonReqMsg request) {
+	public ByteString getRewardForFirstPay(Player player, ChargeServiceCommonReqMsg request) {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
 		response.setReqType(request.getReqType());
 		
 		
-		ChargeResult chargeResult   = ChargeMgr.getInstance().gerReward(player);
+		ChargeResult chargeResult   = ChargeMgr.getInstance().gerRewardForFirstPay(player);
 		response.setIsSuccess(chargeResult.isSuccess());
 		chargeResult.setTips(chargeResult.getTips());	
 		
@@ -46,28 +49,30 @@ public class ChargeHandler {
 	public ByteString buyVipGift(Player player, ChargeServiceCommonReqMsg request) {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
 		response.setReqType(request.getReqType());
-		
-		int vipLevel = player.getVip();
-		VipGiftCfg vipGiftCfg = VipGiftCfgDao.getInstance().getByVip(vipLevel);
-		if(vipGiftCfg!=null && !player.getVipMgr().isVipGiftTaken(vipLevel)){
-			//先设置已领取，防止下面操作出错的时候重复领取
-			player.getVipMgr().setVipGiftTaken(vipLevel);			
-			
-			String chargeItemId = vipGiftCfg.getChargeCfgId();			
-			ChargeResult chargeResult = ChargeMgr.getInstance().chargeAndTakeGift(player, chargeItemId);
-			
-			response.setIsSuccess(chargeResult.isSuccess());
-			response.setTipMsg(chargeResult.getTips());		
-		}else{
-			response.setIsSuccess(false);
-			response.setTipMsg("");				
-			
-		}
+		String vipGiftId = request.getChargeItemId();				
+		ChargeResult chargeResult = ChargeMgr.getInstance().buyAndTakeVipGift(player, vipGiftId);
+		response.setIsSuccess(chargeResult.isSuccess());
+		response.setTipMsg(chargeResult.getTips());		
+
 		
 		return response.build().toByteString();
 	}
 	
+	public ByteString buyMonthCard(Player player, ChargeServiceCommonReqMsg request){
+		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
+		
+		response.setReqType(request.getReqType());
+		String chargeItemId = request.getChargeItemId();//月卡类型
+		
 	
+		
+		ChargeResult chargeResult = ChargeMgr.getInstance().buyMonthCard(player, chargeItemId);
+		response.setIsSuccess(chargeResult.isSuccess());
+		response.setTipMsg(chargeResult.getTips());		
+		
+		
+		return response.build().toByteString();
+	}
 	
 
 }

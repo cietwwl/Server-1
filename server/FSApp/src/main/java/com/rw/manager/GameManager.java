@@ -31,6 +31,8 @@ import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.rw.dataaccess.GameOperationFactory;
+import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -42,8 +44,10 @@ import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
+import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.zone.TableZoneInfo;
@@ -81,15 +85,19 @@ public class GameManager {
 
 		GameLog.debug("初始化后台服务");
 		// TODO 游戏逻辑处理线程数，需要在配置里面统一配置
+
+		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
+		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
+		
+		//初始化MapItemStoreFactory
+		MapItemStoreFactory.init();
 
 		// initServerProperties();
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();
-
-		initServerPerformanceConfig();
 
 		/**** 服务器全启数据 ******/
 		GlobalDataMgr.init();
@@ -116,9 +124,7 @@ public class GameManager {
 
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
-		// PeakArenaBM.getInstance().InitData();
 		tempTimers = System.currentTimeMillis();
-		// RobotBM.getInstance().createArenaUsers(true);
 		RobotManager.getInstance().createRobots();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
@@ -135,6 +141,9 @@ public class GameManager {
 		// 初始化字符过滤
 		CharFilterFactory.init();
 		addShutdownHook();
+
+		// 羁绊的初始化
+		FettersBM.init();
 
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
@@ -234,7 +243,7 @@ public class GameManager {
 		List<Player> list = new ArrayList<Player>();
 		list.addAll(PlayerMgr.getInstance().getAllPlayer().values());
 		/**** 保存在线玩家 *******/
-		PlayerMgr.getInstance().saveAllPlayer();
+		// PlayerMgr.getInstance().saveAllPlayer();
 		// PlayerMgr.getInstance().kickOffAllPlayer();
 
 		shutDownService();
@@ -242,7 +251,8 @@ public class GameManager {
 		GameLog.debug("服务器关闭完成...");
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({
+			"rawtypes", "unchecked" })
 	private static void shutDownService() {
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
@@ -401,5 +411,12 @@ public class GameManager {
 
 	public static String getGmPassword() {
 		return gmPassword;
+	}
+
+	/**
+	 * 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
+	 */
+	public static void CheckAllConfig() {
+		CfgCsvReloader.CheckAllConfig();
 	}
 }

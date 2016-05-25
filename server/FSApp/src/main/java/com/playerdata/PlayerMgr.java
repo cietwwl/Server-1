@@ -10,7 +10,6 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.google.protobuf.ByteString;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.fsutil.cacheDao.CommonUpdateMgr;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
@@ -55,8 +54,7 @@ public class PlayerMgr {
 
 	public PlayerMgr() {
 		int cacheSize = GameManager.getPerformanceConfig().getPlayerCapacity();
-		// cache = new DataCache<String, Player>("player", cacheSize, cacheSize, 60, DBThreadPoolMgr.getExecutor(), loader,null);
-		cache = DataCacheFactory.createDataDache("player", cacheSize, cacheSize, 60, loader);
+		cache = DataCacheFactory.createDataDache(Player.class, cacheSize, cacheSize, 60, loader);
 	}
 
 	private PersistentLoader<String, Player> loader = new PersistentLoader<String, Player>() {
@@ -184,25 +182,6 @@ public class PlayerMgr {
 		return gamePlayerOpHelper.getProgress();
 	}
 
-	private final PlayerCallBackTask saveTask = new PlayerCallBackTask() {
-		public void doCallBack(Player player) {
-			player.save(true);
-
-		}
-
-		@Override
-		public String getName() {
-			return "saveTask";
-		}
-	};
-
-	public int saveAllPlayer() {
-		List<Player> playerList = new ArrayList<Player>(getAllPlayer().values());
-		int progress = gamePlayerOpHelper.addTask(playerList, saveTask);
-		CommonUpdateMgr.getInstance().flushData();
-		return progress;
-	}
-
 	private String offReason = "亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。";
 	private boolean blnNeedCoolTime = true; // 是否需要设置kickOffCoolTime
 	private final PlayerCallBackTask kickOffTask = new PlayerCallBackTask() {
@@ -219,9 +198,15 @@ public class PlayerMgr {
 	public int gmKickOffAllPlayer(String reason, boolean _blnNeedCoolTime) {
 		offReason = reason;
 		blnNeedCoolTime = _blnNeedCoolTime;
-
-		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
-		List<Player> playerList = getOnlinePlayers();
+		
+		List<Player> playerList = new ArrayList<Player>();
+		List<String> onlineList = UserChannelMgr.getOnlineList();
+		for (String userId : onlineList) {
+			Player target = PlayerMgr.getInstance().findPlayerFromMemory(userId);
+			if(target != null){
+				playerList.add(target);
+			}
+		}
 		return gamePlayerOpHelper.addTask(playerList, kickOffTask);
 	}
 
@@ -389,34 +374,11 @@ public class PlayerMgr {
 				}
 			}
 		}
-
 		return targetList;
-
 	}
-
-	// public void sendToOtherPlayer(MsgDef.Command cmd, ByteString pBuffer, Player me) {
-	// try {
-	// Set<Entry<String, Player>> players = m_PlayerMap.entrySet();
-	// for (Entry<String, Player> entry : players) {
-	// Player player = entry.getValue();
-	// if (player != null && !player.getUserId().equals(me.getUserId())) {
-	// player.SendMsgByOther(cmd, pBuffer);
-	// }
-	// }
-	// } catch (Exception ex) {
-	// ex.printStackTrace();
-	// }
-	// }
 
 	public void SendToPlayer(MsgDef.Command cmd, ByteString pBuffer, PlayerIF p) {
 		try {
-			// Set<Entry<String, Player>> players = cache.entrySet();
-			// for (Entry<String, Player> entry : players) {
-			// Player player = entry.getValue();
-			// if (player != null && player.getUserId().equals(p.getTableUser().getUserId())) {
-			// player.SendMsgByOther(cmd, pBuffer);
-			// }
-			// }
 			List<Player> players = getOnlinePlayers();
 			for (Player player : players) {
 				if (player != null && player.getUserId().equals(p.getTableUser().getUserId())) {

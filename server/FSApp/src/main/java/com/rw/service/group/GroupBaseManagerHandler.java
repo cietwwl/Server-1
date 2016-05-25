@@ -108,7 +108,7 @@ public class GroupBaseManagerHandler {
 		long quitGroupTime = baseData.getQuitGroupTime();
 		long needCoolingTime = TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime());
 		if (quitGroupTime > 0 && (now - quitGroupTime) < needCoolingTime) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format(QUIT_GROUP_TIME_TIP_FOR_CREATE, GroupUtils.quitGroupTimeTip(now, quitGroupTime, needCoolingTime)));
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format(QUIT_GROUP_TIME_TIP_FOR_CREATE, GroupUtils.coolingTimeTip(now, quitGroupTime, needCoolingTime)));
 		}
 
 		// 检查金钱足不足够

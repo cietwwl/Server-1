@@ -14,7 +14,8 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.support.FriendSupportFactory;
-import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attribute.AttributeItem;
+import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillAttributeCfg;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -34,14 +35,6 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
  * @Description 个人的帮派数据
  */
 public class UserGroupAttributeDataMgr implements PlayerEventListener {
-	public static enum GroupSkillAttrType {
-		GROUP_SKILL_ATTR(0), GROUP_SKILL_PRECENT_ATTR(1);
-		public final int type;// 属性类型对应的值
-
-		private GroupSkillAttrType(int type) {
-			this.type = type;
-		}
-	};
 
 	// private AttrData groupSkillAttrData;// 个人学习技能加成的属性，只存在于内存当中的简单对象
 	private UserGroupAttributeDataHolder holder;// 个人帮派数据的管理
@@ -86,6 +79,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 		userGroupData.setGroupName(groupData.getGroupName());
 		userGroupData.setContribution(memberData.getContribution());
+		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
 
 	@Override
@@ -156,6 +150,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		baseData.clearApplyGroupIdList();// 清除申请队列
 		baseData.setGroupId(groupId);
 		baseData.setGroupName(groupName);
+		baseData.setJoinTime(System.currentTimeMillis());
 		// 同步数据
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
@@ -343,62 +338,188 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	// groupSkillAttrData = calcGroupSkillAttrData();
 	// }
 
+	// /**
+	// * 获取帮派技能增加属性
+	// *
+	// * @return
+	// */
+	// public Map<Integer, AttrData> getGroupSkillAttrData() {
+	// Map<Integer, AttrData> attrMap = new HashMap<Integer, AttrData>(2);
+	// UserGroupAttributeData userGroupData = holder.getUserGroupData();
+	// if (userGroupData == null) {
+	// return attrMap;
+	// }
+	//
+	// String groupId = userGroupData.getGroupId();
+	// if (StringUtils.isEmpty(groupId)) {// 没有帮派
+	// return attrMap;
+	// }
+	//
+	// if (!userGroupData.hasStudySkill()) {
+	// return attrMap;
+	// }
+	//
+	// Group group = GroupBM.get(groupId);
+	// if (group == null) {
+	// return attrMap;
+	// }
+	//
+	// int energy = 0;// 能量值
+	// int life = 0;// 生命
+	// int attack = 0;// 攻击
+	// int physiqueDef = 0;// 体魄防御
+	// int spiritDef = 0;// 精神防御
+	// int hit = 0;// 命中
+	// int dodge = 0;// 闪避
+	// int critical = 0;// 暴击率
+	// int toughness = 0;// 韧性
+	// int resist = 0;// 抵抗
+	// int attackHurt = 0;// 攻击伤害
+	// int cutHurt = 0;// 伤害减免
+	// int criticalHurt = 0;// 暴击伤害提升
+	// int cutCritHurt = 0;// 暴击伤害减免
+	// int lifeReceive = 0;// 生命回复
+	// int energyReceive = 0;// 能量值回复
+	// int attackVampire = 0;// 攻击吸血
+	// int attackSpeed = 0;// 攻击速度
+	// int moveSpeed = 0;// 移动速度
+	// int addCure = 0;// 受到治疗效果增加
+	// int cutCure = 0;// 受到治疗效果减少
+	// int attackPercent = 0;// 攻击百分比
+	// int criticalHurtPercent = 0;// 暴击伤害提升百分比
+	// int criticalPercent = 0;// 暴击伤害提升百分比
+	// int attackVampirePercent = 0; // 吸血百分比
+	// int spiritDefPercent = 0;// 法术防御百分比
+	// int dodgePercent = 0;// 闪避百分比
+	// int physiqueDefPercent = 0;// 物理防御百分比
+	// int attackHurtPercent = 0; // 伤害减免百分比
+	// int lifePercent = 0;// 生命百分比
+	//
+	// GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
+	// GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
+	// GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+	// Enumeration<GroupSkillItem> researchSkill = groupData.getResearchSkill();
+	// while (researchSkill.hasMoreElements()) {
+	// GroupSkillItem skillItem = researchSkill.nextElement();// 帮派研发的技能
+	// int skillId = Integer.parseInt(skillItem.getId());
+	// int researchLevel = skillItem.getLevel();// 研发到的等级
+	// int studySkillLevel = userGroupData.getStudySkillLevel(skillId);
+	// studySkillLevel = researchLevel <= studySkillLevel ? researchLevel : studySkillLevel;
+	// if (studySkillLevel <= 0) {// 没学习
+	// continue;
+	// }
+	//
+	// GroupSkillLevelTemplate tmp = dao.getSkillLevelTemplate(skillId, studySkillLevel);
+	// if (tmp == null) {
+	// continue;
+	// }
+	//
+	// GroupSkillAttributeCfg skillAttr = cfgDAO.getGroupSkillAttribute(tmp.getAttributeId());
+	// if (skillAttr == null) {
+	// continue;
+	// }
+	//
+	// energy += skillAttr.getEnergy();// 能量值
+	// life += skillAttr.getLife();// 生命
+	// attack += skillAttr.getAttack();// 攻击
+	// physiqueDef += skillAttr.getPhysiqueDef();// 体魄防御
+	// spiritDef += skillAttr.getSpiritDef();// 精神防御
+	// hit += skillAttr.getHit();// 命中
+	// dodge += skillAttr.getDodge();// 闪避
+	// critical += skillAttr.getCritical();// 暴击率
+	// toughness += skillAttr.getToughness();// 韧性
+	// resist += skillAttr.getResist();// 抵抗
+	// attackHurt += skillAttr.getAttackHurt();// 攻击伤害
+	// cutHurt += skillAttr.getCutHurt();// 伤害减免
+	// criticalHurt += skillAttr.getCriticalHurt();// 暴击伤害提升
+	// cutCritHurt += skillAttr.getCutCritHurt();// 暴击伤害减免
+	// lifeReceive += skillAttr.getLifeReceive();// 生命回复
+	// energyReceive += skillAttr.getEnergyReceive();// 能量值回复
+	// attackVampire += skillAttr.getAttackVampire();// 攻击吸血
+	// attackSpeed += skillAttr.getAttackSpeed();// 攻击速度
+	// moveSpeed += skillAttr.getMoveSpeed();// 移动速度
+	// addCure += skillAttr.getAddCure();// 受到治疗效果增加
+	// cutCure += skillAttr.getCutCure();// 受到治疗效果减少
+	// // //////////////////////////////////////////////百分比
+	// attackPercent += skillAttr.getAttackPercent();// 攻击百分比
+	// criticalHurtPercent += skillAttr.getCriticalHurtPercent();// 暴击伤害提升百分比
+	// criticalPercent += skillAttr.getCriticalPercent();// 暴击伤害提升百分比
+	// attackVampirePercent += skillAttr.getAttackVampirePercent(); // 吸血百分比
+	// spiritDefPercent += skillAttr.getSpiritDefPercent();// 法术防御百分比
+	// dodgePercent += skillAttr.getDodgePercent();// 闪避百分比
+	// physiqueDefPercent += skillAttr.getPhysiqueDefPercent();// 物理防御百分比
+	// attackHurtPercent += skillAttr.getAttackHurtPercent(); // 伤害减免百分比
+	// lifePercent += skillAttr.getLifePercent();// 生命百分比
+	// }
+	//
+	// AttrData attrData = new AttrData();
+	// attrData.setEnergy(energy);
+	// attrData.setLife(life);
+	// attrData.setAttack(attack);
+	// attrData.setPhysiqueDef(physiqueDef);
+	// attrData.setSpiritDef(spiritDef);
+	// attrData.setHit(hit);
+	// attrData.setDodge(dodge);
+	// attrData.setCritical(critical);
+	// attrData.setToughness(toughness);
+	// attrData.setResist(resist);
+	// attrData.setAttackHurt(attackHurt);
+	// attrData.setCutHurt(cutHurt);
+	// attrData.setCriticalHurt(criticalHurt);
+	// attrData.setCutCritHurt(cutCritHurt);
+	// attrData.setLifeReceive(lifeReceive);
+	// attrData.setEnergyReceive(energyReceive);
+	// attrData.setAttackVampire(attackVampire);
+	// attrData.setAttackSpeed(attackSpeed);
+	// attrData.setMoveSpeed(moveSpeed);
+	// attrData.setAddCure(addCure);
+	// attrData.setCutCure(cutCure);
+	// attrMap.put(AttrDataType.ATTR_DATA_TYPE.type, attrData);
+	//
+	// AttrData precentAttrData = new AttrData();
+	// precentAttrData.setAttack(attackPercent);
+	// precentAttrData.setAttackHurt(attackHurtPercent);
+	// precentAttrData.setAttackVampire(attackVampirePercent);
+	// precentAttrData.setCritical(criticalPercent);
+	// precentAttrData.setCriticalHurt(criticalHurtPercent);
+	// precentAttrData.setSpiritDef(spiritDefPercent);
+	// precentAttrData.setDodge(dodgePercent);
+	// precentAttrData.setPhysiqueDef(physiqueDefPercent);
+	// precentAttrData.setLife(lifePercent);
+	// attrMap.put(AttrDataType.ATTR_DATA_PRECENT_TYPE.type, precentAttrData);
+	//
+	// return attrMap;
+	// }
+
 	/**
-	 * 获取帮派技能增加属性
+	 * 获取帮派增加的属性
 	 * 
 	 * @return
 	 */
-	public Map<Integer, AttrData> getGroupSkillAttrData() {
-		Map<Integer, AttrData> attrMap = new HashMap<Integer, AttrData>(2);
+	public Map<Integer, AttributeItem> getGroupSkillAttrDataMap() {
+		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		if (userGroupData == null) {
-			return attrMap;
+			GameLog.error("计算英雄帮派属性", userId, "角色没有对应的UserGroupAttributeData数据");
+			return map;
 		}
 
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {// 没有帮派
-			return attrMap;
+			GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
+			return map;
 		}
 
 		if (!userGroupData.hasStudySkill()) {
-			return attrMap;
+			GameLog.error("计算英雄帮派属性", userId, "角色没有学习过任何技能");
+			return map;
 		}
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			return attrMap;
+			GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
+			return map;
 		}
-
-		int energy = 0;// 能量值
-		int life = 0;// 生命
-		int attack = 0;// 攻击
-		int physiqueDef = 0;// 体魄防御
-		int spiritDef = 0;// 精神防御
-		int hit = 0;// 命中
-		int dodge = 0;// 闪避
-		int critical = 0;// 暴击率
-		int toughness = 0;// 韧性
-		int resist = 0;// 抵抗
-		int attackHurt = 0;// 攻击伤害
-		int cutHurt = 0;// 伤害减免
-		int criticalHurt = 0;// 暴击伤害提升
-		int cutCritHurt = 0;// 暴击伤害减免
-		int lifeReceive = 0;// 生命回复
-		int energyReceive = 0;// 能量值回复
-		int attackVampire = 0;// 攻击吸血
-		int attackSpeed = 0;// 攻击速度
-		int moveSpeed = 0;// 移动速度
-		int addCure = 0;// 受到治疗效果增加
-		int cutCure = 0;// 受到治疗效果减少
-		int attackPercent = 0;// 攻击百分比
-		int criticalHurtPercent = 0;// 暴击伤害提升百分比
-		int criticalPercent = 0;// 暴击伤害提升百分比
-		int attackVampirePercent = 0; // 吸血百分比
-		int spiritDefPercent = 0;// 法术防御百分比
-		int dodgePercent = 0;// 闪避百分比
-		int physiqueDefPercent = 0;// 物理防御百分比
-		int attackHurtPercent = 0; // 伤害减免百分比
-		int lifePercent = 0;// 生命百分比
 
 		GroupSkillAttributeCfgDAO cfgDAO = GroupSkillAttributeCfgDAO.getCfgDAO();
 		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
@@ -424,76 +545,10 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 				continue;
 			}
 
-			energy += skillAttr.getEnergy();// 能量值
-			life += skillAttr.getLife();// 生命
-			attack += skillAttr.getAttack();// 攻击
-			physiqueDef += skillAttr.getPhysiqueDef();// 体魄防御
-			spiritDef += skillAttr.getSpiritDef();// 精神防御
-			hit += skillAttr.getHit();// 命中
-			dodge += skillAttr.getDodge();// 闪避
-			critical += skillAttr.getCritical();// 暴击率
-			toughness += skillAttr.getToughness();// 韧性
-			resist += skillAttr.getResist();// 抵抗
-			attackHurt += skillAttr.getAttackHurt();// 攻击伤害
-			cutHurt += skillAttr.getCutHurt();// 伤害减免
-			criticalHurt += skillAttr.getCriticalHurt();// 暴击伤害提升
-			cutCritHurt += skillAttr.getCutCritHurt();// 暴击伤害减免
-			lifeReceive += skillAttr.getLifeReceive();// 生命回复
-			energyReceive += skillAttr.getEnergyReceive();// 能量值回复
-			attackVampire += skillAttr.getAttackVampire();// 攻击吸血
-			attackSpeed += skillAttr.getAttackSpeed();// 攻击速度
-			moveSpeed += skillAttr.getMoveSpeed();// 移动速度
-			addCure += skillAttr.getAddCure();// 受到治疗效果增加
-			cutCure += skillAttr.getCutCure();// 受到治疗效果减少
-			// //////////////////////////////////////////////百分比
-			attackPercent += skillAttr.getAttackPercent();// 攻击百分比
-			criticalHurtPercent += skillAttr.getCriticalHurtPercent();// 暴击伤害提升百分比
-			criticalPercent += skillAttr.getCriticalPercent();// 暴击伤害提升百分比
-			attackVampirePercent += skillAttr.getAttackVampirePercent(); // 吸血百分比
-			spiritDefPercent += skillAttr.getSpiritDefPercent();// 法术防御百分比
-			dodgePercent += skillAttr.getDodgePercent();// 闪避百分比
-			physiqueDefPercent += skillAttr.getPhysiqueDefPercent();// 物理防御百分比
-			attackHurtPercent += skillAttr.getAttackHurtPercent(); // 伤害减免百分比
-			lifePercent += skillAttr.getLifePercent();// 生命百分比
+			AttributeUtils.calcAttribute(skillAttr.getAttrDataMap(), skillAttr.getPrecentAttrDataMap(), map);
 		}
 
-		AttrData attrData = new AttrData();
-		attrData.setEnergy(energy);
-		attrData.setLife(life);
-		attrData.setAttack(attack);
-		attrData.setPhysiqueDef(physiqueDef);
-		attrData.setSpiritDef(spiritDef);
-		attrData.setHit(hit);
-		attrData.setDodge(dodge);
-		attrData.setCritical(critical);
-		attrData.setToughness(toughness);
-		attrData.setResist(resist);
-		attrData.setAttackHurt(attackHurt);
-		attrData.setCutHurt(cutHurt);
-		attrData.setCriticalHurt(criticalHurt);
-		attrData.setCutCritHurt(cutCritHurt);
-		attrData.setLifeReceive(lifeReceive);
-		attrData.setEnergyReceive(energyReceive);
-		attrData.setAttackVampire(attackVampire);
-		attrData.setAttackSpeed(attackSpeed);
-		attrData.setMoveSpeed(moveSpeed);
-		attrData.setAddCure(addCure);
-		attrData.setCutCure(cutCure);
-		attrMap.put(GroupSkillAttrType.GROUP_SKILL_ATTR.type, attrData);
-
-		AttrData precentAttrData = new AttrData();
-		precentAttrData.setAttack(attackPercent);
-		precentAttrData.setAttackHurt(attackHurtPercent);
-		precentAttrData.setAttackVampire(attackVampirePercent);
-		precentAttrData.setCritical(criticalPercent);
-		precentAttrData.setCriticalHurt(criticalHurtPercent);
-		precentAttrData.setSpiritDef(spiritDefPercent);
-		precentAttrData.setDodge(dodgePercent);
-		precentAttrData.setPhysiqueDef(physiqueDefPercent);
-		precentAttrData.setLife(lifePercent);
-		attrMap.put(GroupSkillAttrType.GROUP_SKILL_PRECENT_ATTR.type, precentAttrData);
-
-		return attrMap;
+		return map;
 	}
 	// /**
 	// * 推送个人帮派学习技能的数据

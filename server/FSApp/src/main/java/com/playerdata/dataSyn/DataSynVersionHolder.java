@@ -8,6 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
@@ -90,6 +94,7 @@ public class DataSynVersionHolder {
 		for (PlayerDataMgr playerDataMgr : notInVersionControlList) {
 			playerDataMgr.syn(player, -1);
 		}
+		player.getUserTmpGameDataFlag().setSynAll(true);
 	}
 
 	private boolean isInit = false;
@@ -202,7 +207,8 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.ActivityCountType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
-				ActivityCountTypeMgr.getInstance().synCountTypeData(player);				
+				ActivityCountTypeMgr.getInstance().synCountTypeData(player);	
+//				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityCountType);
@@ -214,6 +220,39 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.Charge);
+		
+		versionMap.put(eSynType.ActivityTimeCardType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityTimeCardType);
+		
+		versionMap.put(eSynType.ActivityRateType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityRateTypeMgr.getInstance().synData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityRateType);
+		
+		versionMap.put(eSynType.ActivityTimeCountType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityTimeCountTypeMgr.getInstance().synTimeCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityTimeCountType);
+		
+		versionMap.put(eSynType.ActivityDailyType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityDailyCountTypeMgr.getInstance().synCountTypeData(player);	
+//				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityDailyType);
 
 		notInVersionControlList.add(notInVersionControlP);
 		

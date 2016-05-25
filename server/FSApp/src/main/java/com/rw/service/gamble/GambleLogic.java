@@ -24,6 +24,7 @@ import com.rw.service.gamble.datamodel.IDropGambleItemPlan;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwproto.GambleServiceProtos.EGambleResultType;
+import com.rwproto.GambleServiceProtos.EGambleType;
 import com.rwproto.GambleServiceProtos.GambleRequest;
 import com.rwproto.GambleServiceProtos.GambleResponse;
 import com.rwproto.GambleServiceProtos.GambleRewardData;
@@ -208,9 +209,10 @@ public class GambleLogic {
 		GambleLogicHelper.pushGambleItem(player,ranGen,defaultItem);
 
 		response.setResultType(EGambleResultType.SUCCESS);
-		
-		//通知统计服务
-		UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
+		//魂匣抽不算入通用活动
+		if(request.getGambleType() != EGambleType.ADVANCED){
+			UserEventMgr.getInstance().Gamble(player,planCfg.getDropItemCount() ,planCfg.getMoneyType());
+		}
 		
 		//抽卡完成后通知任务系统抽卡获得奖品的次数
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Altar,dropList.size());

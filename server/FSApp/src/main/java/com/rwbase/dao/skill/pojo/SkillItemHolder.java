@@ -8,12 +8,10 @@ import com.common.Action;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -118,20 +116,20 @@ public class SkillItemHolder {
 		ClientDataSynMgr.synDataList(player, itemList, skillSynType, eSynOpType.UPDATE_LIST);
 	}
 
-	public AttrData toAttrData() {
-		AttrData attrData = new AttrData();
-		Enumeration<Skill> mapEnum = getMapItemStore().getEnum();
-		while (mapEnum.hasMoreElements()) {
-			Skill item = (Skill) mapEnum.nextElement();
-			if (item.getLevel() <= 0) {
-				continue;
-			}
-			SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(item.getSkillId());
-			attrData.plus(AttrData.fromObject(pSkillCfg));
-
-		}
-		return attrData;
-	}
+	// public AttrData toAttrData() {
+	// AttrData attrData = new AttrData();
+	// Enumeration<Skill> mapEnum = getMapItemStore().getEnum();
+	// while (mapEnum.hasMoreElements()) {
+	// Skill item = (Skill) mapEnum.nextElement();
+	// if (item.getLevel() <= 0) {
+	// continue;
+	// }
+	// SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(item.getSkillId());
+	// attrData.plus(AttrData.fromObject(pSkillCfg));
+	//
+	// }
+	// return attrData;
+	// }
 
 	public void flush(boolean immediately) {
 		getMapItemStore().flush(immediately);

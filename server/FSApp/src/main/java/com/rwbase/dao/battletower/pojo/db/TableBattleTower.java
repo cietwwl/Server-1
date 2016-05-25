@@ -51,6 +51,7 @@ public class TableBattleTower implements TableBattleTowerIF {
 	private long sweepStartTime;// 扫荡开始的时间【重置时为0】
 	private int sweepStartFloor;// 扫荡开始的层数【重置时为0】
 	private boolean sweepState;// 扫荡的状态【重置时为false】
+	private int sweepTimePerFloor;// 扫荡每层的时间，开始扫荡的时候由特权给出值，一旦开始扫荡就不能因为特权提升而发生变化
 	// ////////////////////////////////////////
 	private int copper_key;// 铜钥匙
 	private int silver_key;// 银钥匙
@@ -396,6 +397,14 @@ public class TableBattleTower implements TableBattleTowerIF {
 
 	public void setSweepState(boolean sweepState) {
 		this.sweepState = sweepState;
+	}
+
+	public int getSweepTimePerFloor() {
+		return sweepTimePerFloor;
+	}
+
+	public void setSweepTimePerFloor(int sweepTimePerFloor) {
+		this.sweepTimePerFloor = sweepTimePerFloor;
 	}
 
 	public void setCopper_key(int copper_key) {

@@ -8,7 +8,7 @@ public class UserGameDataDao extends DataKVDao<UserGameData>{
 	
 	private static UserGameDataDao instance  =  new UserGameDataDao();
 	
-	private UserGameDataDao(){super();};
+//	 UserGameDataDao(){super();};
 	
 	public static UserGameDataDao getInstance(){
 		return instance;

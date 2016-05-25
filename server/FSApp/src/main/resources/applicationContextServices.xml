@@ -16,9 +16,9 @@
 		<property name="gmPassword" value="${gmPassword}" />
 	</bean>
 	<!-- 
+	 -->
 	<bean id="chargeHttpServer" class="com.rw.chargeServer.ChargeHttpServer" depends-on="serverConfig">
 	</bean>
-	 -->
 	
 	<bean id="serverVersionConfig" class="com.rw.manager.ServerVersionConfig">
 		<property name="version" value="${version}" />
@@ -58,11 +58,9 @@
 			    <entry key="MSG_TASK" value-ref="taskService" />
 			    <entry key="MSG_PEAK_ARENA" value-ref="peakArenaService" />
 			     <!--entry key="MSG_GUIDE" value-ref="guideService" /-->
-			     <entry key="MSG_SECRET_AREA" value-ref="secretService" />
 			     <entry key="MSG_ERRORINFO" value-ref="errorInfoService" />
 			     <entry key="MSG_Inlay" value-ref="inlayService" />
 			     <entry key="MSG_MainMsg" value-ref="mainMsgService" />
-			     <entry key="MSG_SECRET_MEMBER" value-ref="secretService" />
 			     <entry key="MSG_BATTLE_TOWER" value-ref="battleTowerService" />
 			     <entry key="MSG_FASHION" value-ref="fashionService" />
 			     <entry key="MSG_NEW_GUIDE" value-ref="newGuideService"/>
@@ -80,8 +78,10 @@
 			     <entry key="MSG_GIFT_CODE" value-ref="giftCodeService" />
 			     
 			     <entry key="MSG_ACTIVITY_COUNTTYPE" value-ref="activityCountTypeService" />
-			     
+			     <entry key="MSG_ACTIVITY_TIME_COUNT_TYPE" value-ref="activityTimeCountTypeService" />
+			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyCountTypeService" />
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
+			     <entry key="MSG_TAOIST" value-ref="taoistService" />
 			</map>
 		</property>
 	</bean>
@@ -120,7 +120,6 @@
 	<bean id="unendingWarService" class="com.rw.service.unendingwar.UnendingWarService"  />
 	<bean id="taskService" class="com.rw.service.task.TaskService"  />
 	<!--  bean id="guideService" class="com.rw.service.guide.GuideService"  /-->
-	<bean id="secretService" class="com.rw.service.GuildSecretArea.SecretService"  />
 	<bean id="errorInfoService" class="com.rw.service.gm.ErrorInfoService"  />
 	<bean id="inlayService" class="com.rw.service.inlay.InlayService"  />
 	<bean id="mainMsgService" class="com.rw.service.role.MainMsgService"  />
@@ -138,5 +137,8 @@
 	<bean id="giftCodeService" class="com.rw.service.giftcode.GiftCodeService"  />
 	
 	<bean id="activityCountTypeService" class="com.playerdata.activity.countType.service.ActivityCountTypeService"  />
+	<bean id="activityTimeCountTypeService" class="com.playerdata.activity.timeCountType.service.ActivityTimeCountTypeService"  />
+	<bean id="activityDailyCountTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyCountTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
+	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
 </beans>  

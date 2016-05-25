@@ -16,8 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.readonly.HeroMgrIF;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
-import com.rwbase.dao.hero.UserHeroDAO;
-import com.rwbase.dao.hero.pojo.TableUserHero;
+import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.hero.pojo.UserHerosDataHolder;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -35,17 +34,19 @@ public class HeroMgr implements HeroMgrIF {
 	private Player player;
 
 	// 初始化
-	public void init(Player playerP) {
+	public void init(Player playerP, boolean initHeros) {
 		player = playerP;
 		userHerosDataHolder = new UserHerosDataHolder(playerP.getUserId());
-		initHeros();
+		if (initHeros) {
+			initHeros();
+		}
 	}
 
 	// @Override
 	public void notifyPlayerCreated(Player player) {
-		TableUserHero userHeroTmp = new TableUserHero();
-		userHeroTmp.setUserId(player.getUserId());
-		UserHeroDAO.getInstance().update(userHeroTmp);
+		// TableUserHero userHeroTmp = new TableUserHero();
+		// userHeroTmp.setUserId(player.getUserId());
+		// UserHeroDAO.getInstance().update(userHeroTmp);
 	}
 
 	private void initHeros() {
@@ -198,8 +199,11 @@ public class HeroMgr implements HeroMgrIF {
 	public Hero addMainRoleHero(Player playerP, RoleCfg playerCfg) {
 		Hero hero = new Hero(playerP, eRoleType.Player, playerCfg, playerP.getUserId());
 		m_HeroMap.put(hero.getUUId(), hero);
-		userHerosDataHolder.get().addHeroId(hero.getUUId());
-		userHerosDataHolder.update(player);
+		// 这里会初始化两次Hero，因为前面已经初始化一次了，需要拆开逻辑来解决
+		// Hero hero = m_HeroMap.get(playerP.getUserId());
+		// hero.getSkillMgr().initSkill(playerCfg);
+		// userHerosDataHolder.get().addHeroId(hero.getUUId());
+		// userHerosDataHolder.update(player);
 		return hero;
 	}
 
@@ -235,6 +239,8 @@ public class HeroMgr implements HeroMgrIF {
 		userHerosDataHolder.update(player);
 		hero.syn(-1);
 		player.getTempAttribute().setHeroFightingChanged();
+		// 通知羁绊
+		FettersBM.whenHeroChange(player, hero.getModelId());
 		return hero;
 	}
 

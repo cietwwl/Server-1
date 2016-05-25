@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.charge.cfg.ChargeTypeEnum;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -25,7 +26,7 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 	
 	@Override
 	public Map<String, ActivityTimeCardTypeSubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTmeCardTypeSubCfg.csv", ActivityTimeCardTypeSubCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTimeCardTypeSubCfg.csv", ActivityTimeCardTypeSubCfg.class);
 		return cfgCacheMap;
 	}
 	
@@ -42,7 +43,29 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 		return targetList;
 		
 	}
+	public ActivityTimeCardTypeSubCfg getById(String subId){
+		ActivityTimeCardTypeSubCfg target = new ActivityTimeCardTypeSubCfg();
+		List<ActivityTimeCardTypeSubCfg> allCfg = getAllCfg();
+		for (ActivityTimeCardTypeSubCfg tmpItem : allCfg) {
+			if(StringUtils.equals(tmpItem.getId(), subId)){
+				target = tmpItem;
+			}
+		}
+		return target;		
+	}
 	
+	public ActivityTimeCardTypeSubCfg getBynume(ChargeTypeEnum cardenum){
+		ActivityTimeCardTypeSubCfg target = new ActivityTimeCardTypeSubCfg();
+		List<ActivityTimeCardTypeSubCfg> allCfg = getAllCfg();
+		for (ActivityTimeCardTypeSubCfg tmpItem : allCfg) {
+			if(StringUtils.equals(tmpItem.getChargeType().getCfgId(), cardenum.getCfgId())){
+				target = tmpItem;
+			}
+		}
+		return target;		
+	}
+	
+
 	
 
 

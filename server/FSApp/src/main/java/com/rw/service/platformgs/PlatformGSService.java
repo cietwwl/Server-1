@@ -68,11 +68,9 @@ public class PlatformGSService implements IShutdownHandler{
 	}
 
 	public static ByteString doTask(Request request) {
-		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
-			UserInfoRequest userRequest = UserInfoRequest.parseFrom(request
-					.getBody().getSerializedContent());
+			UserInfoRequest userRequest = UserInfoRequest.parseFrom(request.getBody().getSerializedContent());
 			ePlatformGSMsgType type = userRequest.getPlatformGSMsgType();
 			switch (type) {
 			case USER_INFO:

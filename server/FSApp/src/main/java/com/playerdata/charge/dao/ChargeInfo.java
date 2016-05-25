@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -19,10 +20,14 @@ public class ChargeInfo {
 
 	@Id
 	private String userId; // 用户ID
-
+	
 	//首充奖励是否已经领取
 	private boolean isFirstAwardTaken = false;
+	//限购商品的购买次数记录列表
+	private List<ChargeInfoSubRecording> payTimesList = new ArrayList<ChargeInfoSubRecording>();
 	
+
+
 	//充值次数
 	private int count;
 	//上次充值金额
@@ -36,6 +41,14 @@ public class ChargeInfo {
 	
 	private List<ChargeOrder> chargeOrderList = new ArrayList<ChargeOrder>();
 	
+	private boolean isChargeOn ;
+	
+	public boolean isChargeOn() {
+		return isChargeOn;
+	}
+	public void setChargeOn(boolean isChargeOn) {
+		this.isChargeOn = isChargeOn;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -99,7 +112,15 @@ public class ChargeInfo {
 		this.chargeOrderList = chargeOrderList;
 	}
 	
+	public List<ChargeInfoSubRecording> getPayTimesList() {
+		return payTimesList;
+	}
+	public void setPayTimesList(List<ChargeInfoSubRecording> payTimesList) {
+		this.payTimesList = payTimesList;
+	}
+	
 	public void addOrder(ChargeOrder chargeOrder){
+
 		if(chargeOrder == null){
 			return;
 		}
@@ -108,6 +129,9 @@ public class ChargeInfo {
 		if(chargeOrderList.size()>=maxSizeKeep){
 			chargeOrderList.remove(0);
 			chargeOrderList.add(0,chargeOrder);
+			Collections.sort(chargeOrderList);//排序，最新的排在后面
+		}else{
+			chargeOrderList.add(chargeOrder);
 			Collections.sort(chargeOrderList);//排序，最新的排在后面
 		}
 	
@@ -123,5 +147,6 @@ public class ChargeInfo {
 		}
 		return isExist;
 	}
+	
 	
 }

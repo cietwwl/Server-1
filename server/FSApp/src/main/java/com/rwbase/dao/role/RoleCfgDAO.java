@@ -26,16 +26,17 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 
 	@Override
 	public Map<String, RoleCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("role/RoleCfg.csv", RoleCfg.class);
-		initData();
+		Map<String, RoleCfg> readCsv2Map = CfgCsvHelper.readCsv2Map("role/RoleCfg.csv", RoleCfg.class);
 
-		if (cfgCacheMap != null && !cfgCacheMap.isEmpty()) {
+		if (readCsv2Map != null && !readCsv2Map.isEmpty()) {
 			HashMap<Integer, RoleCfg> roleCfgMapByModelId = new HashMap<Integer, RoleCfg>();
-			for (Entry<String, RoleCfg> e : cfgCacheMap.entrySet()) {
+			for (Entry<String, RoleCfg> e : readCsv2Map.entrySet()) {
 				RoleCfg value = e.getValue();
 				if (value == null) {
 					continue;
 				}
+
+				value.initData();
 
 				int modelId = value.getModelId();
 				if (roleCfgMapByModelId.containsKey(modelId)) {
@@ -46,7 +47,11 @@ public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 			}
 
 			this.roleCfgMapByModelId = roleCfgMapByModelId;
+			this.cfgCacheMap = readCsv2Map;
 		}
+
+		initData();
+
 		return cfgCacheMap;
 	}
 

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.fy</groupId>
 	<artifactId>FSVerWeb</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Version web</name>
 	<url>http://maven.apache.org</url>
@@ -12,6 +12,31 @@
 		<!-- <java.home>D:\develop\Java\jdk1.6.0_43</java.home> -->
 		<java.home>C:\Program Files\Java\jdk1.6.0_43</java.home>
 	</properties>
+	
+	<build>
+		<plugins>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-assembly-plugin</artifactId>
+			    
+				<executions>  <!--执行器 mvn assembly:assembly-->
+					<execution>
+						<id>make-zip</id><!--名字任意 -->  
+						<phase>package</phase><!-- 绑定到package生命周期阶段上 -->  
+						<goals>  
+						   <goal>single</goal><!-- 只运行一次 -->  
+						</goals>  
+						<configuration>
+								 <descriptors> <!--描述文件路径-->
+									  <descriptor>src/main/resources/zip.xml</descriptor>
+								</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			 </plugin>
+		</plugins>
+	</build>
 	
 	<dependencies>	  
 	<!-- spring3 -->
@@ -97,7 +122,6 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.4</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>

@@ -1,4 +1,4 @@
-﻿package com.playerdata;
+package com.playerdata;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,6 +9,8 @@ import com.bm.rank.RankType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Weight;
 import com.log.GameLog;
+import com.playerdata.activity.rateType.ActivityRateTypeEnum;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.CurAttrData;
@@ -35,6 +37,7 @@ import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayEnemyInfoDataHolder;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayFloorDataHolder;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngelArrayTeamInfoDataHolder;
 import com.rwbase.dao.anglearray.pojo.db.dao.AngleArrayDataDao;
+import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.tower.TowerAwardCfg;
 import com.rwbase.dao.tower.TowerAwardCfgDAO;
@@ -353,14 +356,15 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		if (floor > maxFloor) {
 			firstReward.append(TowerFirstAwardCfgDAO.getInstance().GetGooldListStr(String.valueOf(floor + 1)));
 		}
-
+		
+		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,CopyType.COPY_TYPE_TOWER, 3);		
 		TowerAwardCfg awardCfg = TowerAwardCfgDAO.getLevelTowerCfgByFloor(angleArrayData.getResetLevel(), floor);
 		if (awardCfg != null) {
 			// 过关奖励
 			int gold = awardCfg.gold;
 			int towerCoin = awardCfg.towerCoin;
 			if (gold > 0) {
-				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold).append(",");
+				dropReward.append(eSpecialItemId.Coin.getValue()).append("_").append(gold*multiple).append(",");
 			}
 			if (towerCoin > 0) {
 				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
@@ -382,7 +386,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 					int maxNum = goodCfg.getMaxNum();// 最大数量
 					int num = leastNum + (int) Math.random() * (maxNum - leastNum + 1);
 					if (num > 0) {
-						dropReward.append(goodCfg.getItemId()).append("_").append(num).append(",");
+						dropReward.append(goodCfg.getItemId()).append("_").append(num*multiple).append(",");
 					}
 				}
 			}

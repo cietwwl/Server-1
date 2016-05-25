@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.common.Action;
 import com.log.GameLog;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.inlay.InlayItemHelper;
 import com.rwbase.dao.inlay.InlayItemHolder;
@@ -24,7 +23,7 @@ public class InlayMgr extends IDataMgr {
 	public boolean init(Hero pOwner) {
 		initPlayer(pOwner);
 
-		inlayItemHolder = new InlayItemHolder(pOwner.getUUId(), pOwner.getModelId());
+		inlayItemHolder = new InlayItemHolder(pOwner);
 
 		return true;
 	}
@@ -38,13 +37,13 @@ public class InlayMgr extends IDataMgr {
 
 	}
 
-	public AttrData getTotalInlayAttrData() {
-		return inlayItemHolder.toAttrData();
-	}
+	// public AttrData getTotalInlayAttrData() {
+	// return inlayItemHolder.toAttrData();
+	// }
 
-	public AttrData getTotalInlayPercentAttrData() {
-		return inlayItemHolder.toPercentAttrData();
-	}
+	// public AttrData getTotalInlayPercentAttrData() {
+	// return inlayItemHolder.toPercentAttrData();
+	// }
 
 	/**
 	 * 镶嵌宝石
