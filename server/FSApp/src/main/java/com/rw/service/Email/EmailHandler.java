@@ -46,7 +46,9 @@ public class EmailHandler {
 			response.setResultType(EmailResultType.SUCCESS);
 		}else{
 			response.setResultType(EmailResultType.FAIL);
-		}		
+		}
+		
+		
 		return response.build().toByteString();
 	}
 

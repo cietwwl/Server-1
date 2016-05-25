@@ -11,7 +11,8 @@ public class Test {
 		// robot.equipAttach();
 		// }
 
-		// Robot robot = createRobot("testallen0002");
+		 Robot robot = createRobot("testallen0002");
+		 
 		// long start = System.currentTimeMillis();
 		// Robot robot = loginRobot("testallen0003");
 		// Robot robot = loginRobot("hclovehf");
