@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaConstant;
-import com.bm.arena.PeakArenaBM;
-import com.bm.arena.PeakArenaScoreLevel;
 import com.bm.rank.RankType;
 import com.bm.rank.peakArena.PeakArenaExtAttribute;
 import com.google.protobuf.ByteString;

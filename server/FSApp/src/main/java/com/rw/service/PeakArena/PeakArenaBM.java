@@ -1,4 +1,4 @@
-package com.bm.arena;
+package com.rw.service.PeakArena;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.bm.arena.ArenaConstant;
 import com.bm.rank.RankType;
 import com.bm.rank.peakArena.PeakArenaExtAttribute;
 import com.log.GameLog;
