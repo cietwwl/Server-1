@@ -16,8 +16,10 @@ import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
+import com.rw.service.log.template.BILogTemplateHelper;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -648,6 +650,8 @@ public class BattleTowerHandler {
 		// 发送协议
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
+		int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(startFloor);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER,copyId);
 		commonRsp.setConfig(config);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
@@ -709,7 +713,11 @@ public class BattleTowerHandler {
 		
 		UserEventMgr.getInstance().BattleTower(player, highestFloor);
 		dao.update(tableBattleTower);
-
+		
+		String strOfActivityLog = null;
+		strOfActivityLog = BILogTemplateHelper.getString(reward);
+		int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(highestFloor);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, true,(int)needTime,strOfActivityLog);
 		// 发送协议
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
@@ -949,7 +957,8 @@ public class BattleTowerHandler {
 		tableBattleTower.setCurFloor(floor);// 设置当前要打的层
 		tableBattleTower.setResult(false);// 当前还没有结果
 		
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD,floor);
+		int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(floor);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER,copyId);
 		
 		
 		
@@ -1022,6 +1031,9 @@ public class BattleTowerHandler {
 		}
 
 		tableBattleTower.setResult(true);// 设置已经拿到战斗结果的标记
+		
+		
+		
 		if (!result) {// 失败了
 			//by frnaky 战败了允许再次挑战
 			tableBattleTower.setCurFloor(floorList.get(0));// 设置当前新的层
@@ -1075,7 +1087,7 @@ public class BattleTowerHandler {
 			// 奖励模版
 			BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
 			BattleTowerRewardCfg rewardCfg = (BattleTowerRewardCfg) rewardCfgDao.getCfgById(String.valueOf(groupId));
-
+			
 			boolean isLastFloor = false;
 			if (floor == floorList.get(floorList.size() - 1)) {// 是最后一层
 				isLastFloor = true;
@@ -1136,9 +1148,19 @@ public class BattleTowerHandler {
 					rewardInfoMsg.setType(key);
 					rewardInfoMsg.setCount(num);
 					rsp.addRewardInfoMsg(rewardInfoMsg);
+					
+					
 				}
+				
+				String strOfActivityLog = null;
+				int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(floor);
+				strOfActivityLog = BILogTemplateHelper.getString(itemInfoList);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, result,0,strOfActivityLog);
 			}
-
+			
+			
+			
+			
 			// Boss信息
 			BattleTowerConfigCfg configCfg = BattleTowerConfigCfgDao.getCfgDao().getUniqueCfg();
 			int perDayBossSize = configCfg.getPerDayBossSize();// 当天可以产生的Boss数量
@@ -1194,11 +1216,11 @@ public class BattleTowerHandler {
 			}
 			UserEventMgr.getInstance().BattleTower(player, floor);
 		}
-
+		
 		dao.update(tableBattleTower);
 		//开服活动通知
 		player.getFresherActivityMgr().doCheck(eActivityType.A_Tower);
-
+		
 		// 到这里就算成功了
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 		commonRsp.setRspBody(rsp.build().toByteString());
@@ -1241,7 +1263,7 @@ public class BattleTowerHandler {
 
 		tableBattleTower.setChallengeBossId(bossId);
 		dao.update(tableBattleTower);
-
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER_BOSS,bossId);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
 
@@ -1261,23 +1283,18 @@ public class BattleTowerHandler {
 			SetFail(commonRsp, "挑战Boss结束", userId, "获取个人的试练塔数据为null", "数据异常");
 			return;
 		}
-
+		
+		
+		
 		int challengeBossId = tableBattleTower.getChallengeBossId();
 		if (challengeBossId <= 0) {// 如果当前缓存的BossId是0,就证明根本没缓存Boss数据
 			SetFail(commonRsp, "挑战Boss结束", userId, "角色可能作弊了，因为缓存的挑战Boss数据是没有的", "当前没有Boss数据");
 			return;
 		}
-
-		boolean result = req.getResult();
-		if (!result) {// 失败了，就直接清空缓存数据
-			tableBattleTower.setChallengeBossId(0);
-			dao.update(tableBattleTower);
-
-			commonRsp.setRspState(EResponseState.RSP_SUCESS);
-			return;
-		}
-
+		
+		
 		int bossId = req.getBossId();
+		
 		if (challengeBossId != bossId) {// 缓存的数据和传递的比一样，就说明客户端采用非法手段发送协议，直接拒绝处理
 			SetFail(commonRsp, "挑战Boss结束", userId, String.format("客户端请求的挑战BossId为%s，服务器缓存的是%s", bossId, challengeBossId), "请求数据异常");
 			return;
@@ -1296,14 +1313,27 @@ public class BattleTowerHandler {
 			SetFail(commonRsp, "挑战Boss结束", userId, String.format("对应的Boss模版Id为%s的BossCfg模版不存在", bossInfo.getBossId()), "Boss不存在");
 			return;
 		}
-
+		BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
+		List<ItemInfo> itemInfoList = rewardCfgDao.getRanRewardItem(bossCfg.getDropIdArr(), player);
+		
+		String strOfActivityLog = null;
+		boolean result = req.getResult();
+		strOfActivityLog = BILogTemplateHelper.getString(itemInfoList);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER_BOSS, bossId, result,0,strOfActivityLog);
+		
+		if (!result) {// 失败了，就直接清空缓存数据
+			tableBattleTower.setChallengeBossId(0);
+			dao.update(tableBattleTower);			
+			commonRsp.setRspState(EResponseState.RSP_SUCESS);
+			return;
+		}
+		
 		// 清除Boss数据
 		tableBattleTower.setChallengeBossId(0);
 		tableBattleTower.removeBoss(bossId);
 		dao.update(tableBattleTower);
 
-		BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
-		List<ItemInfo> itemInfoList = rewardCfgDao.getRanRewardItem(bossCfg.getDropIdArr(), player);
+		
 
 		// 响应协议
 		ChallengeBossEndRspMsg.Builder rsp = ChallengeBossEndRspMsg.newBuilder();
@@ -1327,7 +1357,8 @@ public class BattleTowerHandler {
 			rewardInfoMsg.setCount(num);
 			rsp.addRewardInfoMsg(rewardInfoMsg);
 		}
-
+		
+		
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
