@@ -15,6 +15,7 @@ import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
+import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.ReConnectionProtos.SyncVersion;
 
@@ -253,6 +254,7 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyType);
+
 		
 		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -261,6 +263,16 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MagicChapterData);
+		
+		versionMap.put(eSynType.QuestionList, new PlayerDataMgr(new RecordSynchronization() {
+			
+			@Override
+			public void synAllData(Player player, int version) {
+				// TODO Auto-generated method stub
+				player.getPlayerQuestionMgr().sync(version);
+			}
+		}));
+		orderList.add(eSynType.QuestionList);
 		
 		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override

@@ -83,6 +83,7 @@
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
 			     <entry key="MSG_MAGIC_SECRET" value-ref="magicSecretService" />
+			     <entry key="MSG_FEEDBACK" value-ref="feedbackService" />
 			</map>
 		</property>
 	</bean>
@@ -142,6 +143,6 @@
 	<bean id="activityDailyCountTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyCountTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
-	
 	<bean id="magicSecretService" class="com.playerdata.mgcsecret.service.MagicSecretService"/>
+	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
 </beans>  
