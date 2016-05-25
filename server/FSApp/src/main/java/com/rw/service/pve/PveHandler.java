@@ -76,7 +76,7 @@ public class PveHandler {
 		int btCount = 0;
 		if (tableBattleTower != null) {
 			int battleTowerResetTimes = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
-			btCount = battleTowerResetTimes - angleData.getResetTimes();
+			btCount = battleTowerResetTimes - tableBattleTower.getResetTimes();
 		}
 		battleTower.setCopyType(CopyType.COPY_TYPE_BATTLETOWER);
 		battleTower.setRemainSeconds(0);
@@ -128,7 +128,8 @@ public class PveHandler {
 		CopyDataMgr copyDataMgr = player.getCopyDataMgr();
 		List<CopyInfoCfgIF> infoCfgList = copyDataMgr.getTodayInfoCfg(type);
 
-		int minCount = -1;// 最小次数
+//		int minCount = -1;// 最小次数
+		int totalCount = 0;
 		int maxTime = 0;// 需要的时间
 		for (int i = infoCfgList.size(); --i >= 0;) {
 			CopyInfoCfgIF cfg = infoCfgList.get(i);
@@ -149,10 +150,12 @@ public class PveHandler {
 			int copyCount = data.getCopyCount();// 剩余次数
 
 			// 如果还没被赋值，上次数量是0，当前次数<上次次数
-			if (minCount <= 0 || (copyCount > 0 && copyCount < minCount)) {
-				minCount = copyCount;
+//			if (minCount <= 0 || (copyCount > 0 && copyCount < minCount)) {
+//				minCount = copyCount;
+//			}
+			if(copyCount > 0){
+				totalCount += copyCount;
 			}
-
 			int time = getRemainSeconds(player, data.getLastChallengeTime(), currentTime, type);
 
 			if (time > maxTime) {
@@ -160,13 +163,13 @@ public class PveHandler {
 			}
 		}
 
-		if (minCount <= 0) {
+		if (totalCount <= 0) {
 			maxTime = 0;
 		}
 
 		activity.setCopyType(type);
 		activity.setRemainSeconds(maxTime);
-		activity.setRemainTimes(minCount);
+		activity.setRemainTimes(totalCount);
 		return activity;
 	}
 
@@ -180,7 +183,7 @@ public class PveHandler {
 	 * @return
 	 */
 	public int getRemainSeconds(Player player, long lastTime, long currentTime, int copyType) {
-		CopyEntryCfg entry = (CopyEntryCfg) CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
+		CopyEntryCfg entry = CopyEntryCfgDAO.getInstance().getCfgById(String.valueOf(copyType));
 		if (entry == null) {
 			return 0;
 		}

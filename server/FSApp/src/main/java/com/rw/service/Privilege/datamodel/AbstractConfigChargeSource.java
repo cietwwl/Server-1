@@ -65,7 +65,7 @@ public abstract class AbstractConfigChargeSource<NameEnumCl extends Enum<NameEnu
 		for (Entry<NameEnumCl, Object> entry : fvalues) {
 			NameEnumCl priName = entry.getKey();
 			if (pre == null) {
-				GameLog.info("特权", chargeLvl + ":" + priName, "没有前一档次的充值类型", null);
+				//GameLog.info("特权", chargeLvl + ":" + priName, "没有前一档次的充值类型", null);
 				continue;
 			}
 			Object test = entry.getValue();

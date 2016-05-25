@@ -26,7 +26,10 @@ public class ComGiftMgr {
 	}
 	/**传入comgiftdao表里的道具奖励 包id，将包里的奖励道具派出到用户背包 */
 	public void addGiftById(Player player, String string){
-		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(string);		
+		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(string);	
+		if(giftcfg == null){
+			return;
+		}
 		Set<String> keyset = giftcfg.getGiftMap().keySet();
 		Iterator<String> iterable = keyset.iterator();
 		while(iterable.hasNext()){
@@ -63,7 +66,9 @@ public class ComGiftMgr {
 	private String makegiftToMail(String giftid){
 		StringBuilder sb = new StringBuilder();
 		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(giftid);
-		
+		if(giftcfg == null){
+			return null;
+		}
 		
 		Set<String> keyset = giftcfg.getGiftMap().keySet();
 		Iterator<String> iterable = keyset.iterator();

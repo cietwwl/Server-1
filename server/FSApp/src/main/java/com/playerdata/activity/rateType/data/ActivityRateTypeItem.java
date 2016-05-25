@@ -13,18 +13,44 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_ratetype_item")
-public class ActivityRateTypeItem implements  IMapItem {
+public class ActivityRateTypeItem implements IMapItem {
 
 	@Id
 	private String id;
-	
+
 	private String userId;// 对应的角色Id
 
 	@CombineSave
 	private String cfgId;
-	
+
 	@CombineSave
 	private boolean closed = false;
+
+	@CombineSave
+	private String version;
+
+	@CombineSave
+	private int multiple;
+	
+	
+	
+
+
+	public int getMultiple() {
+		return multiple;
+	}
+
+	public void setMultiple(int multiple) {
+		this.multiple = multiple;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	public String getId() {
 		return id;
@@ -58,5 +84,4 @@ public class ActivityRateTypeItem implements  IMapItem {
 		this.closed = closed;
 	}
 
-	
 }

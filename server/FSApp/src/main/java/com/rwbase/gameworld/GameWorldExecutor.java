@@ -1,14 +1,16 @@
 package com.rwbase.gameworld;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.fsutil.common.TaskExceptionHandler;
+import com.rw.fsutil.concurrent.ParametricTask;
+import com.rw.fsutil.concurrent.QueuedTaskExecutor;
+import com.rw.fsutil.dao.cache.SimpleThreadFactory;
 import com.rw.fsutil.log.EngineLogger;
 import com.rwbase.common.PlayerTaskListener;
 import com.rwbase.dao.gameworld.GameWorldAttributeData;
@@ -25,17 +27,48 @@ import com.rwbase.dao.gameworld.GameWorldDAO;
 public class GameWorldExecutor implements GameWorld {
 
 	private final EngineLogger logger; // 引擎专用logger
-	private final ConcurrentHashMap<String, TaskQueue> map; // 记录以角色ID作为主键执行的任务
-	private final ThreadPoolExecutor executor; // 游戏逻辑线程池(迟点有时间自己实现)
 	private final ThreadPoolExecutor aysnExecutor;
 	private volatile ArrayList<PlayerTaskListener> listeners;
-	private final int checkNum = 0xF;	
-	
+	private QueuedTaskExecutor<String, Player> queuedTaskExecutor;
+	private QueuedTaskExecutor<String, Void> createExecutor;
+
 	public GameWorldExecutor(int threadSize, EngineLogger logger, int asynThreadSize) {
 		this.logger = logger;
-		this.map = new ConcurrentHashMap<String, TaskQueue>(threadSize, 0.5f, threadSize);
-		this.executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player_pool"));
+		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("aysn_logic"));
+		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(threadSize, logger, executor) {
+
+			@Override
+			protected Player tryFetchParam(String key) {
+				return PlayerMgr.getInstance().find(key);
+			}
+
+			@Override
+			protected void afterExecute(String key, Player player) {
+				if (GameWorldExecutor.this.listeners != null) {
+					for (int i = listeners.size(); --i >= 0;) {
+						try {
+							PlayerTaskListener listener = listeners.get(i);
+							listener.notifyTaskCompleted(player);
+						} catch (Throwable t) {
+							GameWorldExecutor.this.logger.error("listener notification raised an exception", t);
+						}
+					}
+				}
+			}
+		};
+		ThreadPoolExecutor accountExecutor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("account_pool"));
+		this.createExecutor = new QueuedTaskExecutor<String, Void>(threadSize, logger, accountExecutor) {
+
+			@Override
+			protected Void tryFetchParam(String key) {
+				return null;
+			}
+
+			@Override
+			protected void afterExecute(String key, Void param) {
+			}
+		};
 	}
 
 	/**
@@ -48,6 +81,32 @@ public class GameWorldExecutor implements GameWorld {
 	}
 
 	/**
+	 * 执行账号相关的任务
+	 * 
+	 * @param accountId
+	 * @param task
+	 */
+	public void executeAccountTask(String accountId, final Runnable task) {
+		createExecutor.asyncExecute(accountId, new ParametricTask<Void>() {
+
+			@Override
+			public void run(Void e) {
+				task.run();
+			}
+		});
+	}
+
+	/**
+	 * 获取某个账号当前正在执行的任务数量
+	 * 
+	 * @param accountId
+	 * @return
+	 */
+	public int getAccountTaskCount(String accountId) {
+		return createExecutor.getTaskCount(accountId);
+	}
+
+	/**
 	 * <pre>
 	 * 异步执行指定主键的任务
 	 * </pre>
@@ -57,22 +116,7 @@ public class GameWorldExecutor implements GameWorld {
 	 * @param handler
 	 */
 	public void asyncExecute(String key, PlayerTask task, TaskExceptionHandler handler) {
-		TaskQueue keyTask = map.get(key);
-		TaskDecoration decoratioin = new TaskDecoration(task, handler);
-		if (keyTask != null && keyTask.addTask(decoratioin)) {
-			return;
-		}
-		TaskQueue newTask = new TaskQueue(key);
-		for (;;) {
-			TaskQueue old = map.putIfAbsent(key, newTask);
-			if (old == null) {
-				if (newTask.addTask(decoratioin)) {
-					break;
-				}
-			} else if (old.addTask(decoratioin)) {
-				break;
-			}
-		}
+		queuedTaskExecutor.asyncExecute(key, task, handler);
 	}
 
 	/**
@@ -84,99 +128,7 @@ public class GameWorldExecutor implements GameWorld {
 	 * @param task
 	 */
 	public void asyncExecute(String key, PlayerTask task) {
-		asyncExecute(key, task, null);
-	}
-
-	class TaskQueue implements Runnable {
-
-		private final String key;
-		private final LinkedList<TaskDecoration> taskQueue;
-		private boolean removed;
-		private boolean submit;
-
-		private TaskQueue(String key) {
-			this.key = key;
-			this.taskQueue = new LinkedList<TaskDecoration>();
-		}
-
-		public boolean addTask(TaskDecoration task) {
-			boolean offerExecutor;
-			synchronized (this) {
-				if (removed) {
-					return false;
-				}
-				taskQueue.add(task);
-				if (!submit) {
-					submit = true;
-					offerExecutor = true;
-				} else {
-					offerExecutor = false;
-				}
-			}
-			if (offerExecutor) {
-				executor.execute(this);
-			}
-			return true;
-		}
-
-		@Override
-		public void run() {
-			TaskDecoration taskDecoratioin = null;
-			Player player = null;
-			int count = 0;
-			for (;;) {
-				synchronized (this) {
-					taskDecoratioin = taskQueue.poll();
-					if (taskDecoratioin == null) {
-						map.remove(key);
-						removed = true;
-						break;
-					}
-				}
-				try {
-					// GameWorld不持有Player对象
-					if (player == null) {
-						PlayerMgr playerMgr = PlayerMgr.getInstance();
-						player = playerMgr.find(key);
-					}
-					// 即使Player为null也执行task
-					taskDecoratioin.getTask().run(player);
-					// 通知监听玩家任务
-					count++;
-					if((count & checkNum) == 0){
-						notifyTaskListener(player);
-					}
-				} catch (Throwable t) {
-					t.printStackTrace();
-					logger.error("A task raised an exception", t);
-					TaskExceptionHandler handler = taskDecoratioin.getHandler();
-					try {
-						if (handler != null) {
-							handler.handle(t);
-						}
-					} catch (Throwable t2) {
-						t2.printStackTrace();
-						logger.error("exception handler raised an exception", t2);
-					}
-				}
-			}
-			if((count & checkNum) != 0){
-				notifyTaskListener(player);
-			}
-		}
-	}
-
-	private void notifyTaskListener(Player player) {
-		if (GameWorldExecutor.this.listeners != null) {
-			for (int i = listeners.size(); --i >= 0;) {
-				try {
-					PlayerTaskListener listener = listeners.get(i);
-					listener.notifyTaskCompleted(player);
-				} catch (Throwable t) {
-					logger.error("listener notification raised an exception", t);
-				}
-			}
-		}
+		queuedTaskExecutor.asyncExecute(key, task, null);
 	}
 
 	@Override
@@ -188,7 +140,7 @@ public class GameWorldExecutor implements GameWorld {
 	@Override
 	public boolean updateAttribute(GameWorldKey key, String attribute) {
 		GameWorldAttributeData data = GameWorldDAO.getInstance().get(key.name());
-		if(data == null){
+		if (data == null) {
 			data = new GameWorldAttributeData();
 		}
 		data.setKey(key.name());
@@ -206,27 +158,6 @@ public class GameWorldExecutor implements GameWorld {
 		}
 		list.add(listener);
 		this.listeners = list;
-	}
-
-}
-
-class TaskDecoration {
-
-	private final PlayerTask task;
-	private final TaskExceptionHandler handler;
-
-	public TaskDecoration(PlayerTask task, TaskExceptionHandler handler) {
-		super();
-		this.task = task;
-		this.handler = handler;
-	}
-
-	public PlayerTask getTask() {
-		return task;
-	}
-
-	public TaskExceptionHandler getHandler() {
-		return handler;
 	}
 
 }

@@ -104,6 +104,38 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     BUY_TIMES(12, 12),
+    /**
+     * <code>SCORE = 13;</code>
+     *
+     * <pre>
+     *竞技场积分
+     * </pre>
+     */
+    SCORE(13, 13),
+    /**
+     * <code>GET_REWARD = 14;</code>
+     *
+     * <pre>
+     *领取奖励
+     * </pre>
+     */
+    GET_REWARD(14, 14),
+    /**
+     * <code>HIS_RANK_REWARD_VIEW = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    HIS_RANK_REWARD_VIEW(15, 15),
+    /**
+     * <code>HIS_RANK_GET_REWARD = 16;</code>
+     *
+     * <pre>
+     *领取历史排行榜阶段奖励
+     * </pre>
+     */
+    HIS_RANK_GET_REWARD(16, 16),
     ;
 
     /**
@@ -197,6 +229,38 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     public static final int BUY_TIMES_VALUE = 12;
+    /**
+     * <code>SCORE = 13;</code>
+     *
+     * <pre>
+     *竞技场积分
+     * </pre>
+     */
+    public static final int SCORE_VALUE = 13;
+    /**
+     * <code>GET_REWARD = 14;</code>
+     *
+     * <pre>
+     *领取奖励
+     * </pre>
+     */
+    public static final int GET_REWARD_VALUE = 14;
+    /**
+     * <code>HIS_RANK_REWARD_VIEW = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    public static final int HIS_RANK_REWARD_VIEW_VALUE = 15;
+    /**
+     * <code>HIS_RANK_GET_REWARD = 16;</code>
+     *
+     * <pre>
+     *领取历史排行榜阶段奖励
+     * </pre>
+     */
+    public static final int HIS_RANK_GET_REWARD_VALUE = 16;
 
 
     public final int getNumber() { return value; }
@@ -216,6 +280,10 @@ public final class ArenaServiceProtos {
         case 10: return GET_PLACE;
         case 11: return GET_HURT_VALUE;
         case 12: return BUY_TIMES;
+        case 13: return SCORE;
+        case 14: return GET_REWARD;
+        case 15: return HIS_RANK_REWARD_VIEW;
+        case 16: return HIS_RANK_GET_REWARD;
         default: return null;
       }
     }
@@ -8309,6 +8377,42 @@ public final class ArenaServiceProtos {
      */
     com.google.protobuf.ByteString
         getAtkIdListBytes(int index);
+
+    // optional int32 rewardId = 14;
+    /**
+     * <code>optional int32 rewardId = 14;</code>
+     *
+     * <pre>
+     * 领取奖励
+     * </pre>
+     */
+    boolean hasRewardId();
+    /**
+     * <code>optional int32 rewardId = 14;</code>
+     *
+     * <pre>
+     * 领取奖励
+     * </pre>
+     */
+    int getRewardId();
+
+    // optional int32 historyRewardId = 15;
+    /**
+     * <code>optional int32 historyRewardId = 15;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励ID
+     * </pre>
+     */
+    boolean hasHistoryRewardId();
+    /**
+     * <code>optional int32 historyRewardId = 15;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励ID
+     * </pre>
+     */
+    int getHistoryRewardId();
   }
   /**
    * Protobuf type {@code MsgArenaRequest}
@@ -8422,6 +8526,16 @@ public final class ArenaServiceProtos {
                 mutable_bitField0_ |= 0x00000080;
               }
               atkIdList_.add(input.readBytes());
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00000020;
+              rewardId_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00000040;
+              historyRewardId_ = input.readInt32();
               break;
             }
           }
@@ -8726,6 +8840,54 @@ public final class ArenaServiceProtos {
       return atkIdList_.getByteString(index);
     }
 
+    // optional int32 rewardId = 14;
+    public static final int REWARDID_FIELD_NUMBER = 14;
+    private int rewardId_;
+    /**
+     * <code>optional int32 rewardId = 14;</code>
+     *
+     * <pre>
+     * 领取奖励
+     * </pre>
+     */
+    public boolean hasRewardId() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 rewardId = 14;</code>
+     *
+     * <pre>
+     * 领取奖励
+     * </pre>
+     */
+    public int getRewardId() {
+      return rewardId_;
+    }
+
+    // optional int32 historyRewardId = 15;
+    public static final int HISTORYREWARDID_FIELD_NUMBER = 15;
+    private int historyRewardId_;
+    /**
+     * <code>optional int32 historyRewardId = 15;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励ID
+     * </pre>
+     */
+    public boolean hasHistoryRewardId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 historyRewardId = 15;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励ID
+     * </pre>
+     */
+    public int getHistoryRewardId() {
+      return historyRewardId_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.ArenaServiceProtos.eArenaType.GET_INFO;
       userId_ = "";
@@ -8735,6 +8897,8 @@ public final class ArenaServiceProtos {
       hurtValue_ = java.util.Collections.emptyList();
       recordId_ = 0;
       atkIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      rewardId_ = 0;
+      historyRewardId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8788,6 +8952,12 @@ public final class ArenaServiceProtos {
       for (int i = 0; i < atkIdList_.size(); i++) {
         output.writeBytes(8, atkIdList_.getByteString(i));
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(14, rewardId_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(15, historyRewardId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -8838,6 +9008,14 @@ public final class ArenaServiceProtos {
         }
         size += dataSize;
         size += 1 * getAtkIdListList().size();
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, rewardId_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, historyRewardId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8981,6 +9159,10 @@ public final class ArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         atkIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000080);
+        rewardId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        historyRewardId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -9054,6 +9236,14 @@ public final class ArenaServiceProtos {
           bitField0_ = (bitField0_ & ~0x00000080);
         }
         result.atkIdList_ = atkIdList_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.rewardId_ = rewardId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.historyRewardId_ = historyRewardId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9132,6 +9322,12 @@ public final class ArenaServiceProtos {
             atkIdList_.addAll(other.atkIdList_);
           }
           onChanged();
+        }
+        if (other.hasRewardId()) {
+          setRewardId(other.getRewardId());
+        }
+        if (other.hasHistoryRewardId()) {
+          setHistoryRewardId(other.getHistoryRewardId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10015,6 +10211,104 @@ public final class ArenaServiceProtos {
   }
   ensureAtkIdListIsMutable();
         atkIdList_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional int32 rewardId = 14;
+      private int rewardId_ ;
+      /**
+       * <code>optional int32 rewardId = 14;</code>
+       *
+       * <pre>
+       * 领取奖励
+       * </pre>
+       */
+      public boolean hasRewardId() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 rewardId = 14;</code>
+       *
+       * <pre>
+       * 领取奖励
+       * </pre>
+       */
+      public int getRewardId() {
+        return rewardId_;
+      }
+      /**
+       * <code>optional int32 rewardId = 14;</code>
+       *
+       * <pre>
+       * 领取奖励
+       * </pre>
+       */
+      public Builder setRewardId(int value) {
+        bitField0_ |= 0x00000100;
+        rewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 rewardId = 14;</code>
+       *
+       * <pre>
+       * 领取奖励
+       * </pre>
+       */
+      public Builder clearRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        rewardId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 historyRewardId = 15;
+      private int historyRewardId_ ;
+      /**
+       * <code>optional int32 historyRewardId = 15;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励ID
+       * </pre>
+       */
+      public boolean hasHistoryRewardId() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 historyRewardId = 15;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励ID
+       * </pre>
+       */
+      public int getHistoryRewardId() {
+        return historyRewardId_;
+      }
+      /**
+       * <code>optional int32 historyRewardId = 15;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励ID
+       * </pre>
+       */
+      public Builder setHistoryRewardId(int value) {
+        bitField0_ |= 0x00000200;
+        historyRewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 historyRewardId = 15;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励ID
+       * </pre>
+       */
+      public Builder clearHistoryRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        historyRewardId_ = 0;
         onChanged();
         return this;
       }
@@ -11964,6 +12258,94 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     int getBuyTimes();
+
+    // optional int32 currentScore = 13;
+    /**
+     * <code>optional int32 currentScore = 13;</code>
+     *
+     * <pre>
+     *当前积分
+     * </pre>
+     */
+    boolean hasCurrentScore();
+    /**
+     * <code>optional int32 currentScore = 13;</code>
+     *
+     * <pre>
+     *当前积分
+     * </pre>
+     */
+    int getCurrentScore();
+
+    // repeated int32 getCount = 14;
+    /**
+     * <code>repeated int32 getCount = 14;</code>
+     *
+     * <pre>
+     * 已领奖励次数
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getGetCountList();
+    /**
+     * <code>repeated int32 getCount = 14;</code>
+     *
+     * <pre>
+     * 已领奖励次数
+     * </pre>
+     */
+    int getGetCountCount();
+    /**
+     * <code>repeated int32 getCount = 14;</code>
+     *
+     * <pre>
+     * 已领奖励次数
+     * </pre>
+     */
+    int getGetCount(int index);
+
+    // optional .ArenaHistoryResponse historyReward = 15;
+    /**
+     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    boolean hasHistoryReward();
+    /**
+     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    com.rwproto.ArenaServiceProtos.ArenaHistoryResponse getHistoryReward();
+    /**
+     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder getHistoryRewardOrBuilder();
+
+    // optional .eArenaResultType gainRewardResult = 16;
+    /**
+     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励结果
+     * </pre>
+     */
+    boolean hasGainRewardResult();
+    /**
+     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励结果
+     * </pre>
+     */
+    com.rwproto.ArenaServiceProtos.eArenaResultType getGainRewardResult();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -12116,6 +12498,56 @@ public final class ArenaServiceProtos {
               buyTimes_ = input.readInt32();
               break;
             }
+            case 104: {
+              bitField0_ |= 0x00000100;
+              currentScore_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              if (!((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+                getCount_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00002000;
+              }
+              getCount_.add(input.readInt32());
+              break;
+            }
+            case 114: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00002000) == 0x00002000) && input.getBytesUntilLimit() > 0) {
+                getCount_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00002000;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                getCount_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 122: {
+              com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000200) == 0x00000200)) {
+                subBuilder = historyReward_.toBuilder();
+              }
+              historyReward_ = input.readMessage(com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(historyReward_);
+                historyReward_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000200;
+              break;
+            }
+            case 128: {
+              int rawValue = input.readEnum();
+              com.rwproto.ArenaServiceProtos.eArenaResultType value = com.rwproto.ArenaServiceProtos.eArenaResultType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(16, rawValue);
+              } else {
+                bitField0_ |= 0x00000400;
+                gainRewardResult_ = value;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12135,6 +12567,9 @@ public final class ArenaServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           atkList_ = new com.google.protobuf.UnmodifiableLazyStringList(atkList_);
+        }
+        if (((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
+          getCount_ = java.util.Collections.unmodifiableList(getCount_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -12518,6 +12953,123 @@ public final class ArenaServiceProtos {
       return buyTimes_;
     }
 
+    // optional int32 currentScore = 13;
+    public static final int CURRENTSCORE_FIELD_NUMBER = 13;
+    private int currentScore_;
+    /**
+     * <code>optional int32 currentScore = 13;</code>
+     *
+     * <pre>
+     *当前积分
+     * </pre>
+     */
+    public boolean hasCurrentScore() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 currentScore = 13;</code>
+     *
+     * <pre>
+     *当前积分
+     * </pre>
+     */
+    public int getCurrentScore() {
+      return currentScore_;
+    }
+
+    // repeated int32 getCount = 14;
+    public static final int GETCOUNT_FIELD_NUMBER = 14;
+    private java.util.List<java.lang.Integer> getCount_;
+    /**
+     * <code>repeated int32 getCount = 14;</code>
+     *
+     * <pre>
+     * 已领奖励次数
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getGetCountList() {
+      return getCount_;
+    }
+    /**
+     * <code>repeated int32 getCount = 14;</code>
+     *
+     * <pre>
+     * 已领奖励次数
+     * </pre>
+     */
+    public int getGetCountCount() {
+      return getCount_.size();
+    }
+    /**
+     * <code>repeated int32 getCount = 14;</code>
+     *
+     * <pre>
+     * 已领奖励次数
+     * </pre>
+     */
+    public int getGetCount(int index) {
+      return getCount_.get(index);
+    }
+
+    // optional .ArenaHistoryResponse historyReward = 15;
+    public static final int HISTORYREWARD_FIELD_NUMBER = 15;
+    private com.rwproto.ArenaServiceProtos.ArenaHistoryResponse historyReward_;
+    /**
+     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    public boolean hasHistoryReward() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    public com.rwproto.ArenaServiceProtos.ArenaHistoryResponse getHistoryReward() {
+      return historyReward_;
+    }
+    /**
+     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    public com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder getHistoryRewardOrBuilder() {
+      return historyReward_;
+    }
+
+    // optional .eArenaResultType gainRewardResult = 16;
+    public static final int GAINREWARDRESULT_FIELD_NUMBER = 16;
+    private com.rwproto.ArenaServiceProtos.eArenaResultType gainRewardResult_;
+    /**
+     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励结果
+     * </pre>
+     */
+    public boolean hasGainRewardResult() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     *
+     * <pre>
+     *领取历史排行榜奖励结果
+     * </pre>
+     */
+    public com.rwproto.ArenaServiceProtos.eArenaResultType getGainRewardResult() {
+      return gainRewardResult_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.ArenaServiceProtos.eArenaType.GET_INFO;
       arenaResultType_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -12531,6 +13083,10 @@ public final class ArenaServiceProtos {
       resetCost_ = 0;
       buyTimesCost_ = 0;
       buyTimes_ = 0;
+      currentScore_ = 0;
+      getCount_ = java.util.Collections.emptyList();
+      historyReward_ = com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance();
+      gainRewardResult_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12567,6 +13123,12 @@ public final class ArenaServiceProtos {
       }
       if (hasHistory()) {
         if (!getHistory().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasHistoryReward()) {
+        if (!getHistoryReward().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -12613,6 +13175,18 @@ public final class ArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(12, buyTimes_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(13, currentScore_);
+      }
+      for (int i = 0; i < getCount_.size(); i++) {
+        output.writeInt32(14, getCount_.get(i));
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeMessage(15, historyReward_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeEnum(16, gainRewardResult_.getNumber());
       }
       getUnknownFields().writeTo(output);
     }
@@ -12675,6 +13249,27 @@ public final class ArenaServiceProtos {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, buyTimes_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, currentScore_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < getCount_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(getCount_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getGetCountList().size();
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, historyReward_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(16, gainRewardResult_.getNumber());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12789,6 +13384,7 @@ public final class ArenaServiceProtos {
           getListRecordFieldBuilder();
           getHurtValueFieldBuilder();
           getHistoryFieldBuilder();
+          getHistoryRewardFieldBuilder();
         }
       }
       private static Builder create() {
@@ -12841,6 +13437,18 @@ public final class ArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000400);
         buyTimes_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
+        currentScore_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        getCount_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00002000);
+        if (historyRewardBuilder_ == null) {
+          historyReward_ = com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance();
+        } else {
+          historyRewardBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00004000);
+        gainRewardResult_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
+        bitField0_ = (bitField0_ & ~0x00008000);
         return this;
       }
 
@@ -12942,6 +13550,27 @@ public final class ArenaServiceProtos {
           to_bitField0_ |= 0x00000080;
         }
         result.buyTimes_ = buyTimes_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.currentScore_ = currentScore_;
+        if (((bitField0_ & 0x00002000) == 0x00002000)) {
+          getCount_ = java.util.Collections.unmodifiableList(getCount_);
+          bitField0_ = (bitField0_ & ~0x00002000);
+        }
+        result.getCount_ = getCount_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        if (historyRewardBuilder_ == null) {
+          result.historyReward_ = historyReward_;
+        } else {
+          result.historyReward_ = historyRewardBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.gainRewardResult_ = gainRewardResult_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13070,6 +13699,25 @@ public final class ArenaServiceProtos {
         if (other.hasBuyTimes()) {
           setBuyTimes(other.getBuyTimes());
         }
+        if (other.hasCurrentScore()) {
+          setCurrentScore(other.getCurrentScore());
+        }
+        if (!other.getCount_.isEmpty()) {
+          if (getCount_.isEmpty()) {
+            getCount_ = other.getCount_;
+            bitField0_ = (bitField0_ & ~0x00002000);
+          } else {
+            ensureGetCountIsMutable();
+            getCount_.addAll(other.getCount_);
+          }
+          onChanged();
+        }
+        if (other.hasHistoryReward()) {
+          mergeHistoryReward(other.getHistoryReward());
+        }
+        if (other.hasGainRewardResult()) {
+          setGainRewardResult(other.getGainRewardResult());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -13105,6 +13753,12 @@ public final class ArenaServiceProtos {
         }
         if (hasHistory()) {
           if (!getHistory().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasHistoryReward()) {
+          if (!getHistoryReward().isInitialized()) {
             
             return false;
           }
@@ -14574,6 +15228,354 @@ public final class ArenaServiceProtos {
         return this;
       }
 
+      // optional int32 currentScore = 13;
+      private int currentScore_ ;
+      /**
+       * <code>optional int32 currentScore = 13;</code>
+       *
+       * <pre>
+       *当前积分
+       * </pre>
+       */
+      public boolean hasCurrentScore() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 currentScore = 13;</code>
+       *
+       * <pre>
+       *当前积分
+       * </pre>
+       */
+      public int getCurrentScore() {
+        return currentScore_;
+      }
+      /**
+       * <code>optional int32 currentScore = 13;</code>
+       *
+       * <pre>
+       *当前积分
+       * </pre>
+       */
+      public Builder setCurrentScore(int value) {
+        bitField0_ |= 0x00001000;
+        currentScore_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 currentScore = 13;</code>
+       *
+       * <pre>
+       *当前积分
+       * </pre>
+       */
+      public Builder clearCurrentScore() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        currentScore_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 getCount = 14;
+      private java.util.List<java.lang.Integer> getCount_ = java.util.Collections.emptyList();
+      private void ensureGetCountIsMutable() {
+        if (!((bitField0_ & 0x00002000) == 0x00002000)) {
+          getCount_ = new java.util.ArrayList<java.lang.Integer>(getCount_);
+          bitField0_ |= 0x00002000;
+         }
+      }
+      /**
+       * <code>repeated int32 getCount = 14;</code>
+       *
+       * <pre>
+       * 已领奖励次数
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getGetCountList() {
+        return java.util.Collections.unmodifiableList(getCount_);
+      }
+      /**
+       * <code>repeated int32 getCount = 14;</code>
+       *
+       * <pre>
+       * 已领奖励次数
+       * </pre>
+       */
+      public int getGetCountCount() {
+        return getCount_.size();
+      }
+      /**
+       * <code>repeated int32 getCount = 14;</code>
+       *
+       * <pre>
+       * 已领奖励次数
+       * </pre>
+       */
+      public int getGetCount(int index) {
+        return getCount_.get(index);
+      }
+      /**
+       * <code>repeated int32 getCount = 14;</code>
+       *
+       * <pre>
+       * 已领奖励次数
+       * </pre>
+       */
+      public Builder setGetCount(
+          int index, int value) {
+        ensureGetCountIsMutable();
+        getCount_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getCount = 14;</code>
+       *
+       * <pre>
+       * 已领奖励次数
+       * </pre>
+       */
+      public Builder addGetCount(int value) {
+        ensureGetCountIsMutable();
+        getCount_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getCount = 14;</code>
+       *
+       * <pre>
+       * 已领奖励次数
+       * </pre>
+       */
+      public Builder addAllGetCount(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureGetCountIsMutable();
+        super.addAll(values, getCount_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 getCount = 14;</code>
+       *
+       * <pre>
+       * 已领奖励次数
+       * </pre>
+       */
+      public Builder clearGetCount() {
+        getCount_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00002000);
+        onChanged();
+        return this;
+      }
+
+      // optional .ArenaHistoryResponse historyReward = 15;
+      private com.rwproto.ArenaServiceProtos.ArenaHistoryResponse historyReward_ = com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ArenaServiceProtos.ArenaHistoryResponse, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder> historyRewardBuilder_;
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public boolean hasHistoryReward() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryResponse getHistoryReward() {
+        if (historyRewardBuilder_ == null) {
+          return historyReward_;
+        } else {
+          return historyRewardBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public Builder setHistoryReward(com.rwproto.ArenaServiceProtos.ArenaHistoryResponse value) {
+        if (historyRewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          historyReward_ = value;
+          onChanged();
+        } else {
+          historyRewardBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00004000;
+        return this;
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public Builder setHistoryReward(
+          com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder builderForValue) {
+        if (historyRewardBuilder_ == null) {
+          historyReward_ = builderForValue.build();
+          onChanged();
+        } else {
+          historyRewardBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00004000;
+        return this;
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public Builder mergeHistoryReward(com.rwproto.ArenaServiceProtos.ArenaHistoryResponse value) {
+        if (historyRewardBuilder_ == null) {
+          if (((bitField0_ & 0x00004000) == 0x00004000) &&
+              historyReward_ != com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance()) {
+            historyReward_ =
+              com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.newBuilder(historyReward_).mergeFrom(value).buildPartial();
+          } else {
+            historyReward_ = value;
+          }
+          onChanged();
+        } else {
+          historyRewardBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00004000;
+        return this;
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public Builder clearHistoryReward() {
+        if (historyRewardBuilder_ == null) {
+          historyReward_ = com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance();
+          onChanged();
+        } else {
+          historyRewardBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00004000);
+        return this;
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder getHistoryRewardBuilder() {
+        bitField0_ |= 0x00004000;
+        onChanged();
+        return getHistoryRewardFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder getHistoryRewardOrBuilder() {
+        if (historyRewardBuilder_ != null) {
+          return historyRewardBuilder_.getMessageOrBuilder();
+        } else {
+          return historyReward_;
+        }
+      }
+      /**
+       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ArenaServiceProtos.ArenaHistoryResponse, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder> 
+          getHistoryRewardFieldBuilder() {
+        if (historyRewardBuilder_ == null) {
+          historyRewardBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.ArenaServiceProtos.ArenaHistoryResponse, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder>(
+                  historyReward_,
+                  getParentForChildren(),
+                  isClean());
+          historyReward_ = null;
+        }
+        return historyRewardBuilder_;
+      }
+
+      // optional .eArenaResultType gainRewardResult = 16;
+      private com.rwproto.ArenaServiceProtos.eArenaResultType gainRewardResult_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
+      /**
+       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励结果
+       * </pre>
+       */
+      public boolean hasGainRewardResult() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励结果
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.eArenaResultType getGainRewardResult() {
+        return gainRewardResult_;
+      }
+      /**
+       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励结果
+       * </pre>
+       */
+      public Builder setGainRewardResult(com.rwproto.ArenaServiceProtos.eArenaResultType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00008000;
+        gainRewardResult_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       *
+       * <pre>
+       *领取历史排行榜奖励结果
+       * </pre>
+       */
+      public Builder clearGainRewardResult() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        gainRewardResult_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
     }
 
@@ -15384,6 +16386,2396 @@ public final class ArenaServiceProtos {
     // @@protoc_insertion_point(class_scope:HistoryRankingRise)
   }
 
+  public interface ArenaHistoryResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .ArenaHistoryRewardSum rewardSum = 1;
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> 
+        getRewardSumList();
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum getRewardSum(int index);
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    int getRewardSumCount();
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder> 
+        getRewardSumOrBuilderList();
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder getRewardSumOrBuilder(
+        int index);
+
+    // repeated .ArenaHisRewardView rewardView = 2;
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> 
+        getRewardViewList();
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    com.rwproto.ArenaServiceProtos.ArenaHisRewardView getRewardView(int index);
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    int getRewardViewCount();
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder> 
+        getRewardViewOrBuilderList();
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder getRewardViewOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code ArenaHistoryResponse}
+   *
+   * <pre>
+   *打开历史排名奖励界面的响应
+   * </pre>
+   */
+  public static final class ArenaHistoryResponse extends
+      com.google.protobuf.GeneratedMessage
+      implements ArenaHistoryResponseOrBuilder {
+    // Use ArenaHistoryResponse.newBuilder() to construct.
+    private ArenaHistoryResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ArenaHistoryResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ArenaHistoryResponse defaultInstance;
+    public static ArenaHistoryResponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ArenaHistoryResponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ArenaHistoryResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                rewardSum_ = new java.util.ArrayList<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              rewardSum_.add(input.readMessage(com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.PARSER, extensionRegistry));
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                rewardView_ = new java.util.ArrayList<com.rwproto.ArenaServiceProtos.ArenaHisRewardView>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              rewardView_.add(input.readMessage(com.rwproto.ArenaServiceProtos.ArenaHisRewardView.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          rewardSum_ = java.util.Collections.unmodifiableList(rewardSum_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          rewardView_ = java.util.Collections.unmodifiableList(rewardView_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.class, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ArenaHistoryResponse> PARSER =
+        new com.google.protobuf.AbstractParser<ArenaHistoryResponse>() {
+      public ArenaHistoryResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ArenaHistoryResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ArenaHistoryResponse> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .ArenaHistoryRewardSum rewardSum = 1;
+    public static final int REWARDSUM_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> rewardSum_;
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    public java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> getRewardSumList() {
+      return rewardSum_;
+    }
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder> 
+        getRewardSumOrBuilderList() {
+      return rewardSum_;
+    }
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    public int getRewardSumCount() {
+      return rewardSum_.size();
+    }
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum getRewardSum(int index) {
+      return rewardSum_.get(index);
+    }
+    /**
+     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     *
+     * <pre>
+     *收益总和
+     * </pre>
+     */
+    public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder getRewardSumOrBuilder(
+        int index) {
+      return rewardSum_.get(index);
+    }
+
+    // repeated .ArenaHisRewardView rewardView = 2;
+    public static final int REWARDVIEW_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> rewardView_;
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> getRewardViewList() {
+      return rewardView_;
+    }
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder> 
+        getRewardViewOrBuilderList() {
+      return rewardView_;
+    }
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    public int getRewardViewCount() {
+      return rewardView_.size();
+    }
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    public com.rwproto.ArenaServiceProtos.ArenaHisRewardView getRewardView(int index) {
+      return rewardView_.get(index);
+    }
+    /**
+     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     *
+     * <pre>
+     *领取列表
+     * </pre>
+     */
+    public com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder getRewardViewOrBuilder(
+        int index) {
+      return rewardView_.get(index);
+    }
+
+    private void initFields() {
+      rewardSum_ = java.util.Collections.emptyList();
+      rewardView_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getRewardSumCount(); i++) {
+        if (!getRewardSum(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getRewardViewCount(); i++) {
+        if (!getRewardView(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < rewardSum_.size(); i++) {
+        output.writeMessage(1, rewardSum_.get(i));
+      }
+      for (int i = 0; i < rewardView_.size(); i++) {
+        output.writeMessage(2, rewardView_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < rewardSum_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, rewardSum_.get(i));
+      }
+      for (int i = 0; i < rewardView_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, rewardView_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ArenaServiceProtos.ArenaHistoryResponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ArenaHistoryResponse}
+     *
+     * <pre>
+     *打开历史排名奖励界面的响应
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.class, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder.class);
+      }
+
+      // Construct using com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getRewardSumFieldBuilder();
+          getRewardViewFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (rewardSumBuilder_ == null) {
+          rewardSum_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          rewardSumBuilder_.clear();
+        }
+        if (rewardViewBuilder_ == null) {
+          rewardView_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          rewardViewBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_descriptor;
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryResponse getDefaultInstanceForType() {
+        return com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance();
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryResponse build() {
+        com.rwproto.ArenaServiceProtos.ArenaHistoryResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryResponse buildPartial() {
+        com.rwproto.ArenaServiceProtos.ArenaHistoryResponse result = new com.rwproto.ArenaServiceProtos.ArenaHistoryResponse(this);
+        int from_bitField0_ = bitField0_;
+        if (rewardSumBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            rewardSum_ = java.util.Collections.unmodifiableList(rewardSum_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.rewardSum_ = rewardSum_;
+        } else {
+          result.rewardSum_ = rewardSumBuilder_.build();
+        }
+        if (rewardViewBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            rewardView_ = java.util.Collections.unmodifiableList(rewardView_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.rewardView_ = rewardView_;
+        } else {
+          result.rewardView_ = rewardViewBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ArenaServiceProtos.ArenaHistoryResponse) {
+          return mergeFrom((com.rwproto.ArenaServiceProtos.ArenaHistoryResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ArenaServiceProtos.ArenaHistoryResponse other) {
+        if (other == com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance()) return this;
+        if (rewardSumBuilder_ == null) {
+          if (!other.rewardSum_.isEmpty()) {
+            if (rewardSum_.isEmpty()) {
+              rewardSum_ = other.rewardSum_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRewardSumIsMutable();
+              rewardSum_.addAll(other.rewardSum_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.rewardSum_.isEmpty()) {
+            if (rewardSumBuilder_.isEmpty()) {
+              rewardSumBuilder_.dispose();
+              rewardSumBuilder_ = null;
+              rewardSum_ = other.rewardSum_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              rewardSumBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRewardSumFieldBuilder() : null;
+            } else {
+              rewardSumBuilder_.addAllMessages(other.rewardSum_);
+            }
+          }
+        }
+        if (rewardViewBuilder_ == null) {
+          if (!other.rewardView_.isEmpty()) {
+            if (rewardView_.isEmpty()) {
+              rewardView_ = other.rewardView_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureRewardViewIsMutable();
+              rewardView_.addAll(other.rewardView_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.rewardView_.isEmpty()) {
+            if (rewardViewBuilder_.isEmpty()) {
+              rewardViewBuilder_.dispose();
+              rewardViewBuilder_ = null;
+              rewardView_ = other.rewardView_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              rewardViewBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRewardViewFieldBuilder() : null;
+            } else {
+              rewardViewBuilder_.addAllMessages(other.rewardView_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getRewardSumCount(); i++) {
+          if (!getRewardSum(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getRewardViewCount(); i++) {
+          if (!getRewardView(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ArenaServiceProtos.ArenaHistoryResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ArenaServiceProtos.ArenaHistoryResponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .ArenaHistoryRewardSum rewardSum = 1;
+      private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> rewardSum_ =
+        java.util.Collections.emptyList();
+      private void ensureRewardSumIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          rewardSum_ = new java.util.ArrayList<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum>(rewardSum_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder> rewardSumBuilder_;
+
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> getRewardSumList() {
+        if (rewardSumBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rewardSum_);
+        } else {
+          return rewardSumBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public int getRewardSumCount() {
+        if (rewardSumBuilder_ == null) {
+          return rewardSum_.size();
+        } else {
+          return rewardSumBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum getRewardSum(int index) {
+        if (rewardSumBuilder_ == null) {
+          return rewardSum_.get(index);
+        } else {
+          return rewardSumBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder setRewardSum(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum value) {
+        if (rewardSumBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardSumIsMutable();
+          rewardSum_.set(index, value);
+          onChanged();
+        } else {
+          rewardSumBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder setRewardSum(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder builderForValue) {
+        if (rewardSumBuilder_ == null) {
+          ensureRewardSumIsMutable();
+          rewardSum_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardSumBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder addRewardSum(com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum value) {
+        if (rewardSumBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardSumIsMutable();
+          rewardSum_.add(value);
+          onChanged();
+        } else {
+          rewardSumBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder addRewardSum(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum value) {
+        if (rewardSumBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardSumIsMutable();
+          rewardSum_.add(index, value);
+          onChanged();
+        } else {
+          rewardSumBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder addRewardSum(
+          com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder builderForValue) {
+        if (rewardSumBuilder_ == null) {
+          ensureRewardSumIsMutable();
+          rewardSum_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rewardSumBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder addRewardSum(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder builderForValue) {
+        if (rewardSumBuilder_ == null) {
+          ensureRewardSumIsMutable();
+          rewardSum_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardSumBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder addAllRewardSum(
+          java.lang.Iterable<? extends com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> values) {
+        if (rewardSumBuilder_ == null) {
+          ensureRewardSumIsMutable();
+          super.addAll(values, rewardSum_);
+          onChanged();
+        } else {
+          rewardSumBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder clearRewardSum() {
+        if (rewardSumBuilder_ == null) {
+          rewardSum_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          rewardSumBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public Builder removeRewardSum(int index) {
+        if (rewardSumBuilder_ == null) {
+          ensureRewardSumIsMutable();
+          rewardSum_.remove(index);
+          onChanged();
+        } else {
+          rewardSumBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder getRewardSumBuilder(
+          int index) {
+        return getRewardSumFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder getRewardSumOrBuilder(
+          int index) {
+        if (rewardSumBuilder_ == null) {
+          return rewardSum_.get(index);  } else {
+          return rewardSumBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder> 
+           getRewardSumOrBuilderList() {
+        if (rewardSumBuilder_ != null) {
+          return rewardSumBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rewardSum_);
+        }
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder addRewardSumBuilder() {
+        return getRewardSumFieldBuilder().addBuilder(
+            com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder addRewardSumBuilder(
+          int index) {
+        return getRewardSumFieldBuilder().addBuilder(
+            index, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       *
+       * <pre>
+       *收益总和
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder> 
+           getRewardSumBuilderList() {
+        return getRewardSumFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder> 
+          getRewardSumFieldBuilder() {
+        if (rewardSumBuilder_ == null) {
+          rewardSumBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder>(
+                  rewardSum_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          rewardSum_ = null;
+        }
+        return rewardSumBuilder_;
+      }
+
+      // repeated .ArenaHisRewardView rewardView = 2;
+      private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> rewardView_ =
+        java.util.Collections.emptyList();
+      private void ensureRewardViewIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          rewardView_ = new java.util.ArrayList<com.rwproto.ArenaServiceProtos.ArenaHisRewardView>(rewardView_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ArenaServiceProtos.ArenaHisRewardView, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder, com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder> rewardViewBuilder_;
+
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> getRewardViewList() {
+        if (rewardViewBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rewardView_);
+        } else {
+          return rewardViewBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public int getRewardViewCount() {
+        if (rewardViewBuilder_ == null) {
+          return rewardView_.size();
+        } else {
+          return rewardViewBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardView getRewardView(int index) {
+        if (rewardViewBuilder_ == null) {
+          return rewardView_.get(index);
+        } else {
+          return rewardViewBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder setRewardView(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHisRewardView value) {
+        if (rewardViewBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardViewIsMutable();
+          rewardView_.set(index, value);
+          onChanged();
+        } else {
+          rewardViewBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder setRewardView(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder builderForValue) {
+        if (rewardViewBuilder_ == null) {
+          ensureRewardViewIsMutable();
+          rewardView_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardViewBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder addRewardView(com.rwproto.ArenaServiceProtos.ArenaHisRewardView value) {
+        if (rewardViewBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardViewIsMutable();
+          rewardView_.add(value);
+          onChanged();
+        } else {
+          rewardViewBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder addRewardView(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHisRewardView value) {
+        if (rewardViewBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardViewIsMutable();
+          rewardView_.add(index, value);
+          onChanged();
+        } else {
+          rewardViewBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder addRewardView(
+          com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder builderForValue) {
+        if (rewardViewBuilder_ == null) {
+          ensureRewardViewIsMutable();
+          rewardView_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rewardViewBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder addRewardView(
+          int index, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder builderForValue) {
+        if (rewardViewBuilder_ == null) {
+          ensureRewardViewIsMutable();
+          rewardView_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardViewBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder addAllRewardView(
+          java.lang.Iterable<? extends com.rwproto.ArenaServiceProtos.ArenaHisRewardView> values) {
+        if (rewardViewBuilder_ == null) {
+          ensureRewardViewIsMutable();
+          super.addAll(values, rewardView_);
+          onChanged();
+        } else {
+          rewardViewBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder clearRewardView() {
+        if (rewardViewBuilder_ == null) {
+          rewardView_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          rewardViewBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public Builder removeRewardView(int index) {
+        if (rewardViewBuilder_ == null) {
+          ensureRewardViewIsMutable();
+          rewardView_.remove(index);
+          onChanged();
+        } else {
+          rewardViewBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder getRewardViewBuilder(
+          int index) {
+        return getRewardViewFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder getRewardViewOrBuilder(
+          int index) {
+        if (rewardViewBuilder_ == null) {
+          return rewardView_.get(index);  } else {
+          return rewardViewBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder> 
+           getRewardViewOrBuilderList() {
+        if (rewardViewBuilder_ != null) {
+          return rewardViewBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rewardView_);
+        }
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder addRewardViewBuilder() {
+        return getRewardViewFieldBuilder().addBuilder(
+            com.rwproto.ArenaServiceProtos.ArenaHisRewardView.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder addRewardViewBuilder(
+          int index) {
+        return getRewardViewFieldBuilder().addBuilder(
+            index, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       *
+       * <pre>
+       *领取列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder> 
+           getRewardViewBuilderList() {
+        return getRewardViewFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ArenaServiceProtos.ArenaHisRewardView, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder, com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder> 
+          getRewardViewFieldBuilder() {
+        if (rewardViewBuilder_ == null) {
+          rewardViewBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.ArenaServiceProtos.ArenaHisRewardView, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder, com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder>(
+                  rewardView_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          rewardView_ = null;
+        }
+        return rewardViewBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ArenaHistoryResponse)
+    }
+
+    static {
+      defaultInstance = new ArenaHistoryResponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ArenaHistoryResponse)
+  }
+
+  public interface ArenaHistoryRewardSumOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 itemId = 1;
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励ID
+     * </pre>
+     */
+    boolean hasItemId();
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励ID
+     * </pre>
+     */
+    int getItemId();
+
+    // required int32 num = 2;
+    /**
+     * <code>required int32 num = 2;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励数量
+     * </pre>
+     */
+    boolean hasNum();
+    /**
+     * <code>required int32 num = 2;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励数量
+     * </pre>
+     */
+    int getNum();
+  }
+  /**
+   * Protobuf type {@code ArenaHistoryRewardSum}
+   *
+   * <pre>
+   *历史排行榜奖励总和
+   * </pre>
+   */
+  public static final class ArenaHistoryRewardSum extends
+      com.google.protobuf.GeneratedMessage
+      implements ArenaHistoryRewardSumOrBuilder {
+    // Use ArenaHistoryRewardSum.newBuilder() to construct.
+    private ArenaHistoryRewardSum(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ArenaHistoryRewardSum(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ArenaHistoryRewardSum defaultInstance;
+    public static ArenaHistoryRewardSum getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ArenaHistoryRewardSum getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ArenaHistoryRewardSum(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              itemId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              num_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.class, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ArenaHistoryRewardSum> PARSER =
+        new com.google.protobuf.AbstractParser<ArenaHistoryRewardSum>() {
+      public ArenaHistoryRewardSum parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ArenaHistoryRewardSum(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ArenaHistoryRewardSum> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 itemId = 1;
+    public static final int ITEMID_FIELD_NUMBER = 1;
+    private int itemId_;
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励ID
+     * </pre>
+     */
+    public boolean hasItemId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 itemId = 1;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励ID
+     * </pre>
+     */
+    public int getItemId() {
+      return itemId_;
+    }
+
+    // required int32 num = 2;
+    public static final int NUM_FIELD_NUMBER = 2;
+    private int num_;
+    /**
+     * <code>required int32 num = 2;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励数量
+     * </pre>
+     */
+    public boolean hasNum() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 num = 2;</code>
+     *
+     * <pre>
+     *历史排行榜奖励总和奖励数量
+     * </pre>
+     */
+    public int getNum() {
+      return num_;
+    }
+
+    private void initFields() {
+      itemId_ = 0;
+      num_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, itemId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, num_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, itemId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, num_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ArenaHistoryRewardSum}
+     *
+     * <pre>
+     *历史排行榜奖励总和
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.class, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder.class);
+      }
+
+      // Construct using com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        num_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_descriptor;
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum getDefaultInstanceForType() {
+        return com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.getDefaultInstance();
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum build() {
+        com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum buildPartial() {
+        com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum result = new com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemId_ = itemId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.num_ = num_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum) {
+          return mergeFrom((com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum other) {
+        if (other == com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.getDefaultInstance()) return this;
+        if (other.hasItemId()) {
+          setItemId(other.getItemId());
+        }
+        if (other.hasNum()) {
+          setNum(other.getNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemId()) {
+          
+          return false;
+        }
+        if (!hasNum()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 itemId = 1;
+      private int itemId_ ;
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励ID
+       * </pre>
+       */
+      public boolean hasItemId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励ID
+       * </pre>
+       */
+      public int getItemId() {
+        return itemId_;
+      }
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励ID
+       * </pre>
+       */
+      public Builder setItemId(int value) {
+        bitField0_ |= 0x00000001;
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemId = 1;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励ID
+       * </pre>
+       */
+      public Builder clearItemId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 num = 2;
+      private int num_ ;
+      /**
+       * <code>required int32 num = 2;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励数量
+       * </pre>
+       */
+      public boolean hasNum() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 num = 2;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励数量
+       * </pre>
+       */
+      public int getNum() {
+        return num_;
+      }
+      /**
+       * <code>required int32 num = 2;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励数量
+       * </pre>
+       */
+      public Builder setNum(int value) {
+        bitField0_ |= 0x00000002;
+        num_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 num = 2;</code>
+       *
+       * <pre>
+       *历史排行榜奖励总和奖励数量
+       * </pre>
+       */
+      public Builder clearNum() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        num_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ArenaHistoryRewardSum)
+    }
+
+    static {
+      defaultInstance = new ArenaHistoryRewardSum(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ArenaHistoryRewardSum)
+  }
+
+  public interface ArenaHisRewardViewOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 rewardId = 1;
+    /**
+     * <code>required int32 rewardId = 1;</code>
+     */
+    boolean hasRewardId();
+    /**
+     * <code>required int32 rewardId = 1;</code>
+     */
+    int getRewardId();
+
+    // required bool gainReward = 2;
+    /**
+     * <code>required bool gainReward = 2;</code>
+     *
+     * <pre>
+     *是否已经领取
+     * </pre>
+     */
+    boolean hasGainReward();
+    /**
+     * <code>required bool gainReward = 2;</code>
+     *
+     * <pre>
+     *是否已经领取
+     * </pre>
+     */
+    boolean getGainReward();
+  }
+  /**
+   * Protobuf type {@code ArenaHisRewardView}
+   *
+   * <pre>
+   *单个历史排名奖励领取界面
+   * </pre>
+   */
+  public static final class ArenaHisRewardView extends
+      com.google.protobuf.GeneratedMessage
+      implements ArenaHisRewardViewOrBuilder {
+    // Use ArenaHisRewardView.newBuilder() to construct.
+    private ArenaHisRewardView(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ArenaHisRewardView(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ArenaHisRewardView defaultInstance;
+    public static ArenaHisRewardView getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ArenaHisRewardView getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ArenaHisRewardView(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              rewardId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              gainReward_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ArenaServiceProtos.ArenaHisRewardView.class, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ArenaHisRewardView> PARSER =
+        new com.google.protobuf.AbstractParser<ArenaHisRewardView>() {
+      public ArenaHisRewardView parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ArenaHisRewardView(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ArenaHisRewardView> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 rewardId = 1;
+    public static final int REWARDID_FIELD_NUMBER = 1;
+    private int rewardId_;
+    /**
+     * <code>required int32 rewardId = 1;</code>
+     */
+    public boolean hasRewardId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 rewardId = 1;</code>
+     */
+    public int getRewardId() {
+      return rewardId_;
+    }
+
+    // required bool gainReward = 2;
+    public static final int GAINREWARD_FIELD_NUMBER = 2;
+    private boolean gainReward_;
+    /**
+     * <code>required bool gainReward = 2;</code>
+     *
+     * <pre>
+     *是否已经领取
+     * </pre>
+     */
+    public boolean hasGainReward() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool gainReward = 2;</code>
+     *
+     * <pre>
+     *是否已经领取
+     * </pre>
+     */
+    public boolean getGainReward() {
+      return gainReward_;
+    }
+
+    private void initFields() {
+      rewardId_ = 0;
+      gainReward_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasRewardId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGainReward()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, rewardId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, gainReward_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, rewardId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, gainReward_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ArenaServiceProtos.ArenaHisRewardView parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ArenaServiceProtos.ArenaHisRewardView prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ArenaHisRewardView}
+     *
+     * <pre>
+     *单个历史排名奖励领取界面
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ArenaServiceProtos.ArenaHisRewardView.class, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder.class);
+      }
+
+      // Construct using com.rwproto.ArenaServiceProtos.ArenaHisRewardView.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        rewardId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gainReward_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_descriptor;
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardView getDefaultInstanceForType() {
+        return com.rwproto.ArenaServiceProtos.ArenaHisRewardView.getDefaultInstance();
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardView build() {
+        com.rwproto.ArenaServiceProtos.ArenaHisRewardView result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ArenaServiceProtos.ArenaHisRewardView buildPartial() {
+        com.rwproto.ArenaServiceProtos.ArenaHisRewardView result = new com.rwproto.ArenaServiceProtos.ArenaHisRewardView(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.rewardId_ = rewardId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.gainReward_ = gainReward_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ArenaServiceProtos.ArenaHisRewardView) {
+          return mergeFrom((com.rwproto.ArenaServiceProtos.ArenaHisRewardView)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ArenaServiceProtos.ArenaHisRewardView other) {
+        if (other == com.rwproto.ArenaServiceProtos.ArenaHisRewardView.getDefaultInstance()) return this;
+        if (other.hasRewardId()) {
+          setRewardId(other.getRewardId());
+        }
+        if (other.hasGainReward()) {
+          setGainReward(other.getGainReward());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasRewardId()) {
+          
+          return false;
+        }
+        if (!hasGainReward()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ArenaServiceProtos.ArenaHisRewardView parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ArenaServiceProtos.ArenaHisRewardView) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 rewardId = 1;
+      private int rewardId_ ;
+      /**
+       * <code>required int32 rewardId = 1;</code>
+       */
+      public boolean hasRewardId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 rewardId = 1;</code>
+       */
+      public int getRewardId() {
+        return rewardId_;
+      }
+      /**
+       * <code>required int32 rewardId = 1;</code>
+       */
+      public Builder setRewardId(int value) {
+        bitField0_ |= 0x00000001;
+        rewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 rewardId = 1;</code>
+       */
+      public Builder clearRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        rewardId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool gainReward = 2;
+      private boolean gainReward_ ;
+      /**
+       * <code>required bool gainReward = 2;</code>
+       *
+       * <pre>
+       *是否已经领取
+       * </pre>
+       */
+      public boolean hasGainReward() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool gainReward = 2;</code>
+       *
+       * <pre>
+       *是否已经领取
+       * </pre>
+       */
+      public boolean getGainReward() {
+        return gainReward_;
+      }
+      /**
+       * <code>required bool gainReward = 2;</code>
+       *
+       * <pre>
+       *是否已经领取
+       * </pre>
+       */
+      public Builder setGainReward(boolean value) {
+        bitField0_ |= 0x00000002;
+        gainReward_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool gainReward = 2;</code>
+       *
+       * <pre>
+       *是否已经领取
+       * </pre>
+       */
+      public Builder clearGainReward() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        gainReward_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ArenaHisRewardView)
+    }
+
+    static {
+      defaultInstance = new ArenaHisRewardView(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ArenaHisRewardView)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_HeroData_descriptor;
   private static
@@ -15424,6 +18816,21 @@ public final class ArenaServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_HistoryRankingRise_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ArenaHistoryResponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ArenaHistoryResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ArenaHistoryRewardSum_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ArenaHistoryRewardSum_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ArenaHisRewardView_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ArenaHisRewardView_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -15459,36 +18866,48 @@ public final class ArenaServiceProtos {
       "\005\022\016\n\006userId\030\002 \002(\t\022\013\n\003win\030\003 \001(\005\022\017\n\007placeU" +
       "p\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\022\021\n\theadImage\030\006 \001(\t" +
       "\022\r\n\005level\030\007 \001(\005\022\014\n\004time\030\010 \001(\003\022\021\n\tchallen" +
-      "ge\030\t \001(\005\"\276\001\n\017MsgArenaRequest\022\036\n\tarenaTyp" +
+      "ge\030\t \001(\005\"\351\001\n\017MsgArenaRequest\022\036\n\tarenaTyp" +
       "e\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(\t\022\017\n\007" +
       "heroIds\030\003 \003(\t\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo" +
       "\022\013\n\003win\030\005 \001(\005\022\035\n\thurtValue\030\006 \003(\0132\n.HurtV",
       "alue\022\020\n\010recordId\030\007 \001(\005\022\021\n\tatkIdList\030\010 \003(" +
-      "\t\"\301\001\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value" +
-      "\030\002 \002(\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nstartlevel\030\004 \002(\005" +
-      "\022\r\n\005level\030\005 \002(\005\022\016\n\006isDead\030\006 \002(\010\022 \n\nplaye" +
-      "rType\030\007 \002(\0162\014.ePlayerType\022\032\n\004camp\030\010 \002(\0162" +
-      "\014.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002\"\335\002" +
-      "\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\0162\013." +
-      "eArenaType\022*\n\017arenaResultType\030\002 \001(\0162\021.eA" +
-      "renaResultType\022\035\n\tarenaData\030\003 \001(\0132\n.Aren" +
-      "aData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n\nl",
-      "istRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place\030\006" +
-      " \001(\005\022\035\n\thurtValue\030\007 \003(\0132\n.HurtValue\022\017\n\007a" +
-      "tkList\030\010 \003(\t\022$\n\007history\030\t \001(\0132\023.HistoryR" +
-      "ankingRise\022\021\n\tresetCost\030\n \001(\005\022\024\n\014buyTime" +
-      "sCost\030\013 \001(\005\022\020\n\010buyTimes\030\014 \001(\005\"j\n\022History" +
-      "RankingRise\022\026\n\016historyRanking\030\001 \002(\005\022\026\n\016c" +
-      "urrentRanking\030\002 \002(\005\022\021\n\tgoldAward\030\003 \001(\005\022\021" +
-      "\n\trankingUp\030\004 \002(\005*\372\001\n\neArenaType\022\014\n\010GET_" +
-      "INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020" +
-      "\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nC",
-      "LEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021" +
-      "ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINIS" +
-      "H\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\022\n\016G" +
-      "ET_HURT_VALUE\020\013\022\r\n\tBUY_TIMES\020\014*5\n\020eArena" +
-      "ResultType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_F" +
-      "AIL\020\002B!\n\013com.rwprotoB\022ArenaServiceProtos"
+      "\t\022\020\n\010rewardId\030\016 \001(\005\022\027\n\017historyRewardId\030\017" +
+      " \001(\005\"\301\001\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005va" +
+      "lue\030\002 \002(\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nstartlevel\030\004 " +
+      "\002(\005\022\r\n\005level\030\005 \002(\005\022\016\n\006isDead\030\006 \002(\010\022 \n\npl" +
+      "ayerType\030\007 \002(\0162\014.ePlayerType\022\032\n\004camp\030\010 \002" +
+      "(\0162\014.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002" +
+      "\"\340\003\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\016" +
+      "2\013.eArenaType\022*\n\017arenaResultType\030\002 \001(\0162\021" +
+      ".eArenaResultType\022\035\n\tarenaData\030\003 \001(\0132\n.A",
+      "renaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 " +
+      "\n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005plac" +
+      "e\030\006 \001(\005\022\035\n\thurtValue\030\007 \003(\0132\n.HurtValue\022\017" +
+      "\n\007atkList\030\010 \003(\t\022$\n\007history\030\t \001(\0132\023.Histo" +
+      "ryRankingRise\022\021\n\tresetCost\030\n \001(\005\022\024\n\014buyT" +
+      "imesCost\030\013 \001(\005\022\020\n\010buyTimes\030\014 \001(\005\022\024\n\014curr" +
+      "entScore\030\r \001(\005\022\020\n\010getCount\030\016 \003(\005\022,\n\rhist" +
+      "oryReward\030\017 \001(\0132\025.ArenaHistoryResponse\022+" +
+      "\n\020gainRewardResult\030\020 \001(\0162\021.eArenaResultT" +
+      "ype\"j\n\022HistoryRankingRise\022\026\n\016historyRank",
+      "ing\030\001 \002(\005\022\026\n\016currentRanking\030\002 \002(\005\022\021\n\tgol" +
+      "dAward\030\003 \001(\005\022\021\n\trankingUp\030\004 \002(\005\"j\n\024Arena" +
+      "HistoryResponse\022)\n\trewardSum\030\001 \003(\0132\026.Are" +
+      "naHistoryRewardSum\022\'\n\nrewardView\030\002 \003(\0132\023" +
+      ".ArenaHisRewardView\"4\n\025ArenaHistoryRewar" +
+      "dSum\022\016\n\006itemId\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\":\n\022Are" +
+      "naHisRewardView\022\020\n\010rewardId\030\001 \002(\005\022\022\n\ngai" +
+      "nReward\030\002 \002(\010*\310\002\n\neArenaType\022\014\n\010GET_INFO" +
+      "\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n" +
+      "\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR",
+      "_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021AREN" +
+      "A_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022" +
+      "\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\022\n\016GET_H" +
+      "URT_VALUE\020\013\022\r\n\tBUY_TIMES\020\014\022\t\n\005SCORE\020\r\022\016\n" +
+      "\nGET_REWARD\020\016\022\030\n\024HIS_RANK_REWARD_VIEW\020\017\022" +
+      "\027\n\023HIS_RANK_GET_REWARD\020\020*5\n\020eArenaResult" +
+      "Type\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B" +
+      "!\n\013com.rwprotoB\022ArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15524,7 +18943,7 @@ public final class ArenaServiceProtos {
           internal_static_MsgArenaRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaRequest_descriptor,
-              new java.lang.String[] { "ArenaType", "UserId", "HeroIds", "Enemy", "Win", "HurtValue", "RecordId", "AtkIdList", });
+              new java.lang.String[] { "ArenaType", "UserId", "HeroIds", "Enemy", "Win", "HurtValue", "RecordId", "AtkIdList", "RewardId", "HistoryRewardId", });
           internal_static_HurtValue_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_HurtValue_fieldAccessorTable = new
@@ -15536,13 +18955,31 @@ public final class ArenaServiceProtos {
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "HurtValue", "AtkList", "History", "ResetCost", "BuyTimesCost", "BuyTimes", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "HurtValue", "AtkList", "History", "ResetCost", "BuyTimesCost", "BuyTimes", "CurrentScore", "GetCount", "HistoryReward", "GainRewardResult", });
           internal_static_HistoryRankingRise_descriptor =
             getDescriptor().getMessageTypes().get(7);
           internal_static_HistoryRankingRise_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_HistoryRankingRise_descriptor,
               new java.lang.String[] { "HistoryRanking", "CurrentRanking", "GoldAward", "RankingUp", });
+          internal_static_ArenaHistoryResponse_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_ArenaHistoryResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ArenaHistoryResponse_descriptor,
+              new java.lang.String[] { "RewardSum", "RewardView", });
+          internal_static_ArenaHistoryRewardSum_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_ArenaHistoryRewardSum_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ArenaHistoryRewardSum_descriptor,
+              new java.lang.String[] { "ItemId", "Num", });
+          internal_static_ArenaHisRewardView_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_ArenaHisRewardView_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ArenaHisRewardView_descriptor,
+              new java.lang.String[] { "RewardId", "GainReward", });
           return null;
         }
       };

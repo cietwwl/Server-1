@@ -4,14 +4,12 @@ import java.util.HashMap;
 
 import com.bm.rank.arena.ArenaDailyExtension;
 import com.bm.rank.arena.ArenaSettleExtension;
-import com.bm.rank.charge.ChargeRankExtension;
 import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
 import com.bm.rank.level.LevelExtension;
 import com.bm.rank.peakArena.PeakArenaExtension;
-import com.bm.rank.secret.SecretRankExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.RankingConfig;
@@ -21,7 +19,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 
 	// 巅峰竞技场排行榜
 	PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
-	SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
+//	SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()), 
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
@@ -155,13 +153,13 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	*/
 	public static RankType getJobCurrent(int job){
 		switch(job){
-			case 0:
-				return WARRIOR_ARENA;
 			case 1:
-				return SWORDMAN_ARENA;
+				return WARRIOR_ARENA;
 			case 2:
-				return MAGICAN_ARENA;
+				return SWORDMAN_ARENA;
 			case 3:
+				return MAGICAN_ARENA;
+			case 4:
 				return PRIEST_ARENA;
 		}
 		return RankType.WARRIOR_ARENA;

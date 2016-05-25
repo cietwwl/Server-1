@@ -45,6 +45,20 @@ public class SimpleCache<K, V> {
 		}
 	}
 
+	public V putIfAbsent(K key, V value) {
+		lock.lock();
+		try {
+			V old = map.get(key);
+			if (old != null) {
+				return old;
+			}
+			map.put(key, value);
+			return null;
+		} finally {
+			lock.unlock();
+		}
+	}
+
 	public V remove(K key) {
 		lock.lock();
 		try {

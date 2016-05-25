@@ -3,8 +3,8 @@ package com.playerdata.activity.timeCountType.service;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.rwproto.ActivityTimeCountTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityTimeCountTypeProto.ActivityCommonRspMsg;
 
@@ -22,13 +22,13 @@ public class ActivityTimeCountTypeHandler {
 		String activityId = commonReq.getActivityId();
 		String subItemId =  commonReq.getSubItemId();
 	
-		ActivityCountTypeEnum countType = ActivityCountTypeEnum.getById(activityId);
+		ActivityTimeCountTypeEnum countType = ActivityTimeCountTypeEnum.getById(activityId);
 		
 		boolean success = false;
-		String tips = null;
+		String tips = "枚举类为空";
 		
 		if(countType!=null){
-			ActivityComResult result = ActivityCountTypeMgr.getInstance().takeGift(player, countType, subItemId);
+			ActivityComResult result = ActivityTimeCountTypeMgr.getInstance().takeGift(player, countType, subItemId);
 			success = result.isSuccess();
 			tips = result.getReason()+"";
 		}

@@ -7,6 +7,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.rwbase.dao.email.EmailData;
 
 public class ServerDataHolder{
@@ -53,6 +55,7 @@ public class ServerDataHolder{
 	public void setChargeOn(boolean chargeOn){
 		ServerData serverData = getServerData();
 		serverData.setChargeOn(chargeOn);
+		GameLog.error(LogModule.GM, "", "后台开设充值开关"+ chargeOn, null);
 		update(serverData);
 	}
 	

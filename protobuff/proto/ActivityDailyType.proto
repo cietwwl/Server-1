@@ -1,0 +1,36 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "DailyActivityProtos";
+
+enum EDailyActivityRequestType
+{
+	Task_List = 0; //任务列表
+	Task_Finish = 1; //请求完成任务
+}
+
+message MsgDailyActivityRequest
+{
+	required EDailyActivityRequestType requestType = 1; //请求类型
+	optional int32 TaskId = 2; //任务id
+}
+
+enum eDailyActivityResultType{
+	SUCCESS = 1;
+	FAIL = 2;
+}
+
+message MsgDailyActivityResponse
+{
+	required EDailyActivityRequestType responseType = 1; //返回类型
+	repeated DailyActivityInfo taskList = 2; //任务列表
+	optional eDailyActivityResultType resultType = 3; //返回的结果类型
+	optional int32 TaskId = 4; //任务id
+}
+
+message DailyActivityInfo
+{
+	required int32 taskId = 1; //任务id
+	optional int32 canGetReward = 2; //是否可以领奖(1是可以，0是不可以)
+	optional int32 currentProgress = 3; //当前进度(用数字表示)
+}
+

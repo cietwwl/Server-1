@@ -11,16 +11,17 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 
-public class CommonMultiTable<T> extends BaseJdbc<T>{
+public class CommonMultiTable<T> extends BaseJdbc<T> {
 
 	private final String[] selectSqlArray;
 	private final String[] delectSqlArray;
 	private final String[] updateSqlArray;
 	private final String[] insertSqlArray;
+	private final String[] clearSqlArray;
 	private final String[] tableName;
 	private final int tableLength;
 
-	public CommonMultiTable(JdbcTemplate templateP, ClassInfo classInfoPojo) {
+	public CommonMultiTable(JdbcTemplate templateP, ClassInfo classInfoPojo,String searchFieldName) {
 		super(templateP, classInfoPojo);
 		String tableName = classInfoPojo.getTableName();
 		List<String> list = DataAccessStaticSupport.getTableNameList(template, tableName);
@@ -43,6 +44,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T>{
 		this.delectSqlArray = new String[size];
 		this.updateSqlArray = new String[size];
 		this.insertSqlArray = new String[size];
+		this.clearSqlArray = new String[size];
 		String insertFieldString = insertFields.toString();
 		String insertHoldsString = insertHolds.toString();
 		String updateFieldsString = updateFields.toString();
@@ -53,6 +55,7 @@ public class CommonMultiTable<T> extends BaseJdbc<T>{
 			this.delectSqlArray[i] = "delete from " + currentName + " where " + idFieldName + "=?";
 			this.updateSqlArray[i] = "update " + currentName + " set " + updateFieldsString + " where " + idFieldName + " = ?";
 			this.insertSqlArray[i] = "insert into " + currentName + "(" + insertFieldString + ") values (" + insertHoldsString + ")";
+			this.clearSqlArray[i] = "delete from " + currentName + " where " + searchFieldName + "=?";
 		}
 	}
 
@@ -62,21 +65,33 @@ public class CommonMultiTable<T> extends BaseJdbc<T>{
 	}
 
 	public boolean insert(String searchId, String key, T target) throws DuplicatedKeyException, Exception {
-		 String sql = getString(insertSqlArray, searchId);
+		String sql = getString(insertSqlArray, searchId);
 		return super.insert(sql, key, target);
 	}
 
 	public boolean delete(String searchId, String id) throws DataNotExistException, Exception {
 		String sql = getString(delectSqlArray, searchId);
-		return super.delete(sql, id);
+		return super.update(sql, id) > 0;
 	}
 
-	public boolean updateToDB(String searchId, Map<String, T> map) {
+	public List<String> delete(String searchId, List<String> idList) throws Exception {
+		String sql = getString(delectSqlArray, searchId);
+		return super.delete(sql, idList);
+	}
+	
+	public boolean clearAllRecords(String searchId) throws Exception{
+		String sql = getString(clearSqlArray, searchId);
+		super.update(sql, searchId);
+		//不抛异常可以认为成功，因为此searchId可能不存在记录
+		return true;
+	}
+
+	public boolean updateToDB(String searchId, Map<String, T> map) throws Exception{
 		String sql = getString(updateSqlArray, searchId);
 		return super.updateToDB(sql, map);
 	}
 
-	public boolean updateToDB(String searchId, String key, T target) {
+	public boolean updateToDB(String searchId, String key, T target) throws Exception{
 		String sql = getString(updateSqlArray, searchId);
 		return super.updateToDB(sql, key, target);
 	}
@@ -99,8 +114,8 @@ public class CommonMultiTable<T> extends BaseJdbc<T>{
 			return sqlArray[0];
 		}
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(searchId, len);
-		//total.addAndGet(System.nanoTime() - start);
+		// total.addAndGet(System.nanoTime() - start);
 		return sqlArray[tableIndex];
 	}
-	
+
 }

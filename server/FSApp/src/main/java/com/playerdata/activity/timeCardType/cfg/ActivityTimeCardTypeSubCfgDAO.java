@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.charge.cfg.ChargeTypeEnum;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -50,10 +51,21 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 				target = tmpItem;
 			}
 		}
-		return target;
-		
+		return target;		
 	}
 	
+	public ActivityTimeCardTypeSubCfg getBynume(ChargeTypeEnum cardenum){
+		ActivityTimeCardTypeSubCfg target = new ActivityTimeCardTypeSubCfg();
+		List<ActivityTimeCardTypeSubCfg> allCfg = getAllCfg();
+		for (ActivityTimeCardTypeSubCfg tmpItem : allCfg) {
+			if(StringUtils.equals(tmpItem.getChargeType().getCfgId(), cardenum.getCfgId())){
+				target = tmpItem;
+			}
+		}
+		return target;		
+	}
+	
+
 	
 
 

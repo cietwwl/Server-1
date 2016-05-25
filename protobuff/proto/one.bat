@@ -1,5 +1,5 @@
-set csPath=E:\RXFS\Assets\Script\ProtobufClass\
-set javaPath=E:\Server\FSApp\src\main\java\
+set csPath=E:\proto\cs\
+set javaPath=E:\proto\java\
 
 @echo -----begin to explain shape file-----
 

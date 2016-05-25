@@ -36,19 +36,17 @@ public class ChargeService extends ActionSupport implements ServletRequestAware,
 			
 			ChargeLog.info("charge", contentPojo.getCpTradeNo(), jsonContent);
 			boolean success  = reqGameServer(jsonContent, contentPojo);
-			
 			String result = success?"0":"-1";			
 			
-			PrintWriter writer = response.getWriter();
 			
-			writer.write(result);	
-			writer.flush();
-			writer.close();			
-		} catch (Exception e) {
-			e.printStackTrace();
+				PrintWriter writer = response.getWriter();
+				writer.write(result);	
+				writer.flush();
+				writer.close();			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-
-	}
 
 	
 	@SuppressWarnings("rawtypes")
