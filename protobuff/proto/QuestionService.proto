@@ -1,0 +1,23 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "QuestionServiceProtos";
+
+
+enum eSubmitResultType {
+	SUCCESS=0;
+	FAIL=1;
+}
+
+message MsgSubmitQuestionRequest{
+	optional string channel = 1;
+	optional int32 type = 2;
+	optional string feedbackContent = 3;
+	optional string phone = 4;
+	optional string model = 5;
+}
+
+message MsgSubmitQuestionResponse{
+	optional int32 type = 1;
+	optional eSubmitResultType result = 2;
+	optional string responseResult = 3;
+}

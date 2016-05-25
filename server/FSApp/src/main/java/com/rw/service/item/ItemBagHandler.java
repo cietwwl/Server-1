@@ -2,6 +2,10 @@ package com.rw.service.item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -9,20 +13,21 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
-import com.rwbase.common.enu.eConsumeTypeDef;
+import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.ComposeCfgDAO;
+import com.rwbase.dao.item.ItemUseEffectCfgDAO;
 import com.rwbase.dao.item.MagicCfgDAO;
+import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.item.pojo.ComposeCfg;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.ItemUseEffectTemplate;
 import com.rwbase.dao.item.pojo.MagicCfg;
+import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
-import com.rwbase.dao.power.RoleUpgradeCfgDAO;
-import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwproto.ItemBagProtos.BuyItemInfo;
 import com.rwproto.ItemBagProtos.ConsumeTypeDef;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
@@ -316,12 +321,12 @@ public class ItemBagHandler {
 			return rsp.build().toByteString();
 		}
 
-		int consumeType = itemBaseCfg.getConsumeType();
-		if (consumeType != eConsumeTypeDef.PowerConsume.getOrder() && consumeType != eConsumeTypeDef.VipExpConsume.getOrder()) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具不能被使用", itemTemplateId));
-			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
-			return rsp.build().toByteString();
-		}
+		// int consumeType = itemBaseCfg.getConsumeType();
+		// if (consumeType != eConsumeTypeDef.PowerConsume.getOrder() && consumeType != eConsumeTypeDef.VipExpConsume.getOrder()) {
+		// GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具不能被使用", itemTemplateId));
+		// rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
+		// return rsp.build().toByteString();
+		// }
 
 		ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(itemTemplateId);
 		if (consumeCfg == null) {
@@ -330,47 +335,100 @@ public class ItemBagHandler {
 			return rsp.build().toByteString();
 		}
 
-		RoleUpgradeCfg roleUpgradeCfg = RoleUpgradeCfgDAO.getInstance().getCfg(player.getLevel());
-		if (roleUpgradeCfg == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("角色的等级为[%s]的RoleUpgradeCfg模版找不到", player.getLevel()));
-			rsp.setRspInfo(fillResponseInfo(false, "数据异常"));
+		// RoleUpgradeCfg roleUpgradeCfg = RoleUpgradeCfgDAO.getInstance().getCfg(player.getLevel());
+		// if (roleUpgradeCfg == null) {
+		// GameLog.error("背包道具使用", player.getUserId(), String.format("角色的等级为[%s]的RoleUpgradeCfg模版找不到", player.getLevel()));
+		// rsp.setRspInfo(fillResponseInfo(false, "数据异常"));
+		// return rsp.build().toByteString();
+		// }
+		//
+		// int addValue = consumeCfg.getValue();
+		// // 体力判断
+		// if (consumeType == eConsumeTypeDef.PowerConsume.getOrder()) {
+		// int mostPower = roleUpgradeCfg.getMostPower();
+		// if (player.getUserGameDataMgr().getPower() >= mostPower) {// 超过上限
+		// rsp.setRspInfo(fillResponseInfo(false, "体力已达上限"));
+		// return rsp.build().toByteString();
+		// }
+		// } else if (consumeType == eConsumeTypeDef.VipExpConsume.getOrder()) {
+		// if (PrivilegeCfgDAO.getInstance().getCfg(addValue) == null) {
+		// GameLog.error("背包道具使用", player.getUserId(), String.format("使用VIP卡的等级是[%s]并无PrivilegeCfg配置", addValue));
+		// rsp.setRspInfo(fillResponseInfo(false, "当前没有VIP" + addValue));
+		// return rsp.build().toByteString();
+		// }
+		//
+		// int curVipLevel = player.getVip();
+		// if (addValue <= curVipLevel) {
+		// rsp.setRspInfo(fillResponseInfo(false, "您已经是尊贵的VIP" + curVipLevel + "用户"));
+		// return rsp.build().toByteString();
+		// }
+		// }
+		//
+		// // 使用道具
+		// if (!itemBagMgr.useItemBySlotId(id, count)) {
+		// rsp.setRspInfo(fillResponseInfo(false, "使用失败"));
+		// return rsp.build().toByteString();
+		// }
+		//
+		// if (consumeType == eConsumeTypeDef.PowerConsume.getOrder()) {
+		// player.addPower(addValue);
+		// } else {
+		// player.setVip(addValue);
+		// }
+
+		ItemUseEffectCfgDAO cfgDAO = ItemUseEffectCfgDAO.getCfgDAO();
+		ItemUseEffectTemplate tmp = cfgDAO.getUseEffectTemplateByModelId(itemTemplateId);
+		if (tmp == null) {
+			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
+			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 			return rsp.build().toByteString();
 		}
 
-		int addValue = consumeCfg.getValue();
-		// 体力判断
-		if (consumeType == eConsumeTypeDef.PowerConsume.getOrder()) {
-			int mostPower = roleUpgradeCfg.getMostPower();
-			if (player.getUserGameDataMgr().getPower() >= mostPower) {// 超过上限
-				rsp.setRspInfo(fillResponseInfo(false, "体力已达上限"));
-				return rsp.build().toByteString();
-			}
-		} else if (consumeType == eConsumeTypeDef.VipExpConsume.getOrder()) {
-			if (PrivilegeCfgDAO.getInstance().getCfg(addValue) == null) {
-				GameLog.error("背包道具使用", player.getUserId(), String.format("使用VIP卡的等级是[%s]并无PrivilegeCfg配置", addValue));
-				rsp.setRspInfo(fillResponseInfo(false, "当前没有VIP" + addValue));
-				return rsp.build().toByteString();
-			}
+		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
+		if (combineUseMap != null && !combineUseMap.isEmpty()) {// 有要结合的数据
+			SpecialItemCfgDAO specialCfgDAO = SpecialItemCfgDAO.getDAO();
+			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
+				int key = e.getKey();
+				int needCount = e.getValue() * count;
 
-			int curVipLevel = player.getVip();
-			if (addValue <= curVipLevel) {
-				rsp.setRspInfo(fillResponseInfo(false, "您已经是尊贵的VIP" + curVipLevel + "用户"));
-				return rsp.build().toByteString();
+				String resourceName = null;
+				long value = 0;
+				if (key <= eSpecialItemId.eSpecial_End.getValue()) {
+					value = player.getReward(eSpecialItemId.getDef(key));
+					SpecialItemCfg cfg = specialCfgDAO.getCfgById(String.valueOf(key));
+					if (cfg != null) {
+						resourceName = cfg.getName();
+					}
+				} else {
+					value = itemBagMgr.getItemCountByModelId(key);
+					ItemBaseCfg needItemCfg = ItemCfgHelper.GetConfig(itemTemplateId);
+					if (needItemCfg != null) {
+						resourceName = needItemCfg.getName();
+					}
+				}
+
+				if (StringUtils.isEmpty(resourceName)) {
+					GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具结合使用的资源[%s]不能找到配置表", itemTemplateId, key));
+					rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
+					return rsp.build().toByteString();
+				}
+
+				if (needCount > value) {
+					GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
+					rsp.setRspInfo(fillResponseInfo(false, resourceName + "数量不足"));
+					return rsp.build().toByteString();
+				}
 			}
 		}
 
-		// 使用道具
-		if (!itemBagMgr.useItemBySlotId(id, count)) {
-			rsp.setRspInfo(fillResponseInfo(false, "使用失败"));
+		IItemUseEffect useEffectClass = cfgDAO.getItemUseEffectByModelId(itemTemplateId);
+		if (useEffectClass == null) {
+			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的使用处理类IItemUseEffect找不到", itemTemplateId));
+			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 			return rsp.build().toByteString();
 		}
 
-		if (consumeType == eConsumeTypeDef.PowerConsume.getOrder()) {
-			player.addPower(addValue);
-		} else {
-			player.setVip(addValue);
-		}
-		return rsp.build().toByteString();
+		return useEffectClass.useItem(player, itemData, count, rsp);
 	}
 
 	/**
@@ -380,7 +438,7 @@ public class ItemBagHandler {
 	 * @param tipMsg
 	 * @return
 	 */
-	private ResponseInfo.Builder fillResponseInfo(boolean success, String tipMsg) {
+	public static ResponseInfo.Builder fillResponseInfo(boolean success, String tipMsg) {
 		ResponseInfo.Builder rspInfo = ResponseInfo.newBuilder();
 		rspInfo.setSuccess(success);
 		rspInfo.setTipMsg(tipMsg);

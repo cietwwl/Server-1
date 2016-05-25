@@ -230,17 +230,13 @@ public class CopyHandler {
 			}
 		}
 		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
-		setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);
-		
-		
-		
+		ActivityRateTypeMgr.getInstance().setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);		
 		if(eSpecialItemIDUserInfo!=null){
 			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
 			if(StringUtils.isNotBlank(clientData)){
 				copyResponse.setESpecialItemIdList(clientData);
 			}
 		}
-//		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
 			
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
 		//
@@ -254,21 +250,7 @@ public class CopyHandler {
 		
 	}
 	
-	/**对金币,经验等是否处于双倍活动进行处理*/
-	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
-		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
-		int multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1; 
-		ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnum, eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiple,0);
-		
-		ActivityRateTypeEnum activityRateTypeEnumcoin = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 2);
-		boolean isRateOpencoin = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnumcoin);
-		int multiplecoin = isRateOpencoin?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnumcoin):1; 		
-		ActivityRateTypeMgr.getInstance().getesESpecialItemIDUserInfo(activityRateTypeEnumcoin, eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multiplecoin);
-		
-		
-		
-	}
+
 	
 	
 	
@@ -364,9 +346,7 @@ public class CopyHandler {
 		
 		/**扫荡处发送经验双倍字段给客户端显示*/
 		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
-		setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);
-		
-		
+		ActivityRateTypeMgr.getInstance().setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);		
 		if(eSpecialItemIDUserInfo!=null){
 			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
 			if(StringUtils.isNotBlank(clientData)){

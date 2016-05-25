@@ -40,8 +40,11 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.attrdata.calc.AttrDataCalcFactory;
+import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.common.attribute.param.MagicParam;
+import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
@@ -408,7 +411,14 @@ public final class AngleArrayMatchHelper {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(roleCfg.getModelId()).append("_").append(System.currentTimeMillis());// 模拟生成一个角色Id，modelId_时间
-		return getRobotTeamInfo(robotId, sb.toString(), name, roleCfg.getImageId(), "", career, heroTmpIdList);
+
+		String headImage;
+		if (sex == ESex.Men.getOrder()) {
+			headImage = "10001";
+		} else {
+			headImage = "10002";
+		}
+		return getRobotTeamInfo(robotId, sb.toString(), name, headImage, "", career, heroTmpIdList);
 	}
 
 	/**
@@ -462,13 +472,20 @@ public final class AngleArrayMatchHelper {
 		ArmyMagic magicInfo = new ArmyMagic();
 		// 法宝Id
 		int[] magicId = angelRobotCfg.getMagicId();
-		magicInfo.setModelId(magicId[getRandomIndex(r, magicId.length)]);
+		int finalMagicId = magicId[getRandomIndex(r, magicId.length)];
+		magicInfo.setModelId(finalMagicId);
 		// 法宝等级
 		int[] magicLevelArray = angelRobotCfg.getMagicLevel();
 		int magicLevel = magicLevelArray[getRandomIndex(r, magicLevelArray.length)];
 		magicLevel = magicLevel > mainRoleLevel ? mainRoleLevel : magicLevel;
 		magicInfo.setLevel(magicLevel);
 		teamInfo.setMagic(magicInfo);
+		// 转换成计算属性要传递的数据
+		MagicParam.MagicBuilder builder = new MagicBuilder();
+		builder.setMagicId(String.valueOf(finalMagicId));
+		builder.setMagicLevel(magicLevel);
+		builder.setUserId(userId);
+		MagicParam magicParam = builder.build();
 
 		int heroSize = heroTmpIdList.size();
 		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
@@ -557,7 +574,8 @@ public final class AngleArrayMatchHelper {
 				}
 
 				// 战力
-				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, AttrDataCalcFactory.getHeroAttrData(heroInfo));
+				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
+						AttributeBM.getRobotAttrData(userId, heroInfo, magicParam));
 				fighting += calFighting;
 				// System.err.println(String.format("[%s]的英雄，战力是[%s]", heroModelId, calFighting));
 			}
@@ -823,6 +841,7 @@ public final class AngleArrayMatchHelper {
 		List<String> userIdList = new ArrayList<String>();
 		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(rankType);
 		if (ranking == null) {
+			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("排行榜类型[%s]万仙阵阵容的排行榜是Null", rankType));
 			return userIdList;
 		}
 
@@ -836,6 +855,11 @@ public final class AngleArrayMatchHelper {
 
 		SegmentList<? extends MomentRankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute>> segmentList = ranking.getSegmentList(minValue, maxValue);
 		int refSize = segmentList.getRefSize();
+		if (refSize <= 0) {
+			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("需要匹配的战力上下限是[%s,%s]不能从类型为[%s]榜中截取到任何数据", minFighting, maxFighting, rankType));
+			return userIdList;
+		}
+
 		for (int i = 0; i < refSize; i++) {
 			MomentRankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> momentRankingEntry = segmentList.get(i);
 			if (momentRankingEntry == null) {
@@ -855,6 +879,10 @@ public final class AngleArrayMatchHelper {
 			}
 		}
 
+		if (userIdList.isEmpty()) {
+			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("需要匹配的战力上下限是[%s,%s]不能从类型为[%s]榜中匹配到任何玩家数据", minFighting, maxFighting, rankType));
+		}
+
 		// System.err.println("等级&战力匹配---" + userIdList.toString());
 		return userIdList;
 	}
@@ -870,6 +898,7 @@ public final class AngleArrayMatchHelper {
 	private static void getFightingRankMatch(String userId, int rankCount, int minFighting, int maxFighting, List<String> hasMatchList, List<String> enemyIdList, List<String> hasUserIdList) {
 		Ranking<FightingComparable, RankingLevelData> rank = RankingFactory.getRanking(RankType.FIGHTING_ALL_DAILY);
 		if (rank == null) {
+			GameLog.error("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), "获取不到对应某个排行榜的数据");
 			return;
 		}
 
@@ -882,6 +911,12 @@ public final class AngleArrayMatchHelper {
 
 		SegmentList<? extends MomentRankingEntry<FightingComparable, RankingLevelData>> segmentList = rank.getSegmentList(minComparable, maxComparable);
 		int refSize = segmentList.getRefSize();
+
+		boolean nonPerson = true;// 是否有匹配到人
+
+		if (refSize <= 0) {
+			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), String.format("匹配区间[%s,%s]中没有在排行榜中截取到数据", minFighting, maxFighting));
+		}
 
 		int matchCount = 0;
 		for (int i = 0; i < refSize; i++) {
@@ -902,6 +937,7 @@ public final class AngleArrayMatchHelper {
 
 			hasMatchList.add(id);
 			matchCount++;
+			nonPerson = false;
 
 			if (matchCount >= rankCount) {
 				break;
@@ -935,11 +971,14 @@ public final class AngleArrayMatchHelper {
 
 				hasMatchList.add(id);
 				offCount--;
+				nonPerson = false;
 
 				if (offCount <= 0) {
 					break;
 				}
 			}
+		} else {
+			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), String.format("战力[%s]上浮不到任何人", maxFighting));
 		}
 
 		// 已经够了
@@ -968,11 +1007,19 @@ public final class AngleArrayMatchHelper {
 
 				hasMatchList.add(id);
 				offCount--;
+				nonPerson = false;
 
 				if (offCount <= 0) {
 					break;
 				}
 			}
+		} else {
+			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), String.format("战力[%s]下浮不到任何人", minFighting));
+		}
+
+		// 匹配到最后都没从战力榜获取到人
+		if (nonPerson) {
+			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), "从战力榜中没有上下浮动到任何人");
 		}
 	}
 

@@ -1,6 +1,7 @@
 package com.rwbase.dao.item;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -11,9 +12,18 @@ public class GemCfgDAO extends CfgCsvDao<GemCfg> {
 	public static GemCfgDAO getInstance() {
 		return SpringContextUtil.getBean(GemCfgDAO.class);
 	}
+
 	@Override
 	public Map<String, GemCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("item/Gem.csv",GemCfg.class);
-		return cfgCacheMap;
+		Map<String, GemCfg> readCsv2Map = CfgCsvHelper.readCsv2Map("item/Gem.csv", GemCfg.class);
+		if (readCsv2Map == null) {
+			return cfgCacheMap;
+		}
+
+		for (Entry<String, GemCfg> e : readCsv2Map.entrySet()) {
+			e.getValue().initData();
+		}
+
+		return cfgCacheMap = readCsv2Map;
 	}
 }

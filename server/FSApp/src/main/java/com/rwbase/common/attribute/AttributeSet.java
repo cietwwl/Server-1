@@ -116,5 +116,4 @@ public class AttributeSet {
 			defaultAttributes[i] = new AttributeItem(array[i], 0, 0);
 		}
 	}
-
 }
