@@ -256,6 +256,9 @@ namespace MsgDef
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_MAGIC_SECRET", Value=203)]
       MSG_MAGIC_SECRET = 203,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_FEEDBACK", Value=995)]
+      MSG_FEEDBACK = 995,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SDK_VERIFY", Value=996)]
       MSG_SDK_VERIFY = 996,
             

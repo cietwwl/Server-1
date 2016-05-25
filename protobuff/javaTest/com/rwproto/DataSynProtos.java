@@ -654,6 +654,14 @@ public final class DataSynProtos {
      * </pre>
      */
     ActivityDailyType(60, 69),
+    /**
+     * <code>QuestionList = 80;</code>
+     *
+     * <pre>
+     *反馈问题列表
+     * </pre>
+     */
+    QuestionList(61, 80),
     ;
 
     /**
@@ -1144,6 +1152,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int ActivityDailyType_VALUE = 69;
+    /**
+     * <code>QuestionList = 80;</code>
+     *
+     * <pre>
+     *反馈问题列表
+     * </pre>
+     */
+    public static final int QuestionList_VALUE = 80;
 
 
     public final int getNumber() { return value; }
@@ -1211,6 +1227,7 @@ public final class DataSynProtos {
         case 67: return ActivityExchangeType;
         case 68: return ActivityTimeCountType;
         case 69: return ActivityDailyType;
+        case 80: return QuestionList;
         default: return null;
       }
     }
@@ -5095,7 +5112,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\351\t\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\373\t\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
       "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
@@ -5127,7 +5144,8 @@ public final class DataSynProtos {
       "\022\030\n\024ActivityDateSaleType\020A\022\024\n\020ActivityRa" +
       "nkType\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Ac" +
       "tivityTimeCountType\020D\022\025\n\021ActivityDailyTy" +
-      "pe\020EB\034\n\013com.rwprotoB\rDataSynProtos"
+      "pe\020E\022\020\n\014QuestionList\020PB\034\n\013com.rwprotoB\rD" +
+      "ataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
