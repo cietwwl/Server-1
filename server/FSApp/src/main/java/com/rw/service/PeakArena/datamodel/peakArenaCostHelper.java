@@ -21,6 +21,28 @@ public class peakArenaCostHelper extends CfgCsvDao<peakArenaCost> {
 		for (peakArenaCost cfg : vals) {
 			cfg.ExtraInitAfterLoad();
 		}
+		if (cfgCacheMap.size() <= 0) throw new RuntimeException("巅峰竞技场的扣费方案至少要有一个");
 		return cfgCacheMap;
+	}
+	
+	public peakArenaCost getCfgByResetCount(int resetCount){
+		peakArenaCost result = null;
+		int bestMatchCount = -1;
+		Collection<peakArenaCost> vals = cfgCacheMap.values();
+		for (peakArenaCost cfg : vals) {
+			//保底方案
+			if (result == null){
+				result = cfg;
+			}
+			if (cfg.getMinCount()<= resetCount && resetCount<= cfg.getMaxCount()){
+				return cfg;
+			}
+			//最佳匹配
+			if (cfg.getMaxCount() < resetCount && bestMatchCount < cfg.getMaxCount()){
+				result = cfg;
+				bestMatchCount = cfg.getMaxCount();
+			}
+		}
+		return result;
 	}
 }
