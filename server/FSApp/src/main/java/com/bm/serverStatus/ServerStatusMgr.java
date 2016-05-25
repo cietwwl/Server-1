@@ -1,6 +1,7 @@
 package com.bm.serverStatus;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.print.attribute.standard.Severity;
 
@@ -9,6 +10,7 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.task.GmEmailAll;
 import com.playerdata.Player;
+import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.ServerDataHolder;
@@ -25,6 +27,8 @@ public class ServerStatusMgr {
 	
 	private static ServerDataHolder dataHolder = new ServerDataHolder();
 	private static ServerGmEmailHolder mailHolder = new ServerGmEmailHolder();
+	
+	private static AtomicLong iSequenceNum = new AtomicLong(0);
 
 	public static ServerStatus getStatus() {
 		return status;
@@ -138,5 +142,10 @@ public class ServerStatusMgr {
 				EmailUtils.sendEmail(player.getUserId(), emailData);
 			}
 		}
+	}
+
+	public static long getiSequenceNum() {
+		int intServerId = GameManager.getZoneId();
+		return intServerId * 100000000 + iSequenceNum.getAndIncrement();
 	}
 }

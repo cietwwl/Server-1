@@ -32,7 +32,7 @@ public class Server {
 	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		GameWorldFactory.init(64, 16);
+		GameWorldFactory.init(32, 16);
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
 
 		GameManager.initServerProperties();
@@ -47,9 +47,10 @@ public class Server {
 			"classpath:applicationContext.xml" });
 
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
-		int ioThreads = Runtime.getRuntime().availableProcessors() * 2;
+		int ioThreads = Runtime.getRuntime().availableProcessors() * 4;
 		// new PrintServerState().startPrintState();
-		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(ioThreads);
+		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(64);
+		// final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
 		try {
 			//检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 			GameManager.CheckAllConfig();

@@ -2,6 +2,7 @@ package com.gm.gmsender;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.List;
 
 import com.rw.fsutil.log.GmLog;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
@@ -25,6 +26,22 @@ public class GiftCodeSocketHelper {
 		input.read(jsonBody);
 		String json = new String(jsonBody, "utf-8");
 		content = FastJsonUtil.deserialize(json, clazz);
+		GmLog.info("SocketHelper[read] 处理gm请求：" + json);
+		return content;
+	}
+	
+	public static <T> List<T> readList(DataInputStream input, Class<T> clazz) throws IOException {
+		List<T> content = null;
+		// int len = input.readInt();
+		// short readShort = input.readShort();
+		input.readInt();
+		input.readShort();
+		short jsonLength = input.readShort();
+
+		byte[] jsonBody = new byte[jsonLength];
+		input.read(jsonBody);
+		String json = new String(jsonBody, "utf-8");
+		content = FastJsonUtil.deserializeList(json, clazz);
 		GmLog.info("SocketHelper[read] 处理gm请求：" + json);
 		return content;
 	}

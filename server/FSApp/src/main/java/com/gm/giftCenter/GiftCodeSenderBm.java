@@ -82,7 +82,7 @@ public class GiftCodeSenderBm {
 					@Override
 					public void run() {
 						try {
-							GiftCodeRsp resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeRsp.class);
+							GiftCodeRsp resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeRsp.class, 20039);
 							giftCodeItem.getGmCallBack().doCallBack(resopnse == null ? null : resopnse.getResult().get(0));
 
 						} catch (Exception e) {
