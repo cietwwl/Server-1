@@ -6,10 +6,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.assistant.cfg.AssistantCfg;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 import com.rwbase.dao.assistant.cfg.AssistantCfgDao;
 import com.rwbase.dao.assistant.pojo.AssistantDataHolder;
+import com.rwproto.DataSynProtos.eSynOpType;
 
 public class AssistantMgr {
 
@@ -43,7 +45,6 @@ public class AssistantMgr {
 		checkList.add(new AssistantUpdateSkillCheck());
 		return true;
 	}
-	
 
 	public void doCheck(){
 		List<AssistantCfg>  activeEventList = new ArrayList<AssistantCfg>();
@@ -65,6 +66,10 @@ public class AssistantMgr {
 			assistantDataHolder.setAssistantEventID(AssistantEventID.Invaild);
 		}
 		
+	}
+	
+	public void synData(){
+		assistantDataHolder.synData();
 	}
 	
 	

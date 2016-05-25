@@ -374,6 +374,7 @@ public class Player implements PlayerIF {
 					HeroFettersDataHolder.synAll(player);
 					
 					ActivityCountTypeMgr.getInstance().checkActivity(player);
+					m_AssistantMgr.synData();
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
