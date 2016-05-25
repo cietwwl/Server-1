@@ -367,7 +367,10 @@ namespace DataSyn
       ActivityTimeCountType = 68,
             
       [global::ProtoBuf.ProtoEnum(Name=@"ActivityDailyType", Value=69)]
-      ActivityDailyType = 69
+      ActivityDailyType = 69,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"QuestionList", Value=80)]
+      QuestionList = 80
     }
   
 }
