@@ -128,7 +128,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * 生成下一个stage的三个关卡数据
 	 * @param currentDungeonID
 	 */
-	protected void createDungeonsDataForNextStage(String currentDungeonID){
+	public void createDungeonsDataForNextStage(String currentDungeonID){
 		int stageID = fromDungeonIDToStageID(currentDungeonID);
 		int chapterID = fromStageIDToChapterID(stageID);
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, String.valueOf(chapterID));

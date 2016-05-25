@@ -11,7 +11,7 @@ public class MagicScoreRankCfg extends BaseConfig {
 	private int stageId; //阶段ID
 	private int rankEnd; //排名start
 	private String reward; //奖励
-	private List<ItemInfo> list_reward = new ArrayList<ItemInfo>();
+	private List<ItemInfo> list_reward;
 
 	public int getKey() {
 		return key;
@@ -30,11 +30,12 @@ public class MagicScoreRankCfg extends BaseConfig {
 	}
 	
 	public List<ItemInfo> getRewardList(){
-		return Collections.unmodifiableList(list_reward);
+		return list_reward;
 	}
 
 	@Override
 	public void ExtraInitAfterLoad() {
+		List<ItemInfo> tmpList = new ArrayList<ItemInfo>();
 		String[] rewardItemStr = reward.split(",");
 		for(String rewardItem : rewardItemStr){
 			String[] itemStrArr = rewardItem.split("_");
@@ -42,8 +43,9 @@ public class MagicScoreRankCfg extends BaseConfig {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(Integer.parseInt(itemStrArr[0]));
 				item.setItemNum(Integer.parseInt(itemStrArr[1]));
-				this.list_reward.add(item);
+				tmpList.add(item);
 			}
 		}
+		this.list_reward = Collections.unmodifiableList(tmpList);
 	}
 }

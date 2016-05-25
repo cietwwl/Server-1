@@ -1,7 +1,10 @@
 package com.playerdata.mgcsecret.data;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MSScoreDataItem {
 	private String userId;
 	private int historyScore; //历史积分

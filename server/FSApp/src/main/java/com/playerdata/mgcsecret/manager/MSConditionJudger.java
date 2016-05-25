@@ -33,6 +33,8 @@ public class MSConditionJudger {
 	
 	public final static int MS_RANK_FETCH_COUNT = 100;
 	
+	public final static String CHAPTER_INIT_ID = "1";
+	
 	protected MagicChapterInfoHolder mChapterHolder;
 	protected UserMagicSecretHolder userMSHolder;
 	
@@ -60,11 +62,15 @@ public class MSConditionJudger {
 	 * @param dungeonID
 	 * @return
 	 */
-	protected boolean judgeDungeonsCondition(String dungeonID){
+	public boolean judgeDungeonsCondition(String dungeonID){
 		UserMagicSecretData msData = userMSHolder.get();
-		int maxStageID = msData.getMaxStageID();
+		if(msData == null) {
+			GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsCondition, UserMagicSecretData[%s]不存在", userId), null);
+			return false;
+		}
+		int maxStageID = msData.getMaxStageID() == 0 ? 101 : msData.getMaxStageID();
 		int reqStageID = fromDungeonIDToStageID(dungeonID);
-		if(reqStageID > maxStageID || reqStageID < 0){
+		if(reqStageID > getNextStage(maxStageID) || reqStageID < 0){
 			GameLog.error(LogModule.MagicSecret, userId, String.format("judgeDungeonsCondition, reqStageID[%s]超过了最高纪录[%s]", dungeonID, maxStageID), null);
 			return false;
 		}
@@ -282,5 +288,15 @@ public class MSConditionJudger {
 	
 	protected int fromStageIDToLayerID(int stageID){
 		return stageID%100;
+	}
+	
+	protected int getNextStage(int stageID){
+		int layerID = fromStageIDToLayerID(stageID);
+		int chapterID = fromStageIDToChapterID(stageID);
+		if(layerID >= STAGE_COUNT_EACH_CHATPER) {
+			layerID = 1;
+			chapterID++;
+		}else layerID++;
+		return chapterID * 100 + layerID;
 	}
 }

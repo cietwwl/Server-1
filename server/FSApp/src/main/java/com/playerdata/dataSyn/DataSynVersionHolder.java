@@ -253,11 +253,23 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyType);
+		
+		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {	
+				player.getMagicSecretMgr().synMagicChapterData();
+			}
+		}));
+		orderList.add(eSynType.MagicChapterData);
+		
+		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				player.getMagicSecretMgr().synUserMSData();
+			}
+		}));
+		orderList.add(eSynType.MagicSecretData);
 
 		notInVersionControlList.add(notInVersionControlP);
-		
-		
-		
-		
 	}
 }

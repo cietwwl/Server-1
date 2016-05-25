@@ -19,7 +19,10 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 public class MagicChapterInfo implements  IMapItem {
 
 	@Id
-	private String id;
+	private String id;	//数据库主键
+	
+	@CombineSave
+	private String chapterId;  //章节id
 	
 	private String userId;// 对应的角色Id
 	
@@ -47,12 +50,30 @@ public class MagicChapterInfo implements  IMapItem {
 	@CombineSave
 	private String version;
 
+	public void resetData(){
+		canOpenBoxes.clear();
+		finishedStages.clear();
+		selectedDungeonIndex = -1;
+		selectableDungeons.clear();
+		selectedBuff.clear();
+		unselectedBuff.clear();
+		starCount = 0;
+	}
+	
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getChapterId() {
+		return chapterId;
+	}
+
+	public void setChapterId(String chapterId) {
+		this.chapterId = chapterId;
 	}
 
 	public String getUserId() {

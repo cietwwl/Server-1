@@ -7,7 +7,6 @@ import com.bm.rank.RankType;
 import com.playerdata.mgcsecret.cfg.MagicScoreRankCfg;
 import com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
-import com.playerdata.mgcsecret.data.MagicSecretExtendInfo;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.common.EnumerateList;
@@ -29,7 +28,7 @@ public class MSScoreRankMgr {
 		// 比较数据
 		MagicSecretComparable comparable = new MagicSecretComparable(msInfo.getHistoryScore(), msInfo.getTodayScore(), msInfo.getRecentScoreTime());	
 		String userId = msInfo.getUserId();
-		RankingEntry<MagicSecretComparable, MagicSecretExtendInfo> rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<MagicSecretComparable, MSScoreDataItem> rankingEntry = ranking.getRankingEntry(userId);
 		// 加入榜
 		ranking.addOrUpdateRankingEntry(userId, comparable, msInfo);
 
@@ -55,7 +54,7 @@ public class MSScoreRankMgr {
 	public static List<MSScoreDataItem> getMSScoreRankList(){
 		List<MSScoreDataItem> itemList = new ArrayList<MSScoreDataItem>();
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(0, MagicSecretMgr.MS_RANK_FETCH_COUNT);
+		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
 		for(;it.hasMoreElements();){
 			MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
 			itemList.add(entry.getExtendedAttribute());
@@ -68,7 +67,7 @@ public class MSScoreRankMgr {
 	 */
 	public static void dispatchMSDailyReward(){
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(0, MagicSecretMgr.MS_RANK_FETCH_COUNT);
+		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
 		int rewardCfgCount = MagicScoreRankCfgDAO.getInstance().getEntryCount();
 		for(int i = 1; i <= rewardCfgCount; i++){
 			int startRank = 1;

@@ -33,8 +33,11 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	public void init(Player playerP) {
 		m_pPlayer = playerP;
 		this.userId = playerP.getUserId();
-		mChapterHolder = MagicChapterInfoHolder.getInstance();
 		userMSHolder = new UserMagicSecretHolder(userId);
+		mChapterHolder = MagicChapterInfoHolder.getInstance();
+		if(mChapterHolder.getItemList(userId).size() == 0){
+			mChapterHolder.initMagicChapterInfo(playerP, CHAPTER_INIT_ID);
+		}
 	}
 	
 	/**
@@ -374,7 +377,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * 处理下一个关卡开始之前的各项准备
 	 * @param dungeonID
 	 */
-	private void handleNextDungeonPrepare(String dungeonID){	
+	protected void handleNextDungeonPrepare(String dungeonID){	
 		provideNextSelectalbeBuff(dungeonID);
 		createDungeonsDataForNextStage(dungeonID);
 	}
@@ -387,5 +390,14 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 */
 	public static int getTotalScore(int history, int today){
 		return (int)(history * SCORE_COEFFICIENT) + today;
+	}
+	
+	public void synMagicChapterData() {
+		mChapterHolder.synAllData(m_pPlayer);
+		
+	}
+	
+	public void synUserMSData() {
+		userMSHolder.syn(m_pPlayer, 0);
 	}
 }

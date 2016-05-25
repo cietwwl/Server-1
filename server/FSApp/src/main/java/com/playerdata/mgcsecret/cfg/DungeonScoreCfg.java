@@ -10,7 +10,7 @@ public class DungeonScoreCfg extends BaseConfig {
 	private int key; //关键字段
 	private int score; //积分
 	private String reward; //奖励
-	private List<ItemInfo> list_reward = new ArrayList<ItemInfo>();
+	private List<ItemInfo> list_reward; //经过解析的奖励字段
 
 	public int getKey() {
 		return key;
@@ -25,12 +25,12 @@ public class DungeonScoreCfg extends BaseConfig {
 	}
 
 	public List<ItemInfo> getRewardList(){
-		return Collections.unmodifiableList(list_reward);
+		return list_reward;
 	}
 	
 	@Override
 	public void ExtraInitAfterLoad(){
-		list_reward.clear();
+		List<ItemInfo> tmpList = new ArrayList<ItemInfo>();
 		String[] rewardStrArr = reward.split(",");
 		for(String rewardStr : rewardStrArr){
 			ItemInfo item = new ItemInfo();
@@ -38,8 +38,9 @@ public class DungeonScoreCfg extends BaseConfig {
 			if(itemStr.length == 2){
 				item.setItemID(Integer.parseInt(itemStr[0]));
 				item.setItemNum(Integer.parseInt(itemStr[1]));
-				list_reward.add(item);
+				tmpList.add(item);
 			}
 		}
+		list_reward = Collections.unmodifiableList(tmpList);
 	}
 }
