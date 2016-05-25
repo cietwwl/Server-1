@@ -10,7 +10,7 @@ enum eArenaType {
 	CHANGE_HERO = 2;  //
 	ARENA_RECORD = 3; //
 	ENEMY_INFO = 4;   //
-	CLEAR_TIME = 5;	  //
+	CLEAR_TIME = 5;	  //重置CD时间
 	ARENA_FIGHT_PREPARE = 6;//
 	ARENA_FIGHT_START = 7;  //
 	ARENA_FIGHT_FINISH = 8;//
@@ -18,6 +18,7 @@ enum eArenaType {
 	GET_PLACE = 10;//
 	GET_SCORE = 11;//领取巅峰竞技场货币，TODO:需要修改为进入巅峰竞技场或者商店的时候自动领取
 	SWITCH_OVER = 12;//更换玩家队伍顺序，TODO:需要修改为<TeamId, Order>这种方式才灵活
+	BUY_CHALLENGE_COUNT = 13;// 购买挑战次数
 }
 
 enum eArenaResultType {
@@ -71,7 +72,7 @@ message ArenaData{
 	optional int64 lastFightTime = 20;  //唔知系咩
 	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
 	optional int32 maxChallengeCount = 22;   // 最大战次数，会根据特权而修改
-        optional string groupName = 23;
+    optional string groupName = 23;
 }
 
 message ArenaInfo{
