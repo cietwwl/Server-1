@@ -125,6 +125,9 @@ public class PlayerQuestionService {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <T> void submitRequest(Map<String, Object> content, int opType, String userId, boolean requireList, Class<T> responseClass){
+		if (!ServerSwitch.isGiftCodeOpen()) {
+			return;
+		}
 		final QuestionObject obj = new QuestionObject(content, opType, userId, requireList, responseClass);
 //		Queue.add(obj);
 		
