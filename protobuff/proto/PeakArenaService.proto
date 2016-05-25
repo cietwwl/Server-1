@@ -71,6 +71,7 @@ message ArenaData{
 	optional int64 lastFightTime = 20;  //唔知系咩
 	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
 	optional int32 maxChallengeCount = 22;   // 最大战次数，会根据特权而修改
+        optional string groupName = 23;
 }
 
 message ArenaInfo{
@@ -83,7 +84,6 @@ message ArenaInfo{
 	optional string name = 7;
 	optional string headImage = 8;
 	optional int32 fighting = 9;
-	optional string groupName = 10;
 	repeated TeamInfo teams = 19;
 }
 
