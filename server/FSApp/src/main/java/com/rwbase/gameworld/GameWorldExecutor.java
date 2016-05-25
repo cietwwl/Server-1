@@ -1,6 +1,7 @@
 package com.rwbase.gameworld;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +35,7 @@ public class GameWorldExecutor implements GameWorld {
 
 	public GameWorldExecutor(int threadSize, EngineLogger logger, int asynThreadSize) {
 		this.logger = logger;
+		this.listeners = new ArrayList<PlayerTaskListener>(0);
 		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player_pool"));
 		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("aysn_logic"));
 		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(threadSize, logger, executor) {
@@ -45,14 +47,12 @@ public class GameWorldExecutor implements GameWorld {
 
 			@Override
 			protected void afterExecute(String key, Player player) {
-				if (GameWorldExecutor.this.listeners != null) {
-					for (int i = listeners.size(); --i >= 0;) {
-						try {
-							PlayerTaskListener listener = listeners.get(i);
-							listener.notifyTaskCompleted(player);
-						} catch (Throwable t) {
-							GameWorldExecutor.this.logger.error("listener notification raised an exception", t);
-						}
+				for (int i = listeners.size(); --i >= 0;) {
+					try {
+						PlayerTaskListener listener = listeners.get(i);
+						listener.notifyTaskCompleted(player);
+					} catch (Throwable t) {
+						GameWorldExecutor.this.logger.error("listener notification raised an exception", t);
 					}
 				}
 			}
@@ -147,15 +147,14 @@ public class GameWorldExecutor implements GameWorld {
 		data.setValue(attribute);
 		return GameWorldDAO.getInstance().update(data);
 	}
-
+	
 	@Override
 	public synchronized void registerPlayerDataListener(PlayerTaskListener listener) {
-		ArrayList<PlayerTaskListener> list;
-		if (listeners == null) {
-			list = new ArrayList<PlayerTaskListener>(1);
-		} else {
-			list = new ArrayList<PlayerTaskListener>(listeners);
+		if (listeners.contains(listener)) {
+			return;
 		}
+		ArrayList<PlayerTaskListener> list = new ArrayList<PlayerTaskListener>(listeners.size() + 1);
+		list.addAll(listeners);
 		list.add(listener);
 		this.listeners = list;
 	}

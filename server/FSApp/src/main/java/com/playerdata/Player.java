@@ -1,5 +1,7 @@
 package com.playerdata;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,15 +19,16 @@ import com.bm.player.ObserverFactory.ObserverType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Action;
+import com.common.GameUtil;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.assistant.AssistantMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
-import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
@@ -83,6 +86,9 @@ import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ReConnectionProtos.SyncVersion;
+import com.rwproto.ResponseProtos;
+import com.rwproto.ResponseProtos.Response;
+import com.rwproto.ResponseProtos.ResponseHeader;
 
 /**
  * 玩家类
@@ -95,7 +101,6 @@ import com.rwproto.ReConnectionProtos.SyncVersion;
 
 public class Player implements PlayerIF {
 
-	private PlayerMsgMgr playerMsgMgr;
 	private UserDataMgr userDataMgr;
 	private UserGameDataMgr userGameDataMgr;
 
@@ -163,7 +168,6 @@ public class Player implements PlayerIF {
 
 	// 同步数据的版本记录
 	private DataSynVersionHolder dataSynVersionHolder = new DataSynVersionHolder();
-	private SynDataInReqMgr synDataInReqMgr = new SynDataInReqMgr();
 
 	public static Player newOld(String userId) {
 		return new Player(userId, true);
@@ -227,7 +231,6 @@ public class Player implements PlayerIF {
 
 	public Player(String userId, boolean initMgr, RoleCfg roleCfg) {
 		this.tempAttribute = new PlayerTempAttribute();
-		playerMsgMgr = new PlayerMsgMgr(userId);
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
@@ -344,7 +347,6 @@ public class Player implements PlayerIF {
 
 				@Override
 				public void synAllData(Player player, int version) {
-
 					onMinutes();
 					onNewHour();
 					onNewDayZero();
@@ -354,9 +356,6 @@ public class Player implements PlayerIF {
 					userDataMgr.setLastLoginTime(now);
 					// 推送帮派的数据
 					getUserGroupAttributeDataMgr().synUserGroupData(player);
-					// // 推送个人的帮派技能数据
-					// getUserGroupAttributeDataMgr().synUserSkillData(player,
-					// -1);
 					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
@@ -369,7 +368,12 @@ public class Player implements PlayerIF {
 					ChatHandler.getInstance().sendChatAllMsg(player);
 					// 试练塔次数重置
 					getBattleTowerMgr().resetBattleTowerResetTimes(now);
-
+					// 登录之后推送体力信息
+					PowerInfoDataHolder.synPowerInfo(player);
+					// 登录推送所有的羁绊属性
+					HeroFettersDataHolder.synAll(player);
+					
+					ActivityCountTypeMgr.getInstance().checkActivity(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -377,13 +381,14 @@ public class Player implements PlayerIF {
 	}
 
 	public void onLogin() {
+		String userId = getUserId();
+		UserChannelMgr.onBSBegin(userId);
 		notifyLogin();
 		initDataVersionControl();
-		onBSStart();// 合并数据同步信息
 		try {
-			dataSynVersionHolder.synAll(this);
+			dataSynVersionHolder.synAll(this); 
 		} finally {
-			onBSEnd();
+			UserChannelMgr.onBSEnd(userId);
 		}
 
 		GroupMemberHelper.onPlayerLogin(this);
@@ -392,10 +397,6 @@ public class Player implements PlayerIF {
 		getTowerMgr().checkAndResetMatchData(this);
 		// 当角色登录的时候，更新下登录的时间
 		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
-		// 登录之后推送体力信息
-		PowerInfoDataHolder.synPowerInfo(this);
-		// 登录推送所有的羁绊属性
-		HeroFettersDataHolder.synAll(this);
 	}
 
 	public void notifyMainRoleCreation() {
@@ -554,16 +555,6 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	// BusinessService start
-	public void onBSStart() {
-		synDataInReqMgr.setInReq(true);
-	}
-
-	// BusinessService end
-	public void onBSEnd() {
-		synDataInReqMgr.doSyn(this);
-	}
-
 	public void NotifyCommonMsg(ECommonMsgTypeDef type, String message) {
 		if (message == null || message.equals("")) {
 			return;
@@ -604,7 +595,31 @@ public class Player implements PlayerIF {
 	}
 
 	public void SendMsg(MsgDef.Command Cmd, ByteString pBuffer) {
-		playerMsgMgr.sendMsg(Cmd, pBuffer, true);
+		String userId = getUserId();
+		try {
+			ChannelHandlerContext ctx = UserChannelMgr.get(userId);
+			if (ctx == null) {
+				return;
+			}
+			Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
+			if (pBuffer != null) {
+				builder.setSerializedContent(pBuffer);
+			}
+
+			ResponseProtos.Response.Builder response = ResponseProtos.Response.newBuilder();
+			ResponseHeader.Builder header = ResponseHeader.newBuilder();
+			header.mergeFrom(builder.getHeader());
+			header.setStatusCode(200);
+			response.setHeader(header.build());
+			response.setSerializedContent(builder.getSerializedContent());
+			if (!GameUtil.checkMsgSize(response, userId)) {
+				return;
+			}
+			ctx.channel().writeAndFlush(response.build());
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public int addUserExp(long addExp) {
@@ -1055,19 +1070,7 @@ public class Player implements PlayerIF {
 	public UserDataMgr getUserDataMgr() {
 		return userDataMgr;
 	}
-
-	public SynDataInReqMgr getSynDataInReqMgr() {
-		return synDataInReqMgr;
-	}
-
-	public void setSynDataInReqMgr(SynDataInReqMgr synDataInReqMgr) {
-		this.synDataInReqMgr = synDataInReqMgr;
-	}
-
-	public PlayerMsgMgr getPlayerMsgMgr() {
-		return playerMsgMgr;
-	}
-
+	
 	public RedPointMgr getRedPointMgr() {
 		return redPointMgr;
 	}
