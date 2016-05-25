@@ -1,4 +1,4 @@
-package com.rwbase.dao.peakArena.pojo;
+package com.rw.service.PeakArena.datamodel;
 
 public class PeakArenaPrizeCfg {
 

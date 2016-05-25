@@ -1,4 +1,4 @@
-package com.rwbase.dao.peakArena.pojo;
+package com.rw.service.PeakArena.datamodel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -17,18 +17,17 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
+import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.peakArena.TablePeakArenaDataDAO;
-import com.rwbase.dao.peakArena.pojo.PeakRecordInfo;
-import com.rwbase.dao.peakArena.pojo.TablePeakArenaData;
-import com.rwbase.dao.peakArena.pojo.TeamData;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.dao.user.readonly.TableUserIF;
-import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
 public class PeakArenaBM {
 
@@ -61,7 +60,7 @@ public class PeakArenaBM {
 		String userId = tableUser.getUserId();
 		TablePeakArenaData data = tablePeakArenaDataDAO.get(userId);
 		if (data != null) {
-			Ranking ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
+			Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
 			RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
 			if (entry == null) {
 				int lastScore = data.getLastScore();
@@ -79,7 +78,7 @@ public class PeakArenaBM {
 			return null;
 		}
 		// 在排行榜创建记录
-		TableUserOtherIF tableUserOther = player.getTableUserOther();
+		//TableUserOtherIF tableUserOther = player.getTableUserOther();
 		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
 		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.addOrUpdateRankingEntry(userId, 0, player);
 		int place;
@@ -142,7 +141,7 @@ public class PeakArenaBM {
 		}
 		// 在排行榜创建记录
 		TableUserIF tableUser = player.getTableUser();
-		TableUserOtherIF tableUserOther = player.getTableUserOther();
+		//TableUserOtherIF tableUserOther = player.getTableUserOther();
 		String userId = tableUser.getUserId();
 		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
 		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.addOrUpdateRankingEntry(userId, 0, player);
@@ -192,8 +191,9 @@ public class PeakArenaBM {
 	}
 
 	// 玩家筛选
+	@SuppressWarnings("unchecked")
 	public List<MomentRankingEntry<Integer, PeakArenaExtAttribute>> SelectPeakArenaInfos(TablePeakArenaData data, Player player) {
-		Ranking ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
+		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
 		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(data.getUserId());
 		if (entry == null) {
 			entry = ranking.addOrUpdateRankingEntry(data.getUserId(), data.getLastScore(), player);
@@ -202,10 +202,15 @@ public class PeakArenaBM {
 		int score = (entry == null ? data.getLastScore() : entry.getComparable());
 		int minScore = score - INCREMENT;
 		int maxScore = score + INCREMENT;
-		SegmentList<MomentRankingEntry<Integer, PeakArenaExtAttribute>> enumberateList = ranking.getSegmentList(minScore, maxScore);
+		SegmentList<MomentRankingEntry<Integer, PeakArenaExtAttribute>> enumberateList;
+		{
+			SegmentList<? extends MomentRankingEntry<Integer, PeakArenaExtAttribute>> tmp = ranking.getSegmentList(minScore, maxScore);
+			enumberateList = (SegmentList<MomentRankingEntry<Integer, PeakArenaExtAttribute>>) tmp;
+		}
+		
 		int refSize = enumberateList.getRefSize();
 		if (refSize == 0) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		int maxSize = enumberateList.getMaxSize();
@@ -350,7 +355,7 @@ public class PeakArenaBM {
 		String userId = player.getUserId();
 		TablePeakArenaData myPeakArenaData = tablePeakArenaDataDAO.get(userId);
 		// Ranking底层保证不为null
-		Ranking ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
+		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
 		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
 		if (entry == null) {
 			entry = ranking.addOrUpdateRankingEntry(userId, 0, player);
@@ -444,7 +449,7 @@ public class PeakArenaBM {
 		if (expectCurrency == 0) {
 			return false;
 		}
-		if (player.getUserGameDataMgr().addPeakArenaCoin(expectCurrency) == 0) {
+		if (player.getUserGameDataMgr().addPeakArenaCoin(expectCurrency)) {
 			data.setExpectCurrency(0);
 			this.tablePeakArenaDataDAO.update(data);
 			return true;
@@ -473,12 +478,12 @@ public class PeakArenaBM {
 		String userId = player.getUserId();
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		if (infoCfg == null) {
-			GameLog.error("重置时找不到巅峰竞技场配置：" + userId);
+			GameLog.error("竞技场", userId, "重置时找不到巅峰竞技场配置：" + userId);
 			return;
 		}
 		TablePeakArenaData peakArenaData = getPeakArenaData(userId);
 		if (peakArenaData == null) {
-			GameLog.error("重置时找不到巅峰竞技场玩家：" + userId);
+			GameLog.error("竞技场", userId, "重置时找不到巅峰竞技场玩家：" + userId);
 			return;
 		}
 		peakArenaData.setRemainCount(infoCfg.getCount());

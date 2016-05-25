@@ -53,6 +53,7 @@ public final class PeakArenaServiceProtos {
      * <code>CLEAR_TIME = 5;</code>
      *
      * <pre>
+     *重置CD时间
      * </pre>
      */
     CLEAR_TIME(5, 5),
@@ -86,19 +87,35 @@ public final class PeakArenaServiceProtos {
     SYNC_RECORD(9, 9),
     /**
      * <code>GET_PLACE = 10;</code>
+     *
+     * <pre>
+     * </pre>
      */
     GET_PLACE(10, 10),
     /**
      * <code>GET_SCORE = 11;</code>
      *
      * <pre>
+     *领取巅峰竞技场货币，TODO:需要修改为进入巅峰竞技场或者商店的时候自动领取
      * </pre>
      */
     GET_SCORE(11, 11),
     /**
      * <code>SWITCH_OVER = 12;</code>
+     *
+     * <pre>
+     *更换玩家队伍顺序，TODO:需要修改为&lt;TeamId, Order&gt;这种方式才灵活
+     * </pre>
      */
     SWITCH_OVER(12, 12),
+    /**
+     * <code>BUY_CHALLENGE_COUNT = 13;</code>
+     *
+     * <pre>
+     * 购买挑战次数
+     * </pre>
+     */
+    BUY_CHALLENGE_COUNT(13, 13),
     ;
 
     /**
@@ -141,6 +158,7 @@ public final class PeakArenaServiceProtos {
      * <code>CLEAR_TIME = 5;</code>
      *
      * <pre>
+     *重置CD时间
      * </pre>
      */
     public static final int CLEAR_TIME_VALUE = 5;
@@ -174,19 +192,35 @@ public final class PeakArenaServiceProtos {
     public static final int SYNC_RECORD_VALUE = 9;
     /**
      * <code>GET_PLACE = 10;</code>
+     *
+     * <pre>
+     * </pre>
      */
     public static final int GET_PLACE_VALUE = 10;
     /**
      * <code>GET_SCORE = 11;</code>
      *
      * <pre>
+     *领取巅峰竞技场货币，TODO:需要修改为进入巅峰竞技场或者商店的时候自动领取
      * </pre>
      */
     public static final int GET_SCORE_VALUE = 11;
     /**
      * <code>SWITCH_OVER = 12;</code>
+     *
+     * <pre>
+     *更换玩家队伍顺序，TODO:需要修改为&lt;TeamId, Order&gt;这种方式才灵活
+     * </pre>
      */
     public static final int SWITCH_OVER_VALUE = 12;
+    /**
+     * <code>BUY_CHALLENGE_COUNT = 13;</code>
+     *
+     * <pre>
+     * 购买挑战次数
+     * </pre>
+     */
+    public static final int BUY_CHALLENGE_COUNT_VALUE = 13;
 
 
     public final int getNumber() { return value; }
@@ -206,6 +240,7 @@ public final class PeakArenaServiceProtos {
         case 10: return GET_PLACE;
         case 11: return GET_SCORE;
         case 12: return SWITCH_OVER;
+        case 13: return BUY_CHALLENGE_COUNT;
         default: return null;
       }
     }
@@ -411,10 +446,18 @@ public final class PeakArenaServiceProtos {
     // optional int32 fighting = 5;
     /**
      * <code>optional int32 fighting = 5;</code>
+     *
+     * <pre>
+     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * </pre>
      */
     boolean hasFighting();
     /**
      * <code>optional int32 fighting = 5;</code>
+     *
+     * <pre>
+     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * </pre>
      */
     int getFighting();
 
@@ -436,34 +479,62 @@ public final class PeakArenaServiceProtos {
     // optional int64 exp = 7;
     /**
      * <code>optional int64 exp = 7;</code>
+     *
+     * <pre>
+     * 有用咩？
+     * </pre>
      */
     boolean hasExp();
     /**
      * <code>optional int64 exp = 7;</code>
+     *
+     * <pre>
+     * 有用咩？
+     * </pre>
      */
     long getExp();
 
     // repeated .SkillService.TagSkillData skills = 8;
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> 
         getSkillsList();
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     com.rwproto.SkillServiceProtos.TagSkillData getSkills(int index);
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     int getSkillsCount();
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     java.util.List<? extends com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> 
         getSkillsOrBuilderList();
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getSkillsOrBuilder(
         int index);
@@ -471,24 +542,44 @@ public final class PeakArenaServiceProtos {
     // repeated .SyncAttri.TagAttriData attrs = 9;
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> 
         getAttrsList();
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     com.rwproto.SyncAttriProtos.TagAttriData getAttrs(int index);
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     int getAttrsCount();
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
         getAttrsOrBuilderList();
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getAttrsOrBuilder(
         int index);
@@ -502,6 +593,21 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 teamId = 10;</code>
      */
     int getTeamId();
+
+    // optional string headImage = 11;
+    /**
+     * <code>optional string headImage = 11;</code>
+     */
+    boolean hasHeadImage();
+    /**
+     * <code>optional string headImage = 11;</code>
+     */
+    java.lang.String getHeadImage();
+    /**
+     * <code>optional string headImage = 11;</code>
+     */
+    com.google.protobuf.ByteString
+        getHeadImageBytes();
   }
   /**
    * Protobuf type {@code HeroData}
@@ -608,6 +714,11 @@ public final class PeakArenaServiceProtos {
             case 80: {
               bitField0_ |= 0x00000080;
               teamId_ = input.readInt32();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000100;
+              headImage_ = input.readBytes();
               break;
             }
           }
@@ -779,12 +890,20 @@ public final class PeakArenaServiceProtos {
     private int fighting_;
     /**
      * <code>optional int32 fighting = 5;</code>
+     *
+     * <pre>
+     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * </pre>
      */
     public boolean hasFighting() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional int32 fighting = 5;</code>
+     *
+     * <pre>
+     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * </pre>
      */
     public int getFighting() {
       return fighting_;
@@ -838,12 +957,20 @@ public final class PeakArenaServiceProtos {
     private long exp_;
     /**
      * <code>optional int64 exp = 7;</code>
+     *
+     * <pre>
+     * 有用咩？
+     * </pre>
      */
     public boolean hasExp() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int64 exp = 7;</code>
+     *
+     * <pre>
+     * 有用咩？
+     * </pre>
      */
     public long getExp() {
       return exp_;
@@ -854,12 +981,20 @@ public final class PeakArenaServiceProtos {
     private java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> skills_;
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> getSkillsList() {
       return skills_;
     }
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public java.util.List<? extends com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> 
         getSkillsOrBuilderList() {
@@ -867,18 +1002,30 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public int getSkillsCount() {
       return skills_.size();
     }
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public com.rwproto.SkillServiceProtos.TagSkillData getSkills(int index) {
       return skills_.get(index);
     }
     /**
      * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getSkillsOrBuilder(
         int index) {
@@ -890,12 +1037,20 @@ public final class PeakArenaServiceProtos {
     private java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> attrs_;
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> getAttrsList() {
       return attrs_;
     }
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
         getAttrsOrBuilderList() {
@@ -903,18 +1058,30 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public int getAttrsCount() {
       return attrs_.size();
     }
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public com.rwproto.SyncAttriProtos.TagAttriData getAttrs(int index) {
       return attrs_.get(index);
     }
     /**
      * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+     *
+     * <pre>
+     * 咩来嘎 ？？
+     * </pre>
      */
     public com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getAttrsOrBuilder(
         int index) {
@@ -937,6 +1104,49 @@ public final class PeakArenaServiceProtos {
       return teamId_;
     }
 
+    // optional string headImage = 11;
+    public static final int HEADIMAGE_FIELD_NUMBER = 11;
+    private java.lang.Object headImage_;
+    /**
+     * <code>optional string headImage = 11;</code>
+     */
+    public boolean hasHeadImage() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string headImage = 11;</code>
+     */
+    public java.lang.String getHeadImage() {
+      java.lang.Object ref = headImage_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headImage_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headImage = 11;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHeadImageBytes() {
+      java.lang.Object ref = headImage_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headImage_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       heroId_ = "";
       templeteId_ = "";
@@ -948,6 +1158,7 @@ public final class PeakArenaServiceProtos {
       skills_ = java.util.Collections.emptyList();
       attrs_ = java.util.Collections.emptyList();
       teamId_ = 0;
+      headImage_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1005,6 +1216,9 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(10, teamId_);
       }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(11, getHeadImageBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1053,6 +1267,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, teamId_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getHeadImageBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1200,6 +1418,8 @@ public final class PeakArenaServiceProtos {
         }
         teamId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        headImage_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -1278,6 +1498,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000080;
         }
         result.teamId_ = teamId_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.headImage_ = headImage_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1375,6 +1599,11 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasTeamId()) {
           setTeamId(other.getTeamId());
+        }
+        if (other.hasHeadImage()) {
+          bitField0_ |= 0x00000400;
+          headImage_ = other.headImage_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1635,18 +1864,30 @@ public final class PeakArenaServiceProtos {
       private int fighting_ ;
       /**
        * <code>optional int32 fighting = 5;</code>
+       *
+       * <pre>
+       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * </pre>
        */
       public boolean hasFighting() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional int32 fighting = 5;</code>
+       *
+       * <pre>
+       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * </pre>
        */
       public int getFighting() {
         return fighting_;
       }
       /**
        * <code>optional int32 fighting = 5;</code>
+       *
+       * <pre>
+       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * </pre>
        */
       public Builder setFighting(int value) {
         bitField0_ |= 0x00000010;
@@ -1656,6 +1897,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 fighting = 5;</code>
+       *
+       * <pre>
+       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * </pre>
        */
       public Builder clearFighting() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -1742,18 +1987,30 @@ public final class PeakArenaServiceProtos {
       private long exp_ ;
       /**
        * <code>optional int64 exp = 7;</code>
+       *
+       * <pre>
+       * 有用咩？
+       * </pre>
        */
       public boolean hasExp() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int64 exp = 7;</code>
+       *
+       * <pre>
+       * 有用咩？
+       * </pre>
        */
       public long getExp() {
         return exp_;
       }
       /**
        * <code>optional int64 exp = 7;</code>
+       *
+       * <pre>
+       * 有用咩？
+       * </pre>
        */
       public Builder setExp(long value) {
         bitField0_ |= 0x00000040;
@@ -1763,6 +2020,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int64 exp = 7;</code>
+       *
+       * <pre>
+       * 有用咩？
+       * </pre>
        */
       public Builder clearExp() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -1786,6 +2047,10 @@ public final class PeakArenaServiceProtos {
 
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> getSkillsList() {
         if (skillsBuilder_ == null) {
@@ -1796,6 +2061,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public int getSkillsCount() {
         if (skillsBuilder_ == null) {
@@ -1806,6 +2075,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SkillServiceProtos.TagSkillData getSkills(int index) {
         if (skillsBuilder_ == null) {
@@ -1816,6 +2089,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder setSkills(
           int index, com.rwproto.SkillServiceProtos.TagSkillData value) {
@@ -1833,6 +2110,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder setSkills(
           int index, com.rwproto.SkillServiceProtos.TagSkillData.Builder builderForValue) {
@@ -1847,6 +2128,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addSkills(com.rwproto.SkillServiceProtos.TagSkillData value) {
         if (skillsBuilder_ == null) {
@@ -1863,6 +2148,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addSkills(
           int index, com.rwproto.SkillServiceProtos.TagSkillData value) {
@@ -1880,6 +2169,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addSkills(
           com.rwproto.SkillServiceProtos.TagSkillData.Builder builderForValue) {
@@ -1894,6 +2187,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addSkills(
           int index, com.rwproto.SkillServiceProtos.TagSkillData.Builder builderForValue) {
@@ -1908,6 +2205,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addAllSkills(
           java.lang.Iterable<? extends com.rwproto.SkillServiceProtos.TagSkillData> values) {
@@ -1922,6 +2223,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder clearSkills() {
         if (skillsBuilder_ == null) {
@@ -1935,6 +2240,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder removeSkills(int index) {
         if (skillsBuilder_ == null) {
@@ -1948,6 +2257,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SkillServiceProtos.TagSkillData.Builder getSkillsBuilder(
           int index) {
@@ -1955,6 +2268,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getSkillsOrBuilder(
           int index) {
@@ -1965,6 +2282,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public java.util.List<? extends com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder> 
            getSkillsOrBuilderList() {
@@ -1976,6 +2297,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SkillServiceProtos.TagSkillData.Builder addSkillsBuilder() {
         return getSkillsFieldBuilder().addBuilder(
@@ -1983,6 +2308,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SkillServiceProtos.TagSkillData.Builder addSkillsBuilder(
           int index) {
@@ -1991,6 +2320,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SkillService.TagSkillData skills = 8;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public java.util.List<com.rwproto.SkillServiceProtos.TagSkillData.Builder> 
            getSkillsBuilderList() {
@@ -2026,6 +2359,10 @@ public final class PeakArenaServiceProtos {
 
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> getAttrsList() {
         if (attrsBuilder_ == null) {
@@ -2036,6 +2373,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public int getAttrsCount() {
         if (attrsBuilder_ == null) {
@@ -2046,6 +2387,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SyncAttriProtos.TagAttriData getAttrs(int index) {
         if (attrsBuilder_ == null) {
@@ -2056,6 +2401,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder setAttrs(
           int index, com.rwproto.SyncAttriProtos.TagAttriData value) {
@@ -2073,6 +2422,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder setAttrs(
           int index, com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
@@ -2087,6 +2440,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addAttrs(com.rwproto.SyncAttriProtos.TagAttriData value) {
         if (attrsBuilder_ == null) {
@@ -2103,6 +2460,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addAttrs(
           int index, com.rwproto.SyncAttriProtos.TagAttriData value) {
@@ -2120,6 +2481,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addAttrs(
           com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
@@ -2134,6 +2499,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addAttrs(
           int index, com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
@@ -2148,6 +2517,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder addAllAttrs(
           java.lang.Iterable<? extends com.rwproto.SyncAttriProtos.TagAttriData> values) {
@@ -2162,6 +2535,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder clearAttrs() {
         if (attrsBuilder_ == null) {
@@ -2175,6 +2552,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public Builder removeAttrs(int index) {
         if (attrsBuilder_ == null) {
@@ -2188,6 +2569,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SyncAttriProtos.TagAttriData.Builder getAttrsBuilder(
           int index) {
@@ -2195,6 +2580,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getAttrsOrBuilder(
           int index) {
@@ -2205,6 +2594,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
            getAttrsOrBuilderList() {
@@ -2216,6 +2609,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SyncAttriProtos.TagAttriData.Builder addAttrsBuilder() {
         return getAttrsFieldBuilder().addBuilder(
@@ -2223,6 +2620,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public com.rwproto.SyncAttriProtos.TagAttriData.Builder addAttrsBuilder(
           int index) {
@@ -2231,6 +2632,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
+       *
+       * <pre>
+       * 咩来嘎 ？？
+       * </pre>
        */
       public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData.Builder> 
            getAttrsBuilderList() {
@@ -2280,6 +2685,80 @@ public final class PeakArenaServiceProtos {
       public Builder clearTeamId() {
         bitField0_ = (bitField0_ & ~0x00000200);
         teamId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string headImage = 11;
+      private java.lang.Object headImage_ = "";
+      /**
+       * <code>optional string headImage = 11;</code>
+       */
+      public boolean hasHeadImage() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string headImage = 11;</code>
+       */
+      public java.lang.String getHeadImage() {
+        java.lang.Object ref = headImage_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headImage_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headImage = 11;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHeadImageBytes() {
+        java.lang.Object ref = headImage_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headImage_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headImage = 11;</code>
+       */
+      public Builder setHeadImage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headImage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headImage = 11;</code>
+       */
+      public Builder clearHeadImage() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        headImage_ = getDefaultInstance().getHeadImage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headImage = 11;</code>
+       */
+      public Builder setHeadImageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headImage_ = value;
         onChanged();
         return this;
       }
@@ -2336,19 +2815,35 @@ public final class PeakArenaServiceProtos {
     // repeated string heroIds = 3;
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     java.util.List<java.lang.String>
     getHeroIdsList();
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     int getHeroIdsCount();
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     java.lang.String getHeroIds(int index);
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     com.google.protobuf.ByteString
         getHeroIdsBytes(int index);
@@ -2372,6 +2867,32 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 magicLevel = 5;</code>
      */
     int getMagicLevel();
+
+    // required .HeroData player = 6;
+    /**
+     * <code>required .HeroData player = 6;</code>
+     *
+     * <pre>
+     * 不如主角从heros摞出来？睇你点样方便
+     * </pre>
+     */
+    boolean hasPlayer();
+    /**
+     * <code>required .HeroData player = 6;</code>
+     *
+     * <pre>
+     * 不如主角从heros摞出来？睇你点样方便
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HeroData getPlayer();
+    /**
+     * <code>required .HeroData player = 6;</code>
+     *
+     * <pre>
+     * 不如主角从heros摞出来？睇你点样方便
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getPlayerOrBuilder();
   }
   /**
    * Protobuf type {@code TeamInfo}
@@ -2453,6 +2974,19 @@ public final class PeakArenaServiceProtos {
             case 40: {
               bitField0_ |= 0x00000004;
               magicLevel_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              com.rwproto.PeakArenaServiceProtos.HeroData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = player_.toBuilder();
+              }
+              player_ = input.readMessage(com.rwproto.PeakArenaServiceProtos.HeroData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(player_);
+                player_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -2558,6 +3092,10 @@ public final class PeakArenaServiceProtos {
     private com.google.protobuf.LazyStringList heroIds_;
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     public java.util.List<java.lang.String>
         getHeroIdsList() {
@@ -2565,18 +3103,30 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     public int getHeroIdsCount() {
       return heroIds_.size();
     }
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     public java.lang.String getHeroIds(int index) {
       return heroIds_.get(index);
     }
     /**
      * <code>repeated string heroIds = 3;</code>
+     *
+     * <pre>
+     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getHeroIdsBytes(int index) {
@@ -2615,12 +3165,47 @@ public final class PeakArenaServiceProtos {
       return magicLevel_;
     }
 
+    // required .HeroData player = 6;
+    public static final int PLAYER_FIELD_NUMBER = 6;
+    private com.rwproto.PeakArenaServiceProtos.HeroData player_;
+    /**
+     * <code>required .HeroData player = 6;</code>
+     *
+     * <pre>
+     * 不如主角从heros摞出来？睇你点样方便
+     * </pre>
+     */
+    public boolean hasPlayer() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required .HeroData player = 6;</code>
+     *
+     * <pre>
+     * 不如主角从heros摞出来？睇你点样方便
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HeroData getPlayer() {
+      return player_;
+    }
+    /**
+     * <code>required .HeroData player = 6;</code>
+     *
+     * <pre>
+     * 不如主角从heros摞出来？睇你点样方便
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getPlayerOrBuilder() {
+      return player_;
+    }
+
     private void initFields() {
       teamId_ = 0;
       heros_ = java.util.Collections.emptyList();
       heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       magicId_ = 0;
       magicLevel_ = 0;
+      player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2631,11 +3216,19 @@ public final class PeakArenaServiceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasPlayer()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getHerosCount(); i++) {
         if (!getHeros(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
+      }
+      if (!getPlayer().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
       memoizedIsInitialized = 1;
       return true;
@@ -2658,6 +3251,9 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(5, magicLevel_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(6, player_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2692,6 +3288,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, magicLevel_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, player_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2802,6 +3402,7 @@ public final class PeakArenaServiceProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getHerosFieldBuilder();
+          getPlayerFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2824,6 +3425,12 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         magicLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (playerBuilder_ == null) {
+          player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
+        } else {
+          playerBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -2879,6 +3486,14 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.magicLevel_ = magicLevel_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (playerBuilder_ == null) {
+          result.player_ = player_;
+        } else {
+          result.player_ = playerBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2940,6 +3555,9 @@ public final class PeakArenaServiceProtos {
         if (other.hasMagicLevel()) {
           setMagicLevel(other.getMagicLevel());
         }
+        if (other.hasPlayer()) {
+          mergePlayer(other.getPlayer());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2949,11 +3567,19 @@ public final class PeakArenaServiceProtos {
           
           return false;
         }
+        if (!hasPlayer()) {
+          
+          return false;
+        }
         for (int i = 0; i < getHerosCount(); i++) {
           if (!getHeros(i).isInitialized()) {
             
             return false;
           }
+        }
+        if (!getPlayer().isInitialized()) {
+          
+          return false;
         }
         return true;
       }
@@ -3260,6 +3886,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public java.util.List<java.lang.String>
           getHeroIdsList() {
@@ -3267,18 +3897,30 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public int getHeroIdsCount() {
         return heroIds_.size();
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public java.lang.String getHeroIds(int index) {
         return heroIds_.get(index);
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getHeroIdsBytes(int index) {
@@ -3286,6 +3928,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public Builder setHeroIds(
           int index, java.lang.String value) {
@@ -3299,6 +3945,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public Builder addHeroIds(
           java.lang.String value) {
@@ -3312,6 +3962,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public Builder addAllHeroIds(
           java.lang.Iterable<java.lang.String> values) {
@@ -3322,6 +3976,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public Builder clearHeroIds() {
         heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -3331,6 +3989,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated string heroIds = 3;</code>
+       *
+       * <pre>
+       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       * </pre>
        */
       public Builder addHeroIdsBytes(
           com.google.protobuf.ByteString value) {
@@ -3409,6 +4071,159 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // required .HeroData player = 6;
+      private com.rwproto.PeakArenaServiceProtos.HeroData player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HeroData, com.rwproto.PeakArenaServiceProtos.HeroData.Builder, com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder> playerBuilder_;
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public boolean hasPlayer() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HeroData getPlayer() {
+        if (playerBuilder_ == null) {
+          return player_;
+        } else {
+          return playerBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public Builder setPlayer(com.rwproto.PeakArenaServiceProtos.HeroData value) {
+        if (playerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          player_ = value;
+          onChanged();
+        } else {
+          playerBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public Builder setPlayer(
+          com.rwproto.PeakArenaServiceProtos.HeroData.Builder builderForValue) {
+        if (playerBuilder_ == null) {
+          player_ = builderForValue.build();
+          onChanged();
+        } else {
+          playerBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public Builder mergePlayer(com.rwproto.PeakArenaServiceProtos.HeroData value) {
+        if (playerBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              player_ != com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance()) {
+            player_ =
+              com.rwproto.PeakArenaServiceProtos.HeroData.newBuilder(player_).mergeFrom(value).buildPartial();
+          } else {
+            player_ = value;
+          }
+          onChanged();
+        } else {
+          playerBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public Builder clearPlayer() {
+        if (playerBuilder_ == null) {
+          player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
+          onChanged();
+        } else {
+          playerBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HeroData.Builder getPlayerBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getPlayerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getPlayerOrBuilder() {
+        if (playerBuilder_ != null) {
+          return playerBuilder_.getMessageOrBuilder();
+        } else {
+          return player_;
+        }
+      }
+      /**
+       * <code>required .HeroData player = 6;</code>
+       *
+       * <pre>
+       * 不如主角从heros摞出来？睇你点样方便
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HeroData, com.rwproto.PeakArenaServiceProtos.HeroData.Builder, com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder> 
+          getPlayerFieldBuilder() {
+        if (playerBuilder_ == null) {
+          playerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.HeroData, com.rwproto.PeakArenaServiceProtos.HeroData.Builder, com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder>(
+                  player_,
+                  getParentForChildren(),
+                  isClean());
+          player_ = null;
+        }
+        return playerBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:TeamInfo)
     }
 
@@ -3451,10 +4266,18 @@ public final class PeakArenaServiceProtos {
     // optional int32 gainScore = 3;
     /**
      * <code>optional int32 gainScore = 3;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
     boolean hasGainScore();
     /**
      * <code>optional int32 gainScore = 3;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
     int getGainScore();
 
@@ -3471,30 +4294,54 @@ public final class PeakArenaServiceProtos {
     // optional int32 place = 5;
     /**
      * <code>optional int32 place = 5;</code>
+     *
+     * <pre>
+     * 当前排名
+     * </pre>
      */
     boolean hasPlace();
     /**
      * <code>optional int32 place = 5;</code>
+     *
+     * <pre>
+     * 当前排名
+     * </pre>
      */
     int getPlace();
 
     // optional int32 maxPlace = 6;
     /**
      * <code>optional int32 maxPlace = 6;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
      */
     boolean hasMaxPlace();
     /**
      * <code>optional int32 maxPlace = 6;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
      */
     int getMaxPlace();
 
     // optional int32 winningStreak = 7;
     /**
      * <code>optional int32 winningStreak = 7;</code>
+     *
+     * <pre>
+     * 唔知系咩，旧代码无用过
+     * </pre>
      */
     boolean hasWinningStreak();
     /**
      * <code>optional int32 winningStreak = 7;</code>
+     *
+     * <pre>
+     * 唔知系咩，旧代码无用过
+     * </pre>
      */
     int getWinningStreak();
 
@@ -3508,25 +4355,25 @@ public final class PeakArenaServiceProtos {
      */
     int getWinCount();
 
-    // optional int32 remainCount = 9;
+    // optional int32 challengeCount = 9;
     /**
-     * <code>optional int32 remainCount = 9;</code>
+     * <code>optional int32 challengeCount = 9;</code>
      */
-    boolean hasRemainCount();
+    boolean hasChallengeCount();
     /**
-     * <code>optional int32 remainCount = 9;</code>
+     * <code>optional int32 challengeCount = 9;</code>
      */
-    int getRemainCount();
+    int getChallengeCount();
 
-    // optional int64 cdTime = 10;
+    // optional int32 cdTime = 10;
     /**
-     * <code>optional int64 cdTime = 10;</code>
+     * <code>optional int32 cdTime = 10;</code>
      */
     boolean hasCdTime();
     /**
-     * <code>optional int64 cdTime = 10;</code>
+     * <code>optional int32 cdTime = 10;</code>
      */
-    long getCdTime();
+    int getCdTime();
 
     // optional int32 career = 11;
     /**
@@ -3596,10 +4443,18 @@ public final class PeakArenaServiceProtos {
     // optional int32 fighting = 16;
     /**
      * <code>optional int32 fighting = 16;</code>
+     *
+     * <pre>
+     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * </pre>
      */
     boolean hasFighting();
     /**
      * <code>optional int32 fighting = 16;</code>
+     *
+     * <pre>
+     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * </pre>
      */
     int getFighting();
 
@@ -3681,10 +4536,18 @@ public final class PeakArenaServiceProtos {
     // optional int64 lastFightTime = 20;
     /**
      * <code>optional int64 lastFightTime = 20;</code>
+     *
+     * <pre>
+     *唔知系咩
+     * </pre>
      */
     boolean hasLastFightTime();
     /**
      * <code>optional int64 lastFightTime = 20;</code>
+     *
+     * <pre>
+     *唔知系咩
+     * </pre>
      */
     long getLastFightTime();
 
@@ -3706,32 +4569,38 @@ public final class PeakArenaServiceProtos {
      */
     int getGainCurrencyPerHour();
 
-    // optional string scoreLvName = 22;
+    // optional int32 maxChallengeCount = 22;
     /**
-     * <code>optional string scoreLvName = 22;</code>
+     * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     *段位名称
+     * 最大战次数，会根据特权而修改
      * </pre>
      */
-    boolean hasScoreLvName();
+    boolean hasMaxChallengeCount();
     /**
-     * <code>optional string scoreLvName = 22;</code>
+     * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     *段位名称
+     * 最大战次数，会根据特权而修改
      * </pre>
      */
-    java.lang.String getScoreLvName();
+    int getMaxChallengeCount();
+
+    // optional string groupName = 23;
     /**
-     * <code>optional string scoreLvName = 22;</code>
-     *
-     * <pre>
-     *段位名称
-     * </pre>
+     * <code>optional string groupName = 23;</code>
+     */
+    boolean hasGroupName();
+    /**
+     * <code>optional string groupName = 23;</code>
+     */
+    java.lang.String getGroupName();
+    /**
+     * <code>optional string groupName = 23;</code>
      */
     com.google.protobuf.ByteString
-        getScoreLvNameBytes();
+        getGroupNameBytes();
   }
   /**
    * Protobuf type {@code ArenaData}
@@ -3826,12 +4695,12 @@ public final class PeakArenaServiceProtos {
             }
             case 72: {
               bitField0_ |= 0x00000100;
-              remainCount_ = input.readInt32();
+              challengeCount_ = input.readInt32();
               break;
             }
             case 80: {
               bitField0_ |= 0x00000200;
-              cdTime_ = input.readInt64();
+              cdTime_ = input.readInt32();
               break;
             }
             case 88: {
@@ -3898,9 +4767,14 @@ public final class PeakArenaServiceProtos {
               gainCurrencyPerHour_ = input.readInt32();
               break;
             }
-            case 178: {
+            case 176: {
               bitField0_ |= 0x00040000;
-              scoreLvName_ = input.readBytes();
+              maxChallengeCount_ = input.readInt32();
+              break;
+            }
+            case 186: {
+              bitField0_ |= 0x00080000;
+              groupName_ = input.readBytes();
               break;
             }
           }
@@ -4016,12 +4890,20 @@ public final class PeakArenaServiceProtos {
     private int gainScore_;
     /**
      * <code>optional int32 gainScore = 3;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
     public boolean hasGainScore() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int32 gainScore = 3;</code>
+     *
+     * <pre>
+     *积分
+     * </pre>
      */
     public int getGainScore() {
       return gainScore_;
@@ -4048,12 +4930,20 @@ public final class PeakArenaServiceProtos {
     private int place_;
     /**
      * <code>optional int32 place = 5;</code>
+     *
+     * <pre>
+     * 当前排名
+     * </pre>
      */
     public boolean hasPlace() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional int32 place = 5;</code>
+     *
+     * <pre>
+     * 当前排名
+     * </pre>
      */
     public int getPlace() {
       return place_;
@@ -4064,12 +4954,20 @@ public final class PeakArenaServiceProtos {
     private int maxPlace_;
     /**
      * <code>optional int32 maxPlace = 6;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
      */
     public boolean hasMaxPlace() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>optional int32 maxPlace = 6;</code>
+     *
+     * <pre>
+     * 历史最高排名
+     * </pre>
      */
     public int getMaxPlace() {
       return maxPlace_;
@@ -4080,12 +4978,20 @@ public final class PeakArenaServiceProtos {
     private int winningStreak_;
     /**
      * <code>optional int32 winningStreak = 7;</code>
+     *
+     * <pre>
+     * 唔知系咩，旧代码无用过
+     * </pre>
      */
     public boolean hasWinningStreak() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int32 winningStreak = 7;</code>
+     *
+     * <pre>
+     * 唔知系咩，旧代码无用过
+     * </pre>
      */
     public int getWinningStreak() {
       return winningStreak_;
@@ -4107,35 +5013,35 @@ public final class PeakArenaServiceProtos {
       return winCount_;
     }
 
-    // optional int32 remainCount = 9;
-    public static final int REMAINCOUNT_FIELD_NUMBER = 9;
-    private int remainCount_;
+    // optional int32 challengeCount = 9;
+    public static final int CHALLENGECOUNT_FIELD_NUMBER = 9;
+    private int challengeCount_;
     /**
-     * <code>optional int32 remainCount = 9;</code>
+     * <code>optional int32 challengeCount = 9;</code>
      */
-    public boolean hasRemainCount() {
+    public boolean hasChallengeCount() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional int32 remainCount = 9;</code>
+     * <code>optional int32 challengeCount = 9;</code>
      */
-    public int getRemainCount() {
-      return remainCount_;
+    public int getChallengeCount() {
+      return challengeCount_;
     }
 
-    // optional int64 cdTime = 10;
+    // optional int32 cdTime = 10;
     public static final int CDTIME_FIELD_NUMBER = 10;
-    private long cdTime_;
+    private int cdTime_;
     /**
-     * <code>optional int64 cdTime = 10;</code>
+     * <code>optional int32 cdTime = 10;</code>
      */
     public boolean hasCdTime() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional int64 cdTime = 10;</code>
+     * <code>optional int32 cdTime = 10;</code>
      */
-    public long getCdTime() {
+    public int getCdTime() {
       return cdTime_;
     }
 
@@ -4305,12 +5211,20 @@ public final class PeakArenaServiceProtos {
     private int fighting_;
     /**
      * <code>optional int32 fighting = 16;</code>
+     *
+     * <pre>
+     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * </pre>
      */
     public boolean hasFighting() {
       return ((bitField0_ & 0x00008000) == 0x00008000);
     }
     /**
      * <code>optional int32 fighting = 16;</code>
+     *
+     * <pre>
+     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * </pre>
      */
     public int getFighting() {
       return fighting_;
@@ -4429,12 +5343,20 @@ public final class PeakArenaServiceProtos {
     private long lastFightTime_;
     /**
      * <code>optional int64 lastFightTime = 20;</code>
+     *
+     * <pre>
+     *唔知系咩
+     * </pre>
      */
     public boolean hasLastFightTime() {
       return ((bitField0_ & 0x00010000) == 0x00010000);
     }
     /**
      * <code>optional int64 lastFightTime = 20;</code>
+     *
+     * <pre>
+     *唔知系咩
+     * </pre>
      */
     public long getLastFightTime() {
       return lastFightTime_;
@@ -4464,28 +5386,44 @@ public final class PeakArenaServiceProtos {
       return gainCurrencyPerHour_;
     }
 
-    // optional string scoreLvName = 22;
-    public static final int SCORELVNAME_FIELD_NUMBER = 22;
-    private java.lang.Object scoreLvName_;
+    // optional int32 maxChallengeCount = 22;
+    public static final int MAXCHALLENGECOUNT_FIELD_NUMBER = 22;
+    private int maxChallengeCount_;
     /**
-     * <code>optional string scoreLvName = 22;</code>
+     * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     *段位名称
+     * 最大战次数，会根据特权而修改
      * </pre>
      */
-    public boolean hasScoreLvName() {
+    public boolean hasMaxChallengeCount() {
       return ((bitField0_ & 0x00040000) == 0x00040000);
     }
     /**
-     * <code>optional string scoreLvName = 22;</code>
+     * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     *段位名称
+     * 最大战次数，会根据特权而修改
      * </pre>
      */
-    public java.lang.String getScoreLvName() {
-      java.lang.Object ref = scoreLvName_;
+    public int getMaxChallengeCount() {
+      return maxChallengeCount_;
+    }
+
+    // optional string groupName = 23;
+    public static final int GROUPNAME_FIELD_NUMBER = 23;
+    private java.lang.Object groupName_;
+    /**
+     * <code>optional string groupName = 23;</code>
+     */
+    public boolean hasGroupName() {
+      return ((bitField0_ & 0x00080000) == 0x00080000);
+    }
+    /**
+     * <code>optional string groupName = 23;</code>
+     */
+    public java.lang.String getGroupName() {
+      java.lang.Object ref = groupName_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -4493,26 +5431,22 @@ public final class PeakArenaServiceProtos {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          scoreLvName_ = s;
+          groupName_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>optional string scoreLvName = 22;</code>
-     *
-     * <pre>
-     *段位名称
-     * </pre>
+     * <code>optional string groupName = 23;</code>
      */
     public com.google.protobuf.ByteString
-        getScoreLvNameBytes() {
-      java.lang.Object ref = scoreLvName_;
+        getGroupNameBytes() {
+      java.lang.Object ref = groupName_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        scoreLvName_ = b;
+        groupName_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -4528,8 +5462,8 @@ public final class PeakArenaServiceProtos {
       maxPlace_ = 0;
       winningStreak_ = 0;
       winCount_ = 0;
-      remainCount_ = 0;
-      cdTime_ = 0L;
+      challengeCount_ = 0;
+      cdTime_ = 0;
       career_ = 0;
       name_ = "";
       level_ = 0;
@@ -4541,7 +5475,8 @@ public final class PeakArenaServiceProtos {
       teams_ = java.util.Collections.emptyList();
       lastFightTime_ = 0L;
       gainCurrencyPerHour_ = 0;
-      scoreLvName_ = "";
+      maxChallengeCount_ = 0;
+      groupName_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4596,10 +5531,10 @@ public final class PeakArenaServiceProtos {
         output.writeInt32(8, winCount_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeInt32(9, remainCount_);
+        output.writeInt32(9, challengeCount_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeInt64(10, cdTime_);
+        output.writeInt32(10, cdTime_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeInt32(11, career_);
@@ -4635,7 +5570,10 @@ public final class PeakArenaServiceProtos {
         output.writeInt32(21, gainCurrencyPerHour_);
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
-        output.writeBytes(22, getScoreLvNameBytes());
+        output.writeInt32(22, maxChallengeCount_);
+      }
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+        output.writeBytes(23, getGroupNameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -4680,11 +5618,11 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, remainCount_);
+          .computeInt32Size(9, challengeCount_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(10, cdTime_);
+          .computeInt32Size(10, cdTime_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
@@ -4732,7 +5670,11 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(22, getScoreLvNameBytes());
+          .computeInt32Size(22, maxChallengeCount_);
+      }
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(23, getGroupNameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4869,9 +5811,9 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         winCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        remainCount_ = 0;
+        challengeCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        cdTime_ = 0L;
+        cdTime_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
         career_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
@@ -4907,8 +5849,10 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00080000);
         gainCurrencyPerHour_ = 0;
         bitField0_ = (bitField0_ & ~0x00100000);
-        scoreLvName_ = "";
+        maxChallengeCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00200000);
+        groupName_ = "";
+        bitField0_ = (bitField0_ & ~0x00400000);
         return this;
       }
 
@@ -4972,7 +5916,7 @@ public final class PeakArenaServiceProtos {
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.remainCount_ = remainCount_;
+        result.challengeCount_ = challengeCount_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
@@ -5039,7 +5983,11 @@ public final class PeakArenaServiceProtos {
         if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
           to_bitField0_ |= 0x00040000;
         }
-        result.scoreLvName_ = scoreLvName_;
+        result.maxChallengeCount_ = maxChallengeCount_;
+        if (((from_bitField0_ & 0x00400000) == 0x00400000)) {
+          to_bitField0_ |= 0x00080000;
+        }
+        result.groupName_ = groupName_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5082,8 +6030,8 @@ public final class PeakArenaServiceProtos {
         if (other.hasWinCount()) {
           setWinCount(other.getWinCount());
         }
-        if (other.hasRemainCount()) {
-          setRemainCount(other.getRemainCount());
+        if (other.hasChallengeCount()) {
+          setChallengeCount(other.getChallengeCount());
         }
         if (other.hasCdTime()) {
           setCdTime(other.getCdTime());
@@ -5196,9 +6144,12 @@ public final class PeakArenaServiceProtos {
         if (other.hasGainCurrencyPerHour()) {
           setGainCurrencyPerHour(other.getGainCurrencyPerHour());
         }
-        if (other.hasScoreLvName()) {
-          bitField0_ |= 0x00200000;
-          scoreLvName_ = other.scoreLvName_;
+        if (other.hasMaxChallengeCount()) {
+          setMaxChallengeCount(other.getMaxChallengeCount());
+        }
+        if (other.hasGroupName()) {
+          bitField0_ |= 0x00400000;
+          groupName_ = other.groupName_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -5355,18 +6306,30 @@ public final class PeakArenaServiceProtos {
       private int gainScore_ ;
       /**
        * <code>optional int32 gainScore = 3;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
       public boolean hasGainScore() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional int32 gainScore = 3;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
       public int getGainScore() {
         return gainScore_;
       }
       /**
        * <code>optional int32 gainScore = 3;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
       public Builder setGainScore(int value) {
         bitField0_ |= 0x00000004;
@@ -5376,6 +6339,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 gainScore = 3;</code>
+       *
+       * <pre>
+       *积分
+       * </pre>
        */
       public Builder clearGainScore() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -5421,18 +6388,30 @@ public final class PeakArenaServiceProtos {
       private int place_ ;
       /**
        * <code>optional int32 place = 5;</code>
+       *
+       * <pre>
+       * 当前排名
+       * </pre>
        */
       public boolean hasPlace() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional int32 place = 5;</code>
+       *
+       * <pre>
+       * 当前排名
+       * </pre>
        */
       public int getPlace() {
         return place_;
       }
       /**
        * <code>optional int32 place = 5;</code>
+       *
+       * <pre>
+       * 当前排名
+       * </pre>
        */
       public Builder setPlace(int value) {
         bitField0_ |= 0x00000010;
@@ -5442,6 +6421,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 place = 5;</code>
+       *
+       * <pre>
+       * 当前排名
+       * </pre>
        */
       public Builder clearPlace() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -5454,18 +6437,30 @@ public final class PeakArenaServiceProtos {
       private int maxPlace_ ;
       /**
        * <code>optional int32 maxPlace = 6;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
        */
       public boolean hasMaxPlace() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>optional int32 maxPlace = 6;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
        */
       public int getMaxPlace() {
         return maxPlace_;
       }
       /**
        * <code>optional int32 maxPlace = 6;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
        */
       public Builder setMaxPlace(int value) {
         bitField0_ |= 0x00000020;
@@ -5475,6 +6470,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 maxPlace = 6;</code>
+       *
+       * <pre>
+       * 历史最高排名
+       * </pre>
        */
       public Builder clearMaxPlace() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -5487,18 +6486,30 @@ public final class PeakArenaServiceProtos {
       private int winningStreak_ ;
       /**
        * <code>optional int32 winningStreak = 7;</code>
+       *
+       * <pre>
+       * 唔知系咩，旧代码无用过
+       * </pre>
        */
       public boolean hasWinningStreak() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int32 winningStreak = 7;</code>
+       *
+       * <pre>
+       * 唔知系咩，旧代码无用过
+       * </pre>
        */
       public int getWinningStreak() {
         return winningStreak_;
       }
       /**
        * <code>optional int32 winningStreak = 7;</code>
+       *
+       * <pre>
+       * 唔知系咩，旧代码无用过
+       * </pre>
        */
       public Builder setWinningStreak(int value) {
         bitField0_ |= 0x00000040;
@@ -5508,6 +6519,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 winningStreak = 7;</code>
+       *
+       * <pre>
+       * 唔知系咩，旧代码无用过
+       * </pre>
        */
       public Builder clearWinningStreak() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -5549,68 +6564,68 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // optional int32 remainCount = 9;
-      private int remainCount_ ;
+      // optional int32 challengeCount = 9;
+      private int challengeCount_ ;
       /**
-       * <code>optional int32 remainCount = 9;</code>
+       * <code>optional int32 challengeCount = 9;</code>
        */
-      public boolean hasRemainCount() {
+      public boolean hasChallengeCount() {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional int32 remainCount = 9;</code>
+       * <code>optional int32 challengeCount = 9;</code>
        */
-      public int getRemainCount() {
-        return remainCount_;
+      public int getChallengeCount() {
+        return challengeCount_;
       }
       /**
-       * <code>optional int32 remainCount = 9;</code>
+       * <code>optional int32 challengeCount = 9;</code>
        */
-      public Builder setRemainCount(int value) {
+      public Builder setChallengeCount(int value) {
         bitField0_ |= 0x00000100;
-        remainCount_ = value;
+        challengeCount_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 remainCount = 9;</code>
+       * <code>optional int32 challengeCount = 9;</code>
        */
-      public Builder clearRemainCount() {
+      public Builder clearChallengeCount() {
         bitField0_ = (bitField0_ & ~0x00000100);
-        remainCount_ = 0;
+        challengeCount_ = 0;
         onChanged();
         return this;
       }
 
-      // optional int64 cdTime = 10;
-      private long cdTime_ ;
+      // optional int32 cdTime = 10;
+      private int cdTime_ ;
       /**
-       * <code>optional int64 cdTime = 10;</code>
+       * <code>optional int32 cdTime = 10;</code>
        */
       public boolean hasCdTime() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional int64 cdTime = 10;</code>
+       * <code>optional int32 cdTime = 10;</code>
        */
-      public long getCdTime() {
+      public int getCdTime() {
         return cdTime_;
       }
       /**
-       * <code>optional int64 cdTime = 10;</code>
+       * <code>optional int32 cdTime = 10;</code>
        */
-      public Builder setCdTime(long value) {
+      public Builder setCdTime(int value) {
         bitField0_ |= 0x00000200;
         cdTime_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 cdTime = 10;</code>
+       * <code>optional int32 cdTime = 10;</code>
        */
       public Builder clearCdTime() {
         bitField0_ = (bitField0_ & ~0x00000200);
-        cdTime_ = 0L;
+        cdTime_ = 0;
         onChanged();
         return this;
       }
@@ -5907,18 +6922,30 @@ public final class PeakArenaServiceProtos {
       private int fighting_ ;
       /**
        * <code>optional int32 fighting = 16;</code>
+       *
+       * <pre>
+       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * </pre>
        */
       public boolean hasFighting() {
         return ((bitField0_ & 0x00008000) == 0x00008000);
       }
       /**
        * <code>optional int32 fighting = 16;</code>
+       *
+       * <pre>
+       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * </pre>
        */
       public int getFighting() {
         return fighting_;
       }
       /**
        * <code>optional int32 fighting = 16;</code>
+       *
+       * <pre>
+       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * </pre>
        */
       public Builder setFighting(int value) {
         bitField0_ |= 0x00008000;
@@ -5928,6 +6955,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 fighting = 16;</code>
+       *
+       * <pre>
+       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * </pre>
        */
       public Builder clearFighting() {
         bitField0_ = (bitField0_ & ~0x00008000);
@@ -6660,18 +7691,30 @@ public final class PeakArenaServiceProtos {
       private long lastFightTime_ ;
       /**
        * <code>optional int64 lastFightTime = 20;</code>
+       *
+       * <pre>
+       *唔知系咩
+       * </pre>
        */
       public boolean hasLastFightTime() {
         return ((bitField0_ & 0x00080000) == 0x00080000);
       }
       /**
        * <code>optional int64 lastFightTime = 20;</code>
+       *
+       * <pre>
+       *唔知系咩
+       * </pre>
        */
       public long getLastFightTime() {
         return lastFightTime_;
       }
       /**
        * <code>optional int64 lastFightTime = 20;</code>
+       *
+       * <pre>
+       *唔知系咩
+       * </pre>
        */
       public Builder setLastFightTime(long value) {
         bitField0_ |= 0x00080000;
@@ -6681,6 +7724,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int64 lastFightTime = 20;</code>
+       *
+       * <pre>
+       *唔知系咩
+       * </pre>
        */
       public Builder clearLastFightTime() {
         bitField0_ = (bitField0_ & ~0x00080000);
@@ -6738,100 +7785,125 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // optional string scoreLvName = 22;
-      private java.lang.Object scoreLvName_ = "";
+      // optional int32 maxChallengeCount = 22;
+      private int maxChallengeCount_ ;
       /**
-       * <code>optional string scoreLvName = 22;</code>
+       * <code>optional int32 maxChallengeCount = 22;</code>
        *
        * <pre>
-       *段位名称
+       * 最大战次数，会根据特权而修改
        * </pre>
        */
-      public boolean hasScoreLvName() {
+      public boolean hasMaxChallengeCount() {
         return ((bitField0_ & 0x00200000) == 0x00200000);
       }
       /**
-       * <code>optional string scoreLvName = 22;</code>
+       * <code>optional int32 maxChallengeCount = 22;</code>
        *
        * <pre>
-       *段位名称
+       * 最大战次数，会根据特权而修改
        * </pre>
        */
-      public java.lang.String getScoreLvName() {
-        java.lang.Object ref = scoreLvName_;
+      public int getMaxChallengeCount() {
+        return maxChallengeCount_;
+      }
+      /**
+       * <code>optional int32 maxChallengeCount = 22;</code>
+       *
+       * <pre>
+       * 最大战次数，会根据特权而修改
+       * </pre>
+       */
+      public Builder setMaxChallengeCount(int value) {
+        bitField0_ |= 0x00200000;
+        maxChallengeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 maxChallengeCount = 22;</code>
+       *
+       * <pre>
+       * 最大战次数，会根据特权而修改
+       * </pre>
+       */
+      public Builder clearMaxChallengeCount() {
+        bitField0_ = (bitField0_ & ~0x00200000);
+        maxChallengeCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string groupName = 23;
+      private java.lang.Object groupName_ = "";
+      /**
+       * <code>optional string groupName = 23;</code>
+       */
+      public boolean hasGroupName() {
+        return ((bitField0_ & 0x00400000) == 0x00400000);
+      }
+      /**
+       * <code>optional string groupName = 23;</code>
+       */
+      public java.lang.String getGroupName() {
+        java.lang.Object ref = groupName_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          scoreLvName_ = s;
+          groupName_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>optional string scoreLvName = 22;</code>
-       *
-       * <pre>
-       *段位名称
-       * </pre>
+       * <code>optional string groupName = 23;</code>
        */
       public com.google.protobuf.ByteString
-          getScoreLvNameBytes() {
-        java.lang.Object ref = scoreLvName_;
+          getGroupNameBytes() {
+        java.lang.Object ref = groupName_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          scoreLvName_ = b;
+          groupName_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>optional string scoreLvName = 22;</code>
-       *
-       * <pre>
-       *段位名称
-       * </pre>
+       * <code>optional string groupName = 23;</code>
        */
-      public Builder setScoreLvName(
+      public Builder setGroupName(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00200000;
-        scoreLvName_ = value;
+  bitField0_ |= 0x00400000;
+        groupName_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string scoreLvName = 22;</code>
-       *
-       * <pre>
-       *段位名称
-       * </pre>
+       * <code>optional string groupName = 23;</code>
        */
-      public Builder clearScoreLvName() {
-        bitField0_ = (bitField0_ & ~0x00200000);
-        scoreLvName_ = getDefaultInstance().getScoreLvName();
+      public Builder clearGroupName() {
+        bitField0_ = (bitField0_ & ~0x00400000);
+        groupName_ = getDefaultInstance().getGroupName();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string scoreLvName = 22;</code>
-       *
-       * <pre>
-       *段位名称
-       * </pre>
+       * <code>optional string groupName = 23;</code>
        */
-      public Builder setScoreLvNameBytes(
+      public Builder setGroupNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00200000;
-        scoreLvName_ = value;
+  bitField0_ |= 0x00400000;
+        groupName_ = value;
         onChanged();
         return this;
       }
@@ -6954,6 +8026,31 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 9;</code>
      */
     int getFighting();
+
+    // repeated .TeamInfo teams = 19;
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> 
+        getTeamsList();
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    com.rwproto.PeakArenaServiceProtos.TeamInfo getTeams(int index);
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    int getTeamsCount();
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    java.util.List<? extends com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder> 
+        getTeamsOrBuilderList();
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder getTeamsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code ArenaInfo}
@@ -7051,6 +8148,14 @@ public final class PeakArenaServiceProtos {
               fighting_ = input.readInt32();
               break;
             }
+            case 154: {
+              if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+                teams_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.TeamInfo>();
+                mutable_bitField0_ |= 0x00000200;
+              }
+              teams_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.TeamInfo.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -7059,6 +8164,9 @@ public final class PeakArenaServiceProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+          teams_ = java.util.Collections.unmodifiableList(teams_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -7316,6 +8424,42 @@ public final class PeakArenaServiceProtos {
       return fighting_;
     }
 
+    // repeated .TeamInfo teams = 19;
+    public static final int TEAMS_FIELD_NUMBER = 19;
+    private java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> teams_;
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    public java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> getTeamsList() {
+      return teams_;
+    }
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder> 
+        getTeamsOrBuilderList() {
+      return teams_;
+    }
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    public int getTeamsCount() {
+      return teams_.size();
+    }
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    public com.rwproto.PeakArenaServiceProtos.TeamInfo getTeams(int index) {
+      return teams_.get(index);
+    }
+    /**
+     * <code>repeated .TeamInfo teams = 19;</code>
+     */
+    public com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder getTeamsOrBuilder(
+        int index) {
+      return teams_.get(index);
+    }
+
     private void initFields() {
       userId_ = "";
       score_ = 0;
@@ -7326,6 +8470,7 @@ public final class PeakArenaServiceProtos {
       name_ = "";
       headImage_ = "";
       fighting_ = 0;
+      teams_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7335,6 +8480,12 @@ public final class PeakArenaServiceProtos {
       if (!hasUserId()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getTeamsCount(); i++) {
+        if (!getTeams(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -7369,6 +8520,9 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(9, fighting_);
+      }
+      for (int i = 0; i < teams_.size(); i++) {
+        output.writeMessage(19, teams_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -7414,6 +8568,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, fighting_);
+      }
+      for (int i = 0; i < teams_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(19, teams_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7523,6 +8681,7 @@ public final class PeakArenaServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getTeamsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -7549,6 +8708,12 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         fighting_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        if (teamsBuilder_ == null) {
+          teams_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000200);
+        } else {
+          teamsBuilder_.clear();
+        }
         return this;
       }
 
@@ -7613,6 +8778,15 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000100;
         }
         result.fighting_ = fighting_;
+        if (teamsBuilder_ == null) {
+          if (((bitField0_ & 0x00000200) == 0x00000200)) {
+            teams_ = java.util.Collections.unmodifiableList(teams_);
+            bitField0_ = (bitField0_ & ~0x00000200);
+          }
+          result.teams_ = teams_;
+        } else {
+          result.teams_ = teamsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7662,6 +8836,32 @@ public final class PeakArenaServiceProtos {
         if (other.hasFighting()) {
           setFighting(other.getFighting());
         }
+        if (teamsBuilder_ == null) {
+          if (!other.teams_.isEmpty()) {
+            if (teams_.isEmpty()) {
+              teams_ = other.teams_;
+              bitField0_ = (bitField0_ & ~0x00000200);
+            } else {
+              ensureTeamsIsMutable();
+              teams_.addAll(other.teams_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.teams_.isEmpty()) {
+            if (teamsBuilder_.isEmpty()) {
+              teamsBuilder_.dispose();
+              teamsBuilder_ = null;
+              teams_ = other.teams_;
+              bitField0_ = (bitField0_ & ~0x00000200);
+              teamsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTeamsFieldBuilder() : null;
+            } else {
+              teamsBuilder_.addAllMessages(other.teams_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -7670,6 +8870,12 @@ public final class PeakArenaServiceProtos {
         if (!hasUserId()) {
           
           return false;
+        }
+        for (int i = 0; i < getTeamsCount(); i++) {
+          if (!getTeams(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -8113,6 +9319,246 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // repeated .TeamInfo teams = 19;
+      private java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> teams_ =
+        java.util.Collections.emptyList();
+      private void ensureTeamsIsMutable() {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+          teams_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.TeamInfo>(teams_);
+          bitField0_ |= 0x00000200;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.TeamInfo, com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder, com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder> teamsBuilder_;
+
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> getTeamsList() {
+        if (teamsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(teams_);
+        } else {
+          return teamsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public int getTeamsCount() {
+        if (teamsBuilder_ == null) {
+          return teams_.size();
+        } else {
+          return teamsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public com.rwproto.PeakArenaServiceProtos.TeamInfo getTeams(int index) {
+        if (teamsBuilder_ == null) {
+          return teams_.get(index);
+        } else {
+          return teamsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder setTeams(
+          int index, com.rwproto.PeakArenaServiceProtos.TeamInfo value) {
+        if (teamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamsIsMutable();
+          teams_.set(index, value);
+          onChanged();
+        } else {
+          teamsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder setTeams(
+          int index, com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder builderForValue) {
+        if (teamsBuilder_ == null) {
+          ensureTeamsIsMutable();
+          teams_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          teamsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder addTeams(com.rwproto.PeakArenaServiceProtos.TeamInfo value) {
+        if (teamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamsIsMutable();
+          teams_.add(value);
+          onChanged();
+        } else {
+          teamsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder addTeams(
+          int index, com.rwproto.PeakArenaServiceProtos.TeamInfo value) {
+        if (teamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTeamsIsMutable();
+          teams_.add(index, value);
+          onChanged();
+        } else {
+          teamsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder addTeams(
+          com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder builderForValue) {
+        if (teamsBuilder_ == null) {
+          ensureTeamsIsMutable();
+          teams_.add(builderForValue.build());
+          onChanged();
+        } else {
+          teamsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder addTeams(
+          int index, com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder builderForValue) {
+        if (teamsBuilder_ == null) {
+          ensureTeamsIsMutable();
+          teams_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          teamsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder addAllTeams(
+          java.lang.Iterable<? extends com.rwproto.PeakArenaServiceProtos.TeamInfo> values) {
+        if (teamsBuilder_ == null) {
+          ensureTeamsIsMutable();
+          super.addAll(values, teams_);
+          onChanged();
+        } else {
+          teamsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder clearTeams() {
+        if (teamsBuilder_ == null) {
+          teams_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000200);
+          onChanged();
+        } else {
+          teamsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public Builder removeTeams(int index) {
+        if (teamsBuilder_ == null) {
+          ensureTeamsIsMutable();
+          teams_.remove(index);
+          onChanged();
+        } else {
+          teamsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder getTeamsBuilder(
+          int index) {
+        return getTeamsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder getTeamsOrBuilder(
+          int index) {
+        if (teamsBuilder_ == null) {
+          return teams_.get(index);  } else {
+          return teamsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder> 
+           getTeamsOrBuilderList() {
+        if (teamsBuilder_ != null) {
+          return teamsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(teams_);
+        }
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder addTeamsBuilder() {
+        return getTeamsFieldBuilder().addBuilder(
+            com.rwproto.PeakArenaServiceProtos.TeamInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder addTeamsBuilder(
+          int index) {
+        return getTeamsFieldBuilder().addBuilder(
+            index, com.rwproto.PeakArenaServiceProtos.TeamInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .TeamInfo teams = 19;</code>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder> 
+           getTeamsBuilderList() {
+        return getTeamsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.TeamInfo, com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder, com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder> 
+          getTeamsFieldBuilder() {
+        if (teamsBuilder_ == null) {
+          teamsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.TeamInfo, com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder, com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder>(
+                  teams_,
+                  ((bitField0_ & 0x00000200) == 0x00000200),
+                  getParentForChildren(),
+                  isClean());
+          teams_ = null;
+        }
+        return teamsBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ArenaInfo)
     }
 
@@ -8142,23 +9588,15 @@ public final class PeakArenaServiceProtos {
     com.google.protobuf.ByteString
         getUserIdBytes();
 
-    // optional int32 win = 2;
+    // optional bool win = 2;
     /**
-     * <code>optional int32 win = 2;</code>
-     *
-     * <pre>
-     *0是输，1是赢
-     * </pre>
+     * <code>optional bool win = 2;</code>
      */
     boolean hasWin();
     /**
-     * <code>optional int32 win = 2;</code>
-     *
-     * <pre>
-     *0是输，1是赢
-     * </pre>
+     * <code>optional bool win = 2;</code>
      */
-    int getWin();
+    boolean getWin();
 
     // optional int32 placeUp = 3;
     /**
@@ -8288,7 +9726,7 @@ public final class PeakArenaServiceProtos {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              win_ = input.readInt32();
+              win_ = input.readBool();
               break;
             }
             case 24: {
@@ -8404,27 +9842,19 @@ public final class PeakArenaServiceProtos {
       }
     }
 
-    // optional int32 win = 2;
+    // optional bool win = 2;
     public static final int WIN_FIELD_NUMBER = 2;
-    private int win_;
+    private boolean win_;
     /**
-     * <code>optional int32 win = 2;</code>
-     *
-     * <pre>
-     *0是输，1是赢
-     * </pre>
+     * <code>optional bool win = 2;</code>
      */
     public boolean hasWin() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 win = 2;</code>
-     *
-     * <pre>
-     *0是输，1是赢
-     * </pre>
+     * <code>optional bool win = 2;</code>
      */
-    public int getWin() {
+    public boolean getWin() {
       return win_;
     }
 
@@ -8580,7 +10010,7 @@ public final class PeakArenaServiceProtos {
 
     private void initFields() {
       userId_ = "";
-      win_ = 0;
+      win_ = false;
       placeUp_ = 0;
       name_ = "";
       headImage_ = "";
@@ -8608,7 +10038,7 @@ public final class PeakArenaServiceProtos {
         output.writeBytes(1, getUserIdBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, win_);
+        output.writeBool(2, win_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, placeUp_);
@@ -8643,7 +10073,7 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, win_);
+          .computeBoolSize(2, win_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -8787,7 +10217,7 @@ public final class PeakArenaServiceProtos {
         super.clear();
         userId_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        win_ = 0;
+        win_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
         placeUp_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -9012,51 +10442,35 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // optional int32 win = 2;
-      private int win_ ;
+      // optional bool win = 2;
+      private boolean win_ ;
       /**
-       * <code>optional int32 win = 2;</code>
-       *
-       * <pre>
-       *0是输，1是赢
-       * </pre>
+       * <code>optional bool win = 2;</code>
        */
       public boolean hasWin() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 win = 2;</code>
-       *
-       * <pre>
-       *0是输，1是赢
-       * </pre>
+       * <code>optional bool win = 2;</code>
        */
-      public int getWin() {
+      public boolean getWin() {
         return win_;
       }
       /**
-       * <code>optional int32 win = 2;</code>
-       *
-       * <pre>
-       *0是输，1是赢
-       * </pre>
+       * <code>optional bool win = 2;</code>
        */
-      public Builder setWin(int value) {
+      public Builder setWin(boolean value) {
         bitField0_ |= 0x00000002;
         win_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 win = 2;</code>
-       *
-       * <pre>
-       *0是输，1是赢
-       * </pre>
+       * <code>optional bool win = 2;</code>
        */
       public Builder clearWin() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        win_ = 0;
+        win_ = false;
         onChanged();
         return this;
       }
@@ -9419,15 +10833,41 @@ public final class PeakArenaServiceProtos {
      */
     com.rwproto.PeakArenaServiceProtos.ArenaInfoOrBuilder getEnemyOrBuilder();
 
-    // optional int32 win = 5;
+    // optional bool win = 5;
     /**
-     * <code>optional int32 win = 5;</code>
+     * <code>optional bool win = 5;</code>
      */
     boolean hasWin();
     /**
-     * <code>optional int32 win = 5;</code>
+     * <code>optional bool win = 5;</code>
      */
-    int getWin();
+    boolean getWin();
+
+    // repeated int32 reorder = 6;
+    /**
+     * <code>repeated int32 reorder = 6;</code>
+     *
+     * <pre>
+     *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getReorderList();
+    /**
+     * <code>repeated int32 reorder = 6;</code>
+     *
+     * <pre>
+     *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+     * </pre>
+     */
+    int getReorderCount();
+    /**
+     * <code>repeated int32 reorder = 6;</code>
+     *
+     * <pre>
+     *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+     * </pre>
+     */
+    int getReorder(int index);
   }
   /**
    * Protobuf type {@code MsgArenaRequest}
@@ -9519,7 +10959,28 @@ public final class PeakArenaServiceProtos {
             }
             case 40: {
               bitField0_ |= 0x00000008;
-              win_ = input.readInt32();
+              win_ = input.readBool();
+              break;
+            }
+            case 48: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                reorder_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              reorder_.add(input.readInt32());
+              break;
+            }
+            case 50: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020) && input.getBytesUntilLimit() > 0) {
+                reorder_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                reorder_.add(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
           }
@@ -9532,6 +10993,9 @@ public final class PeakArenaServiceProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           teams_ = java.util.Collections.unmodifiableList(teams_);
+        }
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          reorder_ = java.util.Collections.unmodifiableList(reorder_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -9682,20 +11146,55 @@ public final class PeakArenaServiceProtos {
       return enemy_;
     }
 
-    // optional int32 win = 5;
+    // optional bool win = 5;
     public static final int WIN_FIELD_NUMBER = 5;
-    private int win_;
+    private boolean win_;
     /**
-     * <code>optional int32 win = 5;</code>
+     * <code>optional bool win = 5;</code>
      */
     public boolean hasWin() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int32 win = 5;</code>
+     * <code>optional bool win = 5;</code>
      */
-    public int getWin() {
+    public boolean getWin() {
       return win_;
+    }
+
+    // repeated int32 reorder = 6;
+    public static final int REORDER_FIELD_NUMBER = 6;
+    private java.util.List<java.lang.Integer> reorder_;
+    /**
+     * <code>repeated int32 reorder = 6;</code>
+     *
+     * <pre>
+     *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getReorderList() {
+      return reorder_;
+    }
+    /**
+     * <code>repeated int32 reorder = 6;</code>
+     *
+     * <pre>
+     *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+     * </pre>
+     */
+    public int getReorderCount() {
+      return reorder_.size();
+    }
+    /**
+     * <code>repeated int32 reorder = 6;</code>
+     *
+     * <pre>
+     *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+     * </pre>
+     */
+    public int getReorder(int index) {
+      return reorder_.get(index);
     }
 
     private void initFields() {
@@ -9703,7 +11202,8 @@ public final class PeakArenaServiceProtos {
       userId_ = "";
       teams_ = java.util.Collections.emptyList();
       enemy_ = com.rwproto.PeakArenaServiceProtos.ArenaInfo.getDefaultInstance();
-      win_ = 0;
+      win_ = false;
+      reorder_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9746,7 +11246,10 @@ public final class PeakArenaServiceProtos {
         output.writeMessage(4, enemy_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(5, win_);
+        output.writeBool(5, win_);
+      }
+      for (int i = 0; i < reorder_.size(); i++) {
+        output.writeInt32(6, reorder_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -9775,7 +11278,16 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, win_);
+          .computeBoolSize(5, win_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < reorder_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(reorder_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getReorderList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9911,8 +11423,10 @@ public final class PeakArenaServiceProtos {
           enemyBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
-        win_ = 0;
+        win_ = false;
         bitField0_ = (bitField0_ & ~0x00000010);
+        reorder_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -9970,6 +11484,11 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.win_ = win_;
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          reorder_ = java.util.Collections.unmodifiableList(reorder_);
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.reorder_ = reorder_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10025,6 +11544,16 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasWin()) {
           setWin(other.getWin());
+        }
+        if (!other.reorder_.isEmpty()) {
+          if (reorder_.isEmpty()) {
+            reorder_ = other.reorder_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureReorderIsMutable();
+            reorder_.addAll(other.reorder_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10536,35 +12065,129 @@ public final class PeakArenaServiceProtos {
         return enemyBuilder_;
       }
 
-      // optional int32 win = 5;
-      private int win_ ;
+      // optional bool win = 5;
+      private boolean win_ ;
       /**
-       * <code>optional int32 win = 5;</code>
+       * <code>optional bool win = 5;</code>
        */
       public boolean hasWin() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional int32 win = 5;</code>
+       * <code>optional bool win = 5;</code>
        */
-      public int getWin() {
+      public boolean getWin() {
         return win_;
       }
       /**
-       * <code>optional int32 win = 5;</code>
+       * <code>optional bool win = 5;</code>
        */
-      public Builder setWin(int value) {
+      public Builder setWin(boolean value) {
         bitField0_ |= 0x00000010;
         win_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 win = 5;</code>
+       * <code>optional bool win = 5;</code>
        */
       public Builder clearWin() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        win_ = 0;
+        win_ = false;
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 reorder = 6;
+      private java.util.List<java.lang.Integer> reorder_ = java.util.Collections.emptyList();
+      private void ensureReorderIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          reorder_ = new java.util.ArrayList<java.lang.Integer>(reorder_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <code>repeated int32 reorder = 6;</code>
+       *
+       * <pre>
+       *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getReorderList() {
+        return java.util.Collections.unmodifiableList(reorder_);
+      }
+      /**
+       * <code>repeated int32 reorder = 6;</code>
+       *
+       * <pre>
+       *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+       * </pre>
+       */
+      public int getReorderCount() {
+        return reorder_.size();
+      }
+      /**
+       * <code>repeated int32 reorder = 6;</code>
+       *
+       * <pre>
+       *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+       * </pre>
+       */
+      public int getReorder(int index) {
+        return reorder_.get(index);
+      }
+      /**
+       * <code>repeated int32 reorder = 6;</code>
+       *
+       * <pre>
+       *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+       * </pre>
+       */
+      public Builder setReorder(
+          int index, int value) {
+        ensureReorderIsMutable();
+        reorder_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 reorder = 6;</code>
+       *
+       * <pre>
+       *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+       * </pre>
+       */
+      public Builder addReorder(int value) {
+        ensureReorderIsMutable();
+        reorder_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 reorder = 6;</code>
+       *
+       * <pre>
+       *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+       * </pre>
+       */
+      public Builder addAllReorder(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureReorderIsMutable();
+        super.addAll(values, reorder_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 reorder = 6;</code>
+       *
+       * <pre>
+       *重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+       * </pre>
+       */
+      public Builder clearReorder() {
+        reorder_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
@@ -10676,6 +12299,33 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 place = 6;</code>
      */
     int getPlace();
+
+    // optional string resultTip = 7;
+    /**
+     * <code>optional string resultTip = 7;</code>
+     *
+     * <pre>
+     *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+     * </pre>
+     */
+    boolean hasResultTip();
+    /**
+     * <code>optional string resultTip = 7;</code>
+     *
+     * <pre>
+     *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+     * </pre>
+     */
+    java.lang.String getResultTip();
+    /**
+     * <code>optional string resultTip = 7;</code>
+     *
+     * <pre>
+     *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getResultTipBytes();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -10782,6 +12432,11 @@ public final class PeakArenaServiceProtos {
             case 48: {
               bitField0_ |= 0x00000008;
               place_ = input.readInt32();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000010;
+              resultTip_ = input.readBytes();
               break;
             }
           }
@@ -10972,6 +12627,61 @@ public final class PeakArenaServiceProtos {
       return place_;
     }
 
+    // optional string resultTip = 7;
+    public static final int RESULTTIP_FIELD_NUMBER = 7;
+    private java.lang.Object resultTip_;
+    /**
+     * <code>optional string resultTip = 7;</code>
+     *
+     * <pre>
+     *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+     * </pre>
+     */
+    public boolean hasResultTip() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string resultTip = 7;</code>
+     *
+     * <pre>
+     *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+     * </pre>
+     */
+    public java.lang.String getResultTip() {
+      java.lang.Object ref = resultTip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          resultTip_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string resultTip = 7;</code>
+     *
+     * <pre>
+     *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getResultTipBytes() {
+      java.lang.Object ref = resultTip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        resultTip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       arenaResultType_ = com.rwproto.PeakArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -10979,6 +12689,7 @@ public final class PeakArenaServiceProtos {
       listInfo_ = java.util.Collections.emptyList();
       listRecord_ = java.util.Collections.emptyList();
       place_ = 0;
+      resultTip_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11032,6 +12743,9 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(6, place_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(7, getResultTipBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -11064,6 +12778,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, place_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getResultTipBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11208,6 +12926,8 @@ public final class PeakArenaServiceProtos {
         }
         place_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        resultTip_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -11274,6 +12994,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.place_ = place_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.resultTip_ = resultTip_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11353,6 +13077,11 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasPlace()) {
           setPlace(other.getPlace());
+        }
+        if (other.hasResultTip()) {
+          bitField0_ |= 0x00000040;
+          resultTip_ = other.resultTip_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -12105,6 +13834,104 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // optional string resultTip = 7;
+      private java.lang.Object resultTip_ = "";
+      /**
+       * <code>optional string resultTip = 7;</code>
+       *
+       * <pre>
+       *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+       * </pre>
+       */
+      public boolean hasResultTip() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string resultTip = 7;</code>
+       *
+       * <pre>
+       *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+       * </pre>
+       */
+      public java.lang.String getResultTip() {
+        java.lang.Object ref = resultTip_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          resultTip_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string resultTip = 7;</code>
+       *
+       * <pre>
+       *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getResultTipBytes() {
+        java.lang.Object ref = resultTip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          resultTip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string resultTip = 7;</code>
+       *
+       * <pre>
+       *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+       * </pre>
+       */
+      public Builder setResultTip(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        resultTip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string resultTip = 7;</code>
+       *
+       * <pre>
+       *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+       * </pre>
+       */
+      public Builder clearResultTip() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        resultTip_ = getDefaultInstance().getResultTip();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string resultTip = 7;</code>
+       *
+       * <pre>
+       *服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+       * </pre>
+       */
+      public Builder setResultTipBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        resultTip_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
     }
 
@@ -12161,52 +13988,56 @@ public final class PeakArenaServiceProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\026PeakArenaService.proto\032\022SkillService.p" +
-      "roto\032\017SyncAttri.proto\"\346\001\n\010HeroData\022\016\n\006he" +
+      "roto\032\017SyncAttri.proto\"\371\001\n\010HeroData\022\016\n\006he" +
       "roId\030\001 \002(\t\022\022\n\ntempleteId\030\002 \002(\t\022\r\n\005level\030" +
       "\003 \001(\005\022\021\n\tstarLevel\030\004 \001(\005\022\020\n\010fighting\030\005 \001" +
       "(\005\022\021\n\tqualityId\030\006 \001(\t\022\013\n\003exp\030\007 \001(\003\022*\n\006sk" +
       "ills\030\010 \003(\0132\032.SkillService.TagSkillData\022&" +
       "\n\005attrs\030\t \003(\0132\027.SyncAttri.TagAttriData\022\016" +
-      "\n\006teamId\030\n \001(\005\"j\n\010TeamInfo\022\016\n\006teamId\030\001 \002" +
-      "(\005\022\030\n\005heros\030\002 \003(\0132\t.HeroData\022\017\n\007heroIds\030" +
-      "\003 \003(\t\022\017\n\007magicId\030\004 \001(\005\022\022\n\nmagicLevel\030\005 \001",
-      "(\005\"\340\003\n\tArenaData\022\016\n\006userId\030\001 \002(\t\022\r\n\005scor" +
-      "e\030\002 \001(\005\022\021\n\tgainScore\030\003 \001(\005\022\017\n\007scoreLv\030\004 " +
-      "\001(\005\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022\025\n\r" +
-      "winningStreak\030\007 \001(\005\022\020\n\010winCount\030\010 \001(\005\022\023\n" +
-      "\013remainCount\030\t \001(\005\022\016\n\006cdTime\030\n \001(\003\022\016\n\006ca" +
-      "reer\030\013 \001(\005\022\014\n\004name\030\014 \001(\t\022\r\n\005level\030\r \001(\005\022" +
-      "\021\n\theadImage\030\016 \001(\t\022\022\n\ntempleteId\030\017 \001(\t\022\020" +
-      "\n\010fighting\030\020 \001(\005\022-\n\troleSkill\030\021 \003(\0132\032.Sk" +
-      "illService.TagSkillData\022)\n\010roleAttr\030\022 \003(" +
-      "\0132\027.SyncAttri.TagAttriData\022\030\n\005teams\030\023 \003(",
-      "\0132\t.TeamInfo\022\025\n\rlastFightTime\030\024 \001(\003\022\033\n\023g" +
-      "ainCurrencyPerHour\030\025 \001(\005\022\023\n\013scoreLvName\030" +
-      "\026 \001(\t\"\236\001\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005s" +
-      "core\030\002 \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022\r\n\005place\030\004 \001" +
-      "(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004n" +
-      "ame\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010fighting" +
-      "\030\t \001(\005\"\214\001\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013" +
-      "\n\003win\030\002 \001(\005\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001" +
-      "(\t\022\021\n\theadImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004" +
-      "time\030\007 \001(\003\022\021\n\tchallenge\030\010 \001(\005\"\203\001\n\017MsgAre",
-      "naRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaTyp" +
-      "e\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamI" +
-      "nfo\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 " +
-      "\001(\005\"\314\001\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 " +
-      "\002(\0162\013.eArenaType\022*\n\017arenaResultType\030\002 \001(" +
-      "\0162\021.eArenaResultType\022\035\n\tarenaData\030\003 \001(\0132" +
-      "\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInf" +
-      "o\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005p" +
-      "lace\030\006 \001(\005*\367\001\n\neArenaType\022\014\n\010GET_DATA\020\000\022" +
-      "\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014AR",
-      "ENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TI" +
-      "ME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_F" +
-      "IGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013" +
-      "SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\r\n\tGET_SCOR" +
-      "E\020\013\022\017\n\013SWITCH_OVER\020\014*5\n\020eArenaResultType" +
-      "\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013c" +
-      "om.rwprotoB\026PeakArenaServiceProtos"
+      "\n\006teamId\030\n \001(\005\022\021\n\theadImage\030\013 \001(\t\"\205\001\n\010Te" +
+      "amInfo\022\016\n\006teamId\030\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t." +
+      "HeroData\022\017\n\007heroIds\030\003 \003(\t\022\017\n\007magicId\030\004 \001",
+      "(\005\022\022\n\nmagicLevel\030\005 \001(\005\022\031\n\006player\030\006 \002(\0132\t" +
+      ".HeroData\"\374\003\n\tArenaData\022\016\n\006userId\030\001 \002(\t\022" +
+      "\r\n\005score\030\002 \001(\005\022\021\n\tgainScore\030\003 \001(\005\022\017\n\007sco" +
+      "reLv\030\004 \001(\005\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 " +
+      "\001(\005\022\025\n\rwinningStreak\030\007 \001(\005\022\020\n\010winCount\030\010" +
+      " \001(\005\022\026\n\016challengeCount\030\t \001(\005\022\016\n\006cdTime\030\n" +
+      " \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004name\030\014 \001(\t\022\r\n\005le" +
+      "vel\030\r \001(\005\022\021\n\theadImage\030\016 \001(\t\022\022\n\ntemplete" +
+      "Id\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\troleSkill\030" +
+      "\021 \003(\0132\032.SkillService.TagSkillData\022)\n\010rol",
+      "eAttr\030\022 \003(\0132\027.SyncAttri.TagAttriData\022\030\n\005" +
+      "teams\030\023 \003(\0132\t.TeamInfo\022\025\n\rlastFightTime\030" +
+      "\024 \001(\003\022\033\n\023gainCurrencyPerHour\030\025 \001(\005\022\031\n\021ma" +
+      "xChallengeCount\030\026 \001(\005\022\021\n\tgroupName\030\027 \001(\t" +
+      "\"\270\001\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005score\030" +
+      "\002 \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022\r\n\005place\030\004 \001(\005\022\020\n" +
+      "\010winCount\030\005 \001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004name\030\007" +
+      " \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010fighting\030\t \001(" +
+      "\005\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\"\214\001\n\013ArenaRec" +
+      "ord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n\007plac",
+      "eUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImage\030\005 \001" +
+      "(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\tchall" +
+      "enge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\tarenaT" +
+      "ype\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(\t\022\030" +
+      "\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004 \001(\0132" +
+      "\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(" +
+      "\005\"\337\001\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(" +
+      "\0162\013.eArenaType\022*\n\017arenaResultType\030\002 \001(\0162" +
+      "\021.eArenaResultType\022\035\n\tarenaData\030\003 \001(\0132\n." +
+      "ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022",
+      " \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005pla" +
+      "ce\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t*\220\002\n\neArenaTy" +
+      "pe\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CH" +
+      "ANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_I" +
+      "NFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PRE" +
+      "PARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_F" +
+      "IGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PL" +
+      "ACE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWITCH_OVER\020\014\022\027\n" +
+      "\023BUY_CHALLENGE_COUNT\020\r*5\n\020eArenaResultTy" +
+      "pe\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n",
+      "\013com.rwprotoB\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -12218,25 +14049,25 @@ public final class PeakArenaServiceProtos {
           internal_static_HeroData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_HeroData_descriptor,
-              new java.lang.String[] { "HeroId", "TempleteId", "Level", "StarLevel", "Fighting", "QualityId", "Exp", "Skills", "Attrs", "TeamId", });
+              new java.lang.String[] { "HeroId", "TempleteId", "Level", "StarLevel", "Fighting", "QualityId", "Exp", "Skills", "Attrs", "TeamId", "HeadImage", });
           internal_static_TeamInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_TeamInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TeamInfo_descriptor,
-              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", });
+              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", "Player", });
           internal_static_ArenaData_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_ArenaData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaData_descriptor,
-              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "WinningStreak", "WinCount", "RemainCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "RoleAttr", "Teams", "LastFightTime", "GainCurrencyPerHour", "ScoreLvName", });
+              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "WinningStreak", "WinCount", "ChallengeCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "RoleAttr", "Teams", "LastFightTime", "GainCurrencyPerHour", "MaxChallengeCount", "GroupName", });
           internal_static_ArenaInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaInfo_descriptor,
-              new java.lang.String[] { "UserId", "Score", "ScoreLv", "Place", "WinCount", "Level", "Name", "HeadImage", "Fighting", });
+              new java.lang.String[] { "UserId", "Score", "ScoreLv", "Place", "WinCount", "Level", "Name", "HeadImage", "Fighting", "Teams", });
           internal_static_ArenaRecord_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_ArenaRecord_fieldAccessorTable = new
@@ -12248,13 +14079,13 @@ public final class PeakArenaServiceProtos {
           internal_static_MsgArenaRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaRequest_descriptor,
-              new java.lang.String[] { "ArenaType", "UserId", "Teams", "Enemy", "Win", });
+              new java.lang.String[] { "ArenaType", "UserId", "Teams", "Enemy", "Win", "Reorder", });
           internal_static_MsgArenaResponse_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", });
           return null;
         }
       };

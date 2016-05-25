@@ -1,7 +1,6 @@
-package com.rwbase.dao.peakArena;
+package com.rw.service.PeakArena.datamodel;
 
 import com.rw.fsutil.cacheDao.DataKVDao;
-import com.rwbase.dao.peakArena.pojo.TablePeakArenaRecord;
 
 public class TablePeakArenaRecordDAO extends DataKVDao<TablePeakArenaRecord> {
 

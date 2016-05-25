@@ -1,10 +1,9 @@
-package com.rwbase.dao.peakArena.pojo;
+package com.rw.service.PeakArena.datamodel;
 
 import java.util.List;
 
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.TableSkill;
 
 public class TeamData {

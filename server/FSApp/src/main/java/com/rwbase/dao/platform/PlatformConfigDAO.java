@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.PeakArena.datamodel.PeakArenaScoreCfgHelper;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.peakArena.PeakArenaScoreCfgDAO;
 import com.rwbase.dao.platform.pojo.PlatformConfig;
 
 public class PlatformConfigDAO extends CfgCsvDao<PlatformConfig> {

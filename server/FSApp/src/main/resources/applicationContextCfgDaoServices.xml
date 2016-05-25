@@ -72,8 +72,9 @@
 	
 	<bean class="com.rwbase.dao.mainmsg.CfgPmdDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.peakArena.PeakArenaPrizeCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.peakArena.PeakArenaScoreCfgDAO"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.PeakArenaPrizeCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.PeakArenaScoreCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaCostHelper"  init-method="init" />
 	<bean class="com.rwbase.dao.power.RoleUpgradeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.publicdata.PublicDataCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.ranking.CfgRankingDAO"  init-method="init" />

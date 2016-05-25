@@ -509,11 +509,11 @@ public class UserGameDataMgr {
 		return userGameDataHolder.get().getArenaCoin();
 	}
 
-	public int addPeakArenaCoin(int currency) {
+	public boolean addPeakArenaCoin(int currency) {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		int gold = tableUserOther.getPeakArenaCoin();
 		if (currency < 0 && gold <= 0) {
-			return -1;
+			return false;
 		}
 		int total = gold + currency;
 		if (currency < 0 && total < 0) {
@@ -521,7 +521,7 @@ public class UserGameDataMgr {
 		}
 		tableUserOther.setPeakArenaCoin(total);
 		userGameDataHolder.update(player);
-		return 0;
+		return true;
 	}
 
 	public int getPeakArenaCoin() {
@@ -587,7 +587,7 @@ public class UserGameDataMgr {
 			result = m_GuildUserMgr.addGuildCoin(dec) == 1;
 			break;
 		case PeakArenaCoin:
-			result = this.addPeakArenaCoin(dec) == 0;
+			result = this.addPeakArenaCoin(dec);
 			break;
 		case UnendingWarCoin:
 			result = this.addUnendingWarCoin(dec) == 0;

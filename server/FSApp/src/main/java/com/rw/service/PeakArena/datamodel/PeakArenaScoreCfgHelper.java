@@ -1,4 +1,4 @@
-package com.rwbase.dao.peakArena;
+package com.rw.service.PeakArena.datamodel;
 
 import java.util.List;
 import java.util.Map;
@@ -6,18 +6,17 @@ import java.util.Map;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.peakArena.pojo.PeakArenaScoreCfg;
 
-public class PeakArenaScoreCfgDAO extends CfgCsvDao<PeakArenaScoreCfg> {
+public class PeakArenaScoreCfgHelper extends CfgCsvDao<PeakArenaScoreCfg> {
 
-	public static PeakArenaScoreCfgDAO getInstance() {
-		return SpringContextUtil.getBean(PeakArenaScoreCfgDAO.class);
+	public static PeakArenaScoreCfgHelper getInstance() {
+		return SpringContextUtil.getBean(PeakArenaScoreCfgHelper.class);
 	}
 
 	
 	@Override
 	public Map<String, PeakArenaScoreCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("arena/peakArenaScore.csv", PeakArenaScoreCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("PeakArena/peakArenaScore.csv", PeakArenaScoreCfg.class);
 		return cfgCacheMap;
 	}
 	

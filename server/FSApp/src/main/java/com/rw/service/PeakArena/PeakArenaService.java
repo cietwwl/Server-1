@@ -1,4 +1,4 @@
-package com.rw.service.arena;
+package com.rw.service.PeakArena;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;

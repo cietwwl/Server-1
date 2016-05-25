@@ -1,4 +1,4 @@
-package com.rw.service.arena;
+package com.rw.service.PeakArena;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,6 @@ import com.bm.rank.RankType;
 import com.bm.rank.peakArena.PeakArenaExtAttribute;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
-import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
@@ -20,16 +19,16 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
+import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
-import com.rwbase.dao.peakArena.TablePeakArenaDataDAO;
-import com.rwbase.dao.peakArena.pojo.PeakRecordInfo;
-import com.rwbase.dao.peakArena.pojo.TablePeakArenaData;
-import com.rwbase.dao.peakArena.pojo.TeamData;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PeakArenaServiceProtos.ArenaData;
@@ -288,31 +287,28 @@ public class PeakArenaHandler {
 	public ByteString arenaFightFinish(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		int win = request.getWin();
+		boolean win = request.getWin();
 		String enemyUserId = request.getUserId();
 		String userId = player.getUserId();
 
-		// TODO 从db加载数据的容错处理
+		// 从db加载数据的容错处理
 		TablePeakArenaData playerArenaData = PeakArenaBM.getInstance().getPeakArenaData(userId);
 		if (playerArenaData == null) {
-			GameLog.error("巅峰竞技场结算时找不到user：" + userId);
-			return buildFailResponse(response);
+			return SetError(response,player,"结算时找不到用户","");
 		}
 
 		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		// TODO 巅峰排行榜超出上限的容错处理
+		// 巅峰排行榜超出上限的容错处理
 		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
 		if (entry == null) {
-			//TODO 如果赢了在加上最低分做重新加入排行榜的尝试
-			GameLog.error("巅峰竞技场结算时找不到ranking：" + userId);
-			return buildFailResponse(response);
+			// 如果赢了在加上最低分做重新加入排行榜的尝试
+			return SetError(response,player,"结算时找不到排行","");
 		}
 		PeakArenaExtAttribute areanExtAttribute = entry.getExtendedAttribute();
 		TablePeakArenaData enemyArenaData = PeakArenaBM.getInstance().getPeakArenaData(enemyUserId);
 		if (enemyArenaData == null) {
-			GameLog.error("巅峰竞技场结算时找不到enemy：" + enemyUserId);
 			areanExtAttribute.setNotFighting();
-			return buildFailResponse(response);
+			return SetError(response,player,"结算时找不到对手",":"+enemyUserId);
 		}
 
 		// 计算积分
@@ -328,7 +324,7 @@ public class PeakArenaHandler {
 			long currentTimeMillis = System.currentTimeMillis();
 			int fightTime = (int) (currentTimeMillis - entry.getExtendedAttribute().getLastFightTime()) / 1000;
 			int addScore;
-			if (win == 1) {
+			if (win) {
 				addScore = (int) (Math.min((int) (60 + fightTime * 0.5) + (int) ((enemyScore - score) * 0.05), 180));
 				PeakArenaBM.getInstance().addScore(player, addScore);
 			} else {
@@ -337,7 +333,7 @@ public class PeakArenaHandler {
 			}
 			PeakRecordInfo record = new PeakRecordInfo();
 			record.setUserId(enemyUserId);
-			record.setWin(win);
+			record.setWin(win?1:0);
 			record.setName(enemyArenaData.getName());
 			record.setHeadImage(enemyArenaData.getHeadImage());
 			record.setLevel(enemyArenaData.getLevel());
@@ -347,7 +343,7 @@ public class PeakArenaHandler {
 			PeakArenaBM.getInstance().addOthersRecord(playerArenaData, record);
 			PeakRecordInfo recordForEnemy = new PeakRecordInfo();
 			recordForEnemy.setUserId(userId);
-			recordForEnemy.setWin(1 - win);
+			recordForEnemy.setWin(win?0:1);//取反
 			recordForEnemy.setName(playerArenaData.getName());
 			recordForEnemy.setHeadImage(playerArenaData.getHeadImage());
 			recordForEnemy.setLevel(playerArenaData.getLevel());
@@ -376,9 +372,11 @@ public class PeakArenaHandler {
 			}
 		}
 	}
-
-	private ByteString buildFailResponse(MsgArenaResponse.Builder response) {
+	
+	private ByteString SetError(MsgArenaResponse.Builder response,Player player,String userTip,String logError){
+		GameLog.error("巅峰竞技场", player.getUserId(), logError+userTip);
 		response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+		//if(StringUtils.isNotBlank(userTip)) response.setResultTip(userTip);
 		return response.build().toByteString();
 	}
 
@@ -424,19 +422,21 @@ public class PeakArenaHandler {
 		data.setGainScore(peakArenaBM.gainExpectCurrency(arenaData));
 		PeakArenaScoreLevel scoreLevel = PeakArenaScoreLevel.getSocre(socre);
 		data.setScoreLv(scoreLevel.getLevel());
-		data.setScoreLvName(scoreLevel.getName());
 		data.setGainCurrencyPerHour(scoreLevel.getGainCurrency());
 		data.setPlace(place);
 		data.setMaxPlace(arenaData.getMaxPlace());
 		data.setWinningStreak(arenaData.getWinningStreak());
 		data.setWinCount(arenaData.getWinCount());
-		data.setRemainCount(arenaData.getRemainCount());
+		//TODO 改为发送 challengeCount maxChallengeCount
+		//data.setRemainCount(arenaData.getRemainCount());
+		
 		long nextFightTime = arenaData.getNextFightTime();
 		// 这里不为0的时候才设置冷却时间
 		if (nextFightTime > 0) {
 			long currentTime = System.currentTimeMillis();
 			if (nextFightTime > currentTime) {
-				data.setCdTime(TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime));
+				int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime);
+				data.setCdTime(seconds);
 			}
 		}
 		data.setCareer(arenaData.getCareer());
@@ -478,7 +478,7 @@ public class PeakArenaHandler {
 	public ArenaRecord getPeakArenaRecord(PeakRecordInfo record) {
 		ArenaRecord.Builder result = ArenaRecord.newBuilder();
 		result.setUserId(record.getUserId());
-		result.setWin(record.getWin());
+		result.setWin(record.getWin()==1);
 		result.setPlaceUp(record.getPlaceUp());
 		result.setName(record.getName());
 		result.setHeadImage(record.getHeadImage());
