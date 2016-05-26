@@ -1,9 +1,12 @@
 package com.rw;
 
+import java.util.Random;
+
 public class Test {
 
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
-
+	/** 所有运行起来的客户端 */
+	private static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
 		// Robot robot = loginRobot("hclovehf0009");
 		// for (int i = 0; i < 50; i++) {
@@ -11,7 +14,11 @@ public class Test {
 		// robot.equipAttach();
 		// }
 
-		 Robot robot = createRobot("testallen0002");
+		 Robot robot = createRobot("testallen"+random.nextInt(2000));
+		 if(robot == null){
+		 }else{
+			 robot.testWorShip();
+		 }
 		 
 		// long start = System.currentTimeMillis();
 		// Robot robot = loginRobot("testallen0003");
@@ -62,18 +69,18 @@ public class Test {
 
 		// String groupId = "100110033";
 		// Robot robot = loginRobot("groupRobot9");
-		 robot.addGold(1000);
+//		 robot.addGold(1000);
 		// robot.addCoin(100000);
 		// robot.createGroup("作弊捡来的");
 		// for (int i = 0; i < 2; i++) {
 		// robot.groupDonate();
 		// }
 
-		// robot.refuseApplyMemberAll();
-		// robot.getGroupInfo();
+//		 robot.refuseApplyMemberAll();
+//		 robot.getGroupInfo();
 		// robot.receiveApplyMemberAll();
 		// robot.memberNominate();
-		// robot.memberCancelNominate();
+//		 robot.memberCancelNominate();
 		// robot.receiveApplyMemberOne("100100001609");
 		// robot.refuseApplyMemberOne("100100001607");
 		// robot.refuseApplyMemberOne("100100001606");
@@ -86,13 +93,14 @@ public class Test {
 		// String accountId = "groupRobot" + i;
 		// Robot robot = loginRobot(accountId);
 		// robot.applyGroup(groupId);
+		
 		// // sb.append("name:").append(accountId).append(",id:").append(robot.getUserId()).append("\n");
 		// }
 		// System.err.println(sb.toString());
 
 		// ///////////////////////////////////////////旧服务器测试机器人
 		// robot.buyRandom();
-		// robot.wearEquip();
+//		 robot.wearEquip();
 		// robot.equipAttach();
 		// robot.upgrade(35);
 		// // robot.heroAdvance();
@@ -137,6 +145,9 @@ public class Test {
 
 		// testRemoveFriend();
 		// robot2.close();
+		 
+		 
+		 
 	}
 
 	public static void testUpgarate() {
@@ -255,7 +266,8 @@ public class Test {
 		robotB.close();
 
 	}
-
+		
+	
 	// 登录
 	private static Robot loginRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
@@ -268,7 +280,6 @@ public class Test {
 	private static Robot createRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
 		if (robot.regPlatform()) {
-
 			if (robot.creatRole()) {
 				return robot;
 			}
