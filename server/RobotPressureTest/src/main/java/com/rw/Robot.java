@@ -4,6 +4,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
+import com.rw.handler.Worship.WorshipHandler;
 import com.rw.handler.battle.PVEHandler;
 import com.rw.handler.battle.PVPHandler;
 import com.rw.handler.battletower.BattleTowerHandler;
@@ -575,6 +576,16 @@ public class Robot {
 	 */
 	public boolean memberCancelNominate() {
 		return groupMemberHandler.memberCancelNominate(client);
+		
+	}
+	
+	/**
+	 * 膜拜
+	 */
+	public  boolean testWorShip() {
+			
+		
+			return WorshipHandler.getHandler().ArenaWorship(client, "");
 	}
 
 	public int getChatCount() {
