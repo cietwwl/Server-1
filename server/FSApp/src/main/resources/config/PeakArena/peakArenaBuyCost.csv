@@ -1,4 +1,4 @@
-key,remarks,time,buyTimeCost,coinType
+key,remarks,time,cost,coinType
 1,,1,5,Gold
 2,,2,5,Gold
 3,,3,5,Gold

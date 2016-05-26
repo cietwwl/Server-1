@@ -15,7 +15,6 @@ public class PeakArenaExtAttribute extends FightingMember{
 
 	public PeakArenaExtAttribute() {
 		super(ArenaConstant.PEAK_ARENA_FIGHTING_TIMEOUT);
-		// TODO Auto-generated constructor stub
 	}
 
 	private int winCount;		//连胜次数
