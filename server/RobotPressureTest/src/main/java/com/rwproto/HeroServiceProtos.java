@@ -238,7 +238,7 @@ public final class HeroServiceProtos {
      * <code>HERO_NOT_EXIST = 11;</code>
      *
      * <pre>
-     *英雄不存在
+     *佣兵不存在
      * </pre>
      */
     HERO_NOT_EXIST(10, 11),
@@ -348,7 +348,7 @@ public final class HeroServiceProtos {
      * <code>HERO_NOT_EXIST = 11;</code>
      *
      * <pre>
-     *英雄不存在
+     *佣兵不存在
      * </pre>
      */
     public static final int HERO_NOT_EXIST_VALUE = 11;
@@ -610,7 +610,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是添加按钮消耗
+     *是否是用的升1/10级的按钮使用的
      * </pre>
      */
     boolean hasIsAddBtnUse();
@@ -618,7 +618,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是添加按钮消耗
+     *是否是用的升1/10级的按钮使用的
      * </pre>
      */
     boolean getIsAddBtnUse();
@@ -1019,7 +1019,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是添加按钮消耗
+     *是否是用的升1/10级的按钮使用的
      * </pre>
      */
     public boolean hasIsAddBtnUse() {
@@ -1029,7 +1029,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是添加按钮消耗
+     *是否是用的升1/10级的按钮使用的
      * </pre>
      */
     public boolean getIsAddBtnUse() {
@@ -2116,7 +2116,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是添加按钮消耗
+       *是否是用的升1/10级的按钮使用的
        * </pre>
        */
       public boolean hasIsAddBtnUse() {
@@ -2126,7 +2126,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是添加按钮消耗
+       *是否是用的升1/10级的按钮使用的
        * </pre>
        */
       public boolean getIsAddBtnUse() {
@@ -2136,7 +2136,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是添加按钮消耗
+       *是否是用的升1/10级的按钮使用的
        * </pre>
        */
       public Builder setIsAddBtnUse(boolean value) {
@@ -2149,7 +2149,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是添加按钮消耗
+       *是否是用的升1/10级的按钮使用的
        * </pre>
        */
       public Builder clearIsAddBtnUse() {

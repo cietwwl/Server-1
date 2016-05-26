@@ -155,12 +155,8 @@ public class PlayerLoginTask implements PlayerTask {
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
 		player.setZoneLoginInfo(zoneLoginInfo);
 		BILogMgr.getInstance().logZoneLogin(player);
-		// 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
-		ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityCountTypeMgr.getInstance().checkActivity(player);
+		
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
 
@@ -170,5 +166,6 @@ public class PlayerLoginTask implements PlayerTask {
 		nettyControler.clearMsgCache(userId);
 		nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx);
 	}
+	
 
 }
