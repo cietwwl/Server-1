@@ -2,13 +2,14 @@ package com.rw.service.PeakArena;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaConstant;
 import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
@@ -171,7 +172,6 @@ public class PeakArenaHandler {
 			result.setUserId(key);
 			result.setScore(score);
 			result.setScoreLv(PeakArenaScoreLevel.getSocre(score).getLevel());
-			result.setWinCount(otherArenaData.getWinCount());
 			result.setFighting(otherArenaData.getFighting());
 			result.setHeadImage(otherArenaData.getHeadImage());
 			result.setLevel(otherArenaData.getLevel());
@@ -216,8 +216,12 @@ public class PeakArenaHandler {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 
-		TablePeakArenaData m_MyArenaData = PeakArenaBM.getInstance().switchTeam(player);
-		if (m_MyArenaData != null) {
+		if (request.getReorderCount() < 3){
+			return SetError(response, player, "参数错误，不足三支队伍", ",count="+request.getReorderCount());
+		}
+		
+		if (PeakArenaBM.getInstance().switchTeam(player,request.getReorderList())) {
+			TablePeakArenaData m_MyArenaData = PeakArenaBM.getInstance().getPeakArenaData(player.getUserId());
 			response.setArenaData(getPeakArenaData(m_MyArenaData, player));
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		} else {
@@ -229,21 +233,27 @@ public class PeakArenaHandler {
 	public ByteString changeHeros(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		TablePeakArenaData m_MyArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
-		Map<Integer, TeamData> teamMap = m_MyArenaData.getTeamMap();
+		TablePeakArenaData peakData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		List<TeamInfo> teamInfoList = request.getTeamsList();
+		HeroMgr heroMgr = player.getHeroMgr();
 		for (TeamInfo teamInfo : teamInfoList) {
-			TeamData team = teamMap.get(teamInfo.getTeamId());
+			TeamData team = peakData.search(teamInfo.getTeamId());
 			List<RoleBaseInfo> newHeroList = new ArrayList<RoleBaseInfo>();
 			List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
 			List<TableAttr> heroAttrList = new ArrayList<TableAttr>();
-			for (String id : teamInfo.getHeroIdsList()) {
-				RoleBaseInfo data = player.getHeroMgr().getHeroById(id).getHeroData();
+			List<String> heroIdsList = teamInfo.getHeroIdsList();
+			for (String id : heroIdsList) {
+				Hero heroData = heroMgr.getHeroById(id);
+				if (heroData == null){
+					GameLog.error("巅峰竞技场", player.getUserId(), "无效佣兵ID="+id);
+					continue;
+				}
+				RoleBaseInfo data = heroData.getHeroData();
 				newHeroList.add(data);
-				TableSkill skill = player.getHeroMgr().getHeroById(id).getSkillMgr().getTableSkill(); 
+				TableSkill skill = heroData.getSkillMgr().getTableSkill(); 
 				heroSkillList.add(skill);
 				
-				AttrData heroTotalAttrData = player.getHeroMgr().getHeroById(id).getAttrMgr().getTotalAttrData();
+				AttrData heroTotalAttrData = heroData.getAttrMgr().getTotalAttrData();
 				TableAttr attr = new TableAttr(id, heroTotalAttrData);
 				heroAttrList.add(attr);
 			}
@@ -253,8 +263,8 @@ public class PeakArenaHandler {
 			team.setHeroSkills(heroSkillList);
 			team.setHeroAtrrs(heroAttrList);
 		}
-		TablePeakArenaDataDAO.getInstance().update(m_MyArenaData);
-		response.setArenaData(getPeakArenaData(m_MyArenaData, player));
+		TablePeakArenaDataDAO.getInstance().update(peakData);
+		response.setArenaData(getPeakArenaData(peakData, player));
 
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
@@ -462,8 +472,6 @@ public class PeakArenaHandler {
 		data.setGainCurrencyPerHour(scoreLevel.getGainCurrency());
 		data.setPlace(place);
 		data.setMaxPlace(arenaData.getMaxPlace());
-		data.setWinningStreak(arenaData.getWinningStreak());
-		data.setWinCount(arenaData.getWinCount());
 		//TODO 改为发送 challengeCount maxChallengeCount
 		//data.setRemainCount(arenaData.getRemainCount());
 		
@@ -496,10 +504,10 @@ public class PeakArenaHandler {
 		}
 		data.setTempleteId(arenaData.getTempleteId());
 
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= arenaData.getTeamCount(); i++) {
 			TeamInfo.Builder teamBuilder = TeamInfo.newBuilder();
 			teamBuilder.setTeamId(i);
-			TeamData team = arenaData.getTeamMap().get(i);
+			TeamData team = arenaData.getTeam(i);
 			teamBuilder.setMagicId(team.getMagicId());
 			teamBuilder.setMagicLevel(team.getMagicLevel());
 			List<RoleBaseInfo> heros = team.getHeros();

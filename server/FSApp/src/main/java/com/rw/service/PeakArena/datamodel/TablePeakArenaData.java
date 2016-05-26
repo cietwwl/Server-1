@@ -2,7 +2,6 @@ package com.rw.service.PeakArena.datamodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,10 +13,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class TablePeakArenaData {
 	@Id
 	private String userId; // 用户ID
-	// private int scoreLv;// 段位
 	private int maxPlace;
-	private int winningStreak;// 连胜
-	private int winCount;//TODO ??
 	private int challengeCount;//挑战次数
 	private int resetCount;//重置次数
 	private int buyCount;//额外购买的挑战次数
@@ -25,18 +21,54 @@ public class TablePeakArenaData {
 	private String name;
 	private String headImage;
 	private String templeteId;
-	private int currency; // TODO 已经统一放在UserGameDataMgr 巅峰竞技场币(以后抽象货比系统)
 	private int expectCurrency; // 预计能获得的货币
 	private int level;
-	private int fighting;
-	private long fightStartTime;//开战时间,0表示没有开战
-	private Map<Integer, TeamData> teamMap;// 队伍阵容
-	private List<PeakRecordInfo> recordList;
-	private volatile long lastGainCurrencyTime; // 上次获取货币的时间
+	private int fighting;//战力
+	private volatile long fightStartTime;//开战时间,0表示没有开战
+	private TeamData[] teams = new TeamData[3];
+	
+	private List<PeakRecordInfo> recordList; //TODO change to simple array
+	private long lastGainCurrencyTime; // 上次获取货币的时间
 	private int lastScore; // 最后一次分数
 
 	public TablePeakArenaData() {
 		this.recordList = new ArrayList<PeakRecordInfo>();
+	}
+	
+	public static TeamData search(int teamId, TeamData[] teams) {
+		if (teams == null) return null;
+		for(int i = 0; i<teams.length;i++){
+			TeamData team = teams[i];
+			if (team != null && team.getTeamId() == teamId){
+				return team;
+			}
+		}
+		return null;
+	}
+	
+	public TeamData search(int teamId){
+		return search(teamId,this.teams);
+	}
+
+	public TeamData getTeam(int index) {
+		if (0<= index && index < teams.length){
+			return teams[index];
+		}
+		return null;
+	}
+	
+	public int getTeamCount(){
+		return teams.length;
+	}
+	
+	public boolean setTeam(TeamData team,int index) {
+		if (0<= index && index < teams.length){
+			teams[index] = team;
+			return true;
+		}else{
+			//GameLog.error("巅峰竞技场", "更新队伍参数有错", "index out of bound:"+index);
+			return false;
+		}
 	}
 
 	public int getBuyCount() {
@@ -85,22 +117,6 @@ public class TablePeakArenaData {
 
 	public void setMaxPlace(int maxPlace) {
 		this.maxPlace = maxPlace;
-	}
-
-	public int getWinningStreak() {
-		return winningStreak;
-	}
-
-	public void setWinningStreak(int winningStreak) {
-		this.winningStreak = winningStreak;
-	}
-
-	public int getWinCount() {
-		return winCount;
-	}
-
-	public void setWinCount(int winCount) {
-		this.winCount = winCount;
 	}
 
 	public int getCareer() {
@@ -163,14 +179,6 @@ public class TablePeakArenaData {
 		this.fighting = fighting;
 	}
 
-	public Map<Integer, TeamData> getTeamMap() {
-		return teamMap;
-	}
-
-	public void setTeamMap(Map<Integer, TeamData> teamMap) {
-		this.teamMap = teamMap;
-	}
-
 	public List<PeakRecordInfo> getRecordList() {
 		return recordList;
 	}
@@ -179,14 +187,6 @@ public class TablePeakArenaData {
 		if (recordList != null) {
 			this.recordList = recordList;
 		}
-	}
-
-	public int getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(int currency) {
-		this.currency = currency;
 	}
 
 	public int getExpectCurrency() {

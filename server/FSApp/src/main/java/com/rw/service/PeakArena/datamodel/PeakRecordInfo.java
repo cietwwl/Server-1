@@ -2,14 +2,14 @@ package com.rw.service.PeakArena.datamodel;
 
 public class PeakRecordInfo {
 
-	private int win;//0是输，1是赢
+	private int win;//TODO 0是输，1是赢
 	private int placeUp;
 	private String name;
 	private String headImage;
 	private int level;
 	private long time;
 	private String userId;
-	private int challenge;//1是我打别人，01是别人打我
+	private int challenge;//TODO 1是我打别人，01是别人打我
 	
 	public int getWin() {
 		return win;

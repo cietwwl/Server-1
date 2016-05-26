@@ -3,9 +3,7 @@ package com.rw.service.PeakArena;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaConstant;
@@ -23,8 +21,6 @@ import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rwbase.common.attrdata.TableAttr;
-import com.rwbase.dao.arena.ArenaInfoCfgDAO;
-import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.TableSkill;
@@ -57,8 +53,7 @@ public class PeakArenaBM {
 	}
 
 	public TablePeakArenaData getOrAddPeakArenaData(Player player, TempRankingEntry temp) {
-		TableUserIF tableUser = player.getTableUser();
-		String userId = tableUser.getUserId();
+		String userId = player.getUserId();
 		TablePeakArenaData data = tablePeakArenaDataDAO.get(userId);
 		if (data != null) {
 			Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
@@ -91,25 +86,28 @@ public class PeakArenaBM {
 		if (temp != null) {
 			temp.setRanking(place);
 		}
-		data = new TablePeakArenaData();
+		
+		data = createPeakData(player, place);
+		return data;
+	}
+
+	private TablePeakArenaData createPeakData(Player player, int place) {
+		TablePeakArenaData data = new TablePeakArenaData();
+		String userId = player.getUserId();
 		data.setUserId(userId);
-
 		data.setCareer(player.getCareer());
-
 		data.setMaxPlace(place);
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
 		// TODO data.setFighting(tableUserOther.getFighting());
 
-		data.setHeadImage(tableUser.getHeadImageWithDefault());
+		data.setHeadImage(player.getHeadImage());
 		data.setLevel(player.getLevel());
-		data.setName(tableUser.getUserName());
+		data.setName(player.getUserName());
 		data.setTempleteId(player.getTemplateId());
 
-		HashMap<Integer, TeamData> teamMap = new HashMap<Integer, TeamData>();
-		TeamData team;
 		ItemData magic = player.getMagic();
-		for (int i = 1; i <= 3; i++) {
-			team = new TeamData();
+		for (int i = 1; i <= data.getTeamCount(); i++) {
+			TeamData team = new TeamData();
 			team.setTeamId(i);
 			if (magic == null) {
 				team.setMagicId(0);
@@ -121,9 +119,8 @@ public class PeakArenaBM {
 			team.setHeros(new ArrayList<RoleBaseInfo>());
 			team.setHeroAtrrs(new ArrayList<TableAttr>());
 			team.setHeroSkills(new ArrayList<TableSkill>());
-			teamMap.put(i, team);
+			data.setTeam(team, i);
 		}
-		data.setTeamMap(teamMap);
 		data.setRecordList(new ArrayList<PeakRecordInfo>());
 		tablePeakArenaDataDAO.update(data);
 		return data;
@@ -150,40 +147,8 @@ public class PeakArenaBM {
 		} else {
 			place = ranking.getRanking(userId);
 		}
-		TablePeakArenaData data = new TablePeakArenaData();
-		data.setUserId(userId);
-
-		data.setCareer(player.getCareer());
-
-		data.setMaxPlace(place);
-		data.setLastGainCurrencyTime(System.currentTimeMillis());
-		// TODO data.setFighting(tableUserOther.getFighting());
-
-		data.setHeadImage(tableUser.getHeadImageWithDefault());
-		data.setLevel(player.getLevel());
-		data.setName(tableUser.getUserName());
-		data.setTempleteId(player.getTemplateId());
-
-		HashMap<Integer, TeamData> teamMap = new HashMap<Integer, TeamData>();
-		ItemData magic = player.getMagic();
-		for (int i = 1; i <= 3; i++) {
-			TeamData team = new TeamData();
-			team.setTeamId(i);
-			if (magic == null) {
-				team.setMagicId(0);
-				team.setMagicLevel(0);
-			} else {
-				team.setMagicId(magic.getModelId());
-				team.setMagicLevel(magic.getMagicLevel());
-			}
-			team.setHeros(new ArrayList<RoleBaseInfo>());
-			team.setHeroAtrrs(new ArrayList<TableAttr>());
-			team.setHeroSkills(new ArrayList<TableSkill>());
-			teamMap.put(i, team);
-		}
-		data.setTeamMap(teamMap);
-		data.setRecordList(new ArrayList<PeakRecordInfo>());
-		tablePeakArenaDataDAO.update(data);
+		
+		TablePeakArenaData data = createPeakData(player, place);
 		return data;
 	}
 
@@ -331,15 +296,40 @@ public class PeakArenaBM {
 		}
 	}
 
-	public TablePeakArenaData switchTeam(Player player) {
-		TablePeakArenaData myPeakArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
-		Map<Integer, TeamData> teamMap = myPeakArenaData.getTeamMap();
-		TeamData team1 = teamMap.get(1);
-		teamMap.put(1, teamMap.get(2));
-		teamMap.put(2, teamMap.get(3));
-		teamMap.put(3, team1);
-		tablePeakArenaDataDAO.update(myPeakArenaData);
-		return myPeakArenaData;
+	public boolean switchTeam(Player player, List<Integer> list) {
+		TablePeakArenaData data = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
+		if (data == null) {
+			return false;
+		}
+		// 队伍配置定死3个
+		int count = 3;
+		if (data.getTeamCount() < count) {
+			return false;
+		}
+		TeamData[] teams = new TeamData[count];
+		for(int i = 0;i<count;i++){
+			teams[i] = data.getTeam(i);
+		}
+		boolean isChanged =false;
+		for(int i = 0; i<list.size();i++){
+			TeamData team = search(list,i,teams);
+			if(team == null){
+				return false;
+			}
+			if (team != teams[i]){
+				data.setTeam(team, i);
+				isChanged = true;
+			}
+		}
+		if (isChanged){
+			tablePeakArenaDataDAO.update(data);
+		}
+		return true;
+	}
+
+	private TeamData search(List<Integer> list,int index, TeamData[] teams) {
+		int teamId = list.get(index);
+		return TablePeakArenaData.search(teamId, teams);
 	}
 
 	public void addOthersRecord(TablePeakArenaData table, PeakRecordInfo record) {
@@ -473,11 +463,6 @@ public class PeakArenaBM {
 			return;
 		}
 		String userId = player.getUserId();
-		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
-		if (infoCfg == null) {
-			GameLog.error("竞技场", userId, "重置时找不到巅峰竞技场配置：" + userId);
-			return;
-		}
 		TablePeakArenaData peakArenaData = getPeakArenaData(userId);
 		if (peakArenaData == null) {
 			GameLog.error("竞技场", userId, "重置时找不到巅峰竞技场玩家：" + userId);

@@ -27,7 +27,7 @@ public interface ArenaConstant {
 	
 	String VIP_LEVEL_NOT_ENOUGHT = "vip等级不够";
 	/**
-	 * 服务器没有找到OpenLevel对象，先临时加常量
+	 * TODO delete 服务器没有找到OpenLevel对象，先临时加常量
 	 */
 	int PEAK_ARENA_OPEN_LEVEL = 55;
 	
