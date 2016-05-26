@@ -2,8 +2,6 @@ package com.bm.arena;
 
 import java.util.concurrent.TimeUnit;
 
-import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
-
 public interface ArenaConstant {
 
 	/**

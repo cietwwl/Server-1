@@ -7,25 +7,32 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaConstant;
 import com.bm.rank.RankType;
-import com.bm.rank.peakArena.PeakArenaExtAttribute;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.UserGameDataMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
+import com.rw.service.PeakArena.datamodel.peakArenaBuyCost;
+import com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper;
+import com.rw.service.PeakArena.datamodel.peakArenaInfo;
+import com.rw.service.PeakArena.datamodel.peakArenaInfoHelper;
+import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
+import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
+import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.copy.CommonTip;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
-import com.rwbase.dao.arena.ArenaInfoCfgDAO;
-import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwproto.MsgDef.Command;
@@ -38,6 +45,7 @@ import com.rwproto.PeakArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.PeakArenaServiceProtos.TeamInfo;
 import com.rwproto.PeakArenaServiceProtos.eArenaResultType;
 import com.rwproto.PeakArenaServiceProtos.eArenaType;
+import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 import com.rwproto.SyncAttriProtos.TagAttriData;
 
@@ -97,23 +105,48 @@ public class PeakArenaHandler {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 
-		TablePeakArenaData m_MyArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
-		if (m_MyArenaData == null) {
+		TablePeakArenaData arenData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
+		if (arenData == null) {
 			// 这种属于异常情况
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		/*
 		ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getPeakArenaInfo();
 		if (player.getUserGameDataMgr().getGold() < arenaInfoCfg.getCost()) {
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "钻石不足");
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		player.getUserGameDataMgr().addGold(-arenaInfoCfg.getCost());
-		m_MyArenaData.setNextFightTime(0);
-		TablePeakArenaDataDAO.getInstance().update(m_MyArenaData);
+		player.getUserGameDataMgr().addGold(-arenaInfoCfg.getCost());*/
+		
+		// 重置费用改为从peakArenaCost读取，需要保存重置次数
+		// 是否可重置由特权配置决定
+		IPrivilegeManager pri = player.getPrivilegeMgr();
+		boolean isOpen = pri.getBoolPrivilege(PeakArenaPrivilegeNames.isAllowResetPeak);
+		if (!isOpen){
+			player.NotifyCommonMsg(CommonTip.VIP_NOT_ENOUGH);//TODO 是否需要？
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		int nextCount = arenData.getResetCount() + 1;
+		
+		peakArenaResetCost cfg = peakArenaResetCostHelper.getInstance().getCfgByResetCount(nextCount);
+		UserGameDataMgr userMgr = player.getUserGameDataMgr();
+		if (!userMgr.isEnoughCurrency(cfg.getCoinType(), cfg.getCost())){
+			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "钻石不足");
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		//扣费，记录重置次数，重置开始时间
+		if (!userMgr.deductCurrency(cfg.getCoinType(), cfg.getCost())){
+			return SetError(response, player, "钻石不足", "扣钻石失败:"+cfg.getCost());
+		}
+		arenData.setResetCount(nextCount);
+		arenData.setFightStartTime(0);
+		TablePeakArenaDataDAO.getInstance().update(arenData);
 
-		response.setArenaData(getPeakArenaData(m_MyArenaData, player));
+		response.setArenaData(getPeakArenaData(arenData, player));
 
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
@@ -227,16 +260,22 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
+	//准备挑战
 	public ByteString initFightInfo(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
-		if (arenaData.getNextFightTime() > System.currentTimeMillis()) {
+		peakArenaInfo cfg = peakArenaInfoHelper.getInstance().getUniqueCfg();
+		if (arenaData.getFightStartTime() + cfg.getCdTimeInMillSecond() > System.currentTimeMillis()){
 			return sendFailRespon(player, response, ArenaConstant.COOL_DOWN);
 		}
-		if (arenaData.getRemainCount() <= 0) {
+		
+		//检查挑战次数：最大次数由配置的固定值+特权附加的购买次数!
+		int challengeCount = arenaData.getChallengeCount();
+		if (challengeCount >= cfg.getCount()+arenaData.getBuyCount()){
 			return sendFailRespon(player, response, ArenaConstant.TIMES_NOT_ENOUGH);
 		}
+		
 		TablePeakArenaData enemyArenaData = PeakArenaBM.getInstance().getPeakArenaData(request.getUserId());
 		if (enemyArenaData == null) {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_NOT_EXIST);
@@ -349,10 +388,10 @@ public class PeakArenaHandler {
 			recordForEnemy.setChallenge(0);
 			PeakArenaBM.getInstance().addOthersRecord(enemyArenaData, recordForEnemy);
 			ArenaRecord ar = getPeakArenaRecord(record);
-			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getPeakArenaInfo();
-			playerArenaData.setNextFightTime(System.currentTimeMillis() + arenaInfoCfg.getCdTime() * 1000);
-			int remainCount = playerArenaData.getRemainCount() - 1;
-			playerArenaData.setRemainCount(remainCount > 0 ? remainCount : 0);
+			playerArenaData.setFightStartTime(currentTimeMillis);
+			
+			int challengeCount = playerArenaData.getChallengeCount() + 1;
+			playerArenaData.setChallengeCount(challengeCount);
 			TablePeakArenaDataDAO.getInstance().update(playerArenaData);
 		
 			MsgArenaResponse.Builder recordResponse = MsgArenaResponse.newBuilder();
@@ -372,7 +411,7 @@ public class PeakArenaHandler {
 	}
 	
 	private ByteString SetError(MsgArenaResponse.Builder response,Player player,String userTip,String logError){
-		GameLog.error("巅峰竞技场", player.getUserId(), logError+userTip);
+		GameLog.info("巅峰竞技场", player.getUserId(), logError+userTip);
 		response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 		//if(StringUtils.isNotBlank(userTip)) response.setResultTip(userTip);
 		return response.build().toByteString();
@@ -428,15 +467,14 @@ public class PeakArenaHandler {
 		//TODO 改为发送 challengeCount maxChallengeCount
 		//data.setRemainCount(arenaData.getRemainCount());
 		
-		long nextFightTime = arenaData.getNextFightTime();
-		// 这里不为0的时候才设置冷却时间
-		if (nextFightTime > 0) {
-			long currentTime = System.currentTimeMillis();
-			if (nextFightTime > currentTime) {
-				int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime);
-				data.setCdTime(seconds);
-			}
+		peakArenaInfo cfg = peakArenaInfoHelper.getInstance().getUniqueCfg();
+		long currentTime = System.currentTimeMillis();
+		long nextFightTime = arenaData.getFightStartTime()+cfg.getCdTimeInMillSecond();
+		if (nextFightTime>currentTime){
+			int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime);
+			data.setCdTime(seconds);
 		}
+		
 		data.setCareer(arenaData.getCareer());
 		data.setHeadImage(arenaData.getHeadImage());
 		data.setLevel(arenaData.getLevel());
@@ -484,6 +522,46 @@ public class PeakArenaHandler {
 		result.setTime(record.getTime());
 		result.setChallenge(record.getChallenge());
 		return result.build();
+	}
+
+	public ByteString buyChallengeCount(MsgArenaRequest request, Player player) {
+		// TODO buyChallengeCount
+		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
+		response.setArenaType(request.getArenaType());
+		TablePeakArenaData arenData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
+		if (arenData == null) {
+			// 这种属于异常情况
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		IPrivilegeManager pri = player.getPrivilegeMgr();
+		int maxBuyCount = pri.getIntPrivilege(PeakArenaPrivilegeNames.peakMaxCount);
+		int buyCount = arenData.getBuyCount();
+		if (buyCount>maxBuyCount){
+			return SetError(response, player, "超过最大购买次数", ":"+maxBuyCount);
+		}
+		
+		//扣钱
+		peakArenaBuyCost cfg = peakArenaBuyCostHelper.getInstance().getCfgByCount(buyCount+1);
+		UserGameDataMgr userMgr = player.getUserGameDataMgr();
+		if (!userMgr.isEnoughCurrency(cfg.getCoinType(), cfg.getCost())){
+			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "钻石不足");
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		//扣费，记录重置次数，重置开始时间
+		if (!userMgr.deductCurrency(cfg.getCoinType(), cfg.getCost())){
+			return SetError(response, player, "钻石不足", "购买挑战次数时扣钻石失败:"+cfg.getCost());
+		}
+		
+		//保存购买次数
+		arenData.setBuyCount(buyCount+1);
+		TablePeakArenaDataDAO.getInstance().update(arenData);
+
+		response.setArenaData(getPeakArenaData(arenData, player));
+
+		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		return response.build().toByteString();
 	}
 
 	private ByteString sendFailRespon(Player player, MsgArenaResponse.Builder response, String tips) {

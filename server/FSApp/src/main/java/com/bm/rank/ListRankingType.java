@@ -7,15 +7,16 @@ import com.common.HPCUtil;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.ListRankingConfig;
 import com.rw.fsutil.ranking.ListRankingExtension;
+import com.rw.service.PeakArena.datamodel.PeakArenaExtension;
 import com.rwbase.common.enu.ECareer;
 
 public enum ListRankingType implements TypeIdentification, ListRankingConfig {
 
-	WARRIOR_ARENA(ECareer.Warrior.getValue(), 100000, "力士竞技场", 1, ArenaExtension.class, RankType.WARRIOR_ARENA), 
-	SWORDMAN_ARENA(ECareer.SwordsMan.getValue(), 100000, "剑士竞技场", 1, ArenaExtension.class, RankType.SWORDMAN_ARENA), 
-	MAGICAN_ARENA(ECareer.Magican.getValue(), 100000, "术士竞技场", 1, ArenaExtension.class, RankType.MAGICAN_ARENA), 
-	PRIEST_ARENA(ECareer.Priest.getValue(), 100000, "祭祀竞技场", 1, ArenaExtension.class, RankType.PRIEST_ARENA), 
-
+	WARRIOR_ARENA(ECareer.Warrior.getValue(), 20000, "力士竞技场", 1, ArenaExtension.class, RankType.WARRIOR_ARENA), 
+	SWORDMAN_ARENA(ECareer.SwordsMan.getValue(), 20000, "剑士竞技场", 1, ArenaExtension.class, RankType.SWORDMAN_ARENA), 
+	MAGICAN_ARENA(ECareer.Magican.getValue(), 20000, "术士竞技场", 1, ArenaExtension.class, RankType.MAGICAN_ARENA), 
+	PRIEST_ARENA(ECareer.Priest.getValue(), 20000, "祭祀竞技场", 1, ArenaExtension.class, RankType.PRIEST_ARENA), 
+	// TODO PEAK_ARENA(100,20000,"巅峰竞技场",10,PeakArenaExtension.class,null),
 	;
 
 	private final int type;

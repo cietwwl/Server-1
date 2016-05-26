@@ -1,0 +1,14 @@
+key,remarks,time,resetCost,coinType
+1,,1,50,Gold
+2,,2,50,Gold
+3,,3,50,Gold
+4,,4,50,Gold
+5,,5,50,Gold
+6,,6,50,Gold
+7,,7,50,Gold
+8,,8,50,Gold
+9,,9,50,Gold
+10,,10,50,Gold
+11,,11~20,50,Gold
+12,,21~40,80,Gold
+13,,21~100,100,Gold

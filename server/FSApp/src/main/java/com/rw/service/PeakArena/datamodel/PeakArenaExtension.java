@@ -1,13 +1,16 @@
-package com.bm.rank.peakArena;
+package com.rw.service.PeakArena.datamodel;
 
+import com.bm.rank.ListRankingJacksonExtension;
 import com.bm.rank.RankingJacksonExtension;
 import com.playerdata.Player;
 import com.rw.fsutil.ranking.RankingEntry;
 
 public class PeakArenaExtension extends RankingJacksonExtension<Integer, PeakArenaExtAttribute>{
+//TODO public class PeakArenaExtension extends ListRankingJacksonExtension<PeakArenaExtAttribute>{
 
 	public PeakArenaExtension(){
 		super(Integer.class, PeakArenaExtAttribute.class);
+		//super(PeakArenaExtAttribute.class);
 	}
 	
 	@Override
@@ -24,6 +27,5 @@ public class PeakArenaExtension extends RankingJacksonExtension<Integer, PeakAre
 		extAttr.setName(player.getUserName());
 		return extAttr;
 	}
-
 	
 }

@@ -12,23 +12,24 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "peak_arena_data")
 public class TablePeakArenaData {
-
 	@Id
 	private String userId; // 用户ID
 	// private int scoreLv;// 段位
 	private int maxPlace;
 	private int winningStreak;// 连胜
-	private int winCount;
-	private int remainCount;
+	private int winCount;//TODO ??
+	private int challengeCount;//挑战次数
+	private int resetCount;//重置次数
+	private int buyCount;//额外购买的挑战次数
 	private int career;
 	private String name;
 	private String headImage;
 	private String templeteId;
-	private int currency; // 巅峰竞技场币(以后抽象货比系统)
+	private int currency; // TODO 已经统一放在UserGameDataMgr 巅峰竞技场币(以后抽象货比系统)
 	private int expectCurrency; // 预计能获得的货币
 	private int level;
 	private int fighting;
-	private volatile long nextFightTime;
+	private long fightStartTime;//开战时间,0表示没有开战
 	private Map<Integer, TeamData> teamMap;// 队伍阵容
 	private List<PeakRecordInfo> recordList;
 	private volatile long lastGainCurrencyTime; // 上次获取货币的时间
@@ -36,6 +37,38 @@ public class TablePeakArenaData {
 
 	public TablePeakArenaData() {
 		this.recordList = new ArrayList<PeakRecordInfo>();
+	}
+
+	public int getBuyCount() {
+		return buyCount;
+	}
+
+	public void setBuyCount(int buyCount) {
+		this.buyCount = buyCount;
+	}
+
+	public long getFightStartTime() {
+		return fightStartTime;
+	}
+
+	public void setFightStartTime(long fightStartTime) {
+		this.fightStartTime = fightStartTime;
+	}
+
+	public int getChallengeCount() {
+		return challengeCount;
+	}
+
+	public void setChallengeCount(int challengeCount) {
+		this.challengeCount = challengeCount;
+	}
+
+	public int getResetCount() {
+		return resetCount;
+	}
+
+	public void setResetCount(int resetCount) {
+		this.resetCount = resetCount;
 	}
 
 	public String getUserId() {
@@ -68,22 +101,6 @@ public class TablePeakArenaData {
 
 	public void setWinCount(int winCount) {
 		this.winCount = winCount;
-	}
-
-	public int getRemainCount() {
-		return remainCount;
-	}
-
-	public void setRemainCount(int remainCount) {
-		this.remainCount = remainCount;
-	}
-
-	public long getNextFightTime() {
-		return nextFightTime;
-	}
-
-	public void setNextFightTime(long nextFightTime) {
-		this.nextFightTime = nextFightTime;
 	}
 
 	public int getCareer() {

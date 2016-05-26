@@ -55,7 +55,12 @@ public class PeakArenaService implements FsService {
 			case SWITCH_OVER:
 				result = peakArenaHandler.switchTeam(msgArenaRequest, player);
 				break;
-
+			case BUY_CHALLENGE_COUNT:
+				result = peakArenaHandler.buyChallengeCount(msgArenaRequest, player);
+				break;
+			case SYNC_RECORD:
+				//TODO ??
+				break;
 			default:
 				break;
 			}

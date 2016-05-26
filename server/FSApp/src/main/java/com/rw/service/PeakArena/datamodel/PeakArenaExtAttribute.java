@@ -1,4 +1,4 @@
-package com.bm.rank.peakArena;
+package com.rw.service.PeakArena.datamodel;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 

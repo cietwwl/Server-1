@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaConstant;
 import com.bm.rank.RankType;
-import com.bm.rank.peakArena.PeakArenaExtAttribute;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.common.SegmentList;
@@ -18,6 +17,7 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
@@ -53,7 +53,7 @@ public class PeakArenaBM {
 	}
 
 	public TablePeakArenaData getOrAddPeakArenaData(Player player) {
-		return getOrAddPeakArenaData(player, null);
+		return getOrAddPeakArenaData(player, null);//TODO 使用jamaz的持久存储初始化方案
 	}
 
 	public TablePeakArenaData getOrAddPeakArenaData(Player player, TempRankingEntry temp) {
@@ -97,10 +97,8 @@ public class PeakArenaBM {
 		data.setCareer(player.getCareer());
 
 		data.setMaxPlace(place);
-		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getPeakArenaInfo();
-		data.setRemainCount(infoCfg.getCount());
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
-		// data.setFighting(tableUserOther.getFighting());
+		// TODO data.setFighting(tableUserOther.getFighting());
 
 		data.setHeadImage(tableUser.getHeadImageWithDefault());
 		data.setLevel(player.getLevel());
@@ -158,10 +156,8 @@ public class PeakArenaBM {
 		data.setCareer(player.getCareer());
 
 		data.setMaxPlace(place);
-		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getPeakArenaInfo();
-		data.setRemainCount(infoCfg.getCount());
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
-		// data.setFighting(tableUserOther.getFighting());
+		// TODO data.setFighting(tableUserOther.getFighting());
 
 		data.setHeadImage(tableUser.getHeadImageWithDefault());
 		data.setLevel(player.getLevel());
@@ -487,7 +483,9 @@ public class PeakArenaBM {
 			GameLog.error("竞技场", userId, "重置时找不到巅峰竞技场玩家：" + userId);
 			return;
 		}
-		peakArenaData.setRemainCount(infoCfg.getCount());
+		peakArenaData.setChallengeCount(0);
+		peakArenaData.setResetCount(0);
+		peakArenaData.setBuyCount(0);
 		tablePeakArenaDataDAO.update(peakArenaData);
 	}
 
