@@ -14,6 +14,7 @@ public class UserDataMgr implements PlayerEventListener{
 	
 	private Player player;// 角色
 	private UserDataHolder userDataHolder;
+	private int entranceId;
 
 	public UserDataMgr(Player player, String userId) {
 		this.player = player;
@@ -164,6 +165,14 @@ public class UserDataMgr implements PlayerEventListener{
 	public void init(Player player) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getEntranceId() {
+		return entranceId;
+	}
+
+	public void setEntranceId(int entranceId) {
+		this.entranceId = entranceId;
 	}
 
 }
