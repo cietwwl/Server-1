@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
+	
+	<bean class="com.rwbase.dao.attribute.AttributeLanguageCfgDAO"  init-method="init" />
 	
 	<bean class="com.bm.arena.ArenaRankCfgDAO"  init-method="init" />
 	<bean class="com.bm.arena.ArenaScoreCfgDAO"  init-method="init" />
@@ -94,6 +96,11 @@
 	<bean class="com.rwbase.dao.tower.TowerFightLimitDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.tower.TowerFirstAwardCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.tower.TowerGoodsCfgDAO"  init-method="init" />
+	
+	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistConsumeCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistCriticalPlanCfgHelper"  init-method="init" />
+	<bean class="com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.unendingwar.CfgUnendingWarDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.unendingwar.UnendingWarInfoCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.user.CfgBuyCoinDAO"  init-method="init" />
@@ -157,20 +164,22 @@
 	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO"  init-method="init" />
 	
-	
-	
 	<bean class="com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO"  init-method="init" />
-	
-	
-	
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO"  init-method="init" />
+	
+	<!-- Buffer表 -->
+	<bean class="com.rwbase.dao.battle.pojo.BufferCfgDAO"  init-method="init" />
+	<!-- 道具使用效果 -->
+	<bean class="com.rwbase.dao.item.ItemUseEffectCfgDAO"  init-method="init" />
+
+	<bean class="com.gm.customer.PlayerQuestionService"  init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

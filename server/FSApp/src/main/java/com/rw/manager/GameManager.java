@@ -85,7 +85,7 @@ public class GameManager {
 
 		GameLog.debug("初始化后台服务");
 		// TODO 游戏逻辑处理线程数，需要在配置里面统一配置
-		
+
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
@@ -243,7 +243,7 @@ public class GameManager {
 		List<Player> list = new ArrayList<Player>();
 		list.addAll(PlayerMgr.getInstance().getAllPlayer().values());
 		/**** 保存在线玩家 *******/
-		//PlayerMgr.getInstance().saveAllPlayer();
+		// PlayerMgr.getInstance().saveAllPlayer();
 		// PlayerMgr.getInstance().kickOffAllPlayer();
 
 		shutDownService();
@@ -412,7 +412,7 @@ public class GameManager {
 	public static String getGmPassword() {
 		return gmPassword;
 	}
-	
+
 	/**
 	 * 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 	 */

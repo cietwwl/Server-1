@@ -2,27 +2,23 @@ package com.rwbase.dao.equipment;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.role.EquipAttachCfgDAO;
-import com.rwbase.dao.role.pojo.EquipAttachCfg;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 
 public class EquipItemHelper {
 
-	public static AttrData toAttrData(HeroEquipCfg itemData, int equipLevel) {
-
-		AttrData equipAttrData = AttrData.fromObject(itemData);
-		EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(equipLevel);
-		if (pEquipAttachCfg != null) {
-			int attriPercent = pEquipAttachCfg.getAttriPercent();
-			equipAttrData.addPercent(attriPercent);
-		}
-
-		return equipAttrData;
-	}
+	// public static AttrData toAttrData(HeroEquipCfg itemData, int equipLevel) {
+	//
+	// AttrData equipAttrData = AttrData.fromObject(itemData);
+	// EquipAttachCfg pEquipAttachCfg = EquipAttachCfgDAO.getInstance().getConfig(equipLevel);
+	// if (pEquipAttachCfg != null) {
+	// int attriPercent = pEquipAttachCfg.getAttriPercent();
+	// equipAttrData.addPercent(attriPercent);
+	// }
+	//
+	// return equipAttrData;
+	// }
 
 	public static EquipItem toEquip(String ownerId, int equipIndex, ItemData itemData) {
 		EquipItem equipItem = new EquipItem();

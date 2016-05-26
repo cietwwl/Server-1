@@ -75,11 +75,6 @@ public class GameLogicTask implements PlayerTask {
 				}
 				handleGuildance(header, userId);
 			}
-//			try {
-//				Thread.sleep(10100);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
 			try {
 				player.onBSStart();
 				resultContent = nettyControler.getSerivice(command).doTask(request, player);
@@ -93,9 +88,7 @@ public class GameLogicTask implements PlayerTask {
 			nettyControler.sendErrorResponse(userId, request.getHeader(), 500);
 			return;
 		}
-		if (resultContent != null) {
-			nettyControler.sendResponse(userId, header, resultContent, sessionId);
-		}
+		nettyControler.sendResponse(userId, header, resultContent, sessionId);
 		int redPointVersion = header.getRedpointVersion();
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);

@@ -70,6 +70,8 @@ enum eSynType	//数据同步类型
 	FIX_EXP_EQUIP=47; //专属装备经验类型
 	UserGroupSecretData=48; //帮派秘境用户数据
 	GroupSecretData = 49;   //秘境数据
+	MagicSecretData = 50;   //法宝秘境数据
+	MagicChapterData = 51;   //法宝秘境章节数据
 
 
 	//活动从60-79
@@ -84,6 +86,8 @@ enum eSynType	//数据同步类型
 	ActivityExchangeType = 67;//活动，兑换
 	ActivityTimeCountType = 68;//活动，在线奖励
 	ActivityDailyType = 69;//活动，每日福利
+
+	QuestionList = 80; //反馈问题列表
 }
 
 message MsgDataSynList

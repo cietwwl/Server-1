@@ -17,6 +17,10 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 
 public class ActivityCountTypeMgr {
 
@@ -31,7 +35,25 @@ public class ActivityCountTypeMgr {
 	public void synCountTypeData(Player player) {
 		ActivityCountTypeItemHolder.getInstance().synAllData(player);
 	}
-
+	
+	/**
+	 * 
+	 * @param player 通用活动数据同步,生成活动奖励空数据；应置于所有通用活动的统计之前；可后期放入初始化模块
+	 */
+	public void checkActivity(Player player){
+		ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
+	}
+	
+	
+	
+	
+	
+	
+	
 //	public void refreshDateFreshActivity(Player player) {
 //		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 //		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();

@@ -32,10 +32,8 @@ import com.rw.service.ranking.RankingGetOperation;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
-import com.rwbase.dao.ranking.TableRankingMgr;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
-import com.rwbase.dao.ranking.pojo.RankingTeamData;
 import com.rwbase.gameworld.GameWorld;
 import com.rwbase.gameworld.GameWorldConstant;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -472,17 +470,6 @@ public class RankingMgr {
 	public RankingLevelData getRankLevelData(RankType rankType, String userId) {
 		RankingGetOperation op = getRankingGetOp(rankType);
 		return op.getRankLevelData(rankType, userId);
-	}
-
-	/** 根据排行类型获取队伍列表 */
-	public List<RankingTeamData> getTeamList(ERankingType rankType, String userId) {
-		List<RankingTeamData> result = new ArrayList<RankingTeamData>();
-		if (rankType.equals(ERankingType.TEAM_FIGHTING_ALL)) {
-			result = TableRankingMgr.getInstance().getFiveTeamData(userId);
-		} else if (rankType.equals(ERankingType.WARRIOR_DAY) || rankType.equals(ERankingType.SWORDMAN_DAY) || rankType.equals(ERankingType.MAGICAN_DAY) || rankType.equals(ERankingType.PRIEST_DAY)) {
-			result = TableRankingMgr.getInstance().getArenaTeamData(userId, rankType);
-		}
-		return result;
 	}
 
 	/** 生成或改变新的一条数据 */

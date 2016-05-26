@@ -17,6 +17,7 @@ import com.rw.service.copy.CopyHandler;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.dropitem.DropAdjustmentCfg;
 import com.rwbase.dao.dropitem.DropAdjustmentCfgDAO;
 import com.rwbase.dao.dropitem.DropAdjustmentState;
@@ -207,18 +208,14 @@ public class DropItemManager {
 				}
 			}
 			
-			int multiple = 1;
-			if(!firstDrop){
-				ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0);
-				boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);		
-				multiple = isRateOpen?ActivityRateTypeMgr.getInstance().getmultiple(player, activityRateTypeEnum):1;
-//				System.out.println("dropitem.multiple" + multiple + "  enum =" + activityRateTypeEnum.getCfgId() + isRateOpen);				
-			}
-			if(multiple != 1){
+			if(!firstDrop&&copyCfg != null){
+				int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 0);							
+
 				for(ItemInfo iteminfo : dropItemInfoList){
 					iteminfo.setItemNum(iteminfo.getItemNum()*multiple);
 				}
-			}			
+			}
+				
 			
 			if (copyId > 0) {
 				List<ItemInfo> result = Collections.unmodifiableList(dropItemInfoList);

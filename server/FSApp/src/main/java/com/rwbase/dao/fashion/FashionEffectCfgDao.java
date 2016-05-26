@@ -18,21 +18,27 @@ public class FashionEffectCfgDao extends CfgCsvDao<FashionEffectCfg> {
 		return SpringContextUtil.getBean(FashionEffectCfgDao.class);
 	}
 
-	private Map<IReadOnlyPair<Integer,ECareer>,FashionEffectCfg> effectMapping;
+	private Map<IReadOnlyPair<Integer, ECareer>, FashionEffectCfg> effectMapping;
+
 	@Override
 	public Map<String, FashionEffectCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("fashion/FashionEffectCfg.csv", FashionEffectCfg.class);
-		Collection<Entry<String,FashionEffectCfg>> values = cfgCacheMap.entrySet();
-		effectMapping = new HashMap<IReadOnlyPair<Integer,ECareer>, FashionEffectCfg>();
-		for (Entry<String,FashionEffectCfg> entry : values) {
-			FashionEffectCfg cfg = entry.getValue(); 
-			cfg.ExtraInit();
-			IReadOnlyPair<Integer,ECareer> pair = Pair.CreateReadonly(cfg.getFashionId(), cfg.getCareerTypeField());
-			if (effectMapping.put(pair, cfg)!=null){
-				GameLog.info("时装", "FashionEffectCfg.csv配置警告", "重复的<时装关键字，职业>:"+cfg.getFashionId()+","+cfg.getCareerTypeField(), null);
+		Map<String, FashionEffectCfg> readCsv2Map = CfgCsvHelper.readCsv2Map("fashion/FashionEffectCfg.csv", FashionEffectCfg.class);
+		if (readCsv2Map != null && !readCsv2Map.isEmpty()) {
+			Collection<Entry<String, FashionEffectCfg>> values = readCsv2Map.entrySet();
+			Map<IReadOnlyPair<Integer, ECareer>, FashionEffectCfg> effectMapping = new HashMap<IReadOnlyPair<Integer, ECareer>, FashionEffectCfg>();
+			for (Entry<String, FashionEffectCfg> entry : values) {
+				FashionEffectCfg cfg = entry.getValue();
+				cfg.initData();
+				cfg.ExtraInit();
+				IReadOnlyPair<Integer, ECareer> pair = Pair.CreateReadonly(cfg.getFashionId(), cfg.getCareerTypeField());
+				if (effectMapping.put(pair, cfg) != null) {
+					GameLog.info("时装", "FashionEffectCfg.csv配置警告", "重复的<时装关键字，职业>:" + cfg.getFashionId() + "," + cfg.getCareerTypeField(), null);
+				}
 			}
+
+			this.effectMapping = effectMapping;
 		}
-		return cfgCacheMap;
+		return cfgCacheMap = readCsv2Map;
 	}
 
 	public FashionEffectCfg getConfig(String id) {
@@ -42,8 +48,9 @@ public class FashionEffectCfgDao extends CfgCsvDao<FashionEffectCfg> {
 
 	public FashionEffectCfg getConfig(int fashionId, int careerType) {
 		ECareer career = ECareer.valueOf(careerType);
-		if (career == null) return null;
-		IReadOnlyPair<Integer,ECareer> pair = Pair.CreateReadonly(fashionId,career);
+		if (career == null)
+			return null;
+		IReadOnlyPair<Integer, ECareer> pair = Pair.CreateReadonly(fashionId, career);
 		return effectMapping.get(pair);
 	}
 }

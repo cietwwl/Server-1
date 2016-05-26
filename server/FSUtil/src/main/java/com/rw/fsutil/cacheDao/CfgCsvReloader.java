@@ -17,13 +17,14 @@ public class CfgCsvReloader {
 	
 	@SuppressWarnings("unchecked")
 	public synchronized static void reloadAll(){
-		
 		for (String className : daoMap.keySet()) {
 			CfgCsvDao cfgCsvDao = daoMap.get(className);
 			lastCfgMap.put(className, cfgCsvDao.getMaps());
 			cfgCsvDao.reload();			
 		}
+		CheckAllConfig();
 	}
+	
 	@SuppressWarnings("unchecked")
 	public synchronized static void reverseAll(){
 		for (String className : lastCfgMap.keySet()) {			
@@ -33,7 +34,9 @@ public class CfgCsvReloader {
 				cfgCsvDao.reverse(lastMap);		
 			}
 		}
+		CheckAllConfig();
 	}
+	
 	@SuppressWarnings("unchecked")
 	public synchronized static void reloadByClassName(String className){		
 		CfgCsvDao cfgCsvDao = daoMap.get(className);

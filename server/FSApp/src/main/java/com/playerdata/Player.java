@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +32,7 @@ import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
@@ -38,6 +40,7 @@ import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.Privilege.IPrivilegeProvider;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.Privilege.PrivilegeManager;
+import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -47,6 +50,7 @@ import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
+import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -115,7 +119,7 @@ public class Player implements PlayerIF {
 	private StoreMgr m_StoreMgr = new StoreMgr();
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
-	//特权管理器
+	// 特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
 	private GuidanceMgr guideMgr = new GuidanceMgr();
 
@@ -130,7 +134,13 @@ public class Player implements PlayerIF {
 
 	private RedPointMgr redPointMgr = new RedPointMgr();
 
+	private TaoistMgr taoistMgr = new TaoistMgr();
+
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
+	
+	//客户端管理工具
+	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
+	
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -208,10 +218,8 @@ public class Player implements PlayerIF {
 					listener.notifyPlayerLogin(this);
 				}
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -239,6 +247,8 @@ public class Player implements PlayerIF {
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
+		
+		playerQuestionMgr.init(this);
 
 		if (initMgr) {
 			initMgr();
@@ -272,17 +282,18 @@ public class Player implements PlayerIF {
 		dailyGifMgr.init(this);
 		m_FashionMgr.init(this);
 		m_TaskMgr.init(this);
+		taoistMgr.init(this);
 		m_gambleMgr.init(this);
 		// m_GuideMgr.init(this);
 		m_AssistantMgr.init(this);
 		// m_GuildUserMgr.init(this);
 		m_battleTowerMgr.init(this);
-		
+
 		guideMgr.init(this);
-		
+
 		afterMgrInit();
 		upgradeMgr.init(this);
-		
+
 		privilegeMgr.init(this);
 	}
 
@@ -295,7 +306,11 @@ public class Player implements PlayerIF {
 
 			@Override
 			public void doAction() {
-				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				// m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				while (heros.hasMoreElements()) {
+					heros.nextElement().getAttrMgr().reCal();
+				}
 			}
 		});
 
@@ -303,6 +318,21 @@ public class Player implements PlayerIF {
 			@Override
 			public void doAction() {
 				m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+			}
+		});
+
+		taoistMgr.getEff().subscribe(new IStreamListner<Map<Integer, AttributeItem>>() {
+			@Override
+			public void onChange(Map<Integer, AttributeItem> newValue) {
+				// m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
+				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
+				while (heros.hasMoreElements()) {
+					heros.nextElement().getAttrMgr().reCal();
+				}
+			}
+
+			@Override
+			public void onClose(IStream<Map<Integer, AttributeItem>> whichStream) {
 			}
 		});
 		// initDataVersionControl();
@@ -516,7 +546,7 @@ public class Player implements PlayerIF {
 	public void heartBeatCheck() {
 		// getSecretMgr().updateKeyNumByTime();
 		// getSecretMgr().updateSecretByTime();
-		
+
 		ActivityTimeCountTypeMgr.getInstance().doTimeCount(this, ActivityTimeCountTypeEnum.role_online);
 		getAssistantMgr().doCheck();
 		if (this.tempAttribute.checkAndResetRedPoint()) {
@@ -645,12 +675,13 @@ public class Player implements PlayerIF {
 		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
-	//by franky 升级通知，响应时可以通过sample方法获取旧的等级
+	// by franky 升级通知，响应时可以通过sample方法获取旧的等级
 	private StreamImpl<Integer> levelNotification = new StreamImpl<Integer>();
-	public IStream<Integer> getLevelNotification(){
+
+	public IStream<Integer> getLevelNotification() {
 		return levelNotification;
 	}
-	
+
 	public void SetLevel(int newLevel) {
 		// 最高等级
 		if (newLevel > PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.PLAYER_MAX_LEVEL)) {
@@ -666,7 +697,7 @@ public class Player implements PlayerIF {
 		if (observer != null) {
 			observer.playerChangeLevel(this);
 		}
-		
+
 		levelNotification.fire(newLevel);
 	}
 
@@ -1007,7 +1038,6 @@ public class Player implements PlayerIF {
 		// return null;
 	}
 
-
 	public MagicMgr getMagicMgr() {
 		return this.magicMgr;
 	}
@@ -1069,6 +1099,10 @@ public class Player implements PlayerIF {
 
 	public UpgradeMgr getUpgradeMgr() {
 		return upgradeMgr;
+	}
+	
+	public PlayerQuestionMgr getPlayerQuestionMgr(){
+		return playerQuestionMgr;
 	}
 
 	/**
@@ -1214,7 +1248,11 @@ public class Player implements PlayerIF {
 	public IPrivilegeManager getPrivilegeMgr() {
 		return privilegeMgr;
 	}
-	
+
+	public ITaoistMgr getTaoistMgr() {
+		return taoistMgr;
+	}
+
 	/**
 	 * 获取所有的英雄羁绊
 	 * 
@@ -1273,10 +1311,11 @@ public class Player implements PlayerIF {
 	}
 
 	private IPrivilegeProvider monthProvider;
+
 	public IPrivilegeProvider getMonthCardPrivilegeProvider() {
-		 if (monthProvider == null){
-			 monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
-		 }
-		 return monthProvider;
+		if (monthProvider == null) {
+			monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
+		}
+		return monthProvider;
 	}
 }

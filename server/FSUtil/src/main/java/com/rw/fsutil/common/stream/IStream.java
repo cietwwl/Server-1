@@ -13,4 +13,6 @@ public interface IStream<T> {
 	 * @param listner
 	 */
 	public void subscribe(IStreamListner<T> listner);
+	
+	public void unsubscribe(IStreamListner<T> listner);
 }
