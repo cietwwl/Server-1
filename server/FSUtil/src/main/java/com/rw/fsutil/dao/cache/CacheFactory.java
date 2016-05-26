@@ -52,4 +52,9 @@ public class CacheFactory {
 		return format_;
 	}
 
+	public static String getStackTrace(CacheStackTrace trace){
+		CacheStackTraceEntity entity = new CacheStackTraceEntity(trace.getStackTrace(), 1);
+		return traceMap.getMatch(entity);
+	}
+	
 }

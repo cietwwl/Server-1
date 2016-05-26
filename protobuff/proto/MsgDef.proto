@@ -76,6 +76,7 @@ enum Command {
 	MSG_CHARGE = 174;//充值
 	MSG_ACTIVITY_COUNTTYPE = 175;//通用活动
 	MSG_PRIVILEGE = 176;//特权数据推送
+	MSG_ACTIVITY_DATETYPE = 177;//通用活动
 
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议

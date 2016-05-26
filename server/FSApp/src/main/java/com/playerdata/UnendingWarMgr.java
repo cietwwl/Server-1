@@ -27,20 +27,7 @@ public class UnendingWarMgr{
 	
 	/***数据库表*****/
 	public TableUnendingWar getTable() {
-		
-		if (_table == null) {
-			_table = dao.get(m_pPlayer.getUserId());
-			if (_table == null)
-			{
-				_table=new TableUnendingWar();
-				_table.setUserId(m_pPlayer.getUserId());
-				_table.setNum(0);
-				save();
-			}
-		
-		}
-		
-		return _table;
+		return dao.get(m_pPlayer.getUserId());
 	}
 	
 	public boolean save() {

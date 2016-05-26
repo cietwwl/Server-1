@@ -20,6 +20,7 @@ public class SynDataInReqMgr {
 
 	private boolean isInReq = false;
 
+
 	public boolean isInReq() {
 		return isInReq;
 	}
@@ -41,6 +42,9 @@ public class SynDataInReqMgr {
 		}
 		
 		try {
+			
+			UserTmpGameDataSynMgr.getInstance().synDataByFlag(player);
+			
 			Collection<SynDataInfo> values = synDataMap.values();
 			if(!values.isEmpty()){
 				Builder msgDataSynList = MsgDataSynList.newBuilder();
@@ -51,6 +55,8 @@ public class SynDataInReqMgr {
 						msgDataSynList.addMsgDataSyn(synData.getContent());
 					}
 				}
+				
+				
 				
 				player.SendMsg(Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
 			}

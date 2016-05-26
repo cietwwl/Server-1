@@ -12,13 +12,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-
-import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
@@ -31,6 +28,7 @@ import com.playerdata.GlobalDataMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
+import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -81,15 +79,16 @@ public class GameManager {
 
 		GameLog.debug("初始化后台服务");
 		// TODO 游戏逻辑处理线程数，需要在配置里面统一配置
+		
+		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
+		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		tempTimers = System.currentTimeMillis();
 
 		// initServerProperties();
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();
-
-		initServerPerformanceConfig();
 
 		/**** 服务器全启数据 ******/
 		GlobalDataMgr.init();
@@ -116,10 +115,8 @@ public class GameManager {
 
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
-		// PeakArenaBM.getInstance().InitData();
 		tempTimers = System.currentTimeMillis();
-		// RobotBM.getInstance().createArenaUsers(true);
-		RobotManager.getInstance().createRobots();
+		//RobotManager.getInstance().createRobots();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
@@ -234,7 +231,7 @@ public class GameManager {
 		List<Player> list = new ArrayList<Player>();
 		list.addAll(PlayerMgr.getInstance().getAllPlayer().values());
 		/**** 保存在线玩家 *******/
-		PlayerMgr.getInstance().saveAllPlayer();
+		//PlayerMgr.getInstance().saveAllPlayer();
 		// PlayerMgr.getInstance().kickOffAllPlayer();
 
 		shutDownService();
