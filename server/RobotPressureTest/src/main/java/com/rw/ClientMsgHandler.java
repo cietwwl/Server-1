@@ -35,7 +35,7 @@ public abstract class ClientMsgHandler {
 
 	private Response getResp() {
 		Response resp = null;
-		long maxTime = 30L;
+		long maxTime = 10L;
 		// 超过十秒拿不到认为超时。
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);

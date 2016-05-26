@@ -19,6 +19,7 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;

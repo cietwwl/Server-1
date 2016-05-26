@@ -9,7 +9,7 @@ ItemChangedLogTemplate   = "打印时间|core_item|用户登录区ID|日志的�
 OnlineCountLogTemplate   = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_role_online|用户登录区ID|注册渠道ID|同时在线用户数|4=安卓/5=ios/7=wm|进程id";
 RoleCreatedLogTemplate   = "打印时间|core_role|用户登录区ID|日志的触发时间|role_reg|用户登录区ID|注册渠道ID_UID|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职业等级|此处为空|此处为空|role_reg|此处为空|1|此处为空|广告短链接id";
 RoleLoginLogTemplate     = "打印时间|core_role|用户登录区ID|日志的触发时间|role_act|用户登录区ID|注册渠道ID_UID|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职业等级|此处为空|此处为空|role_login|此处为空|1|为空|广告短链接id";
-RoleLogoutLogTemplate    = "打印时间|core_role|用户登录区ID|日志的触发时间|role_act|用户登录区ID|注册渠道ID_UID|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职业等级|此处为空|此处为空|role_logout|此处为空|1|用户统计信息|广告短链接id";
+RoleLogoutLogTemplate    = "打印时间|core_role|用户登录区ID|日志的触发时间|role_act|用户登录区ID|注册渠道ID_UID|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职业等级|此处为空|此处为空|role_logout|此处为空|1|用户统计信息|广告短链接id|帮派id";
 RoleUpgradeLogTemplate   = "打印时间|core_action|用户登录区ID|日志的触发时间|upgrade|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|map_id|此处为空|角色ID|此处为空|upgrade_role|升级前等级|1|last_fight_power|广告短链接id";
 TaskBeginLogTemplate     = "打印时间|core_task|用户登录区ID|日志的触发时间|task|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|任务入口|此处为空|任务ID|1=主线/2=支线|参考操作码对照表|此处为空|1|参考操作码对照表对应统计信息|广告短链接id";
 TaskEndLogTemplate       = "打印时间|core_task|用户登录区ID|日志的触发时间|task|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|任务入口|此处为空|任务ID|1=主线/2=支线|参考操作码对照表|此处为空|1|任务统计信息|广告短链接id";
@@ -20,4 +20,5 @@ ZoneCountVipSpreadLogTemplate = "打印时间|core_stat_2|用户登录区ID|日�
 ZoneLoginLogTemplate     = "打印时间|core_gamesvr|用户登录区ID|日志的触发时间|gamesvr_act|用户登录区ID|注册渠道ID_UID|UID|用户注册子渠道|用户登录子渠道|4（4=安卓/5=ios/7=wm）|区UID创建时间|用户VIP等级|手机运营商|wifi(2g/3g/4g/wifi等)|手机型号|客户端版本|ip地址，不包含端口|IMEI信息|mac地址|此处为空|此处为空|gamesvr_login|此处为空|失败为0，成功为1|此处为空|广告短链接id";
 ZoneLogoutLogTemplate    = "打印时间|core_gamesvr|用户登录区ID|日志的触发时间|gamesvr_act|用户登录区ID|注册渠道ID_UID|UID|用户注册子渠道|用户登录子渠道|4（4=安卓/5=ios/7=wm）|区UID创建时间|用户VIP等级|手机运营商|wifi(2g/3g/4g/wifi等)|手机型号|客户端版本|ip地址，不包含端口|IMEI信息|mac地址|此处为空|此处为空|gamesvr_logout|此处为空|失败为0，成功为1|用户统计信息|广告短链接id";
 ZoneRegLogTemplate       = "打印时间|core_gamesvr|用户登录区ID|日志的触发时间|gamesvr_reg|用户登录区ID|注册渠道ID_UID|UID|用户注册子渠道|用户登录子渠道|4（4=安卓/5=ios/7=wm）|区UID创建时间|用户VIP等级|手机运营商|wifi（2g/3g/4g/wifi等）|手机型号|客户端版本|ip地址，不包含端口|IMEI信息|mac地址|此处为空|此处为空|gamesvr_reg|此处为空|1|此处为空|广告短链接id";
-ZoneCountGiftGoldLogTemplate       = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_main_coin|用户登录区ID|注册渠道ID|充值币余额|4=安卓/5=ios/7=wm|进程id";
+ZoneCountGiftGoldLogTemplate       = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_main_coin|用户登录区ID|注册渠道ID|赠送充值币余额|4=安卓/5=ios/7=wm|进程id";
+ZoneCountChargeGoldLogTemplate       = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_main_coin|用户登录区ID|注册渠道ID|付费充值币余额|4=安卓/5=ios/7=wm|进程id";

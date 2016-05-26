@@ -42,6 +42,7 @@ import com.rw.service.log.template.RoleLogoutLogTemplate;
 import com.rw.service.log.template.RoleUpgradeLogTemplate;
 import com.rw.service.log.template.TaskBeginLogTemplate;
 import com.rw.service.log.template.TaskEndLogTemplate;
+import com.rw.service.log.template.ZoneCountChargeGoldLogTemplate;
 import com.rw.service.log.template.ZoneCountCoinLogTemplate;
 import com.rw.service.log.template.ZoneCountGiftGoldLogTemplate;
 import com.rw.service.log.template.ZoneCountLevelSpreadLogTemplate;
@@ -99,6 +100,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ActivityEnd, new ActivityEndLogTemplate());
 		templateMap.put(eBILogType.RoleUpgrade, new RoleUpgradeLogTemplate());
 		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
+		templateMap.put(eBILogType.ZoneCountChargeGold, new ZoneCountChargeGoldLogTemplate());
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 
 	}
@@ -163,7 +165,7 @@ public class BILogMgr {
 
 		log(eBILogType.ZoneCountCoin, null, null, null, moreInfo);
 	}
-	public void logZoneCountGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
+	public void logZoneCountGiftGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
 
 		Map<String, String> moreInfo = new HashMap<String, String>();
 
@@ -175,6 +177,22 @@ public class BILogMgr {
 
 		log(eBILogType.ZoneCountGiftGold, null, null, null, moreInfo);
 	}
+	
+	public void logZoneCountChargeGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
+
+		Map<String, String> moreInfo = new HashMap<String, String>();
+
+		moreInfo.put("threadId", "" + Thread.currentThread().getId());
+		moreInfo.put("zoneChargeGoldRemain", "" + zoneGoldRemain);
+		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
+
+		log(eBILogType.ZoneCountChargeGold, null, null, null, moreInfo);
+	}
+	
+	
+	
 	public void logZoneCountLevelSpread(String regSubChannelId, String level, long levelCount, String clientPlatForm) {
 
 		Map<String, String> moreInfo = new HashMap<String, String>();

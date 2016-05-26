@@ -111,6 +111,7 @@ public class EmailUtils {
 		emailData.setDeleteType(EEmailDeleteType.valueOf(cfg.getDeleteType()));
 		emailData.setDelayTime(cfg.getDelayTime());
 		emailData.setDeadlineTime(cfg.getDeadlineTime());
+		emailData.setCfgid(cfg.getId()+"");
 		emailData.replaceContent(args);
 		return emailData;
 	}
@@ -136,6 +137,7 @@ public class EmailUtils {
 	public static void setEamil(TableEmail otherTable, EmailData emailData, long sendTime) {
 		EmailItem item = new EmailItem();
 		item.setEmailId(UUID.randomUUID().toString());
+		item.setCfgid(emailData.getCfgid());
 		item.setTaskId(emailData.getTaskId());
 		item.setEmailAttachment(emailData.getEmailAttachment());
 		item.setChecked(false);
