@@ -1,7 +1,5 @@
 package com.rwbase.dao.assistant.pojo;
 
-import java.util.ArrayList;
-
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
@@ -38,8 +36,9 @@ public class AssistantDataHolder {
 	}
 
 	public void synData() {
-		if (assistantData != null) {
+		if (assistantData != null && assistantData.getAssistantEventID() != null) {
 			ClientDataSynMgr.updateData(player, assistantData, roleAttrSynType, eSynOpType.UPDATE_SINGLE);
 		}
 	}
+	
 }
