@@ -4,7 +4,7 @@ import com.playerdata.mgcsecret.data.MSRewardBox;
 
 public class DungeonsDataCfg extends BaseConfig {
 	private String key; //关键字段
-	private int id; //空间id
+	private int stageId; //空间id
 	private int levelId; //难度id
 	private String fabaoBuff; //怪物buff
 	private String buffBonus; //buff
@@ -15,14 +15,15 @@ public class DungeonsDataCfg extends BaseConfig {
 	private String enimy; //敌人
 	private int score; //积分
 	private int starReward; //简单难度星星奖励
+	private int copyId; //关卡ID
 	private String drop; //掉落方案
 
 	public String getKey() {
 		return key;
 	}
 	
-	public int getId() {
-		return id;
+	public int getStageId() {
+		return stageId;
 	}
 	
 	public int getLevelId() {
@@ -57,12 +58,16 @@ public class DungeonsDataCfg extends BaseConfig {
 		return starReward;
 	}
 	
+	public int getCopyId() {
+	    return copyId;
+	}
+	
 	public String getDrop() {
 		return drop;
 	}
   
 	public int getChapterID(){
-		return id/100;
+		return stageId/100;
 	}
 	
 	public MSRewardBox getObjCoBox() {

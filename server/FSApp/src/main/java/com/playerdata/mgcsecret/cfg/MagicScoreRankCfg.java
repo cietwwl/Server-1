@@ -12,6 +12,7 @@ public class MagicScoreRankCfg extends BaseConfig {
 	private int rankEnd; //排名start
 	private String reward; //奖励
 	private List<ItemInfo> list_reward;
+	private int emailId; //对应邮件ID
 
 	public int getKey() {
 		return key;
@@ -31,6 +32,10 @@ public class MagicScoreRankCfg extends BaseConfig {
 	
 	public List<ItemInfo> getRewardList(){
 		return list_reward;
+	}
+	
+	public int getEmailId() {
+	    return emailId;
 	}
 
 	@Override
