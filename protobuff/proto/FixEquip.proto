@@ -11,10 +11,11 @@ enum RequestType{
 	Norm_quality_up = 2;//
 	Norm_star_up = 3;//
 	Norm_star_down = 4;
-	Exp_level_up = 5;//
-	Exp_quality_up = 6;//
-	Exp_star_up = 7;//
-	Exp_star_down = 8;//
+	Norm_level_up_one_key = 5;//
+	Exp_level_up = 6;//
+	Exp_quality_up = 7;//
+	Exp_star_up = 8;//
+	Exp_star_down = 9;//
 
 }
 

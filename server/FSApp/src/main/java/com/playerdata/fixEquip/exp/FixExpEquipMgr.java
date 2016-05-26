@@ -73,19 +73,17 @@ public class FixExpEquipMgr {
 	public List<AttributeItem> toAttrItems(String ownerId){
 		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
 		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
-		for (FixExpEquipDataItem fixExpEquipDataItem : itemList) {
-			String cfgId = fixExpEquipDataItem.getCfgId();
-			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(cfgId);
+		for (FixExpEquipDataItem itemTmp : itemList) {
 			
 
-			FixExpEquipLevelCfg curLevelCfg = FixExpEquipLevelCfgDAO.getInstance().getByPlanIdAndLevel(equipCfg.getLevelPlanId(), fixExpEquipDataItem.getLevel());
+			FixExpEquipLevelCfg curLevelCfg = FixExpEquipLevelCfgDAO.getInstance().getByPlanIdAndLevel(itemTmp.getLevelPlanId(), itemTmp.getLevel());
 			
 			AttributeUtils.calcAttribute(curLevelCfg.getAttrDataMap(),  curLevelCfg.getPrecentAttrDataMap(), attrMap );
 			
-			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(equipCfg.getQualityPlanId(), fixExpEquipDataItem.getQuality());
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(itemTmp.getQualityPlanId(), itemTmp.getQuality());
 			AttributeUtils.calcAttribute(curQualityCfg.getAttrDataMap(),  curQualityCfg.getPrecentAttrDataMap(), attrMap );
 			
-			FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(equipCfg.getStarPlanId(), fixExpEquipDataItem.getStar());
+			FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(itemTmp.getStarPlanId(), itemTmp.getStar());
 			AttributeUtils.calcAttribute(curStarCfg.getAttrDataMap(),  curStarCfg.getPrecentAttrDataMap(), attrMap );
 			
 		}
@@ -152,14 +150,17 @@ public class FixExpEquipMgr {
 
 
 	private void iterateLevelUp(FixExpEquipDataItem dataItem, int totalExp) {
+		
+		
+		int curLevel = dataItem.getLevel();
 		while(totalExp > 0 ){
-			int curLevel = dataItem.getLevel();
 			int nextLevel = curLevel+1;
 			
-			FixExpEquipLevelCostCfg curLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getCfgId(), curLevel);
-			FixExpEquipLevelCostCfg nextLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getCfgId(), nextLevel);
+			FixExpEquipLevelCostCfg curLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), curLevel);
+			FixExpEquipLevelCostCfg nextLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), nextLevel);
 			if(nextLevelCfg == null){//已经是最满级
-				dataItem.setExp(curLevelCfg.getExpNeed());
+				int exp = dataItem.getExp()+totalExp < curLevelCfg.getExpNeed()? dataItem.getExp()+ totalExp:curLevelCfg.getExpNeed();
+				dataItem.setExp(exp);
 				break;
 			}else{
 				
@@ -173,6 +174,7 @@ public class FixExpEquipMgr {
 				}
 			}
 			
+			curLevel++;			
 		}
 	}
 
@@ -195,8 +197,7 @@ public class FixExpEquipMgr {
 		
 		FixEquipResult result = checkQuality(player, ownerId, dataItem);
 		if(result.isSuccess()){
-			int nextQuality = dataItem.getQuality()+1;
-			result = doQualityUp(player, dataItem, nextQuality);
+			result = doQualityUp(player, dataItem);
 		}
 		
 		return result;
@@ -212,7 +213,7 @@ public class FixExpEquipMgr {
 			int curlevel = dataItem.getLevel();
 			int nextQuality = dataItem.getQuality()+1;
 			
-			FixExpEquipQualityCfg nextQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getCfgId(), nextQuality);
+			FixExpEquipQualityCfg nextQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), nextQuality);
 			if(nextQualityCfg == null){
 				result.setReason("装备已经达到最品质。");
 			}else if(curlevel < nextQualityCfg.getLevelNeed() ){
@@ -224,18 +225,19 @@ public class FixExpEquipMgr {
 		return result;
 	}
 
-	private FixEquipResult doQualityUp(Player player,FixExpEquipDataItem dataItem, int nextQuality) {
+	private FixEquipResult doQualityUp(Player player,FixExpEquipDataItem dataItem) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
-		FixExpEquipQualityCfg qualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getCfgId(), nextQuality);
-		result = FixEquipHelper.takeCost(player, qualityCfg.getCostType(), qualityCfg.getCostCount());
+		int curQuality = dataItem.getQuality();
+		FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
+		result = FixEquipHelper.takeCost(player, curQualityCfg.getCostType(), curQualityCfg.getCostCount());
 		if(result.isSuccess()){
-			Map<Integer, Integer> itemsNeed = qualityCfg.getItemsNeed();
+			Map<Integer, Integer> itemsNeed = curQualityCfg.getItemsNeed();
 			result = FixEquipHelper.takeItemCost(player, itemsNeed);
 		}		
 		
 		if(result.isSuccess()){
-			dataItem.setQuality(nextQuality);
+			dataItem.setQuality(curQuality+1);
 			fixExpEquipDataItemHolder.updateItem(player, dataItem);
 		}
 		return result;
@@ -257,11 +259,17 @@ public class FixExpEquipMgr {
 	private FixEquipResult checkStarUp(Player player, String ownerId, FixExpEquipDataItem dataItem){
 		
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		
+
 		if(dataItem == null){
 			result.setReason("装备不存在。");			
-		}else{
-			result.setSuccess(true);
+		}else {
+			int nextStar = dataItem.getStar()+1;
+			FixExpEquipStarCfg nextStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), nextStar);
+			if(nextStarCfg == null){
+				result.setReason("装备已达最高星级。");
+			}else{
+				result.setSuccess(true);
+			}
 		}
 		return result;
 	}
@@ -269,22 +277,19 @@ public class FixExpEquipMgr {
 	private FixEquipResult doStarUp(Player player,FixExpEquipDataItem dataItem ) {
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
-		int nextStar = dataItem.getStar()+1;
-		FixExpEquipStarCfg nextStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getCfgId(), nextStar);
-		if(nextStarCfg == null){
-			result.setReason("装备已达最高星级。");
-		}else{
-			result = FixEquipHelper.takeCost(player, nextStarCfg.getUpCostType(), nextStarCfg.getUpCount());
-			
-			if(result.isSuccess()){
-				Map<Integer, Integer> itemsNeed = nextStarCfg.getItemsNeed();
-				result = FixEquipHelper.takeItemCost(player, itemsNeed);
-			}	
-			
-			if(result.isSuccess()){
-				dataItem.setStar(nextStar);
-				fixExpEquipDataItemHolder.updateItem(player, dataItem);
-			}
+		int curStar = dataItem.getStar();
+		FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
+		
+		result = FixEquipHelper.takeCost(player, curStarCfg.getUpCostType(), curStarCfg.getUpCount());
+		
+		if(result.isSuccess()){
+			Map<Integer, Integer> itemsNeed = curStarCfg.getItemsNeed();
+			result = FixEquipHelper.takeItemCost(player, itemsNeed);
+		}	
+		
+		if(result.isSuccess()){
+			dataItem.setStar(curStar+1);
+			fixExpEquipDataItemHolder.updateItem(player, dataItem);
 		}
 		return result;
 	}
@@ -299,15 +304,15 @@ public class FixExpEquipMgr {
 			int curStar = dataItem.getStar();
 			int nextStar = curStar -1;
 
-			FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getCfgId(), curStar);
-			result = FixEquipHelper.takeCost(player, curStarCfg.getDownCostType(), curStarCfg.getDownCount());
+			FixExpEquipStarCfg nextStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), nextStar);
+			result = FixEquipHelper.takeCost(player, nextStarCfg.getDownCostType(), nextStarCfg.getDownCount());
 			
 			if(result.isSuccess()){
 				dataItem.setStar(nextStar);
 				fixExpEquipDataItemHolder.updateItem(player, dataItem);
 				
-				Map<Integer, Integer> itemsNeed = curStarCfg.getItemsNeed();
-				result = FixEquipHelper.takeItemCost(player, itemsNeed);
+				Map<Integer, Integer> itemsNeed = nextStarCfg.getItemsNeed();
+				result = FixEquipHelper.turnBackItemCost(player, itemsNeed);
 			}	
 		}
 
@@ -322,7 +327,7 @@ public class FixExpEquipMgr {
 			result.setReason("装备不存在。");			
 		}else{
 			int nextStar = dataItem.getStar()-1;
-			if(nextStar < 0){
+			if(nextStar <= 0){
 				result.setReason("装备已是最低等级。");	
 			}else{
 				result.setSuccess(true);

@@ -6,6 +6,8 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.fixEquip.cfg.FixEquipCfg;
+import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -68,8 +70,22 @@ public class FixNormEquipDataItem implements  IMapItem {
 		this.star = star;
 	}	
 
-
-	
+	public String getQualityPlanId(){
+		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
+		return fixEquipCfg.getQualityPlanId();
+	}
+	public String getLevelPlanId(){
+		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
+		return fixEquipCfg.getLevelPlanId();
+	}
+	public String getLevelCostPlanId(){
+		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
+		return fixEquipCfg.getLevelCostPlanId();
+	}
+	public String getStarPlanId(){
+		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
+		return fixEquipCfg.getStarPlanId();
+	}
 	
 	
 }

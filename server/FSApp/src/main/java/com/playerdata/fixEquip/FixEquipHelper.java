@@ -5,8 +5,11 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.rw.service.Email.EmailUtils;
 
 public class FixEquipHelper {
 
@@ -72,6 +75,28 @@ public class FixEquipHelper {
 		return resultCode == 0;
 	}
 	
+	final private static String emailCfgId = "10063";
+	public static FixEquipResult turnBackItemCost(Player player, Map<Integer,Integer> itemCostMap){		
+		
+		FixEquipResult result = FixEquipResult.newInstance(false);
+		
+		
+		String userId = player.getUserId();
+		boolean sendEmail = EmailUtils.sendEmail(userId, emailCfgId, itemCostMap);
+		if(sendEmail){
+			result.setSuccess(true);
+			
+		}else{
+			String errorReason = "物品返回邮件发送失败";
+			result.setReason(errorReason);
+			GameLog.error(LogModule.FixEquip, userId, errorReason, null);
+			result.setSuccess(sendEmail);
+		}
+		
+		return result;
+		
+	}
+
 	
 	public static FixEquipResult takeItemCost(Player player, Map<Integer,Integer> itemCostMap){		
 		FixEquipResult result = FixEquipResult.newInstance(false);

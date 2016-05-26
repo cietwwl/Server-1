@@ -34,6 +34,23 @@ public class FixNormEquipHandler {
 		return response.build().toByteString();
 	}
 	
+	public ByteString levelUpOneKey(Player player, CommonReqMsg commonReq) {
+		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
+		String ownerId = commonReq.getOwnerId();
+		String itemId = commonReq.getEquipId();
+		
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().levelUpOneKey(player, ownerId, itemId);
+		
+		response.setIsSuccess(result.isSuccess());
+		if(StringUtils.isNotBlank(result.getReason())){
+			response.setTipMsg(result.getReason());
+		}
+		
+		return response.build().toByteString();
+	}
+	
 	public ByteString qualityUp(Player player, CommonReqMsg commonReq) {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());

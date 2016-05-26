@@ -57,7 +57,7 @@ public final class FixNormEquipLevelCostCfgDAO extends CfgCsvDao<FixNormEquipLev
 		
 	}
 
-
+	
 	public FixNormEquipLevelCostCfg getByPlanIdAndLevel(String planId, int level){
 		List<FixNormEquipLevelCostCfg> allCfg = planIdLevelMap.get(planId);
 		FixNormEquipLevelCostCfg target = null;
