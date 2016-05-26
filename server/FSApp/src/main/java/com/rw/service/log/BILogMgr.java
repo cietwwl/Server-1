@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
@@ -263,9 +264,7 @@ public class BILogMgr {
 	 */
 	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode,int copyLevelId,int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		if(activityEntry != null){
-			moreInfo.put("activityEntry", "" + activityEntry.getEntry());
-		}
+		moreInfo.put("activityEntry", ""  + player.getUserDataMgr().getEntranceId());
 		
 		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
 			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
@@ -291,9 +290,7 @@ public class BILogMgr {
 	 */
 	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int copyLevelId,boolean isWin,int activityTime,String rewardinfoactivity,int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		if(activityEntry != null){
-			moreInfo.put("activityEntry", "" + activityEntry.getEntry());
-		}
+		moreInfo.put("activityEntry", "" + player.getUserDataMgr().getEntranceId());
 		if(StringUtils.equals(activityCode.toString(), BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE.toString())){
 			FresherActivityCfg fresherActivityCfg = FresherActivityCfgDao.getInstance().getFresherActivityCfg(severBegin);
 			moreInfo.put("activityCode", "" + fresherActivityCfg.getActivityCode());

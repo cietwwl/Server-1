@@ -566,7 +566,6 @@ public class ArenaHandler {
 
 			return response.build().toByteString();
 		} finally {
-			
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA, 0, isWin,0,"",0);
 			arenaExt.setNotFighting();
 			enemyExt.setNotFighting();
