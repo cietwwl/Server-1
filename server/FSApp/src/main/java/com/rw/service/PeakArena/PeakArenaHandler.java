@@ -525,7 +525,6 @@ public class PeakArenaHandler {
 	}
 
 	public ByteString buyChallengeCount(MsgArenaRequest request, Player player) {
-		// buyChallengeCount
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 		TablePeakArenaData arenData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
