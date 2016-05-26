@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.playerdata.army.ArmyInfo;
+import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -28,7 +31,14 @@ public class UserMagicSecretHolder {
 	}
 
 	public UserMagicSecretData get() {
-		return userMagicSecretDao.get(userId);
+		UserMagicSecretData umsData = userMagicSecretDao.get(userId);
+		if(umsData.getSecretArmy() == null) {
+			Player player = PlayerMgr.getInstance().find(userId);
+			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(userId, player.getHeroMgr().getHeroIdList());
+			umsData.setSecretArmy(armyInfo);
+			syn(player, 0);
+		}
+		return umsData;
 	}
 
 	public void update(Player player) {

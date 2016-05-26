@@ -43,11 +43,11 @@ public class UserMagicSecretData {
 
 	@CombineSave
 	private String version;
-
+	
 	public UserMagicSecretData(String userId) {
-		this.userId = userId;
+		this.userId = userId; 
 	}
-
+	
 	public UserMagicSecretData() {
 	}
 

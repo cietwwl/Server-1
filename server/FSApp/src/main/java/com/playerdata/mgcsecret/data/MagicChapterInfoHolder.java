@@ -79,15 +79,18 @@ public class MagicChapterInfoHolder{
 	 * @param chapterID
 	 */
 	public void initMagicChapterInfo(Player player, String chapterID){
-		MagicChapterInfo mcInfo = new MagicChapterInfo();
-		if(MagicChapterCfgDAO.getInstance().getCfgById(chapterID) == null) 
-			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID), new Exception("法宝秘境的初始化章节ID有误，数据表中招不到对应的数据"));
-		mcInfo.setId(player.getUserId() + "_" + chapterID);
-		mcInfo.setChapterId(chapterID);
-		mcInfo.setUserId(player.getUserId());
-		addItem(player, mcInfo);
-		startNewChapter(player, chapterID);
-		updateItem(player, mcInfo);
+		MagicChapterInfo mcInfo = getItem(player.getUserId(), chapterID);
+		if(mcInfo == null) {
+			mcInfo = new MagicChapterInfo();
+			if(MagicChapterCfgDAO.getInstance().getCfgById(chapterID) == null) 
+				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID), new Exception("法宝秘境的初始化章节ID有误，数据表中招不到对应的数据"));
+			mcInfo.setId(player.getUserId() + "_" + chapterID);
+			mcInfo.setChapterId(chapterID);
+			mcInfo.setUserId(player.getUserId());
+			addItem(player, mcInfo);
+			startNewChapter(player, chapterID);
+			updateItem(player, mcInfo);
+		}
 	}
 	
 	/**

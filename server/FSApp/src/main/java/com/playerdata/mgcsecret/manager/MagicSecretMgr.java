@@ -124,7 +124,9 @@ public class MagicSecretMgr extends MSInnerProcessor{
 				msRsp.setRewardData(i, JsonUtil.writeValue(rewardItems.get(i)));
 			}
 			updateSelfMaxStage(dungeonID);
-			handleNextDungeonPrepare(dungeonID);
+			if(fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER)
+				mChapterHolder.initMagicChapterInfo(m_pPlayer, String.valueOf(chapterID + 1));
+			else handleNextDungeonPrepare(dungeonID);
 		}
 		//清空刚战斗的关卡
 		msData.setCurrentDungeonID(null);
