@@ -226,15 +226,6 @@ namespace MsgDef
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_CHARGE", Value=174)]
       MSG_CHARGE = 174,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_COUNTTYPE", Value=175)]
-      MSG_ACTIVITY_COUNTTYPE = 175,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_PRIVILEGE", Value=176)]
-      MSG_PRIVILEGE = 176,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_DATETYPE", Value=177)]
-      MSG_ACTIVITY_DATETYPE = 177,
-            
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_SDK_VERIFY", Value=996)]
       MSG_SDK_VERIFY = 996,
             
@@ -245,7 +236,10 @@ namespace MsgDef
       MSG_PLATFORMGS = 998,
             
       [global::ProtoBuf.ProtoEnum(Name=@"MSG_GAMEPRESS", Value=999)]
-      MSG_GAMEPRESS = 999
+      MSG_GAMEPRESS = 999,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"MSG_ACTIVITY_COUNTTYPE", Value=174)]
+      MSG_ACTIVITY_COUNTTYPE = 174
     }
   
 }
