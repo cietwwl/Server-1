@@ -62,6 +62,8 @@ public class MagicSecretService implements FsService {
 			}
 		} catch (InvalidProtocolBufferException e) {
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), "出现了Exception异常", e);
+		} catch (Exception e) {
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), "出现了Exception异常", e);
 		} finally {
 			return result;
 		}

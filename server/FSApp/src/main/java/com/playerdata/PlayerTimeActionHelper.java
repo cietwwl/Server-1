@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import com.bm.arena.ArenaBM;
+import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -222,7 +223,15 @@ public class PlayerTimeActionHelper {
 				player.getTowerMgr().resetDataInNewDay();
 			}
 		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 
+			@Override
+			public void doTask() {
+				MSScoreRankMgr.dispatchMSDailyReward();
+			}
+		});
+		
 		return onNewDay5ClockTimeAction;
 	}
 

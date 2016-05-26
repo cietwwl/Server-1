@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.army.ArmyInfo;
+import com.playerdata.army.SimpleArmyInfo;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -18,7 +18,7 @@ public class UserMagicSecretData {
 	private String userId; // 用户ID
 
 	@CombineSave
-	private ArmyInfo secretArmy; // 战斗队伍情况
+	private SimpleArmyInfo secretArmy; // 战斗队伍情况
 
 	@CombineSave
 	int historyScore; // 历史积分
@@ -59,11 +59,11 @@ public class UserMagicSecretData {
 		this.userId = userId;
 	}
 
-	public ArmyInfo getSecretArmy() {
+	public SimpleArmyInfo getSecretArmy() {
 		return secretArmy;
 	}
 
-	public void setSecretArmy(ArmyInfo secretArmy) {
+	public void setSecretArmy(SimpleArmyInfo secretArmy) {
 		this.secretArmy = secretArmy;
 	}
 

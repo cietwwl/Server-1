@@ -9,6 +9,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
+import com.playerdata.army.SimpleArmyInfo;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonScoreCfg;
@@ -82,7 +83,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		//设置战斗中的副本(是为了获取奖励的时候，作合法性判断)
 		UserMagicSecretData umsData = userMSHolder.get();
 		if(umsData.getCurrentDungeonID() != null)
-			GameLog.error(LogModule.MagicSecret, userId, String.format("enterMSFight, 进入副本[%s]时，仍有一个战斗dungeonID[%s]没解除", umsData.getCurrentDungeonID()), null);
+			GameLog.error(LogModule.MagicSecret.getName(), userId, String.format("enterMSFight, 进入副本[%s]时，仍有一个战斗dungeonID[%s]没解除", dungeonID, umsData.getCurrentDungeonID()), null);
 		umsData.setCurrentDungeonID(dungeonID);
 		
 		userMSHolder.update(m_pPlayer);
@@ -118,7 +119,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		int finishStar = Integer.parseInt(finishState);
 		if(finishStar > 0) {
 			// 获取奖励，更新最高纪录，准备下个关卡数据
-			ArrayList<ItemInfo> rewardItems = singleDungeonReward(fightingDung, finishStar);
+			List<? extends ItemInfo> rewardItems = singleDungeonReward(fightingDung, finishStar);
 			// 获得的物品
 			for(int i = 0; i < rewardItems.size(); i++){
 				msRsp.setRewardData(i, JsonUtil.writeValue(rewardItems.get(i)));
@@ -252,7 +253,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @return
 	 */
 	public msResultType changeMSArmy(String armyInfo) {
-		ArmyInfo army = JsonUtil.readValue(armyInfo, ArmyInfo.class);
+		SimpleArmyInfo army = JsonUtil.readValue(armyInfo, SimpleArmyInfo.class);
 		UserMagicSecretData umsData = userMSHolder.get();
 		umsData.setSecretArmy(army);
 		userMSHolder.update(m_pPlayer);
@@ -347,7 +348,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param finishStar 通关评价
 	 * @return 奖励的物品，用于前端显示
 	 */
-	private ArrayList<ItemInfo> singleDungeonReward(MSDungeonInfo fightingDung, int finishStar){
+	private List<? extends ItemInfo> singleDungeonReward(MSDungeonInfo fightingDung, int finishStar){
 		DungeonsDataCfg dungCfg = DungeonsDataCfgDAO.getInstance().getCfgById(fightingDung.getDungeonKey());
 		if(dungCfg == null) {
 			GameLog.error(LogModule.MagicSecret, userId, String.format("singleDungeonReward, 副本[%s]不存在，无法进行结算", fightingDung.getDungeonKey()), null);

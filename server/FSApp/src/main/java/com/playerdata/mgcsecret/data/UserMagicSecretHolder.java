@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.army.SimpleArmyInfo;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -35,7 +37,15 @@ public class UserMagicSecretHolder {
 		if(umsData.getSecretArmy() == null) {
 			Player player = PlayerMgr.getInstance().find(userId);
 			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(userId, player.getHeroMgr().getHeroIdList());
-			umsData.setSecretArmy(armyInfo);
+			if(armyInfo == null) return umsData;
+			ArrayList<String> uuids = new ArrayList<String>();
+			for(ArmyHero hero : armyInfo.getHeroList())
+				uuids.add(hero.getRoleBaseInfo().getId());
+			SimpleArmyInfo sArmy = new SimpleArmyInfo();
+			sArmy.setHeroIds(uuids);
+			sArmy.setLevel(armyInfo.getArmyMagic().getLevel());
+			sArmy.setModelId(armyInfo.getArmyMagic().getModelId());
+			umsData.setSecretArmy(sArmy);
 			syn(player, 0);
 		}
 		return umsData;

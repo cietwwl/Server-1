@@ -3,18 +3,24 @@ package com.bm.rank.magicsecret;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 
 public class MagicSecretComparable implements Comparable<MagicSecretComparable> {
-	private final int historyScore; //历史积分
-	private final int todayScore;	//当日积分
-	private final long recentScoreTime; //最新获得积分时间
+	private long recentScoreTime; //最新获得积分时间
+	private int totalScore; //总积分
+	
+	public MagicSecretComparable(){
+		
+	}
 	
 	public MagicSecretComparable(int historyScore, int todayScore, long recentScoreTime){
-		this.historyScore = historyScore;
-		this.todayScore = todayScore;
 		this.recentScoreTime = recentScoreTime;
+		this.totalScore = MagicSecretMgr.getTotalScore(historyScore, todayScore);
+	}
+
+	public long getRecentScoreTime() {
+		return recentScoreTime;
 	}
 	
 	public int getTotalScore(){
-		return MagicSecretMgr.getTotalScore(historyScore, todayScore);
+		return this.totalScore;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import com.bm.rank.RankType;
 import com.playerdata.mgcsecret.cfg.MagicScoreRankCfg;
 import com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
+import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.common.EnumerateList;
@@ -83,5 +84,6 @@ public class MSScoreRankMgr {
 				}
 			}
 		}
+		//MagicChapterInfoHolder.getInstance().get
 	}
 }

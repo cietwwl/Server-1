@@ -14,6 +14,8 @@ import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
 import com.playerdata.mgcsecret.data.MSDungeonInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
+import com.rw.fsutil.common.DataAccessTimeoutException;
+import com.rw.service.dropitem.DropItemManager;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 
@@ -54,6 +56,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 				ItemInfo box = new ItemInfo();
 				box.setItemID(i);
 				box.setItemNum(0);
+				canOpenBoxList.add(box);
 			}
 		}
 		for(ItemInfo box : canOpenBoxList){
@@ -179,8 +182,21 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param dropStr
 	 * @return
 	 */
-	protected ArrayList<ItemInfo> generateDropItem(String dropStr){
+	protected List<? extends ItemInfo> generateDropItem(String dropStr){
+		List<Integer> dropList = new ArrayList<Integer>();
+		for(String str : dropStr.split(",")){
+			try{
+				dropList.add(Integer.parseInt(str));
+			}catch(Exception ex){
+				GameLog.error(LogModule.MagicSecret, userId, String.format("generateDropItem, 由掉落字符串[%s]转整数的时候出错", dropStr), ex);
+			}
+		}
 		ArrayList<ItemInfo> itemList = new ArrayList<ItemInfo>();
+		try {
+			return DropItemManager.getInstance().pretreatDrop(m_pPlayer, dropList, -1, false);
+		} catch (DataAccessTimeoutException e) {
+			GameLog.error(LogModule.MagicSecret, userId, String.format("generateDropItem, 由掉落字符串[%s]计算掉落时出错", dropStr), e);
+		}
 		return itemList;
 	}
 }
