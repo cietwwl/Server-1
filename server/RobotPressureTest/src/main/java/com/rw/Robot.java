@@ -10,6 +10,8 @@ import com.rw.handler.battle.PVPHandler;
 import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
+import com.rw.handler.copy.CopyHandler;
+import com.rw.handler.copy.CopyType;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
 import com.rw.handler.friend.FriendHandler;
@@ -621,6 +623,15 @@ public class Robot {
 		addGold(500);
 		return DailyActivityHandler.getHandler().Const(this);		
 		
+	}
+	
+	/**无尽战火*/
+	public boolean testCopyWarfare(){		
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_WARFARE);
+		if(getitemback){
+			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_WARFARE);		
+		}else return false;
+		 
 	}
 
 }

@@ -6,7 +6,7 @@ public class Test {
 
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
 	/** 所有运行起来的客户端 */
-	private static final Random random = new Random();
+	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
 		// Robot robot = loginRobot("hclovehf0009");
 		// for (int i = 0; i < 50; i++) {
@@ -14,24 +14,24 @@ public class Test {
 		// robot.equipAttach();
 		// }
 
-//		 Robot robot = createRobot("testallen"+random.nextInt(2000));
-//		 if(robot == null){
-//		 }else{
-//			 boolean issucc =false;
-//			 
-//			 issucc=robot.testDailyActivity();
-//			 
-//			 
-//			 System.out.println("@@@@@@@@@@@" + issucc + System.currentTimeMillis());
-//			 
-//		 }
+		 Robot robot = createRobot("testallen"+random.nextInt(2000));
+		 if(robot == null){
+		 }else{
+			 boolean issucc =false;
+			 
+//			 issucc=robot.testCopyWarfare();
+			 
+			 
+			 System.out.println("@@@@@@@@@@@" + issucc);
+			 
+		 }
 		 
 		 
 		//5-27新增部分
 //		 robot.testWorShip();//膜拜
 //		 robot.testMainService();//主服务，买体力
 //		 robot.testDailyActivity();
-		 
+//		 robot.testCopyWarfare();//无尽战火
 		 
 		 
 		 
