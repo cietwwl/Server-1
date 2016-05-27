@@ -29,6 +29,7 @@ import com.rw.handler.platform.PlatformHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.worShip.worShipHandler;
+import com.rwproto.CopyServiceProtos.EBattleStatus;
 
 /*
  * 机器人入口
@@ -625,13 +626,22 @@ public class Robot {
 		
 	}
 	
-	/**无尽战火*/
+	/**无尽战火挑战一次*/
 	public boolean testCopyWarfare(){		
 		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_WARFARE);
 		if(getitemback){
-			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_WARFARE);		
+			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_WARFARE,EBattleStatus.NULL);		
 		}else return false;
 		 
+	}
+
+	/**万仙阵胜利一次 */
+	public boolean testCopyTower() {
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TOWER);
+		 System.out.println("@@@@@@@@@@@预计算" + getitemback);
+		if(getitemback){
+			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TOWER,EBattleStatus.WIN);		
+		}else return false;
 	}
 
 }

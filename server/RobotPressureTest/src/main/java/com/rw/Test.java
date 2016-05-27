@@ -32,7 +32,7 @@ public class Test {
 //		 robot.testMainService();//主服务，买体力
 //		 robot.testDailyActivity();
 //		 robot.testCopyWarfare();//无尽战火
-		 
+//		 robot.testCopyTower();//万仙阵胜利一次
 		 
 		 
 		 

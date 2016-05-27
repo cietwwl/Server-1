@@ -6,6 +6,7 @@ import com.rw.Client;
 import com.rw.Test;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
@@ -23,6 +24,7 @@ public class CopyHandler {
 	private static CopyHandler handler = new CopyHandler();
 	public static int levelId = 0;
 	private static final int[] warFareCopyId = {150041,150042,150043,150044,150045};
+	private static final int towCopyId = 190002;
 	public static CopyHandler getHandler() {
 		return handler;
 	}
@@ -70,7 +72,7 @@ public class CopyHandler {
 		return success;		
 	}
 
-	public boolean battleClear(Client client, int copyTypeWarfare) {
+	public boolean battleClear(Client client, int copyTypeWarfare,EBattleStatus iswin) {
 		MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
 		req.setRequestType(ERequestType.BATTLE_CLEARING);
 		req.getTagBattleDataBuilder().setLevelId(this.levelId);
@@ -78,6 +80,9 @@ public class CopyHandler {
 		req.getTagBattleDataBuilder().setBattleClearingTime(1);
 		req.setLevelId(this.levelId);
 //		req.getTagBattleDataBuilder().addHeroId("");
+		req.getTagBattleDataBuilder().setFightResult(iswin);
+		
+		
 		
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_CopyService, req.build().toByteString(), new MsgReciver() {
 
@@ -124,7 +129,9 @@ public class CopyHandler {
 			
 			levelId = warFareCopyId[randomNum];
 			System.out.println("copyhandler,随机数 levelid =" + levelId + " num="+randomNum);
-		}
+		}else if(copyType ==CopyType.COPY_TYPE_TOWER){
+			levelId = towCopyId;			
+		}		
 		this.levelId = levelId;
 		return levelId;
 	}
