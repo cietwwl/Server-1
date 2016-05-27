@@ -319,8 +319,8 @@ public class PeakArenaHandler {
 		if (!enemyEntry.getExtension().setFighting()) {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_IS_FIGHTING);
 		}
-		// 设置自己的战斗状态
-		entry.getExtension().forceSetFighting();
+		// 不需要设置自己的战斗状态，允许另一个玩家在我挑战别人的时候挑战我！
+		//entry.getExtension().forceSetFighting();
 		
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
@@ -348,7 +348,8 @@ public class PeakArenaHandler {
 		PeakArenaExtAttribute areanExtAttribute = entry.getExtension();
 		TablePeakArenaData enemyArenaData = PeakArenaBM.getInstance().getPeakArenaData(enemyUserId);
 		if (enemyArenaData == null) {
-			areanExtAttribute.setNotFighting();
+			// 玩家自己的状态不用修改，而是由挑战者修改锁的状态
+			//areanExtAttribute.setNotFighting();
 			return SetError(response,player,"结算时找不到对手",":"+enemyUserId);
 		}
 
