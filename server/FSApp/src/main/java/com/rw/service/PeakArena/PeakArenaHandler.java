@@ -153,7 +153,7 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
-	public ByteString getEnemys(MsgArenaRequest request, Player player) {
+	public ByteString selectEnemys(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 

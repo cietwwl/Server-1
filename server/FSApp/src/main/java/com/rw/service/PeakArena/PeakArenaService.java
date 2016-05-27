@@ -23,7 +23,7 @@ public class PeakArenaService implements FsService {
 				result = peakArenaHandler.getPeakArenaData(msgArenaRequest, player);
 				break;
 			case CHANGE_ENEMY:
-				result = peakArenaHandler.getEnemys(msgArenaRequest, player);
+				result = peakArenaHandler.selectEnemys(msgArenaRequest, player);
 				break;
 			case CHANGE_HERO:
 				result = peakArenaHandler.changeHeros(msgArenaRequest, player);

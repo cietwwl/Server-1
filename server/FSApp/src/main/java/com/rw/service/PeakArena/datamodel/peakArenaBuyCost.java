@@ -1,16 +1,17 @@
 package com.rw.service.PeakArena.datamodel;
 
-import com.common.BaseConfig;
-import com.common.ListParser;
+import com.common.PairParser;
 import com.log.GameLog;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
 
-public class peakArenaBuyCost extends BaseConfig {
-	private String key; // 关键字段
+public class peakArenaBuyCost extends AbsRangeConfig {
+	private int key; // 关键字段
 	private String time; // 购买挑战次数
 	private int cost; // 购买花费
 	private com.rwbase.common.enu.eSpecialItemId coinType; // 货币类型
 
-	public String getKey() {
+	public int getKey() {
 		return key;
 	}
 
@@ -22,8 +23,7 @@ public class peakArenaBuyCost extends BaseConfig {
 		return coinType;
 	}
 
-	private int minCount;
-	private int maxCount;
+	private Pair<Integer, Integer> range;
 
 	@Override
 	public void ExtraInitAfterLoad() {
@@ -32,27 +32,22 @@ public class peakArenaBuyCost extends BaseConfig {
 			throw new RuntimeException();
 		}
 		if (cost <= 0) {
-			GameLog.error("巅峰竞技场", "购买挑战次数费用配置错误", ""+cost);
+			GameLog.error("巅峰竞技场", "购买挑战次数费用配置错误", "" + cost);
 			throw new RuntimeException();
 		}
-		int[] result = ListParser.ParseIntList(time, "~", "巅峰竞技场", "配置次数有误:", time);
-		minCount = result[0];
-		if (result.length > 1) {
-			maxCount = result[1];
-		} else {
-			maxCount = minCount;
-		}
-		if (minCount <= 0 || maxCount <= 0 || minCount > maxCount) {
-			GameLog.error("巅峰竞技场", "配置次数错误:", time);
-			throw new RuntimeException();
-		}
+		range = PairParser.ParseRange(time, "~", "巅峰竞技场", "配置次数有误:", time, true);
 	}
 
 	public int getMinCount() {
-		return minCount;
+		return range.getT1();
 	}
 
 	public int getMaxCount() {
-		return maxCount;
+		return range.getT2();
+	}
+
+	@Override
+	public IReadOnlyPair<Integer, Integer> getRange() {
+		return range;
 	}
 }
