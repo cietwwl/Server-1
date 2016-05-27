@@ -1,4 +1,4 @@
-package com.rw.handler.Worship;
+package com.rw.handler.worShip;
 
 
 import com.google.protobuf.ByteString;
@@ -14,10 +14,10 @@ import com.rwproto.WorshipServiceProtos.WorshipRequest;
 import com.rwproto.WorshipServiceProtos.WorshipResponse;
 
 
-public class WorshipHandler {
-	private static WorshipHandler handler = new WorshipHandler();
+public class worShipHandler {
+	private static worShipHandler handler = new worShipHandler();
 
-	public static WorshipHandler getHandler() {
+	public static worShipHandler getHandler() {
 		return handler;
 	}
 	
@@ -86,10 +86,7 @@ public class WorshipHandler {
 		}
 		public int getValue(){
 			return this.type;
-		}
-		
-		
-		
+		}		
 	}
 }
 

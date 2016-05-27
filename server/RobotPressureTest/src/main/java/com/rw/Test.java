@@ -14,11 +14,30 @@ public class Test {
 		// robot.equipAttach();
 		// }
 
-		 Robot robot = createRobot("testallen"+random.nextInt(2000));
-		 if(robot == null){
-		 }else{
-			 robot.testWorShip();
-		 }
+//		 Robot robot = createRobot("testallen"+random.nextInt(2000));
+//		 if(robot == null){
+//		 }else{
+//			 boolean issucc =false;
+//			 
+//			 issucc=robot.testDailyActivity();
+//			 
+//			 
+//			 System.out.println("@@@@@@@@@@@" + issucc + System.currentTimeMillis());
+//			 
+//		 }
+		 
+		 
+		//5-27新增部分
+//		 robot.testWorShip();//膜拜
+//		 robot.testMainService();//主服务，买体力
+//		 robot.testDailyActivity();
+		 
+		 
+		 
+		 
+		 
+		 
+		 
 		 
 		// long start = System.currentTimeMillis();
 		// Robot robot = loginRobot("testallen0003");
