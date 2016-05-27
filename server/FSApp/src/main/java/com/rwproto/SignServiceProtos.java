@@ -135,6 +135,14 @@ public final class SignServiceProtos {
      * </pre>
      */
     NULL(4, 5),
+    /**
+     * <code>FAIL = 6;</code>
+     *
+     * <pre>
+     *失败
+     * </pre>
+     */
+    FAIL(5, 6),
     ;
 
     /**
@@ -177,6 +185,14 @@ public final class SignServiceProtos {
      * </pre>
      */
     public static final int NULL_VALUE = 5;
+    /**
+     * <code>FAIL = 6;</code>
+     *
+     * <pre>
+     *失败
+     * </pre>
+     */
+    public static final int FAIL_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -188,6 +204,7 @@ public final class SignServiceProtos {
         case 3: return INIT_DATA;
         case 4: return NEED_REFRESH;
         case 5: return NULL;
+        case 6: return FAIL;
         default: return null;
       }
     }
@@ -2277,11 +2294,11 @@ public final class SignServiceProtos {
       "\001(\0162\r.ERequestType\022\023\n\013reSignCount\030\003 \001(\005\022" +
       "\014\n\004year\030\004 \001(\005\022\r\n\005month\030\005 \001(\005\022\021\n\tresultMs" +
       "g\030\006 \001(\t\022\023\n\013tagSignData\030\007 \003(\t*+\n\014ERequest" +
-      "Type\022\010\n\004SIGN\020\001\022\021\n\rSIGNDATA_BACK\020\002*]\n\013ERe" +
+      "Type\022\010\n\004SIGN\020\001\022\021\n\rSIGNDATA_BACK\020\002*g\n\013ERe" +
       "sultType\022\013\n\007SUCCESS\020\001\022\026\n\022NOT_ENOUGH_DIAM" +
       "OND\020\002\022\r\n\tINIT_DATA\020\003\022\020\n\014NEED_REFRESH\020\004\022\010",
-      "\n\004NULL\020\005B \n\013com.rwprotoB\021SignServiceProt" +
-      "os"
+      "\n\004NULL\020\005\022\010\n\004FAIL\020\006B \n\013com.rwprotoB\021SignS" +
+      "erviceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

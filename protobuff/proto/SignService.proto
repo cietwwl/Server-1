@@ -15,6 +15,7 @@ enum EResultType	//结果
 	INIT_DATA = 3;			//数据回传
 	NEED_REFRESH = 4;		//需要刷新数据
 	NULL = 5;				//数据为空，需要重新申请
+	FAIL = 6;       //失败
 }
 
 message MsgSignRequest
