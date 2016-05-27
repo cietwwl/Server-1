@@ -283,9 +283,6 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 					return oldEntry;
 				}
 				treeMap.remove(oldEntry);
-				//TODO 新entry就该用新的ExtendedAttribute
-				//E extension = parser.newEntryExtension(key, customParam);
-				//newEntry = new RankingEntryImpl<C, E>(key, oldEntry.getUniqueId(), newComparable, extension);
 				newEntry = new RankingEntryImpl<C, E>(key, oldEntry.getUniqueId(), newComparable, oldEntry.getExtendedAttribute());
 			}
 			evicted = insertRanking(newEntry, newComparable);

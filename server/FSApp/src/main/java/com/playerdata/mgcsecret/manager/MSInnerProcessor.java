@@ -25,7 +25,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * 通知排行榜做出排名更改
 	 */
 	protected void informRankModule(){
-		MSScoreRankMgr.addOrUpdateMSScoreRank(userMSHolder.get());
+		MSScoreRankMgr.addOrUpdateMSScoreRank(userMSHolder.get(), m_pPlayer);
 	}
 	
 	/**
@@ -200,6 +200,9 @@ public class MSInnerProcessor extends MSConditionJudger{
 		return itemList;
 	}
 	
+	/**
+	 * 法宝秘境数据跨天刷新
+	 */
 	public void resetDailyMSInfo(){
 		mChapterHolder.resetAllItem(m_pPlayer);
 		userMSHolder.get().saveDailyScoreData();

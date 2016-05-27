@@ -2,15 +2,16 @@ package com.playerdata.mgcsecret.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.mgcsecret.manager.MagicSecretMgr;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MSScoreDataItem {
 	private String userId;
-	private int historyScore; //历史积分
-	private int todayScore;	//当日积分
-	private long recentScoreTime; //最新获得积分时间
-
+	private int totalScore;	//总积分
+	private String userName;
+	private int level;	//等级
+	private String headImage;	//头像
+	private int job;  //职业
+	private String title;  //称号
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -19,31 +20,51 @@ public class MSScoreDataItem {
 		this.userId = userId;
 	}
 
-	public int getHistoryScore() {
-		return historyScore;
+	public int getTotalScore() {
+		return totalScore;
 	}
 
-	public void setHistoryScore(int historyScore) {
-		this.historyScore = historyScore;
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
 	}
 
-	public int getTodayScore() {
-		return todayScore;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setTodayScore(int todayScore) {
-		this.todayScore = todayScore;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public long getRecentScoreTime() {
-		return recentScoreTime;
+	public int getLevel() {
+		return level;
 	}
 
-	public void setRecentScoreTime(long recentScoreTime) {
-		this.recentScoreTime = recentScoreTime;
+	public void setLevel(int level) {
+		this.level = level;
 	}
-	
-	public int getTotalScore(){
-		return (int)(historyScore * MagicSecretMgr.SCORE_COEFFICIENT) + todayScore;
+
+	public String getHeadImage() {
+		return headImage;
+	}
+
+	public void setHeadImage(String headImage) {
+		this.headImage = headImage;
+	}
+
+	public int getJob() {
+		return job;
+	}
+
+	public void setJob(int job) {
+		this.job = job;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

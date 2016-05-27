@@ -1,8 +1,8 @@
 package com.bm.rank.magicsecret;
 
 import com.bm.rank.RankingJacksonExtension;
+import com.playerdata.Player;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
-import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.rw.fsutil.ranking.RankingEntry;
 
 public class MagicSecretExtension extends RankingJacksonExtension<MagicSecretComparable, MSScoreDataItem>{
@@ -20,12 +20,14 @@ public class MagicSecretExtension extends RankingJacksonExtension<MagicSecretCom
 		if(param instanceof MSScoreDataItem){
 			return (MSScoreDataItem)param;
 		}
-		UserMagicSecretData magicData = (UserMagicSecretData)param;
+		Player player = (Player)param;
 		MSScoreDataItem toData = new MSScoreDataItem();
-		toData.setUserId(magicData.getUserId());
-		toData.setHistoryScore(magicData.getHistoryScore());
-		toData.setTodayScore(magicData.getTodayScore());
-		toData.setRecentScoreTime(magicData.getRecentScoreTime());
+		toData.setUserId(player.getUserId());
+		toData.setHeadImage(player.getHeadImage());
+		toData.setJob(player.getCareer());
+		toData.setLevel(player.getLevel());
+		toData.setUserName(player.getUserName());
+		toData.setTitle("NONE");
 		return toData;
 	}
 }
