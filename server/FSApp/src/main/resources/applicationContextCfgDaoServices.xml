@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
 	
+	<bean class="com.common.CfgChecker"/>
+	
+	
 	<bean class="com.rwbase.dao.attribute.AttributeLanguageCfgDAO"  init-method="init" />
 	
 	<bean class="com.bm.arena.ArenaRankCfgDAO"  init-method="init" />
@@ -194,6 +197,8 @@
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO"  init-method="init" />
+	
+
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
