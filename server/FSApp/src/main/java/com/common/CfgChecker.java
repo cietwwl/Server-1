@@ -3,6 +3,8 @@ package com.common;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.fixEquip.cfg.FixEquipCfgChecker;
 
 /**
@@ -13,8 +15,21 @@ import com.playerdata.fixEquip.cfg.FixEquipCfgChecker;
  */
 public class CfgChecker implements ApplicationContextAware {
 	
+	private boolean doCheck;
+	
 	public void setApplicationContext(ApplicationContext context) {
-		FixEquipCfgChecker.checkAll();
+		if(doCheck){
+			
+			GameLog.info(LogModule.COMMON.getName(), "CfgChecker", "配置检查开始。。。");
+			FixEquipCfgChecker.checkAll();
+			GameLog.info(LogModule.COMMON.getName(), "CfgChecker", "配置检查结束。。。");
+		}
 	}
+
+	public void setDoCheck(boolean doCheck) {
+		this.doCheck = doCheck ;
+	}
+	
+	
 
 }
