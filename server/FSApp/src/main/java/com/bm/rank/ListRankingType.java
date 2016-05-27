@@ -16,7 +16,7 @@ public enum ListRankingType implements TypeIdentification, ListRankingConfig {
 	SWORDMAN_ARENA(ECareer.SwordsMan.getValue(), 20000, "剑士竞技场", 1, ArenaExtension.class, RankType.SWORDMAN_ARENA), 
 	MAGICAN_ARENA(ECareer.Magican.getValue(), 20000, "术士竞技场", 1, ArenaExtension.class, RankType.MAGICAN_ARENA), 
 	PRIEST_ARENA(ECareer.Priest.getValue(), 20000, "祭祀竞技场", 1, ArenaExtension.class, RankType.PRIEST_ARENA), 
-	// TODO PEAK_ARENA(100,20000,"巅峰竞技场",10,PeakArenaExtension.class,null),
+	PEAK_ARENA(100,20000,"巅峰竞技场",10,PeakArenaExtension.class,null),
 	;
 
 	private final int type;

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaConstant;
-import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
@@ -14,10 +13,8 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.fsutil.ranking.MomentRankingEntry;
-import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.RankingEntry;
-import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -162,21 +159,18 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		List<MomentRankingEntry<Integer, PeakArenaExtAttribute>> listInfo = PeakArenaBM.getInstance().SelectPeakArenaInfos(m_MyArenaData,player);
-		for (MomentRankingEntry<Integer, PeakArenaExtAttribute> info : listInfo) {
+		 List<ListRankingEntry<String, PeakArenaExtAttribute>> listInfo = PeakArenaBM.getInstance().SelectPeakArenaInfos(m_MyArenaData,player);
+		for (ListRankingEntry<String, PeakArenaExtAttribute> entry : listInfo) {
 			ArenaInfo.Builder result = ArenaInfo.newBuilder();
-			RankingEntry<Integer, PeakArenaExtAttribute> entry = info.getEntry();
 			String key = entry.getKey();
 			TablePeakArenaData otherArenaData = PeakArenaBM.getInstance().getPeakArenaData(key);
-			int score = entry.getComparable();
 			result.setUserId(key);
-			result.setScore(score);
-			result.setScoreLv(PeakArenaScoreLevel.getSocre(score).getLevel());
 			result.setFighting(otherArenaData.getFighting());
 			result.setHeadImage(otherArenaData.getHeadImage());
 			result.setLevel(otherArenaData.getLevel());
 			result.setName(otherArenaData.getName());
-			result.setPlace(RankingFactory.getRanking(RankType.PEAK_ARENA).getRanking(key));
+			result.setPlace(entry.getRanking());
+			
 			response.addListInfo(result.build());
 		}
 
@@ -291,7 +285,8 @@ public class PeakArenaHandler {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_NOT_EXIST);
 		}
 		String enemyId = request.getUserId();
-		int enemyPlace = RankingFactory.getRanking(RankType.PEAK_ARENA).getRanking(enemyId);
+		
+		int enemyPlace = PeakArenaBM.getInstance().getEnemyPlace(enemyId);
 		if (enemyPlace <= 0) {
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.ENEMY_PLACE_CHANGED);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
@@ -309,24 +304,24 @@ public class PeakArenaHandler {
 		if (arenaData == null) {
 			return sendFailRespon(player, response, ArenaConstant.UNKOWN_EXCEPTION);
 		}
-		String userId = player.getUserId();
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
+		String enemyId = request.getUserId();
+		ListRankingEntry<String, PeakArenaExtAttribute> enemyEntry = PeakArenaBM.getInstance().getEnemyEntry(enemyId);
+		if (enemyEntry == null) {
+			return sendFailRespon(player, response, ArenaConstant.ENEMY_NOT_EXIST);
+		}
+		ListRankingEntry<String, PeakArenaExtAttribute> entry = PeakArenaBM.getInstance().getPlayerRankEntry(player,arenaData);
 		// TODO 超出排行榜容量的容错处理，让他打，赢了重新尝试加入排行榜
 		if (entry == null) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		String enemyId = request.getUserId();
-		RankingEntry<Integer, PeakArenaExtAttribute> enemyEntry = ranking.getRankingEntry(enemyId);
-		if (enemyEntry == null) {
-			return sendFailRespon(player, response, ArenaConstant.ENEMY_NOT_EXIST);
-		}
-		if (!enemyEntry.getExtendedAttribute().setFighting()) {
+		// combined transaction
+		if (!enemyEntry.getExtension().setFighting()) {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_IS_FIGHTING);
 		}
 		// 设置自己的战斗状态
-		entry.getExtendedAttribute().forceSetFighting();
+		entry.getExtension().forceSetFighting();
+		
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -344,23 +339,22 @@ public class PeakArenaHandler {
 			return SetError(response,player,"结算时找不到用户","");
 		}
 
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
 		// 巅峰排行榜超出上限的容错处理
-		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
+		 ListRankingEntry<String, PeakArenaExtAttribute> entry = PeakArenaBM.getInstance().getPlayerRankEntry(player, playerArenaData);
 		if (entry == null) {
 			// 如果赢了在加上最低分做重新加入排行榜的尝试
 			return SetError(response,player,"结算时找不到排行","");
 		}
-		PeakArenaExtAttribute areanExtAttribute = entry.getExtendedAttribute();
+		PeakArenaExtAttribute areanExtAttribute = entry.getExtension();
 		TablePeakArenaData enemyArenaData = PeakArenaBM.getInstance().getPeakArenaData(enemyUserId);
 		if (enemyArenaData == null) {
 			areanExtAttribute.setNotFighting();
 			return SetError(response,player,"结算时找不到对手",":"+enemyUserId);
 		}
 
-		// 计算积分
-		RankingEntry<Integer, PeakArenaExtAttribute> enemyEntry = ranking.getRankingEntry(enemyUserId);
-		int score = entry.getComparable();
+		// TODO 用新的方式计算奖励
+		RankingEntry<Integer, PeakArenaExtAttribute> enemyEntry = null;//ranking.getRankingEntry(enemyUserId);
+		int score = 0;//entry.getComparable();
 		int enemyScore;
 		if (enemyEntry != null) {
 			enemyScore = enemyEntry.getComparable();
@@ -369,14 +363,14 @@ public class PeakArenaHandler {
 		}
 		try {
 			long currentTimeMillis = System.currentTimeMillis();
-			int fightTime = (int) (currentTimeMillis - entry.getExtendedAttribute().getLastFightTime()) / 1000;
+			int fightTime = (int) (currentTimeMillis - entry.getExtension().getLastFightTime()) / 1000;
 			int addScore;
 			if (win) {
 				addScore = (int) (Math.min((int) (60 + fightTime * 0.5) + (int) ((enemyScore - score) * 0.05), 180));
-				PeakArenaBM.getInstance().addScore(player, addScore);
+				//PeakArenaBM.getInstance().addScore(player, addScore);
 			} else {
 				addScore = (int) (Math.max((int) (60 - fightTime * 0.3) - (int) ((enemyScore - score) * 0.05), 0));
-				PeakArenaBM.getInstance().addScore(player, -addScore);
+				//PeakArenaBM.getInstance().addScore(player, -addScore);
 			}
 			PeakRecordInfo record = new PeakRecordInfo();
 			record.setUserId(enemyUserId);
@@ -462,7 +456,7 @@ public class PeakArenaHandler {
 	public ArenaData getPeakArenaData(TablePeakArenaData arenaData, int place) {
 		PeakArenaBM peakArenaBM = PeakArenaBM.getInstance();
 		String userId = arenaData.getUserId();
-		int socre = peakArenaBM.getScore(userId);
+		int socre = 0;//peakArenaBM.getScore(userId);
 		ArenaData.Builder data = ArenaData.newBuilder();
 		data.setUserId(userId);
 		data.setScore(socre);

@@ -14,6 +14,7 @@ public class TablePeakArenaData {
 	@Id
 	private String userId; // 用户ID
 	private int maxPlace;
+	private boolean hasRanking;//未入榜的标志
 	private int challengeCount;//挑战次数
 	private int resetCount;//重置次数
 	private int buyCount;//额外购买的挑战次数
@@ -117,6 +118,16 @@ public class TablePeakArenaData {
 
 	public void setMaxPlace(int maxPlace) {
 		this.maxPlace = maxPlace;
+		hasRanking = true;
+	}
+	
+	public void setMaxPlace(int maxPlace,boolean hasRanking) {
+		this.maxPlace = maxPlace;
+		this.hasRanking = hasRanking;
+	}
+	
+	public boolean getHasRanking(){
+		return hasRanking;
 	}
 
 	public int getCareer() {

@@ -7,39 +7,34 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaConstant;
-import com.bm.rank.RankType;
+import com.bm.rank.ListRankingType;
+import com.common.HPCUtil;
+import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.Player;
-import com.rw.fsutil.common.SegmentList;
-import com.rw.fsutil.ranking.MomentRankingEntry;
-import com.rw.fsutil.ranking.Ranking;
-import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.ranking.ListRanking;
+import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.fsutil.ranking.exception.RankingCapacityNotEougthException;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
+import com.rw.service.PeakArena.datamodel.peakArenaMatchRule;
+import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.TableSkill;
-import com.rwbase.dao.user.readonly.TableUserIF;
 
 public class PeakArenaBM {
 
 	private static PeakArenaBM instance;
 	private TablePeakArenaDataDAO tablePeakArenaDataDAO = TablePeakArenaDataDAO.getInstance();
-	private static int RANDOM_COUNT = 11; // 期望最少的随机数量
-	private static int INCREMENT = 1000; // 期望积分差
-	private static int SCORE_INC = 100; // 超出期望后的积分增量
-	private static int FIGHTING_INTERVAL = 1000; // 期望战力差
-	private static int LEVEL_INTERVAL = 3; // 期望等级差
 	private static int RESULT_COUNT = 3; // 随机后的结果人数
 	private static long MILLIS_PER_HOUR = TimeUnit.HOURS.toMillis(1);
-
-	private PeakArenaBM() {
-	}
 
 	public static PeakArenaBM getInstance() {
 		if (instance == null) {
@@ -48,57 +43,262 @@ public class PeakArenaBM {
 		return instance;
 	}
 
+	private RandomCombination[][] randomArray;
+	private Comparator<ListRankingEntry<String, PeakArenaExtAttribute>> comparator;
+	private PeakArenaBM() {
+		RandomCombination[] singleDigitArray = new RandomCombination[10];
+		for (int i = 1; i <= 10; i++) {
+			singleDigitArray[i - 1] = new RandomCombination(i);
+		}
+
+		// 初始化10个数的两数组合和三数组合
+		ArrayList<RandomCombination> doubleList = new ArrayList<RandomCombination>();
+		for (int i = 1; i <= 10; i++) {
+			for (int j = i + 1; j <= 10; j++) {
+				doubleList.add(new RandomCombination(i, j));
+			}
+		}
+
+		RandomCombination[] doubleValueArray = new RandomCombination[doubleList.size()];
+		doubleList.toArray(doubleValueArray);
+
+		ArrayList<RandomCombination> tripleList = new ArrayList<RandomCombination>();
+		for (int i = 1; i <= 10; i++) {
+			for (int j = i + 1; j <= 10; j++) {
+				for (int k = j + 1; k <= 10; k++) {
+					tripleList.add(new RandomCombination(i, j, k));
+				}
+			}
+		}
+
+		RandomCombination[] tripleValueArray = new RandomCombination[tripleList.size()];
+		tripleList.toArray(tripleValueArray);
+
+		randomArray = new RandomCombination[4][];
+		randomArray[1] = singleDigitArray;
+		randomArray[2] = doubleValueArray;
+		randomArray[3] = tripleValueArray;
+	}
+
+	private int convertPlace(int pivot, int percentage){
+		int result = pivot * percentage / 100;
+		if (result <= 0) result = 1;
+		return result;
+	}
+	
+	private int getPlace(ListRanking<String, PeakArenaExtAttribute> wholeRank,Player player){
+		String userId = player.getUserId();
+		ListRankingEntry<String, PeakArenaExtAttribute> entry = wholeRank.getRankingEntry(userId);
+		int playerPlace = ListRankingType.PEAK_ARENA.getMaxCapacity();
+		if (entry != null) {
+			playerPlace = entry.getRanking();
+		}else{
+			if (!wholeRank.isFull()){
+				getOrAddPeakArenaData(player);
+				entry = wholeRank.getRankingEntry(userId);
+			}
+			if (entry == null){
+				playerPlace = wholeRank.getMaxCapacity();
+			}
+			playerPlace = entry.getRanking();
+		}
+		return playerPlace;
+	}
+
+	private boolean addEntry(String userId, List<ListRankingEntry<String, PeakArenaExtAttribute>> list, 
+			ListRanking<String, PeakArenaExtAttribute> ranking, int place) {
+		ListRankingEntry<String, PeakArenaExtAttribute> entry = ranking.getRankingEntry(place);
+		if (entry == null) {
+			return false;
+		}
+		String key = entry.getKey();
+		if (key.equals(userId)) {
+			return false;
+		}
+		// 检查是被锁定
+		if (entry.getExtension().adjustTimeOutState()) {
+			return false;
+		}
+		boolean contain = false;
+		for (int j = list.size(); --j >= 0;) {
+			ListRankingEntry<String, PeakArenaExtAttribute> existEntry = list.get(j);
+			if (existEntry.getKey().equals(key)) {
+				contain = true;
+				break;
+			}
+		}
+		if (!contain) {
+			list.add(entry);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean fillInRange(String userId, int start, int end, ListRanking<String, PeakArenaExtAttribute> ranking,
+			List<ListRankingEntry<String, PeakArenaExtAttribute>> list) {
+		int random = HPCUtil.getRandom().nextInt(end - start + 1) + start;
+		// 先在范围中随机一个
+		if (addEntry(userId, list, ranking, random)) {
+			return true;
+		}
+		int distance = end - start;
+		int last = random + distance;
+		// 在范围中选一个
+		for (int i = random; i <= last; i++) {
+			if (i > end) {
+				i -= distance;
+			}
+			if (addEntry(userId, list, ranking, i)) {
+				return true;
+			}
+		}
+		return fillByTenSteps(userId, end, 1, list, ranking);
+	}
+	
+	private boolean fillByTenSteps(String userId, int offset, int expectCount,
+			List<ListRankingEntry<String, PeakArenaExtAttribute>> list,
+			ListRanking<String, PeakArenaExtAttribute> ranking) {
+		int needCount = expectCount;
+		int count = 0;
+		int capacity = ranking.getMaxCapacity();// 多线程情况会返回null，因此要做判空操作
+		for (;;) {
+			RandomCombination[] randomCombination = randomArray[needCount];
+			int random = HPCUtil.getRandom().nextInt(randomCombination.length);
+			int[] array = randomCombination[random].getArray();
+			for (int i = array.length; --i >= 0;) {
+				if (addEntry(userId, list, ranking, offset + array[i]) && ++count >= expectCount) {
+					return true;
+				}
+			}
+			// 随机一组后不满足条件，倒叙或者正序遍历
+			int start = offset + 1;
+			offset += 10;
+			int end = offset > capacity ? capacity : offset;
+			if ((random & 1) == 1) {
+				for (int i = start; i <= end; i++) {
+					if (addEntry(userId, list, ranking, i) && ++count >= expectCount) {
+						return true;
+					}
+				}
+			} else {
+				for (int i = end; --i >= start;) {
+					if (addEntry(userId, list, ranking, i) && ++count >= expectCount) {
+						return true;
+					}
+				}
+			}
+			if (offset >= capacity) {
+				break;
+			}
+		}
+		return false;
+	}
+	
+	// 玩家筛选
+	public List<ListRankingEntry<String, PeakArenaExtAttribute>> SelectPeakArenaInfos(TablePeakArenaData data, Player player) {
+		ListRanking<String, PeakArenaExtAttribute> wholeRank = getRanks();
+		//获取玩家排名
+		int playerPlace = getPlace(wholeRank,player);
+		ArrayList<ListRankingEntry<String, PeakArenaExtAttribute>> result = new ArrayList<ListRankingEntry<String, PeakArenaExtAttribute>>();
+		peakArenaMatchRule cfg = peakArenaMatchRuleHelper.getInstance().getBestMatch(playerPlace,true);
+		if (cfg != null){
+			String userId = player.getUserId();
+			int configEnemyCount = cfg.getEnemyCount();
+			for(int i =0;i< RESULT_COUNT;i++){
+				int cfgEnemyIndex = i < configEnemyCount ? i : configEnemyCount -1;
+				IReadOnlyPair<Integer, Integer> range = cfg.getEnemyRange(cfgEnemyIndex);
+				int min = convertPlace(playerPlace,range.getT1());
+				int max = convertPlace(playerPlace,range.getT2());
+				//TODO 有更高效的选择算法，赶时间暂时放下不实现：搜索的时候返回最后搜索完毕的位置，可以用于调整下一次的开始范围；每个对手的搜索只需要一个随机数就够了
+				fillInRange(userId,min,max,wholeRank,result);
+			}
+		}else{
+			GameLog.error("巅峰竞技场", player.getUserId(), "找不到匹配规则,排名:"+playerPlace);
+		}
+		
+		/*
+		if (result.size() < RESULT_COUNT){
+		//TODO 应该用机器人填充!
+		}*/
+		
+		//排序
+		Collections.sort(result, comparator);
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ListRanking<String, PeakArenaExtAttribute> getRanks() {
+		ListRanking<String, PeakArenaExtAttribute> wholeRank = RankingFactory.getSRanking(ListRankingType.PEAK_ARENA);
+		return wholeRank;
+	}
+	
 	public TablePeakArenaData getOrAddPeakArenaData(Player player) {
 		return getOrAddPeakArenaData(player, null);//TODO 使用jamaz的持久存储初始化方案
 	}
 
-	public TablePeakArenaData getOrAddPeakArenaData(Player player, TempRankingEntry temp) {
-		String userId = player.getUserId();
-		TablePeakArenaData data = tablePeakArenaDataDAO.get(userId);
-		if (data != null) {
-			Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-			RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
-			if (entry == null) {
-				int lastScore = data.getLastScore();
-				if (lastScore < 0) {
-					lastScore = 0;
-				}
-				entry = ranking.addOrUpdateRankingEntry(data.getUserId(), lastScore, player);
-			}
-			if (temp != null && entry != null) {
-				temp.setRanking(ranking.getRanking(userId));
-			}
-			return data;
-		}
+	public TablePeakArenaData getOrAddPeakArenaData(Player player, RefInt temp) {
 		if (player.getLevel() < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
 			return null;
 		}
-		// 在排行榜创建记录
-		//TableUserOtherIF tableUserOther = player.getTableUserOther();
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.addOrUpdateRankingEntry(userId, 0, player);
-		int place;
-		if (entry == null) {
-			place = ranking.getMaxCapacity();
-		} else {
-			place = ranking.getRanking(userId);
+		String userId = player.getUserId();
+		TablePeakArenaData data = tablePeakArenaDataDAO.get(userId);
+		if (data == null) {
+			data = createPeakData(player);
 		}
-		if (temp != null) {
-			temp.setRanking(place);
-		}
+		getOrAddRankEntry(player,data,temp);
 		
-		data = createPeakData(player, place);
 		return data;
 	}
+	
+	// 在排行榜创建记录
+	private ListRankingEntry<String, PeakArenaExtAttribute> getOrAddRankEntry(Player player,TablePeakArenaData data,
+			RefInt temp){
+		String userId = player.getUserId();
+		ListRanking<String, PeakArenaExtAttribute> ranking = getRanks();
+		ListRankingEntry<String, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
+		int place;
+		if (entry == null) {
+			PeakArenaExtAttribute extension = createExtData(player);
+			try {
+				entry = ranking.addLast(userId, extension);
+				place = entry.getRanking();
+				data.setMaxPlace(place);
+			} catch (RankingCapacityNotEougthException e) {
+				e.printStackTrace();
+				place = ranking.getMaxCapacity();
+				data.setMaxPlace(place,false);
+			}
+		}else{
+			place = entry.getRanking();
+		}
+		if (temp != null){
+			temp.value = place;
+		}
+		return entry;
+	}
 
-	private TablePeakArenaData createPeakData(Player player, int place) {
+	private PeakArenaExtAttribute createExtData(Player player) {
+		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+		arenaExt.setModelId(player.getModelId());
+		arenaExt.setSex(player.getSex());
+		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+		return arenaExt;
+	}
+
+	protected TablePeakArenaData createPeakData(Player player, int place) {
+		TablePeakArenaData data = createPeakData(player);
+		data.setMaxPlace(place);
+		return data;
+	}
+	
+	private TablePeakArenaData createPeakData(Player player) {
 		TablePeakArenaData data = new TablePeakArenaData();
 		String userId = player.getUserId();
 		data.setUserId(userId);
 		data.setCareer(player.getCareer());
-		data.setMaxPlace(place);
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
-		// TODO data.setFighting(tableUserOther.getFighting());
+		//TODO data.setFighting(tableUserOther.getFighting());
 
 		data.setHeadImage(player.getHeadImage());
 		data.setLevel(player.getLevel());
@@ -128,172 +328,6 @@ public class PeakArenaBM {
 
 	public TablePeakArenaData getPeakArenaData(String userId) {
 		return tablePeakArenaDataDAO.get(userId);
-	}
-
-	// 增加颠覆竞技场数据
-	public TablePeakArenaData addPeakArenaData(Player player) {
-		if (player.getLevel() < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
-			return null;
-		}
-		// 在排行榜创建记录
-		TableUserIF tableUser = player.getTableUser();
-		//TableUserOtherIF tableUserOther = player.getTableUserOther();
-		String userId = tableUser.getUserId();
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.addOrUpdateRankingEntry(userId, 0, player);
-		int place;
-		if (entry == null) {
-			place = ranking.getMaxCapacity();
-		} else {
-			place = ranking.getRanking(userId);
-		}
-		
-		TablePeakArenaData data = createPeakData(player, place);
-		return data;
-	}
-
-	// 玩家筛选
-	@SuppressWarnings("unchecked")
-	public List<MomentRankingEntry<Integer, PeakArenaExtAttribute>> SelectPeakArenaInfos(TablePeakArenaData data, Player player) {
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(data.getUserId());
-		if (entry == null) {
-			entry = ranking.addOrUpdateRankingEntry(data.getUserId(), data.getLastScore(), player);
-		}
-		String userId = data.getUserId();
-		int score = (entry == null ? data.getLastScore() : entry.getComparable());
-		int minScore = score - INCREMENT;
-		int maxScore = score + INCREMENT;
-		SegmentList<MomentRankingEntry<Integer, PeakArenaExtAttribute>> enumberateList;
-		{
-			SegmentList<? extends MomentRankingEntry<Integer, PeakArenaExtAttribute>> tmp = ranking.getSegmentList(minScore, maxScore);
-			enumberateList = (SegmentList<MomentRankingEntry<Integer, PeakArenaExtAttribute>>) tmp;
-		}
-		
-		int refSize = enumberateList.getRefSize();
-		if (refSize == 0) {
-			return Collections.emptyList();
-		}
-
-		int maxSize = enumberateList.getMaxSize();
-		int maxIndex = maxSize - 1;
-		int startIndex = enumberateList.getRefStartIndex();
-		int endIndex = enumberateList.getRefEndIndex();
-		if (refSize < RANDOM_COUNT) {
-			outter: for (; startIndex > 0 || endIndex < maxIndex;) {
-				minScore -= SCORE_INC;
-				for (; startIndex > 0;) {
-					MomentRankingEntry<Integer, PeakArenaExtAttribute> start = enumberateList.get(startIndex - 1);
-					if (start.getEntry().getComparable() >= minScore) {
-						startIndex--;
-						refSize++;
-						if (refSize >= RANDOM_COUNT) {
-							break outter;
-						}
-					} else {
-						break;
-					}
-				}
-
-				maxScore += SCORE_INC;
-				for (; endIndex < maxIndex;) {
-					MomentRankingEntry<Integer, PeakArenaExtAttribute> end = enumberateList.get(endIndex + 1);
-					if (end.getEntry().getComparable() <= maxScore) {
-						endIndex++;
-						refSize++;
-						if (refSize >= RANDOM_COUNT) {
-							break outter;
-						}
-					} else {
-						break;
-					}
-				}
-			}
-		}
-
-		int level = data.getLevel();
-		PeakArenaScoreLevel scoreLv = PeakArenaScoreLevel.getSocre(score);
-		int fighting = data.getFighting();
-		List<MomentRankingEntry<Integer, PeakArenaExtAttribute>> randomList = new ArrayList<MomentRankingEntry<Integer, PeakArenaExtAttribute>>();
-		for (int i = startIndex; i <= endIndex; i++) {
-			MomentRankingEntry<Integer, PeakArenaExtAttribute> rankingEntry = enumberateList.get(i);
-			PeakArenaExtAttribute info = rankingEntry.getEntry().getExtendedAttribute();
-			// 等级差在3级以内
-			if (Math.abs(info.getLevel() - level) > LEVEL_INTERVAL) {
-				continue;
-			}
-			// 积分段在同一段
-			if (PeakArenaScoreLevel.getSocre(rankingEntry.getEntry().getComparable()) != scoreLv) {
-				continue;
-			}
-			// 战力差在1000以内
-			int absFighting = info.getFighting() - fighting;
-			if (Math.abs(absFighting) > FIGHTING_INTERVAL) {
-				continue;
-			}
-			randomList.add(rankingEntry);
-		}
-
-		int randomSize = randomList.size();
-		if (randomSize < RANDOM_COUNT) {
-			// 数量少的时候用clear
-			randomList = enumberateList.getSemgentCopy(startIndex, endIndex);
-			Collections.sort(randomList, new PeakAreanComparator(level, scoreLv.getLevel(), fighting));
-			randomSize = RANDOM_COUNT;
-		}
-
-		// TODO 这里迟点专门优化
-		Collections.shuffle(randomList);
-		int count = 0;
-		ArrayList<MomentRankingEntry<Integer, PeakArenaExtAttribute>> result = new ArrayList<MomentRankingEntry<Integer, PeakArenaExtAttribute>>();
-		for (int i = randomList.size(); --i >= 0;) {
-			MomentRankingEntry<Integer, PeakArenaExtAttribute> entry_ = randomList.get(count++);
-			if (!entry_.getEntry().getKey().equals(userId)) {
-				result.add(entry_);
-			}
-			if (result.size() == RESULT_COUNT) {
-				break;
-			}
-		}
-		return result;
-	}
-
-	private class PeakAreanComparator implements Comparator<MomentRankingEntry<Integer, PeakArenaExtAttribute>> {
-
-		private final int level;
-		private final int scoreLevel;
-		private final int fighting;
-
-		public PeakAreanComparator(int level, int scoreLevel, int fighting) {
-			super();
-			this.level = level;
-			this.scoreLevel = scoreLevel;
-			this.fighting = fighting;
-		}
-
-		@Override
-		public int compare(MomentRankingEntry<Integer, PeakArenaExtAttribute> o1, MomentRankingEntry<Integer, PeakArenaExtAttribute> o2) {
-			int o1Level = Math.abs(o1.getEntry().getExtendedAttribute().getLevel() - level);
-			int o2Level = Math.abs(o2.getEntry().getExtendedAttribute().getLevel() - level);
-
-			int lvInterval = o1Level - o2Level;
-			if (lvInterval != 0) {
-				return lvInterval;
-			}
-
-			int o1Lv = Math.abs(PeakArenaScoreLevel.getSocre(o1.getEntry().getComparable()).getLevel() - scoreLevel);
-			int o2Lv = Math.abs(PeakArenaScoreLevel.getSocre(o2.getEntry().getComparable()).getLevel() - scoreLevel);
-
-			int levelInterval = o1Lv - o2Lv;
-			if (levelInterval != 0) {
-				return levelInterval;
-			}
-
-			int o1Fighting = Math.abs(o1.getEntry().getExtendedAttribute().getFighting() - fighting);
-			int o2Fighting = Math.abs(o2.getEntry().getExtendedAttribute().getFighting() - fighting);
-			// 用列表排序，不区分0
-			return o1Fighting - o2Fighting;
-		}
 	}
 
 	public boolean switchTeam(Player player, List<Integer> list) {
@@ -338,40 +372,6 @@ public class PeakArenaBM {
 		tablePeakArenaDataDAO.update(table);
 	}
 
-	public TablePeakArenaData addScore(Player player, int value) {
-		String userId = player.getUserId();
-		TablePeakArenaData myPeakArenaData = tablePeakArenaDataDAO.get(userId);
-		// Ranking底层保证不为null
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
-		if (entry == null) {
-			entry = ranking.addOrUpdateRankingEntry(userId, 0, player);
-		}
-		int score = entry.getComparable();
-		int newScore;
-		if (value < 0) {
-			int minScore = ArenaConstant.PEAK_AREAN_MIN_SCORE;
-			if (score <= minScore) {
-				// 不执行更新
-				return myPeakArenaData;
-			}
-			newScore = score + value;
-			if (newScore < minScore) {
-				newScore = minScore;
-			}
-		} else {
-			newScore = score + value;
-		}
-		ranking.updateRankingEntry(entry, newScore);
-
-		int place = ranking.getRanking(userId);
-		if (myPeakArenaData.getMaxPlace() > place) {
-			myPeakArenaData.setMaxPlace(place);
-		}
-
-		return myPeakArenaData;
-	}
-
 	public List<PeakRecordInfo> getArenaRecordList(String userId) {
 		// TODO 需要判断非null
 		return tablePeakArenaDataDAO.get(userId).getRecordList();
@@ -381,20 +381,14 @@ public class PeakArenaBM {
 		if (player.getLevel() < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
 			return -1;
 		}
-		String userId = player.getUserId();
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		int place = ranking.getRanking(userId);
-		if (place > 0) {
-			return place;
-		}
-		TempRankingEntry entry = new TempRankingEntry();
-		getOrAddPeakArenaData(player, entry);
-		return entry.getRanking();
+		return getPlace(getRanks(),player);
 	}
 
 	public int getEnemyPlace(String userId) {
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		return ranking.getRanking(userId);
+		ListRanking<String, PeakArenaExtAttribute> ranking = getRanks();
+		ListRankingEntry<String, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
+		if (entry == null) return -1;
+		return entry.getRanking();
 	}
 
 	/**
@@ -404,6 +398,7 @@ public class PeakArenaBM {
 	 * @return
 	 */
 	public int gainExpectCurrency(TablePeakArenaData data) {
+		//TODO 按照新的规则进行领取
 		long currentTime = System.currentTimeMillis();
 		long lastTime = data.getLastGainCurrencyTime();
 		if (lastTime <= 0) {
@@ -412,7 +407,7 @@ public class PeakArenaBM {
 			return 0;
 		}
 
-		int score = getScore(data.getUserId());
+		int score = 0;
 		PeakArenaScoreLevel level = PeakArenaScoreLevel.getSocre(score);
 		int gainPerHour = level.getGainCurrency();
 		// TODO 这个可以优化，缓存起来不需要每次计算
@@ -444,19 +439,6 @@ public class PeakArenaBM {
 		return false;
 	}
 
-	public int getScore(String userId) {
-		Ranking<Integer, PeakArenaExtAttribute> ranking = RankingFactory.getRanking(RankType.PEAK_ARENA);
-		RankingEntry<Integer, PeakArenaExtAttribute> entry = ranking.getRankingEntry(userId);
-		if (entry == null) {
-			TablePeakArenaData arenaData = PeakArenaBM.getInstance().getPeakArenaData(userId);
-			if (arenaData != null) {
-				return arenaData.getLastScore();
-			}
-			return 0;
-		}
-		return entry.getComparable();
-	}
-
 	public void resetDataInNewDay(Player player) {
 		int level = player.getLevel();
 		if (level < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
@@ -474,17 +456,42 @@ public class PeakArenaBM {
 		tablePeakArenaDataDAO.update(peakArenaData);
 	}
 
-}
-
-class TempRankingEntry {
-	private int ranking = -1;
-
-	public int getRanking() {
-		return ranking;
+	public ListRankingEntry<String, PeakArenaExtAttribute> getPlayerRankEntry(Player player, TablePeakArenaData data) {
+		ListRankingEntry<String, PeakArenaExtAttribute> result= getOrAddRankEntry(player,data,null);
+		return result;
 	}
 
-	public void setRanking(int ranking) {
-		this.ranking = ranking;
+	public ListRankingEntry<String, PeakArenaExtAttribute> getEnemyEntry(String enemyId) {
+		ListRanking<String, PeakArenaExtAttribute> ranking = getRanks();
+		return ranking.getRankingEntry(enemyId);
+	}
+
+}
+
+class RandomCombination {
+
+	private final int[] array;
+
+	public RandomCombination(int one) {
+		array = new int[1];
+		array[0] = one;
+	}
+
+	public RandomCombination(int one, int two) {
+		array = new int[2];
+		array[0] = one;
+		array[1] = two;
+	}
+
+	public RandomCombination(int one, int two, int three) {
+		array = new int[3];
+		array[0] = one;
+		array[1] = two;
+		array[2] = three;
+	}
+
+	public int[] getArray() {
+		return array;
 	}
 
 }

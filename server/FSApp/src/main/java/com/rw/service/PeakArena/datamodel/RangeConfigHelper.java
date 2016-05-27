@@ -24,8 +24,8 @@ abstract public class RangeConfigHelper<ConfigClass extends AbsRangeConfig> exte
 
 	}
 
-	public ConfigClass getBestMatch(int rank) {
-		if (rank > maxConfigRank) {
+	public ConfigClass getBestMatch(int rank,boolean allowOutOfRange) {
+		if (!allowOutOfRange && rank > maxConfigRank) {
 			return null;
 		}
 		Collection<ConfigClass> vals = cfgCacheMap.values();

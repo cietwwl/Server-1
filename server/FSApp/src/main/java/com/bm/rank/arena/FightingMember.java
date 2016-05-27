@@ -1,13 +1,18 @@
 package com.bm.rank.arena;
 
 public class FightingMember {
-
-	private final int timeout;
+	private final int original;
+	protected int timeout;
 	private volatile boolean inFightState; // 0不在战斗，1是战斗中
 	private volatile long lastFightTime; // 上一次进入战斗的时间
 
 	public FightingMember(int timeout) {
 		this.timeout = timeout;
+		original = timeout;
+	}
+	
+	protected void resetTimeout(){
+		timeout = original;
 	}
 
 	/**
@@ -32,6 +37,7 @@ public class FightingMember {
 			}
 			inFightState = false;
 			this.lastFightTime = 0;
+			timeout = original;
 		}
 		return inFightState;
 	}

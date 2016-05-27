@@ -21,7 +21,7 @@ public class peakArenaPrizeHelper extends RangeConfigHelper<peakArenaPrize> {
 	}
 
 	public int getBestMatchPrizeCount(int rank) {
-		peakArenaPrize guestCfg = getBestMatch(rank);
+		peakArenaPrize guestCfg = getBestMatch(rank,false);
 		if (guestCfg == null){
 			return 0;
 		}

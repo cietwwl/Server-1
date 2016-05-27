@@ -17,7 +17,7 @@ import com.rw.service.PeakArena.datamodel.PeakArenaExtension;
 
 public enum RankType implements TypeIdentification, RankingConfig {
 
-	PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
+	//PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()), 
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),

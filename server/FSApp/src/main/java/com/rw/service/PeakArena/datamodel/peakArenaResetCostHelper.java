@@ -20,7 +20,7 @@ public class peakArenaResetCostHelper extends RangeConfigHelper<peakArenaResetCo
 	}
 	
 	public peakArenaResetCost getCfgByResetCount(int resetCount){
-		peakArenaResetCost result = this.getBestMatch(resetCount);
+		peakArenaResetCost result = this.getBestMatch(resetCount,true);
 		return result;
 	}
 }

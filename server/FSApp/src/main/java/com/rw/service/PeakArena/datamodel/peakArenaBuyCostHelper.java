@@ -20,6 +20,6 @@ public class peakArenaBuyCostHelper extends RangeConfigHelper<peakArenaBuyCost> 
 	}
 	
 	public peakArenaBuyCost getCfgByCount(int buyCount){
-		return this.getBestMatch(buyCount);
+		return this.getBestMatch(buyCount,true);
 	}
 }

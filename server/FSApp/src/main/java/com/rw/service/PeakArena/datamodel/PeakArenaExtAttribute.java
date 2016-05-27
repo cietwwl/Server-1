@@ -2,8 +2,7 @@ package com.rw.service.PeakArena.datamodel;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.bm.arena.ArenaConstant;
-import com.bm.rank.arena.FightingMember;
+import com.bm.rank.arena.ArenaExtAttribute;
 
 /**
  * 巅峰竞技场扩展属性
@@ -11,57 +10,17 @@ import com.bm.rank.arena.FightingMember;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PeakArenaExtAttribute extends FightingMember{
-
-	public PeakArenaExtAttribute() {
-		super(ArenaConstant.PEAK_ARENA_FIGHTING_TIMEOUT);
+public class PeakArenaExtAttribute extends ArenaExtAttribute{
+//TODO 巅峰竞技场的排行榜信息基本与竞技场的一样，只是队伍从1队扩展为3对
+	
+	/**
+	 * 延长一倍的超时，用于一场战斗结束后，连续打第二场
+	 */
+	public void extendTimeOut(){
+		timeout += timeout;
 	}
 
-	private int winCount;		//连胜次数
-	private int level;			//等级
-	private String name;		//名字
-	private String headImage;	//头像
-	private int fighting;		//战力
-
-
-	public int getWinCount() {
-		return winCount;
+	public PeakArenaExtAttribute(int career, int fighting, String name, String headImage, int level) {
+		super(career, fighting, name, headImage, level);
 	}
-
-	public void setWinCount(int winCount) {
-		this.winCount = winCount;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getHeadImage() {
-		return headImage;
-	}
-
-	public void setHeadImage(String headImage) {
-		this.headImage = headImage;
-	}
-
-	public int getFighting() {
-		return fighting;
-	}
-
-	public void setFighting(int fighting) {
-		this.fighting = fighting;
-	}
-
 }

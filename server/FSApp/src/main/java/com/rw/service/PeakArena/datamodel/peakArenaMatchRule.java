@@ -19,6 +19,7 @@ public class peakArenaMatchRule extends AbsRangeConfig {
 	private Pair<Integer, Integer> enemy1Range;
 	private Pair<Integer, Integer> enemy2Range;
 	private Pair<Integer, Integer> enemy3Range;
+	private Pair<Integer, Integer>[] enemyRanges;
 
 	public IReadOnlyPair<Integer, Integer> getEnemy1Range() {
 		return enemy1Range;
@@ -32,6 +33,7 @@ public class peakArenaMatchRule extends AbsRangeConfig {
 		return enemy3Range;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void ExtraInitAfterLoad() {
 		String errorId = "peakArenaMatchRule.csv"+",key="+key;
@@ -42,6 +44,21 @@ public class peakArenaMatchRule extends AbsRangeConfig {
 		if (!(enemy1Range.getT1()>enemy2Range.getT2() && enemy2Range.getT1() > enemy3Range.getT2() && enemy2Range.getT1()>=0)){
 			throw new RuntimeException("三个对手的筛选范围配置重叠");
 		}
+		enemyRanges = new Pair[3];
+		enemyRanges[0] = enemy1Range;
+		enemyRanges[1] = enemy2Range;
+		enemyRanges[2] = enemy3Range;
+	}
+	
+	public int getEnemyCount(){
+		return enemyRanges.length;
+	}
+	
+	public IReadOnlyPair<Integer, Integer> getEnemyRange(int index){
+		if (0 <= index && index < enemyRanges.length){
+			return enemyRanges[index];
+		}
+		return null;
 	}
 
 	@Override
