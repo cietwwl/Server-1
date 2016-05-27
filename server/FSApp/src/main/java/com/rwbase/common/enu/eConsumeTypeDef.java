@@ -10,7 +10,9 @@ public enum eConsumeTypeDef {
 	OnlySellConsume(15),// 仅用于出售
 	VipExpConsume(16),//Vip经验卡
 //	giftsPackage(17);//背包里使用的礼包
-	Exp4FixEquip(18);//专属装备经验
+	Exp4FixEquip_4(18),//专属装备经验
+	Exp4FixEquip_5(19);//专属装备经验
+	
 	private int order;
 
 	eConsumeTypeDef(int order) {

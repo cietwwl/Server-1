@@ -27,7 +27,6 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
-import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -143,26 +142,42 @@ public class FixExpEquipMgr {
 	private FixEquipResult doLevelUp(Player player,FixExpEquipDataItem dataItem, ExpLevelUpReqParams reqParams) {
 		
 		List<SelectItem> selectItemList = reqParams.getSelectItemList();
-		int totalExp = selectItems2Exp(selectItemList);
 		
-		FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
-		int totalCost = totalExp * equipCfg.getCostPerExp();
-		
-		FixEquipResult result = FixEquipHelper.takeCost(player, equipCfg.getExpCostType(), totalCost);
-		if(result.isSuccess()){			
-			Map<Integer,Integer> itemsSelected = new HashMap<Integer, Integer>();
-			for (SelectItem selectItem : selectItemList) {
-				int modelId = selectItem.getModelId();
-				int count = selectItem.getCount();
-				itemsSelected.put(modelId, count);
+		eConsumeTypeDef consumeType = null;
+				
+		if(dataItem.getSlot() == 4){
+			consumeType = eConsumeTypeDef.Exp4FixEquip_4;
+		}else if(dataItem.getSlot() == 5){
+			consumeType = eConsumeTypeDef.Exp4FixEquip_5;
+		}
+				
+		FixEquipResult result = FixEquipResult.newInstance(false);
+		if(consumeType == null){
+			result.setReason("所选经验道具和升级装备不匹配。");
+		}else{
+			
+			int totalExp = selectItems2Exp(selectItemList);
+			
+			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+			int totalCost = totalExp * equipCfg.getCostPerExp();
+			
+			result = FixEquipHelper.takeCost(player, equipCfg.getExpCostType(), totalCost);
+			if(result.isSuccess()){			
+				Map<Integer,Integer> itemsSelected = new HashMap<Integer, Integer>();
+				for (SelectItem selectItem : selectItemList) {
+					int modelId = selectItem.getModelId();
+					int count = selectItem.getCount();
+					itemsSelected.put(modelId, count);
+				}
+				result = FixEquipHelper.takeItemCost(player, itemsSelected);
 			}
-			result = FixEquipHelper.takeItemCost(player, itemsSelected);
+			
+			if(result.isSuccess()){
+				iterateLevelUp(dataItem, totalExp);
+				fixExpEquipDataItemHolder.updateItem(player, dataItem);
+			}
 		}
-		
-		if(result.isSuccess()){
-			iterateLevelUp(dataItem, totalExp);
-			fixExpEquipDataItemHolder.updateItem(player, dataItem);
-		}
+				
 		
 		return result;
 	}
@@ -204,7 +219,7 @@ public class FixExpEquipMgr {
 			int modelId = selectItem.getModelId();
 			int count = selectItem.getCount();
 			ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(modelId);
-			if(eConsumeTypeDef.Exp4FixEquip.ordinal() == consumeCfg.getConsumeType()){
+			if(eConsumeTypeDef.Exp4FixEquip_4.ordinal() == consumeCfg.getConsumeType()){
 				totalExp = totalExp + consumeCfg.getValue()*count;
 			}
 		}
