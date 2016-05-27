@@ -64,6 +64,7 @@ public class BIStatLogMgr {
 		
 		final Map<String,BICounter> coinAccount = new HashMap<String,BICounter>();
 		final Map<String,BICounter> giftGoldAccount = new HashMap<String,BICounter>();
+		final Map<String,BICounter> chargeGoldAccount = new HashMap<String,BICounter>();
 		final String sql = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM user_other LEFT JOIN user ON user_other.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
 		doDbCount(sql, new BIIntefaceCount(){
 
@@ -77,14 +78,16 @@ public class BIStatLogMgr {
 				}
 				
 				long coin = user.getDbvalue().getCoin();
-				long giftGold = user.getDbvalue().getGold();
+				long giftGold = user.getDbvalue().getGiftGold();
+				long chargeGold = user.getDbvalue().getChargeGold();
 				
 //				getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm).add(coin);
 				BICounter count = getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm);
 				if(count != null){
 					count.add(coin);
 					getCounter(giftGoldAccount, regSubChannelId, "totalCountGold", clientPlatForm).add(giftGold);
-//					System.out.println(user.getDbvalue().getUserId() + "    coin = "+coin +" giftgold =" + giftGold);
+					getCounter(chargeGoldAccount, regSubChannelId, "totalCountGold", clientPlatForm).add(chargeGold);
+					System.out.println(user.getDbvalue().getUserId() + "    coin = "+coin +" giftgold =" + giftGold + " chargegold =" + chargeGold);
 				}
 			}
 			
@@ -92,7 +95,8 @@ public class BIStatLogMgr {
 			
 		});
 		logCoin(coinAccount);
-		logGold(giftGoldAccount);
+		logGiftGold(giftGoldAccount);
+		logChargeGold(chargeGoldAccount);
 	}
 	
 	private void logCoin(Map<String, BICounter> coinAccount) {
@@ -101,12 +105,21 @@ public class BIStatLogMgr {
 		}
 	}
 	
-	private void logGold(Map<String, BICounter> giftGoldAccount) {
+	private void logGiftGold(Map<String, BICounter> giftGoldAccount) {
 		for (BICounter biCounterTmp : giftGoldAccount.values()) {
-			BILogMgr.getInstance().logZoneCountGold(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
+			BILogMgr.getInstance().logZoneCountGiftGold(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
 		}
 	}
 
+	private void logChargeGold(Map<String, BICounter> chargeGoldAccount) {
+		for (BICounter biCounterTmp : chargeGoldAccount.values()) {
+			BILogMgr.getInstance().logZoneCountChargeGold(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
+		}
+	}
+	
+	
+	
+	
 	
 	private void logZoneCountByUser(){
 		

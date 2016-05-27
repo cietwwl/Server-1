@@ -4,8 +4,13 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.util.StringUtils;
+
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.group.helper.GroupCmdHelper;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 
 
 public class RoleGameInfo {
@@ -29,6 +34,7 @@ public class RoleGameInfo {
 	
 	private Integer careerType;
 	
+	private String factionId;
 	private String roleCreatedTime;
 	
 	private String userCreatedTime;
@@ -80,7 +86,15 @@ public class RoleGameInfo {
 		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
 		roleGameInfo.setCareerType(player.getCareer());
 		
+		UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
+		String groupId = baseData.getGroupId();
+		if (!StringUtils.isEmpty(groupId)) {
+			roleGameInfo.setFactionId(groupId);
+		}
 		
+		
+
 		long roleCreatedTime = player.getUserDataMgr().getCreateTime();
 		
 		if(roleCreatedTime>0){
@@ -159,6 +173,17 @@ public class RoleGameInfo {
 		}
 		
 		return roleGameInfo;
+	}
+
+	
+	
+	
+	public String getFactionId() {
+		return factionId;
+	}
+
+	public void setFactionId(String factionId) {
+		this.factionId = factionId;
 	}
 
 	public String getUserId() {

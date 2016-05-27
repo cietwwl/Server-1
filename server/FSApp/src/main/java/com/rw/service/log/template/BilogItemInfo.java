@@ -27,22 +27,26 @@ public class BilogItemInfo {
 		}		
 		return newlist;
 	}
-	
+	/**各种奇葩的格式，'aid:anum,bid:bnum','aid_anum,bid_bnum'*/
 	public static List<BilogItemInfo> fromStrArr(String[] strlist){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
 		for(String subitem : strlist){
 			BilogItemInfo newsubitem = new BilogItemInfo();
 			String[] split2 = subitem.split(":");
 			if (split2.length < 2) {
+				split2 = subitem.split("_");
+			}
+			if(split2.length < 2){
 				continue;
 			}
 			newsubitem.setItemId(Integer.parseInt(split2[0]));
 			newsubitem.setNum(Integer.parseInt(split2[1]));
 			newlist.add(newsubitem);			
-		}				
+		}
 		return newlist;
 	}
 	
+	/**各种奇葩的格式，'aid_anum,bid_bnum','aid~anum,bid~bnum'*/
 	public static List<BilogItemInfo> fromStr(String str){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
 		String[] sublist = str.split(",");		
@@ -55,7 +59,19 @@ public class BilogItemInfo {
 			newsubitem.setItemId(Integer.parseInt(split2[0]));
 			newsubitem.setNum(Integer.parseInt(split2[1]));
 			newlist.add(newsubitem);			
-		}				
+		}
+		if(newlist.size() == 0){//一二三四，再来一次
+			for(String subitem : sublist){
+				BilogItemInfo newsubitem = new BilogItemInfo();
+				String[] split2 = subitem.split("~");
+				if (split2.length < 2) {
+					continue;
+				}
+				newsubitem.setItemId(Integer.parseInt(split2[0]));
+				newsubitem.setNum(Integer.parseInt(split2[1]));
+				newlist.add(newsubitem);			
+			}			
+		}
 		return newlist;
 	}
 	
@@ -100,6 +116,28 @@ public class BilogItemInfo {
 
 		return newlist;
 	}
+	
+	public static List<BilogItemInfo> fromComGiftID(String  giftId){
+		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(giftId);	
+		if(giftcfg == null){
+			return newlist;
+		}		
+		Set<String> keyset = giftcfg.getGiftMap().keySet();
+		Iterator<String> iterable = keyset.iterator();
+		while(iterable.hasNext()){
+			BilogItemInfo newsubitem = new BilogItemInfo();
+			String id = iterable.next();
+			newsubitem.setItemId(Integer.parseInt(id));
+			newsubitem.setNum(giftcfg.getGiftMap().get(id));
+			newlist.add(newsubitem);
+		}
+
+		return newlist;
+	}
+	
+	
+	
 	
 	public int getItemId() {
 		return itemId;

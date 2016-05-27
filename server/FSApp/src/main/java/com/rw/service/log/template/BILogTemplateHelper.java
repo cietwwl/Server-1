@@ -94,7 +94,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("总账号统计", "$totalAccount$");
 		addTemplateToken("IMEI信息", "$loginImei$");
 		addTemplateToken("关卡code", "$copyId$");		
-		addTemplateToken("充值币余额", "$zoneGiftGoldRemain$");
+		addTemplateToken("赠送充值币余额", "$zoneGiftGoldRemain$");
+		addTemplateToken("付费充值币余额", "$zoneChargeGoldRemain$");
 		
 		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
@@ -109,6 +110,8 @@ public class BILogTemplateHelper {
 		addTemplateToken("手机型号", "$loginPhoneType$");
 		addTemplateToken("mac地址", "$loginImac$");
 		addTemplateToken("任务ID", "$taskId$");
+		
+		addTemplateToken("帮派id", "$factionId$");
 		addTemplateToken("sdk版本", "$loginsdkVersion$");
 		addTemplateToken("sdk_id", "");
 		addTemplateToken("map_id", "$mapid$");

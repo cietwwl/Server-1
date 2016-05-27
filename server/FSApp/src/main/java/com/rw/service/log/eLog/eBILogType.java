@@ -24,8 +24,8 @@ public enum eBILogType {
 	ActivityEnd(21,"任务结束"), 
 	RoleUpgrade(22,"角色升级"),
 	GiftGoldChanged(23,"赠送充值币变动"),
-	ZoneCountGiftGold(24,"区充值币余额");
-	
+	ZoneCountGiftGold(24,"区赠送充值币余额"),
+	ZoneCountChargeGold(25,"区付费充值币余额");
 	
 	
 	private int logId;

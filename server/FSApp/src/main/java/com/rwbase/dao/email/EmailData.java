@@ -27,7 +27,14 @@ public class EmailData {
 	private long  beginTime;
 	//可领取奖励结束时间
 	private long  endTime;
-	
+	//邮件编号，用来核实邮件类型 
+	private String cfgid;
+	public String getCfgid() {
+		return cfgid;
+	}
+	public void setCfgid(String cfgid) {
+		this.cfgid = cfgid;
+	}
 	
 	public String getTitle() {
 		return title;

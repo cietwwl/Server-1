@@ -19,6 +19,7 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -365,15 +366,18 @@ public class GMHandler {
 	
 	
 	public boolean addGold(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 1) {
-			System.out.println(" command param not right ...");
-			return false;
-		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
-		if (player != null) {
-			player.getUserGameDataMgr().addGold(addNum);
-			return true;
-		}
+		Player target = PlayerMgr.getInstance().findPlayerFromMemory(player.getUserId().trim());
+//		target.s
+		//target.save(true);
+//		if (arrCommandContents == null || arrCommandContents.length < 1) {
+//			System.out.println(" command param not right ...");
+//			return false;
+//		}
+//		int addNum = Integer.parseInt(arrCommandContents[0]);
+//		if (player != null) {
+//			player.getUserGameDataMgr().addGold(addNum);
+//			return true;
+//		}
 		return false;
 	}
 

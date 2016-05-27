@@ -62,7 +62,7 @@ public class Test {
 
 		// String groupId = "100110033";
 		// Robot robot = loginRobot("groupRobot9");
-		// robot.addGold(1000);
+		 robot.addGold(1000);
 		// robot.addCoin(100000);
 		// robot.createGroup("作弊捡来的");
 		// for (int i = 0; i < 2; i++) {
