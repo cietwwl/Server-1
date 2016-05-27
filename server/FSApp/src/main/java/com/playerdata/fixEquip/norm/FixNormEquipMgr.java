@@ -1,6 +1,8 @@
 package com.playerdata.fixEquip.norm;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +34,21 @@ public class FixNormEquipMgr {
 	
 	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
 
+	final private Comparator<FixNormEquipDataItem> comparator = new Comparator<FixNormEquipDataItem>() {
+		
+		@Override
+		public int compare(FixNormEquipDataItem source,
+				FixNormEquipDataItem target) {
+			return source.getSlot() - target.getSlot();
+		}
+		
+	};
 	public boolean newHeroInit(Player player, String ownerId, int modelId ){
 		List<FixNormEquipDataItem> equipItemList = new ArrayList<FixNormEquipDataItem>();
 	
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));		
 		
+		int slot = 0;
 		for (String cfgId : roleFixEquipCfg.getNormCfgIdList()) {
 			
 			String id = FixEquipHelper.getNormItemId(ownerId, cfgId);
@@ -48,9 +60,13 @@ public class FixNormEquipMgr {
 			FixNormEquipDataItem.setQuality(1);
 			FixNormEquipDataItem.setLevel(1);
 			FixNormEquipDataItem.setStar(0);
-			equipItemList.add(FixNormEquipDataItem);
+			FixNormEquipDataItem.setSlot(slot);
 			
+			equipItemList.add(FixNormEquipDataItem);
+			slot++;
 		}
+		
+		Collections.sort(equipItemList, comparator);
 		
 		return fixNormEquipDataItemHolder.initItems(player, ownerId, equipItemList);
 		

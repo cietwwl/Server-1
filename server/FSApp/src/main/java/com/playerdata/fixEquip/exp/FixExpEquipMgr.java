@@ -1,6 +1,8 @@
 package com.playerdata.fixEquip.exp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
+import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -37,12 +40,22 @@ public class FixExpEquipMgr {
 	
 	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
 
+	final private Comparator<FixExpEquipDataItem> comparator = new Comparator<FixExpEquipDataItem>() {
+		
+		@Override
+		public int compare(FixExpEquipDataItem source,
+				FixExpEquipDataItem target) {
+			return source.getSlot() - target.getSlot();
+		}
+		
+	};
+	
 	public boolean newHeroInit(Player player, String ownerId, int modelId ){
 		List<FixExpEquipDataItem> equipItemList = new ArrayList<FixExpEquipDataItem>();
 		
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
 		
-		
+		int slot = 4;
 		for (String cfgId : roleFixEquipCfg.getExpCfgIdList()) {
 			String id = FixEquipHelper.getExpItemId(ownerId, cfgId);
 			
@@ -53,9 +66,15 @@ public class FixExpEquipMgr {
 			FixExpEquipDataItem.setQuality(1);
 			FixExpEquipDataItem.setLevel(1);
 			FixExpEquipDataItem.setStar(0);
+			FixExpEquipDataItem.setSlot(slot);
+			
 			equipItemList.add(FixExpEquipDataItem);
+			slot++;
+			
 			
 		}
+		
+		Collections.sort(equipItemList, comparator);
 		
 		return fixExpEquipDataItemHolder.initItems(player, ownerId, equipItemList);
 	}

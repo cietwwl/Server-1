@@ -32,6 +32,9 @@ public class FixNormEquipDataItem implements  IMapItem {
 	@CombineSave
 	private int star;
 	
+	@CombineSave
+	private int slot;
+	
 	public String getId() {
 		return id;
 	}
@@ -70,6 +73,13 @@ public class FixNormEquipDataItem implements  IMapItem {
 		this.star = star;
 	}	
 
+	public int getSlot() {
+		return slot;
+	}
+	public void setSlot(int slot) {
+		this.slot = slot;
+	}
+	
 	public String getQualityPlanId(){
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
 		return fixEquipCfg.getQualityPlanId();

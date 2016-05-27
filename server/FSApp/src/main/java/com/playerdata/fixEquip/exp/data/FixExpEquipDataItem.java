@@ -33,6 +33,8 @@ public class FixExpEquipDataItem implements  IMapItem {
 	private int quality;
 	@CombineSave
 	private int star;
+	@CombineSave
+	private int slot;
 	
 	public String getId() {
 		return id;
@@ -78,6 +80,12 @@ public class FixExpEquipDataItem implements  IMapItem {
 		this.exp = exp;
 	}	
 
+	public int getSlot() {
+		return slot;
+	}
+	public void setSlot(int slot) {
+		this.slot = slot;
+	}
 	public String getQualityPlanId(){
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
 		return fixEquipCfg.getQualityPlanId();
