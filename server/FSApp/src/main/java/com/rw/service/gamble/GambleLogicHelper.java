@@ -143,6 +143,7 @@ public class GambleLogicHelper {
 
 	public static ByteString SetError(Builder response, Player player, String errLog, String tip) {
 		GameLog.error("钓鱼台", player.getUserId(), errLog);
+		response.setResultType(EGambleResultType.FAIL);
 		if(!StringUtils.isBlank(tip)) {
 			response.setTips(tip);
 		}

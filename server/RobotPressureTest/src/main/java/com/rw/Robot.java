@@ -4,7 +4,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
-import com.rw.handler.Worship.WorshipHandler;
+import com.rw.handler.DailyActivity.DailyActivityHandler;
 import com.rw.handler.battle.PVEHandler;
 import com.rw.handler.battle.PVPHandler;
 import com.rw.handler.battletower.BattleTowerHandler;
@@ -22,9 +22,11 @@ import com.rw.handler.group.GroupPersonalHandler;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.magic.MagicHandler;
+import com.rw.handler.mainService.MainHandler;
 import com.rw.handler.platform.PlatformHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.task.TaskHandler;
+import com.rw.handler.worShip.worShipHandler;
 
 /*
  * 机器人入口
@@ -152,7 +154,14 @@ public class Robot {
 		return GambleHandler.instance().buy(client);
 
 	}
+	/**钻石抽*/
+	public boolean gambleByGold() {
+		return GambleHandler.instance().buyByGold(client);
 
+	}
+	
+	
+	
 	public boolean buyRandom() {
 		if (client == null) {
 			return false;
@@ -585,15 +594,33 @@ public class Robot {
 	public  boolean testWorShip() {
 			
 		
-			return WorshipHandler.getHandler().ArenaWorship(client, "");
+		return worShipHandler.getHandler().ArenaWorship(client, "");
 	}
-
+	
+	/**
+	 * 买体
+	 */
+	public  boolean testMainService() {
+		addGold(500);
+		return MainHandler.getHandler().buyTower(client);
+	}
+	
+	
+	
 	public int getChatCount() {
 		return chatCount;
 	}
 
 	public void setChatCount(int chatCount) {
 		this.chatCount = chatCount;
+	}
+	
+	/**消费300钻 */
+	public boolean testDailyActivity() {
+		// TODO Auto-generated method stub
+		addGold(500);
+		return DailyActivityHandler.getHandler().Const(this);		
+		
 	}
 
 }
