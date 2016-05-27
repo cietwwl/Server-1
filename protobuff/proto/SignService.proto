@@ -30,5 +30,6 @@ message MsgSignResponse
 	optional int32 reSignCount = 3;				//补签次数
 	optional int32 year = 4;					//年份
 	optional int32 month = 5;					//月份
-	repeated string tagSignData = 6;			//签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
+	optional string resultMsg = 6;              //返回消息
+	repeated string tagSignData = 7;			//签到的数据字符串,以"2015_1_25,2,0"的形式记录下"日期,一共签到次数,是否处于补签状态"
 }
