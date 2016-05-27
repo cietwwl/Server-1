@@ -34,6 +34,8 @@ public class MSConditionJudger {
 	public final static int MS_RANK_FETCH_COUNT = 100;
 	
 	public final static String CHAPTER_INIT_ID = "1";
+	public final static int MS_STAR_ID = -301;
+	public final static int MS_SCORE_ID = -302;
 	
 	protected MagicChapterInfoHolder mChapterHolder;
 	protected UserMagicSecretHolder userMSHolder;
@@ -252,9 +254,11 @@ public class MSConditionJudger {
 	 */
 	protected boolean judgeSweepCount(String chapterID){
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
-		if(mcInfo == null || mcInfo.getFinishedStages().size() == STAGE_COUNT_EACH_CHATPER) return true;
-		GameLog.error(LogModule.MagicSecret.toString(), userId, String.format("judgeSweepCount, 章节[%s]当日全部通关，扫荡次数不足", chapterID), null);
-		return false;
+		if(mcInfo == null || mcInfo.getFinishedStages().size() == STAGE_COUNT_EACH_CHATPER){
+			GameLog.error(LogModule.MagicSecret.toString(), userId, String.format("judgeSweepCount, 章节[%s]当日全部通关，扫荡次数不足", chapterID), null);
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -268,9 +272,9 @@ public class MSConditionJudger {
 		int maxStageID = msData.getMaxStageID();
 		int maxChatperID = fromStageIDToChapterID(maxStageID);
 		if(maxChatperID > Integer.parseInt(chapterID)) return true;
-		if(fromStageIDToLayerID(maxStageID) == STAGE_COUNT_EACH_CHATPER) return true;
-		GameLog.error(LogModule.MagicSecret.toString(), userId, String.format("judgeSweepCount, 章节[%s]当日全部通关，扫荡次数不足", chapterID), null);
-		return true;
+		if(maxChatperID == Integer.parseInt(chapterID) && fromStageIDToLayerID(maxStageID) == STAGE_COUNT_EACH_CHATPER) return true;
+		GameLog.error(LogModule.MagicSecret.toString(), userId, String.format("judgeSweepAble, 章节[%s]还未全部通关，不能扫荡", chapterID), null);
+		return false;
 	}
 	
 	protected int fromDungeonIDToStageID(String dungeonID){

@@ -228,7 +228,7 @@ public class PlayerTimeActionHelper {
 
 			@Override
 			public void doTask() {
-				MSScoreRankMgr.dispatchMSDailyReward();
+				player.getMagicSecretMgr().resetDailyMSInfo();
 			}
 		});
 		

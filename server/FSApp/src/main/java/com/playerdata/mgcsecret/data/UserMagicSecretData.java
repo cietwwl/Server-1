@@ -40,6 +40,9 @@ public class UserMagicSecretData {
 
 	@CombineSave
 	private String currentDungeonID = null; // 正在打的副本
+	
+	@CombineSave
+	private long lastResetTime = 0l;
 
 	@CombineSave
 	private String version;
@@ -106,6 +109,10 @@ public class UserMagicSecretData {
 	public void setRecentScoreTime(long recentScoreTime) {
 		this.recentScoreTime = recentScoreTime;
 	}
+	
+	public long getLastResetTime(){
+		return lastResetTime;
+	}
 
 	public String getVersion() {
 		return version;
@@ -129,5 +136,11 @@ public class UserMagicSecretData {
 
 	public void setCurrentDungeonID(String currentDungeonID) {
 		this.currentDungeonID = currentDungeonID;
+	}
+	
+	public void saveDailyScoreData(){
+		historyScore += todayScore;
+		todayScore = 0;
+		lastResetTime = System.currentTimeMillis();
 	}
 }

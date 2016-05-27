@@ -100,7 +100,7 @@ public class MagicChapterInfoHolder{
 	public boolean resetAllItem(Player player){
 		for(MagicChapterInfo mcInfo : getItemList(player.getUserId())){
 			mcInfo.resetData();
-			startNewChapter(player, mcInfo.getId());
+			startNewChapter(player, mcInfo.getChapterId());
 			updateItem(player, mcInfo);
 		}
 		return true;

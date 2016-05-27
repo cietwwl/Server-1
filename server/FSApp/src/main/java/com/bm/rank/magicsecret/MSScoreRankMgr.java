@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.rank.RankType;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.mgcsecret.cfg.MagicScoreRankCfg;
 import com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
@@ -68,22 +70,29 @@ public class MSScoreRankMgr {
 	 */
 	public static void dispatchMSDailyReward(){
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
-		int rewardCfgCount = MagicScoreRankCfgDAO.getInstance().getEntryCount();
-		for(int i = 1; i <= rewardCfgCount; i++){
-			int startRank = 1;
-			if(i != 1) startRank = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i-1)).getRankEnd() + 1;
-			MagicScoreRankCfg rewardCfg = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i));
-			int endRank = rewardCfg.getRankEnd();
-			for(int j = startRank; j <= endRank; j++){
-				while(it.hasMoreElements()){
-					MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
-					entry.getExtendedAttribute().getUserId();
-					//TODO 给玩家发放邮件
-					rewardCfg.getReward();
+		try{
+			EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
+			int rewardCfgCount = MagicScoreRankCfgDAO.getInstance().getEntryCount();
+			for(int i = 1; i <= rewardCfgCount; i++){
+				int startRank = 1;
+				if(i != 1) startRank = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i-1)).getRankEnd() + 1;
+				MagicScoreRankCfg rewardCfg = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i));
+				int endRank = rewardCfg.getRankEnd();
+				for(int j = startRank; j <= endRank; j++){
+					while(it.hasMoreElements()){
+						MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
+						entry.getExtendedAttribute().getUserId();
+						//TODO 给玩家发放邮件
+						rewardCfg.getReward();
+					}
 				}
 			}
+		}catch(Exception ex){
+			GameLog.error(LogModule.MagicSecret, "MSScoreRankMgr", String.format("dispatchMSDailyReward, 发放每日法宝秘境排行榜奖励的时候出现异常"), ex);
+		}finally{
+			ranking.clear();
 		}
+		
 		//MagicChapterInfoHolder.getInstance().get
 	}
 }

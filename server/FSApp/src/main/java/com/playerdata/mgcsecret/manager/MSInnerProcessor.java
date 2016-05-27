@@ -120,7 +120,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 			String[] strLayerArr = dungDataCfg.getBuffBonus().split(",");
 			for(String layerID : strLayerArr){
 				BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getRandomBuffByLayerID(Integer.parseInt(layerID));
-				mcInfo.getSelectedBuff().add(Integer.parseInt(buffCfg.getKey()));
+				mcInfo.getUnselectedBuff().add(Integer.parseInt(buffCfg.getKey()));
 			}
 		}else{
 			GameLog.info(LogModule.MagicSecret.getName(), userId, String.format("provideNextSelectalbeBuff, 由副本id[%s]已经是本章节最后一个章节", currentDungeonID), null);
@@ -198,5 +198,11 @@ public class MSInnerProcessor extends MSConditionJudger{
 			GameLog.error(LogModule.MagicSecret, userId, String.format("generateDropItem, 由掉落字符串[%s]计算掉落时出错", dropStr), e);
 		}
 		return itemList;
+	}
+	
+	public void resetDailyMSInfo(){
+		mChapterHolder.resetAllItem(m_pPlayer);
+		userMSHolder.get().saveDailyScoreData();
+		mChapterHolder.synAllData(m_pPlayer);
 	}
 }
