@@ -1,4 +1,4 @@
-key,Remarks,id,payType,Hour,CoinType,Num
+key,Remarks,id,payType,Day,CoinType,Num
 10001_1,,10001,Buy,168,Gold,270
 10001_2,,10001,Buy,720,Gold,500
 10001_3,,10001,Buy,2160,Gold,900

@@ -155,7 +155,7 @@ public class FashionHandle {
 		}
 		int cost = renewCfg.getNum();
 		eSpecialItemId currencyType = renewCfg.getCoinType();
-		int renewDay = renewCfg.getHour();
+		int renewDay = renewCfg.getDay();
 		if (cost <=0 || currencyType.geteAttrId() == null){
 			return setErrorResponse(response,player,",货币类型或货币值错误,ID="+planId,"续费方案配置错误");
 		}
