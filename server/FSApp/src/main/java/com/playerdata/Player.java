@@ -916,6 +916,10 @@ public class Player implements PlayerIF {
 	public String getHeadImage() {
 		return userDataMgr.getHeadImage();
 	}
+	
+	public String getHeadFrame(){
+		return userGameDataMgr.getHeadBox();
+	}
 
 	public int getCareer() {
 		return getMainRoleHero().getCareer();
