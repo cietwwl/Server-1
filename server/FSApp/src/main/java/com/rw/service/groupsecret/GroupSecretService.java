@@ -1,7 +1,6 @@
 package com.rw.service.groupsecret;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.service.FsService;
@@ -30,6 +29,12 @@ public class GroupSecretService implements FsService {
 				break;
 			case CREATE_GROUP_SECRET:
 				result = handler.createGroupSecretHandler(player, req.getCreateReqMsg());
+				break;
+			case GET_GROUP_SECRET_REWARD:
+				result = handler.getGroupSecretRewardHandler(player, req.getGetRewardReqMsg());
+				break;
+			default:
+				GameLog.error("帮派秘境模块", player.getUserId(), "不知道客户端申请了什么鬼协议，反正这里解析不了！！！");
 				break;
 			}
 		} catch (Exception e) {

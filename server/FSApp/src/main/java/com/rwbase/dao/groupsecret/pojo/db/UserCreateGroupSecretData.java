@@ -112,8 +112,28 @@ public class UserCreateGroupSecretData implements IMapItem {
 	}
 
 	/**
-	 * 移除创建的秘境
+	 * 通过Id来删除
 	 * 
+	 * @param id
+	 */
+	public void deleteGroupSecretDataById(int id) {
+		int index = -1;
+		for (int i = createList.size() - 1; i >= 0; --i) {
+			GroupSecretData groupSecretData = createList.get(i);
+			if (groupSecretData.getId() == id) {
+				index = i;
+				break;
+			}
+		}
+
+		if (index >= 0) {
+			createList.remove(index);
+		}
+	}
+
+	/**
+	 * 移除创建的秘境
+	 *
 	 * @param index
 	 * @return
 	 */

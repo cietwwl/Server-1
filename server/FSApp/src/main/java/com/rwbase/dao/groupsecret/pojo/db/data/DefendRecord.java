@@ -15,7 +15,11 @@ public class DefendRecord {
 	private String groupName;// 帮派名字
 	private int defenceTimes;// 防守波数
 	private int secretId;// 秘境的配置Id
-	private int robTime;// 被掠夺的时间
+	private long robTime;// 被掠夺的时间
+	private int robRes;// 掠夺的资源
+	private int dropDiamond;// 掉落的钻石
+	private int robGS;// 掠夺的帮派物资
+	private int robGE;// 掠夺的帮派经验
 	private boolean hasKey;// 是否还有可以领取的钥石
 
 	// ////////////////////////////////////////////////逻辑Get区
@@ -43,8 +47,24 @@ public class DefendRecord {
 		return secretId;
 	}
 
-	public int getRobTime() {
+	public long getRobTime() {
 		return robTime;
+	}
+
+	public int getRobRes() {
+		return robRes;
+	}
+
+	public int getDropDiamond() {
+		return dropDiamond;
+	}
+
+	public int getRobGS() {
+		return robGS;
+	}
+
+	public int getRobGE() {
+		return robGE;
 	}
 
 	public boolean isHasKey() {
@@ -77,8 +97,24 @@ public class DefendRecord {
 		this.secretId = secretId;
 	}
 
-	public void setRobTime(int robTime) {
+	public void setRobTime(long robTime) {
 		this.robTime = robTime;
+	}
+
+	public void setRobRes(int robRes) {
+		this.robRes = robRes;
+	}
+
+	public void setDropDiamond(int dropDiamond) {
+		this.dropDiamond = dropDiamond;
+	}
+
+	public void setRobGS(int robGS) {
+		this.robGS = robGS;
+	}
+
+	public void setRobGE(int robGE) {
+		this.robGE = robGE;
 	}
 
 	public void setHasKey(boolean hasKey) {

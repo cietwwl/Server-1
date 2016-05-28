@@ -6,8 +6,9 @@ import java.util.Map;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.playerdata.army.CurAttrData;
-import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
 
 /*
@@ -24,12 +25,9 @@ public class GroupSecretMatchEnemyData {
 	private Map<String, CurAttrData> teamOneMap;// 防守的一队敌人血量信息
 	private Map<String, CurAttrData> teamTwoMap;// 防守的二队敌人血量信息
 	private Map<String, CurAttrData> teamThreeMap;// 防守的三队敌人血量信息
-	@CombineSave(Column = "rob")
-	private int robRes;// 可以掠夺的资源数量
-	@CombineSave(Column = "rob")
-	private int robGS;// 可以掠夺的帮派物资
-	@CombineSave(Column = "rob")
-	private int robGE;// 可以掠夺的帮派经验
+	private int[] robRes = new int[3];// 可以掠夺的资源数量
+	private int[] robGS = new int[3];// 可以掠夺的帮派物资
+	private int[] robGE = new int[3];// 可以掠夺的帮派经验
 	private boolean isBeat = false;// 是否已经抢到了
 
 	// ////////////////////////////////////////////////逻辑Get区
@@ -57,15 +55,15 @@ public class GroupSecretMatchEnemyData {
 		return teamThreeMap;
 	}
 
-	public int getRobRes() {
+	public int[] getRobRes() {
 		return robRes;
 	}
 
-	public int getRobGS() {
+	public int[] getRobGS() {
 		return robGS;
 	}
 
-	public int getRobGE() {
+	public int[] getRobGE() {
 		return robGE;
 	}
 
@@ -102,15 +100,15 @@ public class GroupSecretMatchEnemyData {
 		this.teamThreeMap = teamThreeMap;
 	}
 
-	public void setRobRes(int robRes) {
+	public void setRobRes(int[] robRes) {
 		this.robRes = robRes;
 	}
 
-	public void setRobGS(int robGS) {
+	public void setRobGS(int[] robGS) {
 		this.robGS = robGS;
 	}
 
-	public void setRobGE(int robGE) {
+	public void setRobGE(int[] robGE) {
 		this.robGE = robGE;
 	}
 
@@ -131,6 +129,7 @@ public class GroupSecretMatchEnemyData {
 	 * @param defendIndex {@link GroupSecretIndex}
 	 * @return
 	 */
+	@JsonIgnore
 	public Map<String, CurAttrData> getTeamAttrInfoMap(int defendIndex) {
 		if (defendIndex == GroupSecretIndex.LEFT_VALUE) {
 			if (teamTwoMap == null) {
@@ -153,5 +152,47 @@ public class GroupSecretMatchEnemyData {
 		} else {
 			return Collections.emptyMap();
 		}
+	}
+
+	@JsonIgnore
+	public int getAllRobResValue() {
+		int value = 0;
+		for (int i = 0, len = robRes.length; i < len; i++) {
+			value += robRes[i];
+		}
+		return value;
+	}
+
+	@JsonIgnore
+	public int getAllRobGSValue() {
+		int value = 0;
+		for (int i = 0, len = robGS.length; i < len; i++) {
+			value += robGS[i];
+		}
+		return value;
+	}
+
+	@JsonIgnore
+	public int getAllRobGEValue() {
+		int value = 0;
+		for (int i = 0, len = robGE.length; i < len; i++) {
+			value += robGE[i];
+		}
+		return value;
+	}
+
+	@JsonIgnore
+	public int getRobResValue(int index) {
+		return robRes[index - 1];
+	}
+
+	@JsonIgnore
+	public int getRobGSValue(int index) {
+		return robGS[index - 1];
+	}
+
+	@JsonIgnore
+	public int getRobGEValue(int index) {
+		return robGE[index - 1];
 	}
 }

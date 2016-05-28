@@ -125,4 +125,14 @@ public class UserGroupSecretBaseData {
 	public synchronized void removeDefendSecretId(String secretId) {
 		defendSecretIdList.remove(secretId);
 	}
+
+	/**
+	 * 检测是否请求的秘境Id
+	 * 
+	 * @param secretId
+	 * @return
+	 */
+	public synchronized boolean hasDefendSecretId(String secretId) {
+		return defendSecretIdList.contains(secretId);
+	}
 }

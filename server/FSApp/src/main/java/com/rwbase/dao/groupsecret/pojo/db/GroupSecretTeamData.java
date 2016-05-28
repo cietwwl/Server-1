@@ -61,6 +61,7 @@ public class GroupSecretTeamData {
 
 	/**
 	 * 添加要使用的阵容信息
+	 * 
 	 * @param heroIdList
 	 */
 	public void addDefendHeroIdList(List<String> heroIdList) {
@@ -72,6 +73,24 @@ public class GroupSecretTeamData {
 			String id = heroIdList.get(i);
 			if (!this.defendHeroList.contains(id)) {
 				this.defendHeroList.add(id);
+			}
+		}
+	}
+
+	/**
+	 * 添加移除的阵容信息
+	 * 
+	 * @param heroIdList
+	 */
+	public void removeDefendHeroIdList(List<String> heroIdList, String nonRemoveId) {
+		if (heroIdList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = heroIdList.size(); i < size; i++) {
+			String id = heroIdList.get(i);
+			if (!id.equals(nonRemoveId) && defendHeroList.contains(id)) {
+				defendHeroList.remove(id);
 			}
 		}
 	}

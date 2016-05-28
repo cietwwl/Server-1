@@ -104,4 +104,14 @@ public class GroupSecretData {
 
 		return defendMap.putIfAbsent(defendIndex, data) == null;
 	}
+
+	/**
+	 * 移除自己的驻守信息
+	 * 
+	 * @param defendIndex
+	 * @return
+	 */
+	public DefendUserInfoData removeDefendUserInfoData(int defendIndex) {
+		return defendMap.remove(defendIndex);
+	}
 }

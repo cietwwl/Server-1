@@ -127,12 +127,12 @@ public class GroupSecretHelper {
 
 		SecretDropInfo.Builder dropInfo = SecretDropInfo.newBuilder();
 		dropInfo.setDiamond(robDiamondNum);
-		dropInfo.setDropResource(enemyData.getRobRes());
-		dropInfo.setGroupExp(enemyData.getRobGE());
-		dropInfo.setGroupSupply(enemyData.getRobGS());
+		dropInfo.setDropResource(enemyData.getAllRobResValue());
+		dropInfo.setGroupExp(enemyData.getAllRobGEValue());
+		dropInfo.setGroupSupply(enemyData.getAllRobGSValue());
 
 		MatchSecretInfo.Builder matchSecretInfo = MatchSecretInfo.newBuilder();
-		matchSecretInfo.setId(secretId);
+		matchSecretInfo.setId(generateCacheSecretId(matchUserId, secretId));
 		matchSecretInfo.setSecretCfgId(secretCfgId);
 		matchSecretInfo.setIsBeat(enemyData.isBeat());
 
@@ -290,10 +290,10 @@ public class GroupSecretHelper {
 		}
 
 		GroupSecretInfo.Builder info = GroupSecretInfo.newBuilder();
-		info.setId(data.getId());// 秘境的ID
+		info.setId(generateCacheSecretId(data.getUserId(), data.getId()));// 秘境的ID
 		info.setSecretCfgId(secretCfgId);// 秘境的模版Id
 
-		long needTimeMillis = TimeUnit.SECONDS.toMillis(groupSecretResTmp.getNeedTime());// 分钟
+		long needTimeMillis = TimeUnit.MINUTES.toMillis(groupSecretResTmp.getNeedTime());// 分钟
 		long createTime = data.getCreateTime();
 		long passTimeMillis = now - createTime;
 		boolean isFinish = passTimeMillis >= needTimeMillis;// 是否已经完成了
