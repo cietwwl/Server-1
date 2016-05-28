@@ -677,15 +677,59 @@ public class Robot {
 	/**传入关卡类型和关卡地图id*/
 	public boolean clearCd(int copyTypeTrialJbzd) {
 		int levelId = 0;
+		CopyHandler.getHandler();
 		if(copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_JBZD){
-			levelId = CopyHandler.getHandler().jbzdCopyId[0];
+			
+			levelId = CopyHandler.getJbzdcopyid()[0];
 		}else if(copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_LQSG){
-			levelId = CopyHandler.getHandler().lxsgCopyId[0];
+			levelId = CopyHandler.getLxsgcopyid()[0];
+		}else if(copyTypeTrialJbzd == CopyType.COPY_TYPE_CELESTIAL){
+			levelId = CopyHandler.getCelestialcopyid()[0];
 		}
 		
 		boolean sendSuccess = GmHandler.instance().send(client, "* clearcd " + copyTypeTrialJbzd + " "+ levelId);
 		return sendSuccess;		
 	}
+	
+	/**生存幻境两 次 */
+	public boolean testCopyschj() {
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_CELESTIAL);
+		if(getitemback){
+			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_CELESTIAL,EBattleStatus.WIN);		
+		}
+		clearCd(CopyType.COPY_TYPE_CELESTIAL);
+		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_CELESTIAL);
+		if(getitembacksecond){
+			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_CELESTIAL,EBattleStatus.WIN);		
+		}
+		return false;
+	}
+	
+	/**
+	 * 通用活动一领奖all
+	 */
+	public  boolean testActivityCountTakeGift() {
+		
+		
+		
+		
+		
+		return MainHandler.getHandler().buyTower(client);
+	}
+	
+	/**
+	 * 通用活动二领奖all
+	 */
+	public  boolean testActivityDailyCountTakeGift() {
+		
+		
+		
+		return MainHandler.getHandler().buyTower(client);
+	}
+	
+	
+	
+	
 	
 	
 

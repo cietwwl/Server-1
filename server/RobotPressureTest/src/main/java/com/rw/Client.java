@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
+import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
 import com.rw.handler.equip.HeroEquipHolder;
 import com.rw.handler.group.data.GroupDataVersion;
@@ -53,6 +54,11 @@ public class Client {
 	private BattleTowerData battleTowerData = new BattleTowerData();
 	// 英雄的装备数据
 	private HeroEquipHolder heroEquipHolder = new HeroEquipHolder();
+		
+	//玩家通用活动一数据
+	private ActivityCountHolder activityCountHolder = new ActivityCountHolder();
+	
+	
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -122,6 +128,11 @@ public class Client {
 		this.userId = userId;
 	}
 
+
+
+
+	
+	
 	public String getToken() {
 		return token;
 	}
@@ -207,6 +218,10 @@ public class Client {
 
 	public HeroEquipHolder getHeroEquipHolder() {
 		return heroEquipHolder;
+	}
+	
+	public ActivityCountHolder getActivityCountHolder() {
+		return activityCountHolder;
 	}
 
 	public String getGroupVersion() {

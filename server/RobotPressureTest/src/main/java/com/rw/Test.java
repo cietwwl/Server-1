@@ -21,7 +21,7 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-			 issucc=robot.testCopyLxsg();
+//			 issucc=robot.testActivityCountTakeGift();
 			 
 			 
 			 System.out.println("@@@@@@@@@@@" + issucc);
@@ -38,7 +38,7 @@ public class Test {
 //		 robot.clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);//清楚该类副本的cd
 //		 robot.testCopyJbzd();//聚宝之地两次
 //		 robot.testCopyLxsg();//炼息山谷两次
-		 
+//		 robot.testCopyschj();//生存幻境 2次
 		 
 		 
 		 

@@ -61,7 +61,7 @@ public abstract class ClientMsgHandler {
 				MsgDataSynList datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
 				for (MsgDataSyn msgDataSyn : datasynList.getMsgDataSynList()) {
 					eSynType synType = msgDataSyn.getSynType();
-
+					System.out.println("syttype@@@@@@@@@@@ =" + synType);
 					switch (synType) {
 					case Store_Data:
 						getClient().getStoreItemHolder().syn(msgDataSyn);
@@ -93,6 +93,8 @@ public abstract class ClientMsgHandler {
 						break;
 					case EQUIP_ITEM:
 						getClient().getHeroEquipHolder().syn(msgDataSyn);
+					case ActivityCountType:
+						getClient().getActivityCountHolder().syn(msgDataSyn);
 					default:
 						break;
 					}

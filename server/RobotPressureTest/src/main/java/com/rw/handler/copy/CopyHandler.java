@@ -27,7 +27,7 @@ public class CopyHandler {
 	public static final int towCopyId = 190002;
 	public static final int[] jbzdCopyId = {140001,140002,140003,140004,140005};
 	public static final int[] lxsgCopyId = {140011,140012,140013,140014,140015};
-	
+	public static final int[] CelestialCopyId ={140021,140022,140023,140024,140025,140031,140032,140033,140034,140035};
 	
 	public static CopyHandler getHandler() {
 		return handler;
@@ -130,18 +130,21 @@ public class CopyHandler {
 	private int getRadomLevelIdByCopytype(int copyType){
 		int levelId = 0;
 		if(copyType == CopyType.COPY_TYPE_WARFARE){
-			int randomNum = Test.random.nextInt(5);
+			int randomNum = Test.random.nextInt(warFareCopyId.length);
 			
 			levelId = warFareCopyId[randomNum];
 			System.out.println("copyhandler,随机数 levelid =" + levelId + " num="+randomNum);
 		}else if(copyType ==CopyType.COPY_TYPE_TOWER){
 			levelId = towCopyId;			
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD){
-			int randomNum = Test.random.nextInt(5);			
+			int randomNum = Test.random.nextInt(jbzdCopyId.length);			
 			levelId = jbzdCopyId[randomNum];			
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
-			int randomNum = Test.random.nextInt(5);			
+			int randomNum = Test.random.nextInt(lxsgCopyId.length);			
 			levelId = lxsgCopyId[randomNum];			
+		}else if(copyType == CopyType.COPY_TYPE_CELESTIAL){
+			int randomNum = Test.random.nextInt(CelestialCopyId.length);			
+			levelId = CelestialCopyId[randomNum];
 		}
 		
 		
@@ -149,5 +152,35 @@ public class CopyHandler {
 		this.levelId = levelId;
 		return levelId;
 	}
+
+	public static int getLevelId() {
+		return levelId;
+	}
+
+	public static void setLevelId(int levelId) {
+		CopyHandler.levelId = levelId;
+	}
+
+	public static int[] getWarfarecopyid() {
+		return warFareCopyId;
+	}
+
+	public static int getTowcopyid() {
+		return towCopyId;
+	}
+
+	public static int[] getJbzdcopyid() {
+		return jbzdCopyId;
+	}
+
+	public static int[] getLxsgcopyid() {
+		return lxsgCopyId;
+	}
+
+	public static int[] getCelestialcopyid() {
+		return CelestialCopyId;
+	}
+	
+	
 	
 }
