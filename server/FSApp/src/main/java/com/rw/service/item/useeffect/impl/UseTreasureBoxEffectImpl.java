@@ -61,9 +61,9 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 				if (key < eSpecialItemId.eSpecial_End.getValue()) {
 					Integer hasValue = useMoneyMap.get(key);
 					if (hasValue == null) {
-						useMoneyMap.put(key, value * useCount);
+						useMoneyMap.put(key, -value * useCount);
 					} else {
-						useMoneyMap.put(key, hasValue + (value * useCount));
+						useMoneyMap.put(key, hasValue + (-value * useCount));
 					}
 				} else {
 					useItemList.add(new UseItem(itemBagMgr.getFirstItemByModelId(key).getId(), value * useCount));
