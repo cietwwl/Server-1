@@ -393,6 +393,33 @@ public final class ChatServiceProtos {
      */
     com.google.protobuf.ByteString
         getFamilyNameBytes();
+
+    // optional string headbox = 7;
+    /**
+     * <code>optional string headbox = 7;</code>
+     *
+     * <pre>
+     *头像品质框
+     * </pre>
+     */
+    boolean hasHeadbox();
+    /**
+     * <code>optional string headbox = 7;</code>
+     *
+     * <pre>
+     *头像品质框
+     * </pre>
+     */
+    java.lang.String getHeadbox();
+    /**
+     * <code>optional string headbox = 7;</code>
+     *
+     * <pre>
+     *头像品质框
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadboxBytes();
   }
   /**
    * Protobuf type {@code MessageUserInfo}
@@ -473,6 +500,11 @@ public final class ChatServiceProtos {
             case 50: {
               bitField0_ |= 0x00000020;
               familyName_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000040;
+              headbox_ = input.readBytes();
               break;
             }
           }
@@ -814,6 +846,61 @@ public final class ChatServiceProtos {
       }
     }
 
+    // optional string headbox = 7;
+    public static final int HEADBOX_FIELD_NUMBER = 7;
+    private java.lang.Object headbox_;
+    /**
+     * <code>optional string headbox = 7;</code>
+     *
+     * <pre>
+     *头像品质框
+     * </pre>
+     */
+    public boolean hasHeadbox() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string headbox = 7;</code>
+     *
+     * <pre>
+     *头像品质框
+     * </pre>
+     */
+    public java.lang.String getHeadbox() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headbox_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headbox = 7;</code>
+     *
+     * <pre>
+     *头像品质框
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadboxBytes() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headbox_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -821,6 +908,7 @@ public final class ChatServiceProtos {
       level_ = 0;
       familyId_ = "";
       familyName_ = "";
+      headbox_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -856,6 +944,9 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(6, getFamilyNameBytes());
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getHeadboxBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -888,6 +979,10 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(6, getFamilyNameBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getHeadboxBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1017,6 +1112,8 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         familyName_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
+        headbox_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -1069,6 +1166,10 @@ public final class ChatServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.familyName_ = familyName_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.headbox_ = headbox_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1111,6 +1212,11 @@ public final class ChatServiceProtos {
         if (other.hasFamilyName()) {
           bitField0_ |= 0x00000020;
           familyName_ = other.familyName_;
+          onChanged();
+        }
+        if (other.hasHeadbox()) {
+          bitField0_ |= 0x00000040;
+          headbox_ = other.headbox_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1679,6 +1785,104 @@ public final class ChatServiceProtos {
   }
   bitField0_ |= 0x00000020;
         familyName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string headbox = 7;
+      private java.lang.Object headbox_ = "";
+      /**
+       * <code>optional string headbox = 7;</code>
+       *
+       * <pre>
+       *头像品质框
+       * </pre>
+       */
+      public boolean hasHeadbox() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string headbox = 7;</code>
+       *
+       * <pre>
+       *头像品质框
+       * </pre>
+       */
+      public java.lang.String getHeadbox() {
+        java.lang.Object ref = headbox_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headbox_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 7;</code>
+       *
+       * <pre>
+       *头像品质框
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadboxBytes() {
+        java.lang.Object ref = headbox_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headbox_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 7;</code>
+       *
+       * <pre>
+       *头像品质框
+       * </pre>
+       */
+      public Builder setHeadbox(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        headbox_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 7;</code>
+       *
+       * <pre>
+       *头像品质框
+       * </pre>
+       */
+      public Builder clearHeadbox() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        headbox_ = getDefaultInstance().getHeadbox();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 7;</code>
+       *
+       * <pre>
+       *头像品质框
+       * </pre>
+       */
+      public Builder setHeadboxBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        headbox_ = value;
         onChanged();
         return this;
       }
@@ -4414,20 +4618,20 @@ public final class ChatServiceProtos {
     com.rwproto.ChatServiceProtos.ChatMessageDataOrBuilder getListMessageOrBuilder(
         int index);
 
-    // optional bool onLogin = 4;
+    // optional bool onLogin = 5;
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     boolean hasOnLogin();
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     boolean getOnLogin();
@@ -4513,7 +4717,7 @@ public final class ChatServiceProtos {
               listMessage_.add(input.readMessage(com.rwproto.ChatServiceProtos.ChatMessageData.PARSER, extensionRegistry));
               break;
             }
-            case 32: {
+            case 40: {
               bitField0_ |= 0x00000004;
               onLogin_ = input.readBool();
               break;
@@ -4629,24 +4833,24 @@ public final class ChatServiceProtos {
       return listMessage_.get(index);
     }
 
-    // optional bool onLogin = 4;
-    public static final int ONLOGIN_FIELD_NUMBER = 4;
+    // optional bool onLogin = 5;
+    public static final int ONLOGIN_FIELD_NUMBER = 5;
     private boolean onLogin_;
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     public boolean hasOnLogin() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     public boolean getOnLogin() {
@@ -4691,7 +4895,7 @@ public final class ChatServiceProtos {
         output.writeMessage(3, listMessage_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBool(4, onLogin_);
+        output.writeBool(5, onLogin_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4716,7 +4920,7 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, onLogin_);
+          .computeBoolSize(5, onLogin_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5296,33 +5500,33 @@ public final class ChatServiceProtos {
         return listMessageBuilder_;
       }
 
-      // optional bool onLogin = 4;
+      // optional bool onLogin = 5;
       private boolean onLogin_ ;
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public boolean hasOnLogin() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public boolean getOnLogin() {
         return onLogin_;
       }
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public Builder setOnLogin(boolean value) {
@@ -5332,10 +5536,10 @@ public final class ChatServiceProtos {
         return this;
       }
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public Builder clearOnLogin() {
@@ -5385,26 +5589,27 @@ public final class ChatServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021ChatService.proto\"{\n\017MessageUserInfo\022\016" +
-      "\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \001(\t\022\021\n\thead" +
-      "Image\030\003 \001(\t\022\r\n\005level\030\004 \001(\005\022\020\n\010familyId\030\005" +
-      " \001(\t\022\022\n\nfamilyName\030\006 \001(\t\"\371\001\n\017ChatMessage" +
-      "Data\022-\n\023sendMessageUserInfo\030\001 \002(\0132\020.Mess" +
-      "ageUserInfo\0220\n\026receiveMessageUserInfo\030\002 " +
-      "\001(\0132\020.MessageUserInfo\022\017\n\007message\030\003 \002(\t\022\014" +
-      "\n\004time\030\004 \001(\t\022\024\n\014treasureName\030\005 \001(\t\022\026\n\016tr" +
-      "easureDefNum\030\006 \001(\005\022\022\n\ntreasureId\030\007 \001(\t\022\024" +
-      "\n\014treasureType\030\010 \001(\005\022\016\n\006isRead\030\t \001(\010\"Y\n\016",
-      "MsgChatRequest\022\034\n\010ChatType\030\001 \002(\0162\n.eChat" +
-      "Type\022)\n\017chatMessageData\030\002 \001(\0132\020.ChatMess" +
-      "ageData\"\221\001\n\017MsgChatResponse\022\034\n\010chatType\030" +
-      "\001 \002(\0162\n.eChatType\022(\n\016chatResultType\030\002 \001(" +
-      "\0162\020.eChatResultType\022%\n\013listMessage\030\003 \003(\013" +
-      "2\020.ChatMessageData\022\017\n\007onLogin\030\004 \001(\010*P\n\te" +
-      "ChatType\022\016\n\nCHAT_WORLD\020\001\022\017\n\013CHAT_FAMILY\020" +
-      "\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\rCHAT_TREASURE\020\004*(\n" +
-      "\017eChatResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B" +
-      " \n\013com.rwprotoB\021ChatServiceProtos"
+      "\n\021ChatService.proto\"\214\001\n\017MessageUserInfo\022" +
+      "\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \001(\t\022\021\n\thea" +
+      "dImage\030\003 \001(\t\022\r\n\005level\030\004 \001(\005\022\020\n\010familyId\030" +
+      "\005 \001(\t\022\022\n\nfamilyName\030\006 \001(\t\022\017\n\007headbox\030\007 \001" +
+      "(\t\"\371\001\n\017ChatMessageData\022-\n\023sendMessageUse" +
+      "rInfo\030\001 \002(\0132\020.MessageUserInfo\0220\n\026receive" +
+      "MessageUserInfo\030\002 \001(\0132\020.MessageUserInfo\022" +
+      "\017\n\007message\030\003 \002(\t\022\014\n\004time\030\004 \001(\t\022\024\n\014treasu" +
+      "reName\030\005 \001(\t\022\026\n\016treasureDefNum\030\006 \001(\005\022\022\n\n" +
+      "treasureId\030\007 \001(\t\022\024\n\014treasureType\030\010 \001(\005\022\016",
+      "\n\006isRead\030\t \001(\010\"Y\n\016MsgChatRequest\022\034\n\010Chat" +
+      "Type\030\001 \002(\0162\n.eChatType\022)\n\017chatMessageDat" +
+      "a\030\002 \001(\0132\020.ChatMessageData\"\221\001\n\017MsgChatRes" +
+      "ponse\022\034\n\010chatType\030\001 \002(\0162\n.eChatType\022(\n\016c" +
+      "hatResultType\030\002 \001(\0162\020.eChatResultType\022%\n" +
+      "\013listMessage\030\003 \003(\0132\020.ChatMessageData\022\017\n\007" +
+      "onLogin\030\005 \001(\010*P\n\teChatType\022\016\n\nCHAT_WORLD" +
+      "\020\001\022\017\n\013CHAT_FAMILY\020\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\r" +
+      "CHAT_TREASURE\020\004*(\n\017eChatResultType\022\013\n\007SU" +
+      "CCESS\020\001\022\010\n\004FAIL\020\002B \n\013com.rwprotoB\021ChatSe",
+      "rviceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5416,7 +5621,7 @@ public final class ChatServiceProtos {
           internal_static_MessageUserInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MessageUserInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "FamilyId", "FamilyName", });
+              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "FamilyId", "FamilyName", "Headbox", });
           internal_static_ChatMessageData_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_ChatMessageData_fieldAccessorTable = new

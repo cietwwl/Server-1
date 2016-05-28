@@ -2791,6 +2791,33 @@ public final class RankServiceProtos {
      * </pre>
      */
     int getRankCount();
+
+    // optional string headbox = 11;
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    boolean hasHeadbox();
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    java.lang.String getHeadbox();
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadboxBytes();
   }
   /**
    * Protobuf type {@code RankInfo}
@@ -2891,6 +2918,11 @@ public final class RankServiceProtos {
             case 80: {
               bitField0_ |= 0x00000200;
               rankCount_ = input.readInt32();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              headbox_ = input.readBytes();
               break;
             }
           }
@@ -3266,6 +3298,61 @@ public final class RankServiceProtos {
       return rankCount_;
     }
 
+    // optional string headbox = 11;
+    public static final int HEADBOX_FIELD_NUMBER = 11;
+    private java.lang.Object headbox_;
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    public boolean hasHeadbox() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    public java.lang.String getHeadbox() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headbox_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadboxBytes() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headbox_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       heroUUID_ = "";
       rankingLevel_ = 0;
@@ -3277,6 +3364,7 @@ public final class RankServiceProtos {
       fightingAll_ = 0;
       fightingTeam_ = 0;
       rankCount_ = 0;
+      headbox_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3319,6 +3407,9 @@ public final class RankServiceProtos {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(10, rankCount_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getHeadboxBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -3368,6 +3459,10 @@ public final class RankServiceProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, rankCount_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getHeadboxBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3505,6 +3600,8 @@ public final class RankServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000100);
         rankCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        headbox_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -3573,6 +3670,10 @@ public final class RankServiceProtos {
           to_bitField0_ |= 0x00000200;
         }
         result.rankCount_ = rankCount_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.headbox_ = headbox_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3624,6 +3725,11 @@ public final class RankServiceProtos {
         }
         if (other.hasRankCount()) {
           setRankCount(other.getRankCount());
+        }
+        if (other.hasHeadbox()) {
+          bitField0_ |= 0x00000400;
+          headbox_ = other.headbox_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4285,6 +4391,104 @@ public final class RankServiceProtos {
       public Builder clearRankCount() {
         bitField0_ = (bitField0_ & ~0x00000200);
         rankCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string headbox = 11;
+      private java.lang.Object headbox_ = "";
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public boolean hasHeadbox() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public java.lang.String getHeadbox() {
+        java.lang.Object ref = headbox_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headbox_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadboxBytes() {
+        java.lang.Object ref = headbox_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headbox_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public Builder setHeadbox(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headbox_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public Builder clearHeadbox() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        headbox_ = getDefaultInstance().getHeadbox();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public Builder setHeadboxBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headbox_ = value;
         onChanged();
         return this;
       }
@@ -9631,30 +9835,31 @@ public final class RankServiceProtos {
       "ype\030\003 \001(\0162\020.ERankResultType\022\035\n\nmyRankInf" +
       "o\030\004 \001(\0132\t.RankInfo\022\033\n\010RankList\030\005 \003(\0132\t.R" +
       "ankInfo\022#\n\014baseRankInfo\030\006 \001(\0132\r.BaseRank" +
-      "Info\"\300\001\n\010RankInfo\022\020\n\010heroUUID\030\001 \001(\t\022\024\n\014r" +
+      "Info\"\321\001\n\010RankInfo\022\020\n\010heroUUID\030\001 \001(\t\022\024\n\014r" +
       "ankingLevel\030\002 \001(\005\022\r\n\005level\030\003 \001(\005\022\020\n\010hero",
       "Name\030\004 \001(\t\022\017\n\007imageId\030\005 \001(\t\022\013\n\003job\030\006 \001(\005" +
       "\022\017\n\007modelId\030\007 \001(\005\022\023\n\013fightingAll\030\010 \001(\005\022\024" +
-      "\n\014fightingTeam\030\t \001(\005\022\021\n\trankCount\030\n \001(\005\"" +
-      "\240\002\n\014BaseRankInfo\022\023\n\013fightingAll\030\001 \001(\005\022\020\n" +
-      "\010levelAll\030\002 \001(\005\022\016\n\006jobDay\030\003 \001(\005\022\022\n\njobCu" +
-      "rrent\030\004 \001(\005\022\024\n\014athleticsDay\030\005 \001(\005\022\030\n\020ath" +
-      "leticsCurrent\030\006 \001(\005\022\014\n\004team\030\007 \001(\005\022\017\n\007end" +
-      "less\030\010 \001(\005\022\r\n\005glory\030\t \001(\005\022\031\n\021athleticsFi" +
-      "ghting\030\n \001(\005\022\"\n\010teamData\030\013 \003(\0132\020.Ranking" +
-      "TeamData\022\025\n\rarenaWinCount\030\014 \001(\005\022\021\n\tgroup",
-      "Name\030\r \001(\t\"[\n\017RankingTeamData\022$\n\tmagicDa" +
-      "ta\030\001 \002(\0132\021.RankingMagicData\022\"\n\010heroList\030" +
-      "\002 \003(\0132\020.RankingHeroData\"f\n\017RankingHeroDa" +
-      "ta\022\016\n\006heroId\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\021\n\tsta" +
-      "rLevel\030\003 \002(\005\022\017\n\007quality\030\004 \002(\t\022\020\n\010heroHea" +
-      "d\030\005 \002(\t\"U\n\020RankingMagicData\022\022\n\nmagicImag" +
-      "e\030\001 \002(\t\022\024\n\014magicQuality\030\002 \002(\005\022\027\n\017magicAt" +
-      "tackType\030\003 \002(\005*_\n\020ERankRequestType\022\r\n\tRA" +
-      "NK_LIST\020\001\022\022\n\016RANK_HERO_INFO\020\002\022\023\n\017RANK_LI" +
-      "ST_PART1\020\003\022\023\n\017RANK_LIST_PART2\020\004*-\n\017ERank",
-      "ResultType\022\013\n\007SUCCESS\020\000\022\r\n\tNOT_LEVEL\020\001B " +
-      "\n\013com.rwprotoB\021RankServiceProtos"
+      "\n\014fightingTeam\030\t \001(\005\022\021\n\trankCount\030\n \001(\005\022" +
+      "\017\n\007headbox\030\013 \001(\t\"\240\002\n\014BaseRankInfo\022\023\n\013fig" +
+      "htingAll\030\001 \001(\005\022\020\n\010levelAll\030\002 \001(\005\022\016\n\006jobD" +
+      "ay\030\003 \001(\005\022\022\n\njobCurrent\030\004 \001(\005\022\024\n\014athletic" +
+      "sDay\030\005 \001(\005\022\030\n\020athleticsCurrent\030\006 \001(\005\022\014\n\004" +
+      "team\030\007 \001(\005\022\017\n\007endless\030\010 \001(\005\022\r\n\005glory\030\t \001" +
+      "(\005\022\031\n\021athleticsFighting\030\n \001(\005\022\"\n\010teamDat" +
+      "a\030\013 \003(\0132\020.RankingTeamData\022\025\n\rarenaWinCou",
+      "nt\030\014 \001(\005\022\021\n\tgroupName\030\r \001(\t\"[\n\017RankingTe" +
+      "amData\022$\n\tmagicData\030\001 \002(\0132\021.RankingMagic" +
+      "Data\022\"\n\010heroList\030\002 \003(\0132\020.RankingHeroData" +
+      "\"f\n\017RankingHeroData\022\016\n\006heroId\030\001 \002(\t\022\r\n\005l" +
+      "evel\030\002 \002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\017\n\007quality" +
+      "\030\004 \002(\t\022\020\n\010heroHead\030\005 \002(\t\"U\n\020RankingMagic" +
+      "Data\022\022\n\nmagicImage\030\001 \002(\t\022\024\n\014magicQuality" +
+      "\030\002 \002(\005\022\027\n\017magicAttackType\030\003 \002(\005*_\n\020ERank" +
+      "RequestType\022\r\n\tRANK_LIST\020\001\022\022\n\016RANK_HERO_" +
+      "INFO\020\002\022\023\n\017RANK_LIST_PART1\020\003\022\023\n\017RANK_LIST",
+      "_PART2\020\004*-\n\017ERankResultType\022\013\n\007SUCCESS\020\000" +
+      "\022\r\n\tNOT_LEVEL\020\001B \n\013com.rwprotoB\021RankServ" +
+      "iceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9678,7 +9883,7 @@ public final class RankServiceProtos {
           internal_static_RankInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankInfo_descriptor,
-              new java.lang.String[] { "HeroUUID", "RankingLevel", "Level", "HeroName", "ImageId", "Job", "ModelId", "FightingAll", "FightingTeam", "RankCount", });
+              new java.lang.String[] { "HeroUUID", "RankingLevel", "Level", "HeroName", "ImageId", "Job", "ModelId", "FightingAll", "FightingTeam", "RankCount", "Headbox", });
           internal_static_BaseRankInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_BaseRankInfo_fieldAccessorTable = new

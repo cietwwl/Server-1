@@ -48,4 +48,10 @@ public interface Observer {
 	 * 获取观察者的类型
 	 */
 	public int getObserverType();
+	
+	/**
+	 * 角色修改了头像框
+	 * @param p
+	 */
+	public void playerChangeHeadBox(Player p);
 }

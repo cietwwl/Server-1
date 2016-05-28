@@ -16,6 +16,7 @@ public class FriendItem implements FriendItemIF {
 	private int career;
 	private String unionName;
 	private long lastLoginTime;
+	private String headFrame;
 
 	public static FriendItem newInstance(String userId) {
 		Player player = PlayerMgr.getInstance().find(userId);
@@ -45,6 +46,7 @@ public class FriendItem implements FriendItemIF {
 		newItem.setUserHead(tableUser.getHeadImageWithDefault());
 		newItem.setCareer(mainRoleHero.getCareer());
 		newItem.setLastLoginTime(tableUserOther.getLastLoginTime());
+		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		//TODO 帮派获取名字后再提供
 		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		return newItem;
@@ -104,5 +106,13 @@ public class FriendItem implements FriendItemIF {
 
 	public void setUnionName(String unionName) {
 		this.unionName = unionName;
+	}
+
+	public String getHeadFrame() {
+		return headFrame;
+	}
+
+	public void setHeadFrame(String headFrame) {
+		this.headFrame = headFrame;
 	}
 }

@@ -46,4 +46,11 @@ public class StoreListenerPlayerChange extends PlayerChangePopertySubscribe{
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public void playerChangeHeadBox(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
 }

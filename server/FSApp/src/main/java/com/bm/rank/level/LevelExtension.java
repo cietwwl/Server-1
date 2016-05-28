@@ -29,6 +29,7 @@ public class LevelExtension extends RankingJacksonExtension<LevelComparable, Ran
 		toData.setFightingAll(player.getHeroMgr().getFightingAll());
 		toData.setFightingTeam(player.getHeroMgr().getFightingTeam());
 		toData.setUserHead(player.getHeadImage());
+		toData.setHeadbox(player.getHeadFrame());
 		toData.setModelId(player.getModelId());
 		toData.setJob(player.getCareer());
 		toData.setSex(player.getSex());
