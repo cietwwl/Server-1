@@ -9,6 +9,8 @@ import com.rw.handler.battle.PVPHandler;
 import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
+import com.rw.handler.daily.DailyActivityDataHolder;
+import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
 import com.rw.handler.friend.FriendHandler;
@@ -22,6 +24,7 @@ import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.magic.MagicHandler;
 import com.rw.handler.platform.PlatformHandler;
+import com.rw.handler.sign.SignHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.task.TaskHandler;
 
@@ -585,4 +588,11 @@ public class Robot {
 		this.chatCount = chatCount;
 	}
 
+	public void sign(){
+		SignHandler.getInstance().processsSign(client);
+	}
+	
+	public void dailyActivity(){
+		DailyHandler.getInstance().processDaily(client);
+	}
 }
