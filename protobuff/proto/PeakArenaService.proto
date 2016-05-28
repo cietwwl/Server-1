@@ -6,19 +6,20 @@ import "SyncAttri.proto";
 
 enum eArenaType {
 	GET_DATA = 0;     //
-	CHANGE_ENEMY = 1; // 
+	CHANGE_ENEMY = 1; // TODO 首次筛选对手/换一批对手
 	CHANGE_HERO = 2;  //
 	ARENA_RECORD = 3; //
-	ENEMY_INFO = 4;   //
+	ENEMY_INFO = 4;   // 获取对手信息，不进行重新筛选
 	CLEAR_TIME = 5;	  // 重置CD时间
 	ARENA_FIGHT_PREPARE = 6;//
-	ARENA_FIGHT_START = 7;  //
-	ARENA_FIGHT_FINISH = 8;//
+	ARENA_FIGHT_START = 7;  //第一场开始的时候发送
+	ARENA_FIGHT_FINISH = 8;//最后一场结束发送
 	SYNC_RECORD = 9;//
 	GET_PLACE = 10;//
 	GET_SCORE = 11;//领取巅峰竞技场货币，TODO:需要修改为进入巅峰竞技场或者商店的时候自动领取
 	SWITCH_OVER = 12;//更换玩家队伍顺序,使用 reorder 参数表示1，2，3队伍的ID
 	BUY_CHALLENGE_COUNT = 13;// 购买挑战次数
+	FIGHT_CONTINUE = 14;//挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
 }
 
 enum eArenaResultType {
@@ -31,7 +32,7 @@ message HeroData{
 	required string templeteId = 2;
 	optional int32 level = 3;
 	optional int32 starLevel = 4;
-	optional int32 fighting = 5; // 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+	optional int32 fighting = 5; // TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
 	optional string qualityId = 6;
 	optional int64 exp = 7; // 有用咩？
 	repeated SkillService.TagSkillData skills = 8;  // 咩来嘎 ？？
@@ -63,13 +64,13 @@ message ArenaData{
 	optional int32 level = 13;
 	optional string headImage = 14;
 	optional string templeteId = 15;
-	optional int32 fighting = 16;  // 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+	optional int32 fighting = 16;  // 可能是队伍总战力？
 	repeated SkillService.TagSkillData roleSkill = 17;
 	repeated SyncAttri.TagAttriData roleAttr = 18;
 	repeated TeamInfo teams = 19;
 	optional int64 lastFightTime = 20;  //唔知系咩
 	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
-	optional int32 maxChallengeCount = 22;   // TODO 最大战次数，会根据特权而修改
+	optional int32 maxChallengeCount = 22;   // TODO 最大挑战次数，会根据特权而修改
     optional string groupName = 23; //TODO 帮派名称
 }
 
