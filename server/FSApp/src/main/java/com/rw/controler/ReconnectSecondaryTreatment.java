@@ -44,12 +44,17 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			return;
 		}
 		UserChannelMgr.bindUserID(userId, ctx);
-		List<SyncVersion> versionList = reconnectRequest.getVersionListList();
-		if (versionList != null) {
-			player.synByVersion(versionList);
-		} else {
-			GameLog.error("ReconnectSecondaryTreatment", "#run()", "version list is null:" + userId);
-			player.synByVersion(Collections.EMPTY_LIST);
+		UserChannelMgr.onBSBegin(userId);
+		try {
+			List<SyncVersion> versionList = reconnectRequest.getVersionListList();
+			if (versionList != null) {
+				player.synByVersion(versionList);
+			} else {
+				GameLog.error("ReconnectSecondaryTreatment", "#run()", "version list is null:" + userId);
+				player.synByVersion(Collections.EMPTY_LIST);
+			}
+		} finally {
+			UserChannelMgr.onBSEnd(userId);
 		}
 		ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request);
 	}
