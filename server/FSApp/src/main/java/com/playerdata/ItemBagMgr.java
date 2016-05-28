@@ -446,8 +446,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				player.addPower(count);
 			} else if (cfgId == eSpecialItemId.PlayerExp.getValue()) {
 				player.addUserExp(count);
-			} else if (cfgId == eSpecialItemId.UnendingWarCoin.getValue()) {
-				player.getUserGameDataMgr().addUnendingWarCoin(count);
+			} else if (cfgId == eSpecialItemId.MagicSecretCoin.getValue()) {
+				player.getUserGameDataMgr().addMagicSecretCoin(count);
 			} else if (cfgId == eSpecialItemId.BraveCoin.getValue()) {
 				player.getUserGameDataMgr().addTowerCoin(count);
 			} else if (cfgId == eSpecialItemId.GuildCoin.getValue()) {
@@ -463,8 +463,6 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				player.getBattleTowerMgr().getTableBattleTower().modifySilverKey(count);
 			} else if (cfgId == eSpecialItemId.BATTLE_TOWER_GOLD_KEY.getValue()) {
 				player.getBattleTowerMgr().getTableBattleTower().modifyGoldKey(count);
-			} else if (cfgId == eSpecialItemId.MagicSecretCoin.getValue()){
-				return player.getMagicSecretMgr().addSecretGold(count);
 			}
 		} else {// 操作道具
 			if (count <= 0) {

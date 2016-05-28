@@ -331,6 +331,15 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	}
 	
 	/**
+	 * 获取玩家的法宝秘境货币
+	 * @return
+	 */
+	public int getSecretGold(){
+		UserMagicSecretData umsData = userMSHolder.get();
+		return umsData.getSecretGold();
+	}
+	
+	/**
 	 * 增加秘境货币
 	 * @param secretGold
 	 * @return

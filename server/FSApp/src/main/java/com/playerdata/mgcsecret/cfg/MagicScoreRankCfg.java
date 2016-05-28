@@ -43,7 +43,7 @@ public class MagicScoreRankCfg extends BaseConfig {
 		List<ItemInfo> tmpList = new ArrayList<ItemInfo>();
 		String[] rewardItemStr = reward.split(",");
 		for(String rewardItem : rewardItemStr){
-			String[] itemStrArr = rewardItem.split("_");
+			String[] itemStrArr = rewardItem.split("~");
 			if(itemStrArr.length == 2){
 				ItemInfo item = new ItemInfo();
 				item.setItemID(Integer.parseInt(itemStrArr[0]));

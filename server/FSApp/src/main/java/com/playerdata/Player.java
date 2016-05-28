@@ -819,8 +819,8 @@ public class Player implements PlayerIF {
 		case PeakArenaCoin:
 			reslut = userGameDataMgr.getPeakArenaCoin();
 			break;
-		case UnendingWarCoin:
-			reslut = userGameDataMgr.getUnendingWarCoin();
+		case MagicSecretCoin:
+			reslut = m_msMgr.getSecretGold();
 			break;
 		default:
 			break;
