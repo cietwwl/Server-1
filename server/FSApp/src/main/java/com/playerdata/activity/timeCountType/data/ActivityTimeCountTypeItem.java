@@ -116,9 +116,4 @@ public class ActivityTimeCountTypeItem implements  IMapItem {
 		this.lastCountTime = lastCountTime;
 	}
 
-	
-
-	
-	
-	
 }

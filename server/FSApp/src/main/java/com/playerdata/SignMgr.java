@@ -21,6 +21,7 @@ import com.rwbase.dao.sign.pojo.SignCfg;
 import com.rwbase.dao.sign.pojo.SignData;
 import com.rwbase.dao.sign.pojo.SignDataHolder;
 import com.rwbase.dao.sign.pojo.TableSignData;
+import com.rwproto.BattleTowerServiceProtos.ERequestType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.SignServiceProtos.EResultType;
 import com.rwproto.SignServiceProtos.MsgSignResponse;
@@ -147,9 +148,13 @@ public class SignMgr implements PlayerEventListener {
 						response.setResultype(EResultType.SUCCESS);
 					} else {
 						GameLog.debug("Vip等级不足");
+						response.setResultMsg("Vip等级不足");
+						response.setResultype(EResultType.FAIL);
 					}
 				} else {
 					GameLog.debug("非法请求");
+					response.setResultMsg("非法请求");
+					response.setResultype(EResultType.FAIL);
 				}
 			}
 			
@@ -167,6 +172,8 @@ public class SignMgr implements PlayerEventListener {
 			
 		} else {
 			GameLog.debug("未开放");
+			response.setResultMsg("未开放");
+			response.setResultype(EResultType.FAIL);
 		}
 	}
 

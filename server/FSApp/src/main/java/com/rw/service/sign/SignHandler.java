@@ -90,7 +90,8 @@ public class SignHandler
 		}
 		else
 		{
-			response.setResultype(EResultType.NULL);
+			response.setResultMsg("非法请求");
+			response.setResultype(EResultType.FAIL);
 		}
 		HotPointMgr.changeHotPointState(player.getUserId(), EHotPointType.Sign, false);
 		response.setMonth(player.getSignMgr().getCurrentMonth());	//以上一次更新的月份为准...
