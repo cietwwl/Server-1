@@ -2446,6 +2446,33 @@ public final class MagicSecretProto {
      */
     com.google.protobuf.ByteString
         getRewardDataBytes(int index);
+
+    // optional string armyInfo = 6;
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    boolean hasArmyInfo();
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    java.lang.String getArmyInfo();
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getArmyInfoBytes();
   }
   /**
    * Protobuf type {@code magicSecret.MagicSecretRspMsg}
@@ -2539,6 +2566,11 @@ public final class MagicSecretProto {
                 mutable_bitField0_ |= 0x00000010;
               }
               rewardData_.add(input.readBytes());
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000008;
+              armyInfo_ = input.readBytes();
               break;
             }
           }
@@ -2751,12 +2783,68 @@ public final class MagicSecretProto {
       return rewardData_.getByteString(index);
     }
 
+    // optional string armyInfo = 6;
+    public static final int ARMYINFO_FIELD_NUMBER = 6;
+    private java.lang.Object armyInfo_;
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public boolean hasArmyInfo() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public java.lang.String getArmyInfo() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          armyInfo_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *进战斗的时候敌方信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getArmyInfoBytes() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        armyInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.MagicSecretProto.msRequestType.GET_MS_RANK;
       rstType_ = com.rwproto.MagicSecretProto.msResultType.SUCCESS;
       msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       selfRank_ = 0;
       rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      armyInfo_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2792,6 +2880,9 @@ public final class MagicSecretProto {
       }
       for (int i = 0; i < rewardData_.size(); i++) {
         output.writeBytes(5, rewardData_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(6, getArmyInfoBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2831,6 +2922,10 @@ public final class MagicSecretProto {
         }
         size += dataSize;
         size += 1 * getRewardDataList().size();
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getArmyInfoBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2958,6 +3053,8 @@ public final class MagicSecretProto {
         bitField0_ = (bitField0_ & ~0x00000008);
         rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
+        armyInfo_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -3010,6 +3107,10 @@ public final class MagicSecretProto {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.rewardData_ = rewardData_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.armyInfo_ = armyInfo_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3053,6 +3154,11 @@ public final class MagicSecretProto {
             ensureRewardDataIsMutable();
             rewardData_.addAll(other.rewardData_);
           }
+          onChanged();
+        }
+        if (other.hasArmyInfo()) {
+          bitField0_ |= 0x00000020;
+          armyInfo_ = other.armyInfo_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -3497,6 +3603,104 @@ public final class MagicSecretProto {
   }
   ensureRewardDataIsMutable();
         rewardData_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional string armyInfo = 6;
+      private java.lang.Object armyInfo_ = "";
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public boolean hasArmyInfo() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public java.lang.String getArmyInfo() {
+        java.lang.Object ref = armyInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          armyInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getArmyInfoBytes() {
+        java.lang.Object ref = armyInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          armyInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder setArmyInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        armyInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder clearArmyInfo() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        armyInfo_ = getDefaultInstance().getArmyInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *进战斗的时候敌方信息
+       * </pre>
+       */
+      public Builder setArmyInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        armyInfo_ = value;
         onChanged();
         return this;
       }
@@ -4190,24 +4394,25 @@ public final class MagicSecretProto {
       "\n\013finishState\030\003 \001(\t\022\021\n\tchapterId\030\004 \001(\t\022\016" +
       "\n\006buffId\030\005 \001(\t\022(\n\006rwdBox\030\006 \001(\0132\030.magicSe" +
       "cret.msRewardBox\022\020\n\010armyInfo\030\007 \001(\t\022\025\n\rsc" +
-      "oreRewardID\030\010 \001(\005\"\246\001\n\021MagicSecretRspMsg\022" +
+      "oreRewardID\030\010 \001(\005\"\270\001\n\021MagicSecretRspMsg\022" +
       "+\n\007reqType\030\001 \002(\0162\032.magicSecret.msRequest" +
       "Type\022*\n\007rstType\030\002 \002(\0162\031.magicSecret.msRe" +
       "sultType\022\022\n\nmsRankData\030\003 \003(\t\022\020\n\010selfRank",
-      "\030\004 \001(\005\022\022\n\nrewardData\030\005 \003(\t\".\n\013msRewardBo" +
-      "x\022\r\n\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\344\001\n\rm" +
-      "sRequestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_M" +
-      "S_FIGHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023G" +
-      "ET_MS_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022" +
-      "\023\n\017OPEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n" +
-      "\020GET_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020" +
-      "\t\022\026\n\022GIVE_UP_REWARD_BOX\020\n*\321\001\n\014msResultTy" +
-      "pe\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT_ENOUGH\020\002\022\r\n" +
-      "\tLOW_LEVEL\020\003\022\025\n\021CONDITION_UNREACH\020\004\022\025\n\021N",
-      "O_REWARD_CAN_GET\020\005\022\021\n\rNO_REWARD_BOX\020\006\022\023\n" +
-      "\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT_ENOUGH_STAR\020\010\022" +
-      "\024\n\020NO_EXCHANGE_BUFF\020\t\022\016\n\nDATA_ERROR\020\nB\037\n" +
-      "\013com.rwprotoB\020MagicSecretProto"
+      "\030\004 \001(\005\022\022\n\nrewardData\030\005 \003(\t\022\020\n\010armyInfo\030\006" +
+      " \001(\t\".\n\013msRewardBox\022\r\n\005boxID\030\001 \002(\t\022\020\n\010bo" +
+      "xCount\030\002 \002(\005*\344\001\n\rmsRequestType\022\017\n\013GET_MS" +
+      "_RANK\020\001\022\022\n\016ENTER_MS_FIGHT\020\002\022\030\n\024GET_MS_SI" +
+      "NGLE_REWARD\020\003\022\027\n\023GET_MS_SWEEP_REWARD\020\004\022\021" +
+      "\n\rEXCHANGE_BUFF\020\005\022\023\n\017OPEN_REWARD_BOX\020\006\022\017" +
+      "\n\013CHANGE_ARMY\020\007\022\024\n\020GET_SCORE_REWARD\020\010\022\024\n" +
+      "\020GET_SELF_MS_RANK\020\t\022\026\n\022GIVE_UP_REWARD_BO" +
+      "X\020\n*\321\001\n\014msResultType\022\013\n\007SUCCESS\020\001\022\024\n\020TIM" +
+      "ES_NOT_ENOUGH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDIT",
+      "ION_UNREACH\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n\r" +
+      "NO_REWARD_BOX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n\017" +
+      "NOT_ENOUGH_STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t\022" +
+      "\016\n\nDATA_ERROR\020\nB\037\n\013com.rwprotoB\020MagicSec" +
+      "retProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4225,7 +4430,7 @@ public final class MagicSecretProto {
           internal_static_magicSecret_MagicSecretRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_magicSecret_MagicSecretRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", });
+              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", "ArmyInfo", });
           internal_static_magicSecret_msRewardBox_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_magicSecret_msRewardBox_fieldAccessorTable = new
