@@ -41,10 +41,13 @@ public class PeakArenaService implements FsService {
 				result = peakArenaHandler.initFightInfo(msgArenaRequest, player);
 				break;
 			case ARENA_FIGHT_START:
-				result = peakArenaHandler.arenaFightStart(msgArenaRequest, player);
+				result = peakArenaHandler.fightStart(msgArenaRequest, player);
+				break;
+			case FIGHT_CONTINUE:
+				result = peakArenaHandler.fightContinue(msgArenaRequest, player);
 				break;
 			case ARENA_FIGHT_FINISH:
-				result = peakArenaHandler.arenaFightFinish(msgArenaRequest, player);
+				result = peakArenaHandler.fightFinish(msgArenaRequest, player);
 				break;
 			case GET_PLACE:
 				result = peakArenaHandler.getPlaceByteString(msgArenaRequest, player);

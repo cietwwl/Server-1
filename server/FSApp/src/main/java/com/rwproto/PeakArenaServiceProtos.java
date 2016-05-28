@@ -24,7 +24,7 @@ public final class PeakArenaServiceProtos {
      * <code>CHANGE_ENEMY = 1;</code>
      *
      * <pre>
-     * 
+     * TODO 首次筛选对手/换一批对手
      * </pre>
      */
     CHANGE_ENEMY(1, 1),
@@ -46,6 +46,7 @@ public final class PeakArenaServiceProtos {
      * <code>ENEMY_INFO = 4;</code>
      *
      * <pre>
+     * 获取对手信息，不进行重新筛选
      * </pre>
      */
     ENEMY_INFO(4, 4),
@@ -68,6 +69,7 @@ public final class PeakArenaServiceProtos {
      * <code>ARENA_FIGHT_START = 7;</code>
      *
      * <pre>
+     *第一场开始的时候发送
      * </pre>
      */
     ARENA_FIGHT_START(7, 7),
@@ -75,6 +77,7 @@ public final class PeakArenaServiceProtos {
      * <code>ARENA_FIGHT_FINISH = 8;</code>
      *
      * <pre>
+     *最后一场结束发送
      * </pre>
      */
     ARENA_FIGHT_FINISH(8, 8),
@@ -116,6 +119,14 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     BUY_CHALLENGE_COUNT(13, 13),
+    /**
+     * <code>FIGHT_CONTINUE = 14;</code>
+     *
+     * <pre>
+     *挑战不同队伍的中间过渡时间发送
+     * </pre>
+     */
+    FIGHT_CONTINUE(14, 14),
     ;
 
     /**
@@ -129,7 +140,7 @@ public final class PeakArenaServiceProtos {
      * <code>CHANGE_ENEMY = 1;</code>
      *
      * <pre>
-     * 
+     * TODO 首次筛选对手/换一批对手
      * </pre>
      */
     public static final int CHANGE_ENEMY_VALUE = 1;
@@ -151,6 +162,7 @@ public final class PeakArenaServiceProtos {
      * <code>ENEMY_INFO = 4;</code>
      *
      * <pre>
+     * 获取对手信息，不进行重新筛选
      * </pre>
      */
     public static final int ENEMY_INFO_VALUE = 4;
@@ -173,6 +185,7 @@ public final class PeakArenaServiceProtos {
      * <code>ARENA_FIGHT_START = 7;</code>
      *
      * <pre>
+     *第一场开始的时候发送
      * </pre>
      */
     public static final int ARENA_FIGHT_START_VALUE = 7;
@@ -180,6 +193,7 @@ public final class PeakArenaServiceProtos {
      * <code>ARENA_FIGHT_FINISH = 8;</code>
      *
      * <pre>
+     *最后一场结束发送
      * </pre>
      */
     public static final int ARENA_FIGHT_FINISH_VALUE = 8;
@@ -221,6 +235,14 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public static final int BUY_CHALLENGE_COUNT_VALUE = 13;
+    /**
+     * <code>FIGHT_CONTINUE = 14;</code>
+     *
+     * <pre>
+     *挑战不同队伍的中间过渡时间发送
+     * </pre>
+     */
+    public static final int FIGHT_CONTINUE_VALUE = 14;
 
 
     public final int getNumber() { return value; }
@@ -241,6 +263,7 @@ public final class PeakArenaServiceProtos {
         case 11: return GET_SCORE;
         case 12: return SWITCH_OVER;
         case 13: return BUY_CHALLENGE_COUNT;
+        case 14: return FIGHT_CONTINUE;
         default: return null;
       }
     }
@@ -448,7 +471,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 5;</code>
      *
      * <pre>
-     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
      * </pre>
      */
     boolean hasFighting();
@@ -456,7 +479,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 5;</code>
      *
      * <pre>
-     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
      * </pre>
      */
     int getFighting();
@@ -904,7 +927,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 5;</code>
      *
      * <pre>
-     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
      * </pre>
      */
     public boolean hasFighting() {
@@ -914,7 +937,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 5;</code>
      *
      * <pre>
-     * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+     * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
      * </pre>
      */
     public int getFighting() {
@@ -1890,7 +1913,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 5;</code>
        *
        * <pre>
-       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
        * </pre>
        */
       public boolean hasFighting() {
@@ -1900,7 +1923,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 5;</code>
        *
        * <pre>
-       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
        * </pre>
        */
       public int getFighting() {
@@ -1910,7 +1933,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 5;</code>
        *
        * <pre>
-       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
        * </pre>
        */
       public Builder setFighting(int value) {
@@ -1923,7 +1946,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 5;</code>
        *
        * <pre>
-       * 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
+       * TODO 要问下宇超，界面战力显示系指当前队伍？三队总和？主角自己？
        * </pre>
        */
       public Builder clearFighting() {
@@ -4465,7 +4488,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 16;</code>
      *
      * <pre>
-     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * 可能是队伍总战力？
      * </pre>
      */
     boolean hasFighting();
@@ -4473,7 +4496,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 16;</code>
      *
      * <pre>
-     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * 可能是队伍总战力？
      * </pre>
      */
     int getFighting();
@@ -4594,7 +4617,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     * TODO 最大战次数，会根据特权而修改
+     * TODO 最大挑战次数，会根据特权而修改
      * </pre>
      */
     boolean hasMaxChallengeCount();
@@ -4602,7 +4625,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     * TODO 最大战次数，会根据特权而修改
+     * TODO 最大挑战次数，会根据特权而修改
      * </pre>
      */
     int getMaxChallengeCount();
@@ -5195,7 +5218,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 16;</code>
      *
      * <pre>
-     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * 可能是队伍总战力？
      * </pre>
      */
     public boolean hasFighting() {
@@ -5205,7 +5228,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 16;</code>
      *
      * <pre>
-     * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+     * 可能是队伍总战力？
      * </pre>
      */
     public int getFighting() {
@@ -5375,7 +5398,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     * TODO 最大战次数，会根据特权而修改
+     * TODO 最大挑战次数，会根据特权而修改
      * </pre>
      */
     public boolean hasMaxChallengeCount() {
@@ -5385,7 +5408,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 maxChallengeCount = 22;</code>
      *
      * <pre>
-     * TODO 最大战次数，会根据特权而修改
+     * TODO 最大挑战次数，会根据特权而修改
      * </pre>
      */
     public int getMaxChallengeCount() {
@@ -6802,7 +6825,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 16;</code>
        *
        * <pre>
-       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * 可能是队伍总战力？
        * </pre>
        */
       public boolean hasFighting() {
@@ -6812,7 +6835,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 16;</code>
        *
        * <pre>
-       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * 可能是队伍总战力？
        * </pre>
        */
       public int getFighting() {
@@ -6822,7 +6845,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 16;</code>
        *
        * <pre>
-       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * 可能是队伍总战力？
        * </pre>
        */
       public Builder setFighting(int value) {
@@ -6835,7 +6858,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 fighting = 16;</code>
        *
        * <pre>
-       * 感觉你发比我已经无用喇，最后可能都系自己计 我估系唔系直接cp左职业竞技场
+       * 可能是队伍总战力？
        * </pre>
        */
       public Builder clearFighting() {
@@ -7669,7 +7692,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 maxChallengeCount = 22;</code>
        *
        * <pre>
-       * TODO 最大战次数，会根据特权而修改
+       * TODO 最大挑战次数，会根据特权而修改
        * </pre>
        */
       public boolean hasMaxChallengeCount() {
@@ -7679,7 +7702,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 maxChallengeCount = 22;</code>
        *
        * <pre>
-       * TODO 最大战次数，会根据特权而修改
+       * TODO 最大挑战次数，会根据特权而修改
        * </pre>
        */
       public int getMaxChallengeCount() {
@@ -7689,7 +7712,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 maxChallengeCount = 22;</code>
        *
        * <pre>
-       * TODO 最大战次数，会根据特权而修改
+       * TODO 最大挑战次数，会根据特权而修改
        * </pre>
        */
       public Builder setMaxChallengeCount(int value) {
@@ -7702,7 +7725,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 maxChallengeCount = 22;</code>
        *
        * <pre>
-       * TODO 最大战次数，会根据特权而修改
+       * TODO 最大挑战次数，会根据特权而修改
        * </pre>
        */
       public Builder clearMaxChallengeCount() {
@@ -13555,16 +13578,16 @@ public final class PeakArenaServiceProtos {
       "Data\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\013" +
       "2\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.Arena" +
       "Record\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t",
-      "*\220\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_" +
+      "*\244\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_" +
       "ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD" +
       "\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023AR" +
       "ENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START" +
       "\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECOR" +
       "D\020\t\022\r\n\tGET_PLACE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWI" +
-      "TCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r*5\n\020e" +
-      "ArenaResultType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nAR" +
-      "ENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakArenaServ" +
-      "iceProtos"
+      "TCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016F" +
+      "IGHT_CONTINUE\020\016*5\n\020eArenaResultType\022\021\n\rA" +
+      "RENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rw" +
+      "protoB\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

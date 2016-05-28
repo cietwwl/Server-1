@@ -297,7 +297,8 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
-	public ByteString arenaFightStart(MsgArenaRequest request, Player player) {
+	//第一场战斗开始的时候发送
+	public ByteString fightStart(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
@@ -315,6 +316,8 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+		
+		arenaData.setLastFightEnemy(enemyId);
 		// combined transaction
 		if (!enemyEntry.getExtension().setFighting()) {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_IS_FIGHTING);
@@ -326,7 +329,42 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
-	public ByteString arenaFightFinish(MsgArenaRequest request, Player player) {
+	public ByteString fightContinue(MsgArenaRequest request, Player player) {
+		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
+		response.setArenaType(request.getArenaType());
+		
+		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
+		if (arenaData == null) {
+			return sendFailRespon(player, response, ArenaConstant.UNKOWN_EXCEPTION);
+		}
+		
+		String enemyId = request.getUserId();
+		ListRankingEntry<String, PeakArenaExtAttribute> enemyEntry = PeakArenaBM.getInstance().getEnemyEntry(enemyId);
+		if (enemyEntry == null) {
+			return sendFailRespon(player, response, ArenaConstant.ENEMY_NOT_EXIST);
+		}
+		ListRankingEntry<String, PeakArenaExtAttribute> playerEntry = PeakArenaBM.getInstance().getPlayerRankEntry(player,arenaData);
+		// TODO 超出排行榜容量的容错处理，让他打，赢了重新尝试加入排行榜
+		if (playerEntry == null) {
+			GameLog.error("巅峰竞技场", player.getUserId(), "玩家未入榜");
+			//response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			//return response.build().toByteString();
+		}
+		
+		String lastEnemy = arenaData.getLastFightEnemy();
+		if (enemyId.equals(lastEnemy)){
+			// 延长超时时间
+			enemyEntry.getExtension().extendTimeOut();
+			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		}else{
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+		}
+
+		return response.build().toByteString();
+	}
+	
+	//最后一场战斗结束才接收这个消息
+	public ByteString fightFinish(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 		boolean win = request.getWin();
@@ -339,38 +377,31 @@ public class PeakArenaHandler {
 			return SetError(response,player,"结算时找不到用户","");
 		}
 
+		// 重置对手
+		playerArenaData.setLastFightEnemy("");
+		
 		// 巅峰排行榜超出上限的容错处理
-		 ListRankingEntry<String, PeakArenaExtAttribute> entry = PeakArenaBM.getInstance().getPlayerRankEntry(player, playerArenaData);
-		if (entry == null) {
+		 ListRankingEntry<String, PeakArenaExtAttribute> playerEntry = PeakArenaBM.getInstance().getPlayerRankEntry(player, playerArenaData);
+		if (playerEntry == null) {
 			// 如果赢了在加上最低分做重新加入排行榜的尝试
 			return SetError(response,player,"结算时找不到排行","");
 		}
-		PeakArenaExtAttribute areanExtAttribute = entry.getExtension();
+		//PeakArenaExtAttribute playerExtAttribute = playerEntry.getExtension();
 		TablePeakArenaData enemyArenaData = PeakArenaBM.getInstance().getPeakArenaData(enemyUserId);
 		if (enemyArenaData == null) {
 			// 玩家自己的状态不用修改，而是由挑战者修改锁的状态
-			//areanExtAttribute.setNotFighting();
+			//playerExtAttribute.setNotFighting();
 			return SetError(response,player,"结算时找不到对手",":"+enemyUserId);
 		}
 
 		// TODO 用新的方式计算奖励
 		RankingEntry<Integer, PeakArenaExtAttribute> enemyEntry = null;//ranking.getRankingEntry(enemyUserId);
-		int score = 0;//entry.getComparable();
-		int enemyScore;
-		if (enemyEntry != null) {
-			enemyScore = enemyEntry.getComparable();
-		} else {
-			enemyScore = 0;
-		}
 		try {
 			long currentTimeMillis = System.currentTimeMillis();
-			int fightTime = (int) (currentTimeMillis - entry.getExtension().getLastFightTime()) / 1000;
-			int addScore;
+			int fightTime = (int) (currentTimeMillis - playerEntry.getExtension().getLastFightTime()) / 1000;
 			if (win) {
-				addScore = (int) (Math.min((int) (60 + fightTime * 0.5) + (int) ((enemyScore - score) * 0.05), 180));
 				//PeakArenaBM.getInstance().addScore(player, addScore);
 			} else {
-				addScore = (int) (Math.max((int) (60 - fightTime * 0.3) - (int) ((enemyScore - score) * 0.05), 0));
 				//PeakArenaBM.getInstance().addScore(player, -addScore);
 			}
 			PeakRecordInfo record = new PeakRecordInfo();
@@ -408,7 +439,9 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		} finally {
-			areanExtAttribute.setNotFighting();
+			// 玩家自己的状态不用修改，而是由挑战者修改锁的状态
+			//playerExtAttribute.setNotFighting();
+			
 			if (enemyEntry != null) {
 				enemyEntry.getExtendedAttribute().setNotFighting();
 			}
@@ -571,7 +604,7 @@ public class PeakArenaHandler {
 		response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 		return response.build().toByteString();
 	}
-	
+
 }
 
 

@@ -31,6 +31,7 @@ public class TablePeakArenaData {
 	private List<PeakRecordInfo> recordList; //TODO change to simple array
 	private long lastGainCurrencyTime; // 上次获取货币的时间
 	private int lastScore; // 最后一次分数
+	private String lastFightEnemy;
 
 	public TablePeakArenaData() {
 		this.recordList = new ArrayList<PeakRecordInfo>();
@@ -224,4 +225,11 @@ public class TablePeakArenaData {
 		this.lastScore = lastScore;
 	}
 
+	public void setLastFightEnemy(String enemyId) {
+		lastFightEnemy = enemyId;
+	}
+
+	public String getLastFightEnemy() {
+		return lastFightEnemy;
+	}
 }
