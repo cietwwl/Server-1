@@ -64,4 +64,5 @@ message FriendInfo{
 	required string unionName = 8;//帮派名字
 	optional bool giveState = 9;//赠送状态  false:不可赠送，true:可赠送
 	optional bool receiveState = 10;//领取状态  false:不可领取 true:可领取
+	optional string headbox = 11;//玩家头像框
 }

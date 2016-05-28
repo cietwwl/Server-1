@@ -20,10 +20,11 @@ import com.rwbase.dao.hero.pojo.RoleBaseInfoDAO;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
-import com.rwbase.dao.ranking.pojo.RankingCommonData;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
+import com.rwbase.dao.setting.HeadBoxCfgDAO;
+import com.rwbase.dao.setting.pojo.HeadBoxType;
 import com.rwproto.RankServiceProtos;
 import com.rwproto.RankServiceProtos.RankInfo;
 import com.rwproto.RankServiceProtos.RankingHeroData;
@@ -40,41 +41,11 @@ public class RankingUtilEntity {
 		toData.setFightingAll(player.getHeroMgr().getFightingAll());
 		toData.setFightingTeam(player.getHeroMgr().getFightingTeam());
 		toData.setUserHead(player.getHeadImage());
+		toData.setHeadbox(player.getHeadFrame());
 		toData.setModelId(player.getModelId());
 		toData.setJob(player.getCareer());
 		toData.setSex(player.getSex());
 		toData.setCareerLevel(player.getStarLevel());
-	}
-
-	/** 每日排序后生成数据 */
-	public void createLevelToCommonData(RankingLevelData data, RankingCommonData toData) {
-		toData.setUserId(data.getUserId());
-		toData.setUserName(data.getUserName());
-		toData.setLevel(data.getLevel());
-		toData.setExp(data.getExp());
-		toData.setFightingAll(data.getFightingAll());
-		toData.setFightingTeam(data.getFightingTeam());
-		toData.setUserHead(data.getUserHead());
-		// toData.setModelId(data.getModelId());
-		toData.setModelId(RankingUtils.getModelId(data));
-		toData.setJob(data.getJob());
-		toData.setSex(data.getSex());
-		toData.setCareerLevel(data.getCareerLevel());
-	}
-
-	/** 每日排序后生成数据 */
-	public void createCommonToLevelData(RankingCommonData data, RankingLevelData toData) {
-		toData.setUserId(data.getUserId());
-		toData.setUserName(data.getUserName());
-		toData.setLevel(data.getLevel());
-		toData.setExp(data.getExp());
-		toData.setFightingAll(data.getFightingAll());
-		toData.setFightingTeam(data.getFightingTeam());
-		toData.setUserHead(data.getUserHead());
-		toData.setModelId(data.getModelId());
-		toData.setJob(data.getJob());
-		toData.setSex(data.getSex());
-		toData.setCareerLevel(data.getCareerLevel());
 	}
 
 	public List<RankingLevelData> subListByLevelData(List<RankingLevelData> list, ERankingType rankType) {
@@ -84,22 +55,6 @@ public class RankingUtilEntity {
 		} else {
 			return list;
 		}
-	}
-
-	/** 生成或改变一个数据 */
-	public RankingCommonData createCommonData(Player pPlayer, RankingCommonData toData) {
-		toData.setUserId(pPlayer.getUserId());
-		toData.setLevel(pPlayer.getLevel());
-		toData.setExp(pPlayer.getExp());
-		toData.setUserName(pPlayer.getUserName());
-		toData.setUserHead(pPlayer.getHeadImage());
-		toData.setJob(pPlayer.getCareer());
-		toData.setSex(pPlayer.getSex());
-		toData.setCareerLevel(pPlayer.getStarLevel());
-		toData.setModelId(pPlayer.getModelId());
-		toData.setFightingAll(pPlayer.getHeroMgr().getFightingAll());
-		toData.setFightingTeam(pPlayer.getHeroMgr().getFightingTeam());
-		return toData;
 	}
 
 	/** 获得相应生成列表 */
@@ -138,6 +93,11 @@ public class RankingUtilEntity {
 			rankInfo.setFightingAll(levelData.getFightingAll());
 			rankInfo.setFightingTeam(levelData.getFightingTeam());
 			rankInfo.setRankCount(levelData.getRankCount());
+			if(levelData.getHeadbox() == null){
+				List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
+				levelData.setHeadbox(defaultHeadBoxList.get(0));
+			}
+			rankInfo.setHeadbox(levelData.getHeadbox());
 		}
 		return rankInfo.build();
 	}
@@ -213,6 +173,7 @@ public class RankingUtilEntity {
 		levelData.setModelId(modelId);
 		levelData.setSex(areanExt.getSex());
 		levelData.setUserHead(areanExt.getHeadImage());
+		levelData.setHeadbox(areanExt.getHeadbox());
 		levelData.setUserName(areanExt.getName());
 		levelData.setArenaPlace(entry.getRanking());
 		int last = areanExt.getRankLevel();

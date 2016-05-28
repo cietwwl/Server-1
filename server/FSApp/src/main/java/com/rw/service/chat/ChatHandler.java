@@ -104,7 +104,6 @@ public class ChatHandler {
 		if (!StringUtils.isEmpty(groupName)) {
 			sendMsgInfo.setFamilyName(groupName);
 		}
-
 		data.setSendMessageUserInfo(sendMsgInfo);
 		if (message.hasReceiveMessageUserInfo()) {
 			data.setReceiveMessageUserInfo(message.getReceiveMessageUserInfo());
@@ -256,6 +255,7 @@ public class ChatHandler {
 		receiveUserInfo.setLevel(toPlayer.getLevel());// 等级
 		receiveUserInfo.setHeadImage(toPlayer.getTableUser().getHeadImageWithDefault());// 头像Id
 		receiveUserInfo.setUserName(toPlayer.getTableUser().getUserName());// 角色名字
+		receiveUserInfo.setHeadbox(toPlayer.getHeadFrame());//头像品质框
 
 		// 设置帮派信息
 		UserGroupAttributeDataIF toPlayerGroupData = toPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -351,6 +351,7 @@ public class ChatHandler {
 		String playerName = player.getUserName();// 角色名字
 		String msgTime = getMessageTime();// 发布消息的时间
 		String userId = player.getUserId();
+		String headFrame = player.getHeadFrame();//头像品质框
 
 		for (int i = 0, size = playerList.size(); i < size; i++) {
 			Player p = PlayerMgr.getInstance().find(playerList.get(i));
@@ -364,6 +365,7 @@ public class ChatHandler {
 			sendMessaegUserInfo.setHeadImage(headImage);
 			sendMessaegUserInfo.setFamilyId(familyId);
 			sendMessaegUserInfo.setFamilyName(familyName);
+			sendMessaegUserInfo.setHeadbox(headFrame);
 
 			msgData.setSendMessageUserInfo(sendMessaegUserInfo);// 信息
 			msgData.setTreasureId(treasureId);// 密境Id

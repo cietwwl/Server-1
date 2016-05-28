@@ -16,16 +16,12 @@ public class TaoistMagicCfg extends BaseConfig {
 	private int tagNum;// 分页
 	private int openLevel; // 分页开放等级
 	private int order;// 序号
-	private String attribute; // 属性类型
 	private String formulaParam; // 属性计算公式参数
-	// private com.rwbase.dao.fashion.AttrValueType attrValueType; // 属性值的类型
 	private int consumeId; // 技能消耗ID
 	private com.rwbase.common.enu.eSpecialItemId coinType; // 货币类型
 
 	private Map<String, TaoistMagicFormula> attrDataMap;// 属性
 	private Map<String, TaoistMagicFormula> precentAttrDataMap;// 百分比属性
-
-	// private TaoistMagicFormula formula;
 
 	public int getKey() {
 		return key;
@@ -43,17 +39,9 @@ public class TaoistMagicCfg extends BaseConfig {
 		return order;
 	}
 
-	public String getAttribute() {
-		return attribute;
-	}
-
 	public String getFormulaParam() {
 		return formulaParam;
 	}
-
-	// public com.rwbase.dao.fashion.AttrValueType getAttrValueType() {
-	// return attrValueType;
-	// }
 
 	public int getConsumeId() {
 		return consumeId;
@@ -69,10 +57,6 @@ public class TaoistMagicCfg extends BaseConfig {
 		if (coinType == null) {
 			throw new RuntimeException("无效货币类型,key=" + key);
 		}
-
-		// if (attrValueType == null) {
-		// throw new RuntimeException("无效属性类型,key=" + key);
-		// }
 
 		Map<String, TaoistMagicFormula> attrDataMap = new HashMap<String, TaoistMagicFormula>();
 
@@ -111,12 +95,4 @@ public class TaoistMagicCfg extends BaseConfig {
 	public Map<String, TaoistMagicFormula> getPrecentAttrDataMap() {
 		return precentAttrDataMap;
 	}
-
-	// public int getMagicValue(int level) {
-	// return formula.getValue(level);
-	// }
-	//
-	// public void cacheToLevel(int maxLvl) {
-	// formula.cacheToLevel(maxLvl);
-	// }
 }

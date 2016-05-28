@@ -2,6 +2,9 @@ package com.playerdata;
 
 import java.util.concurrent.TimeUnit;
 
+import com.bm.player.Observer;
+import com.bm.player.ObserverFactory;
+import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -398,6 +401,12 @@ public class UserGameDataMgr {
 	public void setHeadBox(String box) {
 		userGameDataHolder.get().setHeadFrame(box);
 		userGameDataHolder.update(player);
+
+		// 通知一下监听的人，修改对应数据
+		Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
+		if (observer != null) {
+			observer.playerChangeHeadBox(player);
+		}
 	}
 
 	public String getHeadBox() {

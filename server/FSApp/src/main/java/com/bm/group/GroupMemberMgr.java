@@ -125,8 +125,8 @@ public class GroupMemberMgr {
 	 * @return
 	 */
 	public GroupMemberDataIF addMemberData(String userId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, boolean isAddApply) {
-		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime);
+			long receiveTime, boolean isAddApply, String headbox) {
+		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime, headbox);
 		return holder.addMember(userId, memberData, isAddApply);
 	}
 
@@ -167,7 +167,7 @@ public class GroupMemberMgr {
 	 * @return
 	 */
 	private GroupMemberData newGroupMemberData(String playerId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime) {
+			long receiveTime, String headbox) {
 		GroupMemberData memberData = new GroupMemberData();
 		memberData.setId(newMemberUniqueId(playerId, groupId));
 		memberData.setUserId(playerId);
@@ -182,6 +182,7 @@ public class GroupMemberMgr {
 		memberData.setApplyTime(applyTime);
 		memberData.setReceiveTime(receiveTime);
 		memberData.setTemplateId(templateId);
+		memberData.setHeadbox(headbox);
 		return memberData;
 	}
 
@@ -398,6 +399,21 @@ public class GroupMemberMgr {
 		}
 
 		item.setHeadId(headIcon);
+		holder.updateMemberData(item.getId());
+	}
+	
+	/**
+	 * 更新成员的头像框
+	 * @param userId
+	 * @param headbox
+	 */
+	public synchronized void updateMemberHeadbox(String userId, String headbox){
+		GroupMemberData item = holder.getMemberData(userId, false);
+		if (item == null) {
+			return;
+		}
+
+		item.setHeadbox(headbox);
 		holder.updateMemberData(item.getId());
 	}
 

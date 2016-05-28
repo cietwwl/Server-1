@@ -72,6 +72,7 @@ enum eSynType	//数据同步类型
 	GroupSecretData = 49;   //秘境数据
 	MagicSecretData = 50;   //法宝秘境数据
 	MagicChapterData = 51;   //法宝秘境章节数据
+	SECRETAREA_TEAM_INFO = 52;//帮派秘境的阵容信息
 
 
 	//活动从60-79
