@@ -1,12 +1,15 @@
 package com.gm.customer.response;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.gm.customer.QuestionReply;
 import com.playerdata.dataSyn.annotation.SynClass;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 @SynClass
 public class QueryListResponse {
 	private int id;
-	private int channel;
+	private String channel;
 	private int type;
 	private int serverId;
 	private String roleId;
@@ -25,10 +28,10 @@ public class QueryListResponse {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getChannel() {
+	public String getChannel() {
 		return channel;
 	}
-	public void setChannel(int channel) {
+	public void setChannel(String channel) {
 		this.channel = channel;
 	}
 	public int getType() {

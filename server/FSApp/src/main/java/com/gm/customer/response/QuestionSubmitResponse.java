@@ -1,5 +1,8 @@
 package com.gm.customer.response;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class QuestionSubmitResponse {
 	private long iSequenceNum;
 	private int type;

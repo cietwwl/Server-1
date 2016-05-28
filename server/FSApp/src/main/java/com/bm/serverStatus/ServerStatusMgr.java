@@ -10,6 +10,7 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.task.GmEmailAll;
 import com.playerdata.Player;
+import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.ServerDataHolder;
@@ -144,6 +145,7 @@ public class ServerStatusMgr {
 	}
 
 	public static long getiSequenceNum() {
-		return iSequenceNum.getAndIncrement();
+		int intServerId = GameManager.getZoneId();
+		return intServerId * 100000000 + iSequenceNum.getAndIncrement();
 	}
 }

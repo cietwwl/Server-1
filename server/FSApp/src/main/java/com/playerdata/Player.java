@@ -238,6 +238,8 @@ public class Player implements PlayerIF {
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
+		
+		playerQuestionMgr.init(this);
 
 		if (initMgr) {
 			initMgr();

@@ -35,6 +35,7 @@ import com.gm.task.GmOnlineLimitModify;
 import com.gm.task.GmOpCoin;
 import com.gm.task.GmOpExp;
 import com.gm.task.GmOpGold;
+import com.gm.task.GmResponsePlayerQuestion;
 import com.gm.task.GmSavePlayer;
 import com.gm.task.GmServerInfo;
 import com.gm.task.GmServerStatus;
@@ -114,6 +115,7 @@ public class GmHandler {
 		taskMap.put(20005, new GmEditGameNotice());
 		taskMap.put(20006, new GmViewGameNotice());
 		taskMap.put(20007, new GmDeleteGameNotice());
+		taskMap.put(20019, new GmResponsePlayerQuestion());
 		taskMap.put(20032, new GmViewFriends());
 		taskMap.put(20037, new GmViewEquipments());
 		taskMap.put(20038, new GmNotifyGenerateGiftPackage());
