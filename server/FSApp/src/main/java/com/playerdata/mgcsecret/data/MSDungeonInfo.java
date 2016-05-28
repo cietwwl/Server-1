@@ -5,20 +5,21 @@ import java.util.Collections;
 import java.util.List;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.team.TeamInfo;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 @SynClass
 public class MSDungeonInfo {
 	private String dungeonKey;	//关卡ID
 	private ArrayList<Integer> monsterBuff; //关卡怪物buff
-	private int enimyGroupId; //怪物组id
+	private TeamInfo enimyTeam; //怪物队伍信息
 	private List<ItemInfo> dropItem;	//关卡掉落物品
 	private int finishStar;  //完成的星级（只有完成后才会有这个值，失败为0）
 
-	public MSDungeonInfo(String dungeonKey, ArrayList<Integer> monsterBuff, int enimyGroupId, List<? extends ItemInfo> dropItem){
+	public MSDungeonInfo(String dungeonKey, ArrayList<Integer> monsterBuff, TeamInfo enimyTeam, List<? extends ItemInfo> dropItem){
 		this.dungeonKey = dungeonKey;
 		this.monsterBuff = monsterBuff;
-		this.enimyGroupId = enimyGroupId;
+		this.enimyTeam = enimyTeam;
 		this.dropItem = Collections.unmodifiableList(dropItem);
 	}
 	
@@ -40,8 +41,8 @@ public class MSDungeonInfo {
 		return monsterBuff;
 	}
 
-	public int getEnimyGroupId() {
-		return enimyGroupId;
+	public TeamInfo getEnimyTeam() {
+		return enimyTeam;
 	}
 
 	public List<ItemInfo> getDropItem() {

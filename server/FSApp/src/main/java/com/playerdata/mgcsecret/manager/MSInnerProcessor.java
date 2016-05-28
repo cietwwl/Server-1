@@ -14,8 +14,10 @@ import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
 import com.playerdata.mgcsecret.data.MSDungeonInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
+import com.playerdata.team.TeamInfo;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dropitem.DropItemManager;
+import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 
@@ -158,8 +160,8 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param enimyStr
 	 * @return
 	 */
-	private int generateEnimyForDungeon(String enimyStr){
-		return Integer.parseInt(enimyStr);
+	private TeamInfo generateEnimyForDungeon(String enimyStr){
+		return AngleArrayMatchHelper.getRobotTeamInfo(Integer.parseInt(enimyStr));
 	}
 
 	/**

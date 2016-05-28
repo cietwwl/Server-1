@@ -5,9 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.bm.rank.magicsecret.MSScoreRankMgr;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.SimpleArmyInfo;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
@@ -59,19 +61,34 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param dungeonID
 	 * @return
 	 */
-	public msResultType enterMSFight(String dungeonID){
-		if(!judgeUserLevel(dungeonID)) return msResultType.LOW_LEVEL;
-		if(!judgeDungeonsCondition(dungeonID)) return msResultType.CONDITION_UNREACH;
-		if(!judgeDungeonsLegal(dungeonID)) return msResultType.DATA_ERROR;
-		if(!judgeDungeonsCount(dungeonID)) return msResultType.TIMES_NOT_ENOUGH;
+	public void enterMSFight(MagicSecretRspMsg.Builder msRsp, String dungeonID){
+		if(!judgeUserLevel(dungeonID)) {
+			msRsp.setRstType(msResultType.LOW_LEVEL);
+			return;
+		}
+		if(!judgeDungeonsCondition(dungeonID)) {
+			msRsp.setRstType(msResultType.CONDITION_UNREACH);
+			return;
+		}
+		if(!judgeDungeonsLegal(dungeonID)) {
+			msRsp.setRstType(msResultType.DATA_ERROR);
+			return;
+		}
+		if(!judgeDungeonsCount(dungeonID)) {
+			msRsp.setRstType(msResultType.TIMES_NOT_ENOUGH);
+			return;
+		}
 		
 		//进入副本的时候更新可以选的副本（如果有三个，进入其中一个之后，如果没打过，以后也只有一个选择）
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
 		String chapterID = String.valueOf(dungDataCfg.getChapterID());
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+		MSDungeonInfo enterDungeon = null;
 		for(MSDungeonInfo dungeon : mcInfo.getSelectableDungeons()){
-			if(dungeon.getDungeonKey().equalsIgnoreCase(dungeonID))
+			if(dungeon.getDungeonKey().equalsIgnoreCase(dungeonID)){
+				enterDungeon = dungeon;
 				mcInfo.setSelectedDungeonIndex(mcInfo.getSelectableDungeons().indexOf(dungeon));
+			}	
 		}
 		
 		//进副本的时候，如果有没购买的buff，需要清空
@@ -87,7 +104,13 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		
 		userMSHolder.update(m_pPlayer);
 		mChapterHolder.updateItem(m_pPlayer, mcInfo);
-		return msResultType.SUCCESS;
+		msRsp.setRstType(msResultType.SUCCESS);
+		ArmyInfo enimyArmy = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(enterDungeon.getEnimyTeam());
+		try {
+			msRsp.setArmyInfo(enimyArmy.toJson());
+		} catch (Exception e) {
+			GameLog.error(LogModule.MagicSecret.getName(), userId, String.format("enterMSFight, 进入副本[%s]时，enimyArmy转json异常", dungeonID), e);
+		}
 	}
 	
 	/**
@@ -162,7 +185,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 				GameLog.error(LogModule.MagicSecret, userId, String.format("getMSSweepReward, 扫荡章节[%s]时副本[%s]静态数据不存在", chapterID, dungeonID), null);
 				continue;
 			}
-			MSDungeonInfo msdInfo = new MSDungeonInfo(dungeonID, null, -1, generateDropItem(dungDataCfg.getDrop()));
+			MSDungeonInfo msdInfo = new MSDungeonInfo(dungeonID, null, null, generateDropItem(dungDataCfg.getDrop()));
 			rewardItems.addAll(singleDungeonReward(msdInfo, DUNGEON_FINISH_MAX_STAR));
 		}
 		// 获得的物品
