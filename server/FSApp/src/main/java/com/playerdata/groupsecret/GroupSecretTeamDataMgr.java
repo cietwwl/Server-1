@@ -1,7 +1,13 @@
 package com.playerdata.groupsecret;
 
+import java.util.List;
+
+import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamDataHolder;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 /*
  * @author HC
@@ -36,5 +42,50 @@ public class GroupSecretTeamDataMgr {
 	 */
 	public void update(String userId) {
 		GroupSecretTeamDataHolder.getHolder().updateData(userId);
+	}
+
+	public void addDefendHeroIdList(Player player, List<String> canAddDefendList) {
+		String userId = player.getUserId();
+		GroupSecretTeamData groupSecretTeamData = get(userId);
+		if (groupSecretTeamData == null) {
+			return;
+		}
+
+		groupSecretTeamData.addDefendHeroIdList(canAddDefendList);
+		update(userId);
+
+		// 同步数据
+		synData(player);
+	}
+
+	/**
+	 * 删除使用的一些英雄Id
+	 * 
+	 * @param player
+	 * @param removeList
+	 */
+	public void removeTeamHeroList(Player player, List<String> removeList) {
+		String userId = player.getUserId();
+		GroupSecretTeamData groupSecretTeamData = get(userId);
+		if (groupSecretTeamData == null) {
+			return;
+		}
+
+		groupSecretTeamData.removeDefendHeroIdList(removeList, userId);
+		update(userId);
+
+		// 同步数据
+		synData(player);
+	}
+
+	private eSynType synType = eSynType.SECRETAREA_TEAM_INFO;
+
+	/**
+	 * 推送数据
+	 * 
+	 * @param player
+	 */
+	public void synData(Player player) {
+		ClientDataSynMgr.synData(player, get(player.getUserId()), synType, eSynOpType.UPDATE_SINGLE);
 	}
 }

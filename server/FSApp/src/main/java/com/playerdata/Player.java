@@ -31,6 +31,8 @@ import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -142,10 +144,10 @@ public class Player implements PlayerIF {
 	private TaoistMgr taoistMgr = new TaoistMgr();
 
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
-	
-	//客户端管理工具
+
+	// 客户端管理工具
 	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
-	
+
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -250,7 +252,7 @@ public class Player implements PlayerIF {
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
-		
+
 		playerQuestionMgr.init(this);
 
 		if (initMgr) {
@@ -371,9 +373,13 @@ public class Player implements PlayerIF {
 					PowerInfoDataHolder.synPowerInfo(player);
 					// 登录推送所有的羁绊属性
 					HeroFettersDataHolder.synAll(player);
-					
+
 					ActivityCountTypeMgr.getInstance().checkActivity(player);
 					m_AssistantMgr.synData();
+					// 帮派秘境数据的推送
+					UserGroupSecretBaseDataMgr.getMgr().synData(player);
+					// 帮派秘境阵容信息的推送
+					GroupSecretTeamDataMgr.getMgr().synData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -386,7 +392,7 @@ public class Player implements PlayerIF {
 		notifyLogin();
 		initDataVersionControl();
 		try {
-			dataSynVersionHolder.synAll(this); 
+			dataSynVersionHolder.synAll(this);
 		} finally {
 			UserChannelMgr.onBSEnd(userId);
 		}
@@ -915,8 +921,8 @@ public class Player implements PlayerIF {
 	public String getHeadImage() {
 		return userDataMgr.getHeadImage();
 	}
-	
-	public String getHeadFrame(){
+
+	public String getHeadFrame() {
 		return userGameDataMgr.getHeadBox();
 	}
 
@@ -1074,7 +1080,7 @@ public class Player implements PlayerIF {
 	public UserDataMgr getUserDataMgr() {
 		return userDataMgr;
 	}
-	
+
 	public RedPointMgr getRedPointMgr() {
 		return redPointMgr;
 	}
@@ -1107,8 +1113,8 @@ public class Player implements PlayerIF {
 	public UpgradeMgr getUpgradeMgr() {
 		return upgradeMgr;
 	}
-	
-	public PlayerQuestionMgr getPlayerQuestionMgr(){
+
+	public PlayerQuestionMgr getPlayerQuestionMgr() {
 		return playerQuestionMgr;
 	}
 

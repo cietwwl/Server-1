@@ -259,8 +259,7 @@ public class GroupSecretHandler {
 		}
 
 		// 更新参与防守的阵容信息
-		teamData.addDefendHeroIdList(canAddDefendList);
-		teamMgr.update(userId);
+		teamMgr.addDefendHeroIdList(player, canAddDefendList);
 
 		// 防守的信息
 		long now = System.currentTimeMillis();
@@ -280,12 +279,10 @@ public class GroupSecretHandler {
 		secretData.addDefendUserInfoData(GroupSecretIndex.MAIN_VALUE, userInfoData);
 
 		// 添加创建秘境的数据
-		userCreateGroupSecretData.addGroupSecretData(secretData);
-		mgr.updateData(userId);
+		mgr.addGroupSecretData(userId, secretData);
 
 		// 更新目前防守的秘境列表
-		userGroupSecretBaseData.addDefendSecretId(GroupSecretHelper.generateCacheSecretId(userId, secretData.getId()));
-		baseDataMgr.update(userId);
+		baseDataMgr.addDefendSecretId(userId, GroupSecretHelper.generateCacheSecretId(userId, secretData.getId()));
 
 		CreateGroupSecretRspMsg.Builder createRsp = CreateGroupSecretRspMsg.newBuilder();
 		createRsp.setGroupSecretInfo(GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId));
@@ -429,22 +426,13 @@ public class GroupSecretHandler {
 		}
 
 		// 把自己的驻守信息移除
-		mySecretBaseData.removeDefendSecretId(getRewardSecretId);
-		userSecretDataMgr.update(userId);
+		userSecretDataMgr.removeDefendSecretId(userId, getRewardSecretId);
 
 		// 删除秘境中自己的防守信息
-		groupSecretData.removeDefendUserInfoData(myDefendInfo.getIndex());
-		if (groupSecretData.getDefendMap().isEmpty()) {
-			userCreateGroupSecretData.deleteGroupSecretDataById(id);
-		}
-		mgr.updateData(userId);
+		mgr.removeDefendInfoData(secretUserId, myDefendInfo.getIndex(), id);
 
 		// 清除自己防守阵容中使用到的
-		List<String> heroList = myDefendInfo.getHeroList();
-		GroupSecretTeamDataMgr teamMgr = GroupSecretTeamDataMgr.getMgr();
-		GroupSecretTeamData groupSecretTeamData = teamMgr.get(userId);
-		groupSecretTeamData.removeDefendHeroIdList(heroList, userId);
-		teamMgr.update(userId);
+		GroupSecretTeamDataMgr.getMgr().removeTeamHeroList(player, myDefendInfo.getHeroList());
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();

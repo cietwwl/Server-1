@@ -1,7 +1,11 @@
 package com.playerdata.groupsecret;
 
+import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.groupsecret.pojo.UserGroupSecretDataHolder;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 /*
  * @author HC
@@ -35,5 +39,48 @@ public class UserGroupSecretBaseDataMgr {
 	 */
 	public void update(String userId) {
 		UserGroupSecretDataHolder.getHolder().updateData(userId);
+	}
+
+	/**
+	 * 增加防守的秘境Id
+	 * 
+	 * @param userId
+	 * @param id
+	 */
+	public void addDefendSecretId(String userId, String id) {
+		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
+		if (userGroupSecretBaseData == null) {
+			return;
+		}
+
+		userGroupSecretBaseData.addDefendSecretId(id);
+		update(userId);
+	}
+
+	/**
+	 * 删除防守秘境的Id
+	 * 
+	 * @param id
+	 * @param userId
+	 */
+	public void removeDefendSecretId(String userId, String id) {
+		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
+		if (userGroupSecretBaseData == null) {
+			return;
+		}
+
+		userGroupSecretBaseData.removeDefendSecretId(id);
+		update(userId);
+	}
+
+	private eSynType synType = eSynType.SECRETAREA_USER_INFO;
+
+	/**
+	 * 推送个人的帮派秘境数据
+	 * 
+	 * @param player
+	 */
+	public void synData(Player player) {
+		ClientDataSynMgr.synData(player, get(player.getUserId()), synType, eSynOpType.UPDATE_SINGLE);
 	}
 }
