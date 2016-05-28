@@ -1,8 +1,5 @@
 package com.rw.handler.sign;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
@@ -59,54 +56,12 @@ public class SignHandler {
 	}
 	
 	public void initSignData(Client client, List<String> signDataList, int year, int month, int reSignCount){
-//		Calendar calendar = Calendar.getInstance();
-//		calendar.set(Calendar.YEAR, year);
-//		calendar.set(Calendar.MONTH, month - 1);
-//		int maxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-//		HashMap<String, SignData> map = new HashMap<String, SignData>();
-//		for (int i = 1; i <= maxDay; i++) {
-//			SignData signData = new SignData();
-//			signData.setSignId(year + "_" + month + "_" + i);
-//			signData.setSignStatus(EBtnStatus.NOT_SIGN);
-//			map.put(signData.getSignId(), signData);
-//		}
-//		boolean isSignable = false;
-//		for (String temp : signDataList) {
-//			String[] dataList = temp.split(",");
-//			String strSignID = dataList[0];
-//			boolean isCurrent = ((Integer.parseInt(dataList[1]) == 1) && (Integer.parseInt(dataList[2]) == 1)) ? true : false ;
-//			boolean isSignYet = ((Integer.parseInt(dataList[1]) == 0) && (Integer.parseInt(dataList[2]) == 0)) ? true : false ;
-//			boolean isDouble = ((Integer.parseInt(dataList[1]) == 1) && (Integer.parseInt(dataList[2]) == 0)) ? true : false ;
-//			boolean isResign = ((Integer.parseInt(dataList[1]) == 0) && (Integer.parseInt(dataList[2]) == 1)) ? true : false ;
-//			
-//			SignData signData = map.get(strSignID);
-//			if(isCurrent)
-//			{
-//				
-//				signData.setSignStatus(EBtnStatus.CURRENT);
-//				isSignable = true;
-//			}
-//			else if(isSignYet)
-//			{
-//				signData.setSignStatus(EBtnStatus.SIGN_YET);
-//			}
-//			else if(isDouble)
-//			{
-//				signData.setSignStatus(EBtnStatus.DOUBLE_ABLE);
-//			}
-//			else if(isResign)
-//			{
-//				signData.setSignStatus(EBtnStatus.RESIGNABLE);
-//			}
-//		}
+
 		
 		SignDataHolder signDataHolder = client.getSignDataHolder();
 		signDataHolder.setSignDataList(signDataList);
 		signDataHolder.setReSignCount(reSignCount);
-//		signDataHolder.setSignable(isSignable);
-//		List<SignData> signDatas = new ArrayList<SignData>();
-//		signDatas.addAll(map.values());
-//		signDataHolder.setSignData(signDatas);
+
 		
 		processRequestSign(client);
 	}
