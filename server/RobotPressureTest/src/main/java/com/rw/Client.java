@@ -6,6 +6,7 @@ import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
+import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
 import com.rw.handler.group.data.GroupDataVersion;
 import com.rw.handler.group.data.GroupRequestCacheData;
@@ -16,6 +17,7 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
+import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.task.TaskItemHolder;
 
@@ -54,6 +56,11 @@ public class Client {
 	private BattleTowerData battleTowerData = new BattleTowerData();
 	// 英雄的装备数据
 	private HeroEquipHolder heroEquipHolder = new HeroEquipHolder();
+	
+	//签到数据
+	private SignDataHolder signDataHolder = new SignDataHolder();
+	//日常数据
+	private DailyActivityDataHolder dailyActivityDataHolder = new DailyActivityDataHolder();
 		
 	//玩家通用活动一数据
 	private ActivityCountHolder activityCountHolder = new ActivityCountHolder();
@@ -222,6 +229,22 @@ public class Client {
 	
 	public ActivityCountHolder getActivityCountHolder() {
 		return activityCountHolder;
+	}
+
+	public SignDataHolder getSignDataHolder() {
+		return signDataHolder;
+	}
+
+	public void setSignDataHolder(SignDataHolder signDataHolder) {
+		this.signDataHolder = signDataHolder;
+	}
+
+	public DailyActivityDataHolder getDailyActivityDataHolder() {
+		return dailyActivityDataHolder;
+	}
+
+	public void setDailyActivityDataHolder(DailyActivityDataHolder dailyActivityDataHolder) {
+		this.dailyActivityDataHolder = dailyActivityDataHolder;
 	}
 
 	public String getGroupVersion() {

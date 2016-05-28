@@ -3014,3 +3014,68 @@
 [INFO ] 2016-03-09 18:19:34,492 robotLog ClientMsgHandler[handleResp]业务模块收到的响应超时, account:vAUser1101499 cmd:MSG_LOGIN_GAME
 [INFO ] 2016-03-09 18:19:34,794 robotLog ClientMsgHandler[handleResp]业务模块收到的响应超时, account:vAUser1101481 cmd:MSG_LOGIN_GAME
 [INFO ] 2016-03-09 18:19:34,868 robotLog ClientMsgHandler[handleResp]业务模块收到的响应超时, account:vAUser1101484 cmd:MSG_LOGIN_GAME
+[INFO ] 2016-05-27 21:53:49,001 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-27 21:53:49,002 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-27 21:53:49,225 robotLog 生成新的channel  accountId是：052728993
+[INFO ] 2016-05-27 21:53:49,283 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:052728993 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-27 21:53:49,288 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-27 21:53:49,290 robotLog 生成新的channel  accountId是：052728993
+[INFO ] 2016-05-27 21:53:49,675 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:052728993 password:123456
+[INFO ] 2016-05-27 21:54:19,138 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-27 21:54:19,139 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-27 21:54:19,319 robotLog 生成新的channel  accountId是：052728993
+[INFO ] 2016-05-27 21:54:19,363 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:052728993 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-27 21:54:19,368 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-27 21:54:19,370 robotLog 生成新的channel  accountId是：052728993
+[INFO ] 2016-05-27 21:54:19,503 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:052728993 password:123456
+[INFO ] 2016-05-27 21:54:53,725 robotLog 签到模块[签到] 成功
+[INFO ] 2016-05-27 21:56:24,455 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-27 21:56:24,455 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-27 21:56:24,645 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-27 21:56:24,692 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:0527184105 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-27 21:56:24,697 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-27 21:56:24,699 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-27 21:56:24,808 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:0527184105 password:123456
+[INFO ] 2016-05-27 21:56:32,186 robotLog 签到模块[签到] 成功
+[INFO ] 2016-05-27 21:56:40,052 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-27 21:56:40,053 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-27 21:56:40,229 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-27 21:56:40,279 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:0527184105 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-27 21:56:40,284 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-27 21:56:40,286 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-27 21:56:40,384 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:0527184105 password:123456
+[INFO ] 2016-05-27 21:58:34,344 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-27 21:58:34,345 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-27 21:58:34,524 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-27 21:58:34,568 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:0527184105 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-27 21:58:34,572 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-27 21:58:34,574 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-27 21:58:34,684 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:0527184105 password:123456
+[INFO ] 2016-05-28 10:35:56,318 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-28 10:35:56,318 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-28 10:35:56,488 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-28 10:35:56,538 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:0527184105 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-28 10:35:56,538 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-28 10:35:56,538 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-28 10:35:56,640 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:0527184105 password:123456
+[INFO ] 2016-05-28 10:36:26,691 robotLog ClientMsgHandler[handleResp]业务模块收到的响应超时, account:0527184105 cmd:MSG_DAILY_ACTIVITY
+[INFO ] 2016-05-28 10:38:36,800 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-28 10:38:36,800 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-28 10:38:36,980 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-28 10:38:37,020 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:0527184105 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-28 10:38:37,020 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-28 10:38:37,030 robotLog 生成新的channel  accountId是：0527184105
+[INFO ] 2016-05-28 10:38:37,146 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:0527184105 password:123456
+[INFO ] 2016-05-28 10:38:42,379 robotLog 完成任务成功
+[INFO ] 2016-05-28 10:38:43,770 robotLog 完成任务成功
+[INFO ] 2016-05-28 10:38:51,781 robotLog 完成任务成功
+[INFO ] 2016-05-28 10:39:59,039 robotLog 文件的路径：/F:/NewGitSource/root_develop/server/server/RobotPressureTest/target/classes/
+[INFO ] 2016-05-28 10:39:59,039 robotLog 平台Host：192.168.2.234 端口：8081
+[INFO ] 2016-05-28 10:39:59,219 robotLog 生成新的channel  accountId是：0527575707
+[INFO ] 2016-05-28 10:39:59,259 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:0527575707 password:123456 lastZondId:7 address:192.168.2.247:8080
+[INFO ] 2016-05-28 10:39:59,269 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
+[INFO ] 2016-05-28 10:39:59,269 robotLog 生成新的channel  accountId是：0527575707
+[INFO ] 2016-05-28 10:39:59,361 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:0527575707 password:123456
+[INFO ] 2016-05-28 10:39:59,551 robotLog 完成任务成功
+[INFO ] 2016-05-28 10:39:59,551 robotLog 完成任务成功
+[INFO ] 2016-05-28 10:39:59,551 robotLog 完成任务成功
