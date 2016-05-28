@@ -1,14 +1,41 @@
 package com.rw;
 
+import java.util.Random;
+
 public class Test {
 
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
-
+	/** 所有运行起来的客户端 */
+	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
 		 Robot robot = loginRobot("0527575707");
 		robot.dailyActivity();
 
-		// Robot robot = createRobot("testallen0002");
+		 Robot robot = createRobot("testallen"+random.nextInt(2000));
+		 if(robot == null){
+		 }else{
+			 boolean issucc =false;
+			 
+//			 issucc=robot.testCopyWarfare();
+			 
+			 
+			 System.out.println("@@@@@@@@@@@" + issucc);
+			 
+		 }
+		 
+		 
+		//5-27新增部分
+//		 robot.testWorShip();//膜拜
+//		 robot.testMainService();//主服务，买体力
+//		 robot.testDailyActivity();
+//		 robot.testCopyWarfare();//无尽战火
+//		 robot.testCopyTower();//万仙阵胜利一次
+		 
+		 
+		 
+		 
+		 
+		 
 		// long start = System.currentTimeMillis();
 		// Robot robot = loginRobot("testallen0003");
 		// Robot robot = loginRobot("hclovehf");
@@ -58,18 +85,18 @@ public class Test {
 
 		// String groupId = "100110033";
 		// Robot robot = loginRobot("groupRobot9");
-		// robot.addGold(1000);
+//		 robot.addGold(1000);
 		// robot.addCoin(100000);
 		// robot.createGroup("作弊捡来的");
 		// for (int i = 0; i < 2; i++) {
 		// robot.groupDonate();
 		// }
 
-		// robot.refuseApplyMemberAll();
-		// robot.getGroupInfo();
+//		 robot.refuseApplyMemberAll();
+//		 robot.getGroupInfo();
 		// robot.receiveApplyMemberAll();
 		// robot.memberNominate();
-		// robot.memberCancelNominate();
+//		 robot.memberCancelNominate();
 		// robot.receiveApplyMemberOne("100100001609");
 		// robot.refuseApplyMemberOne("100100001607");
 		// robot.refuseApplyMemberOne("100100001606");
@@ -82,13 +109,14 @@ public class Test {
 		// String accountId = "groupRobot" + i;
 		// Robot robot = loginRobot(accountId);
 		// robot.applyGroup(groupId);
+		
 		// // sb.append("name:").append(accountId).append(",id:").append(robot.getUserId()).append("\n");
 		// }
 		// System.err.println(sb.toString());
 
 		// ///////////////////////////////////////////旧服务器测试机器人
 		// robot.buyRandom();
-		// robot.wearEquip();
+//		 robot.wearEquip();
 		// robot.equipAttach();
 		// robot.upgrade(35);
 		// // robot.heroAdvance();
@@ -133,6 +161,9 @@ public class Test {
 
 		// testRemoveFriend();
 		// robot2.close();
+		 
+		 
+		 
 	}
 
 	public static void testUpgarate() {
@@ -251,7 +282,8 @@ public class Test {
 		robotB.close();
 
 	}
-
+		
+	
 	// 登录
 	private static Robot loginRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
@@ -264,7 +296,6 @@ public class Test {
 	private static Robot createRobot(String accountId) {
 		Robot robot = Robot.newInstance(accountId);
 		if (robot.regPlatform()) {
-
 			if (robot.creatRole()) {
 				return robot;
 			}
