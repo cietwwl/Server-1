@@ -8,6 +8,7 @@ import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
+import com.bm.rank.groupsecretmatch.GroupSecretMatchRankExtension;
 import com.bm.rank.level.LevelExtension;
 import com.bm.rank.peakArena.PeakArenaExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
@@ -41,6 +42,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class),
 	ANGEL_TEAM_INFO_RANK(22, 20000, "万仙阵匹配玩家阵容", 1, AngelArrayTeamInfoExtension.class),
 //	CHARGE_RANK(23, 5000, "充值排行榜", 1, ChargeRankExtension.class),
+	GROUP_SECRET_MATCH_RANK(24, 10000, "帮派秘境匹配排行榜", 1, GroupSecretMatchRankExtension.class),
 	;
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz,RankingEntityCopyer copyer) {
