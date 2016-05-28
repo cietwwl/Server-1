@@ -1,8 +1,10 @@
 package com.rw.service.TaoistMagic.datamodel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -24,30 +26,19 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		return SpringContextUtil.getBean(TaoistMagicCfgHelper.class);
 	}
 
-	/*
-	 * public AttrDataIF getEffect(int skillId, int level) { TaoistMagicCfg cfg = cfgCacheMap.get(String.valueOf(skillId)); AttrData attr = new
-	 * AttrData(); Field field = attrMap.get(cfg.getAttribute()); try { field.set(attr, cfg.getMagicValue(level)); } catch (IllegalArgumentException
-	 * e) { e.printStackTrace(); } catch (IllegalAccessException e) { e.printStackTrace(); } return attr; }
-	 */
-	// private Map<String, Field> attrMap;
-
+	private HashMap<Integer,List<TaoistMagicCfg>> openMap;
 	@Override
 	public Map<String, TaoistMagicCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("TaoistMagic/TaoistMagicCfg.csv", TaoistMagicCfg.class);
-		// attrMap = CfgCsvHelper.getFieldMap(AttrData.class);
 		Collection<TaoistMagicCfg> vals = cfgCacheMap.values();
 		HashMap<Integer, Integer> tagMap = new HashMap<Integer, Integer>();
 		HashMap<Integer, HashSet<Integer>> orderMap = new HashMap<Integer, HashSet<Integer>>();
-
+		openMap = new HashMap<Integer, List<TaoistMagicCfg>>();
 		for (TaoistMagicCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
-			// 检查属性是否存在, 每个分页的开放等级必须一样,序号应该连续且没有重复
-			// String attribute = cfg.getAttribute();
-			// if (!attrMap.containsKey(attribute)) {
-			// throw new RuntimeException("无效属性名:" + attribute);
-			// }
 			int tagNum = cfg.getTagNum();
 			int openLevel = cfg.getOpenLevel();
+			
 			Integer oldTagCfg = tagMap.get(tagNum);
 			if (oldTagCfg == null) {
 				tagMap.put(tagNum, openLevel);
@@ -56,6 +47,13 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 					throw new RuntimeException("同一个分页的道术技能应该是同一个开放等级！" + "key=" + cfg.getKey());
 				}
 			}
+			
+			List<TaoistMagicCfg> openList = openMap.get(openLevel);
+			if (openList == null){
+				openList = new ArrayList<TaoistMagicCfg>();
+				openMap.put(openLevel, openList);
+			}
+			openList.add(cfg);
 
 			HashSet<Integer> orderSet = orderMap.get(tagNum);
 			if (orderSet == null) {
@@ -78,6 +76,12 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			}
 		}
 		return cfgCacheMap;
+	}
+
+	public Iterable<TaoistMagicCfg> getOpenList(int openLevel) {
+		List<TaoistMagicCfg> lst = openMap.get(openLevel);
+		if (lst != null && lst.size() <= 0) return null;
+		return lst;
 	}
 
 	@Override
@@ -185,37 +189,6 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 		return result;
 	}
 
-	// public IEffectCfg getEffect(Iterable<Entry<Integer, Integer>> lst) {
-	// AttrData addedPercentages = new AttrData();
-	// AttrData addedValues = new AttrData();
-	// for (Entry<Integer, Integer> entry : lst) {
-	// String taoistMagicId = String.valueOf(entry.getKey());
-	// TaoistMagicCfg cfg = cfgCacheMap.get(taoistMagicId);
-	// if (cfg == null) {
-	// GameLog.error("道术", taoistMagicId, "无效道术技能ID");
-	// continue;
-	// }
-	// Field field = attrMap.get(cfg.getAttribute());
-	// if (field == null) {
-	// GameLog.error("道术", cfg.getAttribute(), "无效属性名");
-	// continue;
-	// }
-	// AttrData attr = new AttrData();
-	// try {
-	// field.set(attr, cfg.getMagicValue(entry.getValue()));
-	// } catch (Exception e) {
-	// GameLog.error("道术", cfg.getAttribute(), "无法设置属性值", e);
-	// }
-	// if (cfg.getAttrValueType() == AttrValueType.Value) {
-	// addedValues.plus(attr);
-	// } else {
-	// addedPercentages.plus(attr);
-	// }
-	// }
-	// IEffectCfg result = new BattleAddedEffects(addedValues, addedPercentages);
-	// return result;
-	// }
-
 	/**
 	 * 获取道术的属性
 	 * 
@@ -262,18 +235,6 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 				attributeItem = new AttributeItem(attributeType, attrDataValue + formula.getValue(entry.getValue()), precentAttrDataValue);
 				attrMap.put(attributeType.getTypeValue(), attributeItem);
 			}
-
-			// Field field = attrMap.get(attrType);
-			// if (field == null) {
-			// GameLog.error("道术", attrType, "无效属性名");
-			// continue;
-			// }
-			// AttrData attr = new AttrData();
-			// try {
-			// field.set(attr, cfg.getMagicValue(entry.getValue()));
-			// } catch (Exception e) {
-			// GameLog.error("道术", attrType, "无法设置属性值", e);
-			// }
 		}
 
 		return attrMap;
