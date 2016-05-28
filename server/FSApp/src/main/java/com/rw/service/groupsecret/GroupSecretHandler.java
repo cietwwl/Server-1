@@ -40,6 +40,7 @@ import com.rwproto.GroupSecretProto.GroupSecretInfo;
 import com.rwproto.GroupSecretProto.MatchSecretInfo;
 import com.rwproto.GroupSecretProto.OpenGroupSecretMainViewRspMsg;
 import com.rwproto.GroupSecretProto.RequestType;
+import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
 
 /*
  * @author HC
@@ -182,6 +183,11 @@ public class GroupSecretHandler {
 		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
 		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
 		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
+		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
+		if (defendSecretIdList.size() >= intPrivilege) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "");
+			return rsp.build().toByteString();
+		}
 
 		int secretCfgId = req.getSecretCfgId();// 要创建的秘境的配置Id
 		GroupSecretResourceTemplate groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
