@@ -38,8 +38,13 @@ import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.dao.anglearray.pojo.db.TableAngleArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
+import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.copypve.pojo.CopyData;
+import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
 import com.rwbase.dao.fashion.FashionBuyRenewCfg;
 import com.rwbase.dao.fashion.FashionCommonCfg;
 import com.rwbase.dao.fashion.FashionEffectCfg;
@@ -137,6 +142,9 @@ public class GMHandler {
 		
 		//设置充值开关,0开启1关闭
 		funcCallBackMap.put("setchargeon", "setChargeOn");
+		//清理副本cd
+		funcCallBackMap.put("clearcd", "clearCd");
+		
 	}
 
 	public boolean isActive() {
@@ -362,6 +370,24 @@ public class GMHandler {
 		return false;
 	}
 	
+	
+	public boolean clearCd(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			int copyType = Integer.parseInt(arrCommandContents[0]);
+			if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD||copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
+				CopyInfoCfg infoCfg = player.getCopyDataMgr().getCopyInfoCfgByLevelID(arrCommandContents[1]);
+				CopyData copyData = player.getCopyDataMgr().getByInfoId(infoCfg.getId());
+//				(copyData.getLastChallengeTime()-500000)>0?(copyData.getLastChallengeTime()-500000):0;
+				copyData.setLastChallengeTime((copyData.getLastChallengeTime()-500000)>0?(copyData.getLastChallengeTime()-500000):0);//减8分钟cd
+				}			
+			return true;
+		}
+		return false;
+	}
 	
 	
 	public boolean addGold(String[] arrCommandContents, Player player) {

@@ -2,6 +2,8 @@ package com.rw;
 
 import java.util.Random;
 
+import com.rw.handler.copy.CopyType;
+
 public class Test {
 
 	// private static ExecutorService executorService = Executors.newFixedThreadPool(3);
@@ -19,7 +21,7 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-//			 issucc=robot.testCopyWarfare();
+			 issucc=robot.testCopyLxsg();
 			 
 			 
 			 System.out.println("@@@@@@@@@@@" + issucc);
@@ -33,8 +35,9 @@ public class Test {
 //		 robot.testDailyActivity();
 //		 robot.testCopyWarfare();//无尽战火
 //		 robot.testCopyTower();//万仙阵胜利一次
-		 
-		 
+//		 robot.clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);//清楚该类副本的cd
+//		 robot.testCopyJbzd();//聚宝之地两次
+//		 robot.testCopyLxsg();//炼息山谷两次
 		 
 		 
 		 
@@ -230,7 +233,7 @@ public class Test {
 
 		Robot robot = loginRobot("testallen22");
 		robot.gamble();
-
+		
 	}
 
 	// 抽卡

@@ -638,10 +638,55 @@ public class Robot {
 	/**万仙阵胜利一次 */
 	public boolean testCopyTower() {
 		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TOWER);
-		 System.out.println("@@@@@@@@@@@预计算" + getitemback);
 		if(getitemback){
 			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TOWER,EBattleStatus.WIN);		
 		}else return false;
 	}
+	
+	/**聚宝胜利两 次 */
+	public boolean testCopyJbzd() {		
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_JBZD);
+		if(getitemback){
+			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_JBZD,EBattleStatus.WIN);		
+		}
+		clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
+		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_JBZD);
+		if(getitembacksecond){
+			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_JBZD,EBattleStatus.WIN);		
+		}
+		
+		return false;
+	}
+	
+
+
+	/**炼息胜利两 次 */
+	public boolean testCopyLxsg() {
+		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_LQSG);
+		if(getitemback){
+			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_LQSG,EBattleStatus.WIN);		
+		}
+		clearCd(CopyType.COPY_TYPE_TRIAL_LQSG);
+		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_LQSG);
+		if(getitembacksecond){
+			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_LQSG,EBattleStatus.WIN);		
+		}
+		return false;
+	}
+	
+	/**传入关卡类型和关卡地图id*/
+	public boolean clearCd(int copyTypeTrialJbzd) {
+		int levelId = 0;
+		if(copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_JBZD){
+			levelId = CopyHandler.getHandler().jbzdCopyId[0];
+		}else if(copyTypeTrialJbzd == CopyType.COPY_TYPE_TRIAL_LQSG){
+			levelId = CopyHandler.getHandler().lxsgCopyId[0];
+		}
+		
+		boolean sendSuccess = GmHandler.instance().send(client, "* clearcd " + copyTypeTrialJbzd + " "+ levelId);
+		return sendSuccess;		
+	}
+	
+	
 
 }

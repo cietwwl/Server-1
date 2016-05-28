@@ -23,8 +23,12 @@ import com.rwproto.ResponseProtos.Response;
 public class CopyHandler {
 	private static CopyHandler handler = new CopyHandler();
 	public static int levelId = 0;
-	private static final int[] warFareCopyId = {150041,150042,150043,150044,150045};
-	private static final int towCopyId = 190002;
+	public static final int[] warFareCopyId = {150041,150042,150043,150044,150045};
+	public static final int towCopyId = 190002;
+	public static final int[] jbzdCopyId = {140001,140002,140003,140004,140005};
+	public static final int[] lxsgCopyId = {140011,140012,140013,140014,140015};
+	
+	
 	public static CopyHandler getHandler() {
 		return handler;
 	}
@@ -76,11 +80,11 @@ public class CopyHandler {
 		MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
 		req.setRequestType(ERequestType.BATTLE_CLEARING);
 		req.getTagBattleDataBuilder().setLevelId(this.levelId);
-		req.getTagBattleDataBuilder().setFightTime(0);
-		req.getTagBattleDataBuilder().setBattleClearingTime(1);
+		req.getTagBattleDataBuilder().setFightTime(10);
+		req.getTagBattleDataBuilder().setBattleClearingTime(12);//无尽战火专用
 		req.setLevelId(this.levelId);
 //		req.getTagBattleDataBuilder().addHeroId("");
-		req.getTagBattleDataBuilder().setFightResult(iswin);
+		req.getTagBattleDataBuilder().setFightResult(iswin);//非无尽战火
 		
 		
 		
@@ -103,6 +107,7 @@ public class CopyHandler {
 					}
 
 					EResultType result = rsp.getEResultType();
+					RobotLog.fail("CopyHandler[send] 服务器处理消息结果 " + result);
 					if (result != EResultType.BATTLE_CLEAR) {
 						RobotLog.fail("CopyHandler[send] 服务器处理消息失败 " + result);
 						return false;
@@ -131,7 +136,16 @@ public class CopyHandler {
 			System.out.println("copyhandler,随机数 levelid =" + levelId + " num="+randomNum);
 		}else if(copyType ==CopyType.COPY_TYPE_TOWER){
 			levelId = towCopyId;			
-		}		
+		}else if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD){
+			int randomNum = Test.random.nextInt(5);			
+			levelId = jbzdCopyId[randomNum];			
+		}else if(copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
+			int randomNum = Test.random.nextInt(5);			
+			levelId = lxsgCopyId[randomNum];			
+		}
+		
+		
+		
 		this.levelId = levelId;
 		return levelId;
 	}
