@@ -8,13 +8,13 @@ import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
  * @date 2016年5月26日 下午4:58:55
  * @Description 秘境个人数据的DAO
  */
-public class UserGroupSecretDataDAO extends DataKVDao<UserGroupSecretBaseData> {
-	private static UserGroupSecretDataDAO dao = new UserGroupSecretDataDAO();
+public class UserGroupSecretBaseDataDAO extends DataKVDao<UserGroupSecretBaseData> {
+	private static UserGroupSecretBaseDataDAO dao = new UserGroupSecretBaseDataDAO();
 
-	public static UserGroupSecretDataDAO getDAO() {
+	public static UserGroupSecretBaseDataDAO getDAO() {
 		return dao;
 	}
 
-	private UserGroupSecretDataDAO() {
+	private UserGroupSecretBaseDataDAO() {
 	}
 }

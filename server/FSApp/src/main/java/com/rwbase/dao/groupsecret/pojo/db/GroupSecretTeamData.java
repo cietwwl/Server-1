@@ -58,4 +58,21 @@ public class GroupSecretTeamData {
 	public void addDefendHeroId(String heroId) {
 		this.defendHeroList.add(heroId);
 	}
+
+	/**
+	 * 添加要使用的阵容信息
+	 * @param heroIdList
+	 */
+	public void addDefendHeroIdList(List<String> heroIdList) {
+		if (heroIdList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = heroIdList.size(); i < size; i++) {
+			String id = heroIdList.get(i);
+			if (!this.defendHeroList.contains(id)) {
+				this.defendHeroList.add(id);
+			}
+		}
+	}
 }

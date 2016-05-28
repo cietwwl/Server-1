@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 
@@ -13,6 +15,7 @@ import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
  * @date 2016年5月26日 下午2:41:06
  * @Description 
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupSecretData {
 	@Id
 	private int id;// 秘境的Id

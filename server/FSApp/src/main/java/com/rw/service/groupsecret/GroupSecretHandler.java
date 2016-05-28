@@ -13,7 +13,7 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
-import com.playerdata.groupsecret.UserGroupSecretDataMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -96,7 +96,7 @@ public class GroupSecretHandler {
 		}
 
 		// 个人的秘境数据
-		UserGroupSecretBaseData userGroupSecretData = UserGroupSecretDataMgr.getMgr().get(userId);
+		UserGroupSecretBaseData userGroupSecretData = UserGroupSecretBaseDataMgr.getMgr().get(userId);
 
 		OpenGroupSecretMainViewRspMsg.Builder openRsp = OpenGroupSecretMainViewRspMsg.newBuilder();
 		// 检查密境列表
@@ -139,9 +139,10 @@ public class GroupSecretHandler {
 	 * @param req
 	 * @return
 	 */
-	public ByteString createGroupSecretHandler(Player player, CreateGroupSecretReqMsg.Builder req) {
+	public ByteString createGroupSecretHandler(Player player, CreateGroupSecretReqMsg req) {
 		String userId = player.getUserId();
 		GroupSecretCommonRspMsg.Builder rsp = GroupSecretCommonRspMsg.newBuilder();
+		rsp.setReqType(RequestType.CREATE_GROUP_SECRET);
 		// 检查个人的帮派数据
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		String groupId = userGroupAttributeData.getGroupId();
@@ -172,8 +173,9 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		UserGroupSecretBaseData userGroupSecretData = UserGroupSecretDataMgr.getMgr().get(userId);
-		List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();// 当前的秘境列表
+		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
+		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
 		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
 
 		int secretCfgId = req.getSecretCfgId();// 要创建的秘境的配置Id
@@ -198,7 +200,8 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		GroupSecretTeamData teamData = GroupSecretTeamDataMgr.getMgr().get(userId);
+		GroupSecretTeamDataMgr teamMgr = GroupSecretTeamDataMgr.getMgr();
+		GroupSecretTeamData teamData = teamMgr.get(userId);
 		List<String> defendHeroList = teamData.getDefendHeroList();
 
 		int size = teamHeroIdList.size();
@@ -239,6 +242,10 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
+		// 更新参与防守的阵容信息
+		teamData.addDefendHeroIdList(canAddDefendList);
+		teamMgr.update(userId);
+
 		// 防守的信息
 		long now = System.currentTimeMillis();
 		DefendUserInfoData userInfoData = new DefendUserInfoData();
@@ -256,8 +263,13 @@ public class GroupSecretHandler {
 		secretData.setUserId(userId);
 		secretData.addDefendUserInfoData(GroupSecretIndex.MAIN_VALUE, userInfoData);
 
+		// 添加创建秘境的数据
 		userCreateGroupSecretData.addGroupSecretData(secretData);
 		mgr.updateData(userId);
+
+		// 更新目前防守的秘境列表
+		userGroupSecretBaseData.addDefendSecretId(GroupSecretHelper.generateCacheSecretId(userId, secretData.getId()));
+		baseDataMgr.update(userId);
 
 		CreateGroupSecretRspMsg.Builder createRsp = CreateGroupSecretRspMsg.newBuilder();
 		createRsp.setGroupSecretInfo(GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId));

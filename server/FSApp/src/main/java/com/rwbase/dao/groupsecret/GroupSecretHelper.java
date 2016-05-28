@@ -95,6 +95,11 @@ public class GroupSecretHelper {
 
 		String matchUserId = enemyData.getMatchUserId();
 		int secretId = enemyData.getId();
+
+		if (StringUtils.isEmpty(matchUserId)) {
+			return null;
+		}
+
 		UserCreateGroupSecretData userCreateGroupSecretData = UserCreateGroupSecretDataMgr.getMgr().get(matchUserId);
 		if (userCreateGroupSecretData == null) {
 			GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，没有找到对应的UserCreateGroupSecretData，做删除处理", matchUserId, secretId));
@@ -205,6 +210,7 @@ public class GroupSecretHelper {
 
 				boolean isHasLife = true;
 
+				int fighting = 0;
 				List<String> heroList = value.getHeroList();
 				for (int j = 0, heroSize = heroList.size(); j < heroSize; j++) {
 					String heroId = heroList.get(j);
@@ -213,6 +219,7 @@ public class GroupSecretHelper {
 						continue;
 					}
 
+					fighting += hero.getFighting();
 					DefendHeroBaseInfo.Builder heroBaseInfo = DefendHeroBaseInfo.newBuilder();
 					heroBaseInfo.setHeadImageId(hero.getHeroCfg().getImageId());
 					heroBaseInfo.setLevel(hero.getLevel());
@@ -248,6 +255,7 @@ public class GroupSecretHelper {
 							isHasLife = false;
 						}
 					}
+					teamInfo.setDefendFighting(fighting);
 					teamInfo.addHeroBaseInfo(heroBaseInfo);
 				}
 

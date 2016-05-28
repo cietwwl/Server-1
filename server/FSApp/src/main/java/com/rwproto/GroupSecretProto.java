@@ -346,6 +346,22 @@ public final class GroupSecretProto {
      * </pre>
      */
     OPEN_MAIN_VIEW(0, 1),
+    /**
+     * <code>CREATE_GROUP_SECRET = 2;</code>
+     *
+     * <pre>
+     *创建帮派秘境
+     * </pre>
+     */
+    CREATE_GROUP_SECRET(1, 2),
+    /**
+     * <code>GET_GROUP_SECRET_REWARD = 3;</code>
+     *
+     * <pre>
+     *获取秘境奖励
+     * </pre>
+     */
+    GET_GROUP_SECRET_REWARD(2, 3),
     ;
 
     /**
@@ -356,6 +372,22 @@ public final class GroupSecretProto {
      * </pre>
      */
     public static final int OPEN_MAIN_VIEW_VALUE = 1;
+    /**
+     * <code>CREATE_GROUP_SECRET = 2;</code>
+     *
+     * <pre>
+     *创建帮派秘境
+     * </pre>
+     */
+    public static final int CREATE_GROUP_SECRET_VALUE = 2;
+    /**
+     * <code>GET_GROUP_SECRET_REWARD = 3;</code>
+     *
+     * <pre>
+     *获取秘境奖励
+     * </pre>
+     */
+    public static final int GET_GROUP_SECRET_REWARD_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -363,6 +395,8 @@ public final class GroupSecretProto {
     public static RequestType valueOf(int value) {
       switch (value) {
         case 1: return OPEN_MAIN_VIEW;
+        case 2: return CREATE_GROUP_SECRET;
+        case 3: return GET_GROUP_SECRET_REWARD;
         default: return null;
       }
     }
@@ -16283,9 +16317,10 @@ public final class GroupSecretProto {
       "pSecretIndex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGH" +
       "T\020\003*E\n\020MatchSecretState\022\016\n\nNON_BATTLE\020\001\022" +
       "\r\n\tIN_BATTLE\020\002\022\022\n\016IN_ROB_PROTECT\020\003*\025\n\tPr" +
-      "otoType\022\010\n\004NONE\020\001*!\n\013RequestType\022\022\n\016OPEN" +
-      "_MAIN_VIEW\020\001B\037\n\013com.rwprotoB\020GroupSecret" +
-      "Proto"
+      "otoType\022\010\n\004NONE\020\001*W\n\013RequestType\022\022\n\016OPEN" +
+      "_MAIN_VIEW\020\001\022\027\n\023CREATE_GROUP_SECRET\020\002\022\033\n" +
+      "\027GET_GROUP_SECRET_REWARD\020\003B\037\n\013com.rwprot" +
+      "oB\020GroupSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

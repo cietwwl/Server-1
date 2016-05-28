@@ -19,18 +19,23 @@ public class GroupSecretService implements FsService {
 	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(Request request, Player player) {
+		ByteString result = null;
 		GroupSecretHandler handler = GroupSecretHandler.getHandler();
 		try {
 			GroupSecretCommonReqMsg req = GroupSecretCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 			RequestType reqType = req.getReqType();
 			switch (reqType) {
 			case OPEN_MAIN_VIEW:
-				return handler.openGroupSecretMainViewHandler(player);
+				result = handler.openGroupSecretMainViewHandler(player);
+				break;
+			case CREATE_GROUP_SECRET:
+				result = handler.createGroupSecretHandler(player, req.getCreateReqMsg());
+				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			GameLog.error("帮派秘境模块", player.getUserId(), "解析消息出现了错误", e);
 		} finally {
-			return null;
+			return result;
 		}
 	}
 }

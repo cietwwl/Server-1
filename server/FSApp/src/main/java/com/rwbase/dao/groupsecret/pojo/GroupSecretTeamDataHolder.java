@@ -26,4 +26,13 @@ public class GroupSecretTeamDataHolder {
 	public GroupSecretTeamData get(String userId) {
 		return GroupSecretTeamDataDAO.getDAO().get(userId);
 	}
+
+	/**
+	 * 刷新数据
+	 * 
+	 * @param userId
+	 */
+	public void updateData(String userId) {
+		GroupSecretTeamDataDAO.getDAO().update(userId);
+	}
 }

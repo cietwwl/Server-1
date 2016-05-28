@@ -28,4 +28,13 @@ public class GroupSecretTeamDataMgr {
 	public GroupSecretTeamData get(String userId) {
 		return GroupSecretTeamDataHolder.getHolder().get(userId);
 	}
+
+	/**
+	 * 更新数据
+	 * 
+	 * @param userId
+	 */
+	public void update(String userId) {
+		GroupSecretTeamDataHolder.getHolder().updateData(userId);
+	}
 }

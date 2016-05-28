@@ -3,6 +3,8 @@ package com.rwbase.dao.groupsecret.pojo.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 
 /*
@@ -19,6 +21,7 @@ public class UserCreateGroupSecretData implements IMapItem {
 	}
 
 	// ////////////////////////////////////////////////逻辑Get区
+	@JsonIgnore
 	@Override
 	public String getId() {
 		return userId;
@@ -43,6 +46,7 @@ public class UserCreateGroupSecretData implements IMapItem {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	private int getUniqueId() {
 		if (createList.isEmpty()) {
 			return 0;
@@ -80,6 +84,7 @@ public class UserCreateGroupSecretData implements IMapItem {
 	 * @param index
 	 * @return
 	 */
+	@JsonIgnore
 	public GroupSecretData getGroupSecretData(int id) {
 		if (createList.isEmpty()) {
 			return null;
@@ -121,6 +126,7 @@ public class UserCreateGroupSecretData implements IMapItem {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public int getCreateGroupSecretSize() {
 		return createList.size();
 	}

@@ -1,7 +1,7 @@
 package com.rwbase.dao.groupsecret.pojo;
 
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
-import com.rwbase.dao.groupsecret.pojo.db.dao.UserGroupSecretDataDAO;
+import com.rwbase.dao.groupsecret.pojo.db.dao.UserGroupSecretBaseDataDAO;
 
 /*
  * @author HC
@@ -25,6 +25,15 @@ public class UserGroupSecretDataHolder {
 	 * @return
 	 */
 	public UserGroupSecretBaseData get(String userId) {
-		return UserGroupSecretDataDAO.getDAO().get(userId);
+		return UserGroupSecretBaseDataDAO.getDAO().get(userId);
+	}
+
+	/**
+	 * 更新数据
+	 * 
+	 * @param userId
+	 */
+	public void updateData(String userId) {
+		UserGroupSecretBaseDataDAO.getDAO().update(userId);
 	}
 }
