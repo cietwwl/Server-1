@@ -8,8 +8,11 @@ import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
 	
-	private static SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyyMMddHHmm");
+//	private static SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyyMMddHHmm");
 
+
+	private static ThreadLocal<SimpleDateFormat> formate_ddhhmmss = new ThreadLocal<SimpleDateFormat>();
+	private static ThreadLocal<SimpleDateFormat> formate_yyyyMMddHHmm = new ThreadLocal<SimpleDateFormat>();
 	public static Calendar getCurrent() {
 		return Calendar.getInstance();
 	}
@@ -259,7 +262,7 @@ public class DateUtils {
 	 */
 	public static long YyyymmddhhmmToMillionseconds(String str){
 		try{
-			long millionseconds = yyyyMMddHHmm.parse(str).getTime();
+			long millionseconds = getyyyyMMddHHmmFormater().parse(str).getTime();
 			return millionseconds;
 		}catch(Exception e){
 			
@@ -267,7 +270,23 @@ public class DateUtils {
 		return 0;
 	}
 	
+	public static SimpleDateFormat getyyyyMMddHHmmFormater(){
+		SimpleDateFormat format = formate_yyyyMMddHHmm.get();
+		if(format == null){
+			format = new SimpleDateFormat("yyyyMMddHHmm");
+			formate_yyyyMMddHHmm.set(format);
+		}
+		return format;
+	}
 	
+	public static SimpleDateFormat getddHHmmFormater(){
+		SimpleDateFormat format = formate_ddhhmmss.get();
+		if(format == null){
+			format = new SimpleDateFormat("dd HH:mm:ss");
+			formate_ddhhmmss.set(format);
+		}
+		return format;
+	}
 	
 	public static void setDayZeroTime(Calendar c) {
 		c.set(Calendar.HOUR_OF_DAY, 0);

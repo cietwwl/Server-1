@@ -1,11 +1,13 @@
 package com.rw.fsutil.concurrent;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 
 import com.rw.fsutil.common.TaskExceptionHandler;
 import com.rw.fsutil.log.EngineLogger;
+import com.rw.fsutil.util.DateUtils;
 
 /**
  * <pre>
@@ -38,7 +40,7 @@ public abstract class QueuedTaskExecutor<K, E> {
 	 * @param handler
 	 */
 	public void asyncExecute(K key, ParametricTask<E> task, TaskExceptionHandler handler) {
-		TaskQueue keyTask = map.get(key);
+		TaskQueue keyTask = map.get(key);	
 		TaskDecoration decoratioin = new TaskDecoration(task, handler);
 		if (keyTask != null && keyTask.addTask(decoratioin)) {
 			return;
@@ -156,10 +158,12 @@ public abstract class QueuedTaskExecutor<K, E> {
 
 		private final ParametricTask<E> task;
 		private final TaskExceptionHandler handler;
+		private final long createTimeMillis;
 
 		public TaskDecoration(ParametricTask<E> task, TaskExceptionHandler handler) {
 			this.task = task;
 			this.handler = handler;
+			this.createTimeMillis = System.currentTimeMillis();
 		}
 
 		public ParametricTask<E> getTask() {
@@ -168,6 +172,11 @@ public abstract class QueuedTaskExecutor<K, E> {
 
 		public TaskExceptionHandler getHandler() {
 			return handler;
+		}
+
+		@Override
+		public String toString() {
+			return task + "," + DateUtils.getddHHmmFormater().format(new Date(createTimeMillis));
 		}
 	}
 
