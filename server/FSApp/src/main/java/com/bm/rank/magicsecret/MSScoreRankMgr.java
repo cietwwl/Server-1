@@ -17,6 +17,7 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.Email.EmailUtils;
 
 public class MSScoreRankMgr {
 	private static boolean IS_FIRST_CALL_DISPATCH = true;
@@ -80,6 +81,8 @@ public class MSScoreRankMgr {
 			IS_FIRST_CALL_DISPATCH = false;
 			return;
 		}
+		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
+		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
 		try {
 			EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
@@ -91,16 +94,16 @@ public class MSScoreRankMgr {
 				MagicScoreRankCfg rewardCfg = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i));
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
+					dispatchingRank = j;
 					while (it.hasMoreElements()) {
 						MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
-						entry.getExtendedAttribute().getUserId();
-						// TODO 给玩家发放邮件
-						rewardCfg.getReward();
+						dispatchingUser = entry.getExtendedAttribute().getUserId();
+						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
 					}
 				}
 			}
 		} catch (Exception ex) {
-			GameLog.error(LogModule.MagicSecret, "MSScoreRankMgr", String.format("dispatchMSDailyReward, 发放每日法宝秘境排行榜奖励的时候出现异常"), ex);
+			GameLog.error(LogModule.MagicSecret, "MSScoreRankMgr", String.format("dispatchMSDailyReward, 给角色[%s]发放每日法宝秘境排行榜奖励[%s]的时候出现异常", dispatchingUser, dispatchingRank), ex);
 		} finally {
 			ranking.clear();
 		}

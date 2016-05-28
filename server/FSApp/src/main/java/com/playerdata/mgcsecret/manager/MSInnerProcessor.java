@@ -70,7 +70,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 */
 	protected void dropSelectableBuff(String chapteID){
 		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapteID);
-		mcInfo.getSelectedBuff().clear();
+		mcInfo.getUnselectedBuff().clear();
 	}
 	
 	/**

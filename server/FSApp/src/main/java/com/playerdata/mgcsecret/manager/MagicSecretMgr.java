@@ -411,7 +411,6 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	public void synMagicChapterData() {
 		mChapterHolder.synAllData(m_pPlayer);
-		
 	}
 	
 	public void synUserMSData() {

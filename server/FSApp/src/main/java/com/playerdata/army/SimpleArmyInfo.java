@@ -1,12 +1,13 @@
 package com.playerdata.army;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 public class SimpleArmyInfo {
-	private List<String> heroIds;
+	private List<String> heroIds = new ArrayList<String>();
 	private int modelId;
 	private int level;
 	
