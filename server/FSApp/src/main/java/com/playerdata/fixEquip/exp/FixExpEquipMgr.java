@@ -128,7 +128,7 @@ public class FixExpEquipMgr {
 			int nextLevel = dataItem.getLevel()+1;
 			Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
 			
-			if(targetHero.getLevel() <= nextLevel){
+			if(targetHero.getLevel() < nextLevel){
 				result.setReason("装备等级不能超过英雄等级。");	
 			}else{				
 				result.setSuccess(true);

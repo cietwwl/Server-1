@@ -176,7 +176,7 @@ public class FixNormEquipMgr {
 			Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
 			FixNormEquipLevelCostCfg nextLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), nextLevel);
 			
-			if(targetHero.getLevel() <= nextLevel){
+			if(targetHero.getLevel() < nextLevel){
 				result.setReason("装备已经达到最高级。");	
 			}else if(nextLevelCostCfg == null){
 				result.setReason("装备等级不能超过英雄等级。");	
