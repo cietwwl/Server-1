@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.rw.netty.UserChannelMgr;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.MsgDataSynList;
 import com.rwproto.DataSynProtos.MsgDataSynList.Builder;
@@ -196,14 +197,11 @@ public class ClientDataSynMgr {
 	}
 
 	private static void sendMsg(Player player, Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
-		SynDataInReqMgr synDataInReqMgr = player.getSynDataInReqMgr();
-		if (synDataInReqMgr.isInReq()) {
-			SynDataInfo synDataInfo = new SynDataInfo(synType, msgDataSyn);
-			synDataInReqMgr.addSynData(serverData, synDataInfo);
-
-		} else {
+		SynDataInReqMgr synDataInReqMgr = UserChannelMgr.getSynDataInReqMgr(player.getUserId());
+		if(synDataInReqMgr!=null && !synDataInReqMgr.addSynData(serverData, synType, msgDataSyn)){
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
 			player.SendMsg(Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
 		}
 	}
+	
 }

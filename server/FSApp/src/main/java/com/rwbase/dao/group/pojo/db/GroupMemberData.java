@@ -28,6 +28,7 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private String name;// 成员名字
 	private int level;// 成员的等级<short>
 	private String headId;// 头像的Id
+	private String headbox;//头像框
 	private int vipLevel;// 成员的Vip等级<byte>
 	@IgnoreSynField
 	private int job;// 成员的职业<byte>
@@ -371,5 +372,13 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public void setTotalContribution(int totalContribution) {
 		this.totalContribution = totalContribution;
+	}
+
+	public String getHeadbox() {
+		return headbox;
+	}
+
+	public void setHeadbox(String headbox) {
+		this.headbox = headbox;
 	}
 }

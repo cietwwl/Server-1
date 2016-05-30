@@ -42,4 +42,10 @@ public interface Subscribe {
 	 * @param p
 	 */
 	public void playerChangeHeadIcon(Player p);
+	
+	/**
+	 * 角色修改了头像框
+	 * @param p
+	 */
+	public void playerChangeHeadBox(Player p);
 }

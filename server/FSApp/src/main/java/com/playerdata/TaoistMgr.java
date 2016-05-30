@@ -5,17 +5,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.common.RandomMgr;
+import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.service.TaoistMagic.ITaoistMgr;
+import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicHolder;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicRecord;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwproto.TaoistMagicProtos.TaoistInfo;
 
-public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoistMgr {
+public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoistMgr, IStreamListner<Integer> {
 	private StreamImpl<Map<Integer, AttributeItem>> taoistMagicEff = new StreamImpl<Map<Integer, AttributeItem>>();
 
 	@Override
@@ -33,11 +36,19 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		this.player = player;
+		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
+		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
+		onEffectChange(record);
 	}
 
+	private boolean hasSubscribeLevel = false;
 	@Override
 	public void init(Player player) {
 		this.player = player;
+		if (!hasSubscribeLevel){
+			player.getLevelNotification().subscribe(this);
+			hasSubscribeLevel = true;
+		}
 	}
 
 	@Override
@@ -46,23 +57,17 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
 		boolean result = holder.setLevel(record, tid, level);
 		if (result) {
-			// IEffectCfg old = taoistMagicEff.sample();
-			// IEffectCfg newVal = getEffects(record);
-			Map<Integer, AttributeItem> effects = getEffects(record);
-			taoistMagicEff.fire(effects);
-			// if ((old == null && newVal != null) || !old.equals(newVal)) {
-			// taoistMagicEff.fire(newVal);
-			// }
+			onEffectChange(record);
 		}
 		return result;
 	}
 
-	// private IEffectCfg getEffects(TaoistMagicRecord record){
-	// Iterable<Entry<Integer, Integer>> lst = record.getAll();
-	// IEffectCfg result = TaoistMagicCfgHelper.getInstance().getEffect(lst);
-	// return result;
-	// }
-
+	private void onEffectChange(TaoistMagicRecord record) {
+		Map<Integer, AttributeItem> effects = getEffects(record);
+		taoistMagicEff.hold(effects);
+		taoistMagicEff.fire(effects);
+	}
+	
 	private Map<Integer, AttributeItem> getEffects(TaoistMagicRecord record) {
 		return TaoistMagicCfgHelper.getInstance().getEffectAttr(record.getAll());
 	}
@@ -88,5 +93,30 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
 		Integer val = record.getLevel(tid);
 		return val == null ? 1 : val;
+	}
+
+	@Override
+	public void onChange(Integer newValue) {
+		if (newValue == null) return;
+		int openLevel = newValue;
+		TaoistMagicCfgHelper cfgHelper = TaoistMagicCfgHelper.getInstance();
+		Iterable<TaoistMagicCfg> openList = cfgHelper.getOpenList(openLevel);
+		if (openList == null) return;
+		
+		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
+		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
+		for (TaoistMagicCfg taoistMagicCfg : openList) {
+			boolean result = holder.setLevel(record, taoistMagicCfg.getKey(), 1);
+			if (!result) {
+				GameLog.error("道术", player.getUserId(), "更新数据失败");
+			}
+		}
+		
+		onEffectChange(record);
+	}
+
+	@Override
+	public void onClose(IStream<Integer> whichStream) {
+		// nothing to do, for now
 	}
 }

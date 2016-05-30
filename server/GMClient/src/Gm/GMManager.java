@@ -32,6 +32,7 @@ import Gm.Task.GmHotUpdateTest;
 import Gm.Task.GmKickOffPlayer;
 import Gm.Task.GmOnlineCount;
 import Gm.Task.GmOpExp;
+import Gm.Task.GmResponsePlayerQuestion;
 import Gm.Task.GmServerSwitch;
 import Gm.Task.GmSwitchBIGm;
 import Gm.Task.GmUserDetailInfo;
@@ -93,7 +94,7 @@ public class GMManager {
 //		GmOnlineLimitModify handler = new GmOnlineLimitModify(); 
 //		GmEmailWhiteList handler = new GmEmailWhiteList();
 //		GmViewEmailList handler = new GmViewEmailList();
-		GmEmailAll handler = new GmEmailAll();
+//		GmEmailAll handler = new GmEmailAll();
 //		GmServerSwitch handler = new GmServerSwitch();
 //		GmDeleteGameNotice handler = new GmDeleteGameNotice();
 //		GmServerSwitch handler = new GmServerSwitch();
@@ -126,6 +127,7 @@ public class GMManager {
 //		GmChatBanPlayer handler = new GmChatBanPlayer();
 //		GmBlockPlayer handler = new GmBlockPlayer();
 //		GmBlockRelease handler = new GmBlockRelease();
+		GmResponsePlayerQuestion handler = new GmResponsePlayerQuestion(); 
 
 		GmRequest request = handler.createGmRequest();
 //		processGmRequest(request, ip, port);
@@ -136,7 +138,7 @@ public class GMManager {
 //		processGmRequest(request, "119.29.163.123", 12345);
 //		processGmRequest(request, "119.29.163.123", 7098);
 //		processGmRequest(request, "119.29.111.118", 7098);
-		processGmRequest(request, "192.168.2.137", 12345);
+		processGmRequest(request, "192.168.2.247", 12345);
 //		processGmRequest(request, "119.29.162.42", 12346);
 //		processGmRequest(request, "119.29.111.118", 7098);
 //		processGmRequest(request, "192.168.2.233", 12345);
