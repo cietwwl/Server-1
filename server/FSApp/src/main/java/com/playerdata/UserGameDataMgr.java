@@ -402,6 +402,7 @@ public class UserGameDataMgr {
 		userGameDataHolder.get().setHeadFrame(box);
 		userGameDataHolder.update(player);
 
+		RankingMgr.getInstance().onPlayerChange(player);
 		// 通知一下监听的人，修改对应数据
 		Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
 		if (observer != null) {
