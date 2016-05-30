@@ -124,7 +124,7 @@ public class FixEquipHelper {
 		if(isItemEnough){			
 			for (int modelId : itemCostMap.keySet()) {
 				Integer need = itemCostMap.get(modelId);
-				if(!itemBagMgr.useItemByCfgId(modelId, -need)){
+				if(!itemBagMgr.useItemByCfgId(modelId, need)){
 					success = false;
 					break;
 				}
