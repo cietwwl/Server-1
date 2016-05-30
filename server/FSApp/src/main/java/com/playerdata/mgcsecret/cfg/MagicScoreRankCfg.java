@@ -3,10 +3,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.common.BaseConfig;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
-public class MagicScoreRankCfg extends BaseConfig {
+public class MagicScoreRankCfg {
 	private int key; //关键字段
 	private int stageId; //阶段ID
 	private int rankEnd; //排名start
@@ -38,7 +37,6 @@ public class MagicScoreRankCfg extends BaseConfig {
 	    return emailId;
 	}
 
-	@Override
 	public void ExtraInitAfterLoad() {
 		List<ItemInfo> tmpList = new ArrayList<ItemInfo>();
 		String[] rewardItemStr = reward.split(",");

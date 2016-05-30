@@ -1,8 +1,7 @@
 package com.playerdata.mgcsecret.cfg;
-import com.common.BaseConfig;
 import com.playerdata.mgcsecret.data.MSRewardBox;
 
-public class DungeonsDataCfg extends BaseConfig {
+public class DungeonsDataCfg {
 	private String key; //关键字段
 	private int stageId; //空间id
 	private int levelId; //难度id
@@ -78,7 +77,6 @@ public class DungeonsDataCfg extends BaseConfig {
 		return objHiBox;
 	}
 
-	@Override
 	public void ExtraInitAfterLoad(){
 		String[] coboxArr = this.coBox.split(":");
 		String[] coCostArr = coboxArr[0].split("_");

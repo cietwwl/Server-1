@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.log.GameLog;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
@@ -19,29 +18,34 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class UserMagicSecretHolder {
 
-	private UserMagicSecretDao userMagicSecretDao = UserMagicSecretDao.getInstance();
-	private final String userId;
+	private static class InstanceHolder{
+		private static UserMagicSecretHolder instance = new UserMagicSecretHolder();
+		private static UserMagicSecretDao userMagicSecretDao = UserMagicSecretDao.getInstance();
+	}
+	
 	private static eSynType synType = eSynType.MagicSecretData;
 	
-	public UserMagicSecretHolder(String userId) {
-		this.userId = userId;
+	private UserMagicSecretHolder(){ }
+	
+	public static UserMagicSecretHolder getInstance(){
+		return InstanceHolder.instance;
 	}
 
 	public void syn(Player player, int version) {
-		UserMagicSecretData userMagicSecret = get();
+		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
 			if(isDailyFirstLogin(userMagicSecret.getLastResetTime())){
-				player.getMagicSecretMgr().resetDailyMSInfo();
+				player.getMagicSecretMgr().resetDailyMSInfo(player);
 			}
 			ClientDataSynMgr.synData(player, userMagicSecret, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
-			GameLog.error("UserMagicSecretHolder", "#syn()", "find UserMagicSecretData fail:" + userId);
+			GameLog.error("UserMagicSecretHolder", "#syn()", "find UserMagicSecretData fail:" + player.getUserId());
 		}
 	}
 
-	public UserMagicSecretData get() {
-		UserMagicSecretData umsData = userMagicSecretDao.get(userId);
-		Player player = PlayerMgr.getInstance().find(userId);
+	public UserMagicSecretData get(Player player) {
+		String userId = player.getUserId();
+		UserMagicSecretData umsData = InstanceHolder.userMagicSecretDao.get(userId);
 		if(umsData.getSecretArmy() == null) {
 			MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(MagicSecretMgr.CHAPTER_INIT_ID);
 			if(player.getUserDataMgr().getUser().getLevel() < mcCfg.getLevelLimit()) return umsData;
@@ -63,24 +67,24 @@ public class UserMagicSecretHolder {
 	}
 
 	public void update(Player player) {
-		userMagicSecretDao.update(userId);
-		UserMagicSecretData userMagicSecret = get();
+		InstanceHolder.userMagicSecretDao.update(player.getUserId());
+		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
 			ClientDataSynMgr.updateData(player, userMagicSecret, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
-			GameLog.error("UserMagicSecretHolder", "#update()", "find UserMagicSecretData fail:" + userId);
+			GameLog.error("UserMagicSecretHolder", "#update()", "find UserMagicSecretData fail:" + player.getUserId());
 		}
 	}
 	
 	public void update(Player player, String fieldName){
-		userMagicSecretDao.update(userId);
-		UserMagicSecretData userMagicSecret = get();
+		InstanceHolder.userMagicSecretDao.update(player.getUserId());
+		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
 			ArrayList<String> list = new ArrayList<String>(1);
 			list.add(fieldName);
 			ClientDataSynMgr.synDataFiled(player, userMagicSecret, synType, list);
 		} else {
-			GameLog.error("UserMagicSecretHolder", "#updateF()", "find UserMagicSecretData fail:" + userId);
+			GameLog.error("UserMagicSecretHolder", "#updateF()", "find UserMagicSecretData fail:" + player.getUserId());
 		}
 	}
 

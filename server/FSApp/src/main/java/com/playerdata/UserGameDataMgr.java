@@ -276,11 +276,11 @@ public class UserGameDataMgr {
 	}
 
 	public int getMagicSecretCoin() {
-		return player.getMagicSecretMgr().getSecretGold();
+		return player.getMagicSecretMgr().getSecretGold(player);
 	}
 
 	public int addMagicSecretCoin(int count) {
-		if(player.getMagicSecretMgr().addSecretGold(count)) return 0;
+		if(player.getMagicSecretMgr().addSecretGold(player, count)) return 0;
 		return -1;
 	}
 

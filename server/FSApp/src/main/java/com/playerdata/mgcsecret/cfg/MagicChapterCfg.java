@@ -1,7 +1,6 @@
 package com.playerdata.mgcsecret.cfg;
-import com.common.BaseConfig;
 
-public class MagicChapterCfg extends BaseConfig {
+public class MagicChapterCfg {
 	private int chapterId; //章节id
 	private int dungeonCount; //空间层数
 	private int levelLimit; //开启等级

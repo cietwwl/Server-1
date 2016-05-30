@@ -19,11 +19,15 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class MagicChapterInfoHolder{
 	
-	private static MagicChapterInfoHolder instance = new MagicChapterInfoHolder();
+	private static class InstanceHolder{
+		private static MagicChapterInfoHolder instance = new MagicChapterInfoHolder();
+	}
 	
 	public static MagicChapterInfoHolder getInstance(){
-		return instance;
+		return InstanceHolder.instance;
 	}
+	
+	private MagicChapterInfoHolder() { }
 
 	final private eSynType synType = eSynType.MagicChapterData;
 	
@@ -116,8 +120,8 @@ public class MagicChapterInfoHolder{
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
 		String first_dungeon_id = chapterID + "01_1";
 		String fake_last_dungeon_id = chapterID + "00_1";
-		if(msMgr.judgeDungeonsCondition(first_dungeon_id))
-			msMgr.createDungeonsDataForNextStage(fake_last_dungeon_id);
+		if(msMgr.judgeDungeonsCondition(player, first_dungeon_id))
+			msMgr.createDungeonsDataForNextStage(player, fake_last_dungeon_id);
 		return true;
 	}
 	

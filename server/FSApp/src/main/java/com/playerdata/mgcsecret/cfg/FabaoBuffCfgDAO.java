@@ -21,7 +21,6 @@ public class FabaoBuffCfgDAO extends CfgCsvDao<FabaoBuffCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("magicSecret/fabaoBuff.csv", FabaoBuffCfg.class);
 		Collection<FabaoBuffCfg> vals = cfgCacheMap.values();
 		for (FabaoBuffCfg cfg : vals) {
-			cfg.ExtraInitAfterLoad();
 			addMemIntoMap(cfg);
 		}
 		return cfgCacheMap;

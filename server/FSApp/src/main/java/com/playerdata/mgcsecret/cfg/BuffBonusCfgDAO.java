@@ -21,7 +21,6 @@ public class BuffBonusCfgDAO extends CfgCsvDao<BuffBonusCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("magicSecret/buffBonus.csv", BuffBonusCfg.class);
 		Collection<BuffBonusCfg> vals = cfgCacheMap.values();
 		for (BuffBonusCfg cfg : vals) {
-			cfg.ExtraInitAfterLoad();
 			addMemIntoMap(cfg);
 		}
 		return cfgCacheMap;

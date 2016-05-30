@@ -33,11 +33,9 @@ public class MagicSecretMgr extends MSInnerProcessor{
 
 	// 初始化
 	public void init(Player playerP) {
-		m_pPlayer = playerP;
-		this.userId = playerP.getUserId();
-		userMSHolder = new UserMagicSecretHolder(userId);
+		userMSHolder = UserMagicSecretHolder.getInstance(); //new UserMagicSecretHolder(playerP.getUserId());
 		mChapterHolder = MagicChapterInfoHolder.getInstance();
-		if(mChapterHolder.getItemList(userId).size() == 0){
+		if(mChapterHolder.getItemList(playerP.getUserId()).size() == 0){
 			mChapterHolder.initMagicChapterInfo(playerP, CHAPTER_INIT_ID);
 		}
 	}
@@ -46,13 +44,13 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * 获取秘境排行
 	 * @param msRsp
 	 */
-	public void getMSRankData(MagicSecretRspMsg.Builder msRsp) {
+	public void getMSRankData(Player player, MagicSecretRspMsg.Builder msRsp) {
 		List<MSScoreDataItem> rankList = MSScoreRankMgr.getMSScoreRankList();
 		int size = rankList.size();
 		for(int i = 0; i < size; i++){
 			msRsp.addMsRankData(JsonUtil.writeValue(rankList.get(i)));
 		}
-		msRsp.setSelfRank(MSScoreRankMgr.getRankIndex(userId));
+		msRsp.setSelfRank(MSScoreRankMgr.getRankIndex(player.getUserId()));
 		msRsp.setRstType(msResultType.SUCCESS);
 	}
 	
@@ -61,20 +59,20 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param dungeonID
 	 * @return
 	 */
-	public void enterMSFight(MagicSecretRspMsg.Builder msRsp, String dungeonID){
-		if(!judgeUserLevel(dungeonID)) {
+	public void enterMSFight(Player player, MagicSecretRspMsg.Builder msRsp, String dungeonID){
+		if(!judgeUserLevel(player, dungeonID)) {
 			msRsp.setRstType(msResultType.LOW_LEVEL);
 			return;
 		}
-		if(!judgeDungeonsCondition(dungeonID)) {
+		if(!judgeDungeonsCondition(player, dungeonID)) {
 			msRsp.setRstType(msResultType.CONDITION_UNREACH);
 			return;
 		}
-		if(!judgeDungeonsLegal(dungeonID)) {
+		if(!judgeDungeonsLegal(player, dungeonID)) {
 			msRsp.setRstType(msResultType.DATA_ERROR);
 			return;
 		}
-		if(!judgeDungeonsCount(dungeonID)) {
+		if(!judgeDungeonsCount(player, dungeonID)) {
 			msRsp.setRstType(msResultType.TIMES_NOT_ENOUGH);
 			return;
 		}
@@ -82,7 +80,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		//进入副本的时候更新可以选的副本（如果有三个，进入其中一个之后，如果没打过，以后也只有一个选择）
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
 		String chapterID = String.valueOf(dungDataCfg.getChapterID());
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
 		MSDungeonInfo enterDungeon = null;
 		for(MSDungeonInfo dungeon : mcInfo.getSelectableDungeons()){
 			if(dungeon.getDungeonKey().equalsIgnoreCase(dungeonID)){
@@ -92,24 +90,24 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		}
 		
 		//进副本的时候，如果有没购买的buff，需要清空
-		dropSelectableBuff(chapterID);
+		dropSelectableBuff(player, chapterID);
 		//如果有没有打开的箱子，则视为放弃，需要清空
-		giveUpRewardBox(chapterID);
+		giveUpRewardBox(player, chapterID);
 		
 		//设置战斗中的副本(是为了获取奖励的时候，作合法性判断)
-		UserMagicSecretData umsData = userMSHolder.get();
+		UserMagicSecretData umsData = userMSHolder.get(player);
 		if(umsData.getCurrentDungeonID() != null)
-			GameLog.error(LogModule.MagicSecret.getName(), userId, String.format("enterMSFight, 进入副本[%s]时，仍有一个战斗dungeonID[%s]没解除", dungeonID, umsData.getCurrentDungeonID()), null);
+			GameLog.error(LogModule.MagicSecret.getName(), player.getUserId(), String.format("enterMSFight, 进入副本[%s]时，仍有一个战斗dungeonID[%s]没解除", dungeonID, umsData.getCurrentDungeonID()), null);
 		umsData.setCurrentDungeonID(dungeonID);
 		
-		userMSHolder.update(m_pPlayer);
-		mChapterHolder.updateItem(m_pPlayer, mcInfo);
+		userMSHolder.update(player);
+		mChapterHolder.updateItem(player, mcInfo);
 		msRsp.setRstType(msResultType.SUCCESS);
 		ArmyInfo enimyArmy = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(enterDungeon.getEnimyTeam());
 		try {
 			msRsp.setArmyInfo(enimyArmy.toJson());
 		} catch (Exception e) {
-			GameLog.error(LogModule.MagicSecret.getName(), userId, String.format("enterMSFight, 进入副本[%s]时，enimyArmy转json异常", dungeonID), e);
+			GameLog.error(LogModule.MagicSecret.getName(), player.getUserId(), String.format("enterMSFight, 进入副本[%s]时，enimyArmy转json异常", dungeonID), e);
 		}
 	}
 	
@@ -119,43 +117,43 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param dungeonID
 	 * @param finishState
 	 */
-	public void getSingleReward(MagicSecretRspMsg.Builder msRsp, String dungeonID, String finishState) {
+	public void getSingleReward(Player player, MagicSecretRspMsg.Builder msRsp, String dungeonID, String finishState) {
 		//判断是否刚战斗的关卡
-		UserMagicSecretData msData = userMSHolder.get();
+		UserMagicSecretData msData = userMSHolder.get(player);
 		if(msData.getCurrentDungeonID() == null || !msData.getCurrentDungeonID().equalsIgnoreCase(dungeonID)){
 			msRsp.setRstType(msResultType.DATA_ERROR);
-			GameLog.error(LogModule.MagicSecret, userId, String.format("getSingleReward, 结算的副本[%s]不是刚刚战斗过的副本[%s]", dungeonID, String.valueOf(msData.getCurrentDungeonID())), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("getSingleReward, 结算的副本[%s]不是刚刚战斗过的副本[%s]", dungeonID, String.valueOf(msData.getCurrentDungeonID())), null);
 			return;
 		}
 		//判断是否已选择的关卡
-		int stageID = fromDungeonIDToStageID(dungeonID);
+		int stageID = fromDungeonIDToStageID(player, dungeonID);
 		int chapterID = fromStageIDToChapterID(stageID);
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, String.valueOf(chapterID));
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), String.valueOf(chapterID));
 		MSDungeonInfo fightingDung = mcInfo.getSelectableDungeons().get(mcInfo.getSelectedDungeonIndex());
 		if(fightingDung == null){
 			msRsp.setRstType(msResultType.DATA_ERROR);
-			GameLog.error(LogModule.MagicSecret, userId, String.format("getSingleReward, 可选择的战斗副本[%s]数据有误, 选择的index[%s]", dungeonID, mcInfo.getSelectedDungeonIndex()), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("getSingleReward, 可选择的战斗副本[%s]数据有误, 选择的index[%s]", dungeonID, mcInfo.getSelectedDungeonIndex()), null);
 			return;
 		}
 		//战斗胜利
 		int finishStar = Integer.parseInt(finishState);
 		if(finishStar > 0) {
 			// 获取奖励，更新最高纪录，准备下个关卡数据
-			List<? extends ItemInfo> rewardItems = singleDungeonReward(fightingDung, finishStar);
+			List<? extends ItemInfo> rewardItems = singleDungeonReward(player, fightingDung, finishStar);
 			// 获得的物品
 			for(int i = 0; i < rewardItems.size(); i++){
 				msRsp.addRewardData(JsonUtil.writeValue(rewardItems.get(i)));
 			}
-			updateSelfMaxStage(dungeonID);
+			updateSelfMaxStage(player, dungeonID);
 			if(fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER)
-				mChapterHolder.initMagicChapterInfo(m_pPlayer, String.valueOf(chapterID + 1));
-			else handleNextDungeonPrepare(dungeonID);
+				mChapterHolder.initMagicChapterInfo(player, String.valueOf(chapterID + 1));
+			else handleNextDungeonPrepare(player, dungeonID);
 		}
 		//清空刚战斗的关卡
 		msData.setCurrentDungeonID(null);
 		msRsp.setRstType(msResultType.SUCCESS);
-		userMSHolder.update(m_pPlayer);
-		mChapterHolder.updateItem(m_pPlayer, mcInfo);
+		userMSHolder.update(player);
+		mChapterHolder.updateItem(player, mcInfo);
 	}
 	
 	/**
@@ -163,38 +161,38 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param msRsp
 	 * @param chapterID
 	 */
-	public void getMSSweepReward(MagicSecretRspMsg.Builder msRsp, String chapterID) {
-		if(!judgeSweepCount(chapterID)) {
+	public void getMSSweepReward(Player player, MagicSecretRspMsg.Builder msRsp, String chapterID) {
+		if(!judgeSweepCount(player, chapterID)) {
 			msRsp.setRstType(msResultType.TIMES_NOT_ENOUGH);
 			return;
 		}
-		if(!judgeSweepAble(chapterID)) {
+		if(!judgeSweepAble(player, chapterID)) {
 			msRsp.setRstType(msResultType.CONDITION_UNREACH);
 			return;
 		}
 		//扫荡之前，如果有没有打开的箱子，则视为放弃，需要清空
-		giveUpRewardBox(chapterID);
+		giveUpRewardBox(player, chapterID);
 		
 		//获取扫荡奖励
 		ArrayList<ItemInfo> rewardItems = new ArrayList<ItemInfo>();		
 		for(int i = 1; i <= STAGE_COUNT_EACH_CHATPER; i++){
 			String dungeonID = (Integer.parseInt(chapterID)*100 + i) + "_" + DUNGEON_MAX_LEVEL;
-			if(!judgeDungeonsCount(dungeonID)) continue;
+			if(!judgeDungeonsCount(player, dungeonID)) continue;
 			DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
 			if(dungDataCfg == null) {
-				GameLog.error(LogModule.MagicSecret, userId, String.format("getMSSweepReward, 扫荡章节[%s]时副本[%s]静态数据不存在", chapterID, dungeonID), null);
+				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("getMSSweepReward, 扫荡章节[%s]时副本[%s]静态数据不存在", chapterID, dungeonID), null);
 				continue;
 			}
-			MSDungeonInfo msdInfo = new MSDungeonInfo(dungeonID, null, null, generateDropItem(dungDataCfg.getDrop()));
-			rewardItems.addAll(singleDungeonReward(msdInfo, DUNGEON_FINISH_MAX_STAR));
+			MSDungeonInfo msdInfo = new MSDungeonInfo(dungeonID, null, null, generateDropItem(player, dungDataCfg.getDrop()));
+			rewardItems.addAll(singleDungeonReward(player, msdInfo, DUNGEON_FINISH_MAX_STAR));
 		}
 		// 获得的物品
 		for(int i = 0; i < rewardItems.size(); i++){
 			msRsp.addRewardData(JsonUtil.writeValue(rewardItems.get(i)));
 		}
 		msRsp.setRstType(msResultType.SUCCESS);
-		userMSHolder.update(m_pPlayer);
-		mChapterHolder.updateItem(m_pPlayer, mChapterHolder.getItem(userId, chapterID));
+		userMSHolder.update(player);
+		mChapterHolder.updateItem(player, mChapterHolder.getItem(player.getUserId(), chapterID));
 	}
 
 	/**
@@ -203,12 +201,12 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param buffID
 	 * @return
 	 */
-	public msResultType exchangeBuff(String chapterID, String buffID){
-		if(!judgeBuffLegal(chapterID, buffID)) return msResultType.DATA_ERROR;
-		if(!judgeEnoughStar(chapterID, buffID)) return msResultType.NOT_ENOUGH_STAR;
+	public msResultType exchangeBuff(Player player, String chapterID, String buffID){
+		if(!judgeBuffLegal(player, chapterID, buffID)) return msResultType.DATA_ERROR;
+		if(!judgeEnoughStar(player, chapterID, buffID)) return msResultType.NOT_ENOUGH_STAR;
 		
 		// 将buff从可选列表，转移到已选择列表
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
 		Iterator<Integer> unselectItor = mcInfo.getUnselectedBuff().iterator();
 		while(unselectItor.hasNext()){
 			int bID= unselectItor.next();
@@ -220,8 +218,8 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getCfgById(buffID);
 		mcInfo.setStarCount(mcInfo.getStarCount() - buffCfg.getCost());
 
-		userMSHolder.update(m_pPlayer);
-		mChapterHolder.updateItem(m_pPlayer, mcInfo);
+		userMSHolder.update(player);
+		mChapterHolder.updateItem(player, mcInfo);
 		return msResultType.SUCCESS;
 	}
 	
@@ -231,18 +229,18 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param chapterID
 	 * @param msRwdBox
 	 */
-	public void openRewardBox(MagicSecretRspMsg.Builder msRsp, String chapterID, msRewardBox msRwdBox) {
-		if(!judgeRewardBoxLegal(chapterID, msRwdBox)){
+	public void openRewardBox(Player player, MagicSecretRspMsg.Builder msRsp, String chapterID, msRewardBox msRwdBox) {
+		if(!judgeRewardBoxLegal(player, chapterID, msRwdBox)){
 			msRsp.setRstType(msResultType.NO_REWARD_BOX);
 			return;
 		}
-		if(!judgeOpenBoxCost(chapterID, msRwdBox)){ // 该方法中包括了资源的扣除
+		if(!judgeOpenBoxCost(player, chapterID, msRwdBox)){ // 该方法中包括了资源的扣除
 			msRsp.setRstType(msResultType.NOT_ENOUGH_GOLD);
 			return;
 		}
 		
 		// 扣除箱子数量
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
 		Iterator<ItemInfo> itor = mcInfo.getCanOpenBoxes().iterator();
 		while(itor.hasNext()){
 			ItemInfo itm = itor.next();
@@ -260,14 +258,14 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		if(msRwdBox.getBoxID().equalsIgnoreCase("2")) dropStr = dungDataCfg.getObjHiBox().getDropStr();
 		ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
 		for(int i = 0; i < msRwdBox.getBoxCount(); i++)
-			items.addAll(generateDropItem(dropStr));
-		handleDropItem(items);
+			items.addAll(generateDropItem(player, dropStr));
+		handleDropItem(player, items);
 		for(int i = 0; i < items.size(); i++){
 			msRsp.addRewardData(JsonUtil.writeValue(items.get(i)));
 		}
 		msRsp.setRstType(msResultType.SUCCESS);
-		userMSHolder.update(m_pPlayer);
-		mChapterHolder.updateItem(m_pPlayer, mcInfo);
+		userMSHolder.update(player);
+		mChapterHolder.updateItem(player, mcInfo);
 	}
 	
 	/**
@@ -275,11 +273,11 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param armyInfo
 	 * @return
 	 */
-	public msResultType changeMSArmy(String armyInfo) {
+	public msResultType changeMSArmy(Player player, String armyInfo) {
 		SimpleArmyInfo army = JsonUtil.readValue(armyInfo, SimpleArmyInfo.class);
-		UserMagicSecretData umsData = userMSHolder.get();
+		UserMagicSecretData umsData = userMSHolder.get(player);
 		umsData.setSecretArmy(army);
-		userMSHolder.update(m_pPlayer);
+		userMSHolder.update(player);
 		return msResultType.SUCCESS;
 	}
 	
@@ -288,14 +286,14 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param msRsp
 	 * @param scoreRewardID
 	 */
-	public void getScoreReward(MagicSecretRspMsg.Builder msRsp, int scoreRewardID) {
+	public void getScoreReward(Player player, MagicSecretRspMsg.Builder msRsp, int scoreRewardID) {
 		DungeonScoreCfg dungScoreCfg = DungeonScoreCfgDAO.getInstance().getCfgById(String.valueOf(scoreRewardID));
 		if(dungScoreCfg == null){
 			msRsp.setRstType(msResultType.DATA_ERROR);
-			GameLog.error(LogModule.MagicSecret, userId, String.format("getScoreReward, 要领取的奖励数据[%s]不存在", scoreRewardID), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("getScoreReward, 要领取的奖励数据[%s]不存在", scoreRewardID), null);
 			return;
 		}
-		UserMagicSecretData umsData = userMSHolder.get();
+		UserMagicSecretData umsData = userMSHolder.get(player);
 		if(umsData == null || umsData.getGotScoreReward().contains(scoreRewardID)){
 			msRsp.setRstType(msResultType.NO_REWARD_CAN_GET);
 			return;
@@ -303,24 +301,24 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		int totalScore = getTotalScore(umsData.getHistoryScore(), umsData.getTodayScore());
 		if(totalScore < dungScoreCfg.getScore()){
 			msRsp.setRstType(msResultType.CONDITION_UNREACH);
-			GameLog.error(LogModule.MagicSecret, userId, String.format("getScoreReward, 分数[%s]达不到领取积分[%s]的奖励", totalScore, dungScoreCfg.getScore()), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("getScoreReward, 分数[%s]达不到领取积分[%s]的奖励", totalScore, dungScoreCfg.getScore()), null);
 			return;
 		}
-		handleDropItem(dungScoreCfg.getRewardList());
+		handleDropItem(player, dungScoreCfg.getRewardList());
 		for(int i = 0; i < dungScoreCfg.getRewardList().size(); i++){
 			msRsp.addRewardData(JsonUtil.writeValue(dungScoreCfg.getRewardList().get(i)));
 		}
 		umsData.getGotScoreReward().add(scoreRewardID);
 		msRsp.setRstType(msResultType.SUCCESS);
-		userMSHolder.update(m_pPlayer);
+		userMSHolder.update(player);
 	}
 	
 	/**
 	 * 获取个人排名
 	 * @param msRsp
 	 */
-	public void getSelfMSRank(MagicSecretRspMsg.Builder msRsp) {
-		msRsp.setSelfRank(MSScoreRankMgr.getRankIndex(userId));
+	public void getSelfMSRank(Player player, MagicSecretRspMsg.Builder msRsp) {
+		msRsp.setSelfRank(MSScoreRankMgr.getRankIndex(player.getUserId()));
 		msRsp.setRstType(msResultType.SUCCESS);
 	}
 	
@@ -328,12 +326,12 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * 放弃可以开启的箱子
 	 * @param chapterID
 	 */
-	public msResultType giveUpRewardBox(String chapterID) {		
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+	public msResultType giveUpRewardBox(Player player, String chapterID) {		
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
 		if(mcInfo == null) return msResultType.DATA_ERROR;
 		if(!mcInfo.getCanOpenBoxes().isEmpty()){
 			mcInfo.getCanOpenBoxes().clear();
-			mChapterHolder.updateItem(m_pPlayer, mcInfo);
+			mChapterHolder.updateItem(player, mcInfo);
 		}
 		return msResultType.SUCCESS;
 	}
@@ -343,13 +341,13 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param secretGold
 	 * @return
 	 */
-	public boolean deductSecretGold(int secretGold){
+	public boolean deductSecretGold(Player player, int secretGold){
 		if(secretGold < 0) return false;
-		UserMagicSecretData umsData = userMSHolder.get();
+		UserMagicSecretData umsData = userMSHolder.get(player);
 		int currentGold = umsData.getSecretGold();
 		if(currentGold < secretGold) return false;
 		umsData.setSecretGold(currentGold - secretGold);
-		userMSHolder.update(m_pPlayer);
+		userMSHolder.update(player);
 		return true;
 	}
 	
@@ -357,8 +355,8 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * 获取玩家的法宝秘境货币
 	 * @return
 	 */
-	public int getSecretGold(){
-		UserMagicSecretData umsData = userMSHolder.get();
+	public int getSecretGold(Player player){
+		UserMagicSecretData umsData = userMSHolder.get(player);
 		return umsData.getSecretGold();
 	}
 	
@@ -367,11 +365,11 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param secretGold
 	 * @return
 	 */
-	public boolean addSecretGold(int secretGold){
-		if(secretGold < 0) return deductSecretGold(-secretGold);
-		UserMagicSecretData umsData = userMSHolder.get();
+	public boolean addSecretGold(Player player, int secretGold){
+		if(secretGold < 0) return deductSecretGold(player, -secretGold);
+		UserMagicSecretData umsData = userMSHolder.get(player);
 		umsData.setSecretGold(umsData.getSecretGold() + secretGold);
-		userMSHolder.update(m_pPlayer);
+		userMSHolder.update(player);
 		return true;
 	}
 	
@@ -382,26 +380,26 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * @param finishStar 通关评价
 	 * @return 奖励的物品，用于前端显示
 	 */
-	private List<? extends ItemInfo> singleDungeonReward(MSDungeonInfo fightingDung, int finishStar){
+	private List<? extends ItemInfo> singleDungeonReward(Player player, MSDungeonInfo fightingDung, int finishStar){
 		List<ItemInfo> result = new ArrayList<ItemInfo>();
 		DungeonsDataCfg dungCfg = DungeonsDataCfgDAO.getInstance().getCfgById(fightingDung.getDungeonKey());
 		if(dungCfg == null) {
-			GameLog.error(LogModule.MagicSecret, userId, String.format("singleDungeonReward, 副本[%s]不存在，无法进行结算", fightingDung.getDungeonKey()), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("singleDungeonReward, 副本[%s]不存在，无法进行结算", fightingDung.getDungeonKey()), null);
 			return new ArrayList<ItemInfo>();
 		}
 		
 		// 星星奖励
-		String chapterID = String.valueOf(fromStageIDToChapterID(fromDungeonIDToStageID(fightingDung.getDungeonKey())));
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+		String chapterID = String.valueOf(fromStageIDToChapterID(fromDungeonIDToStageID(player, fightingDung.getDungeonKey())));
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
 		mcInfo.setStarCount(mcInfo.getStarCount() + dungCfg.getStarReward());
-		mcInfo.getFinishedStages().add(fromDungeonIDToStageID(fightingDung.getDungeonKey()));
+		mcInfo.getFinishedStages().add(fromDungeonIDToStageID(player, fightingDung.getDungeonKey()));
 		ItemInfo starItem = new ItemInfo();
 		starItem.setItemID(MS_STAR_ID);
 		starItem.setItemNum(dungCfg.getStarReward());
 		result.add(starItem);
 		
 		// 积分奖励
-		UserMagicSecretData umsData = userMSHolder.get();
+		UserMagicSecretData umsData = userMSHolder.get(player);
 		int score = (int)(dungCfg.getScore() * getScoreRatio(finishStar));
 		umsData.setTodayScore(umsData.getTodayScore() + score);
 		ItemInfo scoreItem = new ItemInfo();
@@ -410,13 +408,13 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		result.add(scoreItem);
 		
 		// 排名更改
-		informRankModule();
+		informRankModule(player);
 		
 		// 掉落物品(需要回传给前端做显示用)
-		handleDropItem(fightingDung.getDropItem());
+		handleDropItem(player, fightingDung.getDropItem());
 		
 		// 增加可以购买的箱子
-		addCanOpenBoxes(chapterID);
+		addCanOpenBoxes(player, chapterID);
 		
 		result.addAll(fightingDung.getDropItem());
 		return result;
@@ -426,9 +424,9 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	 * 处理下一个关卡开始之前的各项准备
 	 * @param dungeonID
 	 */
-	protected void handleNextDungeonPrepare(String dungeonID){	
-		provideNextSelectalbeBuff(dungeonID);
-		createDungeonsDataForNextStage(dungeonID);
+	protected void handleNextDungeonPrepare(Player player, String dungeonID){	
+		provideNextSelectalbeBuff(player, dungeonID);
+		createDungeonsDataForNextStage(player, dungeonID);
 	}
 
 	/**
@@ -441,11 +439,11 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		return (int)(history * SCORE_COEFFICIENT) + today;
 	}
 	
-	public void synMagicChapterData() {
-		mChapterHolder.synAllData(m_pPlayer);
+	public void synMagicChapterData(Player player) {
+		mChapterHolder.synAllData(player);
 	}
 	
-	public void synUserMSData() {
-		userMSHolder.syn(m_pPlayer, 0);
+	public void synUserMSData(Player player) {
+		userMSHolder.syn(player, 0);
 	}
 }

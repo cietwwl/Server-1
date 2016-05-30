@@ -23,7 +23,7 @@ public class MSScoreRankMgr {
 	private static boolean IS_FIRST_CALL_DISPATCH = true;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static int addOrUpdateMSScoreRank(UserMagicSecretData msInfo, Player player) {
+	public static int addOrUpdateMSScoreRank(Player player, UserMagicSecretData msInfo) {
 		Ranking ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
 		if (ranking == null) {
 			return -1;

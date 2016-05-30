@@ -1,12 +1,11 @@
 package com.playerdata;
 
 import com.bm.arena.ArenaBM;
-import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
@@ -228,7 +227,7 @@ public class PlayerTimeActionHelper {
 
 			@Override
 			public void doTask() {
-				player.getMagicSecretMgr().resetDailyMSInfo();
+				player.getMagicSecretMgr().resetDailyMSInfo(player);
 			}
 		});
 		

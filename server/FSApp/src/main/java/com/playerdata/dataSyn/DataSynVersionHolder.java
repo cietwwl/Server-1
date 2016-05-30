@@ -8,14 +8,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
-import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.ReConnectionProtos.SyncVersion;
 
@@ -259,7 +258,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {	
-				player.getMagicSecretMgr().synMagicChapterData();
+				player.getMagicSecretMgr().synMagicChapterData(player);
 			}
 		}));
 		orderList.add(eSynType.MagicChapterData);
@@ -277,7 +276,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
-				player.getMagicSecretMgr().synUserMSData();
+				player.getMagicSecretMgr().synUserMSData(player);
 			}
 		}));
 		orderList.add(eSynType.MagicSecretData);

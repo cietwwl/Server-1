@@ -1,7 +1,6 @@
 package com.playerdata.mgcsecret.cfg;
-import com.common.BaseConfig;
 
-public class BuffBonusCfg extends BaseConfig {
+public class BuffBonusCfg {
 	private String key; //关键字段
 	private int layerID; //方案id
 	private int rate; //权重

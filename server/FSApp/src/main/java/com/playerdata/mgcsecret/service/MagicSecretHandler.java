@@ -24,7 +24,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.getMSRankData(msRsp);
+		msMgr.getMSRankData(player, msRsp);
 		return msRsp.build().toByteString();
 	}
 
@@ -32,7 +32,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.enterMSFight(msRsp, msgMSRequest.getDungeonId());
+		msMgr.enterMSFight(player, msRsp, msgMSRequest.getDungeonId());
 		return msRsp.build().toByteString();
 	}
 
@@ -40,7 +40,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.getSingleReward(msRsp, msgMSRequest.getDungeonId(), msgMSRequest.getFinishState());
+		msMgr.getSingleReward(player, msRsp, msgMSRequest.getDungeonId(), msgMSRequest.getFinishState());
 		return msRsp.build().toByteString();
 	}
 	
@@ -48,7 +48,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.getMSSweepReward(msRsp, msgMSRequest.getChapterId());
+		msMgr.getMSSweepReward(player, msRsp, msgMSRequest.getChapterId());
 		return msRsp.build().toByteString();
 	}
 
@@ -56,7 +56,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.openRewardBox(msRsp, msgMSRequest.getChapterId(), msgMSRequest.getRwdBox());
+		msMgr.openRewardBox(player, msRsp, msgMSRequest.getChapterId(), msgMSRequest.getRwdBox());
 		return msRsp.build().toByteString();
 	}
 
@@ -64,7 +64,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msRsp.setRstType(msMgr.exchangeBuff(msgMSRequest.getChapterId(), msgMSRequest.getBuffId()));
+		msRsp.setRstType(msMgr.exchangeBuff(player, msgMSRequest.getChapterId(), msgMSRequest.getBuffId()));
 		return msRsp.build().toByteString();
 	}
 	
@@ -72,7 +72,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msRsp.setRstType(msMgr.changeMSArmy(msgMSRequest.getArmyInfo()));
+		msRsp.setRstType(msMgr.changeMSArmy(player, msgMSRequest.getArmyInfo()));
 		return msRsp.build().toByteString();
 	}
 	
@@ -80,7 +80,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.getScoreReward(msRsp, msgMSRequest.getScoreRewardID());
+		msMgr.getScoreReward(player, msRsp, msgMSRequest.getScoreRewardID());
 		return msRsp.build().toByteString();
 	}
 	
@@ -88,7 +88,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msMgr.getSelfMSRank(msRsp);
+		msMgr.getSelfMSRank(player, msRsp);
 		return msRsp.build().toByteString();
 	}
 	
@@ -96,7 +96,7 @@ public class MagicSecretHandler {
 		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = player.getMagicSecretMgr();
-		msRsp.setRstType(msMgr.giveUpRewardBox(msgMSRequest.getChapterId()));
+		msRsp.setRstType(msMgr.giveUpRewardBox(player, msgMSRequest.getChapterId()));
 		return msRsp.build().toByteString();
 	}
 }

@@ -7,6 +7,7 @@ import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
+import com.playerdata.Player;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
@@ -26,20 +27,20 @@ public class MSInnerProcessor extends MSConditionJudger{
 	/**
 	 * 通知排行榜做出排名更改
 	 */
-	protected void informRankModule(){
-		MSScoreRankMgr.addOrUpdateMSScoreRank(userMSHolder.get(), m_pPlayer);
+	protected void informRankModule(Player player){
+		MSScoreRankMgr.addOrUpdateMSScoreRank(player, userMSHolder.get(player));
 	}
 	
 	/**
 	 * 处理掉落，这里面包括了秘境货币的特殊处理
 	 * @param dropItems
 	 */
-	protected void handleDropItem(List<ItemInfo> dropItems){
-		ItemBagMgr bagMgr = m_pPlayer.getItemBagMgr();
+	protected void handleDropItem(Player player, List<ItemInfo> dropItems){
+		ItemBagMgr bagMgr = player.getItemBagMgr();
 		for(ItemInfo itm : dropItems){
-			GameLog.info(LogModule.MagicSecret.getName(), userId, String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
+			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
 			if(!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
-				GameLog.error(LogModule.MagicSecret, userId, String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
 		}
 	}
 	
@@ -47,10 +48,10 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * 增加可以购买的箱子(普通和高级各一个)
 	 * @param chapterID
 	 */
-	protected void addCanOpenBoxes(String chapterID){
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapterID);
+	protected void addCanOpenBoxes(Player player, String chapterID){
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
 		if(mcInfo == null)
-			GameLog.error(LogModule.MagicSecret, userId, String.format("addCanOpenBoxes, 不合法的章节[%s], 有可能是没开启或不存在", chapterID), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("addCanOpenBoxes, 不合法的章节[%s], 有可能是没开启或不存在", chapterID), null);
 		List<ItemInfo> canOpenBoxList = mcInfo.getCanOpenBoxes();
 		if(canOpenBoxList.size() != 2) canOpenBoxList.clear();
 		if(canOpenBoxList.size() == 0) {
@@ -70,8 +71,8 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * 清除可选的buff
 	 * @param chapteID
 	 */
-	protected void dropSelectableBuff(String chapteID){
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, chapteID);
+	protected void dropSelectableBuff(Player player, String chapteID){
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapteID);
 		mcInfo.getUnselectedBuff().clear();
 	}
 	
@@ -79,9 +80,9 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * 设置玩家最高闯关纪录
 	 * @param dungeonID
 	 */
-	protected void updateSelfMaxStage(String dungeonID){
-		UserMagicSecretData umsData = userMSHolder.get();
-		int paraStageID = fromDungeonIDToStageID(dungeonID);
+	protected void updateSelfMaxStage(Player player, String dungeonID){
+		UserMagicSecretData umsData = userMSHolder.get(player);
+		int paraStageID = fromDungeonIDToStageID(player, dungeonID);
 		if(paraStageID > umsData.getMaxStageID())
 			umsData.setMaxStageID(paraStageID);
 	}
@@ -108,12 +109,12 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * 提供可以购买的buff
 	 * @param currentDungeonID
 	 */
-	protected void provideNextSelectalbeBuff(String currentDungeonID){
-		int stageID = fromDungeonIDToStageID(currentDungeonID);
+	protected void provideNextSelectalbeBuff(Player player, String currentDungeonID){
+		int stageID = fromDungeonIDToStageID(player, currentDungeonID);
 		int chapterID = fromStageIDToChapterID(stageID);
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, String.valueOf(chapterID));
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), String.valueOf(chapterID));
 		if(mcInfo == null){
-			GameLog.error(LogModule.MagicSecret, userId, String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
 			return;
 		}
 		String nextDungeonID = (stageID + 1) + "_1";
@@ -125,7 +126,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 				mcInfo.getUnselectedBuff().add(Integer.parseInt(buffCfg.getKey()));
 			}
 		}else{
-			GameLog.info(LogModule.MagicSecret.getName(), userId, String.format("provideNextSelectalbeBuff, 由副本id[%s]已经是本章节最后一个章节", currentDungeonID), null);
+			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("provideNextSelectalbeBuff, 由副本id[%s]已经是本章节最后一个章节", currentDungeonID), null);
 		}
 	}
 	
@@ -133,12 +134,12 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * 生成下一个stage的三个关卡数据
 	 * @param currentDungeonID
 	 */
-	public void createDungeonsDataForNextStage(String currentDungeonID){
-		int stageID = fromDungeonIDToStageID(currentDungeonID);
+	public void createDungeonsDataForNextStage(Player player, String currentDungeonID){
+		int stageID = fromDungeonIDToStageID(player, currentDungeonID);
 		int chapterID = fromStageIDToChapterID(stageID);
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(userId, String.valueOf(chapterID));
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), String.valueOf(chapterID));
 		if(mcInfo == null){
-			GameLog.error(LogModule.MagicSecret, userId, String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
 			return;
 		}
 		mcInfo.setSelectedDungeonIndex(-1);  //-1表示未选择
@@ -149,7 +150,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 			DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungID);
 			if(dungDataCfg == null) continue;
 			MSDungeonInfo msdInfo = new MSDungeonInfo(dungID, provideNextFabaoBuff(dungDataCfg.getFabaoBuff()), 
-					generateEnimyForDungeon(dungDataCfg.getEnimy()), generateDropItem(dungDataCfg.getDrop()));
+					generateEnimyForDungeon(dungDataCfg.getEnimy()), generateDropItem(player, dungDataCfg.getDrop()));
 			selectableDungeons.add(msdInfo);
 		}
 		mcInfo.setSelectableDungeons(selectableDungeons);
@@ -184,20 +185,20 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param dropStr
 	 * @return
 	 */
-	protected List<? extends ItemInfo> generateDropItem(String dropStr){
+	protected List<? extends ItemInfo> generateDropItem(Player player, String dropStr){
 		List<Integer> dropList = new ArrayList<Integer>();
 		for(String str : dropStr.split(",")){
 			try{
 				dropList.add(Integer.parseInt(str));
 			}catch(Exception ex){
-				GameLog.error(LogModule.MagicSecret, userId, String.format("generateDropItem, 由掉落字符串[%s]转整数的时候出错", dropStr), ex);
+				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("generateDropItem, 由掉落字符串[%s]转整数的时候出错", dropStr), ex);
 			}
 		}
 		ArrayList<ItemInfo> itemList = new ArrayList<ItemInfo>();
 		try {
-			return DropItemManager.getInstance().pretreatDrop(m_pPlayer, dropList, -1, false);
+			return DropItemManager.getInstance().pretreatDrop(player, dropList, -1, false);
 		} catch (DataAccessTimeoutException e) {
-			GameLog.error(LogModule.MagicSecret, userId, String.format("generateDropItem, 由掉落字符串[%s]计算掉落时出错", dropStr), e);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("generateDropItem, 由掉落字符串[%s]计算掉落时出错", dropStr), e);
 		}
 		return itemList;
 	}
@@ -205,9 +206,9 @@ public class MSInnerProcessor extends MSConditionJudger{
 	/**
 	 * 法宝秘境数据跨天刷新
 	 */
-	public void resetDailyMSInfo(){
-		mChapterHolder.resetAllItem(m_pPlayer);
-		userMSHolder.get().saveDailyScoreData();
-		mChapterHolder.synAllData(m_pPlayer);
+	public void resetDailyMSInfo(Player player){
+		mChapterHolder.resetAllItem(player);
+		userMSHolder.get(player).saveDailyScoreData();
+		mChapterHolder.synAllData(player);
 	}
 }

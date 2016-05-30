@@ -3,10 +3,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.common.BaseConfig;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
-public class DungeonScoreCfg extends BaseConfig {
+public class DungeonScoreCfg {
 	private int key; //关键字段
 	private int score; //积分
 	private String reward; //奖励
@@ -28,7 +27,6 @@ public class DungeonScoreCfg extends BaseConfig {
 		return list_reward;
 	}
 	
-	@Override
 	public void ExtraInitAfterLoad(){
 		List<ItemInfo> tmpList = new ArrayList<ItemInfo>();
 		String[] rewardStrArr = reward.split(",");

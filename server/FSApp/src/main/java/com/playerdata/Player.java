@@ -819,7 +819,7 @@ public class Player implements PlayerIF {
 			reslut = userGameDataMgr.getPeakArenaCoin();
 			break;
 		case MagicSecretCoin:
-			reslut = m_msMgr.getSecretGold();
+			reslut = userGameDataMgr.getMagicSecretCoin();
 			break;
 		default:
 			break;
