@@ -80,6 +80,7 @@ public class PeakArenaHandler {
 
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		if (arenaData == null) {
+			GameLog.error("巅峰竞技场", player.getUserId(), "找不到玩家竞技场数据");
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "数据错误");
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
@@ -165,6 +166,7 @@ public class PeakArenaHandler {
 			String key = entry.getKey();
 			TablePeakArenaData otherArenaData = PeakArenaBM.getInstance().getPeakArenaData(key);
 			result.setUserId(key);
+			result.setWinCount(otherArenaData.getWinCount());
 			result.setFighting(otherArenaData.getFighting());
 			result.setHeadImage(otherArenaData.getHeadImage());
 			result.setLevel(otherArenaData.getLevel());
@@ -400,8 +402,10 @@ public class PeakArenaHandler {
 			long currentTimeMillis = System.currentTimeMillis();
 			int fightTime = (int) (currentTimeMillis - playerEntry.getExtension().getLastFightTime()) / 1000;
 			if (win) {
+				playerArenaData.setWinCount(playerArenaData.getWinCount()+1);
 				//PeakArenaBM.getInstance().addScore(player, addScore);
 			} else {
+				enemyArenaData.setWinCount(enemyArenaData.getWinCount()+1);
 				//PeakArenaBM.getInstance().addScore(player, -addScore);
 			}
 			PeakRecordInfo record = new PeakRecordInfo();
@@ -500,6 +504,7 @@ public class PeakArenaHandler {
 		data.setGainCurrencyPerHour(scoreLevel.getGainCurrency());
 		data.setPlace(place);
 		data.setMaxPlace(arenaData.getMaxPlace());
+		data.setWinCount(arenaData.getWinCount());
 		//TODO 改为发送 challengeCount maxChallengeCount
 		//data.setRemainCount(arenaData.getRemainCount());
 		
@@ -532,6 +537,9 @@ public class PeakArenaHandler {
 		}
 		data.setTempleteId(arenaData.getTempleteId());
 
+		Player user = PlayerMgr.getInstance().find(userId);
+		HeroData.Builder teamMainRole;
+		//TODO get player from userId and then set TeamInfo.player
 		for (int i = 1; i <= arenaData.getTeamCount(); i++) {
 			TeamInfo.Builder teamBuilder = TeamInfo.newBuilder();
 			teamBuilder.setTeamId(i);
@@ -542,7 +550,12 @@ public class PeakArenaHandler {
 			for (RoleBaseInfo hero : heros) {
 				teamBuilder.addHeros(getHeroData(hero, i));
 			}
-			data.addTeams(teamBuilder);
+			//teamBuilder.setPlayer(teamMainRole);
+			try {
+				data.addTeams(teamBuilder);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return data.build();
 	}

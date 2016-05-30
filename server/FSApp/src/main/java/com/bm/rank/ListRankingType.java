@@ -80,7 +80,10 @@ public enum ListRankingType implements TypeIdentification, ListRankingConfig {
 		HPCUtil.copy(orignal, typeArray);
 		rankTypeMapping = new EnumMap<RankType,ListRankingType>(RankType.class);
 		for(ListRankingType type:array){
-			rankTypeMapping.put(type.getRankType(), type);
+			RankType rankType = type.getRankType();
+			if (rankType != null) {
+				rankTypeMapping.put(rankType, type);
+			}
 		}
 	}
 

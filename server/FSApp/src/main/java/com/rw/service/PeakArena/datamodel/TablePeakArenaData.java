@@ -14,6 +14,7 @@ public class TablePeakArenaData {
 	@Id
 	private String userId; // 用户ID
 	private int maxPlace;
+	private int winCount;//历史胜利场次
 	private boolean hasRanking;//未入榜的标志
 	private int challengeCount;//挑战次数
 	private int resetCount;//重置次数
@@ -71,6 +72,14 @@ public class TablePeakArenaData {
 			//GameLog.error("巅峰竞技场", "更新队伍参数有错", "index out of bound:"+index);
 			return false;
 		}
+	}
+
+	public int getWinCount() {
+		return winCount;
+	}
+
+	public void setWinCount(int winCount) {
+		this.winCount = winCount;
 	}
 
 	public int getBuyCount() {

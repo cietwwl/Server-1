@@ -12,7 +12,8 @@ import com.bm.rank.arena.ArenaExtAttribute;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PeakArenaExtAttribute extends ArenaExtAttribute{
 //TODO 巅峰竞技场的排行榜信息基本与竞技场的一样，只是队伍从1队扩展为3对
-	
+	private int winCount;		//连胜次数
+
 	/**
 	 * 延长一倍的超时，用于一场战斗结束后，连续打第二场
 	 */

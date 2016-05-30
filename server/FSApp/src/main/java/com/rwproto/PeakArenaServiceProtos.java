@@ -123,7 +123,7 @@ public final class PeakArenaServiceProtos {
      * <code>FIGHT_CONTINUE = 14;</code>
      *
      * <pre>
-     *挑战不同队伍的中间过渡时间发送
+     *挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
      * </pre>
      */
     FIGHT_CONTINUE(14, 14),
@@ -239,7 +239,7 @@ public final class PeakArenaServiceProtos {
      * <code>FIGHT_CONTINUE = 14;</code>
      *
      * <pre>
-     *挑战不同队伍的中间过渡时间发送
+     *挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
      * </pre>
      */
     public static final int FIGHT_CONTINUE_VALUE = 14;
@@ -2939,9 +2939,9 @@ public final class PeakArenaServiceProtos {
      */
     int getMagicLevel();
 
-    // required .HeroData player = 6;
+    // optional .HeroData player = 6;
     /**
-     * <code>required .HeroData player = 6;</code>
+     * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
      * TODO 不如主角从heros摞出来？睇你点样方便
@@ -2949,7 +2949,7 @@ public final class PeakArenaServiceProtos {
      */
     boolean hasPlayer();
     /**
-     * <code>required .HeroData player = 6;</code>
+     * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
      * TODO 不如主角从heros摞出来？睇你点样方便
@@ -2957,7 +2957,7 @@ public final class PeakArenaServiceProtos {
      */
     com.rwproto.PeakArenaServiceProtos.HeroData getPlayer();
     /**
-     * <code>required .HeroData player = 6;</code>
+     * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
      * TODO 不如主角从heros摞出来？睇你点样方便
@@ -3236,11 +3236,11 @@ public final class PeakArenaServiceProtos {
       return magicLevel_;
     }
 
-    // required .HeroData player = 6;
+    // optional .HeroData player = 6;
     public static final int PLAYER_FIELD_NUMBER = 6;
     private com.rwproto.PeakArenaServiceProtos.HeroData player_;
     /**
-     * <code>required .HeroData player = 6;</code>
+     * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
      * TODO 不如主角从heros摞出来？睇你点样方便
@@ -3250,7 +3250,7 @@ public final class PeakArenaServiceProtos {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required .HeroData player = 6;</code>
+     * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
      * TODO 不如主角从heros摞出来？睇你点样方便
@@ -3260,7 +3260,7 @@ public final class PeakArenaServiceProtos {
       return player_;
     }
     /**
-     * <code>required .HeroData player = 6;</code>
+     * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
      * TODO 不如主角从heros摞出来？睇你点样方便
@@ -3287,19 +3287,17 @@ public final class PeakArenaServiceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasPlayer()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       for (int i = 0; i < getHerosCount(); i++) {
         if (!getHeros(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
       }
-      if (!getPlayer().isInitialized()) {
-        memoizedIsInitialized = 0;
-        return false;
+      if (hasPlayer()) {
+        if (!getPlayer().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -3638,19 +3636,17 @@ public final class PeakArenaServiceProtos {
           
           return false;
         }
-        if (!hasPlayer()) {
-          
-          return false;
-        }
         for (int i = 0; i < getHerosCount(); i++) {
           if (!getHeros(i).isInitialized()) {
             
             return false;
           }
         }
-        if (!getPlayer().isInitialized()) {
-          
-          return false;
+        if (hasPlayer()) {
+          if (!getPlayer().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -4142,12 +4138,12 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // required .HeroData player = 6;
+      // optional .HeroData player = 6;
       private com.rwproto.PeakArenaServiceProtos.HeroData player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.PeakArenaServiceProtos.HeroData, com.rwproto.PeakArenaServiceProtos.HeroData.Builder, com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder> playerBuilder_;
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4157,7 +4153,7 @@ public final class PeakArenaServiceProtos {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4171,7 +4167,7 @@ public final class PeakArenaServiceProtos {
         }
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4191,7 +4187,7 @@ public final class PeakArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4209,7 +4205,7 @@ public final class PeakArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4232,7 +4228,7 @@ public final class PeakArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4249,7 +4245,7 @@ public final class PeakArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4261,7 +4257,7 @@ public final class PeakArenaServiceProtos {
         return getPlayerFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4275,7 +4271,7 @@ public final class PeakArenaServiceProtos {
         }
       }
       /**
-       * <code>required .HeroData player = 6;</code>
+       * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
        * TODO 不如主角从heros摞出来？睇你点样方便
@@ -4397,6 +4393,24 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getMaxPlace();
+
+    // optional int32 winCount = 8;
+    /**
+     * <code>optional int32 winCount = 8;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
+     */
+    boolean hasWinCount();
+    /**
+     * <code>optional int32 winCount = 8;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
+     */
+    int getWinCount();
 
     // optional int32 challengeCount = 9;
     /**
@@ -4738,87 +4752,92 @@ public final class PeakArenaServiceProtos {
               maxPlace_ = input.readInt32();
               break;
             }
-            case 72: {
+            case 64: {
               bitField0_ |= 0x00000040;
+              winCount_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000080;
               challengeCount_ = input.readInt32();
               break;
             }
             case 80: {
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000100;
               cdTime_ = input.readInt32();
               break;
             }
             case 88: {
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000200;
               career_ = input.readInt32();
               break;
             }
             case 98: {
-              bitField0_ |= 0x00000200;
+              bitField0_ |= 0x00000400;
               name_ = input.readBytes();
               break;
             }
             case 104: {
-              bitField0_ |= 0x00000400;
+              bitField0_ |= 0x00000800;
               level_ = input.readInt32();
               break;
             }
             case 114: {
-              bitField0_ |= 0x00000800;
+              bitField0_ |= 0x00001000;
               headImage_ = input.readBytes();
               break;
             }
             case 122: {
-              bitField0_ |= 0x00001000;
+              bitField0_ |= 0x00002000;
               templeteId_ = input.readBytes();
               break;
             }
             case 128: {
-              bitField0_ |= 0x00002000;
+              bitField0_ |= 0x00004000;
               fighting_ = input.readInt32();
               break;
             }
             case 138: {
-              if (!((mutable_bitField0_ & 0x00004000) == 0x00004000)) {
+              if (!((mutable_bitField0_ & 0x00008000) == 0x00008000)) {
                 roleSkill_ = new java.util.ArrayList<com.rwproto.SkillServiceProtos.TagSkillData>();
-                mutable_bitField0_ |= 0x00004000;
+                mutable_bitField0_ |= 0x00008000;
               }
               roleSkill_.add(input.readMessage(com.rwproto.SkillServiceProtos.TagSkillData.PARSER, extensionRegistry));
               break;
             }
             case 146: {
-              if (!((mutable_bitField0_ & 0x00008000) == 0x00008000)) {
+              if (!((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
                 roleAttr_ = new java.util.ArrayList<com.rwproto.SyncAttriProtos.TagAttriData>();
-                mutable_bitField0_ |= 0x00008000;
+                mutable_bitField0_ |= 0x00010000;
               }
               roleAttr_.add(input.readMessage(com.rwproto.SyncAttriProtos.TagAttriData.PARSER, extensionRegistry));
               break;
             }
             case 154: {
-              if (!((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
+              if (!((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
                 teams_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.TeamInfo>();
-                mutable_bitField0_ |= 0x00010000;
+                mutable_bitField0_ |= 0x00020000;
               }
               teams_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.TeamInfo.PARSER, extensionRegistry));
               break;
             }
             case 160: {
-              bitField0_ |= 0x00004000;
+              bitField0_ |= 0x00008000;
               lastFightTime_ = input.readInt64();
               break;
             }
             case 168: {
-              bitField0_ |= 0x00008000;
+              bitField0_ |= 0x00010000;
               gainCurrencyPerHour_ = input.readInt32();
               break;
             }
             case 176: {
-              bitField0_ |= 0x00010000;
+              bitField0_ |= 0x00020000;
               maxChallengeCount_ = input.readInt32();
               break;
             }
             case 186: {
-              bitField0_ |= 0x00020000;
+              bitField0_ |= 0x00040000;
               groupName_ = input.readBytes();
               break;
             }
@@ -4830,13 +4849,13 @@ public final class PeakArenaServiceProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00004000) == 0x00004000)) {
+        if (((mutable_bitField0_ & 0x00008000) == 0x00008000)) {
           roleSkill_ = java.util.Collections.unmodifiableList(roleSkill_);
         }
-        if (((mutable_bitField0_ & 0x00008000) == 0x00008000)) {
+        if (((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
           roleAttr_ = java.util.Collections.unmodifiableList(roleAttr_);
         }
-        if (((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
+        if (((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
           teams_ = java.util.Collections.unmodifiableList(teams_);
         }
         this.unknownFields = unknownFields.build();
@@ -5018,6 +5037,30 @@ public final class PeakArenaServiceProtos {
       return maxPlace_;
     }
 
+    // optional int32 winCount = 8;
+    public static final int WINCOUNT_FIELD_NUMBER = 8;
+    private int winCount_;
+    /**
+     * <code>optional int32 winCount = 8;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
+     */
+    public boolean hasWinCount() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 winCount = 8;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
+     */
+    public int getWinCount() {
+      return winCount_;
+    }
+
     // optional int32 challengeCount = 9;
     public static final int CHALLENGECOUNT_FIELD_NUMBER = 9;
     private int challengeCount_;
@@ -5025,7 +5068,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 challengeCount = 9;</code>
      */
     public boolean hasChallengeCount() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional int32 challengeCount = 9;</code>
@@ -5041,7 +5084,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 cdTime = 10;</code>
      */
     public boolean hasCdTime() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>optional int32 cdTime = 10;</code>
@@ -5057,7 +5100,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 career = 11;</code>
      */
     public boolean hasCareer() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
      * <code>optional int32 career = 11;</code>
@@ -5073,7 +5116,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string name = 12;</code>
      */
     public boolean hasName() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
      * <code>optional string name = 12;</code>
@@ -5116,7 +5159,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 level = 13;</code>
      */
     public boolean hasLevel() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
      * <code>optional int32 level = 13;</code>
@@ -5132,7 +5175,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string headImage = 14;</code>
      */
     public boolean hasHeadImage() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
      * <code>optional string headImage = 14;</code>
@@ -5175,7 +5218,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string templeteId = 15;</code>
      */
     public boolean hasTempleteId() {
-      return ((bitField0_ & 0x00001000) == 0x00001000);
+      return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
      * <code>optional string templeteId = 15;</code>
@@ -5222,7 +5265,7 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public boolean hasFighting() {
-      return ((bitField0_ & 0x00002000) == 0x00002000);
+      return ((bitField0_ & 0x00004000) == 0x00004000);
     }
     /**
      * <code>optional int32 fighting = 16;</code>
@@ -5354,7 +5397,7 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public boolean hasLastFightTime() {
-      return ((bitField0_ & 0x00004000) == 0x00004000);
+      return ((bitField0_ & 0x00008000) == 0x00008000);
     }
     /**
      * <code>optional int64 lastFightTime = 20;</code>
@@ -5378,7 +5421,7 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public boolean hasGainCurrencyPerHour() {
-      return ((bitField0_ & 0x00008000) == 0x00008000);
+      return ((bitField0_ & 0x00010000) == 0x00010000);
     }
     /**
      * <code>optional int32 gainCurrencyPerHour = 21;</code>
@@ -5402,7 +5445,7 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public boolean hasMaxChallengeCount() {
-      return ((bitField0_ & 0x00010000) == 0x00010000);
+      return ((bitField0_ & 0x00020000) == 0x00020000);
     }
     /**
      * <code>optional int32 maxChallengeCount = 22;</code>
@@ -5426,7 +5469,7 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public boolean hasGroupName() {
-      return ((bitField0_ & 0x00020000) == 0x00020000);
+      return ((bitField0_ & 0x00040000) == 0x00040000);
     }
     /**
      * <code>optional string groupName = 23;</code>
@@ -5477,6 +5520,7 @@ public final class PeakArenaServiceProtos {
       scoreLv_ = 0;
       place_ = 0;
       maxPlace_ = 0;
+      winCount_ = 0;
       challengeCount_ = 0;
       cdTime_ = 0;
       career_ = 0;
@@ -5540,27 +5584,30 @@ public final class PeakArenaServiceProtos {
         output.writeInt32(6, maxPlace_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeInt32(9, challengeCount_);
+        output.writeInt32(8, winCount_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeInt32(10, cdTime_);
+        output.writeInt32(9, challengeCount_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeInt32(11, career_);
+        output.writeInt32(10, cdTime_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeBytes(12, getNameBytes());
+        output.writeInt32(11, career_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeInt32(13, level_);
+        output.writeBytes(12, getNameBytes());
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeBytes(14, getHeadImageBytes());
+        output.writeInt32(13, level_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
-        output.writeBytes(15, getTempleteIdBytes());
+        output.writeBytes(14, getHeadImageBytes());
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeBytes(15, getTempleteIdBytes());
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
         output.writeInt32(16, fighting_);
       }
       for (int i = 0; i < roleSkill_.size(); i++) {
@@ -5572,16 +5619,16 @@ public final class PeakArenaServiceProtos {
       for (int i = 0; i < teams_.size(); i++) {
         output.writeMessage(19, teams_.get(i));
       }
-      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
         output.writeInt64(20, lastFightTime_);
       }
-      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
         output.writeInt32(21, gainCurrencyPerHour_);
       }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
         output.writeInt32(22, maxChallengeCount_);
       }
-      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
         output.writeBytes(23, getGroupNameBytes());
       }
       getUnknownFields().writeTo(output);
@@ -5619,33 +5666,37 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(9, challengeCount_);
+          .computeInt32Size(8, winCount_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, cdTime_);
+          .computeInt32Size(9, challengeCount_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(11, career_);
+          .computeInt32Size(10, cdTime_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(12, getNameBytes());
+          .computeInt32Size(11, career_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(13, level_);
+          .computeBytesSize(12, getNameBytes());
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(14, getHeadImageBytes());
+          .computeInt32Size(13, level_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(15, getTempleteIdBytes());
+          .computeBytesSize(14, getHeadImageBytes());
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(15, getTempleteIdBytes());
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(16, fighting_);
       }
@@ -5661,19 +5712,19 @@ public final class PeakArenaServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(19, teams_.get(i));
       }
-      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(20, lastFightTime_);
       }
-      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(21, gainCurrencyPerHour_);
       }
-      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(22, maxChallengeCount_);
       }
-      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(23, getGroupNameBytes());
       }
@@ -5808,48 +5859,50 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         maxPlace_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
-        challengeCount_ = 0;
+        winCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
-        cdTime_ = 0;
+        challengeCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        career_ = 0;
+        cdTime_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        name_ = "";
+        career_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
-        level_ = 0;
+        name_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
-        headImage_ = "";
+        level_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
-        templeteId_ = "";
+        headImage_ = "";
         bitField0_ = (bitField0_ & ~0x00001000);
-        fighting_ = 0;
+        templeteId_ = "";
         bitField0_ = (bitField0_ & ~0x00002000);
+        fighting_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
         if (roleSkillBuilder_ == null) {
           roleSkill_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00004000);
+          bitField0_ = (bitField0_ & ~0x00008000);
         } else {
           roleSkillBuilder_.clear();
         }
         if (roleAttrBuilder_ == null) {
           roleAttr_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00008000);
+          bitField0_ = (bitField0_ & ~0x00010000);
         } else {
           roleAttrBuilder_.clear();
         }
         if (teamsBuilder_ == null) {
           teams_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00010000);
+          bitField0_ = (bitField0_ & ~0x00020000);
         } else {
           teamsBuilder_.clear();
         }
         lastFightTime_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00020000);
-        gainCurrencyPerHour_ = 0;
         bitField0_ = (bitField0_ & ~0x00040000);
-        maxChallengeCount_ = 0;
+        gainCurrencyPerHour_ = 0;
         bitField0_ = (bitField0_ & ~0x00080000);
-        groupName_ = "";
+        maxChallengeCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00100000);
+        groupName_ = "";
+        bitField0_ = (bitField0_ & ~0x00200000);
         return this;
       }
 
@@ -5905,76 +5958,80 @@ public final class PeakArenaServiceProtos {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.challengeCount_ = challengeCount_;
+        result.winCount_ = winCount_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
         }
-        result.cdTime_ = cdTime_;
+        result.challengeCount_ = challengeCount_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.career_ = career_;
+        result.cdTime_ = cdTime_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.name_ = name_;
+        result.career_ = career_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.level_ = level_;
+        result.name_ = name_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.headImage_ = headImage_;
+        result.level_ = level_;
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00001000;
         }
-        result.templeteId_ = templeteId_;
+        result.headImage_ = headImage_;
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00002000;
         }
+        result.templeteId_ = templeteId_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00004000;
+        }
         result.fighting_ = fighting_;
         if (roleSkillBuilder_ == null) {
-          if (((bitField0_ & 0x00004000) == 0x00004000)) {
+          if (((bitField0_ & 0x00008000) == 0x00008000)) {
             roleSkill_ = java.util.Collections.unmodifiableList(roleSkill_);
-            bitField0_ = (bitField0_ & ~0x00004000);
+            bitField0_ = (bitField0_ & ~0x00008000);
           }
           result.roleSkill_ = roleSkill_;
         } else {
           result.roleSkill_ = roleSkillBuilder_.build();
         }
         if (roleAttrBuilder_ == null) {
-          if (((bitField0_ & 0x00008000) == 0x00008000)) {
+          if (((bitField0_ & 0x00010000) == 0x00010000)) {
             roleAttr_ = java.util.Collections.unmodifiableList(roleAttr_);
-            bitField0_ = (bitField0_ & ~0x00008000);
+            bitField0_ = (bitField0_ & ~0x00010000);
           }
           result.roleAttr_ = roleAttr_;
         } else {
           result.roleAttr_ = roleAttrBuilder_.build();
         }
         if (teamsBuilder_ == null) {
-          if (((bitField0_ & 0x00010000) == 0x00010000)) {
+          if (((bitField0_ & 0x00020000) == 0x00020000)) {
             teams_ = java.util.Collections.unmodifiableList(teams_);
-            bitField0_ = (bitField0_ & ~0x00010000);
+            bitField0_ = (bitField0_ & ~0x00020000);
           }
           result.teams_ = teams_;
         } else {
           result.teams_ = teamsBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
-          to_bitField0_ |= 0x00004000;
-        }
-        result.lastFightTime_ = lastFightTime_;
         if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
           to_bitField0_ |= 0x00008000;
         }
-        result.gainCurrencyPerHour_ = gainCurrencyPerHour_;
+        result.lastFightTime_ = lastFightTime_;
         if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
           to_bitField0_ |= 0x00010000;
         }
-        result.maxChallengeCount_ = maxChallengeCount_;
+        result.gainCurrencyPerHour_ = gainCurrencyPerHour_;
         if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
           to_bitField0_ |= 0x00020000;
+        }
+        result.maxChallengeCount_ = maxChallengeCount_;
+        if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
+          to_bitField0_ |= 0x00040000;
         }
         result.groupName_ = groupName_;
         result.bitField0_ = to_bitField0_;
@@ -6013,6 +6070,9 @@ public final class PeakArenaServiceProtos {
         if (other.hasMaxPlace()) {
           setMaxPlace(other.getMaxPlace());
         }
+        if (other.hasWinCount()) {
+          setWinCount(other.getWinCount());
+        }
         if (other.hasChallengeCount()) {
           setChallengeCount(other.getChallengeCount());
         }
@@ -6023,7 +6083,7 @@ public final class PeakArenaServiceProtos {
           setCareer(other.getCareer());
         }
         if (other.hasName()) {
-          bitField0_ |= 0x00000200;
+          bitField0_ |= 0x00000400;
           name_ = other.name_;
           onChanged();
         }
@@ -6031,12 +6091,12 @@ public final class PeakArenaServiceProtos {
           setLevel(other.getLevel());
         }
         if (other.hasHeadImage()) {
-          bitField0_ |= 0x00000800;
+          bitField0_ |= 0x00001000;
           headImage_ = other.headImage_;
           onChanged();
         }
         if (other.hasTempleteId()) {
-          bitField0_ |= 0x00001000;
+          bitField0_ |= 0x00002000;
           templeteId_ = other.templeteId_;
           onChanged();
         }
@@ -6047,7 +6107,7 @@ public final class PeakArenaServiceProtos {
           if (!other.roleSkill_.isEmpty()) {
             if (roleSkill_.isEmpty()) {
               roleSkill_ = other.roleSkill_;
-              bitField0_ = (bitField0_ & ~0x00004000);
+              bitField0_ = (bitField0_ & ~0x00008000);
             } else {
               ensureRoleSkillIsMutable();
               roleSkill_.addAll(other.roleSkill_);
@@ -6060,7 +6120,7 @@ public final class PeakArenaServiceProtos {
               roleSkillBuilder_.dispose();
               roleSkillBuilder_ = null;
               roleSkill_ = other.roleSkill_;
-              bitField0_ = (bitField0_ & ~0x00004000);
+              bitField0_ = (bitField0_ & ~0x00008000);
               roleSkillBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getRoleSkillFieldBuilder() : null;
@@ -6073,7 +6133,7 @@ public final class PeakArenaServiceProtos {
           if (!other.roleAttr_.isEmpty()) {
             if (roleAttr_.isEmpty()) {
               roleAttr_ = other.roleAttr_;
-              bitField0_ = (bitField0_ & ~0x00008000);
+              bitField0_ = (bitField0_ & ~0x00010000);
             } else {
               ensureRoleAttrIsMutable();
               roleAttr_.addAll(other.roleAttr_);
@@ -6086,7 +6146,7 @@ public final class PeakArenaServiceProtos {
               roleAttrBuilder_.dispose();
               roleAttrBuilder_ = null;
               roleAttr_ = other.roleAttr_;
-              bitField0_ = (bitField0_ & ~0x00008000);
+              bitField0_ = (bitField0_ & ~0x00010000);
               roleAttrBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getRoleAttrFieldBuilder() : null;
@@ -6099,7 +6159,7 @@ public final class PeakArenaServiceProtos {
           if (!other.teams_.isEmpty()) {
             if (teams_.isEmpty()) {
               teams_ = other.teams_;
-              bitField0_ = (bitField0_ & ~0x00010000);
+              bitField0_ = (bitField0_ & ~0x00020000);
             } else {
               ensureTeamsIsMutable();
               teams_.addAll(other.teams_);
@@ -6112,7 +6172,7 @@ public final class PeakArenaServiceProtos {
               teamsBuilder_.dispose();
               teamsBuilder_ = null;
               teams_ = other.teams_;
-              bitField0_ = (bitField0_ & ~0x00010000);
+              bitField0_ = (bitField0_ & ~0x00020000);
               teamsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getTeamsFieldBuilder() : null;
@@ -6131,7 +6191,7 @@ public final class PeakArenaServiceProtos {
           setMaxChallengeCount(other.getMaxChallengeCount());
         }
         if (other.hasGroupName()) {
-          bitField0_ |= 0x00100000;
+          bitField0_ |= 0x00200000;
           groupName_ = other.groupName_;
           onChanged();
         }
@@ -6465,13 +6525,62 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // optional int32 winCount = 8;
+      private int winCount_ ;
+      /**
+       * <code>optional int32 winCount = 8;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
+       */
+      public boolean hasWinCount() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 winCount = 8;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
+       */
+      public int getWinCount() {
+        return winCount_;
+      }
+      /**
+       * <code>optional int32 winCount = 8;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
+       */
+      public Builder setWinCount(int value) {
+        bitField0_ |= 0x00000040;
+        winCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 winCount = 8;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
+       */
+      public Builder clearWinCount() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        winCount_ = 0;
+        onChanged();
+        return this;
+      }
+
       // optional int32 challengeCount = 9;
       private int challengeCount_ ;
       /**
        * <code>optional int32 challengeCount = 9;</code>
        */
       public boolean hasChallengeCount() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 challengeCount = 9;</code>
@@ -6483,7 +6592,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 challengeCount = 9;</code>
        */
       public Builder setChallengeCount(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         challengeCount_ = value;
         onChanged();
         return this;
@@ -6492,7 +6601,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 challengeCount = 9;</code>
        */
       public Builder clearChallengeCount() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         challengeCount_ = 0;
         onChanged();
         return this;
@@ -6504,7 +6613,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 cdTime = 10;</code>
        */
       public boolean hasCdTime() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional int32 cdTime = 10;</code>
@@ -6516,7 +6625,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 cdTime = 10;</code>
        */
       public Builder setCdTime(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         cdTime_ = value;
         onChanged();
         return this;
@@ -6525,7 +6634,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 cdTime = 10;</code>
        */
       public Builder clearCdTime() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         cdTime_ = 0;
         onChanged();
         return this;
@@ -6537,7 +6646,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 career = 11;</code>
        */
       public boolean hasCareer() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
        * <code>optional int32 career = 11;</code>
@@ -6549,7 +6658,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 career = 11;</code>
        */
       public Builder setCareer(int value) {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         career_ = value;
         onChanged();
         return this;
@@ -6558,7 +6667,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 career = 11;</code>
        */
       public Builder clearCareer() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         career_ = 0;
         onChanged();
         return this;
@@ -6570,7 +6679,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string name = 12;</code>
        */
       public boolean hasName() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
        * <code>optional string name = 12;</code>
@@ -6610,7 +6719,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000200;
+  bitField0_ |= 0x00000400;
         name_ = value;
         onChanged();
         return this;
@@ -6619,7 +6728,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string name = 12;</code>
        */
       public Builder clearName() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         name_ = getDefaultInstance().getName();
         onChanged();
         return this;
@@ -6632,7 +6741,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000200;
+  bitField0_ |= 0x00000400;
         name_ = value;
         onChanged();
         return this;
@@ -6644,7 +6753,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 level = 13;</code>
        */
       public boolean hasLevel() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
        * <code>optional int32 level = 13;</code>
@@ -6656,7 +6765,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 level = 13;</code>
        */
       public Builder setLevel(int value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         level_ = value;
         onChanged();
         return this;
@@ -6665,7 +6774,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 level = 13;</code>
        */
       public Builder clearLevel() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         level_ = 0;
         onChanged();
         return this;
@@ -6677,7 +6786,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string headImage = 14;</code>
        */
       public boolean hasHeadImage() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
        * <code>optional string headImage = 14;</code>
@@ -6717,7 +6826,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000800;
+  bitField0_ |= 0x00001000;
         headImage_ = value;
         onChanged();
         return this;
@@ -6726,7 +6835,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string headImage = 14;</code>
        */
       public Builder clearHeadImage() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00001000);
         headImage_ = getDefaultInstance().getHeadImage();
         onChanged();
         return this;
@@ -6739,7 +6848,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000800;
+  bitField0_ |= 0x00001000;
         headImage_ = value;
         onChanged();
         return this;
@@ -6751,7 +6860,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string templeteId = 15;</code>
        */
       public boolean hasTempleteId() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
        * <code>optional string templeteId = 15;</code>
@@ -6791,7 +6900,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00001000;
+  bitField0_ |= 0x00002000;
         templeteId_ = value;
         onChanged();
         return this;
@@ -6800,7 +6909,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string templeteId = 15;</code>
        */
       public Builder clearTempleteId() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         templeteId_ = getDefaultInstance().getTempleteId();
         onChanged();
         return this;
@@ -6813,7 +6922,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00001000;
+  bitField0_ |= 0x00002000;
         templeteId_ = value;
         onChanged();
         return this;
@@ -6829,7 +6938,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasFighting() {
-        return ((bitField0_ & 0x00002000) == 0x00002000);
+        return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
        * <code>optional int32 fighting = 16;</code>
@@ -6849,7 +6958,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder setFighting(int value) {
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00004000;
         fighting_ = value;
         onChanged();
         return this;
@@ -6862,7 +6971,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearFighting() {
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         fighting_ = 0;
         onChanged();
         return this;
@@ -6872,9 +6981,9 @@ public final class PeakArenaServiceProtos {
       private java.util.List<com.rwproto.SkillServiceProtos.TagSkillData> roleSkill_ =
         java.util.Collections.emptyList();
       private void ensureRoleSkillIsMutable() {
-        if (!((bitField0_ & 0x00004000) == 0x00004000)) {
+        if (!((bitField0_ & 0x00008000) == 0x00008000)) {
           roleSkill_ = new java.util.ArrayList<com.rwproto.SkillServiceProtos.TagSkillData>(roleSkill_);
-          bitField0_ |= 0x00004000;
+          bitField0_ |= 0x00008000;
          }
       }
 
@@ -7023,7 +7132,7 @@ public final class PeakArenaServiceProtos {
       public Builder clearRoleSkill() {
         if (roleSkillBuilder_ == null) {
           roleSkill_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00004000);
+          bitField0_ = (bitField0_ & ~0x00008000);
           onChanged();
         } else {
           roleSkillBuilder_.clear();
@@ -7100,7 +7209,7 @@ public final class PeakArenaServiceProtos {
           roleSkillBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.SkillServiceProtos.TagSkillData, com.rwproto.SkillServiceProtos.TagSkillData.Builder, com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder>(
                   roleSkill_,
-                  ((bitField0_ & 0x00004000) == 0x00004000),
+                  ((bitField0_ & 0x00008000) == 0x00008000),
                   getParentForChildren(),
                   isClean());
           roleSkill_ = null;
@@ -7112,9 +7221,9 @@ public final class PeakArenaServiceProtos {
       private java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> roleAttr_ =
         java.util.Collections.emptyList();
       private void ensureRoleAttrIsMutable() {
-        if (!((bitField0_ & 0x00008000) == 0x00008000)) {
+        if (!((bitField0_ & 0x00010000) == 0x00010000)) {
           roleAttr_ = new java.util.ArrayList<com.rwproto.SyncAttriProtos.TagAttriData>(roleAttr_);
-          bitField0_ |= 0x00008000;
+          bitField0_ |= 0x00010000;
          }
       }
 
@@ -7263,7 +7372,7 @@ public final class PeakArenaServiceProtos {
       public Builder clearRoleAttr() {
         if (roleAttrBuilder_ == null) {
           roleAttr_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00008000);
+          bitField0_ = (bitField0_ & ~0x00010000);
           onChanged();
         } else {
           roleAttrBuilder_.clear();
@@ -7340,7 +7449,7 @@ public final class PeakArenaServiceProtos {
           roleAttrBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.SyncAttriProtos.TagAttriData, com.rwproto.SyncAttriProtos.TagAttriData.Builder, com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder>(
                   roleAttr_,
-                  ((bitField0_ & 0x00008000) == 0x00008000),
+                  ((bitField0_ & 0x00010000) == 0x00010000),
                   getParentForChildren(),
                   isClean());
           roleAttr_ = null;
@@ -7352,9 +7461,9 @@ public final class PeakArenaServiceProtos {
       private java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> teams_ =
         java.util.Collections.emptyList();
       private void ensureTeamsIsMutable() {
-        if (!((bitField0_ & 0x00010000) == 0x00010000)) {
+        if (!((bitField0_ & 0x00020000) == 0x00020000)) {
           teams_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.TeamInfo>(teams_);
-          bitField0_ |= 0x00010000;
+          bitField0_ |= 0x00020000;
          }
       }
 
@@ -7503,7 +7612,7 @@ public final class PeakArenaServiceProtos {
       public Builder clearTeams() {
         if (teamsBuilder_ == null) {
           teams_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00010000);
+          bitField0_ = (bitField0_ & ~0x00020000);
           onChanged();
         } else {
           teamsBuilder_.clear();
@@ -7580,7 +7689,7 @@ public final class PeakArenaServiceProtos {
           teamsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.PeakArenaServiceProtos.TeamInfo, com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder, com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder>(
                   teams_,
-                  ((bitField0_ & 0x00010000) == 0x00010000),
+                  ((bitField0_ & 0x00020000) == 0x00020000),
                   getParentForChildren(),
                   isClean());
           teams_ = null;
@@ -7598,7 +7707,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasLastFightTime() {
-        return ((bitField0_ & 0x00020000) == 0x00020000);
+        return ((bitField0_ & 0x00040000) == 0x00040000);
       }
       /**
        * <code>optional int64 lastFightTime = 20;</code>
@@ -7618,7 +7727,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder setLastFightTime(long value) {
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00040000;
         lastFightTime_ = value;
         onChanged();
         return this;
@@ -7631,7 +7740,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearLastFightTime() {
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         lastFightTime_ = 0L;
         onChanged();
         return this;
@@ -7647,7 +7756,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasGainCurrencyPerHour() {
-        return ((bitField0_ & 0x00040000) == 0x00040000);
+        return ((bitField0_ & 0x00080000) == 0x00080000);
       }
       /**
        * <code>optional int32 gainCurrencyPerHour = 21;</code>
@@ -7667,7 +7776,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder setGainCurrencyPerHour(int value) {
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00080000;
         gainCurrencyPerHour_ = value;
         onChanged();
         return this;
@@ -7680,7 +7789,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearGainCurrencyPerHour() {
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         gainCurrencyPerHour_ = 0;
         onChanged();
         return this;
@@ -7696,7 +7805,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasMaxChallengeCount() {
-        return ((bitField0_ & 0x00080000) == 0x00080000);
+        return ((bitField0_ & 0x00100000) == 0x00100000);
       }
       /**
        * <code>optional int32 maxChallengeCount = 22;</code>
@@ -7716,7 +7825,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder setMaxChallengeCount(int value) {
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00100000;
         maxChallengeCount_ = value;
         onChanged();
         return this;
@@ -7729,7 +7838,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearMaxChallengeCount() {
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         maxChallengeCount_ = 0;
         onChanged();
         return this;
@@ -7745,7 +7854,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasGroupName() {
-        return ((bitField0_ & 0x00100000) == 0x00100000);
+        return ((bitField0_ & 0x00200000) == 0x00200000);
       }
       /**
        * <code>optional string groupName = 23;</code>
@@ -7797,7 +7906,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00100000;
+  bitField0_ |= 0x00200000;
         groupName_ = value;
         onChanged();
         return this;
@@ -7810,7 +7919,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearGroupName() {
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00200000);
         groupName_ = getDefaultInstance().getGroupName();
         onChanged();
         return this;
@@ -7827,7 +7936,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00100000;
+  bitField0_ |= 0x00200000;
         groupName_ = value;
         onChanged();
         return this;
@@ -7895,10 +8004,18 @@ public final class PeakArenaServiceProtos {
     // optional int32 winCount = 5;
     /**
      * <code>optional int32 winCount = 5;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
      */
     boolean hasWinCount();
     /**
      * <code>optional int32 winCount = 5;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
      */
     int getWinCount();
 
@@ -7951,6 +8068,46 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 fighting = 9;</code>
      */
     int getFighting();
+
+    // optional int32 starLevel = 10;
+    /**
+     * <code>optional int32 starLevel = 10;</code>
+     */
+    boolean hasStarLevel();
+    /**
+     * <code>optional int32 starLevel = 10;</code>
+     */
+    int getStarLevel();
+
+    // optional string qualityId = 11;
+    /**
+     * <code>optional string qualityId = 11;</code>
+     */
+    boolean hasQualityId();
+    /**
+     * <code>optional string qualityId = 11;</code>
+     */
+    java.lang.String getQualityId();
+    /**
+     * <code>optional string qualityId = 11;</code>
+     */
+    com.google.protobuf.ByteString
+        getQualityIdBytes();
+
+    // optional string career = 12;
+    /**
+     * <code>optional string career = 12;</code>
+     */
+    boolean hasCareer();
+    /**
+     * <code>optional string career = 12;</code>
+     */
+    java.lang.String getCareer();
+    /**
+     * <code>optional string career = 12;</code>
+     */
+    com.google.protobuf.ByteString
+        getCareerBytes();
   }
   /**
    * Protobuf type {@code ArenaInfo}
@@ -8046,6 +8203,21 @@ public final class PeakArenaServiceProtos {
             case 72: {
               bitField0_ |= 0x00000100;
               fighting_ = input.readInt32();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              starLevel_ = input.readInt32();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              qualityId_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000800;
+              career_ = input.readBytes();
               break;
             }
           }
@@ -8184,12 +8356,20 @@ public final class PeakArenaServiceProtos {
     private int winCount_;
     /**
      * <code>optional int32 winCount = 5;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
      */
     public boolean hasWinCount() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional int32 winCount = 5;</code>
+     *
+     * <pre>
+     *历史胜利次数
+     * </pre>
      */
     public int getWinCount() {
       return winCount_;
@@ -8313,6 +8493,108 @@ public final class PeakArenaServiceProtos {
       return fighting_;
     }
 
+    // optional int32 starLevel = 10;
+    public static final int STARLEVEL_FIELD_NUMBER = 10;
+    private int starLevel_;
+    /**
+     * <code>optional int32 starLevel = 10;</code>
+     */
+    public boolean hasStarLevel() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 starLevel = 10;</code>
+     */
+    public int getStarLevel() {
+      return starLevel_;
+    }
+
+    // optional string qualityId = 11;
+    public static final int QUALITYID_FIELD_NUMBER = 11;
+    private java.lang.Object qualityId_;
+    /**
+     * <code>optional string qualityId = 11;</code>
+     */
+    public boolean hasQualityId() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string qualityId = 11;</code>
+     */
+    public java.lang.String getQualityId() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          qualityId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string qualityId = 11;</code>
+     */
+    public com.google.protobuf.ByteString
+        getQualityIdBytes() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        qualityId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string career = 12;
+    public static final int CAREER_FIELD_NUMBER = 12;
+    private java.lang.Object career_;
+    /**
+     * <code>optional string career = 12;</code>
+     */
+    public boolean hasCareer() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional string career = 12;</code>
+     */
+    public java.lang.String getCareer() {
+      java.lang.Object ref = career_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          career_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string career = 12;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCareerBytes() {
+      java.lang.Object ref = career_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        career_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       score_ = 0;
@@ -8323,6 +8605,9 @@ public final class PeakArenaServiceProtos {
       name_ = "";
       headImage_ = "";
       fighting_ = 0;
+      starLevel_ = 0;
+      qualityId_ = "";
+      career_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8366,6 +8651,15 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(9, fighting_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(10, starLevel_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getQualityIdBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeBytes(12, getCareerBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -8411,6 +8705,18 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, fighting_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, starLevel_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getQualityIdBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getCareerBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8546,6 +8852,12 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         fighting_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        starLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        qualityId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
+        career_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -8610,6 +8922,18 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000100;
         }
         result.fighting_ = fighting_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.starLevel_ = starLevel_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.qualityId_ = qualityId_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.career_ = career_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8658,6 +8982,19 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasFighting()) {
           setFighting(other.getFighting());
+        }
+        if (other.hasStarLevel()) {
+          setStarLevel(other.getStarLevel());
+        }
+        if (other.hasQualityId()) {
+          bitField0_ |= 0x00000400;
+          qualityId_ = other.qualityId_;
+          onChanged();
+        }
+        if (other.hasCareer()) {
+          bitField0_ |= 0x00000800;
+          career_ = other.career_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -8867,18 +9204,30 @@ public final class PeakArenaServiceProtos {
       private int winCount_ ;
       /**
        * <code>optional int32 winCount = 5;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
        */
       public boolean hasWinCount() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional int32 winCount = 5;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
        */
       public int getWinCount() {
         return winCount_;
       }
       /**
        * <code>optional int32 winCount = 5;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
        */
       public Builder setWinCount(int value) {
         bitField0_ |= 0x00000010;
@@ -8888,6 +9237,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 winCount = 5;</code>
+       *
+       * <pre>
+       *历史胜利次数
+       * </pre>
        */
       public Builder clearWinCount() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -9106,6 +9459,187 @@ public final class PeakArenaServiceProtos {
       public Builder clearFighting() {
         bitField0_ = (bitField0_ & ~0x00000100);
         fighting_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 starLevel = 10;
+      private int starLevel_ ;
+      /**
+       * <code>optional int32 starLevel = 10;</code>
+       */
+      public boolean hasStarLevel() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 starLevel = 10;</code>
+       */
+      public int getStarLevel() {
+        return starLevel_;
+      }
+      /**
+       * <code>optional int32 starLevel = 10;</code>
+       */
+      public Builder setStarLevel(int value) {
+        bitField0_ |= 0x00000200;
+        starLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 starLevel = 10;</code>
+       */
+      public Builder clearStarLevel() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        starLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string qualityId = 11;
+      private java.lang.Object qualityId_ = "";
+      /**
+       * <code>optional string qualityId = 11;</code>
+       */
+      public boolean hasQualityId() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string qualityId = 11;</code>
+       */
+      public java.lang.String getQualityId() {
+        java.lang.Object ref = qualityId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          qualityId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string qualityId = 11;</code>
+       */
+      public com.google.protobuf.ByteString
+          getQualityIdBytes() {
+        java.lang.Object ref = qualityId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          qualityId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string qualityId = 11;</code>
+       */
+      public Builder setQualityId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string qualityId = 11;</code>
+       */
+      public Builder clearQualityId() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        qualityId_ = getDefaultInstance().getQualityId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string qualityId = 11;</code>
+       */
+      public Builder setQualityIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string career = 12;
+      private java.lang.Object career_ = "";
+      /**
+       * <code>optional string career = 12;</code>
+       */
+      public boolean hasCareer() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional string career = 12;</code>
+       */
+      public java.lang.String getCareer() {
+        java.lang.Object ref = career_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          career_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string career = 12;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCareerBytes() {
+        java.lang.Object ref = career_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          career_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string career = 12;</code>
+       */
+      public Builder setCareer(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        career_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string career = 12;</code>
+       */
+      public Builder clearCareer() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        career_ = getDefaultInstance().getCareer();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string career = 12;</code>
+       */
+      public Builder setCareerBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        career_ = value;
         onChanged();
         return this;
       }
@@ -13548,46 +14082,48 @@ public final class PeakArenaServiceProtos {
       "\n\006teamId\030\n \001(\005\022\021\n\theadImage\030\013 \001(\t\"\205\001\n\010Te" +
       "amInfo\022\016\n\006teamId\030\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t." +
       "HeroData\022\017\n\007heroIds\030\003 \003(\t\022\017\n\007magicId\030\004 \001",
-      "(\005\022\022\n\nmagicLevel\030\005 \001(\005\022\031\n\006player\030\006 \002(\0132\t" +
-      ".HeroData\"\323\003\n\tArenaData\022\016\n\006userId\030\001 \002(\t\022" +
+      "(\005\022\022\n\nmagicLevel\030\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t" +
+      ".HeroData\"\345\003\n\tArenaData\022\016\n\006userId\030\001 \002(\t\022" +
       "\r\n\005score\030\002 \001(\005\022\021\n\tgainScore\030\003 \001(\005\022\017\n\007sco" +
       "reLv\030\004 \001(\005\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 " +
-      "\001(\005\022\026\n\016challengeCount\030\t \001(\005\022\016\n\006cdTime\030\n " +
-      "\001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004name\030\014 \001(\t\022\r\n\005lev" +
-      "el\030\r \001(\005\022\021\n\theadImage\030\016 \001(\t\022\022\n\ntempleteI" +
-      "d\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\troleSkill\030\021" +
-      " \003(\0132\032.SkillService.TagSkillData\022)\n\010role" +
-      "Attr\030\022 \003(\0132\027.SyncAttri.TagAttriData\022\030\n\005t",
-      "eams\030\023 \003(\0132\t.TeamInfo\022\025\n\rlastFightTime\030\024" +
-      " \001(\003\022\033\n\023gainCurrencyPerHour\030\025 \001(\005\022\031\n\021max" +
-      "ChallengeCount\030\026 \001(\005\022\021\n\tgroupName\030\027 \001(\t\"" +
-      "\236\001\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005score\030\002" +
-      " \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022\r\n\005place\030\004 \001(\005\022\020\n\010" +
-      "winCount\030\005 \001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004name\030\007 " +
-      "\001(\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010fighting\030\t \001(\005" +
-      "\"\214\001\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030" +
-      "\002 \001(\010\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\t" +
-      "headImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007",
-      " \001(\003\022\021\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequ" +
-      "est\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022\016\n\006u" +
-      "serId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n" +
-      "\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n" +
-      "\007reorder\030\006 \003(\005\"\337\001\n\020MsgArenaResponse\022\036\n\ta" +
-      "renaType\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResu" +
-      "ltType\030\002 \001(\0162\021.eArenaResultType\022\035\n\tarena" +
-      "Data\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\013" +
-      "2\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.Arena" +
-      "Record\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t",
-      "*\244\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_" +
-      "ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD" +
-      "\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023AR" +
-      "ENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START" +
-      "\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECOR" +
-      "D\020\t\022\r\n\tGET_PLACE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWI" +
-      "TCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016F" +
-      "IGHT_CONTINUE\020\016*5\n\020eArenaResultType\022\021\n\rA" +
-      "RENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rw" +
-      "protoB\026PeakArenaServiceProtos"
+      "\001(\005\022\020\n\010winCount\030\010 \001(\005\022\026\n\016challengeCount\030" +
+      "\t \001(\005\022\016\n\006cdTime\030\n \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n" +
+      "\004name\030\014 \001(\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage\030" +
+      "\016 \001(\t\022\022\n\ntempleteId\030\017 \001(\t\022\020\n\010fighting\030\020 " +
+      "\001(\005\022-\n\troleSkill\030\021 \003(\0132\032.SkillService.Ta" +
+      "gSkillData\022)\n\010roleAttr\030\022 \003(\0132\027.SyncAttri",
+      ".TagAttriData\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022" +
+      "\025\n\rlastFightTime\030\024 \001(\003\022\033\n\023gainCurrencyPe" +
+      "rHour\030\025 \001(\005\022\031\n\021maxChallengeCount\030\026 \001(\005\022\021" +
+      "\n\tgroupName\030\027 \001(\t\"\324\001\n\tArenaInfo\022\016\n\006userI" +
+      "d\030\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022" +
+      "\r\n\005place\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005leve" +
+      "l\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t" +
+      "\022\020\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n" +
+      "\tqualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\t\"\214\001\n\013Are" +
+      "naRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n",
+      "\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImag" +
+      "e\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\t" +
+      "challenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\ta" +
+      "renaType\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 " +
+      "\001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004" +
+      " \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder" +
+      "\030\006 \003(\005\"\337\001\n\020MsgArenaResponse\022\036\n\tarenaType" +
+      "\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResultType\030\002" +
+      " \001(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003 \001" +
+      "(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.Arena",
+      "Info\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r" +
+      "\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t*\244\002\n\neAr" +
+      "enaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022" +
+      "\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nEN" +
+      "EMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGH" +
+      "T_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022AR" +
+      "ENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tG" +
+      "ET_PLACE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWITCH_OVER" +
+      "\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CON" +
+      "TINUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SUC",
+      "CESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026P" +
+      "eakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13611,13 +14147,13 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaData_descriptor,
-              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "ChallengeCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "RoleAttr", "Teams", "LastFightTime", "GainCurrencyPerHour", "MaxChallengeCount", "GroupName", });
+              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "WinCount", "ChallengeCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "RoleAttr", "Teams", "LastFightTime", "GainCurrencyPerHour", "MaxChallengeCount", "GroupName", });
           internal_static_ArenaInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaInfo_descriptor,
-              new java.lang.String[] { "UserId", "Score", "ScoreLv", "Place", "WinCount", "Level", "Name", "HeadImage", "Fighting", });
+              new java.lang.String[] { "UserId", "Score", "ScoreLv", "Place", "WinCount", "Level", "Name", "HeadImage", "Fighting", "StarLevel", "QualityId", "Career", });
           internal_static_ArenaRecord_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_ArenaRecord_fieldAccessorTable = new

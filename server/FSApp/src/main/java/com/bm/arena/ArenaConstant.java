@@ -29,7 +29,7 @@ public interface ArenaConstant {
 	/**
 	 * TODO delete 服务器没有找到OpenLevel对象，先临时加常量
 	 */
-	int PEAK_ARENA_OPEN_LEVEL = 55;
+	int PEAK_ARENA_OPEN_LEVEL = 45;
 	
 	/**
 	 * 开放竞技场等级
