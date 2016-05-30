@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
-import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.UserDataHolder;
 import com.rwbase.dao.user.readonly.TableUserIF;
 

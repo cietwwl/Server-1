@@ -12,7 +12,6 @@ import com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -70,20 +69,6 @@ public class MagicChapterInfoHolder{
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
-	}
-	
-	public boolean addItemList(Player player, List<MagicChapterInfo> itemList){
-		try {
-			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player), synType, eSynOpType.UPDATE_LIST);
-			}
-			return addSuccess;
-		} catch (DuplicatedKeyException e) {
-			//handle..
-			e.printStackTrace();
-			return false;
-		}
 	}
 	
 	/**
