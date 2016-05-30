@@ -577,6 +577,16 @@ public final class GuidanceProgressProtos {
      * <code>required .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 1;</code>
      */
     com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType getRequestType();
+
+    // optional int32 giveActionId = 2;
+    /**
+     * <code>optional int32 giveActionId = 2;</code>
+     */
+    boolean hasGiveActionId();
+    /**
+     * <code>optional int32 giveActionId = 2;</code>
+     */
+    int getGiveActionId();
   }
   /**
    * Protobuf type {@code GuidanceService.GuidanceRequest}
@@ -640,6 +650,11 @@ public final class GuidanceProgressProtos {
               }
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              giveActionId_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -688,12 +703,28 @@ public final class GuidanceProgressProtos {
        * <code>LoadProgress = 1;</code>
        */
       LoadProgress(0, 1),
+      /**
+       * <code>GiveItem = 2;</code>
+       *
+       * <pre>
+       *送物品，最多只能送一次
+       * </pre>
+       */
+      GiveItem(1, 2),
       ;
 
       /**
        * <code>LoadProgress = 1;</code>
        */
       public static final int LoadProgress_VALUE = 1;
+      /**
+       * <code>GiveItem = 2;</code>
+       *
+       * <pre>
+       *送物品，最多只能送一次
+       * </pre>
+       */
+      public static final int GiveItem_VALUE = 2;
 
 
       public final int getNumber() { return value; }
@@ -701,6 +732,7 @@ public final class GuidanceProgressProtos {
       public static GuidanceRequestType valueOf(int value) {
         switch (value) {
           case 1: return LoadProgress;
+          case 2: return GiveItem;
           default: return null;
         }
       }
@@ -769,8 +801,25 @@ public final class GuidanceProgressProtos {
       return requestType_;
     }
 
+    // optional int32 giveActionId = 2;
+    public static final int GIVEACTIONID_FIELD_NUMBER = 2;
+    private int giveActionId_;
+    /**
+     * <code>optional int32 giveActionId = 2;</code>
+     */
+    public boolean hasGiveActionId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 giveActionId = 2;</code>
+     */
+    public int getGiveActionId() {
+      return giveActionId_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
+      giveActionId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -791,6 +840,9 @@ public final class GuidanceProgressProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, requestType_.getNumber());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, giveActionId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -803,6 +855,10 @@ public final class GuidanceProgressProtos {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, requestType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, giveActionId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -922,6 +978,8 @@ public final class GuidanceProgressProtos {
         super.clear();
         requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
         bitField0_ = (bitField0_ & ~0x00000001);
+        giveActionId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -954,6 +1012,10 @@ public final class GuidanceProgressProtos {
           to_bitField0_ |= 0x00000001;
         }
         result.requestType_ = requestType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.giveActionId_ = giveActionId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -972,6 +1034,9 @@ public final class GuidanceProgressProtos {
         if (other == com.rwproto.GuidanceProgressProtos.GuidanceRequest.getDefaultInstance()) return this;
         if (other.hasRequestType()) {
           setRequestType(other.getRequestType());
+        }
+        if (other.hasGiveActionId()) {
+          setGiveActionId(other.getGiveActionId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1040,6 +1105,39 @@ public final class GuidanceProgressProtos {
         return this;
       }
 
+      // optional int32 giveActionId = 2;
+      private int giveActionId_ ;
+      /**
+       * <code>optional int32 giveActionId = 2;</code>
+       */
+      public boolean hasGiveActionId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 giveActionId = 2;</code>
+       */
+      public int getGiveActionId() {
+        return giveActionId_;
+      }
+      /**
+       * <code>optional int32 giveActionId = 2;</code>
+       */
+      public Builder setGiveActionId(int value) {
+        bitField0_ |= 0x00000002;
+        giveActionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 giveActionId = 2;</code>
+       */
+      public Builder clearGiveActionId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        giveActionId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GuidanceService.GuidanceRequest)
     }
 
@@ -1078,6 +1176,41 @@ public final class GuidanceProgressProtos {
      */
     com.rwproto.GuidanceProgressProtos.GuidanceProgressOrBuilder getSavedProgressOrBuilder(
         int index);
+
+    // optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;
+    /**
+     * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+     */
+    boolean hasRequestType();
+    /**
+     * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+     */
+    com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType getRequestType();
+
+    // optional bool isSuccess = 3;
+    /**
+     * <code>optional bool isSuccess = 3;</code>
+     */
+    boolean hasIsSuccess();
+    /**
+     * <code>optional bool isSuccess = 3;</code>
+     */
+    boolean getIsSuccess();
+
+    // optional string tip = 4;
+    /**
+     * <code>optional string tip = 4;</code>
+     */
+    boolean hasTip();
+    /**
+     * <code>optional string tip = 4;</code>
+     */
+    java.lang.String getTip();
+    /**
+     * <code>optional string tip = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getTipBytes();
   }
   /**
    * Protobuf type {@code GuidanceService.GuidanceResponse}
@@ -1138,6 +1271,27 @@ public final class GuidanceProgressProtos {
               savedProgress_.add(input.readMessage(com.rwproto.GuidanceProgressProtos.GuidanceProgress.PARSER, extensionRegistry));
               break;
             }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType value = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                requestType_ = value;
+              }
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              isSuccess_ = input.readBool();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000004;
+              tip_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1180,6 +1334,7 @@ public final class GuidanceProgressProtos {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .GuidanceService.GuidanceProgress savedProgress = 1;
     public static final int SAVEDPROGRESS_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.GuidanceProgressProtos.GuidanceProgress> savedProgress_;
@@ -1216,8 +1371,86 @@ public final class GuidanceProgressProtos {
       return savedProgress_.get(index);
     }
 
+    // optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;
+    public static final int REQUESTTYPE_FIELD_NUMBER = 2;
+    private com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType requestType_;
+    /**
+     * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+     */
+    public boolean hasRequestType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+     */
+    public com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType getRequestType() {
+      return requestType_;
+    }
+
+    // optional bool isSuccess = 3;
+    public static final int ISSUCCESS_FIELD_NUMBER = 3;
+    private boolean isSuccess_;
+    /**
+     * <code>optional bool isSuccess = 3;</code>
+     */
+    public boolean hasIsSuccess() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bool isSuccess = 3;</code>
+     */
+    public boolean getIsSuccess() {
+      return isSuccess_;
+    }
+
+    // optional string tip = 4;
+    public static final int TIP_FIELD_NUMBER = 4;
+    private java.lang.Object tip_;
+    /**
+     * <code>optional string tip = 4;</code>
+     */
+    public boolean hasTip() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string tip = 4;</code>
+     */
+    public java.lang.String getTip() {
+      java.lang.Object ref = tip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tip_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tip = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTipBytes() {
+      java.lang.Object ref = tip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       savedProgress_ = java.util.Collections.emptyList();
+      requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
+      isSuccess_ = false;
+      tip_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1240,6 +1473,15 @@ public final class GuidanceProgressProtos {
       for (int i = 0; i < savedProgress_.size(); i++) {
         output.writeMessage(1, savedProgress_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(2, requestType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(3, isSuccess_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(4, getTipBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1252,6 +1494,18 @@ public final class GuidanceProgressProtos {
       for (int i = 0; i < savedProgress_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, savedProgress_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, requestType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isSuccess_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getTipBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1376,6 +1630,12 @@ public final class GuidanceProgressProtos {
         } else {
           savedProgressBuilder_.clear();
         }
+        requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isSuccess_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        tip_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1403,6 +1663,7 @@ public final class GuidanceProgressProtos {
       public com.rwproto.GuidanceProgressProtos.GuidanceResponse buildPartial() {
         com.rwproto.GuidanceProgressProtos.GuidanceResponse result = new com.rwproto.GuidanceProgressProtos.GuidanceResponse(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (savedProgressBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             savedProgress_ = java.util.Collections.unmodifiableList(savedProgress_);
@@ -1412,6 +1673,19 @@ public final class GuidanceProgressProtos {
         } else {
           result.savedProgress_ = savedProgressBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.requestType_ = requestType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.isSuccess_ = isSuccess_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.tip_ = tip_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1452,6 +1726,17 @@ public final class GuidanceProgressProtos {
               savedProgressBuilder_.addAllMessages(other.savedProgress_);
             }
           }
+        }
+        if (other.hasRequestType()) {
+          setRequestType(other.getRequestType());
+        }
+        if (other.hasIsSuccess()) {
+          setIsSuccess(other.getIsSuccess());
+        }
+        if (other.hasTip()) {
+          bitField0_ |= 0x00000008;
+          tip_ = other.tip_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1724,6 +2009,149 @@ public final class GuidanceProgressProtos {
           savedProgress_ = null;
         }
         return savedProgressBuilder_;
+      }
+
+      // optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;
+      private com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
+      /**
+       * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+       */
+      public boolean hasRequestType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+       */
+      public com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType getRequestType() {
+        return requestType_;
+      }
+      /**
+       * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+       */
+      public Builder setRequestType(com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        requestType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .GuidanceService.GuidanceRequest.GuidanceRequestType requestType = 2;</code>
+       */
+      public Builder clearRequestType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        requestType_ = com.rwproto.GuidanceProgressProtos.GuidanceRequest.GuidanceRequestType.LoadProgress;
+        onChanged();
+        return this;
+      }
+
+      // optional bool isSuccess = 3;
+      private boolean isSuccess_ ;
+      /**
+       * <code>optional bool isSuccess = 3;</code>
+       */
+      public boolean hasIsSuccess() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bool isSuccess = 3;</code>
+       */
+      public boolean getIsSuccess() {
+        return isSuccess_;
+      }
+      /**
+       * <code>optional bool isSuccess = 3;</code>
+       */
+      public Builder setIsSuccess(boolean value) {
+        bitField0_ |= 0x00000004;
+        isSuccess_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isSuccess = 3;</code>
+       */
+      public Builder clearIsSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isSuccess_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional string tip = 4;
+      private java.lang.Object tip_ = "";
+      /**
+       * <code>optional string tip = 4;</code>
+       */
+      public boolean hasTip() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string tip = 4;</code>
+       */
+      public java.lang.String getTip() {
+        java.lang.Object ref = tip_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tip_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tip = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTipBytes() {
+        java.lang.Object ref = tip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tip = 4;</code>
+       */
+      public Builder setTip(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tip = 4;</code>
+       */
+      public Builder clearTip() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        tip_ = getDefaultInstance().getTip();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tip = 4;</code>
+       */
+      public Builder setTipBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tip_ = value;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:GuidanceService.GuidanceResponse)
@@ -2555,16 +2983,20 @@ public final class GuidanceProgressProtos {
     java.lang.String[] descriptorData = {
       "\n\025GuidanceService.proto\022\017GuidanceService" +
       "\"5\n\020GuidanceProgress\022\017\n\007GuideID\030\001 \002(\005\022\020\n" +
-      "\010Progress\030\002 \002(\005\"\205\001\n\017GuidanceRequest\022I\n\013r" +
+      "\010Progress\030\002 \002(\005\"\251\001\n\017GuidanceRequest\022I\n\013r" +
       "equestType\030\001 \002(\01624.GuidanceService.Guida" +
-      "nceRequest.GuidanceRequestType\"\'\n\023Guidan" +
-      "ceRequestType\022\020\n\014LoadProgress\020\001\"L\n\020Guida" +
-      "nceResponse\0228\n\rsavedProgress\030\001 \003(\0132!.Gui" +
-      "danceService.GuidanceProgress\"o\n\017Guidanc" +
-      "eConfigs\022\024\n\014GuidanceData\030\001 \001(\014\022\023\n\013Action" +
-      "sData\030\002 \001(\014\022\030\n\020ConditionalsData\030\003 \001(\014\022\027\n",
-      "\017ConductressData\030\004 \001(\014B%\n\013com.rwprotoB\026G" +
-      "uidanceProgressProtos"
+      "nceRequest.GuidanceRequestType\022\024\n\014giveAc" +
+      "tionId\030\002 \001(\005\"5\n\023GuidanceRequestType\022\020\n\014L" +
+      "oadProgress\020\001\022\014\n\010GiveItem\020\002\"\267\001\n\020Guidance" +
+      "Response\0228\n\rsavedProgress\030\001 \003(\0132!.Guidan" +
+      "ceService.GuidanceProgress\022I\n\013requestTyp" +
+      "e\030\002 \001(\01624.GuidanceService.GuidanceReques",
+      "t.GuidanceRequestType\022\021\n\tisSuccess\030\003 \001(\010" +
+      "\022\013\n\003tip\030\004 \001(\t\"o\n\017GuidanceConfigs\022\024\n\014Guid" +
+      "anceData\030\001 \001(\014\022\023\n\013ActionsData\030\002 \001(\014\022\030\n\020C" +
+      "onditionalsData\030\003 \001(\014\022\027\n\017ConductressData" +
+      "\030\004 \001(\014B%\n\013com.rwprotoB\026GuidanceProgressP" +
+      "rotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2582,13 +3014,13 @@ public final class GuidanceProgressProtos {
           internal_static_GuidanceService_GuidanceRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GuidanceService_GuidanceRequest_descriptor,
-              new java.lang.String[] { "RequestType", });
+              new java.lang.String[] { "RequestType", "GiveActionId", });
           internal_static_GuidanceService_GuidanceResponse_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_GuidanceService_GuidanceResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GuidanceService_GuidanceResponse_descriptor,
-              new java.lang.String[] { "SavedProgress", });
+              new java.lang.String[] { "SavedProgress", "RequestType", "IsSuccess", "Tip", });
           internal_static_GuidanceService_GuidanceConfigs_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_GuidanceService_GuidanceConfigs_fieldAccessorTable = new

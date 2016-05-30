@@ -28,10 +28,13 @@ public class PrivilegeCfg {
 	private int secretCopyCount;//帮派秘境数量上限
 	private int fashionBuyOpen;//时装购买
 	private int resignOpen;//签到补签开放
-	private int expeditionCount;//燃烧远征次数
+	private int expeditionCount;//燃烧远征次数：就是万仙阵，历史原因!
 
 	private String desc;
 	private int battleTowerResetTimes;// 试练塔重置次数
+	
+	private int towerResetTime;   //万仙阵
+	private int copyCelestal;     //生存幻境
 
 	public int getVip() {
 		return vip;
@@ -264,5 +267,21 @@ public class PrivilegeCfg {
 
 	public void setResignOpen(int resignOpen) {
 		this.resignOpen = resignOpen;
+	}
+
+	public int getTowerResetTime() {
+		return towerResetTime;
+	}
+
+	public void setTowerResetTime(int towerResetTime) {
+		this.towerResetTime = towerResetTime;
+	}
+
+	public int getCopyCelestal() {
+		return copyCelestal;
+	}
+
+	public void setCopyCelestal(int copyCelestal) {
+		this.copyCelestal = copyCelestal;
 	}
 }

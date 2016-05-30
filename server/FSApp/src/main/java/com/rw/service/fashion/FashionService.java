@@ -19,20 +19,25 @@ public class FashionService implements FsService{
 			req = FashionRequest.parseFrom(request.getBody().getSerializedContent());
 			switch (req.getEventType()) {
 			case buy:
-				result = fashionHandler.buyFash(player,req.getId());
+				result = fashionHandler.buyFash(player,req);
 				break;
 			case off:
-				result = fashionHandler.offFash(player,req.getId());
+				result = fashionHandler.offFash(player,req);
 				break;
 			case on:
-				result = fashionHandler.onFash(player,req.getId());
+				result = fashionHandler.onFash(player,req);
 				break;
 
+			case renew:
+				result = fashionHandler.renewFashion(player,req);
+				break;
+			case getFashiondata:
+				result = fashionHandler.getFashionData(player,req);
+				break;
 			default:
 				break;
 			}
 		} catch (InvalidProtocolBufferException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;

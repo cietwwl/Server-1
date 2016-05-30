@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmResponse;
 import com.log.GameLog;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.manager.GameManager;
 import com.rw.service.http.GSRequestAction;
@@ -28,38 +29,20 @@ import com.rw.service.http.request.ResponseObject;
 public class PlatformService {
 
 	public static ConcurrentLinkedQueue<RequestObject> TaskQuene = new ConcurrentLinkedQueue<RequestObject>();
-	private static ExecutorService plService = Executors.newSingleThreadExecutor();
-	public static ExecutorService executorService = Executors.newFixedThreadPool(2);
+	private static ExecutorService plService = Executors.newFixedThreadPool(16, new SimpleThreadFactory("Platform Service"));
 
 	public static void init() {
-		plService.submit(new Runnable() {
+	}
+
+	public static void addRequest(final RequestObject requestObject) {
+		plService.execute(new Runnable() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				runService();
+				sendPlatformRequest(requestObject);
 			}
 		});
-	}
-
-	public static void runService() {
-		while (true) {
-			try {
-				// TODO Auto-generated method stub
-				if (TaskQuene.size() <= 0) {
-					continue;
-				}
-				RequestObject requestObject = TaskQuene.poll();
-				sendPlatformRequest(requestObject);
-			} catch (Exception ex) {
-
-			}
-
-		}
-	}
-
-	public static void addRequest(RequestObject requestObject) {
-		TaskQuene.add(requestObject);
 	}
 
 	private static ResponseObject processPlatformServiceRequest(String ip, int port, RequestObject requestObject) {
@@ -93,7 +76,7 @@ public class PlatformService {
 
 			return responseObject;
 		} catch (Exception ex) {
-			GameLog.error("PlatformService", "processPlatformServiceRequest", ex.getMessage());
+			GameLog.error("PlatformService", "processPlatformServiceRequest:"+ip+","+port, ex.getMessage());
 		} finally {
 			if (socket != null) {
 				try {
@@ -107,12 +90,15 @@ public class PlatformService {
 	}
 
 	private static void sendPlatformRequest(RequestObject requestObject) {
-		List<PlatformInfo> platformInfos = GameManager.getPlatformInfos();
-		for (PlatformInfo platformInfo : platformInfos) {
-			ResponseObject reponse = processPlatformServiceRequest(platformInfo.getIp(), platformInfo.getPort(), requestObject);
-			if (StringUtils.isBlank(reponse.getResult()) && requestObject.isBlnNotifySingle()) {
-				break;
+		try {
+			List<PlatformInfo> platformInfos = GameManager.getPlatformInfos();
+			for (PlatformInfo platformInfo : platformInfos) {
+				ResponseObject reponse = processPlatformServiceRequest(platformInfo.getIp(), platformInfo.getPort(), requestObject);
+				if (StringUtils.isBlank(reponse.getResult()) && requestObject.isBlnNotifySingle()) {
+					break;
+				}
 			}
+		} catch (Exception e) {
 		}
 	}
 
@@ -128,41 +114,33 @@ public class PlatformService {
 
 		return content;
 	}
-	
-	public static boolean checkPlatformOpen(){
+
+	public static boolean checkPlatformOpen() {
 		List<PlatformInfo> platformInfos = GameManager.getPlatformInfos();
 		for (PlatformInfo platformInfo : platformInfos) {
 			try {
 				Socket socket = new Socket();
 				socket.connect(new InetSocketAddress(platformInfo.getIp(), platformInfo.getPort()));
-				if(socket.isConnected()){
+				if (socket.isConnected()) {
 					return true;
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			
+
 		}
 		return false;
 	}
-	
-	public static void SendResponse(String classPath, String methodName, Object object, Class<?> classValue){
+
+	public static void SendResponse(String classPath, String methodName, Object object, Class<?> classValue) {
 		RequestObject requestObject = new RequestObject();
 		requestObject.pushParam(classValue, object);
 		requestObject.setClassName(classPath);
 		requestObject.setMethodName(methodName);
 		sendPlatformRequest(requestObject);
 	}
-	
-	public static void main(String[] objs){
-		try {
-			Socket socket = new Socket();
-			socket.connect(new InetSocketAddress("192.168.2.234", 8080));
-			if(socket.isConnected()){
-				System.out.println("---------------open");
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+
+	public static void main(String[] objs) {
+
 	}
 }

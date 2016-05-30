@@ -21,6 +21,12 @@ public enum ECareer {
 	
 	private static ECareer[] allValues;
 	
+	public static ECareer valueOf(int value,ECareer defaultCareer){
+		ECareer result = valueOf(value);
+		if (result == null) result = defaultCareer;
+		return result;
+	}
+	
 	public static ECareer valueOf(int value){
 		if(allValues == null){
 			allValues = ECareer.values();
@@ -45,5 +51,14 @@ public enum ECareer {
 			}
 		}
 		return None.carrer;
+	}
+	
+	public static ECareer valueOf(String careerType, ECareer value) {
+		ECareer result = value;
+		try {
+			result = ECareer.valueOf(careerType);
+		} catch (Exception e) {
+		}
+		return result;
 	}
 }

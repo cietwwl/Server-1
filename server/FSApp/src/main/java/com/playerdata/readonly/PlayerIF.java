@@ -75,4 +75,12 @@ public interface PlayerIF {
 	public ItemDataIF getMagic();
 
 	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr();
+
+	public String getUserName();
+
+	public int getVip();
+
+	public String getHeadImage();
+	
+	public String getHeadFrame();
 }

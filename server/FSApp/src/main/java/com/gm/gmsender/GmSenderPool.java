@@ -10,6 +10,8 @@ public class GmSenderPool {
 	
 	private GenericObjectPool senderPool;
 	
+	private GmSenderConfig senderConfig;
+	
 	public GmSenderPool(GmSenderConfig senderConfig){		
 		
 		Config config = new Config();
@@ -18,7 +20,7 @@ public class GmSenderPool {
 		config.testOnBorrow = true;
 		config.testWhileIdle = true;
 		config.whenExhaustedAction = GenericObjectPool.WHEN_EXHAUSTED_BLOCK;
-		
+		this.senderConfig = senderConfig;
 		senderPool = new GenericObjectPool(new GmSenderFactory(senderConfig), config);
 	}
 	

@@ -91,6 +91,9 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 			if(item.getType() == eActivityType.A_Final && item.getStartTime() <= System.currentTimeMillis() && !item.isGiftTaken()){
 				configList.add(String.valueOf(item.getCfgId()));
 			}
+			if(item.getStartTime() > System.currentTimeMillis()){
+				continue;
+			}
 			if (item.isFinish() && !item.isGiftTaken()) {
 				configList.add(String.valueOf(item.getCfgId()));
 			}

@@ -40,6 +40,13 @@ public abstract class CfgCsvDao<T> {
 		return null;
 	}
 	
+	public int getEntryCount(){
+		return cfgCacheMap.size();
+	}
+	
+	public Iterable<T> getIterateAllCfg(){
+		return cfgCacheMap.values();
+	}
 	
 	public void reload(){
 		initJsonCfg();		
@@ -48,6 +55,9 @@ public abstract class CfgCsvDao<T> {
 	public void reverse(Map<String, T> lastCfgMap){
 		cfgCacheMap = lastCfgMap;
 	}
-	
-	
+
+	/**
+	 * 每个配置类可以重载这个方法，所有配置加载完毕会调用，如果配置有问题，打印日志并抛出异常中断服务器启动过程
+	 */
+	public void CheckConfig(){}
 }

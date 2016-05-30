@@ -30,6 +30,7 @@ public class FightingExtension extends RankingJacksonExtension<FightingComparabl
 		toData.setFightingAll(player.getHeroMgr().getFightingAll());
 		toData.setFightingTeam(player.getHeroMgr().getFightingTeam());
 		toData.setUserHead(player.getHeadImage());
+		toData.setHeadbox(player.getHeadFrame());
 		toData.setModelId(player.getModelId());
 		toData.setJob(player.getCareer());
 		toData.setSex(player.getSex());

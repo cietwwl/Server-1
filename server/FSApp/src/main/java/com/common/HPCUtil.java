@@ -1,6 +1,8 @@
 package com.common;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +10,11 @@ import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+import org.springframework.util.StringUtils;
+
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.gameworld.GameWorldConstant;
 
 /**
@@ -46,8 +51,7 @@ public class HPCUtil {
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
 	 * @param value
-	 * @param expectLength
-	 *            预期的位数
+	 * @param expectLength 预期的位数
 	 * @return
 	 */
 	public static String fillZero(long value, int expectLength) {
@@ -57,11 +61,9 @@ public class HPCUtil {
 	/**
 	 * 为一个整数按照预期的位数在前面补0
 	 * 
-	 * @param sb
-	 *            补0后的String填充到此StringBuilder中
+	 * @param sb 补0后的String填充到此StringBuilder中
 	 * @param value
-	 * @param expectLength
-	 *            预期的位数
+	 * @param expectLength 预期的位数
 	 * @return
 	 */
 	public static String fillZero(StringBuilder sb, long value, int expectLength) {
@@ -109,6 +111,43 @@ public class HPCUtil {
 	}
 
 	/**
+	 * 转换成类型映射数组
+	 * 
+	 * @param orignalArray
+	 * @param intField
+	 * @return
+	 */
+	public static Object[] toMappedArray(Object[] orignalArray, String intField) {
+		Object[] array = null;
+		TreeMap<Integer, Object> treeMap = new TreeMap<Integer, Object>();
+		Field field = null;
+		for (Object t : orignalArray) {
+			if (field == null) {
+				try {
+					field = t.getClass().getDeclaredField(intField);
+					field.setAccessible(true);
+				} catch (Exception e) {
+					throw new ExceptionInInitializerError("不存在字段：" + intField + "," + t.getClass());
+				}
+			}
+			try {
+				int type = field.getInt(t);
+				if (treeMap.put(type, t) != null) {
+					throw new ExceptionInInitializerError("存在重复的类型：" + type);
+				}
+			} catch (Exception e) {
+				throw new ExceptionInInitializerError("获取int字段失败：" + intField + "," + t.getClass());
+			}
+		}
+		array = new Object[treeMap.lastKey() + 1];
+		for (Map.Entry<Integer, Object> entry : treeMap.entrySet()) {
+			int type = entry.getKey();
+			array[type] = entry.getValue();
+		}
+		return array;
+	}
+
+	/**
 	 * 数组拷贝
 	 * 
 	 * @param src
@@ -153,13 +192,14 @@ public class HPCUtil {
 
 	/**
 	 * 通过一级与二级分隔符，把文本解析成Map<Integer,Integer>
+	 * 
 	 * @param text
 	 * @param firstSplit
 	 * @param secondSplit
 	 * @return
 	 */
 	public static Map<Integer, Integer> parseIntegerMap(String text, String firstSplit, String secondSplit) {
-		HashMap<Integer,Integer> map = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		StringTokenizer token = new StringTokenizer(text, firstSplit);
 		while (token.hasMoreTokens()) {
 			fillIntoMap(token.nextToken(), secondSplit, map);
@@ -203,4 +243,49 @@ public class HPCUtil {
 		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
 	}
 
+	/**
+	 * 通过文本按照默认格式创建{@link ItemInfo}列表
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static List<ItemInfo> createItemInfo(String text) {
+		String[] reward = text.split(",");
+		ArrayList<ItemInfo> rewardList = new ArrayList<ItemInfo>(reward.length);
+		for (int i = 0; i < reward.length; i++) {
+			String[] rewardItem = reward[i].split("_");
+			ItemInfo info = new ItemInfo();
+			info.setItemID(Integer.parseInt(rewardItem[0]));
+			info.setItemNum(Integer.parseInt(rewardItem[1]));
+			rewardList.add(info);
+		}
+		return rewardList;
+	}
+
+	/**
+	 * 解析字符串成为List
+	 * 
+	 * @param text
+	 * @param split
+	 * @return
+	 */
+	public static List<String> parseStr2List(String text, String split) {
+		if (StringUtils.isEmpty(text)) {
+			return Collections.emptyList();
+		}
+
+		if (!text.contains(split)) {
+			ArrayList<String> list = new ArrayList<String>(1);
+			list.add(text);
+			return list;
+		}
+
+		ArrayList<String> list = new ArrayList<String>();
+		StringTokenizer token = new StringTokenizer(text, split);
+		while (token.hasMoreTokens()) {
+			list.add(token.nextToken());
+		}
+
+		return list;
+	}
 }

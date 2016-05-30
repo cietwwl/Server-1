@@ -27,8 +27,9 @@ public class SocketHelper {
 				short jsonLength = input.readShort();
 
 				byte[] jsonBody = new byte[jsonLength];
-				input.read(jsonBody);
-				String json = new String(jsonBody, "utf-8");
+				input.readFully(jsonBody, 0, jsonLength);
+				String json = new String(jsonBody, 0, jsonLength, "utf-8");
+				
 				content = FastJsonUtil.deserialize(json, clazz);
 				GmLog.info("SocketHelper[read] 处理gm请求：" + json);
 			}

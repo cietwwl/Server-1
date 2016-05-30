@@ -11,12 +11,17 @@ message GuidanceProgress {
 message GuidanceRequest {
 	enum GuidanceRequestType {
 		LoadProgress = 1;
+		GiveItem = 2;//送物品，最多只能送一次
 	}
 	required GuidanceRequestType requestType = 1;
+	optional int32 giveActionId = 2;
 }
 
 message GuidanceResponse {
 	repeated GuidanceProgress savedProgress = 1;
+	optional GuidanceRequest.GuidanceRequestType requestType = 2;
+	optional bool isSuccess = 3;
+	optional string tip = 4;
 }
 
 //调试模式下允许从服务端发送最新的配置文件到客户端

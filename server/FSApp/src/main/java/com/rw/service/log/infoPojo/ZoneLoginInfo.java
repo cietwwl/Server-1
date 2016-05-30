@@ -39,6 +39,17 @@ public class ZoneLoginInfo {
 	
 	private String loginImac;
 	
+	private String loginsdkVersion;
+	
+
+
+	private String loginsystemVersion;
+	
+	private String loginadLinkId;
+
+
+
+
 	final private static Field[] fieldList;
 	
 	static{
@@ -77,7 +88,9 @@ public class ZoneLoginInfo {
 		zoneLoginInfo.setLoginClientIp(clientInfo.getClientIp());
 		zoneLoginInfo.setLoginImei(clientInfo.getImei());
 		zoneLoginInfo.setLoginImac(clientInfo.getImac());
-		
+		zoneLoginInfo.setLoginsdkVersion(clientInfo.getSdkVersion());
+		zoneLoginInfo.setLoginsystemVersion(clientInfo.getSystemVersion());
+		zoneLoginInfo.setLoginadLinkId(clientInfo.getAdLinkId());
 		return zoneLoginInfo;
 	}
 	
@@ -194,7 +207,41 @@ public class ZoneLoginInfo {
 	public void setLoginImac(String loginImac) {
 		this.loginImac = loginImac;
 	}
+	
+	public String getLoginsdkVersion() {
+		return loginsdkVersion;
+	}
 
+
+	public void setLoginsdkVersion(String logsdkVersion) {
+		if(logsdkVersion == null){
+			logsdkVersion = "";
+		}
+		this.loginsdkVersion = logsdkVersion;
+	}
+	
+	public String getLoginsystemVersion() {
+		return loginsystemVersion;
+	}
+
+
+	public void setLoginsystemVersion(String loginsystemVersion) {
+		if(loginsystemVersion == null){
+			loginsystemVersion = "";
+		}
+		this.loginsystemVersion = loginsystemVersion;
+	}
+	public String getLoginadLinkId() {
+		return loginadLinkId;
+	}
+
+
+	public void setLoginadLinkId(String loginadLinkId) {
+		if(loginadLinkId == null){
+			loginadLinkId = "";
+		}		
+		this.loginadLinkId = loginadLinkId;
+	}
 
 	
 }

@@ -1,7 +1,6 @@
 package com.rw.service.ranking;
 
 import java.util.List;
-
 import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
@@ -9,9 +8,9 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
-import com.rwbase.dao.ranking.TableRankingMgr;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwproto.MsgDef.Command;
@@ -38,17 +37,18 @@ public class RankingHandler {
 	public ByteString rankingInfo(MsgRankRequest request, Player player){
 		MsgRankResponse.Builder response = MsgRankResponse.newBuilder();
 		response.setRequestType(request.getRequestType());
-		CfgRanking cfgRanking = CfgRankingDAO.getInstance().getRankingCf(request.getRankType());
+		int requestType = request.getRankType();
+		CfgRanking cfgRanking = CfgRankingDAO.getInstance().getRankingCf(requestType);
 		if(player.getLevel() < cfgRanking.getLimitLevel()){
 			response.setResultType(ERankResultType.NOT_LEVEL);
 			return response.build().toByteString();
 		}
 		String requestUserId = request.getUserId();
-		response.setRankType(request.getRankType());
-		response.setBaseRankInfo(getBaseRankInfo(request.getUserId(), ERankingType.valueOf(request.getRankType())));
-		RankType rankType = RankType.getRankType(request.getRankType());
+		response.setRankType(requestType);
+		response.setBaseRankInfo(getBaseRankInfo(request.getUserId(), ERankingType.valueOf(requestType)));
+		RankType rankType = RankType.getRankType(requestType, cfgRanking.getRealTime());
 		Ranking ranking = RankingFactory.getRanking(rankType);
-		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId),ranking.getRanking(requestUserId)));
+		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId),RankingMgr.getInstance().getRankLevel(rankType,requestUserId)));
 		return response.build().toByteString();
 	}
 	
@@ -64,13 +64,14 @@ public class RankingHandler {
 			return response.build().toByteString();
 		}
 		
-		List<RankInfo> rankList = RankingUtils.createRankList(RankType.getRankType(request.getRankType()));
+
+		RankType rankType = RankType.getRankType(request.getRankType(),cfgRanking.getRealTime());
+		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
 		pushRankList(player, rankList.size() > 20 ? rankList.subList(0, 20) : rankList, ERankRequestType.RANK_LIST_PART1);
 		if(rankList.size() > 20){
 			pushRankList(player, rankList.subList(20, rankList.size()), ERankRequestType.RANK_LIST_PART2);
 		}
 		
-		RankType rankType = RankType.getRankType(request.getRankType());
 		Ranking ranking = RankingFactory.getRanking(rankType);
 		RankingLevelData myInfoData = RankingMgr.getInstance().getRankLevelData(rankType, userId);
 		if(myInfoData != null){
@@ -92,15 +93,21 @@ public class RankingHandler {
 		baseRankInfo.setAthleticsDay(0);//巅峰竞技每日排行
 //		baseRankInfo.setAthleticsCurrent(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_CURRENT, userId));//巅峰竞技实时排行
 		baseRankInfo.setAthleticsCurrent(0);//巅峰竞技实时排行
-		baseRankInfo.setTeam(RankingMgr.getInstance().getRankLevel(RankType.TEAM_FIGHTING_DAILY, userId));//五人小队战斗力排行
+		baseRankInfo.setTeam(RankingMgr.getInstance().getRankLevel(RankType.TEAM_FIGHTING, userId));//五人小队战斗力排行
 //		baseRankInfo.setEndless(RankingMgr.getInstance().getRankLevel(RankType.ENDLESS, userId));//无尽战火排行
 		baseRankInfo.setEndless(0);//无尽战火排行
 //		baseRankInfo.setGlory(RankingMgr.getInstance().getRankLevel(RankType.GLORY, userId));//荣耀山谷排行
 		baseRankInfo.setGlory(0);//荣耀山谷排行
 //		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_FIGHTING, userId));//巅峰竞技战斗力排行
 		baseRankInfo.setAthleticsFighting(0);//巅峰竞技战斗力排行
-		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(RankingMgr.getInstance().getTeamList(rankType, userId)));//获取队伍数据
-		baseRankInfo.setArenaWinCount(TableRankingMgr.getInstance().getArenaTeamWinCount(userId, rankType));
+		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(rankType, userId));//获取队伍数据
+		//TODO
+		//baseRankInfo.setArenaWinCount(TableRankingMgr.getInstance().getArenaTeamWinCount(userId, rankType));
+		String groupName = GroupHelper.getGroupName(userId);
+		if(groupName == null || groupName.isEmpty()){
+			groupName = "无";
+		}
+		baseRankInfo.setGroupName(groupName);
 		return baseRankInfo.build();
 	}
 	

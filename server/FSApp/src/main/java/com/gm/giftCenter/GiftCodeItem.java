@@ -7,20 +7,23 @@ import com.gm.gmsender.GmCallBack;
 
 public class GiftCodeItem {
 
-	private String activateCode;
+	private final String activateCode;
 
-	private String userId;
+	private final String userId;
 
 	private String id;
 
 	private long iSequenceNum;
 
+	private final int channelId;
+
 	private GmCallBack<GiftCodeResponse> gmCallBack;
 
-	public GiftCodeItem(String code, String userId, GmCallBack<GiftCodeResponse> gmCallBack) {
+	public GiftCodeItem(String code, String userId, int channelId, GmCallBack<GiftCodeResponse> gmCallBack) {
 		this.activateCode = code;
 		this.userId = userId;
 		this.gmCallBack = gmCallBack;
+		this.channelId = channelId;
 		this.id = this.userId + "_" + this.activateCode;
 	}
 
@@ -38,7 +41,7 @@ public class GiftCodeItem {
 		args.put("activateCode", this.activateCode);
 		args.put("iSequenceNum", this.iSequenceNum);
 		args.put("roleId", this.userId);
-		args.put("channel", 1);
+		args.put("channel", this.channelId);
 
 		return args;
 	}

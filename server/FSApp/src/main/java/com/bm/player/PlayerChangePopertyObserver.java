@@ -3,7 +3,9 @@ package com.bm.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.rank.teaminfo.TeamInfoListenerPlayerChange;
 import com.playerdata.Player;
+import com.rw.service.store.StoreListenerPlayerChange;
 import com.rwbase.dao.group.GroupListenerPlayerChange;
 
 /*
@@ -22,6 +24,8 @@ public class PlayerChangePopertyObserver implements Observer {
 
 	private void initSubscribeList() {
 		new GroupListenerPlayerChange(this);
+		new TeamInfoListenerPlayerChange(this);
+		new StoreListenerPlayerChange(this);
 	}
 
 	public void addSubscribe(PlayerChangePopertySubscribe subscribe) {
@@ -95,5 +99,18 @@ public class PlayerChangePopertyObserver implements Observer {
 	@Override
 	public int getObserverType() {
 		return ObserverFactory.ObserverType.PLAYER_CHANER.ordinal();
+	}
+
+	@Override
+	public void playerChangeHeadBox(Player p) {
+		// TODO Auto-generated method stub
+		if (subscribeList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = subscribeList.size(); i < size; i++) {
+			PlayerChangePopertySubscribe sub = subscribeList.get(i);
+			sub.playerChangeHeadBox(p);
+		}
 	}
 }

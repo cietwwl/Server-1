@@ -1,7 +1,7 @@
 package com.rwbase.dao.arena.pojo;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -23,22 +23,26 @@ public class TableArenaData {
 	private int fighting;
 	private int remainCount;
 	private String headImage;
+	private String headbox;
 	private int level;
 	private String name;
 	private int magicId;
 	private int magicLevel;
 	private String templeteId;
 	private int winCount;
-	private long nextFightTime;
+	private long lastFightTime;
 	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
 	private List<String> atkHeroList = new ArrayList<String>(); // 进攻阵容的id列表
-	private List<String> heroIdList; // 队伍佣兵id列表
+	private List<String> heroIdList = new ArrayList<String>(); // 队伍佣兵id列表
 	// private volatile long lastResetMillis; // 上次重置的毫秒
 	private int resetTimes; // 重置的次数
 	// private volatile long lastBuyTimesMillis;// 上次购买挑战次数的时间
 	private int buyTimes; // 购买挑战次数的次数..
 	private int score; //
-	private List<Integer> rewardList = new ArrayList<Integer>();	//通过积分领取的奖励列表
+	private int challengeTime;// 挑战次数
+	private List<Integer> rewardList = new ArrayList<Integer>(); // 记录每天领取的积分领取的奖励列表
+
+	private List<Integer> historyRewards = new ArrayList<Integer>();// 记录曾经领取过的历史奖励
 
 	public String getUserId() {
 		return userId;
@@ -99,8 +103,9 @@ public class TableArenaData {
 		return level;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<String> getHeroIdList() {
-		return heroIdList;
+		return heroIdList == null ? Collections.EMPTY_LIST : heroIdList;
 	}
 
 	public void setHeroIdList(List<String> heroIdList) {
@@ -151,12 +156,12 @@ public class TableArenaData {
 		this.winCount = winCount;
 	}
 
-	public long getNextFightTime() {
-		return nextFightTime;
+	public long getLastFightTime() {
+		return lastFightTime;
 	}
 
-	public void setNextFightTime(long nextFightTime) {
-		this.nextFightTime = nextFightTime;
+	public void setLastFightTime(long lastFightTime) {
+		this.lastFightTime = lastFightTime;
 	}
 
 	public List<RecordInfo> getRecordList() {
@@ -207,6 +212,30 @@ public class TableArenaData {
 
 	public void setRewardList(List<Integer> rewardList) {
 		this.rewardList = rewardList;
+	}
+
+	public int getChallengeTime() {
+		return challengeTime;
+	}
+
+	public void setChallengeTime(int challengeTime) {
+		this.challengeTime = challengeTime;
+	}
+
+	public List<Integer> getHistoryRewards() {
+		return historyRewards;
+	}
+
+	public void setHistoryRewards(List<Integer> historyRewards) {
+		this.historyRewards = historyRewards;
+	}
+
+	public String getHeadbox() {
+		return headbox;
+	}
+
+	public void setHeadbox(String headbox) {
+		this.headbox = headbox;
 	}
 
 }

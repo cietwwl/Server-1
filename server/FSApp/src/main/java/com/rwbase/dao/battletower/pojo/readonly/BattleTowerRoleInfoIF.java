@@ -8,6 +8,9 @@ import java.util.List;
  * @Description 试练塔角色信息接口
  */
 public interface BattleTowerRoleInfoIF {
+	public String getHeadFrame();
+
+	public int getStartNum();
 
 	/**
 	 * 获取角色Id

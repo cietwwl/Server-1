@@ -26,6 +26,7 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupCmdHelper;
+import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -45,6 +46,8 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwproto.GroupCommonProto.GroupFunction;
 import com.rwproto.GroupCommonProto.GroupLogType;
 import com.rwproto.GroupCommonProto.GroupPost;
@@ -66,6 +69,7 @@ import com.rwproto.GroupPersonalProto.GroupRecommentRspMsg;
 import com.rwproto.GroupPersonalProto.GroupSimpleInfo;
 import com.rwproto.GroupPersonalProto.OpenDonateViewRspMsg;
 import com.rwproto.GroupPersonalProto.TransferGroupLeaderPostReqMsg;
+import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
 
 /*
  * @author HC
@@ -73,6 +77,9 @@ import com.rwproto.GroupPersonalProto.TransferGroupLeaderPostReqMsg;
  * @Description 帮派协议处理类
  */
 public class GroupPersonalHandler {
+
+	private static final String QUIT_GROUP_TIME_TIP_FOR_JOIN = "%s后才可再次加入帮派";
+	private static final String JOIN_COOLING_TIME_FOR_DONATE = "%s后才可以捐献";
 
 	private static GroupPersonalHandler handler;
 
@@ -174,6 +181,12 @@ public class GroupPersonalHandler {
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.GET_GROUP_RANK_INFO_TYPE);
 
+		// 检查当前角色的等级有没有达到可以使用帮派功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		if (openLevel != -1) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		}
+
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
 		if (gbct == null) {
@@ -228,6 +241,12 @@ public class GroupPersonalHandler {
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.FIND_GROUP_TYPE);
+
+		// 检查当前角色的等级有没有达到可以使用帮派功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		if (openLevel != -1) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		}
 
 		// 检查是否有帮派
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -287,6 +306,12 @@ public class GroupPersonalHandler {
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.APPLY_JOIN_GROUP_TYPE);
 
+		// 检查当前角色的等级有没有达到可以使用帮派功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		if (openLevel != -1) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		}
+
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
 		if (gbct == null) {
@@ -305,8 +330,9 @@ public class GroupPersonalHandler {
 		long nowTime = System.currentTimeMillis();
 		// 检查冷却时间
 		long quitGroupTime = baseData.getQuitGroupTime();
-		if (quitGroupTime > 0 && (nowTime - quitGroupTime) < TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime())) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "距离上次退出帮派时间太短");
+		long needCoolingMillisTime = TimeUnit.SECONDS.toMillis(gbct.getJoinGroupCoolingTime());
+		if (quitGroupTime > 0 && (nowTime - quitGroupTime) < needCoolingMillisTime) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(QUIT_GROUP_TIME_TIP_FOR_JOIN, GroupUtils.coolingTimeTip(nowTime, quitGroupTime, needCoolingMillisTime)));
 		}
 
 		// 检查一下次数
@@ -389,13 +415,13 @@ public class GroupPersonalHandler {
 		// 要验证后才能加入
 		if (validateType == GroupValidateType.FIRST_VALIDATE_VALUE) {
 			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-					GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true);
+					GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame());
 
 			// 帮派扩展属性增加一个申请的帮派Id
 			userGroupAttributeDataMgr.updateApplyGroupData(player, applyGroupId);
 		} else {
 			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-					GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false);
+					GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame());
 
 			// 记录一个日志
 			GroupLog log = new GroupLog();
@@ -405,7 +431,10 @@ public class GroupPersonalHandler {
 			group.getGroupLogMgr().addLog(player, log);
 
 			// 加入之后，设置加入的信息
-			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupData.getGroupName());
+			String groupName = groupData.getGroupName();
+			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupName);
+			// 发送邮件
+			GroupHelper.sendJoinGroupMail(playerId, groupName);
 
 			// 更新下排行榜成员
 			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
@@ -424,7 +453,7 @@ public class GroupPersonalHandler {
 	 * @param player
 	 * @return
 	 */
-	public ByteString OpenDonateViewHandler(Player player) {
+	public ByteString openDonateViewHandler(Player player) {
 		String playerId = player.getUserId();
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
@@ -471,12 +500,26 @@ public class GroupPersonalHandler {
 
 		// 检查次数
 		long now = System.currentTimeMillis();
+		// 检查是否过了加入帮派N秒的冷却
+		long joinTime = baseData.getJoinTime();
+		int canDonateCoolingTime = gbct.getCanDonateCoolingTime();
+		if (canDonateCoolingTime > 0 && joinTime > 0) {
+			long coolingTimeMillis = TimeUnit.SECONDS.toMillis(canDonateCoolingTime);
+			String tip = GroupUtils.coolingTimeTip(now, joinTime, coolingTimeMillis);
+			if (!StringUtils.isEmpty(tip)) {
+				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(JOIN_COOLING_TIME_FOR_DONATE, tip));
+			}
+		}
+
 		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
 			memberMgr.updateMemberDataDonateTimes(playerId, 0, now);
 		}
 
 		// 每天可以捐献的次数
-		int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//by franky
+		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
+		
 		// 角色当天捐献的次数
 		int donateTimes = memberData.getDonateTimes();
 
@@ -561,17 +604,31 @@ public class GroupPersonalHandler {
 		}
 
 		if (player.getVip() < donateCfg.getVipLevelLimit()) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "VIP" + donateCfg.getVipLevelLimit() + "及以上才能使用");
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("VIP%s及以上才能使用", donateCfg.getVipLevelLimit()));
 		}
 
 		// 检查次数
 		long now = System.currentTimeMillis();
+		// 检查是否过了加入帮派N秒的冷却
+		long joinTime = baseData.getJoinTime();
+		int canDonateCoolingTime = gbct.getCanDonateCoolingTime();
+		if (canDonateCoolingTime > 0 && joinTime > 0) {
+			long coolingTimeMillis = TimeUnit.SECONDS.toMillis(canDonateCoolingTime);
+			String tip = GroupUtils.coolingTimeTip(now, joinTime, coolingTimeMillis);
+			if (!StringUtils.isEmpty(tip)) {
+				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format(JOIN_COOLING_TIME_FOR_DONATE, tip));
+			}
+		}
+
 		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
 			memberMgr.updateMemberDataDonateTimes(playerId, 0, now);
 		}
 
 		// 每天可以捐献的次数
-		int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//int perDayDonateTimes = gbct.getPerDayDonateTimes();
+		//by franky
+		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
+		
 		// 角色当天捐献的次数
 		int donateTimes = memberData.getDonateTimes();
 
@@ -606,7 +663,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 更新数据
-		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + 1, now, memberData.getContribution() + donateCfg.getRewardContribution());
+		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + 1, now, donateCfg.getRewardContribution());
 
 		// 更新捐献后的帮派数据
 		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp());
@@ -741,8 +798,9 @@ public class GroupPersonalHandler {
 		long now = System.currentTimeMillis();
 		if (post == GroupPost.LEADER_VALUE) {// 是帮主
 			String canTransferLeaderMemberId = memberMgr.getCanTransferLeaderMemberId(GroupMemberHelper.transferLeaderComparator);
-			if (canTransferLeaderMemberId != null) {
-				if (playerId.equals(canTransferLeaderMemberId)) {// 是自己，进入解散帮派倒计时
+			if (!StringUtils.isEmpty(canTransferLeaderMemberId)) {
+				GroupMemberDataIF transferMemberData = memberMgr.getMemberData(canTransferLeaderMemberId, false);
+				if (playerId.equals(canTransferLeaderMemberId) || transferMemberData == null) {// 是自己，进入解散帮派倒计时
 					groupBaseDataMgr.updateGroupDismissState(player, now, GroupState.DISOLUTION);
 					// 添加到需要解散的列表
 					GroupCheckDismissTask.addDismissGroupInfo(groupId, now);
@@ -753,14 +811,16 @@ public class GroupPersonalHandler {
 					userGroupAttributeDataMgr.updateDataWhenQuitGroup(player, now);
 					// 把帮派帮主修改给排行第一的成员
 					memberMgr.updateMemberPost(canTransferLeaderMemberId, GroupPost.LEADER_VALUE);
-				}
 
-				// 记录一个帮派日志
-				GroupLog log = new GroupLog();
-				log.setLogType(GroupLogType.QUIT_GROUP_VALUE);
-				log.setTime(now);
-				log.setName(player.getUserName());
-				group.getGroupLogMgr().addLog(player, log);
+					// 记录一个帮派日志
+					GroupLog log = new GroupLog();
+					log.setLogType(GroupLogType.LOG_LEADER_QUIT_VALUE);
+					log.setTime(now);
+					log.setOpName(player.getUserName());
+					log.setName(transferMemberData.getName());
+					log.setPost(GroupPost.LEADER_VALUE);
+					group.getGroupLogMgr().addLog(player, log);
+				}
 			} else {// 没有其他成员，帮派进入解散倒计时
 				groupBaseDataMgr.updateGroupDismissState(player, now, GroupState.DISOLUTION);
 				// 添加到需要解散的列表

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" 
+    default-init-method="init">  
+  
+  <bean id="springContextUtil" class="com.fy.common.SpringContextUtil" />
+  	
+   <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config.properties</value>
+			</list>
+		</property>
+		<property name="ignoreResourceNotFound" value="false" />
+	</bean>
+		
+	<bean id="dataSourcePF" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="${jdbc_platform.url}"></property>
+		<property name="username" value="${jdbc_platform.username}"></property>
+		<property name="password" value="${jdbc_platform.password}"></property>
+		<property name="maxActive" value="10"></property>
+		<property name="maxWait" value="60000"></property>
+		
+		<property name="maxIdle" value="2"></property>
+		<property name="validationQuery" value="SELECT 1"></property>
+		<property name="testOnBorrow" value="true"></property>
+		<property name="testOnReturn" value="true"></property>
+		<property name="testWhileIdle" value="true"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="300000"></property>
+	</bean>	
+	
+    <bean id="chargeDbMg" class="com.fy.db.ChargeDbMgr">
+    	<constructor-arg ref="dataSourcePF"/>    
+    </bean>
+
+  	<bean id="zoneInfoMgr" class="com.fy.db.ZoneInfoMgr" depends-on="chargeDbMg"/>
+
+	
+    <!-- controller for actions -->
+    <bean id="chargeService" class="com.fy.ChargeService"/>
+  
+</beans>  

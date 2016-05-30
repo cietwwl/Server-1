@@ -65,12 +65,10 @@ public class ClassInfo4Client {
 
 	public String getId(Object target) throws Exception{
 		if(idField!=null){
-			return (String) idField.get(target);
-			
+			return String.valueOf(idField.get(target));
 		}else{
 			return null;
 		}
-		
 	}
 	
 	
@@ -82,6 +80,26 @@ public class ClassInfo4Client {
 			String jsonValue = fieldTmp.toJson(target);
 			if(StringUtils.isNotBlank(jsonValue)){
 				clientData.put(fieldTmp.getName(), jsonValue);
+			}
+		}
+		String jsonData =null;
+		if(clientData.size()>0){
+			jsonData = JsonUtil.writeValue(clientData);
+		}
+		return jsonData;
+	}
+	
+
+	public String toJson(Object target, List<String> fieldList) throws Exception{
+		
+		Map<String, String> clientData = new HashMap<String, String>();
+
+		for (FieldInfo fieldTmp : clientFiledList) {
+			if(fieldList.contains(fieldTmp.getName())){
+				String jsonValue = fieldTmp.toJson(target);
+				if(StringUtils.isNotBlank(jsonValue)){
+					clientData.put(fieldTmp.getName(), jsonValue);
+				}				
 			}
 		}
 		String jsonData =null;

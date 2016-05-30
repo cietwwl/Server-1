@@ -1,14 +1,15 @@
 package com.rw.service.arena;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
+import com.bm.arena.ArenaRankCfgDAO;
+import com.bm.arena.ArenaRankEntity;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
@@ -28,32 +29,27 @@ import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
-import com.rw.service.Email.EmailUtils;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
-import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.playerext.PlayerTempAttribute;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.arena.ArenaCostCfgDAO;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
-import com.rwbase.dao.arena.ArenaUpPrizeCfgDAO;
 import com.rwbase.dao.arena.TableArenaDataDAO;
 import com.rwbase.dao.arena.pojo.ArenaCost;
 import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.arena.pojo.HurtValueRecord;
-import com.rwbase.dao.arena.pojo.PrizeInfo;
 import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
-import com.rwbase.dao.email.EEmailDeleteType;
-import com.rwbase.dao.email.EmailCfg;
-import com.rwbase.dao.email.EmailCfgDAO;
-import com.rwbase.dao.email.EmailData;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.skill.pojo.Skill;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ArenaServiceProtos.ArenaData;
+import com.rwproto.ArenaServiceProtos.ArenaHisRewardView;
+import com.rwproto.ArenaServiceProtos.ArenaHistoryResponse;
+import com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum;
 import com.rwproto.ArenaServiceProtos.ArenaInfo;
 import com.rwproto.ArenaServiceProtos.ArenaRecord;
 import com.rwproto.ArenaServiceProtos.HeroData;
@@ -64,7 +60,9 @@ import com.rwproto.ArenaServiceProtos.MsgArenaRequest;
 import com.rwproto.ArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
+import com.rwproto.BattleCommon.ePlayerCamp;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class ArenaHandler {
@@ -159,7 +157,7 @@ public class ArenaHandler {
 		for (ListRankingEntry<String, ArenaExtAttribute> info : listInfo) {
 			response.addListInfo(getArenaInfo(info));
 		}
-		response.setArenaData(getArenaData(arenaData));
+		response.setArenaData(getArenaData(arenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 
 		int resetTimes = arenaData.getResetTimes();
@@ -210,7 +208,7 @@ public class ArenaHandler {
 		}
 
 		setArenaHero(player, m_MyArenaData, request.getHeroIdsList());
-		response.setArenaData(getArenaData(m_MyArenaData));
+		response.setArenaData(getArenaData(m_MyArenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -241,7 +239,7 @@ public class ArenaHandler {
 		if (arenaData == null) {
 			return sendFailResponse(response, "找不到该玩家数据", player);
 		}
-		response.setArenaData(getArenaData(arenaData));
+		response.setArenaData(getArenaData(arenaData, null));
 
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
@@ -275,7 +273,7 @@ public class ArenaHandler {
 		if (m_MyArenaData == null) {
 			return sendFailResponse(response, "数据错误", player);
 		}
-		if (m_MyArenaData.getNextFightTime() > System.currentTimeMillis()) {
+		if (getNextFightTime(m_MyArenaData, player) > System.currentTimeMillis()) {
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, ArenaConstant.COOL_DOWN);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
@@ -300,7 +298,7 @@ public class ArenaHandler {
 			return sendFailResponse(response, "对手正在战斗中，请重新选择对手", player);
 		}
 
-		response.setArenaData(getArenaData(enemyArenaData));
+		response.setArenaData(getArenaData(enemyArenaData, null));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		response.addAllAtkList(ArenaBM.getInstance().getAtkHeroList(player.getUserId()));
 		return response.build().toByteString();
@@ -353,7 +351,7 @@ public class ArenaHandler {
 		// 设置后挑战者掉线，可怜的被挑战者只能等待超时时间(可以监听挑战者断线事件)
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		List<String> idList = request.getAtkIdListList();
-		arenaBM.updateAtkHeroList(idList, userId);
+		arenaBM.updateAtkHeroList(idList, player);
 		return response.build().toByteString();
 	}
 
@@ -440,7 +438,7 @@ public class ArenaHandler {
 						try {
 							ranking.replace(userId, arenaExt, enemyUserId);
 						} catch (ReplacerAlreadyExistException e) {
-							GameLog.error("严重错误@竞技场#replace失败：" + userId);
+							GameLog.error("竞技场", player.getUserId(), "严重错误@竞技场#replace失败：" + userId);
 							return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
 						} catch (ReplaceTargetNotExistException e) {
 							return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
@@ -452,7 +450,7 @@ public class ArenaHandler {
 					try {
 						entry = ranking.replace(userId, arenaExt, enemyUserId);
 					} catch (ReplacerAlreadyExistException e) {
-						GameLog.error("严重错误@竞技场#replace失败：" + userId);
+						GameLog.error("竞技场", player.getUserId(), "严重错误@竞技场#replace失败：" + userId);
 						return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
 					} catch (ReplaceTargetNotExistException e) {
 						// 对手也被打下来了
@@ -469,20 +467,11 @@ public class ArenaHandler {
 			List<com.rwproto.ArenaServiceProtos.HurtValue> hurtValueList = request.getHurtValueList();
 			int size = hurtValueList.size();
 			ArrayList<HurtValueRecord> hurtValueList_ = new ArrayList<HurtValueRecord>(size);
+			ArrayList<HurtValueRecord> enemyHurtList = new ArrayList<HurtValueRecord>(size);
 			for (int i = 0; i < size; i++) {
 				com.rwproto.ArenaServiceProtos.HurtValue value = hurtValueList.get(i);
-				HurtValueRecord valueRecord = new HurtValueRecord();
-				valueRecord.setCamp(value.getCamp());
-				valueRecord.setDead(value.getIsDead());
-				valueRecord.setHeroId(value.getHeroId());
-				valueRecord.setHp(value.getHp());
-				valueRecord.setSp(value.getSp());
-				valueRecord.setLevel(value.getLevel());
-				valueRecord.setStartlevel(value.getStartlevel());
-				valueRecord.setPlayerType(value.getPlayerType());
-				valueRecord.setIcon(value.getIcon());
-				valueRecord.setValue(value.getValue());
-				hurtValueList_.add(valueRecord);
+				hurtValueList_.add(createHurtRecord(value, false));
+				enemyHurtList.add(createHurtRecord(value, true));
 			}
 			RecordInfo record = new RecordInfo();
 
@@ -513,74 +502,12 @@ public class ArenaHandler {
 			record.setChallenge(1);
 			if (newPlace < maxPlace) {
 				m_MyArenaData.setMaxPlace(newPlace);
-				// 奖励列表
-				EnumMap<eSpecialItemId, PrizeInfo> prizeList = new EnumMap<eSpecialItemId, PrizeInfo>(eSpecialItemId.class);
-				ArenaUpPrizeCfgDAO prizeDAO = ArenaUpPrizeCfgDAO.getInstance();
-				// TODO 迟点优化
-				for (int i = maxPlace; --i >= newPlace;) {
-					List<PrizeInfo> list = prizeDAO.getPrizeByRanking(i);
-					for (PrizeInfo info : list) {
-						eSpecialItemId type = info.getType();
-						PrizeInfo oldInfo = prizeList.get(type);
-						if (oldInfo == null) {
-							PrizeInfo newInfo = new PrizeInfo();
-							newInfo.setCount(info.getCount());
-							newInfo.setType(info.getType());
-							prizeList.put(type, newInfo);
-						} else {
-							oldInfo.setCount(info.getCount() + oldInfo.getCount());
-							oldInfo.setType(info.getType());
-						}
-					}
-				}
-				StringBuilder sb = new StringBuilder();
-
-				PrizeInfo goldPrize = prizeList.get(eSpecialItemId.Gold);
-				if (goldPrize != null) {
-					if (builder == null) {
-						GameLog.error("竞技场排名错误：newPlace = " + newPlace + ",oldPlace = " + oldPlace + ",maxPlace = " + maxPlace);
-						builder = HistoryRankingRise.newBuilder();
-						builder.setCurrentRanking(newPlace);
-						builder.setHistoryRanking(maxPlace);
-						builder.setRankingUp(maxPlace - newPlace);
-					}
-					builder.setGoldAward(getRound(goldPrize.getCount()));
-				} else {
-					GameLog.error("竞技场历史排名上升奖励异常,userId = " + userId + "(" + maxPlace + "-" + newPlace + ")  " + prizeList);
-				}
-				Collection<PrizeInfo> prizeCollection = prizeList.values();
-				int prizeSize = prizeCollection.size();
-				for (PrizeInfo info : prizeCollection) {
-					sb.append(info.getType().getValue());
-					sb.append("~");
-					sb.append(getRound(info.getCount()));
-					if (--prizeSize > 0) {
-						sb.append(",");
-					}
-				}
-				EmailData emailData = new EmailData();
-				EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(ArenaConstant.ARENA_UP_MAIL_ID);
-				if (cfg != null) {
-					emailData.setEmailAttachment(sb.toString());
-					emailData.setTitle(cfg.getTitle());
-					emailData.setContent(cfg.getContent().replace(ArenaConstant.MAIL_FIRST_PARAM, String.valueOf(maxPlace - newPlace)));
-					emailData.setSender(cfg.getSender());
-					emailData.setCheckIcon(cfg.getCheckIcon());
-					emailData.setSubjectIcon(cfg.getSubjectIcon());
-					emailData.setDeleteType(EEmailDeleteType.valueOf(cfg.getDeleteType()));
-					emailData.setDelayTime(cfg.getDelayTime());
-					emailData.setDeadlineTime(cfg.getDeadlineTime());
-					EmailUtils.sendEmail(userId, emailData);
-				} else {
-					GameLog.error("竞技场上升排名获取邮件内容失败：" + userId + "," + (maxPlace - newPlace));
-				}
-
 			}
 			m_MyArenaData.setWinCount(m_MyArenaData.getWinCount() + 1);
 			ArenaBM.getInstance().addRecord(m_MyArenaData, record, false);
 
 			RecordInfo recordForEnemy = new RecordInfo();
-			recordForEnemy.setHurtList(hurtValueList_);
+			recordForEnemy.setHurtList(enemyHurtList);
 			recordForEnemy.setUserId(m_MyArenaData.getUserId());
 			recordForEnemy.setWin(1 - win);
 			if (!isWin) {
@@ -599,12 +526,13 @@ public class ArenaHandler {
 			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
-			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
-			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + arenaInfoCfg.getCdTime() * 1000);
+			m_MyArenaData.setLastFightTime(System.currentTimeMillis());
+
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
 			// 胜利时增加的积分
 			int addScore = isWin ? 2 : 1;
 			m_MyArenaData.setScore(m_MyArenaData.getScore() + addScore);
+			UserEventMgr.getInstance().ArenaDaily(player, addScore);
 			TableArenaDataDAO.getInstance().update(m_MyArenaData);
 			if (isWin) {
 				Player enemyPlayer = PlayerMgr.getInstance().find(enemyUserId);
@@ -612,6 +540,9 @@ public class ArenaHandler {
 					enemyPlayer.getTempAttribute().setRecordChanged(true);
 				}
 			}
+
+			// 增加挑战次数 2016-04-14 edit by lida
+			m_MyArenaData.setChallengeTime(m_MyArenaData.getChallengeTime() + 1);
 
 			MsgArenaResponse.Builder recordBuilder = MsgArenaResponse.newBuilder();
 			recordBuilder.setArenaType(eArenaType.SYNC_RECORD);
@@ -624,20 +555,34 @@ public class ArenaHandler {
 				System.out.println(builder.getCurrentRanking() + "," + builder.getGoldAward() + "," + builder.getHistoryRanking() + "," + builder.getRankingUp());
 				response.setHistory(builder.build());
 			}
+			// 开服活动通知 竞技场挑战次数
+			player.getFresherActivityMgr().doCheck(eActivityType.A_ArenaChallengeTime);
+
 			return response.build().toByteString();
 		} finally {
 			arenaExt.setNotFighting();
 			enemyExt.setNotFighting();
 		}
 	}
-
-	private int getRound(float value) {
-		int r = Math.round(value);
-		if (r <= 0) {
-			return 1;
-		} else {
-			return r;
+	
+	private HurtValueRecord createHurtRecord(com.rwproto.ArenaServiceProtos.HurtValue value,boolean reverse){
+		HurtValueRecord valueRecord = new HurtValueRecord();
+		if(reverse){
+			ePlayerCamp camp = value.getCamp();
+			valueRecord.setCamp(camp == ePlayerCamp.Me ? ePlayerCamp.Enemy:ePlayerCamp.Me);
+		}else{
+			valueRecord.setCamp(value.getCamp());
 		}
+		valueRecord.setDead(value.getIsDead());
+		valueRecord.setHeroId(value.getHeroId());
+		valueRecord.setHp(value.getHp());
+		valueRecord.setSp(value.getSp());
+		valueRecord.setLevel(value.getLevel());
+		valueRecord.setStartlevel(value.getStartlevel());
+		valueRecord.setPlayerType(value.getPlayerType());
+		valueRecord.setIcon(value.getIcon());
+		valueRecord.setValue(value.getValue());
+		return valueRecord;
 	}
 
 	public ByteString buyTimes(MsgArenaRequest request, Player player) {
@@ -651,30 +596,44 @@ public class ArenaHandler {
 		}
 		int remainCount = m_MyArenaData.getRemainCount();
 		if (remainCount > 0) {
-			response.setArenaData(getArenaData(m_MyArenaData));
+			response.setArenaData(getArenaData(m_MyArenaData, player));
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		}
-		// 检查vip等级
-		int vipLevel = player.getVip();
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
-		if (privilegeCfg == null) {
-			GameLog.error("arena", "buyTimes", player + "获取特权配置失败,vipLevle = " + vipLevel);
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_CONFIG_IS_NULL);
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
-		}
+
 		int buyTimes = m_MyArenaData.getBuyTimes();
-		if (privilegeCfg.getSportBuyCount() <= buyTimes) {
-			GameLog.error("arena", "buyTimes", player + "当前vip购买次数已达上限," + buyTimes + "," + privilegeCfg.getSportBuyCount());
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+		// by franky
+		int allowMaxBuyCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaMaxCount);
+		if (allowMaxBuyCount < buyTimes) {
+			GameLog.info("arena", player.getUserId(), "buyTimes:购买次数已达上限,buyTimes=" + buyTimes + ",allowBuyMaxCount=" + allowMaxBuyCount, null);
+			// player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+			// ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
+
+		/*
+		 * // 检查vip等级 int vipLevel = player.getVip(); PrivilegeCfg privilegeCfg
+		 * = PrivilegeCfgDAO.getInstance().getCfg(vipLevel); if (privilegeCfg ==
+		 * null) { GameLog.error("arena", "buyTimes", player +
+		 * "获取特权配置失败,vipLevle = " + vipLevel);
+		 * player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_CONFIG_IS_NULL);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); } if
+		 * (privilegeCfg.getSportBuyCount() <= buyTimes) {
+		 * GameLog.error("arena", "buyTimes", player + "当前vip购买次数已达上限," +
+		 * buyTimes + "," + privilegeCfg.getSportBuyCount());
+		 * player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); }
+		 */
+
 		int nextBuyTimes = buyTimes + 1;
 		ArenaCost arenaCostCfg = ArenaCostCfgDAO.getInstance().get(nextBuyTimes);
 		if (arenaCostCfg == null) {
-			GameLog.error("arena", "buyTimes", player + "获取购买次数配置失败：" + nextBuyTimes);
+			GameLog.error("arena", "buyTimes", player + "获取竞技场购买配置失败：" + nextBuyTimes);
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_CONFIG_IS_NULL);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
@@ -688,9 +647,9 @@ public class ArenaHandler {
 		player.getUserGameDataMgr().addGold(-costGold);
 		m_MyArenaData.setBuyTimes(nextBuyTimes);
 		m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() + 1);
-		m_MyArenaData.setNextFightTime(0);
+		m_MyArenaData.setLastFightTime(0);
 		TableArenaDataDAO.getInstance().update(m_MyArenaData);
-		response.setArenaData(getArenaData(m_MyArenaData));
+		response.setArenaData(getArenaData(m_MyArenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -704,23 +663,34 @@ public class ArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		// 检查vip等级
-		int vipLevel = player.getVip();
-		PrivilegeCfg privilegeCfg = PrivilegeCfgDAO.getInstance().getCfg(vipLevel);
-		if (privilegeCfg == null) {
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_CONFIG_IS_NULL);
+
+		// by franky
+		boolean isOpen = player.getPrivilegeMgr().getBoolPrivilege(ArenaPrivilegeNames.isAllowResetArena);
+		if (!isOpen) {
+			GameLog.info("arena", player.getUserId(), "clearCD:未开启重置竞技场CD", null);
+			// player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+			// ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		// 检查vip等级是否开启该功能
-		if (privilegeCfg.getArenaResetCDOpen() == 0) {
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
-		}
-		long nextFightingTime = m_MyArenaData.getNextFightTime();
+
+		/*
+		 * // 检查vip等级 int vipLevel = player.getVip(); PrivilegeCfg privilegeCfg
+		 * = PrivilegeCfgDAO.getInstance().getCfg(vipLevel); if (privilegeCfg ==
+		 * null) { player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_CONFIG_IS_NULL);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); } // 检查vip等级是否开启该功能 if
+		 * (privilegeCfg.getArenaResetCDOpen() == 0) {
+		 * player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox,
+		 * ArenaConstant.VIP_LEVEL_NOT_ENOUGHT);
+		 * response.setArenaResultType(eArenaResultType.ARENA_FAIL); return
+		 * response.build().toByteString(); }
+		 */
+
+		long nextFightingTime = m_MyArenaData.getLastFightTime();
 		if (nextFightingTime <= 0) {
-			response.setArenaData(getArenaData(m_MyArenaData));
+			response.setArenaData(getArenaData(m_MyArenaData, player));
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		}
@@ -740,10 +710,10 @@ public class ArenaHandler {
 			return response.build().toByteString();
 		}
 		player.getUserGameDataMgr().addGold(-costGold);
-		m_MyArenaData.setNextFightTime(0);
+		m_MyArenaData.setLastFightTime(0);
 		m_MyArenaData.setResetTimes(clearCDTimes);
 		TableArenaDataDAO.getInstance().update(m_MyArenaData);
-		response.setArenaData(getArenaData(m_MyArenaData));
+		response.setArenaData(getArenaData(m_MyArenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -780,7 +750,17 @@ public class ArenaHandler {
 		return result.build();
 	}
 
-	public ArenaData getArenaData(TableArenaData arenaData) {
+	private long getNextFightTime(TableArenaData arenaData, Player player) {
+		int decCount = player.getPrivilegeMgr().getIntPrivilege(ArenaPrivilegeNames.arenaChallengeDec);
+		ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
+		int cdTime = arenaInfoCfg.getCdTime() - decCount;
+		if (cdTime < 0) {
+			cdTime = 0;
+		}
+		return arenaData.getLastFightTime() + cdTime * 1000L;
+	}
+
+	public ArenaData getArenaData(TableArenaData arenaData, Player player) {
 		ArenaData.Builder data = ArenaData.newBuilder();
 		String enemyId = arenaData.getUserId();
 		int career = arenaData.getCareer();
@@ -790,10 +770,12 @@ public class ArenaHandler {
 		data.setMaxPlace(arenaData.getMaxPlace());
 		int remainCount = arenaData.getRemainCount();
 		data.setRemainCount(remainCount);
-		long nextFightTime = arenaData.getNextFightTime();
+		long lastFightTime = arenaData.getLastFightTime();
 		// 这里不为0的时候才设置冷却时间
-		if (nextFightTime > 0 && remainCount > 0) {
+		if (player != null && lastFightTime > 0 && remainCount > 0) {
+			// by franky
 			long currentTime = System.currentTimeMillis();
+			long nextFightTime = getNextFightTime(arenaData, player);
 			if (nextFightTime > currentTime) {
 				data.setCdTime(TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime));
 			}
@@ -803,8 +785,10 @@ public class ArenaHandler {
 		data.setLevel(arenaData.getLevel());
 		data.setName(arenaData.getName());
 		int fighting = 0;
-		arenaData.getHeroIdList().remove(arenaData.getUserId());
-		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), arenaData.getHeroIdList());
+		List<String> heroIdList = arenaData.getHeroIdList();
+		if (heroIdList != null)
+			heroIdList.remove(arenaData.getUserId());
+		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), heroIdList);
 		List<ArmyHero> armyList = armyInfo.getHeroList();
 		int armySize = armyList.size();
 		for (int i = 0; i < armySize; i++) {
@@ -819,7 +803,7 @@ public class ArenaHandler {
 		try {
 			data.setArmyInfo(armyInfo.toJson());
 		} catch (Exception e) {
-			GameLog.error("职业竞技场转换armyInfo异常", e);
+			GameLog.error("竞技场", enemyId, "职业竞技场转换armyInfo异常", e);
 		}
 
 		ArmyMagic magic = armyInfo.getArmyMagic();
@@ -889,6 +873,13 @@ public class ArenaHandler {
 		return fillArenaScore(arenaData, response);
 	}
 
+	/**
+	 * 获取积分奖励
+	 * 
+	 * @param request
+	 * @param player
+	 * @return
+	 */
 	public ByteString getScoreReward(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
@@ -930,6 +921,113 @@ public class ArenaHandler {
 		response.setCurrentScore(arenaData.getScore());
 		response.addAllGetCount(arenaData.getRewardList());
 		return response.build().toByteString();
+
+	}
+
+	/**
+	 * 获取历史奖励
+	 * 
+	 * @param request
+	 * @param player
+	 * @return
+	 */
+	public ByteString getHistoryView(MsgArenaRequest request, Player player) {
+		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
+		response.setArenaType(request.getArenaType());
+		String userId = player.getUserId();
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(userId);
+		if (arenaData == null) {
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
+		}
+		List<Integer> rewardRecord = arenaData.getHistoryRewards();
+		ArenaRankCfgDAO rankCfgDAO = ArenaRankCfgDAO.getInstance();
+		List<Integer> list = rankCfgDAO.getAllRankIds();
+		int size = list.size();
+		ArrayList<ArenaHisRewardView> viewList = new ArrayList<ArenaHisRewardView>(size);
+		for (int i = 0; i < size; i++) {
+			int id = list.get(i);
+			ArenaHisRewardView.Builder view = ArenaHisRewardView.newBuilder();
+			view.setRewardId(id);
+			view.setGainReward(rewardRecord.contains(id));
+			viewList.add(view.build());
+		}
+		ArenaHistoryResponse.Builder historyBuilder = ArenaHistoryResponse.newBuilder();
+		historyBuilder.addAllRewardView(viewList);
+		// 整合奖励和对应的总数
+		HashMap<Integer, Integer> totalRewardMap = new HashMap<Integer, Integer>();
+		for (Integer rewardId : rewardRecord) {
+			ArenaRankEntity entity = rankCfgDAO.getArenaRankEntity(rewardId);
+			List<ItemInfo> rewardList = entity.getRewardList();
+			for (int i = rewardList.size(); --i >= 0;) {
+				ItemInfo item = rewardList.get(i);
+				Integer itemId = item.getItemID();
+				int num = item.getItemNum();
+				Integer old = totalRewardMap.get(itemId);
+				if (old == null) {
+					totalRewardMap.put(itemId, num);
+				} else {
+					totalRewardMap.put(itemId, num + old);
+				}
+			}
+		}
+		ArrayList<ArenaHistoryRewardSum> rewardSum = new ArrayList<ArenaHistoryRewardSum>(totalRewardMap.size());
+		for (Map.Entry<Integer, Integer> entry : totalRewardMap.entrySet()) {
+			ArenaHistoryRewardSum.Builder builder = ArenaHistoryRewardSum.newBuilder();
+			builder.setItemId(entry.getKey());
+			builder.setNum(entry.getValue());
+			rewardSum.add(builder.build());
+		}
+		historyBuilder.addAllRewardSum(rewardSum);
+		response.setHistoryReward(historyBuilder.build());
+		return response.build().toByteString();
+	}
+
+	/**
+	 * 获取竞技场历史排名奖励
+	 * 
+	 * @param request
+	 * @param player
+	 * @return
+	 */
+	public ByteString getHistoryReward(MsgArenaRequest request, Player player) {
+		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
+		response.setArenaType(request.getArenaType());
+		String userId = player.getUserId();
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(userId);
+		if (arenaData == null) {
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return getHistoryView(request, player);
+		}
+		int id = request.getHistoryRewardId();
+		List<Integer> historyRewards = arenaData.getHistoryRewards();
+		if (historyRewards.contains(id)) {
+			GameLog.error("ArenaHandler", "#getHistoryReward()", "重复历史排名奖励：" + id);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return getHistoryView(request, player);
+		}
+		ArenaRankEntity rankEntity = ArenaRankCfgDAO.getInstance().getArenaRankEntity(id);
+		if (rankEntity == null) {
+			GameLog.error("ArenaHandler", "#getHistoryReward()", "领取不存在的历史排名奖励：" + id);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return getHistoryView(request, player);
+		}
+		int maxPlace = arenaData.getMaxPlace();
+		int rankRequire = rankEntity.getRank();
+		if (rankRequire < maxPlace) {
+			GameLog.error("ArenaHandler", "#getHistoryReward()", "领取历史排名奖励的名次不够:id = " + id + ",rank=" + rankRequire + ",maxPlace=" + maxPlace);
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return getHistoryView(request, player);
+		}
+		historyRewards.add(id);
+		List<ItemInfo> rewards = rankEntity.getRewardList();
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		for (ItemInfo item : rewards) {
+			itemBagMgr.addItem(item.getItemID(), item.getItemNum());
+		}
+		TableArenaDataDAO.getInstance().update(userId);
+		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		return getHistoryView(request, player);
 	}
 
 }

@@ -1,0 +1,12 @@
+id,Remarks,fashionType,name,desc,voice,actionName,specialEffect,rank
+10001,,Wing,恶魔翅膀,这是邪恶力量的象征！,,stand,,3
+10002,,Suit,斗星衣,改良水手服样式的套装，青春气息十足,Sound_100005_01.mp3,stand,,3
+10003,,Suit,天翎霞衣,华丽的贵族礼服，高贵优雅,Sound_101005_01.mp3,stand,,3
+10004,,Pet,熊猫仙,为了修炼仙法一直背着卷轴的熊猫，小心会咬人,,mainidle,,3
+10005,,Suit,魅影蝠袍,传说中穿上可化身恶魔的礼服。,Sound_100005_01.mp3,stand,,3
+10006,,Suit,唤海轻纱,炎炎夏日，去海边拥抱浪花吧！,,stand,,3
+10007,,Wing,钢铁之翼,由钢铁城特制的合金制成。,,stand,,3
+10008,,Wing,粉色之恋,萌萌哒的粉红，妹子的最爱~,,stand,,3
+10009,,Pet,小狐仙,昆仑山上偷偷溜下来的小狐狸,,mainidle,,3
+10010,,Wing,幽蓝异梦,据说是梦境中精灵留下的翅膀,,stand,,2
+10011,,Wing,烈火翼,经历了三味真火的洗礼！,,stand,,2

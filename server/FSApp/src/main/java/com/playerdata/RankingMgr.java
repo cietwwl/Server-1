@@ -1,7 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Set;
 
@@ -9,7 +9,6 @@ import com.bm.arena.ArenaBM;
 import com.bm.rank.ListRankingType;
 import com.bm.rank.RankType;
 import com.bm.rank.RankingEntityCopyer;
-import com.bm.rank.anglearray.AngleArrayAttribute;
 import com.bm.rank.anglearray.AngleArrayComparable;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.bm.rank.arena.ArenaRankingComparable;
@@ -17,8 +16,8 @@ import com.bm.rank.arena.ArenaSettleComparable;
 import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.bm.rank.level.LevelComparable;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.log.GameLog;
-import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.MomentRankingEntry;
@@ -29,13 +28,14 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.ranking.ERankingType;
+import com.rw.service.ranking.RankingGetOperation;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.ranking.CfgRankingDAO;
-import com.rwbase.dao.ranking.TableRankingMgr;
+import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
-import com.rwbase.dao.ranking.pojo.RankingTeamData;
 import com.rwbase.gameworld.GameWorld;
+import com.rwbase.gameworld.GameWorldConstant;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
 
@@ -58,9 +58,70 @@ public class RankingMgr {
 		return m_instance;
 	}
 
+	private final EnumMap<RankType, RankingGetOperation> operationMap;
+	private final RankingGetOperation defaultGetOp;
+
+	public RankingMgr() {
+		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
+		this.operationMap.put(RankType.WARRIOR_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.SWORDMAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.PRIEST_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.MAGICAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.defaultGetOp = RankingGetOperation.RANKING_GET_OPERATION;
+	}
+
 	public void onInitRankData() {
 		resetUpdateState();
 		arenaCalculate();
+		initAngelArrayTeamInfo();
+	}
+
+	/**
+	 * 初始化竞技场阵容排行榜
+	 */
+	private void initAngelArrayTeamInfo() {
+		ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
+		list.addAll(RankingFactory.getSRanking(ListRankingType.WARRIOR_ARENA).getEntrysCopy());
+		list.addAll(RankingFactory.getSRanking(ListRankingType.SWORDMAN_ARENA).getEntrysCopy());
+		list.addAll(RankingFactory.getSRanking(ListRankingType.MAGICAN_ARENA).getEntrysCopy());
+		list.addAll(RankingFactory.getSRanking(ListRankingType.PRIEST_ARENA).getEntrysCopy());
+
+		int allSize = list.size();// 几个竞技场排行榜的数据
+
+		Ranking<AngleArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		int rankingSize = ranking.size();
+
+		if (allSize <= rankingSize) {
+			return;
+		}
+
+		long now = System.currentTimeMillis();
+
+		for (int i = 0; i < allSize; i++) {
+			ListRankingEntry<String, ArenaExtAttribute> listRankingEntry = list.get(i);
+			if (listRankingEntry == null) {
+				continue;
+			}
+
+			ArenaExtAttribute arenaExtAttr = listRankingEntry.getExtension();
+			if (arenaExtAttr == null) {
+				continue;
+			}
+
+			String key = listRankingEntry.getKey();
+			RankingEntry<AngleArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(key);
+			if (rankingEntry == null) {
+				AngleArrayComparable comparable = new AngleArrayComparable();
+				comparable.setLevel(arenaExtAttr.getLevel());
+				comparable.setFighting(arenaExtAttr.getFightingTeam());
+
+				AngelArrayTeamInfoAttribute attr = new AngelArrayTeamInfoAttribute();
+				attr.setUserId(key);
+				attr.setTime(now);
+
+				ranking.addOrUpdateRankingEntry(key, comparable, attr);
+			}
+		}
 	}
 
 	/**
@@ -90,7 +151,7 @@ public class RankingMgr {
 				Ranking<FightingComparable, RankingLevelData> fightingTeamRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
 				Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ALL);
 				for (ListRankingEntry<String, ArenaExtAttribute> m : list) {
-					RankingLevelData levelData = createRankingLevelData(m);
+					RankingLevelData levelData = RankingUtils.createRankingLevelData(m);
 					ArenaExtAttribute areanExt = m.getExtension();
 					String key = m.getKey();
 					FightingComparable fightingComparable = new FightingComparable();
@@ -111,8 +172,8 @@ public class RankingMgr {
 			changeDailyData(RankType.TEAM_FIGHTING, RankType.TEAM_FIGHTING_DAILY);
 			changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ALL_DAILY);
 
-			// 初始化万仙阵数据
-			changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
+			// // 初始化万仙阵数据
+			// changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
 			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
 		} catch (Exception e) {
 			GameLog.error("RankingMgr", "#resetUpdateState()", "重置排行榜异常", e);
@@ -122,24 +183,24 @@ public class RankingMgr {
 	public void arenaCalculate() {
 		GameWorld world = GameWorldFactory.getGameWorld();
 		String lastResetText = world.getAttribute(GameWorldKey.ARENA_CALCULATE);
+		long resetMillis = DateUtils.getResetTime(GameWorldConstant.ARENA_CALCULATE_HOUR, GameWorldConstant.ARENA_CALCULATE_MINUTE, GameWorldConstant.ARENA_CALCULATE_SECOND);
 		if (lastResetText != null && !lastResetText.isEmpty()) {
 			long lastResetTime = Long.parseLong(lastResetText);
-			if (!DateUtils.isResetTime(21, 0, 0, lastResetTime)) {
+			if (lastResetTime > resetMillis) {
 				return;
 			}
 		}
-		long currentTime = System.currentTimeMillis();
 		try {
 			ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>> settletList = new ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>>();
-			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, currentTime);
-			changeDailyData(ListRankingType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY, settletList, currentTime);
-			changeDailyData(ListRankingType.MAGICAN_ARENA, RankType.MAGICAN_ARENA_DAILY, settletList, currentTime);
-			changeDailyData(ListRankingType.PRIEST_ARENA, RankType.PRIEST_ARENA_DAILY, settletList, currentTime);
+			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, resetMillis);
+			changeDailyData(ListRankingType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY, settletList, resetMillis);
+			changeDailyData(ListRankingType.MAGICAN_ARENA, RankType.MAGICAN_ARENA_DAILY, settletList, resetMillis);
+			changeDailyData(ListRankingType.PRIEST_ARENA, RankType.PRIEST_ARENA_DAILY, settletList, resetMillis);
 			Ranking<ArenaSettleComparable, ArenaSettlement> settleRanking = RankingFactory.getRanking(RankType.ARENA_SETTLEMENT);
 			settleRanking.clearAndInsert(settletList);
 			rewardOnlinePlayers();
 		} finally {
-			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
+			world.updateAttribute(GameWorldKey.ARENA_CALCULATE, String.valueOf(System.currentTimeMillis()));
 		}
 	}
 
@@ -180,6 +241,10 @@ public class RankingMgr {
 				ext = entry.getExtendedAttribute();
 			}
 			RankingEntityOfRankImpl re = new RankingEntityOfRankImpl(i, comparable, entry.getKey(), ext);
+			if (ext instanceof RankingLevelData) {
+				RankingLevelData levelData = (RankingLevelData) ext;
+				levelData.setRankLevel(i);
+			}
 			copyList.add(re);
 		}
 		copyRanking.clearAndInsert(copyList);
@@ -199,7 +264,7 @@ public class RankingMgr {
 		for (int i = 1; i <= size; i++) {
 			ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
 			String key = entry.getKey();
-			RankingLevelData levelData = createRankingLevelData(entry);
+			RankingLevelData levelData = RankingUtils.createRankingLevelData(entry);
 			ArenaSettleComparable sc = new ArenaSettleComparable();
 			sc.setRanking(i);
 			ArenaSettlement settlement = new ArenaSettlement();
@@ -214,7 +279,8 @@ public class RankingMgr {
 			if (rank > 0) {
 				levelData.setRankCount(Math.abs(rank - i));
 			}
-
+			ArenaExtAttribute attribute = entry.getExtension();
+			attribute.setRankLevel(i);
 			levelData.setRankLevel(i);
 			ArenaRankingComparable rankComparable = new ArenaRankingComparable();
 			rankComparable.setRanking(entry.getRanking());
@@ -224,68 +290,59 @@ public class RankingMgr {
 		ranking.clearAndInsert(currentList);
 	}
 
-	/** 把竞技场数据加入到万仙阵排行榜 */
-	private void changeAngleArrayMatchRankData(RankType copyType) {
-		Ranking<AngleArrayComparable, AngleArrayAttribute> ranking = RankingFactory.getRanking(RankType.ANGLE_ARRAY_RANK);
-		List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>> currentList = new ArrayList<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>(copyType.getMaxCapacity());
-
-		getAreanRankData(ListRankingType.WARRIOR_ARENA, currentList);
-		getAreanRankData(ListRankingType.SWORDMAN_ARENA, currentList);
-		getAreanRankData(ListRankingType.MAGICAN_ARENA, currentList);
-		getAreanRankData(ListRankingType.PRIEST_ARENA, currentList);
-
-		ranking.clearAndInsert(currentList);
-	}
-
-	/**
-	 * 
-	 * @param ordinalType
-	 * @param currentList
-	 */
-	private void getAreanRankData(ListRankingType ordinalType, List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>> currentList) {
-		ListRanking<String, ArenaExtAttribute> sranking = RankingFactory.getSRanking(ordinalType);// 获取排行榜数据
-		List<? extends ListRankingEntry<String, ArenaExtAttribute>> list = sranking.getEntrysCopy();// 拷贝一份数据
-		int size = list.size();
-		// ArrayList<RankingEntityOfRank<AngleArrayComparable,
-		// AngleArrayAttribute>> currentList = new
-		// ArrayList<RankingEntityOfRank<AngleArrayComparable,
-		// AngleArrayAttribute>>(size);
-		for (int i = 1; i <= size; i++) {
-			ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
-			String key = entry.getKey();
-
-			// 比较器
-			AngleArrayComparable rankComparable = new AngleArrayComparable();
-			ArenaExtAttribute extension = entry.getExtension();
-			rankComparable.setLevel(extension.getLevel());
-			rankComparable.setFighting(extension.getFightingTeam());
-
-			// 扩展属性
-			AngleArrayAttribute att = new AngleArrayAttribute();
-			att.setUserId(key);
-
-			RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute> entity = new RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute>(i, rankComparable, key, att);
-			currentList.add(entity);
-		}
-	}
-
-	/* 通过竞技场记录创建一个排行榜实体 */
-	private RankingLevelData createRankingLevelData(ListRankingEntry<String, ArenaExtAttribute> entry) {
-		ArenaExtAttribute areanExt = entry.getExtension();
-		RankingLevelData levelData = new RankingLevelData();
-		levelData.setUserId(entry.getKey());
-		levelData.setLevel(areanExt.getLevel());
-		levelData.setJob(areanExt.getCareer());
-		levelData.setFightingAll(areanExt.getFighting());
-		levelData.setFightingTeam(areanExt.getFightingTeam());
-		levelData.setModelId(areanExt.getModelId());
-		levelData.setSex(areanExt.getSex());
-		levelData.setUserHead(areanExt.getHeadImage());
-		levelData.setUserName(areanExt.getName());
-		levelData.setArenaPlace(entry.getRanking());
-		levelData.setRankLevel(entry.getRanking());
-		return levelData;
-	}
+	// /** 把竞技场数据加入到万仙阵排行榜 */
+	// private void changeAngleArrayMatchRankData(RankType copyType) {
+	// Ranking<AngleArrayComparable, AngleArrayAttribute> ranking =
+	// RankingFactory.getRanking(RankType.ANGLE_ARRAY_RANK);
+	// List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>
+	// currentList = new ArrayList<RankingEntityOfRank<AngleArrayComparable,
+	// AngleArrayAttribute>>(copyType.getMaxCapacity());
+	//
+	// getAreanRankData(ListRankingType.WARRIOR_ARENA, currentList);
+	// getAreanRankData(ListRankingType.SWORDMAN_ARENA, currentList);
+	// getAreanRankData(ListRankingType.MAGICAN_ARENA, currentList);
+	// getAreanRankData(ListRankingType.PRIEST_ARENA, currentList);
+	//
+	// ranking.clearAndInsert(currentList);
+	// }
+	//
+	// /**
+	// *
+	// * @param ordinalType
+	// * @param currentList
+	// */
+	// private void getAreanRankData(ListRankingType ordinalType,
+	// List<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>
+	// currentList) {
+	// ListRanking<String, ArenaExtAttribute> sranking =
+	// RankingFactory.getSRanking(ordinalType);// 获取排行榜数据
+	// List<? extends ListRankingEntry<String, ArenaExtAttribute>> list =
+	// sranking.getEntrysCopy();// 拷贝一份数据
+	// int size = list.size();
+	// // ArrayList<RankingEntityOfRank<AngleArrayComparable,
+	// // AngleArrayAttribute>> currentList = new
+	// // ArrayList<RankingEntityOfRank<AngleArrayComparable,
+	// // AngleArrayAttribute>>(size);
+	// for (int i = 1; i <= size; i++) {
+	// ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
+	// String key = entry.getKey();
+	//
+	// // 比较器
+	// AngleArrayComparable rankComparable = new AngleArrayComparable();
+	// ArenaExtAttribute extension = entry.getExtension();
+	// rankComparable.setLevel(extension.getLevel());
+	// rankComparable.setFighting(extension.getFightingTeam());
+	//
+	// // 扩展属性
+	// AngleArrayAttribute att = new AngleArrayAttribute();
+	// att.setUserId(key);
+	//
+	// RankingEntityOfRankImpl<AngleArrayComparable, AngleArrayAttribute> entity
+	// = new RankingEntityOfRankImpl<AngleArrayComparable,
+	// AngleArrayAttribute>(i, rankComparable, key, att);
+	// currentList.add(entity);
+	// }
+	// }
 
 	/**
 	 * 对外提供排行榜条目属性更新
@@ -316,6 +373,7 @@ public class RankingMgr {
 			toData.setFightingAll(p.getHeroMgr().getFightingAll());
 			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
 			toData.setUserHead(p.getHeadImage());
+			toData.setHeadbox(p.getHeadFrame());
 			toData.setModelId(p.getModelId());
 			toData.setJob(p.getCareer());
 			toData.setSex(p.getSex());
@@ -331,55 +389,61 @@ public class RankingMgr {
 	 * @return
 	 */
 	public RankingLevelData getFirstRankingData(ECareer type) {
-		RankType rankingType;
-		switch (type) {
-		case Warrior:
-			rankingType = RankType.WARRIOR_ARENA_DAILY;
-			break;
-		case SwordsMan:
-			rankingType = RankType.SWORDMAN_ARENA_DAILY;
-			break;
-		case Magican:
-			rankingType = RankType.MAGICAN_ARENA_DAILY;
-			break;
-		case Priest:
-			rankingType = RankType.PRIEST_ARENA_DAILY;
-			break;
-		// TODO 这样做真的好吗
-		default:
-			rankingType = RankType.WARRIOR_ARENA_DAILY;
-			break;
-		}
+		try {
+			RankType rankingType;
+			switch (type) {
+			case Warrior:
+				rankingType = RankType.WARRIOR_ARENA_DAILY;
+				break;
+			case SwordsMan:
+				rankingType = RankType.SWORDMAN_ARENA_DAILY;
+				break;
+			case Magican:
+				rankingType = RankType.MAGICAN_ARENA_DAILY;
+				break;
+			case Priest:
+				rankingType = RankType.PRIEST_ARENA_DAILY;
+				break;
+			// TODO 这样做真的好吗
+			default:
+				rankingType = RankType.WARRIOR_ARENA_DAILY;
+				break;
+			}
 
-		Ranking ranking = RankingFactory.getRanking(rankingType);
-		if (ranking == null) {
-			GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
+			Ranking ranking = RankingFactory.getRanking(rankingType);
+			if (ranking == null) {
+				GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
+				return null;
+			}
+			RankingEntry entry = ranking.getFirstEntry();
+			if (entry == null) {
+				return null;
+			}
+			String userId = (String) entry.getKey();
+			Player p = (Player) PlayerMgr.getInstance().getReadOnlyPlayer(userId);
+			if (p == null) {
+				GameLog.error("ranking", "getFirstRankingData", "找不到玩家：" + userId);
+				return null;
+			}
+			RankingLevelData levelData = (RankingLevelData) entry.getExtendedAttribute();
+			RankingLevelData toData = new RankingLevelData();
+			toData.setUserId(userId);
+			toData.setUserName(p.getUserName());
+			toData.setLevel(p.getLevel());
+			toData.setExp(p.getExp());
+			toData.setFightingAll(p.getHeroMgr().getFightingAll());
+			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+			toData.setUserHead(p.getHeadImage());
+			toData.setHeadbox(p.getHeadFrame());
+			toData.setModelId(RankingUtils.getModelId(levelData));
+			toData.setJob(levelData.getJob());
+			toData.setSex(p.getSex());
+			toData.setCareerLevel(p.getStarLevel());
+			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
+			return toData;
+		} catch (Exception e) {
 			return null;
 		}
-		RankingEntry entry = ranking.getFirstEntry();
-		if (entry == null) {
-			return null;
-		}
-		String userId = (String) entry.getKey();
-		Player p = (Player) PlayerMgr.getInstance().getReadOnlyPlayer(userId);
-		if (p == null) {
-			GameLog.error("ranking", "getFirstRankingData", "找不到玩家：" + userId);
-			return null;
-		}
-		RankingLevelData toData = new RankingLevelData();
-		toData.setUserId(userId);
-		toData.setUserName(p.getUserName());
-		toData.setLevel(p.getLevel());
-		toData.setExp(p.getExp());
-		toData.setFightingAll(p.getHeroMgr().getFightingAll());
-		toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
-		toData.setUserHead(p.getHeadImage());
-		toData.setModelId(p.getModelId());
-		toData.setJob(p.getCareer());
-		toData.setSex(p.getSex());
-		toData.setCareerLevel(p.getStarLevel());
-		toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
-		return toData;
 	}
 
 	/**
@@ -388,60 +452,26 @@ public class RankingMgr {
 	 * @param rankType
 	 * @return
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<RankingLevelData> getRankList(RankType rankType) {
-		Ranking ranking = RankingFactory.getRanking(rankType);
-		if (ranking == null) {
-			GameLog.error("ranking", "getRankList", "找不到排行榜类型：" + rankType);
-			return Collections.EMPTY_LIST;
-		}
-		if (ranking.size() == 0) {
-			return Collections.EMPTY_LIST;
-		}
 		CfgRanking cfg = CfgRankingDAO.getInstance().getRankingCf(getCfgId(rankType));
 		int maxCount = cfg.getRankNum();
-		EnumerateList<? extends MomentRankingEntry> enumerateList = ranking.getEntriesEnumeration(1, Math.min(maxCount, ranking.size()));
-		ArrayList<RankingLevelData> list = new ArrayList<RankingLevelData>(enumerateList.size());
-		while (enumerateList.hasMoreElements()) {
-			list.add((RankingLevelData) enumerateList.nextElement().getEntry().getExtendedAttribute());
-		}
-		return list;
+		return getRankList(rankType, maxCount);
+	}
+
+	public List<RankingLevelData> getRankList(RankType rankType, int count) {
+		return getRankingGetOp(rankType).getRankList(rankType, count);
 	}
 
 	/** 根据类型、用户ID 获取排名 无数据返回0 0表示未入榜 */
 	public int getRankLevel(RankType rankType, String userId) {
-		Ranking ranking = RankingFactory.getRanking(rankType);
-		if (ranking == null) {
-			GameLog.error("ranking", "getRankLevel", "找不到排行榜类型：" + rankType);
-			return 0;
-		}
-		int index = ranking.getRanking(userId);
-		return index < 0 ? 0 : index;
+		RankingGetOperation op = getRankingGetOp(rankType);
+		return op.getRanking(rankType, userId);
 	}
 
 	/** 获取玩家的排名数据 上次排序 */
 	public RankingLevelData getRankLevelData(RankType rankType, String userId) {
-		Ranking ranking = RankingFactory.getRanking(rankType);
-		if (ranking == null) {
-			GameLog.error("ranking", "getRankLevelData", "找不到排行榜类型：" + rankType);
-			return null;
-		}
-		RankingEntry entry = ranking.getRankingEntry(userId);
-		if (entry == null) {
-			return null;
-		}
-		return (RankingLevelData) entry.getExtendedAttribute();
-	}
-
-	/** 根据排行类型获取队伍列表 */
-	public List<RankingTeamData> getTeamList(ERankingType rankType, String userId) {
-		List<RankingTeamData> result = new ArrayList<RankingTeamData>();
-		if (rankType.equals(ERankingType.TEAM_FIGHTING_ALL)) {
-			result = TableRankingMgr.getInstance().getFiveTeamData(userId);
-		} else if (rankType.equals(ERankingType.WARRIOR_DAY) || rankType.equals(ERankingType.SWORDMAN_DAY) || rankType.equals(ERankingType.MAGICAN_DAY) || rankType.equals(ERankingType.PRIEST_DAY)) {
-			result = TableRankingMgr.getInstance().getArenaTeamData(userId, rankType);
-		}
-		return result;
+		RankingGetOperation op = getRankingGetOp(rankType);
+		return op.getRankLevelData(rankType, userId);
 	}
 
 	/** 生成或改变新的一条数据 */
@@ -465,8 +495,9 @@ public class RankingMgr {
 		int teamFighting = player.getHeroMgr().getFightingTeam();
 		int fighting = player.getHeroMgr().getFightingAll();
 		String userId = player.getUserId();
-		if (checkUpdateFighting(player, RankType.TEAM_FIGHTING, teamFighting, ERankingType.TEAM_FIGHTING_ALL)
-				|| checkUpdateFighting(player, RankType.FIGHTING_ALL, fighting, ERankingType.FIGHTING_ALL)) {
+		boolean teamFightingChanged = checkUpdateFighting(player, RankType.TEAM_FIGHTING, teamFighting, ERankingType.TEAM_FIGHTING_ALL);
+		boolean allFightingChanged = checkUpdateFighting(player, RankType.FIGHTING_ALL, fighting, ERankingType.FIGHTING_ALL);
+		if (teamFightingChanged || allFightingChanged) {
 			updateEntryFighting(RankType.LEVEL_ALL, fighting, teamFighting, userId);
 			// TODO 这两个可以合并在updateFighting操作中
 			updateEntryFighting(RankType.TEAM_FIGHTING, fighting, teamFighting, userId);
@@ -589,6 +620,14 @@ public class RankingMgr {
 		}
 	}
 
+	private RankingGetOperation getRankingGetOp(RankType type) {
+		RankingGetOperation getOp = this.operationMap.get(type);
+		if (getOp != null) {
+			return getOp;
+		}
+		return defaultGetOp;
+	}
+
 	// 临时兼容配置的做法
 	private int getCfgId(RankType type) {
 		int id;
@@ -624,7 +663,6 @@ public class RankingMgr {
 		}
 		return id;
 	}
-
 }
 
 class RankingEntityOfRankImpl<C extends Comparable<C>, E> implements RankingEntityOfRank<C, E> {

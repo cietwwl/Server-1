@@ -117,4 +117,11 @@ public interface GroupMemberDataIF {
 	 * @return
 	 */
 	public long getLastDonateTime();
+
+	/**
+	 * 获取帮派总贡献
+	 * 
+	 * @return
+	 */
+	public int getTotalContribution();
 }

@@ -5,7 +5,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.fsutil.util.jackson.JsonUtil;
 
-@JsonIgnoreProperties(ignoreUnknown = false)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientInfo {
 	
 	private String channelId;
@@ -26,9 +26,19 @@ public class ClientInfo {
 	
 	private String imac;
 	
+	private String sdkVersion;
+	
+	private String systemVersion;
+	
+	
+	private String adLinkId;
+
+
 	//运营商
 	private String phoneOp;
 	
+
+
 	public static ClientInfo fromJson(String json){
 		ClientInfo clientInfo = JsonUtil.readValue(json, ClientInfo.class);
 		return clientInfo;
@@ -118,7 +128,29 @@ public class ClientInfo {
 	public void setPhoneOp(String phoneOp) {
 		this.phoneOp = phoneOp;
 	}
+
+	public String getSdkVersion() {
+		return sdkVersion;
+	}
+
+	public void setSdkVersion(String sdkVersion) {
+		this.sdkVersion = sdkVersion;
+	}
 	
+	public String getSystemVersion() {
+		return systemVersion;
+	}
+
+	public void setSystemVersion(String systemVersion) {
+		this.systemVersion = systemVersion;
+	}
 	
+	public String getAdLinkId() {
+		return adLinkId;
+	}
+
+	public void setAdLinkId(String adLinkId) {
+		this.adLinkId = adLinkId;
+	}
 	
 }

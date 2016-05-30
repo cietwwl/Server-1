@@ -1,12 +1,14 @@
 package com.rwbase.common.attrdata;
 
 public interface AttrDataIF {
+
 	public int getLife();
 
-	public int getEnergy() ;
+	public int getEnergy();
 
-
-	public int getAttack();
+	public int getPhysiqueAttack();
+	
+	public int getSpiritAttack();
 
 	public int getPhysiqueDef();
 
@@ -20,17 +22,17 @@ public interface AttrDataIF {
 
 	public int getToughness();
 
-	public int getLifeReceive() ;
+	public int getLifeReceive();
 
-	public int getEnergyReceive() ;
+	public int getEnergyReceive();
 
 	public int getStruckEnergy();
 
 	public int getAttackEnergy();
 
-	public int getEnergyTrans() ;
+	public int getEnergyTrans();
 
-	public int getCutHurt() ;
+	public int getCutHurt();
 
 	public int getCutCritHurt();
 
@@ -42,7 +44,7 @@ public interface AttrDataIF {
 
 	public int getLifeGrowUp();
 
-	public int getAttackGrowUp();
+	public int getpAttackGrowUp();
 
 	public int getPhysicqueDefGrowUp();
 
@@ -74,9 +76,8 @@ public interface AttrDataIF {
 
 	public float getViewRange();
 
-	public float getVolumeRadius() ;
+	public float getVolumeRadius();
 
-	public float getDoHurt() ;
+	public float getDoHurt();
 
-	
 }

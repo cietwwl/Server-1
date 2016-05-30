@@ -22,7 +22,7 @@ public class PlatformGSHandler{
 		UserInfoResponse.Builder userInfoResponse = UserInfoResponse.newBuilder();
 		Player player = PlayerMgr.getInstance().find(userId);
 		userInfoResponse.setPlatformGSMsgType(ePlatformGSMsgType.USER_INFO);
-		if(player!=null){
+		if(player != null){
 			String account = player.getUserDataMgr().getAccount();
 			int level = player.getLevel();
 			int vipLevel = player.getVip();

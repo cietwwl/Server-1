@@ -7,7 +7,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
+	
+//	private static SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyyMMddHHmm");
 
+
+	private static ThreadLocal<SimpleDateFormat> formate_ddhhmmss = new ThreadLocal<SimpleDateFormat>();
+	private static ThreadLocal<SimpleDateFormat> formate_yyyyMMddHHmm = new ThreadLocal<SimpleDateFormat>();
 	public static Calendar getCurrent() {
 		return Calendar.getInstance();
 	}
@@ -92,6 +97,7 @@ public class DateUtils {
 		int dayOfYear = currentDay.get(Calendar.DAY_OF_YEAR);
 		int yearLast = dayFlag.get(Calendar.YEAR);
 		int dayOfYearLast = dayFlag.get(Calendar.DAY_OF_YEAR);
+//		System.out.println("dateutils.year" + year +" dayofyear" + dayOfYear +" yearlast +" + yearLast + " dayofyearlast" + dayOfYearLast);
 		if (year > yearLast) {
 			return true;
 		}
@@ -103,8 +109,52 @@ public class DateUtils {
 	}
 
 	public static boolean isTheSameDayOfWeek(int dayOfWeek) {
+		return isTheSameDayOfWeekAndHour(dayOfWeek, 0);
+	}
+
+	/**
+	 * <pre>
+	 * 是否是一周的同一天，并且开启的小时相同
+	 * <b>以下内容一定要注意：
+	 * 【注】如果当前的小时并没有超过给定的小时，就不会更新到是这周的某一天
+	 * E.g,传入的dayOfWeek是5(周五的意思)，hour是5点
+	 * 当前时间是2016-04-22这天是周五。给定的hour是5点，然而当前是4点
+	 * 那么方法里会自动判定今天还是4月21日周四。
+	 * </b>
+	 * </pre>
+	 * 
+	 * @param dayOfWeek
+	 * @param hour <b>一定是24小时制</b> 如果当前小时已经超过或者大于传递的小时，就当作相同，返回true
+	 * @return
+	 */
+	public static boolean isTheSameDayOfWeekAndHour(int dayOfWeek, int hour) {
+		hour = hour >= 24 ? 0 : hour;// 不能超过24点，24点自动判定为0点
 		Calendar currentDay = getCurrent();
-		return currentDay.get(Calendar.DAY_OF_WEEK) == dayOfWeek;
+		int day = currentDay.get(Calendar.DAY_OF_WEEK);// 当前天数
+		int curHour = currentDay.get(Calendar.HOUR_OF_DAY);// 当前小时
+
+		boolean isHourTrue = curHour >= hour;
+
+		if (day == Calendar.SUNDAY) {// 默认周末为第一天值为1
+			day = 7;
+		} else {
+			day -= 1;
+		}
+
+		if (!isHourTrue) {
+			day -= 1;
+			if (day == 0) {
+				day = 7;
+			}
+
+			isHourTrue = true;
+		}
+
+		if (day == dayOfWeek && isHourTrue) {// 时间超过了重置点&&是一周的同一天
+			return true;
+		}
+
+		return false;
 	}
 
 	public static Calendar getCalendar(long time) {
@@ -156,6 +206,30 @@ public class DateUtils {
 	}
 
 	/**
+	 * 获取指定时间最近一次重置的毫秒数
+	 * 
+	 * @param hour
+	 * @param minute
+	 * @param second
+	 * @return
+	 */
+	public static long getResetTime(int hour, int minute, int second) {
+		Calendar calendar = Calendar.getInstance();
+		long curTime = calendar.getTimeInMillis();// 当前时间
+
+		// 重置时间
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, minute);
+		calendar.set(Calendar.SECOND, second);
+		calendar.set(Calendar.MILLISECOND, 0);
+		long resetTimeMillis = calendar.getTimeInMillis();// 今天重置点时间
+		if (curTime < resetTimeMillis) {// 当前登录时间小于今天重置点时间，那么就要重置判断时间点再推前一天
+			resetTimeMillis -= DAY_MILLIS;
+		}
+		return resetTimeMillis;
+	}
+
+	/**
 	 * 相隔的天数
 	 * 
 	 * @param earyDay
@@ -179,7 +253,41 @@ public class DateUtils {
 		int distance = (int) (distanceTime / (24 * 60 * 60 * 1000));
 		return distance;
 	}
-
+	/**
+	 * 传入yyyyMMddhhmm格式的日期字符串转换为毫秒
+	 * 
+	 * @param earyDay
+	 * @param lateDay
+	 * @return
+	 */
+	public static long YyyymmddhhmmToMillionseconds(String str){
+		try{
+			long millionseconds = getyyyyMMddHHmmFormater().parse(str).getTime();
+			return millionseconds;
+		}catch(Exception e){
+			
+		}		
+		return 0;
+	}
+	
+	public static SimpleDateFormat getyyyyMMddHHmmFormater(){
+		SimpleDateFormat format = formate_yyyyMMddHHmm.get();
+		if(format == null){
+			format = new SimpleDateFormat("yyyyMMddHHmm");
+			formate_yyyyMMddHHmm.set(format);
+		}
+		return format;
+	}
+	
+	public static SimpleDateFormat getddHHmmFormater(){
+		SimpleDateFormat format = formate_ddhhmmss.get();
+		if(format == null){
+			format = new SimpleDateFormat("dd HH:mm:ss");
+			formate_ddhhmmss.set(format);
+		}
+		return format;
+	}
+	
 	public static void setDayZeroTime(Calendar c) {
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.group.GroupMemberJoinCallback;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -124,8 +125,8 @@ public class GroupMemberMgr {
 	 * @return
 	 */
 	public GroupMemberDataIF addMemberData(String userId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, boolean isAddApply) {
-		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime);
+			long receiveTime, boolean isAddApply, String headbox) {
+		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime, headbox);
 		return holder.addMember(userId, memberData, isAddApply);
 	}
 
@@ -166,7 +167,7 @@ public class GroupMemberMgr {
 	 * @return
 	 */
 	private GroupMemberData newGroupMemberData(String playerId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime) {
+			long receiveTime, String headbox) {
 		GroupMemberData memberData = new GroupMemberData();
 		memberData.setId(newMemberUniqueId(playerId, groupId));
 		memberData.setUserId(playerId);
@@ -181,6 +182,7 @@ public class GroupMemberMgr {
 		memberData.setApplyTime(applyTime);
 		memberData.setReceiveTime(receiveTime);
 		memberData.setTemplateId(templateId);
+		memberData.setHeadbox(headbox);
 		return memberData;
 	}
 
@@ -190,7 +192,7 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param receiveTime
 	 */
-	public synchronized void updateMemberDataWhenByReceive(String userId, long receiveTime) {
+	public synchronized void updateMemberDataWhenByReceive(String userId, long receiveTime, GroupMemberJoinCallback call) {
 		GroupMemberData memberData = holder.getMemberData(userId, true);
 		if (memberData == null) {
 			return;
@@ -204,6 +206,10 @@ public class GroupMemberMgr {
 
 		// 更新下成员信息
 		memberData.setReceiveTime(receiveTime);
+		if (call != null) {
+			call.updateGroupMemberData(memberData);
+		}
+
 		holder.updateMemberData(memberId);
 	}
 
@@ -335,10 +341,17 @@ public class GroupMemberMgr {
 
 		int contribution = memberData.getContribution();
 		contribution += offsetContribution;
-		memberData.setContribution(contribution < 0 ? 0 : contribution);
+		contribution = contribution < 0 ? 0 : contribution;
+		memberData.setContribution(contribution);
+		if (offsetContribution > 0) {
+			memberData.setTotalContribution(memberData.getTotalContribution() + offsetContribution);
+		}
 		holder.updateMemberData(memberData.getId());
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
 		holder.synMemberData(memberPlayer, false, -1);
+
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
 	}
 
 	/**
@@ -386,6 +399,21 @@ public class GroupMemberMgr {
 		}
 
 		item.setHeadId(headIcon);
+		holder.updateMemberData(item.getId());
+	}
+	
+	/**
+	 * 更新成员的头像框
+	 * @param userId
+	 * @param headbox
+	 */
+	public synchronized void updateMemberHeadbox(String userId, String headbox){
+		GroupMemberData item = holder.getMemberData(userId, false);
+		if (item == null) {
+			return;
+		}
+
+		item.setHeadbox(headbox);
 		holder.updateMemberData(item.getId());
 	}
 
@@ -445,7 +473,7 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param donateTimes
 	 * @param lastDonateTime
-	 * @param contribution
+	 * @param contribution 增加了多少贡献
 	 */
 	public void updateMemberDataWhenDonate(String userId, int donateTimes, long lastDonateTime, int contribution) {
 		GroupMemberData item = holder.getMemberData(userId, false);
@@ -455,8 +483,15 @@ public class GroupMemberMgr {
 
 		item.setDonateTimes(donateTimes);
 		item.setLastDonateTime(lastDonateTime);
-		item.setContribution(contribution);
+		item.setContribution(item.getContribution() + contribution);
+		if (contribution > 0) {
+			item.setTotalContribution(item.getTotalContribution() + contribution);
+		}
 		holder.updateMemberData(item.getId());
+
+		Player memberPlayer = PlayerMgr.getInstance().find(userId);
+		// 通知修改了个人贡献值
+		memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, contribution);
 	}
 
 	/**

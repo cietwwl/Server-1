@@ -3,7 +3,6 @@ package com.rw.service.log;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -17,6 +16,7 @@ import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
+import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.eLog.eBILogType;
 import com.rw.service.log.infoPojo.RoleGameInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -31,6 +31,7 @@ import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
+import com.rw.service.log.template.GiftGoldChangedLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
@@ -42,6 +43,7 @@ import com.rw.service.log.template.RoleUpgradeLogTemplate;
 import com.rw.service.log.template.TaskBeginLogTemplate;
 import com.rw.service.log.template.TaskEndLogTemplate;
 import com.rw.service.log.template.ZoneCountCoinLogTemplate;
+import com.rw.service.log.template.ZoneCountGiftGoldLogTemplate;
 import com.rw.service.log.template.ZoneCountLevelSpreadLogTemplate;
 import com.rw.service.log.template.ZoneCountTotalAccountLogTemplate;
 import com.rw.service.log.template.ZoneCountVipSpreadLogTemplate;
@@ -94,6 +96,8 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ActivityBegin, new ActivityBeginLogTemplate());
 		templateMap.put(eBILogType.ActivityEnd, new ActivityEndLogTemplate());
 		templateMap.put(eBILogType.RoleUpgrade, new RoleUpgradeLogTemplate());
+		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
+		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 
 	}
 
@@ -119,6 +123,7 @@ public class BILogMgr {
 	}
 
 	private void logAccountLogout(Player player, Map<String, String> moreInfo) {
+
 		logPlayer(eBILogType.AccountLogout, player, moreInfo);
 	}
 
@@ -130,13 +135,17 @@ public class BILogMgr {
 		logPlayer(eBILogType.RoleLogout, player, null);
 	}
 
-	public void logOnlineCount(String regSubChannelId, AtomicInteger onlineCount) {
-
+	/* 服务器当前没人在线时传入onlinecount为null */
+	public void logOnlineCount(eBILogRegSubChannelToClientPlatForm regsubchanneltoclientplatform, String str) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("onlineCount", "" + onlineCount.get());
-		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
-		moreInfo.put("regSubChannelId", regSubChannelId);
 
+		if (str != null) {
+			moreInfo.put("onlineCount", "" + regsubchanneltoclientplatform.getcount());
+			moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+			moreInfo.put("loginClientPlatForm", regsubchanneltoclientplatform.getclientPlayForm());
+			moreInfo.put("regSubChannelId", regsubchanneltoclientplatform.getregSubChannelId());
+			moreInfo.put("threadId", "" + Thread.currentThread().getId());
+		}
 		log(eBILogType.OnlineCount, null, null, null, moreInfo);
 	}
 
@@ -152,7 +161,18 @@ public class BILogMgr {
 
 		log(eBILogType.ZoneCountCoin, null, null, null, moreInfo);
 	}
+	public void logZoneCountGold(String regSubChannelId, long zoneGoldRemain, String clientPlatForm) {
 
+		Map<String, String> moreInfo = new HashMap<String, String>();
+
+		moreInfo.put("threadId", "" + Thread.currentThread().getId());
+		moreInfo.put("zoneGiftGoldRemain", "" + zoneGoldRemain);
+		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("loginClientPlatForm", clientPlatForm);
+
+		log(eBILogType.ZoneCountGiftGold, null, null, null, moreInfo);
+	}
 	public void logZoneCountLevelSpread(String regSubChannelId, String level, long levelCount, String clientPlatForm) {
 
 		Map<String, String> moreInfo = new HashMap<String, String>();
@@ -278,6 +298,9 @@ public class BILogMgr {
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
 		} else {
@@ -299,7 +322,10 @@ public class BILogMgr {
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
-		moreInfo.put("fightTime", "" + fightTime);
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
+		moreInfo.put("fightTime", "" + fightTime);		
 		if (isFirst) {
 			moreInfo.put("copyStatus", "1");
 		} else {
@@ -311,7 +337,7 @@ public class BILogMgr {
 		} else {
 			moreInfo.put("operationCode", "case_fail");
 		}
-
+		
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
 
@@ -340,35 +366,74 @@ public class BILogMgr {
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
 		moreInfo.put("operationCode", "case_win");
 		moreInfo.put("fightTime", "0");
-
+		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
+			return;
+		}
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
 
 	public void logItemChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, List<ItemData> itemList_incr, List<ItemData> itemList_decr) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("scenceId", scenceId);
-		moreInfo.put("ItemChangedEventType_1", type_1.name());
-		moreInfo.put("ItemChangedEventType_2", type_2.name());
+		if (scenceId != null) {
+			moreInfo.put("scenceId", scenceId);
+		}
+
+		if (type_1 != null) {
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		}
+
+		if (type_2 != null) {
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		}
 		moreInfo.put("itemList_incr", getItemListLog(itemList_incr));
 		moreInfo.put("itemList_decr", getItemListLog(itemList_decr));
 
 		logPlayer(eBILogType.ItemChanged, player, moreInfo);
 	}
 
-	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, int coinRemain) {
+	public void logCoinChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int coinChanged, long coinRemain) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("scenceId", scenceId);
-		moreInfo.put("ItemChangedEventType_1", type_1.name());
-		moreInfo.put("ItemChangedEventType_2", type_2.name());
+		if (scenceId != null) {
+			moreInfo.put("scenceId", scenceId);
+		}
+
+		if (type_1 != null) {
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		}
+
+		if (type_2 != null) {
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		}
 		moreInfo.put("coinChanged", String.valueOf(coinChanged));
 		moreInfo.put("coinRemain", String.valueOf(coinRemain));
 
 		logPlayer(eBILogType.CoinChanged, player, moreInfo);
 	}
 
-	public void logRoleUpgrade(Player player) {
-		logPlayer(eBILogType.RoleUpgrade, player, null);
+	public void logGiftGoldChanged(Player player, String scenceId, ItemChangedEventType_1 type_1, ItemChangedEventType_2 type_2, int giftGoldChanged, int giftGoldRemain) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		if (scenceId != null) {
+			moreInfo.put("scenceId", scenceId);
+		}
+		if (type_1 != null) {
+			moreInfo.put("ItemChangedEventType_1", type_1.name());
+		}
+		if (type_2 != null) {
+			moreInfo.put("ItemChangedEventType_2", type_2.name());
+		}
+		moreInfo.put("giftGoldChanged", String.valueOf(giftGoldChanged));
+		moreInfo.put("giftGoldRemain", String.valueOf(giftGoldRemain));
+
+		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
+	}
+
+	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("levelBeforeUp", oldlevel + "");
+		moreInfo.put("fightbeforelevelup", "last_fight_power:" + fightbeforelevelup );
+		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
+
 	}
 
 	private String getItemListLog(List<ItemData> itemList) {
@@ -387,7 +452,7 @@ public class BILogMgr {
 			return;
 		}
 		ZoneRegInfo zoneRegInfo = player.getUserDataMgr().getZoneRegInfo();
-		RoleGameInfo roleGameInfo = RoleGameInfo.fromPlayer(player);
+		RoleGameInfo roleGameInfo = RoleGameInfo.fromPlayer(player,moreInfo);
 		ZoneLoginInfo zoneLoginInfo = player.getZoneLoginInfo();
 		log(logType, zoneRegInfo, zoneLoginInfo, roleGameInfo, moreInfo);
 
@@ -408,7 +473,7 @@ public class BILogMgr {
 
 				@Override
 				public void run() {
-					biLog.info(logType + " " + logTemplate.getTextTemplate());
+//					biLog.info(logType + " " + logTemplate.getTextTemplate());
 					biLog.info(logType + " " + log);
 					LogService.getInstance().sendLog(log);
 

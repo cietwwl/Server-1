@@ -1603,6 +1603,33 @@ public final class OtherRoleAttrProtos {
      * </pre>
      */
     int getFighting();
+
+    // optional string headbox = 12;
+    /**
+     * <code>optional string headbox = 12;</code>
+     *
+     * <pre>
+     *Í·Ïñ¿ò
+     * </pre>
+     */
+    boolean hasHeadbox();
+    /**
+     * <code>optional string headbox = 12;</code>
+     *
+     * <pre>
+     *Í·Ïñ¿ò
+     * </pre>
+     */
+    java.lang.String getHeadbox();
+    /**
+     * <code>optional string headbox = 12;</code>
+     *
+     * <pre>
+     *Í·Ïñ¿ò
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadboxBytes();
   }
   /**
    * Protobuf type {@code OtherRoleAttr}
@@ -1712,6 +1739,11 @@ public final class OtherRoleAttrProtos {
             case 88: {
               bitField0_ |= 0x00000040;
               fighting_ = input.readInt32();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000080;
+              headbox_ = input.readBytes();
               break;
             }
           }
@@ -2203,6 +2235,61 @@ public final class OtherRoleAttrProtos {
       return fighting_;
     }
 
+    // optional string headbox = 12;
+    public static final int HEADBOX_FIELD_NUMBER = 12;
+    private java.lang.Object headbox_;
+    /**
+     * <code>optional string headbox = 12;</code>
+     *
+     * <pre>
+     *Í·Ïñ¿ò
+     * </pre>
+     */
+    public boolean hasHeadbox() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string headbox = 12;</code>
+     *
+     * <pre>
+     *Í·Ïñ¿ò
+     * </pre>
+     */
+    public java.lang.String getHeadbox() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headbox_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headbox = 12;</code>
+     *
+     * <pre>
+     *Í·Ïñ¿ò
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadboxBytes() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headbox_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       heroList_ = java.util.Collections.emptyList();
       userId_ = "";
@@ -2214,6 +2301,7 @@ public final class OtherRoleAttrProtos {
       skillInfo_ = java.util.Collections.emptyList();
       equipInfo_ = java.util.Collections.emptyList();
       fighting_ = 0;
+      headbox_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2269,6 +2357,9 @@ public final class OtherRoleAttrProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(11, fighting_);
       }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(12, getHeadboxBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2317,6 +2408,10 @@ public final class OtherRoleAttrProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, fighting_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getHeadboxBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2469,6 +2564,8 @@ public final class OtherRoleAttrProtos {
         }
         fighting_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        headbox_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -2552,6 +2649,10 @@ public final class OtherRoleAttrProtos {
           to_bitField0_ |= 0x00000040;
         }
         result.fighting_ = fighting_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.headbox_ = headbox_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2674,6 +2775,11 @@ public final class OtherRoleAttrProtos {
         }
         if (other.hasFighting()) {
           setFighting(other.getFighting());
+        }
+        if (other.hasHeadbox()) {
+          bitField0_ |= 0x00000400;
+          headbox_ = other.headbox_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4113,6 +4219,104 @@ public final class OtherRoleAttrProtos {
       public Builder clearFighting() {
         bitField0_ = (bitField0_ & ~0x00000200);
         fighting_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string headbox = 12;
+      private java.lang.Object headbox_ = "";
+      /**
+       * <code>optional string headbox = 12;</code>
+       *
+       * <pre>
+       *Í·Ïñ¿ò
+       * </pre>
+       */
+      public boolean hasHeadbox() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string headbox = 12;</code>
+       *
+       * <pre>
+       *Í·Ïñ¿ò
+       * </pre>
+       */
+      public java.lang.String getHeadbox() {
+        java.lang.Object ref = headbox_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headbox_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 12;</code>
+       *
+       * <pre>
+       *Í·Ïñ¿ò
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadboxBytes() {
+        java.lang.Object ref = headbox_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headbox_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 12;</code>
+       *
+       * <pre>
+       *Í·Ïñ¿ò
+       * </pre>
+       */
+      public Builder setHeadbox(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headbox_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 12;</code>
+       *
+       * <pre>
+       *Í·Ïñ¿ò
+       * </pre>
+       */
+      public Builder clearHeadbox() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        headbox_ = getDefaultInstance().getHeadbox();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 12;</code>
+       *
+       * <pre>
+       *Í·Ïñ¿ò
+       * </pre>
+       */
+      public Builder setHeadboxBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headbox_ = value;
         onChanged();
         return this;
       }
@@ -7850,23 +8054,23 @@ public final class OtherRoleAttrProtos {
       "o\"N\n\025OtherRoleAttrResponse\022\034\n\004info\030\001 \001(\013" +
       "2\016.OtherRoleAttr\022\027\n\004type\030\002 \001(\0162\t.EMsgTyp" +
       "e\"?\n\024OtherRoleAttrRequest\022\016\n\006userId\030\001 \001(" +
-      "\t\022\027\n\004type\030\002 \001(\0162\t.EMsgType\"\357\001\n\rOtherRole" +
+      "\t\022\027\n\004type\030\002 \001(\0162\t.EMsgType\"\200\002\n\rOtherRole" +
       "Attr\022\034\n\010heroList\030\001 \003(\0132\n.OtherHero\022\016\n\006us" +
       "erId\030\002 \001(\t\022\020\n\010userName\030\003 \001(\t\022\013\n\003sex\030\004 \001(" +
       "\005\022\r\n\005level\030\005 \001(\005\022\021\n\theadImage\030\006 \001(\t\022\022\n\nt" +
       "emplateId\030\007 \001(\t\022\035\n\tskillInfo\030\010 \003(\0132\n.Ski" +
       "llInfo\022*\n\tequipInfo\030\n \003(\0132\027.EquipService",
-      ".EquipData\022\020\n\010fighting\030\013 \001(\005\"\365\001\n\tOtherHe" +
-      "ro\022\035\n\tskillInfo\030\001 \003(\0132\n.SkillInfo\022\n\n\002id\030" +
-      "\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\014\n\004icon\030\004 \001(\t\022\r\n\005lev" +
-      "el\030\005 \001(\005\022\021\n\tstarLevel\030\006 \001(\005\022\021\n\tqualityId" +
-      "\030\007 \001(\t\022\020\n\010fighting\030\010 \001(\005\022\016\n\006heroId\030\t \001(\t" +
-      "\022\016\n\006modeId\030\n \001(\t\022\016\n\006career\030\013 \001(\005\022*\n\tequi" +
-      "pInfo\030\014 \003(\0132\027.EquipService.EquipData\"5\n\t" +
-      "SkillInfo\022\n\n\002id\030\001 \001(\t\022\r\n\005level\030\002 \001(\005\022\r\n\005" +
-      "order\030\003 \001(\005*%\n\010EMsgType\022\013\n\007BaseMsg\020\000\022\014\n\010" +
-      "OtherMsg\020\001B\"\n\013com.rwprotoB\023OtherRoleAttr",
-      "Protos"
+      ".EquipData\022\020\n\010fighting\030\013 \001(\005\022\017\n\007headbox\030" +
+      "\014 \001(\t\"\365\001\n\tOtherHero\022\035\n\tskillInfo\030\001 \003(\0132\n" +
+      ".SkillInfo\022\n\n\002id\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\014\n\004" +
+      "icon\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\021\n\tstarLevel\030\006" +
+      " \001(\005\022\021\n\tqualityId\030\007 \001(\t\022\020\n\010fighting\030\010 \001(" +
+      "\005\022\016\n\006heroId\030\t \001(\t\022\016\n\006modeId\030\n \001(\t\022\016\n\006car" +
+      "eer\030\013 \001(\005\022*\n\tequipInfo\030\014 \003(\0132\027.EquipServ" +
+      "ice.EquipData\"5\n\tSkillInfo\022\n\n\002id\030\001 \001(\t\022\r" +
+      "\n\005level\030\002 \001(\005\022\r\n\005order\030\003 \001(\005*%\n\010EMsgType" +
+      "\022\013\n\007BaseMsg\020\000\022\014\n\010OtherMsg\020\001B\"\n\013com.rwpro",
+      "toB\023OtherRoleAttrProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7890,7 +8094,7 @@ public final class OtherRoleAttrProtos {
           internal_static_OtherRoleAttr_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OtherRoleAttr_descriptor,
-              new java.lang.String[] { "HeroList", "UserId", "UserName", "Sex", "Level", "HeadImage", "TemplateId", "SkillInfo", "EquipInfo", "Fighting", });
+              new java.lang.String[] { "HeroList", "UserId", "UserName", "Sex", "Level", "HeadImage", "TemplateId", "SkillInfo", "EquipInfo", "Fighting", "Headbox", });
           internal_static_OtherHero_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_OtherHero_fieldAccessorTable = new

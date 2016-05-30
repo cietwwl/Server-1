@@ -1,13 +1,9 @@
 package com.rwbase.dao.whiteList;
 
 import java.util.Enumeration;
-
 import com.rw.common.MapItemStoreFactory;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.PFDataRdbDao;
 import com.rw.fsutil.cacheDao.PFMapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rw.fsutil.cacheDao.mapItem.PFMapItemStore;
 
 public class TableWhiteListHolder{
 	
@@ -24,13 +20,15 @@ public class TableWhiteListHolder{
 	
 	public TableWhiteList getTableWhiteList(){
 		MapItemStore<TableWhiteList> tableWhiteListItemStore = getTableWhiteListItemStore();
-		Enumeration<TableWhiteList> list = tableWhiteListItemStore.getEnum();
-		TableWhiteList tableWhiteList = null;
-		while (list.hasMoreElements()) {
-			tableWhiteList = (TableWhiteList) list.nextElement();
-		}
-		if(tableWhiteList == null){
-			tableWhiteList = new TableWhiteList();
+		TableWhiteList tableWhiteList = new TableWhiteList();
+		if (tableWhiteListItemStore != null) {
+			Enumeration<TableWhiteList> list = tableWhiteListItemStore.getEnum();
+			if (list != null) {
+
+				while (list.hasMoreElements()) {
+					tableWhiteList = (TableWhiteList) list.nextElement();
+				}
+			}
 		}
 		return tableWhiteList;
 	}

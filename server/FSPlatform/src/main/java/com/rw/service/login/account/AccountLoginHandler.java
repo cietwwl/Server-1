@@ -12,6 +12,7 @@ import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.account.Account;
 import com.rw.account.ZoneInfoCache;
+import com.rw.common.GameUtil;
 import com.rw.fsutil.util.TextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.platform.PlatformFactory;
@@ -19,10 +20,14 @@ import com.rw.platform.PlatformService;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.ILog;
 import com.rw.service.log.LogService;
+import com.rw.service.log.RegLog;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rwbase.common.enu.EServerStatus;
+import com.rwbase.dao.user.accountInfo.AccountLoginRecord;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecord;
+import com.rwbase.dao.user.loginInfo.TableAccountLoginRecordDAO;
 import com.rwproto.AccountLoginProtos.AccountInfo;
 import com.rwproto.AccountLoginProtos.AccountLoginRequest;
 import com.rwproto.AccountLoginProtos.AccountLoginResponse;
@@ -76,7 +81,7 @@ public class AccountLoginHandler {
 		String phoneInfo = accountInfo.getPhoneInfo();
 		String clientInfoJson = accountInfo.getClientInfoJson();
 
-		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId);
+		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId+"; openAccountId:" + openAccountId);
 
 		// 快速注册账号
 		if (accountId.equals("")) {
@@ -98,22 +103,24 @@ public class AccountLoginHandler {
 		}
 		addAccount(account, accountId);
 	}
-
+	/**验证账号*/
 	private void handleAccountLogin(Account account,
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, int logType, String phoneInfo,
 			String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.login.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.login.phoneinfo = " + phoneInfo);
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setAccount(accountInfo);
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(
 				accountId);
+		TableAccountLoginRecord record = TableAccountLoginRecordDAO.getInstance().get(accountId);
 		if (userAccount != null) {
-			account.setTableAccount(userAccount);
-			UserZoneInfo userZoneInfo = userAccount.getLastLogin(false);
+			account.setAccountId(accountId);
 			ZoneInfoCache zoneInfo = null;
-			if (userZoneInfo != null) {
+			if (record != null) {
 				zoneInfo = PlatformFactory.getPlatformService().getZoneInfo(
-						userZoneInfo.getZoneId());
+						record.getZoneId());
 			}
 			if (zoneInfo == null) {
 				zoneInfo = PlatformFactory.getPlatformService()
@@ -140,74 +147,94 @@ public class AccountLoginHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		UserZoneInfo lastLogin = userAccount.getLastLogin(false);
 		// 检查顶号
-		if (lastLogin != null && lastLogin.getUserId() != null) {
-			processKickOnlinePlayer(lastLogin.getUserId(), lastLogin, accountId);
+		if (record != null && record.getUserId() != null) {
+			AccountLoginRecord cacheRecord = userAccount.getRecord();
+			if(cacheRecord == null){
+				cacheRecord = new AccountLoginRecord();
+				userAccount.setRecord(cacheRecord);
+				cacheRecord.setAccountId(accountId);
+			}
+			processKickOnlinePlayer(record.getUserId(), record, accountId);
+			if (cacheRecord.getLoginTime() != record.getLoginTime()) {
+				cacheRecord.setUserId(record.getUserId());
+				cacheRecord.setZoneId(record.getZoneId());
+				cacheRecord.setLoginTime(record.getLoginTime());
 
-			UserInfoRequest.Builder gsRequest = UserInfoRequest.newBuilder();
-			gsRequest.setPlatformGSMsgType(ePlatformGSMsgType.USER_INFO);
-			gsRequest.setUserId(lastLogin.getUserId());
-			gsRequest.setAccountId(accountId);
-			ZoneInfoCache zone = PlatformFactory.getPlatformService()
-					.getZoneInfo(lastLogin.getZoneId());
-			PlatformFactory.clientManager.submitReqeust(zone.getServerIp(),
-					Integer.parseInt(zone.getPort()), gsRequest.build()
-							.toByteString(), Command.MSG_PLATFORMGS, accountId);
+				UserInfoRequest.Builder gsRequest = UserInfoRequest
+						.newBuilder();
+				gsRequest.setPlatformGSMsgType(ePlatformGSMsgType.USER_INFO);
+				gsRequest.setUserId(record.getUserId());
+				gsRequest.setAccountId(accountId);
+				ZoneInfoCache zone = PlatformFactory.getPlatformService()
+						.getZoneInfo(record.getZoneId());
+				PlatformFactory.clientManager.submitReqeust(zone.getServerIp(),
+						Integer.parseInt(zone.getPort()), gsRequest.build()
+								.toByteString(), Command.MSG_PLATFORMGS,
+						accountId);
+			}
 
 		}
 
 		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Finish --> accountId:" + accountId);
 	}
-
+	/**注册账号*/
 	private void handleRegByAccountId(Account account,
 			AccountLoginResponse.Builder response, AccountInfo accountInfo,
 			String accountId, String password, String openAccountId,
 			int logType, String phoneInfo, String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.reg.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.reg.phoneinfo = " + phoneInfo);
 		if (isIllegalAccount(accountId)) {
 			response.setError("注册失败，账户名不符合规范");
 			response.setResultType(eLoginResultType.FAIL);
 		} else if (StringUtils.isNotBlank(accountId) && StringUtils.isNotBlank(password)) {
 			TableAccount newAccount = AccoutBM.getInstance().createAccount(accountId, password, openAccountId);
 			if (newAccount != null) {
-				account.setTableAccount(newAccount);
 				response.setResultType(eLoginResultType.SUCCESS);
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+				RegLog regLog = RegLog.fromJson(phoneInfo);
 				newAccount.setChannelId(clientInfo.getChannelId());
 				ILog log = processRegLog(logType, phoneInfo, accountId, clientInfo);
 				response.setAccount(accountInfo);
+				account.setAccountId(accountId);
 				ZoneInfoCache lastZoneCfg = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
 				response.setLastZone(getZoneInfo(lastZoneCfg, account.isWhiteList()));
 
 				if (log != null) {
 					log.fillInfoToClientInfo(clientInfo);
 				}
-				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), true);
+				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), regLog,true);
 			} else {
 				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), false);
+				RegLog regLog = RegLog.fromJson(phoneInfo);
+				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(),regLog, false);
 			}
 		} else {
 			response.setError("未知错误，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), false);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog,false);
 		}
 	}
-
+	/**快速注册账号*/
 	private String handelRandomAccount(Account account,
 			AccountLoginResponse.Builder response, String accountId,
 			String openAccountId, int logType, String phoneInfo,
 			String clientInfoJson) {
+		PlatformLog.error("accountloginhandler.quicklyreg.clientinfo = " + clientInfoJson);
+		PlatformLog.error("accountloginhandler.quicklyreg.phoneinfo = " + phoneInfo);
 		String password;
 		TableAccount newAccount = AccoutBM.getInstance().createRandomAccount(openAccountId);
 		if (newAccount != null) {
-			account.setTableAccount(newAccount);
 			accountId = newAccount.getAccount();
+			account.setAccountId(accountId);
 			password = newAccount.getPassword();
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			
 			newAccount.setChannelId(clientInfo.getChannelId());
 			ILog log = processRegLog(logType, phoneInfo, accountId, clientInfo);
 			AccountInfo.Builder newAccountInfo = AccountInfo.newBuilder();
@@ -215,6 +242,7 @@ public class AccountLoginHandler {
 			newAccountInfo.setPassword(password);
 			response.setResultType(eLoginResultType.SUCCESS);
 			response.setAccount(newAccountInfo.build());
+			account.setAccountId(accountId);
 			ZoneInfoCache lastZoneCfg = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
 			if(lastZoneCfg != null){
 				response.setLastZone(getZoneInfo(lastZoneCfg, account.isWhiteList()));
@@ -224,13 +252,14 @@ public class AccountLoginHandler {
 			if (log != null) {
 				log.fillInfoToClientInfo(clientInfo);
 			}
-			BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), true);
+			BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(),regLog, true);
 		} else {
 			response.setError("生成账号失败，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
 			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
-			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), false);
+			RegLog regLog = RegLog.fromJson(phoneInfo);
+			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog,false);
 		}
 		return accountId;
 	}
@@ -273,6 +302,7 @@ public class AccountLoginHandler {
 		
 		String accountId = request.getAccount().getAccountId();
 		if (account == null) {
+			response.setLoginType(eAccountLoginType.ZONE_LIST);
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("服务器繁忙，请稍候尝试。");
 			return response.build().toByteString();
@@ -280,6 +310,7 @@ public class AccountLoginHandler {
 		try {
 			handleZoneList(account, response, accountId);
 		} catch (Exception e) {
+			response.setLoginType(eAccountLoginType.ZONE_LIST);
 			PlatformLog.error("AccountLoginHandler", accountId, "", e);
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("服务器繁忙，请稍候尝试。");
@@ -373,12 +404,12 @@ public class AccountLoginHandler {
 		response.setResultType(eLoginResultType.SUCCESS);
 	}
 	
-	private void processKickOnlinePlayer(String userId, UserZoneInfo lastLogin, String accountId){
+	private void processKickOnlinePlayer(String userId, TableAccountLoginRecord record, String accountId){
 		UserInfoRequest.Builder gsRequest = UserInfoRequest.newBuilder();
 		gsRequest.setPlatformGSMsgType(ePlatformGSMsgType.USER_STATUS);
 		gsRequest.setUserId(userId);
 		ZoneInfoCache zone = PlatformFactory.getPlatformService().getZoneInfo(
-				lastLogin.getZoneId());
+				record.getZoneId());
 		if (zone.getIsOpen(zone.getStatus())) {
 			PlatformFactory.clientManager.submitReqeust(zone.getServerIp(),
 					Integer.parseInt(zone.getPort()), gsRequest.build()
@@ -399,7 +430,7 @@ public class AccountLoginHandler {
 			log = LogService.getInstance().getLogByType(logType);
 			log.parseLog(logValue);
 			log.setLogValue(accountId);
-			LogService.getInstance().sendLog(log, clientInfo);
+//			LogService.getInstance().sendLog(log, clientInfo);
 			return log;
 		} catch (Exception ex) {
 			ex.printStackTrace();

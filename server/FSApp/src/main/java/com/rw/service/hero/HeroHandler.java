@@ -9,6 +9,7 @@ import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
@@ -33,21 +34,40 @@ public class HeroHandler {
 		return instance;
 	}
 
-	/*
+	/**
 	 * 召唤佣兵
+	 * 
+	 * @param player
+	 * @param msgHeroRequest
+	 * @return
 	 */
 	public ByteString summonHero(Player player, MsgHeroRequest msgHeroRequest) {
+		String userId = player.getUserId();
 		MsgHeroResponse.Builder msgHeroResponse = MsgHeroResponse.newBuilder();
 		msgHeroResponse.setEventType(eHeroType.SUMMON_HERO);
+
 		String modelId = msgHeroRequest.getHeroModelId();
 		RoleCfg pHeroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgByModeID(modelId);
-		if (pHeroCfg != null && pHeroCfg.getSummonNumber() <= player.getItemBagMgr().getItemCountByModelId(pHeroCfg.getSoulStoneId())) {
-			// TODO @modify 2015-08-10 HC
-			player.getItemBagMgr().useItemByCfgId(pHeroCfg.getSoulStoneId(), pHeroCfg.getSummonNumber());// 减少神魂石
-			player.getHeroMgr().addHero(pHeroCfg.getRoleId());// 增加佣兵
-			msgHeroResponse.setModerId(modelId);
-			msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS);
+		if (pHeroCfg == null) {
+			msgHeroResponse.setEHeroResultType(eHeroResultType.DATA_ERROR);
+			GameLog.error("召唤佣兵", userId, String.format("客户端传递ModelId为[%s]的佣兵找不到对应的RoleCfg配置", modelId));
+			return msgHeroResponse.build().toByteString();
 		}
+
+		int summonNumber = pHeroCfg.getSummonNumber();
+		int itemCountByModelId = player.getItemBagMgr().getItemCountByModelId(pHeroCfg.getSoulStoneId());
+		if (summonNumber > itemCountByModelId) {
+			msgHeroResponse.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);
+			GameLog.error("召唤佣兵", userId, String.format("客户端传递ModelId为[%s]的佣兵合成需要[%s],背包中只有[%s],数量不足", modelId, summonNumber, itemCountByModelId));
+			return msgHeroResponse.build().toByteString();
+		}
+
+		// TODO @modify 2015-08-10 HC
+		player.getItemBagMgr().useItemByCfgId(pHeroCfg.getSoulStoneId(), summonNumber);// 减少神魂石
+		player.getHeroMgr().addHero(pHeroCfg.getRoleId());// 增加佣兵
+		msgHeroResponse.setModerId(modelId);
+		msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS);
+
 		return msgHeroResponse.build().toByteString();
 	}
 
@@ -70,6 +90,8 @@ public class HeroHandler {
 			role.setTemplateId(nextHeroCfg.getRoleId());// 佣兵升星
 			role.setStarLevel(nextHeroCfg.getStarLevel());
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
+			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
+			
 			break;
 		case -1:
 			msgHeroResponse.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);

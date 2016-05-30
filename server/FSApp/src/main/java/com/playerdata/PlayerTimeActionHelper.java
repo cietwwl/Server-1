@@ -3,24 +3,44 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
 public class PlayerTimeActionHelper {
 
-	/** 每分钟执行 */
-	public static TimeAction onMinutes(final Player player) {
-		TimeAction onMinutesTimeAction = new TimeAction(player.getUserId());
-		onMinutesTimeAction.addTask(new TimeActionTask() {
+	/** 每秒执行 */
+	public static TimeAction onSecond(final Player player) {
+		TimeAction onSecondTimeAction = new TimeAction(player.getUserId());
+		onSecondTimeAction.addTask(new TimeActionTask() {
+
 			@Override
 			public void doTask() {
-
 				// 体力更新
 				int level = player.getLevel();
 				player.getUserGameDataMgr().addPowerByTime(level);
-
 			}
 		});
+		return onSecondTimeAction;
+	}
+
+	/** 每分钟执行 */
+	public static TimeAction onMinutes(final Player player) {
+		TimeAction onMinutesTimeAction = new TimeAction(player.getUserId());
+		// onMinutesTimeAction.addTask(new TimeActionTask() {
+		// @Override
+		// public void doTask() {
+		//
+		// // 体力更新
+		// int level = player.getLevel();
+		// player.getUserGameDataMgr().addPowerByTime(level);
+		//
+		// }
+		// });
 		onMinutesTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
@@ -57,6 +77,16 @@ public class PlayerTimeActionHelper {
 				player.getTowerMgr().checkAndResetMatchData(player);
 			}
 		});
+		onNewHourTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
+				//每个小时都检查一下活动的开启关闭状态
+				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
+			}
+		});
 		return onNewHourTimeAction;
 
 	}
@@ -65,8 +95,19 @@ public class PlayerTimeActionHelper {
 	public static TimeAction onNewDayZero(final Player player) {
 
 		TimeAction onNewDayZeroTimeAction = new TimeAction(player.getUserId());
+		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
+		
+		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
+				MonthCardPrivilegeMgr.getShareInstance().checkPrivilege(player);
+			}
+		});
+		
 		return onNewDayZeroTimeAction;
-
+		
+		
+		
 		// RankingMgr.getInstance().resetUpdateState();
 		// m_ArenaMgr.resetDataInNewDay();
 		// String userId = getUserId();
@@ -111,7 +152,7 @@ public class PlayerTimeActionHelper {
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
-				player.getGambleMgr().resetDestinyHot();
+				player.getGambleMgr().resetForNewDay();
 			}
 		});
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
@@ -161,12 +202,12 @@ public class PlayerTimeActionHelper {
 				player.getCopyDataMgr().resetDataInNewDay();
 			}
 		});
-		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
-			@Override
-			public void doTask() {
-				player.getCopyDataMgr().resetDataInNewDay();
-			}
-		});
+		// onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+		// @Override
+		// public void doTask() {
+		// player.getCopyDataMgr().resetDataInNewDay();
+		// }
+		// });
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {

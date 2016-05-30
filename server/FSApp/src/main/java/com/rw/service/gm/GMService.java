@@ -14,10 +14,9 @@ public class GMService implements FsService{
 	
 	public ByteString doTask(Request request, Player player) {
 		ByteString result = null;
-//		if(!GMHandler.getInstance().isActive()){
-//			return result;
-//		}
-		// TODO Auto-generated method stub
+		if(!GMHandler.getInstance().isActive()){
+			return result;
+		}
 		try {
 			MsgGMRequest msgGMRequest = MsgGMRequest.parseFrom(request.getBody().getSerializedContent());
 			eGMType gmType = msgGMRequest.getGMType();
@@ -30,7 +29,6 @@ public class GMService implements FsService{
 				break;
 			}
 		} catch (InvalidProtocolBufferException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;

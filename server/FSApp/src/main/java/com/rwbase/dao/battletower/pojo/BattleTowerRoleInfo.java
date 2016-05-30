@@ -14,6 +14,8 @@ public class BattleTowerRoleInfo implements BattleTowerRoleInfoIF {
 	private String userId;// 角色Id
 	private int level;// 等级
 	private String headIcon;// 图标
+	private String headFrame;//头像框
+	private int startNum;//星数
 	private String name;// 名字
 	private int floor;// 挑战的最高层数
 	private String magicIcon;// 使用法宝的Icon
@@ -26,6 +28,22 @@ public class BattleTowerRoleInfo implements BattleTowerRoleInfoIF {
 	public BattleTowerRoleInfo(String userId) {
 		this();
 		this.userId = userId;
+	}
+
+	public String getHeadFrame() {
+		return headFrame;
+	}
+
+	public void setHeadFrame(String headFrame) {
+		this.headFrame = headFrame;
+	}
+
+	public int getStartNum() {
+		return startNum;
+	}
+
+	public void setStartNum(int startNum) {
+		this.startNum = startNum;
 	}
 
 	public String getUserId() {

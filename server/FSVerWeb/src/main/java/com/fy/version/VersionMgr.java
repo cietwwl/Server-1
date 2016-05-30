@@ -19,11 +19,21 @@ public class VersionMgr {
 			targetVersion = versionDao.getNextPatch(clientVersion);
 		}
 		
+		//没有全量更新和资源更新，则检查是否有代码更新
+		if(targetVersion == null){
+			targetVersion = versionDao.getNextCodePatch(clientVersion);
+		}
+		if(targetVersion != null){
+			targetVersion.setPackageName(clientVersion.getPackageName());
+		}
 		return targetVersion;
 	}
 	
 	public Version getMaxVersion(Version clientVersion){
 		Version maxCompVersion = versionDao.getMaxVersion(clientVersion);
+		if(maxCompVersion != null){
+			maxCompVersion.setPackageName(clientVersion.getPackageName());
+		}
 		return  maxCompVersion;
 	}
 

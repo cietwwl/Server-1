@@ -33,6 +33,7 @@ public class TableZoneInfo {
 	private String intranetIp;   //内网ip
 	private String openTime;       //开服时间
 	private String gmPort;
+	private int chargePort;
 
 	public int getZoneId() {
 		return zoneId;
@@ -152,5 +153,12 @@ public class TableZoneInfo {
 	public void setGmPort(String gmPort) {
 		this.gmPort = gmPort;
 	}
+	public int getChargePort() {
+		return chargePort;
+	}
+	public void setChargePort(int chargePort) {
+		this.chargePort = chargePort;
+	}
+	
 	
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Map;
 
 import com.log.GameLog;
@@ -15,78 +16,89 @@ import com.rw.manager.GameManager;
 
 public class GmSender {
 
-	private final Socket socket;
+	private Socket socket;
 	private DataOutputStream output;
 	private DataInputStream input;
 	private short protno;
+	final GmSenderConfig gmSenderConfig;
+	
+	private boolean available = true;
 
 	public GmSender(GmSenderConfig senderConfig) throws IOException {
+		gmSenderConfig = senderConfig;
+		this.protno = senderConfig.getProtno();
+		connect(senderConfig);		
+	}	
+	private void connect(GmSenderConfig senderConfig) throws IOException{
 		this.socket = new Socket(senderConfig.getHost(), senderConfig.getPort());
 		this.socket.setSoTimeout(senderConfig.getTimeoutMillis());
 		this.output = new DataOutputStream(socket.getOutputStream());
 		this.input = new DataInputStream(socket.getInputStream());
-		this.protno = senderConfig.getProtno();
 	}
 
 	public boolean isAvailable() {
-		return socket.isConnected() && !socket.isClosed();
+		return available && socket.isConnected() && !socket.isClosed();
+	}	
+	
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
-
-	public <T> T send(Map<String, Object> content, Class<T> clazz) throws IOException {
+	
+	public <T> T send(Map<String, Object> content, Class<T> clazz, int opType) throws IOException {
 
 		GmSend gmSend = new GmSend();
-		gmSend.account = GameManager.getGmAccount();
-		gmSend.password = GameManager.getGmPassword();
-		gmSend.opType = 20039;
-		gmSend.args = content;
-
+		gmSend.setAccount(GameManager.getGmAccount());
+		gmSend.setPassword(GameManager.getGmPassword());
+		gmSend.setOpType(opType);
+		gmSend.setArgs(content);
 		String jsonContent = FastJsonUtil.serialize(gmSend);
 		byte[] dataFormat = dataFormat(protno, jsonContent);
-		output.write(dataFormat);
-		output.flush();
-
-		T gmResponse = GiftCodeSocketHelper.read(input, clazz); // block
+		T gmResponse = null;
+		try {
+			output.write(dataFormat);
+			output.flush();
+			gmResponse = GiftCodeSocketHelper.read(input, clazz);
+		} catch (IOException e) {	
+			GameLog.error(LogModule.GmSender, "GmSender[send]", "第一次发送出现异常,重发", e);
+			//出错重连，再出错则直接抛出异常.
+			reconect();
+			output.write(dataFormat);
+			output.flush();
+			gmResponse = GiftCodeSocketHelper.read(input, clazz); 
+		}
 
 		return gmResponse;
 	}
+	
+	public <T> List<T> send2(Map<String, Object> content, Class<T> clazz, int opType) throws IOException {
 
-	public class GmSend {
-		private String account;
-		private Map<String, Object> args;
-		private int opType;
-		private String password;
-
-		public String getAccount() {
-			return account;
+		GmSend gmSend = new GmSend();
+		gmSend.setAccount(GameManager.getGmAccount());
+		gmSend.setPassword(GameManager.getGmPassword());
+		gmSend.setOpType(opType);
+		gmSend.setArgs(content);
+		String jsonContent = FastJsonUtil.serialize(gmSend);
+		byte[] dataFormat = dataFormat(protno, jsonContent);
+		List<T> gmResponse = null;
+		try {
+			output.write(dataFormat);
+			output.flush();
+			gmResponse = GiftCodeSocketHelper.readList(input, clazz);
+		} catch (IOException e) {	
+			GameLog.error(LogModule.GmSender, "GmSender[send]", "第一次发送出现异常,重发", e);
+			//出错重连，再出错则直接抛出异常.
+			reconect();
+			output.write(dataFormat);
+			output.flush();
+			gmResponse = GiftCodeSocketHelper.readList(input, clazz); 
 		}
 
-		public void setAccount(String account) {
-			this.account = account;
-		}
-
-		public Map<String, Object> getArgs() {
-			return args;
-		}
-
-		public void setArgs(Map<String, Object> args) {
-			this.args = args;
-		}
-
-		public int getOpType() {
-			return opType;
-		}
-
-		public void setOpType(int opType) {
-			this.opType = opType;
-		}
-
-		public String getPassword() {
-			return password;
-		}
-
-		public void setPassword(String password) {
-			this.password = password;
-		}
+		return gmResponse;
+	}
+	
+	private void reconect() throws IOException{
+		destroy();
+		connect(gmSenderConfig);		
 	}
 
 	private byte[] dataFormat(short protno, String json) throws UnsupportedEncodingException {

@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.common.Action;
 import com.log.GameLog;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.readonly.HeroIF;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.eActivityType;
@@ -35,13 +37,13 @@ public class Hero implements HeroIF {
 	private SkillMgr m_SkillMgr = new SkillMgr();
 	private EquipMgr m_EquipMgr = new EquipMgr();
 	private InlayMgr m_inlayMgr = new InlayMgr();// 镶嵌宝石
+//	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr();  //专属装备
+//	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr();  //专属装备
 
 	// 新添加的英雄做基本属性和技能的初始化
 	public Hero(Player pPlayer, eRoleType roleTypeP, RoleCfg heroCfg, String roleUUId) {
-
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;
-
 		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
 		roleBaseInfo.setId(roleUUId);
 		roleBaseInfo.setTemplateId(heroCfg.getRoleId());
@@ -52,9 +54,8 @@ public class Hero implements HeroIF {
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
 		m_SkillMgr.initSkill(heroCfg);
-
 	}
-
+	
 	public Hero(Player pPlayer, eRoleType roleTypeP, String roleUUId) {
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;
@@ -67,6 +68,8 @@ public class Hero implements HeroIF {
 		m_SkillMgr.init(this);
 		m_inlayMgr.init(this);
 		m_EquipMgr.init(this);
+//		m_FixNormEquipMgr.init(this);
+//		m_FixExpEquipMgr.init(this);
 		// Attrmgr要在最后做初始化
 		m_AttrMgr.init(this);
 	}
@@ -102,6 +105,18 @@ public class Hero implements HeroIF {
 
 			}
 		});
+//		m_FixNormEquipMgr.regChangeCallBack(new Action() {
+//			@Override
+//			public void doAction() {
+//				m_AttrMgr.reCal();				
+//			}
+//		});
+//		m_FixExpEquipMgr.regChangeCallBack(new Action() {
+//			@Override
+//			public void doAction() {
+//				m_AttrMgr.reCal();				
+//			}
+//		});
 
 	}
 
@@ -111,6 +126,8 @@ public class Hero implements HeroIF {
 		m_SkillMgr.syncAllSkill(version);
 		m_inlayMgr.syncAllInlay(version);
 		m_EquipMgr.syncAllEquip(version);
+//		m_FixNormEquipMgr.synAllData(m_pPlayer, this);
+//		m_FixExpEquipMgr.synAllData(m_pPlayer, this);
 		m_AttrMgr.syncAllAttr(version);
 
 	}
@@ -139,28 +156,29 @@ public class Hero implements HeroIF {
 		String templateId = String.valueOf(getRoleBaseInfo().getTemplateId());
 		return (RoleCfg) RoleCfgDAO.getInstance().getCfgById(templateId);
 	}
+
 	/**
 	 * 是否可升星
+	 * 
 	 * @return -1:魂石不足;-2:铜钱不足;-3:最高星;-4满星；0:可升星
 	 */
-	public int canUpgradeStar(){
+	public int canUpgradeStar() {
 		int result = 0;
 		RoleCfg rolecfg = getHeroCfg();
 		int soulStoneCount = m_pPlayer.getItemBagMgr().getItemCountByModelId(rolecfg.getSoulStoneId());
 		if (soulStoneCount < rolecfg.getRisingNumber()) {
 			result = -1;
-		}else if (m_pPlayer.getUserGameDataMgr().getCoin() < rolecfg.getUpNeedCoin()) {
+		} else if (m_pPlayer.getUserGameDataMgr().getCoin() < rolecfg.getUpNeedCoin()) {
 			result = -2;
-		}else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())){
+		} else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())) {
 			result = -3;
-		}else if(getStarLevel()>=5){
-			//满星
+		} else if (getStarLevel() >= 5) {
+			// 满星
 			result = -4;
 		}
-		
+
 		return result;
 	}
-	
 
 	public LevelCfg getHeroLevelCfg() {
 		String level = String.valueOf(getRoleBaseInfo().getLevel());
@@ -263,7 +281,7 @@ public class Hero implements HeroIF {
 	public int getStarLevel() {
 		return getRoleBaseInfo().getStarLevel();
 	}
-	
+
 	// 设置佣兵的品阶id
 	public void setQualityId(String qualityId) {
 		m_roleBaseInfoMgr.setQualityId(qualityId);
@@ -286,17 +304,18 @@ public class Hero implements HeroIF {
 
 	/**
 	 * gm修改英雄等级
+	 * 
 	 * @param level
 	 */
 	public void gmEditHeroLevel(int level) {
 		int preLevel = getRoleBaseInfo().getLevel();
 		m_roleBaseInfoMgr.setLevel(level);
 	}
-	
+
 	/**
 	 * gm激活技能
 	 */
-	public void gmCheckActiveSkill(){
+	public void gmCheckActiveSkill() {
 		// 开启技能
 		RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(getRoleBaseInfo().getQualityId());
 		m_SkillMgr.activeSkill(getRoleBaseInfo().getLevel(), cfg.getQuality());
@@ -379,4 +398,16 @@ public class Hero implements HeroIF {
 		return m_EquipMgr;
 	}
 
+	public FixNormEquipMgr getFixNormEquipMgr() {
+//		return m_FixNormEquipMgr;
+		return null;
+	}
+
+	public FixExpEquipMgr getFixExpEquipMgr() {
+//		return m_FixExpEquipMgr;
+		return null;
+	}
+
+	
+	
 }

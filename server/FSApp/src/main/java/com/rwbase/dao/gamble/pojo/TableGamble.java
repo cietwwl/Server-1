@@ -117,6 +117,12 @@ public class TableGamble {
 				return false;
 			}
 			break;
+		case SIX:
+			break;
+		case TEN:
+			break;
+		default:
+			break;
 		}
 		return false;
 	}

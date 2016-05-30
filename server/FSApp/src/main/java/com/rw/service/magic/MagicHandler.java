@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.common.RandomSeqGenerator;
+import com.common.RefInt;
 import com.common.Weight;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -125,8 +127,8 @@ public class MagicHandler {
 		}
 
 		// 验证经验是否爆满（达到进阶等级，且经验在进阶等级满了）
-		OutInt totalExp=new OutInt();
-		OutInt maxUpLevel = new OutInt();
+		RefInt totalExp=new RefInt();
+		RefInt maxUpLevel = new RefInt();
 		final Integer fullExpObj = GetUpgradeExp(itemData,player.getLevel(),totalExp,maxUpLevel);
 		if (fullExpObj == null){//经验爆满或者有其他错误，返回值为空，不能再吃强化材料了
 			return SetReturnResponse(msgMagicResponse,"法宝经验满了，无法强化！");
@@ -163,7 +165,7 @@ public class MagicHandler {
 		}
 		
 		final CriticalIntList criticalEnhanceList;
-		OutInt addedExpObj = new OutInt();
+		RefInt addedExpObj = new RefInt();
 		if (msgMagicRequest.getAutoForge()){
 			// 生成暴击方案，不考虑达到进阶条件
 			criticalEnhanceList = GenerateEnhancePlan(oldSeed,list,matInfos,itemBagMgr,fullExp,addedExpObj);
@@ -186,7 +188,7 @@ public class MagicHandler {
 				}
 				
 				int magicForgeExp = matInfos.unitExps[i];
-				addedExpObj.a += useCount * magicForgeExp;
+				addedExpObj.value += useCount * magicForgeExp;
 				
 				int criticalForgeType = item.getCriticalForgeType();
 				if (criticalForgeType < 0){
@@ -241,12 +243,12 @@ public class MagicHandler {
 			return SetReturnResponse(msgMagicResponse,"无法增加法宝经验！");
 		}
 		
-		int newTotalExp = totalExp.a + addedExp;
+		int newTotalExp = totalExp.value + addedExp;
 		int newExp = oldExp;
 		int newLevel=oldLevel;
 		boolean hasChanged=false;
 		//一定要从最高可能等级开始倒着来检查！
-		for (int k = maxUpLevel.a;k>=oldLevel;k--){
+		for (int k = maxUpLevel.value;k>=oldLevel;k--){
 			final Pair<Integer, Integer> testlvlPair = MagicExpCfgDAO.getInstance().getExpLst(k);
 			final Pair<Integer, Integer> lastlvlPair = MagicExpCfgDAO.getInstance().getExpLst(k-1);
 			Integer lvlFullExp = testlvlPair.getT2();
@@ -312,7 +314,7 @@ public class MagicHandler {
 	 * @param itemData
 	 * @return 剩余有多少值达到满经验
 	 */
-	private Integer GetUpgradeExp(ItemData item,int playerLevel, OutInt totalExp, OutInt maxUpLevel) {
+	private Integer GetUpgradeExp(ItemData item,int playerLevel, RefInt totalExp, RefInt maxUpLevel) {
 		Integer result = null;
 		do{
 			String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
@@ -361,8 +363,8 @@ public class MagicHandler {
 			}
 			
 			// 不能超过玩家等级
-			maxUpLevel.a = Math.min(uplevel, playerLevel);
-			final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(maxUpLevel.a);
+			maxUpLevel.value = Math.min(uplevel, playerLevel);
+			final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(maxUpLevel.value);
 			if (lvlUpPair == null){
 				//无法获取进阶对应的满经验值！
 				break;
@@ -376,7 +378,7 @@ public class MagicHandler {
 				}
 				curExp = curExp + lvlCurPair.getT2();
 			}
-			totalExp.a=curExp;
+			totalExp.value=curExp;
 			
 			final Integer fullExp = lvlUpPair.getT2();
 			if (curExp >= fullExp){
@@ -401,7 +403,7 @@ public class MagicHandler {
 	 * @return 两者是否一致
 	 */
 	private boolean planIsOk(int[] criticalEnhanceList, int oldSeed, List<MagicItemData> list,
-			MaterialInfos matInfos, ItemBagMgr itemBagMgr,int fullExp,OutInt accumulation) {
+			MaterialInfos matInfos, ItemBagMgr itemBagMgr,int fullExp,RefInt accumulation) {
 		final CriticalIntList checkPlan = GenerateEnhancePlan(oldSeed,list,matInfos,itemBagMgr,fullExp,accumulation);
 		for(int i = 0; i< list.size(); i++){
 			//客户端的暴击数可以比服务端生成的少！
@@ -421,7 +423,7 @@ public class MagicHandler {
 	 * @return 返回数组的大小应该是跟list.size()一样
 	 */
 	private CriticalIntList GenerateEnhancePlan(int seed, List<MagicItemData> list,MaterialInfos matInfos, ItemBagMgr itemBagMgr,
-			int fullExp,OutInt accumulation) {
+			int fullExp,RefInt accumulation) {
 		CriticalIntList result = new CriticalIntList();
 		int lstSize = list.size();
 		int[] addedTimes = new int[lstSize];
@@ -430,13 +432,13 @@ public class MagicHandler {
 		result.useCounts=useCounts;
 		
 		int i=0;
-		accumulation.a = 0;
-		OutInt useCount = new OutInt();
+		accumulation.value = 0;
+		RefInt useCount = new RefInt();
 		for (MagicItemData item : list) {
 			int itemCount = Math.min(item.getCount(), matInfos.materialCounts[i]);
 			addedTimes[i]=GenerateEnhancePlanForOneItem(seed,itemCount,itemBagMgr,fullExp,
 					matInfos.unitExps[i],accumulation,useCount,matInfos.modelIDs[i]);
-			useCounts[i]=useCount.a;
+			useCounts[i]=useCount.value;
 			i++;
 		}
 		return result;
@@ -455,10 +457,6 @@ public class MagicHandler {
 	 */
 	private int GeneratePsudoRandomSeq(int seed,int ctl,int range){
 		return (seed  * ctl+deltaCtl) % range;
-	}
-	
-	static class OutInt{
-		int a;
 	}
 	
 	static class CriticalIntList{
@@ -489,10 +487,10 @@ public class MagicHandler {
 	 * @return
 	 */
 	private int GenerateEnhancePlanForOneItem(int seed, int itemCount,ItemBagMgr itemBagMgr, 
-			int fullExp, int unitExp, OutInt accumulation,OutInt useCount,int magicMaterialModelID){
-		useCount.a = 0;
+			int fullExp, int unitExp, RefInt accumulation,RefInt useCount,int magicMaterialModelID){
+		useCount.value = 0;
 		int result = 0;
-		if (accumulation.a >= fullExp){
+		if (accumulation.value >= fullExp){
 			return result;
 		}
 		if (unitExp <= 0) return result;
@@ -516,12 +514,14 @@ public class MagicHandler {
 		int groupIndex=0;
 		int startIndex=-1;
 		
+		RandomSeqGenerator gen = new RandomSeqGenerator(seed, planGroups, CriticalSeqCfgDAO.getInstance(), MagicMgr.SeedRange);
+		
 		do{
 			//progress to next config sequence
 			tmpseed = GeneratePsudoRandomSeq(tmpseed , SeqCtl1, MagicMgr.SeedRange);
 			groupIndex = tmpseed % groupSize;
 			final int planConfigKey = planGroups[groupIndex];
-			final CriticalSeqCfg seqCfg = (CriticalSeqCfg)CriticalSeqCfgDAO.getInstance().getCfgById(String.valueOf(planConfigKey));
+			final CriticalSeqCfg seqCfg = CriticalSeqCfgDAO.getInstance().getCfgById(String.valueOf(planConfigKey));
 			if (seqCfg == null) {
 				//不清零，因为客户端不是一次性获得数量，而是一个一个来计算，为了兼容这种情况这里不清零
 				//result = 0;
@@ -547,13 +547,17 @@ public class MagicHandler {
 			//start counting hittings
 			for (int i = startIndex; i < seqSize; i++){
 				if (count < itemCount){
+					int testgen = gen.nextNum();
+					if (seqList[i] != testgen){
+						System.out.println("testgen="+testgen+",old="+seqList[i]);
+					}
 					int addedTimes = seqList[i] > 0 ? seqList[i] -1 : 0;
 					int addedExp = (addedTimes+1)*unitExp;
 					count++;
 					result += addedTimes;
-					accumulation.a += addedExp;
-					useCount.a ++;
-					if (accumulation.a >= fullExp){
+					accumulation.value += addedExp;
+					useCount.value ++;
+					if (accumulation.value >= fullExp){
 						return result;
 					}
 				}else{
@@ -859,7 +863,7 @@ public class MagicHandler {
 	private int RefreshSeed(Player player, MsgMagicResponse.Builder msgMagicResponse) {
 		MagicMgr magicMgr = player.getMagicMgr();
 		int result = magicMgr.RefreshSeed();
-		msgMagicResponse.setCriticalRamdom(magicMgr.getNewRamdomSeed());
+		msgMagicResponse.setCriticalRamdom(magicMgr.getRandomSeed());
 		return result;
 	}
 

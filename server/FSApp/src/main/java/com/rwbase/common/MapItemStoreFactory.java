@@ -3,6 +3,16 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.groupSecret.data.group.GroupSecretDefLog;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
+import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
+import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
+import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
+import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
+import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecord;
@@ -10,6 +20,10 @@ import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
+import com.rw.service.guide.datamodel.GiveItemHistory;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayEnemyInfoData;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayFloorData;
+import com.rwbase.dao.anglearray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
@@ -34,6 +48,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<EquipItem> equipCache;
 	// FashionItem
 	private static MapItemStoreCache<FashionItem> fashionCache;
+	// new guide
+	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
 	// FresherActivityItem
 	private static MapItemStoreCache<FresherActivityBigItem> fresherActivityCache;
 	// InlayItem
@@ -46,19 +62,54 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<TaskItem> taskItemCache;
 	// GroupMemberData
 	private static MapItemStoreCache<GroupMemberData> groupMemberCache;
+	// AngelArrayTeamInfo
+	private static MapItemStoreCache<AngelArrayTeamInfoData> angelArrayTeamInfoData;
+	// AngelArrayFloorData
+	private static MapItemStoreCache<AngelArrayFloorData> angelArrayFloorData;
+	// AngelArrayEnemyInfoData
+	private static MapItemStoreCache<AngelArrayEnemyInfoData> angelArrayEnemyInfoData;
 	
 	
 	private static MapItemStoreCache<GroupCopyMapRecord> groupCopyMapRecordCache;
 	private static MapItemStoreCache<GroupCopyLevelRecord> groupCopyLevelRecordCache;
 	private static MapItemStoreCache<UserGroupCopyLevelRecord> userGroupCopyLevelRecordCache;
 
+	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityDailyCountTypeItem> activityDailyCountTypeItemCache;
+
+	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityRateTypeItem> activityRateTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
+	
+	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
+	
+	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
+	
+	private static MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache;
+
 	private static List<MapItemStoreCache> list;
 
+	private static boolean init = false;
+	
 	static {
 		init();
 	}
 
 	public static void init() {
+		synchronized (MapItemStoreFactory.class) {
+			if (init) {
+				return;
+			}else{
+				init = true;
+			}
+		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
 
 		// int playerCapacity = config.getPlayerCapacity();
@@ -74,6 +125,8 @@ public class MapItemStoreFactory {
 		register(equipCache = new MapItemStoreCache<EquipItem>(EquipItem.class, "ownerId", heroCapacity));
 
 		register(fashionCache = new MapItemStoreCache<FashionItem>(FashionItem.class, "userId", heroCapacity));
+
+		register(newGuideGiveItemHistoryCache = new MapItemStoreCache<GiveItemHistory>(GiveItemHistory.class, "userId", heroCapacity));
 
 		register(fresherActivityCache = new MapItemStoreCache<FresherActivityBigItem>(FresherActivityBigItem.class, "ownerId", heroCapacity));
 
@@ -92,7 +145,31 @@ public class MapItemStoreFactory {
 		register(groupCopyLevelRecordCache = new MapItemStoreCache<GroupCopyLevelRecord>(GroupCopyLevelRecord.class, "groupId", heroCapacity));
 
 		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyLevelRecord>(UserGroupCopyLevelRecord.class, "userId", heroCapacity));
+		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
+
+		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
 		
+		register(activityRateTypeItemCache = new MapItemStoreCache<ActivityRateTypeItem>(ActivityRateTypeItem.class, "userId", heroCapacity));
+//		
+//		register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
+//
+//		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
+		
+		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
+		
+		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyCountTypeItem>(ActivityDailyCountTypeItem.class, "userId", heroCapacity));
+		
+//		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
+		
+//		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
+		
+//		register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
+		
+		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
+
+		register(angelArrayFloorData = new MapItemStoreCache<AngelArrayFloorData>(AngelArrayFloorData.class, "userId", heroCapacity));
+
+		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -215,8 +292,81 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<UserGroupCopyLevelRecord> getUserGroupCopyLevelRecordCache() {
 		return userGroupCopyLevelRecordCache;
+
+	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
+		return newGuideGiveItemHistoryCache;
+	}
+
+	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
+		return activityCountTypeItemCache;
+	}
+	
+	public static MapItemStoreCache<ActivityDailyCountTypeItem> getActivityDailyCountTypeItemCache() {
+		return activityDailyCountTypeItemCache;
+	}
+
+	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
+		return activityTimeCardTypeItemCache;
+	}
+	
+
+	public static MapItemStoreCache<ActivityRateTypeItem> getActivityRateTypeItemCache() {
+		return activityRateTypeItemCache;
+	}
+	public static MapItemStoreCache<ActivityDateTypeItem> getActivityDateTypeItemCache() {
+		return activityDateTypeItemCache;
+	}
+	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
+		return activityRankTypeItemCache;
+	}
+	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
+		return activityTimeCountTypeItemCache;
+	}
+
+	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
+		return fixExpEquipDataItemCache;
 	}
 	
 	
+
+	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
+		return fixNormEquipDataItemCache;
+	}
 	
+
+	public static MapItemStoreCache<GroupSecretDefLog> getGroupSecretDefLogCache() {
+		return groupSecretDefLogCache;
+	}
+
+	public static void setGroupSecretDefLogCache(
+			MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache) {
+		MapItemStoreFactory.groupSecretDefLogCache = groupSecretDefLogCache;
+	}
+
+	/**
+	 * 获取万仙阵阵容信息缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<AngelArrayTeamInfoData> getAngelArrayTeamInfoData() {
+		return angelArrayTeamInfoData;
+	}
+
+	/**
+	 * 获取万仙阵层数信息缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<AngelArrayFloorData> getAngelArrayFloorData() {
+		return angelArrayFloorData;
+	}
+
+	/**
+	 * 获取万仙阵层中的敌方阵容血量信息变化
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<AngelArrayEnemyInfoData> getAngelArrayEnemyInfoData() {
+		return angelArrayEnemyInfoData;
+	}
 }

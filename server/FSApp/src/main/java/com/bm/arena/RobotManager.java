@@ -19,6 +19,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bm.login.AccoutBM;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
+import com.common.EquipHelper;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -27,14 +29,15 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
+import com.rw.dataaccess.GameOperationFactory;
+import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.service.arena.ArenaHandler;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.arena.pojo.TableArenaData;
-import com.rwbase.dao.fashion.FashState;
-import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.GemCfg;
@@ -48,8 +51,6 @@ import com.rwbase.dao.setting.HeadCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
-import com.rwbase.dao.user.UserGameData;
-import com.rwbase.dao.user.UserGameDataDao;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 
 public class RobotManager {
@@ -92,26 +93,35 @@ public class RobotManager {
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);
 			UserDataDao.getInstance().saveOrUpdate(user);
-			UserGameData userOther = new UserGameData();
-			userOther.setUserId(userId);
-			userOther.setIphone(false);
-			UserGameDataDao.getInstance().update(userOther);
-			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
-			// 初始化主角
-			// 初始主角英雄
+			// UserGameData userOther = new UserGameData();
+			// userOther.setUserId(userId);
+			// userOther.setIphone(false);
+			// UserGameDataDao.getInstance().update(userOther);
 			int star = getRandom(cfg.getStar());
 			int quality = getRandom(cfg.getQuality());
 
+			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
+			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
+
+			GameOperationFactory.getCreatedOperation().execute(param);
+			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
+			// 初始化主角
+			// 初始主角英雄
+
 			Player player = new Player(userId, false, playerCfg);
+			MapItemStoreFactory.notifyPlayerCreated(userId);
 			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
 			mainRoleHero.SetHeroLevel(level);
 			// 品质
 			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
 			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
 			roleBaseInfoMgr.setLevel(level);
-			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			player.getUserDataMgr().setHeadId(headImage);
+			player.initMgr();
+			player.getUserDataMgr().setUserName(userName);
+
+			PlayerMgr.getInstance().putToMap(player);
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
@@ -120,8 +130,8 @@ public class RobotManager {
 			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
 			String fashonId = getRandom(cfg.getFashions());
 			if (!fashonId.equals("0")) {
-				FashionItem f = player.getFashionMgr().buyFash(fashonId);
-				player.getFashionMgr().changeFashState(f.getId(), FashState.ON);
+				int fashionID = Integer.parseInt(fashonId);
+				player.getFashionMgr().giveFashionItem(fashionID, -1, true, false);
 			}
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
@@ -131,6 +141,7 @@ public class RobotManager {
 			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
 			player.getMagicMgr().wearMagic(magic.getId());
 			HeroMgr heroMgr = player.getHeroMgr();
+
 			String heroGroupId = getRandom(cfg.getHeroGroupId());
 			List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroGroupId);
 			if (heroCfgList == null) {
@@ -166,18 +177,38 @@ public class RobotManager {
 				changeSkill(hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
 				arenaList.add(hero.getUUId());
 			}
-			player.initMgr();
-			player.getUserDataMgr().setUserName(userName);
 			player.getAttrMgr().reCal();
 			for (Hero hero : heroList) {
 				hero.getAttrMgr().reCal();
 			}
-			player.save(true);
-			PlayerMgr.getInstance().putToMap(player);
+			// player.save(true);
 			printHeroSkill(mainRoleHero);
 			for (Hero hero : heroList) {
 				printHeroSkill(hero);
 			}
+
+			// 检查机器人数据并加入到万仙阵阵容排行榜
+			List<Integer> heroModelList = new ArrayList<Integer>();
+			int mainRoleModelId = mainRoleHero.getModelId();
+			heroModelList.add(mainRoleModelId);
+
+			int fighting = mainRoleHero.getFighting();
+
+			for (Hero hero : heroList) {
+				if (hero == null) {
+					continue;
+				}
+
+				int modelId = hero.getModelId();
+				if (modelId == mainRoleModelId) {
+					continue;
+				}
+
+				heroModelList.add(modelId);
+				fighting += hero.getFighting();
+			}
+
+			AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(player, heroModelList, fighting);
 			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + level + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
 			return new RankingPlayer(player, arenaList, expectRanking);
 		}
@@ -326,8 +357,10 @@ public class RobotManager {
 			itemData.init(heroEquip.getId(), 1);
 			itemData.setUserId(userId);
 			equipItemDataList.add(itemData);
+			// TODO HC @Modify 2016-04-16 装备附灵等级潜规则
+			int attachLevelInit = EquipHelper.getEquipAttachInitId(heroEquip.getQuality());
 			// 设置附灵等级
-			itemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, enhanceLevel);
+			itemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, attachLevelInit + enhanceLevel);
 		}
 		hero.getEquipMgr().addRobotEquip(equipItemDataList);
 	}

@@ -11,6 +11,7 @@ import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.bm.rank.arena.ArenaSettleComparable;
 import com.bm.rank.arena.ArenaSettlement;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -87,13 +88,17 @@ public class ArenaBM {
 		return tableArenaDataDAO.get(userId);
 	}
 
-	public boolean updateAtkHeroList(List<String> list, String userId) {
-		TableArenaData arenaData = tableArenaDataDAO.get(userId);
+	public boolean updateAtkHeroList(List<String> list, Player p) {
+		TableArenaData arenaData = tableArenaDataDAO.get(p.getUserId());
 		if (arenaData == null) {
 			return false;
 		}
+
 		arenaData.setAtkHeroList(list);
 		tableArenaDataDAO.update(arenaData);
+
+		// TODO HC 通知万仙阵检查阵容的战力
+		AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(p, arenaData.getAtkHeroList());
 		return true;
 	}
 
@@ -504,6 +509,7 @@ public class ArenaBM {
 		int level = player.getLevel();
 		String headImage = player.getHeadImage();
 		String userName = player.getUserName();
+		String headBox = player.getHeadFrame();
 		TableArenaData data = tableArenaDataDAO.get(userId);
 		int fighting = 0;
 		if (data != null) {
@@ -512,6 +518,7 @@ public class ArenaBM {
 			data.setCareer(career);
 			data.setFighting(fighting);
 			data.setHeadImage(headImage);
+			data.setHeadbox(headBox);
 			ItemData magic = player.getMagic();
 			if (magic != null) {
 				data.setMagicId(magic.getModelId());
@@ -532,6 +539,7 @@ public class ArenaBM {
 			// TODO 出问题的时候不更新战力，后面改
 			arenaExt.setFighting(fighting);
 			arenaExt.setHeadImage(headImage);
+			arenaExt.setHeadbox(headBox);
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
 			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
@@ -564,8 +572,7 @@ public class ArenaBM {
 			// 不主动提交属性变化的更新了
 		}
 	}
-	
-	
+
 }
 
 class RandomCombination {

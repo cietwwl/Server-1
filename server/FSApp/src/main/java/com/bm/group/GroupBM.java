@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.playerdata.Player;
@@ -15,7 +14,10 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupRankHelper;
+import com.rw.support.FriendSupportFactory;
 import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -176,7 +178,7 @@ public final class GroupBM {
 
 		// 放入成员
 		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(),
-				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false);
+				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame());
 
 		return group;
 	}
@@ -202,31 +204,35 @@ public final class GroupBM {
 			return;
 		}
 
-		long now = System.currentTimeMillis();
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.DISMISS_GROUP_MAIL_ID);
+
+		final long now = System.currentTimeMillis();
 		// 删除帮派基础数据
 		GroupBaseDataDAO.getDAO().delete(groupId);
 		// 删除帮派成员
 		GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
 
-		String mailContent = "您的帮派[%s]已于%s成功解散。";
 		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日 HH:mm:ss");
 		String time = sdf.format(new Date(now));
-		String newContent = String.format(mailContent, groupData.getGroupName(), time);
+		String newContent = String.format(emailCfg.getContent(), groupData.getGroupName(), time);
 
 		// 邮件内容
 		final EmailData emailData = new EmailData();
-		emailData.setTitle("帮派解散");
+		emailData.setTitle(emailCfg.getTitle());
 		emailData.setContent(newContent);
-		emailData.setDeleteType(EEmailDeleteType.DELAY_TIME);
-		emailData.setDelayTime((int) TimeUnit.DAYS.toMillis(7));// 整个帮派邮件只保留7天
-		emailData.setSender("帮派邮件");
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setDelayTime(emailCfg.getDelayTime());// 整个帮派邮件只保留7天
+		emailData.setSender(emailCfg.getSender());
 
 		// 成员任务
 		PlayerTask memberPlayerTask = new PlayerTask() {
 
 			@Override
 			public void run(Player player) {
+				player.getUserGroupAttributeDataMgr().updateDataWhenQuitGroup(player, now);
 				EmailUtils.sendEmail(player.getUserId(), emailData);
+				// 通知好友更改更新帮派名字
+				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 			}
 		};
 

@@ -28,6 +28,7 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private String name;// 成员名字
 	private int level;// 成员的等级<short>
 	private String headId;// 头像的Id
+	private String headbox;//头像框
 	private int vipLevel;// 成员的Vip等级<byte>
 	@IgnoreSynField
 	private int job;// 成员的职业<byte>
@@ -41,6 +42,7 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private int fighting;// 战斗力
 	private long applyTime;// 申请加入帮派的时间
 	private long receiveTime;// 接受加入帮派的时间
+	private int totalContribution;// 帮派个人总贡献
 
 	// ////////////////////////////////////////////GET区域
 	/**
@@ -193,6 +195,15 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public long getLastDonateTime() {
 		return lastDonateTime;
+	}
+
+	/**
+	 * 获取帮派个人总贡献
+	 * 
+	 * @return
+	 */
+	public int getTotalContribution() {
+		return totalContribution;
 	}
 
 	// ////////////////////////////////////////////SET区域
@@ -352,5 +363,22 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public void setLastDonateTime(long lastDonateTime) {
 		this.lastDonateTime = lastDonateTime;
+	}
+
+	/**
+	 * 设置帮派个人总贡献
+	 * 
+	 * @param totalContribution
+	 */
+	public void setTotalContribution(int totalContribution) {
+		this.totalContribution = totalContribution;
+	}
+
+	public String getHeadbox() {
+		return headbox;
+	}
+
+	public void setHeadbox(String headbox) {
+		this.headbox = headbox;
 	}
 }

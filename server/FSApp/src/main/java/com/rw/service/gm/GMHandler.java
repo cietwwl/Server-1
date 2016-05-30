@@ -12,16 +12,26 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.guild.GuildGTSMgr;
+import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
+import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
+import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
+import com.rw.service.gamble.datamodel.GambleDropCfg;
+import com.rw.service.gamble.datamodel.GamblePlanCfg;
+import com.rw.service.gamble.datamodel.HotGambleCfg;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
+import com.rw.service.guide.datamodel.GiveItemCfgDAO;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
@@ -30,6 +40,10 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
+import com.rwbase.dao.fashion.FashionBuyRenewCfg;
+import com.rwbase.dao.fashion.FashionCommonCfg;
+import com.rwbase.dao.fashion.FashionEffectCfg;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -86,6 +100,7 @@ public class GMHandler {
 		funcCallBackMap.put("sendtestemail", "sendTestEmail");// --test
 		funcCallBackMap.put("addtower", "addTowerNum");// --test
 		funcCallBackMap.put("setwjzh", "setWjzh");//
+		funcCallBackMap.put("resetwjzh", "resetWjzh");//
 		funcCallBackMap.put("probstore", "probstore");
 		funcCallBackMap.put("sendpmd", "sendPmd");//
 		funcCallBackMap.put("addarenacoin", "addArenaCoin");
@@ -101,8 +116,27 @@ public class GMHandler {
 		// 引导
 		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
+		funcCallBackMap.put("reloadnewguidecfg", "ReloadNewGuideCfg");
+
 		// 帮派作弊
 		funcCallBackMap.put("group", "groupChange");
+
+		// 获取vip道具，调试用
+		funcCallBackMap.put("getgift", "getgift");
+
+		// 时装
+		funcCallBackMap.put("setfashionexpiredtime", "setFashionExpiredTime");
+		funcCallBackMap.put("setfashion", "setFashion");
+		funcCallBackMap.put("reloadfashionconfig", "reloadFashionConfig");
+
+		// 钓鱼台配置更新并重新生成热点数据
+		funcCallBackMap.put("reloadgambleconfig", "reloadGambleConfig");
+		
+		//特权系统重新加载所有特权相关配置
+		funcCallBackMap.put("reloadprivilegeconfig", "reloadPrivilegeConfig");
+		
+		//设置充值开关,0开启1关闭
+		funcCallBackMap.put("setchargeon", "setChargeOn");
 	}
 
 	public boolean isActive() {
@@ -113,7 +147,73 @@ public class GMHandler {
 		this.active = active;
 	}
 
+	private boolean reloadOneConfigClass(String clname) {
+		try {
+			CfgCsvReloader.reloadByClassName(clname);
+			GameLog.info("GM", "reload config", "reloadByClassName:" + clname + " success", null);
+			return true;
+		} catch (Exception e) {
+			GameLog.error("GM", "reload config", "reloadByClassName:" + clname + " failed", e);
+			return false;
+		}
+	}
+
 	/** GM命令 */
+	//reloadPrivilegeConfig
+	public boolean reloadPrivilegeConfig(String[] arrCommandContents, Player player){
+		GameLog.info("GM", "reloadPrivilegeConfig", "start",null);
+		PrivilegeConfigHelper.getInstance().reloadAllPrivilegeConfigs();
+		GameLog.info("GM", "reloadPrivilegeConfig", "finished",null);
+		return true;
+	}
+	
+	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
+		boolean result = true;
+		result = result && reloadOneConfigClass(FashionBuyRenewCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionQuantityEffectCfg.class.getName());
+		result = result && reloadOneConfigClass(FashionCommonCfg.class.getName());
+		return result;
+	}
+
+	public boolean setFashionExpiredTime(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "调用设置过期时间命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 2) {
+			GameLog.info("时装", player.getUserId(), "调用设置过期时间命令,参数不足", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		int minutes = Integer.parseInt(arrCommandContents[1]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetExpiredTime(fashionId, minutes);
+	}
+
+	public boolean setFashion(String[] arrCommandContents, Player player) {
+		GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			GameLog.info("时装", player.getUserId(), "设置时装命令", null);
+			return false;
+		}
+		int fashionId = Integer.parseInt(arrCommandContents[0]);
+		FashionMgr mgr = player.getFashionMgr();
+		return mgr.GMSetFashion(fashionId);
+	}
+
+	// 钓鱼台配置更新并重新生成热点数据
+	public boolean reloadGambleConfig(String[] arrCommandContents, Player player) {
+		boolean result = true;
+		result = result && reloadOneConfigClass(HotGambleCfg.class.getName());
+		result = result && reloadOneConfigClass(GamblePlanCfg.class.getName());
+		result = result && reloadOneConfigClass(GambleDropCfg.class.getName());
+		if (result) {
+			player.getGambleMgr().resetHotHeroList();
+		}
+		return result;
+	}
+
+	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
+		return reloadOneConfigClass(GiveItemCfgDAO.class.getName());
+	}
 
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
 		System.out.println("ReadNewGuideConfig command");
@@ -233,6 +333,37 @@ public class GMHandler {
 		return false;
 	}
 
+	public boolean getgift(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			ChargeMgr.getInstance().buyMonthCard(player, null);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean setChargeOn(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			int isChargeOn = Integer.parseInt(arrCommandContents[0]);
+			boolean ChargeOn= false;
+			if(isChargeOn == 0){
+				ChargeOn = true;
+			}
+			ServerStatusMgr.setChargeOn(ChargeOn);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	public boolean addGold(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -293,9 +424,9 @@ public class GMHandler {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		int addNum = Integer.parseInt(arrCommandContents[0]);
+		String itemId = arrCommandContents[0];
 		if (player != null) {
-			player.AddRecharge(addNum);
+			ChargeMgr.getInstance().charge(player, itemId);
 			return true;
 		}
 		return false;
@@ -356,13 +487,18 @@ public class GMHandler {
 
 	public boolean addTowerNum(String[] arrCommandContents, Player player) {
 		int num = Integer.parseInt(arrCommandContents[0]);
-		player.getTowerMgr().addTowerNum(num);
-		;
+		player.getTowerMgr().addTowerNum(num);;
 		return true;
 	}
 
 	public boolean setWjzh(String[] arrCommandContents, Player player) {
 		player.unendingWarMgr.getTable().setNum(Integer.parseInt(arrCommandContents[0]) - 1);
+		player.unendingWarMgr.save();
+		return true;
+	}
+
+	public boolean resetWjzh(String[] arrCommandContents, Player player) {
+		player.unendingWarMgr.getTable().setLastChallengeTime(0);
 		player.unendingWarMgr.save();
 		return true;
 	}
@@ -435,8 +571,7 @@ public class GMHandler {
 		}
 		if (player != null) {
 			if ("1".equals(arrCommandContents[0])) {
-				Calendar c = Calendar.getInstance();
-				;
+				Calendar c = Calendar.getInstance();;
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, c.getTime().toString());
 				return true;
 			}
@@ -517,12 +652,14 @@ public class GMHandler {
 				String methodName = funcCallBackMap.get(arrCommandContents[1].toLowerCase());
 				Method declaredMethod;
 				try {
-					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] { String[].class, Player.class });
+					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] {
+							String[].class, Player.class });
 					String[] param = new String[argsNum - 2];
 					for (int k = 0; k < argsNum - 2; k++) {
 						param[k] = arrCommandContents[k + 2];
 					}
-					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] { param, player });
+					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] {
+							param, player });
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -560,12 +697,14 @@ public class GMHandler {
 				String methodName = funcCallBackMap.get(arrCommandContents[1].toLowerCase());
 				Method declaredMethod;
 				try {
-					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] { String[].class, Player.class });
+					declaredMethod = this.getClass().getDeclaredMethod(methodName, new Class[] {
+							String[].class, Player.class });
 					String[] param = new String[argsNum - 2];
 					for (int k = 0; k < argsNum - 2; k++) {
 						param[k] = arrCommandContents[k + 2];
 					}
-					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] { param, player });
+					bFuncCallBackState = (Boolean) declaredMethod.invoke(this, new Object[] {
+							param, player });
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -581,17 +720,6 @@ public class GMHandler {
 		}
 	}
 
-	public boolean getAllSecret(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null) {
-			return false;
-		}
-		if (player != null) {
-			player.getSecretMgr().getAllSecret();
-			;
-			return true;
-		}
-		return false;
-	}
 
 	public boolean teamBringit(String[] arrCommandContents, Player player) {
 		// if(arrCommandContents == null){
@@ -759,6 +887,20 @@ public class GMHandler {
 
 			tableBattleTower.setResetTimes(0);
 			TableBattleTowerDao.getDao().update(tableBattleTower);
+		} else if (functionName.equalsIgnoreCase("dt")) {
+			UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			String groupId = userGroupAttributeData.getGroupId();
+			if (StringUtils.isEmpty(groupId)) {
+				return false;
+			}
+
+			Group group = GroupBM.get(groupId);
+			if (group == null) {
+				return false;
+			}
+
+			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
+			groupMemberMgr.updateMemberDataDonateTimes(player.getUserId(), 0, System.currentTimeMillis());
 		}
 
 		return true;

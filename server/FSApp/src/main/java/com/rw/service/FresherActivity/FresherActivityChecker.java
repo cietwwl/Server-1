@@ -13,6 +13,8 @@ import com.rwbase.dao.fresherActivity.pojo.FresherActivityItemIF;
 
 public class FresherActivityChecker {
 	
+	public final static int START_TYPE_OPENTIME = 1;      //开始时间的类型：开服时间
+	public final static int START_TYPE_CREATETIME = 2;    //开始时间的类型：创建角色
 	private final static HashMap<eActivityType, IFrshActCheckTask> FresherActivityMap = new HashMap<eActivityType, IFrshActCheckTask>();
 	private final static HashMap<eActivityType, IFrshActAchieveRewardHandler> FrshActRewardMap = new HashMap<eActivityType, IFrshActAchieveRewardHandler>();
 	
@@ -25,10 +27,12 @@ public class FresherActivityChecker {
 		FresherActivityMap.put(eActivityType.A_HeroNum, new FrshActCheckHeroNum());
 		FresherActivityMap.put(eActivityType.A_ArenaRank, new FrshActCheckArena());
 		FresherActivityMap.put(eActivityType.A_MagicLv, new FrshActCheckMagic());
-		//暂时屏蔽
-//		FresherActivityMap.put(eActivityType.A_CollectionType, new FrshActCheckCollection());
-//		FresherActivityMap.put(eActivityType.A_CollectionLevel, new FrshActCheckCollection());
+		FresherActivityMap.put(eActivityType.A_CollectionType, new FrshActCheckCollection());
+		FresherActivityMap.put(eActivityType.A_CollectionLevel, new FrshActCheckCollection());
 		FresherActivityMap.put(eActivityType.A_Tower, new FrshActCheckTower());
+		FresherActivityMap.put(eActivityType.A_ArenaChallengeTime, new FrshActCheckArenaChallengeTime());
+		FresherActivityMap.put(eActivityType.A_CollectionMagic, new FrshActCheckCollectionMagic());
+		FresherActivityMap.put(eActivityType.A_OpenBox, new FrshActCheckTowerUseBox());
 		
 		FrshActAchieveNormalReward achieveNormalReward = new FrshActAchieveNormalReward();
 		FrshActRewardMap.put(eActivityType.A_PlayerLv,achieveNormalReward);
@@ -39,10 +43,12 @@ public class FresherActivityChecker {
 		FrshActRewardMap.put(eActivityType.A_HeroNum, achieveNormalReward);
 		FrshActRewardMap.put(eActivityType.A_ArenaRank, achieveNormalReward);
 		FrshActRewardMap.put(eActivityType.A_MagicLv, achieveNormalReward);
-		//暂时屏蔽
-//		FrshActRewardMap.put(eActivityType.A_CollectionType, achieveNormalReward);
-//		FrshActRewardMap.put(eActivityType.A_CollectionLevel, achieveNormalReward);
+		FrshActRewardMap.put(eActivityType.A_CollectionType, achieveNormalReward);
+		FrshActRewardMap.put(eActivityType.A_CollectionLevel, achieveNormalReward);
 		FrshActRewardMap.put(eActivityType.A_Tower, achieveNormalReward);
+		FrshActRewardMap.put(eActivityType.A_ArenaChallengeTime, achieveNormalReward);
+		FrshActRewardMap.put(eActivityType.A_CollectionMagic, achieveNormalReward);
+		FrshActRewardMap.put(eActivityType.A_OpenBox, achieveNormalReward);
 		//TODO HC @Notify 终极奖励的领取处理和正常的是不一个处理，正常用的是FrshActAchieveNormalReward，终级是：FrshActAchieveFinalReward
 		FrshActRewardMap.put(eActivityType.A_Final, new FrshActAchieveFinalReward());
 	}
@@ -72,8 +78,7 @@ public class FresherActivityChecker {
 	 */
 	public static boolean checkFresherActivity(FresherActivityItemIF fresherActivityItem){
 		if(fresherActivityItem.isFinish() || fresherActivityItem.isClosed() 
-				|| fresherActivityItem.getEndTime() < System.currentTimeMillis()
-				|| fresherActivityItem.getStartTime() > System.currentTimeMillis()){
+				|| fresherActivityItem.getEndTime() < System.currentTimeMillis()){
 			return false;
 		}else{
 			return true;

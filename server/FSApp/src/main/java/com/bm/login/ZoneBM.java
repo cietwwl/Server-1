@@ -13,8 +13,6 @@ import com.rwbase.dao.zone.TableZoneInfoDAO;
 public class ZoneBM {
 
 	private static ZoneBM instance = new ZoneBM();
-	private TableZoneInfoDAO tableZoneInfoDAO;
-
 	private ScheduledThreadPoolExecutor checkExecutor;
 	private volatile List<TableZoneInfo> list;
 
@@ -25,8 +23,7 @@ public class ZoneBM {
 			@Override
 			public void run() {
 				try {
-					init();
-					List<TableZoneInfo> currentList = tableZoneInfoDAO.getAll();
+					List<TableZoneInfo> currentList = TableZoneInfoDAO.getInstance().getAll();
 					if (currentList == null || currentList.isEmpty()) {
 						return;
 					}
@@ -44,22 +41,13 @@ public class ZoneBM {
 
 	public List<TableZoneInfo> getAllZoneCfg() {
 		if (list == null) {
-			init();
-			return tableZoneInfoDAO.getAll();
+			return TableZoneInfoDAO.getInstance().getAll();
 		} else {
 			return list;
 		}
 	}
 
-	private void init() {
-		if (tableZoneInfoDAO == null) {
-			tableZoneInfoDAO = TableZoneInfoDAO.getInstance();
-		}
-	}
-
 	public TableZoneInfo getLastZoneCfg() {
-		// init();
-		// List<TableZoneInfo> list = tableZoneInfoDAO.getAll();
 		List<TableZoneInfo> list = getAllZoneCfg();
 		if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
 			return list.get(list.size() - 1);
@@ -68,21 +56,13 @@ public class ZoneBM {
 	}
 
 	public TableZoneInfo getTableZoneInfo(int zoneId) {
-		// init();
-		// List<TableZoneInfo> list = tableZoneInfoDAO.getAll();
 		List<TableZoneInfo> list = getAllZoneCfg();
 		for (TableZoneInfo zoneCfg : list) {
-
 			if (zoneCfg.getZoneId() == zoneId) {
 				return zoneCfg;
 			}
 		}
 		return null;
-	}
-
-	public void setZoneCfgDAO(TableZoneInfoDAO tableZoneInfoDAO) {
-		init();
-		this.tableZoneInfoDAO = tableZoneInfoDAO;
 	}
 
 	public boolean isListContains(List<String> list, String target) {

@@ -14,12 +14,17 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.log.PlatformLog;
+import com.rw.common.DataService;
 import com.rw.common.SynTaskExecutor;
+import com.rw.fsutil.cacheDao.DataKVDao;
+import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.netty.FrameDecoder;
 import com.rw.netty.ProtobufFrameEncoder;
 import com.rw.netty.ServerHandler;
@@ -40,18 +45,15 @@ public class Server {
     	
     	PlatformFactory.init();
     	SynTaskExecutor.init();
-    	//HttpServer.httpServerStart(PlatformFactory.getHttpPort());
+    	DataService.initDataService();
     	
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
 		int ioThreads = Runtime.getRuntime().availableProcessors()+1;
 		EventLoopGroup ioGroup = new NioEventLoopGroup(128);
-//		final EventExecutorGroup workGroup = new DefaultEventExecutorGroup(128);
 		try {
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.group(bossEventLoopGroup, ioGroup);
 			
-//			serverBootstrap.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 2048 * 1024);
-//			serverBootstrap.option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 1024 * 1024);
 			
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
 			serverBootstrap.childOption( ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
@@ -61,23 +63,14 @@ public class Server {
 				@Override
 				protected void initChannel(Channel ch) throws Exception {
 					ch.pipeline().addLast("idle", new IdleStateHandler(0, 0, 180));
-//					ch.pipeline().addLast("log1", new LoggingHandler());
-					//ch.pipeline().addLast("frameDecoder", new ProtobufFrameDecoder());
 					ch.pipeline().addLast("frameDecoder", new FrameDecoder());
 					
-//					ch.pipeline().addLast("log2", new LoggingHandler());
-					//ch.pipeline().addLast("frameDecoder", new ProtobufVarint32FrameDecoder());
 					// 构造函数传递要解码成的类型
 					ch.pipeline().addLast("protobufDecoder", new ProtobufDecoder(Request.getDefaultInstance()));
-					//handle in thread pool
-//					ch.pipeline().addLast(workGroup, new ServerHandler());
 					ch.pipeline().addLast("serverHandler", new ServerHandler());
 					// 编码
-					//ch.pipeline().addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
 					ch.pipeline().addLast("frameEncoder", new ProtobufFrameEncoder());
-//					ch.pipeline().addLast("log3", new LoggingHandler());
 					ch.pipeline().addLast("protobufEncoder", new ProtobufEncoder());
-//					ch.pipeline().addLast("log4", new LoggingHandler());
 				};
 			});
 			
@@ -87,7 +80,6 @@ public class Server {
 			channelFuture.channel().closeFuture().sync();
 			
 		} catch (Exception e) {
-			//e.printStackTrace();
 			PlatformLog.error(e);
 		} finally {
 			bossEventLoopGroup.shutdownGracefully();

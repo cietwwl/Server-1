@@ -1,10 +1,13 @@
 package com.gm.task;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
+import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.rw.manager.GameManager;
 import com.rw.service.gamenotice.GameNoticeService;
@@ -17,14 +20,15 @@ public class GmEditGameNotice implements IGmTask{
 		// TODO Auto-generated method stub
 		GmResponse response = new GmResponse();
 		try{
+			Map<String, Object> args = request.getArgs();
 			int noticeId = -1;
 			if (request.getArgs().get("noticeId") != null) {
-				noticeId = Integer.parseInt(request.getArgs().get("noticeId").toString());
+				noticeId = GmUtils.parseInt(args, "noticeId");
 			}
-			String title = (String) request.getArgs().get("title");
-			String content = (String)request.getArgs().get("content");
-			long startTime = Long.parseLong(request.getArgs().get("startTime").toString());
-			long endTime = Long.parseLong(request.getArgs().get("endTime").toString());
+			String title = GmUtils.parseString(args, "title");
+			String content = GmUtils.parseString(args, "content");
+			long startTime = GmUtils.parseLong(args, "startTime");
+			long endTime = GmUtils.parseLong(args, "endTime");
 			
 			if (StringUtils.isBlank(title) || StringUtils.isBlank(content)) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));

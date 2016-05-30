@@ -1,0 +1,50 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "FixEquipProto";
+
+package fixEquip;
+
+
+enum RequestType{
+
+	Norm_level_up = 1;//
+	Norm_quality_up = 2;//
+	Norm_star_up = 3;//
+	Norm_star_down = 4;
+	Exp_level_up = 5;//
+	Exp_quality_up = 6;//
+	Exp_star_up = 7;//
+	Exp_star_down = 8;//
+
+}
+
+message ExpLevelUpReqParams{
+
+	repeated SelectItem selectItem = 1;//选择用来添加经验的物品
+
+}
+
+message SelectItem{
+	optional int32 modelId = 1; //物品id
+	optional int32 count = 3;  //物品数量
+}
+
+
+
+
+
+message CommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional string ownerId = 2; //装备英雄id
+	optional string cfgId = 3;  //装备配置id
+	optional ExpLevelUpReqParams expLevelUpReqParams =4;
+
+}
+
+
+message CommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+
+}

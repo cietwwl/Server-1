@@ -108,6 +108,9 @@ public class VersionDao {
 		//List<String> current = getFilePathList(fileList);
 		//boolean result = !(lastFilePathList.containsAll(current) && current.containsAll(lastFilePathList));
 		boolean reault = false;
+		if(fileList.size() < versionFileMap.size()){
+			return true;
+		}
 		for (File file : fileList) {
 			VersionFileInfo versionFileInfo = versionFileMap.get(file.getAbsolutePath());
 			if(versionFileInfo != null){
@@ -142,6 +145,11 @@ public class VersionDao {
 	//下一个补丁包
 	public Version getNextPatch(Version clientVersion){
 		return channelVersionMap.get(clientVersion.getChannel()).getNextPatch(clientVersion);
+	}
+	
+	//下一个代码补丁包
+	public Version getNextCodePatch(Version clientVersion){
+		return channelVersionMap.get(clientVersion.getChannel()).getNextCodePatch(clientVersion);
 	}
 	
 

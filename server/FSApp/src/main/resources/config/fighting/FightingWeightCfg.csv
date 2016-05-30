@@ -1,5 +1,5 @@
 key,remarks,attrName,weight
-1,,attack,1.71
+1,,physiqueAttack,1.71
 2,,physiqueDef,0.74
 3,,spiritDef,0.74
 4,,life,0.03
@@ -13,4 +13,12 @@ key,remarks,attrName,weight
 12,,attackHurt,1.71
 13,,cutHurt,1.71
 14,,skillLevel,20
-15,,magicLevel,20
+15,,magicLevel_1,20
+16,,cutCritHurt,3.28
+17,,resist,3.28
+18,,dodge,3.28
+19,,hit,3.28
+20,,spiritAttack,1.71
+21,,magicLevel_2,30
+22,,magicLevel_3,40
+23,,magicLevel_4,50

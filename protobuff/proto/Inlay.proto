@@ -7,25 +7,23 @@ enum EInlayType {
 	Inlay_One = 1;//镶嵌
 	Inlay_All = 2;//一键镶嵌
 	XieXia_All = 3;//一键卸下
-
-	
-
 }
 
-
-
+enum InlayResult{
+	InlaySuccess = 0;
+	InlayFailed = 1;
+}
 
 message MsgInlayRequest {
 	required EInlayType type = 1;
 	optional string roleId = 2;
 	optional int32 GemId = 3;//ID
 	optional int32 GemSolt = 4;//宝石位置
-	
-	
 }
 
 message MsgInlayResponse {
 	required EInlayType type = 1;
+	optional InlayResult result = 2;//
 	optional string roleId = 3;
 }
 

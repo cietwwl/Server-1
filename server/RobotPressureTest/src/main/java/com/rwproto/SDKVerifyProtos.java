@@ -119,20 +119,15 @@ public final class SDKVerifyProtos {
      */
     int getSdkType();
 
-    // required string gameId = 2;
+    // required int32 gameId = 2;
     /**
-     * <code>required string gameId = 2;</code>
+     * <code>required int32 gameId = 2;</code>
      */
     boolean hasGameId();
     /**
-     * <code>required string gameId = 2;</code>
+     * <code>required int32 gameId = 2;</code>
      */
-    java.lang.String getGameId();
-    /**
-     * <code>required string gameId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getGameIdBytes();
+    int getGameId();
 
     // required string channel = 3;
     /**
@@ -280,9 +275,9 @@ public final class SDKVerifyProtos {
               sdkType_ = input.readInt32();
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              gameId_ = input.readBytes();
+              gameId_ = input.readInt32();
               break;
             }
             case 26: {
@@ -371,47 +366,20 @@ public final class SDKVerifyProtos {
       return sdkType_;
     }
 
-    // required string gameId = 2;
+    // required int32 gameId = 2;
     public static final int GAMEID_FIELD_NUMBER = 2;
-    private java.lang.Object gameId_;
+    private int gameId_;
     /**
-     * <code>required string gameId = 2;</code>
+     * <code>required int32 gameId = 2;</code>
      */
     public boolean hasGameId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string gameId = 2;</code>
+     * <code>required int32 gameId = 2;</code>
      */
-    public java.lang.String getGameId() {
-      java.lang.Object ref = gameId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          gameId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string gameId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getGameIdBytes() {
-      java.lang.Object ref = gameId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        gameId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getGameId() {
+      return gameId_;
     }
 
     // required string channel = 3;
@@ -674,7 +642,7 @@ public final class SDKVerifyProtos {
 
     private void initFields() {
       sdkType_ = 0;
-      gameId_ = "";
+      gameId_ = 0;
       channel_ = "";
       userId_ = "";
       sid_ = "";
@@ -730,7 +698,7 @@ public final class SDKVerifyProtos {
         output.writeInt32(1, sdkType_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getGameIdBytes());
+        output.writeInt32(2, gameId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getChannelBytes());
@@ -765,7 +733,7 @@ public final class SDKVerifyProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getGameIdBytes());
+          .computeInt32Size(2, gameId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -909,7 +877,7 @@ public final class SDKVerifyProtos {
         super.clear();
         sdkType_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        gameId_ = "";
+        gameId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         channel_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -1003,9 +971,7 @@ public final class SDKVerifyProtos {
           setSdkType(other.getSdkType());
         }
         if (other.hasGameId()) {
-          bitField0_ |= 0x00000002;
-          gameId_ = other.gameId_;
-          onChanged();
+          setGameId(other.getGameId());
         }
         if (other.hasChannel()) {
           bitField0_ |= 0x00000004;
@@ -1129,76 +1095,35 @@ public final class SDKVerifyProtos {
         return this;
       }
 
-      // required string gameId = 2;
-      private java.lang.Object gameId_ = "";
+      // required int32 gameId = 2;
+      private int gameId_ ;
       /**
-       * <code>required string gameId = 2;</code>
+       * <code>required int32 gameId = 2;</code>
        */
       public boolean hasGameId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string gameId = 2;</code>
+       * <code>required int32 gameId = 2;</code>
        */
-      public java.lang.String getGameId() {
-        java.lang.Object ref = gameId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          gameId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getGameId() {
+        return gameId_;
       }
       /**
-       * <code>required string gameId = 2;</code>
+       * <code>required int32 gameId = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getGameIdBytes() {
-        java.lang.Object ref = gameId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          gameId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string gameId = 2;</code>
-       */
-      public Builder setGameId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000002;
         gameId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string gameId = 2;</code>
+       * <code>required int32 gameId = 2;</code>
        */
       public Builder clearGameId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        gameId_ = getDefaultInstance().getGameId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string gameId = 2;</code>
-       */
-      public Builder setGameIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        gameId_ = value;
+        gameId_ = 0;
         onChanged();
         return this;
       }
@@ -2723,7 +2648,7 @@ public final class SDKVerifyProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\017SDKVerify.proto\"\215\001\n\020SDKVerifyRequest\022\017" +
-      "\n\007sdkType\030\001 \002(\005\022\016\n\006gameId\030\002 \002(\t\022\017\n\007chann" +
+      "\n\007sdkType\030\001 \002(\005\022\016\n\006gameId\030\002 \002(\005\022\017\n\007chann" +
       "el\030\003 \002(\t\022\016\n\006userId\030\004 \002(\t\022\013\n\003sid\030\005 \002(\t\022\013\n" +
       "\003ext\030\006 \002(\t\022\017\n\007version\030\007 \002(\t\022\014\n\004sign\030\010 \002(" +
       "\t\"\200\001\n\021SDKVerifyResponse\022)\n\nresultType\030\001 " +

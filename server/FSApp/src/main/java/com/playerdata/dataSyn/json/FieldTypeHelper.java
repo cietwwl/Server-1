@@ -34,7 +34,7 @@ public class FieldTypeHelper {
 
 
 	public static boolean isPrimitive(Class<?> targetClass) {
-		return targetClass.isPrimitive()||targetClass == Long.class||targetClass == Integer.class||targetClass == Float.class||targetClass == Double.class;
+		return targetClass.isPrimitive()||targetClass == Long.class||targetClass == Integer.class||targetClass == Float.class||targetClass == Double.class||targetClass == Boolean.class;
 	}
 	
 	

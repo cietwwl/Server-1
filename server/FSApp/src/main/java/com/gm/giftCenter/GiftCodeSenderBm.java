@@ -82,10 +82,11 @@ public class GiftCodeSenderBm {
 					@Override
 					public void run() {
 						try {
-							GiftCodeRsp resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeRsp.class);
+							GiftCodeRsp resopnse = borrowSender.send(giftCodeItem.toGmSendItemData(), GiftCodeRsp.class, 20039);
 							giftCodeItem.getGmCallBack().doCallBack(resopnse == null ? null : resopnse.getResult().get(0));
 
 						} catch (Exception e) {
+							borrowSender.setAvailable(false);//return pool之后会呗销毁。
 							GameLog.error(LogModule.GmSender, "GiftCodeSenderBm[addSendTask]", "borrowSender.send error", e);
 						} finally {
 							giftSenderPool.returnSender(borrowSender);

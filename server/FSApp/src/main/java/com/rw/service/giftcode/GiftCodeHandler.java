@@ -10,12 +10,15 @@ import com.gm.giftCenter.GiftCodeSenderBm;
 import com.gm.giftCenter.GiftItem;
 import com.gm.gmsender.GmCallBack;
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.giftcode.GiftCodeData;
 import com.rwbase.dao.giftcode.dao.GiftCodeDataDAO;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataDao;
 import com.rwproto.GiftCodeProto.RequestType;
 import com.rwproto.GiftCodeProto.ResultType;
 import com.rwproto.GiftCodeProto.UseGiftCodeRspMsg;
@@ -63,6 +66,13 @@ public class GiftCodeHandler {
 		}
 
 		final String userId = player.getUserId();
+		User user = UserDataDao.getInstance().getByUserId(userId);
+		if (user == null) {
+			rsp.setResultType(ResultType.FAIL);
+			rsp.setTipMsg("用户数据不存在");
+			return rsp.build().toByteString();
+		}
+
 		GmCallBack<GiftCodeResponse> callBack = new GmCallBack<GiftCodeResponse>() {
 
 			@Override
@@ -78,12 +88,11 @@ public class GiftCodeHandler {
 
 				int type = gmResponse.getType();
 				if (type == CODE_STATE.CODE_SUCCESS.type) {// 兑换成功
-					// 发送邮件
-					String mailContent = "兑换成功";
 					// 邮件内容
 					final EmailData emailData = new EmailData();
-					emailData.setTitle(mailContent);
-					emailData.setContent(gmResponse.getTitle());
+					emailData.setTitle(gmResponse.getTitle());
+					String content = gmResponse.getContent();
+					emailData.setContent(StringUtils.isEmpty(content) ? "" : content);
 					emailData.setDeleteType(EEmailDeleteType.GET_DELETE);
 
 					List<GiftItem> itemData = gmResponse.getItemData();
@@ -132,7 +141,17 @@ public class GiftCodeHandler {
 			}
 		};
 
-		GiftCodeItem codeItem = new GiftCodeItem(code, userId, callBack);
+		String channelIdStr = user.getChannelId();
+		int channelId = 0;
+		if (!StringUtils.isEmpty(channelIdStr)) {
+			try {
+				channelId = Integer.parseInt(channelIdStr);
+			} catch (Exception e) {
+				GameLog.error("角色使用兑换码", userId, String.format("转换渠道Id的时候出现了异常信息,渠道Id信息为[%s]", channelIdStr), e);
+			}
+		}
+
+		GiftCodeItem codeItem = new GiftCodeItem(code, userId, channelId, callBack);
 		GiftCodeSenderBm.getInstance().add(codeItem);
 
 		if (!rsp.hasResultType()) {

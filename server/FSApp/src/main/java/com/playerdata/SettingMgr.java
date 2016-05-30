@@ -29,47 +29,6 @@ public class SettingMgr implements PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		TableSettingData settingData = new TableSettingData();
-		settingData.setUserID(player.getUserId());
-		settingData.setLastRenameTimeInMill(0);
-		List<HeadTypeList> headTypeList = new ArrayList<HeadTypeList>();
-		List<HeadTypeList> headBoxList = new ArrayList<HeadTypeList>();
-		for (int i = 0; i < 3; i++) {
-			List<String> headlist = new ArrayList<String>();
-			List<String> headBoxlist = new ArrayList<String>();
-			HeadTypeList headType = new HeadTypeList();
-			headType.setType(i);
-			headType.setDataList(headlist);
-			headTypeList.add(headType);
-
-			HeadTypeList boxType = new HeadTypeList();
-			boxType.setType(i);
-			boxType.setDataList(headBoxlist);
-			headBoxList.add(boxType);
-		}
-		settingData.setOwnHeadPic(headTypeList);
-		settingData.setOwnHeadBox(headBoxList);
-
-		// ********添加基础头像*********//
-		List<String> baseHeadList = HeadCfgDAO.getInstance().getHeadByType(HeadType.HEAD_BASE);
-		for (int i = 0; i < baseHeadList.size(); i++) {
-			headTypeList.get(HeadType.HEAD_BASE).getDataList().add(baseHeadList.get(i));
-		}
-
-		// ********添加新手头像,在这之前应该已经修改了主角的头像*********//
-		String newPlayerHead = HeadCfgDAO.getInstance().getCareerHead(player.getCareer(), player.getStarLevel(), player.getSex());
-		List<String> headList = headTypeList.get(HeadType.HEAD_CARRER).getDataList();
-		headList.clear();
-		headList.add(newPlayerHead);
-
-		// ********添加默认头像框,在这之前应该已经修改了主角的头像框*********//
-		List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
-		HeadTypeList headBox = headBoxList.get(HeadBoxType.HEADBOX_DEFAULT);
-		List<String> BoxList = headBox.getDataList();
-		BoxList.add(defaultHeadBoxList.get(0));
-		// player.getSettingMgr().setDefaultHeadBox(defaultHeadBoxList.get(0));
-		player.getUserGameDataMgr().setHeadBox(defaultHeadBoxList.get(0));
-		TableSettingDataDAO.getInstance().update(settingData);
 	}
 
 	@Override

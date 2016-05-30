@@ -7,10 +7,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.alibaba.druid.support.logging.Log;
 import com.common.Action;
-import com.google.protobuf.ByteString;
 import com.playerdata.readonly.SkillMgrIF;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
@@ -29,8 +28,7 @@ import com.rwbase.dao.skill.pojo.SkillItemHolder;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.dao.user.CfgBuySkill;
 import com.rwbase.dao.user.CfgBuySkillDAO;
-import com.rwbase.dao.vip.PrivilegeCfgDAO;
-import com.rwproto.SkillServiceProtos.SkillEventType;
+import com.rwproto.PrivilegeProtos.HeroPrivilegeNames;
 import com.rwproto.SkillServiceProtos.SkillResponse;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
@@ -66,9 +64,9 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		return skillItemHolder.getItemList();
 	}
 
-	public AttrData getTotalSkillAttrData() {
-		return skillItemHolder.toAttrData();
-	}
+	// public AttrData getTotalSkillAttrData() {
+	// return skillItemHolder.toAttrData();
+	// }
 
 	/**
 	 * 升级技能
@@ -93,7 +91,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 				return true;
 			}
 		}
-		;
 		return false;
 	}
 
@@ -131,8 +128,9 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			}
 			return false;
 		}
-		reshSkillPoint();
-		if (m_pPlayer.getUserGameDataMgr().getSkillPointCount() <= 0) {
+		// reshSkillPoint();
+		// 用预期的方式代替真正回复技能点
+		if (m_pPlayer.getUserGameDataMgr().getSkillPointCount() <= 0 && !m_pPlayer.getSkillMgr().expectSkillPointRecover()) {
 			if (showError) {
 				m_pPlayer.NotifyCommonMsg("技能点冷却中！");
 			}
@@ -148,10 +146,10 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	}
 
 	public boolean updateSkill(String skillId, int addLevel) {
-//		Skill skill = skillItemHolder.getItem(SkillHelper.getItemId(this.m_pOwner.getUUId(), skillId));
+		// Skill skill = skillItemHolder.getItem(SkillHelper.getItemId(this.m_pOwner.getUUId(), skillId));
 		Skill skill = null;
-		for(Skill current:skillItemHolder.getItemList()){
-			if(current.getSkillId().equals(skillId)){
+		for (Skill current : skillItemHolder.getItemList()) {
+			if (current.getSkillId().equals(skillId)) {
 				skill = current;
 				break;
 			}
@@ -160,7 +158,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			return false;
 		}
 		int level = skill.getLevel() + addLevel;
-		List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(m_pOwner.getTemplateId());
+		// List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(m_pOwner.getTemplateId());
 		StringTokenizer token = new StringTokenizer(skillId, "_");
 		String newSkillId = token.nextToken() + "_" + level;
 		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
@@ -176,7 +174,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 
 	private void AddSkillPointCount(int value) {
 		int count = m_pPlayer.getUserGameDataMgr().getSkillPointCount();
-		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int max = getMaxSkillCount();
 		if (count + value == max - 1) {
 			m_pPlayer.getUserGameDataMgr().setLastRecoverSkillPointTime(System.currentTimeMillis());
 		}
@@ -199,7 +197,8 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		SkillResponse.Builder response = SkillResponse.newBuilder();
 		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
 		reshSkillPoint();
-		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		// int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int max = getMaxSkillCount();
 		int count = userGameDataMgr.getSkillPointCount();
 		response.setRemainSkillPoints(count);
 		int rs = 0;
@@ -229,26 +228,25 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
 				updateMoreInfo(skill, null);
-				skillItemHolder.updateItem(m_pPlayer, skill);
 				if (maxOrder < skill.getOrder()) {
 					maxOrder = skill.getOrder();
 				}
 			}
 		}
-//		if (maxOrder > 0) {
-//			openSkillOnClient(maxOrder);
-//		}
+		skillItemHolder.synAllData(m_pPlayer, -1);
+		// if (maxOrder > 0) {
+		// openSkillOnClient(maxOrder);
+		// }
 	}
-	
 
-//	private void openSkillOnClient(int skillOrder) {
-//		SkillResponse.Builder response = SkillResponse.newBuilder();
-//		response.setRoleId(m_pOwner.getUUId());
-//		response.setEventType(SkillEventType.Skill_Open);
-//		response.setOrder(skillOrder);
-//		response.setResultType(SkillResultType.succeed);
-//		m_pPlayer.SendMsg(Command.MSG_SKILL, response.build().toByteString());
-//	}
+	// private void openSkillOnClient(int skillOrder) {
+	// SkillResponse.Builder response = SkillResponse.newBuilder();
+	// response.setRoleId(m_pOwner.getUUId());
+	// response.setEventType(SkillEventType.Skill_Open);
+	// response.setOrder(skillOrder);
+	// response.setResultType(SkillResultType.succeed);
+	// m_pPlayer.SendMsg(Command.MSG_SKILL, response.build().toByteString());
+	// }
 
 	/**
 	 * 判断能否激活技能
@@ -296,6 +294,45 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	 * @param pRole
 	 */
 	public void initSkill(RoleCfg rolecfg) {
+		// List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
+		// // 技能buff有相关性，要先一次过加入到列表才行
+		// List<Skill> battleSkillList = new ArrayList<Skill>();
+		// for (Skill skilltmp : cfgSkillList) {
+		// SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skilltmp.getSkillId());
+		// if (cfg == null) {
+		// if (skilltmp.getLevel() != DIE_SKILL_LEVEL) {
+		// m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skilltmp.getSkillId() + "的技能");
+		// }
+		// } else {
+		// battleSkillList.add(skilltmp);
+		// }
+		// }
+		//
+		// for (Skill pSkill : battleSkillList) {
+		// SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(pSkill.getSkillId());
+		//
+		// int quality = RoleQualityCfgDAO.getInstance().getQuality(m_pOwner.getQualityId());
+		// int level = cfg.getRoleLevel() <= m_pOwner.getLevel() && cfg.getRoleQuality() <= quality ? 1 : 0;
+		// pSkill.setLevel(level);
+		// updateMoreInfo(pSkill, cfgSkillList);
+		// }
+
+		// for (Skill pSkill : battleSkillList) {
+		// skillItemHolder.addItem(m_pPlayer, pSkill);
+		// }
+		List<Skill> battleSkillList = initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
+		skillItemHolder.addItem(m_pPlayer, battleSkillList);
+	}
+
+	/**
+	 * 初始化技能
+	 * 
+	 * @param rolecfg
+	 * @param qualityId
+	 * @param playerLevel
+	 * @return
+	 */
+	public List<Skill> initSkill(RoleCfg rolecfg, String qualityId, int playerLevel) {
 		List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
 		// 技能buff有相关性，要先一次过加入到列表才行
 		List<Skill> battleSkillList = new ArrayList<Skill>();
@@ -313,16 +350,13 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		for (Skill pSkill : battleSkillList) {
 			SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(pSkill.getSkillId());
 
-			int quality = RoleQualityCfgDAO.getInstance().getQuality(m_pOwner.getQualityId());
-			int level = cfg.getRoleLevel() <= m_pOwner.getLevel() && cfg.getRoleQuality() <= quality ? 1 : 0;
+			int quality = RoleQualityCfgDAO.getInstance().getQuality(qualityId);
+			int level = cfg.getRoleLevel() <= playerLevel && cfg.getRoleQuality() <= quality ? 1 : 0;
 			pSkill.setLevel(level);
 			updateMoreInfo(pSkill, cfgSkillList);
 		}
 
-//		for (Skill pSkill : battleSkillList) {
-//			skillItemHolder.addItem(m_pPlayer, pSkill);
-//		}
-		skillItemHolder.addItem(m_pPlayer, battleSkillList);
+		return battleSkillList;
 	}
 
 	/**
@@ -338,7 +372,9 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(pSkill.getSkillId());
 		if (pSkillCfg == null) {
 			if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
-				m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + pSkill.getSkillId() + "的技能");
+				if (m_pPlayer != null) {
+					m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + pSkill.getSkillId() + "的技能");
+				}
 			}
 			return;
 		}
@@ -364,39 +400,44 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		pSkill.getBuffId().clear();
 		// 查找控制技能的buff
 		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getBuffId())) {
-			String[] skillBufflist = pSkillCfg.getBuffId().split(";");// SkillBuffList
-																		// xxxx_xxx
-			Skill targetSkill;
-			String[] targetBuffarr;
-			for (String skillBuff : skillBufflist) {
-				targetBuffarr = skillBuff.split("_");// skillBuff xxxx
-				targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
+			parseSkillBuffs(skillList, pSkillCfg.getBuffId(), false);
+		}
 
-				if (targetSkill != null && targetSkill.getLevel() > 0) {
-					for (int j = 1; j < targetBuffarr.length; j++) {
-						String targetBuff = targetBuffarr[j];
-						if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
-							List<Integer> curBuffList = targetSkill.getBuffId();
-							if (curBuffList.size() > j - 1) {
-								curBuffList.set(j - 1, Integer.parseInt(targetBuff));
-							} else {
-								curBuffList.add(Integer.parseInt(targetBuff));
-							}
+		pSkill.getSelfBuffId().clear();
+		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getSelfBuffId())) {
+			parseSkillBuffs(skillList, pSkillCfg.getSelfBuffId(), true);
+		}
+	}
+
+	private void parseSkillBuffs(List<Skill> skillList, String id, boolean isSelf) {
+		String[] skillBufflist = id.split(";");
+		Skill targetSkill;
+		String[] targetBuffarr;
+		for (String skillBuff : skillBufflist) {
+			targetBuffarr = skillBuff.split("_");// skillBuff xxxx
+			targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
+			if (targetSkill != null && targetSkill.getLevel() > 0) {
+				for (int j = 1; j < targetBuffarr.length; j++) {
+					String targetBuff = targetBuffarr[j];
+					if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
+						List<Integer> curBuffList = null;
+						if (isSelf) {
+							curBuffList = targetSkill.getSelfBuffId();
+						} else {
+							curBuffList = targetSkill.getBuffId();
+						}
+						if (curBuffList.size() > j - 1) {
+							curBuffList.set(j - 1, Integer.parseInt(targetBuff));
+						} else {
+							curBuffList.add(Integer.parseInt(targetBuff));
 						}
 					}
 				}
 			}
 		}
+	}
 
-		pSkill.getSelfBuffId().clear();
-		String[] selbuff = pSkillCfg.getSelfBuffId().split("_");// SkillBuffList
-																// xxxx_xxx
-		for (int i = 0; i < selbuff.length; i++) {
-			if (!StringUtils.isBlank(selbuff[i])) {
-				pSkill.getSelfBuffId().add(Integer.valueOf(selbuff[i]));
-			}
-		}
-
+	public void skill() {
 	}
 
 	/**
@@ -434,7 +475,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			return;
 		}
 		int skillTotalCount = m_pPlayer.getUserGameDataMgr().getSkillPointCount() + cfgBuySkill.getSkillpoint();
-		int maxSkillCount = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int maxSkillCount = getMaxSkillCount();
 		if (skillTotalCount > maxSkillCount) {
 			skillTotalCount = maxSkillCount;
 		}
@@ -461,13 +502,26 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		return 0;
 	}
 
-	
+	/**
+	 * 预估能够时间恢复技能点
+	 * 
+	 * @return
+	 */
+	public boolean expectSkillPointRecover() {
+		long lastCountTime = m_pPlayer.getUserGameDataMgr().getLastRecoverSkillPointTime();
+		long currentTimeMillis = System.currentTimeMillis();
+		long timeSpan = currentTimeMillis - lastCountTime;
+		long recoverSpanTime = getCoolTime();
+		return timeSpan > recoverSpanTime;
+	}
+
 	/**
 	 * 重算技能点（技能点数量，技能点时间）
 	 */
 	public void reshSkillPoint() {
 		int count = m_pPlayer.getUserGameDataMgr().getSkillPointCount();
-		int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		// int max = PrivilegeCfgDAO.getInstance().getDef(m_pPlayer.getVip(), EPrivilegeDef.SKILL_POINT_COUNT);
+		int max = getMaxSkillCount();
 		if (count >= max) {
 			return;
 		}
@@ -530,10 +584,15 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	}
 
 	public long getCoolTime() {
-		int cooltime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.SKILL_POINT_COOL_TIME);
-		return cooltime * 1000L;
+		long cooltime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.SKILL_POINT_COOL_TIME);
+		int decSecond = m_pPlayer.getPrivilegeMgr().getIntPrivilege(HeroPrivilegeNames.skillTimeDec);
+		if (decSecond > 0) {
+			cooltime -= decSecond;
+		}
+		cooltime = cooltime * 1000L;
+		return cooltime > 0 ? cooltime : 0;
 	}
-	
+
 	/**
 	 * gm 修改技能
 	 * 
@@ -543,6 +602,10 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	public void gmUpgradeSkillLv(Skill skill) {
 		updateMoreInfo(skill, null);
 		skillItemHolder.updateItem(m_pPlayer, skill);
+	}
+
+	public int getMaxSkillCount() {
+		return m_pPlayer.getPrivilegeMgr().getIntPrivilege(HeroPrivilegeNames.skillThreshold);
 	}
 
 }

@@ -21185,6 +21185,51 @@ public final class BattleTowerServiceProtos {
      * </pre>
      */
     boolean getIsMyself();
+
+    // optional string headFrame = 9;
+    /**
+     * <code>optional string headFrame = 9;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    boolean hasHeadFrame();
+    /**
+     * <code>optional string headFrame = 9;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    java.lang.String getHeadFrame();
+    /**
+     * <code>optional string headFrame = 9;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadFrameBytes();
+
+    // optional int32 starNum = 10;
+    /**
+     * <code>optional int32 starNum = 10;</code>
+     *
+     * <pre>
+     *星数
+     * </pre>
+     */
+    boolean hasStarNum();
+    /**
+     * <code>optional int32 starNum = 10;</code>
+     *
+     * <pre>
+     *星数
+     * </pre>
+     */
+    int getStarNum();
   }
   /**
    * Protobuf type {@code RankingRoleInfoMsg}
@@ -21282,6 +21327,16 @@ public final class BattleTowerServiceProtos {
             case 64: {
               bitField0_ |= 0x00000040;
               isMyself_ = input.readBool();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000080;
+              headFrame_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000100;
+              starNum_ = input.readInt32();
               break;
             }
           }
@@ -21644,6 +21699,85 @@ public final class BattleTowerServiceProtos {
       return isMyself_;
     }
 
+    // optional string headFrame = 9;
+    public static final int HEADFRAME_FIELD_NUMBER = 9;
+    private java.lang.Object headFrame_;
+    /**
+     * <code>optional string headFrame = 9;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    public boolean hasHeadFrame() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string headFrame = 9;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    public java.lang.String getHeadFrame() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headFrame_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headFrame = 9;</code>
+     *
+     * <pre>
+     *头像框
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadFrameBytes() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headFrame_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 starNum = 10;
+    public static final int STARNUM_FIELD_NUMBER = 10;
+    private int starNum_;
+    /**
+     * <code>optional int32 starNum = 10;</code>
+     *
+     * <pre>
+     *星数
+     * </pre>
+     */
+    public boolean hasStarNum() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional int32 starNum = 10;</code>
+     *
+     * <pre>
+     *星数
+     * </pre>
+     */
+    public int getStarNum() {
+      return starNum_;
+    }
+
     private void initFields() {
       rankIndex_ = 0;
       name_ = "";
@@ -21653,6 +21787,8 @@ public final class BattleTowerServiceProtos {
       magicIcon_ = "";
       rankingHeroInfoMsg_ = java.util.Collections.emptyList();
       isMyself_ = false;
+      headFrame_ = "";
+      starNum_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -21712,6 +21848,12 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeBool(8, isMyself_);
       }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(9, getHeadFrameBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeInt32(10, starNum_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -21752,6 +21894,14 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, isMyself_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getHeadFrameBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, starNum_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -21894,6 +22044,10 @@ public final class BattleTowerServiceProtos {
         }
         isMyself_ = false;
         bitField0_ = (bitField0_ & ~0x00000080);
+        headFrame_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        starNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -21959,6 +22113,14 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000040;
         }
         result.isMyself_ = isMyself_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.headFrame_ = headFrame_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.starNum_ = starNum_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -22027,6 +22189,14 @@ public final class BattleTowerServiceProtos {
         }
         if (other.hasIsMyself()) {
           setIsMyself(other.getIsMyself());
+        }
+        if (other.hasHeadFrame()) {
+          bitField0_ |= 0x00000100;
+          headFrame_ = other.headFrame_;
+          onChanged();
+        }
+        if (other.hasStarNum()) {
+          setStarNum(other.getStarNum());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -22875,6 +23045,153 @@ public final class BattleTowerServiceProtos {
       public Builder clearIsMyself() {
         bitField0_ = (bitField0_ & ~0x00000080);
         isMyself_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional string headFrame = 9;
+      private java.lang.Object headFrame_ = "";
+      /**
+       * <code>optional string headFrame = 9;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public boolean hasHeadFrame() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string headFrame = 9;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public java.lang.String getHeadFrame() {
+        java.lang.Object ref = headFrame_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headFrame_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headFrame = 9;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadFrameBytes() {
+        java.lang.Object ref = headFrame_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headFrame_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headFrame = 9;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public Builder setHeadFrame(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        headFrame_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headFrame = 9;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public Builder clearHeadFrame() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        headFrame_ = getDefaultInstance().getHeadFrame();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headFrame = 9;</code>
+       *
+       * <pre>
+       *头像框
+       * </pre>
+       */
+      public Builder setHeadFrameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        headFrame_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 starNum = 10;
+      private int starNum_ ;
+      /**
+       * <code>optional int32 starNum = 10;</code>
+       *
+       * <pre>
+       *星数
+       * </pre>
+       */
+      public boolean hasStarNum() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 starNum = 10;</code>
+       *
+       * <pre>
+       *星数
+       * </pre>
+       */
+      public int getStarNum() {
+        return starNum_;
+      }
+      /**
+       * <code>optional int32 starNum = 10;</code>
+       *
+       * <pre>
+       *星数
+       * </pre>
+       */
+      public Builder setStarNum(int value) {
+        bitField0_ |= 0x00000200;
+        starNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 starNum = 10;</code>
+       *
+       * <pre>
+       *星数
+       * </pre>
+       */
+      public Builder clearStarNum() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        starNum_ = 0;
         onChanged();
         return this;
       }
@@ -24090,26 +24407,27 @@ public final class BattleTowerServiceProtos {
       "ossInfoMsg\022\016\n\006bossId\030\001 \002(\005\022\021\n\tbossCfgId\030" +
       "\002 \002(\005\022\026\n\016bossRemainTime\030\003 \002(\003\022\023\n\013bossInF" +
       "loor\030\004 \001(\005\",\n\rRewardInfoMsg\022\014\n\004type\030\001 \002(" +
-      "\005\022\r\n\005count\030\002 \002(\005\"\302\001\n\022RankingRoleInfoMsg\022" +
+      "\005\022\r\n\005count\030\002 \002(\005\"\346\001\n\022RankingRoleInfoMsg\022" +
       "\021\n\trankIndex\030\001 \001(\005\022\014\n\004name\030\002 \002(\t\022\020\n\010head" +
       "Icon\030\003 \002(\t\022\024\n\014highestFloor\030\004 \001(\005\022\r\n\005leve" +
       "l\030\005 \002(\005\022\021\n\tmagicIcon\030\006 \002(\t\022/\n\022rankingHer" +
       "oInfoMsg\030\007 \003(\0132\023.RankingHeroInfoMsg\022\020\n\010i" +
-      "sMyself\030\010 \001(\010\"i\n\022RankingHeroInfoMsg\022\016\n\006h" +
-      "eroId\030\001 \002(\t\022\017\n\007starNum\030\002 \002(\005\022\017\n\007quality\030",
-      "\003 \001(\005\022\r\n\005level\030\004 \002(\005\022\022\n\nisMainRole\030\005 \001(\010" +
-      "*\256\002\n\014ERequestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n" +
-      "\023OPEN_CHALLENGE_VIEW\020\002\022\030\n\024GET_FRIEND_RAN" +
-      "K_LIST\020\003\022\025\n\021GET_STRATEGY_LIST\020\004\022\026\n\022OPEN_" +
-      "TRY_LUCK_VIEW\020\005\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEE" +
-      "P_END\020\007\022\021\n\rUSE_LUCKY_KEY\020\010\022\033\n\027RESET_BATT" +
-      "LE_TOWER_DATA\020\t\022\023\n\017CHALLENGE_START\020\n\022\021\n\r" +
-      "CHALLENGE_END\020\013\022\030\n\024CHALLENGE_BOSS_START\020" +
-      "\014\022\026\n\022CHALLENGE_BOSS_END\020\r*.\n\016EResponseSt" +
-      "ate\022\016\n\nRSP_SUCESS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKe",
-      "yType\022\016\n\nKEY_COPPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n" +
-      "\010KEY_GOLD\020\003B\'\n\013com.rwprotoB\030BattleTowerS" +
-      "erviceProtos"
+      "sMyself\030\010 \001(\010\022\021\n\theadFrame\030\t \001(\t\022\017\n\007star" +
+      "Num\030\n \001(\005\"i\n\022RankingHeroInfoMsg\022\016\n\006heroI",
+      "d\030\001 \002(\t\022\017\n\007starNum\030\002 \002(\005\022\017\n\007quality\030\003 \001(" +
+      "\005\022\r\n\005level\030\004 \002(\005\022\022\n\nisMainRole\030\005 \001(\010*\256\002\n" +
+      "\014ERequestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPE" +
+      "N_CHALLENGE_VIEW\020\002\022\030\n\024GET_FRIEND_RANK_LI" +
+      "ST\020\003\022\025\n\021GET_STRATEGY_LIST\020\004\022\026\n\022OPEN_TRY_" +
+      "LUCK_VIEW\020\005\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEEP_EN" +
+      "D\020\007\022\021\n\rUSE_LUCKY_KEY\020\010\022\033\n\027RESET_BATTLE_T" +
+      "OWER_DATA\020\t\022\023\n\017CHALLENGE_START\020\n\022\021\n\rCHAL" +
+      "LENGE_END\020\013\022\030\n\024CHALLENGE_BOSS_START\020\014\022\026\n" +
+      "\022CHALLENGE_BOSS_END\020\r*.\n\016EResponseState\022",
+      "\016\n\nRSP_SUCESS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyTyp" +
+      "e\022\016\n\nKEY_COPPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY" +
+      "_GOLD\020\003B\'\n\013com.rwprotoB\030BattleTowerServi" +
+      "ceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -24271,7 +24589,7 @@ public final class BattleTowerServiceProtos {
           internal_static_RankingRoleInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingRoleInfoMsg_descriptor,
-              new java.lang.String[] { "RankIndex", "Name", "HeadIcon", "HighestFloor", "Level", "MagicIcon", "RankingHeroInfoMsg", "IsMyself", });
+              new java.lang.String[] { "RankIndex", "Name", "HeadIcon", "HighestFloor", "Level", "MagicIcon", "RankingHeroInfoMsg", "IsMyself", "HeadFrame", "StarNum", });
           internal_static_RankingHeroInfoMsg_descriptor =
             getDescriptor().getMessageTypes().get(26);
           internal_static_RankingHeroInfoMsg_fieldAccessorTable = new

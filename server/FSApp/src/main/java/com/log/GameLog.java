@@ -31,12 +31,24 @@ public class GameLog {
 							.append(module).append("|")
 							.append(id).append("|")
 							.append(message).append("|");
-				debugLog.info(logContent, throwableP);
+				if(throwableP != null){
+					debugLog.info(logContent, throwableP);
+				}else{
+					debugLog.info(logContent);
+				}
 			}
 		});
-		
 	}
 
+	/**
+	 * logger info
+	 * @param module	所属模块
+	 * @param id		如果是系统则为system
+	 * @param message	操作内容，一般为动宾结构
+	 */
+	public static void info(String module,String id,String message){
+		info(module, id, message, null);
+	}
 	
 	/***
 	 * 

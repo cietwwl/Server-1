@@ -27,6 +27,8 @@ import com.rwbase.dao.friend.vo.FriendResultVo;
 import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
+import com.rwbase.dao.setting.HeadBoxCfgDAO;
+import com.rwbase.dao.setting.pojo.HeadBoxType;
 import com.rwproto.FriendServiceProtos;
 import com.rwproto.FriendServiceProtos.EFriendResultType;
 import com.rwproto.FriendServiceProtos.FriendInfo;
@@ -46,11 +48,11 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-		if (!player.isRobot()) {
-			TableFriend tableFriend = new TableFriend();
-			tableFriend.setUserId(player.getUserId());
-			friendDAO.update(tableFriend);
-		}
+//		if (!player.isRobot()) {
+//			TableFriend tableFriend = new TableFriend();
+//			tableFriend.setUserId(player.getUserId());
+//			friendDAO.update(tableFriend);
+//		}
 	}
 
 	@Override
@@ -618,6 +620,12 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendInfo.setLastLoginTime(item.getLastLoginTime());
 		friendInfo.setLastLoginTip(FriendUtils.getLastLoginTip(item.getLastLoginTime()));
 		friendInfo.setLevel(item.getLevel());
+		if(item.getHeadFrame() == null){
+			List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
+			// TODO 这个逻辑应该放在setting中完成
+			item.setHeadFrame(defaultHeadBoxList.get(0));
+		}
+		friendInfo.setHeadbox(item.getHeadFrame());
 		TableFriend tableFriend = getTableFriend();
 		FriendGiveState giveState = tableFriend.getFriendGiveList().get(item.getUserId());
 		if (giveState != null) {
@@ -679,6 +687,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendItem.setLevel(player.getLevel());
 		friendItem.setUserHead(player.getHeadImage());
 		friendItem.setCareer(player.getCareer());
+		//添加头像框
+		friendItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
 		// TODO 帮派获取名字后再提供
 		friendItem.setUnionName(GroupMemberHelper.getGroupName(player));

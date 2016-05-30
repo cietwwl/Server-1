@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.rw.netty.UserChannelMgr;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.MsgDataSynList;
 import com.rwproto.DataSynProtos.MsgDataSynList.Builder;
@@ -49,6 +50,7 @@ public class ClientDataSynMgr {
 	 */
 	public static void synDataList(Player player, List<?> serverDataList, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
+			player.getDataSynVersionHolder().addVersion(synType);
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			for (Object serverData : serverDataList) {
 				SynData.Builder synData = transferToClientData(serverData);
@@ -57,18 +59,17 @@ public class ClientDataSynMgr {
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
 			msgDataSyn.setVersion(newVersion);
-			
-			if(serverDataList.isEmpty()){
-				//列表为空的时候list 的 hashcode是一样的，这个时候要传同步对象本身。
+
+			if (serverDataList.isEmpty()) {
+				// 列表为空的时候list 的 hashcode是一样的，这个时候要传同步对象本身。
 				sendMsg(player, msgDataSyn, synType, msgDataSyn);
-			}else{
-				
+			} else {
+
 				sendMsg(player, serverDataList, synType, msgDataSyn);
 			}
-			
+
 		} catch (Exception e) {
-			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synDataList] synType:" + synType + " synOpType:"
-					+ synOpType, e);
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synDataList] synType:" + synType + " synOpType:" + synOpType, e);
 		}
 	}
 
@@ -96,8 +97,24 @@ public class ClientDataSynMgr {
 	public static void synData(Player player, Object serverData, eSynType synType, eSynOpType synOpType, int newVersion) {
 		try {
 			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
-
 			SynData.Builder synData = transferToClientData(serverData);
+			msgDataSyn.addSynData(synData);
+			msgDataSyn.setSynOpType(synOpType);
+			msgDataSyn.setSynType(synType);
+			msgDataSyn.setVersion(newVersion);
+			sendMsg(player, serverData, synType, msgDataSyn);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
+		}
+	}
+
+	public static void synDataFiled(Player player, Object serverData, eSynType synType, List<String> fieldNameList) {
+		eSynOpType synOpType = eSynOpType.UPDATE_FIELD;
+		try {
+			int newVersion = player.getDataSynVersionHolder().addVersion(synType);
+			SynData.Builder synData = transferToClientData(serverData, fieldNameList);
+
+			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
 			msgDataSyn.addSynData(synData);
 			msgDataSyn.setSynOpType(synOpType);
 			msgDataSyn.setSynType(synType);
@@ -121,8 +138,7 @@ public class ClientDataSynMgr {
 			player.getDataSynVersionHolder().addVersion(synType);
 			synData(player, serverData, synType, synOpType);
 		} catch (Exception e) {
-			GameLog.error(LogModule.Util.getName(), player.getUserId(),
-					"ClientDataSynMgr[updateData] synType:" + synType + " synOpType:" + synOpType, e);
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[updateData] synType:" + synType + " synOpType:" + synOpType, e);
 		}
 	}
 
@@ -139,15 +155,36 @@ public class ClientDataSynMgr {
 			player.getDataSynVersionHolder().addVersion(synType);
 			synDataList(player, serverDataList, synType, synOpType);
 		} catch (Exception e) {
-			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[updateDataList] synType:" + synType + " synOpType:"
-					+ synOpType, e);
+			GameLog.error(LogModule.Util.getName(), player.getUserId(), "ClientDataSynMgr[updateDataList] synType:" + synType + " synOpType:" + synOpType, e);
 		}
 	}
 
-	public static SynData.Builder transferToClientData(Object serverData) throws Exception {
+	public static String toClientData(Object serverData) {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(serverData.getClass());
 
-		String jsonData = serverClassInfo.toJson(serverData);
+		String jsonData = null;
+		try {
+			jsonData = serverClassInfo.toJson(serverData);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), serverData.getClass().toString(), "ClientDataSynMgr[toClientData]", e);
+		}
+		return jsonData;
+	}
+
+	public static SynData.Builder transferToClientData(Object serverData) throws Exception {
+		return transferToClientData(serverData, null);
+	}
+
+	private static SynData.Builder transferToClientData(Object serverData, List<String> synFieldList) throws Exception {
+		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(serverData.getClass());
+
+		String jsonData = null;
+		if (synFieldList != null) {
+			jsonData = serverClassInfo.toJson(serverData, synFieldList);
+		} else {
+			jsonData = serverClassInfo.toJson(serverData);
+		}
+
 		String id = serverClassInfo.getId(serverData);
 		if (StringUtils.isBlank(id)) {
 			id = "id";
@@ -160,14 +197,11 @@ public class ClientDataSynMgr {
 	}
 
 	private static void sendMsg(Player player, Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
-		SynDataInReqMgr synDataInReqMgr = player.getSynDataInReqMgr();
-		if (synDataInReqMgr.isInReq()) {
-			SynDataInfo synDataInfo = new SynDataInfo(synType, msgDataSyn);
-			synDataInReqMgr.addSynData(serverData, synDataInfo);
-
-		} else {
+		SynDataInReqMgr synDataInReqMgr = UserChannelMgr.getSynDataInReqMgr(player.getUserId());
+		if(synDataInReqMgr!=null && !synDataInReqMgr.addSynData(serverData, synType, msgDataSyn)){
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
 			player.SendMsg(Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
 		}
 	}
+	
 }
