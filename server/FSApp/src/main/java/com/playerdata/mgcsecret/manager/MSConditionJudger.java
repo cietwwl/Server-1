@@ -42,6 +42,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断玩家等级
+	 * @param player
 	 * @param dungeonID
 	 * @return
 	 */
@@ -58,6 +59,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断进入副本的条件
+	 * @param player
 	 * @param dungeonID
 	 * @return
 	 */
@@ -78,6 +80,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断副本的合法性
+	 * @param player
 	 * @param dungeonID
 	 * @return
 	 */
@@ -112,6 +115,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断副本的次数（主要是看今天有没有通关过）
+	 * @param player
 	 * @param dungeonID
 	 * @return
 	 */
@@ -132,6 +136,7 @@ public class MSConditionJudger {
 
 	/**
 	 * 判断buff的合法性
+	 * @param player
 	 * @param chapterID
 	 * @param buffID
 	 * @return
@@ -161,6 +166,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断星星数量
+	 * @param player
 	 * @param chapterID
 	 * @param buffID
 	 * @return
@@ -178,6 +184,7 @@ public class MSConditionJudger {
 
 	/**
 	 * 判断箱子数量
+	 * @param player
 	 * @param chapterID
 	 * @param msRwdBox
 	 * @return
@@ -199,6 +206,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断打开箱子的花费(如果够，直接扣除)
+	 * @param player
 	 * @param chapterID
 	 * @param msRwdBox
 	 * @return
@@ -246,6 +254,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断今天是否有扫荡次数
+	 * @param player
 	 * @param chapterID
 	 * @return
 	 */
@@ -260,6 +269,7 @@ public class MSConditionJudger {
 	
 	/**
 	 * 判断章节是否可以扫荡(根据历史最高纪录)
+	 * @param player
 	 * @param chapterID
 	 * @return
 	 */

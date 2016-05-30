@@ -55,6 +55,9 @@ public class MagicSecretService implements FsService {
 				break;
 			case GIVE_UP_REWARD_BOX:
 				result = mHandler.giveUpRewardBox(player, msgMSRequest);
+				break;	
+			case GIVE_UP_BUFF:
+				result = mHandler.giveUpBuff(player, msgMSRequest);
 				break;
 			default:
 				GameLog.error(LogModule.MagicSecret, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);

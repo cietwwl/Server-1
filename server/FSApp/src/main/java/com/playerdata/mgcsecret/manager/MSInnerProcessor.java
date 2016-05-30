@@ -26,6 +26,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 通知排行榜做出排名更改
+	 * @param player
 	 */
 	protected void informRankModule(Player player){
 		MSScoreRankMgr.addOrUpdateMSScoreRank(player, userMSHolder.get(player));
@@ -33,6 +34,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 处理掉落，这里面包括了秘境货币的特殊处理
+	 * @param player
 	 * @param dropItems
 	 */
 	protected void handleDropItem(Player player, List<ItemInfo> dropItems){
@@ -46,6 +48,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 增加可以购买的箱子(普通和高级各一个)
+	 * @param player
 	 * @param chapterID
 	 */
 	protected void addCanOpenBoxes(Player player, String chapterID){
@@ -69,6 +72,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 清除可选的buff
+	 * @param player
 	 * @param chapteID
 	 */
 	protected void dropSelectableBuff(Player player, String chapteID){
@@ -78,6 +82,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 设置玩家最高闯关纪录
+	 * @param player
 	 * @param dungeonID
 	 */
 	protected void updateSelfMaxStage(Player player, String dungeonID){
@@ -107,6 +112,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 
 	/**
 	 * 提供可以购买的buff
+	 * @param player
 	 * @param currentDungeonID
 	 */
 	protected void provideNextSelectalbeBuff(Player player, String currentDungeonID){
@@ -132,6 +138,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 生成下一个stage的三个关卡数据
+	 * @param player
 	 * @param currentDungeonID
 	 */
 	public void createDungeonsDataForNextStage(Player player, String currentDungeonID){
@@ -182,6 +189,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 根据掉落字符串计算物品掉落
+	 * @param player
 	 * @param dropStr
 	 * @return
 	 */
@@ -205,6 +213,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 法宝秘境数据跨天刷新
+	 * @param player
 	 */
 	public void resetDailyMSInfo(Player player){
 		mChapterHolder.resetAllItem(player);

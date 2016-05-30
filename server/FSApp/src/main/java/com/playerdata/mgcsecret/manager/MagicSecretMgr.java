@@ -32,16 +32,17 @@ import com.rwproto.MagicSecretProto.msRewardBox;
 public class MagicSecretMgr extends MSInnerProcessor{
 
 	// 初始化
-	public void init(Player playerP) {
-		userMSHolder = UserMagicSecretHolder.getInstance(); //new UserMagicSecretHolder(playerP.getUserId());
+	public void init(Player player) {
+		userMSHolder = UserMagicSecretHolder.getInstance();
 		mChapterHolder = MagicChapterInfoHolder.getInstance();
-		if(mChapterHolder.getItemList(playerP.getUserId()).size() == 0){
-			mChapterHolder.initMagicChapterInfo(playerP, CHAPTER_INIT_ID);
+		if(mChapterHolder.getItemList(player.getUserId()).size() == 0){
+			mChapterHolder.initMagicChapterInfo(player, CHAPTER_INIT_ID);
 		}
 	}
 	
 	/**
 	 * 获取秘境排行
+	 * @param player
 	 * @param msRsp
 	 */
 	public void getMSRankData(Player player, MagicSecretRspMsg.Builder msRsp) {
@@ -56,6 +57,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 进入关卡战斗
+	 * @param player
 	 * @param dungeonID
 	 * @return
 	 */
@@ -113,6 +115,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 获取单关奖励
+	 * @param player
 	 * @param msRsp
 	 * @param dungeonID
 	 * @param finishState
@@ -158,6 +161,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 副本扫荡
+	 * @param player
 	 * @param msRsp
 	 * @param chapterID
 	 */
@@ -197,6 +201,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 
 	/**
 	 * 用星星交换章节内的buff
+	 * @param player
 	 * @param chapterID
 	 * @param buffID
 	 * @return
@@ -225,6 +230,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 打开奖励的宝箱
+	 * @param player
 	 * @param msRsp
 	 * @param chapterID
 	 * @param msRwdBox
@@ -270,6 +276,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 更改队伍信息
+	 * @param player
 	 * @param armyInfo
 	 * @return
 	 */
@@ -283,6 +290,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 获取积分奖励
+	 * @param player
 	 * @param msRsp
 	 * @param scoreRewardID
 	 */
@@ -315,6 +323,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 获取个人排名
+	 * @param player
 	 * @param msRsp
 	 */
 	public void getSelfMSRank(Player player, MagicSecretRspMsg.Builder msRsp) {
@@ -324,6 +333,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 放弃可以开启的箱子
+	 * @param player
 	 * @param chapterID
 	 */
 	public msResultType giveUpRewardBox(Player player, String chapterID) {		
@@ -335,9 +345,26 @@ public class MagicSecretMgr extends MSInnerProcessor{
 		}
 		return msResultType.SUCCESS;
 	}
+	
+	/**
+	 * 放弃可以选择的buff
+	 * @param player
+	 * @param chapterId
+	 * @return
+	 */
+	public msResultType giveBuff(Player player, String chapterId) {
+		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterId);
+		if(mcInfo == null) return msResultType.DATA_ERROR;
+		if(!mcInfo.getUnselectedBuff().isEmpty()){
+			mcInfo.getUnselectedBuff().clear();
+			mChapterHolder.updateItem(player, mcInfo);
+		}
+		return msResultType.SUCCESS;
+	}
 
 	/**
 	 * 扣除秘境货币
+	 * @param player
 	 * @param secretGold
 	 * @return
 	 */
@@ -353,6 +380,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 获取玩家的法宝秘境货币
+	 * @param player
 	 * @return
 	 */
 	public int getSecretGold(Player player){
@@ -362,6 +390,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 增加秘境货币
+	 * @param player
 	 * @param secretGold
 	 * @return
 	 */
@@ -376,6 +405,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	/**
 	 * 单关奖励
 	 * 有些合法性的检查需要在函数外
+	 * @param player
 	 * @param fightingDung 战斗的副本
 	 * @param finishStar 通关评价
 	 * @return 奖励的物品，用于前端显示
@@ -422,6 +452,7 @@ public class MagicSecretMgr extends MSInnerProcessor{
 	
 	/**
 	 * 处理下一个关卡开始之前的各项准备
+	 * @param player
 	 * @param dungeonID
 	 */
 	protected void handleNextDungeonPrepare(Player player, String dungeonID){	

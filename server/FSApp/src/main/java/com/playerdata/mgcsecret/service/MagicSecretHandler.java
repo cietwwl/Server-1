@@ -99,4 +99,12 @@ public class MagicSecretHandler {
 		msRsp.setRstType(msMgr.giveUpRewardBox(player, msgMSRequest.getChapterId()));
 		return msRsp.build().toByteString();
 	}
+
+	public ByteString giveUpBuff(Player player, MagicSecretReqMsg msgMSRequest) {
+		MagicSecretRspMsg.Builder msRsp = MagicSecretRspMsg.newBuilder();
+		msRsp.setReqType(msgMSRequest.getReqType());
+		MagicSecretMgr msMgr = player.getMagicSecretMgr();
+		msRsp.setRstType(msMgr.giveBuff(player, msgMSRequest.getChapterId()));
+		return msRsp.build().toByteString();
+	}
 }
