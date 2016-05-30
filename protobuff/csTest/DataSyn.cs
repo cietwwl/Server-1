@@ -339,6 +339,9 @@ namespace DataSyn
       [global::ProtoBuf.ProtoEnum(Name=@"MagicChapterData", Value=51)]
       MagicChapterData = 51,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"SECRETAREA_TEAM_INFO", Value=52)]
+      SECRETAREA_TEAM_INFO = 52,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"ActivityCountType", Value=60)]
       ActivityCountType = 60,
             

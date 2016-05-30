@@ -16,6 +16,7 @@ import com.gm.customer.response.QuestionSubmitResponse;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.customer.FeedbackResult;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserExtendInfo;
@@ -46,6 +47,13 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 	public FeedbackResult submitQuestion(QuestionType type, String phone, String model, String channel, String feedbackContent){
 		
 		FeedbackResult result = new FeedbackResult(); 
+		if(!ServerSwitch.isGiftCodeOpen()){
+			result.setResultType(eSubmitResultType.FAIL);
+			result.setResult(QuestionTips.FEEDBACK_SERVICE_CLOSE_TIPS);
+			return result;
+		}
+		
+		
 		if(questionListDataHolder.isQuestioning()){
 			result.setResultType(eSubmitResultType.FAIL);
 			result.setResult(QuestionTips.UNANSWER_TIPS);

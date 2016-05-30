@@ -4,13 +4,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.common.ISeqPlanHelper;
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.magicweapon.pojo.CriticalSeqCfg;
 
-public class CriticalSeqCfgDAO extends CfgCsvDao<CriticalSeqCfg> {
+public class CriticalSeqCfgDAO extends CfgCsvDao<CriticalSeqCfg> implements ISeqPlanHelper{
 		public static CriticalSeqCfgDAO getInstance(){
 			return SpringContextUtil.getBean(CriticalSeqCfgDAO.class);
 		}
@@ -31,6 +32,15 @@ public class CriticalSeqCfgDAO extends CfgCsvDao<CriticalSeqCfg> {
 			}
 
 			return cfgCacheMap;
+		}
+
+		@Override
+		public int[] getPlan(int planId) {
+			CriticalSeqCfg seqCfg = getCfgById(String.valueOf(planId));
+			if (seqCfg != null){
+				return seqCfg.getSeqList();
+			}
+			return null;
 		}
 		
 }
