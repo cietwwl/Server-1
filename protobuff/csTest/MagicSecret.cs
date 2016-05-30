@@ -189,6 +189,23 @@ namespace magicSecret
       get { return _rewardData; }
     }
   
+    private string _armyInfo;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"armyInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string armyInfo
+    {
+      get { return _armyInfo?? ""; }
+      set { _armyInfo = value; }
+    }
+    [global::System.Xml.Serialization.XmlIgnore]
+    [global::System.ComponentModel.Browsable(false)]
+    public bool armyInfoSpecified
+    {
+      get { return this._armyInfo != null; }
+      set { if (value == (this._armyInfo== null)) this._armyInfo = value ? this.armyInfo : (string)null; }
+    }
+    private bool ShouldSerializearmyInfo() { return armyInfoSpecified; }
+    private void ResetarmyInfo() { armyInfoSpecified = false; }
+    
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -250,7 +267,10 @@ namespace magicSecret
       GET_SELF_MS_RANK = 9,
             
       [global::ProtoBuf.ProtoEnum(Name=@"GIVE_UP_REWARD_BOX", Value=10)]
-      GIVE_UP_REWARD_BOX = 10
+      GIVE_UP_REWARD_BOX = 10,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"GIVE_UP_BUFF", Value=11)]
+      GIVE_UP_BUFF = 11
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"msResultType")]
