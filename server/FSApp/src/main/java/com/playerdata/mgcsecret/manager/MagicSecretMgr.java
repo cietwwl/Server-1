@@ -10,7 +10,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
-import com.playerdata.army.SimpleArmyInfo;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonScoreCfg;
@@ -296,9 +295,8 @@ public class MagicSecretMgr {
 	 * @return
 	 */
 	public msResultType changeMSArmy(Player player, String armyInfo) {
-		SimpleArmyInfo army = JsonUtil.readValue(armyInfo, SimpleArmyInfo.class);
 		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
-		umsData.setSecretArmy(army);
+		umsData.setSecretArmy(armyInfo);
 		UserMagicSecretHolder.getInstance().update(player);
 		return msResultType.SUCCESS;
 	}
@@ -490,7 +488,7 @@ public class MagicSecretMgr {
 	}
 	
 	public void synUserMSData(Player player) {
-		UserMagicSecretHolder.getInstance().syn(player, 0);
+		UserMagicSecretHolder.getInstance().syn(player);
 	}
 	
 	/**

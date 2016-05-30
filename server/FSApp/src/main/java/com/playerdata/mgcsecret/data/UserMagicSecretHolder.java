@@ -4,13 +4,7 @@ import java.util.ArrayList;
 
 import com.log.GameLog;
 import com.playerdata.Player;
-import com.playerdata.army.ArmyHero;
-import com.playerdata.army.ArmyInfo;
-import com.playerdata.army.ArmyInfoHelper;
-import com.playerdata.army.SimpleArmyInfo;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.mgcsecret.cfg.MagicChapterCfg;
-import com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -31,7 +25,7 @@ public class UserMagicSecretHolder {
 		return InstanceHolder.instance;
 	}
 
-	public void syn(Player player, int version) {
+	public void syn(Player player) {
 		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
 			if(isDailyFirstLogin(userMagicSecret.getLastResetTime())){
@@ -47,21 +41,8 @@ public class UserMagicSecretHolder {
 		String userId = player.getUserId();
 		UserMagicSecretData umsData = InstanceHolder.userMagicSecretDao.get(userId);
 		if(umsData.getSecretArmy() == null) {
-			MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(MagicSecretMgr.CHAPTER_INIT_ID);
-			if(player.getUserDataMgr().getUser().getLevel() < mcCfg.getLevelLimit()) return umsData;
-			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(userId, player.getHeroMgr().getHeroIdList());
-			if(armyInfo == null) return umsData;
-			ArrayList<String> uuids = new ArrayList<String>();
-			for(ArmyHero hero : armyInfo.getHeroList())
-				uuids.add(hero.getRoleBaseInfo().getId());
-			SimpleArmyInfo sArmy = new SimpleArmyInfo();
-			sArmy.setHeroIds(uuids);
-			if(armyInfo.getArmyMagic() != null){
-				sArmy.setLevel(armyInfo.getArmyMagic().getLevel());
-				sArmy.setModelId(armyInfo.getArmyMagic().getModelId());
-			}
-			umsData.setSecretArmy(sArmy);
-			syn(player, 0);
+			umsData.setSecretArmy("");
+			syn(player);
 		}
 		return umsData;
 	}

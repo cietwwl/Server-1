@@ -6,7 +6,6 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.army.SimpleArmyInfo;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -18,7 +17,7 @@ public class UserMagicSecretData {
 	private String userId; // 用户ID
 
 	@CombineSave
-	private SimpleArmyInfo secretArmy; // 战斗队伍情况
+	private String secretArmy; // 战斗队伍情况
 
 	@CombineSave
 	int historyScore; // 历史积分
@@ -43,12 +42,10 @@ public class UserMagicSecretData {
 	
 	@CombineSave
 	private long lastResetTime = 0l;
-
-	@CombineSave
-	private String version;
 	
 	public UserMagicSecretData(String userId) {
 		this.userId = userId; 
+		this.secretArmy = "";
 	}
 	
 	public UserMagicSecretData() {
@@ -62,11 +59,11 @@ public class UserMagicSecretData {
 		this.userId = userId;
 	}
 
-	public SimpleArmyInfo getSecretArmy() {
+	public String getSecretArmy() {
 		return secretArmy;
 	}
 
-	public void setSecretArmy(SimpleArmyInfo secretArmy) {
+	public void setSecretArmy(String secretArmy) {
 		this.secretArmy = secretArmy;
 	}
 
@@ -112,14 +109,6 @@ public class UserMagicSecretData {
 	
 	public long getLastResetTime(){
 		return lastResetTime;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public int getMaxStageID() {
