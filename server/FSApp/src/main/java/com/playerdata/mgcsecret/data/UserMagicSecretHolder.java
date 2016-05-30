@@ -1,7 +1,6 @@
 package com.playerdata.mgcsecret.data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -14,6 +13,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.mgcsecret.cfg.MagicChapterCfg;
 import com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.rw.fsutil.util.DateUtils;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -22,7 +22,7 @@ public class UserMagicSecretHolder {
 	private UserMagicSecretDao userMagicSecretDao = UserMagicSecretDao.getInstance();
 	private final String userId;
 	private static eSynType synType = eSynType.MagicSecretData;
-
+	
 	public UserMagicSecretHolder(String userId) {
 		this.userId = userId;
 	}
@@ -87,15 +87,13 @@ public class UserMagicSecretHolder {
 	public void flush() {
 	}
 
+	/**
+	 * 每日重置的比对时间
+	 * 05:00:00
+	 * @param lastResetTime
+	 * @return
+	 */
 	public boolean isDailyFirstLogin(long lastResetTime){
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, 5);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		return false;
-//		if(lastResetTime < cal.getTimeInMillis())
-//			return System.currentTimeMillis() > cal.getTimeInMillis();
-//		return true;
+		return DateUtils.isResetTime(5, 0, 0, lastResetTime);
 	}
 }
