@@ -8,4 +8,6 @@ public class QuestionTips {
 	
 	public static String NOT_ENOUGH_CONTENT = "亲爱的玩家，请您详细描述您的问题，以便我们更好的为您服务。";
 	
+	public static String FEEDBACK_SERVICE_CLOSE_TIPS = "反馈服务尚未开启！";
+	
 }
