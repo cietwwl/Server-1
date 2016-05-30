@@ -366,18 +366,15 @@ public class GMHandler {
 	
 	
 	public boolean addGold(String[] arrCommandContents, Player player) {
-		Player target = PlayerMgr.getInstance().findPlayerFromMemory(player.getUserId().trim());
-//		target.s
-		//target.save(true);
-//		if (arrCommandContents == null || arrCommandContents.length < 1) {
-//			System.out.println(" command param not right ...");
-//			return false;
-//		}
-//		int addNum = Integer.parseInt(arrCommandContents[0]);
-//		if (player != null) {
-//			player.getUserGameDataMgr().addGold(addNum);
-//			return true;
-//		}
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int addNum = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			player.getUserGameDataMgr().addGold(addNum);
+			return true;
+		}
 		return false;
 	}
 

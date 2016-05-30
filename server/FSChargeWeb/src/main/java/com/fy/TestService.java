@@ -23,10 +23,10 @@ public class TestService {
 		
 		
 		ContentPojo content = new ContentPojo();
-		content.setCpTradeNo("1027");
+		content.setCpTradeNo("1028");
 		content.setGameId(3);
 		content.setUserId("100100000455");
-		content.setRoleId("100100000751");
+		content.setRoleId("100100000756");
 		
 		content.setServerId(27);
 		content.setChannelId("0");
