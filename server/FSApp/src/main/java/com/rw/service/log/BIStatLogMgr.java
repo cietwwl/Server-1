@@ -65,7 +65,32 @@ public class BIStatLogMgr {
 		final Map<String,BICounter> coinAccount = new HashMap<String,BICounter>();
 		final Map<String,BICounter> giftGoldAccount = new HashMap<String,BICounter>();
 		final Map<String,BICounter> chargeGoldAccount = new HashMap<String,BICounter>();
-		final String sql = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM user_other LEFT JOIN user ON user_other.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+//		final String sql = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM user_other LEFT JOIN user ON user_other.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		
+		String[] sqlStr  = new String[10];		
+		sqlStr[0] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata00 LEFT JOIN user ON table_kvdata00.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[1] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata01 LEFT JOIN user ON table_kvdata01.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[2]= "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata02 LEFT JOIN user ON table_kvdata02.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[3] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata03 LEFT JOIN user ON table_kvdata03.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[4] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata04 LEFT JOIN user ON table_kvdata04.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[5] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata05 LEFT JOIN user ON table_kvdata05.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[6] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata06 LEFT JOIN user ON table_kvdata06.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[7] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata07 LEFT JOIN user ON table_kvdata07.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[8] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata08 LEFT JOIN user ON table_kvdata08.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		sqlStr[9] = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM table_kvdata09 LEFT JOIN user ON table_kvdata09.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+				
+		for(String sql:sqlStr){
+			doDbcounts(sql,coinAccount,giftGoldAccount,chargeGoldAccount);
+		}
+				
+		logCoin(coinAccount);
+		logGiftGold(giftGoldAccount);
+		logChargeGold(chargeGoldAccount);
+	}
+	
+	private void doDbcounts(String sql, final Map<String, BICounter> coinAccount,
+			final Map<String, BICounter> giftGoldAccount,
+			final Map<String, BICounter> chargeGoldAccount) {
 		doDbCount(sql, new BIIntefaceCount(){
 
 			@Override
@@ -87,18 +112,15 @@ public class BIStatLogMgr {
 					count.add(coin);
 					getCounter(giftGoldAccount, regSubChannelId, "totalCountGold", clientPlatForm).add(giftGold);
 					getCounter(chargeGoldAccount, regSubChannelId, "totalCountGold", clientPlatForm).add(chargeGold);
-					System.out.println(user.getDbvalue().getUserId() + "    coin = "+coin +" giftgold =" + giftGold + " chargegold =" + chargeGold);
 				}
 			}
 			
 
 			
 		});
-		logCoin(coinAccount);
-		logGiftGold(giftGoldAccount);
-		logChargeGold(chargeGoldAccount);
+		
 	}
-	
+
 	private void logCoin(Map<String, BICounter> coinAccount) {
 		for (BICounter biCounterTmp : coinAccount.values()) {
 			BILogMgr.getInstance().logZoneCountCoin(biCounterTmp.getRegSubChannelId(), biCounterTmp.getCount(), biCounterTmp.getClientPlatForm());
