@@ -7,6 +7,7 @@ import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
@@ -227,7 +228,7 @@ public class PlayerTimeActionHelper {
 
 			@Override
 			public void doTask() {
-				player.getMagicSecretMgr().resetDailyMSInfo(player);
+				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 		});
 		

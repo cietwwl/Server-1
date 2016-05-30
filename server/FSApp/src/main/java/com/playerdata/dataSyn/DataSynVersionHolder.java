@@ -13,6 +13,7 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
 import com.rwproto.DataSynProtos.eSynType;
@@ -258,7 +259,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {	
-				player.getMagicSecretMgr().synMagicChapterData(player);
+				MagicSecretMgr.getInstance().synMagicChapterData(player);
 			}
 		}));
 		orderList.add(eSynType.MagicChapterData);
@@ -276,7 +277,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
-				player.getMagicSecretMgr().synUserMSData(player);
+				MagicSecretMgr.getInstance().synUserMSData(player);
 			}
 		}));
 		orderList.add(eSynType.MagicSecretData);

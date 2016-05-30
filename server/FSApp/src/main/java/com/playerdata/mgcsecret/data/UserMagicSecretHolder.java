@@ -35,7 +35,7 @@ public class UserMagicSecretHolder {
 		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
 			if(isDailyFirstLogin(userMagicSecret.getLastResetTime())){
-				player.getMagicSecretMgr().resetDailyMSInfo(player);
+				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 			ClientDataSynMgr.synData(player, userMagicSecret, synType, eSynOpType.UPDATE_SINGLE);
 		} else {

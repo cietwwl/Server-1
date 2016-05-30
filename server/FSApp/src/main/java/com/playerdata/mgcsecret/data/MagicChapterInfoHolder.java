@@ -34,18 +34,27 @@ public class MagicChapterInfoHolder{
 	/*
 	 * 获取已经通关的章节情况
 	 */
-	public List<MagicChapterInfo> getItemList(String userId)
+	public List<MagicChapterInfo> getItemList(Player player)
 	{
 		List<MagicChapterInfo> chapterList = new ArrayList<MagicChapterInfo>();
-		Enumeration<MagicChapterInfo> mapEnum = getItemStore(userId).getEnum();
+		// 这里需要判断一下角色的等级，如果玩家等级未达到开放
+		if(!MagicSecretMgr.getInstance().judgeUserLevel(player, Integer.valueOf(MagicSecretMgr.CHAPTER_INIT_ID))) return chapterList;
+		if(getItemStore(player.getUserId()).getSize() == 0) initMagicChapterInfo(player, MagicSecretMgr.CHAPTER_INIT_ID);
+		Enumeration<MagicChapterInfo> mapEnum = getItemStore(player.getUserId()).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			MagicChapterInfo item = (MagicChapterInfo) mapEnum.nextElement();			
+			MagicChapterInfo item = (MagicChapterInfo) mapEnum.nextElement();
 			chapterList.add(item);
 		}
 		return chapterList;
 	}
 	
 	public void updateItem(Player player, MagicChapterInfo item){
+		getItemStore(player.getUserId()).updateItem(item);
+		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+	}
+	
+	public void updateItem(Player player, String chapterID){
+		MagicChapterInfo item = getItem(player.getUserId(), chapterID);
 		getItemStore(player.getUserId()).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
@@ -67,7 +76,7 @@ public class MagicChapterInfoHolder{
 		try {
 			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
 			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
+				ClientDataSynMgr.updateDataList(player, getItemList(player), synType, eSynOpType.UPDATE_LIST);
 			}
 			return addSuccess;
 		} catch (DuplicatedKeyException e) {
@@ -87,7 +96,7 @@ public class MagicChapterInfoHolder{
 		if(mcInfo == null) {
 			mcInfo = new MagicChapterInfo();
 			if(MagicChapterCfgDAO.getInstance().getCfgById(chapterID) == null) 
-				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID), new Exception("法宝秘境的初始化章节ID有误，数据表中招不到对应的数据"));
+				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("initMagicChapterInfo, 法宝秘境的初始化章节ID[%s]有误，数据表中招不到对应的数据", chapterID), new Exception("法宝秘境的初始化章节ID有误，数据表中招不到对应的数据"));			
 			mcInfo.setId(player.getUserId() + "_" + chapterID);
 			mcInfo.setChapterId(chapterID);
 			mcInfo.setUserId(player.getUserId());
@@ -102,7 +111,7 @@ public class MagicChapterInfoHolder{
 	 * @param player
 	 */
 	public boolean resetAllItem(Player player){
-		for(MagicChapterInfo mcInfo : getItemList(player.getUserId())){
+		for(MagicChapterInfo mcInfo : getItemList(player)){
 			mcInfo.resetData();
 			startNewChapter(player, mcInfo.getChapterId());
 			updateItem(player, mcInfo);
@@ -117,7 +126,7 @@ public class MagicChapterInfoHolder{
 	 * @return
 	 */
 	public boolean startNewChapter(Player player, String chapterID){
-		MagicSecretMgr msMgr = player.getMagicSecretMgr();
+		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
 		String first_dungeon_id = chapterID + "01_1";
 		String fake_last_dungeon_id = chapterID + "00_1";
 		if(msMgr.judgeDungeonsCondition(player, first_dungeon_id))
@@ -126,7 +135,7 @@ public class MagicChapterInfoHolder{
 	}
 	
 	public void synAllData(Player player){
-		List<MagicChapterInfo> itemList = getItemList(player.getUserId());			
+		List<MagicChapterInfo> itemList = getItemList(player);			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 

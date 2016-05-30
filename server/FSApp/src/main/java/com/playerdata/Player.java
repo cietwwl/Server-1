@@ -31,7 +31,6 @@ import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
-import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -109,8 +108,6 @@ public class Player implements PlayerIF {
 	private HeroMgr m_HeroMgr = new HeroMgr();
 	private CopyRecordMgr m_CopyRecordMgr = new CopyRecordMgr();
 	private MagicMgr magicMgr = new MagicMgr();
-
-	private MagicSecretMgr m_msMgr = new MagicSecretMgr();
 	private FriendMgr m_friendMgr = new FriendMgr();
 
 	// 延迟初始化的Mgr
@@ -277,7 +274,6 @@ public class Player implements PlayerIF {
 		m_SignMgr.init(this);
 		m_emailMgr.init(this);
 		m_DailyActivityMgr.init(this);
-		m_msMgr.init(this);
 		m_friendMgr.init(this);
 		m_TowerMgr.init(this);
 		// m_SecretMgr.init(this);
@@ -1045,10 +1041,6 @@ public class Player implements PlayerIF {
 
 	public AttrMgr getAttrMgr() {
 		return getMainRoleHero().getAttrMgr();
-	}
-	
-	public MagicSecretMgr getMagicSecretMgr(){
-		return m_msMgr;
 	}
 
 	public SkillMgr getSkillMgr() {

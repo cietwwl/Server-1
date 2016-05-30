@@ -21,37 +21,30 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.MagicSecretProto.msRewardBox;
 
-public class MSConditionJudger {
-	public final static int STAGE_COUNT_EACH_CHATPER = 8;
-	public final static int DUNGEON_FINISH_MAX_STAR = 3;
-	public final static int DUNGEON_MAX_LEVEL = 3;
-	public final static float SCORE_COEFFICIENT = 0.08f;
-	
-	public final static float ONE_STAR_SCORE_COEFFICIENT = 1.0f;
-	public final static float TWO_STAR_SCORE_COEFFICIENT = 1.5f;
-	public final static float THREE_STAR_SCORE_COEFFICIENT = 2.5f;
-	
-	public final static int MS_RANK_FETCH_COUNT = 100;
-	
-	public final static String CHAPTER_INIT_ID = "1";
-	public final static int MS_STAR_ID = -301;
-	public final static int MS_SCORE_ID = -302;
-	
-	protected MagicChapterInfoHolder mChapterHolder;
-	protected UserMagicSecretHolder userMSHolder;
+class MSConditionJudger {
 	
 	/**
 	 * 判断玩家等级
 	 * @param player
-	 * @param dungeonID
+	 * @param dungeonID 副本ID
 	 * @return
 	 */
-	protected boolean judgeUserLevel(Player player, String dungeonID){
+	public static boolean judgeUserLevel(Player player, String dungeonID){
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
-		MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(String.valueOf(dungDataCfg.getChapterID()));
+		return judgeUserLevel(player, dungDataCfg.getChapterID());
+	}
+	
+	/**
+	 * 判断玩家等级
+	 * @param player
+	 * @param chapterID 章节ID
+	 * @return
+	 */
+	public static boolean judgeUserLevel(Player player, int chapterID){
+		MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(String.valueOf(chapterID));
 		int userLevel = player.getUserDataMgr().getUser().getLevel();
 		if(userLevel < mcCfg.getLevelLimit()){
-			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeUserLevel, 角色等级[%s]没有达到副本[%s]要求[%s]", userLevel, dungeonID, mcCfg.getLevelLimit()), null);
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeUserLevel, 角色等级[%s]没有达到章节[%s]要求[%s]", userLevel, chapterID, mcCfg.getLevelLimit()), null);
 			return false;
 		}
 		return true;
@@ -63,8 +56,8 @@ public class MSConditionJudger {
 	 * @param dungeonID
 	 * @return
 	 */
-	public boolean judgeDungeonsCondition(Player player, String dungeonID){
-		UserMagicSecretData msData = userMSHolder.get(player);
+	public static boolean judgeDungeonsCondition(Player player, String dungeonID){
+		UserMagicSecretData msData = UserMagicSecretHolder.getInstance().get(player);
 		if(msData == null) {
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeDungeonsCondition, UserMagicSecretData[%s]不存在", player.getUserId()), null);
 			return false;
@@ -84,13 +77,13 @@ public class MSConditionJudger {
 	 * @param dungeonID
 	 * @return
 	 */
-	protected boolean judgeDungeonsLegal(Player player, String dungeonID){
+	public static boolean judgeDungeonsLegal(Player player, String dungeonID){
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungeonID);
 		if(dungDataCfg == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeDungeonsLegal, 一个非法的dungeonID[%s], 静态数据中不包含", dungeonID), null);
 			return false;
 		}
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), String.valueOf(dungDataCfg.getChapterID()));
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), String.valueOf(dungDataCfg.getChapterID()));
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeDungeonsLegal, 不合法的章节[%s], 有可能是没开启或不存在", dungDataCfg.getChapterID()), null);
 			return false;
@@ -119,10 +112,10 @@ public class MSConditionJudger {
 	 * @param dungeonID
 	 * @return
 	 */
-	protected boolean judgeDungeonsCount(Player player, String dungeonID){
+	public static boolean judgeDungeonsCount(Player player, String dungeonID){
 		int stageID = fromDungeonIDToStageID(player, dungeonID);
 		String chapterID = String.valueOf(fromStageIDToChapterID(stageID));
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeDungeonsCount, 不合法的章节[%s], dungeonID[%s]", chapterID, dungeonID), null);
 			return false;
@@ -141,13 +134,13 @@ public class MSConditionJudger {
 	 * @param buffID
 	 * @return
 	 */
-	protected boolean judgeBuffLegal(Player player, String chapterID, String buffID){
+	public static boolean judgeBuffLegal(Player player, String chapterID, String buffID){
 		BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getCfgById(buffID);
 		if(buffCfg == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeBuffLegal, buff[%s]在配置表中不存在", buffID), null);
 			return false;
 		}
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeBuffLegal, 不合法的章节[%s], 有可能是没开启或不存在", chapterID), null);
 			return false;
@@ -171,9 +164,9 @@ public class MSConditionJudger {
 	 * @param buffID
 	 * @return
 	 */
-	protected boolean judgeEnoughStar(Player player, String chapterID, String buffID){
+	public static boolean judgeEnoughStar(Player player, String chapterID, String buffID){
 		BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getCfgById(buffID);
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
 		int starCount = mcInfo.getStarCount();
 		if(starCount < buffCfg.getCost()){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeBuffLegal, 章节[%s]中星星数[%s]不够换取buff[%s]", chapterID, starCount, buffID), null);
@@ -189,8 +182,8 @@ public class MSConditionJudger {
 	 * @param msRwdBox
 	 * @return
 	 */
-	protected boolean judgeRewardBoxLegal(Player player, String chapterID, msRewardBox msRwdBox){
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
+	public static boolean judgeRewardBoxLegal(Player player, String chapterID, msRewardBox msRwdBox){
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeRewardBoxLegal, 不合法的章节[%s], 有可能是没开启或不存在", chapterID), null);
 			return false;
@@ -211,7 +204,7 @@ public class MSConditionJudger {
 	 * @param msRwdBox
 	 * @return
 	 */
-	protected boolean judgeOpenBoxCost(Player player, String chapterID, msRewardBox msRwdBox){
+	public static boolean judgeOpenBoxCost(Player player, String chapterID, msRewardBox msRwdBox){
 		String firstDungeonID = chapterID + "01_1";
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(firstDungeonID);
 		if(dungDataCfg == null){
@@ -236,7 +229,7 @@ public class MSConditionJudger {
 				if(cost.getItemNum() > player.getUserGameDataMgr().getGold())
 					return false;
 			} else if (cost.getItemID() == eSpecialItemId.MagicSecretCoin.getValue()){
-				if(cost.getItemNum() > player.getMagicSecretMgr().userMSHolder.get(player).getSecretGold())
+				if(cost.getItemNum() > UserMagicSecretHolder.getInstance().get(player).getSecretGold())
 					return false;
 			} else{
 				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeOpenBoxCost, 需要消耗一种未处理的资源[%s]", cost.getItemID()), null);
@@ -258,9 +251,9 @@ public class MSConditionJudger {
 	 * @param chapterID
 	 * @return
 	 */
-	protected boolean judgeSweepCount(Player player, String chapterID){
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
-		if(mcInfo == null || mcInfo.getFinishedStages().size() == STAGE_COUNT_EACH_CHATPER){
+	public static boolean judgeSweepCount(Player player, String chapterID){
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
+		if(mcInfo == null || mcInfo.getFinishedStages().size() == MagicSecretMgr.STAGE_COUNT_EACH_CHATPER){
 			GameLog.error(LogModule.MagicSecret.toString(), player.getUserId(), String.format("judgeSweepCount, 章节[%s]当日全部通关，扫荡次数不足", chapterID), null);
 			return false;
 		}
@@ -273,18 +266,18 @@ public class MSConditionJudger {
 	 * @param chapterID
 	 * @return
 	 */
-	protected boolean judgeSweepAble(Player player, String chapterID){		
+	public static boolean judgeSweepAble(Player player, String chapterID){		
 		// 判断历史通关
-		UserMagicSecretData msData = userMSHolder.get(player);
+		UserMagicSecretData msData = UserMagicSecretHolder.getInstance().get(player);
 		int maxStageID = msData.getMaxStageID();
 		int maxChatperID = fromStageIDToChapterID(maxStageID);
 		if(maxChatperID > Integer.parseInt(chapterID)) return true;
-		if(maxChatperID == Integer.parseInt(chapterID) && fromStageIDToLayerID(maxStageID) == STAGE_COUNT_EACH_CHATPER) return true;
+		if(maxChatperID == Integer.parseInt(chapterID) && fromStageIDToLayerID(maxStageID) == MagicSecretMgr.STAGE_COUNT_EACH_CHATPER) return true;
 		GameLog.error(LogModule.MagicSecret.toString(), player.getUserId(), String.format("judgeSweepAble, 章节[%s]还未全部通关，不能扫荡", chapterID), null);
 		return false;
 	}
 	
-	protected int fromDungeonIDToStageID(Player player, String dungeonID){
+	public static int fromDungeonIDToStageID(Player player, String dungeonID){
 		String[] splitArr = dungeonID.split("_");
 		if(splitArr.length != 2) {
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("fromStageIDToSpaceID, dungeonID[%s] error", dungeonID), null);
@@ -293,18 +286,18 @@ public class MSConditionJudger {
 		return Integer.parseInt(splitArr[0]);
 	}
 	
-	protected int fromStageIDToChapterID(int stageID){
+	public static int fromStageIDToChapterID(int stageID){
 		return stageID/100;
 	}
 	
-	protected int fromStageIDToLayerID(int stageID){
+	public static int fromStageIDToLayerID(int stageID){
 		return stageID%100;
 	}
 	
-	protected int getNextStage(int stageID){
+	private static int getNextStage(int stageID){
 		int layerID = fromStageIDToLayerID(stageID);
 		int chapterID = fromStageIDToChapterID(stageID);
-		if(layerID >= STAGE_COUNT_EACH_CHATPER) {
+		if(layerID >= MagicSecretMgr.STAGE_COUNT_EACH_CHATPER) {
 			layerID = 1;
 			chapterID++;
 		}else layerID++;

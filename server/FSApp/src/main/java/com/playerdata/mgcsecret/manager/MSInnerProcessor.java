@@ -14,22 +14,23 @@ import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
 import com.playerdata.mgcsecret.data.MSDungeonInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
+import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
+import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
 import com.playerdata.team.TeamInfo;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dropitem.DropItemManager;
 import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
-
-public class MSInnerProcessor extends MSConditionJudger{
+class MSInnerProcessor extends MSConditionJudger{
 	
 	/**
 	 * 通知排行榜做出排名更改
 	 * @param player
 	 */
-	protected void informRankModule(Player player){
-		MSScoreRankMgr.addOrUpdateMSScoreRank(player, userMSHolder.get(player));
+	public static void informRankModule(Player player){
+		MSScoreRankMgr.addOrUpdateMSScoreRank(player, UserMagicSecretHolder.getInstance().get(player));
 	}
 	
 	/**
@@ -37,7 +38,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param player
 	 * @param dropItems
 	 */
-	protected void handleDropItem(Player player, List<ItemInfo> dropItems){
+	public static void handleDropItem(Player player, List<ItemInfo> dropItems){
 		ItemBagMgr bagMgr = player.getItemBagMgr();
 		for(ItemInfo itm : dropItems){
 			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
@@ -51,8 +52,8 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param player
 	 * @param chapterID
 	 */
-	protected void addCanOpenBoxes(Player player, String chapterID){
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapterID);
+	public static void addCanOpenBoxes(Player player, String chapterID){
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapterID);
 		if(mcInfo == null)
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("addCanOpenBoxes, 不合法的章节[%s], 有可能是没开启或不存在", chapterID), null);
 		List<ItemInfo> canOpenBoxList = mcInfo.getCanOpenBoxes();
@@ -75,8 +76,8 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param player
 	 * @param chapteID
 	 */
-	protected void dropSelectableBuff(Player player, String chapteID){
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), chapteID);
+	public static void dropSelectableBuff(Player player, String chapteID){
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), chapteID);
 		mcInfo.getUnselectedBuff().clear();
 	}
 	
@@ -85,40 +86,22 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param player
 	 * @param dungeonID
 	 */
-	protected void updateSelfMaxStage(Player player, String dungeonID){
-		UserMagicSecretData umsData = userMSHolder.get(player);
+	public static void updateSelfMaxStage(Player player, String dungeonID){
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
 		int paraStageID = fromDungeonIDToStageID(player, dungeonID);
 		if(paraStageID > umsData.getMaxStageID())
 			umsData.setMaxStageID(paraStageID);
 	}
 	
 	/**
-	 * 获取副本星级对应的得分系数
-	 * @param finishStar
-	 * @return
-	 */
-	protected float getScoreRatio(int finishStar){
-		switch (finishStar) {
-		case 1:
-			return ONE_STAR_SCORE_COEFFICIENT;
-		case 2:
-			return TWO_STAR_SCORE_COEFFICIENT;
-		case 3:
-			return THREE_STAR_SCORE_COEFFICIENT;
-		default:
-			return THREE_STAR_SCORE_COEFFICIENT;
-		}
-	}
-
-	/**
 	 * 提供可以购买的buff
 	 * @param player
 	 * @param currentDungeonID
 	 */
-	protected void provideNextSelectalbeBuff(Player player, String currentDungeonID){
+	public static void provideNextSelectalbeBuff(Player player, String currentDungeonID){
 		int stageID = fromDungeonIDToStageID(player, currentDungeonID);
 		int chapterID = fromStageIDToChapterID(stageID);
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), String.valueOf(chapterID));
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), String.valueOf(chapterID));
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
 			return;
@@ -141,10 +124,10 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param player
 	 * @param currentDungeonID
 	 */
-	public void createDungeonsDataForNextStage(Player player, String currentDungeonID){
+	public static void createDungeonsDataForNextStage(Player player, String currentDungeonID){
 		int stageID = fromDungeonIDToStageID(player, currentDungeonID);
 		int chapterID = fromStageIDToChapterID(stageID);
-		MagicChapterInfo mcInfo = mChapterHolder.getItem(player.getUserId(), String.valueOf(chapterID));
+		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), String.valueOf(chapterID));
 		if(mcInfo == null){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
 			return;
@@ -152,7 +135,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 		mcInfo.setSelectedDungeonIndex(-1);  //-1表示未选择
 		List<MSDungeonInfo> selectableDungeons = new ArrayList<MSDungeonInfo>();
 		int nextStageID = stageID + 1;	
-		for(int i = 1; i <= DUNGEON_MAX_LEVEL; i++){
+		for(int i = 1; i <= MagicSecretMgr.DUNGEON_MAX_LEVEL; i++){
 			String dungID = nextStageID + "_" + i;
 			DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(dungID);
 			if(dungDataCfg == null) continue;
@@ -168,7 +151,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param enimyStr
 	 * @return
 	 */
-	private TeamInfo generateEnimyForDungeon(String enimyStr){
+	private static TeamInfo generateEnimyForDungeon(String enimyStr){
 		return AngleArrayMatchHelper.getRobotTeamInfo(Integer.parseInt(enimyStr));
 	}
 
@@ -177,7 +160,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param fabaoBuffStr
 	 * @return
 	 */
-	private ArrayList<Integer> provideNextFabaoBuff(String fabaoBuffStr){
+	private static ArrayList<Integer> provideNextFabaoBuff(String fabaoBuffStr){
 		ArrayList<Integer> resultBuff = new ArrayList<Integer>();
 		String[] strLayerArr = fabaoBuffStr.split(",");
 		for(String layerID : strLayerArr){
@@ -193,7 +176,7 @@ public class MSInnerProcessor extends MSConditionJudger{
 	 * @param dropStr
 	 * @return
 	 */
-	protected List<? extends ItemInfo> generateDropItem(Player player, String dropStr){
+	public static List<? extends ItemInfo> generateDropItem(Player player, String dropStr){
 		List<Integer> dropList = new ArrayList<Integer>();
 		for(String str : dropStr.split(",")){
 			try{
@@ -209,15 +192,5 @@ public class MSInnerProcessor extends MSConditionJudger{
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("generateDropItem, 由掉落字符串[%s]计算掉落时出错", dropStr), e);
 		}
 		return itemList;
-	}
-	
-	/**
-	 * 法宝秘境数据跨天刷新
-	 * @param player
-	 */
-	public void resetDailyMSInfo(Player player){
-		mChapterHolder.resetAllItem(player);
-		userMSHolder.get(player).saveDailyScoreData();
-		mChapterHolder.synAllData(player);
 	}
 }

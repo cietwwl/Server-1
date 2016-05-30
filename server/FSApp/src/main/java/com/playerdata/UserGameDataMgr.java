@@ -7,6 +7,7 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.ItemChangedEventType_1;
@@ -276,11 +277,11 @@ public class UserGameDataMgr {
 	}
 
 	public int getMagicSecretCoin() {
-		return player.getMagicSecretMgr().getSecretGold(player);
+		return MagicSecretMgr.getInstance().getSecretGold(player);
 	}
 
 	public int addMagicSecretCoin(int count) {
-		if(player.getMagicSecretMgr().addSecretGold(player, count)) return 0;
+		if(MagicSecretMgr.getInstance().addSecretGold(player, count)) return 0;
 		return -1;
 	}
 
