@@ -18,7 +18,7 @@ public class FixEquipCfg {
 	
 	private FixEquipType fixEquipType;
 
-	private FixEquipCostType expCostType;
+	private FixEquipCostType expCostType = FixEquipCostType.COIN;
 	
 	private int costPerExp;
 	
