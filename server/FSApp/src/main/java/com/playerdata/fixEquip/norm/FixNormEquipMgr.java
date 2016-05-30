@@ -223,12 +223,12 @@ public class FixNormEquipMgr {
 			result.setReason("装备不存在。");			
 		}else{
 			int curlevel = dataItem.getLevel();
-			int nextQuality = dataItem.getQuality()+1;
+			int currentQuality = dataItem.getQuality();
 			
-			FixNormEquipQualityCfg nextQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), nextQuality);
-			if(nextQualityCfg == null){
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality);
+			if(curQualityCfg == null){
 				result.setReason("装备已经达到最品质。");
-			}else if(curlevel < nextQualityCfg.getLevelNeed() ){
+			}else if(curlevel < curQualityCfg.getLevelNeed() ){
 				result.setReason("装备等级不够。");	
 			}else{
 				result.setSuccess(true);

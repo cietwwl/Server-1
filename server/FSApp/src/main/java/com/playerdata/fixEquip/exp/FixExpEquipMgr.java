@@ -245,12 +245,12 @@ public class FixExpEquipMgr {
 			result.setReason("装备不存在。");			
 		}else{
 			int curlevel = dataItem.getLevel();
-			int nextQuality = dataItem.getQuality()+1;
+			int curQuality = dataItem.getQuality();
 			
-			FixExpEquipQualityCfg nextQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), nextQuality);
-			if(nextQualityCfg == null){
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
+			if(curQualityCfg == null){
 				result.setReason("装备已经达到最品质。");
-			}else if(curlevel < nextQualityCfg.getLevelNeed() ){
+			}else if(curlevel < curQualityCfg.getLevelNeed() ){
 				result.setReason("装备等级不够。");	
 			}else{
 				result.setSuccess(true);
