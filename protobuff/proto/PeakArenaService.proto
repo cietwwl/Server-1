@@ -84,6 +84,9 @@ message ArenaInfo{
 	optional string name = 7;
 	optional string headImage = 8;
 	optional int32 fighting = 9;
+	optional int32 starLevel = 10;
+	optional string qualityId = 11;
+	optional string career = 12;
 }
 
 message ArenaRecord{
