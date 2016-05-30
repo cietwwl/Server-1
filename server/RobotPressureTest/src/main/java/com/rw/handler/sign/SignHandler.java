@@ -142,6 +142,8 @@ public class SignHandler {
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
 					break;
+				case FAIL:
+					throw new Exception(resp.getResultMsg());
 				default:
 					throw new Exception("出现了未知的状况");
 				}
