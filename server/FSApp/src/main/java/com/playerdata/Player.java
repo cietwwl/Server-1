@@ -918,6 +918,7 @@ public class Player implements PlayerIF {
 	}
 	
 	public String getHeadFrame(){
+		//RankingMgr.getInstance().onPlayerChange(this);
 		return userGameDataMgr.getHeadBox();
 	}
 
