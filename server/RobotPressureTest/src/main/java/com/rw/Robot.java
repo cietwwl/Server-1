@@ -12,8 +12,10 @@ import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.copy.CopyHandler;
 import com.rw.handler.copy.CopyType;
+import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
+import com.rw.handler.fashion.FashionHandler;
 import com.rw.handler.friend.FriendHandler;
 import com.rw.handler.gamble.GambleHandler;
 import com.rw.handler.gameLogin.GameLoginHandler;
@@ -26,6 +28,7 @@ import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.magic.MagicHandler;
 import com.rw.handler.mainService.MainHandler;
 import com.rw.handler.platform.PlatformHandler;
+import com.rw.handler.sign.SignHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.worShip.worShipHandler;
@@ -727,10 +730,35 @@ public class Robot {
 		return MainHandler.getHandler().buyTower(client);
 	}
 	
+	public void sign(){
+		SignHandler.getInstance().processsSign(client);
+	}
 	
+	public void dailyActivity(){
+		DailyHandler.getInstance().processDaily(client);
+	}
 	
+	public void buyFashion(){
+		FashionHandler.getInstance().processBuyFashion(client);
+	}
 	
+	public void buyWing(){
+		FashionHandler.getInstance().processBuyWing(client);
+	}
 	
-	
+	public void buyPet(){
+		FashionHandler.getInstance().processBuyPet(client);
+	}
 
+	public void WearFashion(){
+		FashionHandler.getInstance().processWearFashion(client);
+	}
+	
+	public void WearWing(){
+		FashionHandler.getInstance().processWearWing(client);
+	}
+	
+	public void WearPet(){
+		FashionHandler.getInstance().processBuyPet(client);
+	}
 }
