@@ -40,7 +40,7 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 			}
 
 			SkillInfo si = new SkillInfo();
-			si.setSkillId(skill.getId());
+			si.setSkillId(skill.getSkillId());
 			si.setSkillLevel(skill.getLevel());
 
 			skillInfoList.add(si);
