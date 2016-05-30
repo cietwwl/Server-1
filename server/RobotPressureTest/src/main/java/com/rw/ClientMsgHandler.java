@@ -92,8 +92,16 @@ public abstract class ClientMsgHandler {
 						break;
 					case EQUIP_ITEM:
 						getClient().getHeroEquipHolder().syn(msgDataSyn);
+						break;
 					case ActivityCountType:
 						getClient().getActivityCountHolder().syn(msgDataSyn);
+						break;
+					case ActivityDailyType:
+						getClient().getActivityDailyCountHolder().syn(msgDataSyn);
+						break;
+//					case SEVEN_DAY_GIF:
+//						getClient().getSevenDayGiftHolder().syn(msgDataSyn);
+//						break;
 					default:
 					}
 				}
@@ -159,7 +167,6 @@ public abstract class ClientMsgHandler {
 
 	private boolean handleResp(MsgReciver msgReciverP, Client client) {
 		boolean success = true;
-		System.out.println("@@@@@@@ getresp!!!");
 		Response rsp = getResp();
 		if (rsp == null) {
 			RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
@@ -172,7 +179,6 @@ public abstract class ClientMsgHandler {
 				success = false;
 			} else {
 				Command commandTmp = headerTmp.getCommand();
-				System.out.println("@@@@@@@ getresp"+ commandTmp);
 				if (msgReciverP != null && msgReciverP.getCmd() == commandTmp) {
 					success = msgReciverP.execute(client, rsp);
 				}
