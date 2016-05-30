@@ -1,4 +1,4 @@
-key,Remarks,Id,BuffEffectId,DelayTime,LoopDuration,Tick,ActiveBuff,IsCancel,BuffValue,TriggerBuffId,AttackType,TargetType,EffectRange,Property,BuffRate,AbilityChange,attrData,precentAttrData,attrDesc,fk1,fk2,fk3,fk4
+﻿key,Remarks,Id,BuffEffectId,DelayTime,LoopDuration,Tick,ActiveBuff,IsCancel,BuffValue,TriggerBuffId,AttackType,TargetType,EffectRange,Property,BuffRate,AbilityChange,attrData,precentAttrData,attrDesc,fk1,fk2,fk3,fk4
 200001_1,,200001_1,200001,,3,,,,10,0,,,,,1,,,,,,,,
 200002_1,,200002_1,200002,,4,1,,,10,0,,,,,1,,,,,,,,
 200003_1,,200003_1,200003,,2,,,,10,0,,,,,1,,,,,,,,
@@ -11228,7 +11228,7 @@ key,Remarks,Id,BuffEffectId,DelayTime,LoopDuration,Tick,ActiveBuff,IsCancel,Buff
 20400112_88,,20400112_88,20400112,,6,,,,,0,,,,,1,toughness:9200,韧性_9200,,,,,,
 20400112_89,,20400112_89,20400112,,6,,,,,0,,,,,1,toughness:9300,韧性_9300,,,,,,
 20400112_90,,20400112_90,20400112,,6,,,,,0,,,,,1,toughness:9400,韧性_9400,,,,,,
-20400199,,20400199,20400199,,3,0.6,,1,291,0,,,,,5,,,,,,,,
+20400199,,20400199,20400199,,6,0.6,,1,291,0,,,,,5,,,,,,,,
 20400131,,20400131,20400131,,-1,,,,,20400132,,,24,,1,,,,,,,,
 20400132_1,,20400132_1,20400132,,-1,,,,,0,,,,,1,pdef:5,物理防御_5,,,,,,
 20400132_2,,20400132_2,20400132,,-1,,,,,0,,,,,1,pdef:6,物理防御_6,,,,,,
