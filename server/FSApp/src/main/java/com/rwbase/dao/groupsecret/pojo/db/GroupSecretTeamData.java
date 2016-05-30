@@ -6,25 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
-import com.playerdata.army.CurAttrData;
+import com.rwbase.dao.groupsecret.syndata.HeroLeftInfoSynData;
 
 /*
  * @author HC
  * @date 2016年5月26日 下午4:07:07
  * @Description 秘境使用的阵容信息
  */
-@Table(name = "")
 public class GroupSecretTeamData {
 	@Id
 	private String userId;// 角色Id
 	private List<String> defendHeroList;// 已经驻守的英雄列表
-	private Map<String, CurAttrData> useHeroMap;// 用于攻打其他秘境的英雄列表
+	private Map<String, HeroLeftInfoSynData> useHeroMap;// 用于攻打其他秘境的英雄列表
 
 	public GroupSecretTeamData() {
 		defendHeroList = new ArrayList<String>();
-		useHeroMap = new HashMap<String, CurAttrData>();
+		useHeroMap = new HashMap<String, HeroLeftInfoSynData>();
 	}
 
 	// ////////////////////////////////////////////////逻辑Get区
@@ -36,7 +34,7 @@ public class GroupSecretTeamData {
 		return defendHeroList;
 	}
 
-	public Map<String, CurAttrData> getUseHeroMap() {
+	public Map<String, HeroLeftInfoSynData> getUseHeroMap() {
 		return useHeroMap;
 	}
 
@@ -49,7 +47,7 @@ public class GroupSecretTeamData {
 		this.defendHeroList = defendHeroList;
 	}
 
-	public void setUseHeroMap(Map<String, CurAttrData> useHeroMap) {
+	public void setUseHeroMap(Map<String, HeroLeftInfoSynData> useHeroMap) {
 		this.useHeroMap = useHeroMap;
 	}
 

@@ -20,6 +20,7 @@ public class UserGroupSecretBaseData {
 	private String userId;// 角色的Id
 	private int keyCount;// 当前钥石数量
 	private long lastRecoveryTime;// 上次恢复钥石的时间
+	@IgnoreSynField
 	private List<String> defendSecretIdList;// 驻守的秘境Id列表
 	@IgnoreSynField
 	private int matchSecretId;// 探索到的秘境Id
