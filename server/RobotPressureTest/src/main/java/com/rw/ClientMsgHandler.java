@@ -35,7 +35,7 @@ public abstract class ClientMsgHandler {
 
 	private Response getResp() {
 		Response resp = null;
-		long maxTime = 20L;
+		long maxTime = 60L;
 		// 超过十秒拿不到认为超时。
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);
@@ -61,7 +61,6 @@ public abstract class ClientMsgHandler {
 				MsgDataSynList datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
 				for (MsgDataSyn msgDataSyn : datasynList.getMsgDataSynList()) {
 					eSynType synType = msgDataSyn.getSynType();
-					System.out.println("syttype@@@@@@@@@@@ =" + synType);
 					switch (synType) {
 					case Store_Data:
 						getClient().getStoreItemHolder().syn(msgDataSyn);
@@ -96,10 +95,10 @@ public abstract class ClientMsgHandler {
 					case ActivityCountType:
 						getClient().getActivityCountHolder().syn(msgDataSyn);
 					default:
-						break;
 					}
 				}
 			} catch (InvalidProtocolBufferException e) {
+				e.printStackTrace();
 				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 			}
 		}
@@ -160,6 +159,7 @@ public abstract class ClientMsgHandler {
 
 	private boolean handleResp(MsgReciver msgReciverP, Client client) {
 		boolean success = true;
+		System.out.println("@@@@@@@ getresp!!!");
 		Response rsp = getResp();
 		if (rsp == null) {
 			RobotLog.info("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
@@ -172,6 +172,7 @@ public abstract class ClientMsgHandler {
 				success = false;
 			} else {
 				Command commandTmp = headerTmp.getCommand();
+				System.out.println("@@@@@@@ getresp"+ commandTmp);
 				if (msgReciverP != null && msgReciverP.getCmd() == commandTmp) {
 					success = msgReciverP.execute(client, rsp);
 				}

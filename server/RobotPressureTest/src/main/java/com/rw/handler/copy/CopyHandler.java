@@ -39,7 +39,7 @@ public class CopyHandler {
 		req.getTagBattleDataBuilder().setLevelId(getRadomLevelIdByCopytype(copytype));
 		req.getTagBattleDataBuilder().setBattleClearingTime(1);
 		req.setLevelId(this.levelId);
-		System.out.println("@@@战斗id"+ this.levelId);
+//		System.out.println("@@@战斗id"+ this.levelId);
 		
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_CopyService, req.build().toByteString(), new MsgReciver() {
 
