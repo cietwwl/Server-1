@@ -45,6 +45,7 @@ public class QuestionListDataHolder {
 		if (blnInit) {
 			blnInit = false;
 			this.questionList = questionList;
+			updateList(player, this.questionList);
 		} else {
 			Map<Integer, QueryListResponse> questionMap = getQuestionMap();
 			List<Integer> keys = new ArrayList<Integer>(questionMap.keySet());
