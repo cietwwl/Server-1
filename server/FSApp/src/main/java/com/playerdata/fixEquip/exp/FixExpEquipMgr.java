@@ -156,7 +156,7 @@ public class FixExpEquipMgr {
 			result.setReason("所选经验道具和升级装备不匹配。");
 		}else{
 			
-			int totalExp = selectItems2Exp(selectItemList);
+			int totalExp = selectItems2Exp(consumeType, selectItemList);
 			
 			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int totalCost = totalExp * equipCfg.getCostPerExp();
@@ -213,13 +213,13 @@ public class FixExpEquipMgr {
 	}
 
 
-	private int selectItems2Exp(List<SelectItem> selectItemList) {
+	private int selectItems2Exp(eConsumeTypeDef consumeType, List<SelectItem> selectItemList) {
 		int totalExp = 0;
 		for (SelectItem selectItem : selectItemList) {
 			int modelId = selectItem.getModelId();
 			int count = selectItem.getCount();
 			ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(modelId);
-			if(eConsumeTypeDef.Exp4FixEquip_4.ordinal() == consumeCfg.getConsumeType()){
+			if(consumeType.getOrder() == consumeCfg.getConsumeType() ){
 				totalExp = totalExp + consumeCfg.getValue()*count;
 			}
 		}
@@ -369,7 +369,6 @@ public class FixExpEquipMgr {
 		}
 		return result;
 	}
-	
 	
 	
 
