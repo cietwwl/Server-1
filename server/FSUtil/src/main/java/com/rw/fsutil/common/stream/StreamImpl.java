@@ -19,6 +19,10 @@ public class StreamImpl<T> implements IStream<T> {
 		last = initValue;
 	}
 	
+	public void hold(T newVal){
+		last = newVal;
+	}
+	
 	public void fire(T newVal){
 		if (isClose) {
 			System.out.println("Warning: stream is close, can not fire again");

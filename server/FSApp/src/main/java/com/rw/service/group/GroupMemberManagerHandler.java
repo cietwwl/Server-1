@@ -243,6 +243,7 @@ public class GroupMemberManagerHandler {
 							groupMemberData.setHeadId(p.getHeadImage());
 							groupMemberData.setLevel((short) p.getLevel());
 							groupMemberData.setTemplateId(p.getTemplateId());
+							groupMemberData.setHeadbox(p.getHeadFrame());
 						}
 					};
 
@@ -293,6 +294,7 @@ public class GroupMemberManagerHandler {
 								groupMemberData.setHeadId(p.getHeadImage());
 								groupMemberData.setLevel((short) p.getLevel());
 								groupMemberData.setTemplateId(p.getTemplateId());
+								groupMemberData.setHeadbox(p.getHeadFrame());
 							}
 						};
 

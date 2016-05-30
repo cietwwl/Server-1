@@ -23,6 +23,7 @@ public class TableArenaData {
 	private int fighting;
 	private int remainCount;
 	private String headImage;
+	private String headbox;
 	private int level;
 	private String name;
 	private int magicId;
@@ -227,6 +228,14 @@ public class TableArenaData {
 
 	public void setHistoryRewards(List<Integer> historyRewards) {
 		this.historyRewards = historyRewards;
+	}
+
+	public String getHeadbox() {
+		return headbox;
+	}
+
+	public void setHeadbox(String headbox) {
+		this.headbox = headbox;
 	}
 
 }

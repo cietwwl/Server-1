@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.common.RandomSeqGenerator;
 import com.common.RefInt;
 import com.common.Weight;
 import com.google.protobuf.ByteString;
@@ -513,12 +514,14 @@ public class MagicHandler {
 		int groupIndex=0;
 		int startIndex=-1;
 		
+		RandomSeqGenerator gen = new RandomSeqGenerator(seed, planGroups, CriticalSeqCfgDAO.getInstance(), MagicMgr.SeedRange);
+		
 		do{
 			//progress to next config sequence
 			tmpseed = GeneratePsudoRandomSeq(tmpseed , SeqCtl1, MagicMgr.SeedRange);
 			groupIndex = tmpseed % groupSize;
 			final int planConfigKey = planGroups[groupIndex];
-			final CriticalSeqCfg seqCfg = (CriticalSeqCfg)CriticalSeqCfgDAO.getInstance().getCfgById(String.valueOf(planConfigKey));
+			final CriticalSeqCfg seqCfg = CriticalSeqCfgDAO.getInstance().getCfgById(String.valueOf(planConfigKey));
 			if (seqCfg == null) {
 				//不清零，因为客户端不是一次性获得数量，而是一个一个来计算，为了兼容这种情况这里不清零
 				//result = 0;
@@ -544,6 +547,10 @@ public class MagicHandler {
 			//start counting hittings
 			for (int i = startIndex; i < seqSize; i++){
 				if (count < itemCount){
+					int testgen = gen.nextNum();
+					if (seqList[i] != testgen){
+						System.out.println("testgen="+testgen+",old="+seqList[i]);
+					}
 					int addedTimes = seqList[i] > 0 ? seqList[i] -1 : 0;
 					int addedExp = (addedTimes+1)*unitExp;
 					count++;

@@ -31,7 +31,7 @@ public class HeroTaoistAttributeComponent extends AbstractAttributeCalc {
 		ITaoistMgr taoistMgr = player.getTaoistMgr();
 		Map<Integer, AttributeItem> map = taoistMgr.getEff().sample();
 		if (map == null || map.isEmpty()) {
-			GameLog.error("计算道术属性", userId, String.format("Id为[%s]英雄计算的道术属性是空的", hero.getUUId()));
+			GameLog.info("计算道术属性", userId, String.format("Id为[%s]英雄计算的道术属性是空的", hero.getUUId()));
 			return null;
 		}
 

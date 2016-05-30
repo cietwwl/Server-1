@@ -5692,6 +5692,33 @@ public final class FriendServiceProtos {
      * </pre>
      */
     boolean getReceiveState();
+
+    // optional string headbox = 11;
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *玩家头像框
+     * </pre>
+     */
+    boolean hasHeadbox();
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *玩家头像框
+     * </pre>
+     */
+    java.lang.String getHeadbox();
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *玩家头像框
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadboxBytes();
   }
   /**
    * Protobuf type {@code FriendInfo}
@@ -5792,6 +5819,11 @@ public final class FriendServiceProtos {
             case 80: {
               bitField0_ |= 0x00000200;
               receiveState_ = input.readBool();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              headbox_ = input.readBytes();
               break;
             }
           }
@@ -6229,6 +6261,61 @@ public final class FriendServiceProtos {
       return receiveState_;
     }
 
+    // optional string headbox = 11;
+    public static final int HEADBOX_FIELD_NUMBER = 11;
+    private java.lang.Object headbox_;
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *玩家头像框
+     * </pre>
+     */
+    public boolean hasHeadbox() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *玩家头像框
+     * </pre>
+     */
+    public java.lang.String getHeadbox() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headbox_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headbox = 11;</code>
+     *
+     * <pre>
+     *玩家头像框
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadboxBytes() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headbox_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -6240,6 +6327,7 @@ public final class FriendServiceProtos {
       unionName_ = "";
       giveState_ = false;
       receiveState_ = false;
+      headbox_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6315,6 +6403,9 @@ public final class FriendServiceProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeBool(10, receiveState_);
       }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getHeadboxBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6363,6 +6454,10 @@ public final class FriendServiceProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(10, receiveState_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getHeadboxBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6500,6 +6595,8 @@ public final class FriendServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000100);
         receiveState_ = false;
         bitField0_ = (bitField0_ & ~0x00000200);
+        headbox_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -6568,6 +6665,10 @@ public final class FriendServiceProtos {
           to_bitField0_ |= 0x00000200;
         }
         result.receiveState_ = receiveState_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.headbox_ = headbox_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6623,6 +6724,11 @@ public final class FriendServiceProtos {
         }
         if (other.hasReceiveState()) {
           setReceiveState(other.getReceiveState());
+        }
+        if (other.hasHeadbox()) {
+          bitField0_ |= 0x00000400;
+          headbox_ = other.headbox_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7418,6 +7524,104 @@ public final class FriendServiceProtos {
         return this;
       }
 
+      // optional string headbox = 11;
+      private java.lang.Object headbox_ = "";
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *玩家头像框
+       * </pre>
+       */
+      public boolean hasHeadbox() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *玩家头像框
+       * </pre>
+       */
+      public java.lang.String getHeadbox() {
+        java.lang.Object ref = headbox_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headbox_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *玩家头像框
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadboxBytes() {
+        java.lang.Object ref = headbox_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headbox_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *玩家头像框
+       * </pre>
+       */
+      public Builder setHeadbox(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headbox_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *玩家头像框
+       * </pre>
+       */
+      public Builder clearHeadbox() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        headbox_ = getDefaultInstance().getHeadbox();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headbox = 11;</code>
+       *
+       * <pre>
+       *玩家头像框
+       * </pre>
+       */
+      public Builder setHeadboxBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headbox_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:FriendInfo)
     }
 
@@ -7470,24 +7674,24 @@ public final class FriendServiceProtos {
       "Value\030\010 \001(\010\"l\n\007AllList\022\037\n\nfriendList\030\001 \003",
       "(\0132\013.FriendInfo\022 \n\013requestList\030\002 \003(\0132\013.F" +
       "riendInfo\022\036\n\tblackList\030\003 \003(\0132\013.FriendInf" +
-      "o\"\311\001\n\nFriendInfo\022\016\n\006userId\030\001 \002(\t\022\020\n\010user" +
+      "o\"\332\001\n\nFriendInfo\022\016\n\006userId\030\001 \002(\t\022\020\n\010user" +
       "Name\030\002 \002(\t\022\021\n\theadImage\030\003 \002(\t\022\016\n\006career\030" +
       "\004 \002(\005\022\024\n\014lastLoginTip\030\005 \002(\t\022\025\n\rlastLogin" +
       "Time\030\006 \002(\002\022\r\n\005level\030\007 \002(\005\022\021\n\tunionName\030\010" +
       " \002(\t\022\021\n\tgiveState\030\t \001(\010\022\024\n\014receiveState\030" +
-      "\n \001(\010*\364\002\n\022EFriendRequestType\022\010\n\004NONE\020\000\022\017" +
-      "\n\013FRIEND_LIST\020\001\022\016\n\nBLACK_LIST\020\002\022\020\n\014REQUE" +
-      "ST_LIST\020\003\022\021\n\rSEARCH_FRIEND\020\004\022\016\n\nGIVE_POW",
-      "ER\020\005\022\021\n\rRECEIVE_POWER\020\006\022\022\n\016GIVE_POWER_AL" +
-      "L\020\007\022\025\n\021RECEIVE_POWER_ALL\020\010\022\026\n\022REQUEST_AD" +
-      "D_FRIEND\020\t\022\021\n\rREMOVE_FRIEND\020\n\022\r\n\tADD_BLA" +
-      "CK\020\013\022\020\n\014REMOVE_BLACK\020\014\022\026\n\022CONSENT_ADD_FR" +
-      "IEND\020\r\022\026\n\022REFUSED_ADD_FRIEND\020\016\022\032\n\026CONSEN" +
-      "T_ADD_FRIEND_ALL\020\017\022\032\n\026REFUSED_ADD_FRIEND" +
-      "_ALL\020\020\022\014\n\010ALL_LIST\020\021*G\n\021EFriendResultTyp" +
-      "e\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001\022\n\n\006FAIL_2\020\002\022\017\n\013" +
-      "SUCCESS_MSG\020\003B\"\n\013com.rwprotoB\023FriendServ" +
-      "iceProtos"
+      "\n \001(\010\022\017\n\007headbox\030\013 \001(\t*\364\002\n\022EFriendReques" +
+      "tType\022\010\n\004NONE\020\000\022\017\n\013FRIEND_LIST\020\001\022\016\n\nBLAC" +
+      "K_LIST\020\002\022\020\n\014REQUEST_LIST\020\003\022\021\n\rSEARCH_FRI",
+      "END\020\004\022\016\n\nGIVE_POWER\020\005\022\021\n\rRECEIVE_POWER\020\006" +
+      "\022\022\n\016GIVE_POWER_ALL\020\007\022\025\n\021RECEIVE_POWER_AL" +
+      "L\020\010\022\026\n\022REQUEST_ADD_FRIEND\020\t\022\021\n\rREMOVE_FR" +
+      "IEND\020\n\022\r\n\tADD_BLACK\020\013\022\020\n\014REMOVE_BLACK\020\014\022" +
+      "\026\n\022CONSENT_ADD_FRIEND\020\r\022\026\n\022REFUSED_ADD_F" +
+      "RIEND\020\016\022\032\n\026CONSENT_ADD_FRIEND_ALL\020\017\022\032\n\026R" +
+      "EFUSED_ADD_FRIEND_ALL\020\020\022\014\n\010ALL_LIST\020\021*G\n" +
+      "\021EFriendResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020" +
+      "\001\022\n\n\006FAIL_2\020\002\022\017\n\013SUCCESS_MSG\020\003B\"\n\013com.rw" +
+      "protoB\023FriendServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7517,7 +7721,7 @@ public final class FriendServiceProtos {
           internal_static_FriendInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FriendInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Career", "LastLoginTip", "LastLoginTime", "Level", "UnionName", "GiveState", "ReceiveState", });
+              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Career", "LastLoginTip", "LastLoginTime", "Level", "UnionName", "GiveState", "ReceiveState", "Headbox", });
           return null;
         }
       };

@@ -72,12 +72,14 @@ public class GameLogicTask implements PlayerTask {
 				handleGuildance(header, userId);
 			}
 			try {
-				player.onBSStart();
+				// 收集逻辑产生的数据变化
+				UserChannelMgr.onBSBegin(userId);
 				resultContent = nettyControler.getSerivice(command).doTask(request, player);
 				player.getAssistantMgr().doCheck();
 				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++" + command);
 			} finally {
-				player.onBSEnd();
+				// 把逻辑产生的数据变化先同步到客户端
+				UserChannelMgr.onBSEnd(userId);
 			}
 		} catch (Throwable t) {
 			GameLog.error("GameLogicTask", "#run()", "run business service exception:", t);

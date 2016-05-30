@@ -1,5 +1,8 @@
 package com.rwbase.dao.ranking.pojo;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RankingLevelData {
 	private String userId;
 	private int level;
@@ -9,6 +12,7 @@ public class RankingLevelData {
 	private int arenaPlace;
 	private String userName;
 	private String imageId;
+	private String headbox;
 	private int job;
 	private int sex;
 	private int careerLevel;
@@ -78,6 +82,14 @@ public class RankingLevelData {
 
 	public void setUserHead(String imageId) {
 		this.imageId = imageId;
+	}
+
+	public String getHeadbox() {
+		return headbox;
+	}
+
+	public void setHeadbox(String headbox) {
+		this.headbox = headbox;
 	}
 
 	public int getJob() {

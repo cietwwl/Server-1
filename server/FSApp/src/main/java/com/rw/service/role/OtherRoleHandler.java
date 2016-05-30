@@ -63,6 +63,7 @@ public class OtherRoleHandler {
 		} else {
 			otherRoleAttr.setHeadImage(tableUser.getHeadImageWithDefault());
 		}
+		otherRoleAttr.setHeadbox(player.getHeadFrame());
 
 		Hero mainPHero = null;
 		List<Hero> heroList = null;

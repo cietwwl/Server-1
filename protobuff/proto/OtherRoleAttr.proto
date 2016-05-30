@@ -33,6 +33,7 @@ message OtherRoleAttr {
 	repeated SkillInfo skillInfo = 8;//技能
 	repeated EquipService.EquipData equipInfo = 10; //装备信息
 	optional int32 fighting = 11; //战斗力
+	optional string headbox =12; //头像框
 	
 	
 }
