@@ -1,4 +1,4 @@
-package com.rwbase.dao.groupsecret.syndata;
+package com.rwbase.dao.groupsecret.syndata.base;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 

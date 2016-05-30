@@ -1,6 +1,7 @@
 package com.rwbase.dao.groupsecret;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,30 +12,25 @@ import org.springframework.util.StringUtils;
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.PlayerMgr;
-import com.playerdata.army.CurAttrData;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
-import com.playerdata.readonly.AttrMgrIF;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
-import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
-import com.rwproto.GroupSecretProto.DefendHeroBaseInfo;
-import com.rwproto.GroupSecretProto.DefendTeamInfo;
-import com.rwproto.GroupSecretProto.DefendUserInfo;
+import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.base.DefendHeroBaseInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.base.DefendTeamInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.base.DefendUserInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
+import com.rwbase.dao.groupsecret.syndata.base.HeroLeftInfoSynData;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
-import com.rwproto.GroupSecretProto.GroupSecretIndex;
-import com.rwproto.GroupSecretProto.GroupSecretInfo;
-import com.rwproto.GroupSecretProto.HeroLeftInfo;
-import com.rwproto.GroupSecretProto.MatchSecretInfo;
-import com.rwproto.GroupSecretProto.SecretBaseInfo;
-import com.rwproto.GroupSecretProto.SecretDropInfo;
 
 /*
  * @author HC
@@ -62,11 +58,11 @@ public class GroupSecretHelper {
 	 * @param defendMap
 	 * @param userId
 	 * @param isFinish
-	 * @param defendUserInfoList
+	 * @param defendUserInfoMap
 	 * @return
 	 */
-	public static DefendUserInfoData getMyDefendUseInfoData(GroupSecretData secretData, String userId, boolean isFinish, List<DefendUserInfo> defendUserInfoList) {
-		return parseSecretData2NeedTeamInfo(secretData, userId, isFinish, null, defendUserInfoList);
+	public static DefendUserInfoData getMyDefendUseInfoData(GroupSecretData secretData, String userId, boolean isFinish, Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
+		return parseSecretData2NeedTeamInfo(secretData, userId, isFinish, null, defendUserInfoMap);
 	}
 
 	/**
@@ -76,8 +72,89 @@ public class GroupSecretHelper {
 	 * @param enemyData
 	 * @param defendUserInfoList
 	 */
-	public static void getEnemyTeamInfo(GroupSecretData secretData, GroupSecretMatchEnemyData enemyData, List<DefendUserInfo> defendUserInfoList) {
-		parseSecretData2NeedTeamInfo(secretData, null, false, enemyData, defendUserInfoList);
+	public static void getEnemyTeamInfo(GroupSecretData secretData, GroupSecretMatchEnemyData enemyData, Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
+		parseSecretData2NeedTeamInfo(secretData, null, false, enemyData, defendUserInfoMap);
+	}
+
+	/**
+	 * 通过秘境的数据转换成需要阵容信息
+	 * 
+	 * @param secretData
+	 * @param userId
+	 * @param isFinish
+	 * @param enemyData
+	 * @param defendUserInfoList
+	 * @return
+	 */
+	private static DefendUserInfoData parseSecretData2NeedTeamInfo(GroupSecretData secretData, String userId, boolean isFinish, GroupSecretMatchEnemyData enemyData,
+			Map<Integer, DefendUserInfoSynData> defendUserInfoMap) {
+		DefendUserInfoData myDefendInfo = null;
+		// 找出自己驻守的秘境
+		Map<Integer, DefendUserInfoData> defendMap = secretData.getDefendMap();
+		for (Entry<Integer, DefendUserInfoData> e : defendMap.entrySet()) {
+			DefendUserInfoData value = e.getValue();
+			if (value == null) {
+				continue;
+			}
+
+			String defendUserId = value.getUserId();
+			PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(defendUserId);
+			if (readOnlyPlayer == null) {
+				continue;
+			}
+
+			if (defendUserId.equals(userId)) {
+				myDefendInfo = value;
+			}
+
+			if (!isFinish) {
+				// 法宝信息
+				ItemDataIF magic = readOnlyPlayer.getMagic();
+
+				Integer index = e.getKey();
+				Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData == null ? null : enemyData.getTeamAttrInfoMap(index);
+
+				boolean isHasLife = true;
+				int fighting = 0;
+				List<String> heroList = value.getHeroList();
+				int heroSize = heroList.size();
+
+				List<DefendHeroBaseInfoSynData> baseInfoList = new ArrayList<DefendHeroBaseInfoSynData>(heroSize);
+				for (int j = 0; j < heroSize; j++) {
+					String heroId = heroList.get(j);
+					HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+					if (hero == null) {
+						continue;
+					}
+
+					fighting += hero.getFighting();
+
+					boolean isDie = false;
+					HeroLeftInfoSynData heroLeftInfo = null;
+					if (teamAttrInfoMap != null) {
+						heroLeftInfo = teamAttrInfoMap.get(heroId);
+						int leftLife = heroLeftInfo != null ? heroLeftInfo.getLife() : 0;
+						if (leftLife <= 0) {
+							isDie = true;
+						} else {
+							isHasLife = true;
+						}
+					} else {
+						isHasLife = true;
+					}
+
+					baseInfoList.add(new DefendHeroBaseInfoSynData(hero.getHeroCfg().getImageId(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(),
+							heroId.equals(defendUserId), isDie, heroLeftInfo));
+				}
+
+				DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(),
+						readOnlyPlayer.getUserName(), readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", readOnlyPlayer
+								.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName())) : new DefendUserInfoSynData(index, true, null);
+				defendUserInfoMap.put(index, userInfo);
+			}
+		}
+
+		return myDefendInfo;
 	}
 
 	/**
@@ -86,7 +163,7 @@ public class GroupSecretHelper {
 	 * @param userId
 	 * @return
 	 */
-	public static MatchSecretInfo.Builder fillMatchSecretInfo(String userId) {
+	public static GroupSecretDataSynData fillMatchSecretInfo(String userId) {
 		GroupSecretMatchEnemyDataMgr mgr = GroupSecretMatchEnemyDataMgr.getMgr();
 		GroupSecretMatchEnemyData enemyData = mgr.get(userId);
 		if (enemyData == null) {
@@ -125,20 +202,13 @@ public class GroupSecretHelper {
 			robDiamondNum = cfg.getRobGold();
 		}
 
-		SecretDropInfo.Builder dropInfo = SecretDropInfo.newBuilder();
-		dropInfo.setDiamond(robDiamondNum);
-		dropInfo.setDropResource(enemyData.getAllRobResValue());
-		dropInfo.setGroupExp(enemyData.getAllRobGEValue());
-		dropInfo.setGroupSupply(enemyData.getAllRobGSValue());
+		String id = generateCacheSecretId(matchUserId, secretId);
+		boolean beat = enemyData.isBeat();
+		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
+				enemyData.getAllRobGSValue());
 
-		MatchSecretInfo.Builder matchSecretInfo = MatchSecretInfo.newBuilder();
-		matchSecretInfo.setId(generateCacheSecretId(matchUserId, secretId));
-		matchSecretInfo.setSecretCfgId(secretCfgId);
-		matchSecretInfo.setIsBeat(enemyData.isBeat());
-
-		if (enemyData.isBeat()) {// 如果已经打败了
-			matchSecretInfo.setDropInfo(dropInfo);
-			return matchSecretInfo;
+		if (beat) {// 如果已经打败了
+			return new GroupSecretDataSynData(baseInfo, null);
 		}
 
 		if (protectTimeMillis > 0) {
@@ -150,127 +220,11 @@ public class GroupSecretHelper {
 				mgr.delete(userId);
 				return null;
 			}
-
-			matchSecretInfo.setLeftTime((int) TimeUnit.MILLISECONDS.toSeconds(protectTimeMillis - passTimeMillis));
 		}
 
-		List<DefendUserInfo> defendUserInfoList = new ArrayList<DefendUserInfo>();
-		GroupSecretHelper.getEnemyTeamInfo(secretData, enemyData, defendUserInfoList);
-		matchSecretInfo.addAllDefendUserInfo(defendUserInfoList);
-
-		return matchSecretInfo;
-	}
-
-	/**
-	 * 通过秘境的数据转换成需要阵容信息
-	 * 
-	 * @param secretData
-	 * @param userId
-	 * @param isFinish
-	 * @param enemyData
-	 * @param defendUserInfoList
-	 * @return
-	 */
-	private static DefendUserInfoData parseSecretData2NeedTeamInfo(GroupSecretData secretData, String userId, boolean isFinish, GroupSecretMatchEnemyData enemyData,
-			List<DefendUserInfo> defendUserInfoList) {
-		DefendUserInfoData myDefendInfo = null;
-		// 找出自己驻守的秘境
-		Map<Integer, DefendUserInfoData> defendMap = secretData.getDefendMap();
-		for (Entry<Integer, DefendUserInfoData> e : defendMap.entrySet()) {
-			DefendUserInfoData value = e.getValue();
-			if (value == null) {
-				continue;
-			}
-
-			String defendUserId = value.getUserId();
-			PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(defendUserId);
-			if (readOnlyPlayer == null) {
-				continue;
-			}
-
-			if (defendUserId.equals(userId)) {
-				myDefendInfo = value;
-			}
-
-			if (!isFinish) {
-				DefendUserInfo.Builder userInfo = DefendUserInfo.newBuilder();
-				userInfo.setIndex(GroupSecretIndex.valueOf(e.getKey()));
-
-				DefendTeamInfo.Builder teamInfo = DefendTeamInfo.newBuilder();
-				teamInfo.setHeadImageId(readOnlyPlayer.getHeadImage());
-				teamInfo.setName(readOnlyPlayer.getUserName());
-				teamInfo.setLevel(readOnlyPlayer.getLevel());
-				// 法宝信息
-				ItemDataIF magic = readOnlyPlayer.getMagic();
-				teamInfo.setMagicId(magic.getModelId());
-				teamInfo.setMagicLevel(magic.getMagicLevel());
-				teamInfo.setUserId(defendUserId);
-
-				Map<String, CurAttrData> teamAttrInfoMap = enemyData == null ? null : enemyData.getTeamAttrInfoMap(e.getKey());
-
-				boolean isHasLife = true;
-
-				int fighting = 0;
-				List<String> heroList = value.getHeroList();
-				for (int j = 0, heroSize = heroList.size(); j < heroSize; j++) {
-					String heroId = heroList.get(j);
-					HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
-					if (hero == null) {
-						continue;
-					}
-
-					fighting += hero.getFighting();
-					DefendHeroBaseInfo.Builder heroBaseInfo = DefendHeroBaseInfo.newBuilder();
-					heroBaseInfo.setHeadImageId(hero.getHeroCfg().getImageId());
-					heroBaseInfo.setLevel(hero.getLevel());
-					heroBaseInfo.setStarLevel(hero.getHeroData().getStarLevel());
-					heroBaseInfo.setQualityId(hero.getQualityId());
-					heroBaseInfo.setIsMainRole(heroId.equals(defendUserId));
-					if (teamAttrInfoMap == null) {
-						heroBaseInfo.setIsDie(false);
-					} else {
-						AttrMgrIF attrMgr = hero.getAttrMgr();
-						AttrData totalData = attrMgr.getRoleAttrData().getTotalData();
-						int life = totalData.getLife();
-						int energy = totalData.getEnergy();
-
-						CurAttrData curAttrData = teamAttrInfoMap.get(heroId);
-						int leftLife = life;
-						int leftEnergy = 0;
-						if (curAttrData != null) {
-							leftEnergy = curAttrData.getCurEnergy();
-							leftLife = curAttrData.getCurLife();
-						}
-
-						if (leftLife > 0) {
-							HeroLeftInfo.Builder leftInfo = HeroLeftInfo.newBuilder();
-							leftInfo.setMaxEnergy(energy);
-							leftInfo.setMaxLife(life);
-							leftInfo.setEnergy(leftEnergy);
-							leftInfo.setLife(leftLife);
-							heroBaseInfo.setIsDie(false);
-							heroBaseInfo.setHeroLeftInfo(leftInfo);
-						} else {
-							heroBaseInfo.setIsDie(true);
-							isHasLife = false;
-						}
-					}
-					teamInfo.setDefendFighting(fighting);
-					teamInfo.addHeroBaseInfo(heroBaseInfo);
-				}
-
-				if (isHasLife) {
-					userInfo.setIsBeat(false);
-					userInfo.setTeamInfo(teamInfo);
-				} else {
-					userInfo.setIsBeat(true);
-				}
-
-				defendUserInfoList.add(userInfo.build());
-			}
-		}
-
-		return myDefendInfo;
+		HashMap<Integer, DefendUserInfoSynData> defendUserInfoMap = new HashMap<Integer, DefendUserInfoSynData>();
+		GroupSecretHelper.getEnemyTeamInfo(secretData, enemyData, defendUserInfoMap);
+		return new GroupSecretDataSynData(baseInfo, new SecretTeamInfoSynData(id, defendUserInfoMap));
 	}
 
 	/**
@@ -280,7 +234,7 @@ public class GroupSecretHelper {
 	 * @param userId
 	 * @return
 	 */
-	public static GroupSecretInfo.Builder parseGroupSecretData2Msg(GroupSecretData data, String userId) {
+	public static GroupSecretDataSynData parseGroupSecretData2Msg(GroupSecretData data, String userId) {
 		long now = System.currentTimeMillis();
 		int secretCfgId = data.getSecretId();// 秘境的模版Id
 		GroupSecretResourceTemplate groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
@@ -289,58 +243,31 @@ public class GroupSecretHelper {
 			return null;
 		}
 
-		GroupSecretInfo.Builder info = GroupSecretInfo.newBuilder();
-		info.setId(generateCacheSecretId(data.getUserId(), data.getId()));// 秘境的ID
-		info.setSecretCfgId(secretCfgId);// 秘境的模版Id
-
 		long needTimeMillis = TimeUnit.MINUTES.toMillis(groupSecretResTmp.getNeedTime());// 分钟
 		long createTime = data.getCreateTime();
 		long passTimeMillis = now - createTime;
 		boolean isFinish = passTimeMillis >= needTimeMillis;// 是否已经完成了
-		info.setIsFinish(isFinish);
 
-		List<DefendUserInfo> defendUserInfoList = new ArrayList<DefendUserInfo>();
+		Map<Integer, DefendUserInfoSynData> defendUserInfoMap = new HashMap<Integer, DefendUserInfoSynData>();
+		DefendUserInfoData myDefendInfo = GroupSecretHelper.getMyDefendUseInfoData(data, userId, isFinish, defendUserInfoMap);// 自己的驻守信息
 
-		DefendUserInfoData myDefendInfo = GroupSecretHelper.getMyDefendUseInfoData(data, userId, isFinish, defendUserInfoList);// 自己的驻守信息
+		String id = generateCacheSecretId(data.getUserId(), data.getId());
 
-		SecretDropInfo.Builder dropBuilder = SecretDropInfo.newBuilder();
-		if (myDefendInfo != null) {
-			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
-			int proRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
-			int proGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
-			int proGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
-			if (changeTeamTime > 0) {
-				long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
-				int fighting = myDefendInfo.getFighting();
-				proRes += (int) (fighting * groupSecretResTmp.getProductRatio() * minutes);
-				proGE += (int) (groupSecretResTmp.getGroupExpRatio() * minutes);
-				proGS += (int) (groupSecretResTmp.getGroupSupplyRatio() * minutes);
-			}
-
-			dropBuilder.setDiamond(myDefendInfo.getDropDiamond());
-			dropBuilder.setDropResource(proRes);
-			dropBuilder.setGroupExp(proGE);
-			dropBuilder.setGroupSupply(proGS);
-		} else {
-			dropBuilder.setDiamond(0);
-			dropBuilder.setDropResource(0);
-			dropBuilder.setGroupExp(0);
-			dropBuilder.setGroupSupply(0);
-		}
-		info.setDropInfo(dropBuilder);
-
-		if (!isFinish) {// 还没有完成
-			SecretBaseInfo.Builder baseBuilder = SecretBaseInfo.newBuilder();
-			baseBuilder.setLeftTime((int) TimeUnit.MILLISECONDS.toSeconds(needTimeMillis - passTimeMillis));
-			// 生产速度
-			int fighting = myDefendInfo == null ? 0 : myDefendInfo.getFighting();
-			baseBuilder.setProductionSpeed((int) (fighting * groupSecretResTmp.getProductRatio() * 60));
-
-			baseBuilder.addAllUserInfo(defendUserInfoList);
-			info.setBaseInfo(baseBuilder);
+		long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
+		int getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
+		int getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
+		int getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+		int dropDiamond = myDefendInfo.getDropDiamond();
+		if (changeTeamTime > 0) {
+			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+			int fighting = myDefendInfo.getFighting();
+			getRes += (int) (fighting * groupSecretResTmp.getProductRatio() * minutes);
+			getGE += (int) (groupSecretResTmp.getGroupExpRatio() * minutes);
+			getGS += (int) (groupSecretResTmp.getGroupSupplyRatio() * minutes);
 		}
 
-		return info;
+		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), myDefendInfo.getIndex(), dropDiamond, getRes, getGE, getGS);
+		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap));
 	}
 
 	/**

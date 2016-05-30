@@ -3,6 +3,7 @@ package com.rwbase.dao.groupsecret.syndata;
 import java.util.Map;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwbase.dao.groupsecret.syndata.base.DefendUserInfoSynData;
 
 /*
  * @author HC
@@ -12,9 +13,9 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class SecretTeamInfoSynData {
 	private final String id;// 秘境的Id
-	private final Map<Integer, DefendTeamInfoSynData> map;// 每个驻守点的信息
+	private final Map<Integer, DefendUserInfoSynData> map;// 每个驻守点的信息
 
-	public SecretTeamInfoSynData(String id, Map<Integer, DefendTeamInfoSynData> map) {
+	public SecretTeamInfoSynData(String id, Map<Integer, DefendUserInfoSynData> map) {
 		this.id = id;
 		this.map = map;
 	}
@@ -23,7 +24,7 @@ public class SecretTeamInfoSynData {
 		return id;
 	}
 
-	public Map<Integer, DefendTeamInfoSynData> getMap() {
+	public Map<Integer, DefendUserInfoSynData> getMap() {
 		return map;
 	}
 }

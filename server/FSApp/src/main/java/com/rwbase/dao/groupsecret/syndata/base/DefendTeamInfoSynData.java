@@ -1,4 +1,4 @@
-package com.rwbase.dao.groupsecret.syndata;
+package com.rwbase.dao.groupsecret.syndata.base;
 
 import java.util.List;
 

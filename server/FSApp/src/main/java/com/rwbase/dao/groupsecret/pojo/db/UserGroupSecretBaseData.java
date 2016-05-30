@@ -22,8 +22,7 @@ public class UserGroupSecretBaseData {
 	private long lastRecoveryTime;// 上次恢复钥石的时间
 	@IgnoreSynField
 	private List<String> defendSecretIdList;// 驻守的秘境Id列表
-	@IgnoreSynField
-	private int matchSecretId;// 探索到的秘境Id
+	private String matchSecretId;// 探索到的秘境Id
 	// =============================每天5点就要重置的数据
 	private int receiveKeyCount;// 当天领取钥石的数量
 	private int buyKeyTimes;// 当天购买钥石的次数
@@ -42,7 +41,7 @@ public class UserGroupSecretBaseData {
 		this.lastRecoveryTime = lastRecoveryTime;
 	}
 
-	public void setMatchSecretId(int matchSecretId) {
+	public void setMatchSecretId(String matchSecretId) {
 		this.matchSecretId = matchSecretId;
 	}
 
@@ -75,7 +74,7 @@ public class UserGroupSecretBaseData {
 		return lastRecoveryTime;
 	}
 
-	public int getMatchSecretId() {
+	public String getMatchSecretId() {
 		return matchSecretId;
 	}
 

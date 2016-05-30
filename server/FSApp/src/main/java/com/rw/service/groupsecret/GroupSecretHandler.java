@@ -23,6 +23,8 @@ import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
+import com.rwbase.dao.groupsecret.pojo.SecretBaseInfoSynDataHolder;
+import com.rwbase.dao.groupsecret.pojo.SecretTeamInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretDiamondDropCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
@@ -31,14 +33,13 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
+import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
-import com.rwproto.GroupSecretProto.CreateGroupSecretRspMsg;
 import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
-import com.rwproto.GroupSecretProto.GroupSecretInfo;
-import com.rwproto.GroupSecretProto.MatchSecretInfo;
-import com.rwproto.GroupSecretProto.OpenGroupSecretMainViewRspMsg;
 import com.rwproto.GroupSecretProto.RequestType;
 import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
 
@@ -104,7 +105,11 @@ public class GroupSecretHandler {
 		// 个人的秘境数据
 		UserGroupSecretBaseData userGroupSecretData = UserGroupSecretBaseDataMgr.getMgr().get(userId);
 
-		OpenGroupSecretMainViewRspMsg.Builder openRsp = OpenGroupSecretMainViewRspMsg.newBuilder();
+		// 同步秘境基础数据
+		List<SecretBaseInfoSynData> baseInfoList = new ArrayList<SecretBaseInfoSynData>();
+		// 同步秘境的防守信息
+		List<SecretTeamInfoSynData> teamInfoList = new ArrayList<SecretTeamInfoSynData>();
+
 		// 检查密境列表
 		List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();
 		for (int i = 0, size = defendSecretIdList.size(); i < size; i++) {
@@ -119,22 +124,40 @@ public class GroupSecretHandler {
 				continue;
 			}
 
-			GroupSecretInfo.Builder info = GroupSecretHelper.parseGroupSecretData2Msg(data, userId);
-			if (info == null) {
+			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(data, userId);
+			if (synData == null) {
 				continue;
 			}
 
-			openRsp.addGroupSecretInfo(info);
+			SecretBaseInfoSynData base = synData.getBase();
+			SecretTeamInfoSynData team = synData.getTeam();
+			if (base != null) {
+				baseInfoList.add(base);
+			}
+
+			if (team != null) {
+				teamInfoList.add(team);
+			}
 		}
 
 		// 检查匹配到的人
-		MatchSecretInfo.Builder matchSecretInfo = GroupSecretHelper.fillMatchSecretInfo(userId);
+		GroupSecretDataSynData matchSecretInfo = GroupSecretHelper.fillMatchSecretInfo(userId);
 		if (matchSecretInfo != null) {
-			openRsp.setMatchSecretInfo(matchSecretInfo);
+			SecretBaseInfoSynData base = matchSecretInfo.getBase();
+			SecretTeamInfoSynData team = matchSecretInfo.getTeam();
+			if (base != null) {
+				baseInfoList.add(base);
+			}
+
+			if (team != null) {
+				teamInfoList.add(team);
+			}
 		}
 
+		SecretBaseInfoSynDataHolder.getHolder().synAllData(player, baseInfoList);
+		SecretTeamInfoSynDataHolder.getHolder().synAllData(player, teamInfoList);
+
 		rsp.setIsSuccess(true);
-		rsp.setOpenMainView(openRsp);
 		return rsp.build().toByteString();
 	}
 
@@ -284,11 +307,18 @@ public class GroupSecretHandler {
 		// 更新目前防守的秘境列表
 		baseDataMgr.addDefendSecretId(userId, GroupSecretHelper.generateCacheSecretId(userId, secretData.getId()));
 
-		CreateGroupSecretRspMsg.Builder createRsp = CreateGroupSecretRspMsg.newBuilder();
-		createRsp.setGroupSecretInfo(GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId));
+		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId);
+		SecretBaseInfoSynData base = synData.getBase();
+		if (base != null) {
+			SecretBaseInfoSynDataHolder.getHolder().addData(player, base);
+		}
+
+		SecretTeamInfoSynData team = synData.getTeam();
+		if (team != null) {
+			SecretTeamInfoSynDataHolder.getHolder().addData(player, team);
+		}
 
 		rsp.setIsSuccess(true);
-		rsp.setCreateRspMsg(createRsp);
 		return rsp.build().toByteString();
 	}
 
@@ -433,6 +463,10 @@ public class GroupSecretHandler {
 
 		// 清除自己防守阵容中使用到的
 		GroupSecretTeamDataMgr.getMgr().removeTeamHeroList(player, myDefendInfo.getHeroList());
+
+		// 通知客户端删除
+		SecretBaseInfoSynDataHolder.getHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0));
+		SecretTeamInfoSynDataHolder.getHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null));
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();

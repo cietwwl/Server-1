@@ -7,13 +7,15 @@ import java.util.Map;
 
 import javax.persistence.Id;
 
-import com.rwbase.dao.groupsecret.syndata.HeroLeftInfoSynData;
+import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwbase.dao.groupsecret.syndata.base.HeroLeftInfoSynData;
 
 /*
  * @author HC
  * @date 2016年5月26日 下午4:07:07
  * @Description 秘境使用的阵容信息
  */
+@SynClass
 public class GroupSecretTeamData {
 	@Id
 	private String userId;// 角色Id

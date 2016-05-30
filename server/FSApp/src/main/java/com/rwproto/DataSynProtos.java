@@ -183,13 +183,13 @@ public final class DataSynProtos {
      */
     COPY_MAP_RECORD(1, 2),
     /**
-     * <code>SECRETAREA_INFO = 3;</code>
+     * <code>SECRETAREA_BASE_INFO = 3;</code>
      *
      * <pre>
-     *帮派秘境-秘境信息
+     *帮派秘境-秘境基础信息
      * </pre>
      */
-    SECRETAREA_INFO(2, 3),
+    SECRETAREA_BASE_INFO(2, 3),
     /**
      * <code>SECRETAREA_DEF_RECORD = 4;</code>
      *
@@ -207,13 +207,13 @@ public final class DataSynProtos {
      */
     SECRETAREA_USER_INFO(4, 5),
     /**
-     * <code>SECRETAREA_BATTLE_INFO = 6;</code>
+     * <code>SECRETAREA_DEFEND_TEAM_INFO = 6;</code>
      *
      * <pre>
-     *帮派秘境-用户信息
+     *帮派秘境-秘境的防守信息
      * </pre>
      */
-    SECRETAREA_BATTLE_INFO(5, 6),
+    SECRETAREA_DEFEND_TEAM_INFO(5, 6),
     /**
      * <code>SECRETAREA_USER_RECORD = 7;</code>
      *
@@ -689,13 +689,13 @@ public final class DataSynProtos {
      */
     public static final int COPY_MAP_RECORD_VALUE = 2;
     /**
-     * <code>SECRETAREA_INFO = 3;</code>
+     * <code>SECRETAREA_BASE_INFO = 3;</code>
      *
      * <pre>
-     *帮派秘境-秘境信息
+     *帮派秘境-秘境基础信息
      * </pre>
      */
-    public static final int SECRETAREA_INFO_VALUE = 3;
+    public static final int SECRETAREA_BASE_INFO_VALUE = 3;
     /**
      * <code>SECRETAREA_DEF_RECORD = 4;</code>
      *
@@ -713,13 +713,13 @@ public final class DataSynProtos {
      */
     public static final int SECRETAREA_USER_INFO_VALUE = 5;
     /**
-     * <code>SECRETAREA_BATTLE_INFO = 6;</code>
+     * <code>SECRETAREA_DEFEND_TEAM_INFO = 6;</code>
      *
      * <pre>
-     *帮派秘境-用户信息
+     *帮派秘境-秘境的防守信息
      * </pre>
      */
-    public static final int SECRETAREA_BATTLE_INFO_VALUE = 6;
+    public static final int SECRETAREA_DEFEND_TEAM_INFO_VALUE = 6;
     /**
      * <code>SECRETAREA_USER_RECORD = 7;</code>
      *
@@ -1184,10 +1184,10 @@ public final class DataSynProtos {
       switch (value) {
         case 1: return COPY_LEVEL_RECORD;
         case 2: return COPY_MAP_RECORD;
-        case 3: return SECRETAREA_INFO;
+        case 3: return SECRETAREA_BASE_INFO;
         case 4: return SECRETAREA_DEF_RECORD;
         case 5: return SECRETAREA_USER_INFO;
-        case 6: return SECRETAREA_BATTLE_INFO;
+        case 6: return SECRETAREA_DEFEND_TEAM_INFO;
         case 7: return SECRETAREA_USER_RECORD;
         case 8: return FASHION_ITEM;
         case 9: return EQUIP_ITEM;
@@ -5129,40 +5129,41 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\225\n\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\237\n\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
-      "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
-      "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
-      "ECRETAREA_BATTLE_INFO\020\006\022\032\n\026SECRETAREA_US" +
-      "ER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022\016\n\nEQUIP_I" +
-      "TEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY_ITEM\020\013\022\022\n" +
-      "\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE_ITEM\020\r\022\016\n",
-      "\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022\n\016USER_GAM" +
-      "E_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUSER_ITEM_BA" +
-      "G\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guild\020\024\022\023\n\017Pve" +
-      "_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022\016\n\nStore_D" +
-      "ata\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DATA\020\031\022\020\n\014SE" +
-      "TTING_DATA\020\032\022\023\n\017GUILD_USER_INFO\020\033\022\021\n\rSEV" +
-      "EN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVITY_DATA\020\035\022\r" +
-      "\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020\037\022\021\n\rGroup" +
-      "BaseData\020 \022\023\n\017GroupMemberData\020!\022\014\n\010Group" +
-      "Log\020\"\022\032\n\026UserGroupAttributeData\020#\022\022\n\016Gro",
-      "upCopyLevel\020$\022\020\n\014GroupCopyMap\020%\022\023\n\017Group" +
-      "CopyReward\020&\022\030\n\024GroupApplyMemberData\020\'\022\026" +
-      "\n\022GroupResearchSkill\020(\022\023\n\017GroupStudySkil" +
-      "l\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020+\022\026\n\022USER_" +
-      "TMP_GAME_DATA\020,\022\020\n\014HERO_FETTERS\020-\022\022\n\016FIX" +
-      "_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP\020/\022\027\n\023User" +
-      "GroupSecretData\0200\022\023\n\017GroupSecretData\0201\022\023" +
-      "\n\017MagicSecretData\0202\022\024\n\020MagicChapterData\020" +
-      "3\022\030\n\024SECRETAREA_TEAM_INFO\0204\022\025\n\021ActivityC" +
-      "ountType\020<\022\030\n\024ActivityTimeCardType\020=\022\024\n\020",
-      "ActivityRateType\020>\022\024\n\020ActivityDateType\020?" +
-      "\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024ActivityDa" +
-      "teSaleType\020A\022\024\n\020ActivityRankType\020B\022\030\n\024Ac" +
-      "tivityExchangeType\020C\022\031\n\025ActivityTimeCoun" +
-      "tType\020D\022\025\n\021ActivityDailyType\020E\022\020\n\014Questi" +
-      "onList\020PB\034\n\013com.rwprotoB\rDataSynProtos"
+      "\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETARE" +
+      "A_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005" +
+      "\022\037\n\033SECRETAREA_DEFEND_TEAM_INFO\020\006\022\032\n\026SEC" +
+      "RETAREA_USER_RECORD\020\007\022\020\n\014FASHION_ITEM\020\010\022" +
+      "\016\n\nEQUIP_ITEM\020\t\022\016\n\nSKILL_ITEM\020\n\022\016\n\nINLAY" +
+      "_ITEM\020\013\022\022\n\016ROLE_ATTR_ITEM\020\014\022\022\n\016ROLE_BASE",
+      "_ITEM\020\r\022\016\n\nUSER_HEROS\020\016\022\r\n\tUSER_DATA\020\017\022\022" +
+      "\n\016USER_GAME_DATA\020\020\022\016\n\nUSER_MAGIC\020\021\022\021\n\rUS" +
+      "ER_ITEM_BAG\020\022\022\021\n\rDailyActivity\020\023\022\t\n\005Guil" +
+      "d\020\024\022\023\n\017Pve_UnendingWar\020\025\022\r\n\tPve_Trial\020\026\022" +
+      "\016\n\nStore_Data\020\027\022\r\n\tTASK_DATA\020\030\022\014\n\010VIP_DA" +
+      "TA\020\031\022\020\n\014SETTING_DATA\020\032\022\023\n\017GUILD_USER_INF" +
+      "O\020\033\022\021\n\rSEVEN_DAY_GIF\020\034\022\030\n\024FRESHER_ATIVIT" +
+      "Y_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020" +
+      "\037\022\021\n\rGroupBaseData\020 \022\023\n\017GroupMemberData\020" +
+      "!\022\014\n\010GroupLog\020\"\022\032\n\026UserGroupAttributeDat",
+      "a\020#\022\022\n\016GroupCopyLevel\020$\022\020\n\014GroupCopyMap\020" +
+      "%\022\023\n\017GroupCopyReward\020&\022\030\n\024GroupApplyMemb" +
+      "erData\020\'\022\026\n\022GroupResearchSkill\020(\022\023\n\017Grou" +
+      "pStudySkill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020" +
+      "+\022\026\n\022USER_TMP_GAME_DATA\020,\022\020\n\014HERO_FETTER" +
+      "S\020-\022\022\n\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP" +
+      "\020/\022\027\n\023UserGroupSecretData\0200\022\023\n\017GroupSecr" +
+      "etData\0201\022\023\n\017MagicSecretData\0202\022\024\n\020MagicCh" +
+      "apterData\0203\022\030\n\024SECRETAREA_TEAM_INFO\0204\022\025\n" +
+      "\021ActivityCountType\020<\022\030\n\024ActivityTimeCard",
+      "Type\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Activity" +
+      "DateType\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024" +
+      "ActivityDateSaleType\020A\022\024\n\020ActivityRankTy" +
+      "pe\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activi" +
+      "tyTimeCountType\020D\022\025\n\021ActivityDailyType\020E" +
+      "\022\020\n\014QuestionList\020PB\034\n\013com.rwprotoB\rDataS" +
+      "ynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.playerdata.army.CurAttrData;
+import com.rwbase.dao.groupsecret.syndata.base.HeroLeftInfoSynData;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
 
 /*
@@ -22,9 +22,9 @@ public class GroupSecretMatchEnemyData {
 	private String matchUserId;// 匹配到的人Id
 	private String userId;// 搜索人的Id
 	private long atkTime;// 攻击的时间
-	private Map<String, CurAttrData> teamOneMap;// 防守的一队敌人血量信息
-	private Map<String, CurAttrData> teamTwoMap;// 防守的二队敌人血量信息
-	private Map<String, CurAttrData> teamThreeMap;// 防守的三队敌人血量信息
+	private Map<String, HeroLeftInfoSynData> teamOneMap;// 防守的一队敌人血量信息
+	private Map<String, HeroLeftInfoSynData> teamTwoMap;// 防守的二队敌人血量信息
+	private Map<String, HeroLeftInfoSynData> teamThreeMap;// 防守的三队敌人血量信息
 	private int[] robRes = new int[3];// 可以掠夺的资源数量
 	private int[] robGS = new int[3];// 可以掠夺的帮派物资
 	private int[] robGE = new int[3];// 可以掠夺的帮派经验
@@ -43,15 +43,15 @@ public class GroupSecretMatchEnemyData {
 		return atkTime;
 	}
 
-	public Map<String, CurAttrData> getTeamOneMap() {
+	public Map<String, HeroLeftInfoSynData> getTeamOneMap() {
 		return teamOneMap;
 	}
 
-	public Map<String, CurAttrData> getTeamTwoMap() {
+	public Map<String, HeroLeftInfoSynData> getTeamTwoMap() {
 		return teamTwoMap;
 	}
 
-	public Map<String, CurAttrData> getTeamThreeMap() {
+	public Map<String, HeroLeftInfoSynData> getTeamThreeMap() {
 		return teamThreeMap;
 	}
 
@@ -88,15 +88,15 @@ public class GroupSecretMatchEnemyData {
 		this.atkTime = atkTime;
 	}
 
-	public void setTeamOneMap(Map<String, CurAttrData> teamOneMap) {
+	public void setTeamOneMap(Map<String, HeroLeftInfoSynData> teamOneMap) {
 		this.teamOneMap = teamOneMap;
 	}
 
-	public void setTeamTwoMap(Map<String, CurAttrData> teamTwoMap) {
+	public void setTeamTwoMap(Map<String, HeroLeftInfoSynData> teamTwoMap) {
 		this.teamTwoMap = teamTwoMap;
 	}
 
-	public void setTeamThreeMap(Map<String, CurAttrData> teamThreeMap) {
+	public void setTeamThreeMap(Map<String, HeroLeftInfoSynData> teamThreeMap) {
 		this.teamThreeMap = teamThreeMap;
 	}
 
@@ -130,25 +130,25 @@ public class GroupSecretMatchEnemyData {
 	 * @return
 	 */
 	@JsonIgnore
-	public Map<String, CurAttrData> getTeamAttrInfoMap(int defendIndex) {
+	public Map<String, HeroLeftInfoSynData> getTeamAttrInfoMap(int defendIndex) {
 		if (defendIndex == GroupSecretIndex.LEFT_VALUE) {
 			if (teamTwoMap == null) {
 				return Collections.emptyMap();
 			}
 
-			return new HashMap<String, CurAttrData>(teamTwoMap);
+			return new HashMap<String, HeroLeftInfoSynData>(teamTwoMap);
 		} else if (defendIndex == GroupSecretIndex.MAIN_VALUE) {
 			if (teamOneMap == null) {
 				return Collections.emptyMap();
 			}
 
-			return new HashMap<String, CurAttrData>(teamOneMap);
+			return new HashMap<String, HeroLeftInfoSynData>(teamOneMap);
 		} else if (defendIndex == GroupSecretIndex.RIGHT_VALUE) {
 			if (teamThreeMap == null) {
 				return Collections.emptyMap();
 			}
 
-			return new HashMap<String, CurAttrData>(teamThreeMap);
+			return new HashMap<String, HeroLeftInfoSynData>(teamThreeMap);
 		} else {
 			return Collections.emptyMap();
 		}
