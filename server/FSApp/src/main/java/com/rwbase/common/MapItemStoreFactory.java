@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.groupSecret.data.group.GroupSecretDefLog;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecord;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
@@ -13,9 +16,6 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
-import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyLevelRecord;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -292,6 +292,7 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<UserGroupCopyLevelRecord> getUserGroupCopyLevelRecordCache() {
 		return userGroupCopyLevelRecordCache;
+	}
 
 	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
 		return newGuideGiveItemHistoryCache;
