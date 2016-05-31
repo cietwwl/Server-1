@@ -778,4 +778,8 @@ public class Robot {
 	public void WearPet(){
 		FashionHandler.getInstance().processBuyPet(client);
 	}
+	
+	public void BuyCoin(){
+		MainHandler.getHandler().buyCoin(client);
+	}
 }
