@@ -37,7 +37,7 @@ public class CopyHandler {
 		MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
 		req.setRequestType(ERequestType.BATTLE_ITEMS_BACK);
 		req.getTagBattleDataBuilder().setLevelId(getRadomLevelIdByCopytype(copytype));
-		req.getTagBattleDataBuilder().setBattleClearingTime(1);
+		req.getTagBattleDataBuilder().setBattleClearingTime(12);
 		req.setLevelId(this.levelId);
 //		System.out.println("@@@战斗id"+ this.levelId);
 		

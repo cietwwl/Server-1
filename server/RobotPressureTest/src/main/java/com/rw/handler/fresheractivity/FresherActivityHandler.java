@@ -61,7 +61,7 @@ public class FresherActivityHandler {
 			if(!success){
 				isTakenAllGift = success;
 			}
-			System.out.println("@@@@@@@@@@@@@@@@freshhandler.list =" + giftIdList.size() + " i =" + i+ " istaken =" + success + " cfgid="+giftIdList.get(i));
+//			System.out.println("@@@@@@@@@@@@@@@@freshhandler.list =" + giftIdList.size() + " i =" + i+ " istaken =" + success + " cfgid="+giftIdList.get(i));
 		}		
 		return isTakenAllGift;
 	}
