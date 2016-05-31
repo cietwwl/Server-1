@@ -262,7 +262,7 @@ public class DataSynVersionHolder {
 			@Override
 			public void synAllData(Player player, int version) {
 				// TODO Auto-generated method stub
-				player.getPlayerQuestionMgr().sync(version);
+//				player.getPlayerQuestionMgr().sync(version);
 			}
 		}));
 		orderList.add(eSynType.QuestionList);
