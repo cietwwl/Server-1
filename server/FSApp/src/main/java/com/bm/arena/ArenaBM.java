@@ -371,10 +371,7 @@ public class ArenaBM {
 		int last = random + distance;
 		// 在范围中选一个
 		for (int i = random; i <= last; i++) {
-			if (i > end) {
-				i -= distance;
-			}
-			if (addEntry(userId, list, ranking, i)) {
+			if (addEntry(userId, list, ranking, i > end ? (i - distance) : i)) {
 				return true;
 			}
 		}
