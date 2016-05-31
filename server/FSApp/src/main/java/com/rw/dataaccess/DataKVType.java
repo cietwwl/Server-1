@@ -57,7 +57,8 @@ public enum DataKVType {
 	PLOT_PROGRESS(16,PlotProgressDAO.class, PlotProgressCreator.class), 
 	GUIDE_PROGRESS(17, GuideProgressDAO.class, GuideProgressCreator.class), 
 	COPY(18, TableCopyDataDAO.class, CopyCreator.class),
-	TAOIST(19,TaoistMagicHolder.class,TaoistMagicDataCreator.class);
+	TAOIST(19,TaoistMagicHolder.class,TaoistMagicDataCreator.class),
+	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

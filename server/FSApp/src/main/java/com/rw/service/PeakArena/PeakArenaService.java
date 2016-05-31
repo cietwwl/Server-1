@@ -62,7 +62,7 @@ public class PeakArenaService implements FsService {
 				result = peakArenaHandler.buyChallengeCount(msgArenaRequest, player);
 				break;
 			case SYNC_RECORD:
-				//TODO ??
+				//TODO 这次不管，同步战报？
 				break;
 			default:
 				break;

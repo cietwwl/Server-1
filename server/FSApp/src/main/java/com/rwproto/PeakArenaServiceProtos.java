@@ -4227,24 +4227,6 @@ public final class PeakArenaServiceProtos {
      */
     int getGainCurrencyPerHour();
 
-    // optional int32 maxChallengeCount = 22;
-    /**
-     * <code>optional int32 maxChallengeCount = 22;</code>
-     *
-     * <pre>
-     * TODO 最大挑战次数，会根据特权而修改
-     * </pre>
-     */
-    boolean hasMaxChallengeCount();
-    /**
-     * <code>optional int32 maxChallengeCount = 22;</code>
-     *
-     * <pre>
-     * TODO 最大挑战次数，会根据特权而修改
-     * </pre>
-     */
-    int getMaxChallengeCount();
-
     // optional string groupName = 23;
     /**
      * <code>optional string groupName = 23;</code>
@@ -4451,18 +4433,13 @@ public final class PeakArenaServiceProtos {
               gainCurrencyPerHour_ = input.readInt32();
               break;
             }
-            case 176: {
-              bitField0_ |= 0x00020000;
-              maxChallengeCount_ = input.readInt32();
-              break;
-            }
             case 186: {
-              bitField0_ |= 0x00040000;
+              bitField0_ |= 0x00020000;
               groupName_ = input.readBytes();
               break;
             }
             case 194: {
-              bitField0_ |= 0x00080000;
+              bitField0_ |= 0x00040000;
               armyInfo_ = input.readBytes();
               break;
             }
@@ -5020,30 +4997,6 @@ public final class PeakArenaServiceProtos {
       return gainCurrencyPerHour_;
     }
 
-    // optional int32 maxChallengeCount = 22;
-    public static final int MAXCHALLENGECOUNT_FIELD_NUMBER = 22;
-    private int maxChallengeCount_;
-    /**
-     * <code>optional int32 maxChallengeCount = 22;</code>
-     *
-     * <pre>
-     * TODO 最大挑战次数，会根据特权而修改
-     * </pre>
-     */
-    public boolean hasMaxChallengeCount() {
-      return ((bitField0_ & 0x00020000) == 0x00020000);
-    }
-    /**
-     * <code>optional int32 maxChallengeCount = 22;</code>
-     *
-     * <pre>
-     * TODO 最大挑战次数，会根据特权而修改
-     * </pre>
-     */
-    public int getMaxChallengeCount() {
-      return maxChallengeCount_;
-    }
-
     // optional string groupName = 23;
     public static final int GROUPNAME_FIELD_NUMBER = 23;
     private java.lang.Object groupName_;
@@ -5055,7 +5008,7 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public boolean hasGroupName() {
-      return ((bitField0_ & 0x00040000) == 0x00040000);
+      return ((bitField0_ & 0x00020000) == 0x00020000);
     }
     /**
      * <code>optional string groupName = 23;</code>
@@ -5110,7 +5063,7 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public boolean hasArmyInfo() {
-      return ((bitField0_ & 0x00080000) == 0x00080000);
+      return ((bitField0_ & 0x00040000) == 0x00040000);
     }
     /**
      * <code>optional string armyInfo = 24;</code>
@@ -5174,7 +5127,6 @@ public final class PeakArenaServiceProtos {
       teams_ = java.util.Collections.emptyList();
       lastFightTime_ = 0L;
       gainCurrencyPerHour_ = 0;
-      maxChallengeCount_ = 0;
       groupName_ = "";
       armyInfo_ = "";
     }
@@ -5258,12 +5210,9 @@ public final class PeakArenaServiceProtos {
         output.writeInt32(21, gainCurrencyPerHour_);
       }
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
-        output.writeInt32(22, maxChallengeCount_);
-      }
-      if (((bitField0_ & 0x00040000) == 0x00040000)) {
         output.writeBytes(23, getGroupNameBytes());
       }
-      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
         output.writeBytes(24, getArmyInfoBytes());
       }
       getUnknownFields().writeTo(output);
@@ -5353,13 +5302,9 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(22, maxChallengeCount_);
-      }
-      if (((bitField0_ & 0x00040000) == 0x00040000)) {
-        size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(23, getGroupNameBytes());
       }
-      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+      if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(24, getArmyInfoBytes());
       }
@@ -5527,12 +5472,10 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00020000);
         gainCurrencyPerHour_ = 0;
         bitField0_ = (bitField0_ & ~0x00040000);
-        maxChallengeCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00080000);
         groupName_ = "";
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         armyInfo_ = "";
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         return this;
       }
 
@@ -5650,13 +5593,9 @@ public final class PeakArenaServiceProtos {
         if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
           to_bitField0_ |= 0x00020000;
         }
-        result.maxChallengeCount_ = maxChallengeCount_;
+        result.groupName_ = groupName_;
         if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
           to_bitField0_ |= 0x00040000;
-        }
-        result.groupName_ = groupName_;
-        if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
-          to_bitField0_ |= 0x00080000;
         }
         result.armyInfo_ = armyInfo_;
         result.bitField0_ = to_bitField0_;
@@ -5786,16 +5725,13 @@ public final class PeakArenaServiceProtos {
         if (other.hasGainCurrencyPerHour()) {
           setGainCurrencyPerHour(other.getGainCurrencyPerHour());
         }
-        if (other.hasMaxChallengeCount()) {
-          setMaxChallengeCount(other.getMaxChallengeCount());
-        }
         if (other.hasGroupName()) {
-          bitField0_ |= 0x00100000;
+          bitField0_ |= 0x00080000;
           groupName_ = other.groupName_;
           onChanged();
         }
         if (other.hasArmyInfo()) {
-          bitField0_ |= 0x00200000;
+          bitField0_ |= 0x00100000;
           armyInfo_ = other.armyInfo_;
           onChanged();
         }
@@ -7153,55 +7089,6 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // optional int32 maxChallengeCount = 22;
-      private int maxChallengeCount_ ;
-      /**
-       * <code>optional int32 maxChallengeCount = 22;</code>
-       *
-       * <pre>
-       * TODO 最大挑战次数，会根据特权而修改
-       * </pre>
-       */
-      public boolean hasMaxChallengeCount() {
-        return ((bitField0_ & 0x00080000) == 0x00080000);
-      }
-      /**
-       * <code>optional int32 maxChallengeCount = 22;</code>
-       *
-       * <pre>
-       * TODO 最大挑战次数，会根据特权而修改
-       * </pre>
-       */
-      public int getMaxChallengeCount() {
-        return maxChallengeCount_;
-      }
-      /**
-       * <code>optional int32 maxChallengeCount = 22;</code>
-       *
-       * <pre>
-       * TODO 最大挑战次数，会根据特权而修改
-       * </pre>
-       */
-      public Builder setMaxChallengeCount(int value) {
-        bitField0_ |= 0x00080000;
-        maxChallengeCount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 maxChallengeCount = 22;</code>
-       *
-       * <pre>
-       * TODO 最大挑战次数，会根据特权而修改
-       * </pre>
-       */
-      public Builder clearMaxChallengeCount() {
-        bitField0_ = (bitField0_ & ~0x00080000);
-        maxChallengeCount_ = 0;
-        onChanged();
-        return this;
-      }
-
       // optional string groupName = 23;
       private java.lang.Object groupName_ = "";
       /**
@@ -7212,7 +7099,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasGroupName() {
-        return ((bitField0_ & 0x00100000) == 0x00100000);
+        return ((bitField0_ & 0x00080000) == 0x00080000);
       }
       /**
        * <code>optional string groupName = 23;</code>
@@ -7264,7 +7151,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00100000;
+  bitField0_ |= 0x00080000;
         groupName_ = value;
         onChanged();
         return this;
@@ -7277,7 +7164,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearGroupName() {
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         groupName_ = getDefaultInstance().getGroupName();
         onChanged();
         return this;
@@ -7294,7 +7181,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00100000;
+  bitField0_ |= 0x00080000;
         groupName_ = value;
         onChanged();
         return this;
@@ -7310,7 +7197,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasArmyInfo() {
-        return ((bitField0_ & 0x00200000) == 0x00200000);
+        return ((bitField0_ & 0x00100000) == 0x00100000);
       }
       /**
        * <code>optional string armyInfo = 24;</code>
@@ -7362,7 +7249,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00200000;
+  bitField0_ |= 0x00100000;
         armyInfo_ = value;
         onChanged();
         return this;
@@ -7375,7 +7262,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearArmyInfo() {
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         armyInfo_ = getDefaultInstance().getArmyInfo();
         onChanged();
         return this;
@@ -7392,7 +7279,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00200000;
+  bitField0_ |= 0x00100000;
         armyInfo_ = value;
         onChanged();
         return this;
@@ -11792,6 +11679,42 @@ public final class PeakArenaServiceProtos {
      */
     com.google.protobuf.ByteString
         getResultTipBytes();
+
+    // optional int32 maxChallengeCount = 8;
+    /**
+     * <code>optional int32 maxChallengeCount = 8;</code>
+     *
+     * <pre>
+     * TODO 最大挑战次数，会根据特权而修改
+     * </pre>
+     */
+    boolean hasMaxChallengeCount();
+    /**
+     * <code>optional int32 maxChallengeCount = 8;</code>
+     *
+     * <pre>
+     * TODO 最大挑战次数，会根据特权而修改
+     * </pre>
+     */
+    int getMaxChallengeCount();
+
+    // optional int32 buyCount = 9;
+    /**
+     * <code>optional int32 buyCount = 9;</code>
+     *
+     * <pre>
+     *TODO 购买次数
+     * </pre>
+     */
+    boolean hasBuyCount();
+    /**
+     * <code>optional int32 buyCount = 9;</code>
+     *
+     * <pre>
+     *TODO 购买次数
+     * </pre>
+     */
+    int getBuyCount();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -11903,6 +11826,16 @@ public final class PeakArenaServiceProtos {
             case 58: {
               bitField0_ |= 0x00000010;
               resultTip_ = input.readBytes();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000020;
+              maxChallengeCount_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000040;
+              buyCount_ = input.readInt32();
               break;
             }
           }
@@ -12148,6 +12081,54 @@ public final class PeakArenaServiceProtos {
       }
     }
 
+    // optional int32 maxChallengeCount = 8;
+    public static final int MAXCHALLENGECOUNT_FIELD_NUMBER = 8;
+    private int maxChallengeCount_;
+    /**
+     * <code>optional int32 maxChallengeCount = 8;</code>
+     *
+     * <pre>
+     * TODO 最大挑战次数，会根据特权而修改
+     * </pre>
+     */
+    public boolean hasMaxChallengeCount() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 maxChallengeCount = 8;</code>
+     *
+     * <pre>
+     * TODO 最大挑战次数，会根据特权而修改
+     * </pre>
+     */
+    public int getMaxChallengeCount() {
+      return maxChallengeCount_;
+    }
+
+    // optional int32 buyCount = 9;
+    public static final int BUYCOUNT_FIELD_NUMBER = 9;
+    private int buyCount_;
+    /**
+     * <code>optional int32 buyCount = 9;</code>
+     *
+     * <pre>
+     *TODO 购买次数
+     * </pre>
+     */
+    public boolean hasBuyCount() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 buyCount = 9;</code>
+     *
+     * <pre>
+     *TODO 购买次数
+     * </pre>
+     */
+    public int getBuyCount() {
+      return buyCount_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       arenaResultType_ = com.rwproto.PeakArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -12156,6 +12137,8 @@ public final class PeakArenaServiceProtos {
       listRecord_ = java.util.Collections.emptyList();
       place_ = 0;
       resultTip_ = "";
+      maxChallengeCount_ = 0;
+      buyCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12212,6 +12195,12 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBytes(7, getResultTipBytes());
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(8, maxChallengeCount_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(9, buyCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12248,6 +12237,14 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getResultTipBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, maxChallengeCount_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, buyCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12394,6 +12391,10 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         resultTip_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        maxChallengeCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        buyCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -12464,6 +12465,14 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.resultTip_ = resultTip_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.maxChallengeCount_ = maxChallengeCount_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.buyCount_ = buyCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12548,6 +12557,12 @@ public final class PeakArenaServiceProtos {
           bitField0_ |= 0x00000040;
           resultTip_ = other.resultTip_;
           onChanged();
+        }
+        if (other.hasMaxChallengeCount()) {
+          setMaxChallengeCount(other.getMaxChallengeCount());
+        }
+        if (other.hasBuyCount()) {
+          setBuyCount(other.getBuyCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -13398,6 +13413,104 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // optional int32 maxChallengeCount = 8;
+      private int maxChallengeCount_ ;
+      /**
+       * <code>optional int32 maxChallengeCount = 8;</code>
+       *
+       * <pre>
+       * TODO 最大挑战次数，会根据特权而修改
+       * </pre>
+       */
+      public boolean hasMaxChallengeCount() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 maxChallengeCount = 8;</code>
+       *
+       * <pre>
+       * TODO 最大挑战次数，会根据特权而修改
+       * </pre>
+       */
+      public int getMaxChallengeCount() {
+        return maxChallengeCount_;
+      }
+      /**
+       * <code>optional int32 maxChallengeCount = 8;</code>
+       *
+       * <pre>
+       * TODO 最大挑战次数，会根据特权而修改
+       * </pre>
+       */
+      public Builder setMaxChallengeCount(int value) {
+        bitField0_ |= 0x00000080;
+        maxChallengeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 maxChallengeCount = 8;</code>
+       *
+       * <pre>
+       * TODO 最大挑战次数，会根据特权而修改
+       * </pre>
+       */
+      public Builder clearMaxChallengeCount() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        maxChallengeCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 buyCount = 9;
+      private int buyCount_ ;
+      /**
+       * <code>optional int32 buyCount = 9;</code>
+       *
+       * <pre>
+       *TODO 购买次数
+       * </pre>
+       */
+      public boolean hasBuyCount() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 buyCount = 9;</code>
+       *
+       * <pre>
+       *TODO 购买次数
+       * </pre>
+       */
+      public int getBuyCount() {
+        return buyCount_;
+      }
+      /**
+       * <code>optional int32 buyCount = 9;</code>
+       *
+       * <pre>
+       *TODO 购买次数
+       * </pre>
+       */
+      public Builder setBuyCount(int value) {
+        bitField0_ |= 0x00000100;
+        buyCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 buyCount = 9;</code>
+       *
+       * <pre>
+       *TODO 购买次数
+       * </pre>
+       */
+      public Builder clearBuyCount() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        buyCount_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
     }
 
@@ -13462,7 +13575,7 @@ public final class PeakArenaServiceProtos {
       "\theadImage\030\013 \001(\t\"\205\001\n\010TeamInfo\022\016\n\006teamId\030" +
       "\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t.HeroData\022\017\n\007heroI" +
       "ds\030\003 \003(\t\022\017\n\007magicId\030\004 \001(\005\022\022\n\nmagicLevel\030" +
-      "\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\"\314\003\n\tAre",
+      "\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\"\261\003\n\tAre",
       "naData\022\016\n\006userId\030\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\021\n" +
       "\tgainScore\030\003 \001(\005\022\017\n\007scoreLv\030\004 \001(\005\022\r\n\005pla" +
       "ce\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022\020\n\010winCount\030\010" +
@@ -13472,37 +13585,37 @@ public final class PeakArenaServiceProtos {
       "Id\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\troleSkill\030" +
       "\021 \003(\0132\032.SkillService.TagSkillData\022\030\n\005tea" +
       "ms\030\023 \003(\0132\t.TeamInfo\022\025\n\rlastFightTime\030\024 \001" +
-      "(\003\022\033\n\023gainCurrencyPerHour\030\025 \001(\005\022\031\n\021maxCh",
-      "allengeCount\030\026 \001(\005\022\021\n\tgroupName\030\027 \001(\t\022\020\n" +
-      "\010armyInfo\030\030 \001(\t\"\324\001\n\tArenaInfo\022\016\n\006userId\030" +
-      "\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022\r\n" +
-      "\005place\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level\030" +
-      "\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020" +
-      "\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\tq" +
-      "ualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\"\214\001\n\013Arena" +
-      "Record\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n\007p" +
-      "laceUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImage\030" +
-      "\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\tch",
-      "allenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\tare" +
-      "naType\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(" +
-      "\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004 \001" +
-      "(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030\006" +
-      " \003(\005\"\337\001\n\020MsgArenaResponse\022\036\n\tarenaType\030\001" +
-      " \002(\0162\013.eArenaType\022*\n\017arenaResultType\030\002 \001" +
-      "(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003 \001(\013" +
-      "2\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaIn" +
-      "fo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005" +
-      "place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t*\244\002\n\neAren",
-      "aType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n" +
-      "\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEM" +
-      "Y_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_" +
-      "PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022AREN" +
-      "A_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET" +
-      "_PLACE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWITCH_OVER\020\014" +
-      "\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTI" +
-      "NUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SUCCE" +
-      "SS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026Pea" +
-      "kArenaServiceProtos"
+      "(\003\022\033\n\023gainCurrencyPerHour\030\025 \001(\005\022\021\n\tgroup",
+      "Name\030\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\"\324\001\n\tArenaIn" +
+      "fo\022\016\n\006userId\030\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\017\n\007sco" +
+      "reLv\030\003 \001(\005\022\r\n\005place\030\004 \001(\005\022\020\n\010winCount\030\005 " +
+      "\001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\thead" +
+      "Image\030\010 \001(\t\022\020\n\010fighting\030\t \001(\005\022\021\n\tstarLev" +
+      "el\030\n \001(\005\022\021\n\tqualityId\030\013 \001(\t\022\016\n\006career\030\014 " +
+      "\001(\005\"\214\001\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003w" +
+      "in\030\002 \001(\010\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022" +
+      "\021\n\theadImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004tim" +
+      "e\030\007 \001(\003\022\021\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArenaR",
+      "equest\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022\016" +
+      "\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo" +
+      "\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010" +
+      "\022\017\n\007reorder\030\006 \003(\005\"\214\002\n\020MsgArenaResponse\022\036" +
+      "\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017arenaR" +
+      "esultType\030\002 \001(\0162\021.eArenaResultType\022\035\n\tar" +
+      "enaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 " +
+      "\003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.Ar" +
+      "enaRecord\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 " +
+      "\001(\t\022\031\n\021maxChallengeCount\030\010 \001(\005\022\020\n\010buyCou",
+      "nt\030\t \001(\005*\244\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n" +
+      "\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014AREN" +
+      "A_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME" +
+      "\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIG" +
+      "HT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SY" +
+      "NC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\r\n\tGET_SCORE\020" +
+      "\013\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_COUN" +
+      "T\020\r\022\022\n\016FIGHT_CONTINUE\020\016*5\n\020eArenaResultT" +
+      "ype\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%" +
+      "\n\013com.rwprotoB\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13526,7 +13639,7 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaData_descriptor,
-              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "WinCount", "ChallengeCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "Teams", "LastFightTime", "GainCurrencyPerHour", "MaxChallengeCount", "GroupName", "ArmyInfo", });
+              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "WinCount", "ChallengeCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "Teams", "LastFightTime", "GainCurrencyPerHour", "GroupName", "ArmyInfo", });
           internal_static_ArenaInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaInfo_fieldAccessorTable = new
@@ -13550,7 +13663,7 @@ public final class PeakArenaServiceProtos {
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", });
           return null;
         }
       };

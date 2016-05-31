@@ -68,7 +68,6 @@ message ArenaData{
 	repeated TeamInfo teams = 19;
 	optional int64 lastFightTime = 20;  //唔知系咩
 	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
-	optional int32 maxChallengeCount = 22;   // TODO 最大挑战次数，会根据特权而修改
     optional string groupName = 23; //TODO 帮派名称
 	optional string armyInfo = 24;//Json字符串：队伍信息
 }
@@ -116,4 +115,6 @@ message MsgArenaResponse{
 	repeated ArenaRecord listRecord = 5;
 	optional int32 place = 6;
 	optional string resultTip = 7;//服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
+	optional int32 maxChallengeCount = 8;   // TODO 最大挑战次数，会根据特权而修改
+	optional int32 buyCount = 9;//TODO 购买次数
 }

@@ -222,7 +222,7 @@ public class PeakArenaBM {
 				IReadOnlyPair<Integer, Integer> range = cfg.getEnemyRange(cfgEnemyIndex);
 				int min = convertPlace(playerPlace,range.getT1());
 				int max = convertPlace(playerPlace,range.getT2());
-				//TODO 有更高效的选择算法，赶时间暂时放下不实现：搜索的时候返回最后搜索完毕的位置，可以用于调整下一次的开始范围；每个对手的搜索只需要一个随机数就够了
+				//TODO 这次不管 有更高效的选择算法，赶时间暂时放下不实现：搜索的时候返回最后搜索完毕的位置，可以用于调整下一次的开始范围；每个对手的搜索只需要一个随机数就够了
 				boolean added = fillInRange(userId,min,max,wholeRank,result);
 				if (!added){
 					System.out.println("userId=" + userId + ",min=" + min + ",max=" + max + ",playerPlace="
@@ -235,7 +235,7 @@ public class PeakArenaBM {
 		
 		/*
 		if (result.size() < RESULT_COUNT){
-		//TODO 应该用机器人填充!
+		//TODO 这次不管 应该用机器人填充!
 		}*/
 		
 		//排序
@@ -253,7 +253,7 @@ public class PeakArenaBM {
 		if (player.getLevel() < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
 			return null;
 		}
-		return getOrAddPeakArenaData(player, null);//TODO 使用jamaz的持久存储初始化方案
+		return getOrAddPeakArenaData(player, null);
 	}
 	
 	public TablePeakArenaData getOrAddPeakArenaDataForRobot(Player player){
@@ -319,7 +319,7 @@ public class PeakArenaBM {
 		data.setUserId(userId);
 		data.setCareer(player.getCareer());
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
-		//TODO data.setFighting(tableUserOther.getFighting());
+		data.setFighting(player.getMainRoleHero().getFighting());
 
 		data.setHeadImage(player.getHeadImage());
 		data.setLevel(player.getLevel());
@@ -390,12 +390,15 @@ public class PeakArenaBM {
 	public void addOthersRecord(TablePeakArenaData table, PeakRecordInfo record) {
 		List<PeakRecordInfo> list = table.getRecordList();
 		list.add(record);
-		tablePeakArenaDataDAO.update(table);
+		tablePeakArenaDataDAO.commit(table);
 	}
 
 	public List<PeakRecordInfo> getArenaRecordList(String userId) {
-		// TODO 需要判断非null
-		return tablePeakArenaDataDAO.get(userId).getRecordList();
+		TablePeakArenaData tablePeakArenaData = tablePeakArenaDataDAO.get(userId);
+		if (tablePeakArenaData == null) {
+			return Collections.emptyList();
+		}
+		return tablePeakArenaData.getRecordList();
 	}
 
 	public int getPlace(Player player) {
@@ -431,7 +434,7 @@ public class PeakArenaBM {
 		int score = 0;
 		PeakArenaScoreLevel level = PeakArenaScoreLevel.getSocre(score);
 		int gainPerHour = level.getGainCurrency();
-		// TODO 这个可以优化，缓存起来不需要每次计算
+		// TODO 待优化，缓存起来不需要每次计算
 		long millisPerCurrency = MILLIS_PER_HOUR / gainPerHour;
 		int expectCurrency = data.getExpectCurrency();
 		long passTime = currentTime - lastTime;

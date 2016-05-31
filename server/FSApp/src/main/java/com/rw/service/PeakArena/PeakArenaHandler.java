@@ -30,7 +30,6 @@ import com.rw.service.PeakArena.datamodel.peakArenaInfoHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.IPrivilegeManager;
-import com.rw.service.copy.CommonTip;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
@@ -89,8 +88,15 @@ public class PeakArenaHandler {
 			return response.build().toByteString();
 		}
 		response.setArenaData(getPeakArenaData(arenaData, player));
-		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		
+		setSuccess(response, arenaData);
 		return response.build().toByteString();
+	}
+
+	public void setSuccess(MsgArenaResponse.Builder response, TablePeakArenaData arenaData) {
+		response.setMaxChallengeCount(peakArenaInfoHelper.getInstance().getUniqueCfg().getCount());
+		response.setBuyCount(arenaData.getBuyCount());
+		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 	}
 
 	public ByteString gainScore(MsgArenaRequest request, Player player) {
@@ -127,7 +133,7 @@ public class PeakArenaHandler {
 		IPrivilegeManager pri = player.getPrivilegeMgr();
 		boolean isOpen = pri.getBoolPrivilege(PeakArenaPrivilegeNames.isAllowResetPeak);
 		if (!isOpen){
-			player.NotifyCommonMsg(CommonTip.VIP_NOT_ENOUGH);//TODO 是否需要？
+			//player.NotifyCommonMsg(CommonTip.VIP_NOT_ENOUGH);//是否需要通知客户端？
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
@@ -321,7 +327,7 @@ public class PeakArenaHandler {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_NOT_EXIST);
 		}
 		ListRankingEntry<String, PeakArenaExtAttribute> entry = PeakArenaBM.getInstance().getPlayerRankEntry(player,arenaData);
-		// TODO 超出排行榜容量的容错处理，让他打，赢了重新尝试加入排行榜
+		// TODO 这次不管 超出排行榜容量的容错处理，让他打，赢了重新尝试加入排行榜
 		if (entry == null) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
@@ -335,6 +341,10 @@ public class PeakArenaHandler {
 		// 不需要设置自己的战斗状态，允许另一个玩家在我挑战别人的时候挑战我！
 		//entry.getExtension().forceSetFighting();
 		
+		int challengeCount = arenaData.getChallengeCount() + 1;
+		arenaData.setChallengeCount(challengeCount);
+		TablePeakArenaDataDAO.getInstance().update(arenaData);
+	
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -354,7 +364,7 @@ public class PeakArenaHandler {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_NOT_EXIST);
 		}
 		ListRankingEntry<String, PeakArenaExtAttribute> playerEntry = PeakArenaBM.getInstance().getPlayerRankEntry(player,arenaData);
-		// TODO 超出排行榜容量的容错处理，让他打，赢了重新尝试加入排行榜
+		// TODO 这次不管 超出排行榜容量的容错处理，让他打，赢了重新尝试加入排行榜
 		if (playerEntry == null) {
 			GameLog.error("巅峰竞技场", player.getUserId(), "玩家未入榜");
 			//response.setArenaResultType(eArenaResultType.ARENA_FAIL);
@@ -409,6 +419,7 @@ public class PeakArenaHandler {
 		try {
 			long currentTimeMillis = System.currentTimeMillis();
 			int fightTime = (int) (currentTimeMillis - playerEntry.getExtension().getLastFightTime()) / 1000;
+			//TODO 增加战报
 			if (win) {
 				playerArenaData.setWinCount(playerArenaData.getWinCount()+1);
 				//PeakArenaBM.getInstance().addScore(player, addScore);
@@ -424,7 +435,7 @@ public class PeakArenaHandler {
 			record.setLevel(enemyArenaData.getLevel());
 			record.setTime(currentTimeMillis);
 			record.setChallenge(1);
-			// TODO 需要了解双方录像的差异
+			
 			PeakArenaBM.getInstance().addOthersRecord(playerArenaData, record);
 			PeakRecordInfo recordForEnemy = new PeakRecordInfo();
 			recordForEnemy.setUserId(userId);
@@ -438,10 +449,6 @@ public class PeakArenaHandler {
 			ArenaRecord ar = getPeakArenaRecord(record);
 			playerArenaData.setFightStartTime(currentTimeMillis);
 			
-			int challengeCount = playerArenaData.getChallengeCount() + 1;
-			playerArenaData.setChallengeCount(challengeCount);
-			TablePeakArenaDataDAO.getInstance().update(playerArenaData);
-		
 			MsgArenaResponse.Builder recordResponse = MsgArenaResponse.newBuilder();
 			recordResponse.setArenaType(eArenaType.SYNC_RECORD);
 			recordResponse.addListRecord(ar);
@@ -534,8 +541,7 @@ public class PeakArenaHandler {
 		data.setPlace(place);
 		data.setMaxPlace(arenaData.getMaxPlace());
 		data.setWinCount(arenaData.getWinCount());
-		//TODO 改为发送 challengeCount maxChallengeCount
-		//data.setRemainCount(arenaData.getRemainCount());
+		data.setChallengeCount(arenaData.getChallengeCount());
 		
 		peakArenaInfo cfg = peakArenaInfoHelper.getInstance().getUniqueCfg();
 		long currentTime = System.currentTimeMillis();
@@ -600,15 +606,15 @@ public class PeakArenaHandler {
 	public ByteString buyChallengeCount(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		TablePeakArenaData arenData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
-		if (arenData == null) {
+		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
+		if (arenaData == null) {
 			// 这种属于异常情况
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
 		IPrivilegeManager pri = player.getPrivilegeMgr();
 		int maxBuyCount = pri.getIntPrivilege(PeakArenaPrivilegeNames.peakMaxCount);
-		int buyCount = arenData.getBuyCount();
+		int buyCount = arenaData.getBuyCount();
 		if (buyCount>maxBuyCount){
 			return SetError(response, player, "超过最大购买次数", ":"+maxBuyCount);
 		}
@@ -627,12 +633,12 @@ public class PeakArenaHandler {
 		}
 		
 		//保存购买次数
-		arenData.setBuyCount(buyCount+1);
-		TablePeakArenaDataDAO.getInstance().update(arenData);
+		arenaData.setBuyCount(buyCount+1);
+		TablePeakArenaDataDAO.getInstance().update(arenaData);
 
-		response.setArenaData(getPeakArenaData(arenData, player));
-
-		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		response.setArenaData(getPeakArenaData(arenaData, player));
+		
+		setSuccess(response,arenaData);
 		return response.build().toByteString();
 	}
 
