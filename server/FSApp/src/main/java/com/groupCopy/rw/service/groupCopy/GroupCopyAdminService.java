@@ -17,7 +17,6 @@ import com.rwproto.RequestProtos.Request;
  */
 public class GroupCopyAdminService implements FsService {
 
-	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		GroupCopyAdminHandler handler = GroupCopyAdminHandler.getInstance();
@@ -46,9 +45,8 @@ public class GroupCopyAdminService implements FsService {
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.COPY, "GroupCopyAdminService[doTask]", "出现了Exception异常", e);
-		} finally {
-			return byteString;
-		}
+		} 
+		return byteString;
 	}
 	
 

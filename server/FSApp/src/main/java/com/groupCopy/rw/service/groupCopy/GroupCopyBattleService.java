@@ -17,7 +17,6 @@ import com.rwproto.RequestProtos.Request;
  */
 public class GroupCopyBattleService implements FsService {
 
-	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		GroupCopyBattleHandler handler = GroupCopyBattleHandler.getInstance();
@@ -43,9 +42,8 @@ public class GroupCopyBattleService implements FsService {
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.COPY, "GroupCopyBattleService[doTask]", "出现了Exception异常", e);
-		} finally {
-			return byteString;
 		}
+		return byteString;
 	}
 	
 
