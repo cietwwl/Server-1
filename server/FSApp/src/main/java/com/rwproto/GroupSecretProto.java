@@ -279,6 +279,14 @@ public final class GroupSecretProto {
      * </pre>
      */
     GET_GROUP_SECRET_REWARD(2, 3),
+    /**
+     * <code>CHANGE_DEFEND_TEAM = 4;</code>
+     *
+     * <pre>
+     *改变秘境的驻守阵容
+     * </pre>
+     */
+    CHANGE_DEFEND_TEAM(3, 4),
     ;
 
     /**
@@ -305,6 +313,14 @@ public final class GroupSecretProto {
      * </pre>
      */
     public static final int GET_GROUP_SECRET_REWARD_VALUE = 3;
+    /**
+     * <code>CHANGE_DEFEND_TEAM = 4;</code>
+     *
+     * <pre>
+     *改变秘境的驻守阵容
+     * </pre>
+     */
+    public static final int CHANGE_DEFEND_TEAM_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -314,6 +330,7 @@ public final class GroupSecretProto {
         case 1: return OPEN_MAIN_VIEW;
         case 2: return CREATE_GROUP_SECRET;
         case 3: return GET_GROUP_SECRET_REWARD;
+        case 4: return CHANGE_DEFEND_TEAM;
         default: return null;
       }
     }
@@ -1600,9 +1617,36 @@ public final class GroupSecretProto {
   public interface ChangeDefendTeamReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated string teamHeroId = 1;
+    // required string id = 1;
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求更换阵容的秘境Id
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求更换阵容的秘境Id
+     * </pre>
+     */
+    java.lang.String getId();
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求更换阵容的秘境Id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    // repeated string teamHeroId = 2;
+    /**
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1611,7 +1655,7 @@ public final class GroupSecretProto {
     java.util.List<java.lang.String>
     getTeamHeroIdList();
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1619,7 +1663,7 @@ public final class GroupSecretProto {
      */
     int getTeamHeroIdCount();
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1627,7 +1671,7 @@ public final class GroupSecretProto {
      */
     java.lang.String getTeamHeroId(int index);
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1692,9 +1736,14 @@ public final class GroupSecretProto {
               break;
             }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+              bitField0_ |= 0x00000001;
+              id_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 teamHeroId_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               teamHeroId_.add(input.readBytes());
               break;
@@ -1707,7 +1756,7 @@ public final class GroupSecretProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           teamHeroId_ = new com.google.protobuf.UnmodifiableLazyStringList(teamHeroId_);
         }
         this.unknownFields = unknownFields.build();
@@ -1741,11 +1790,67 @@ public final class GroupSecretProto {
       return PARSER;
     }
 
-    // repeated string teamHeroId = 1;
-    public static final int TEAMHEROID_FIELD_NUMBER = 1;
+    private int bitField0_;
+    // required string id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private java.lang.Object id_;
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求更换阵容的秘境Id
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求更换阵容的秘境Id
+     * </pre>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          id_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求更换阵容的秘境Id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated string teamHeroId = 2;
+    public static final int TEAMHEROID_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList teamHeroId_;
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1756,7 +1861,7 @@ public final class GroupSecretProto {
       return teamHeroId_;
     }
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1766,7 +1871,7 @@ public final class GroupSecretProto {
       return teamHeroId_.size();
     }
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1776,7 +1881,7 @@ public final class GroupSecretProto {
       return teamHeroId_.get(index);
     }
     /**
-     * <code>repeated string teamHeroId = 1;</code>
+     * <code>repeated string teamHeroId = 2;</code>
      *
      * <pre>
      *请求更换的阵容信息
@@ -1788,6 +1893,7 @@ public final class GroupSecretProto {
     }
 
     private void initFields() {
+      id_ = "";
       teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
@@ -1795,6 +1901,10 @@ public final class GroupSecretProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1802,8 +1912,11 @@ public final class GroupSecretProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getIdBytes());
+      }
       for (int i = 0; i < teamHeroId_.size(); i++) {
-        output.writeBytes(1, teamHeroId_.getByteString(i));
+        output.writeBytes(2, teamHeroId_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1814,6 +1927,10 @@ public final class GroupSecretProto {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getIdBytes());
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < teamHeroId_.size(); i++) {
@@ -1943,8 +2060,10 @@ public final class GroupSecretProto {
 
       public Builder clear() {
         super.clear();
-        teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        id_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1972,12 +2091,18 @@ public final class GroupSecretProto {
       public com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg buildPartial() {
         com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg result = new com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
           teamHeroId_ = new com.google.protobuf.UnmodifiableLazyStringList(
               teamHeroId_);
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.teamHeroId_ = teamHeroId_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1993,10 +2118,15 @@ public final class GroupSecretProto {
 
       public Builder mergeFrom(com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg other) {
         if (other == com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          bitField0_ |= 0x00000001;
+          id_ = other.id_;
+          onChanged();
+        }
         if (!other.teamHeroId_.isEmpty()) {
           if (teamHeroId_.isEmpty()) {
             teamHeroId_ = other.teamHeroId_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureTeamHeroIdIsMutable();
             teamHeroId_.addAll(other.teamHeroId_);
@@ -2008,6 +2138,10 @@ public final class GroupSecretProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -2030,16 +2164,114 @@ public final class GroupSecretProto {
       }
       private int bitField0_;
 
-      // repeated string teamHeroId = 1;
+      // required string id = 1;
+      private java.lang.Object id_ = "";
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求更换阵容的秘境Id
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求更换阵容的秘境Id
+       * </pre>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求更换阵容的秘境Id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求更换阵容的秘境Id
+       * </pre>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求更换阵容的秘境Id
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求更换阵容的秘境Id
+       * </pre>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated string teamHeroId = 2;
       private com.google.protobuf.LazyStringList teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureTeamHeroIdIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           teamHeroId_ = new com.google.protobuf.LazyStringArrayList(teamHeroId_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2050,7 +2282,7 @@ public final class GroupSecretProto {
         return java.util.Collections.unmodifiableList(teamHeroId_);
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2060,7 +2292,7 @@ public final class GroupSecretProto {
         return teamHeroId_.size();
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2070,7 +2302,7 @@ public final class GroupSecretProto {
         return teamHeroId_.get(index);
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2081,7 +2313,7 @@ public final class GroupSecretProto {
         return teamHeroId_.getByteString(index);
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2098,7 +2330,7 @@ public final class GroupSecretProto {
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2115,7 +2347,7 @@ public final class GroupSecretProto {
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2129,7 +2361,7 @@ public final class GroupSecretProto {
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2137,12 +2369,12 @@ public final class GroupSecretProto {
        */
       public Builder clearTeamHeroId() {
         teamHeroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string teamHeroId = 1;</code>
+       * <code>repeated string teamHeroId = 2;</code>
        *
        * <pre>
        *请求更换的阵容信息
@@ -2269,6 +2501,32 @@ public final class GroupSecretProto {
      * </pre>
      */
     com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsgOrBuilder getGetRewardReqMsgOrBuilder();
+
+    // optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;
+    /**
+     * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+     *
+     * <pre>
+     *更换防守阵容的协议
+     * </pre>
+     */
+    boolean hasChangeTeamReqMsg();
+    /**
+     * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+     *
+     * <pre>
+     *更换防守阵容的协议
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg getChangeTeamReqMsg();
+    /**
+     * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+     *
+     * <pre>
+     *更换防守阵容的协议
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsgOrBuilder getChangeTeamReqMsgOrBuilder();
   }
   /**
    * Protobuf type {@code groupSecret.GroupSecretCommonReqMsg}
@@ -2361,6 +2619,19 @@ public final class GroupSecretProto {
                 getRewardReqMsg_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = changeTeamReqMsg_.toBuilder();
+              }
+              changeTeamReqMsg_ = input.readMessage(com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(changeTeamReqMsg_);
+                changeTeamReqMsg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -2550,11 +2821,46 @@ public final class GroupSecretProto {
       return getRewardReqMsg_;
     }
 
+    // optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;
+    public static final int CHANGETEAMREQMSG_FIELD_NUMBER = 5;
+    private com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg changeTeamReqMsg_;
+    /**
+     * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+     *
+     * <pre>
+     *更换防守阵容的协议
+     * </pre>
+     */
+    public boolean hasChangeTeamReqMsg() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+     *
+     * <pre>
+     *更换防守阵容的协议
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg getChangeTeamReqMsg() {
+      return changeTeamReqMsg_;
+    }
+    /**
+     * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+     *
+     * <pre>
+     *更换防守阵容的协议
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsgOrBuilder getChangeTeamReqMsgOrBuilder() {
+      return changeTeamReqMsg_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupSecretProto.RequestType.OPEN_MAIN_VIEW;
       version_ = "";
       createReqMsg_ = com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg.getDefaultInstance();
       getRewardReqMsg_ = com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg.getDefaultInstance();
+      changeTeamReqMsg_ = com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2577,6 +2883,12 @@ public final class GroupSecretProto {
           return false;
         }
       }
+      if (hasChangeTeamReqMsg()) {
+        if (!getChangeTeamReqMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2595,6 +2907,9 @@ public final class GroupSecretProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, getRewardReqMsg_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, changeTeamReqMsg_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2620,6 +2935,10 @@ public final class GroupSecretProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getRewardReqMsg_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, changeTeamReqMsg_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2731,6 +3050,7 @@ public final class GroupSecretProto {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getCreateReqMsgFieldBuilder();
           getGetRewardReqMsgFieldBuilder();
+          getChangeTeamReqMsgFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2755,6 +3075,12 @@ public final class GroupSecretProto {
           getRewardReqMsgBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (changeTeamReqMsgBuilder_ == null) {
+          changeTeamReqMsg_ = com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.getDefaultInstance();
+        } else {
+          changeTeamReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2807,6 +3133,14 @@ public final class GroupSecretProto {
         } else {
           result.getRewardReqMsg_ = getRewardReqMsgBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (changeTeamReqMsgBuilder_ == null) {
+          result.changeTeamReqMsg_ = changeTeamReqMsg_;
+        } else {
+          result.changeTeamReqMsg_ = changeTeamReqMsgBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2837,6 +3171,9 @@ public final class GroupSecretProto {
         if (other.hasGetRewardReqMsg()) {
           mergeGetRewardReqMsg(other.getGetRewardReqMsg());
         }
+        if (other.hasChangeTeamReqMsg()) {
+          mergeChangeTeamReqMsg(other.getChangeTeamReqMsg());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2854,6 +3191,12 @@ public final class GroupSecretProto {
         }
         if (hasGetRewardReqMsg()) {
           if (!getGetRewardReqMsg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasChangeTeamReqMsg()) {
+          if (!getChangeTeamReqMsg().isInitialized()) {
             
             return false;
           }
@@ -3334,6 +3677,159 @@ public final class GroupSecretProto {
           getRewardReqMsg_ = null;
         }
         return getRewardReqMsgBuilder_;
+      }
+
+      // optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;
+      private com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg changeTeamReqMsg_ = com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg, com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.Builder, com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsgOrBuilder> changeTeamReqMsgBuilder_;
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public boolean hasChangeTeamReqMsg() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg getChangeTeamReqMsg() {
+        if (changeTeamReqMsgBuilder_ == null) {
+          return changeTeamReqMsg_;
+        } else {
+          return changeTeamReqMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public Builder setChangeTeamReqMsg(com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg value) {
+        if (changeTeamReqMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          changeTeamReqMsg_ = value;
+          onChanged();
+        } else {
+          changeTeamReqMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public Builder setChangeTeamReqMsg(
+          com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.Builder builderForValue) {
+        if (changeTeamReqMsgBuilder_ == null) {
+          changeTeamReqMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          changeTeamReqMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public Builder mergeChangeTeamReqMsg(com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg value) {
+        if (changeTeamReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              changeTeamReqMsg_ != com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.getDefaultInstance()) {
+            changeTeamReqMsg_ =
+              com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.newBuilder(changeTeamReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            changeTeamReqMsg_ = value;
+          }
+          onChanged();
+        } else {
+          changeTeamReqMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public Builder clearChangeTeamReqMsg() {
+        if (changeTeamReqMsgBuilder_ == null) {
+          changeTeamReqMsg_ = com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          changeTeamReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.Builder getChangeTeamReqMsgBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getChangeTeamReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsgOrBuilder getChangeTeamReqMsgOrBuilder() {
+        if (changeTeamReqMsgBuilder_ != null) {
+          return changeTeamReqMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return changeTeamReqMsg_;
+        }
+      }
+      /**
+       * <code>optional .groupSecret.ChangeDefendTeamReqMsg changeTeamReqMsg = 5;</code>
+       *
+       * <pre>
+       *更换防守阵容的协议
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg, com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.Builder, com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsgOrBuilder> 
+          getChangeTeamReqMsgFieldBuilder() {
+        if (changeTeamReqMsgBuilder_ == null) {
+          changeTeamReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg, com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.Builder, com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsgOrBuilder>(
+                  changeTeamReqMsg_,
+                  getParentForChildren(),
+                  isClean());
+          changeTeamReqMsg_ = null;
+        }
+        return changeTeamReqMsgBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.GroupSecretCommonReqMsg)
@@ -4154,22 +4650,25 @@ public final class GroupSecretProto {
       "\n\021GroupSecret.proto\022\013groupSecret\"B\n\027Crea" +
       "teGroupSecretReqMsg\022\023\n\013secretCfgId\030\001 \002(\005" +
       "\022\022\n\nteamHeroId\030\002 \003(\t\"(\n\032GetGroupSecretRe" +
-      "wardReqMsg\022\n\n\002id\030\001 \002(\t\",\n\026ChangeDefendTe" +
-      "amReqMsg\022\022\n\nteamHeroId\030\001 \003(\t\"\323\001\n\027GroupSe" +
-      "cretCommonReqMsg\022)\n\007reqType\030\001 \002(\0162\030.grou" +
-      "pSecret.RequestType\022\017\n\007version\030\002 \001(\t\022:\n\014" +
-      "createReqMsg\030\003 \001(\0132$.groupSecret.CreateG" +
-      "roupSecretReqMsg\022@\n\017getRewardReqMsg\030\004 \001(" +
-      "\0132\'.groupSecret.GetGroupSecretRewardReqM",
-      "sg\"g\n\027GroupSecretCommonRspMsg\022)\n\007reqType" +
-      "\030\001 \002(\0162\030.groupSecret.RequestType\022\021\n\tisSu" +
-      "ccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*1\n\020GroupSecr" +
-      "etIndex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*E" +
-      "\n\020MatchSecretState\022\016\n\nNON_BATTLE\020\001\022\r\n\tIN" +
-      "_BATTLE\020\002\022\022\n\016IN_ROB_PROTECT\020\003*W\n\013Request" +
-      "Type\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREATE_GROUP" +
-      "_SECRET\020\002\022\033\n\027GET_GROUP_SECRET_REWARD\020\003B\037" +
-      "\n\013com.rwprotoB\020GroupSecretProto"
+      "wardReqMsg\022\n\n\002id\030\001 \002(\t\"8\n\026ChangeDefendTe" +
+      "amReqMsg\022\n\n\002id\030\001 \002(\t\022\022\n\nteamHeroId\030\002 \003(\t" +
+      "\"\222\002\n\027GroupSecretCommonReqMsg\022)\n\007reqType\030" +
+      "\001 \002(\0162\030.groupSecret.RequestType\022\017\n\007versi" +
+      "on\030\002 \001(\t\022:\n\014createReqMsg\030\003 \001(\0132$.groupSe" +
+      "cret.CreateGroupSecretReqMsg\022@\n\017getRewar" +
+      "dReqMsg\030\004 \001(\0132\'.groupSecret.GetGroupSecr",
+      "etRewardReqMsg\022=\n\020changeTeamReqMsg\030\005 \001(\013" +
+      "2#.groupSecret.ChangeDefendTeamReqMsg\"g\n" +
+      "\027GroupSecretCommonRspMsg\022)\n\007reqType\030\001 \002(" +
+      "\0162\030.groupSecret.RequestType\022\021\n\tisSuccess" +
+      "\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*1\n\020GroupSecretInd" +
+      "ex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*E\n\020Mat" +
+      "chSecretState\022\016\n\nNON_BATTLE\020\001\022\r\n\tIN_BATT" +
+      "LE\020\002\022\022\n\016IN_ROB_PROTECT\020\003*o\n\013RequestType\022" +
+      "\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREATE_GROUP_SECR" +
+      "ET\020\002\022\033\n\027GET_GROUP_SECRET_REWARD\020\003\022\026\n\022CHA",
+      "NGE_DEFEND_TEAM\020\004B\037\n\013com.rwprotoB\020GroupS" +
+      "ecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4193,13 +4692,13 @@ public final class GroupSecretProto {
           internal_static_groupSecret_ChangeDefendTeamReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_ChangeDefendTeamReqMsg_descriptor,
-              new java.lang.String[] { "TeamHeroId", });
+              new java.lang.String[] { "Id", "TeamHeroId", });
           internal_static_groupSecret_GroupSecretCommonReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_groupSecret_GroupSecretCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "CreateReqMsg", "GetRewardReqMsg", });
+              new java.lang.String[] { "ReqType", "Version", "CreateReqMsg", "GetRewardReqMsg", "ChangeTeamReqMsg", });
           internal_static_groupSecret_GroupSecretCommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_groupSecret_GroupSecretCommonRspMsg_fieldAccessorTable = new

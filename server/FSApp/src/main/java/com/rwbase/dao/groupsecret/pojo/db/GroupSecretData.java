@@ -1,6 +1,5 @@
 package com.rwbase.dao.groupsecret.pojo.db;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
@@ -56,7 +55,7 @@ public class GroupSecretData {
 		return secretId;
 	}
 
-	public Map<Integer, DefendUserInfoData> getDefendMap() {
+	public ConcurrentHashMap<Integer, DefendUserInfoData> getDefendMap() {
 		return defendMap;
 	}
 
@@ -113,5 +112,15 @@ public class GroupSecretData {
 	 */
 	public DefendUserInfoData removeDefendUserInfoData(int defendIndex) {
 		return defendMap.remove(defendIndex);
+	}
+
+	/**
+	 * 获取个人的防守数据
+	 * 
+	 * @param defendIndex
+	 * @return
+	 */
+	public DefendUserInfoData getDefendUserInfoData(int defendIndex) {
+		return defendMap.get(defendIndex);
 	}
 }

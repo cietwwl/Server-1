@@ -33,6 +33,8 @@ public class GroupSecretService implements FsService {
 			case GET_GROUP_SECRET_REWARD:
 				result = handler.getGroupSecretRewardHandler(player, req.getGetRewardReqMsg());
 				break;
+			case CHANGE_DEFEND_TEAM:
+				result = handler.changeDefendTeamHandler(player, req.getChangeTeamReqMsg());
 			default:
 				GameLog.error("帮派秘境模块", player.getUserId(), "不知道客户端申请了什么鬼协议，反正这里解析不了！！！");
 				break;

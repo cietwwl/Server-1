@@ -1,8 +1,13 @@
 package com.playerdata.groupsecret;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.rwbase.dao.groupsecret.pojo.UserCreateGroupSecretDataHolder;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
+import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 
 /*
  * @author HC
@@ -44,7 +49,7 @@ public class UserCreateGroupSecretDataMgr {
 	 * @param userId
 	 * @param secretData
 	 */
-	public void addGroupSecretData(String userId, GroupSecretData secretData) {
+	public synchronized void addGroupSecretData(String userId, GroupSecretData secretData) {
 		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
 		if (userCreateGroupSecretData == null) {
 			return;
@@ -77,5 +82,44 @@ public class UserCreateGroupSecretDataMgr {
 			userCreateGroupSecretData.deleteGroupSecretDataById(id);
 		}
 		updateData(userId);
+	}
+
+	/**
+	 * 更换驻守的阵容信息
+	 * 
+	 * @param userId
+	 * @param index
+	 * @param id
+	 * @param fighting
+	 * @param changeTime
+	 * @param proRes
+	 * @param proGS
+	 * @param proGE
+	 * @param defendHeroList
+	 */
+	public List<String> changeDefendTeamInfo(String userId, int index, int id, int fighting, long changeTime, int proRes, int proGS, int proGE, List<String> defendHeroList) {
+		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
+		if (userCreateGroupSecretData == null) {
+			return Collections.emptyList();
+		}
+
+		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(id);
+		if (groupSecretData == null) {
+			return Collections.emptyList();
+		}
+
+		List<String> changeList = new ArrayList<String>();
+		DefendUserInfoData defendUserInfoData = groupSecretData.getDefendUserInfoData(index);
+		if (defendUserInfoData != null) {
+			changeList = defendUserInfoData.changeDefendHeroList(defendHeroList);
+			defendUserInfoData.setChangeTeamTime(changeTime);
+			defendUserInfoData.setFighting(fighting);
+			defendUserInfoData.setProRes(proRes);
+			defendUserInfoData.setProGS(proGS);
+			defendUserInfoData.setProGE(proGE);
+		}
+		updateData(userId);
+
+		return changeList;
 	}
 }

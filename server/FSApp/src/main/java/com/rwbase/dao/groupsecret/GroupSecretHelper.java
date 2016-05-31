@@ -143,8 +143,8 @@ public class GroupSecretHelper {
 						isHasLife = true;
 					}
 
-					baseInfoList.add(new DefendHeroBaseInfoSynData(hero.getHeroCfg().getImageId(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(),
-							heroId.equals(defendUserId), isDie, heroLeftInfo));
+					baseInfoList.add(new DefendHeroBaseInfoSynData(hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
+							.equals(defendUserId), isDie, heroLeftInfo));
 				}
 
 				DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(),

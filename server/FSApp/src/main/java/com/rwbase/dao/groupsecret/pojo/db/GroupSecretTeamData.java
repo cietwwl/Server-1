@@ -94,4 +94,51 @@ public class GroupSecretTeamData {
 			}
 		}
 	}
+
+	/**
+	 * 检查要更换的阵容列表是否已经被其他的占用
+	 * 
+	 * @param heroIdList
+	 * @param nonCheckId
+	 * @return
+	 */
+	public boolean checkTeamHeroListHasExist(List<String> heroIdList, String nonCheckId) {
+		if (heroIdList.isEmpty()) {
+			return false;
+		}
+
+		for (int i = 0, size = heroIdList.size(); i < size; i++) {
+			String id = heroIdList.get(i);
+			if (!id.equals(nonCheckId) && defendHeroList.contains(id)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * 改变阵容数据
+	 * 
+	 * @param changeList
+	 * @param nonCheckId
+	 */
+	public void changeTeamHeroList(List<String> changeList, String nonCheckId) {
+		if (changeList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = changeList.size(); i < size; i++) {
+			String id = changeList.get(i);
+			if (id.equals(nonCheckId)) {
+				continue;
+			}
+
+			if (defendHeroList.contains(id)) {
+				defendHeroList.remove(id);
+			} else {
+				defendHeroList.add(id);
+			}
+		}
+	}
 }

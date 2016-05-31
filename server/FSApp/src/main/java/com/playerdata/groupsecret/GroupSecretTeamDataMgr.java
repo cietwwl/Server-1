@@ -44,6 +44,12 @@ public class GroupSecretTeamDataMgr {
 		GroupSecretTeamDataHolder.getHolder().updateData(userId);
 	}
 
+	/**
+	 * 增加防守阵容信息
+	 * 
+	 * @param player
+	 * @param canAddDefendList
+	 */
 	public void addDefendHeroIdList(Player player, List<String> canAddDefendList) {
 		String userId = player.getUserId();
 		GroupSecretTeamData groupSecretTeamData = get(userId);
@@ -72,6 +78,26 @@ public class GroupSecretTeamDataMgr {
 		}
 
 		groupSecretTeamData.removeDefendHeroIdList(removeList, userId);
+		update(userId);
+
+		// 同步数据
+		synData(player);
+	}
+
+	/**
+	 * 更换阵容信息
+	 * 
+	 * @param player
+	 * @param changeList
+	 */
+	public void changeTeamHeroList(Player player, List<String> changeList) {
+		String userId = player.getUserId();
+		GroupSecretTeamData groupSecretTeamData = get(userId);
+		if (groupSecretTeamData == null) {
+			return;
+		}
+
+		groupSecretTeamData.changeTeamHeroList(changeList, userId);
 		update(userId);
 
 		// 同步数据

@@ -1,8 +1,8 @@
 package com.rwbase.dao.groupsecret.pojo.db.data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import com.rw.fsutil.dao.annotation.CombineSave;
 
 /*
  * @author HC
@@ -17,23 +17,21 @@ public class DefendUserInfoData {
 	private long changeTeamTime;// 更换阵容的时间
 	private int fighting;// 驻守时的战力
 	// ///////////////////////////////////////////////被掠夺资源
-	@CombineSave(Column = "rob")
 	private int robRes;// 可以掠夺的资源数量
-	@CombineSave(Column = "rob")
 	private int robGS;// 可以掠夺的帮派物资
-	@CombineSave(Column = "rob")
 	private int robGE;// 可以掠夺的帮派经验
 	// ///////////////////////////////////////////////在更换阵容前获取的资源
-	@CombineSave(Column = "product")
 	private int proRes;// 可以掠夺的资源数量
-	@CombineSave(Column = "product")
 	private int proGS;// 可以掠夺的帮派物资
-	@CombineSave(Column = "product")
 	private int proGE;// 可以掠夺的帮派经验
 	// ///////////////////////////////////////////////获取的钻石
 	private int dropDiamond;// 掉落的钻石
 
 	// ////////////////////////////////////////////////逻辑Set区
+
+	public DefendUserInfoData() {
+		this.heroList = new ArrayList<String>();
+	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;
@@ -97,7 +95,7 @@ public class DefendUserInfoData {
 	}
 
 	public List<String> getHeroList() {
-		return heroList;
+		return new ArrayList<String>(heroList);
 	}
 
 	public long getDefTime() {
@@ -139,5 +137,53 @@ public class DefendUserInfoData {
 	public int getFighting() {
 		return fighting;
 	}
+
 	// ////////////////////////////////////////////////逻辑区
+
+	/**
+	 * 改变防守阵容，并返回两个内容中不一样的英雄Id列表
+	 * 
+	 * @param heroIdList
+	 * @return
+	 */
+	public List<String> changeDefendHeroList(List<String> heroIdList) {
+		if (heroIdList.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		List<String> changeList = diff1(heroIdList, heroList);// 先查找出两个不一样的内容
+
+		this.heroList = heroIdList;// 赋值
+		return changeList;
+	}
+
+	/**
+	 * 计算两个列表的不同元素有那些
+	 * 
+	 * @param l1
+	 * @param l2
+	 * @return
+	 */
+	public static List<String> diff1(List<String> l1, List<String> l2) {
+		List<String> changeList = new ArrayList<String>();
+		for (int i = 0, size = l1.size(); i < size; i++) {
+			String id = l1.get(i);
+			if (l2.contains(id) || changeList.contains(id)) {
+				continue;
+			}
+
+			changeList.add(id);
+		}
+
+		for (int i = 0, size = l2.size(); i < size; i++) {
+			String id = l2.get(i);
+			if (l1.contains(id) || changeList.contains(id)) {
+				continue;
+			}
+
+			changeList.add(id);
+		}
+
+		return changeList;
+	}
 }

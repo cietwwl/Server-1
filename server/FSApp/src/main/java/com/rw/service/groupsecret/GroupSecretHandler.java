@@ -36,6 +36,7 @@ import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
+import com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
 import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
@@ -208,7 +209,7 @@ public class GroupSecretHandler {
 		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
 		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
 		if (defendSecretIdList.size() >= intPrivilege) {
-			GroupSecretHelper.fillRspInfo(rsp, false, "");
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("您当前只能创建%s个秘境", intPrivilege));
 			return rsp.build().toByteString();
 		}
 
@@ -245,7 +246,6 @@ public class GroupSecretHandler {
 
 		boolean containsMainRole = false;
 		for (int i = 0; i < size; i++) {
-
 			String teamUserId = teamHeroIdList.get(i);
 			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
 			if (hero == null) {
@@ -262,8 +262,8 @@ public class GroupSecretHandler {
 				continue;
 			}
 
-			if (defendHeroList.contains(teamUserId)) {
-				GameLog.error("请求创建秘境", userId, String.format("Id为[%s]的英雄已经被其他驻守队伍使用", teamUserId));
+			if (canAddDefendList.contains(teamUserId) || defendHeroList.contains(teamUserId)) {
+				GameLog.error("请求创建秘境", userId, String.format("Id为[%s]的英雄已经被其他驻守队伍使用,或者客户端一个英雄ID多用", teamUserId));
 				GroupSecretHelper.fillRspInfo(rsp, false, "英雄状态错误");
 				return rsp.build().toByteString();
 			} else {
@@ -281,6 +281,11 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
+		if (canAddDefendList.size() < 2) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "驻守阵容不能超过5个人");
+			return rsp.build().toByteString();
+		}
+
 		// 更新参与防守的阵容信息
 		teamMgr.addDefendHeroIdList(player, canAddDefendList);
 
@@ -288,6 +293,7 @@ public class GroupSecretHandler {
 		long now = System.currentTimeMillis();
 		DefendUserInfoData userInfoData = new DefendUserInfoData();
 		userInfoData.setDefTime(now);
+		userInfoData.setChangeTeamTime(now);
 		userInfoData.setHeroList(canAddDefendList);
 		userInfoData.setIndex(GroupSecretIndex.MAIN_VALUE);
 		userInfoData.setUserId(userId);
@@ -467,6 +473,201 @@ public class GroupSecretHandler {
 		// 通知客户端删除
 		SecretBaseInfoSynDataHolder.getHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0));
 		SecretTeamInfoSynDataHolder.getHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null));
+
+		rsp.setIsSuccess(true);
+		return rsp.build().toByteString();
+	}
+
+	/**
+	 * 更换角色的防守阵容
+	 * 
+	 * @param player
+	 * @param req
+	 * @return
+	 */
+	public ByteString changeDefendTeamHandler(Player player, ChangeDefendTeamReqMsg req) {
+		String userId = player.getUserId();
+		GroupSecretCommonRspMsg.Builder rsp = GroupSecretCommonRspMsg.newBuilder();
+		rsp.setReqType(RequestType.CHANGE_DEFEND_TEAM);
+		// 检查个人的帮派数据
+		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String groupId = userGroupAttributeData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "您当前暂无帮派，不能进入秘境");
+			return rsp.build().toByteString();
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GroupSecretHelper.fillRspInfo(rsp, false, "帮派不存在");
+			return rsp.build().toByteString();
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GroupSecretHelper.fillRspInfo(rsp, false, "帮派不存在");
+			return rsp.build().toByteString();
+		}
+
+		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+		GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
+		if (selfMemberData == null) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
+			GroupSecretHelper.fillRspInfo(rsp, false, "您不是帮派成员");
+			return rsp.build().toByteString();
+		}
+
+		String changeTeamSecretId = req.getId();
+		UserGroupSecretBaseDataMgr userSecretDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+		UserGroupSecretBaseData mySecretBaseData = userSecretDataMgr.get(userId);
+		if (!mySecretBaseData.hasDefendSecretId(changeTeamSecretId)) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("找不到角色驻守的秘境[%s]对应存储数据", changeTeamSecretId));
+			GroupSecretHelper.fillRspInfo(rsp, false, "您当前并未驻守该秘境");
+			return rsp.build().toByteString();
+		}
+
+		String[] idArr = GroupSecretHelper.parseString2UserIdAndSecretId(changeTeamSecretId);
+
+		String secretUserId = idArr[0];
+		int id = Integer.parseInt(idArr[1]);
+
+		UserCreateGroupSecretDataMgr mgr = UserCreateGroupSecretDataMgr.getMgr();
+		UserCreateGroupSecretData userCreateGroupSecretData = mgr.get(secretUserId);
+		if (userCreateGroupSecretData == null) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("找不到角色[%s]对应的秘境[%s]存储数据", secretUserId, id));
+			GroupSecretHelper.fillRspInfo(rsp, false, "暂无对应的秘境数据");
+			return rsp.build().toByteString();
+		}
+
+		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(id);
+		if (groupSecretData == null) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("找不到角色[%s]对应的[%s]秘境存储数据", secretUserId, id));
+			GroupSecretHelper.fillRspInfo(rsp, false, "暂无对应的秘境数据");
+			return rsp.build().toByteString();
+		}
+
+		long now = System.currentTimeMillis();
+		int secretCfgId = groupSecretData.getSecretId();// 秘境的模版Id
+		GroupSecretResourceTemplate groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
+		if (groupSecretResTmp == null) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("找不到角色[%s]秘境[%s]对应的配置表GroupSecretResourceTemplate", secretUserId, secretCfgId));
+			GroupSecretHelper.fillRspInfo(rsp, false, "找不到秘境对应的类型配置表");
+			return rsp.build().toByteString();
+		}
+
+		DefendUserInfoData myDefendInfo = null;
+		Map<Integer, DefendUserInfoData> defendMap = groupSecretData.getDefendMap();
+		for (Entry<Integer, DefendUserInfoData> e : defendMap.entrySet()) {
+			DefendUserInfoData value = e.getValue();
+			if (value == null) {
+				continue;
+			}
+
+			if (value.getUserId().equals(userId)) {
+				myDefendInfo = value;
+				break;
+			}
+		}
+
+		if (myDefendInfo == null) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("找不到角色驻守的秘境[%s]中自己的驻守阵容信息", changeTeamSecretId));
+			GroupSecretHelper.fillRspInfo(rsp, false, "您当前并未驻守该秘境");
+			return rsp.build().toByteString();
+		}
+
+		long needTimeMillis = TimeUnit.MINUTES.toMillis(groupSecretResTmp.getNeedTime());// 分钟
+		long createTime = groupSecretData.getCreateTime();
+		long passTimeMillis = now - createTime;
+		boolean isFinish = passTimeMillis >= needTimeMillis;// 是否已经完成了
+		if (isFinish) {
+			GameLog.error("请求更换秘境阵容", userId, String.format("角色[%s]秘境的Id[%s]这个秘境已经完成了", secretUserId, id));
+			GroupSecretHelper.fillRspInfo(rsp, false, "秘境已完成不能改变阵容");
+			return rsp.build().toByteString();
+		}
+
+		List<String> teamHeroIdList = req.getTeamHeroIdList();
+		if (teamHeroIdList.isEmpty()) {
+			GameLog.error("请求更换秘境阵容", userId, "从客户端传递过来的防守阵容信息是空的");
+			GroupSecretHelper.fillRspInfo(rsp, false, "更换的防守阵容不能为空");
+			return rsp.build().toByteString();
+		}
+
+		GroupSecretTeamDataMgr teamMgr = GroupSecretTeamDataMgr.getMgr();
+		GroupSecretTeamData groupSecretTeamData = teamMgr.get(userId);
+		List<String> defendHeroList = groupSecretTeamData.getDefendHeroList();// 自己的防守阵容
+
+		List<String> hasDefendHeroIdList = myDefendInfo.getHeroList();// 已经在该秘境驻守的英雄Id列表
+
+		int size = teamHeroIdList.size();
+
+		int totalFighting = 0;
+
+		List<String> checkList = new ArrayList<String>(size);
+
+		boolean containsMainRole = false;
+		for (int i = 0; i < size; i++) {
+			String teamUserId = teamHeroIdList.get(i);
+			Hero hero = player.getHeroMgr().getHeroById(teamUserId);
+			if (hero == null) {
+				GameLog.error("请求更换秘境阵容", userId, String.format("Id为[%s]的英雄在服务器查找不到对应的Hero对象", teamUserId));
+				GroupSecretHelper.fillRspInfo(rsp, false, "英雄不存在");
+				return rsp.build().toByteString();
+			}
+
+			totalFighting += hero.getFighting();
+
+			if (userId.equals(teamUserId)) {
+				containsMainRole = true;
+				continue;
+			}
+
+			if (hasDefendHeroIdList.contains(teamUserId)) {// 当前驻守的已经包含了，不检查
+				continue;
+			}
+
+			if (checkList.contains(teamUserId) || defendHeroList.contains(teamUserId)) {// 检查
+				GameLog.error("请求更换秘境阵容", userId, String.format("Id为[%s]的英雄已经被其他秘境占用,或者客户端发送的英雄Id重复使用", teamUserId));
+				GroupSecretHelper.fillRspInfo(rsp, false, "英雄状态错误");
+				return rsp.build().toByteString();
+			}
+
+			checkList.add(teamUserId);
+		}
+
+		if (!containsMainRole) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "主角必须是防守阵容的一员");
+			return rsp.build().toByteString();
+		}
+
+		if (size < 2) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "主角无法单独驻守秘境");
+			return rsp.build().toByteString();
+		}
+
+		if (size > 5) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "驻守阵容不能超过5个人");
+			return rsp.build().toByteString();
+		}
+
+		// 计算资源产出
+		int proRes = myDefendInfo.getProRes();
+		int proGS = myDefendInfo.getProGS();
+		int proGE = myDefendInfo.getProGE();
+		// 上次更换阵容时间
+		long proTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(now - myDefendInfo.getChangeTeamTime());
+
+		proRes += (int) (myDefendInfo.getFighting() * groupSecretResTmp.getProductRatio() * proTimeMinutes);
+		proGE += (int) (groupSecretResTmp.getGroupExpRatio() * proTimeMinutes);
+		proGS += (int) (groupSecretResTmp.getGroupSupplyRatio() * proTimeMinutes);
+
+		// 可以去更新阵容了
+		List<String> changeList = mgr.changeDefendTeamInfo(secretUserId, myDefendInfo.getIndex(), id, totalFighting, now, proRes, proGS, proGE, defendHeroList);
+		// 更新使用的阵容
+		if (!changeList.isEmpty()) {
+			teamMgr.changeTeamHeroList(player, changeList);
+		}
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
