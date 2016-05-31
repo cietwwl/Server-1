@@ -32,6 +32,9 @@ import com.playerdata.SkillMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
+import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.service.PeakArena.PeakArenaBM;
+import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.arena.ArenaHandler;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
@@ -227,6 +230,37 @@ public class RobotManager {
 		// }
 		// System.out.println(sb.toString());
 	}
+	
+	public void createPeakArenaRobot(){
+		PeakArenaBM peakHandler = PeakArenaBM.getInstance();
+		ListRanking<String, PeakArenaExtAttribute> peakRanking = peakHandler.getRanks();
+		if (peakRanking.getRankingSize() < 40){
+			ECareer[] carerrs = ECareer.values();
+			for (int i = 0; i < carerrs.length; i++) {
+				ECareer eCareer = carerrs[i];
+				addToPeakRank(peakHandler,eCareer);
+			}
+		}
+	}
+	
+	private void addToPeakRank(PeakArenaBM peakHandler,ECareer career){
+		if (career == ECareer.None) {
+			return;
+		}
+		int c = career.getValue();
+		ArenaBM arenaBM = ArenaBM.getInstance();
+		ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(c);
+		if (listRanking == null){
+			return;
+		}
+		List<? extends ListRankingEntry<String, ArenaExtAttribute>> lst = listRanking.getRankingEntries(1, 10);
+		for (ListRankingEntry<String, ArenaExtAttribute> entry : lst) {
+			String id = entry.getKey();
+			Player player = PlayerMgr.getInstance().find(id);
+			peakHandler.getOrAddPeakArenaDataForRobot(player);
+			//TODO peakHandler add task.getHeroList()
+		}
+	}
 
 	public void createRobots() {
 		ECareer[] carerrs = ECareer.values();
@@ -239,7 +273,7 @@ public class RobotManager {
 				count += ArenaBM.getInstance().getRanking(carerr).getRankingSize();
 			}
 		}
-		ArenaRobotCfg robotCfg = (ArenaRobotCfg) ArenaRobotCfgDAO.getInstance().getCfgById("7");
+		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
 		String[] arrName = robotCfg.getData().split(",");
 		int len = arrName.length;
 		if (len < count) {
@@ -520,7 +554,7 @@ public class RobotManager {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
 				handler.setArenaHero(player, arenaData, task.getHeroList());
-				GameLog.error("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
+				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
 						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}

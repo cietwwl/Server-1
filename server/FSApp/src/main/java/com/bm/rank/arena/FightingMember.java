@@ -1,5 +1,8 @@
 package com.bm.rank.arena;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FightingMember {
 	private final int original;
 	protected int timeout;

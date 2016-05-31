@@ -25,7 +25,6 @@ import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.PeakArena.datamodel.peakArenaMatchRule;
 import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
 import com.rwbase.common.attrdata.TableAttr;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.TableSkill;
 
@@ -44,7 +43,14 @@ public class PeakArenaBM {
 	}
 
 	private RandomCombination[][] randomArray;
-	private Comparator<ListRankingEntry<String, PeakArenaExtAttribute>> comparator;
+	private Comparator<ListRankingEntry<String, PeakArenaExtAttribute>> comparator = 
+			new Comparator<ListRankingEntry<String,PeakArenaExtAttribute>>() {
+		@Override
+		public int compare(ListRankingEntry<String, PeakArenaExtAttribute> o1,
+				ListRankingEntry<String, PeakArenaExtAttribute> o2) {
+			return o1.getRanking() - o2.getRanking();
+		}
+	};
 	private PeakArenaBM() {
 		RandomCombination[] singleDigitArray = new RandomCombination[10];
 		for (int i = 1; i <= 10; i++) {
@@ -81,7 +87,7 @@ public class PeakArenaBM {
 	}
 
 	private int convertPlace(int pivot, int percentage){
-		int result = pivot * percentage / 100;
+		int result = (pivot * percentage+99) / 100;
 		if (result <= 0) result = 1;
 		return result;
 	}
@@ -147,8 +153,14 @@ public class PeakArenaBM {
 		// 在范围中选一个
 		for (int i = random; i <= last; i++) {
 			if (i > end) {
-				i -= distance;
+				//i -= distance;
+				break;
 			}
+			if (addEntry(userId, list, ranking, i)) {
+				return true;
+			}
+		}
+		for (int i= random; i>= start ; i--){
 			if (addEntry(userId, list, ranking, i)) {
 				return true;
 			}
@@ -167,7 +179,7 @@ public class PeakArenaBM {
 			int random = HPCUtil.getRandom().nextInt(randomCombination.length);
 			int[] array = randomCombination[random].getArray();
 			for (int i = array.length; --i >= 0;) {
-				if (addEntry(userId, list, ranking, offset + array[i]) && ++count >= expectCount) {
+				if (offset + array[i] <= capacity && addEntry(userId, list, ranking, offset + array[i]) && ++count >= expectCount) {
 					return true;
 				}
 			}
@@ -211,7 +223,11 @@ public class PeakArenaBM {
 				int min = convertPlace(playerPlace,range.getT1());
 				int max = convertPlace(playerPlace,range.getT2());
 				//TODO 有更高效的选择算法，赶时间暂时放下不实现：搜索的时候返回最后搜索完毕的位置，可以用于调整下一次的开始范围；每个对手的搜索只需要一个随机数就够了
-				fillInRange(userId,min,max,wholeRank,result);
+				boolean added = fillInRange(userId,min,max,wholeRank,result);
+				if (!added){
+					System.out.println("userId=" + userId + ",min=" + min + ",max=" + max + ",playerPlace="
+							+ playerPlace + ",range.low=" + range.getT1() + ",range.high=" + range.getT2());
+				}
 			}
 		}else{
 			GameLog.error("巅峰竞技场", player.getUserId(), "找不到匹配规则,排名:"+playerPlace);
@@ -234,13 +250,17 @@ public class PeakArenaBM {
 	}
 	
 	public TablePeakArenaData getOrAddPeakArenaData(Player player) {
-		return getOrAddPeakArenaData(player, null);//TODO 使用jamaz的持久存储初始化方案
-	}
-
-	public TablePeakArenaData getOrAddPeakArenaData(Player player, RefInt temp) {
 		if (player.getLevel() < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
 			return null;
 		}
+		return getOrAddPeakArenaData(player, null);//TODO 使用jamaz的持久存储初始化方案
+	}
+	
+	public TablePeakArenaData getOrAddPeakArenaDataForRobot(Player player){
+		return getOrAddPeakArenaData(player, null);
+	}
+
+	private TablePeakArenaData getOrAddPeakArenaData(Player player, RefInt temp) {
 		String userId = player.getUserId();
 		TablePeakArenaData data = tablePeakArenaDataDAO.get(userId);
 		if (data == null) {
