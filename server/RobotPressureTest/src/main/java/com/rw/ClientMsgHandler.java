@@ -99,9 +99,9 @@ public abstract class ClientMsgHandler {
 					case ActivityDailyType:
 						getClient().getActivityDailyCountHolder().syn(msgDataSyn);
 						break;
-//					case SEVEN_DAY_GIF:
-//						getClient().getSevenDayGiftHolder().syn(msgDataSyn);
-//						break;
+					case FRESHER_ATIVITY_DATA:
+						getClient().getFresherActivityHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}

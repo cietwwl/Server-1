@@ -18,6 +18,7 @@ import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
 import com.rw.handler.fashion.FashionHandler;
+import com.rw.handler.fresheractivity.FresherActivityHandler;
 import com.rw.handler.friend.FriendHandler;
 import com.rw.handler.gamble.GambleHandler;
 import com.rw.handler.gameLogin.GameLoginHandler;
@@ -734,6 +735,17 @@ public class Robot {
 		return DailyGiftHandler.getHandler().getSevenDayGift(client);
 		
 	}
+	
+	/**
+	 * 封神之路普通领取
+	 */
+	public  boolean testFrshActAchieveRewardGiftTake(){		
+		FresherActivityHandler.getInstance().testTakeFresherActivityRewards(client);
+		return  false;		
+	}
+	
+
+	
 	
 	public void sign(){
 		SignHandler.getInstance().processsSign(client);

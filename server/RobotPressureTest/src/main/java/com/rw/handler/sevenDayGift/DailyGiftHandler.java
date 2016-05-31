@@ -52,8 +52,7 @@ public class DailyGiftHandler {
 					}
 					dao.setCount(rsp.getCount());
 					dao.setCounts(rsp.getGetCountList());
-					System.out.println("@@@@@@@@dailygift . count = " +dao.getCount() + " size =" + dao.getCounts().size());
-					
+				
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("DailyGiftHandler[send] 失败", e);
 					return false;
@@ -67,53 +66,58 @@ public class DailyGiftHandler {
 	}
 
 	public boolean getSevenDayGift(Client client) {
-		DailyGifRequest.Builder req = DailyGifRequest.newBuilder();
-		req.setType(EType.GetGif);
-		req.setCount(1);
-		
-
-		
-		
-		
-		boolean success = client.getMsgHandler().sendMsg(Command.MSG_DailyGif, req.build().toByteString(), new MsgReciver() {
-
-			@Override
-			public Command getCmd() {
-				return Command.MSG_DailyGif;
-			}
-
-			@Override
-			public boolean execute(Client client, Response response) {
-				ByteString serializedContent = response.getSerializedContent();
-				try {
-
-					DailyGifResponse rsp = DailyGifResponse.parseFrom(serializedContent);
-					if (rsp == null) {
-						RobotLog.fail("DailyGiftHandler[send] 转换响应消息为null");
-						return false;
-					}
-
-					EType result = rsp.getType();
-					RobotLog.fail("DailyGiftHandler[send] 服务器处理消息结果 " + result);
-					if (result != EType.GetGif) {
-						RobotLog.fail("DailyGiftHandler[send] 服务器处理消息失败 " + result);
-						return false;
-					}
-					
-				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("DailyGiftHandler[send] 失败", e);
-					return false;
+		boolean istakeall = true;
+		for(int i =1;i < dao.getCount()+1;i++){
+			boolean ishastaken = false;
+			for(int j = 0;j < dao.getCounts().size();j++){
+				if(i == dao.getCounts().get(j)){
+					ishastaken = true;
 				}
-				return true;
 			}
+			if(ishastaken){
+				continue;
+			}
+			DailyGifRequest.Builder req = DailyGifRequest.newBuilder();
+			req.setType(EType.GetGif);
+			req.setCount(i);
+			boolean success =client.getMsgHandler().sendMsg(Command.MSG_DailyGif, req.build().toByteString(), new MsgReciver() {
 
-		});
-		return success;		
-		
-		
-		
-		
-		
+				@Override
+				public Command getCmd() {
+					return Command.MSG_DailyGif;
+				}
+
+				@Override
+				public boolean execute(Client client, Response response) {
+					ByteString serializedContent = response.getSerializedContent();
+					try {
+
+						DailyGifResponse rsp = DailyGifResponse.parseFrom(serializedContent);
+						if (rsp == null) {
+							RobotLog.fail("DailyGiftHandler[send] 转换响应消息为null");
+							return false;
+						}
+
+						EType result = rsp.getType();
+						RobotLog.fail("DailyGiftHandler[send] 服务器处理消息结果 " + result);
+						if (result != EType.GetGif) {
+							RobotLog.fail("DailyGiftHandler[send] 服务器处理消息失败 " + result);
+							return false;
+						}
+						
+					} catch (InvalidProtocolBufferException e) {
+						RobotLog.fail("DailyGiftHandler[send] 失败", e);
+						return false;
+					}
+					return true;
+				}
+
+			});
+			if(!success){
+				istakeall = success;
+			}
+		}
+		return istakeall;				
 	}
 	
 	

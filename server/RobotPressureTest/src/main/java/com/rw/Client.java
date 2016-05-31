@@ -9,6 +9,7 @@ import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
+import com.rw.handler.fresheractivity.FresherActivityHolder;
 import com.rw.handler.group.data.GroupDataVersion;
 import com.rw.handler.group.data.GroupRequestCacheData;
 import com.rw.handler.group.holder.GroupApplyMemberHolder;
@@ -67,7 +68,9 @@ public class Client {
 	private ActivityCountHolder activityCountHolder = new ActivityCountHolder();
 	//玩家通用活动二数据
 	private ActivityDailyCountHolder activityDailyCountHolder = new ActivityDailyCountHolder();
-
+	
+	//玩家封神之路数据
+	private FresherActivityHolder fresherActivityHolder = new FresherActivityHolder();
 	
 	
 
@@ -227,6 +230,17 @@ public class Client {
 
 	public BattleTowerData getBattleTowerData() {
 		return battleTowerData;
+	}
+
+	
+	
+	
+	public FresherActivityHolder getFresherActivityHolder() {
+		return fresherActivityHolder;
+	}
+
+	public void setFresherActivityHolder(FresherActivityHolder fresherActivityHolder) {
+		this.fresherActivityHolder = fresherActivityHolder;
 	}
 
 	public HeroEquipHolder getHeroEquipHolder() {
