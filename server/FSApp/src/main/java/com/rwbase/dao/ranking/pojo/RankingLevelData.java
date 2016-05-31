@@ -1,5 +1,8 @@
 package com.rwbase.dao.ranking.pojo;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RankingLevelData {
 	private String userId;
 	private int level;

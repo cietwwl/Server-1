@@ -245,6 +245,7 @@ public class PeakArenaBM {
 		TablePeakArenaData data = tablePeakArenaDataDAO.get(userId);
 		if (data == null) {
 			data = createPeakData(player);
+			tablePeakArenaDataDAO.commit(data);
 		}
 		getOrAddRankEntry(player,data,temp);
 		
@@ -306,7 +307,7 @@ public class PeakArenaBM {
 		data.setTempleteId(player.getTemplateId());
 
 		ItemData magic = player.getMagic();
-		for (int i = 1; i <= data.getTeamCount(); i++) {
+		for (int i = 0; i < data.getTeamCount(); i++) {
 			TeamData team = new TeamData();
 			team.setTeamId(i);
 			if (magic == null) {
@@ -316,13 +317,13 @@ public class PeakArenaBM {
 				team.setMagicId(magic.getModelId());
 				team.setMagicLevel(magic.getMagicLevel());
 			}
-			team.setHeros(new ArrayList<RoleBaseInfo>());
+			team.setHeros(new ArrayList<String>());
 			team.setHeroAtrrs(new ArrayList<TableAttr>());
 			team.setHeroSkills(new ArrayList<TableSkill>());
 			data.setTeam(team, i);
 		}
 		data.setRecordList(new ArrayList<PeakRecordInfo>());
-		tablePeakArenaDataDAO.update(data);
+		tablePeakArenaDataDAO.commit(data);
 		return data;
 	}
 
@@ -356,7 +357,7 @@ public class PeakArenaBM {
 			}
 		}
 		if (isChanged){
-			tablePeakArenaDataDAO.update(data);
+			tablePeakArenaDataDAO.commit(data);
 		}
 		return true;
 	}

@@ -562,51 +562,6 @@ public final class PeakArenaServiceProtos {
     com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getSkillsOrBuilder(
         int index);
 
-    // repeated .SyncAttri.TagAttriData attrs = 9;
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> 
-        getAttrsList();
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    com.rwproto.SyncAttriProtos.TagAttriData getAttrs(int index);
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    int getAttrsCount();
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-        getAttrsOrBuilderList();
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getAttrsOrBuilder(
-        int index);
-
     // optional int32 teamId = 10;
     /**
      * <code>optional int32 teamId = 10;</code>
@@ -738,14 +693,6 @@ public final class PeakArenaServiceProtos {
               skills_.add(input.readMessage(com.rwproto.SkillServiceProtos.TagSkillData.PARSER, extensionRegistry));
               break;
             }
-            case 74: {
-              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-                attrs_ = new java.util.ArrayList<com.rwproto.SyncAttriProtos.TagAttriData>();
-                mutable_bitField0_ |= 0x00000100;
-              }
-              attrs_.add(input.readMessage(com.rwproto.SyncAttriProtos.TagAttriData.PARSER, extensionRegistry));
-              break;
-            }
             case 80: {
               bitField0_ |= 0x00000080;
               teamId_ = input.readInt32();
@@ -766,9 +713,6 @@ public final class PeakArenaServiceProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           skills_ = java.util.Collections.unmodifiableList(skills_);
-        }
-        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-          attrs_ = java.util.Collections.unmodifiableList(attrs_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1067,62 +1011,6 @@ public final class PeakArenaServiceProtos {
       return skills_.get(index);
     }
 
-    // repeated .SyncAttri.TagAttriData attrs = 9;
-    public static final int ATTRS_FIELD_NUMBER = 9;
-    private java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> attrs_;
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> getAttrsList() {
-      return attrs_;
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    public java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-        getAttrsOrBuilderList() {
-      return attrs_;
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    public int getAttrsCount() {
-      return attrs_.size();
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    public com.rwproto.SyncAttriProtos.TagAttriData getAttrs(int index) {
-      return attrs_.get(index);
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-     *
-     * <pre>
-     * 咩来嘎 ？？
-     * </pre>
-     */
-    public com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getAttrsOrBuilder(
-        int index) {
-      return attrs_.get(index);
-    }
-
     // optional int32 teamId = 10;
     public static final int TEAMID_FIELD_NUMBER = 10;
     private int teamId_;
@@ -1203,7 +1091,6 @@ public final class PeakArenaServiceProtos {
       qualityId_ = "";
       exp_ = 0L;
       skills_ = java.util.Collections.emptyList();
-      attrs_ = java.util.Collections.emptyList();
       teamId_ = 0;
       headImage_ = "";
     }
@@ -1219,12 +1106,6 @@ public final class PeakArenaServiceProtos {
       if (!hasTempleteId()) {
         memoizedIsInitialized = 0;
         return false;
-      }
-      for (int i = 0; i < getAttrsCount(); i++) {
-        if (!getAttrs(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1256,9 +1137,6 @@ public final class PeakArenaServiceProtos {
       }
       for (int i = 0; i < skills_.size(); i++) {
         output.writeMessage(8, skills_.get(i));
-      }
-      for (int i = 0; i < attrs_.size(); i++) {
-        output.writeMessage(9, attrs_.get(i));
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(10, teamId_);
@@ -1306,10 +1184,6 @@ public final class PeakArenaServiceProtos {
       for (int i = 0; i < skills_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, skills_.get(i));
-      }
-      for (int i = 0; i < attrs_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, attrs_.get(i));
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1428,7 +1302,6 @@ public final class PeakArenaServiceProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getSkillsFieldBuilder();
-          getAttrsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1457,16 +1330,10 @@ public final class PeakArenaServiceProtos {
         } else {
           skillsBuilder_.clear();
         }
-        if (attrsBuilder_ == null) {
-          attrs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
-        } else {
-          attrsBuilder_.clear();
-        }
         teamId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000100);
         headImage_ = "";
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -1532,20 +1399,11 @@ public final class PeakArenaServiceProtos {
         } else {
           result.skills_ = skillsBuilder_.build();
         }
-        if (attrsBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) == 0x00000100)) {
-            attrs_ = java.util.Collections.unmodifiableList(attrs_);
-            bitField0_ = (bitField0_ & ~0x00000100);
-          }
-          result.attrs_ = attrs_;
-        } else {
-          result.attrs_ = attrsBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000080;
         }
         result.teamId_ = teamId_;
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000100;
         }
         result.headImage_ = headImage_;
@@ -1618,37 +1476,11 @@ public final class PeakArenaServiceProtos {
             }
           }
         }
-        if (attrsBuilder_ == null) {
-          if (!other.attrs_.isEmpty()) {
-            if (attrs_.isEmpty()) {
-              attrs_ = other.attrs_;
-              bitField0_ = (bitField0_ & ~0x00000100);
-            } else {
-              ensureAttrsIsMutable();
-              attrs_.addAll(other.attrs_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.attrs_.isEmpty()) {
-            if (attrsBuilder_.isEmpty()) {
-              attrsBuilder_.dispose();
-              attrsBuilder_ = null;
-              attrs_ = other.attrs_;
-              bitField0_ = (bitField0_ & ~0x00000100);
-              attrsBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getAttrsFieldBuilder() : null;
-            } else {
-              attrsBuilder_.addAllMessages(other.attrs_);
-            }
-          }
-        }
         if (other.hasTeamId()) {
           setTeamId(other.getTeamId());
         }
         if (other.hasHeadImage()) {
-          bitField0_ |= 0x00000400;
+          bitField0_ |= 0x00000200;
           headImage_ = other.headImage_;
           onChanged();
         }
@@ -1664,12 +1496,6 @@ public final class PeakArenaServiceProtos {
         if (!hasTempleteId()) {
           
           return false;
-        }
-        for (int i = 0; i < getAttrsCount(); i++) {
-          if (!getAttrs(i).isInitialized()) {
-            
-            return false;
-          }
         }
         return true;
       }
@@ -2391,325 +2217,13 @@ public final class PeakArenaServiceProtos {
         return skillsBuilder_;
       }
 
-      // repeated .SyncAttri.TagAttriData attrs = 9;
-      private java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> attrs_ =
-        java.util.Collections.emptyList();
-      private void ensureAttrsIsMutable() {
-        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
-          attrs_ = new java.util.ArrayList<com.rwproto.SyncAttriProtos.TagAttriData>(attrs_);
-          bitField0_ |= 0x00000100;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.SyncAttriProtos.TagAttriData, com.rwproto.SyncAttriProtos.TagAttriData.Builder, com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> attrsBuilder_;
-
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> getAttrsList() {
-        if (attrsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(attrs_);
-        } else {
-          return attrsBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public int getAttrsCount() {
-        if (attrsBuilder_ == null) {
-          return attrs_.size();
-        } else {
-          return attrsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData getAttrs(int index) {
-        if (attrsBuilder_ == null) {
-          return attrs_.get(index);
-        } else {
-          return attrsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder setAttrs(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData value) {
-        if (attrsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAttrsIsMutable();
-          attrs_.set(index, value);
-          onChanged();
-        } else {
-          attrsBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder setAttrs(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
-        if (attrsBuilder_ == null) {
-          ensureAttrsIsMutable();
-          attrs_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          attrsBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder addAttrs(com.rwproto.SyncAttriProtos.TagAttriData value) {
-        if (attrsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAttrsIsMutable();
-          attrs_.add(value);
-          onChanged();
-        } else {
-          attrsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder addAttrs(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData value) {
-        if (attrsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureAttrsIsMutable();
-          attrs_.add(index, value);
-          onChanged();
-        } else {
-          attrsBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder addAttrs(
-          com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
-        if (attrsBuilder_ == null) {
-          ensureAttrsIsMutable();
-          attrs_.add(builderForValue.build());
-          onChanged();
-        } else {
-          attrsBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder addAttrs(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
-        if (attrsBuilder_ == null) {
-          ensureAttrsIsMutable();
-          attrs_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          attrsBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder addAllAttrs(
-          java.lang.Iterable<? extends com.rwproto.SyncAttriProtos.TagAttriData> values) {
-        if (attrsBuilder_ == null) {
-          ensureAttrsIsMutable();
-          super.addAll(values, attrs_);
-          onChanged();
-        } else {
-          attrsBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder clearAttrs() {
-        if (attrsBuilder_ == null) {
-          attrs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000100);
-          onChanged();
-        } else {
-          attrsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public Builder removeAttrs(int index) {
-        if (attrsBuilder_ == null) {
-          ensureAttrsIsMutable();
-          attrs_.remove(index);
-          onChanged();
-        } else {
-          attrsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData.Builder getAttrsBuilder(
-          int index) {
-        return getAttrsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getAttrsOrBuilder(
-          int index) {
-        if (attrsBuilder_ == null) {
-          return attrs_.get(index);  } else {
-          return attrsBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-           getAttrsOrBuilderList() {
-        if (attrsBuilder_ != null) {
-          return attrsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(attrs_);
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData.Builder addAttrsBuilder() {
-        return getAttrsFieldBuilder().addBuilder(
-            com.rwproto.SyncAttriProtos.TagAttriData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData.Builder addAttrsBuilder(
-          int index) {
-        return getAttrsFieldBuilder().addBuilder(
-            index, com.rwproto.SyncAttriProtos.TagAttriData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData attrs = 9;</code>
-       *
-       * <pre>
-       * 咩来嘎 ？？
-       * </pre>
-       */
-      public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData.Builder> 
-           getAttrsBuilderList() {
-        return getAttrsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.SyncAttriProtos.TagAttriData, com.rwproto.SyncAttriProtos.TagAttriData.Builder, com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-          getAttrsFieldBuilder() {
-        if (attrsBuilder_ == null) {
-          attrsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.SyncAttriProtos.TagAttriData, com.rwproto.SyncAttriProtos.TagAttriData.Builder, com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder>(
-                  attrs_,
-                  ((bitField0_ & 0x00000100) == 0x00000100),
-                  getParentForChildren(),
-                  isClean());
-          attrs_ = null;
-        }
-        return attrsBuilder_;
-      }
-
       // optional int32 teamId = 10;
       private int teamId_ ;
       /**
        * <code>optional int32 teamId = 10;</code>
        */
       public boolean hasTeamId() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional int32 teamId = 10;</code>
@@ -2721,7 +2235,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 teamId = 10;</code>
        */
       public Builder setTeamId(int value) {
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000100;
         teamId_ = value;
         onChanged();
         return this;
@@ -2730,7 +2244,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional int32 teamId = 10;</code>
        */
       public Builder clearTeamId() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000100);
         teamId_ = 0;
         onChanged();
         return this;
@@ -2746,7 +2260,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasHeadImage() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
        * <code>optional string headImage = 11;</code>
@@ -2798,7 +2312,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000400;
+  bitField0_ |= 0x00000200;
         headImage_ = value;
         onChanged();
         return this;
@@ -2811,7 +2325,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearHeadImage() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000200);
         headImage_ = getDefaultInstance().getHeadImage();
         onChanged();
         return this;
@@ -2828,7 +2342,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000400;
+  bitField0_ |= 0x00000200;
         headImage_ = value;
         onChanged();
         return this;
@@ -2861,24 +2375,44 @@ public final class PeakArenaServiceProtos {
     // repeated .HeroData heros = 2;
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     java.util.List<com.rwproto.PeakArenaServiceProtos.HeroData> 
         getHerosList();
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     com.rwproto.PeakArenaServiceProtos.HeroData getHeros(int index);
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     int getHerosCount();
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder> 
         getHerosOrBuilderList();
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getHerosOrBuilder(
         int index);
@@ -2888,7 +2422,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     java.util.List<java.lang.String>
@@ -2897,7 +2431,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     int getHeroIdsCount();
@@ -2905,7 +2439,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     java.lang.String getHeroIds(int index);
@@ -2913,7 +2447,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2944,7 +2478,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
-     * TODO 不如主角从heros摞出来？睇你点样方便
+     *用于传递对手的主角给客户端
      * </pre>
      */
     boolean hasPlayer();
@@ -2952,7 +2486,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
-     * TODO 不如主角从heros摞出来？睇你点样方便
+     *用于传递对手的主角给客户端
      * </pre>
      */
     com.rwproto.PeakArenaServiceProtos.HeroData getPlayer();
@@ -2960,7 +2494,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
-     * TODO 不如主角从heros摞出来？睇你点样方便
+     *用于传递对手的主角给客户端
      * </pre>
      */
     com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getPlayerOrBuilder();
@@ -3127,12 +2661,20 @@ public final class PeakArenaServiceProtos {
     private java.util.List<com.rwproto.PeakArenaServiceProtos.HeroData> heros_;
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     public java.util.List<com.rwproto.PeakArenaServiceProtos.HeroData> getHerosList() {
       return heros_;
     }
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder> 
         getHerosOrBuilderList() {
@@ -3140,18 +2682,30 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     public int getHerosCount() {
       return heros_.size();
     }
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     public com.rwproto.PeakArenaServiceProtos.HeroData getHeros(int index) {
       return heros_.get(index);
     }
     /**
      * <code>repeated .HeroData heros = 2;</code>
+     *
+     * <pre>
+     *用于传递对手的佣兵信息给客户端
+     * </pre>
      */
     public com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getHerosOrBuilder(
         int index) {
@@ -3165,7 +2719,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     public java.util.List<java.lang.String>
@@ -3176,7 +2730,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     public int getHeroIdsCount() {
@@ -3186,7 +2740,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     public java.lang.String getHeroIds(int index) {
@@ -3196,7 +2750,7 @@ public final class PeakArenaServiceProtos {
      * <code>repeated string heroIds = 3;</code>
      *
      * <pre>
-     *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+     *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3243,7 +2797,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
-     * TODO 不如主角从heros摞出来？睇你点样方便
+     *用于传递对手的主角给客户端
      * </pre>
      */
     public boolean hasPlayer() {
@@ -3253,7 +2807,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
-     * TODO 不如主角从heros摞出来？睇你点样方便
+     *用于传递对手的主角给客户端
      * </pre>
      */
     public com.rwproto.PeakArenaServiceProtos.HeroData getPlayer() {
@@ -3263,7 +2817,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional .HeroData player = 6;</code>
      *
      * <pre>
-     * TODO 不如主角从heros摞出来？睇你点样方便
+     *用于传递对手的主角给客户端
      * </pre>
      */
     public com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getPlayerOrBuilder() {
@@ -3718,6 +3272,10 @@ public final class PeakArenaServiceProtos {
 
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public java.util.List<com.rwproto.PeakArenaServiceProtos.HeroData> getHerosList() {
         if (herosBuilder_ == null) {
@@ -3728,6 +3286,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public int getHerosCount() {
         if (herosBuilder_ == null) {
@@ -3738,6 +3300,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroData getHeros(int index) {
         if (herosBuilder_ == null) {
@@ -3748,6 +3314,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder setHeros(
           int index, com.rwproto.PeakArenaServiceProtos.HeroData value) {
@@ -3765,6 +3335,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder setHeros(
           int index, com.rwproto.PeakArenaServiceProtos.HeroData.Builder builderForValue) {
@@ -3779,6 +3353,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder addHeros(com.rwproto.PeakArenaServiceProtos.HeroData value) {
         if (herosBuilder_ == null) {
@@ -3795,6 +3373,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder addHeros(
           int index, com.rwproto.PeakArenaServiceProtos.HeroData value) {
@@ -3812,6 +3394,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder addHeros(
           com.rwproto.PeakArenaServiceProtos.HeroData.Builder builderForValue) {
@@ -3826,6 +3412,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder addHeros(
           int index, com.rwproto.PeakArenaServiceProtos.HeroData.Builder builderForValue) {
@@ -3840,6 +3430,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder addAllHeros(
           java.lang.Iterable<? extends com.rwproto.PeakArenaServiceProtos.HeroData> values) {
@@ -3854,6 +3448,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder clearHeros() {
         if (herosBuilder_ == null) {
@@ -3867,6 +3465,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public Builder removeHeros(int index) {
         if (herosBuilder_ == null) {
@@ -3880,6 +3482,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroData.Builder getHerosBuilder(
           int index) {
@@ -3887,6 +3493,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getHerosOrBuilder(
           int index) {
@@ -3897,6 +3507,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder> 
            getHerosOrBuilderList() {
@@ -3908,6 +3522,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroData.Builder addHerosBuilder() {
         return getHerosFieldBuilder().addBuilder(
@@ -3915,6 +3533,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroData.Builder addHerosBuilder(
           int index) {
@@ -3923,6 +3545,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>repeated .HeroData heros = 2;</code>
+       *
+       * <pre>
+       *用于传递对手的佣兵信息给客户端
+       * </pre>
        */
       public java.util.List<com.rwproto.PeakArenaServiceProtos.HeroData.Builder> 
            getHerosBuilderList() {
@@ -3955,7 +3581,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public java.util.List<java.lang.String>
@@ -3966,7 +3592,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public int getHeroIdsCount() {
@@ -3976,7 +3602,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public java.lang.String getHeroIds(int index) {
@@ -3986,7 +3612,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3997,7 +3623,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public Builder setHeroIds(
@@ -4014,7 +3640,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public Builder addHeroIds(
@@ -4031,7 +3657,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public Builder addAllHeroIds(
@@ -4045,7 +3671,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public Builder clearHeroIds() {
@@ -4058,7 +3684,7 @@ public final class PeakArenaServiceProtos {
        * <code>repeated string heroIds = 3;</code>
        *
        * <pre>
-       *关于heros入面有id，呢度仲要有heroids原来系因为布阵- -m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+       *仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
        * </pre>
        */
       public Builder addHeroIdsBytes(
@@ -4146,7 +3772,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public boolean hasPlayer() {
@@ -4156,7 +3782,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroData getPlayer() {
@@ -4170,7 +3796,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public Builder setPlayer(com.rwproto.PeakArenaServiceProtos.HeroData value) {
@@ -4190,7 +3816,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public Builder setPlayer(
@@ -4208,7 +3834,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public Builder mergePlayer(com.rwproto.PeakArenaServiceProtos.HeroData value) {
@@ -4231,7 +3857,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public Builder clearPlayer() {
@@ -4248,7 +3874,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroData.Builder getPlayerBuilder() {
@@ -4260,7 +3886,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       public com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getPlayerOrBuilder() {
@@ -4274,7 +3900,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional .HeroData player = 6;</code>
        *
        * <pre>
-       * TODO 不如主角从heros摞出来？睇你点样方便
+       *用于传递对手的主角给客户端
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -4540,31 +4166,6 @@ public final class PeakArenaServiceProtos {
     com.rwproto.SkillServiceProtos.TagSkillDataOrBuilder getRoleSkillOrBuilder(
         int index);
 
-    // repeated .SyncAttri.TagAttriData roleAttr = 18;
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> 
-        getRoleAttrList();
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    com.rwproto.SyncAttriProtos.TagAttriData getRoleAttr(int index);
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    int getRoleAttrCount();
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-        getRoleAttrOrBuilderList();
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getRoleAttrOrBuilder(
-        int index);
-
     // repeated .TeamInfo teams = 19;
     /**
      * <code>repeated .TeamInfo teams = 19;</code>
@@ -4670,6 +4271,33 @@ public final class PeakArenaServiceProtos {
      */
     com.google.protobuf.ByteString
         getGroupNameBytes();
+
+    // optional string armyInfo = 24;
+    /**
+     * <code>optional string armyInfo = 24;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    boolean hasArmyInfo();
+    /**
+     * <code>optional string armyInfo = 24;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    java.lang.String getArmyInfo();
+    /**
+     * <code>optional string armyInfo = 24;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getArmyInfoBytes();
   }
   /**
    * Protobuf type {@code ArenaData}
@@ -4805,18 +4433,10 @@ public final class PeakArenaServiceProtos {
               roleSkill_.add(input.readMessage(com.rwproto.SkillServiceProtos.TagSkillData.PARSER, extensionRegistry));
               break;
             }
-            case 146: {
-              if (!((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
-                roleAttr_ = new java.util.ArrayList<com.rwproto.SyncAttriProtos.TagAttriData>();
-                mutable_bitField0_ |= 0x00010000;
-              }
-              roleAttr_.add(input.readMessage(com.rwproto.SyncAttriProtos.TagAttriData.PARSER, extensionRegistry));
-              break;
-            }
             case 154: {
-              if (!((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
+              if (!((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
                 teams_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.TeamInfo>();
-                mutable_bitField0_ |= 0x00020000;
+                mutable_bitField0_ |= 0x00010000;
               }
               teams_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.TeamInfo.PARSER, extensionRegistry));
               break;
@@ -4841,6 +4461,11 @@ public final class PeakArenaServiceProtos {
               groupName_ = input.readBytes();
               break;
             }
+            case 194: {
+              bitField0_ |= 0x00080000;
+              armyInfo_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4853,9 +4478,6 @@ public final class PeakArenaServiceProtos {
           roleSkill_ = java.util.Collections.unmodifiableList(roleSkill_);
         }
         if (((mutable_bitField0_ & 0x00010000) == 0x00010000)) {
-          roleAttr_ = java.util.Collections.unmodifiableList(roleAttr_);
-        }
-        if (((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
           teams_ = java.util.Collections.unmodifiableList(teams_);
         }
         this.unknownFields = unknownFields.build();
@@ -5314,42 +4936,6 @@ public final class PeakArenaServiceProtos {
       return roleSkill_.get(index);
     }
 
-    // repeated .SyncAttri.TagAttriData roleAttr = 18;
-    public static final int ROLEATTR_FIELD_NUMBER = 18;
-    private java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> roleAttr_;
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> getRoleAttrList() {
-      return roleAttr_;
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    public java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-        getRoleAttrOrBuilderList() {
-      return roleAttr_;
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    public int getRoleAttrCount() {
-      return roleAttr_.size();
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    public com.rwproto.SyncAttriProtos.TagAttriData getRoleAttr(int index) {
-      return roleAttr_.get(index);
-    }
-    /**
-     * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-     */
-    public com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getRoleAttrOrBuilder(
-        int index) {
-      return roleAttr_.get(index);
-    }
-
     // repeated .TeamInfo teams = 19;
     public static final int TEAMS_FIELD_NUMBER = 19;
     private java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> teams_;
@@ -5513,6 +5099,61 @@ public final class PeakArenaServiceProtos {
       }
     }
 
+    // optional string armyInfo = 24;
+    public static final int ARMYINFO_FIELD_NUMBER = 24;
+    private java.lang.Object armyInfo_;
+    /**
+     * <code>optional string armyInfo = 24;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    public boolean hasArmyInfo() {
+      return ((bitField0_ & 0x00080000) == 0x00080000);
+    }
+    /**
+     * <code>optional string armyInfo = 24;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    public java.lang.String getArmyInfo() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          armyInfo_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string armyInfo = 24;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getArmyInfoBytes() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        armyInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       score_ = 0;
@@ -5530,12 +5171,12 @@ public final class PeakArenaServiceProtos {
       templeteId_ = "";
       fighting_ = 0;
       roleSkill_ = java.util.Collections.emptyList();
-      roleAttr_ = java.util.Collections.emptyList();
       teams_ = java.util.Collections.emptyList();
       lastFightTime_ = 0L;
       gainCurrencyPerHour_ = 0;
       maxChallengeCount_ = 0;
       groupName_ = "";
+      armyInfo_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5545,12 +5186,6 @@ public final class PeakArenaServiceProtos {
       if (!hasUserId()) {
         memoizedIsInitialized = 0;
         return false;
-      }
-      for (int i = 0; i < getRoleAttrCount(); i++) {
-        if (!getRoleAttr(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
       }
       for (int i = 0; i < getTeamsCount(); i++) {
         if (!getTeams(i).isInitialized()) {
@@ -5613,9 +5248,6 @@ public final class PeakArenaServiceProtos {
       for (int i = 0; i < roleSkill_.size(); i++) {
         output.writeMessage(17, roleSkill_.get(i));
       }
-      for (int i = 0; i < roleAttr_.size(); i++) {
-        output.writeMessage(18, roleAttr_.get(i));
-      }
       for (int i = 0; i < teams_.size(); i++) {
         output.writeMessage(19, teams_.get(i));
       }
@@ -5630,6 +5262,9 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         output.writeBytes(23, getGroupNameBytes());
+      }
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+        output.writeBytes(24, getArmyInfoBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -5704,10 +5339,6 @@ public final class PeakArenaServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(17, roleSkill_.get(i));
       }
-      for (int i = 0; i < roleAttr_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(18, roleAttr_.get(i));
-      }
       for (int i = 0; i < teams_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(19, teams_.get(i));
@@ -5727,6 +5358,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(23, getGroupNameBytes());
+      }
+      if (((bitField0_ & 0x00080000) == 0x00080000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(24, getArmyInfoBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5837,7 +5472,6 @@ public final class PeakArenaServiceProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getRoleSkillFieldBuilder();
-          getRoleAttrFieldBuilder();
           getTeamsFieldBuilder();
         }
       }
@@ -5883,25 +5517,21 @@ public final class PeakArenaServiceProtos {
         } else {
           roleSkillBuilder_.clear();
         }
-        if (roleAttrBuilder_ == null) {
-          roleAttr_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00010000);
-        } else {
-          roleAttrBuilder_.clear();
-        }
         if (teamsBuilder_ == null) {
           teams_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00020000);
+          bitField0_ = (bitField0_ & ~0x00010000);
         } else {
           teamsBuilder_.clear();
         }
         lastFightTime_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         gainCurrencyPerHour_ = 0;
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         maxChallengeCount_ = 0;
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         groupName_ = "";
+        bitField0_ = (bitField0_ & ~0x00100000);
+        armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00200000);
         return this;
       }
@@ -6000,40 +5630,35 @@ public final class PeakArenaServiceProtos {
         } else {
           result.roleSkill_ = roleSkillBuilder_.build();
         }
-        if (roleAttrBuilder_ == null) {
-          if (((bitField0_ & 0x00010000) == 0x00010000)) {
-            roleAttr_ = java.util.Collections.unmodifiableList(roleAttr_);
-            bitField0_ = (bitField0_ & ~0x00010000);
-          }
-          result.roleAttr_ = roleAttr_;
-        } else {
-          result.roleAttr_ = roleAttrBuilder_.build();
-        }
         if (teamsBuilder_ == null) {
-          if (((bitField0_ & 0x00020000) == 0x00020000)) {
+          if (((bitField0_ & 0x00010000) == 0x00010000)) {
             teams_ = java.util.Collections.unmodifiableList(teams_);
-            bitField0_ = (bitField0_ & ~0x00020000);
+            bitField0_ = (bitField0_ & ~0x00010000);
           }
           result.teams_ = teams_;
         } else {
           result.teams_ = teamsBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
           to_bitField0_ |= 0x00008000;
         }
         result.lastFightTime_ = lastFightTime_;
-        if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
+        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
           to_bitField0_ |= 0x00010000;
         }
         result.gainCurrencyPerHour_ = gainCurrencyPerHour_;
-        if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
+        if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
           to_bitField0_ |= 0x00020000;
         }
         result.maxChallengeCount_ = maxChallengeCount_;
-        if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
+        if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
           to_bitField0_ |= 0x00040000;
         }
         result.groupName_ = groupName_;
+        if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
+          to_bitField0_ |= 0x00080000;
+        }
+        result.armyInfo_ = armyInfo_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6129,37 +5754,11 @@ public final class PeakArenaServiceProtos {
             }
           }
         }
-        if (roleAttrBuilder_ == null) {
-          if (!other.roleAttr_.isEmpty()) {
-            if (roleAttr_.isEmpty()) {
-              roleAttr_ = other.roleAttr_;
-              bitField0_ = (bitField0_ & ~0x00010000);
-            } else {
-              ensureRoleAttrIsMutable();
-              roleAttr_.addAll(other.roleAttr_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.roleAttr_.isEmpty()) {
-            if (roleAttrBuilder_.isEmpty()) {
-              roleAttrBuilder_.dispose();
-              roleAttrBuilder_ = null;
-              roleAttr_ = other.roleAttr_;
-              bitField0_ = (bitField0_ & ~0x00010000);
-              roleAttrBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getRoleAttrFieldBuilder() : null;
-            } else {
-              roleAttrBuilder_.addAllMessages(other.roleAttr_);
-            }
-          }
-        }
         if (teamsBuilder_ == null) {
           if (!other.teams_.isEmpty()) {
             if (teams_.isEmpty()) {
               teams_ = other.teams_;
-              bitField0_ = (bitField0_ & ~0x00020000);
+              bitField0_ = (bitField0_ & ~0x00010000);
             } else {
               ensureTeamsIsMutable();
               teams_.addAll(other.teams_);
@@ -6172,7 +5771,7 @@ public final class PeakArenaServiceProtos {
               teamsBuilder_.dispose();
               teamsBuilder_ = null;
               teams_ = other.teams_;
-              bitField0_ = (bitField0_ & ~0x00020000);
+              bitField0_ = (bitField0_ & ~0x00010000);
               teamsBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getTeamsFieldBuilder() : null;
@@ -6191,8 +5790,13 @@ public final class PeakArenaServiceProtos {
           setMaxChallengeCount(other.getMaxChallengeCount());
         }
         if (other.hasGroupName()) {
-          bitField0_ |= 0x00200000;
+          bitField0_ |= 0x00100000;
           groupName_ = other.groupName_;
+          onChanged();
+        }
+        if (other.hasArmyInfo()) {
+          bitField0_ |= 0x00200000;
+          armyInfo_ = other.armyInfo_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -6203,12 +5807,6 @@ public final class PeakArenaServiceProtos {
         if (!hasUserId()) {
           
           return false;
-        }
-        for (int i = 0; i < getRoleAttrCount(); i++) {
-          if (!getRoleAttr(i).isInitialized()) {
-            
-            return false;
-          }
         }
         for (int i = 0; i < getTeamsCount(); i++) {
           if (!getTeams(i).isInitialized()) {
@@ -7217,253 +6815,13 @@ public final class PeakArenaServiceProtos {
         return roleSkillBuilder_;
       }
 
-      // repeated .SyncAttri.TagAttriData roleAttr = 18;
-      private java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> roleAttr_ =
-        java.util.Collections.emptyList();
-      private void ensureRoleAttrIsMutable() {
-        if (!((bitField0_ & 0x00010000) == 0x00010000)) {
-          roleAttr_ = new java.util.ArrayList<com.rwproto.SyncAttriProtos.TagAttriData>(roleAttr_);
-          bitField0_ |= 0x00010000;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.SyncAttriProtos.TagAttriData, com.rwproto.SyncAttriProtos.TagAttriData.Builder, com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> roleAttrBuilder_;
-
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData> getRoleAttrList() {
-        if (roleAttrBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(roleAttr_);
-        } else {
-          return roleAttrBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public int getRoleAttrCount() {
-        if (roleAttrBuilder_ == null) {
-          return roleAttr_.size();
-        } else {
-          return roleAttrBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData getRoleAttr(int index) {
-        if (roleAttrBuilder_ == null) {
-          return roleAttr_.get(index);
-        } else {
-          return roleAttrBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder setRoleAttr(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData value) {
-        if (roleAttrBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRoleAttrIsMutable();
-          roleAttr_.set(index, value);
-          onChanged();
-        } else {
-          roleAttrBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder setRoleAttr(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
-        if (roleAttrBuilder_ == null) {
-          ensureRoleAttrIsMutable();
-          roleAttr_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          roleAttrBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder addRoleAttr(com.rwproto.SyncAttriProtos.TagAttriData value) {
-        if (roleAttrBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRoleAttrIsMutable();
-          roleAttr_.add(value);
-          onChanged();
-        } else {
-          roleAttrBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder addRoleAttr(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData value) {
-        if (roleAttrBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureRoleAttrIsMutable();
-          roleAttr_.add(index, value);
-          onChanged();
-        } else {
-          roleAttrBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder addRoleAttr(
-          com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
-        if (roleAttrBuilder_ == null) {
-          ensureRoleAttrIsMutable();
-          roleAttr_.add(builderForValue.build());
-          onChanged();
-        } else {
-          roleAttrBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder addRoleAttr(
-          int index, com.rwproto.SyncAttriProtos.TagAttriData.Builder builderForValue) {
-        if (roleAttrBuilder_ == null) {
-          ensureRoleAttrIsMutable();
-          roleAttr_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          roleAttrBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder addAllRoleAttr(
-          java.lang.Iterable<? extends com.rwproto.SyncAttriProtos.TagAttriData> values) {
-        if (roleAttrBuilder_ == null) {
-          ensureRoleAttrIsMutable();
-          super.addAll(values, roleAttr_);
-          onChanged();
-        } else {
-          roleAttrBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder clearRoleAttr() {
-        if (roleAttrBuilder_ == null) {
-          roleAttr_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00010000);
-          onChanged();
-        } else {
-          roleAttrBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public Builder removeRoleAttr(int index) {
-        if (roleAttrBuilder_ == null) {
-          ensureRoleAttrIsMutable();
-          roleAttr_.remove(index);
-          onChanged();
-        } else {
-          roleAttrBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData.Builder getRoleAttrBuilder(
-          int index) {
-        return getRoleAttrFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder getRoleAttrOrBuilder(
-          int index) {
-        if (roleAttrBuilder_ == null) {
-          return roleAttr_.get(index);  } else {
-          return roleAttrBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public java.util.List<? extends com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-           getRoleAttrOrBuilderList() {
-        if (roleAttrBuilder_ != null) {
-          return roleAttrBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(roleAttr_);
-        }
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData.Builder addRoleAttrBuilder() {
-        return getRoleAttrFieldBuilder().addBuilder(
-            com.rwproto.SyncAttriProtos.TagAttriData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public com.rwproto.SyncAttriProtos.TagAttriData.Builder addRoleAttrBuilder(
-          int index) {
-        return getRoleAttrFieldBuilder().addBuilder(
-            index, com.rwproto.SyncAttriProtos.TagAttriData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .SyncAttri.TagAttriData roleAttr = 18;</code>
-       */
-      public java.util.List<com.rwproto.SyncAttriProtos.TagAttriData.Builder> 
-           getRoleAttrBuilderList() {
-        return getRoleAttrFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.SyncAttriProtos.TagAttriData, com.rwproto.SyncAttriProtos.TagAttriData.Builder, com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder> 
-          getRoleAttrFieldBuilder() {
-        if (roleAttrBuilder_ == null) {
-          roleAttrBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.SyncAttriProtos.TagAttriData, com.rwproto.SyncAttriProtos.TagAttriData.Builder, com.rwproto.SyncAttriProtos.TagAttriDataOrBuilder>(
-                  roleAttr_,
-                  ((bitField0_ & 0x00010000) == 0x00010000),
-                  getParentForChildren(),
-                  isClean());
-          roleAttr_ = null;
-        }
-        return roleAttrBuilder_;
-      }
-
       // repeated .TeamInfo teams = 19;
       private java.util.List<com.rwproto.PeakArenaServiceProtos.TeamInfo> teams_ =
         java.util.Collections.emptyList();
       private void ensureTeamsIsMutable() {
-        if (!((bitField0_ & 0x00020000) == 0x00020000)) {
+        if (!((bitField0_ & 0x00010000) == 0x00010000)) {
           teams_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.TeamInfo>(teams_);
-          bitField0_ |= 0x00020000;
+          bitField0_ |= 0x00010000;
          }
       }
 
@@ -7612,7 +6970,7 @@ public final class PeakArenaServiceProtos {
       public Builder clearTeams() {
         if (teamsBuilder_ == null) {
           teams_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00020000);
+          bitField0_ = (bitField0_ & ~0x00010000);
           onChanged();
         } else {
           teamsBuilder_.clear();
@@ -7689,7 +7047,7 @@ public final class PeakArenaServiceProtos {
           teamsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.PeakArenaServiceProtos.TeamInfo, com.rwproto.PeakArenaServiceProtos.TeamInfo.Builder, com.rwproto.PeakArenaServiceProtos.TeamInfoOrBuilder>(
                   teams_,
-                  ((bitField0_ & 0x00020000) == 0x00020000),
+                  ((bitField0_ & 0x00010000) == 0x00010000),
                   getParentForChildren(),
                   isClean());
           teams_ = null;
@@ -7707,7 +7065,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasLastFightTime() {
-        return ((bitField0_ & 0x00040000) == 0x00040000);
+        return ((bitField0_ & 0x00020000) == 0x00020000);
       }
       /**
        * <code>optional int64 lastFightTime = 20;</code>
@@ -7727,7 +7085,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder setLastFightTime(long value) {
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00020000;
         lastFightTime_ = value;
         onChanged();
         return this;
@@ -7740,7 +7098,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearLastFightTime() {
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         lastFightTime_ = 0L;
         onChanged();
         return this;
@@ -7756,7 +7114,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasGainCurrencyPerHour() {
-        return ((bitField0_ & 0x00080000) == 0x00080000);
+        return ((bitField0_ & 0x00040000) == 0x00040000);
       }
       /**
        * <code>optional int32 gainCurrencyPerHour = 21;</code>
@@ -7776,7 +7134,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder setGainCurrencyPerHour(int value) {
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00040000;
         gainCurrencyPerHour_ = value;
         onChanged();
         return this;
@@ -7789,7 +7147,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearGainCurrencyPerHour() {
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         gainCurrencyPerHour_ = 0;
         onChanged();
         return this;
@@ -7805,7 +7163,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasMaxChallengeCount() {
-        return ((bitField0_ & 0x00100000) == 0x00100000);
+        return ((bitField0_ & 0x00080000) == 0x00080000);
       }
       /**
        * <code>optional int32 maxChallengeCount = 22;</code>
@@ -7825,7 +7183,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder setMaxChallengeCount(int value) {
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00080000;
         maxChallengeCount_ = value;
         onChanged();
         return this;
@@ -7838,7 +7196,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearMaxChallengeCount() {
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         maxChallengeCount_ = 0;
         onChanged();
         return this;
@@ -7854,7 +7212,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public boolean hasGroupName() {
-        return ((bitField0_ & 0x00200000) == 0x00200000);
+        return ((bitField0_ & 0x00100000) == 0x00100000);
       }
       /**
        * <code>optional string groupName = 23;</code>
@@ -7906,7 +7264,7 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00200000;
+  bitField0_ |= 0x00100000;
         groupName_ = value;
         onChanged();
         return this;
@@ -7919,7 +7277,7 @@ public final class PeakArenaServiceProtos {
        * </pre>
        */
       public Builder clearGroupName() {
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         groupName_ = getDefaultInstance().getGroupName();
         onChanged();
         return this;
@@ -7936,8 +7294,106 @@ public final class PeakArenaServiceProtos {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00200000;
+  bitField0_ |= 0x00100000;
         groupName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string armyInfo = 24;
+      private java.lang.Object armyInfo_ = "";
+      /**
+       * <code>optional string armyInfo = 24;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public boolean hasArmyInfo() {
+        return ((bitField0_ & 0x00200000) == 0x00200000);
+      }
+      /**
+       * <code>optional string armyInfo = 24;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public java.lang.String getArmyInfo() {
+        java.lang.Object ref = armyInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          armyInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 24;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getArmyInfoBytes() {
+        java.lang.Object ref = armyInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          armyInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 24;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public Builder setArmyInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00200000;
+        armyInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 24;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public Builder clearArmyInfo() {
+        bitField0_ = (bitField0_ & ~0x00200000);
+        armyInfo_ = getDefaultInstance().getArmyInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 24;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public Builder setArmyInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00200000;
+        armyInfo_ = value;
         onChanged();
         return this;
       }
@@ -8094,20 +7550,15 @@ public final class PeakArenaServiceProtos {
     com.google.protobuf.ByteString
         getQualityIdBytes();
 
-    // optional string career = 12;
+    // optional int32 career = 12;
     /**
-     * <code>optional string career = 12;</code>
+     * <code>optional int32 career = 12;</code>
      */
     boolean hasCareer();
     /**
-     * <code>optional string career = 12;</code>
+     * <code>optional int32 career = 12;</code>
      */
-    java.lang.String getCareer();
-    /**
-     * <code>optional string career = 12;</code>
-     */
-    com.google.protobuf.ByteString
-        getCareerBytes();
+    int getCareer();
   }
   /**
    * Protobuf type {@code ArenaInfo}
@@ -8215,9 +7666,9 @@ public final class PeakArenaServiceProtos {
               qualityId_ = input.readBytes();
               break;
             }
-            case 98: {
+            case 96: {
               bitField0_ |= 0x00000800;
-              career_ = input.readBytes();
+              career_ = input.readInt32();
               break;
             }
           }
@@ -8552,47 +8003,20 @@ public final class PeakArenaServiceProtos {
       }
     }
 
-    // optional string career = 12;
+    // optional int32 career = 12;
     public static final int CAREER_FIELD_NUMBER = 12;
-    private java.lang.Object career_;
+    private int career_;
     /**
-     * <code>optional string career = 12;</code>
+     * <code>optional int32 career = 12;</code>
      */
     public boolean hasCareer() {
       return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>optional string career = 12;</code>
+     * <code>optional int32 career = 12;</code>
      */
-    public java.lang.String getCareer() {
-      java.lang.Object ref = career_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          career_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string career = 12;</code>
-     */
-    public com.google.protobuf.ByteString
-        getCareerBytes() {
-      java.lang.Object ref = career_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        career_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getCareer() {
+      return career_;
     }
 
     private void initFields() {
@@ -8607,7 +8031,7 @@ public final class PeakArenaServiceProtos {
       fighting_ = 0;
       starLevel_ = 0;
       qualityId_ = "";
-      career_ = "";
+      career_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8659,7 +8083,7 @@ public final class PeakArenaServiceProtos {
         output.writeBytes(11, getQualityIdBytes());
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeBytes(12, getCareerBytes());
+        output.writeInt32(12, career_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -8716,7 +8140,7 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(12, getCareerBytes());
+          .computeInt32Size(12, career_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8856,7 +8280,7 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000200);
         qualityId_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
-        career_ = "";
+        career_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
@@ -8992,9 +8416,7 @@ public final class PeakArenaServiceProtos {
           onChanged();
         }
         if (other.hasCareer()) {
-          bitField0_ |= 0x00000800;
-          career_ = other.career_;
-          onChanged();
+          setCareer(other.getCareer());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -9570,76 +8992,35 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // optional string career = 12;
-      private java.lang.Object career_ = "";
+      // optional int32 career = 12;
+      private int career_ ;
       /**
-       * <code>optional string career = 12;</code>
+       * <code>optional int32 career = 12;</code>
        */
       public boolean hasCareer() {
         return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
-       * <code>optional string career = 12;</code>
+       * <code>optional int32 career = 12;</code>
        */
-      public java.lang.String getCareer() {
-        java.lang.Object ref = career_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          career_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getCareer() {
+        return career_;
       }
       /**
-       * <code>optional string career = 12;</code>
+       * <code>optional int32 career = 12;</code>
        */
-      public com.google.protobuf.ByteString
-          getCareerBytes() {
-        java.lang.Object ref = career_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          career_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string career = 12;</code>
-       */
-      public Builder setCareer(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000800;
+      public Builder setCareer(int value) {
+        bitField0_ |= 0x00000800;
         career_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string career = 12;</code>
+       * <code>optional int32 career = 12;</code>
        */
       public Builder clearCareer() {
         bitField0_ = (bitField0_ & ~0x00000800);
-        career_ = getDefaultInstance().getCareer();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string career = 12;</code>
-       */
-      public Builder setCareerBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000800;
-        career_ = value;
+        career_ = 0;
         onChanged();
         return this;
       }
@@ -14073,57 +13454,55 @@ public final class PeakArenaServiceProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\026PeakArenaService.proto\032\022SkillService.p" +
-      "roto\032\017SyncAttri.proto\"\371\001\n\010HeroData\022\016\n\006he" +
-      "roId\030\001 \002(\t\022\022\n\ntempleteId\030\002 \002(\t\022\r\n\005level\030" +
-      "\003 \001(\005\022\021\n\tstarLevel\030\004 \001(\005\022\020\n\010fighting\030\005 \001" +
-      "(\005\022\021\n\tqualityId\030\006 \001(\t\022\013\n\003exp\030\007 \001(\003\022*\n\006sk" +
-      "ills\030\010 \003(\0132\032.SkillService.TagSkillData\022&" +
-      "\n\005attrs\030\t \003(\0132\027.SyncAttri.TagAttriData\022\016" +
-      "\n\006teamId\030\n \001(\005\022\021\n\theadImage\030\013 \001(\t\"\205\001\n\010Te" +
-      "amInfo\022\016\n\006teamId\030\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t." +
-      "HeroData\022\017\n\007heroIds\030\003 \003(\t\022\017\n\007magicId\030\004 \001",
-      "(\005\022\022\n\nmagicLevel\030\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t" +
-      ".HeroData\"\345\003\n\tArenaData\022\016\n\006userId\030\001 \002(\t\022" +
-      "\r\n\005score\030\002 \001(\005\022\021\n\tgainScore\030\003 \001(\005\022\017\n\007sco" +
-      "reLv\030\004 \001(\005\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 " +
-      "\001(\005\022\020\n\010winCount\030\010 \001(\005\022\026\n\016challengeCount\030" +
-      "\t \001(\005\022\016\n\006cdTime\030\n \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n" +
-      "\004name\030\014 \001(\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage\030" +
-      "\016 \001(\t\022\022\n\ntempleteId\030\017 \001(\t\022\020\n\010fighting\030\020 " +
-      "\001(\005\022-\n\troleSkill\030\021 \003(\0132\032.SkillService.Ta" +
-      "gSkillData\022)\n\010roleAttr\030\022 \003(\0132\027.SyncAttri",
-      ".TagAttriData\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022" +
-      "\025\n\rlastFightTime\030\024 \001(\003\022\033\n\023gainCurrencyPe" +
-      "rHour\030\025 \001(\005\022\031\n\021maxChallengeCount\030\026 \001(\005\022\021" +
-      "\n\tgroupName\030\027 \001(\t\"\324\001\n\tArenaInfo\022\016\n\006userI" +
-      "d\030\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022" +
-      "\r\n\005place\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005leve" +
-      "l\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t" +
-      "\022\020\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n" +
-      "\tqualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\t\"\214\001\n\013Are" +
-      "naRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n",
-      "\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImag" +
-      "e\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\t" +
-      "challenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\ta" +
-      "renaType\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 " +
-      "\001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004" +
-      " \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder" +
-      "\030\006 \003(\005\"\337\001\n\020MsgArenaResponse\022\036\n\tarenaType" +
-      "\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResultType\030\002" +
-      " \001(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003 \001" +
-      "(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.Arena",
-      "Info\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r" +
-      "\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t*\244\002\n\neAr" +
-      "enaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022" +
-      "\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nEN" +
-      "EMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGH" +
-      "T_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022AR" +
-      "ENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tG" +
-      "ET_PLACE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWITCH_OVER" +
-      "\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CON" +
-      "TINUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SUC",
-      "CESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026P" +
-      "eakArenaServiceProtos"
+      "roto\"\321\001\n\010HeroData\022\016\n\006heroId\030\001 \002(\t\022\022\n\ntem" +
+      "pleteId\030\002 \002(\t\022\r\n\005level\030\003 \001(\005\022\021\n\tstarLeve" +
+      "l\030\004 \001(\005\022\020\n\010fighting\030\005 \001(\005\022\021\n\tqualityId\030\006" +
+      " \001(\t\022\013\n\003exp\030\007 \001(\003\022*\n\006skills\030\010 \003(\0132\032.Skil" +
+      "lService.TagSkillData\022\016\n\006teamId\030\n \001(\005\022\021\n" +
+      "\theadImage\030\013 \001(\t\"\205\001\n\010TeamInfo\022\016\n\006teamId\030" +
+      "\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t.HeroData\022\017\n\007heroI" +
+      "ds\030\003 \003(\t\022\017\n\007magicId\030\004 \001(\005\022\022\n\nmagicLevel\030" +
+      "\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\"\314\003\n\tAre",
+      "naData\022\016\n\006userId\030\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\021\n" +
+      "\tgainScore\030\003 \001(\005\022\017\n\007scoreLv\030\004 \001(\005\022\r\n\005pla" +
+      "ce\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022\020\n\010winCount\030\010" +
+      " \001(\005\022\026\n\016challengeCount\030\t \001(\005\022\016\n\006cdTime\030\n" +
+      " \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004name\030\014 \001(\t\022\r\n\005le" +
+      "vel\030\r \001(\005\022\021\n\theadImage\030\016 \001(\t\022\022\n\ntemplete" +
+      "Id\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\troleSkill\030" +
+      "\021 \003(\0132\032.SkillService.TagSkillData\022\030\n\005tea" +
+      "ms\030\023 \003(\0132\t.TeamInfo\022\025\n\rlastFightTime\030\024 \001" +
+      "(\003\022\033\n\023gainCurrencyPerHour\030\025 \001(\005\022\031\n\021maxCh",
+      "allengeCount\030\026 \001(\005\022\021\n\tgroupName\030\027 \001(\t\022\020\n" +
+      "\010armyInfo\030\030 \001(\t\"\324\001\n\tArenaInfo\022\016\n\006userId\030" +
+      "\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022\r\n" +
+      "\005place\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level\030" +
+      "\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020" +
+      "\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\tq" +
+      "ualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\"\214\001\n\013Arena" +
+      "Record\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n\007p" +
+      "laceUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImage\030" +
+      "\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\tch",
+      "allenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\tare" +
+      "naType\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(" +
+      "\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004 \001" +
+      "(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030\006" +
+      " \003(\005\"\337\001\n\020MsgArenaResponse\022\036\n\tarenaType\030\001" +
+      " \002(\0162\013.eArenaType\022*\n\017arenaResultType\030\002 \001" +
+      "(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003 \001(\013" +
+      "2\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaIn" +
+      "fo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005" +
+      "place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t*\244\002\n\neAren",
+      "aType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n" +
+      "\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEM" +
+      "Y_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_" +
+      "PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022AREN" +
+      "A_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET" +
+      "_PLACE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWITCH_OVER\020\014" +
+      "\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTI" +
+      "NUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SUCCE" +
+      "SS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026Pea" +
+      "kArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -14135,7 +13514,7 @@ public final class PeakArenaServiceProtos {
           internal_static_HeroData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_HeroData_descriptor,
-              new java.lang.String[] { "HeroId", "TempleteId", "Level", "StarLevel", "Fighting", "QualityId", "Exp", "Skills", "Attrs", "TeamId", "HeadImage", });
+              new java.lang.String[] { "HeroId", "TempleteId", "Level", "StarLevel", "Fighting", "QualityId", "Exp", "Skills", "TeamId", "HeadImage", });
           internal_static_TeamInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_TeamInfo_fieldAccessorTable = new
@@ -14147,7 +13526,7 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaData_descriptor,
-              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "WinCount", "ChallengeCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "RoleAttr", "Teams", "LastFightTime", "GainCurrencyPerHour", "MaxChallengeCount", "GroupName", });
+              new java.lang.String[] { "UserId", "Score", "GainScore", "ScoreLv", "Place", "MaxPlace", "WinCount", "ChallengeCount", "CdTime", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "Teams", "LastFightTime", "GainCurrencyPerHour", "MaxChallengeCount", "GroupName", "ArmyInfo", });
           internal_static_ArenaInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaInfo_fieldAccessorTable = new
@@ -14179,7 +13558,6 @@ public final class PeakArenaServiceProtos {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.rwproto.SkillServiceProtos.getDescriptor(),
-          com.rwproto.SyncAttriProtos.getDescriptor(),
         }, assigner);
   }
 

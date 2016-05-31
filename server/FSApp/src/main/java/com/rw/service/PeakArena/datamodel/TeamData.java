@@ -11,7 +11,7 @@ public class TeamData {
 	private int teamId;
 	private int magicId;
 	private int magicLevel;
-	private List<RoleBaseInfo> heros;
+	private List<String> heros;
 	private List<TableSkill> heroSkills;
 	private List<TableAttr> heroAtrrs;
 	
@@ -34,10 +34,10 @@ public class TeamData {
 	public void setMagicLevel(int magicLevel) {
 		this.magicLevel = magicLevel;
 	}
-	public List<RoleBaseInfo> getHeros() {
+	public List<String> getHeros() {
 		return heros;
 	}
-	public void setHeros(List<RoleBaseInfo> heros) {
+	public void setHeros(List<String> heros) {
 		this.heros = heros;
 	}
 	public List<TableSkill> getHeroSkills() {

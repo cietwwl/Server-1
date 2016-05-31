@@ -12,6 +12,9 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
+import com.playerdata.army.ArmyHero;
+import com.playerdata.army.ArmyInfo;
+import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.RankingEntry;
@@ -32,6 +35,7 @@ import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PeakArenaServiceProtos.ArenaData;
@@ -45,7 +49,6 @@ import com.rwproto.PeakArenaServiceProtos.eArenaResultType;
 import com.rwproto.PeakArenaServiceProtos.eArenaType;
 import com.rwproto.PrivilegeProtos.PeakArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
-import com.rwproto.SyncAttriProtos.TagAttriData;
 
 public class PeakArenaHandler {
 
@@ -162,18 +165,24 @@ public class PeakArenaHandler {
 		}
 		 List<ListRankingEntry<String, PeakArenaExtAttribute>> listInfo = PeakArenaBM.getInstance().SelectPeakArenaInfos(m_MyArenaData,player);
 		for (ListRankingEntry<String, PeakArenaExtAttribute> entry : listInfo) {
-			ArenaInfo.Builder result = ArenaInfo.newBuilder();
+			ArenaInfo.Builder info = ArenaInfo.newBuilder();
 			String key = entry.getKey();
 			TablePeakArenaData otherArenaData = PeakArenaBM.getInstance().getPeakArenaData(key);
-			result.setUserId(key);
-			result.setWinCount(otherArenaData.getWinCount());
-			result.setFighting(otherArenaData.getFighting());
-			result.setHeadImage(otherArenaData.getHeadImage());
-			result.setLevel(otherArenaData.getLevel());
-			result.setName(otherArenaData.getName());
-			result.setPlace(entry.getRanking());
+			info.setUserId(key);
+			info.setWinCount(otherArenaData.getWinCount());
+			info.setFighting(otherArenaData.getFighting());
+			info.setHeadImage(otherArenaData.getHeadImage());
+			info.setLevel(otherArenaData.getLevel());
+			info.setName(otherArenaData.getName());
+			info.setPlace(entry.getRanking());
 			
-			response.addListInfo(result.build());
+			Player enymyPlayer = PlayerMgr.getInstance().find(key);
+			info.setStarLevel(enymyPlayer.getStarLevel());
+			
+			info.setCareer(enymyPlayer.getCareer());
+			info.setQualityId(enymyPlayer.getMainRoleHero().getQualityId());
+			
+			response.addListInfo(info.build());
 		}
 
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
@@ -234,7 +243,7 @@ public class PeakArenaHandler {
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (TeamInfo teamInfo : teamInfoList) {
 			TeamData team = peakData.search(teamInfo.getTeamId());
-			List<RoleBaseInfo> newHeroList = new ArrayList<RoleBaseInfo>();
+			List<String> newHeroList = new ArrayList<String>();
 			List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
 			List<TableAttr> heroAttrList = new ArrayList<TableAttr>();
 			List<String> heroIdsList = teamInfo.getHeroIdsList();
@@ -244,8 +253,7 @@ public class PeakArenaHandler {
 					GameLog.error("巅峰竞技场", player.getUserId(), "无效佣兵ID="+id);
 					continue;
 				}
-				RoleBaseInfo data = heroData.getHeroData();
-				newHeroList.add(data);
+				newHeroList.add(id);
 				TableSkill skill = heroData.getSkillMgr().getTableSkill(); 
 				heroSkillList.add(skill);
 				
@@ -459,34 +467,55 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
-	public HeroData getHeroData(RoleBaseInfo tableHeroData, int teamId) {
-//		@不再使用该方法，统一用amryInfo返回队伍信息 有问题联系allen
-//		HeroData.Builder result = HeroData.newBuilder();
-//		result.setHeroId(tableHeroData.getId());
-//		result.setTempleteId(tableHeroData.getTemplateId());
-//		result.setLevel(tableHeroData.getLevel());
-//		result.setStarLevel(tableHeroData.getStarLevel());
-//		//fighting 要直接从hero获取
-////		result.setFighting(tableHeroData.getFighting());
-//		result.setQualityId(tableHeroData.getQualityId());
-//		result.setExp(tableHeroData.getExp());
-//		result.setTeamId(teamId);
-//		Hero hero = new Hero(null);
-//		hero.getRoleBaseInfoMgr().initRoleBase(tableHeroData);
-//		
-//		List<TagSkillData> skills = hero.getSkillMgr().getSkillProtoList();
-//		for (TagSkillData skill : skills) {
-//			result.addSkills(skill);
-//		}
-//		List<TagAttriData> attrs = hero.getAttrMgr().getAttrList();
-//		for (TagAttriData attr : attrs) {
-//			result.addAttrs(attr);
-//		}
-//
-//		return result.build();
-		return null;
-	}
+	public HeroData getHeroData(ArmyHero tableHeroData, int teamId) {
+		HeroData.Builder result = HeroData.newBuilder();
+		RoleBaseInfo baseInfo = tableHeroData.getRoleBaseInfo();
+		result.setHeroId(baseInfo.getId());
+		result.setTempleteId(baseInfo.getTemplateId());
+		result.setLevel(baseInfo.getLevel());
+		result.setStarLevel(baseInfo.getStarLevel());
+		result.setFighting(tableHeroData.getFighting());
+		result.setQualityId(baseInfo.getQualityId());
+		result.setExp(baseInfo.getExp());
+		result.setTeamId(teamId);
 
+		for (Skill skill : tableHeroData.getSkillList()) {
+			result.addSkills(transfrom(skill));
+		}
+		return result.build();
+	}
+	
+	public HeroData getHeroData(Player player) {
+		HeroData.Builder result = HeroData.newBuilder();
+		result.setExp(player.getExp());
+		
+		Hero baseInfo = player.getMainRoleHero();
+		result.setHeroId(baseInfo.getUUId());
+		result.setTempleteId(baseInfo.getTemplateId());
+		result.setLevel(baseInfo.getLevel());
+		result.setStarLevel(baseInfo.getStarLevel());
+		result.setFighting(baseInfo.getFighting());
+		result.setQualityId(baseInfo.getQualityId());
+		
+		List<Skill> lst = baseInfo.getSkillMgr().getSkillList();
+		for (Skill skill : lst) {
+			result.addSkills(transfrom(skill));
+		}
+		return result.build();
+	}
+	
+	private TagSkillData transfrom(Skill skill) {
+		TagSkillData.Builder builder = TagSkillData.newBuilder();
+		builder.setId(skill.getId());
+		builder.setOwnerId(skill.getOwnerId());
+		builder.setSkillId(skill.getSkillId());
+		builder.addAllBuffId(skill.getBuffId());
+		builder.setOrder(skill.getOrder());
+		builder.setSkillRate(skill.getSkillRate());
+		builder.setExtraDamage(skill.getExtraDamage());
+		return builder.build();
+	}
+	
 	public ArenaData getPeakArenaData(TablePeakArenaData arenaData, Player player) {
 		return getPeakArenaData(arenaData, PeakArenaBM.getInstance().getPlace(player));
 	}
@@ -528,34 +557,29 @@ public class PeakArenaHandler {
 		for (TagSkillData skill : skills) {
 			data.addRoleSkill(skill);
 		}
-		List<TagAttriData> attrs = role.getAttrMgr().getAttrList();
-		for (TagAttriData attr : attrs) {
-			if (attr.getAttValue() == 0) {
-				System.out.println("attrId:" + attr.getAttrId() + ",attrValue:" + attr.getAttValue());
-			}
-			data.addRoleAttr(attr);
-		}
+		
 		data.setTempleteId(arenaData.getTempleteId());
 
 		Player user = PlayerMgr.getInstance().find(userId);
-		HeroData.Builder teamMainRole;
-		//TODO get player from userId and then set TeamInfo.player
-		for (int i = 1; i <= arenaData.getTeamCount(); i++) {
+		HeroData teamMainRole = getHeroData(user);
+		// get player from userId and then set TeamInfo.player
+		for (int i = 0; i < arenaData.getTeamCount(); i++) {
 			TeamInfo.Builder teamBuilder = TeamInfo.newBuilder();
-			teamBuilder.setTeamId(i);
 			TeamData team = arenaData.getTeam(i);
+			teamBuilder.setTeamId(team.getTeamId());
 			teamBuilder.setMagicId(team.getMagicId());
 			teamBuilder.setMagicLevel(team.getMagicLevel());
-			List<RoleBaseInfo> heros = team.getHeros();
-			for (RoleBaseInfo hero : heros) {
+			
+			List<String> heroIdList = team.getHeros();
+			if (heroIdList != null)
+				heroIdList.remove(arenaData.getUserId());
+			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(arenaData.getUserId(), heroIdList);
+			List<ArmyHero> armyList = armyInfo.getHeroList();
+			for (ArmyHero hero : armyList) {
 				teamBuilder.addHeros(getHeroData(hero, i));
 			}
-			//teamBuilder.setPlayer(teamMainRole);
-			try {
-				data.addTeams(teamBuilder);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			data.addTeams(teamBuilder);
+			teamBuilder.setPlayer(teamMainRole);
 		}
 		return data.build();
 	}

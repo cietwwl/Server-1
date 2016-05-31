@@ -6,9 +6,11 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Table(name = "peak_arena_data")
 public class TablePeakArenaData {
 	@Id
@@ -38,6 +40,14 @@ public class TablePeakArenaData {
 		this.recordList = new ArrayList<PeakRecordInfo>();
 	}
 	
+	public TeamData[] getTeams() {
+		return teams;
+	}
+
+	public void setTeams(TeamData[] teams) {
+		this.teams = teams;
+	}
+
 	public static TeamData search(int teamId, TeamData[] teams) {
 		if (teams == null) return null;
 		for(int i = 0; i<teams.length;i++){
@@ -172,18 +182,6 @@ public class TablePeakArenaData {
 		this.headImage = headImage;
 	}
 
-	// public int getMagicId() {
-	// return magicId;
-	// }
-	// public void setMagicId(int magicId) {
-	// this.magicId = magicId;
-	// }
-	// public int getMagicLevel() {
-	// return magicLevel;
-	// }
-	// public void setMagicLevel(int magicLevel) {
-	// this.magicLevel = magicLevel;
-	// }
 	public String getTempleteId() {
 		return templeteId;
 	}

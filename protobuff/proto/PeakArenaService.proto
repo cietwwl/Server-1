@@ -2,7 +2,6 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "PeakArenaServiceProtos";
 import "SkillService.proto";
-import "SyncAttri.proto";
 
 enum eArenaType {
 	GET_DATA = 0;     //
@@ -36,7 +35,6 @@ message HeroData{
 	optional string qualityId = 6;
 	optional int64 exp = 7; // 有用咩？
 	repeated SkillService.TagSkillData skills = 8;  // 咩来嘎 ？？
-	repeated SyncAttri.TagAttriData attrs = 9;// 咩来嘎 ？？
 	optional int32 teamId = 10;
 	optional string headImage = 11;//TODO
 }
@@ -67,7 +65,6 @@ message ArenaData{
 	optional string templeteId = 15;
 	optional int32 fighting = 16;  // 可能是队伍总战力？
 	repeated SkillService.TagSkillData roleSkill = 17;
-	repeated SyncAttri.TagAttriData roleAttr = 18;
 	repeated TeamInfo teams = 19;
 	optional int64 lastFightTime = 20;  //唔知系咩
 	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
@@ -88,7 +85,7 @@ message ArenaInfo{
 	optional int32 fighting = 9;
 	optional int32 starLevel = 10;
 	optional string qualityId = 11;
-	optional string career = 12;
+	optional int32 career = 12;
 }
 
 message ArenaRecord{
