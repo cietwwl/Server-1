@@ -185,8 +185,66 @@ public class GroupSecretMatchEnemyData {
 	}
 
 	/**
+	 * 初始化匹配到的阵容的血量信息，开始的时候所有的血量变化都是Null
+	 * 
+	 * @param index
+	 * @param leftMap
+	 */
+	@JsonIgnore
+	public void initHeroLeftInfo(int index, Map<String, HeroLeftInfoSynData> leftMap) {
+		if (index == GroupSecretIndex.MAIN_VALUE) {
+			this.teamOneMap = new HashMap<String, HeroLeftInfoSynData>(leftMap);
+		} else if (index == GroupSecretIndex.LEFT_VALUE) {
+			this.teamTwoMap = new HashMap<String, HeroLeftInfoSynData>(leftMap);
+		} else if (index == GroupSecretIndex.RIGHT_VALUE) {
+			this.teamThreeMap = new HashMap<String, HeroLeftInfoSynData>(leftMap);
+		}
+	}
+
+	/**
+	 * 更新英雄的剩余血量
+	 * 
+	 * @param index 索引
+	 * @param heroId 英雄Id
+	 * @param heroLeftInfo 剩余的英雄血量
+	 * @return 返回是否更新血量成功
+	 */
+	@JsonIgnore
+	public boolean updateHeroLeftInfo(int index, String heroId, HeroLeftInfoSynData heroLeftInfo) {
+		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamAttrInfoMap(index);
+		if (teamAttrInfoMap == null) {
+			return true;
+		}
+
+		if (!teamAttrInfoMap.containsKey(heroId)) {// 是否已经包含了英雄
+			return false;
+		}
+
+		teamAttrInfoMap.put(heroId, heroLeftInfo);
+		return true;
+	}
+
+	/**
+	 * 获取是否某个驻守点包含了某些英雄的数据
+	 * 
+	 * @param index 驻守点
+	 * @param heroId 英雄Id
+	 * @return
+	 */
+	@JsonIgnore
+	public boolean checkTeamHasHeroId(int index, String heroId) {
+		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamAttrInfoMap(index);
+		if (teamAttrInfoMap == null) {
+			return false;
+		}
+
+		return teamAttrInfoMap.containsKey(heroId);
+	}
+
+	/**
 	 * 清除缓存的数据
 	 */
+	@JsonIgnore
 	public void clearAllData() {
 		matchUserId = "";
 		id = 0;

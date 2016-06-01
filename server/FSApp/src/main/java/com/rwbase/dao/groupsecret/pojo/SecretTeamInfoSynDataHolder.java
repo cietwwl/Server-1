@@ -60,13 +60,13 @@ public class SecretTeamInfoSynDataHolder {
 	 * 同步删除一条记录
 	 * 
 	 * @param player
-	 * @param base
+	 * @param team
 	 */
-	public void removeData(Player player, SecretTeamInfoSynData base) {
-		if (base == null) {
+	public void removeData(Player player, SecretTeamInfoSynData team) {
+		if (team == null) {
 			return;
 		}
 
-		ClientDataSynMgr.synData(player, base, synType, eSynOpType.REMOVE_SINGLE, version.get());
+		ClientDataSynMgr.synData(player, team, synType, eSynOpType.REMOVE_SINGLE, version.get());
 	}
 }

@@ -12,7 +12,7 @@ public final class GroupSecretMatchProto {
    * Protobuf enum {@code groupSecret.MatchSecretState}
    *
    * <pre>
-   *Æ¥Åäµ½µÄÃØ¾³×´Ì¬
+   *åŒ¹é…åˆ°çš„ç§˜å¢ƒçŠ¶æ€
    * </pre>
    */
   public enum MatchSecretState
@@ -21,7 +21,7 @@ public final class GroupSecretMatchProto {
      * <code>NON_BATTLE = 1;</code>
      *
      * <pre>
-     *Î´¿ªÕ½
+     *æœªå¼€æˆ˜
      * </pre>
      */
     NON_BATTLE(0, 1),
@@ -29,7 +29,7 @@ public final class GroupSecretMatchProto {
      * <code>IN_BATTLE = 2;</code>
      *
      * <pre>
-     *Õ½¶·ÖĞ
+     *æˆ˜æ–—ä¸­
      * </pre>
      */
     IN_BATTLE(1, 2),
@@ -37,7 +37,7 @@ public final class GroupSecretMatchProto {
      * <code>IN_ROB_PROTECT = 3;</code>
      *
      * <pre>
-     *ÂÓ¶á±£»¤ÖĞ
+     *æ å¤ºä¿æŠ¤ä¸­
      * </pre>
      */
     IN_ROB_PROTECT(2, 3),
@@ -45,7 +45,7 @@ public final class GroupSecretMatchProto {
      * <code>IN_MAX_ROB_COUNT = 4;</code>
      *
      * <pre>
-     *ÒÑ¾­ÂÓ¶áµ½ÁËÉÏÏŞ
+     *å·²ç»æ å¤ºåˆ°äº†ä¸Šé™
      * </pre>
      */
     IN_MAX_ROB_COUNT(3, 4),
@@ -55,7 +55,7 @@ public final class GroupSecretMatchProto {
      * <code>NON_BATTLE = 1;</code>
      *
      * <pre>
-     *Î´¿ªÕ½
+     *æœªå¼€æˆ˜
      * </pre>
      */
     public static final int NON_BATTLE_VALUE = 1;
@@ -63,7 +63,7 @@ public final class GroupSecretMatchProto {
      * <code>IN_BATTLE = 2;</code>
      *
      * <pre>
-     *Õ½¶·ÖĞ
+     *æˆ˜æ–—ä¸­
      * </pre>
      */
     public static final int IN_BATTLE_VALUE = 2;
@@ -71,7 +71,7 @@ public final class GroupSecretMatchProto {
      * <code>IN_ROB_PROTECT = 3;</code>
      *
      * <pre>
-     *ÂÓ¶á±£»¤ÖĞ
+     *æ å¤ºä¿æŠ¤ä¸­
      * </pre>
      */
     public static final int IN_ROB_PROTECT_VALUE = 3;
@@ -79,7 +79,7 @@ public final class GroupSecretMatchProto {
      * <code>IN_MAX_ROB_COUNT = 4;</code>
      *
      * <pre>
-     *ÒÑ¾­ÂÓ¶áµ½ÁËÉÏÏŞ
+     *å·²ç»æ å¤ºåˆ°äº†ä¸Šé™
      * </pre>
      */
     public static final int IN_MAX_ROB_COUNT_VALUE = 4;
@@ -145,19 +145,19 @@ public final class GroupSecretMatchProto {
   }
 
   /**
-   * Protobuf enum {@code groupSecret.RequestType}
+   * Protobuf enum {@code groupSecret.MatchRequestType}
    *
    * <pre>
-   *ÇëÇóµÄÀàĞÍ
+   *è¯·æ±‚çš„ç±»å‹
    * </pre>
    */
-  public enum RequestType
+  public enum MatchRequestType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>SEARCHING_ENEMY = 1;</code>
      *
      * <pre>
-     *ËÑË÷µĞÈË
+     *æœç´¢æ•Œäºº
      * </pre>
      */
     SEARCHING_ENEMY(0, 1),
@@ -165,7 +165,7 @@ public final class GroupSecretMatchProto {
      * <code>ATTACK_ENEMY_START = 2;</code>
      *
      * <pre>
-     *¹¥»÷µĞÈË
+     *æ”»å‡»æ•Œäºº
      * </pre>
      */
     ATTACK_ENEMY_START(1, 2),
@@ -173,7 +173,7 @@ public final class GroupSecretMatchProto {
      * <code>ATTACK_ENEMY_END = 3;</code>
      *
      * <pre>
-     *Í¨ÖªÕ½¶·½á¹û
+     *é€šçŸ¥æˆ˜æ–—ç»“æœ
      * </pre>
      */
     ATTACK_ENEMY_END(2, 3),
@@ -181,7 +181,7 @@ public final class GroupSecretMatchProto {
      * <code>GET_REWARD = 4;</code>
      *
      * <pre>
-     *»ñÈ¡½±Àø
+     *è·å–å¥–åŠ±
      * </pre>
      */
     GET_REWARD(3, 4),
@@ -191,7 +191,7 @@ public final class GroupSecretMatchProto {
      * <code>SEARCHING_ENEMY = 1;</code>
      *
      * <pre>
-     *ËÑË÷µĞÈË
+     *æœç´¢æ•Œäºº
      * </pre>
      */
     public static final int SEARCHING_ENEMY_VALUE = 1;
@@ -199,7 +199,7 @@ public final class GroupSecretMatchProto {
      * <code>ATTACK_ENEMY_START = 2;</code>
      *
      * <pre>
-     *¹¥»÷µĞÈË
+     *æ”»å‡»æ•Œäºº
      * </pre>
      */
     public static final int ATTACK_ENEMY_START_VALUE = 2;
@@ -207,7 +207,7 @@ public final class GroupSecretMatchProto {
      * <code>ATTACK_ENEMY_END = 3;</code>
      *
      * <pre>
-     *Í¨ÖªÕ½¶·½á¹û
+     *é€šçŸ¥æˆ˜æ–—ç»“æœ
      * </pre>
      */
     public static final int ATTACK_ENEMY_END_VALUE = 3;
@@ -215,7 +215,7 @@ public final class GroupSecretMatchProto {
      * <code>GET_REWARD = 4;</code>
      *
      * <pre>
-     *»ñÈ¡½±Àø
+     *è·å–å¥–åŠ±
      * </pre>
      */
     public static final int GET_REWARD_VALUE = 4;
@@ -223,7 +223,7 @@ public final class GroupSecretMatchProto {
 
     public final int getNumber() { return value; }
 
-    public static RequestType valueOf(int value) {
+    public static MatchRequestType valueOf(int value) {
       switch (value) {
         case 1: return SEARCHING_ENEMY;
         case 2: return ATTACK_ENEMY_START;
@@ -233,15 +233,15 @@ public final class GroupSecretMatchProto {
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+    public static com.google.protobuf.Internal.EnumLiteMap<MatchRequestType>
         internalGetValueMap() {
       return internalValueMap;
     }
-    private static com.google.protobuf.Internal.EnumLiteMap<RequestType>
+    private static com.google.protobuf.Internal.EnumLiteMap<MatchRequestType>
         internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<RequestType>() {
-            public RequestType findValueByNumber(int number) {
-              return RequestType.valueOf(number);
+          new com.google.protobuf.Internal.EnumLiteMap<MatchRequestType>() {
+            public MatchRequestType findValueByNumber(int number) {
+              return MatchRequestType.valueOf(number);
             }
           };
 
@@ -258,9 +258,9 @@ public final class GroupSecretMatchProto {
       return com.rwproto.GroupSecretMatchProto.getDescriptor().getEnumTypes().get(1);
     }
 
-    private static final RequestType[] VALUES = values();
+    private static final MatchRequestType[] VALUES = values();
 
-    public static RequestType valueOf(
+    public static MatchRequestType valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -272,12 +272,12 @@ public final class GroupSecretMatchProto {
     private final int index;
     private final int value;
 
-    private RequestType(int index, int value) {
+    private MatchRequestType(int index, int value) {
       this.index = index;
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:groupSecret.RequestType)
+    // @@protoc_insertion_point(enum_scope:groupSecret.MatchRequestType)
   }
 
   public interface HeroLeftInfoOrBuilder
@@ -288,7 +288,7 @@ public final class GroupSecretMatchProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *Ó¢ĞÛµÄId
+     *è‹±é›„çš„Id
      * </pre>
      */
     boolean hasId();
@@ -296,7 +296,7 @@ public final class GroupSecretMatchProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *Ó¢ĞÛµÄId
+     *è‹±é›„çš„Id
      * </pre>
      */
     java.lang.String getId();
@@ -304,7 +304,7 @@ public final class GroupSecretMatchProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *Ó¢ĞÛµÄId
+     *è‹±é›„çš„Id
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -315,7 +315,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftLife = 2;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿
+     *å‰©ä½™çš„è¡€é‡
      * </pre>
      */
     boolean hasLeftLife();
@@ -323,7 +323,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftLife = 2;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿
+     *å‰©ä½™çš„è¡€é‡
      * </pre>
      */
     int getLeftLife();
@@ -333,7 +333,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftEnergy = 3;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÄÜÁ¿
+     *å‰©ä½™çš„èƒ½é‡
      * </pre>
      */
     boolean hasLeftEnergy();
@@ -341,7 +341,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftEnergy = 3;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÄÜÁ¿
+     *å‰©ä½™çš„èƒ½é‡
      * </pre>
      */
     int getLeftEnergy();
@@ -350,7 +350,7 @@ public final class GroupSecretMatchProto {
    * Protobuf type {@code groupSecret.HeroLeftInfo}
    *
    * <pre>
-   *²ÎÓëÕ½¶·µÄ½ÇÉ«µÄÊ£ÓàÑªÁ¿ÄÜÁ¿ĞÅÏ¢
+   *å‚ä¸æˆ˜æ–—çš„è§’è‰²çš„å‰©ä½™è¡€é‡èƒ½é‡ä¿¡æ¯
    * </pre>
    */
   public static final class HeroLeftInfo extends
@@ -463,7 +463,7 @@ public final class GroupSecretMatchProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *Ó¢ĞÛµÄId
+     *è‹±é›„çš„Id
      * </pre>
      */
     public boolean hasId() {
@@ -473,7 +473,7 @@ public final class GroupSecretMatchProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *Ó¢ĞÛµÄId
+     *è‹±é›„çš„Id
      * </pre>
      */
     public java.lang.String getId() {
@@ -494,7 +494,7 @@ public final class GroupSecretMatchProto {
      * <code>required string id = 1;</code>
      *
      * <pre>
-     *Ó¢ĞÛµÄId
+     *è‹±é›„çš„Id
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -518,7 +518,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftLife = 2;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿
+     *å‰©ä½™çš„è¡€é‡
      * </pre>
      */
     public boolean hasLeftLife() {
@@ -528,7 +528,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftLife = 2;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿
+     *å‰©ä½™çš„è¡€é‡
      * </pre>
      */
     public int getLeftLife() {
@@ -542,7 +542,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftEnergy = 3;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÄÜÁ¿
+     *å‰©ä½™çš„èƒ½é‡
      * </pre>
      */
     public boolean hasLeftEnergy() {
@@ -552,7 +552,7 @@ public final class GroupSecretMatchProto {
      * <code>required int32 leftEnergy = 3;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÄÜÁ¿
+     *å‰©ä½™çš„èƒ½é‡
      * </pre>
      */
     public int getLeftEnergy() {
@@ -700,7 +700,7 @@ public final class GroupSecretMatchProto {
      * Protobuf type {@code groupSecret.HeroLeftInfo}
      *
      * <pre>
-     *²ÎÓëÕ½¶·µÄ½ÇÉ«µÄÊ£ÓàÑªÁ¿ÄÜÁ¿ĞÅÏ¢
+     *å‚ä¸æˆ˜æ–—çš„è§’è‰²çš„å‰©ä½™è¡€é‡èƒ½é‡ä¿¡æ¯
      * </pre>
      */
     public static final class Builder extends
@@ -856,7 +856,7 @@ public final class GroupSecretMatchProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *Ó¢ĞÛµÄId
+       *è‹±é›„çš„Id
        * </pre>
        */
       public boolean hasId() {
@@ -866,7 +866,7 @@ public final class GroupSecretMatchProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *Ó¢ĞÛµÄId
+       *è‹±é›„çš„Id
        * </pre>
        */
       public java.lang.String getId() {
@@ -884,7 +884,7 @@ public final class GroupSecretMatchProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *Ó¢ĞÛµÄId
+       *è‹±é›„çš„Id
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -904,7 +904,7 @@ public final class GroupSecretMatchProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *Ó¢ĞÛµÄId
+       *è‹±é›„çš„Id
        * </pre>
        */
       public Builder setId(
@@ -921,7 +921,7 @@ public final class GroupSecretMatchProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *Ó¢ĞÛµÄId
+       *è‹±é›„çš„Id
        * </pre>
        */
       public Builder clearId() {
@@ -934,7 +934,7 @@ public final class GroupSecretMatchProto {
        * <code>required string id = 1;</code>
        *
        * <pre>
-       *Ó¢ĞÛµÄId
+       *è‹±é›„çš„Id
        * </pre>
        */
       public Builder setIdBytes(
@@ -954,7 +954,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftLife = 2;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿
+       *å‰©ä½™çš„è¡€é‡
        * </pre>
        */
       public boolean hasLeftLife() {
@@ -964,7 +964,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftLife = 2;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿
+       *å‰©ä½™çš„è¡€é‡
        * </pre>
        */
       public int getLeftLife() {
@@ -974,7 +974,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftLife = 2;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿
+       *å‰©ä½™çš„è¡€é‡
        * </pre>
        */
       public Builder setLeftLife(int value) {
@@ -987,7 +987,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftLife = 2;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿
+       *å‰©ä½™çš„è¡€é‡
        * </pre>
        */
       public Builder clearLeftLife() {
@@ -1003,7 +1003,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftEnergy = 3;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÄÜÁ¿
+       *å‰©ä½™çš„èƒ½é‡
        * </pre>
        */
       public boolean hasLeftEnergy() {
@@ -1013,7 +1013,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftEnergy = 3;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÄÜÁ¿
+       *å‰©ä½™çš„èƒ½é‡
        * </pre>
        */
       public int getLeftEnergy() {
@@ -1023,7 +1023,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftEnergy = 3;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÄÜÁ¿
+       *å‰©ä½™çš„èƒ½é‡
        * </pre>
        */
       public Builder setLeftEnergy(int value) {
@@ -1036,7 +1036,7 @@ public final class GroupSecretMatchProto {
        * <code>required int32 leftEnergy = 3;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÄÜÁ¿
+       *å‰©ä½™çš„èƒ½é‡
        * </pre>
        */
       public Builder clearLeftEnergy() {
@@ -1057,68 +1057,86 @@ public final class GroupSecretMatchProto {
     // @@protoc_insertion_point(class_scope:groupSecret.HeroLeftInfo)
   }
 
-  public interface AttackEnemyStartReqMgOrBuilder
+  public interface AttackEnemyStartReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated string heroList = 1;
+    // required .groupSecret.GroupSecretIndex index = 1;
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.GroupSecretIndex getIndex();
+
+    // repeated string heroList = 2;
+    /**
+     * <code>repeated string heroList = 2;</code>
+     *
+     * <pre>
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     java.util.List<java.lang.String>
     getHeroListList();
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>repeated string heroList = 2;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     int getHeroListCount();
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>repeated string heroList = 2;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     java.lang.String getHeroList(int index);
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>repeated string heroList = 2;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     com.google.protobuf.ByteString
         getHeroListBytes(int index);
   }
   /**
-   * Protobuf type {@code groupSecret.AttackEnemyStartReqMg}
+   * Protobuf type {@code groupSecret.AttackEnemyStartReqMsg}
    *
    * <pre>
-   *ÇëÇó¹¥»÷µĞÈËµÄÏûÏ¢
+   *è¯·æ±‚æ”»å‡»æ•Œäººçš„æ¶ˆæ¯
    * </pre>
    */
-  public static final class AttackEnemyStartReqMg extends
+  public static final class AttackEnemyStartReqMsg extends
       com.google.protobuf.GeneratedMessage
-      implements AttackEnemyStartReqMgOrBuilder {
-    // Use AttackEnemyStartReqMg.newBuilder() to construct.
-    private AttackEnemyStartReqMg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements AttackEnemyStartReqMsgOrBuilder {
+    // Use AttackEnemyStartReqMsg.newBuilder() to construct.
+    private AttackEnemyStartReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private AttackEnemyStartReqMg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private AttackEnemyStartReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final AttackEnemyStartReqMg defaultInstance;
-    public static AttackEnemyStartReqMg getDefaultInstance() {
+    private static final AttackEnemyStartReqMsg defaultInstance;
+    public static AttackEnemyStartReqMsg getDefaultInstance() {
       return defaultInstance;
     }
 
-    public AttackEnemyStartReqMg getDefaultInstanceForType() {
+    public AttackEnemyStartReqMsg getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -1128,7 +1146,7 @@ public final class GroupSecretMatchProto {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private AttackEnemyStartReqMg(
+    private AttackEnemyStartReqMsg(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1151,10 +1169,21 @@ public final class GroupSecretMatchProto {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupSecretProto.GroupSecretIndex value = com.rwproto.GroupSecretProto.GroupSecretIndex.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                index_ = value;
+              }
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
                 heroList_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000002;
               }
               heroList_.add(input.readBytes());
               break;
@@ -1167,7 +1196,7 @@ public final class GroupSecretMatchProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           heroList_ = new com.google.protobuf.UnmodifiableLazyStringList(heroList_);
         }
         this.unknownFields = unknownFields.build();
@@ -1176,39 +1205,64 @@ public final class GroupSecretMatchProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMg_descriptor;
+      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMsg_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMg_fieldAccessorTable
+      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMsg_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg.Builder.class);
+              com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<AttackEnemyStartReqMg> PARSER =
-        new com.google.protobuf.AbstractParser<AttackEnemyStartReqMg>() {
-      public AttackEnemyStartReqMg parsePartialFrom(
+    public static com.google.protobuf.Parser<AttackEnemyStartReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<AttackEnemyStartReqMsg>() {
+      public AttackEnemyStartReqMsg parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AttackEnemyStartReqMg(input, extensionRegistry);
+        return new AttackEnemyStartReqMsg(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<AttackEnemyStartReqMg> getParserForType() {
+    public com.google.protobuf.Parser<AttackEnemyStartReqMsg> getParserForType() {
       return PARSER;
     }
 
-    // repeated string heroList = 1;
-    public static final int HEROLIST_FIELD_NUMBER = 1;
-    private com.google.protobuf.LazyStringList heroList_;
+    private int bitField0_;
+    // required .groupSecret.GroupSecretIndex index = 1;
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private com.rwproto.GroupSecretProto.GroupSecretIndex index_;
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+      return index_;
+    }
+
+    // repeated string heroList = 2;
+    public static final int HEROLIST_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList heroList_;
+    /**
+     * <code>repeated string heroList = 2;</code>
+     *
+     * <pre>
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     public java.util.List<java.lang.String>
@@ -1216,30 +1270,30 @@ public final class GroupSecretMatchProto {
       return heroList_;
     }
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>repeated string heroList = 2;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     public int getHeroListCount() {
       return heroList_.size();
     }
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>repeated string heroList = 2;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     public java.lang.String getHeroList(int index) {
       return heroList_.get(index);
     }
     /**
-     * <code>repeated string heroList = 1;</code>
+     * <code>repeated string heroList = 2;</code>
      *
      * <pre>
-     *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+     *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1248,6 +1302,7 @@ public final class GroupSecretMatchProto {
     }
 
     private void initFields() {
+      index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
       heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
@@ -1255,6 +1310,10 @@ public final class GroupSecretMatchProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1262,8 +1321,11 @@ public final class GroupSecretMatchProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, index_.getNumber());
+      }
       for (int i = 0; i < heroList_.size(); i++) {
-        output.writeBytes(1, heroList_.getByteString(i));
+        output.writeBytes(2, heroList_.getByteString(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1274,6 +1336,10 @@ public final class GroupSecretMatchProto {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, index_.getNumber());
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < heroList_.size(); i++) {
@@ -1295,53 +1361,53 @@ public final class GroupSecretMatchProto {
       return super.writeReplace();
     }
 
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(byte[] data)
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(java.io.InputStream input)
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseDelimitedFrom(
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parseFrom(
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1350,7 +1416,7 @@ public final class GroupSecretMatchProto {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg prototype) {
+    public static Builder newBuilder(com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -1362,28 +1428,28 @@ public final class GroupSecretMatchProto {
       return builder;
     }
     /**
-     * Protobuf type {@code groupSecret.AttackEnemyStartReqMg}
+     * Protobuf type {@code groupSecret.AttackEnemyStartReqMsg}
      *
      * <pre>
-     *ÇëÇó¹¥»÷µĞÈËµÄÏûÏ¢
+     *è¯·æ±‚æ”»å‡»æ•Œäººçš„æ¶ˆæ¯
      * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMgOrBuilder {
+       implements com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsgOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMg_descriptor;
+        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMsg_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMg_fieldAccessorTable
+        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMsg_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg.Builder.class);
+                com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg.newBuilder()
+      // Construct using com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1403,8 +1469,10 @@ public final class GroupSecretMatchProto {
 
       public Builder clear() {
         super.clear();
-        heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
         bitField0_ = (bitField0_ & ~0x00000001);
+        heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1414,49 +1482,58 @@ public final class GroupSecretMatchProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMg_descriptor;
+        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyStartReqMsg_descriptor;
       }
 
-      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg getDefaultInstanceForType() {
-        return com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg.getDefaultInstance();
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.getDefaultInstance();
       }
 
-      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg build() {
-        com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg result = buildPartial();
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg build() {
+        com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg buildPartial() {
-        com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg result = new com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg(this);
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg buildPartial() {
+        com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg result = new com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
           heroList_ = new com.google.protobuf.UnmodifiableLazyStringList(
               heroList_);
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.heroList_ = heroList_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg) {
-          return mergeFrom((com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg)other);
+        if (other instanceof com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg) {
+          return mergeFrom((com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg other) {
-        if (other == com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg other) {
+        if (other == com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
         if (!other.heroList_.isEmpty()) {
           if (heroList_.isEmpty()) {
             heroList_ = other.heroList_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           } else {
             ensureHeroListIsMutable();
             heroList_.addAll(other.heroList_);
@@ -1468,6 +1545,10 @@ public final class GroupSecretMatchProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasIndex()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -1475,11 +1556,11 @@ public final class GroupSecretMatchProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg parsedMessage = null;
+        com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMg) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -1490,19 +1571,71 @@ public final class GroupSecretMatchProto {
       }
       private int bitField0_;
 
-      // repeated string heroList = 1;
+      // required .groupSecret.GroupSecretIndex index = 1;
+      private com.rwproto.GroupSecretProto.GroupSecretIndex index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+       * </pre>
+       */
+      public Builder setIndex(com.rwproto.GroupSecretProto.GroupSecretIndex value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *æŒ‘æˆ˜é‚£ä¸ªçŸ¿ç‚¹çš„æ•Œäºº
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+        onChanged();
+        return this;
+      }
+
+      // repeated string heroList = 2;
       private com.google.protobuf.LazyStringList heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureHeroListIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           heroList_ = new com.google.protobuf.LazyStringArrayList(heroList_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public java.util.List<java.lang.String>
@@ -1510,30 +1643,30 @@ public final class GroupSecretMatchProto {
         return java.util.Collections.unmodifiableList(heroList_);
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public int getHeroListCount() {
         return heroList_.size();
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public java.lang.String getHeroList(int index) {
         return heroList_.get(index);
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1541,10 +1674,10 @@ public final class GroupSecretMatchProto {
         return heroList_.getByteString(index);
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public Builder setHeroList(
@@ -1558,10 +1691,10 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public Builder addHeroList(
@@ -1575,10 +1708,10 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public Builder addAllHeroList(
@@ -1589,23 +1722,23 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public Builder clearHeroList() {
         heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string heroList = 1;</code>
+       * <code>repeated string heroList = 2;</code>
        *
        * <pre>
-       *ÇëÇó²ÎÓëÕ½¶·µÄÓ¢ĞÛĞÅÏ¢
+       *è¯·æ±‚å‚ä¸æˆ˜æ–—çš„è‹±é›„ä¿¡æ¯
        * </pre>
        */
       public Builder addHeroListBytes(
@@ -1619,15 +1752,15 @@ public final class GroupSecretMatchProto {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:groupSecret.AttackEnemyStartReqMg)
+      // @@protoc_insertion_point(builder_scope:groupSecret.AttackEnemyStartReqMsg)
     }
 
     static {
-      defaultInstance = new AttackEnemyStartReqMg(true);
+      defaultInstance = new AttackEnemyStartReqMsg(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:groupSecret.AttackEnemyStartReqMg)
+    // @@protoc_insertion_point(class_scope:groupSecret.AttackEnemyStartReqMsg)
   }
 
   public interface AttackEnemyStartRspMsgOrBuilder
@@ -1638,7 +1771,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     java.util.List<java.lang.String>
@@ -1647,7 +1780,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     int getArmyInfoCount();
@@ -1655,7 +1788,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     java.lang.String getArmyInfo(int index);
@@ -1663,7 +1796,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -1673,7 +1806,7 @@ public final class GroupSecretMatchProto {
    * Protobuf type {@code groupSecret.AttackEnemyStartRspMsg}
    *
    * <pre>
-   *ÇëÇó¹¥»÷µĞÈËµÄ»ØÓ¦ÏûÏ¢
+   *è¯·æ±‚æ”»å‡»æ•Œäººçš„å›åº”æ¶ˆæ¯
    * </pre>
    */
   public static final class AttackEnemyStartRspMsg extends
@@ -1781,7 +1914,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     public java.util.List<java.lang.String>
@@ -1792,7 +1925,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     public int getArmyInfoCount() {
@@ -1802,7 +1935,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     public java.lang.String getArmyInfo(int index) {
@@ -1812,7 +1945,7 @@ public final class GroupSecretMatchProto {
      * <code>repeated string armyInfo = 1;</code>
      *
      * <pre>
-     *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+     *æ•Œäººçš„ArmyInfoä¿¡æ¯
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1938,7 +2071,7 @@ public final class GroupSecretMatchProto {
      * Protobuf type {@code groupSecret.AttackEnemyStartRspMsg}
      *
      * <pre>
-     *ÇëÇó¹¥»÷µĞÈËµÄ»ØÓ¦ÏûÏ¢
+     *è¯·æ±‚æ”»å‡»æ•Œäººçš„å›åº”æ¶ˆæ¯
      * </pre>
      */
     public static final class Builder extends
@@ -2075,7 +2208,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public java.util.List<java.lang.String>
@@ -2086,7 +2219,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public int getArmyInfoCount() {
@@ -2096,7 +2229,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public java.lang.String getArmyInfo(int index) {
@@ -2106,7 +2239,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2117,7 +2250,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public Builder setArmyInfo(
@@ -2134,7 +2267,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public Builder addArmyInfo(
@@ -2151,7 +2284,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public Builder addAllArmyInfo(
@@ -2165,7 +2298,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public Builder clearArmyInfo() {
@@ -2178,7 +2311,7 @@ public final class GroupSecretMatchProto {
        * <code>repeated string armyInfo = 1;</code>
        *
        * <pre>
-       *ËùÓĞ²ÎÓëÕ½¶·µÄÕóÈİµÄArmyInfoĞÅÏ¢
+       *æ•Œäººçš„ArmyInfoä¿¡æ¯
        * </pre>
        */
       public Builder addArmyInfoBytes(
@@ -2203,59 +2336,549 @@ public final class GroupSecretMatchProto {
     // @@protoc_insertion_point(class_scope:groupSecret.AttackEnemyStartRspMsg)
   }
 
+  public interface AttackEnemyEndRspMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupSecret.GroupSecretIndex index = 1;
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.GroupSecretIndex getIndex();
+  }
+  /**
+   * Protobuf type {@code groupSecret.AttackEnemyEndRspMsg}
+   */
+  public static final class AttackEnemyEndRspMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements AttackEnemyEndRspMsgOrBuilder {
+    // Use AttackEnemyEndRspMsg.newBuilder() to construct.
+    private AttackEnemyEndRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AttackEnemyEndRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AttackEnemyEndRspMsg defaultInstance;
+    public static AttackEnemyEndRspMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AttackEnemyEndRspMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AttackEnemyEndRspMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupSecretProto.GroupSecretIndex value = com.rwproto.GroupSecretProto.GroupSecretIndex.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                index_ = value;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AttackEnemyEndRspMsg> PARSER =
+        new com.google.protobuf.AbstractParser<AttackEnemyEndRspMsg>() {
+      public AttackEnemyEndRspMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AttackEnemyEndRspMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AttackEnemyEndRspMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupSecret.GroupSecretIndex index = 1;
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private com.rwproto.GroupSecretProto.GroupSecretIndex index_;
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+      return index_;
+    }
+
+    private void initFields() {
+      index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, index_.getNumber());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, index_.getNumber());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupSecret.AttackEnemyEndRspMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
+      }
+
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg build() {
+        com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg buildPartial() {
+        com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg result = new com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg) {
+          return mergeFrom((com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg other) {
+        if (other == com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasIndex()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupSecret.GroupSecretIndex index = 1;
+      private com.rwproto.GroupSecretProto.GroupSecretIndex index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+       * </pre>
+       */
+      public Builder setIndex(com.rwproto.GroupSecretProto.GroupSecretIndex value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *ç»“æŸçš„æ—¶å€™æ‰“çš„æ˜¯é‚£ä¸€æ³¢
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupSecret.AttackEnemyEndRspMsg)
+    }
+
+    static {
+      defaultInstance = new AttackEnemyEndRspMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupSecret.AttackEnemyEndRspMsg)
+  }
+
   public interface AttackEnemyEndReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;
+    // repeated .groupSecret.HeroLeftInfo myLeft = 1;
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
     java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> 
-        getHeroLeftInfoList();
+        getMyLeftList();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
-    com.rwproto.GroupSecretMatchProto.HeroLeftInfo getHeroLeftInfo(int index);
+    com.rwproto.GroupSecretMatchProto.HeroLeftInfo getMyLeft(int index);
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
-    int getHeroLeftInfoCount();
+    int getMyLeftCount();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
     java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
-        getHeroLeftInfoOrBuilderList();
+        getMyLeftOrBuilderList();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
-    com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getHeroLeftInfoOrBuilder(
+    com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getMyLeftOrBuilder(
+        int index);
+
+    // repeated .groupSecret.HeroLeftInfo enemyLeft = 2;
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> 
+        getEnemyLeftList();
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.HeroLeftInfo getEnemyLeft(int index);
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    int getEnemyLeftCount();
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
+        getEnemyLeftOrBuilderList();
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getEnemyLeftOrBuilder(
         int index);
   }
   /**
    * Protobuf type {@code groupSecret.AttackEnemyEndReqMsg}
    *
    * <pre>
-   *ÇëÇóÕ½¶·½áÊøµÄÏûÏ¢
+   *è¯·æ±‚æˆ˜æ–—ç»“æŸçš„æ¶ˆæ¯
    * </pre>
    */
   public static final class AttackEnemyEndReqMsg extends
@@ -2308,10 +2931,18 @@ public final class GroupSecretMatchProto {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                heroLeftInfo_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>();
+                myLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              heroLeftInfo_.add(input.readMessage(com.rwproto.GroupSecretMatchProto.HeroLeftInfo.PARSER, extensionRegistry));
+              myLeft_.add(input.readMessage(com.rwproto.GroupSecretMatchProto.HeroLeftInfo.PARSER, extensionRegistry));
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                enemyLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              enemyLeft_.add(input.readMessage(com.rwproto.GroupSecretMatchProto.HeroLeftInfo.PARSER, extensionRegistry));
               break;
             }
           }
@@ -2323,7 +2954,10 @@ public final class GroupSecretMatchProto {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          heroLeftInfo_ = java.util.Collections.unmodifiableList(heroLeftInfo_);
+          myLeft_ = java.util.Collections.unmodifiableList(myLeft_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          enemyLeft_ = java.util.Collections.unmodifiableList(enemyLeft_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2356,72 +2990,135 @@ public final class GroupSecretMatchProto {
       return PARSER;
     }
 
-    // repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;
-    public static final int HEROLEFTINFO_FIELD_NUMBER = 1;
-    private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> heroLeftInfo_;
+    // repeated .groupSecret.HeroLeftInfo myLeft = 1;
+    public static final int MYLEFT_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> myLeft_;
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
-    public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> getHeroLeftInfoList() {
-      return heroLeftInfo_;
+    public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> getMyLeftList() {
+      return myLeft_;
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
     public java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
-        getHeroLeftInfoOrBuilderList() {
-      return heroLeftInfo_;
+        getMyLeftOrBuilderList() {
+      return myLeft_;
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
-    public int getHeroLeftInfoCount() {
-      return heroLeftInfo_.size();
+    public int getMyLeftCount() {
+      return myLeft_.size();
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
-    public com.rwproto.GroupSecretMatchProto.HeroLeftInfo getHeroLeftInfo(int index) {
-      return heroLeftInfo_.get(index);
+    public com.rwproto.GroupSecretMatchProto.HeroLeftInfo getMyLeft(int index) {
+      return myLeft_.get(index);
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
      *
      * <pre>
-     *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+     *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
      * </pre>
      */
-    public com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getHeroLeftInfoOrBuilder(
+    public com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getMyLeftOrBuilder(
         int index) {
-      return heroLeftInfo_.get(index);
+      return myLeft_.get(index);
+    }
+
+    // repeated .groupSecret.HeroLeftInfo enemyLeft = 2;
+    public static final int ENEMYLEFT_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> enemyLeft_;
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> getEnemyLeftList() {
+      return enemyLeft_;
+    }
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
+        getEnemyLeftOrBuilderList() {
+      return enemyLeft_;
+    }
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    public int getEnemyLeftCount() {
+      return enemyLeft_.size();
+    }
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.HeroLeftInfo getEnemyLeft(int index) {
+      return enemyLeft_.get(index);
+    }
+    /**
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     *
+     * <pre>
+     *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getEnemyLeftOrBuilder(
+        int index) {
+      return enemyLeft_.get(index);
     }
 
     private void initFields() {
-      heroLeftInfo_ = java.util.Collections.emptyList();
+      myLeft_ = java.util.Collections.emptyList();
+      enemyLeft_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      for (int i = 0; i < getHeroLeftInfoCount(); i++) {
-        if (!getHeroLeftInfo(i).isInitialized()) {
+      for (int i = 0; i < getMyLeftCount(); i++) {
+        if (!getMyLeft(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getEnemyLeftCount(); i++) {
+        if (!getEnemyLeft(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2433,8 +3130,11 @@ public final class GroupSecretMatchProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < heroLeftInfo_.size(); i++) {
-        output.writeMessage(1, heroLeftInfo_.get(i));
+      for (int i = 0; i < myLeft_.size(); i++) {
+        output.writeMessage(1, myLeft_.get(i));
+      }
+      for (int i = 0; i < enemyLeft_.size(); i++) {
+        output.writeMessage(2, enemyLeft_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2445,9 +3145,13 @@ public final class GroupSecretMatchProto {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < heroLeftInfo_.size(); i++) {
+      for (int i = 0; i < myLeft_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, heroLeftInfo_.get(i));
+          .computeMessageSize(1, myLeft_.get(i));
+      }
+      for (int i = 0; i < enemyLeft_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, enemyLeft_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2531,7 +3235,7 @@ public final class GroupSecretMatchProto {
      * Protobuf type {@code groupSecret.AttackEnemyEndReqMsg}
      *
      * <pre>
-     *ÇëÇóÕ½¶·½áÊøµÄÏûÏ¢
+     *è¯·æ±‚æˆ˜æ–—ç»“æŸçš„æ¶ˆæ¯
      * </pre>
      */
     public static final class Builder extends
@@ -2561,7 +3265,8 @@ public final class GroupSecretMatchProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getHeroLeftInfoFieldBuilder();
+          getMyLeftFieldBuilder();
+          getEnemyLeftFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2570,11 +3275,17 @@ public final class GroupSecretMatchProto {
 
       public Builder clear() {
         super.clear();
-        if (heroLeftInfoBuilder_ == null) {
-          heroLeftInfo_ = java.util.Collections.emptyList();
+        if (myLeftBuilder_ == null) {
+          myLeft_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
         } else {
-          heroLeftInfoBuilder_.clear();
+          myLeftBuilder_.clear();
+        }
+        if (enemyLeftBuilder_ == null) {
+          enemyLeft_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          enemyLeftBuilder_.clear();
         }
         return this;
       }
@@ -2603,14 +3314,23 @@ public final class GroupSecretMatchProto {
       public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg buildPartial() {
         com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg result = new com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg(this);
         int from_bitField0_ = bitField0_;
-        if (heroLeftInfoBuilder_ == null) {
+        if (myLeftBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            heroLeftInfo_ = java.util.Collections.unmodifiableList(heroLeftInfo_);
+            myLeft_ = java.util.Collections.unmodifiableList(myLeft_);
             bitField0_ = (bitField0_ & ~0x00000001);
           }
-          result.heroLeftInfo_ = heroLeftInfo_;
+          result.myLeft_ = myLeft_;
         } else {
-          result.heroLeftInfo_ = heroLeftInfoBuilder_.build();
+          result.myLeft_ = myLeftBuilder_.build();
+        }
+        if (enemyLeftBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            enemyLeft_ = java.util.Collections.unmodifiableList(enemyLeft_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.enemyLeft_ = enemyLeft_;
+        } else {
+          result.enemyLeft_ = enemyLeftBuilder_.build();
         }
         onBuilt();
         return result;
@@ -2627,29 +3347,55 @@ public final class GroupSecretMatchProto {
 
       public Builder mergeFrom(com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg other) {
         if (other == com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance()) return this;
-        if (heroLeftInfoBuilder_ == null) {
-          if (!other.heroLeftInfo_.isEmpty()) {
-            if (heroLeftInfo_.isEmpty()) {
-              heroLeftInfo_ = other.heroLeftInfo_;
+        if (myLeftBuilder_ == null) {
+          if (!other.myLeft_.isEmpty()) {
+            if (myLeft_.isEmpty()) {
+              myLeft_ = other.myLeft_;
               bitField0_ = (bitField0_ & ~0x00000001);
             } else {
-              ensureHeroLeftInfoIsMutable();
-              heroLeftInfo_.addAll(other.heroLeftInfo_);
+              ensureMyLeftIsMutable();
+              myLeft_.addAll(other.myLeft_);
             }
             onChanged();
           }
         } else {
-          if (!other.heroLeftInfo_.isEmpty()) {
-            if (heroLeftInfoBuilder_.isEmpty()) {
-              heroLeftInfoBuilder_.dispose();
-              heroLeftInfoBuilder_ = null;
-              heroLeftInfo_ = other.heroLeftInfo_;
+          if (!other.myLeft_.isEmpty()) {
+            if (myLeftBuilder_.isEmpty()) {
+              myLeftBuilder_.dispose();
+              myLeftBuilder_ = null;
+              myLeft_ = other.myLeft_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              heroLeftInfoBuilder_ = 
+              myLeftBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getHeroLeftInfoFieldBuilder() : null;
+                   getMyLeftFieldBuilder() : null;
             } else {
-              heroLeftInfoBuilder_.addAllMessages(other.heroLeftInfo_);
+              myLeftBuilder_.addAllMessages(other.myLeft_);
+            }
+          }
+        }
+        if (enemyLeftBuilder_ == null) {
+          if (!other.enemyLeft_.isEmpty()) {
+            if (enemyLeft_.isEmpty()) {
+              enemyLeft_ = other.enemyLeft_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureEnemyLeftIsMutable();
+              enemyLeft_.addAll(other.enemyLeft_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.enemyLeft_.isEmpty()) {
+            if (enemyLeftBuilder_.isEmpty()) {
+              enemyLeftBuilder_.dispose();
+              enemyLeftBuilder_ = null;
+              enemyLeft_ = other.enemyLeft_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              enemyLeftBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getEnemyLeftFieldBuilder() : null;
+            } else {
+              enemyLeftBuilder_.addAllMessages(other.enemyLeft_);
             }
           }
         }
@@ -2658,8 +3404,14 @@ public final class GroupSecretMatchProto {
       }
 
       public final boolean isInitialized() {
-        for (int i = 0; i < getHeroLeftInfoCount(); i++) {
-          if (!getHeroLeftInfo(i).isInitialized()) {
+        for (int i = 0; i < getMyLeftCount(); i++) {
+          if (!getMyLeft(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getEnemyLeftCount(); i++) {
+          if (!getEnemyLeft(i).isInitialized()) {
             
             return false;
           }
@@ -2686,316 +3438,628 @@ public final class GroupSecretMatchProto {
       }
       private int bitField0_;
 
-      // repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;
-      private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> heroLeftInfo_ =
+      // repeated .groupSecret.HeroLeftInfo myLeft = 1;
+      private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> myLeft_ =
         java.util.Collections.emptyList();
-      private void ensureHeroLeftInfoIsMutable() {
+      private void ensureMyLeftIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          heroLeftInfo_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>(heroLeftInfo_);
+          myLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>(myLeft_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> heroLeftInfoBuilder_;
+          com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> myLeftBuilder_;
 
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> getHeroLeftInfoList() {
-        if (heroLeftInfoBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(heroLeftInfo_);
+      public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> getMyLeftList() {
+        if (myLeftBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(myLeft_);
         } else {
-          return heroLeftInfoBuilder_.getMessageList();
+          return myLeftBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public int getHeroLeftInfoCount() {
-        if (heroLeftInfoBuilder_ == null) {
-          return heroLeftInfo_.size();
+      public int getMyLeftCount() {
+        if (myLeftBuilder_ == null) {
+          return myLeft_.size();
         } else {
-          return heroLeftInfoBuilder_.getCount();
+          return myLeftBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo getHeroLeftInfo(int index) {
-        if (heroLeftInfoBuilder_ == null) {
-          return heroLeftInfo_.get(index);
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo getMyLeft(int index) {
+        if (myLeftBuilder_ == null) {
+          return myLeft_.get(index);
         } else {
-          return heroLeftInfoBuilder_.getMessage(index);
+          return myLeftBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder setHeroLeftInfo(
+      public Builder setMyLeft(
           int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo value) {
-        if (heroLeftInfoBuilder_ == null) {
+        if (myLeftBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureHeroLeftInfoIsMutable();
-          heroLeftInfo_.set(index, value);
+          ensureMyLeftIsMutable();
+          myLeft_.set(index, value);
           onChanged();
         } else {
-          heroLeftInfoBuilder_.setMessage(index, value);
+          myLeftBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder setHeroLeftInfo(
+      public Builder setMyLeft(
           int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder builderForValue) {
-        if (heroLeftInfoBuilder_ == null) {
-          ensureHeroLeftInfoIsMutable();
-          heroLeftInfo_.set(index, builderForValue.build());
+        if (myLeftBuilder_ == null) {
+          ensureMyLeftIsMutable();
+          myLeft_.set(index, builderForValue.build());
           onChanged();
         } else {
-          heroLeftInfoBuilder_.setMessage(index, builderForValue.build());
+          myLeftBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder addHeroLeftInfo(com.rwproto.GroupSecretMatchProto.HeroLeftInfo value) {
-        if (heroLeftInfoBuilder_ == null) {
+      public Builder addMyLeft(com.rwproto.GroupSecretMatchProto.HeroLeftInfo value) {
+        if (myLeftBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureHeroLeftInfoIsMutable();
-          heroLeftInfo_.add(value);
+          ensureMyLeftIsMutable();
+          myLeft_.add(value);
           onChanged();
         } else {
-          heroLeftInfoBuilder_.addMessage(value);
+          myLeftBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder addHeroLeftInfo(
+      public Builder addMyLeft(
           int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo value) {
-        if (heroLeftInfoBuilder_ == null) {
+        if (myLeftBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureHeroLeftInfoIsMutable();
-          heroLeftInfo_.add(index, value);
+          ensureMyLeftIsMutable();
+          myLeft_.add(index, value);
           onChanged();
         } else {
-          heroLeftInfoBuilder_.addMessage(index, value);
+          myLeftBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder addHeroLeftInfo(
+      public Builder addMyLeft(
           com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder builderForValue) {
-        if (heroLeftInfoBuilder_ == null) {
-          ensureHeroLeftInfoIsMutable();
-          heroLeftInfo_.add(builderForValue.build());
+        if (myLeftBuilder_ == null) {
+          ensureMyLeftIsMutable();
+          myLeft_.add(builderForValue.build());
           onChanged();
         } else {
-          heroLeftInfoBuilder_.addMessage(builderForValue.build());
+          myLeftBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder addHeroLeftInfo(
+      public Builder addMyLeft(
           int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder builderForValue) {
-        if (heroLeftInfoBuilder_ == null) {
-          ensureHeroLeftInfoIsMutable();
-          heroLeftInfo_.add(index, builderForValue.build());
+        if (myLeftBuilder_ == null) {
+          ensureMyLeftIsMutable();
+          myLeft_.add(index, builderForValue.build());
           onChanged();
         } else {
-          heroLeftInfoBuilder_.addMessage(index, builderForValue.build());
+          myLeftBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder addAllHeroLeftInfo(
+      public Builder addAllMyLeft(
           java.lang.Iterable<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfo> values) {
-        if (heroLeftInfoBuilder_ == null) {
-          ensureHeroLeftInfoIsMutable();
-          super.addAll(values, heroLeftInfo_);
+        if (myLeftBuilder_ == null) {
+          ensureMyLeftIsMutable();
+          super.addAll(values, myLeft_);
           onChanged();
         } else {
-          heroLeftInfoBuilder_.addAllMessages(values);
+          myLeftBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder clearHeroLeftInfo() {
-        if (heroLeftInfoBuilder_ == null) {
-          heroLeftInfo_ = java.util.Collections.emptyList();
+      public Builder clearMyLeft() {
+        if (myLeftBuilder_ == null) {
+          myLeft_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
-          heroLeftInfoBuilder_.clear();
+          myLeftBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public Builder removeHeroLeftInfo(int index) {
-        if (heroLeftInfoBuilder_ == null) {
-          ensureHeroLeftInfoIsMutable();
-          heroLeftInfo_.remove(index);
+      public Builder removeMyLeft(int index) {
+        if (myLeftBuilder_ == null) {
+          ensureMyLeftIsMutable();
+          myLeft_.remove(index);
           onChanged();
         } else {
-          heroLeftInfoBuilder_.remove(index);
+          myLeftBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder getHeroLeftInfoBuilder(
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder getMyLeftBuilder(
           int index) {
-        return getHeroLeftInfoFieldBuilder().getBuilder(index);
+        return getMyLeftFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getHeroLeftInfoOrBuilder(
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getMyLeftOrBuilder(
           int index) {
-        if (heroLeftInfoBuilder_ == null) {
-          return heroLeftInfo_.get(index);  } else {
-          return heroLeftInfoBuilder_.getMessageOrBuilder(index);
+        if (myLeftBuilder_ == null) {
+          return myLeft_.get(index);  } else {
+          return myLeftBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
       public java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
-           getHeroLeftInfoOrBuilderList() {
-        if (heroLeftInfoBuilder_ != null) {
-          return heroLeftInfoBuilder_.getMessageOrBuilderList();
+           getMyLeftOrBuilderList() {
+        if (myLeftBuilder_ != null) {
+          return myLeftBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(heroLeftInfo_);
+          return java.util.Collections.unmodifiableList(myLeft_);
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder addHeroLeftInfoBuilder() {
-        return getHeroLeftInfoFieldBuilder().addBuilder(
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder addMyLeftBuilder() {
+        return getMyLeftFieldBuilder().addBuilder(
             com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
-      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder addHeroLeftInfoBuilder(
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder addMyLeftBuilder(
           int index) {
-        return getHeroLeftInfoFieldBuilder().addBuilder(
+        return getMyLeftFieldBuilder().addBuilder(
             index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo heroLeftInfo = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
        *
        * <pre>
-       *Ê£ÓàµÄÑªÁ¿ĞÅÏ¢
+       *å·±æ–¹é˜µå®¹ä¸­å‰©ä½™çš„è¡€é‡
        * </pre>
        */
       public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder> 
-           getHeroLeftInfoBuilderList() {
-        return getHeroLeftInfoFieldBuilder().getBuilderList();
+           getMyLeftBuilderList() {
+        return getMyLeftFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
           com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
-          getHeroLeftInfoFieldBuilder() {
-        if (heroLeftInfoBuilder_ == null) {
-          heroLeftInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          getMyLeftFieldBuilder() {
+        if (myLeftBuilder_ == null) {
+          myLeftBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder>(
-                  heroLeftInfo_,
+                  myLeft_,
                   ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
                   isClean());
-          heroLeftInfo_ = null;
+          myLeft_ = null;
         }
-        return heroLeftInfoBuilder_;
+        return myLeftBuilder_;
+      }
+
+      // repeated .groupSecret.HeroLeftInfo enemyLeft = 2;
+      private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> enemyLeft_ =
+        java.util.Collections.emptyList();
+      private void ensureEnemyLeftIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          enemyLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>(enemyLeft_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> enemyLeftBuilder_;
+
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> getEnemyLeftList() {
+        if (enemyLeftBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(enemyLeft_);
+        } else {
+          return enemyLeftBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public int getEnemyLeftCount() {
+        if (enemyLeftBuilder_ == null) {
+          return enemyLeft_.size();
+        } else {
+          return enemyLeftBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo getEnemyLeft(int index) {
+        if (enemyLeftBuilder_ == null) {
+          return enemyLeft_.get(index);
+        } else {
+          return enemyLeftBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder setEnemyLeft(
+          int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo value) {
+        if (enemyLeftBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyLeftIsMutable();
+          enemyLeft_.set(index, value);
+          onChanged();
+        } else {
+          enemyLeftBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder setEnemyLeft(
+          int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder builderForValue) {
+        if (enemyLeftBuilder_ == null) {
+          ensureEnemyLeftIsMutable();
+          enemyLeft_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          enemyLeftBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder addEnemyLeft(com.rwproto.GroupSecretMatchProto.HeroLeftInfo value) {
+        if (enemyLeftBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyLeftIsMutable();
+          enemyLeft_.add(value);
+          onChanged();
+        } else {
+          enemyLeftBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder addEnemyLeft(
+          int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo value) {
+        if (enemyLeftBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyLeftIsMutable();
+          enemyLeft_.add(index, value);
+          onChanged();
+        } else {
+          enemyLeftBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder addEnemyLeft(
+          com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder builderForValue) {
+        if (enemyLeftBuilder_ == null) {
+          ensureEnemyLeftIsMutable();
+          enemyLeft_.add(builderForValue.build());
+          onChanged();
+        } else {
+          enemyLeftBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder addEnemyLeft(
+          int index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder builderForValue) {
+        if (enemyLeftBuilder_ == null) {
+          ensureEnemyLeftIsMutable();
+          enemyLeft_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          enemyLeftBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder addAllEnemyLeft(
+          java.lang.Iterable<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfo> values) {
+        if (enemyLeftBuilder_ == null) {
+          ensureEnemyLeftIsMutable();
+          super.addAll(values, enemyLeft_);
+          onChanged();
+        } else {
+          enemyLeftBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder clearEnemyLeft() {
+        if (enemyLeftBuilder_ == null) {
+          enemyLeft_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          enemyLeftBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public Builder removeEnemyLeft(int index) {
+        if (enemyLeftBuilder_ == null) {
+          ensureEnemyLeftIsMutable();
+          enemyLeft_.remove(index);
+          onChanged();
+        } else {
+          enemyLeftBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder getEnemyLeftBuilder(
+          int index) {
+        return getEnemyLeftFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getEnemyLeftOrBuilder(
+          int index) {
+        if (enemyLeftBuilder_ == null) {
+          return enemyLeft_.get(index);  } else {
+          return enemyLeftBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
+           getEnemyLeftOrBuilderList() {
+        if (enemyLeftBuilder_ != null) {
+          return enemyLeftBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(enemyLeft_);
+        }
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder addEnemyLeftBuilder() {
+        return getEnemyLeftFieldBuilder().addBuilder(
+            com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder addEnemyLeftBuilder(
+          int index) {
+        return getEnemyLeftFieldBuilder().addBuilder(
+            index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       *
+       * <pre>
+       *æ•Œäººå‰©ä½™çš„è¡€é‡ä¿¡æ¯
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder> 
+           getEnemyLeftBuilderList() {
+        return getEnemyLeftFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
+          getEnemyLeftFieldBuilder() {
+        if (enemyLeftBuilder_ == null) {
+          enemyLeftBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder>(
+                  enemyLeft_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          enemyLeft_ = null;
+        }
+        return enemyLeftBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.AttackEnemyEndReqMsg)
@@ -3012,30 +4076,30 @@ public final class GroupSecretMatchProto {
   public interface GroupSecretMatchCommonReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .groupSecret.RequestType reqType = 1;
+    // required .groupSecret.MatchRequestType reqType = 1;
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
     boolean hasReqType();
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
-    com.rwproto.GroupSecretMatchProto.RequestType getReqType();
+    com.rwproto.GroupSecretMatchProto.MatchRequestType getReqType();
 
     // optional string version = 2;
     /**
      * <code>optional string version = 2;</code>
      *
      * <pre>
-     *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+     *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
      * </pre>
      */
     boolean hasVersion();
@@ -3043,7 +4107,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string version = 2;</code>
      *
      * <pre>
-     *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+     *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
      * </pre>
      */
     java.lang.String getVersion();
@@ -3051,7 +4115,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string version = 2;</code>
      *
      * <pre>
-     *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+     *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -3110,7 +4174,7 @@ public final class GroupSecretMatchProto {
             }
             case 8: {
               int rawValue = input.readEnum();
-              com.rwproto.GroupSecretMatchProto.RequestType value = com.rwproto.GroupSecretMatchProto.RequestType.valueOf(rawValue);
+              com.rwproto.GroupSecretMatchProto.MatchRequestType value = com.rwproto.GroupSecretMatchProto.MatchRequestType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
@@ -3164,27 +4228,27 @@ public final class GroupSecretMatchProto {
     }
 
     private int bitField0_;
-    // required .groupSecret.RequestType reqType = 1;
+    // required .groupSecret.MatchRequestType reqType = 1;
     public static final int REQTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.GroupSecretMatchProto.RequestType reqType_;
+    private com.rwproto.GroupSecretMatchProto.MatchRequestType reqType_;
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
     public boolean hasReqType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
-    public com.rwproto.GroupSecretMatchProto.RequestType getReqType() {
+    public com.rwproto.GroupSecretMatchProto.MatchRequestType getReqType() {
       return reqType_;
     }
 
@@ -3195,7 +4259,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string version = 2;</code>
      *
      * <pre>
-     *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+     *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
      * </pre>
      */
     public boolean hasVersion() {
@@ -3205,7 +4269,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string version = 2;</code>
      *
      * <pre>
-     *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+     *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
      * </pre>
      */
     public java.lang.String getVersion() {
@@ -3226,7 +4290,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string version = 2;</code>
      *
      * <pre>
-     *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+     *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3244,7 +4308,7 @@ public final class GroupSecretMatchProto {
     }
 
     private void initFields() {
-      reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+      reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
       version_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -3402,7 +4466,7 @@ public final class GroupSecretMatchProto {
 
       public Builder clear() {
         super.clear();
-        reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+        reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3497,36 +4561,36 @@ public final class GroupSecretMatchProto {
       }
       private int bitField0_;
 
-      // required .groupSecret.RequestType reqType = 1;
-      private com.rwproto.GroupSecretMatchProto.RequestType reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+      // required .groupSecret.MatchRequestType reqType = 1;
+      private com.rwproto.GroupSecretMatchProto.MatchRequestType reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
       public boolean hasReqType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
-      public com.rwproto.GroupSecretMatchProto.RequestType getReqType() {
+      public com.rwproto.GroupSecretMatchProto.MatchRequestType getReqType() {
         return reqType_;
       }
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
-      public Builder setReqType(com.rwproto.GroupSecretMatchProto.RequestType value) {
+      public Builder setReqType(com.rwproto.GroupSecretMatchProto.MatchRequestType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -3536,15 +4600,15 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
       public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+        reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
         onChanged();
         return this;
       }
@@ -3555,7 +4619,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string version = 2;</code>
        *
        * <pre>
-       *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+       *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
        * </pre>
        */
       public boolean hasVersion() {
@@ -3565,7 +4629,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string version = 2;</code>
        *
        * <pre>
-       *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+       *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
        * </pre>
        */
       public java.lang.String getVersion() {
@@ -3583,7 +4647,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string version = 2;</code>
        *
        * <pre>
-       *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+       *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3603,7 +4667,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string version = 2;</code>
        *
        * <pre>
-       *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+       *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
        * </pre>
        */
       public Builder setVersion(
@@ -3620,7 +4684,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string version = 2;</code>
        *
        * <pre>
-       *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+       *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
        * </pre>
        */
       public Builder clearVersion() {
@@ -3633,7 +4697,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string version = 2;</code>
        *
        * <pre>
-       *¿Í»§¶ËµÄÊı¾İ°æ±¾&lt;ÔİÊ±²»ĞèÒªÕâ¸ö£¬¿ÉÒÔºöÂÔ&gt;
+       *å®¢æˆ·ç«¯çš„æ•°æ®ç‰ˆæœ¬&lt;æš‚æ—¶ä¸éœ€è¦è¿™ä¸ªï¼Œå¯ä»¥å¿½ç•¥&gt;
        * </pre>
        */
       public Builder setVersionBytes(
@@ -3661,30 +4725,30 @@ public final class GroupSecretMatchProto {
   public interface GroupSecretMatchCommonRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .groupSecret.RequestType reqType = 1;
+    // required .groupSecret.MatchRequestType reqType = 1;
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
     boolean hasReqType();
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
-    com.rwproto.GroupSecretMatchProto.RequestType getReqType();
+    com.rwproto.GroupSecretMatchProto.MatchRequestType getReqType();
 
     // required bool isSuccess = 2;
     /**
      * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦
+     *æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     boolean hasIsSuccess();
@@ -3692,7 +4756,7 @@ public final class GroupSecretMatchProto {
      * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦
+     *æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     boolean getIsSuccess();
@@ -3702,7 +4766,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *ÌáÊ¾ÏûÏ¢
+     *æç¤ºæ¶ˆæ¯
      * </pre>
      */
     boolean hasTipMsg();
@@ -3710,7 +4774,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *ÌáÊ¾ÏûÏ¢
+     *æç¤ºæ¶ˆæ¯
      * </pre>
      */
     java.lang.String getTipMsg();
@@ -3718,7 +4782,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *ÌáÊ¾ÏûÏ¢
+     *æç¤ºæ¶ˆæ¯
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -3777,7 +4841,7 @@ public final class GroupSecretMatchProto {
             }
             case 8: {
               int rawValue = input.readEnum();
-              com.rwproto.GroupSecretMatchProto.RequestType value = com.rwproto.GroupSecretMatchProto.RequestType.valueOf(rawValue);
+              com.rwproto.GroupSecretMatchProto.MatchRequestType value = com.rwproto.GroupSecretMatchProto.MatchRequestType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
@@ -3836,27 +4900,27 @@ public final class GroupSecretMatchProto {
     }
 
     private int bitField0_;
-    // required .groupSecret.RequestType reqType = 1;
+    // required .groupSecret.MatchRequestType reqType = 1;
     public static final int REQTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.GroupSecretMatchProto.RequestType reqType_;
+    private com.rwproto.GroupSecretMatchProto.MatchRequestType reqType_;
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
     public boolean hasReqType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .groupSecret.RequestType reqType = 1;</code>
+     * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇóÀàĞÍ
+     *è¯·æ±‚ç±»å‹
      * </pre>
      */
-    public com.rwproto.GroupSecretMatchProto.RequestType getReqType() {
+    public com.rwproto.GroupSecretMatchProto.MatchRequestType getReqType() {
       return reqType_;
     }
 
@@ -3867,7 +4931,7 @@ public final class GroupSecretMatchProto {
      * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦
+     *æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     public boolean hasIsSuccess() {
@@ -3877,7 +4941,7 @@ public final class GroupSecretMatchProto {
      * <code>required bool isSuccess = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦
+     *æ˜¯å¦æˆåŠŸ
      * </pre>
      */
     public boolean getIsSuccess() {
@@ -3891,7 +4955,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *ÌáÊ¾ÏûÏ¢
+     *æç¤ºæ¶ˆæ¯
      * </pre>
      */
     public boolean hasTipMsg() {
@@ -3901,7 +4965,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *ÌáÊ¾ÏûÏ¢
+     *æç¤ºæ¶ˆæ¯
      * </pre>
      */
     public java.lang.String getTipMsg() {
@@ -3922,7 +4986,7 @@ public final class GroupSecretMatchProto {
      * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *ÌáÊ¾ÏûÏ¢
+     *æç¤ºæ¶ˆæ¯
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3940,7 +5004,7 @@ public final class GroupSecretMatchProto {
     }
 
     private void initFields() {
-      reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+      reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
       isSuccess_ = false;
       tipMsg_ = "";
     }
@@ -4110,7 +5174,7 @@ public final class GroupSecretMatchProto {
 
       public Builder clear() {
         super.clear();
-        reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+        reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
         bitField0_ = (bitField0_ & ~0x00000001);
         isSuccess_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4218,36 +5282,36 @@ public final class GroupSecretMatchProto {
       }
       private int bitField0_;
 
-      // required .groupSecret.RequestType reqType = 1;
-      private com.rwproto.GroupSecretMatchProto.RequestType reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+      // required .groupSecret.MatchRequestType reqType = 1;
+      private com.rwproto.GroupSecretMatchProto.MatchRequestType reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
       public boolean hasReqType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
-      public com.rwproto.GroupSecretMatchProto.RequestType getReqType() {
+      public com.rwproto.GroupSecretMatchProto.MatchRequestType getReqType() {
         return reqType_;
       }
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
-      public Builder setReqType(com.rwproto.GroupSecretMatchProto.RequestType value) {
+      public Builder setReqType(com.rwproto.GroupSecretMatchProto.MatchRequestType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -4257,15 +5321,15 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>required .groupSecret.RequestType reqType = 1;</code>
+       * <code>required .groupSecret.MatchRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇóÀàĞÍ
+       *è¯·æ±‚ç±»å‹
        * </pre>
        */
       public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.rwproto.GroupSecretMatchProto.RequestType.SEARCHING_ENEMY;
+        reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
         onChanged();
         return this;
       }
@@ -4276,7 +5340,7 @@ public final class GroupSecretMatchProto {
        * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦
+       *æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public boolean hasIsSuccess() {
@@ -4286,7 +5350,7 @@ public final class GroupSecretMatchProto {
        * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦
+       *æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public boolean getIsSuccess() {
@@ -4296,7 +5360,7 @@ public final class GroupSecretMatchProto {
        * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦
+       *æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public Builder setIsSuccess(boolean value) {
@@ -4309,7 +5373,7 @@ public final class GroupSecretMatchProto {
        * <code>required bool isSuccess = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦
+       *æ˜¯å¦æˆåŠŸ
        * </pre>
        */
       public Builder clearIsSuccess() {
@@ -4325,7 +5389,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *ÌáÊ¾ÏûÏ¢
+       *æç¤ºæ¶ˆæ¯
        * </pre>
        */
       public boolean hasTipMsg() {
@@ -4335,7 +5399,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *ÌáÊ¾ÏûÏ¢
+       *æç¤ºæ¶ˆæ¯
        * </pre>
        */
       public java.lang.String getTipMsg() {
@@ -4353,7 +5417,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *ÌáÊ¾ÏûÏ¢
+       *æç¤ºæ¶ˆæ¯
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4373,7 +5437,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *ÌáÊ¾ÏûÏ¢
+       *æç¤ºæ¶ˆæ¯
        * </pre>
        */
       public Builder setTipMsg(
@@ -4390,7 +5454,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *ÌáÊ¾ÏûÏ¢
+       *æç¤ºæ¶ˆæ¯
        * </pre>
        */
       public Builder clearTipMsg() {
@@ -4403,7 +5467,7 @@ public final class GroupSecretMatchProto {
        * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *ÌáÊ¾ÏûÏ¢
+       *æç¤ºæ¶ˆæ¯
        * </pre>
        */
       public Builder setTipMsgBytes(
@@ -4434,15 +5498,20 @@ public final class GroupSecretMatchProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupSecret_HeroLeftInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupSecret_AttackEnemyStartReqMg_descriptor;
+    internal_static_groupSecret_AttackEnemyStartReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupSecret_AttackEnemyStartReqMg_fieldAccessorTable;
+      internal_static_groupSecret_AttackEnemyStartReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupSecret_AttackEnemyStartRspMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupSecret_AttackEnemyStartRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupSecret_AttackEnemyEndReqMsg_descriptor;
   private static
@@ -4467,24 +5536,29 @@ public final class GroupSecretMatchProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026GroupSecretMatch.proto\022\013groupSecret\"@\n" +
-      "\014HeroLeftInfo\022\n\n\002id\030\001 \002(\t\022\020\n\010leftLife\030\002 " +
-      "\002(\005\022\022\n\nleftEnergy\030\003 \002(\005\")\n\025AttackEnemySt" +
-      "artReqMg\022\020\n\010heroList\030\001 \003(\t\"*\n\026AttackEnem" +
-      "yStartRspMsg\022\020\n\010armyInfo\030\001 \003(\t\"G\n\024Attack" +
-      "EnemyEndReqMsg\022/\n\014heroLeftInfo\030\001 \003(\0132\031.g" +
-      "roupSecret.HeroLeftInfo\"Z\n\034GroupSecretMa" +
-      "tchCommonReqMsg\022)\n\007reqType\030\001 \002(\0162\030.group" +
-      "Secret.RequestType\022\017\n\007version\030\002 \001(\t\"l\n\034G" +
-      "roupSecretMatchCommonRspMsg\022)\n\007reqType\030\001",
-      " \002(\0162\030.groupSecret.RequestType\022\021\n\tisSucc" +
-      "ess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*[\n\020MatchSecret" +
-      "State\022\016\n\nNON_BATTLE\020\001\022\r\n\tIN_BATTLE\020\002\022\022\n\016" +
-      "IN_ROB_PROTECT\020\003\022\024\n\020IN_MAX_ROB_COUNT\020\004*`" +
-      "\n\013RequestType\022\023\n\017SEARCHING_ENEMY\020\001\022\026\n\022AT" +
-      "TACK_ENEMY_START\020\002\022\024\n\020ATTACK_ENEMY_END\020\003" +
-      "\022\016\n\nGET_REWARD\020\004B$\n\013com.rwprotoB\025GroupSe" +
-      "cretMatchProto"
+      "\n\026GroupSecretMatch.proto\022\013groupSecret\032\021G" +
+      "roupSecret.proto\"@\n\014HeroLeftInfo\022\n\n\002id\030\001" +
+      " \002(\t\022\020\n\010leftLife\030\002 \002(\005\022\022\n\nleftEnergy\030\003 \002" +
+      "(\005\"X\n\026AttackEnemyStartReqMsg\022,\n\005index\030\001 " +
+      "\002(\0162\035.groupSecret.GroupSecretIndex\022\020\n\010he" +
+      "roList\030\002 \003(\t\"*\n\026AttackEnemyStartRspMsg\022\020" +
+      "\n\010armyInfo\030\001 \003(\t\"D\n\024AttackEnemyEndRspMsg" +
+      "\022,\n\005index\030\001 \002(\0162\035.groupSecret.GroupSecre" +
+      "tIndex\"o\n\024AttackEnemyEndReqMsg\022)\n\006myLeft" +
+      "\030\001 \003(\0132\031.groupSecret.HeroLeftInfo\022,\n\tene",
+      "myLeft\030\002 \003(\0132\031.groupSecret.HeroLeftInfo\"" +
+      "_\n\034GroupSecretMatchCommonReqMsg\022.\n\007reqTy" +
+      "pe\030\001 \002(\0162\035.groupSecret.MatchRequestType\022" +
+      "\017\n\007version\030\002 \001(\t\"q\n\034GroupSecretMatchComm" +
+      "onRspMsg\022.\n\007reqType\030\001 \002(\0162\035.groupSecret." +
+      "MatchRequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006t" +
+      "ipMsg\030\003 \001(\t*[\n\020MatchSecretState\022\016\n\nNON_B" +
+      "ATTLE\020\001\022\r\n\tIN_BATTLE\020\002\022\022\n\016IN_ROB_PROTECT" +
+      "\020\003\022\024\n\020IN_MAX_ROB_COUNT\020\004*e\n\020MatchRequest" +
+      "Type\022\023\n\017SEARCHING_ENEMY\020\001\022\026\n\022ATTACK_ENEM",
+      "Y_START\020\002\022\024\n\020ATTACK_ENEMY_END\020\003\022\016\n\nGET_R" +
+      "EWARD\020\004B$\n\013com.rwprotoB\025GroupSecretMatch" +
+      "Proto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4497,32 +5571,38 @@ public final class GroupSecretMatchProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_HeroLeftInfo_descriptor,
               new java.lang.String[] { "Id", "LeftLife", "LeftEnergy", });
-          internal_static_groupSecret_AttackEnemyStartReqMg_descriptor =
+          internal_static_groupSecret_AttackEnemyStartReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_groupSecret_AttackEnemyStartReqMg_fieldAccessorTable = new
+          internal_static_groupSecret_AttackEnemyStartReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupSecret_AttackEnemyStartReqMg_descriptor,
-              new java.lang.String[] { "HeroList", });
+              internal_static_groupSecret_AttackEnemyStartReqMsg_descriptor,
+              new java.lang.String[] { "Index", "HeroList", });
           internal_static_groupSecret_AttackEnemyStartRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_groupSecret_AttackEnemyStartRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_AttackEnemyStartRspMsg_descriptor,
               new java.lang.String[] { "ArmyInfo", });
-          internal_static_groupSecret_AttackEnemyEndReqMsg_descriptor =
+          internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
+          internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor,
+              new java.lang.String[] { "Index", });
+          internal_static_groupSecret_AttackEnemyEndReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(4);
           internal_static_groupSecret_AttackEnemyEndReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_AttackEnemyEndReqMsg_descriptor,
-              new java.lang.String[] { "HeroLeftInfo", });
+              new java.lang.String[] { "MyLeft", "EnemyLeft", });
           internal_static_groupSecret_GroupSecretMatchCommonReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_groupSecret_GroupSecretMatchCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretMatchCommonReqMsg_descriptor,
               new java.lang.String[] { "ReqType", "Version", });
           internal_static_groupSecret_GroupSecretMatchCommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_groupSecret_GroupSecretMatchCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretMatchCommonRspMsg_descriptor,
@@ -4533,6 +5613,7 @@ public final class GroupSecretMatchProto {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.GroupSecretProto.getDescriptor(),
         }, assigner);
   }
 

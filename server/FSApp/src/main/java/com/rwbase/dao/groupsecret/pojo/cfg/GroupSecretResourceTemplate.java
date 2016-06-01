@@ -19,6 +19,8 @@ public class GroupSecretResourceTemplate {
 	private final int robProtectTime;// 被掠夺之后保护时间（分钟）
 	private final int robGSRatio;// 掠夺帮派物资的权重
 	private final int robGERatio;// 掠夺帮派经验的权重
+	private final int robRatio;// 掠夺资源的权重
+	private final int fromCreate2RobNeedTime;// 从创建到可以被掠夺至少要过多久
 
 	private final float productRatio;// 每分钟产出资源的权重
 	private final float groupSupplyRatio;// 每分钟帮派物资的产出权重
@@ -36,6 +38,8 @@ public class GroupSecretResourceTemplate {
 		this.robProtectTime = cfg.getRobProtectTime();
 		this.robGSRatio = cfg.getRobGSRatio();
 		this.robGERatio = cfg.getRobGERatio();
+		this.robRatio = cfg.getRobRatio();
+		this.fromCreate2RobNeedTime = cfg.getFromCreate2RobNeedTime();
 
 		try {
 			this.productRatio = Float.parseFloat(cfg.getProductRatio());
@@ -101,5 +105,13 @@ public class GroupSecretResourceTemplate {
 
 	public float getGroupExpRatio() {
 		return groupExpRatio;
+	}
+
+	public int getRobRatio() {
+		return robRatio;
+	}
+
+	public int getFromCreate2RobNeedTime() {
+		return fromCreate2RobNeedTime;
 	}
 }

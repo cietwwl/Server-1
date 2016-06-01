@@ -11,9 +11,11 @@ import org.springframework.util.StringUtils;
 
 import com.common.HPCUtil;
 import com.log.GameLog;
+import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
@@ -178,7 +180,8 @@ public class GroupSecretHelper {
 	 * @param userId
 	 * @return
 	 */
-	public static GroupSecretDataSynData fillMatchSecretInfo(String userId) {
+	public static GroupSecretDataSynData fillMatchSecretInfo(Player player) {
+		String userId = player.getUserId();
 		GroupSecretMatchEnemyDataMgr mgr = GroupSecretMatchEnemyDataMgr.getMgr();
 		GroupSecretMatchEnemyData enemyData = mgr.get(userId);
 		if (enemyData == null) {
@@ -195,14 +198,16 @@ public class GroupSecretHelper {
 		UserCreateGroupSecretData userCreateGroupSecretData = UserCreateGroupSecretDataMgr.getMgr().get(matchUserId);
 		if (userCreateGroupSecretData == null) {
 			GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，没有找到对应的UserCreateGroupSecretData，做删除处理", matchUserId, secretId));
-			mgr.delete(userId);
+			UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
+			mgr.clearMatchEnemyData(player);
 			return null;
 		}
 
 		GroupSecretData secretData = userCreateGroupSecretData.getGroupSecretData(secretId);
 		if (secretData == null) {
 			GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，没有找到对应的GroupSecretData，做删除处理", matchUserId, secretId));
-			mgr.delete(userId);
+			UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
+			mgr.clearMatchEnemyData(player);
 			return null;
 		}
 
@@ -232,7 +237,8 @@ public class GroupSecretHelper {
 			long passTimeMillis = now - atkTime;// 已经流过的时间
 			if (passTimeMillis >= protectTimeMillis) {// 超出了时间
 				GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，在规定的攻击时间倒计时中没有打败对手，做删除处理", matchUserId, secretId));
-				mgr.delete(userId);
+				UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
+				mgr.clearMatchEnemyData(player);
 				return null;
 			}
 		}

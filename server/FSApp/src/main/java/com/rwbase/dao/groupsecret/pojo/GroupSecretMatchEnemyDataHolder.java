@@ -28,11 +28,11 @@ public class GroupSecretMatchEnemyDataHolder {
 	}
 
 	/**
-	 * 删除
+	 * 更新数据
 	 * 
 	 * @param userId
 	 */
-	public void delete(String userId) {
-		GroupSecretMatchEnemyDataDAO.getDAO().delete(userId);
+	public void updateData(String userId) {
+		GroupSecretMatchEnemyDataDAO.getDAO().update(userId);
 	}
 }

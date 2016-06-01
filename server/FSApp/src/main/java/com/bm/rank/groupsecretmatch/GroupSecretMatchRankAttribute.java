@@ -3,6 +3,8 @@ package com.bm.rank.groupsecretmatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
@@ -25,13 +27,16 @@ public class GroupSecretMatchRankAttribute {
 		}
 	}
 
+	public GroupSecretMatchRankAttribute() {
+	}
+
 	public GroupSecretMatchRankAttribute(long createTime, int cfgId) {
 		this.createTime = createTime;
 		this.cfgId = cfgId;
 	}
 
-	private final long createTime;// 创建时间
-	private final int cfgId;// 秘境的Id
+	private long createTime;// 创建时间
+	private int cfgId;// 秘境的Id
 	private final AtomicReference<SecretState> stateReference = new AtomicReference<SecretState>();
 
 	/**
@@ -39,6 +44,7 @@ public class GroupSecretMatchRankAttribute {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public boolean isPeace() {
 		return getState() == null;
 	}
@@ -48,6 +54,7 @@ public class GroupSecretMatchRankAttribute {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	private SecretState getState() {
 		GroupSecretResourceTemplate groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);// 秘境的资源模版表
 		long now = System.currentTimeMillis();

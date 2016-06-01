@@ -143,7 +143,7 @@ public class GroupSecretHandler {
 		}
 
 		// 检查匹配到的人
-		GroupSecretDataSynData matchSecretInfo = GroupSecretHelper.fillMatchSecretInfo(userId);
+		GroupSecretDataSynData matchSecretInfo = GroupSecretHelper.fillMatchSecretInfo(player);
 		if (matchSecretInfo != null) {
 			SecretBaseInfoSynData base = matchSecretInfo.getBase();
 			SecretTeamInfoSynData team = matchSecretInfo.getTeam();
@@ -667,7 +667,7 @@ public class GroupSecretHandler {
 		proGS += (int) (groupSecretResTmp.getGroupSupplyRatio() * proTimeMinutes);
 
 		// 可以去更新阵容了
-		List<String> changeList = mgr.changeDefendTeamInfo(secretUserId, myDefendInfo.getIndex(), id, totalFighting, now, proRes, proGS, proGE, defendHeroList);
+		List<String> changeList = mgr.changeDefendTeamInfo(secretUserId, myDefendInfo.getIndex(), id, totalFighting, now, proRes, proGS, proGE, teamHeroIdList);
 		// 更新使用的阵容
 		if (!changeList.isEmpty()) {
 			teamMgr.changeTeamHeroList(player, changeList);

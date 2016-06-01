@@ -14,12 +14,14 @@ public class GroupSecretResourceCfg {
 	private String groupSupplyRatio;// 每分钟帮派物资的产出权重
 	private int robGSRatio;// 掠夺帮派物资的比例
 	private String groupExpRatio;// 每分钟帮派经验的产出权重
+	private int robRatio;// 掠夺的比例
 	private int robGERatio;// 掠夺帮派经验的比例
 	private int diamondDropId;// 钻石掉落组的Id
 	private int robCount;// 可以掠夺的次数
 	private int robGold;// 掠夺的钻石
 	private int protectTime;// 保护的时间（分钟）
 	private int robProtectTime;// 被掠夺之后的保护时间（分钟）
+	private int fromCreate2RobNeedTime;// 从创建到可以被掠夺至少要过多久
 
 	public int getId() {
 		return id;
@@ -43,6 +45,10 @@ public class GroupSecretResourceCfg {
 
 	public String getGroupSupplyRatio() {
 		return groupSupplyRatio;
+	}
+
+	public int getRobRatio() {
+		return robRatio;
 	}
 
 	/**
@@ -85,5 +91,9 @@ public class GroupSecretResourceCfg {
 
 	public int getRobProtectTime() {
 		return robProtectTime;
+	}
+
+	public int getFromCreate2RobNeedTime() {
+		return fromCreate2RobNeedTime;
 	}
 }

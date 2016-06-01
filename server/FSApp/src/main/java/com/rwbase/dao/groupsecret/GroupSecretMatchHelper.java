@@ -264,8 +264,13 @@ public class GroupSecretMatchHelper {
 			return false;
 		}
 
-		long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 		long createTime = attr.getCreateTime();
+		long createPassTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getFromCreate2RobNeedTime());
+		if (now - createTime < createPassTimeMillis) {// 没有超过从创建到可以被搜索掠夺的时间点
+			return false;
+		}
+
+		long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 
 		long leftTimeMillis = needTimeMillis - now + createTime;
 		if (leftTimeMillis < secretCanRobMinLeftTimeMillis) {
