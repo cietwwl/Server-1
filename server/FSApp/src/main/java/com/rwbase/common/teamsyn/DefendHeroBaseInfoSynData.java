@@ -9,6 +9,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
  */
 @SynClass
 public class DefendHeroBaseInfoSynData {
+	private final String id;// 角色Id
 	private final String headImageId;// 头像Id
 	private final String qualityId;// 品质<直接发回的是RoleQualityCfg中的Key>
 	private final int starLevel;// 星级
@@ -17,7 +18,8 @@ public class DefendHeroBaseInfoSynData {
 	private final boolean isDie;// 是否死亡
 	private final HeroLeftInfoSynData heroLeftInfo;// 剩余的血量能量信息
 
-	public DefendHeroBaseInfoSynData(String headImageId, String qualityId, int starLevel, int level, boolean isMainRole, boolean isDie, HeroLeftInfoSynData heroLeftInfo) {
+	public DefendHeroBaseInfoSynData(String id, String headImageId, String qualityId, int starLevel, int level, boolean isMainRole, boolean isDie, HeroLeftInfoSynData heroLeftInfo) {
+		this.id = id;
 		this.headImageId = headImageId;
 		this.qualityId = qualityId;
 		this.starLevel = starLevel;
@@ -25,6 +27,10 @@ public class DefendHeroBaseInfoSynData {
 		this.isMainRole = isMainRole;
 		this.isDie = isDie;
 		this.heroLeftInfo = heroLeftInfo;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getHeadImageId() {

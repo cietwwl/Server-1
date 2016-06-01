@@ -20,6 +20,7 @@ public class GroupSecretBaseTemplate {
 	private final int minAssistTime;// 帮忙驻守秘境最小的时间（分钟）
 	private final int keyRecoveryLimit;// 钥石恢复的上限
 	private final int initKeyNum;// 初始化的钥石数量
+	private final int secretCanRobMinLeftTime;// 秘境可以被掠夺的底限剩余时间
 
 	public GroupSecretBaseTemplate(GroupSecretBaseCfg cfg) {
 		this.getKeyLimit = cfg.getGetKeyLimit();
@@ -29,6 +30,7 @@ public class GroupSecretBaseTemplate {
 		this.minAssistTime = cfg.getMinAssistTime();
 		this.keyRecoveryLimit = cfg.getKeyRecoveryLimit();
 		this.initKeyNum = cfg.getInitKeyNum();
+		this.secretCanRobMinLeftTime = cfg.getSecretCanRobMinLeftTime();
 
 		// 转换成对应的数组
 		String buyPriceStr = cfg.getBuyKeyPrice();
@@ -133,5 +135,9 @@ public class GroupSecretBaseTemplate {
 
 	public int getInitKeyNum() {
 		return initKeyNum;
+	}
+
+	public int getSecretCanRobMinLeftTime() {
+		return secretCanRobMinLeftTime;
 	}
 }

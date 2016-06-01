@@ -3,6 +3,7 @@ package com.rwbase.dao.groupsecret;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.bm.rank.RankType;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
@@ -14,6 +15,10 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretBaseTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 
 /*
@@ -22,6 +27,16 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
  * @Description 秘境匹配的Helper
  */
 public class GroupSecretMatchHelper {
+
+	/**
+	 * 更新秘境状态的回调
+	 * 
+	 * @author HC
+	 *
+	 */
+	public static interface IUpdateSecretStateCallBack {
+		public boolean call(GroupSecretMatchRankAttribute attr);
+	}
 
 	/**
 	 * 添加秘境到排行榜中
@@ -105,9 +120,9 @@ public class GroupSecretMatchHelper {
 	 * 更新排行榜中的数据
 	 * 
 	 * @param uniqueId
-	 * @param stateChangeTime
+	 * @param call 更新秘境状态的回调 {@link IUpdateSecretStateCallBack}
 	 */
-	public static void updateGroupSecretState2RobProtect(String uniqueId, long stateChangeTime) {
+	public static void updateGroupSecretState(String uniqueId, IUpdateSecretStateCallBack call) {
 		Ranking<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> ranking = RankingFactory.getRanking(RankType.GROUP_SECRET_MATCH_RANK);
 
 		RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> rankingEntry = ranking.getRankingEntry(uniqueId);
@@ -116,7 +131,7 @@ public class GroupSecretMatchHelper {
 		}
 
 		GroupSecretMatchRankAttribute attribute = rankingEntry.getExtendedAttribute();
-		if (attribute.setRobProtectState(stateChangeTime)) {
+		if (call.call(attribute)) {
 			ranking.subimitUpdatedTask(rankingEntry);
 		}
 	}
@@ -128,6 +143,15 @@ public class GroupSecretMatchHelper {
 	 * @return 如果没有匹配到人的话，就返回一个Null
 	 */
 	public static String getGroupSecretMatchData(Player player) {
+		GroupSecretBaseTemplate uniqueCfg = GroupSecretBaseCfgDAO.getCfgDAO().getUniqueCfg();
+		if (uniqueCfg == null) {
+			return null;
+		}
+
+		long secretCanRobMinLeftTimeMillis = TimeUnit.MINUTES.toMillis(uniqueCfg.getSecretCanRobMinLeftTime());
+
+		GroupSecretResourceCfgDAO secretResCfgDAO = GroupSecretResourceCfgDAO.getCfgDAO();
+
 		int level = player.getLevel();
 		int fighting = 0;// 匹配的战力
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
@@ -161,11 +185,16 @@ public class GroupSecretMatchHelper {
 		SegmentList<? extends MomentRankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute>> segmentList = ranking.getSegmentList(lowComparable, upComparable);
 		int refSize = segmentList.getRefSize();
 
+		long now = System.currentTimeMillis();
+
 		List<String> matchIdList = new ArrayList<String>();
 		for (int i = 0; i < refSize; i++) {
 			MomentRankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> momentRankingEntry = segmentList.get(i);
-			GroupSecretMatchRankAttribute attr = momentRankingEntry.getExtendedAttribute();
-			if (!attr.isPeace()) {
+			if (momentRankingEntry == null) {
+				continue;
+			}
+
+			if (!checkCanRob(momentRankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now)) {
 				continue;
 			}
 
@@ -186,8 +215,7 @@ public class GroupSecretMatchHelper {
 					continue;
 				}
 
-				GroupSecretMatchRankAttribute attr = rankingEntry.getExtendedAttribute();
-				if (!attr.isPeace()) {
+				if (!checkCanRob(rankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now)) {
 					continue;
 				}
 
@@ -205,8 +233,7 @@ public class GroupSecretMatchHelper {
 					continue;
 				}
 
-				GroupSecretMatchRankAttribute attr = rankingEntry.getExtendedAttribute();
-				if (!attr.isPeace()) {
+				if (!checkCanRob(rankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now)) {
 					continue;
 				}
 
@@ -216,5 +243,35 @@ public class GroupSecretMatchHelper {
 
 		// 无论如何都找不到人
 		return null;
+	}
+
+	/**
+	 * 检查秘境能否被掠夺
+	 * 
+	 * @param attr
+	 * @param secretResCfgDAO
+	 * @param secretCanRobMinLeftTimeMillis
+	 * @param now
+	 * @return
+	 */
+	private static boolean checkCanRob(GroupSecretMatchRankAttribute attr, GroupSecretResourceCfgDAO secretResCfgDAO, long secretCanRobMinLeftTimeMillis, long now) {
+		if (!attr.isPeace()) {
+			return false;
+		}
+
+		GroupSecretResourceTemplate cfg = secretResCfgDAO.getGroupSecretResourceTmp(attr.getCfgId());
+		if (cfg == null) {
+			return false;
+		}
+
+		long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
+		long createTime = attr.getCreateTime();
+
+		long leftTimeMillis = needTimeMillis - now + createTime;
+		if (leftTimeMillis < secretCanRobMinLeftTimeMillis) {
+			return false;
+		}
+
+		return true;
 	}
 }

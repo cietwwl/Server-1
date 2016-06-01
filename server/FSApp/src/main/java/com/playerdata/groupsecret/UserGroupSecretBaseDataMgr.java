@@ -73,6 +73,26 @@ public class UserGroupSecretBaseDataMgr {
 		update(userId);
 	}
 
+	/**
+	 * 删除匹配到的敌人秘境Id
+	 * 
+	 * @param player 角色
+	 * @param id 匹配到的秘境id
+	 */
+	public void updateMatchSecretId(Player player, String id) {
+		String userId = player.getUserId();
+		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
+		if (userGroupSecretBaseData == null) {
+			return;
+		}
+
+		userGroupSecretBaseData.setMatchSecretId(id);
+		update(userId);
+
+		// 同步数据到前端
+		synData(player);
+	}
+
 	private eSynType synType = eSynType.SECRETAREA_USER_INFO;
 
 	/**

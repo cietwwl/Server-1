@@ -16,6 +16,7 @@ public class GroupSecretBaseCfg {
 	private int minAssistTime;// 帮忙驻守秘境最小的时间（分钟）
 	private int keyRecoveryLimit;// 钥石恢复的上限
 	private int initKeyNum;// 初始化的钥石数量
+	private int secretCanRobMinLeftTime;// 秘境可以被掠夺的底限剩余时间
 
 	public String getBuyKeyPrice() {
 		return buyKeyPrice;
@@ -55,5 +56,9 @@ public class GroupSecretBaseCfg {
 
 	public int getInitKeyNum() {
 		return initKeyNum;
+	}
+
+	public int getSecretCanRobMinLeftTime() {
+		return secretCanRobMinLeftTime;
 	}
 }

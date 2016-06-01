@@ -1,5 +1,6 @@
 package com.rwbase.dao.groupsecret.pojo.db;
 
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
@@ -122,5 +123,23 @@ public class GroupSecretData {
 	 */
 	public DefendUserInfoData getDefendUserInfoData(int defendIndex) {
 		return defendMap.get(defendIndex);
+	}
+
+	/**
+	 * 获取所有的驻守点
+	 * 
+	 * @return
+	 */
+	public Enumeration<Integer> getEnumerationKeys() {
+		return defendMap.keys();
+	}
+
+	/**
+	 * 所有的驻守信息
+	 * 
+	 * @return
+	 */
+	public Enumeration<DefendUserInfoData> getEnumerationValues() {
+		return defendMap.elements();
 	}
 }

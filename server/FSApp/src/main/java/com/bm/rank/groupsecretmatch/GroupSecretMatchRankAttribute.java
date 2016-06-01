@@ -28,7 +28,6 @@ public class GroupSecretMatchRankAttribute {
 	public GroupSecretMatchRankAttribute(long createTime, int cfgId) {
 		this.createTime = createTime;
 		this.cfgId = cfgId;
-		stateReference.set(new SecretState(0, MatchSecretState.NON_BATTLE_VALUE));
 	}
 
 	private final long createTime;// 创建时间
@@ -138,6 +137,25 @@ public class GroupSecretMatchRankAttribute {
 
 		SecretState newState = new SecretState(currentTime, MatchSecretState.IN_MAX_ROB_COUNT_VALUE);
 		return stateReference.compareAndSet(state, newState);
+	}
+
+	/**
+	 * 设置掠夺保护状态
+	 * 
+	 * @param currentTime
+	 * @return
+	 */
+	public boolean setNonBattleState() {
+		SecretState state = getState();
+		if (state == null) {// 和平状态是不能直接进入掠夺保护的
+			return false;
+		}
+
+		if (state.state != MatchSecretState.IN_BATTLE_VALUE) {// 当前是战斗保护状态
+			return false;
+		}
+
+		return stateReference.compareAndSet(state, null);
 	}
 
 	public int getCfgId() {

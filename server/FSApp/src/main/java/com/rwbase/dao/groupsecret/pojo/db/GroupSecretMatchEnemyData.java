@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
@@ -16,6 +18,7 @@ import com.rwproto.GroupSecretProto.GroupSecretIndex;
  * @date 2016年5月26日 下午3:08:51
  * @Description 秘境匹配到的敌人信息
  */
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class GroupSecretMatchEnemyData {
 	private int id;// 搜索到的秘境Id
 	@Id
@@ -43,30 +46,6 @@ public class GroupSecretMatchEnemyData {
 		return atkTime;
 	}
 
-	public Map<String, HeroLeftInfoSynData> getTeamOneMap() {
-		return teamOneMap;
-	}
-
-	public Map<String, HeroLeftInfoSynData> getTeamTwoMap() {
-		return teamTwoMap;
-	}
-
-	public Map<String, HeroLeftInfoSynData> getTeamThreeMap() {
-		return teamThreeMap;
-	}
-
-	public int[] getRobRes() {
-		return robRes;
-	}
-
-	public int[] getRobGS() {
-		return robGS;
-	}
-
-	public int[] getRobGE() {
-		return robGE;
-	}
-
 	public boolean isBeat() {
 		return isBeat;
 	}
@@ -86,30 +65,6 @@ public class GroupSecretMatchEnemyData {
 
 	public void setAtkTime(long atkTime) {
 		this.atkTime = atkTime;
-	}
-
-	public void setTeamOneMap(Map<String, HeroLeftInfoSynData> teamOneMap) {
-		this.teamOneMap = teamOneMap;
-	}
-
-	public void setTeamTwoMap(Map<String, HeroLeftInfoSynData> teamTwoMap) {
-		this.teamTwoMap = teamTwoMap;
-	}
-
-	public void setTeamThreeMap(Map<String, HeroLeftInfoSynData> teamThreeMap) {
-		this.teamThreeMap = teamThreeMap;
-	}
-
-	public void setRobRes(int[] robRes) {
-		this.robRes = robRes;
-	}
-
-	public void setRobGS(int[] robGS) {
-		this.robGS = robGS;
-	}
-
-	public void setRobGE(int[] robGE) {
-		this.robGE = robGE;
 	}
 
 	public void setBeat(boolean isBeat) {
@@ -194,5 +149,64 @@ public class GroupSecretMatchEnemyData {
 	@JsonIgnore
 	public int getRobGEValue(int index) {
 		return robGE[index - 1];
+	}
+
+	/**
+	 * 设置偷取某个防守点的资源
+	 * 
+	 * @param index
+	 * @param value
+	 */
+	@JsonIgnore
+	public void setRobResValue(int index, int value) {
+		robRes[index - 1] = value;
+	}
+
+	/**
+	 * 设置偷取某个防守点的帮派物资
+	 * 
+	 * @param index
+	 * @param value
+	 */
+	@JsonIgnore
+	public void setRobGSValue(int index, int value) {
+		robGS[index - 1] = value;
+	}
+
+	/**
+	 * 设置偷取某个防守点的帮派经验
+	 * 
+	 * @param index
+	 * @param value
+	 */
+	@JsonIgnore
+	public void setRobGEValue(int index, int value) {
+		robGE[index - 1] = value;
+	}
+
+	/**
+	 * 清除缓存的数据
+	 */
+	public void clearAllData() {
+		matchUserId = "";
+		id = 0;
+		atkTime = 0;
+		isBeat = false;
+
+		teamOneMap.clear();
+		teamTwoMap.clear();
+		teamThreeMap.clear();
+
+		for (int i = 0, len = robRes.length; i < len; i++) {
+			robRes[i] = 0;
+		}
+
+		for (int i = 0, len = robGE.length; i < len; i++) {
+			robGE[i] = 0;
+		}
+
+		for (int i = 0, len = robGS.length; i < len; i++) {
+			robGS[i] = 0;
+		}
 	}
 }

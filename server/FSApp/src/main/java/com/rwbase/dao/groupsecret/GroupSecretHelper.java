@@ -30,6 +30,7 @@ import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.DefendUserInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
+import com.rwproto.GroupSecretMatchProto.GroupSecretMatchCommonRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 
 /*
@@ -46,6 +47,20 @@ public class GroupSecretHelper {
 	 * @param tipMsg
 	 */
 	public static void fillRspInfo(GroupSecretCommonRspMsg.Builder rsp, boolean isSuccess, String tipMsg) {
+		rsp.setIsSuccess(isSuccess);
+		if (!StringUtils.isEmpty(tipMsg)) {
+			rsp.setTipMsg(tipMsg);
+		}
+	}
+
+	/**
+	 * 填充回应状态消息
+	 * 
+	 * @param rsp
+	 * @param isSuccess
+	 * @param tipMsg
+	 */
+	public static void fillMatchRspInfo(GroupSecretMatchCommonRspMsg.Builder rsp, boolean isSuccess, String tipMsg) {
 		rsp.setIsSuccess(isSuccess);
 		if (!StringUtils.isEmpty(tipMsg)) {
 			rsp.setTipMsg(tipMsg);
@@ -143,7 +158,7 @@ public class GroupSecretHelper {
 						isHasLife = true;
 					}
 
-					baseInfoList.add(new DefendHeroBaseInfoSynData(hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
+					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
 							.equals(defendUserId), isDie, heroLeftInfo));
 				}
 
