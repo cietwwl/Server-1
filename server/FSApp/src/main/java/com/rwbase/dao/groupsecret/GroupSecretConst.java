@@ -6,17 +6,9 @@ package com.rwbase.dao.groupsecret;
  * @Description 
  */
 public class GroupSecretConst {
-	// 秘境的矿点Index
-	public static enum GroupSecretIndex {
-		MAIN, // 主矿点
-		LEFT, // 第二个矿点
-		RIGHT;// 第三个矿点
-	}
+	public static final int MATCH_LOW_OFF_LEVEL = 3;// 匹配的时候下浮等级
+	public static final int MATCH_UP_OFF_LEVEL = 3;// 匹配的时候上浮等级
 
-	// 匹配的阵容信息
-	public static enum MatchSecretState {
-		NON_BATTLE, // 未开战
-		IN_BATTLE, // 战斗中
-		IN_ROB_PROTECT;// 掠夺保护中
-	}
+	public static final float MATCH_LOW_OFF_FIGHTING = 0.2f;// 战力上浮
+	public static final float MATCH_UP_OFF_FIGHTING = 0.1f;// 战力下浮
 }

@@ -15,7 +15,7 @@ public class GroupSecretBaseTemplate {
 	private final int getKeyLimit;// 每天获取钥石的上限
 	private final int maxKeyLimit;// 钥石的上限
 	private final int rewardKeyCount;// 每抵挡一波敌人进攻奖励多少钥石
-	private final int matchNonBattleTimw;// 匹配到人之后多久不打就删除
+	private final int matchNonBattleTime;// 匹配到人之后多久不打就删除
 	private final int[] matchPrice;// 探索的价格
 	private final int minAssistTime;// 帮忙驻守秘境最小的时间（分钟）
 	private final int keyRecoveryLimit;// 钥石恢复的上限
@@ -25,7 +25,7 @@ public class GroupSecretBaseTemplate {
 		this.getKeyLimit = cfg.getGetKeyLimit();
 		this.maxKeyLimit = cfg.getMaxKeyLimit();
 		this.rewardKeyCount = cfg.getRewardKeyCount();
-		this.matchNonBattleTimw = cfg.getMatchNonBattleTimw();
+		this.matchNonBattleTime = cfg.getMatchNonBattleTimw();
 		this.minAssistTime = cfg.getMinAssistTime();
 		this.keyRecoveryLimit = cfg.getKeyRecoveryLimit();
 		this.initKeyNum = cfg.getInitKeyNum();
@@ -101,8 +101,8 @@ public class GroupSecretBaseTemplate {
 		return rewardKeyCount;
 	}
 
-	public int getMatchNonBattleTimw() {
-		return matchNonBattleTimw;
+	public int getMatchNonBattleTime() {
+		return matchNonBattleTime;
 	}
 
 	public int getMinAssistTime() {

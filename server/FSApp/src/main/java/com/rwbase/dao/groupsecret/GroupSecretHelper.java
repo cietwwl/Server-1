@@ -17,6 +17,9 @@ import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rwbase.common.teamsyn.DefendHeroBaseInfoSynData;
+import com.rwbase.common.teamsyn.DefendTeamInfoSynData;
+import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
@@ -25,11 +28,8 @@ import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
-import com.rwbase.dao.groupsecret.syndata.base.DefendHeroBaseInfoSynData;
-import com.rwbase.dao.groupsecret.syndata.base.DefendTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.DefendUserInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
-import com.rwbase.dao.groupsecret.syndata.base.HeroLeftInfoSynData;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 
 /*

@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.persistence.Id;
 
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rwbase.dao.groupsecret.syndata.base.HeroLeftInfoSynData;
+import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 
 /*
  * @author HC
