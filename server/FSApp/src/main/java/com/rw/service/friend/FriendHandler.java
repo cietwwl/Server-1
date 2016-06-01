@@ -150,7 +150,7 @@ public class FriendHandler {
 		for (int i = 0, len = cfgList.size(); i < len; i++) {
 			RecommandConditionCfg cfg = cfgList.get(i);
 			if (i == 0) {
-				start = level + cfg.getDesLevel();
+				start = Math.max(1, level + cfg.getDesLevel());
 				end = level + cfg.getIncLevel();
 				fillSegmentPlayers(playersMap, ranking, start, end, cfg.getDays());
 				if (playersMap.size() >= randomRecommand) {
@@ -223,8 +223,12 @@ public class FriendHandler {
 
 	private void fillSegmentPlayers(HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days) {
 		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
-		ArrayList<String> list = fillList(segmentList);
-		int size = list.size();
+		int size = segmentList.getRefSize();
+		ArrayList<String> list = new ArrayList<String>(size);
+		for (int i = 0; i < size; i++) {
+			MomentRankingEntry<LevelComparable, RankingLevelData> momentRankingEntry = segmentList.get(i);
+			list.add(momentRankingEntry.getKey());
+		}
 		PlayerMgr playerMgr = PlayerMgr.getInstance();
 		for (int i = 0; i < size; i++) {
 			String userId = list.get(i);
