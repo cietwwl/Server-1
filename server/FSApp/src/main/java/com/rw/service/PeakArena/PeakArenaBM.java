@@ -24,7 +24,6 @@ import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.PeakArena.datamodel.peakArenaMatchRule;
 import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
-import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.TableSkill;
 
@@ -338,7 +337,6 @@ public class PeakArenaBM {
 				team.setMagicLevel(magic.getMagicLevel());
 			}
 			team.setHeros(new ArrayList<String>());
-			team.setHeroAtrrs(new ArrayList<TableAttr>());
 			team.setHeroSkills(new ArrayList<TableSkill>());
 			data.setTeam(team, i);
 		}

@@ -234,7 +234,7 @@ public class RobotManager {
 	public void createPeakArenaRobot(){
 		PeakArenaBM peakHandler = PeakArenaBM.getInstance();
 		ListRanking<String, PeakArenaExtAttribute> peakRanking = peakHandler.getRanks();
-		if (peakRanking.getRankingSize() < 40){
+		if (peakRanking.getRankingSize() < peakSize*4){
 			ECareer[] carerrs = ECareer.values();
 			for (int i = 0; i < carerrs.length; i++) {
 				ECareer eCareer = carerrs[i];
@@ -242,7 +242,7 @@ public class RobotManager {
 			}
 		}
 	}
-	
+	private int peakSize = 10;
 	private void addToPeakRank(PeakArenaBM peakHandler,ECareer career){
 		if (career == ECareer.None) {
 			return;
@@ -253,7 +253,7 @@ public class RobotManager {
 		if (listRanking == null){
 			return;
 		}
-		List<? extends ListRankingEntry<String, ArenaExtAttribute>> lst = listRanking.getRankingEntries(1, 10);
+		List<? extends ListRankingEntry<String, ArenaExtAttribute>> lst = listRanking.getRankingEntries(1, peakSize);
 		for (ListRankingEntry<String, ArenaExtAttribute> entry : lst) {
 			String id = entry.getKey();
 			Player player = PlayerMgr.getInstance().find(id);

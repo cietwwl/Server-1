@@ -37,8 +37,6 @@ import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.IPrivilegeManager;
-import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
@@ -256,7 +254,6 @@ public class PeakArenaHandler {
 			TeamData team = peakData.search(teamInfo.getTeamId());
 			List<String> newHeroList = new ArrayList<String>();
 			List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
-			List<TableAttr> heroAttrList = new ArrayList<TableAttr>();
 			List<String> heroIdsList = teamInfo.getHeroIdsList();
 			for (String id : heroIdsList) {
 				Hero heroData = heroMgr.getHeroById(id);
@@ -268,15 +265,11 @@ public class PeakArenaHandler {
 				TableSkill skill = heroData.getSkillMgr().getTableSkill(); 
 				heroSkillList.add(skill);
 				
-				AttrData heroTotalAttrData = heroData.getAttrMgr().getTotalAttrData();
-				TableAttr attr = new TableAttr(id, heroTotalAttrData);
-				heroAttrList.add(attr);
 			}
 			team.setMagicId(teamInfo.getMagicId());
 			team.setMagicLevel(teamInfo.getMagicLevel());
 			team.setHeros(newHeroList);
 			team.setHeroSkills(heroSkillList);
-			team.setHeroAtrrs(heroAttrList);
 		}
 		TablePeakArenaDataDAO.getInstance().update(peakData);
 		response.setArenaData(getPeakArenaData(peakData, player));

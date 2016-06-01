@@ -1,7 +1,6 @@
 package com.rw.service.PeakArena;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -62,9 +61,6 @@ public class PeakArenaService implements FsService {
 				break;
 			case BUY_CHALLENGE_COUNT:
 				result = peakArenaHandler.buyChallengeCount(msgArenaRequest, player);
-				break;
-			case SYNC_RECORD:
-				//TODO 这次不管，同步战报？
 				break;
 			default:
 				break;

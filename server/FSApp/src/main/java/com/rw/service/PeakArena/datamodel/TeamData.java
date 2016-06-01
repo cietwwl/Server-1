@@ -2,10 +2,11 @@ package com.rw.service.PeakArena.datamodel;
 
 import java.util.List;
 
-import com.rwbase.common.attrdata.TableAttr;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.rwbase.dao.skill.pojo.TableSkill;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamData {
 
 	private int teamId;
@@ -13,7 +14,6 @@ public class TeamData {
 	private int magicLevel;
 	private List<String> heros;
 	private List<TableSkill> heroSkills;
-	private List<TableAttr> heroAtrrs;
 	
 	public int getTeamId() {
 		return teamId;
@@ -45,12 +45,6 @@ public class TeamData {
 	}
 	public void setHeroSkills(List<TableSkill> heroSkills) {
 		this.heroSkills = heroSkills;
-	}
-	public List<TableAttr> getHeroAtrrs() {
-		return heroAtrrs;
-	}
-	public void setHeroAtrrs(List<TableAttr> heroAtrrs) {
-		this.heroAtrrs = heroAtrrs;
 	}
 	
 }
