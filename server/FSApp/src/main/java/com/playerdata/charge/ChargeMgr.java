@@ -24,6 +24,7 @@ import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeOrder;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
@@ -216,6 +217,7 @@ public class ChargeMgr {
 			dataHolder.updateItem(player, dataItem);
 			result.setSuccess(true);
 			
+			DailyActivityHandler.getInstance().sendTaskList(player);
 			
 			
 			
