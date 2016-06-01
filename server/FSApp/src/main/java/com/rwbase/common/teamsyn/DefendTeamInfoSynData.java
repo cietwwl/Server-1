@@ -1,4 +1,4 @@
-package com.rwbase.dao.groupsecret.syndata.base;
+package com.rwbase.common.teamsyn;
 
 import java.util.List;
 
