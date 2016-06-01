@@ -128,125 +128,6 @@ public final class GroupSecretProto {
   }
 
   /**
-   * Protobuf enum {@code groupSecret.MatchSecretState}
-   *
-   * <pre>
-   *匹配到的秘境状态
-   * </pre>
-   */
-  public enum MatchSecretState
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>NON_BATTLE = 1;</code>
-     *
-     * <pre>
-     *未开战
-     * </pre>
-     */
-    NON_BATTLE(0, 1),
-    /**
-     * <code>IN_BATTLE = 2;</code>
-     *
-     * <pre>
-     *战斗中
-     * </pre>
-     */
-    IN_BATTLE(1, 2),
-    /**
-     * <code>IN_ROB_PROTECT = 3;</code>
-     *
-     * <pre>
-     *掠夺保护中
-     * </pre>
-     */
-    IN_ROB_PROTECT(2, 3),
-    ;
-
-    /**
-     * <code>NON_BATTLE = 1;</code>
-     *
-     * <pre>
-     *未开战
-     * </pre>
-     */
-    public static final int NON_BATTLE_VALUE = 1;
-    /**
-     * <code>IN_BATTLE = 2;</code>
-     *
-     * <pre>
-     *战斗中
-     * </pre>
-     */
-    public static final int IN_BATTLE_VALUE = 2;
-    /**
-     * <code>IN_ROB_PROTECT = 3;</code>
-     *
-     * <pre>
-     *掠夺保护中
-     * </pre>
-     */
-    public static final int IN_ROB_PROTECT_VALUE = 3;
-
-
-    public final int getNumber() { return value; }
-
-    public static MatchSecretState valueOf(int value) {
-      switch (value) {
-        case 1: return NON_BATTLE;
-        case 2: return IN_BATTLE;
-        case 3: return IN_ROB_PROTECT;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<MatchSecretState>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<MatchSecretState>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<MatchSecretState>() {
-            public MatchSecretState findValueByNumber(int number) {
-              return MatchSecretState.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.rwproto.GroupSecretProto.getDescriptor().getEnumTypes().get(1);
-    }
-
-    private static final MatchSecretState[] VALUES = values();
-
-    public static MatchSecretState valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private MatchSecretState(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:groupSecret.MatchSecretState)
-  }
-
-  /**
    * Protobuf enum {@code groupSecret.RequestType}
    *
    * <pre>
@@ -357,7 +238,7 @@ public final class GroupSecretProto {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.GroupSecretProto.getDescriptor().getEnumTypes().get(2);
+      return com.rwproto.GroupSecretProto.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final RequestType[] VALUES = values();
@@ -4662,13 +4543,11 @@ public final class GroupSecretProto {
       "\027GroupSecretCommonRspMsg\022)\n\007reqType\030\001 \002(" +
       "\0162\030.groupSecret.RequestType\022\021\n\tisSuccess" +
       "\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*1\n\020GroupSecretInd" +
-      "ex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*E\n\020Mat" +
-      "chSecretState\022\016\n\nNON_BATTLE\020\001\022\r\n\tIN_BATT" +
-      "LE\020\002\022\022\n\016IN_ROB_PROTECT\020\003*o\n\013RequestType\022" +
-      "\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREATE_GROUP_SECR" +
-      "ET\020\002\022\033\n\027GET_GROUP_SECRET_REWARD\020\003\022\026\n\022CHA",
-      "NGE_DEFEND_TEAM\020\004B\037\n\013com.rwprotoB\020GroupS" +
-      "ecretProto"
+      "ex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*o\n\013Req" +
+      "uestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREATE_G" +
+      "ROUP_SECRET\020\002\022\033\n\027GET_GROUP_SECRET_REWARD" +
+      "\020\003\022\026\n\022CHANGE_DEFEND_TEAM\020\004B\037\n\013com.rwprot" +
+      "oB\020GroupSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

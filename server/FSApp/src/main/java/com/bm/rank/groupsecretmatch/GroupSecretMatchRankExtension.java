@@ -2,6 +2,7 @@ package com.bm.rank.groupsecretmatch;
 
 import com.bm.rank.RankingJacksonExtension;
 import com.rw.fsutil.ranking.RankingEntry;
+import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 
 /*
  * @author HC
@@ -20,6 +21,9 @@ public class GroupSecretMatchRankExtension extends RankingJacksonExtension<Group
 
 	@Override
 	public <P> GroupSecretMatchRankAttribute newEntryExtension(String key, P customParam) {
-		return null;
+		GroupSecretData groupSecretData = (GroupSecretData) customParam;
+		// 扩展属性
+		GroupSecretMatchRankAttribute attr = new GroupSecretMatchRankAttribute(groupSecretData.getCreateTime(), groupSecretData.getSecretId());
+		return attr;
 	}
 }

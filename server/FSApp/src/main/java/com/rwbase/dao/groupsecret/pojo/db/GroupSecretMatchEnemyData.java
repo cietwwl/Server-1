@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.rwbase.dao.groupsecret.syndata.base.HeroLeftInfoSynData;
+import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
 
 /*

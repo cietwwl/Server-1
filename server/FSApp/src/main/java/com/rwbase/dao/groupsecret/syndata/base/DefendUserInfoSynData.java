@@ -1,6 +1,7 @@
 package com.rwbase.dao.groupsecret.syndata.base;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwbase.common.teamsyn.DefendTeamInfoSynData;
 
 /*
  * @author HC

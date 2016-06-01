@@ -23,6 +23,7 @@ import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
+import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
 import com.rwbase.dao.groupsecret.pojo.SecretBaseInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.SecretTeamInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
@@ -323,6 +324,9 @@ public class GroupSecretHandler {
 		if (team != null) {
 			SecretTeamInfoSynDataHolder.getHolder().addData(player, team);
 		}
+
+		// 把秘境数据加入到排行榜
+		GroupSecretMatchHelper.addGroupSecret2Rank(player, secretData);
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
