@@ -445,9 +445,10 @@ public class PeakArenaBM {
 				addedCurrency = (int)(passTime / millisPerCurrency);
 			}
 		}
-		if (addedCurrency == 0) {
+		if (addedCurrency <= 0) {
 			return expectCurrency;
 		}
+		//已经保证millisPerCurrency>0,因为millisPerCurrency<=0会导致addedCurrency==0
 		int result = getAndAdjustGain(data, currentTime, expectCurrency, passTime, millisPerCurrency, addedCurrency);
 		return result;
 	}
