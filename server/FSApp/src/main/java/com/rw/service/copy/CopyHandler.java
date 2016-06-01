@@ -123,7 +123,9 @@ public class CopyHandler {
 		
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER){
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
-		}		
+		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_ARENA){
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
+		}
 		if(!isWin){
 			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
 			
