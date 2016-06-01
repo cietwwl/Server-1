@@ -153,6 +153,10 @@ public class BILogTemplateHelper {
 	 * @param class1 */
 	public static String getString(List<BilogItemInfo> list){
 		StringBuilder str = new StringBuilder();
+		str.append("");
+		if(list == null){
+			return str.toString();
+		}
 		int num = list.size();
 		for(BilogItemInfo subitem : list){
 			str.append(subitem.getItemId()).append("@").append(subitem.getNum());

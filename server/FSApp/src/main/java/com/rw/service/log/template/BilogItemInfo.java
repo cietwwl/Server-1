@@ -19,6 +19,9 @@ public class BilogItemInfo {
 
 	public static List<BilogItemInfo> fromItemList(List<? extends ItemInfo> list){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		if(list == null){
+			return newlist;
+		}
 		for(ItemInfo subitem : list){
 			BilogItemInfo newsubitem = new BilogItemInfo();
 			newsubitem.setItemId(subitem.getItemID());
@@ -30,6 +33,9 @@ public class BilogItemInfo {
 	/**各种奇葩的格式，'aid:anum,bid:bnum','aid_anum,bid_bnum'*/
 	public static List<BilogItemInfo> fromStrArr(String[] strlist){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		if(strlist == null){
+			return newlist;
+		}
 		for(String subitem : strlist){
 			BilogItemInfo newsubitem = new BilogItemInfo();
 			String[] split2 = subitem.split(":");
@@ -49,6 +55,9 @@ public class BilogItemInfo {
 	/**各种奇葩的格式，'aid_anum,bid_bnum','aid~anum,bid~bnum'*/
 	public static List<BilogItemInfo> fromStr(String str){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		if(str == null){
+			return newlist;
+		}
 		String[] sublist = str.split(",");		
 		for(String subitem : sublist){
 			BilogItemInfo newsubitem = new BilogItemInfo();
@@ -79,6 +88,9 @@ public class BilogItemInfo {
 	
 	public static List<BilogItemInfo> fromEmailId(String emailId){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		if(emailId == null){
+			return newlist;
+		}
 		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(emailId);
 		Set<String> keyset = giftcfg.getGiftMap().keySet();
 		Iterator<String> iterable = keyset.iterator();
@@ -94,8 +106,11 @@ public class BilogItemInfo {
 		return newlist;
 	}
 	
-	public static List<BilogItemInfo> fromSignCfg(SignCfg cfg){
+	public static List<BilogItemInfo> fromSignCfg(SignCfg cfg){		
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		if(cfg == null){
+			return newlist;
+		}
 		BilogItemInfo newsubitem = new BilogItemInfo();
 		newsubitem.setItemId(Integer.parseInt(cfg.getItemID()));
 		newsubitem.setNum(cfg.getItemNum());
@@ -106,7 +121,9 @@ public class BilogItemInfo {
 	
 	public static List<BilogItemInfo> fromMap(Map<Integer, Integer>  map){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
-		
+		if(map == null){
+			return newlist;
+		}
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 			BilogItemInfo newsubitem = new BilogItemInfo();
 			newsubitem.setItemId(entry.getKey());
@@ -119,6 +136,9 @@ public class BilogItemInfo {
 	
 	public static List<BilogItemInfo> fromComGiftID(String  giftId){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		if(giftId == null){
+			return newlist;
+		}
 		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(giftId);	
 		if(giftcfg == null){
 			return newlist;

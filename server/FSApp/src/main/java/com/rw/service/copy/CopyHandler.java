@@ -84,7 +84,7 @@ public class CopyHandler {
 			break;
 
 		default:
-			// 副本万仙战斗结算
+			// 副本万仙竞技场战斗结算
 			result = copyBattleClear(player, copyRequest);
 			break;
 		}
@@ -93,7 +93,7 @@ public class CopyHandler {
 	}
 
 	/*
-	 * 副本战斗结算;万仙阵不结算但会进入
+	 * 副本战斗结算;万仙阵-竞技场不结算但会进入
 	 */
 	public ByteString copyBattleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();

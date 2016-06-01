@@ -1013,7 +1013,7 @@ public class BattleTowerHandler {
 			SetFail(commonRsp, "试练塔模块-战斗结束", userId, String.format("对应的层%s，所属的组%s，包含层的信息列表是空", curFloor, groupId), "数据异常");
 			return;
 		}
-
+		
 		if (!floorList.contains(floor)) {// 服务器存储的组信息没有包含完成的信息，有作弊嫌疑
 			SetFail(commonRsp, "试练塔模块-战斗结束", userId, String.format("发送完成的层是%s，所属组是%s，这个组并没有包含请求完成的层信息", floor, groupId), "当前组没有请求层信息");
 			return;
@@ -1030,7 +1030,8 @@ public class BattleTowerHandler {
 		tableBattleTower.setResult(true);// 设置已经拿到战斗结果的标记
 		
 		
-		
+		// 奖励信息,胜负判断之前用以失败时也能打印出奖励信息到日志
+		List<ItemInfo> itemInfoList = null;
 		if (!result) {// 失败了
 			//by frnaky 战败了允许再次挑战
 			tableBattleTower.setCurFloor(floorList.get(0));// 设置当前新的层
@@ -1093,8 +1094,7 @@ public class BattleTowerHandler {
 			// 设置当前新的层
 			tableBattleTower.setCurFloor(floor);// 设置当前新的层
 
-			// 奖励信息
-			List<ItemInfo> itemInfoList = null;
+			
 			int highestFloor = tableBattleTower.getHighestFloor();
 
 			// 是否是历史最高层次
@@ -1149,10 +1149,7 @@ public class BattleTowerHandler {
 					
 				}
 				
-				int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(floor);
-				List<BilogItemInfo> list = BilogItemInfo.fromItemList(itemInfoList);
-				String  strOfActivityLog = BILogTemplateHelper.getString(list);
-				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, result,0,strOfActivityLog,0);
+				
 			}
 			
 			
@@ -1213,6 +1210,11 @@ public class BattleTowerHandler {
 			}
 			UserEventMgr.getInstance().BattleTower(player, floor);
 		}
+		
+		int copyId = BattleTowerRewardCfgDao.getCfgDao().getCopyIdByFloor(floor);
+		List<BilogItemInfo> list = BilogItemInfo.fromItemList(itemInfoList);
+		String  strOfActivityLog = BILogTemplateHelper.getString(list);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_BATTLETOWER, copyId, result,0,strOfActivityLog,0);
 		
 		dao.update(tableBattleTower);
 		//开服活动通知
