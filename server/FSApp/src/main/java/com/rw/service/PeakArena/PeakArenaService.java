@@ -4,6 +4,8 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaRequest;
 import com.rwproto.PeakArenaServiceProtos.eArenaType;
 import com.rwproto.RequestProtos.Request;
@@ -68,8 +70,13 @@ public class PeakArenaService implements FsService {
 				break;
 			}
 
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
+		} finally{
+			TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
+			if (arenaData != null) {
+				TablePeakArenaDataDAO.getInstance().commit(arenaData);
+			}
 		}
 
 		return result;

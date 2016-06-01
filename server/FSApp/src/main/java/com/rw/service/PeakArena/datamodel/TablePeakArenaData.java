@@ -15,7 +15,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 public class TablePeakArenaData {
 	@Id
 	private String userId; // 用户ID
-	private int maxPlace;
+	private int maxPlace; //历史最高排名
 	private int winCount;//历史胜利场次
 	private boolean hasRanking;//未入榜的标志
 	private int challengeCount;//挑战次数

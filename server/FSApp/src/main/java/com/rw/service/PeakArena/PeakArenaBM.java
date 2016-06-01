@@ -299,7 +299,7 @@ public class PeakArenaBM {
 		return entry;
 	}
 
-	private PeakArenaExtAttribute createExtData(Player player) {
+	public PeakArenaExtAttribute createExtData(Player player) {
 		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
@@ -389,6 +389,13 @@ public class PeakArenaBM {
 
 	public void addOthersRecord(TablePeakArenaData table, PeakRecordInfo record) {
 		List<PeakRecordInfo> list = table.getRecordList();
+		// 需要限制战报的数量
+		int removeCount = list.size()- 9;
+		if (removeCount > 0){
+			for (int i = 0; i<removeCount; i++){
+				list.remove(list.size()-1);
+			}
+		}
 		list.add(record);
 		tablePeakArenaDataDAO.commit(table);
 	}
@@ -414,37 +421,59 @@ public class PeakArenaBM {
 		if (entry == null) return -1;
 		return entry.getRanking();
 	}
-
-	/**
-	 * 计算当前能获得的总预期巅峰币
-	 * 
-	 * @param data
-	 * @return
-	 */
-	public int gainExpectCurrency(TablePeakArenaData data) {
-		//TODO 按照新的规则进行领取
-		long currentTime = System.currentTimeMillis();
+	
+	public int gainExpectCurrency(TablePeakArenaData data, int gainPerHour,long currentTime) {
 		long lastTime = data.getLastGainCurrencyTime();
 		if (lastTime <= 0) {
 			data.setLastGainCurrencyTime(currentTime);
 			TablePeakArenaDataDAO.getInstance().update(data);
 			return 0;
 		}
-
-		int score = 0;
-		PeakArenaScoreLevel level = PeakArenaScoreLevel.getSocre(score);
-		int gainPerHour = level.getGainCurrency();
-		// TODO 待优化，缓存起来不需要每次计算
-		long millisPerCurrency = MILLIS_PER_HOUR / gainPerHour;
+/*
+确定奖励的时间间隔
+读取对应排名的配置奖励（可能为零！）
+奖励数量＝时间（小时）＊单位小时的奖励 （向下取整！）
+ * */
 		int expectCurrency = data.getExpectCurrency();
 		long passTime = currentTime - lastTime;
-		long currency_ = passTime / millisPerCurrency;
-		if (currency_ == 0) {
+		long millisPerCurrency = 0;
+		int addedCurrency = 0;
+		if (gainPerHour > 0){
+			// 每一点奖励数需要的毫秒值: ((毫秒/小时) / (奖励数/小时) = 毫秒/奖励数
+			millisPerCurrency = MILLIS_PER_HOUR / gainPerHour;
+			if (millisPerCurrency > 0){
+				addedCurrency = (int)(passTime / millisPerCurrency);
+			}
+		}
+		if (addedCurrency == 0) {
 			return expectCurrency;
 		}
+		int result = getAndAdjustGain(data, currentTime, expectCurrency, passTime, millisPerCurrency, addedCurrency);
+		return result;
+	}
+	/**
+	 * 计算当前能获得的巅峰币，不会产生领取动作（不修改player里面的PeakArenaCoin）
+	 * 
+	 * @param data
+	 * @param place 
+	 * @return
+	 */
+	public int gainExpectCurrency(TablePeakArenaData data, int gainPerHour) {
+		long currentTime = System.currentTimeMillis();
+		return gainExpectCurrency(data,gainPerHour,currentTime);
+	}
+
+	public int getAndAdjustGain(TablePeakArenaData data, long currentTime, int expectCurrency, long passTime,
+			long millisPerCurrency, int addedCurrency) {
+		/*
+保留时间损耗
+保存奖励
+保存最后领奖时间
+		 * 
+		 * */
 		long interval = passTime % millisPerCurrency;
 		data.setLastGainCurrencyTime(currentTime - interval);
-		int result = (int) (expectCurrency + currency_);
+		int result = expectCurrency + addedCurrency;
 		data.setExpectCurrency(result);
 		TablePeakArenaDataDAO.getInstance().update(data);
 		return result;

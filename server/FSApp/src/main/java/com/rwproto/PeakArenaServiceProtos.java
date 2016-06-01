@@ -2498,6 +2498,33 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     com.rwproto.PeakArenaServiceProtos.HeroDataOrBuilder getPlayerOrBuilder();
+
+    // optional string armyInfo = 7;
+    /**
+     * <code>optional string armyInfo = 7;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    boolean hasArmyInfo();
+    /**
+     * <code>optional string armyInfo = 7;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    java.lang.String getArmyInfo();
+    /**
+     * <code>optional string armyInfo = 7;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getArmyInfoBytes();
   }
   /**
    * Protobuf type {@code TeamInfo}
@@ -2592,6 +2619,11 @@ public final class PeakArenaServiceProtos {
                 player_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000010;
+              armyInfo_ = input.readBytes();
               break;
             }
           }
@@ -2824,6 +2856,61 @@ public final class PeakArenaServiceProtos {
       return player_;
     }
 
+    // optional string armyInfo = 7;
+    public static final int ARMYINFO_FIELD_NUMBER = 7;
+    private java.lang.Object armyInfo_;
+    /**
+     * <code>optional string armyInfo = 7;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    public boolean hasArmyInfo() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string armyInfo = 7;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    public java.lang.String getArmyInfo() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          armyInfo_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string armyInfo = 7;</code>
+     *
+     * <pre>
+     *Json字符串：队伍信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getArmyInfoBytes() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        armyInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       teamId_ = 0;
       heros_ = java.util.Collections.emptyList();
@@ -2831,6 +2918,7 @@ public final class PeakArenaServiceProtos {
       magicId_ = 0;
       magicLevel_ = 0;
       player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
+      armyInfo_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2878,6 +2966,9 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(6, player_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(7, getArmyInfoBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2915,6 +3006,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, player_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getArmyInfoBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3054,6 +3149,8 @@ public final class PeakArenaServiceProtos {
           playerBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000020);
+        armyInfo_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -3117,6 +3214,10 @@ public final class PeakArenaServiceProtos {
         } else {
           result.player_ = playerBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.armyInfo_ = armyInfo_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3180,6 +3281,11 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasPlayer()) {
           mergePlayer(other.getPlayer());
+        }
+        if (other.hasArmyInfo()) {
+          bitField0_ |= 0x00000040;
+          armyInfo_ = other.armyInfo_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3915,6 +4021,104 @@ public final class PeakArenaServiceProtos {
           player_ = null;
         }
         return playerBuilder_;
+      }
+
+      // optional string armyInfo = 7;
+      private java.lang.Object armyInfo_ = "";
+      /**
+       * <code>optional string armyInfo = 7;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public boolean hasArmyInfo() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string armyInfo = 7;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public java.lang.String getArmyInfo() {
+        java.lang.Object ref = armyInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          armyInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 7;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getArmyInfoBytes() {
+        java.lang.Object ref = armyInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          armyInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 7;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public Builder setArmyInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        armyInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 7;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public Builder clearArmyInfo() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        armyInfo_ = getDefaultInstance().getArmyInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 7;</code>
+       *
+       * <pre>
+       *Json字符串：队伍信息
+       * </pre>
+       */
+      public Builder setArmyInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        armyInfo_ = value;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:TeamInfo)
@@ -13572,50 +13776,51 @@ public final class PeakArenaServiceProtos {
       "l\030\004 \001(\005\022\020\n\010fighting\030\005 \001(\005\022\021\n\tqualityId\030\006" +
       " \001(\t\022\013\n\003exp\030\007 \001(\003\022*\n\006skills\030\010 \003(\0132\032.Skil" +
       "lService.TagSkillData\022\016\n\006teamId\030\n \001(\005\022\021\n" +
-      "\theadImage\030\013 \001(\t\"\205\001\n\010TeamInfo\022\016\n\006teamId\030" +
+      "\theadImage\030\013 \001(\t\"\227\001\n\010TeamInfo\022\016\n\006teamId\030" +
       "\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t.HeroData\022\017\n\007heroI" +
       "ds\030\003 \003(\t\022\017\n\007magicId\030\004 \001(\005\022\022\n\nmagicLevel\030" +
-      "\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\"\261\003\n\tAre",
-      "naData\022\016\n\006userId\030\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\021\n" +
-      "\tgainScore\030\003 \001(\005\022\017\n\007scoreLv\030\004 \001(\005\022\r\n\005pla" +
-      "ce\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022\020\n\010winCount\030\010" +
-      " \001(\005\022\026\n\016challengeCount\030\t \001(\005\022\016\n\006cdTime\030\n" +
-      " \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004name\030\014 \001(\t\022\r\n\005le" +
-      "vel\030\r \001(\005\022\021\n\theadImage\030\016 \001(\t\022\022\n\ntemplete" +
-      "Id\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\troleSkill\030" +
-      "\021 \003(\0132\032.SkillService.TagSkillData\022\030\n\005tea" +
-      "ms\030\023 \003(\0132\t.TeamInfo\022\025\n\rlastFightTime\030\024 \001" +
-      "(\003\022\033\n\023gainCurrencyPerHour\030\025 \001(\005\022\021\n\tgroup",
-      "Name\030\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\"\324\001\n\tArenaIn" +
-      "fo\022\016\n\006userId\030\001 \002(\t\022\r\n\005score\030\002 \001(\005\022\017\n\007sco" +
-      "reLv\030\003 \001(\005\022\r\n\005place\030\004 \001(\005\022\020\n\010winCount\030\005 " +
-      "\001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\thead" +
-      "Image\030\010 \001(\t\022\020\n\010fighting\030\t \001(\005\022\021\n\tstarLev" +
-      "el\030\n \001(\005\022\021\n\tqualityId\030\013 \001(\t\022\016\n\006career\030\014 " +
-      "\001(\005\"\214\001\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003w" +
-      "in\030\002 \001(\010\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022" +
-      "\021\n\theadImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004tim" +
-      "e\030\007 \001(\003\022\021\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArenaR",
-      "equest\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022\016" +
-      "\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo" +
-      "\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010" +
-      "\022\017\n\007reorder\030\006 \003(\005\"\214\002\n\020MsgArenaResponse\022\036" +
-      "\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017arenaR" +
-      "esultType\030\002 \001(\0162\021.eArenaResultType\022\035\n\tar" +
-      "enaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 " +
-      "\003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.Ar" +
-      "enaRecord\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 " +
-      "\001(\t\022\031\n\021maxChallengeCount\030\010 \001(\005\022\020\n\010buyCou",
-      "nt\030\t \001(\005*\244\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n" +
-      "\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014AREN" +
-      "A_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME" +
-      "\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIG" +
-      "HT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SY" +
-      "NC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\r\n\tGET_SCORE\020" +
-      "\013\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_COUN" +
-      "T\020\r\022\022\n\016FIGHT_CONTINUE\020\016*5\n\020eArenaResultT" +
-      "ype\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%" +
-      "\n\013com.rwprotoB\026PeakArenaServiceProtos"
+      "\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\022\020\n\010army",
+      "Info\030\007 \001(\t\"\261\003\n\tArenaData\022\016\n\006userId\030\001 \002(\t" +
+      "\022\r\n\005score\030\002 \001(\005\022\021\n\tgainScore\030\003 \001(\005\022\017\n\007sc" +
+      "oreLv\030\004 \001(\005\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006" +
+      " \001(\005\022\020\n\010winCount\030\010 \001(\005\022\026\n\016challengeCount" +
+      "\030\t \001(\005\022\016\n\006cdTime\030\n \001(\005\022\016\n\006career\030\013 \001(\005\022\014" +
+      "\n\004name\030\014 \001(\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage" +
+      "\030\016 \001(\t\022\022\n\ntempleteId\030\017 \001(\t\022\020\n\010fighting\030\020" +
+      " \001(\005\022-\n\troleSkill\030\021 \003(\0132\032.SkillService.T" +
+      "agSkillData\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022\025\n" +
+      "\rlastFightTime\030\024 \001(\003\022\033\n\023gainCurrencyPerH",
+      "our\030\025 \001(\005\022\021\n\tgroupName\030\027 \001(\t\022\020\n\010armyInfo" +
+      "\030\030 \001(\t\"\324\001\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005" +
+      "score\030\002 \001(\005\022\017\n\007scoreLv\030\003 \001(\005\022\r\n\005place\030\004 " +
+      "\001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004" +
+      "name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010fightin" +
+      "g\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\tqualityId\030" +
+      "\013 \001(\t\022\016\n\006career\030\014 \001(\005\"\214\001\n\013ArenaRecord\022\016\n" +
+      "\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n\007placeUp\030\003 " +
+      "\001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImage\030\005 \001(\t\022\r\n\005" +
+      "level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\tchallenge\030\010",
+      " \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\tarenaType\030\001 " +
+      "\002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(\t\022\030\n\005team" +
+      "s\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004 \001(\0132\n.Aren" +
+      "aInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(\005\"\214\002\n\020" +
+      "MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\0162\013.eA" +
+      "renaType\022*\n\017arenaResultType\030\002 \001(\0162\021.eAre" +
+      "naResultType\022\035\n\tarenaData\030\003 \001(\0132\n.ArenaD" +
+      "ata\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n\nlis" +
+      "tRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place\030\006 \001" +
+      "(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxChallengeCou",
+      "nt\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005*\244\002\n\neArenaTyp" +
+      "e\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHA" +
+      "NGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_IN" +
+      "FO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREP" +
+      "ARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FI" +
+      "GHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLA" +
+      "CE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWITCH_OVER\020\014\022\027\n\023" +
+      "BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020" +
+      "\016*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS\020\001" +
+      "\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakAre",
+      "naServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13633,7 +13838,7 @@ public final class PeakArenaServiceProtos {
           internal_static_TeamInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TeamInfo_descriptor,
-              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", "Player", });
+              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", "Player", "ArmyInfo", });
           internal_static_ArenaData_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_ArenaData_fieldAccessorTable = new

@@ -46,6 +46,7 @@ message TeamInfo{
 	optional int32 magicId = 4;
 	optional int32 magicLevel = 5;
 	optional HeroData player = 6; //用于传递对手的主角给客户端
+	optional string armyInfo = 7;//Json字符串：对手队伍信息
 }
 
 message ArenaData{
@@ -69,7 +70,7 @@ message ArenaData{
 	optional int64 lastFightTime = 20;  //唔知系咩
 	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
     optional string groupName = 23; //TODO 帮派名称
-	optional string armyInfo = 24;//Json字符串：队伍信息
+	optional string armyInfo = 24;//暂时没有用 Json字符串：队伍信息
 }
 
 message ArenaInfo{

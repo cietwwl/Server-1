@@ -3,13 +3,13 @@ package com.rw.service.PeakArena.datamodel;
 public class PeakRecordInfo {
 
 	private int win;//TODO 这次不管 0是输，1是赢
-	private int placeUp;
+	private int placeUp;//交换名次后计算排名变化
 	private String name;
 	private String headImage;
 	private int level;
 	private long time;
 	private String userId;
-	private int challenge;//TODO 这次不管 1是我打别人，01是别人打我
+	private int challenge;//TODO 这次不管 1是我打别人，0是别人打我
 	
 	public int getWin() {
 		return win;
