@@ -78,6 +78,13 @@ public class ActivityCountTypeItemHolder{
 		return addSuccess;
 	}
 	
+	public boolean removeitem(Player player,ActivityCountTypeEnum type){
+		
+		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
+		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
+		return addSuccess;
+	}
+	
 	public void synAllData(Player player){
 		List<ActivityCountTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);

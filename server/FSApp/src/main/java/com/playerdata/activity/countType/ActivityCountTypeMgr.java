@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.arena.ArenaConstant;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
@@ -15,7 +17,12 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.log.template.maker.LogTemplateMaker;
+import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
+import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.gift.ComGiftCfg;
 import com.rwbase.dao.gift.ComGiftCfgDAO;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -24,6 +31,8 @@ import com.rwproto.DataSynProtos.eSynOpType;
 public class ActivityCountTypeMgr {
 	
 	private static ActivityCountTypeMgr instance = new ActivityCountTypeMgr();
+	
+	private final static int MAKEUPEMAIL = 10055;
 	
 	public static ActivityCountTypeMgr getInstance(){
 		return instance;
@@ -42,17 +51,19 @@ public class ActivityCountTypeMgr {
 	private void checkNewOpen(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
-//		int i = 0;
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
-//			i++;
-//			System.out.println("activitycount--未判断是否已开启 "+"  i = " + i+ "  name=" + activityCountTypeCfg.getTitle());
 			if(isOpen(activityCountTypeCfg)){
 				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
-//				System.out.println("activitycount--~~~判断是否已开启 "+"  i = " + i);
 				if(countTypeEnum != null){
 					ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
+					if(targetItem != null){
+						if(targetItem.isClosed()){
+							dataHolder.removeitem(player, countTypeEnum);
+							
+						}						
+					}
+					
 					if(targetItem == null){
-//					System.out.println("activitycount--生成表格  "+"  i = " + i);
 						targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);//生成新开启活动的数据
 						if(targetItem!=null){
 							dataHolder.addItem(player, targetItem);
@@ -69,12 +80,49 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		
-		for (ActivityCountTypeItem activityCountTypeItem : itemList) {
+		for (ActivityCountTypeItem activityCountTypeItem : itemList) {//每种活动
 			if(isClose(activityCountTypeItem)){
+				List<ActivityCountTypeSubItem>  list = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId()).getSubItemList();
+				for(ActivityCountTypeSubItem subitem : list){//配置表里的每种奖励
+					if(subitem.getCount() > activityCountTypeItem.getCount()){
+						continue;
+					}else{
+						Boolean ismakeup = true;
+						for(ActivityCountTypeSubItem sub :activityCountTypeItem.getTakenGiftList()){
+							if(sub.getCount() == subitem.getCount()){
+								ismakeup = false;
+								break;
+							}
+						}
+						if(ismakeup){
+							ActivityCountTypeSubItem targetItem = ActivityCountTypeCfgDAO.getInstance().newSubItem(ActivityCountTypeEnum.getById(activityCountTypeItem.getCfgId()), subitem.getId());				
+							activityCountTypeItem.getTakenGiftList().add(targetItem);
+//							takeGift(player,targetItem);
+							dataHolder.updateItem(player, activityCountTypeItem);//写入数据库,领取为false=邮件派发.						
+							
+						
+							
+							String sb = makegiftToMail(targetItem);							
+							EmailData emailData = new EmailData();
+							EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(MAKEUPEMAIL+"");							
+							if (cfg != null) {
+								emailData.setEmailAttachment(sb);
+								emailData.setTitle(cfg.getTitle());
+								emailData.setContent(cfg.getContent());
+								emailData.setSender(cfg.getSender());
+								emailData.setCheckIcon(cfg.getCheckIcon());
+								emailData.setSubjectIcon(cfg.getSubjectIcon());
+								emailData.setDeleteType(EEmailDeleteType.valueOf(cfg.getDeleteType()));
+								emailData.setDelayTime(cfg.getDelayTime());
+								emailData.setDeadlineTime(cfg.getDeadlineTime());
+								EmailUtils.sendEmail(player.getUserId(), emailData);
+							} else {
+								GameLog.error("通用活动关闭后未领取奖励获取邮件内容失败：" + player.getUserId() + "," );
+							}							
+						}						
+					}					
+				}						
 				activityCountTypeItem.setClosed(true);
-				
-				
-				
 				dataHolder.updateItem(player, activityCountTypeItem);
 			}
 		}
@@ -82,6 +130,8 @@ public class ActivityCountTypeMgr {
 		
 		
 	}
+
+
 
 	/**传入活动类型判断此活动是否开放*/
 	public boolean checkOneActivityISOpen(Player player,ActivityCountTypeEnum countType) {
@@ -117,9 +167,15 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		dataItem.setCount(dataItem.getCount()+countadd);
 		
+		
+		
 		dataHolder.updateItem(player, dataItem);
 	}
 	
+
+
+
+
 	public ActivityComResult takeGift(Player player, ActivityCountTypeEnum countType, String subItemId){
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		
@@ -221,5 +277,26 @@ public class ActivityCountTypeMgr {
 		//TODO: gift take logic
 	}
 	
+	private String makegiftToMail(ActivityCountTypeSubItem targetItem){
+		StringBuilder sb = new StringBuilder();
+		ComGiftCfg giftcfg = ComGiftCfgDAO.getInstance().getCfgById(targetItem.getGift());
+		
+		
+		Set<String> keyset = giftcfg.getGiftMap().keySet();
+		Iterator<String> iterable = keyset.iterator();
+		int prizeSize = keyset.size();
+		while(iterable.hasNext()){
+			String giftid = iterable.next();
+			int count = giftcfg.getGiftMap().get(giftid);
+			sb.append(giftid).append("~").append(count);
+			if (--prizeSize > 0) {
+				sb.append(",");
+			}
+		}
+		
+		
+		return sb.toString();
+		
+	}
 
 }
