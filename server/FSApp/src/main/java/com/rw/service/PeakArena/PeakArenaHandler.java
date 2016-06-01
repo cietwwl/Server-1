@@ -40,6 +40,7 @@ import com.rw.service.Privilege.IPrivilegeManager;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.TableAttr;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.TableSkill;
@@ -98,7 +99,7 @@ public class PeakArenaHandler {
 			return response.build().toByteString();
 		}
 		// 触发领奖
-		addPeakArenaCoin(peakBM,player,arenaData, peakBM.getPlace(player));
+		addPeakArenaCoin(peakBM,player,arenaData, peakBM.getPlace(player),System.currentTimeMillis());
 		response.setArenaData(getPeakArenaData(arenaData, player));
 		
 		setSuccess(response, arenaData);
@@ -131,14 +132,6 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		/*
-		ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getPeakArenaInfo();
-		if (player.getUserGameDataMgr().getGold() < arenaInfoCfg.getCost()) {
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "钻石不足");
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
-		}
-		player.getUserGameDataMgr().addGold(-arenaInfoCfg.getCost());*/
 		
 		// 重置费用改为从peakArenaCost读取，需要保存重置次数
 		// 是否可重置由特权配置决定
@@ -350,8 +343,9 @@ public class PeakArenaHandler {
 		if (!enemyEntry.getExtension().setFighting()) {
 			return sendFailRespon(player, response, ArenaConstant.ENEMY_IS_FIGHTING);
 		}
-		// 不需要设置自己的战斗状态，允许另一个玩家在我挑战别人的时候挑战我！
-		//entry.getExtension().forceSetFighting();
+
+		//TODO 同宇超商量不对挑战者加锁
+		entry.getExtension().forceSetFighting();
 		
 		int challengeCount = arenaData.getChallengeCount() + 1;
 		arenaData.setChallengeCount(challengeCount);
@@ -379,8 +373,8 @@ public class PeakArenaHandler {
 		// TODO 这次不管 超出排行榜容量的容错处理，让他打，赢了重新尝试加入排行榜
 		if (playerEntry == null) {
 			GameLog.error("巅峰竞技场", player.getUserId(), "玩家未入榜");
-			//response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			//return response.build().toByteString();
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return response.build().toByteString();
 		}
 		
 		String lastEnemy = arenaData.getLastFightEnemy();
@@ -422,7 +416,7 @@ public class PeakArenaHandler {
 		
 		TablePeakArenaData enemyArenaData = peakBM.getPeakArenaData(enemyUserId);
 		if (enemyArenaData == null) {
-			// 对自己加锁
+			//TODO 同宇超商量不对挑战者加锁
 			playerEntry.getExtension().setNotFighting();
 			return SetError(response,player,"结算时找不到对手",":"+enemyUserId);
 		}
@@ -454,21 +448,24 @@ public class PeakArenaHandler {
 					playerArenaData.setMaxPlace(newRank);
 				}
 				// 如果交换了位置则需要按照旧的排名计算奖励
-				addPeakArenaCoin(peakBM,player,  playerArenaData, playerPlace);
+				addPeakArenaCoin(peakBM,player,  playerArenaData, playerPlace,currentTimeMillis);
 				// 通知对手需要强制兑换奖励
-				GameWorldFactory.getGameWorld().asyncExecute(enemyUserId, 
-						new PlayerTask() {
-					@Override
-					public void run(Player enemy) {
-						// 对手需要强制兑换奖励
-						int tmp = enemyPlace;
-						//long replaceTime = currentTimeMillis;
-						PeakArenaBM peakBmHelper = PeakArenaBM.getInstance();
-						String enemyUserId = enemy.getUserId();
-						TablePeakArenaData enemyArenaData = peakBmHelper.getPeakArenaData(enemyUserId);
-						addPeakArenaCoin(peakBmHelper,enemy,enemyArenaData,tmp);
-					}
-				});
+				Player enemyUser = PlayerMgr.getInstance().find(enemyUserId);
+				if (!enemyUser.isRobot()){
+					GameWorldFactory.getGameWorld().asyncExecute(enemyUserId, 
+							new PlayerTask() {
+						@Override
+						public void run(Player enemy) {
+							// 对手需要强制兑换奖励
+							int tmp = enemyPlace;
+							long replaceTime = currentTimeMillis;
+							PeakArenaBM peakBmHelper = PeakArenaBM.getInstance();
+							String enemyUserId = enemy.getUserId();
+							TablePeakArenaData enemyArenaData = peakBmHelper.getPeakArenaData(enemyUserId);
+							addPeakArenaCoin(peakBmHelper,enemy,enemyArenaData,tmp,replaceTime);
+						}
+					});
+				}
 			}
 			
 			// 排名上升
@@ -495,11 +492,11 @@ public class PeakArenaHandler {
 			recordForEnemy.setChallenge(0);
 			peakBM.addOthersRecord(enemyArenaData, recordForEnemy);
 			
-			ArenaRecord ar = getPeakArenaRecord(record);
 			playerArenaData.setFightStartTime(currentTimeMillis);
 			
 			MsgArenaResponse.Builder recordResponse = MsgArenaResponse.newBuilder();
 			recordResponse.setArenaType(eArenaType.SYNC_RECORD);//TODO SYNC_RECORD是这样用的？！
+			ArenaRecord ar = getPeakArenaRecord(record);
 			recordResponse.addListRecord(ar);
 			recordResponse.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			player.SendMsg(Command.MSG_PEAK_ARENA, recordResponse.build().toByteString());
@@ -507,6 +504,7 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
 		} finally {
+			//TODO 同宇超商量不对挑战者加锁
 			playerEntry.getExtension().setNotFighting();
 			
 			if (enemyEntry != null) {
@@ -514,7 +512,7 @@ public class PeakArenaHandler {
 			}
 		}
 	}
-
+	
 	/**
 	 * 根据排名结算一次巅峰竞技场可以领取的货币
 	 * @param player
@@ -522,16 +520,19 @@ public class PeakArenaHandler {
 	 * @param playerArenaData
 	 * @param playerPlace
 	 */
-	public void addPeakArenaCoin(PeakArenaBM peakBM, Player player, TablePeakArenaData playerArenaData,
-			final int playerPlace) {
+	private void addPeakArenaCoin(PeakArenaBM peakBM, Player player,
+			TablePeakArenaData playerArenaData, int playerPlace, long replaceTime) {
 		int gainPerHour = peakArenaPrizeHelper.getInstance().getBestMatchPrizeCount(playerPlace);
-		int addCount = peakBM.gainExpectCurrency(playerArenaData,gainPerHour);
+		int addCount = peakBM.gainExpectCurrency(playerArenaData,gainPerHour,replaceTime);
 		if (addCount > 0){
-			player.getUserGameDataMgr().addPeakArenaCoin(addCount);
-			playerArenaData.setExpectCurrency(0);
+			if (player.getItemBagMgr().addItem(eSpecialItemId.PeakArenaCoin.getValue(), addCount)){
+				playerArenaData.setExpectCurrency(0);
+			}else{
+				GameLog.error("巅峰竞技场", player.getUserId(), "增加巅峰竞技场货币失败");
+			}
 		}
 	}
-	
+
 	/**
 	 * 判断是否需要交换位置
 	 * 返回是否操作成功
