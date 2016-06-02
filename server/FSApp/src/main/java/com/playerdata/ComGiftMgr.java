@@ -56,7 +56,7 @@ public class ComGiftMgr {
 		EmailData emailData = new EmailData();
 		if(cfg != null){
 		emailData.setEmailAttachment(sb);
-		emailData.setTitle(cfg.getTitle());
+		emailData.setTitle(cfg.getTitle()+mark);
 		emailData.setContent(cfg.getContent());
 		emailData.setSender(cfg.getSender());
 		emailData.setCheckIcon(cfg.getCheckIcon());
