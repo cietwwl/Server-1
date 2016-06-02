@@ -85,6 +85,7 @@
 			     <entry key="MSG_FEEDBACK" value-ref="feedbackService" />
 			     
 			     <entry key="MSG_GROUP_SECRET" value-ref="groupSecretService" />
+			     <entry key="MSG_GROUP_SECRET_MATCH" value-ref="groupSecretServiceMatch" />
 			</map>
 		</property>
 	</bean>
@@ -138,6 +139,7 @@
 	<bean id="groupPersonalService" class="com.rw.service.group.GroupPersonalService"  />
 	<bean id="groupSkillService" class="com.rw.service.group.GroupSkillService"  />
 	<bean id="groupSecretService" class="com.rw.service.groupsecret.GroupSecretService"  />
+	<bean id="groupSecretServiceMatch" class="com.rw.service.groupsecret.GroupSecretMatchService"  />
 	<bean id="giftCodeService" class="com.rw.service.giftcode.GiftCodeService"  />
 	
 	<bean id="activityCountTypeService" class="com.playerdata.activity.countType.service.ActivityCountTypeService"  />

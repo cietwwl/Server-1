@@ -23,7 +23,7 @@ public class GroupSecretMatchRankExtension extends RankingJacksonExtension<Group
 	public <P> GroupSecretMatchRankAttribute newEntryExtension(String key, P customParam) {
 		GroupSecretData groupSecretData = (GroupSecretData) customParam;
 		// 扩展属性
-		GroupSecretMatchRankAttribute attr = new GroupSecretMatchRankAttribute(groupSecretData.getCreateTime(), groupSecretData.getSecretId());
+		GroupSecretMatchRankAttribute attr = new GroupSecretMatchRankAttribute(groupSecretData.getCreateTime(), groupSecretData.getSecretId(), groupSecretData.getGroupId());
 		return attr;
 	}
 }

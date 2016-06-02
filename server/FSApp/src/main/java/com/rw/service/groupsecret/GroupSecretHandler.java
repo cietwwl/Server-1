@@ -443,6 +443,7 @@ public class GroupSecretHandler {
 		int proRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
 		int proGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
 		int proGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+		int dropDiamond = myDefendInfo.getDropDiamond();
 		if (changeTeamTime > 0) {
 			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
 			int fighting = myDefendInfo.getFighting();
@@ -459,8 +460,8 @@ public class GroupSecretHandler {
 		}
 
 		// 钻石
-		if (groupSecretResTmp.getRobGold() > 0) {
-			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), groupSecretResTmp.getRobGold());
+		if (dropDiamond > 0) {
+			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), dropDiamond);
 		}
 
 		// 把自己的驻守信息移除

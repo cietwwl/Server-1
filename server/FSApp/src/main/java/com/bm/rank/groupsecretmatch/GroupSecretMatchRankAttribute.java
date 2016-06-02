@@ -32,13 +32,15 @@ public class GroupSecretMatchRankAttribute {
 	public GroupSecretMatchRankAttribute() {
 	}
 
-	public GroupSecretMatchRankAttribute(long createTime, int cfgId) {
+	public GroupSecretMatchRankAttribute(long createTime, int cfgId, String groupId) {
 		this.createTime = createTime;
 		this.cfgId = cfgId;
+		this.groupId = groupId;
 	}
 
 	private long createTime;// 创建时间
 	private int cfgId;// 秘境的Id
+	private String groupId;// 帮派的Id
 	private final AtomicReference<SecretState> stateReference = new AtomicReference<SecretState>();
 
 	/**
@@ -172,5 +174,9 @@ public class GroupSecretMatchRankAttribute {
 
 	public long getCreateTime() {
 		return createTime;
+	}
+
+	public String getGroupId() {
+		return groupId;
 	}
 }

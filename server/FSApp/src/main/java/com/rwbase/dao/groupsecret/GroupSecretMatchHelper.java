@@ -187,6 +187,8 @@ public class GroupSecretMatchHelper {
 
 		long now = System.currentTimeMillis();
 
+		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
+
 		List<String> matchIdList = new ArrayList<String>();
 		for (int i = 0; i < refSize; i++) {
 			MomentRankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> momentRankingEntry = segmentList.get(i);
@@ -194,7 +196,7 @@ public class GroupSecretMatchHelper {
 				continue;
 			}
 
-			if (!checkCanRob(momentRankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now)) {
+			if (!checkCanRob(momentRankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now, groupId)) {
 				continue;
 			}
 
@@ -215,7 +217,7 @@ public class GroupSecretMatchHelper {
 					continue;
 				}
 
-				if (!checkCanRob(rankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now)) {
+				if (!checkCanRob(rankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now, groupId)) {
 					continue;
 				}
 
@@ -233,7 +235,7 @@ public class GroupSecretMatchHelper {
 					continue;
 				}
 
-				if (!checkCanRob(rankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now)) {
+				if (!checkCanRob(rankingEntry.getExtendedAttribute(), secretResCfgDAO, secretCanRobMinLeftTimeMillis, now, groupId)) {
 					continue;
 				}
 
@@ -252,9 +254,14 @@ public class GroupSecretMatchHelper {
 	 * @param secretResCfgDAO
 	 * @param secretCanRobMinLeftTimeMillis
 	 * @param now
+	 * @param groupId
 	 * @return
 	 */
-	private static boolean checkCanRob(GroupSecretMatchRankAttribute attr, GroupSecretResourceCfgDAO secretResCfgDAO, long secretCanRobMinLeftTimeMillis, long now) {
+	private static boolean checkCanRob(GroupSecretMatchRankAttribute attr, GroupSecretResourceCfgDAO secretResCfgDAO, long secretCanRobMinLeftTimeMillis, long now, String groupId) {
+		if (attr.getGroupId().equals(groupId)) {// 自己帮派的人是不能掠夺的
+			return false;
+		}
+
 		if (!attr.isPeace()) {
 			return false;
 		}

@@ -60,9 +60,9 @@ import com.rwproto.GroupSecretMatchProto.MatchRequestType;
  * @Description 匹配的Handler
  */
 public class GroupSecretMatchHandler {
-	private static GroupSecretHandler handler = new GroupSecretHandler();
+	private static GroupSecretMatchHandler handler = new GroupSecretMatchHandler();
 
-	public static GroupSecretHandler getHandler() {
+	public static GroupSecretMatchHandler getHandler() {
 		return handler;
 	}
 
@@ -447,6 +447,7 @@ public class GroupSecretMatchHandler {
 		enemyDataMgr.updateMatchEnemyData(player, groupSecretData, cfg);
 
 		rsp.setIsSuccess(true);
+		rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
 		rsp.setAttackStartRsp(endRsp);
 		return rsp.build().toByteString();
 	}
@@ -573,6 +574,83 @@ public class GroupSecretMatchHandler {
 			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(userId, secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE());
 		}
 
+		rsp.setIsSuccess(true);
+		return rsp.build().toByteString();
+	}
+
+	/**
+	 * 领取掠夺的秘境奖励
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public ByteString getRobRewardHandler(Player player) {
+		// 检查个人的帮派数据
+		String userId = player.getUserId();
+
+		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
+		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_END);
+
+		// 检查个人的帮派数据
+		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String groupId = userGroupAttributeData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "您当前暂无帮派，不能进入秘境");
+			return rsp.build().toByteString();
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			GameLog.error("领取掠夺奖励", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "帮派不存在");
+			return rsp.build().toByteString();
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			GameLog.error("领取掠夺奖励", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "帮派不存在");
+			return rsp.build().toByteString();
+		}
+
+		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+		GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
+		if (selfMemberData == null) {
+			GameLog.error("领取掠夺奖励", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "您不是帮派成员");
+			return rsp.build().toByteString();
+		}
+
+		// 检查是否有敌人
+		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
+		GroupSecretMatchEnemyData matchEnemyData = enemyDataMgr.get(userId);
+		if (StringUtils.isEmpty(matchEnemyData.getMatchUserId())) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "当前您没有可以领取的掠夺奖励");
+			return rsp.build().toByteString();
+		}
+
+		// 检查是否敌人已经被击败
+		if (!matchEnemyData.isBeat()) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "暂未击败掠夺秘境全体驻守成员，不可领奖");
+			return rsp.build().toByteString();
+		}
+
+		int robRes = matchEnemyData.getAllRobResValue();
+		// 增加帮派经验物资
+		group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue());
+		// 增加资源
+		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(matchEnemyData.getCfgId());
+		if (cfg != null && robRes > 0) {
+			player.getItemBagMgr().addItem(cfg.getReward(), robRes);
+			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), cfg.getRobGold());
+		}
+
+		// 移除匹配的敌人信息
+		UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
+		// 清除敌人数据
+		GroupSecretMatchEnemyDataMgr.getMgr().clearMatchEnemyData(player);
+
+		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
 	}
 }

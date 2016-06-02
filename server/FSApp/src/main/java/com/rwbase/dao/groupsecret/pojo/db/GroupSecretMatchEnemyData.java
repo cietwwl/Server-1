@@ -30,6 +30,7 @@ public class GroupSecretMatchEnemyData {
 	private String userId;// 搜索人的Id
 	private long matchTime;// 搜索到的时间
 	private long atkTime;// 攻击的时间
+	private int cfgId;// 搜索到的秘境类型
 	private Map<String, HeroLeftInfoSynData> teamOneMap;// 防守的一队敌人血量信息
 	private Map<String, HeroLeftInfoSynData> teamTwoMap;// 防守的二队敌人血量信息
 	private Map<String, HeroLeftInfoSynData> teamThreeMap;// 防守的三队敌人血量信息
@@ -76,6 +77,10 @@ public class GroupSecretMatchEnemyData {
 		return robGE;
 	}
 
+	public int getCfgId() {
+		return cfgId;
+	}
+
 	// ////////////////////////////////////////////////逻辑Set区
 	public void setId(int id) {
 		this.id = id;
@@ -99,6 +104,10 @@ public class GroupSecretMatchEnemyData {
 
 	public void setMatchTime(long matchTime) {
 		this.matchTime = matchTime;
+	}
+
+	public void setCfgId(int cfgId) {
+		this.cfgId = cfgId;
 	}
 
 	// ////////////////////////////////////////////////逻辑区

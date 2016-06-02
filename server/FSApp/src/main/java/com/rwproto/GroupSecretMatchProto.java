@@ -3771,9 +3771,35 @@ public final class GroupSecretMatchProto {
     com.google.protobuf.ByteString
         getVersionBytes();
 
-    // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;
+    // optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;
     /**
-     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+     *
+     * <pre>
+     *攻打敌人开始请求
+     * </pre>
+     */
+    boolean hasAttackStartReq();
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+     *
+     * <pre>
+     *攻打敌人开始请求
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg getAttackStartReq();
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+     *
+     * <pre>
+     *攻打敌人开始请求
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsgOrBuilder getAttackStartReqOrBuilder();
+
+    // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;
+    /**
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
      *
      * <pre>
      *结束攻打的时候，通知服务器
@@ -3781,7 +3807,7 @@ public final class GroupSecretMatchProto {
      */
     boolean hasAttackEndReq();
     /**
-     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
      *
      * <pre>
      *结束攻打的时候，通知服务器
@@ -3789,7 +3815,7 @@ public final class GroupSecretMatchProto {
      */
     com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg getAttackEndReq();
     /**
-     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
      *
      * <pre>
      *结束攻打的时候，通知服务器
@@ -3865,8 +3891,21 @@ public final class GroupSecretMatchProto {
               break;
             }
             case 26: {
-              com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder subBuilder = null;
+              com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = attackStartReq_.toBuilder();
+              }
+              attackStartReq_ = input.readMessage(com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(attackStartReq_);
+                attackStartReq_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = attackEndReq_.toBuilder();
               }
               attackEndReq_ = input.readMessage(com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.PARSER, extensionRegistry);
@@ -3874,7 +3913,7 @@ public final class GroupSecretMatchProto {
                 subBuilder.mergeFrom(attackEndReq_);
                 attackEndReq_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -3996,21 +4035,55 @@ public final class GroupSecretMatchProto {
       }
     }
 
-    // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;
-    public static final int ATTACKENDREQ_FIELD_NUMBER = 3;
+    // optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;
+    public static final int ATTACKSTARTREQ_FIELD_NUMBER = 3;
+    private com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg attackStartReq_;
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+     *
+     * <pre>
+     *攻打敌人开始请求
+     * </pre>
+     */
+    public boolean hasAttackStartReq() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+     *
+     * <pre>
+     *攻打敌人开始请求
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg getAttackStartReq() {
+      return attackStartReq_;
+    }
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+     *
+     * <pre>
+     *攻打敌人开始请求
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsgOrBuilder getAttackStartReqOrBuilder() {
+      return attackStartReq_;
+    }
+
+    // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;
+    public static final int ATTACKENDREQ_FIELD_NUMBER = 4;
     private com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg attackEndReq_;
     /**
-     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
      *
      * <pre>
      *结束攻打的时候，通知服务器
      * </pre>
      */
     public boolean hasAttackEndReq() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
      *
      * <pre>
      *结束攻打的时候，通知服务器
@@ -4020,7 +4093,7 @@ public final class GroupSecretMatchProto {
       return attackEndReq_;
     }
     /**
-     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
      *
      * <pre>
      *结束攻打的时候，通知服务器
@@ -4033,6 +4106,7 @@ public final class GroupSecretMatchProto {
     private void initFields() {
       reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
       version_ = "";
+      attackStartReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.getDefaultInstance();
       attackEndReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
@@ -4043,6 +4117,12 @@ public final class GroupSecretMatchProto {
       if (!hasReqType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasAttackStartReq()) {
+        if (!getAttackStartReq().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       if (hasAttackEndReq()) {
         if (!getAttackEndReq().isInitialized()) {
@@ -4064,7 +4144,10 @@ public final class GroupSecretMatchProto {
         output.writeBytes(2, getVersionBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, attackEndReq_);
+        output.writeMessage(3, attackStartReq_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, attackEndReq_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4085,7 +4168,11 @@ public final class GroupSecretMatchProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, attackEndReq_);
+          .computeMessageSize(3, attackStartReq_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, attackEndReq_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4195,6 +4282,7 @@ public final class GroupSecretMatchProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAttackStartReqFieldBuilder();
           getAttackEndReqFieldBuilder();
         }
       }
@@ -4208,12 +4296,18 @@ public final class GroupSecretMatchProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (attackStartReqBuilder_ == null) {
+          attackStartReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.getDefaultInstance();
+        } else {
+          attackStartReqBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (attackEndReqBuilder_ == null) {
           attackEndReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance();
         } else {
           attackEndReqBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -4253,6 +4347,14 @@ public final class GroupSecretMatchProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
+        if (attackStartReqBuilder_ == null) {
+          result.attackStartReq_ = attackStartReq_;
+        } else {
+          result.attackStartReq_ = attackStartReqBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
         if (attackEndReqBuilder_ == null) {
           result.attackEndReq_ = attackEndReq_;
         } else {
@@ -4282,6 +4384,9 @@ public final class GroupSecretMatchProto {
           version_ = other.version_;
           onChanged();
         }
+        if (other.hasAttackStartReq()) {
+          mergeAttackStartReq(other.getAttackStartReq());
+        }
         if (other.hasAttackEndReq()) {
           mergeAttackEndReq(other.getAttackEndReq());
         }
@@ -4293,6 +4398,12 @@ public final class GroupSecretMatchProto {
         if (!hasReqType()) {
           
           return false;
+        }
+        if (hasAttackStartReq()) {
+          if (!getAttackStartReq().isInitialized()) {
+            
+            return false;
+          }
         }
         if (hasAttackEndReq()) {
           if (!getAttackEndReq().isInitialized()) {
@@ -4472,22 +4583,175 @@ public final class GroupSecretMatchProto {
         return this;
       }
 
-      // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;
+      // optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;
+      private com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg attackStartReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsgOrBuilder> attackStartReqBuilder_;
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public boolean hasAttackStartReq() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg getAttackStartReq() {
+        if (attackStartReqBuilder_ == null) {
+          return attackStartReq_;
+        } else {
+          return attackStartReqBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public Builder setAttackStartReq(com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg value) {
+        if (attackStartReqBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          attackStartReq_ = value;
+          onChanged();
+        } else {
+          attackStartReqBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public Builder setAttackStartReq(
+          com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder builderForValue) {
+        if (attackStartReqBuilder_ == null) {
+          attackStartReq_ = builderForValue.build();
+          onChanged();
+        } else {
+          attackStartReqBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public Builder mergeAttackStartReq(com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg value) {
+        if (attackStartReqBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              attackStartReq_ != com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.getDefaultInstance()) {
+            attackStartReq_ =
+              com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.newBuilder(attackStartReq_).mergeFrom(value).buildPartial();
+          } else {
+            attackStartReq_ = value;
+          }
+          onChanged();
+        } else {
+          attackStartReqBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public Builder clearAttackStartReq() {
+        if (attackStartReqBuilder_ == null) {
+          attackStartReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          attackStartReqBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder getAttackStartReqBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getAttackStartReqFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsgOrBuilder getAttackStartReqOrBuilder() {
+        if (attackStartReqBuilder_ != null) {
+          return attackStartReqBuilder_.getMessageOrBuilder();
+        } else {
+          return attackStartReq_;
+        }
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartReqMsg attackStartReq = 3;</code>
+       *
+       * <pre>
+       *攻打敌人开始请求
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsgOrBuilder> 
+          getAttackStartReqFieldBuilder() {
+        if (attackStartReqBuilder_ == null) {
+          attackStartReqBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsgOrBuilder>(
+                  attackStartReq_,
+                  getParentForChildren(),
+                  isClean());
+          attackStartReq_ = null;
+        }
+        return attackStartReqBuilder_;
+      }
+
+      // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;
       private com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg attackEndReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsgOrBuilder> attackEndReqBuilder_;
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
        * </pre>
        */
       public boolean hasAttackEndReq() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
@@ -4501,7 +4765,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
@@ -4517,11 +4781,11 @@ public final class GroupSecretMatchProto {
         } else {
           attackEndReqBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
@@ -4535,11 +4799,11 @@ public final class GroupSecretMatchProto {
         } else {
           attackEndReqBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
@@ -4547,7 +4811,7 @@ public final class GroupSecretMatchProto {
        */
       public Builder mergeAttackEndReq(com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg value) {
         if (attackEndReqBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
               attackEndReq_ != com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance()) {
             attackEndReq_ =
               com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.newBuilder(attackEndReq_).mergeFrom(value).buildPartial();
@@ -4558,11 +4822,11 @@ public final class GroupSecretMatchProto {
         } else {
           attackEndReqBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
@@ -4575,23 +4839,23 @@ public final class GroupSecretMatchProto {
         } else {
           attackEndReqBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
        * </pre>
        */
       public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder getAttackEndReqBuilder() {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return getAttackEndReqFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
@@ -4605,7 +4869,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 4;</code>
        *
        * <pre>
        *结束攻打的时候，通知服务器
@@ -5719,21 +5983,23 @@ public final class GroupSecretMatchProto {
       "g\022,\n\005index\030\001 \002(\0162\035.groupSecret.GroupSecr" +
       "etIndex\022)\n\006myLeft\030\002 \003(\0132\031.groupSecret.He" +
       "roLeftInfo\022,\n\tenemyLeft\030\003 \003(\0132\031.groupSec",
-      "ret.HeroLeftInfo\"\230\001\n\034GroupSecretMatchCom" +
+      "ret.HeroLeftInfo\"\325\001\n\034GroupSecretMatchCom" +
       "monReqMsg\022.\n\007reqType\030\001 \002(\0162\035.groupSecret" +
-      ".MatchRequestType\022\017\n\007version\030\002 \001(\t\0227\n\014at" +
-      "tackEndReq\030\003 \001(\0132!.groupSecret.AttackEne" +
-      "myEndReqMsg\"\256\001\n\034GroupSecretMatchCommonRs" +
-      "pMsg\022.\n\007reqType\030\001 \002(\0162\035.groupSecret.Matc" +
-      "hRequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMs" +
-      "g\030\003 \001(\t\022;\n\016attackStartRsp\030\004 \001(\0132#.groupS" +
-      "ecret.AttackEnemyStartRspMsg*[\n\020MatchSec" +
-      "retState\022\016\n\nNON_BATTLE\020\001\022\r\n\tIN_BATTLE\020\002\022",
-      "\022\n\016IN_ROB_PROTECT\020\003\022\024\n\020IN_MAX_ROB_COUNT\020" +
-      "\004*e\n\020MatchRequestType\022\023\n\017SEARCHING_ENEMY" +
-      "\020\001\022\026\n\022ATTACK_ENEMY_START\020\002\022\024\n\020ATTACK_ENE" +
-      "MY_END\020\003\022\016\n\nGET_REWARD\020\004B$\n\013com.rwprotoB" +
-      "\025GroupSecretMatchProto"
+      ".MatchRequestType\022\017\n\007version\030\002 \001(\t\022;\n\016at" +
+      "tackStartReq\030\003 \001(\0132#.groupSecret.AttackE" +
+      "nemyStartReqMsg\0227\n\014attackEndReq\030\004 \001(\0132!." +
+      "groupSecret.AttackEnemyEndReqMsg\"\256\001\n\034Gro" +
+      "upSecretMatchCommonRspMsg\022.\n\007reqType\030\001 \002" +
+      "(\0162\035.groupSecret.MatchRequestType\022\021\n\tisS" +
+      "uccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022;\n\016attackSt" +
+      "artRsp\030\004 \001(\0132#.groupSecret.AttackEnemySt",
+      "artRspMsg*[\n\020MatchSecretState\022\016\n\nNON_BAT" +
+      "TLE\020\001\022\r\n\tIN_BATTLE\020\002\022\022\n\016IN_ROB_PROTECT\020\003" +
+      "\022\024\n\020IN_MAX_ROB_COUNT\020\004*e\n\020MatchRequestTy" +
+      "pe\022\023\n\017SEARCHING_ENEMY\020\001\022\026\n\022ATTACK_ENEMY_" +
+      "START\020\002\022\024\n\020ATTACK_ENEMY_END\020\003\022\016\n\nGET_REW" +
+      "ARD\020\004B$\n\013com.rwprotoB\025GroupSecretMatchPr" +
+      "oto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5769,7 +6035,7 @@ public final class GroupSecretMatchProto {
           internal_static_groupSecret_GroupSecretMatchCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretMatchCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "AttackEndReq", });
+              new java.lang.String[] { "ReqType", "Version", "AttackStartReq", "AttackEndReq", });
           internal_static_groupSecret_GroupSecretMatchCommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_groupSecret_GroupSecretMatchCommonRspMsg_fieldAccessorTable = new

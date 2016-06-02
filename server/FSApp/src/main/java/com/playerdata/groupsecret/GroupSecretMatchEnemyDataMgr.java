@@ -82,6 +82,7 @@ public class GroupSecretMatchEnemyDataMgr {
 		enemyData.setMatchTime(System.currentTimeMillis());
 		enemyData.setMatchUserId(groupSecretData.getUserId());
 		enemyData.setUserId(userId);
+		enemyData.setCfgId(groupSecretData.getSecretId());
 
 		Enumeration<DefendUserInfoData> values = groupSecretData.getEnumerationValues();
 		while (values.hasMoreElements()) {
