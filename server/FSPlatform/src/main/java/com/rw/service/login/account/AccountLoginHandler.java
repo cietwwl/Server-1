@@ -1,7 +1,11 @@
 package com.rw.service.login.account;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +47,18 @@ public class AccountLoginHandler {
 
 	private static AccountLoginHandler instance;
 
+	private Comparator<UserZoneInfo> ZoneComparator = new Comparator<UserZoneInfo>() {
+		
+		@Override
+		public int compare(UserZoneInfo o1, UserZoneInfo o2) {
+			// TODO Auto-generated method stub
+			if(o1.getZoneId() > o2.getZoneId()){
+				return -1;
+			}else{
+				return 1;
+			}
+		}
+	};
 	// private AccoutBM accountBM = AccoutBM.getInstance();
 
 	private AccountLoginHandler() {
@@ -364,10 +380,17 @@ public class AccountLoginHandler {
 			ZoneStatusList.put(zone.getZoneId(), zone.getEnabled());
 		}
 		
-
+		ZoneInfoCache lastZoneCfg = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
+		LinkedList<UserInfo> list = new LinkedList<UserInfo>();
+		
+		
 		List<UserZoneInfo> zoneList = userAccount.getUserZoneInfoList();
+		
+		Collections.sort(zoneList,ZoneComparator);
+		
 		UserInfo.Builder userInfo;
 		ZoneInfoCache zone;
+		
 		for (UserZoneInfo userZoneInfo : zoneList) {
 			Integer isEnable = ZoneStatusList.get(userZoneInfo.getZoneId());
 			if(isEnable == 0 && !account.isWhiteList()){
@@ -382,8 +405,13 @@ public class AccountLoginHandler {
 			userInfo.setCareer(userZoneInfo.getCareer());
 			userInfo.setLv(userZoneInfo.getLevel());
 			userInfo.setName(userZoneInfo.getUserName());
-			response.addUserList(userInfo);
+			if (lastZoneCfg != null && lastZoneCfg.getZoneId() == userZoneInfo.getZoneId()) {
+				list.addFirst(userInfo.build());
+			} else {
+				list.add(userInfo.build());
+			}
 		}
+		response.addAllUserList(list);
 
 		response.setResultType(eLoginResultType.SUCCESS);
 	}
