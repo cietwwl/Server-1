@@ -120,7 +120,7 @@ public class FixEquipHelper {
 			}
 			
 		}
-		boolean success = true;
+		boolean success = isItemEnough;
 		if(isItemEnough){			
 			for (int modelId : itemCostMap.keySet()) {
 				Integer need = itemCostMap.get(modelId);
