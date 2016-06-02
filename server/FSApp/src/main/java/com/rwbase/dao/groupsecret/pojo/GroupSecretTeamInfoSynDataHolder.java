@@ -14,17 +14,14 @@ import com.rwproto.DataSynProtos.eSynType;
  * @date 2016年5月30日 下午6:07:45
  * @Description 
  */
-public class SecretTeamInfoSynDataHolder {
-	private static SecretTeamInfoSynDataHolder holder = new SecretTeamInfoSynDataHolder();
+public class GroupSecretTeamInfoSynDataHolder {
+	// private static SecretTeamInfoSynDataHolder holder = new SecretTeamInfoSynDataHolder();
 
 	private AtomicInteger version = new AtomicInteger();
 
-	public static SecretTeamInfoSynDataHolder getHolder() {
-		return holder;
-	}
-
-	SecretTeamInfoSynDataHolder() {
-	}
+	// public static SecretTeamInfoSynDataHolder getHolder() {
+	// return holder;
+	// }
 
 	private eSynType synType = eSynType.SECRETAREA_DEFEND_TEAM_INFO;
 
@@ -68,5 +65,19 @@ public class SecretTeamInfoSynDataHolder {
 		}
 
 		ClientDataSynMgr.synData(player, team, synType, eSynOpType.REMOVE_SINGLE, version.get());
+	}
+
+	/**
+	 * 同步更新一条记录
+	 * 
+	 * @param player
+	 * @param base
+	 */
+	public void updateSingleData(Player player, SecretTeamInfoSynData team) {
+		if (team == null) {
+			return;
+		}
+
+		ClientDataSynMgr.synData(player, team, synType, eSynOpType.UPDATE_SINGLE, version.get());
 	}
 }

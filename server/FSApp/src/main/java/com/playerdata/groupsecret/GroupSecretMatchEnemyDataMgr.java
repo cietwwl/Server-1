@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.playerdata.readonly.HeroIF;
+import com.playerdata.readonly.PlayerIF;
+import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretMatchEnemyDataHolder;
-import com.rwbase.dao.groupsecret.pojo.SecretBaseInfoSynDataHolder;
-import com.rwbase.dao.groupsecret.pojo.SecretTeamInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
@@ -19,6 +21,7 @@ import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
+import com.rwproto.GroupSecretMatchProto.HeroLeftInfo;
 
 /*
  * @author HC
@@ -61,9 +64,7 @@ public class GroupSecretMatchEnemyDataMgr {
 		enemyData.clearAllData();
 		update(userId);
 
-		// 同步数据
-		SecretBaseInfoSynDataHolder.getHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0));
-		SecretTeamInfoSynDataHolder.getHolder().removeData(player, new SecretTeamInfoSynData(id, null));
+		removeData(player, id);
 	}
 
 	/**
@@ -78,6 +79,7 @@ public class GroupSecretMatchEnemyDataMgr {
 		GroupSecretMatchEnemyData enemyData = get(userId);
 
 		enemyData.setId(groupSecretData.getId());
+		enemyData.setMatchTime(System.currentTimeMillis());
 		enemyData.setMatchUserId(groupSecretData.getUserId());
 		enemyData.setUserId(userId);
 
@@ -112,13 +114,84 @@ public class GroupSecretMatchEnemyDataMgr {
 		// 同步数据
 		SecretBaseInfoSynData base = info.getBase();
 		if (base != null) {
-			SecretBaseInfoSynDataHolder.getHolder().addData(player, base);
+			player.getBaseHolder().addData(player, base);
 		}
 
 		SecretTeamInfoSynData team = info.getTeam();
 		if (team == null) {
-			SecretTeamInfoSynDataHolder.getHolder().addData(player, team);
+			player.getTeamHolder().addData(player, team);
 		}
+	}
+
+	/**
+	 * 设置攻击时间
+	 * 
+	 * @param player
+	 * @param time
+	 */
+	public void updateMatchState2Atk(Player player, long time) {
+		String userId = player.getUserId();
+		GroupSecretMatchEnemyData enemyData = get(userId);
+		enemyData.setAtkTime(time);
+		update(userId);
+
+		updateSingleData(player);
+	}
+
+	/**
+	 * 更新阵容信息
+	 * 
+	 * @param player
+	 * @param index
+	 * @param leftList
+	 * @return 是否击败了整个秘境敌人
+	 */
+	public boolean updateDefendIndexHeroLeftInfo(Player player, int index, List<HeroLeftInfo> leftList) {
+		if (leftList.isEmpty()) {
+			return false;
+		}
+
+		String userId = player.getUserId();
+		GroupSecretMatchEnemyData enemyData = get(userId);
+
+		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(enemyData.getMatchUserId());
+
+		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData.getTeamAttrInfoMap(index);
+
+		for (int i = 0, size = leftList.size(); i < size; i++) {
+			HeroLeftInfo leftInfo = leftList.get(i);
+			if (leftInfo == null) {
+				continue;
+			}
+
+			String heroId = leftInfo.getId();
+			HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+			if (hero == null) {
+				continue;
+			}
+
+			HeroLeftInfoSynData heroLeftInfoSynData = teamAttrInfoMap.get(heroId);
+			int leftLife = leftInfo.getLeftLife();
+			if (heroLeftInfoSynData == null) {
+				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+				enemyData.updateHeroLeftInfo(index, heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy()));
+			} else {
+				enemyData.updateHeroLeftInfo(index, heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), heroLeftInfoSynData.getMaxLife(), heroLeftInfoSynData.getMaxEnergy()));
+			}
+		}
+
+		enemyData.setAttackTimes(index);// 更新攻击波数
+
+		boolean isBeat = false;
+		if (!enemyData.checkHasHeroAlive()) {
+			enemyData.setBeat(isBeat = true);
+		}
+
+		update(userId);
+
+		// 同步数据
+		updateSingleData(player);
+		return isBeat;
 	}
 
 	/**
@@ -128,5 +201,37 @@ public class GroupSecretMatchEnemyDataMgr {
 	 */
 	public void update(String userId) {
 		GroupSecretMatchEnemyDataHolder.getHolder().updateData(userId);
+	}
+
+	/**
+	 * 同步秘境的数据
+	 * 
+	 * @param player
+	 */
+	private void updateSingleData(Player player) {
+		GroupSecretDataSynData info = GroupSecretHelper.fillMatchSecretInfo(player);
+
+		// 同步数据
+		SecretBaseInfoSynData base = info.getBase();
+		if (base != null) {
+			player.getBaseHolder().updateSingleData(player, base);
+		}
+
+		SecretTeamInfoSynData team = info.getTeam();
+		if (team == null) {
+			player.getTeamHolder().updateSingleData(player, team);
+		}
+	}
+
+	/**
+	 * 移除秘境的数据
+	 * 
+	 * @param player
+	 * @param id
+	 */
+	private void removeData(Player player, String id) {
+		// 同步数据
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0));
+		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(id, null));
 	}
 }

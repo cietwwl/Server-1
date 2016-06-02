@@ -18,10 +18,12 @@ import com.rwproto.GroupSecretMatchProto.MatchSecretState;
 public class GroupSecretMatchRankAttribute {
 
 	static class SecretState {
+		final String atkUserId;// 攻击的人
 		final long switchStateTime;// 转换状态时间
 		final int state;// 秘境的状态
 
-		public SecretState(long switchStateTime, int state) {
+		public SecretState(String atkUserId, long switchStateTime, int state) {
+			this.atkUserId = atkUserId;
 			this.switchStateTime = switchStateTime;
 			this.state = state;
 		}
@@ -96,14 +98,13 @@ public class GroupSecretMatchRankAttribute {
 	 * @param currentTime
 	 * @return
 	 */
-	public boolean setFightingState(long currentTime) {
+	public boolean setFightingState(String atkUserId, long currentTime) {
 		SecretState state = getState();
 		if (state != null) {
-			return false;
+			return state.atkUserId.equals(atkUserId);
 		}
 
-		SecretState newState = new SecretState(currentTime, MatchSecretState.IN_BATTLE_VALUE);
-		return stateReference.compareAndSet(null, newState);
+		return stateReference.compareAndSet(null, new SecretState(atkUserId, currentTime, MatchSecretState.IN_BATTLE_VALUE));
 	}
 
 	/**
@@ -122,7 +123,7 @@ public class GroupSecretMatchRankAttribute {
 			return false;
 		}
 
-		SecretState newState = new SecretState(currentTime, MatchSecretState.IN_ROB_PROTECT_VALUE);
+		SecretState newState = new SecretState("", currentTime, MatchSecretState.IN_ROB_PROTECT_VALUE);
 		return stateReference.compareAndSet(state, newState);
 	}
 
@@ -142,7 +143,7 @@ public class GroupSecretMatchRankAttribute {
 			return false;
 		}
 
-		SecretState newState = new SecretState(currentTime, MatchSecretState.IN_MAX_ROB_COUNT_VALUE);
+		SecretState newState = new SecretState("", currentTime, MatchSecretState.IN_MAX_ROB_COUNT_VALUE);
 		return stateReference.compareAndSet(state, newState);
 	}
 

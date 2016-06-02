@@ -8,6 +8,7 @@ import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamDataHolder;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.GroupSecretMatchProto.HeroLeftInfo;
 
 /*
  * @author HC
@@ -98,6 +99,26 @@ public class GroupSecretTeamDataMgr {
 		}
 
 		groupSecretTeamData.changeTeamHeroList(changeList, userId);
+		update(userId);
+
+		// 同步数据
+		synData(player);
+	}
+
+	/**
+	 * 更新攻击阵容的信息
+	 * 
+	 * @param player
+	 * @param leftList
+	 */
+	public void updateHeroLeftInfo(Player player, List<HeroLeftInfo> leftList) {
+		String userId = player.getUserId();
+		GroupSecretTeamData groupSecretTeamData = get(userId);
+		if (groupSecretTeamData == null) {
+			return;
+		}
+
+		groupSecretTeamData.updateAtkTeamLeftInfo(player, leftList);
 		update(userId);
 
 		// 同步数据

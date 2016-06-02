@@ -7,8 +7,12 @@ import java.util.Map;
 
 import javax.persistence.Id;
 
+import com.playerdata.Hero;
+import com.playerdata.Player;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
+import com.rwproto.GroupSecretMatchProto.HeroLeftInfo;
 
 /*
  * @author HC
@@ -138,6 +142,55 @@ public class GroupSecretTeamData {
 				defendHeroList.remove(id);
 			} else {
 				defendHeroList.add(id);
+			}
+		}
+	}
+
+	/**
+	 * 检查传递来的人是否死亡
+	 * 
+	 * @param heroId
+	 * @return
+	 */
+	public boolean checkHeroIsDie(String heroId) {
+		HeroLeftInfoSynData heroLeftInfoSynData = useHeroMap.get(heroId);
+		if (heroLeftInfoSynData == null) {
+			return false;
+		}
+
+		return heroLeftInfoSynData.getLife() <= 0;
+	}
+
+	/**
+	 * 更新英雄攻击阵容的血量剩余信息
+	 * 
+	 * @param player
+	 * @param leftList
+	 */
+	public void updateAtkTeamLeftInfo(Player player, List<HeroLeftInfo> leftList) {
+		if (leftList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = leftList.size(); i < size; i++) {
+			HeroLeftInfo leftInfo = leftList.get(i);
+			if (leftInfo == null) {
+				continue;
+			}
+
+			String heroId = leftInfo.getId();
+			Hero hero = player.getHeroMgr().getHeroById(heroId);
+			if (hero == null) {
+				continue;
+			}
+
+			HeroLeftInfoSynData heroLeftInfoSynData = useHeroMap.get(heroId);
+			int leftLife = leftInfo.getLeftLife();
+			if (heroLeftInfoSynData == null) {
+				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy()));
+			} else {
+				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), heroLeftInfoSynData.getMaxLife(), heroLeftInfoSynData.getMaxEnergy()));
 			}
 		}
 	}

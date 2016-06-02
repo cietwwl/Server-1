@@ -2,9 +2,16 @@ package com.playerdata.groupsecret;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
+import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
+import com.rwbase.dao.groupsecret.GroupSecretHelper;
+import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
+import com.rwbase.dao.groupsecret.GroupSecretMatchHelper.IUpdateSecretStateCallBack;
 import com.rwbase.dao.groupsecret.pojo.UserCreateGroupSecretDataHolder;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
@@ -122,4 +129,88 @@ public class UserCreateGroupSecretDataMgr {
 
 		return changeList;
 	}
+
+	/**
+	 * 更新成员秘境被掠夺的资源数量
+	 * 
+	 * @param player
+	 * @param id
+	 * @param robRes
+	 * @param robGS
+	 * @param robGE
+	 */
+	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE) {
+		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
+		if (userCreateGroupSecretData == null) {
+			return;
+		}
+
+		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(id);
+		if (groupSecretData == null) {
+			return;
+		}
+
+		final int robTimes = groupSecretData.getRobTimes() + 1;
+		groupSecretData.setRobTimes(robTimes);
+
+		final long now = System.currentTimeMillis();
+
+		IUpdateSecretStateCallBack call = new IUpdateSecretStateCallBack() {
+
+			@Override
+			public boolean call(GroupSecretMatchRankAttribute attr) {
+				int cfgId = attr.getCfgId();
+
+				GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
+				if (cfg != null) {
+					if (robTimes >= cfg.getRobCount()) {
+						attr.setRobMaxProtectState(now);
+					} else {
+						attr.setRobProtectState(now);
+					}
+				} else {
+					attr.setRobProtectState(now);
+				}
+
+				return false;
+			}
+		};
+
+		String generateCacheSecretId = GroupSecretHelper.generateCacheSecretId(userId, id);
+		GroupSecretMatchHelper.updateGroupSecretState(generateCacheSecretId, call);// 更新秘境的状态
+
+		Enumeration<DefendUserInfoData> values = groupSecretData.getEnumerationValues();
+		while (values.hasMoreElements()) {
+			DefendUserInfoData userInfo = values.nextElement();
+			if (userInfo == null) {
+				continue;
+			}
+
+			int index = userInfo.getIndex();
+			// 设置掠夺的资源数量
+			userInfo.setRobRes(userInfo.getRobRes() + robRes[index - 1]);
+			userInfo.setRobGS(userInfo.getRobGS() + robGS[index - 1]);
+			userInfo.setRobGE(userInfo.getRobGE() + robGE[index - 1]);
+		}
+
+		updateData(userId);
+	}
+	// /**
+	// * 同步秘境的数据
+	// *
+	// * @param player
+	// */
+	// private void updateSingleData(Player player, GroupSecretData data) {
+	// GroupSecretDataSynData info = GroupSecretHelper.parseGroupSecretData2Msg(data, player.getUserId());
+	// // 同步数据
+	// SecretBaseInfoSynData base = info.getBase();
+	// if (base != null) {
+	// SecretBaseInfoSynDataHolder.getHolder().updateSingleData(player, base);
+	// }
+	//
+	// SecretTeamInfoSynData team = info.getTeam();
+	// if (team == null) {
+	// SecretTeamInfoSynDataHolder.getHolder().updateSingleData(player, team);
+	// }
+	// }
 }

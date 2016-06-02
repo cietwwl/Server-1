@@ -64,6 +64,8 @@ import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.HeroFettersDataHolder;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
+import com.rwbase.dao.groupsecret.pojo.GroupSecretBaseInfoSynDataHolder;
+import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamInfoSynDataHolder;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
@@ -170,6 +172,10 @@ public class Player implements PlayerIF {
 
 	// 同步数据的版本记录
 	private DataSynVersionHolder dataSynVersionHolder = new DataSynVersionHolder();
+
+	// 个人帮派秘境的Holder
+	private GroupSecretBaseInfoSynDataHolder baseHolder = new GroupSecretBaseInfoSynDataHolder();
+	private GroupSecretTeamInfoSynDataHolder teamHolder = new GroupSecretTeamInfoSynDataHolder();
 
 	public static Player newOld(String userId) {
 		return new Player(userId, true);
@@ -1331,5 +1337,23 @@ public class Player implements PlayerIF {
 			monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
 		}
 		return monthProvider;
+	}
+
+	/**
+	 * 获取秘境基础数据的Holder
+	 * 
+	 * @return
+	 */
+	public GroupSecretBaseInfoSynDataHolder getBaseHolder() {
+		return baseHolder;
+	}
+
+	/**
+	 * 获取秘境Team信息的Holder
+	 * 
+	 * @return
+	 */
+	public GroupSecretTeamInfoSynDataHolder getTeamHolder() {
+		return teamHolder;
 	}
 }

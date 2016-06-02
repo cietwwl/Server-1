@@ -93,6 +93,27 @@ public class UserGroupSecretBaseDataMgr {
 		synData(player);
 	}
 
+	/**
+	 * 删除匹配到的敌人秘境Id
+	 * 
+	 * @param player 角色
+	 * @param id 匹配到的秘境id
+	 */
+	public void updateMatchTimes(Player player) {
+		String userId = player.getUserId();
+		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
+		if (userGroupSecretBaseData == null) {
+			return;
+		}
+
+		int matchTimes = userGroupSecretBaseData.getMatchTimes();
+		userGroupSecretBaseData.setMatchTimes(matchTimes + 1);
+		update(userId);
+
+		// 同步数据到前端
+		synData(player);
+	}
+
 	private eSynType synType = eSynType.SECRETAREA_USER_INFO;
 
 	/**

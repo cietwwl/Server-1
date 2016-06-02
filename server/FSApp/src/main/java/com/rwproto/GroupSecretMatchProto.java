@@ -1766,41 +1766,32 @@ public final class GroupSecretMatchProto {
   public interface AttackEnemyStartRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated string armyInfo = 1;
+    // required string armyInfo = 1;
     /**
-     * <code>repeated string armyInfo = 1;</code>
+     * <code>required string armyInfo = 1;</code>
      *
      * <pre>
      *敌人的ArmyInfo信息
      * </pre>
      */
-    java.util.List<java.lang.String>
-    getArmyInfoList();
+    boolean hasArmyInfo();
     /**
-     * <code>repeated string armyInfo = 1;</code>
+     * <code>required string armyInfo = 1;</code>
      *
      * <pre>
      *敌人的ArmyInfo信息
      * </pre>
      */
-    int getArmyInfoCount();
+    java.lang.String getArmyInfo();
     /**
-     * <code>repeated string armyInfo = 1;</code>
-     *
-     * <pre>
-     *敌人的ArmyInfo信息
-     * </pre>
-     */
-    java.lang.String getArmyInfo(int index);
-    /**
-     * <code>repeated string armyInfo = 1;</code>
+     * <code>required string armyInfo = 1;</code>
      *
      * <pre>
      *敌人的ArmyInfo信息
      * </pre>
      */
     com.google.protobuf.ByteString
-        getArmyInfoBytes(int index);
+        getArmyInfoBytes();
   }
   /**
    * Protobuf type {@code groupSecret.AttackEnemyStartRspMsg}
@@ -1858,11 +1849,8 @@ public final class GroupSecretMatchProto {
               break;
             }
             case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                armyInfo_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              armyInfo_.add(input.readBytes());
+              bitField0_ |= 0x00000001;
+              armyInfo_ = input.readBytes();
               break;
             }
           }
@@ -1873,9 +1861,6 @@ public final class GroupSecretMatchProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          armyInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(armyInfo_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1907,60 +1892,74 @@ public final class GroupSecretMatchProto {
       return PARSER;
     }
 
-    // repeated string armyInfo = 1;
+    private int bitField0_;
+    // required string armyInfo = 1;
     public static final int ARMYINFO_FIELD_NUMBER = 1;
-    private com.google.protobuf.LazyStringList armyInfo_;
+    private java.lang.Object armyInfo_;
     /**
-     * <code>repeated string armyInfo = 1;</code>
+     * <code>required string armyInfo = 1;</code>
      *
      * <pre>
      *敌人的ArmyInfo信息
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getArmyInfoList() {
-      return armyInfo_;
+    public boolean hasArmyInfo() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>repeated string armyInfo = 1;</code>
+     * <code>required string armyInfo = 1;</code>
      *
      * <pre>
      *敌人的ArmyInfo信息
      * </pre>
      */
-    public int getArmyInfoCount() {
-      return armyInfo_.size();
+    public java.lang.String getArmyInfo() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          armyInfo_ = s;
+        }
+        return s;
+      }
     }
     /**
-     * <code>repeated string armyInfo = 1;</code>
-     *
-     * <pre>
-     *敌人的ArmyInfo信息
-     * </pre>
-     */
-    public java.lang.String getArmyInfo(int index) {
-      return armyInfo_.get(index);
-    }
-    /**
-     * <code>repeated string armyInfo = 1;</code>
+     * <code>required string armyInfo = 1;</code>
      *
      * <pre>
      *敌人的ArmyInfo信息
      * </pre>
      */
     public com.google.protobuf.ByteString
-        getArmyInfoBytes(int index) {
-      return armyInfo_.getByteString(index);
+        getArmyInfoBytes() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        armyInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
-      armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      armyInfo_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasArmyInfo()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1968,8 +1967,8 @@ public final class GroupSecretMatchProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < armyInfo_.size(); i++) {
-        output.writeBytes(1, armyInfo_.getByteString(i));
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getArmyInfoBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1980,14 +1979,9 @@ public final class GroupSecretMatchProto {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        for (int i = 0; i < armyInfo_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(armyInfo_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getArmyInfoList().size();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getArmyInfoBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2109,7 +2103,7 @@ public final class GroupSecretMatchProto {
 
       public Builder clear() {
         super.clear();
-        armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -2138,12 +2132,12 @@ public final class GroupSecretMatchProto {
       public com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg buildPartial() {
         com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg result = new com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg(this);
         int from_bitField0_ = bitField0_;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          armyInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              armyInfo_);
-          bitField0_ = (bitField0_ & ~0x00000001);
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
         }
         result.armyInfo_ = armyInfo_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -2159,14 +2153,9 @@ public final class GroupSecretMatchProto {
 
       public Builder mergeFrom(com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg other) {
         if (other == com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.getDefaultInstance()) return this;
-        if (!other.armyInfo_.isEmpty()) {
-          if (armyInfo_.isEmpty()) {
-            armyInfo_ = other.armyInfo_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensureArmyInfoIsMutable();
-            armyInfo_.addAll(other.armyInfo_);
-          }
+        if (other.hasArmyInfo()) {
+          bitField0_ |= 0x00000001;
+          armyInfo_ = other.armyInfo_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -2174,6 +2163,10 @@ public final class GroupSecretMatchProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasArmyInfo()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -2196,131 +2189,100 @@ public final class GroupSecretMatchProto {
       }
       private int bitField0_;
 
-      // repeated string armyInfo = 1;
-      private com.google.protobuf.LazyStringList armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensureArmyInfoIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          armyInfo_ = new com.google.protobuf.LazyStringArrayList(armyInfo_);
-          bitField0_ |= 0x00000001;
-         }
-      }
+      // required string armyInfo = 1;
+      private java.lang.Object armyInfo_ = "";
       /**
-       * <code>repeated string armyInfo = 1;</code>
+       * <code>required string armyInfo = 1;</code>
        *
        * <pre>
        *敌人的ArmyInfo信息
        * </pre>
        */
-      public java.util.List<java.lang.String>
-          getArmyInfoList() {
-        return java.util.Collections.unmodifiableList(armyInfo_);
+      public boolean hasArmyInfo() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>repeated string armyInfo = 1;</code>
+       * <code>required string armyInfo = 1;</code>
        *
        * <pre>
        *敌人的ArmyInfo信息
        * </pre>
        */
-      public int getArmyInfoCount() {
-        return armyInfo_.size();
+      public java.lang.String getArmyInfo() {
+        java.lang.Object ref = armyInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          armyInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>repeated string armyInfo = 1;</code>
-       *
-       * <pre>
-       *敌人的ArmyInfo信息
-       * </pre>
-       */
-      public java.lang.String getArmyInfo(int index) {
-        return armyInfo_.get(index);
-      }
-      /**
-       * <code>repeated string armyInfo = 1;</code>
+       * <code>required string armyInfo = 1;</code>
        *
        * <pre>
        *敌人的ArmyInfo信息
        * </pre>
        */
       public com.google.protobuf.ByteString
-          getArmyInfoBytes(int index) {
-        return armyInfo_.getByteString(index);
+          getArmyInfoBytes() {
+        java.lang.Object ref = armyInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          armyInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
       }
       /**
-       * <code>repeated string armyInfo = 1;</code>
+       * <code>required string armyInfo = 1;</code>
        *
        * <pre>
        *敌人的ArmyInfo信息
        * </pre>
        */
       public Builder setArmyInfo(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureArmyInfoIsMutable();
-        armyInfo_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string armyInfo = 1;</code>
-       *
-       * <pre>
-       *敌人的ArmyInfo信息
-       * </pre>
-       */
-      public Builder addArmyInfo(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureArmyInfoIsMutable();
-        armyInfo_.add(value);
+  bitField0_ |= 0x00000001;
+        armyInfo_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string armyInfo = 1;</code>
-       *
-       * <pre>
-       *敌人的ArmyInfo信息
-       * </pre>
-       */
-      public Builder addAllArmyInfo(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureArmyInfoIsMutable();
-        super.addAll(values, armyInfo_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string armyInfo = 1;</code>
+       * <code>required string armyInfo = 1;</code>
        *
        * <pre>
        *敌人的ArmyInfo信息
        * </pre>
        */
       public Builder clearArmyInfo() {
-        armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        armyInfo_ = getDefaultInstance().getArmyInfo();
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string armyInfo = 1;</code>
+       * <code>required string armyInfo = 1;</code>
        *
        * <pre>
        *敌人的ArmyInfo信息
        * </pre>
        */
-      public Builder addArmyInfoBytes(
+      public Builder setArmyInfoBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  ensureArmyInfoIsMutable();
-        armyInfo_.add(value);
+  bitField0_ |= 0x00000001;
+        armyInfo_ = value;
         onChanged();
         return this;
       }
@@ -2336,7 +2298,7 @@ public final class GroupSecretMatchProto {
     // @@protoc_insertion_point(class_scope:groupSecret.AttackEnemyStartRspMsg)
   }
 
-  public interface AttackEnemyEndRspMsgOrBuilder
+  public interface AttackEnemyEndReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // required .groupSecret.GroupSecretIndex index = 1;
@@ -2356,437 +2318,10 @@ public final class GroupSecretMatchProto {
      * </pre>
      */
     com.rwproto.GroupSecretProto.GroupSecretIndex getIndex();
-  }
-  /**
-   * Protobuf type {@code groupSecret.AttackEnemyEndRspMsg}
-   */
-  public static final class AttackEnemyEndRspMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements AttackEnemyEndRspMsgOrBuilder {
-    // Use AttackEnemyEndRspMsg.newBuilder() to construct.
-    private AttackEnemyEndRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private AttackEnemyEndRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final AttackEnemyEndRspMsg defaultInstance;
-    public static AttackEnemyEndRspMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public AttackEnemyEndRspMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private AttackEnemyEndRspMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.rwproto.GroupSecretProto.GroupSecretIndex value = com.rwproto.GroupSecretProto.GroupSecretIndex.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                index_ = value;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<AttackEnemyEndRspMsg> PARSER =
-        new com.google.protobuf.AbstractParser<AttackEnemyEndRspMsg>() {
-      public AttackEnemyEndRspMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AttackEnemyEndRspMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<AttackEnemyEndRspMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required .groupSecret.GroupSecretIndex index = 1;
-    public static final int INDEX_FIELD_NUMBER = 1;
-    private com.rwproto.GroupSecretProto.GroupSecretIndex index_;
+    // repeated .groupSecret.HeroLeftInfo myLeft = 2;
     /**
-     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
-     *
-     * <pre>
-     *结束的时候打的是那一波
-     * </pre>
-     */
-    public boolean hasIndex() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
-     *
-     * <pre>
-     *结束的时候打的是那一波
-     * </pre>
-     */
-    public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
-      return index_;
-    }
-
-    private void initFields() {
-      index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasIndex()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, index_.getNumber());
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, index_.getNumber());
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupSecret.AttackEnemyEndRspMsg}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.class, com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupSecretMatchProto.internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
-      }
-
-      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg build() {
-        com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg buildPartial() {
-        com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg result = new com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.index_ = index_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg) {
-          return mergeFrom((com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg other) {
-        if (other == com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg.getDefaultInstance()) return this;
-        if (other.hasIndex()) {
-          setIndex(other.getIndex());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasIndex()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupSecretMatchProto.AttackEnemyEndRspMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required .groupSecret.GroupSecretIndex index = 1;
-      private com.rwproto.GroupSecretProto.GroupSecretIndex index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
-      /**
-       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
-       *
-       * <pre>
-       *结束的时候打的是那一波
-       * </pre>
-       */
-      public boolean hasIndex() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
-       *
-       * <pre>
-       *结束的时候打的是那一波
-       * </pre>
-       */
-      public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
-        return index_;
-      }
-      /**
-       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
-       *
-       * <pre>
-       *结束的时候打的是那一波
-       * </pre>
-       */
-      public Builder setIndex(com.rwproto.GroupSecretProto.GroupSecretIndex value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        index_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
-       *
-       * <pre>
-       *结束的时候打的是那一波
-       * </pre>
-       */
-      public Builder clearIndex() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupSecret.AttackEnemyEndRspMsg)
-    }
-
-    static {
-      defaultInstance = new AttackEnemyEndRspMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupSecret.AttackEnemyEndRspMsg)
-  }
-
-  public interface AttackEnemyEndReqMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // repeated .groupSecret.HeroLeftInfo myLeft = 1;
-    /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -2795,7 +2330,7 @@ public final class GroupSecretMatchProto {
     java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> 
         getMyLeftList();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -2803,7 +2338,7 @@ public final class GroupSecretMatchProto {
      */
     com.rwproto.GroupSecretMatchProto.HeroLeftInfo getMyLeft(int index);
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -2811,7 +2346,7 @@ public final class GroupSecretMatchProto {
      */
     int getMyLeftCount();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -2820,7 +2355,7 @@ public final class GroupSecretMatchProto {
     java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
         getMyLeftOrBuilderList();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -2829,9 +2364,9 @@ public final class GroupSecretMatchProto {
     com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder getMyLeftOrBuilder(
         int index);
 
-    // repeated .groupSecret.HeroLeftInfo enemyLeft = 2;
+    // repeated .groupSecret.HeroLeftInfo enemyLeft = 3;
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -2840,7 +2375,7 @@ public final class GroupSecretMatchProto {
     java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> 
         getEnemyLeftList();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -2848,7 +2383,7 @@ public final class GroupSecretMatchProto {
      */
     com.rwproto.GroupSecretMatchProto.HeroLeftInfo getEnemyLeft(int index);
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -2856,7 +2391,7 @@ public final class GroupSecretMatchProto {
      */
     int getEnemyLeftCount();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -2865,7 +2400,7 @@ public final class GroupSecretMatchProto {
     java.util.List<? extends com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> 
         getEnemyLeftOrBuilderList();
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -2878,7 +2413,7 @@ public final class GroupSecretMatchProto {
    * Protobuf type {@code groupSecret.AttackEnemyEndReqMsg}
    *
    * <pre>
-   *请求战斗结束的消息
+   *请求战斗结束的消息，告知服务器剩余阵容时间
    * </pre>
    */
   public static final class AttackEnemyEndReqMsg extends
@@ -2929,18 +2464,29 @@ public final class GroupSecretMatchProto {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                myLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>();
-                mutable_bitField0_ |= 0x00000001;
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupSecretProto.GroupSecretIndex value = com.rwproto.GroupSecretProto.GroupSecretIndex.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                index_ = value;
               }
-              myLeft_.add(input.readMessage(com.rwproto.GroupSecretMatchProto.HeroLeftInfo.PARSER, extensionRegistry));
               break;
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                enemyLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>();
+                myLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>();
                 mutable_bitField0_ |= 0x00000002;
+              }
+              myLeft_.add(input.readMessage(com.rwproto.GroupSecretMatchProto.HeroLeftInfo.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                enemyLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>();
+                mutable_bitField0_ |= 0x00000004;
               }
               enemyLeft_.add(input.readMessage(com.rwproto.GroupSecretMatchProto.HeroLeftInfo.PARSER, extensionRegistry));
               break;
@@ -2953,10 +2499,10 @@ public final class GroupSecretMatchProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           myLeft_ = java.util.Collections.unmodifiableList(myLeft_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           enemyLeft_ = java.util.Collections.unmodifiableList(enemyLeft_);
         }
         this.unknownFields = unknownFields.build();
@@ -2990,11 +2536,36 @@ public final class GroupSecretMatchProto {
       return PARSER;
     }
 
-    // repeated .groupSecret.HeroLeftInfo myLeft = 1;
-    public static final int MYLEFT_FIELD_NUMBER = 1;
+    private int bitField0_;
+    // required .groupSecret.GroupSecretIndex index = 1;
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private com.rwproto.GroupSecretProto.GroupSecretIndex index_;
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *结束的时候打的是那一波
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+     *
+     * <pre>
+     *结束的时候打的是那一波
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+      return index_;
+    }
+
+    // repeated .groupSecret.HeroLeftInfo myLeft = 2;
+    public static final int MYLEFT_FIELD_NUMBER = 2;
     private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> myLeft_;
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -3004,7 +2575,7 @@ public final class GroupSecretMatchProto {
       return myLeft_;
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -3015,7 +2586,7 @@ public final class GroupSecretMatchProto {
       return myLeft_;
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -3025,7 +2596,7 @@ public final class GroupSecretMatchProto {
       return myLeft_.size();
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -3035,7 +2606,7 @@ public final class GroupSecretMatchProto {
       return myLeft_.get(index);
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
      *
      * <pre>
      *己方阵容中剩余的血量
@@ -3046,11 +2617,11 @@ public final class GroupSecretMatchProto {
       return myLeft_.get(index);
     }
 
-    // repeated .groupSecret.HeroLeftInfo enemyLeft = 2;
-    public static final int ENEMYLEFT_FIELD_NUMBER = 2;
+    // repeated .groupSecret.HeroLeftInfo enemyLeft = 3;
+    public static final int ENEMYLEFT_FIELD_NUMBER = 3;
     private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> enemyLeft_;
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -3060,7 +2631,7 @@ public final class GroupSecretMatchProto {
       return enemyLeft_;
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -3071,7 +2642,7 @@ public final class GroupSecretMatchProto {
       return enemyLeft_;
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -3081,7 +2652,7 @@ public final class GroupSecretMatchProto {
       return enemyLeft_.size();
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -3091,7 +2662,7 @@ public final class GroupSecretMatchProto {
       return enemyLeft_.get(index);
     }
     /**
-     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+     * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
      *
      * <pre>
      *敌人剩余的血量信息
@@ -3103,6 +2674,7 @@ public final class GroupSecretMatchProto {
     }
 
     private void initFields() {
+      index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
       myLeft_ = java.util.Collections.emptyList();
       enemyLeft_ = java.util.Collections.emptyList();
     }
@@ -3111,6 +2683,10 @@ public final class GroupSecretMatchProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getMyLeftCount(); i++) {
         if (!getMyLeft(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -3130,11 +2706,14 @@ public final class GroupSecretMatchProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, index_.getNumber());
+      }
       for (int i = 0; i < myLeft_.size(); i++) {
-        output.writeMessage(1, myLeft_.get(i));
+        output.writeMessage(2, myLeft_.get(i));
       }
       for (int i = 0; i < enemyLeft_.size(); i++) {
-        output.writeMessage(2, enemyLeft_.get(i));
+        output.writeMessage(3, enemyLeft_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3145,13 +2724,17 @@ public final class GroupSecretMatchProto {
       if (size != -1) return size;
 
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, index_.getNumber());
+      }
       for (int i = 0; i < myLeft_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, myLeft_.get(i));
+          .computeMessageSize(2, myLeft_.get(i));
       }
       for (int i = 0; i < enemyLeft_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, enemyLeft_.get(i));
+          .computeMessageSize(3, enemyLeft_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3235,7 +2818,7 @@ public final class GroupSecretMatchProto {
      * Protobuf type {@code groupSecret.AttackEnemyEndReqMsg}
      *
      * <pre>
-     *请求战斗结束的消息
+     *请求战斗结束的消息，告知服务器剩余阵容时间
      * </pre>
      */
     public static final class Builder extends
@@ -3275,15 +2858,17 @@ public final class GroupSecretMatchProto {
 
       public Builder clear() {
         super.clear();
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+        bitField0_ = (bitField0_ & ~0x00000001);
         if (myLeftBuilder_ == null) {
           myLeft_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           myLeftBuilder_.clear();
         }
         if (enemyLeftBuilder_ == null) {
           enemyLeft_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         } else {
           enemyLeftBuilder_.clear();
         }
@@ -3314,24 +2899,30 @@ public final class GroupSecretMatchProto {
       public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg buildPartial() {
         com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg result = new com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
         if (myLeftBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
             myLeft_ = java.util.Collections.unmodifiableList(myLeft_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.myLeft_ = myLeft_;
         } else {
           result.myLeft_ = myLeftBuilder_.build();
         }
         if (enemyLeftBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
             enemyLeft_ = java.util.Collections.unmodifiableList(enemyLeft_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.enemyLeft_ = enemyLeft_;
         } else {
           result.enemyLeft_ = enemyLeftBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3347,11 +2938,14 @@ public final class GroupSecretMatchProto {
 
       public Builder mergeFrom(com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg other) {
         if (other == com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
         if (myLeftBuilder_ == null) {
           if (!other.myLeft_.isEmpty()) {
             if (myLeft_.isEmpty()) {
               myLeft_ = other.myLeft_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureMyLeftIsMutable();
               myLeft_.addAll(other.myLeft_);
@@ -3364,7 +2958,7 @@ public final class GroupSecretMatchProto {
               myLeftBuilder_.dispose();
               myLeftBuilder_ = null;
               myLeft_ = other.myLeft_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
               myLeftBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getMyLeftFieldBuilder() : null;
@@ -3377,7 +2971,7 @@ public final class GroupSecretMatchProto {
           if (!other.enemyLeft_.isEmpty()) {
             if (enemyLeft_.isEmpty()) {
               enemyLeft_ = other.enemyLeft_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureEnemyLeftIsMutable();
               enemyLeft_.addAll(other.enemyLeft_);
@@ -3390,7 +2984,7 @@ public final class GroupSecretMatchProto {
               enemyLeftBuilder_.dispose();
               enemyLeftBuilder_ = null;
               enemyLeft_ = other.enemyLeft_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               enemyLeftBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getEnemyLeftFieldBuilder() : null;
@@ -3404,6 +2998,10 @@ public final class GroupSecretMatchProto {
       }
 
       public final boolean isInitialized() {
+        if (!hasIndex()) {
+          
+          return false;
+        }
         for (int i = 0; i < getMyLeftCount(); i++) {
           if (!getMyLeft(i).isInitialized()) {
             
@@ -3438,13 +3036,65 @@ public final class GroupSecretMatchProto {
       }
       private int bitField0_;
 
-      // repeated .groupSecret.HeroLeftInfo myLeft = 1;
+      // required .groupSecret.GroupSecretIndex index = 1;
+      private com.rwproto.GroupSecretProto.GroupSecretIndex index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *结束的时候打的是那一波
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *结束的时候打的是那一波
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *结束的时候打的是那一波
+       * </pre>
+       */
+      public Builder setIndex(com.rwproto.GroupSecretProto.GroupSecretIndex value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 1;</code>
+       *
+       * <pre>
+       *结束的时候打的是那一波
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+        onChanged();
+        return this;
+      }
+
+      // repeated .groupSecret.HeroLeftInfo myLeft = 2;
       private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> myLeft_ =
         java.util.Collections.emptyList();
       private void ensureMyLeftIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           myLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>(myLeft_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -3452,7 +3102,7 @@ public final class GroupSecretMatchProto {
           com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> myLeftBuilder_;
 
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3466,7 +3116,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3480,7 +3130,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3494,7 +3144,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3515,7 +3165,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3533,7 +3183,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3553,7 +3203,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3574,7 +3224,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3592,7 +3242,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3610,7 +3260,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3628,7 +3278,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3637,7 +3287,7 @@ public final class GroupSecretMatchProto {
       public Builder clearMyLeft() {
         if (myLeftBuilder_ == null) {
           myLeft_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           myLeftBuilder_.clear();
@@ -3645,7 +3295,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3662,7 +3312,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3673,7 +3323,7 @@ public final class GroupSecretMatchProto {
         return getMyLeftFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3687,7 +3337,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3702,7 +3352,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3713,7 +3363,7 @@ public final class GroupSecretMatchProto {
             com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3725,7 +3375,7 @@ public final class GroupSecretMatchProto {
             index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 1;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo myLeft = 2;</code>
        *
        * <pre>
        *己方阵容中剩余的血量
@@ -3742,7 +3392,7 @@ public final class GroupSecretMatchProto {
           myLeftBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder>(
                   myLeft_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
           myLeft_ = null;
@@ -3750,13 +3400,13 @@ public final class GroupSecretMatchProto {
         return myLeftBuilder_;
       }
 
-      // repeated .groupSecret.HeroLeftInfo enemyLeft = 2;
+      // repeated .groupSecret.HeroLeftInfo enemyLeft = 3;
       private java.util.List<com.rwproto.GroupSecretMatchProto.HeroLeftInfo> enemyLeft_ =
         java.util.Collections.emptyList();
       private void ensureEnemyLeftIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           enemyLeft_ = new java.util.ArrayList<com.rwproto.GroupSecretMatchProto.HeroLeftInfo>(enemyLeft_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -3764,7 +3414,7 @@ public final class GroupSecretMatchProto {
           com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder> enemyLeftBuilder_;
 
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3778,7 +3428,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3792,7 +3442,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3806,7 +3456,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3827,7 +3477,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3845,7 +3495,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3865,7 +3515,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3886,7 +3536,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3904,7 +3554,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3922,7 +3572,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3940,7 +3590,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3949,7 +3599,7 @@ public final class GroupSecretMatchProto {
       public Builder clearEnemyLeft() {
         if (enemyLeftBuilder_ == null) {
           enemyLeft_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           enemyLeftBuilder_.clear();
@@ -3957,7 +3607,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3974,7 +3624,7 @@ public final class GroupSecretMatchProto {
         return this;
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3985,7 +3635,7 @@ public final class GroupSecretMatchProto {
         return getEnemyLeftFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -3999,7 +3649,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -4014,7 +3664,7 @@ public final class GroupSecretMatchProto {
         }
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -4025,7 +3675,7 @@ public final class GroupSecretMatchProto {
             com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -4037,7 +3687,7 @@ public final class GroupSecretMatchProto {
             index, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 2;</code>
+       * <code>repeated .groupSecret.HeroLeftInfo enemyLeft = 3;</code>
        *
        * <pre>
        *敌人剩余的血量信息
@@ -4054,7 +3704,7 @@ public final class GroupSecretMatchProto {
           enemyLeftBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.GroupSecretMatchProto.HeroLeftInfo, com.rwproto.GroupSecretMatchProto.HeroLeftInfo.Builder, com.rwproto.GroupSecretMatchProto.HeroLeftInfoOrBuilder>(
                   enemyLeft_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           enemyLeft_ = null;
@@ -4120,6 +3770,32 @@ public final class GroupSecretMatchProto {
      */
     com.google.protobuf.ByteString
         getVersionBytes();
+
+    // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;
+    /**
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     *
+     * <pre>
+     *结束攻打的时候，通知服务器
+     * </pre>
+     */
+    boolean hasAttackEndReq();
+    /**
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     *
+     * <pre>
+     *结束攻打的时候，通知服务器
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg getAttackEndReq();
+    /**
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     *
+     * <pre>
+     *结束攻打的时候，通知服务器
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsgOrBuilder getAttackEndReqOrBuilder();
   }
   /**
    * Protobuf type {@code groupSecret.GroupSecretMatchCommonReqMsg}
@@ -4186,6 +3862,19 @@ public final class GroupSecretMatchProto {
             case 18: {
               bitField0_ |= 0x00000002;
               version_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = attackEndReq_.toBuilder();
+              }
+              attackEndReq_ = input.readMessage(com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(attackEndReq_);
+                attackEndReq_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
               break;
             }
           }
@@ -4307,9 +3996,44 @@ public final class GroupSecretMatchProto {
       }
     }
 
+    // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;
+    public static final int ATTACKENDREQ_FIELD_NUMBER = 3;
+    private com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg attackEndReq_;
+    /**
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     *
+     * <pre>
+     *结束攻打的时候，通知服务器
+     * </pre>
+     */
+    public boolean hasAttackEndReq() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     *
+     * <pre>
+     *结束攻打的时候，通知服务器
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg getAttackEndReq() {
+      return attackEndReq_;
+    }
+    /**
+     * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+     *
+     * <pre>
+     *结束攻打的时候，通知服务器
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsgOrBuilder getAttackEndReqOrBuilder() {
+      return attackEndReq_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
       version_ = "";
+      attackEndReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4319,6 +4043,12 @@ public final class GroupSecretMatchProto {
       if (!hasReqType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasAttackEndReq()) {
+        if (!getAttackEndReq().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -4332,6 +4062,9 @@ public final class GroupSecretMatchProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getVersionBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, attackEndReq_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4349,6 +4082,10 @@ public final class GroupSecretMatchProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getVersionBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, attackEndReq_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4458,6 +4195,7 @@ public final class GroupSecretMatchProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAttackEndReqFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4470,6 +4208,12 @@ public final class GroupSecretMatchProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (attackEndReqBuilder_ == null) {
+          attackEndReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance();
+        } else {
+          attackEndReqBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -4506,6 +4250,14 @@ public final class GroupSecretMatchProto {
           to_bitField0_ |= 0x00000002;
         }
         result.version_ = version_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (attackEndReqBuilder_ == null) {
+          result.attackEndReq_ = attackEndReq_;
+        } else {
+          result.attackEndReq_ = attackEndReqBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4530,6 +4282,9 @@ public final class GroupSecretMatchProto {
           version_ = other.version_;
           onChanged();
         }
+        if (other.hasAttackEndReq()) {
+          mergeAttackEndReq(other.getAttackEndReq());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4538,6 +4293,12 @@ public final class GroupSecretMatchProto {
         if (!hasReqType()) {
           
           return false;
+        }
+        if (hasAttackEndReq()) {
+          if (!getAttackEndReq().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -4711,6 +4472,159 @@ public final class GroupSecretMatchProto {
         return this;
       }
 
+      // optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;
+      private com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg attackEndReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsgOrBuilder> attackEndReqBuilder_;
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public boolean hasAttackEndReq() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg getAttackEndReq() {
+        if (attackEndReqBuilder_ == null) {
+          return attackEndReq_;
+        } else {
+          return attackEndReqBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public Builder setAttackEndReq(com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg value) {
+        if (attackEndReqBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          attackEndReq_ = value;
+          onChanged();
+        } else {
+          attackEndReqBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public Builder setAttackEndReq(
+          com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder builderForValue) {
+        if (attackEndReqBuilder_ == null) {
+          attackEndReq_ = builderForValue.build();
+          onChanged();
+        } else {
+          attackEndReqBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public Builder mergeAttackEndReq(com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg value) {
+        if (attackEndReqBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              attackEndReq_ != com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance()) {
+            attackEndReq_ =
+              com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.newBuilder(attackEndReq_).mergeFrom(value).buildPartial();
+          } else {
+            attackEndReq_ = value;
+          }
+          onChanged();
+        } else {
+          attackEndReqBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public Builder clearAttackEndReq() {
+        if (attackEndReqBuilder_ == null) {
+          attackEndReq_ = com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          attackEndReqBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder getAttackEndReqBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getAttackEndReqFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsgOrBuilder getAttackEndReqOrBuilder() {
+        if (attackEndReqBuilder_ != null) {
+          return attackEndReqBuilder_.getMessageOrBuilder();
+        } else {
+          return attackEndReq_;
+        }
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyEndReqMsg attackEndReq = 3;</code>
+       *
+       * <pre>
+       *结束攻打的时候，通知服务器
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsgOrBuilder> 
+          getAttackEndReqFieldBuilder() {
+        if (attackEndReqBuilder_ == null) {
+          attackEndReqBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsgOrBuilder>(
+                  attackEndReq_,
+                  getParentForChildren(),
+                  isClean());
+          attackEndReq_ = null;
+        }
+        return attackEndReqBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:groupSecret.GroupSecretMatchCommonReqMsg)
     }
 
@@ -4787,6 +4701,32 @@ public final class GroupSecretMatchProto {
      */
     com.google.protobuf.ByteString
         getTipMsgBytes();
+
+    // optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+     *
+     * <pre>
+     *攻击开始回应消息
+     * </pre>
+     */
+    boolean hasAttackStartRsp();
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+     *
+     * <pre>
+     *攻击开始回应消息
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg getAttackStartRsp();
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+     *
+     * <pre>
+     *攻击开始回应消息
+     * </pre>
+     */
+    com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsgOrBuilder getAttackStartRspOrBuilder();
   }
   /**
    * Protobuf type {@code groupSecret.GroupSecretMatchCommonRspMsg}
@@ -4858,6 +4798,19 @@ public final class GroupSecretMatchProto {
             case 26: {
               bitField0_ |= 0x00000004;
               tipMsg_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = attackStartRsp_.toBuilder();
+              }
+              attackStartRsp_ = input.readMessage(com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(attackStartRsp_);
+                attackStartRsp_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -5003,10 +4956,45 @@ public final class GroupSecretMatchProto {
       }
     }
 
+    // optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;
+    public static final int ATTACKSTARTRSP_FIELD_NUMBER = 4;
+    private com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg attackStartRsp_;
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+     *
+     * <pre>
+     *攻击开始回应消息
+     * </pre>
+     */
+    public boolean hasAttackStartRsp() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+     *
+     * <pre>
+     *攻击开始回应消息
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg getAttackStartRsp() {
+      return attackStartRsp_;
+    }
+    /**
+     * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+     *
+     * <pre>
+     *攻击开始回应消息
+     * </pre>
+     */
+    public com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsgOrBuilder getAttackStartRspOrBuilder() {
+      return attackStartRsp_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupSecretMatchProto.MatchRequestType.SEARCHING_ENEMY;
       isSuccess_ = false;
       tipMsg_ = "";
+      attackStartRsp_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5020,6 +5008,12 @@ public final class GroupSecretMatchProto {
       if (!hasIsSuccess()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasAttackStartRsp()) {
+        if (!getAttackStartRsp().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -5036,6 +5030,9 @@ public final class GroupSecretMatchProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, attackStartRsp_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5057,6 +5054,10 @@ public final class GroupSecretMatchProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, attackStartRsp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5166,6 +5167,7 @@ public final class GroupSecretMatchProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAttackStartRspFieldBuilder();
         }
       }
       private static Builder create() {
@@ -5180,6 +5182,12 @@ public final class GroupSecretMatchProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (attackStartRspBuilder_ == null) {
+          attackStartRsp_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.getDefaultInstance();
+        } else {
+          attackStartRspBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -5220,6 +5228,14 @@ public final class GroupSecretMatchProto {
           to_bitField0_ |= 0x00000004;
         }
         result.tipMsg_ = tipMsg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (attackStartRspBuilder_ == null) {
+          result.attackStartRsp_ = attackStartRsp_;
+        } else {
+          result.attackStartRsp_ = attackStartRspBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5247,6 +5263,9 @@ public final class GroupSecretMatchProto {
           tipMsg_ = other.tipMsg_;
           onChanged();
         }
+        if (other.hasAttackStartRsp()) {
+          mergeAttackStartRsp(other.getAttackStartRsp());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -5259,6 +5278,12 @@ public final class GroupSecretMatchProto {
         if (!hasIsSuccess()) {
           
           return false;
+        }
+        if (hasAttackStartRsp()) {
+          if (!getAttackStartRsp().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -5481,6 +5506,159 @@ public final class GroupSecretMatchProto {
         return this;
       }
 
+      // optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;
+      private com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg attackStartRsp_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsgOrBuilder> attackStartRspBuilder_;
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public boolean hasAttackStartRsp() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg getAttackStartRsp() {
+        if (attackStartRspBuilder_ == null) {
+          return attackStartRsp_;
+        } else {
+          return attackStartRspBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public Builder setAttackStartRsp(com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg value) {
+        if (attackStartRspBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          attackStartRsp_ = value;
+          onChanged();
+        } else {
+          attackStartRspBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public Builder setAttackStartRsp(
+          com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.Builder builderForValue) {
+        if (attackStartRspBuilder_ == null) {
+          attackStartRsp_ = builderForValue.build();
+          onChanged();
+        } else {
+          attackStartRspBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public Builder mergeAttackStartRsp(com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg value) {
+        if (attackStartRspBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              attackStartRsp_ != com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.getDefaultInstance()) {
+            attackStartRsp_ =
+              com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.newBuilder(attackStartRsp_).mergeFrom(value).buildPartial();
+          } else {
+            attackStartRsp_ = value;
+          }
+          onChanged();
+        } else {
+          attackStartRspBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public Builder clearAttackStartRsp() {
+        if (attackStartRspBuilder_ == null) {
+          attackStartRsp_ = com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          attackStartRspBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.Builder getAttackStartRspBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getAttackStartRspFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      public com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsgOrBuilder getAttackStartRspOrBuilder() {
+        if (attackStartRspBuilder_ != null) {
+          return attackStartRspBuilder_.getMessageOrBuilder();
+        } else {
+          return attackStartRsp_;
+        }
+      }
+      /**
+       * <code>optional .groupSecret.AttackEnemyStartRspMsg attackStartRsp = 4;</code>
+       *
+       * <pre>
+       *攻击开始回应消息
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsgOrBuilder> 
+          getAttackStartRspFieldBuilder() {
+        if (attackStartRspBuilder_ == null) {
+          attackStartRspBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg, com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg.Builder, com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsgOrBuilder>(
+                  attackStartRsp_,
+                  getParentForChildren(),
+                  isClean());
+          attackStartRsp_ = null;
+        }
+        return attackStartRspBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:groupSecret.GroupSecretMatchCommonRspMsg)
     }
 
@@ -5507,11 +5685,6 @@ public final class GroupSecretMatchProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupSecret_AttackEnemyStartRspMsg_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupSecret_AttackEnemyEndReqMsg_descriptor;
   private static
@@ -5542,23 +5715,25 @@ public final class GroupSecretMatchProto {
       "(\005\"X\n\026AttackEnemyStartReqMsg\022,\n\005index\030\001 " +
       "\002(\0162\035.groupSecret.GroupSecretIndex\022\020\n\010he" +
       "roList\030\002 \003(\t\"*\n\026AttackEnemyStartRspMsg\022\020" +
-      "\n\010armyInfo\030\001 \003(\t\"D\n\024AttackEnemyEndRspMsg" +
-      "\022,\n\005index\030\001 \002(\0162\035.groupSecret.GroupSecre" +
-      "tIndex\"o\n\024AttackEnemyEndReqMsg\022)\n\006myLeft" +
-      "\030\001 \003(\0132\031.groupSecret.HeroLeftInfo\022,\n\tene",
-      "myLeft\030\002 \003(\0132\031.groupSecret.HeroLeftInfo\"" +
-      "_\n\034GroupSecretMatchCommonReqMsg\022.\n\007reqTy" +
-      "pe\030\001 \002(\0162\035.groupSecret.MatchRequestType\022" +
-      "\017\n\007version\030\002 \001(\t\"q\n\034GroupSecretMatchComm" +
-      "onRspMsg\022.\n\007reqType\030\001 \002(\0162\035.groupSecret." +
-      "MatchRequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006t" +
-      "ipMsg\030\003 \001(\t*[\n\020MatchSecretState\022\016\n\nNON_B" +
-      "ATTLE\020\001\022\r\n\tIN_BATTLE\020\002\022\022\n\016IN_ROB_PROTECT" +
-      "\020\003\022\024\n\020IN_MAX_ROB_COUNT\020\004*e\n\020MatchRequest" +
-      "Type\022\023\n\017SEARCHING_ENEMY\020\001\022\026\n\022ATTACK_ENEM",
-      "Y_START\020\002\022\024\n\020ATTACK_ENEMY_END\020\003\022\016\n\nGET_R" +
-      "EWARD\020\004B$\n\013com.rwprotoB\025GroupSecretMatch" +
-      "Proto"
+      "\n\010armyInfo\030\001 \002(\t\"\235\001\n\024AttackEnemyEndReqMs" +
+      "g\022,\n\005index\030\001 \002(\0162\035.groupSecret.GroupSecr" +
+      "etIndex\022)\n\006myLeft\030\002 \003(\0132\031.groupSecret.He" +
+      "roLeftInfo\022,\n\tenemyLeft\030\003 \003(\0132\031.groupSec",
+      "ret.HeroLeftInfo\"\230\001\n\034GroupSecretMatchCom" +
+      "monReqMsg\022.\n\007reqType\030\001 \002(\0162\035.groupSecret" +
+      ".MatchRequestType\022\017\n\007version\030\002 \001(\t\0227\n\014at" +
+      "tackEndReq\030\003 \001(\0132!.groupSecret.AttackEne" +
+      "myEndReqMsg\"\256\001\n\034GroupSecretMatchCommonRs" +
+      "pMsg\022.\n\007reqType\030\001 \002(\0162\035.groupSecret.Matc" +
+      "hRequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMs" +
+      "g\030\003 \001(\t\022;\n\016attackStartRsp\030\004 \001(\0132#.groupS" +
+      "ecret.AttackEnemyStartRspMsg*[\n\020MatchSec" +
+      "retState\022\016\n\nNON_BATTLE\020\001\022\r\n\tIN_BATTLE\020\002\022",
+      "\022\n\016IN_ROB_PROTECT\020\003\022\024\n\020IN_MAX_ROB_COUNT\020" +
+      "\004*e\n\020MatchRequestType\022\023\n\017SEARCHING_ENEMY" +
+      "\020\001\022\026\n\022ATTACK_ENEMY_START\020\002\022\024\n\020ATTACK_ENE" +
+      "MY_END\020\003\022\016\n\nGET_REWARD\020\004B$\n\013com.rwprotoB" +
+      "\025GroupSecretMatchProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5583,30 +5758,24 @@ public final class GroupSecretMatchProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_AttackEnemyStartRspMsg_descriptor,
               new java.lang.String[] { "ArmyInfo", });
-          internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_groupSecret_AttackEnemyEndRspMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupSecret_AttackEnemyEndRspMsg_descriptor,
-              new java.lang.String[] { "Index", });
           internal_static_groupSecret_AttackEnemyEndReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_groupSecret_AttackEnemyEndReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_AttackEnemyEndReqMsg_descriptor,
-              new java.lang.String[] { "MyLeft", "EnemyLeft", });
+              new java.lang.String[] { "Index", "MyLeft", "EnemyLeft", });
           internal_static_groupSecret_GroupSecretMatchCommonReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_groupSecret_GroupSecretMatchCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretMatchCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", });
+              new java.lang.String[] { "ReqType", "Version", "AttackEndReq", });
           internal_static_groupSecret_GroupSecretMatchCommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_groupSecret_GroupSecretMatchCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretMatchCommonRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "AttackStartRsp", });
           return null;
         }
       };

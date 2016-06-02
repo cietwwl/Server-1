@@ -24,8 +24,6 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
-import com.rwbase.dao.groupsecret.pojo.SecretBaseInfoSynDataHolder;
-import com.rwbase.dao.groupsecret.pojo.SecretTeamInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretDiamondDropCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
@@ -156,8 +154,8 @@ public class GroupSecretHandler {
 			}
 		}
 
-		SecretBaseInfoSynDataHolder.getHolder().synAllData(player, baseInfoList);
-		SecretTeamInfoSynDataHolder.getHolder().synAllData(player, teamInfoList);
+		player.getBaseHolder().synAllData(player, baseInfoList);
+		player.getTeamHolder().synAllData(player, teamInfoList);
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
@@ -317,12 +315,12 @@ public class GroupSecretHandler {
 		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId);
 		SecretBaseInfoSynData base = synData.getBase();
 		if (base != null) {
-			SecretBaseInfoSynDataHolder.getHolder().addData(player, base);
+			player.getBaseHolder().addData(player, base);
 		}
 
 		SecretTeamInfoSynData team = synData.getTeam();
 		if (team != null) {
-			SecretTeamInfoSynDataHolder.getHolder().addData(player, team);
+			player.getTeamHolder().addData(player, team);
 		}
 
 		// 把秘境数据加入到排行榜
@@ -475,8 +473,8 @@ public class GroupSecretHandler {
 		GroupSecretTeamDataMgr.getMgr().removeTeamHeroList(player, myDefendInfo.getHeroList());
 
 		// 通知客户端删除
-		SecretBaseInfoSynDataHolder.getHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0));
-		SecretTeamInfoSynDataHolder.getHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null));
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0));
+		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null));
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();

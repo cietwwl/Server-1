@@ -1,8 +1,12 @@
 package com.rwbase.dao.groupsecret.pojo.db;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.Id;
 
@@ -24,6 +28,7 @@ public class GroupSecretMatchEnemyData {
 	@Id
 	private String matchUserId;// 匹配到的人Id
 	private String userId;// 搜索人的Id
+	private long matchTime;// 搜索到的时间
 	private long atkTime;// 攻击的时间
 	private Map<String, HeroLeftInfoSynData> teamOneMap;// 防守的一队敌人血量信息
 	private Map<String, HeroLeftInfoSynData> teamTwoMap;// 防守的二队敌人血量信息
@@ -31,6 +36,7 @@ public class GroupSecretMatchEnemyData {
 	private int[] robRes = new int[3];// 可以掠夺的资源数量
 	private int[] robGS = new int[3];// 可以掠夺的帮派物资
 	private int[] robGE = new int[3];// 可以掠夺的帮派经验
+	private int[] atkTimes = new int[3];// 攻击每个驻守点敌人的次数
 	private boolean isBeat = false;// 是否已经抢到了
 
 	// ////////////////////////////////////////////////逻辑Get区
@@ -54,6 +60,22 @@ public class GroupSecretMatchEnemyData {
 		return matchUserId;
 	}
 
+	public long getMatchTime() {
+		return matchTime;
+	}
+
+	public int[] getRobRes() {
+		return robRes;
+	}
+
+	public int[] getRobGS() {
+		return robGS;
+	}
+
+	public int[] getRobGE() {
+		return robGE;
+	}
+
 	// ////////////////////////////////////////////////逻辑Set区
 	public void setId(int id) {
 		this.id = id;
@@ -73,6 +95,10 @@ public class GroupSecretMatchEnemyData {
 
 	public void setMatchUserId(String matchUserId) {
 		this.matchUserId = matchUserId;
+	}
+
+	public void setMatchTime(long matchTime) {
+		this.matchTime = matchTime;
 	}
 
 	// ////////////////////////////////////////////////逻辑区
@@ -185,6 +211,27 @@ public class GroupSecretMatchEnemyData {
 	}
 
 	/**
+	 * 设置攻击次数
+	 * 
+	 * @param index
+	 */
+	@JsonIgnore
+	public void setAttackTimes(int index) {
+		atkTimes[index - 1] += 1;
+	}
+
+	/**
+	 * 获取攻击波数
+	 * 
+	 * @param index
+	 * @return
+	 */
+	@JsonIgnore
+	public int getAttackTimes(int index) {
+		return atkTimes[index - 1];
+	}
+
+	/**
 	 * 初始化匹配到的阵容的血量信息，开始的时候所有的血量变化都是Null
 	 * 
 	 * @param index
@@ -242,12 +289,75 @@ public class GroupSecretMatchEnemyData {
 	}
 
 	/**
+	 * 获取镇守的阵容Id列表
+	 * 
+	 * @param index
+	 * @return
+	 */
+	@JsonIgnore
+	public List<String> getDefendHeroIdList(int index) {
+		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamAttrInfoMap(index);
+		Iterator<String> itr = teamAttrInfoMap.keySet().iterator();
+
+		List<String> heroIdList = new ArrayList<String>(teamAttrInfoMap.size());
+		while (itr.hasNext()) {
+			heroIdList.add(itr.next());
+		}
+
+		return heroIdList;
+	}
+
+	/**
+	 * 检查是否还有英雄活着
+	 * 
+	 * @return
+	 */
+	public boolean checkHasHeroAlive() {
+		if (checkDefnedIndexHasAlive(GroupSecretIndex.MAIN_VALUE) || checkDefnedIndexHasAlive(GroupSecretIndex.LEFT_VALUE) || checkDefnedIndexHasAlive(GroupSecretIndex.RIGHT_VALUE)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * 检查阵容中还有活着的英雄
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public boolean checkDefnedIndexHasAlive(int index) {
+		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = null;
+		if (index == GroupSecretIndex.LEFT_VALUE) {
+			teamAttrInfoMap = teamTwoMap;
+		} else if (index == GroupSecretIndex.MAIN_VALUE) {
+			teamAttrInfoMap = teamOneMap;
+		} else if (index == GroupSecretIndex.RIGHT_VALUE) {
+			teamAttrInfoMap = teamThreeMap;
+		}
+
+		if (teamAttrInfoMap == null || teamAttrInfoMap.isEmpty()) {
+			return false;
+		}
+
+		for (Entry<String, HeroLeftInfoSynData> e : teamAttrInfoMap.entrySet()) {
+			HeroLeftInfoSynData value = e.getValue();
+			if (value == null || value.getLife() > 0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * 清除缓存的数据
 	 */
 	@JsonIgnore
 	public void clearAllData() {
 		matchUserId = "";
 		id = 0;
+		matchTime = 0;
 		atkTime = 0;
 		isBeat = false;
 
@@ -265,6 +375,10 @@ public class GroupSecretMatchEnemyData {
 
 		for (int i = 0, len = robGS.length; i < len; i++) {
 			robGS[i] = 0;
+		}
+
+		for (int i = 0, len = atkTimes.length; i < len; i++) {
+			atkTimes[i] = 0;
 		}
 	}
 }
