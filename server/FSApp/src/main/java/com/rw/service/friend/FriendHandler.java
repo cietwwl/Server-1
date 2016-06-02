@@ -93,52 +93,42 @@ public class FriendHandler {
 		response.setRequestType(request.getRequestType());
 		String searchKey = request.getSearchKey();
 		if (searchKey == null || searchKey.isEmpty()) {
-			// response.setIsSearchValue(false);
-			// response.setResultMsg("没有找到该玩家");
-			// response.setResultType(EFriendResultType.FAIL);
-			//
-			// System.err.println(response.build());
-			// return response.build().toByteString();
-			response.setIsSearchValue(true);
-			response.addAllList(recommandFriends(player));
-			response.setResultMsg("为你推荐以下玩家");
-			response.setResultType(EFriendResultType.SUCCESS);
-			return response.build().toByteString();
+			return defaultSearch(response, player, "为您推荐以下玩家");
 		} else {
+			// TODO 这个resultVO留待以后重构，创建许多无谓对象，思路混乱
 			FriendResultVo resultVo = player.getFriendMgr().searchFriend(searchKey);
-			response.setIsSearchValue(!resultVo.updateList.isEmpty());
-			response.addAllList(resultVo.updateList);
-			response.setResultMsg(resultVo.resultMsg);
-			response.setResultType(resultVo.resultType);
-
-			System.err.println(response.build());
-			return response.build().toByteString();
+			boolean isSearchValue = resultVo.updateList.isEmpty();
+			if (!isSearchValue) {
+				response.setIsSearchValue(isSearchValue);
+				response.addAllList(resultVo.updateList);
+				response.setResultMsg(resultVo.resultMsg);
+				response.setResultType(resultVo.resultType);
+				return response.build().toByteString();
+			} else {
+				return defaultSearch(response, player, "找不到对应玩家，为您推荐以下玩家");
+			}
 		}
-
-		// FriendResultVo resultVo =
-		// player.getFriendMgr().searchFriend(searchKey);
-		// if (resultVo.updateList.isEmpty()) {
-		// resultVo.updateList = player.getFriendMgr().searchNearFriend();
-		// if (resultVo.updateList.isEmpty()) {
-		// response.setIsSearchValue(false);
-		// resultVo.resultMsg = "没有找到该玩家，为你推荐以下玩家";
-		// } else {
-		// response.setIsSearchValue(true);
-		// }
-		// } else {
-		// response.setIsSearchValue(true);
-		// }
-		//
-		// response.setResultType(resultVo.resultType);
-		// response.setResultMsg(resultVo.resultMsg);
-		// response.addAllList(resultVo.updateList);
-		// response.setResultType(EFriendResultType.SUCCESS);
-		// return response.build().toByteString();
 	}
 
-	// 需要做成配置
-	private int recommandCount = 10;
-	private int randomRecommand = recommandCount << 1;
+	private int defaultRecommandCount = 10;
+
+	private ByteString defaultSearch(FriendResponse.Builder response, Player player, String tips) {
+		List<FriendInfo> friendList = recommandFriends(player);
+		boolean searchValue;
+		String text;
+		if (friendList.isEmpty()) {
+			searchValue = false;
+			text = "找不到对应玩家";
+		} else {
+			searchValue = true;
+			text = tips;
+		}
+		response.setIsSearchValue(searchValue);
+		response.addAllList(friendList);
+		response.setResultMsg(text);
+		response.setResultType(EFriendResultType.SUCCESS);
+		return response.build().toByteString();
+	}
 
 	private List<FriendInfo> recommandFriends(Player player) {
 		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.LEVEL_PLAYER);
@@ -146,13 +136,19 @@ public class FriendHandler {
 		int start = 0;
 		int end = 0;
 		HashMap<String, Player> playersMap = new HashMap<String, Player>();
+		// 按条件过滤出要随机的人数
 		List<RecommandConditionCfg> cfgList = RecommandConditionCfgDAO.getInstance().getOrderConditions();
+		int recommandCount = defaultRecommandCount;
 		for (int i = 0, len = cfgList.size(); i < len; i++) {
 			RecommandConditionCfg cfg = cfgList.get(i);
+			// 每次循环都会改变随机人数，由配置决定
+			int randomRecommand = cfg.getRandomCount();
+			int days = cfg.getDays();
+			recommandCount = cfg.getCount();
 			if (i == 0) {
 				start = Math.max(1, level + cfg.getDesLevel());
 				end = level + cfg.getIncLevel();
-				fillSegmentPlayers(playersMap, ranking, start, end, cfg.getDays());
+				fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
@@ -161,14 +157,14 @@ public class FriendHandler {
 				if (start > 1) {
 					end = start - 1;
 					start = start + cfg.getDesLevel();
-					fillSegmentPlayers(playersMap, ranking, start, end, cfg.getDays());
+					fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
 					if (playersMap.size() >= randomRecommand) {
 						break;
 					}
 				}
 				start = tempEnd + 1;
 				end = tempEnd + cfg.getIncLevel();
-				fillSegmentPlayers(playersMap, ranking, start, end, cfg.getDays());
+				fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
@@ -185,6 +181,7 @@ public class FriendHandler {
 			}
 			return resultList;
 		}
+		// 按权重随机
 		RecommandCfgDAO cfgDAO = RecommandCfgDAO.getInstance();
 		ArrayList<TempFriendItem> tempList = new ArrayList<TempFriendItem>(currentSize);
 		int total = 0;
@@ -221,7 +218,7 @@ public class FriendHandler {
 		return resultList;
 	}
 
-	private void fillSegmentPlayers(HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days) {
+	private void fillSegmentPlayers(HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days, int randomRecommand) {
 		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
 		int size = segmentList.getRefSize();
 		ArrayList<String> list = new ArrayList<String>(size);
@@ -254,16 +251,6 @@ public class FriendHandler {
 				it.remove();
 			}
 		}
-	}
-
-	private ArrayList<String> fillList(SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList) {
-		int size = segmentList.getRefSize();
-		ArrayList<String> list = new ArrayList<String>(size);
-		for (int i = 0; i < size; i++) {
-			MomentRankingEntry<LevelComparable, RankingLevelData> momentRankingEntry = segmentList.get(i);
-			list.add(momentRankingEntry.getKey());
-		}
-		return list;
 	}
 
 	private Player getOneRandomPlayer(ArrayList<String> segmentList, HashMap<String, Player> playersMap) {

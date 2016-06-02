@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -13,15 +14,18 @@ public class RecommandConditionCfgDAO extends CfgCsvDao<RecommandConditionCfg> {
 
 	private List<RecommandConditionCfg> orderConditions;
 
-	public static RecommandConditionCfgDAO getInstance(){
+	public static RecommandConditionCfgDAO getInstance() {
 		return SpringContextUtil.getBean(RecommandConditionCfgDAO.class);
 	}
-	
+
 	@Override
 	protected Map<String, RecommandConditionCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("friend/recommandCondtion.csv", RecommandConditionCfg.class);
 		ArrayList<RecommandConditionCfg> list = new ArrayList<RecommandConditionCfg>();
 		for (RecommandConditionCfg cfg : cfgCacheMap.values()) {
+			if (cfg.getRandomCount() <= cfg.getCount()) {
+				throw new IllegalArgumentException("随机人数少于推荐人数：randomCount=" + cfg.getRandomCount() + ",count=" + cfg.getCount());
+			}
 			list.add(cfg);
 		}
 		Collections.sort(list, new Comparator<RecommandConditionCfg>() {

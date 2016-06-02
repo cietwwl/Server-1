@@ -7,7 +7,8 @@ public class RecommandConditionCfg {
 	private int desLevel; // 下降的等级
 	private int incLevel; // 上升的大需
 	private int count; // 推荐数量
-
+	private int randomCount;	//随机个数
+	
 	public int getSeqId() {
 		return seqId;
 	}
@@ -46,6 +47,14 @@ public class RecommandConditionCfg {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public int getRandomCount() {
+		return randomCount;
+	}
+
+	public void setRandomCount(int randomCount) {
+		this.randomCount = randomCount;
 	}
 
 }
