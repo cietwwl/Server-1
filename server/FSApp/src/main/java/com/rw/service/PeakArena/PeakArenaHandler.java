@@ -129,20 +129,14 @@ public class PeakArenaHandler {
 		if (cfg != null){
 			response.setCurrentBuyCost(cfg.getCost());
 		}
+		
+		peakArenaResetCost resetCostCfg = peakArenaResetCostHelper.getInstance().getCfgByResetCount(arenaData.getResetCount()+1);
+		if (resetCostCfg != null){
+			response.setResetCost(resetCostCfg.getCost());
+		}
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 	}
 	
-	/*
-	public ByteString gainScore(MsgArenaRequest request, Player player) {
-		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
-		response.setArenaType(request.getArenaType());
-		TablePeakArenaData arenaData = TablePeakArenaDataDAO.getInstance().get(player.getUserId());
-		PeakArenaBM.getInstance().gainCurrency(player,arenaData);
-		response.setArenaData(getPeakArenaData(arenaData, player));
-		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
-		return response.build().toByteString();
-	}*/
-
 	public ByteString clearCD(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
@@ -180,8 +174,12 @@ public class PeakArenaHandler {
 		arenData.setFightStartTime(0);
 		TablePeakArenaDataDAO.getInstance().update(arenData);
 
-		response.setArenaData(getPeakArenaData(arenData, player));
-
+		//response.setArenaData(getPeakArenaData(arenData, player));
+		response.setCdTime(0);
+		cfg = peakArenaResetCostHelper.getInstance().getCfgByResetCount(nextCount+1);
+		if (cfg != null){
+			response.setResetCost(cfg.getCost());
+		}
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
@@ -487,18 +485,18 @@ public class PeakArenaHandler {
 			}
 			
 			// 排名上升
-			PeakRecordInfo record = new PeakRecordInfo();
-			record.setUserId(enemyUserId);
-			record.setWin(win?1:0);
-			record.setName(enemyUser.getUserName());
-			record.setHeadImage(enemyUser.getHeadImage());
-			record.setLevel(enemyUser.getLevel());
-			record.setTime(currentTimeMillis);
-			record.setChallenge(1);
+			PeakRecordInfo recordForPlayer = new PeakRecordInfo();
+			recordForPlayer.setUserId(enemyUserId);
+			recordForPlayer.setWin(win?1:0);
+			recordForPlayer.setName(enemyUser.getUserName());
+			recordForPlayer.setHeadImage(enemyUser.getHeadImage());
+			recordForPlayer.setLevel(enemyUser.getLevel());
+			recordForPlayer.setTime(currentTimeMillis);
+			recordForPlayer.setChallenge(1);
 			if (win && enemyPlace > playerPlace){
-				record.setPlaceUp(enemyPlace-playerPlace);
+				recordForPlayer.setPlaceUp(enemyPlace-playerPlace);
 			}
-			peakBM.addOthersRecord(playerArenaData, record);
+			peakBM.addOthersRecord(playerArenaData, recordForPlayer);
 			
 			PeakRecordInfo recordForEnemy = new PeakRecordInfo();
 			recordForEnemy.setUserId(userId);
@@ -512,12 +510,18 @@ public class PeakArenaHandler {
 			
 			playerArenaData.setFightStartTime(currentTimeMillis);
 			
+			// 向双方发送战报
 			MsgArenaResponse.Builder recordResponse = MsgArenaResponse.newBuilder();
-			recordResponse.setArenaType(eArenaType.SYNC_RECORD);//TODO SYNC_RECORD是这样用的？！
-			ArenaRecord ar = getPeakArenaRecord(record);
+			recordResponse.setArenaType(eArenaType.SYNC_RECORD);
+			ArenaRecord ar = getPeakArenaRecord(recordForPlayer);
 			recordResponse.addListRecord(ar);
 			recordResponse.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			player.SendMsg(Command.MSG_PEAK_ARENA, recordResponse.build().toByteString());
+			if (win) {
+				if (enemyUser != null) {
+					enemyUser.getTempAttribute().setRecordChanged(true);
+				}
+			}
 
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();

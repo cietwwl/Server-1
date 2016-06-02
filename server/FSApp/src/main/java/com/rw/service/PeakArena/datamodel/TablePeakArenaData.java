@@ -25,7 +25,7 @@ public class TablePeakArenaData {
 	private volatile long fightStartTime;//开战时间,0表示没有开战
 	private TeamData[] teams = new TeamData[3];
 	
-	private List<PeakRecordInfo> recordList; //TODO 这次不管 change to simple array
+	private List<PeakRecordInfo> recordList;
 	private long lastGainCurrencyTime; // 上次获取货币的时间
 	private String lastFightEnemy;
 

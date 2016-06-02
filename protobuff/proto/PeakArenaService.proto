@@ -112,4 +112,5 @@ message MsgArenaResponse{
 	optional int32 challengeCount = 11;//玩家挑战次数
 	optional int32 cdTime = 12;//玩家倒计时
 	optional int32 gainCurrencyPerHour = 13;	//每小时能获得的巅峰币
+	optional int32 resetCost = 14;//重置需要的费用
 }
