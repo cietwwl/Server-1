@@ -10,7 +10,7 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-		 Robot robot = loginRobot("0528141362");
+		 Robot robot = loginRobot("0531972110");
 //		 robot.dailyActivity();
 
 //		 Robot robot = createRobot("testallen"+random.nextInt(2000));
@@ -18,11 +18,10 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-//			 issucc=robot.testDailyGiftTake();
+			 issucc=robot.testFrshActAchieveRewardGiftTake();
 			 
 			 
-			 System.out.println("@@@@@@@@@@@test" + issucc);
-			 
+			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 
 		 
@@ -39,6 +38,11 @@ public class Test {
 //		 robot.testActivityCountTakeGift();//通用活动一领取所有奖励
 //		 robot.testActivityDailyCountTakeGift();//通用活动二领取所有奖励
 //		 robot.testDailyGiftTake();//七日礼包
+//		 robot.testFrshActAchieveRewardGiftTake();//封神之路
+		 
+		 
+		 
+		 
 		 
 		 
 		// long start = System.currentTimeMillis();
