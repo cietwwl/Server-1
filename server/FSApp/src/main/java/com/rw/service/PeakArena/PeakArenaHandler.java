@@ -51,6 +51,7 @@ import com.rwproto.PeakArenaServiceProtos.ArenaRecord;
 import com.rwproto.PeakArenaServiceProtos.HeroData;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaRequest;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaResponse;
+import com.rwproto.PeakArenaServiceProtos.MsgArenaResponse.Builder;
 import com.rwproto.PeakArenaServiceProtos.TeamInfo;
 import com.rwproto.PeakArenaServiceProtos.eArenaResultType;
 import com.rwproto.PeakArenaServiceProtos.eArenaType;
@@ -99,9 +100,24 @@ public class PeakArenaHandler {
 		// 触发领奖
 		addPeakArenaCoin(peakBM,player,arenaData, peakBM.getPlace(player),System.currentTimeMillis());
 		response.setArenaData(getPeakArenaData(arenaData, player));
-		
+		setOtherInfo(response,player,arenaData);
 		setSuccess(response, arenaData);
 		return response.build().toByteString();
+	}
+
+	private void setOtherInfo(Builder response, Player player, TablePeakArenaData arenaData) {
+		int playerPlace = PeakArenaBM.getInstance().getPlace(player);
+		int gainPerHour = peakArenaPrizeHelper.getInstance().getBestMatchPrizeCount(playerPlace);
+		response.setGainCurrencyPerHour(gainPerHour);
+		response.setChallengeCount(arenaData.getChallengeCount());
+
+		peakArenaInfo cfg = peakArenaInfoHelper.getInstance().getUniqueCfg();
+		long currentTime = System.currentTimeMillis();
+		long nextFightTime = arenaData.getFightStartTime()+cfg.getCdTimeInMillSecond();
+		if (nextFightTime>currentTime){
+			int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime);
+			response.setCdTime(seconds);
+		}
 	}
 
 	public void setSuccess(MsgArenaResponse.Builder response, TablePeakArenaData arenaData) {
@@ -114,7 +130,8 @@ public class PeakArenaHandler {
 		}
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 	}
-
+	
+	/*
 	public ByteString gainScore(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
@@ -123,7 +140,7 @@ public class PeakArenaHandler {
 		response.setArenaData(getPeakArenaData(arenaData, player));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
-	}
+	}*/
 
 	public ByteString clearCD(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
@@ -651,20 +668,10 @@ public class PeakArenaHandler {
 		ArenaData.Builder data = ArenaData.newBuilder();
 		data.setUserId(userId);
 		int gainPerHour = peakArenaPrizeHelper.getInstance().getBestMatchPrizeCount(place);
-		data.setGainCurrencyPerHour(gainPerHour);
-		data.setGainScore(peakArenaBM.gainExpectCurrency(arenaData,gainPerHour));
+		peakArenaBM.gainExpectCurrency(arenaData,gainPerHour);
 		data.setPlace(place);
 		data.setMaxPlace(arenaData.getMaxPlace());
 		data.setWinCount(arenaData.getWinCount());
-		data.setChallengeCount(arenaData.getChallengeCount());
-		
-		peakArenaInfo cfg = peakArenaInfoHelper.getInstance().getUniqueCfg();
-		long currentTime = System.currentTimeMillis();
-		long nextFightTime = arenaData.getFightStartTime()+cfg.getCdTimeInMillSecond();
-		if (nextFightTime>currentTime){
-			int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime);
-			data.setCdTime(seconds);
-		}
 		
 		data.setCareer(arenaData.getCareer());
 		data.setHeadImage(arenaData.getHeadImage());

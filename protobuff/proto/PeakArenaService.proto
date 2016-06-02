@@ -5,7 +5,7 @@ import "SkillService.proto";
 
 enum eArenaType {
 	GET_DATA = 0;     //
-	CHANGE_ENEMY = 1; // TODO 首次筛选对手/换一批对手
+	CHANGE_ENEMY = 1; // 首次筛选对手/换一批对手
 	CHANGE_HERO = 2;  //
 	ARENA_RECORD = 3; //
 	ENEMY_INFO = 4;   // 获取对手信息，不进行重新筛选
@@ -15,7 +15,6 @@ enum eArenaType {
 	ARENA_FIGHT_FINISH = 8;//最后一场结束发送
 	SYNC_RECORD = 9;//
 	GET_PLACE = 10;//
-	GET_SCORE = 11;//领取巅峰竞技场货币，TODO:需要修改为进入巅峰竞技场或者商店的时候自动领取
 	SWITCH_OVER = 12;//更换玩家队伍顺序,使用 reorder 参数表示1，2，3队伍的ID
 	BUY_CHALLENGE_COUNT = 13;// 购买挑战次数
 	FIGHT_CONTINUE = 14;//挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
@@ -36,7 +35,7 @@ message HeroData{
 	optional int64 exp = 7; // 有用咩？
 	repeated SkillService.TagSkillData skills = 8;  // 咩来嘎 ？？
 	optional int32 teamId = 10;
-	optional string headImage = 11;//TODO
+	optional string headImage = 11;//TODO 对手的头像, 好似是多余的，用ArenaData.headImage
 }
 
 message TeamInfo{
@@ -51,14 +50,9 @@ message TeamInfo{
 
 message ArenaData{
 	required string userId = 1;
-	optional int32 score = 2;
-	optional int32 gainScore = 3; //积分
-	optional int32 scoreLv = 4;
 	optional int32 place = 5;// 当前排名
 	optional int32 maxPlace = 6; // 历史最高排名
 	optional int32 winCount = 8; //历史胜利次数
-	optional int32 challengeCount = 9;
-	optional int32 cdTime = 10;//TODO move to outside!
 	optional int32 career = 11;
 	optional string name = 12;
 	optional int32 level = 13;
@@ -67,8 +61,6 @@ message ArenaData{
 	optional int32 fighting = 16;  // 可能是队伍总战力？
 	repeated SkillService.TagSkillData roleSkill = 17;
 	repeated TeamInfo teams = 19;
-	optional int64 lastFightTime = 20;  //唔知系咩
-	optional int32 gainCurrencyPerHour = 21;	//每小时能获得的巅峰币
     optional string groupName = 23; //TODO 帮派名称
 	optional string armyInfo = 24;//暂时没有用 Json字符串：队伍信息
 }
@@ -119,4 +111,7 @@ message MsgArenaResponse{
 	optional int32 maxChallengeCount = 8;   // TODO 最大挑战次数，会根据特权而修改
 	optional int32 buyCount = 9;//TODO 购买次数
 	optional int32 currentBuyCost = 10;//当前购买次数下一档需要的货币数量
+	optional int32 challengeCount = 11;//玩家挑战次数
+	optional int32 cdTime = 12;//玩家倒计时
+	optional int32 gainCurrencyPerHour = 13;	//每小时能获得的巅峰币
 }

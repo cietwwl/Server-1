@@ -53,9 +53,6 @@ public class PeakArenaService implements FsService {
 			case GET_PLACE:
 				result = peakArenaHandler.getPlaceByteString(msgArenaRequest, player);
 				break;
-			case GET_SCORE:
-				result = peakArenaHandler.gainScore(msgArenaRequest, player);
-				break;
 			case SWITCH_OVER:
 				result = peakArenaHandler.switchTeam(msgArenaRequest, player);
 				break;
