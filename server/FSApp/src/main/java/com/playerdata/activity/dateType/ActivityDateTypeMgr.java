@@ -74,7 +74,7 @@ public class ActivityDateTypeMgr {
 					ActivityDateTypeSubCfg subItemCfg = ActivityDateTypeSubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
 					
 					if(!subItem.isTaken() && subItem.getCount() >= subItemCfg.getAwardCount()){
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL+"");	
+						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL+"","");	
 						if (isAdd) {
 							subItem.setTaken(true);
 						} else {
