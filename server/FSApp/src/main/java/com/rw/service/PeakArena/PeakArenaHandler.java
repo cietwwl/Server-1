@@ -37,6 +37,7 @@ import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
@@ -681,6 +682,8 @@ public class PeakArenaHandler {
 		data.setLevel(player.getLevel());
 		data.setFighting(player.getMainRoleHero().getFighting());
 		data.setName(player.getUserName());
+		String groupName = GroupHelper.getGroupName(userId);
+		if (StringUtils.isNotBlank(groupName)) data.setGroupName(groupName);
 
 		PlayerIF role = PlayerMgr.getInstance().getReadOnlyPlayer(arenaData.getUserId());
 
