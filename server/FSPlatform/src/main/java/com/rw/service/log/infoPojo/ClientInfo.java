@@ -11,9 +11,9 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 
 @JsonIgnoreProperties(ignoreUnknown = false)
 public class ClientInfo {
-	
+	/**注册登录渠道*/
 	private String channelId;
-	
+	/**注册登录子渠道*/
 	private String subChannelId;	
 	
 	private String regChannelId_uid;
