@@ -58,7 +58,7 @@ message ArenaData{
 	optional int32 maxPlace = 6; // 历史最高排名
 	optional int32 winCount = 8; //历史胜利次数
 	optional int32 challengeCount = 9;
-	optional int32 cdTime = 10;
+	optional int32 cdTime = 10;//TODO move to outside!
 	optional int32 career = 11;
 	optional string name = 12;
 	optional int32 level = 13;
@@ -118,4 +118,5 @@ message MsgArenaResponse{
 	optional string resultTip = 7;//服务器返回给客户端的操作结果提示，不需要显示，主要用来打印日志帮助调试
 	optional int32 maxChallengeCount = 8;   // TODO 最大挑战次数，会根据特权而修改
 	optional int32 buyCount = 9;//TODO 购买次数
+	optional int32 currentBuyCost = 10;//当前购买次数下一档需要的货币数量
 }
