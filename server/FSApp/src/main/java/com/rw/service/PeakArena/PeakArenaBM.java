@@ -316,14 +316,7 @@ public class PeakArenaBM {
 		TablePeakArenaData data = new TablePeakArenaData();
 		String userId = player.getUserId();
 		data.setUserId(userId);
-		data.setCareer(player.getCareer());
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
-		data.setFighting(player.getMainRoleHero().getFighting());
-
-		data.setHeadImage(player.getHeadImage());
-		data.setLevel(player.getLevel());
-		data.setName(player.getUserName());
-		data.setTempleteId(player.getTemplateId());
 
 		ItemData magic = player.getMagic();
 		for (int i = 0; i < data.getTeamCount(); i++) {

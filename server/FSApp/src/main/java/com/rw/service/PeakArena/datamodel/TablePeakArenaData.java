@@ -21,19 +21,12 @@ public class TablePeakArenaData {
 	private int challengeCount;//挑战次数
 	private int resetCount;//重置次数
 	private int buyCount;//额外购买的挑战次数
-	private int career;
-	private String name;
-	private String headImage;
-	private String templeteId;
 	private int expectCurrency; // 预计能获得的货币
-	private int level;
-	private int fighting;//战力
 	private volatile long fightStartTime;//开战时间,0表示没有开战
 	private TeamData[] teams = new TeamData[3];
 	
 	private List<PeakRecordInfo> recordList; //TODO 这次不管 change to simple array
 	private long lastGainCurrencyTime; // 上次获取货币的时间
-	private int lastScore; // 最后一次分数
 	private String lastFightEnemy;
 
 	public TablePeakArenaData() {
@@ -150,54 +143,6 @@ public class TablePeakArenaData {
 		return hasRanking;
 	}
 
-	public int getCareer() {
-		return career;
-	}
-
-	public void setCareer(int career) {
-		this.career = career;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getHeadImage() {
-		return headImage;
-	}
-
-	public void setHeadImage(String headImage) {
-		this.headImage = headImage;
-	}
-
-	public String getTempleteId() {
-		return templeteId;
-	}
-
-	public void setTempleteId(String templeteId) {
-		this.templeteId = templeteId;
-	}
-
-	public int getFighting() {
-		return fighting;
-	}
-
-	public void setFighting(int fighting) {
-		this.fighting = fighting;
-	}
-
 	public List<PeakRecordInfo> getRecordList() {
 		return recordList;
 	}
@@ -222,14 +167,6 @@ public class TablePeakArenaData {
 
 	public void setLastGainCurrencyTime(long lastGainCurrencyTime) {
 		this.lastGainCurrencyTime = lastGainCurrencyTime;
-	}
-
-	public int getLastScore() {
-		return lastScore;
-	}
-
-	public void setLastScore(int lastScore) {
-		this.lastScore = lastScore;
 	}
 
 	public void setLastFightEnemy(String enemyId) {

@@ -198,13 +198,14 @@ public class PeakArenaHandler {
 		for (ListRankingEntry<String, PeakArenaExtAttribute> entry : listInfo) {
 			ArenaInfo.Builder info = ArenaInfo.newBuilder();
 			String key = entry.getKey();
+			Player enemy = PlayerMgr.getInstance().find(key);
 			TablePeakArenaData otherArenaData = PeakArenaBM.getInstance().getPeakArenaData(key);
 			info.setUserId(key);
 			info.setWinCount(otherArenaData.getWinCount());
-			info.setFighting(otherArenaData.getFighting());
-			info.setHeadImage(otherArenaData.getHeadImage());
-			info.setLevel(otherArenaData.getLevel());
-			info.setName(otherArenaData.getName());
+			info.setFighting(enemy.getMainRoleHero().getFighting());
+			info.setHeadImage(enemy.getHeadImage());
+			info.setLevel(enemy.getLevel());
+			info.setName(enemy.getUserName());
 			info.setPlace(entry.getRanking());
 			
 			Player enymyPlayer = PlayerMgr.getInstance().find(key);
@@ -441,6 +442,8 @@ public class PeakArenaHandler {
 			return SetError(response,player,"结算时找不到对手排行榜信息",":"+enemyUserId);
 		}
 		
+		Player enemyUser = PlayerMgr.getInstance().find(enemyUserId);
+
 		try {
 			final long currentTimeMillis = System.currentTimeMillis();
 			if (win) {
@@ -465,7 +468,6 @@ public class PeakArenaHandler {
 				// 如果交换了位置则需要按照旧的排名计算奖励
 				addPeakArenaCoin(peakBM,player,  playerArenaData, playerPlace,currentTimeMillis);
 				// 通知对手需要强制兑换奖励
-				Player enemyUser = PlayerMgr.getInstance().find(enemyUserId);
 				if (!enemyUser.isRobot()){
 					GameWorldFactory.getGameWorld().asyncExecute(enemyUserId, 
 							new PlayerTask() {
@@ -487,9 +489,9 @@ public class PeakArenaHandler {
 			PeakRecordInfo record = new PeakRecordInfo();
 			record.setUserId(enemyUserId);
 			record.setWin(win?1:0);
-			record.setName(enemyArenaData.getName());
-			record.setHeadImage(enemyArenaData.getHeadImage());
-			record.setLevel(enemyArenaData.getLevel());
+			record.setName(enemyUser.getUserName());
+			record.setHeadImage(enemyUser.getHeadImage());
+			record.setLevel(enemyUser.getLevel());
 			record.setTime(currentTimeMillis);
 			record.setChallenge(1);
 			if (win && enemyPlace > playerPlace){
@@ -500,9 +502,9 @@ public class PeakArenaHandler {
 			PeakRecordInfo recordForEnemy = new PeakRecordInfo();
 			recordForEnemy.setUserId(userId);
 			recordForEnemy.setWin(win?0:1);//取反
-			recordForEnemy.setName(playerArenaData.getName());
-			recordForEnemy.setHeadImage(playerArenaData.getHeadImage());
-			recordForEnemy.setLevel(playerArenaData.getLevel());
+			recordForEnemy.setName(player.getUserName());
+			recordForEnemy.setHeadImage(player.getHeadImage());
+			recordForEnemy.setLevel(player.getLevel());
 			recordForEnemy.setTime(currentTimeMillis);
 			recordForEnemy.setChallenge(0);
 			peakBM.addOthersRecord(enemyArenaData, recordForEnemy);
@@ -665,6 +667,7 @@ public class PeakArenaHandler {
 	public ArenaData getPeakArenaData(TablePeakArenaData arenaData, int place) {
 		PeakArenaBM peakArenaBM = PeakArenaBM.getInstance();
 		String userId = arenaData.getUserId();
+		Player player = PlayerMgr.getInstance().find(userId);
 		ArenaData.Builder data = ArenaData.newBuilder();
 		data.setUserId(userId);
 		int gainPerHour = peakArenaPrizeHelper.getInstance().getBestMatchPrizeCount(place);
@@ -673,11 +676,11 @@ public class PeakArenaHandler {
 		data.setMaxPlace(arenaData.getMaxPlace());
 		data.setWinCount(arenaData.getWinCount());
 		
-		data.setCareer(arenaData.getCareer());
-		data.setHeadImage(arenaData.getHeadImage());
-		data.setLevel(arenaData.getLevel());
-		data.setFighting(arenaData.getFighting());
-		data.setName(arenaData.getName());
+		data.setCareer(player.getCareer());
+		data.setHeadImage(player.getHeadImage());
+		data.setLevel(player.getLevel());
+		data.setFighting(player.getMainRoleHero().getFighting());
+		data.setName(player.getUserName());
 
 		PlayerIF role = PlayerMgr.getInstance().getReadOnlyPlayer(arenaData.getUserId());
 
@@ -686,7 +689,7 @@ public class PeakArenaHandler {
 			data.addRoleSkill(skill);
 		}
 		
-		data.setTempleteId(arenaData.getTempleteId());
+		data.setTempleteId(player.getTemplateId());
 
 		Player user = PlayerMgr.getInstance().find(userId);
 		HeroData teamMainRole = getHeroData(user);
