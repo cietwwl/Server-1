@@ -39,8 +39,15 @@ public class ComGiftMgr {
 		}		
 	}
 	
-	/**传入comgiftdao表里的道具奖励 包id,邮箱的对话格式id，将包里的奖励道具派出到用户邮箱 */
-	public boolean addGiftTOEmailById(Player player, String giftid  ,String emailid){
+	/**
+	 *  传入comgiftdao表里的道具奖励 包id,邮箱的对话格式id，将包里的奖励道具派出到用户邮箱 
+	 * @param player
+	 * @param giftid 奖励id，对应gift奖励表格
+	 * @param emailid 使用的邮件格式id
+	 * @param mark 用来标记奖励的明细,目前只支持附加在标题上
+	 * @return
+	 */
+	public boolean addGiftTOEmailById(Player player, String giftid  ,String emailid ,String mark){
 		boolean isadd = false;
 		
 		
