@@ -24,5 +24,7 @@ public class LogTemplate {
 	final static public String ZoneLoginLogTemplate="$logTime$|core_gamesvr|$loginZoneId$|$logTime$|gamesvr_act|$loginZoneId$|$regChannelId_uid$|$userId$|$regSubChannelId$|$loginSubChannelId$|$loginClientPlatForm$|$userCreatedTime$|$vip$|$phoneOp$|$loginNetType$|$loginPhoneType$|$clientVersion$|$loginClientIp$|$loginImei$|$loginImac$|||gamesvr_login||$result$|";
 	final static public String ZoneLogoutLogTemplate="$logTime$|core_gamesvr|$loginZoneId$|$logTime$|gamesvr_act|$loginZoneId$|$regChannelId_uid$|$userId$|$regSubChannelId$|$loginSubChannelId$|$loginClientPlatForm$|$userCreatedTime$|$vip$|$phoneOp$|$loginNetType$|$loginPhoneType$|$clientVersion$|$loginClientIp$|$loginImei$|$loginImac$|||gamesvr_logout||$result$|$statInfo$";
 	final static public String ZoneRegLogTemplate="$logTime$|core_gamesvr|$loginZoneId$|$logTime$|gamesvr_reg|$loginZoneId$|$regChannelId_uid$|$userId$|$regSubChannelId$|$loginSubChannelId$|$loginClientPlatForm$|$userCreatedTime$|$vip$|$phoneOp$|$loginNetType$|$loginPhoneType$|$clientVersion$|$loginClientIp$|$loginImei$|$loginImac$|||gamesvr_reg||1|";
+	final static public String ZoneCountGiftGoldLogTemplate="$logTime$|core_stat_1|$loginZoneId$|$logTime$|stat_main_coin|$loginZoneId$|$regSubChannelId$|$zoneGiftGoldRemain$|$loginClientPlatForm$|$threadId$|";
+	
 }
 	

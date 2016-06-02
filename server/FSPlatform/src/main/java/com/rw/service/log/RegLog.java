@@ -22,7 +22,7 @@ public class RegLog implements ILog{
 
 	private String uid = "";
     private String uidCreateTime = "";
-    private String zoneId = "";   //区id
+    private String zoneId = "0";   //区id
     private String logactiveTime = "";  //日志的触发时间
     
     private String subChannel = "";//子渠道
@@ -38,13 +38,11 @@ public class RegLog implements ILog{
 	public void setPlatformType(String platformType) {
 		this.platformType = platformType;
 	}
-
-	private String carrier = "";    //运营商
+	/**运营商*/
+	private String carrier = "";    
 
     private String networkType = "";  //网路环境
-    /// <summary>
-    /// 终端品牌
-    /// </summary>
+    /**终端品牌*/
     private String brandName = "";
     
     private String terminalType = "";
@@ -73,8 +71,8 @@ public class RegLog implements ILog{
     private String cpuType = ""; //cpu型号
 
     private String cpuFrequency = ""; //cpu频率
-
-    private String cpuKernal = "";  //cpu核数
+  /**cpu核数*/
+    private String cpuKernal = "";  
 
     private String gpuType = "";   //gpu类型
 
@@ -106,9 +104,8 @@ public class RegLog implements ILog{
     /// 终端当前空闲sd卡存储空间大小
     /// </summary>
     private String freeSdSize = "";
-    /// <summary>
-    /// 分辨率
-    /// </summary>
+   
+    /**分辨率*/
     private String resolution = "";
     /// <summary>
     /// 基带版本
@@ -329,7 +326,7 @@ public class RegLog implements ILog{
 					this.OpenGL_VENDOR = LogService.getInstance().parseJson(json,"OpenGL_VENDOR");
 					this.OpenGL_VERSION = LogService.getInstance().parseJson(json,"OpenGL_VERSION");
 					this.statistical = LogService.getInstance().parseJson(json,"statistical");
-					
+
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
