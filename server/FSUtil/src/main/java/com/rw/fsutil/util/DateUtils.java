@@ -265,7 +265,7 @@ public class DateUtils {
 			long millionseconds = getyyyyMMddHHmmFormater().parse(str).getTime();
 			return millionseconds;
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}		
 		return 0;
 	}
