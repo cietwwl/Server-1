@@ -42,7 +42,6 @@ public class Client  implements Runnable{
 	public Client(int id){
 		this.id = id;
 		this.status = ClientManager.CLIENT_STATUS_FREE;
-		 group = new NioEventLoopGroup();
 	}
 	
 	private void Connect(String host, int port){
@@ -52,6 +51,10 @@ public class Client  implements Runnable{
 		initClient();
 	}
 	
+	public void setGroup(EventLoopGroup group) {
+		this.group = group;
+	}
+
 	@SuppressWarnings("deprecation")
 	private void initClient(){
 		
