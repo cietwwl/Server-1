@@ -106,7 +106,12 @@ public class PeakArenaHandler {
 
 	public void setSuccess(MsgArenaResponse.Builder response, TablePeakArenaData arenaData) {
 		response.setMaxChallengeCount(peakArenaInfoHelper.getInstance().getUniqueCfg().getCount());
-		response.setBuyCount(arenaData.getBuyCount());
+		int buyCount = arenaData.getBuyCount();
+		response.setBuyCount(buyCount);
+		peakArenaBuyCost cfg = peakArenaBuyCostHelper.getInstance().getCfgByCount(buyCount+1);
+		if (cfg != null){
+			response.setCurrentBuyCost(cfg.getCost());
+		}
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 	}
 
@@ -752,7 +757,8 @@ public class PeakArenaHandler {
 		arenaData.setBuyCount(buyCount+1);
 		TablePeakArenaDataDAO.getInstance().update(arenaData);
 
-		response.setArenaData(getPeakArenaData(arenaData, player));
+		//不需要返回全部数据
+		//response.setArenaData(getPeakArenaData(arenaData, player));
 		
 		setSuccess(response,arenaData);
 		return response.build().toByteString();

@@ -2504,7 +2504,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *Json字符串：对手队伍信息
      * </pre>
      */
     boolean hasArmyInfo();
@@ -2512,7 +2512,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *Json字符串：对手队伍信息
      * </pre>
      */
     java.lang.String getArmyInfo();
@@ -2520,7 +2520,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *Json字符串：对手队伍信息
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2863,7 +2863,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *Json字符串：对手队伍信息
      * </pre>
      */
     public boolean hasArmyInfo() {
@@ -2873,7 +2873,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *Json字符串：对手队伍信息
      * </pre>
      */
     public java.lang.String getArmyInfo() {
@@ -2894,7 +2894,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *Json字符串：对手队伍信息
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -4029,7 +4029,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *Json字符串：对手队伍信息
        * </pre>
        */
       public boolean hasArmyInfo() {
@@ -4039,7 +4039,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *Json字符串：对手队伍信息
        * </pre>
        */
       public java.lang.String getArmyInfo() {
@@ -4057,7 +4057,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *Json字符串：对手队伍信息
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4077,7 +4077,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *Json字符串：对手队伍信息
        * </pre>
        */
       public Builder setArmyInfo(
@@ -4094,7 +4094,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *Json字符串：对手队伍信息
        * </pre>
        */
       public Builder clearArmyInfo() {
@@ -4107,7 +4107,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *Json字符串：对手队伍信息
        * </pre>
        */
       public Builder setArmyInfoBytes(
@@ -4255,10 +4255,18 @@ public final class PeakArenaServiceProtos {
     // optional int32 cdTime = 10;
     /**
      * <code>optional int32 cdTime = 10;</code>
+     *
+     * <pre>
+     *TODO move to outside!
+     * </pre>
      */
     boolean hasCdTime();
     /**
      * <code>optional int32 cdTime = 10;</code>
+     *
+     * <pre>
+     *TODO move to outside!
+     * </pre>
      */
     int getCdTime();
 
@@ -4463,7 +4471,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 24;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *暂时没有用 Json字符串：队伍信息
      * </pre>
      */
     boolean hasArmyInfo();
@@ -4471,7 +4479,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 24;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *暂时没有用 Json字符串：队伍信息
      * </pre>
      */
     java.lang.String getArmyInfo();
@@ -4479,7 +4487,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 24;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *暂时没有用 Json字符串：队伍信息
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -4885,12 +4893,20 @@ public final class PeakArenaServiceProtos {
     private int cdTime_;
     /**
      * <code>optional int32 cdTime = 10;</code>
+     *
+     * <pre>
+     *TODO move to outside!
+     * </pre>
      */
     public boolean hasCdTime() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>optional int32 cdTime = 10;</code>
+     *
+     * <pre>
+     *TODO move to outside!
+     * </pre>
      */
     public int getCdTime() {
       return cdTime_;
@@ -5263,7 +5279,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 24;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *暂时没有用 Json字符串：队伍信息
      * </pre>
      */
     public boolean hasArmyInfo() {
@@ -5273,7 +5289,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 24;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *暂时没有用 Json字符串：队伍信息
      * </pre>
      */
     public java.lang.String getArmyInfo() {
@@ -5294,7 +5310,7 @@ public final class PeakArenaServiceProtos {
      * <code>optional string armyInfo = 24;</code>
      *
      * <pre>
-     *Json字符串：队伍信息
+     *暂时没有用 Json字符串：队伍信息
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -6349,18 +6365,30 @@ public final class PeakArenaServiceProtos {
       private int cdTime_ ;
       /**
        * <code>optional int32 cdTime = 10;</code>
+       *
+       * <pre>
+       *TODO move to outside!
+       * </pre>
        */
       public boolean hasCdTime() {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional int32 cdTime = 10;</code>
+       *
+       * <pre>
+       *TODO move to outside!
+       * </pre>
        */
       public int getCdTime() {
         return cdTime_;
       }
       /**
        * <code>optional int32 cdTime = 10;</code>
+       *
+       * <pre>
+       *TODO move to outside!
+       * </pre>
        */
       public Builder setCdTime(int value) {
         bitField0_ |= 0x00000100;
@@ -6370,6 +6398,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 cdTime = 10;</code>
+       *
+       * <pre>
+       *TODO move to outside!
+       * </pre>
        */
       public Builder clearCdTime() {
         bitField0_ = (bitField0_ & ~0x00000100);
@@ -7397,7 +7429,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 24;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *暂时没有用 Json字符串：队伍信息
        * </pre>
        */
       public boolean hasArmyInfo() {
@@ -7407,7 +7439,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 24;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *暂时没有用 Json字符串：队伍信息
        * </pre>
        */
       public java.lang.String getArmyInfo() {
@@ -7425,7 +7457,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 24;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *暂时没有用 Json字符串：队伍信息
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -7445,7 +7477,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 24;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *暂时没有用 Json字符串：队伍信息
        * </pre>
        */
       public Builder setArmyInfo(
@@ -7462,7 +7494,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 24;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *暂时没有用 Json字符串：队伍信息
        * </pre>
        */
       public Builder clearArmyInfo() {
@@ -7475,7 +7507,7 @@ public final class PeakArenaServiceProtos {
        * <code>optional string armyInfo = 24;</code>
        *
        * <pre>
-       *Json字符串：队伍信息
+       *暂时没有用 Json字符串：队伍信息
        * </pre>
        */
       public Builder setArmyInfoBytes(
@@ -11919,6 +11951,24 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getBuyCount();
+
+    // optional int32 currentBuyCost = 10;
+    /**
+     * <code>optional int32 currentBuyCost = 10;</code>
+     *
+     * <pre>
+     *当前购买次数下一档需要的货币数量
+     * </pre>
+     */
+    boolean hasCurrentBuyCost();
+    /**
+     * <code>optional int32 currentBuyCost = 10;</code>
+     *
+     * <pre>
+     *当前购买次数下一档需要的货币数量
+     * </pre>
+     */
+    int getCurrentBuyCost();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -12040,6 +12090,11 @@ public final class PeakArenaServiceProtos {
             case 72: {
               bitField0_ |= 0x00000040;
               buyCount_ = input.readInt32();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000080;
+              currentBuyCost_ = input.readInt32();
               break;
             }
           }
@@ -12333,6 +12388,30 @@ public final class PeakArenaServiceProtos {
       return buyCount_;
     }
 
+    // optional int32 currentBuyCost = 10;
+    public static final int CURRENTBUYCOST_FIELD_NUMBER = 10;
+    private int currentBuyCost_;
+    /**
+     * <code>optional int32 currentBuyCost = 10;</code>
+     *
+     * <pre>
+     *当前购买次数下一档需要的货币数量
+     * </pre>
+     */
+    public boolean hasCurrentBuyCost() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 currentBuyCost = 10;</code>
+     *
+     * <pre>
+     *当前购买次数下一档需要的货币数量
+     * </pre>
+     */
+    public int getCurrentBuyCost() {
+      return currentBuyCost_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       arenaResultType_ = com.rwproto.PeakArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -12343,6 +12422,7 @@ public final class PeakArenaServiceProtos {
       resultTip_ = "";
       maxChallengeCount_ = 0;
       buyCount_ = 0;
+      currentBuyCost_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12405,6 +12485,9 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(9, buyCount_);
       }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(10, currentBuyCost_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12449,6 +12532,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, buyCount_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, currentBuyCost_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12599,6 +12686,8 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         buyCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        currentBuyCost_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -12677,6 +12766,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000040;
         }
         result.buyCount_ = buyCount_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.currentBuyCost_ = currentBuyCost_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12767,6 +12860,9 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasBuyCount()) {
           setBuyCount(other.getBuyCount());
+        }
+        if (other.hasCurrentBuyCost()) {
+          setCurrentBuyCost(other.getCurrentBuyCost());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -13715,6 +13811,55 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // optional int32 currentBuyCost = 10;
+      private int currentBuyCost_ ;
+      /**
+       * <code>optional int32 currentBuyCost = 10;</code>
+       *
+       * <pre>
+       *当前购买次数下一档需要的货币数量
+       * </pre>
+       */
+      public boolean hasCurrentBuyCost() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 currentBuyCost = 10;</code>
+       *
+       * <pre>
+       *当前购买次数下一档需要的货币数量
+       * </pre>
+       */
+      public int getCurrentBuyCost() {
+        return currentBuyCost_;
+      }
+      /**
+       * <code>optional int32 currentBuyCost = 10;</code>
+       *
+       * <pre>
+       *当前购买次数下一档需要的货币数量
+       * </pre>
+       */
+      public Builder setCurrentBuyCost(int value) {
+        bitField0_ |= 0x00000200;
+        currentBuyCost_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 currentBuyCost = 10;</code>
+       *
+       * <pre>
+       *当前购买次数下一档需要的货币数量
+       * </pre>
+       */
+      public Builder clearCurrentBuyCost() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        currentBuyCost_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
     }
 
@@ -13803,24 +13948,24 @@ public final class PeakArenaServiceProtos {
       " \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\tarenaType\030\001 " +
       "\002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(\t\022\030\n\005team" +
       "s\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004 \001(\0132\n.Aren" +
-      "aInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(\005\"\214\002\n\020" +
+      "aInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(\005\"\244\002\n\020" +
       "MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\0162\013.eA" +
       "renaType\022*\n\017arenaResultType\030\002 \001(\0162\021.eAre" +
       "naResultType\022\035\n\tarenaData\030\003 \001(\0132\n.ArenaD" +
       "ata\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n\nlis" +
       "tRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place\030\006 \001" +
       "(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxChallengeCou",
-      "nt\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005*\244\002\n\neArenaTyp" +
-      "e\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHA" +
-      "NGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_IN" +
-      "FO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREP" +
-      "ARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FI" +
-      "GHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLA" +
-      "CE\020\n\022\r\n\tGET_SCORE\020\013\022\017\n\013SWITCH_OVER\020\014\022\027\n\023" +
-      "BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020" +
-      "\016*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS\020\001" +
-      "\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakAre",
-      "naServiceProtos"
+      "nt\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026\n\016currentBuy" +
+      "Cost\030\n \001(\005*\244\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022" +
+      "\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014AR" +
+      "ENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TI" +
+      "ME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_F" +
+      "IGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013" +
+      "SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\r\n\tGET_SCOR" +
+      "E\020\013\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_CO" +
+      "UNT\020\r\022\022\n\016FIGHT_CONTINUE\020\016*5\n\020eArenaResul" +
+      "tType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002",
+      "B%\n\013com.rwprotoB\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13868,7 +14013,7 @@ public final class PeakArenaServiceProtos {
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", "CurrentBuyCost", });
           return null;
         }
       };
