@@ -10,6 +10,7 @@ import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.GmExecutor;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.GmResultStatusCode;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.log.GameLog;
@@ -35,6 +36,12 @@ public class GmEmailWhiteList implements IGmTask {
 
 			Map<String, Object> args = request.getArgs();
 			final EmailData emailData = GmEmailHelper.getEmailData(args);
+			
+			String emailAttachment = emailData.getEmailAttachment();
+			boolean checkAttachItemIegal = GmUtils.checkAttachItemIegal(emailAttachment);
+			if(!checkAttachItemIegal){
+				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_INVALID_ATTACHMENT.getStatus()));
+			}
 
 			String conditionListJson = GmUtils.parseString(args,
 					"conditionList");
