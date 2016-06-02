@@ -338,7 +338,7 @@ public class FixNormEquipMgr {
 			result.setReason("装备不存在。");			
 		}else{
 			int nextStar = dataItem.getStar()-1;
-			if(nextStar <= 0){
+			if(nextStar < 0){
 				result.setReason("装备已是最低等级。");	
 			}else{
 				result.setSuccess(true);
