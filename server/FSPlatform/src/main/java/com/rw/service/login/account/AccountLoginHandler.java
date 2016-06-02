@@ -53,9 +53,9 @@ public class AccountLoginHandler {
 		public int compare(UserZoneInfo o1, UserZoneInfo o2) {
 			// TODO Auto-generated method stub
 			if(o1.getZoneId() > o2.getZoneId()){
-				return -1;
-			}else{
 				return 1;
+			}else{
+				return -1;
 			}
 		}
 	};
@@ -128,8 +128,7 @@ public class AccountLoginHandler {
 		PlatformLog.error("accountloginhandler.login.phoneinfo = " + phoneInfo);
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setAccount(accountInfo);
-		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(
-				accountId);
+		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 		TableAccountLoginRecord record = TableAccountLoginRecordDAO.getInstance().get(accountId);
 		if (userAccount != null) {
 			account.setAccountId(accountId);
@@ -137,6 +136,7 @@ public class AccountLoginHandler {
 			if (record != null) {
 				zoneInfo = PlatformFactory.getPlatformService().getZoneInfo(
 						record.getZoneId());
+				userAccount.setLastLogin(false, zoneInfo.getZoneId());
 			}
 			if (zoneInfo == null) {
 				zoneInfo = PlatformFactory.getPlatformService()
@@ -380,13 +380,13 @@ public class AccountLoginHandler {
 			ZoneStatusList.put(zone.getZoneId(), zone.getEnabled());
 		}
 		
-		ZoneInfoCache lastZoneCfg = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
+		UserZoneInfo lastLogin = userAccount.getLastLogin(false);
 		LinkedList<UserInfo> list = new LinkedList<UserInfo>();
 		
 		
 		List<UserZoneInfo> zoneList = userAccount.getUserZoneInfoList();
 		
-		Collections.sort(zoneList,ZoneComparator);
+		Collections.sort(zoneList, ZoneComparator);
 		
 		UserInfo.Builder userInfo;
 		ZoneInfoCache zone;
@@ -405,7 +405,7 @@ public class AccountLoginHandler {
 			userInfo.setCareer(userZoneInfo.getCareer());
 			userInfo.setLv(userZoneInfo.getLevel());
 			userInfo.setName(userZoneInfo.getUserName());
-			if (lastZoneCfg != null && lastZoneCfg.getZoneId() == userZoneInfo.getZoneId()) {
+			if (lastLogin != null &&  lastLogin.getZoneId() == userZoneInfo.getZoneId()) {
 				list.addFirst(userInfo.build());
 			} else {
 				list.add(userInfo.build());
