@@ -307,6 +307,9 @@ public class AccountLoginHandler {
 			response.setError("服务器繁忙，请稍候尝试。");
 			return response.build().toByteString();
 		}
+		if(StringUtils.isEmpty(account.getAccountId())){
+			account.setAccountId(accountId);
+		}
 		try {
 			handleZoneList(account, response, accountId);
 		} catch (Exception e) {
@@ -327,7 +330,9 @@ public class AccountLoginHandler {
 			response.setError("服务器繁忙，请稍候尝试。");
 			return response.build().toByteString();
 		}
-		
+		if(StringUtils.isEmpty(account.getAccountId())){
+			account.setAccountId(accountId);
+		}
 		try {
 			ZoneInfo zone = request.getZone();
 			handleRefreshZoneInfo(account, response, accountId, zone);
