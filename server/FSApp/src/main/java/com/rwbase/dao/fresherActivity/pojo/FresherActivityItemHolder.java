@@ -193,6 +193,10 @@ public class FresherActivityItemHolder {
 		}else{
 			long createTime = user.getCreateTime();
 			openTime = DateUtils.getHour(createTime, 5);   //五点为重置时间
+			//当前创建时间已经转天而且小于5点 应该算上一天
+			if(createTime < openTime){
+				openTime -= 24*60*60*1000l;
+			}
 		}
 		fresherActivityItem.setStartTime(fresherActivityCfg.getStartTime() * DAY_TIME + openTime);
 		if (fresherActivityCfg.getEndTime() == -1) {
