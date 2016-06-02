@@ -35,12 +35,14 @@ public class Client  implements Runnable{
 	private ConcurrentLinkedQueue<GSMessage> ProcessMsgList = new ConcurrentLinkedQueue<GSMessage>();
 	
 	private HashMap<String, List<GSMessage>> ProcessMap = new HashMap<String, List<GSMessage>>();
+	private EventLoopGroup group;
 	
 	private ClientMsg clientMsg = new ClientMsg();
 	
 	public Client(int id){
 		this.id = id;
 		this.status = ClientManager.CLIENT_STATUS_FREE;
+		 group = new NioEventLoopGroup();
 	}
 	
 	private void Connect(String host, int port){
@@ -54,7 +56,7 @@ public class Client  implements Runnable{
 	private void initClient(){
 		
 		try {
-			EventLoopGroup group = new NioEventLoopGroup();
+//			EventLoopGroup group = new NioEventLoopGroup();
 			Bootstrap bootstrap = new Bootstrap();
 			bootstrap.group(group).channel(NioSocketChannel.class);
 			bootstrap.handler(new ChannelInitializer<Channel>() {
