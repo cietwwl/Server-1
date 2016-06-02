@@ -1,5 +1,6 @@
 package com.playerdata.army;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.util.StringUtils;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -7,6 +8,7 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArmyMagic {
 
 	private int modelId;

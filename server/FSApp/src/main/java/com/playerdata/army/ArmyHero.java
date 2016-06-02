@@ -2,6 +2,8 @@ package com.playerdata.army;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
@@ -13,7 +15,9 @@ import com.rwbase.dao.skill.pojo.Skill;
  * @author Administrator
  *
  */
+
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArmyHero {
 
 	private CurAttrData curAttrData;

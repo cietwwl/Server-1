@@ -9,13 +9,6 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfg;
@@ -66,7 +59,34 @@ public class ActivityDailyCountTypeMgr {
 			}
 		}
 	}
+	private void checkClose(Player player) {
+		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
+		List<ActivityDailyCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
+		for (ActivityDailyCountTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
+			if (isClose(activityDailyCountTypeItem)) {
+				sendEmailIfGiftNotTaken(player,  activityDailyCountTypeItem.getSubItemList());
+				activityDailyCountTypeItem.setClosed(true);
+				dataHolder.updateItem(player, activityDailyCountTypeItem);
+			}
+		}
+	}
+	
+	private boolean isClose(ActivityDailyCountTypeItem activityDailyCountTypeItem) {
+	if (activityDailyCountTypeItem != null) {
+		ActivityDailyCountTypeCfg cfgById = ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.Daily.getCfgId());
+		if(cfgById!=null){
+			long endTime = cfgById.getEndTime();
+			long currentTime = System.currentTimeMillis();
+			return currentTime > endTime;
+		}else{
+			GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动"+ ActivityDailyCountTypeEnum.Daily);
+		}
+	}
+	return false;
+}
+	
+	
 	private void sendEmailIfGiftNotTaken(Player player,
 			List<ActivityDailyCountTypeSubItem> subItemList) {
 		for (ActivityDailyCountTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
@@ -75,8 +95,10 @@ public class ActivityDailyCountTypeMgr {
 				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
 				return;
 			}
-			if (subItem.getCount() >= subItemCfg.getCount()) {
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
+			if (subItem.getCount() >= subItemCfg.getCount()&&!subItem.isTaken()) {
+				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getId());
+				subItem.setTaken(true);
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~补发" + subItem.getCfgId());
 				if (!isAdd) 
 					GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
 				}
@@ -136,53 +158,11 @@ public class ActivityDailyCountTypeMgr {
 	}
 	
 
-	private void checkClose(Player player) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
-		for (ActivityCountTypeItem activityCountTypeItem : itemList) {// 每种活动
-			if (isClose(activityCountTypeItem)) {
-				List<ActivityCountTypeSubItem> list = activityCountTypeItem.getSubItemList();
-				sendEmailIfGiftNotTaken(player, activityCountTypeItem, list);
-				activityCountTypeItem.setClosed(true);
-				dataHolder.updateItem(player, activityCountTypeItem);
-			}
-		}
 
-	}
 
-	private void sendEmailIfGiftNotTaken(Player player,ActivityCountTypeItem activityCountTypeItem,List<ActivityCountTypeSubItem> list) {
-		for (ActivityCountTypeSubItem subItem : list) {// 配置表里的每种奖励
-			ActivityCountTypeSubCfg subItemCfg = ActivityCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
-			if(subItemCfg == null){
-				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-				return;
-			}
-			
-			if (!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "");
-				if (isAdd) {
-					subItem.setTaken(true);
-				} else {
-					GameLog.error(LogModule.ComActivityCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
-				}
-			}
-		}
-	}
 
-	private boolean isClose(ActivityCountTypeItem activityCountTypeItem) {
-		if (activityCountTypeItem != null) {
-			ActivityCountTypeCfg cfgById = ActivityCountTypeCfgDAO.getInstance().getCfgById(activityCountTypeItem.getCfgId());
-			if(cfgById!=null){
-				long endTime = cfgById.getEndTime();
-				long currentTime = System.currentTimeMillis();
-				return currentTime > endTime;
-			}else{
-				GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动"+ activityCountTypeItem.getCfgId());
-			}
-		}
-		return false;
-	}
+
 
 	private boolean isOpen(ActivityDailyCountTypeCfg activityCountTypeCfg) {
 

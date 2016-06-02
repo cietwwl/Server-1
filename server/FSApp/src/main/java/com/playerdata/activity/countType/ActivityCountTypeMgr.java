@@ -155,7 +155,7 @@ public class ActivityCountTypeMgr {
 			}			
 			if (!subItem.isTaken() && activityCountTypeItem.getCount() >= subItemCfg.getAwardCount()) {
 
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "");
+				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getAwardGift(), MAKEUPEMAIL + "",subItemCfg.getId());
 				if (isAdd) {
 					subItem.setTaken(true);
 				} else {

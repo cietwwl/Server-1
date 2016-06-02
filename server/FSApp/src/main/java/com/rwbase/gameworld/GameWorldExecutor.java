@@ -1,17 +1,16 @@
 package com.rwbase.gameworld;
 
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.common.TaskExceptionHandler;
 import com.rw.fsutil.concurrent.ParametricTask;
 import com.rw.fsutil.concurrent.QueuedTaskExecutor;
-import com.rw.fsutil.dao.cache.SimpleThreadFactory;
 import com.rw.fsutil.log.EngineLogger;
 import com.rwbase.common.PlayerTaskListener;
 import com.rwbase.dao.gameworld.GameWorldAttributeData;

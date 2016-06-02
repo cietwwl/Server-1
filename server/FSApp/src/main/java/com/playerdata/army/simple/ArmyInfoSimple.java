@@ -1,36 +1,40 @@
-package com.playerdata.army;
+package com.playerdata.army.simple;
 
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.army.ArmyMagic;
 import com.playerdata.dataSyn.ClassInfo4Client;
 import com.playerdata.dataSyn.DataSynClassInfoMgr;
 import com.playerdata.dataSyn.annotation.SynClass;
 
+
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ArmyInfo {
+public class ArmyInfoSimple {
 
 	//佣兵列表不包括主角
-	private List<ArmyHero> heroList;
+	private List<ArmyHeroSimple> heroList;
 	//主角
-	private ArmyHero player;
+	private ArmyHeroSimple player;
 	private ArmyMagic armyMagic;
 	private String playerName;
 	private String playerHeadImage;
-	private String guildName;
+	private String groupName;
+	//team fighting
+	private int teamFighting;
 	
-	public List<ArmyHero> getHeroList() {
+	public List<ArmyHeroSimple> getHeroList() {
 		return heroList;
 	}
-	public void setHeroList(List<ArmyHero> heroList) {
+	public void setHeroList(List<ArmyHeroSimple> heroList) {
 		this.heroList = heroList;
 	}
-	public ArmyHero getPlayer() {
+	public ArmyHeroSimple getPlayer() {
 		return player;
 	}
-	public void setPlayer(ArmyHero player) {
+	public void setPlayer(ArmyHeroSimple player) {
 		this.player = player;
 	}
 	public ArmyMagic getArmyMagic() {
@@ -53,23 +57,29 @@ public class ArmyInfo {
 		return playerHeadImage;
 	}
 	
-	public void setGuildName(String guildName) {
-		this.guildName = guildName;
+	public String getGroupName() {
+		return groupName;
 	}
-	public String getGuildName() {
-		return this.guildName;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 	
+	
+	public int getTeamFighting() {
+		return teamFighting;
+	}
+	public void setTeamFighting(int teamFighting) {
+		this.teamFighting = teamFighting;
+	}
 	public String toJson() throws Exception{
-		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(ArmyInfo.class);
+		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(ArmyInfoSimple.class);
 		String jsonData = serverClassInfo.toJson(this);
 		return jsonData;
 	}
 	
 	public static void main(String[] args) throws Exception {
-		ArmyInfo amryInfo = new ArmyInfo();
-		ArmyHero armyHero = new ArmyHero();
-		armyHero.setFighting(100);
+		ArmyInfoSimple amryInfo = new ArmyInfoSimple();
+		ArmyHeroSimple armyHero = new ArmyHeroSimple();
 		amryInfo.setPlayer(armyHero);
 		System.out.println(amryInfo.toJson());
 		
