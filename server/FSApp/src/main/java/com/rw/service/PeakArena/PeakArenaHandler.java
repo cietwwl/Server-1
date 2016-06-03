@@ -365,7 +365,8 @@ public class PeakArenaHandler {
 		int challengeCount = arenaData.getChallengeCount() + 1;
 		arenaData.setChallengeCount(challengeCount);
 		TablePeakArenaDataDAO.getInstance().update(arenaData);
-	
+		response.setChallengeCount(challengeCount);
+		
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
