@@ -18,6 +18,7 @@ import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.friend.FriendUtils;
 import com.rwbase.dao.friend.TableFriend;
 import com.rwbase.dao.friend.TableFriendDAO;
@@ -371,6 +372,9 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 						HotPointMgr.changeHotPointState(otherUserId, EHotPointType.Friend_Give, true);
 					}
 				}
+				
+				
+				UserEventMgr.getInstance().givePowerKingActive(m_pPlayer, 1);
 				list.add(tableFriend.getFriendList().get(otherUserId));
 				resultVo.resultType = EFriendResultType.SUCCESS;
 				resultVo.updateList = friendItemToInfoList(list);
@@ -441,6 +445,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 					otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
 					friendDAO.update(otherFriend);
 					HotPointMgr.changeHotPointState(giveState.getUserId(), EHotPointType.Friend_Give, true);
+					UserEventMgr.getInstance().givePowerKingActive(m_pPlayer, 1);
 				}
 				giveState.setGiveState(false);
 				count++;

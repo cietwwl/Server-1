@@ -13,6 +13,7 @@ import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.unendingwar.UnendingWarHandler;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -47,14 +48,17 @@ public class WarFareHandler {
 
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
-
+		
+		int times = copyRequest.getTagBattleData().getBattleClearingTime();
+		
+		UserEventMgr.getInstance().warFareDifficultyTwoKingActive(player, levelId, times);
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
-
+		
 		// 英雄经验
 		List<String> listUpHero = PvECommonHelper.addHerosExp(player, copyRequest, copyCfg);
 
-		int times = copyRequest.getTagBattleData().getBattleClearingTime();
+		
 
 		AtomicInteger unendingWarCoin = new AtomicInteger();
 		List<? extends ItemInfo> addList = UnendingWarHandler.getInstance().getJlItem(player, times-1, copyCfg.getLevelID(),unendingWarCoin);

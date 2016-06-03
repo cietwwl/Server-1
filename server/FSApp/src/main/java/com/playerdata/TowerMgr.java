@@ -24,6 +24,7 @@ import com.rw.service.tower.TowerHandler.FloorState;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.AngelArrayUtils;
 import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
@@ -368,6 +369,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			}
 			if (towerCoin > 0) {
 				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
+				UserEventMgr.getInstance().TowerKingActive(player, towerCoin);
 			}
 
 			List<TowerGoodsCfg> formatList = TowerGoodsCfgDAO.getInstance().getCfgsByFormatId(awardCfg.formatId);
