@@ -9,7 +9,6 @@ import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
 import com.bm.rank.level.LevelExtension;
-import com.bm.rank.peakArena.PeakArenaExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.RankingConfig;
@@ -17,8 +16,7 @@ import com.rw.fsutil.ranking.RankingExtension;
 
 public enum RankType implements TypeIdentification, RankingConfig {
 
-	// 巅峰竞技场排行榜
-	PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
+	//TODO 巅峰竞技场排行榜 PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
 //	SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
 	LEVEL_PLAYER(2, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()), 
