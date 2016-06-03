@@ -2,10 +2,14 @@ package com.playerdata.army;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.ClassInfo4Client;
 import com.playerdata.dataSyn.DataSynClassInfoMgr;
 import com.playerdata.dataSyn.annotation.SynClass;
+
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArmyInfo {
 
 	//佣兵列表不包括主角

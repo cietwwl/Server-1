@@ -1,7 +1,11 @@
 package com.rw.service.login.account;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +47,18 @@ public class AccountLoginHandler {
 
 	private static AccountLoginHandler instance;
 
+	private Comparator<UserZoneInfo> ZoneComparator = new Comparator<UserZoneInfo>() {
+		
+		@Override
+		public int compare(UserZoneInfo o1, UserZoneInfo o2) {
+			// TODO Auto-generated method stub
+			if(o1.getZoneId() > o2.getZoneId()){
+				return 1;
+			}else{
+				return -1;
+			}
+		}
+	};
 	// private AccoutBM accountBM = AccoutBM.getInstance();
 
 	private AccountLoginHandler() {
@@ -112,8 +128,7 @@ public class AccountLoginHandler {
 		PlatformLog.error("accountloginhandler.login.phoneinfo = " + phoneInfo);
 		response.setResultType(eLoginResultType.SUCCESS);
 		response.setAccount(accountInfo);
-		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(
-				accountId);
+		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 		TableAccountLoginRecord record = TableAccountLoginRecordDAO.getInstance().get(accountId);
 		if (userAccount != null) {
 			account.setAccountId(accountId);
@@ -121,6 +136,7 @@ public class AccountLoginHandler {
 			if (record != null) {
 				zoneInfo = PlatformFactory.getPlatformService().getZoneInfo(
 						record.getZoneId());
+				userAccount.setLastLogin(false, zoneInfo.getZoneId());
 			}
 			if (zoneInfo == null) {
 				zoneInfo = PlatformFactory.getPlatformService()
@@ -307,6 +323,9 @@ public class AccountLoginHandler {
 			response.setError("服务器繁忙，请稍候尝试。");
 			return response.build().toByteString();
 		}
+		if(StringUtils.isEmpty(account.getAccountId())){
+			account.setAccountId(accountId);
+		}
 		try {
 			handleZoneList(account, response, accountId);
 		} catch (Exception e) {
@@ -327,7 +346,9 @@ public class AccountLoginHandler {
 			response.setError("服务器繁忙，请稍候尝试。");
 			return response.build().toByteString();
 		}
-		
+		if(StringUtils.isEmpty(account.getAccountId())){
+			account.setAccountId(accountId);
+		}
 		try {
 			ZoneInfo zone = request.getZone();
 			handleRefreshZoneInfo(account, response, accountId, zone);
@@ -359,10 +380,17 @@ public class AccountLoginHandler {
 			ZoneStatusList.put(zone.getZoneId(), zone.getEnabled());
 		}
 		
-
+		UserZoneInfo lastLogin = userAccount.getLastLogin(false);
+		LinkedList<UserInfo> list = new LinkedList<UserInfo>();
+		
+		
 		List<UserZoneInfo> zoneList = userAccount.getUserZoneInfoList();
+		
+		Collections.sort(zoneList, ZoneComparator);
+		
 		UserInfo.Builder userInfo;
 		ZoneInfoCache zone;
+		
 		for (UserZoneInfo userZoneInfo : zoneList) {
 			Integer isEnable = ZoneStatusList.get(userZoneInfo.getZoneId());
 			if(isEnable == 0 && !account.isWhiteList()){
@@ -377,8 +405,13 @@ public class AccountLoginHandler {
 			userInfo.setCareer(userZoneInfo.getCareer());
 			userInfo.setLv(userZoneInfo.getLevel());
 			userInfo.setName(userZoneInfo.getUserName());
-			response.addUserList(userInfo);
+			if (lastLogin != null &&  lastLogin.getZoneId() == userZoneInfo.getZoneId()) {
+				list.addFirst(userInfo.build());
+			} else {
+				list.add(userInfo.build());
+			}
 		}
+		response.addAllUserList(list);
 
 		response.setResultType(eLoginResultType.SUCCESS);
 	}

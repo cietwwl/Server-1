@@ -575,13 +575,21 @@ public final class DataSynProtos {
      */
     MagicChapterData(50, 51),
     /**
+     * <code>SECRETAREA_TEAM_INFO = 52;</code>
+     *
+     * <pre>
+     *帮派秘境的阵容信息
+     * </pre>
+     */
+    SECRETAREA_TEAM_INFO(51, 52),
+    /**
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
      *活动从60-79
      * </pre>
      */
-    ActivityCountType(51, 60),
+    ActivityCountType(52, 60),
     /**
      * <code>ActivityTimeCardType = 61;</code>
      *
@@ -589,7 +597,7 @@ public final class DataSynProtos {
      *月卡
      * </pre>
      */
-    ActivityTimeCardType(52, 61),
+    ActivityTimeCardType(53, 61),
     /**
      * <code>ActivityRateType = 62;</code>
      *
@@ -597,7 +605,7 @@ public final class DataSynProtos {
      *活动，奖励翻倍类型
      * </pre>
      */
-    ActivityRateType(53, 62),
+    ActivityRateType(54, 62),
     /**
      * <code>ActivityDateType = 63;</code>
      *
@@ -605,7 +613,7 @@ public final class DataSynProtos {
      *活动，日期类型
      * </pre>
      */
-    ActivityDateType(54, 63),
+    ActivityDateType(55, 63),
     /**
      * <code>ActivityTimeSaleType = 64;</code>
      *
@@ -613,7 +621,7 @@ public final class DataSynProtos {
      *活动，限时折扣
      * </pre>
      */
-    ActivityTimeSaleType(55, 64),
+    ActivityTimeSaleType(56, 64),
     /**
      * <code>ActivityDateSaleType = 65;</code>
      *
@@ -621,7 +629,7 @@ public final class DataSynProtos {
      *活动，每日折扣
      * </pre>
      */
-    ActivityDateSaleType(56, 65),
+    ActivityDateSaleType(57, 65),
     /**
      * <code>ActivityRankType = 66;</code>
      *
@@ -629,7 +637,7 @@ public final class DataSynProtos {
      *活动，排行榜
      * </pre>
      */
-    ActivityRankType(57, 66),
+    ActivityRankType(58, 66),
     /**
      * <code>ActivityExchangeType = 67;</code>
      *
@@ -637,7 +645,7 @@ public final class DataSynProtos {
      *活动，兑换
      * </pre>
      */
-    ActivityExchangeType(58, 67),
+    ActivityExchangeType(59, 67),
     /**
      * <code>ActivityTimeCountType = 68;</code>
      *
@@ -645,7 +653,7 @@ public final class DataSynProtos {
      *活动，在线奖励
      * </pre>
      */
-    ActivityTimeCountType(59, 68),
+    ActivityTimeCountType(60, 68),
     /**
      * <code>ActivityDailyType = 69;</code>
      *
@@ -653,7 +661,7 @@ public final class DataSynProtos {
      *活动，每日福利
      * </pre>
      */
-    ActivityDailyType(60, 69),
+    ActivityDailyType(61, 69),
     /**
      * <code>QuestionList = 80;</code>
      *
@@ -661,7 +669,7 @@ public final class DataSynProtos {
      *反馈问题列表
      * </pre>
      */
-    QuestionList(61, 80),
+    QuestionList(62, 80),
     ;
 
     /**
@@ -1073,6 +1081,14 @@ public final class DataSynProtos {
      */
     public static final int MagicChapterData_VALUE = 51;
     /**
+     * <code>SECRETAREA_TEAM_INFO = 52;</code>
+     *
+     * <pre>
+     *帮派秘境的阵容信息
+     * </pre>
+     */
+    public static final int SECRETAREA_TEAM_INFO_VALUE = 52;
+    /**
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
@@ -1217,6 +1233,7 @@ public final class DataSynProtos {
         case 49: return GroupSecretData;
         case 50: return MagicSecretData;
         case 51: return MagicChapterData;
+        case 52: return SECRETAREA_TEAM_INFO;
         case 60: return ActivityCountType;
         case 61: return ActivityTimeCardType;
         case 62: return ActivityRateType;
@@ -5112,7 +5129,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\373\t\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\225\n\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\023\n\017SECRETAREA_INFO\020\003\022\031\n\025SECRETAREA_DEF" +
       "_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005\022\032\n\026S" +
@@ -5138,14 +5155,14 @@ public final class DataSynProtos {
       "_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP\020/\022\027\n\023User" +
       "GroupSecretData\0200\022\023\n\017GroupSecretData\0201\022\023" +
       "\n\017MagicSecretData\0202\022\024\n\020MagicChapterData\020" +
-      "3\022\025\n\021ActivityCountType\020<\022\030\n\024ActivityTime" +
-      "CardType\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Acti",
-      "vityDateType\020?\022\030\n\024ActivityTimeSaleType\020@" +
-      "\022\030\n\024ActivityDateSaleType\020A\022\024\n\020ActivityRa" +
-      "nkType\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Ac" +
-      "tivityTimeCountType\020D\022\025\n\021ActivityDailyTy" +
-      "pe\020E\022\020\n\014QuestionList\020PB\034\n\013com.rwprotoB\rD" +
-      "ataSynProtos"
+      "3\022\030\n\024SECRETAREA_TEAM_INFO\0204\022\025\n\021ActivityC" +
+      "ountType\020<\022\030\n\024ActivityTimeCardType\020=\022\024\n\020",
+      "ActivityRateType\020>\022\024\n\020ActivityDateType\020?" +
+      "\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024ActivityDa" +
+      "teSaleType\020A\022\024\n\020ActivityRankType\020B\022\030\n\024Ac" +
+      "tivityExchangeType\020C\022\031\n\025ActivityTimeCoun" +
+      "tType\020D\022\025\n\021ActivityDailyType\020E\022\020\n\014Questi" +
+      "onList\020PB\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
