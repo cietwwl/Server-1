@@ -99,7 +99,7 @@ public class MainHandler {
 				case LOW_VIP:
 					throw new Exception("VIP 等级不足");
 				case NOT_ENOUGH_GOLD:
-					throw new Exception("金币不足");
+					throw new Exception("砖石不足");
 				default:
 					throw new Exception("系统繁忙");
 				}
