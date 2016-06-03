@@ -91,7 +91,7 @@ public class GamePlayerOpHelper {
 		final AtomicInteger taskfinishCount = new AtomicInteger(0);
 		for (final Player player : playerList) {
 			if(player.isRobot()){
-				return;
+				continue;
 			}
 			executorService.submit(new Runnable() {
 				
@@ -115,14 +115,14 @@ public class GamePlayerOpHelper {
 			
 		}		
 		
-		while(taskfinishCount.get() < taskNum){
-			try {
-				GameLog.info(LogModule.COMMON.getName(), task.getName(), "GamePlayerOpHelper[doSingleTask] 用户数据操作进行中。。。task:"+task.getName()+" finishCount:"+taskfinishCount+" total:"+taskNum, null);
-				Thread.sleep(1000L);
-			} catch (InterruptedException e) {
-				//donothing
-			}
-		}
+//		while(taskfinishCount.get() < taskNum){
+//			try {
+//				GameLog.info(LogModule.COMMON.getName(), task.getName(), "GamePlayerOpHelper[doSingleTask] 用户数据操作进行中。。。task:"+task.getName()+" finishCount:"+taskfinishCount+" total:"+taskNum, null);
+//				Thread.sleep(1000L);
+//			} catch (InterruptedException e) {
+//				//donothing
+//			}
+//		}
 		String timeCost = " time cost in ms:"+(System.currentTimeMillis()-start);
 		GameLog.info(LogModule.COMMON.getName(), task.getName(), "GamePlayerOpHelper[doSingleTask] 用户数据操作完成。。。task:"+task.getName()+" finishCount:"+taskfinishCount+" total:"+taskNum+ timeCost, null);
 		
