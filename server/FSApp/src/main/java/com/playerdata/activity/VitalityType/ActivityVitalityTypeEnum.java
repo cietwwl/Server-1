@@ -2,7 +2,7 @@ package com.playerdata.activity.VitalityType;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum VitalityTypeEnum{	// implements TypeIdentification
+public enum ActivityVitalityTypeEnum{	// implements TypeIdentification
 	Vitality("801"),
 	GoldSpendingKingAttive("80101"),//消费xx钻石
 	GivePowerKingAttive("80102"),//赠送体力x次
@@ -26,7 +26,7 @@ public enum VitalityTypeEnum{	// implements TypeIdentification
 	
 	
 	private String cfgId;
-	private VitalityTypeEnum(String cfgId){
+	private ActivityVitalityTypeEnum(String cfgId){
 		this.cfgId = cfgId;
 	} 
 	
@@ -35,9 +35,9 @@ public enum VitalityTypeEnum{	// implements TypeIdentification
 	}
 	
 	
-	public static VitalityTypeEnum getById(String cfgId){
-		VitalityTypeEnum target = null;
-		for (VitalityTypeEnum enumTmp : values()) {
+	public static ActivityVitalityTypeEnum getById(String cfgId){
+		ActivityVitalityTypeEnum target = null;
+		for (ActivityVitalityTypeEnum enumTmp : values()) {
 			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
 				target = enumTmp;
 				break;

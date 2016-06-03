@@ -7,7 +7,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityItem;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 
 
@@ -49,7 +49,7 @@ public class ActivityVitalityTypeMgr {
 			return;
 		}
 
-		ActivityVitalityItem targetItem = dataHolder.getItem(player
+		ActivityVitalityTypeItem targetItem = dataHolder.getItem(player
 				.getUserId());
 		if (targetItem == null) {
 			targetItem = ActivityVitalityCfgDAO.getInstance().newItem(player);

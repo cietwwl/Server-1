@@ -96,10 +96,7 @@ public final class ActivityDailyCountTypeCfgDAO extends CfgCsvDao<ActivityDailyC
 			subitem.setTaken(false);
 			subitem.setGiftId(activityDailyCountTypeSubCfg.getGiftId());
 			subItemList.add(subitem);
-		}
-		
-		
-		
+		}		
 		return subItemList;
 	}
 	

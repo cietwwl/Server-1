@@ -1,6 +1,6 @@
 package com.playerdata.activity.VitalityType.cfg;
 
-import com.playerdata.activity.VitalityType.VitalityTypeEnum;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 
 
 public class ActivityVitalitySubCfg {
@@ -11,7 +11,7 @@ public class ActivityVitalitySubCfg {
 	//计数
 	private int count;
 	
-	private VitalityTypeEnum type;
+	private ActivityVitalityTypeEnum type;
 	//计数奖励
 	private String giftId;	
 
@@ -54,11 +54,11 @@ public class ActivityVitalitySubCfg {
 		return id;
 	}
 
-	public VitalityTypeEnum getType() {
+	public ActivityVitalityTypeEnum getType() {
 		return type;
 	}
 
-	public void setType(VitalityTypeEnum type) {
+	public void setType(ActivityVitalityTypeEnum type) {
 		this.type = type;
 	}
 

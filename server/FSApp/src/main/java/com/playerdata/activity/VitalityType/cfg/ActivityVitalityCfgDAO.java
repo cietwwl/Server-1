@@ -1,14 +1,21 @@
 package com.playerdata.activity.VitalityType.cfg;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.playerdata.Player;
-import com.playerdata.activity.VitalityType.VitalityTypeEnum;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityItem;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -53,10 +60,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	 * @param subdaysNum  无数据记录的玩家根据第几天开始参与活跃之王来生成数据
 	 * @return
 	 */
-	public ActivityVitalityItem newItem(Player player){
-		ActivityVitalityCfg cfgById = getConfig(VitalityTypeEnum.Vitality.getCfgId());
-		if(cfgById!=null){			
-			ActivityVitalityItem item = new ActivityVitalityItem();			
+	public ActivityVitalityTypeItem newItem(Player player){
+		ActivityVitalityCfg cfgById = getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
+		if(cfgById!=null){	
+			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();			
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
@@ -68,6 +75,25 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}		
 	}
 	
-
-
+	public List<ActivityVitalityTypeSubItem> newItemList() {
+		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
+		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();	
+		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
+			
+			
+			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
+			subitem.setCfgId(activityVitalitySubCfg.getId());
+			subitem.setCount(0);
+			subitem.setTaken(false);
+			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
+			subItemList.add(subitem);
+		}		
+		return subItemList;
+	}
+	
+	private int distanceDay(){
+		int day = 0;
+		
+		return day;
+	}
 }

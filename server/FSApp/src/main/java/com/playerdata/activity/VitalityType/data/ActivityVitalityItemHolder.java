@@ -27,25 +27,25 @@ public class ActivityVitalityItemHolder{
 	/*
 	 * 获取用户已经拥有的时装
 	 */
-	public List<ActivityVitalityItem> getItemList(String userId)	
+	public List<ActivityVitalityTypeItem> getItemList(String userId)	
 	{
 		
-		List<ActivityVitalityItem> itemList = new ArrayList<ActivityVitalityItem>();
-		Enumeration<ActivityVitalityItem> mapEnum = getItemStore(userId).getEnum();
+		List<ActivityVitalityTypeItem> itemList = new ArrayList<ActivityVitalityTypeItem>();
+		Enumeration<ActivityVitalityTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityVitalityItem item = (ActivityVitalityItem) mapEnum.nextElement();			
+			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem) mapEnum.nextElement();			
 			itemList.add(item);
 		}
 		
 		return itemList;
 	}
 	
-	public void updateItem(Player player, ActivityVitalityItem item){
+	public void updateItem(Player player, ActivityVitalityTypeItem item){
 		getItemStore(player.getUserId()).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityVitalityItem getItem(String userId){
+	public ActivityVitalityTypeItem getItem(String userId){
 		return getItemStore(userId).getItem(userId);
 	}
 	
@@ -58,7 +58,7 @@ public class ActivityVitalityItemHolder{
 //		return success;
 //	}
 	
-	public boolean addItem(Player player, ActivityVitalityItem item){
+	public boolean addItem(Player player, ActivityVitalityTypeItem item){
 	
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
 		if(addSuccess){
@@ -67,7 +67,7 @@ public class ActivityVitalityItemHolder{
 		return addSuccess;
 	}
 	
-	public boolean addItemList(Player player, List<ActivityVitalityItem> itemList){
+	public boolean addItemList(Player player, List<ActivityVitalityTypeItem> itemList){
 		try {
 			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
 			if(addSuccess){
@@ -89,14 +89,14 @@ public class ActivityVitalityItemHolder{
 //	}
 //	
 	public void synAllData(Player player){
-		List<ActivityVitalityItem> itemList = getItemList(player.getUserId());			
+		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
-	private MapItemStore<ActivityVitalityItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityVitalityItem> cache = MapItemStoreFactory.getActivityVitalityItemCache();
-		return cache.getMapItemStore(userId, ActivityVitalityItem.class);
+	private MapItemStore<ActivityVitalityTypeItem> getItemStore(String userId) {
+		MapItemStoreCache<ActivityVitalityTypeItem> cache = MapItemStoreFactory.getActivityVitalityItemCache();
+		return cache.getMapItemStore(userId, ActivityVitalityTypeItem.class);
 	}
 	
 }

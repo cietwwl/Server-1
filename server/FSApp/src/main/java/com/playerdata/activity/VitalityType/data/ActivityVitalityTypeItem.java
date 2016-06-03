@@ -19,7 +19,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_vitalitytype_item")
-public class ActivityVitalityItem implements  IMapItem {
+public class ActivityVitalityTypeItem implements  IMapItem {
 
 	@Id
 	private String id;

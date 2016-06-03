@@ -52,7 +52,7 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	public void reset(ActivityDailyCountTypeCfg cfg){
 		closed = false;
 		version = cfg.getVersion();
-		setSubItemList(ActivityDailyCountTypeCfgDAO.getInstance().newItemList(cfg));
+		setSubItemList(ActivityDailyCountTypeCfgDAO.getInstance().newItemList());
 		lastTime = System.currentTimeMillis();
 	}
 
