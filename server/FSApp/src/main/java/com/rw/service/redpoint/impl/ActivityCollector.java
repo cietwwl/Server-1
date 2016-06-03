@@ -34,6 +34,13 @@ import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
+import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
@@ -155,7 +162,6 @@ public class ActivityCollector implements RedPointCollector{
 		//------------------------------
 //		ArrayList<String> activityVitalityTypeList = new ArrayList<String>();
 		ActivityVitalityItemHolder vitalityDataHolder = ActivityVitalityItemHolder.getInstance();
-		List<ActivityVitalityCfg> vitalityAllCfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		List<ActivityVitalityTypeItem> vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
 
 		for (ActivityVitalityTypeItem activityVitalityTypeItem : vitalityItemList) {// 每种活动
@@ -196,8 +202,30 @@ public class ActivityCollector implements RedPointCollector{
 		//------------------------------
 //		ArrayList<String> activityExchangeTypeList = new ArrayList<String>();
 		// 检查可召唤佣兵
+		ActivityExchangeTypeItemHolder exchangeDataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		List<ActivityExchangeTypeCfg> exchangeAllCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityExchangeTypeCfg cfg:exchangeAllCfgList){
+			if(!ActivityExchangeTypeMgr.getInstance().isOpen(cfg)){
+				continue;
+			}
+			ActivityExChangeTypeEnum  activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getId());
+			if (activityExChangeTypeEnum == null) {
+				continue;
+			}
+			ActivityExchangeTypeItem targetItem = exchangeDataHolder.getItem(player.getUserId(), activityExChangeTypeEnum);
+			if(targetItem==null){
+				continue;
+			}
+			List<ActivityExchangeTypeSubItem> exchangeSubitemlist= targetItem.getSubItemList();
+			for(ActivityExchangeTypeSubItem subitem:exchangeSubitemlist){
+				if(ActivityExchangeTypeMgr.getInstance().isCanTaken(player, subitem,false)){
+					activityList.add(cfg.getId());
+					break;
+				}				
+			}
+		}
 		
-
+		
 		if (!activityList.isEmpty()) {
 			map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);
 		}		

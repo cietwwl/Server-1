@@ -177,7 +177,7 @@ public class ActivityExchangeTypeMgr {
 				return result;
 			}
 			
-			if (isCanTaken(player,targetItem)) {
+			if (isCanTaken(player,targetItem,true)) {
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
@@ -191,7 +191,14 @@ public class ActivityExchangeTypeMgr {
 		return result;
 	}
 	
-	private boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem) {
+	/**
+	 * 
+	 * @param player
+	 * @param targetItem
+	 * @param isspend 判断并消耗用true；仅判断是否可以触发红点用false
+	 * @return
+	 */
+	public boolean isCanTaken(Player player,ActivityExchangeTypeSubItem targetItem,boolean isspend) {
 		ActivityExchangeTypeSubCfg activityExchangeTypeSubCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if(activityExchangeTypeSubCfg== null){
 			GameLog.error(LogModule.ComActivityExchange, null, "通用活动找不到奖励配置文件", null);
@@ -214,7 +221,14 @@ public class ActivityExchangeTypeMgr {
 					return false;
 				}		
 			}
-		}		
+		}
+		if(isspend){
+			spendItem(exchangeNeedslist,player);
+		}	
+		return true;
+	}
+	
+	private void spendItem(Map<String, String> exchangeNeedslist,Player player){
 		for(Map.Entry<String, String> entry:exchangeNeedslist.entrySet()){
 			int id = Integer.parseInt(entry.getKey());
 			if(id < eSpecialItemId.eSpecial_End.getValue()){
@@ -225,10 +239,8 @@ public class ActivityExchangeTypeMgr {
 				player.getItemBagMgr().useItemByCfgId(id, Integer.parseInt(entry.getValue()));
 			}
 		}
-		
-		return true;
 	}
-
+	
 	private void takeGift(Player player, ActivityExchangeTypeSubItem targetItem) {
 		ActivityExchangeTypeSubCfg subCfg = ActivityExchangeTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if(subCfg == null){
