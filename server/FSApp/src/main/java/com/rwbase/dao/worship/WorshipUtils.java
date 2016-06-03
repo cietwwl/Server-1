@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.dao.ranking.RankingUtils;
@@ -114,6 +116,7 @@ public class WorshipUtils {
 		worshipItem.setSex(player.getSex());
 		worshipItem.setCareerLevel(player.getStarLevel());
 		worshipItem.setImageId(player.getHeadImage());
+		worshipItem.setHeadFrame(player.getHeadFrame());
 		worshipItem.setFightingAll(player.getHeroMgr().getFightingAll());
 		worshipItem.setLevel(player.getLevel());
 		worshipItem.setCanReceive(true);
@@ -157,6 +160,11 @@ public class WorshipUtils {
 		worshipInfo.setLevel(worshipItem.getLevel());
 		worshipInfo.setCanReceive(worshipItem.isCanReceive());
 		worshipInfo.setModelId(worshipItem.getModelId());
+		
+		String headFrame = worshipItem.getHeadFrame();
+		if (StringUtils.isNotBlank(headFrame)) {//兼容旧数据
+			worshipInfo.setHeadFrame(headFrame);
+		}
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(worshipItem.getWorshipTime());
