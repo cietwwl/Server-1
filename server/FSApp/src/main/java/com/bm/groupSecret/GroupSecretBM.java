@@ -1,6 +1,22 @@
 package com.bm.groupSecret;
 
+import com.playerdata.Player;
+import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
+import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+
 public final class GroupSecretBM {
+
+	/**
+	 * 删除敌人重置信息
+	 * 
+	 * @param player
+	 */
+	public static void clearMatchEnemyInfo(Player player) {
+		UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
+		GroupSecretTeamDataMgr.getMgr().clearAllAtkHeroLeftInfo(player);
+		GroupSecretMatchEnemyDataMgr.getMgr().clearMatchEnemyData(player);
+	}
 	// public static GroupSecretBM getInstance() {
 	// return null;
 	// }

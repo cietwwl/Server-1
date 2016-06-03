@@ -125,6 +125,25 @@ public class GroupSecretTeamDataMgr {
 		synData(player);
 	}
 
+	/**
+	 * 清除所有的攻击英雄
+	 * 
+	 * @param player
+	 */
+	public void clearAllAtkHeroLeftInfo(Player player) {
+		String userId = player.getUserId();
+		GroupSecretTeamData groupSecretTeamData = get(userId);
+		if (groupSecretTeamData == null) {
+			return;
+		}
+
+		groupSecretTeamData.clearAllAtkHeroLeftInfo();
+		update(userId);
+
+		// 同步数据
+		synData(player);
+	}
+
 	private eSynType synType = eSynType.SECRETAREA_TEAM_INFO;
 
 	/**

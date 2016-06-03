@@ -11,7 +11,9 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO;
 import com.rwproto.GroupSecretMatchProto.HeroLeftInfo;
 
 /*
@@ -188,10 +190,27 @@ public class GroupSecretTeamData {
 			int leftLife = leftInfo.getLeftLife();
 			if (heroLeftInfoSynData == null) {
 				AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
-				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy()));
+				int maxLife = totalData.getLife();
+				if (leftLife <= 0 && heroId.equals(userId)) {// 生命值低于0，是主角
+					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModelId());
+					leftLife = maxLife * recoveryRation / AttributeConst.DIVISION;
+				}
+				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), maxLife, totalData.getEnergy()));
 			} else {
-				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), heroLeftInfoSynData.getMaxLife(), heroLeftInfoSynData.getMaxEnergy()));
+				int maxLife = heroLeftInfoSynData.getMaxLife();
+				if (leftLife <= 0 && heroId.equals(userId)) {// 生命值低于0，是主角
+					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModelId());
+					leftLife = maxLife * recoveryRation / AttributeConst.DIVISION;
+				}
+				useHeroMap.put(heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), maxLife, heroLeftInfoSynData.getMaxEnergy()));
 			}
 		}
+	}
+
+	/**
+	 * 清除所有的攻击阵容英雄的血量
+	 */
+	public void clearAllAtkHeroLeftInfo() {
+		useHeroMap.clear();
 	}
 }

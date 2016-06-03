@@ -9,13 +9,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.groupSecret.GroupSecretBM;
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
-import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
@@ -202,16 +202,14 @@ public class GroupSecretHelper {
 		UserCreateGroupSecretData userCreateGroupSecretData = UserCreateGroupSecretDataMgr.getMgr().get(matchUserId);
 		if (userCreateGroupSecretData == null) {
 			GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，没有找到对应的UserCreateGroupSecretData，做删除处理", matchUserId, secretId));
-			UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
-			mgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 			return null;
 		}
 
 		GroupSecretData secretData = userCreateGroupSecretData.getGroupSecretData(secretId);
 		if (secretData == null) {
 			GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，没有找到对应的GroupSecretData，做删除处理", matchUserId, secretId));
-			UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
-			mgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 			return null;
 		}
 
@@ -242,8 +240,8 @@ public class GroupSecretHelper {
 				long passTimeMillis = now - atkTime;// 已经流过的时间
 				if (passTimeMillis >= protectTimeMillis) {// 超出了时间
 					GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，在规定的攻击时间倒计时中没有打败对手，做删除处理", matchUserId, secretId));
-					UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
-					mgr.clearMatchEnemyData(player);
+					// mgr.clearMatchEnemyData(player);
+					GroupSecretBM.clearMatchEnemyInfo(player);
 					return null;
 				}
 			}

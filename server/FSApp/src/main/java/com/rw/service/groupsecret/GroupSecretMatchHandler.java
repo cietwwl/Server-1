@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
+import com.bm.groupSecret.GroupSecretBM;
 import com.bm.rank.RankType;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankComparable;
@@ -135,9 +136,8 @@ public class GroupSecretMatchHandler {
 		};
 
 		GroupSecretMatchHelper.updateGroupSecretState(GroupSecretHelper.generateCacheSecretId(groupSecretMatchEnemyData.getMatchUserId(), groupSecretMatchEnemyData.getId()), call);
-		userSecretBaseDataMgr.updateMatchSecretId(player, null);// 更新匹配的数据
-		// 更新秘境的敌人的信息
-		mgr.clearMatchEnemyData(player);
+		// 清除敌人信息
+		GroupSecretBM.clearMatchEnemyInfo(player);
 
 		int matchTimes = userGroupSecretBaseData.getMatchTimes();
 		int matchPrice = uniqueCfg.getMatchPrice(matchTimes);
@@ -179,6 +179,9 @@ public class GroupSecretMatchHandler {
 
 		// 获取可以掠夺的资源数量
 		mgr.updateMatchEnemyData(player, groupSecretData, cfg);
+
+		// 设置角色匹配到的秘境数据
+		userSecretBaseDataMgr.updateMatchSecretId(player, matchId);
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
@@ -258,10 +261,7 @@ public class GroupSecretMatchHandler {
 		GroupSecretData groupSecretData = useCreateData.getGroupSecretData(secretId);
 		if (groupSecretData == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("匹配到的记录Id是[%s],查不着相应的秘境数据", id));
-			// 第一步删除匹配到的敌人信息
-			userSecretBaseDataMgr.updateMatchSecretId(player, id);
-			// 第二步删除敌人信息
-			enemyDataMgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "秘境状态错误");
 			return rsp.build().toByteString();
@@ -271,20 +271,17 @@ public class GroupSecretMatchHandler {
 		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
 		if (cfg == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("匹配到的记录Id是[%s],秘境CfgId是[%s],找不到配置表", id, cfgId));
-			// 第一步删除匹配到的敌人信息
-			userSecretBaseDataMgr.updateMatchSecretId(player, id);
-			// 第二步删除敌人信息
-			enemyDataMgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "秘境状态错误");
 			return rsp.build().toByteString();
 		}
 
-		// // 检查需要的钥石数量够不够
-		// if (cfg.getRobNeedKeyNum() > userGroupSecretBaseData.getKeyCount()) {
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "钥石数量不足");
-		// return rsp.build().toByteString();
-		// }
+		// 检查需要的钥石数量够不够
+		if (cfg.getRobNeedKeyNum() > userGroupSecretBaseData.getKeyCount()) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "钥石数量不足");
+			return rsp.build().toByteString();
+		}
 
 		// 免战超时
 		long now = System.currentTimeMillis();
@@ -292,20 +289,14 @@ public class GroupSecretMatchHandler {
 		if (atkTime <= 0) {
 			long matchTime = matchEnemyData.getMatchTime();
 			if (now - matchTime >= TimeUnit.MINUTES.toMillis(uniqueCfg.getMatchNonBattleTime())) {
-				// 第一步删除匹配到的敌人信息
-				userSecretBaseDataMgr.updateMatchSecretId(player, id);
-				// 第二步删除敌人信息
-				enemyDataMgr.clearMatchEnemyData(player);
+				GroupSecretBM.clearMatchEnemyInfo(player);
 
 				GroupSecretHelper.fillMatchRspInfo(rsp, false, "秘境状态错误");
 				return rsp.build().toByteString();
 			}
 		} else {
 			if (now - atkTime >= TimeUnit.MINUTES.toMillis(cfg.getProtectTime())) {
-				// 第一步删除匹配到的敌人信息
-				userSecretBaseDataMgr.updateMatchSecretId(player, id);
-				// 第二步删除敌人信息
-				enemyDataMgr.clearMatchEnemyData(player);
+				GroupSecretBM.clearMatchEnemyInfo(player);
 
 				GroupSecretHelper.fillMatchRspInfo(rsp, false, "未在可攻击时间内完成掠夺");
 				return rsp.build().toByteString();
@@ -318,10 +309,7 @@ public class GroupSecretMatchHandler {
 		Ranking<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> ranking = RankingFactory.getRanking(RankType.GROUP_SECRET_MATCH_RANK);
 		RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> rankingEntry = ranking.getRankingEntry(id);
 		if (rankingEntry == null) {
-			// 第一步删除匹配到的敌人信息
-			userSecretBaseDataMgr.updateMatchSecretId(player, id);
-			// 第二步删除敌人信息
-			enemyDataMgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 			// 第三步返回钱
 			player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), matchPrice);
 
@@ -332,10 +320,7 @@ public class GroupSecretMatchHandler {
 
 		// 获取当前秘境的数据
 		if (!rankingEntry.getExtendedAttribute().setFightingState(userId, now)) {
-			// 第一步删除匹配到的敌人信息
-			userSecretBaseDataMgr.updateMatchSecretId(player, id);
-			// 第二步删除敌人信息
-			enemyDataMgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 			// 第三步返回钱
 			player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), matchPrice);
 
@@ -450,7 +435,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 更新秘境的攻打时间
-		enemyDataMgr.updateMatchEnemyData(player, groupSecretData, cfg);
+		enemyDataMgr.updateMatchState2Atk(player, now);
 
 		rsp.setIsSuccess(true);
 		rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
@@ -517,8 +502,6 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
-		UserGroupSecretBaseDataMgr userSecretBaseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
-
 		int secretId = matchEnemyData.getId();
 		String id = GroupSecretHelper.generateCacheSecretId(matchUserId, secretId);
 		// 检查是不是自己主动搁置到战斗超时
@@ -532,10 +515,7 @@ public class GroupSecretMatchHandler {
 		GroupSecretData groupSecretData = useCreateData.getGroupSecretData(secretId);
 		if (groupSecretData == null) {
 			GameLog.error("挑战秘境敌人结束", userId, String.format("匹配到的记录Id是[%s],查不着相应的秘境数据", id));
-			// 第一步删除匹配到的敌人信息
-			userSecretBaseDataMgr.updateMatchSecretId(player, id);
-			// 第二步删除敌人信息
-			enemyDataMgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "秘境状态错误");
 			return rsp.build().toByteString();
@@ -545,10 +525,7 @@ public class GroupSecretMatchHandler {
 		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
 		if (cfg == null) {
 			GameLog.error("挑战秘境敌人结束", userId, String.format("匹配到的记录Id是[%s],秘境CfgId是[%s],找不到配置表", id, cfgId));
-			// 第一步删除匹配到的敌人信息
-			userSecretBaseDataMgr.updateMatchSecretId(player, id);
-			// 第二步删除敌人信息
-			enemyDataMgr.clearMatchEnemyData(player);
+			GroupSecretBM.clearMatchEnemyInfo(player);
 
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "秘境状态错误");
 			return rsp.build().toByteString();
@@ -560,10 +537,7 @@ public class GroupSecretMatchHandler {
 		if (atkTime <= 0) {
 			long matchTime = matchEnemyData.getMatchTime();
 			if (now - matchTime >= TimeUnit.MINUTES.toMillis(uniqueCfg.getMatchNonBattleTime())) {
-				// 第一步删除匹配到的敌人信息
-				userSecretBaseDataMgr.updateMatchSecretId(player, id);
-				// 第二步删除敌人信息
-				enemyDataMgr.clearMatchEnemyData(player);
+				GroupSecretBM.clearMatchEnemyInfo(player);
 
 				GroupSecretHelper.fillMatchRspInfo(rsp, false, "秘境状态错误");
 				return rsp.build().toByteString();
@@ -662,10 +636,7 @@ public class GroupSecretMatchHandler {
 			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), cfg.getRobGold());
 		}
 
-		// 移除匹配的敌人信息
-		UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
-		// 清除敌人数据
-		GroupSecretMatchEnemyDataMgr.getMgr().clearMatchEnemyData(player);
+		GroupSecretBM.clearMatchEnemyInfo(player);
 
 		rsp.setIsSuccess(true);
 		if (!hasGroupAdd) {

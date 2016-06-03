@@ -15,7 +15,6 @@ import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretMatchEnemyDataHolder;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
-import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
@@ -181,10 +180,6 @@ public class GroupSecretMatchEnemyDataMgr {
 				enemyData.updateHeroLeftInfo(index, heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), totalData.getLife(), totalData.getEnergy()));
 			} else {
 				int maxLife = heroLeftInfoSynData.getMaxLife();
-				if (leftLife <= 0 && heroId.equals(userId)) {// 生命值低于0，是主角
-					int recoveryRation = GroupSecretMainRoleRecoveryCfgDAO.getCfgDAO().getRecoveryRatio(hero.getModelId());
-					leftLife = maxLife * recoveryRation / AttributeConst.DIVISION;
-				}
 				enemyData.updateHeroLeftInfo(index, heroId, new HeroLeftInfoSynData(leftLife, leftInfo.getLeftEnergy(), maxLife, heroLeftInfoSynData.getMaxEnergy()));
 			}
 		}

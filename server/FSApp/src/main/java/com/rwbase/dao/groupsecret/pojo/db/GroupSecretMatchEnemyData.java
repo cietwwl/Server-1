@@ -15,6 +15,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.playerdata.Hero;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
@@ -284,10 +285,7 @@ public class GroupSecretMatchEnemyData {
 	 */
 	@JsonIgnore
 	public boolean updateHeroLeftInfo(int index, String heroId, HeroLeftInfoSynData heroLeftInfo) {
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamAttrInfoMap(index);
-		if (teamAttrInfoMap == null) {
-			return true;
-		}
+		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamMap(index);
 
 		if (!teamAttrInfoMap.containsKey(heroId)) {// 是否已经包含了英雄
 			return false;
@@ -353,19 +351,7 @@ public class GroupSecretMatchEnemyData {
 	 * @return
 	 */
 	public boolean checkDefnedIndexHasAlive(int index) {
-		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = null;
-		if (index == GroupSecretIndex.LEFT_VALUE) {
-			teamAttrInfoMap = teamTwoMap;
-		} else if (index == GroupSecretIndex.MAIN_VALUE) {
-			teamAttrInfoMap = teamOneMap;
-		} else if (index == GroupSecretIndex.RIGHT_VALUE) {
-			teamAttrInfoMap = teamThreeMap;
-		}
-
-		if (teamAttrInfoMap == null || teamAttrInfoMap.isEmpty()) {
-			return false;
-		}
-
+		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = getTeamMap(index);
 		for (Entry<String, HeroLeftInfoSynData> e : teamAttrInfoMap.entrySet()) {
 			HeroLeftInfoSynData value = e.getValue();
 			if (value == null || value.getLife() > 0) {
@@ -374,6 +360,16 @@ public class GroupSecretMatchEnemyData {
 		}
 
 		return false;
+	}
+
+	private Map<String, HeroLeftInfoSynData> getTeamMap(int index) {
+		if (index == GroupSecretIndex.LEFT_VALUE) {
+			return teamTwoMap;
+		} else if (index == GroupSecretIndex.MAIN_VALUE) {
+			return teamOneMap;
+		} else {
+			return teamThreeMap;
+		}
 	}
 
 	/**
