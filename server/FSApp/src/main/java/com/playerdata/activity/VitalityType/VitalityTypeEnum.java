@@ -1,8 +1,8 @@
-package com.playerdata.activity.kingActiveType;
+package com.playerdata.activity.VitalityType;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum kingActiveTypeEnum{	// implements TypeIdentification
+public enum VitalityTypeEnum{	// implements TypeIdentification
 	GoldSpendingKingAttive("80101"),//消费xx钻石
 	GivePowerKingAttive("80102"),//赠送体力x次
 	TreasureLandKingAttive("80103"),//聚宝之地通关x次
@@ -25,7 +25,7 @@ public enum kingActiveTypeEnum{	// implements TypeIdentification
 	
 	
 	private String cfgId;
-	private kingActiveTypeEnum(String cfgId){
+	private VitalityTypeEnum(String cfgId){
 		this.cfgId = cfgId;
 	} 
 	
@@ -34,9 +34,9 @@ public enum kingActiveTypeEnum{	// implements TypeIdentification
 	}
 	
 	
-	public static kingActiveTypeEnum getById(String cfgId){
-		kingActiveTypeEnum target = null;
-		for (kingActiveTypeEnum enumTmp : values()) {
+	public static VitalityTypeEnum getById(String cfgId){
+		VitalityTypeEnum target = null;
+		for (VitalityTypeEnum enumTmp : values()) {
 			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
 				target = enumTmp;
 				break;

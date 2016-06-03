@@ -57,6 +57,7 @@ public final class ActivityDailyCountTypeCfgDAO extends CfgCsvDao<ActivityDailyC
 		ActivityDailyCountTypeCfg cfg = getCfgById(id);
 		return cfg;
 	}
+	
 	/**
 	 * 
 	 * @param player
@@ -67,8 +68,7 @@ public final class ActivityDailyCountTypeCfgDAO extends CfgCsvDao<ActivityDailyC
 	public ActivityDailyCountTypeItem newItem(Player player){
 		ActivityDailyCountTypeCfg cfgById = getConfig(ActivityDailyCountTypeEnum.Daily.getCfgId());
 		if(cfgById!=null){			
-			ActivityDailyCountTypeItem item = new ActivityDailyCountTypeItem();
-			
+			ActivityDailyCountTypeItem item = new ActivityDailyCountTypeItem();			
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
 			item.setCfgid(cfgById.getId());
