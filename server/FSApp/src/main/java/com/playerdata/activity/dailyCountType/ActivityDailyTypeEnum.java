@@ -2,7 +2,7 @@ package com.playerdata.activity.dailyCountType;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum ActivityDailyCountTypeEnum{	// implements TypeIdentification
+public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 //	Login("11"),
 //	GoldSpending("12"),
 //	CopyWin("13"),
@@ -26,7 +26,7 @@ public enum ActivityDailyCountTypeEnum{	// implements TypeIdentification
 	
 	
 	private String cfgId;
-	private ActivityDailyCountTypeEnum(String cfgId){
+	private ActivityDailyTypeEnum(String cfgId){
 		this.cfgId = cfgId;
 	} 
 	
@@ -35,9 +35,9 @@ public enum ActivityDailyCountTypeEnum{	// implements TypeIdentification
 	}
 	
 	
-	public static ActivityDailyCountTypeEnum getById(String cfgId){
-		ActivityDailyCountTypeEnum target = null;
-		for (ActivityDailyCountTypeEnum enumTmp : values()) {
+	public static ActivityDailyTypeEnum getById(String cfgId){
+		ActivityDailyTypeEnum target = null;
+		for (ActivityDailyTypeEnum enumTmp : values()) {
 			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
 				target = enumTmp;
 				break;

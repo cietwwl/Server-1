@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.bm.groupSecret.data.group.GroupSecretDefLog;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
@@ -68,7 +68,7 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
 	
-	private static MapItemStoreCache<ActivityDailyCountTypeItem> activityDailyCountTypeItemCache;
+	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
 	
@@ -144,7 +144,7 @@ public class MapItemStoreFactory {
 		
 		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
 		
-		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyCountTypeItem>(ActivityDailyCountTypeItem.class, "userId", heroCapacity));
+		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyTypeItem>(ActivityDailyTypeItem.class, "userId", heroCapacity));
 		
 //		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
 		
@@ -277,7 +277,7 @@ public class MapItemStoreFactory {
 		return activityCountTypeItemCache;
 	}
 	
-	public static MapItemStoreCache<ActivityDailyCountTypeItem> getActivityDailyCountTypeItemCache() {
+	public static MapItemStoreCache<ActivityDailyTypeItem> getActivityDailyCountTypeItemCache() {
 		return activityDailyCountTypeItemCache;
 	}
 

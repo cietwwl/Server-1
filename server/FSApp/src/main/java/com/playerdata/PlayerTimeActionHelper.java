@@ -5,7 +5,7 @@ import com.common.TimeAction;
 import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
@@ -84,7 +84,7 @@ public class PlayerTimeActionHelper {
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;

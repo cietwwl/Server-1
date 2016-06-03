@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -19,7 +19,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_dailycounttype_item")
-public class ActivityDailyCountTypeItem implements  IMapItem {
+public class ActivityDailyTypeItem implements  IMapItem {
 
 	@Id
 	private String id;
@@ -43,16 +43,16 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	private long lastTime;
 	
 	@CombineSave
-	private List<ActivityDailyCountTypeSubItem> subItemList = new ArrayList<ActivityDailyCountTypeSubItem>();
+	private List<ActivityDailyTypeSubItem> subItemList = new ArrayList<ActivityDailyTypeSubItem>();
 	
 	
 	@CombineSave
 	private String version ;
 	
-	public void reset(ActivityDailyCountTypeCfg cfg){
+	public void reset(ActivityDailyTypeCfg cfg){
 		closed = false;
 		version = cfg.getVersion();
-		setSubItemList(ActivityDailyCountTypeCfgDAO.getInstance().newItemList(cfg));
+		setSubItemList(ActivityDailyTypeCfgDAO.getInstance().newItemList(cfg));
 		lastTime = System.currentTimeMillis();
 	}
 
@@ -84,11 +84,11 @@ public class ActivityDailyCountTypeItem implements  IMapItem {
 	}
 
 
-	public List<ActivityDailyCountTypeSubItem> getSubItemList() {
+	public List<ActivityDailyTypeSubItem> getSubItemList() {
 		return subItemList;
 	}
 
-	public void setSubItemList(List<ActivityDailyCountTypeSubItem> subItemList) {
+	public void setSubItemList(List<ActivityDailyTypeSubItem> subItemList) {
 		this.subItemList = subItemList;
 	}
 

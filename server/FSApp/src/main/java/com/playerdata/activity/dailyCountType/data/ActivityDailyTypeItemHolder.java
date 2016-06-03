@@ -13,11 +13,11 @@ import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class ActivityDailyCountTypeItemHolder{
+public class ActivityDailyTypeItemHolder{
 	
-	private static ActivityDailyCountTypeItemHolder instance = new ActivityDailyCountTypeItemHolder();
+	private static ActivityDailyTypeItemHolder instance = new ActivityDailyTypeItemHolder();
 	
-	public static ActivityDailyCountTypeItemHolder getInstance(){
+	public static ActivityDailyTypeItemHolder getInstance(){
 		return instance;
 	}
 
@@ -27,25 +27,25 @@ public class ActivityDailyCountTypeItemHolder{
 	/*
 	 * 获取用户已经拥有的时装
 	 */
-	public List<ActivityDailyCountTypeItem> getItemList(String userId)	
+	public List<ActivityDailyTypeItem> getItemList(String userId)	
 	{
 		
-		List<ActivityDailyCountTypeItem> itemList = new ArrayList<ActivityDailyCountTypeItem>();
-		Enumeration<ActivityDailyCountTypeItem> mapEnum = getItemStore(userId).getEnum();
+		List<ActivityDailyTypeItem> itemList = new ArrayList<ActivityDailyTypeItem>();
+		Enumeration<ActivityDailyTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityDailyCountTypeItem item = (ActivityDailyCountTypeItem) mapEnum.nextElement();			
+			ActivityDailyTypeItem item = (ActivityDailyTypeItem) mapEnum.nextElement();			
 			itemList.add(item);
 		}
 		
 		return itemList;
 	}
 	
-	public void updateItem(Player player, ActivityDailyCountTypeItem item){
+	public void updateItem(Player player, ActivityDailyTypeItem item){
 		getItemStore(player.getUserId()).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityDailyCountTypeItem getItem(String userId){
+	public ActivityDailyTypeItem getItem(String userId){
 		return getItemStore(userId).getItem(userId);
 	}
 	
@@ -58,7 +58,7 @@ public class ActivityDailyCountTypeItemHolder{
 //		return success;
 //	}
 	
-	public boolean addItem(Player player, ActivityDailyCountTypeItem item){
+	public boolean addItem(Player player, ActivityDailyTypeItem item){
 	
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
 		if(addSuccess){
@@ -67,7 +67,7 @@ public class ActivityDailyCountTypeItemHolder{
 		return addSuccess;
 	}
 	
-	public boolean addItemList(Player player, List<ActivityDailyCountTypeItem> itemList){
+	public boolean addItemList(Player player, List<ActivityDailyTypeItem> itemList){
 		try {
 			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
 			if(addSuccess){
@@ -89,14 +89,14 @@ public class ActivityDailyCountTypeItemHolder{
 //	}
 //	
 	public void synAllData(Player player){
-		List<ActivityDailyCountTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
-	private MapItemStore<ActivityDailyCountTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityDailyCountTypeItem> cache = MapItemStoreFactory.getActivityDailyCountTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityDailyCountTypeItem.class);
+	private MapItemStore<ActivityDailyTypeItem> getItemStore(String userId) {
+		MapItemStoreCache<ActivityDailyTypeItem> cache = MapItemStoreFactory.getActivityDailyCountTypeItemCache();
+		return cache.getMapItemStore(userId, ActivityDailyTypeItem.class);
 	}
 	
 }

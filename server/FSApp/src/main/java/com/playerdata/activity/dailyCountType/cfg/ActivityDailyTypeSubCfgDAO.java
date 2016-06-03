@@ -15,25 +15,25 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @date 2016年1月16日 下午5:42:44
  * @Description 帮派的基础配置表Dao
  */
-public final class ActivityDailyCountTypeSubCfgDAO extends CfgCsvDao<ActivityDailyCountTypeSubCfg> {
+public final class ActivityDailyTypeSubCfgDAO extends CfgCsvDao<ActivityDailyTypeSubCfg> {
 
 
-	public static ActivityDailyCountTypeSubCfgDAO getInstance() {
-		return SpringContextUtil.getBean(ActivityDailyCountTypeSubCfgDAO.class);
+	public static ActivityDailyTypeSubCfgDAO getInstance() {
+		return SpringContextUtil.getBean(ActivityDailyTypeSubCfgDAO.class);
 	}
 
 	
 	@Override
-	public Map<String, ActivityDailyCountTypeSubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityDailyCountTypeSubCfg.csv", ActivityDailyCountTypeSubCfg.class);	
-		for (ActivityDailyCountTypeSubCfg cfgTmp : cfgCacheMap.values()) {
+	public Map<String, ActivityDailyTypeSubCfg> initJsonCfg() {
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityDailyCountTypeSubCfg.csv", ActivityDailyTypeSubCfg.class);	
+		for (ActivityDailyTypeSubCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
 		}
 		
 		return cfgCacheMap;
 	}
 	
-	private void parseTime(ActivityDailyCountTypeSubCfg cfgTmp){
+	private void parseTime(ActivityDailyTypeSubCfg cfgTmp){
 		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgTmp.getStartTimeStr());
 		cfgTmp.setStartTime(startTime);
 		
@@ -42,10 +42,10 @@ public final class ActivityDailyCountTypeSubCfgDAO extends CfgCsvDao<ActivityDai
 	}
 
 
-	public ActivityDailyCountTypeSubCfg getById(String subId){
-		ActivityDailyCountTypeSubCfg target = new ActivityDailyCountTypeSubCfg();
-		List<ActivityDailyCountTypeSubCfg> allCfg = getAllCfg();
-		for (ActivityDailyCountTypeSubCfg tmpItem : allCfg) {
+	public ActivityDailyTypeSubCfg getById(String subId){
+		ActivityDailyTypeSubCfg target = new ActivityDailyTypeSubCfg();
+		List<ActivityDailyTypeSubCfg> allCfg = getAllCfg();
+		for (ActivityDailyTypeSubCfg tmpItem : allCfg) {
 			if(StringUtils.equals(tmpItem.getId(), subId)){
 				target = tmpItem;
 			}

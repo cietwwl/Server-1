@@ -1,7 +1,7 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
 
-public class ActivityDailyCountTypeSubCfg {
+public class ActivityDailyTypeSubCfg {
 
 	private String id;
 	

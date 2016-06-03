@@ -3,16 +3,16 @@ package com.playerdata.activity.dailyCountType.service;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.rwproto.ActivityDailyTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityDailyTypeProto.ActivityCommonRspMsg;
 
-public class ActivityDailyCountTypeHandler {
+public class ActivityDailyTypeHandler {
 	
-	private static ActivityDailyCountTypeHandler instance = new ActivityDailyCountTypeHandler();
+	private static ActivityDailyTypeHandler instance = new ActivityDailyTypeHandler();
 	
-	public static ActivityDailyCountTypeHandler getInstance(){
+	public static ActivityDailyTypeHandler getInstance(){
 		return instance;
 	}
 
@@ -22,13 +22,13 @@ public class ActivityDailyCountTypeHandler {
 		String activityId = commonReq.getActivityId();
 		String subItemId =  commonReq.getSubItemId();
 	
-		ActivityDailyCountTypeEnum countType = ActivityDailyCountTypeEnum.getById(activityId);
+		ActivityDailyTypeEnum countType = ActivityDailyTypeEnum.getById(activityId);
 		
 		boolean success = false;
 		String tips = null;
 		
 		if(countType!=null){
-			ActivityComResult result = ActivityDailyCountTypeMgr.getInstance().takeGift(player, countType, subItemId);
+			ActivityComResult result = ActivityDailyTypeMgr.getInstance().takeGift(player, countType, subItemId);
 			success = result.isSuccess();
 			tips = result.getReason()+"";
 		}

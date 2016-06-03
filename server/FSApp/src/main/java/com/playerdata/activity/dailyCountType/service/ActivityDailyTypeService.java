@@ -10,13 +10,13 @@ import com.rwproto.ActivityDailyTypeProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 
-public class ActivityDailyCountTypeService implements FsService {
+public class ActivityDailyTypeService implements FsService {
 
 
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		
-		ActivityDailyCountTypeHandler handler = ActivityDailyCountTypeHandler.getInstance();
+		ActivityDailyTypeHandler handler = ActivityDailyTypeHandler.getInstance();
 		
 		ByteString byteString = null;
 		try {

@@ -6,7 +6,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityDailyCountTypeSubItem {
+public class ActivityDailyTypeSubItem {
 	
 	private String cfgId;
 	
