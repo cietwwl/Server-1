@@ -1,0 +1,100 @@
+package com.playerdata.activity.VitalityType.cfg;
+
+
+
+
+public class VitalityCfg {
+
+	private String id;
+	
+	private String title;
+	
+	private long startTime;
+
+	private long endTime;
+
+	private String startTimeStr;
+
+	private String endTimeStr;
+
+	// 活跃度能否领奖
+	private int isCanGetReward;
+	
+	
+	
+
+
+	private String version;
+
+	private int levelLimit;
+
+	public int getIsCanGetReward() {
+		return isCanGetReward;
+	}
+
+	public void setIsCanGetReward(int isCanGetReward) {
+		this.isCanGetReward = isCanGetReward;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public int getLevelLimit() {
+		return levelLimit;
+	}
+
+	public void setLevelLimit(int levelLimit) {
+		this.levelLimit = levelLimit;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public String getStartTimeStr() {
+		return startTimeStr;
+	}
+
+	public String getEndTimeStr() {
+		return endTimeStr;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	
+
+
+
+
+
+
+	
+	
+}

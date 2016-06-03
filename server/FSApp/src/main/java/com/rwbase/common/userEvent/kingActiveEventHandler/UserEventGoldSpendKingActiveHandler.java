@@ -6,10 +6,10 @@ import java.util.List;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.VitalityType.VitalityTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO;
-import com.playerdata.activity.kingActiveType.kingActiveTypeEnum;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
@@ -27,7 +27,7 @@ public class UserEventGoldSpendKingActiveHandler  implements IUserEventHandler{
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(kingActiveTypeEnum.GoldSpendingKingAttive.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(VitalityTypeEnum.GoldSpendingKingAttive.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
