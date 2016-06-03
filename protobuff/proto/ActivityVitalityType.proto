@@ -1,21 +1,24 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
-option java_outer_classname = "ActivityDailyTypeProto";
+option java_outer_classname = "ActivityVitalityTypeProto";
 
-package activityDailyType;
+package activityVitalityType;
 
 
 enum RequestType{
 
 //	ENTER = 1;//进入活动主页
 	TAKE_GIFT = 1;//领取奖励
+	OPEN_BOX = 2; //开宝箱
 
 }
 
 message ActivityCommonReqMsg{
+
 	required RequestType reqType = 1;//请求功能协议类型
 	optional string activityId = 2; //活动id
 	optional string subItemId = 3;  //子项id 对应这个活动的每一个奖励和条件
+	optional string boxId = 4;  //宝箱id,开启宝箱的时候要传这个id
 
 }
 
