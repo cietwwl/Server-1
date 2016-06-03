@@ -14,6 +14,7 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -89,6 +90,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 	
 	private static MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache;
+	
+	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -163,6 +166,8 @@ public class MapItemStoreFactory {
 		register(angelArrayFloorData = new MapItemStoreCache<AngelArrayFloorData>(AngelArrayFloorData.class, "userId", heroCapacity));
 
 		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
+		
+		register(magicChapterInfoCache = new MapItemStoreCache<MagicChapterInfo>(MagicChapterInfo.class, "userId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -355,5 +360,14 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<AngelArrayEnemyInfoData> getAngelArrayEnemyInfoData() {
 		return angelArrayEnemyInfoData;
+	}
+	
+	/**
+	 * 获取法宝秘境的章节缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<MagicChapterInfo> getMagicChapterInfoCache() {
+		return magicChapterInfoCache;
 	}
 }

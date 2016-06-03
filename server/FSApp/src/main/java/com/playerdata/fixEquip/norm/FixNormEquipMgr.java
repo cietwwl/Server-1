@@ -26,6 +26,7 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
+import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
 
@@ -130,6 +131,7 @@ public class FixNormEquipMgr {
 			FixNormEquipStarCfg curStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(itemTmp.getStarPlanId(), itemTmp.getStar());
 			AttributeUtils.calcAttribute(curStarCfg.getAttrDataMap(),  curStarCfg.getPrecentAttrDataMap(), attrMap );
 			
+			AttrCheckLoger.logAttr("普通神装", ownerId, attrMap);
 		}
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
 		return attrItemList;
@@ -167,10 +169,9 @@ public class FixNormEquipMgr {
 		
 		
 		int toLevel = curQualityCfg.getLevelNeed();
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		int heroLevel = targetHero.getLevel();
-		if(toLevel > heroLevel){
-			toLevel = heroLevel;
+		int playerLevel = player.getLevel();
+		if(toLevel > playerLevel){
+			toLevel = playerLevel;
 		}
 		return toLevel;
 	}

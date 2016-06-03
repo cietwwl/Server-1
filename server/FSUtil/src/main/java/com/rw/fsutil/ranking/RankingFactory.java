@@ -112,9 +112,9 @@ public class RankingFactory {
 
 	/**
 	 * 通过{@link TypeIdentification}获取指定类型的列表排行榜
-	 * 
+	 * 返回类型ListRanking (String, XXExtAttribute defined in XXExtension)
 	 * @param typeId
-	 * @return
+	 * @return ListRanking
 	 */
 	public static ListRanking getSRanking(TypeIdentification typeId) {
 		if (typeId == null) {

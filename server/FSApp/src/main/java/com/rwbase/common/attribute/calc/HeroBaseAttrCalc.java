@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.log.GameLog;
+import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.attribute.AttributeItem;
@@ -31,8 +32,9 @@ public class HeroBaseAttrCalc implements IComponentCalc {
 		HeroBaseParam param = (HeroBaseParam) obj;
 		String userId = param.getUserId();
 		RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(param.getHeroTmpId());
+		String heroId = param.getHeroId();
 		if (roleCfg == null) {
-			GameLog.error("计算英雄基础属性", userId, String.format("Id为[%s]模版Id为[%s]的英雄获取不到对应的RoleCfg配置表", param.getHeroId(), param.getHeroTmpId()));
+			GameLog.error("计算英雄基础属性", userId, String.format("Id为[%s]模版Id为[%s]的英雄获取不到对应的RoleCfg配置表", heroId, param.getHeroTmpId()));
 			return null;
 		}
 
@@ -79,11 +81,11 @@ public class HeroBaseAttrCalc implements IComponentCalc {
 
 		map.put(AttributeType.ATTACK_TYPE.getTypeValue(), new AttributeItem(AttributeType.ATTACK_TYPE, roleCfg.getAttackType(), 0));
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄基础属性", userId, String.format("Id为[%s]的英雄计算出来的基础属性是空的", param.getHeroId()));
+			GameLog.error("计算英雄基础属性", userId, String.format("Id为[%s]的英雄计算出来的基础属性是空的", heroId));
 			return null;
 		}
 
-		GameLog.info("计算英雄基础属性", userId, AttributeUtils.partAttrMap2Str("英雄基础", map), null);
+		AttrCheckLoger.logAttr("英雄基础属性", heroId, map);
 		return new AttributeSet.Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
 

@@ -7,6 +7,7 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.ItemChangedEventType_1;
@@ -275,17 +276,12 @@ public class UserGameDataMgr {
 		return userGameDataHolder.get().getCoin();
 	}
 
-	public int getUnendingWarCoin() {
-		return userGameDataHolder.get().getUnendingWarCoin();
+	public int getMagicSecretCoin() {
+		return MagicSecretMgr.getInstance().getSecretGold(player);
 	}
 
-	public int addUnendingWarCoin(int count) {
-		int value = count + getUnendingWarCoin();
-		if (value > 0) {
-			userGameDataHolder.get().setUnendingWarCoin(value);
-			userGameDataHolder.update(player);
-			return 0;
-		}
+	public int addMagicSecretCoin(int count) {
+		if(MagicSecretMgr.getInstance().addSecretGold(player, count)) return 0;
 		return -1;
 	}
 
@@ -519,11 +515,11 @@ public class UserGameDataMgr {
 		return userGameDataHolder.get().getArenaCoin();
 	}
 
-	public int addPeakArenaCoin(int currency) {
+	public boolean addPeakArenaCoin(int currency) {
 		UserGameData tableUserOther = userGameDataHolder.get();
 		int gold = tableUserOther.getPeakArenaCoin();
 		if (currency < 0 && gold <= 0) {
-			return -1;
+			return false;
 		}
 		int total = gold + currency;
 		if (currency < 0 && total < 0) {
@@ -531,7 +527,7 @@ public class UserGameDataMgr {
 		}
 		tableUserOther.setPeakArenaCoin(total);
 		userGameDataHolder.update(player);
-		return 0;
+		return true;
 	}
 
 	public int getPeakArenaCoin() {
@@ -597,10 +593,10 @@ public class UserGameDataMgr {
 			result = m_GuildUserMgr.addGuildCoin(dec) == 1;
 			break;
 		case PeakArenaCoin:
-			result = this.addPeakArenaCoin(dec) == 0;
+			result = this.addPeakArenaCoin(dec);
 			break;
-		case UnendingWarCoin:
-			result = this.addUnendingWarCoin(dec) == 0;
+		case MagicSecretCoin:
+			result = this.addMagicSecretCoin(dec) == 0;
 			break;
 		default:
 			break;
@@ -642,8 +638,8 @@ public class UserGameDataMgr {
 		case PeakArenaCoin:
 			old = this.getPeakArenaCoin();
 			break;
-		case UnendingWarCoin:
-			old = this.getUnendingWarCoin();
+		case MagicSecretCoin:
+			old = this.getMagicSecretCoin();
 			break;
 		default:
 			break;

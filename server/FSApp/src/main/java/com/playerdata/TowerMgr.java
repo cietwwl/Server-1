@@ -9,7 +9,6 @@ import com.bm.rank.RankType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Weight;
 import com.log.GameLog;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;

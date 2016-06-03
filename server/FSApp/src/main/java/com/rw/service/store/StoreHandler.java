@@ -2,6 +2,9 @@ package com.rw.service.store;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.StreamImpl;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.store.CommodityCfgDAO;
@@ -23,8 +26,19 @@ public class StoreHandler {
 	public static StoreHandler getInstance(){
 		return instance;
 	}
+	
+	private StreamImpl<Pair<Player,Integer>> openStoreNotification = new StreamImpl<Pair<Player,Integer>>();
+	/**
+	 * 通知发送后会清除内部缓存的数据
+	 * @return
+	 */
+	public IStream<Pair<Player,Integer>> getOpenStoreNotification(){
+		return openStoreNotification;
+	}
 
 	public ByteString OpenStore(int storeType) {
+		openStoreNotification.fire(Pair.Create(m_pPlayer, storeType));
+		openStoreNotification.hold(null);//clear cache 
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		m_pPlayer.getStoreMgr().OpenStore(storeType);
 		m_pPlayer.getTempAttribute().setRefreshStore(false);

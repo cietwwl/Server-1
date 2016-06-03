@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.army.ArmyMagic;
+import com.playerdata.dataSyn.annotation.SynClass;
 
 /*
  * @author HC
  * @date 2016年4月15日 下午4:30:10
  * @Description 
  */
+@SynClass
 public class TeamInfo {
 	private List<HeroInfo> hero;// 英雄列表，包含主角
 	// 法宝信息

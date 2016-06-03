@@ -31,6 +31,7 @@ import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -108,7 +109,6 @@ public class Player implements PlayerIF {
 	private HeroMgr m_HeroMgr = new HeroMgr();
 	private CopyRecordMgr m_CopyRecordMgr = new CopyRecordMgr();
 	private MagicMgr magicMgr = new MagicMgr();
-
 	private FriendMgr m_friendMgr = new FriendMgr();
 
 	// 延迟初始化的Mgr
@@ -733,6 +733,7 @@ public class Player implements PlayerIF {
 			addPower(addpower);
 			mainRoleHero.SetHeroLevel(newLevel);
 			userDataMgr.setLevel(newLevel);
+			MagicChapterInfoHolder.getInstance().getItemList(this);
 			getTaskMgr().initTask();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
@@ -818,8 +819,8 @@ public class Player implements PlayerIF {
 		case PeakArenaCoin:
 			reslut = userGameDataMgr.getPeakArenaCoin();
 			break;
-		case UnendingWarCoin:
-			reslut = userGameDataMgr.getUnendingWarCoin();
+		case MagicSecretCoin:
+			reslut = userGameDataMgr.getMagicSecretCoin();
 			break;
 		default:
 			break;

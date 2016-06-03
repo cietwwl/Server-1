@@ -40,6 +40,7 @@ public class PrivilegeManager
 		
 		cache = new HashMap<Pair<IPrivilegeConfigSourcer<?>,IPrivilegeProvider>, AllPrivilege>();
 		privelegeProviders = new ArrayList<IPrivilegeProvider>(2);
+		if (m_player.isRobot()) return;
 		// 月卡特权比VIP要优先
 		IPrivilegeProvider mprovider = MonthCardPrivilegeMgr.getShareInstance().getPrivilige(m_player);
 		privelegeProviders.add(mprovider);
@@ -80,6 +81,7 @@ public class PrivilegeManager
 
 	@Override
 	public void onChange(IPrivilegeProvider provider) {
+		if (m_player.isRobot()) return;
 		ArrayList<IPrivilegeProvider> lst = new ArrayList<IPrivilegeProvider>(1);
 		lst.add(provider);
 		privilegeByProvider(lst);
@@ -104,6 +106,7 @@ public class PrivilegeManager
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		// 发送特权数据到客户端
+		if (player.isRobot()) return;
 		sendPrivilegeData();
 	}
 

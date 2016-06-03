@@ -8,6 +8,8 @@ import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
@@ -107,13 +109,6 @@ public class PlayerTimeActionHelper {
 		});
 		
 		return onNewDayZeroTimeAction;
-		
-		
-		
-		// RankingMgr.getInstance().resetUpdateState();
-		// m_ArenaMgr.resetDataInNewDay();
-		// String userId = getUserId();
-		// m_PeakArenaMgr.resetDataInNewDay();
 	}
 
 	public static TimeAction onNewDay5ClockTimeAction(final Player player) {
@@ -204,12 +199,12 @@ public class PlayerTimeActionHelper {
 				player.getCopyDataMgr().resetDataInNewDay();
 			}
 		});
-		// onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
-		// @Override
-		// public void doTask() {
-		// player.getCopyDataMgr().resetDataInNewDay();
-		// }
-		// });
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
+				PeakArenaBM.getInstance().resetDataInNewDay(player);
+			}
+		});
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
@@ -222,6 +217,14 @@ public class PlayerTimeActionHelper {
 			@Override
 			public void doTask() {
 				player.getTowerMgr().resetDataInNewDay();
+			}
+		});
+		
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 		});
 

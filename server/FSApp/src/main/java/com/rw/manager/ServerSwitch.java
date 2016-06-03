@@ -31,7 +31,7 @@ public class ServerSwitch {
 			// 兑换码开启
 			giftCodeOpen = props.getProperty("giftCodeOpen").equalsIgnoreCase("true");
 			checkCfg = props.getProperty("checkCfg").equalsIgnoreCase("true");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

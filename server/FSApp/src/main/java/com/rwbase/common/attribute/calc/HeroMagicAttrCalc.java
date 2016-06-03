@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.log.GameLog;
+import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeSet;
@@ -61,7 +62,7 @@ public class HeroMagicAttrCalc implements IComponentCalc {
 			return null;
 		}
 
-		GameLog.info("计算法宝属性", userId, AttributeUtils.partAttrMap2Str("英雄法宝", map), null);
+		AttrCheckLoger.logAttr("法宝属性", userId, map);
 		return new AttributeSet.Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
 
