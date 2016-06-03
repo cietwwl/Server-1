@@ -305,14 +305,14 @@ public class FashionMgr implements FashionMgrIF {
 	 * 赠送时装 有效期day设置为－1表示永久有效
 	 * 
 	 * @param fashionId
-	 * @param hour
+	 * @param day
 	 * @param userId
 	 * @param sendEmail
 	 */
-	public static void giveFashionItem(int fashionId, int hour, String userId, boolean putOnNow, boolean sendEmail) {
+	public static void giveFashionItem(int fashionId, int day, String userId, boolean putOnNow, boolean sendEmail) {
 		Player player = PlayerMgr.getInstance().find(userId);
 		if (player != null) {
-			player.getFashionMgr().giveFashionItem(fashionId, hour, putOnNow, sendEmail);
+			player.getFashionMgr().giveFashionItem(fashionId, day, putOnNow, sendEmail);
 		}
 	}
 
@@ -320,11 +320,11 @@ public class FashionMgr implements FashionMgrIF {
 	 * 必须已经初始化玩家才能赠送
 	 * 
 	 * @param fashionId
-	 * @param hours
+	 * @param days
 	 * @param putOnNow
 	 * @param sendEmail
 	 */
-	public void giveFashionItem(int fashionId, int hours, boolean putOnNow, boolean sendEmail) {
+	public void giveFashionItem(int fashionId, int days, boolean putOnNow, boolean sendEmail) {
 		Player player = m_player;
 		if (player == null) {
 			return;
@@ -333,7 +333,7 @@ public class FashionMgr implements FashionMgrIF {
 		if (fashionCfg == null) {
 			return;
 		}
-		FashionItem item = newFashionItem(fashionCfg, hours);
+		FashionItem item = newFashionItem(fashionCfg, days);
 		fashionItemHolder.addItem(player, item);
 		FashionBeingUsed fashionUsed = createOrUpdate();
 		if (putOnNow) {
@@ -439,10 +439,10 @@ public class FashionMgr implements FashionMgrIF {
 	 * @return
 	 */
 	private FashionItem newFashionItem(FashionCommonCfg cfg, FashionBuyRenewCfg buyCfg) {
-		return newFashionItem(cfg, buyCfg.getHour());
+		return newFashionItem(cfg, buyCfg.getDay());
 	}
 
-	private FashionItem newFashionItem(FashionCommonCfg cfg, int hours) {
+	private FashionItem newFashionItem(FashionCommonCfg cfg, int days) {
 		FashionItem item = new FashionItem();
 		item.setFashionId(cfg.getId());
 		item.setType(cfg.getFashionType().ordinal());
@@ -450,8 +450,8 @@ public class FashionMgr implements FashionMgrIF {
 		item.InitStoreId();
 		long now = System.currentTimeMillis();
 		item.setBuyTime(now);
-		if (hours > 0) {
-			item.setExpiredTime(now + TimeUnit.HOURS.toMillis(hours));
+		if (days > 0) {
+			item.setExpiredTime(now + TimeUnit.DAYS.toMillis(days));
 		} else {
 			item.setExpiredTime(-1);
 			GameLog.info("时装", m_player.getUserId(), "增加永久时装:" + cfg.getId(), null);

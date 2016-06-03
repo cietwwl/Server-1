@@ -100,4 +100,17 @@ public class PlayerChangePopertyObserver implements Observer {
 	public int getObserverType() {
 		return ObserverFactory.ObserverType.PLAYER_CHANER.ordinal();
 	}
+
+	@Override
+	public void playerChangeHeadBox(Player p) {
+		// TODO Auto-generated method stub
+		if (subscribeList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = subscribeList.size(); i < size; i++) {
+			PlayerChangePopertySubscribe sub = subscribeList.get(i);
+			sub.playerChangeHeadBox(p);
+		}
+	}
 }

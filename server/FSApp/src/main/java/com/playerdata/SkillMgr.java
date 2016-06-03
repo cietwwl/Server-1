@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.alibaba.druid.support.logging.Log;
 import com.common.Action;
 import com.playerdata.readonly.SkillMgrIF;
 import com.rwbase.common.enu.EPrivilegeDef;
@@ -227,12 +228,12 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
 				updateMoreInfo(skill, null);
-				skillItemHolder.updateItem(m_pPlayer, skill);
 				if (maxOrder < skill.getOrder()) {
 					maxOrder = skill.getOrder();
 				}
 			}
 		}
+		skillItemHolder.synAllData(m_pPlayer, -1);
 		// if (maxOrder > 0) {
 		// openSkillOnClient(maxOrder);
 		// }
@@ -399,36 +400,39 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		pSkill.getBuffId().clear();
 		// 查找控制技能的buff
 		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getBuffId())) {
-			String[] skillBufflist = pSkillCfg.getBuffId().split(";");// SkillBuffList
-																		// xxxx_xxx
-			Skill targetSkill;
-			String[] targetBuffarr;
-			for (String skillBuff : skillBufflist) {
-				targetBuffarr = skillBuff.split("_");// skillBuff xxxx
-				targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
-
-				if (targetSkill != null && targetSkill.getLevel() > 0) {
-					for (int j = 1; j < targetBuffarr.length; j++) {
-						String targetBuff = targetBuffarr[j];
-						if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
-							List<Integer> curBuffList = targetSkill.getBuffId();
-							if (curBuffList.size() > j - 1) {
-								curBuffList.set(j - 1, Integer.parseInt(targetBuff));
-							} else {
-								curBuffList.add(Integer.parseInt(targetBuff));
-							}
-						}
-					}
-				}
-			}
+			parseSkillBuffs(skillList, pSkillCfg.getBuffId(), false);
 		}
 
 		pSkill.getSelfBuffId().clear();
-		String[] selbuff = pSkillCfg.getSelfBuffId().split("_");// SkillBuffList
-																// xxxx_xxx
-		for (int i = 0; i < selbuff.length; i++) {
-			if (!StringUtils.isBlank(selbuff[i])) {
-				pSkill.getSelfBuffId().add(Integer.valueOf(selbuff[i]));
+		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getSelfBuffId())) {
+			parseSkillBuffs(skillList, pSkillCfg.getSelfBuffId(), true);
+		}
+	}
+
+	private void parseSkillBuffs(List<Skill> skillList, String id, boolean isSelf) {
+		String[] skillBufflist = id.split(";");
+		Skill targetSkill;
+		String[] targetBuffarr;
+		for (String skillBuff : skillBufflist) {
+			targetBuffarr = skillBuff.split("_");// skillBuff xxxx
+			targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
+			if (targetSkill != null && targetSkill.getLevel() > 0) {
+				for (int j = 1; j < targetBuffarr.length; j++) {
+					String targetBuff = targetBuffarr[j];
+					if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
+						List<Integer> curBuffList = null;
+						if (isSelf) {
+							curBuffList = targetSkill.getSelfBuffId();
+						} else {
+							curBuffList = targetSkill.getBuffId();
+						}
+						if (curBuffList.size() > j - 1) {
+							curBuffList.set(j - 1, Integer.parseInt(targetBuff));
+						} else {
+							curBuffList.add(Integer.parseInt(targetBuff));
+						}
+					}
+				}
 			}
 		}
 	}

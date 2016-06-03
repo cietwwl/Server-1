@@ -38,4 +38,10 @@ public class TeamInfoListenerPlayerChange extends PlayerChangePopertySubscribe {
 	public void playerChangeHeadIcon(Player p) {
 		AngelArrayTeamInfoHelper.updateRankingEntry(p, AngelArrayTeamInfoCall.headIdCall);
 	}
+
+	@Override
+	public void playerChangeHeadBox(Player p) {
+		// TODO Auto-generated method stub
+		
+	}
 }

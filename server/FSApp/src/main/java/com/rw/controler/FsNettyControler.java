@@ -123,6 +123,33 @@ public class FsNettyControler {
 		sendResponse(userId, header, resultContent, 200, ctx);
 	}
 
+	/**
+	 * <pre>
+	 * 发送异步消息(指客户端不强制等待此消息，如同步数据变化)
+	 * </pre>
+	 * 
+	 * @param userId
+	 * @param ctx
+	 * @param Cmd
+	 * @param pBuffer
+	 */
+	public void sendAyncResponse(String userId, ChannelHandlerContext ctx, Command Cmd, ByteString pBuffer) {
+		if (ctx == null) {
+			return;
+		}
+		Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
+		if (pBuffer != null) {
+			builder.setSerializedContent(pBuffer);
+		} else {
+			builder.setSerializedContent(ByteString.EMPTY);
+		}
+		if (!GameUtil.checkMsgSize(builder, userId)) {
+			return;
+		}
+		Response response = builder.build();
+		ctx.channel().writeAndFlush(response);
+	}
+
 	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx) {
 		boolean sendMsg = ctx != null;
 		boolean saveMsg = userId != null;
@@ -132,8 +159,8 @@ public class FsNettyControler {
 		Response.Builder builder = Response.newBuilder().setHeader(getResponseHeader(header, header.getCommand(), statusCode));
 		if (resultContent != null) {
 			builder.setSerializedContent(resultContent);
-		}else{
-			builder.setSerializedContent(com.google.protobuf.ByteString.EMPTY);
+		} else {
+			builder.setSerializedContent(ByteString.EMPTY);
 		}
 		Response result = builder.build();
 		if (!GameUtil.checkMsgSize(result)) {

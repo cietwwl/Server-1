@@ -507,6 +507,24 @@ public final class GambleServiceProtos {
      * </pre>
      */
     com.rwproto.GambleServiceProtos.ELotteryType getLotteryType();
+
+    // optional int32 gamblePlanId = 4;
+    /**
+     * <code>optional int32 gamblePlanId = 4;</code>
+     *
+     * <pre>
+     * 重构后使用的参数 抽卡方案Id, gamble.csv key
+     * </pre>
+     */
+    boolean hasGamblePlanId();
+    /**
+     * <code>optional int32 gamblePlanId = 4;</code>
+     *
+     * <pre>
+     * 重构后使用的参数 抽卡方案Id, gamble.csv key
+     * </pre>
+     */
+    int getGamblePlanId();
   }
   /**
    * Protobuf type {@code GambleRequest}
@@ -590,6 +608,11 @@ public final class GambleServiceProtos {
                 bitField0_ |= 0x00000004;
                 lotteryType_ = value;
               }
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              gamblePlanId_ = input.readInt32();
               break;
             }
           }
@@ -704,10 +727,35 @@ public final class GambleServiceProtos {
       return lotteryType_;
     }
 
+    // optional int32 gamblePlanId = 4;
+    public static final int GAMBLEPLANID_FIELD_NUMBER = 4;
+    private int gamblePlanId_;
+    /**
+     * <code>optional int32 gamblePlanId = 4;</code>
+     *
+     * <pre>
+     * 重构后使用的参数 抽卡方案Id, gamble.csv key
+     * </pre>
+     */
+    public boolean hasGamblePlanId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 gamblePlanId = 4;</code>
+     *
+     * <pre>
+     * 重构后使用的参数 抽卡方案Id, gamble.csv key
+     * </pre>
+     */
+    public int getGamblePlanId() {
+      return gamblePlanId_;
+    }
+
     private void initFields() {
       requestType_ = com.rwproto.GambleServiceProtos.EGambleRequestType.GAMBLE;
       gambleType_ = com.rwproto.GambleServiceProtos.EGambleType.PRIMARY;
       lotteryType_ = com.rwproto.GambleServiceProtos.ELotteryType.ONE;
+      gamblePlanId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -734,6 +782,9 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, lotteryType_.getNumber());
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, gamblePlanId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -754,6 +805,10 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, lotteryType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, gamblePlanId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -877,6 +932,8 @@ public final class GambleServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         lotteryType_ = com.rwproto.GambleServiceProtos.ELotteryType.ONE;
         bitField0_ = (bitField0_ & ~0x00000004);
+        gamblePlanId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -917,6 +974,10 @@ public final class GambleServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.lotteryType_ = lotteryType_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.gamblePlanId_ = gamblePlanId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -941,6 +1002,9 @@ public final class GambleServiceProtos {
         }
         if (other.hasLotteryType()) {
           setLotteryType(other.getLotteryType());
+        }
+        if (other.hasGamblePlanId()) {
+          setGamblePlanId(other.getGamblePlanId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1129,6 +1193,55 @@ public final class GambleServiceProtos {
         return this;
       }
 
+      // optional int32 gamblePlanId = 4;
+      private int gamblePlanId_ ;
+      /**
+       * <code>optional int32 gamblePlanId = 4;</code>
+       *
+       * <pre>
+       * 重构后使用的参数 抽卡方案Id, gamble.csv key
+       * </pre>
+       */
+      public boolean hasGamblePlanId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 gamblePlanId = 4;</code>
+       *
+       * <pre>
+       * 重构后使用的参数 抽卡方案Id, gamble.csv key
+       * </pre>
+       */
+      public int getGamblePlanId() {
+        return gamblePlanId_;
+      }
+      /**
+       * <code>optional int32 gamblePlanId = 4;</code>
+       *
+       * <pre>
+       * 重构后使用的参数 抽卡方案Id, gamble.csv key
+       * </pre>
+       */
+      public Builder setGamblePlanId(int value) {
+        bitField0_ |= 0x00000008;
+        gamblePlanId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 gamblePlanId = 4;</code>
+       *
+       * <pre>
+       * 重构后使用的参数 抽卡方案Id, gamble.csv key
+       * </pre>
+       */
+      public Builder clearGamblePlanId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        gamblePlanId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GambleRequest)
     }
 
@@ -1293,6 +1406,78 @@ public final class GambleServiceProtos {
      * </pre>
      */
     com.rwproto.GambleServiceProtos.GambleDataOrBuilder getGambleDataOrBuilder();
+
+    // optional string tips = 6;
+    /**
+     * <code>optional string tips = 6;</code>
+     *
+     * <pre>
+     *操作结果提示
+     * </pre>
+     */
+    boolean hasTips();
+    /**
+     * <code>optional string tips = 6;</code>
+     *
+     * <pre>
+     *操作结果提示
+     * </pre>
+     */
+    java.lang.String getTips();
+    /**
+     * <code>optional string tips = 6;</code>
+     *
+     * <pre>
+     *操作结果提示
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipsBytes();
+
+    // repeated .DropData dropHistory = 7;
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    java.util.List<com.rwproto.GambleServiceProtos.DropData> 
+        getDropHistoryList();
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.DropData getDropHistory(int index);
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    int getDropHistoryCount();
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GambleServiceProtos.DropDataOrBuilder> 
+        getDropHistoryOrBuilderList();
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    com.rwproto.GambleServiceProtos.DropDataOrBuilder getDropHistoryOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code GambleResponse}
@@ -1398,6 +1583,19 @@ public final class GambleServiceProtos {
               bitField0_ |= 0x00000004;
               break;
             }
+            case 50: {
+              bitField0_ |= 0x00000008;
+              tips_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                dropHistory_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.DropData>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              dropHistory_.add(input.readMessage(com.rwproto.GambleServiceProtos.DropData.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1411,6 +1609,9 @@ public final class GambleServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           heroList_ = new com.google.protobuf.UnmodifiableLazyStringList(heroList_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          dropHistory_ = java.util.Collections.unmodifiableList(dropHistory_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1638,12 +1839,125 @@ public final class GambleServiceProtos {
       return gambleData_;
     }
 
+    // optional string tips = 6;
+    public static final int TIPS_FIELD_NUMBER = 6;
+    private java.lang.Object tips_;
+    /**
+     * <code>optional string tips = 6;</code>
+     *
+     * <pre>
+     *操作结果提示
+     * </pre>
+     */
+    public boolean hasTips() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string tips = 6;</code>
+     *
+     * <pre>
+     *操作结果提示
+     * </pre>
+     */
+    public java.lang.String getTips() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tips_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tips = 6;</code>
+     *
+     * <pre>
+     *操作结果提示
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipsBytes() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tips_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated .DropData dropHistory = 7;
+    public static final int DROPHISTORY_FIELD_NUMBER = 7;
+    private java.util.List<com.rwproto.GambleServiceProtos.DropData> dropHistory_;
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GambleServiceProtos.DropData> getDropHistoryList() {
+      return dropHistory_;
+    }
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GambleServiceProtos.DropDataOrBuilder> 
+        getDropHistoryOrBuilderList() {
+      return dropHistory_;
+    }
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    public int getDropHistoryCount() {
+      return dropHistory_.size();
+    }
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.DropData getDropHistory(int index) {
+      return dropHistory_.get(index);
+    }
+    /**
+     * <code>repeated .DropData dropHistory = 7;</code>
+     *
+     * <pre>
+     *新的钓鱼数据模型
+     * </pre>
+     */
+    public com.rwproto.GambleServiceProtos.DropDataOrBuilder getDropHistoryOrBuilder(
+        int index) {
+      return dropHistory_.get(index);
+    }
+
     private void initFields() {
       resultType_ = com.rwproto.GambleServiceProtos.EGambleResultType.SUCCESS;
       request_ = com.rwproto.GambleServiceProtos.GambleRequest.getDefaultInstance();
       itemList_ = java.util.Collections.emptyList();
       heroList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       gambleData_ = com.rwproto.GambleServiceProtos.GambleData.getDefaultInstance();
+      tips_ = "";
+      dropHistory_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1688,6 +2002,12 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(5, gambleData_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(6, getTipsBytes());
+      }
+      for (int i = 0; i < dropHistory_.size(); i++) {
+        output.writeMessage(7, dropHistory_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1721,6 +2041,14 @@ public final class GambleServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, gambleData_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getTipsBytes());
+      }
+      for (int i = 0; i < dropHistory_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, dropHistory_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1833,6 +2161,7 @@ public final class GambleServiceProtos {
           getRequestFieldBuilder();
           getItemListFieldBuilder();
           getGambleDataFieldBuilder();
+          getDropHistoryFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1863,6 +2192,14 @@ public final class GambleServiceProtos {
           gambleDataBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        tips_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        if (dropHistoryBuilder_ == null) {
+          dropHistory_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          dropHistoryBuilder_.clear();
+        }
         return this;
       }
 
@@ -1926,6 +2263,19 @@ public final class GambleServiceProtos {
         } else {
           result.gambleData_ = gambleDataBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.tips_ = tips_;
+        if (dropHistoryBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            dropHistory_ = java.util.Collections.unmodifiableList(dropHistory_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.dropHistory_ = dropHistory_;
+        } else {
+          result.dropHistory_ = dropHistoryBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1986,6 +2336,37 @@ public final class GambleServiceProtos {
         }
         if (other.hasGambleData()) {
           mergeGambleData(other.getGambleData());
+        }
+        if (other.hasTips()) {
+          bitField0_ |= 0x00000020;
+          tips_ = other.tips_;
+          onChanged();
+        }
+        if (dropHistoryBuilder_ == null) {
+          if (!other.dropHistory_.isEmpty()) {
+            if (dropHistory_.isEmpty()) {
+              dropHistory_ = other.dropHistory_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureDropHistoryIsMutable();
+              dropHistory_.addAll(other.dropHistory_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.dropHistory_.isEmpty()) {
+            if (dropHistoryBuilder_.isEmpty()) {
+              dropHistoryBuilder_.dispose();
+              dropHistoryBuilder_ = null;
+              dropHistory_ = other.dropHistory_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              dropHistoryBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getDropHistoryFieldBuilder() : null;
+            } else {
+              dropHistoryBuilder_.addAllMessages(other.dropHistory_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2829,6 +3210,416 @@ public final class GambleServiceProtos {
         return gambleDataBuilder_;
       }
 
+      // optional string tips = 6;
+      private java.lang.Object tips_ = "";
+      /**
+       * <code>optional string tips = 6;</code>
+       *
+       * <pre>
+       *操作结果提示
+       * </pre>
+       */
+      public boolean hasTips() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string tips = 6;</code>
+       *
+       * <pre>
+       *操作结果提示
+       * </pre>
+       */
+      public java.lang.String getTips() {
+        java.lang.Object ref = tips_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tips_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 6;</code>
+       *
+       * <pre>
+       *操作结果提示
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipsBytes() {
+        java.lang.Object ref = tips_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tips_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 6;</code>
+       *
+       * <pre>
+       *操作结果提示
+       * </pre>
+       */
+      public Builder setTips(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 6;</code>
+       *
+       * <pre>
+       *操作结果提示
+       * </pre>
+       */
+      public Builder clearTips() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        tips_ = getDefaultInstance().getTips();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 6;</code>
+       *
+       * <pre>
+       *操作结果提示
+       * </pre>
+       */
+      public Builder setTipsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated .DropData dropHistory = 7;
+      private java.util.List<com.rwproto.GambleServiceProtos.DropData> dropHistory_ =
+        java.util.Collections.emptyList();
+      private void ensureDropHistoryIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          dropHistory_ = new java.util.ArrayList<com.rwproto.GambleServiceProtos.DropData>(dropHistory_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.DropData, com.rwproto.GambleServiceProtos.DropData.Builder, com.rwproto.GambleServiceProtos.DropDataOrBuilder> dropHistoryBuilder_;
+
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.DropData> getDropHistoryList() {
+        if (dropHistoryBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(dropHistory_);
+        } else {
+          return dropHistoryBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public int getDropHistoryCount() {
+        if (dropHistoryBuilder_ == null) {
+          return dropHistory_.size();
+        } else {
+          return dropHistoryBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.DropData getDropHistory(int index) {
+        if (dropHistoryBuilder_ == null) {
+          return dropHistory_.get(index);
+        } else {
+          return dropHistoryBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder setDropHistory(
+          int index, com.rwproto.GambleServiceProtos.DropData value) {
+        if (dropHistoryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDropHistoryIsMutable();
+          dropHistory_.set(index, value);
+          onChanged();
+        } else {
+          dropHistoryBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder setDropHistory(
+          int index, com.rwproto.GambleServiceProtos.DropData.Builder builderForValue) {
+        if (dropHistoryBuilder_ == null) {
+          ensureDropHistoryIsMutable();
+          dropHistory_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          dropHistoryBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder addDropHistory(com.rwproto.GambleServiceProtos.DropData value) {
+        if (dropHistoryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDropHistoryIsMutable();
+          dropHistory_.add(value);
+          onChanged();
+        } else {
+          dropHistoryBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder addDropHistory(
+          int index, com.rwproto.GambleServiceProtos.DropData value) {
+        if (dropHistoryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureDropHistoryIsMutable();
+          dropHistory_.add(index, value);
+          onChanged();
+        } else {
+          dropHistoryBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder addDropHistory(
+          com.rwproto.GambleServiceProtos.DropData.Builder builderForValue) {
+        if (dropHistoryBuilder_ == null) {
+          ensureDropHistoryIsMutable();
+          dropHistory_.add(builderForValue.build());
+          onChanged();
+        } else {
+          dropHistoryBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder addDropHistory(
+          int index, com.rwproto.GambleServiceProtos.DropData.Builder builderForValue) {
+        if (dropHistoryBuilder_ == null) {
+          ensureDropHistoryIsMutable();
+          dropHistory_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          dropHistoryBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder addAllDropHistory(
+          java.lang.Iterable<? extends com.rwproto.GambleServiceProtos.DropData> values) {
+        if (dropHistoryBuilder_ == null) {
+          ensureDropHistoryIsMutable();
+          super.addAll(values, dropHistory_);
+          onChanged();
+        } else {
+          dropHistoryBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder clearDropHistory() {
+        if (dropHistoryBuilder_ == null) {
+          dropHistory_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          dropHistoryBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public Builder removeDropHistory(int index) {
+        if (dropHistoryBuilder_ == null) {
+          ensureDropHistoryIsMutable();
+          dropHistory_.remove(index);
+          onChanged();
+        } else {
+          dropHistoryBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.DropData.Builder getDropHistoryBuilder(
+          int index) {
+        return getDropHistoryFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.DropDataOrBuilder getDropHistoryOrBuilder(
+          int index) {
+        if (dropHistoryBuilder_ == null) {
+          return dropHistory_.get(index);  } else {
+          return dropHistoryBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GambleServiceProtos.DropDataOrBuilder> 
+           getDropHistoryOrBuilderList() {
+        if (dropHistoryBuilder_ != null) {
+          return dropHistoryBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(dropHistory_);
+        }
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.DropData.Builder addDropHistoryBuilder() {
+        return getDropHistoryFieldBuilder().addBuilder(
+            com.rwproto.GambleServiceProtos.DropData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public com.rwproto.GambleServiceProtos.DropData.Builder addDropHistoryBuilder(
+          int index) {
+        return getDropHistoryFieldBuilder().addBuilder(
+            index, com.rwproto.GambleServiceProtos.DropData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .DropData dropHistory = 7;</code>
+       *
+       * <pre>
+       *新的钓鱼数据模型
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GambleServiceProtos.DropData.Builder> 
+           getDropHistoryBuilderList() {
+        return getDropHistoryFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GambleServiceProtos.DropData, com.rwproto.GambleServiceProtos.DropData.Builder, com.rwproto.GambleServiceProtos.DropDataOrBuilder> 
+          getDropHistoryFieldBuilder() {
+        if (dropHistoryBuilder_ == null) {
+          dropHistoryBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GambleServiceProtos.DropData, com.rwproto.GambleServiceProtos.DropData.Builder, com.rwproto.GambleServiceProtos.DropDataOrBuilder>(
+                  dropHistory_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          dropHistory_ = null;
+        }
+        return dropHistoryBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:GambleResponse)
     }
 
@@ -2838,6 +3629,660 @@ public final class GambleServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:GambleResponse)
+  }
+
+  public interface DropDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 freeCount = 1;
+    /**
+     * <code>optional int32 freeCount = 1;</code>
+     *
+     * <pre>
+     *已经免费抽卡的次数
+     * </pre>
+     */
+    boolean hasFreeCount();
+    /**
+     * <code>optional int32 freeCount = 1;</code>
+     *
+     * <pre>
+     *已经免费抽卡的次数
+     * </pre>
+     */
+    int getFreeCount();
+
+    // optional int32 maxFreeCount = 2;
+    /**
+     * <code>optional int32 maxFreeCount = 2;</code>
+     *
+     * <pre>
+     *最大免费次数，如果为0，表示这个方案没有免费次数
+     * </pre>
+     */
+    boolean hasMaxFreeCount();
+    /**
+     * <code>optional int32 maxFreeCount = 2;</code>
+     *
+     * <pre>
+     *最大免费次数，如果为0，表示这个方案没有免费次数
+     * </pre>
+     */
+    int getMaxFreeCount();
+
+    // optional int32 leftTime = 3;
+    /**
+     * <code>optional int32 leftTime = 3;</code>
+     *
+     * <pre>
+     * 剩余免费抽卡倒计时（单位为秒）
+     * </pre>
+     */
+    boolean hasLeftTime();
+    /**
+     * <code>optional int32 leftTime = 3;</code>
+     *
+     * <pre>
+     * 剩余免费抽卡倒计时（单位为秒）
+     * </pre>
+     */
+    int getLeftTime();
+  }
+  /**
+   * Protobuf type {@code DropData}
+   */
+  public static final class DropData extends
+      com.google.protobuf.GeneratedMessage
+      implements DropDataOrBuilder {
+    // Use DropData.newBuilder() to construct.
+    private DropData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DropData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DropData defaultInstance;
+    public static DropData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DropData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DropData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              freeCount_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              maxFreeCount_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              leftTime_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GambleServiceProtos.internal_static_DropData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GambleServiceProtos.internal_static_DropData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GambleServiceProtos.DropData.class, com.rwproto.GambleServiceProtos.DropData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DropData> PARSER =
+        new com.google.protobuf.AbstractParser<DropData>() {
+      public DropData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DropData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DropData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 freeCount = 1;
+    public static final int FREECOUNT_FIELD_NUMBER = 1;
+    private int freeCount_;
+    /**
+     * <code>optional int32 freeCount = 1;</code>
+     *
+     * <pre>
+     *已经免费抽卡的次数
+     * </pre>
+     */
+    public boolean hasFreeCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 freeCount = 1;</code>
+     *
+     * <pre>
+     *已经免费抽卡的次数
+     * </pre>
+     */
+    public int getFreeCount() {
+      return freeCount_;
+    }
+
+    // optional int32 maxFreeCount = 2;
+    public static final int MAXFREECOUNT_FIELD_NUMBER = 2;
+    private int maxFreeCount_;
+    /**
+     * <code>optional int32 maxFreeCount = 2;</code>
+     *
+     * <pre>
+     *最大免费次数，如果为0，表示这个方案没有免费次数
+     * </pre>
+     */
+    public boolean hasMaxFreeCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 maxFreeCount = 2;</code>
+     *
+     * <pre>
+     *最大免费次数，如果为0，表示这个方案没有免费次数
+     * </pre>
+     */
+    public int getMaxFreeCount() {
+      return maxFreeCount_;
+    }
+
+    // optional int32 leftTime = 3;
+    public static final int LEFTTIME_FIELD_NUMBER = 3;
+    private int leftTime_;
+    /**
+     * <code>optional int32 leftTime = 3;</code>
+     *
+     * <pre>
+     * 剩余免费抽卡倒计时（单位为秒）
+     * </pre>
+     */
+    public boolean hasLeftTime() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 leftTime = 3;</code>
+     *
+     * <pre>
+     * 剩余免费抽卡倒计时（单位为秒）
+     * </pre>
+     */
+    public int getLeftTime() {
+      return leftTime_;
+    }
+
+    private void initFields() {
+      freeCount_ = 0;
+      maxFreeCount_ = 0;
+      leftTime_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, freeCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, maxFreeCount_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, leftTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, freeCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, maxFreeCount_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, leftTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GambleServiceProtos.DropData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GambleServiceProtos.DropData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DropData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GambleServiceProtos.DropDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GambleServiceProtos.internal_static_DropData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GambleServiceProtos.internal_static_DropData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GambleServiceProtos.DropData.class, com.rwproto.GambleServiceProtos.DropData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GambleServiceProtos.DropData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        freeCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        maxFreeCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        leftTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GambleServiceProtos.internal_static_DropData_descriptor;
+      }
+
+      public com.rwproto.GambleServiceProtos.DropData getDefaultInstanceForType() {
+        return com.rwproto.GambleServiceProtos.DropData.getDefaultInstance();
+      }
+
+      public com.rwproto.GambleServiceProtos.DropData build() {
+        com.rwproto.GambleServiceProtos.DropData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GambleServiceProtos.DropData buildPartial() {
+        com.rwproto.GambleServiceProtos.DropData result = new com.rwproto.GambleServiceProtos.DropData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.freeCount_ = freeCount_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.maxFreeCount_ = maxFreeCount_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.leftTime_ = leftTime_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GambleServiceProtos.DropData) {
+          return mergeFrom((com.rwproto.GambleServiceProtos.DropData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GambleServiceProtos.DropData other) {
+        if (other == com.rwproto.GambleServiceProtos.DropData.getDefaultInstance()) return this;
+        if (other.hasFreeCount()) {
+          setFreeCount(other.getFreeCount());
+        }
+        if (other.hasMaxFreeCount()) {
+          setMaxFreeCount(other.getMaxFreeCount());
+        }
+        if (other.hasLeftTime()) {
+          setLeftTime(other.getLeftTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GambleServiceProtos.DropData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GambleServiceProtos.DropData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 freeCount = 1;
+      private int freeCount_ ;
+      /**
+       * <code>optional int32 freeCount = 1;</code>
+       *
+       * <pre>
+       *已经免费抽卡的次数
+       * </pre>
+       */
+      public boolean hasFreeCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 freeCount = 1;</code>
+       *
+       * <pre>
+       *已经免费抽卡的次数
+       * </pre>
+       */
+      public int getFreeCount() {
+        return freeCount_;
+      }
+      /**
+       * <code>optional int32 freeCount = 1;</code>
+       *
+       * <pre>
+       *已经免费抽卡的次数
+       * </pre>
+       */
+      public Builder setFreeCount(int value) {
+        bitField0_ |= 0x00000001;
+        freeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 freeCount = 1;</code>
+       *
+       * <pre>
+       *已经免费抽卡的次数
+       * </pre>
+       */
+      public Builder clearFreeCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        freeCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 maxFreeCount = 2;
+      private int maxFreeCount_ ;
+      /**
+       * <code>optional int32 maxFreeCount = 2;</code>
+       *
+       * <pre>
+       *最大免费次数，如果为0，表示这个方案没有免费次数
+       * </pre>
+       */
+      public boolean hasMaxFreeCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 maxFreeCount = 2;</code>
+       *
+       * <pre>
+       *最大免费次数，如果为0，表示这个方案没有免费次数
+       * </pre>
+       */
+      public int getMaxFreeCount() {
+        return maxFreeCount_;
+      }
+      /**
+       * <code>optional int32 maxFreeCount = 2;</code>
+       *
+       * <pre>
+       *最大免费次数，如果为0，表示这个方案没有免费次数
+       * </pre>
+       */
+      public Builder setMaxFreeCount(int value) {
+        bitField0_ |= 0x00000002;
+        maxFreeCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 maxFreeCount = 2;</code>
+       *
+       * <pre>
+       *最大免费次数，如果为0，表示这个方案没有免费次数
+       * </pre>
+       */
+      public Builder clearMaxFreeCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        maxFreeCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 leftTime = 3;
+      private int leftTime_ ;
+      /**
+       * <code>optional int32 leftTime = 3;</code>
+       *
+       * <pre>
+       * 剩余免费抽卡倒计时（单位为秒）
+       * </pre>
+       */
+      public boolean hasLeftTime() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 leftTime = 3;</code>
+       *
+       * <pre>
+       * 剩余免费抽卡倒计时（单位为秒）
+       * </pre>
+       */
+      public int getLeftTime() {
+        return leftTime_;
+      }
+      /**
+       * <code>optional int32 leftTime = 3;</code>
+       *
+       * <pre>
+       * 剩余免费抽卡倒计时（单位为秒）
+       * </pre>
+       */
+      public Builder setLeftTime(int value) {
+        bitField0_ |= 0x00000004;
+        leftTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 leftTime = 3;</code>
+       *
+       * <pre>
+       * 剩余免费抽卡倒计时（单位为秒）
+       * </pre>
+       */
+      public Builder clearLeftTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        leftTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:DropData)
+    }
+
+    static {
+      defaultInstance = new DropData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:DropData)
   }
 
   public interface GambleRewardDataOrBuilder
@@ -4153,6 +5598,11 @@ public final class GambleServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GambleResponse_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_DropData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_DropData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_GambleRewardData_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4171,24 +5621,28 @@ public final class GambleServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023GambleService.proto\"\177\n\rGambleRequest\022(" +
-      "\n\013requestType\030\001 \002(\0162\023.EGambleRequestType" +
-      "\022 \n\ngambleType\030\002 \001(\0162\014.EGambleType\022\"\n\013lo" +
-      "tteryType\030\003 \001(\0162\r.ELotteryType\"\261\001\n\016Gambl" +
-      "eResponse\022&\n\nresultType\030\001 \002(\0162\022.EGambleR" +
-      "esultType\022\037\n\007request\030\002 \001(\0132\016.GambleReque" +
-      "st\022#\n\010itemList\030\003 \003(\0132\021.GambleRewardData\022" +
-      "\020\n\010heroList\030\004 \003(\t\022\037\n\ngambleData\030\005 \001(\0132\013." +
-      "GambleData\"3\n\020GambleRewardData\022\016\n\006itemId" +
-      "\030\001 \002(\t\022\017\n\007itemNum\030\002 \002(\005\"K\n\nGambleData\022\023\n",
-      "\013primaryTime\030\001 \001(\005\022\024\n\014primaryCount\030\002 \001(\005" +
-      "\022\022\n\nmiddleTime\030\003 \001(\005*A\n\022EGambleRequestTy" +
-      "pe\022\n\n\006GAMBLE\020\001\022\016\n\nGAMBLE_GET\020\002\022\017\n\013GAMBLE" +
-      "_DATA\020\003**\n\021EGambleResultType\022\013\n\007SUCCESS\020" +
-      "\001\022\010\n\004FAIL\020\002*4\n\013EGambleType\022\013\n\007PRIMARY\020\001\022" +
-      "\n\n\006MIDDLE\020\002\022\014\n\010ADVANCED\020\003*)\n\014ELotteryTyp" +
-      "e\022\007\n\003ONE\020\001\022\007\n\003SIX\020\002\022\007\n\003TEN\020\003B\"\n\013com.rwpr" +
-      "otoB\023GambleServiceProtos"
+      "\n\023GambleService.proto\"\225\001\n\rGambleRequest\022" +
+      "(\n\013requestType\030\001 \002(\0162\023.EGambleRequestTyp" +
+      "e\022 \n\ngambleType\030\002 \001(\0162\014.EGambleType\022\"\n\013l" +
+      "otteryType\030\003 \001(\0162\r.ELotteryType\022\024\n\014gambl" +
+      "ePlanId\030\004 \001(\005\"\337\001\n\016GambleResponse\022&\n\nresu" +
+      "ltType\030\001 \002(\0162\022.EGambleResultType\022\037\n\007requ" +
+      "est\030\002 \001(\0132\016.GambleRequest\022#\n\010itemList\030\003 " +
+      "\003(\0132\021.GambleRewardData\022\020\n\010heroList\030\004 \003(\t" +
+      "\022\037\n\ngambleData\030\005 \001(\0132\013.GambleData\022\014\n\004tip" +
+      "s\030\006 \001(\t\022\036\n\013dropHistory\030\007 \003(\0132\t.DropData\"",
+      "E\n\010DropData\022\021\n\tfreeCount\030\001 \001(\005\022\024\n\014maxFre" +
+      "eCount\030\002 \001(\005\022\020\n\010leftTime\030\003 \001(\005\"3\n\020Gamble" +
+      "RewardData\022\016\n\006itemId\030\001 \002(\t\022\017\n\007itemNum\030\002 " +
+      "\002(\005\"K\n\nGambleData\022\023\n\013primaryTime\030\001 \001(\005\022\024" +
+      "\n\014primaryCount\030\002 \001(\005\022\022\n\nmiddleTime\030\003 \001(\005" +
+      "*A\n\022EGambleRequestType\022\n\n\006GAMBLE\020\001\022\016\n\nGA" +
+      "MBLE_GET\020\002\022\017\n\013GAMBLE_DATA\020\003**\n\021EGambleRe" +
+      "sultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002*4\n\013EGamb" +
+      "leType\022\013\n\007PRIMARY\020\001\022\n\n\006MIDDLE\020\002\022\014\n\010ADVAN" +
+      "CED\020\003*)\n\014ELotteryType\022\007\n\003ONE\020\001\022\007\n\003SIX\020\002\022",
+      "\007\n\003TEN\020\003B\"\n\013com.rwprotoB\023GambleServicePr" +
+      "otos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4200,21 +5654,27 @@ public final class GambleServiceProtos {
           internal_static_GambleRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GambleRequest_descriptor,
-              new java.lang.String[] { "RequestType", "GambleType", "LotteryType", });
+              new java.lang.String[] { "RequestType", "GambleType", "LotteryType", "GamblePlanId", });
           internal_static_GambleResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GambleResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GambleResponse_descriptor,
-              new java.lang.String[] { "ResultType", "Request", "ItemList", "HeroList", "GambleData", });
-          internal_static_GambleRewardData_descriptor =
+              new java.lang.String[] { "ResultType", "Request", "ItemList", "HeroList", "GambleData", "Tips", "DropHistory", });
+          internal_static_DropData_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_DropData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_DropData_descriptor,
+              new java.lang.String[] { "FreeCount", "MaxFreeCount", "LeftTime", });
+          internal_static_GambleRewardData_descriptor =
+            getDescriptor().getMessageTypes().get(3);
           internal_static_GambleRewardData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GambleRewardData_descriptor,
               new java.lang.String[] { "ItemId", "ItemNum", });
           internal_static_GambleData_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_GambleData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GambleData_descriptor,

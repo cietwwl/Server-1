@@ -46,6 +46,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private CacheJsonConverter<V> jsonConverter;
 	private final AtomicLong generator = new AtomicLong();
 
+	@SuppressWarnings("serial")
 	public DataCache(String name, int initialCapacity, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler) {
 		this.name = name;
 		this.capacity = maxCapacity;

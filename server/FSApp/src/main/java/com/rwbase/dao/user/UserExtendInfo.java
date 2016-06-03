@@ -21,6 +21,9 @@ public class UserExtendInfo {
 	//禁言解除时间，-1永久禁言
 	private long chatBanCoolTime = 0;
 	
+	//已回复未阅读的反馈
+	private int feedbackId = 0;
+	
 	public long getBlockCoolTime() {
 		return blockCoolTime;
 	}
@@ -44,6 +47,12 @@ public class UserExtendInfo {
 	}
 	public void setChatBanCoolTime(long chatBanCoolTime) {
 		this.chatBanCoolTime = chatBanCoolTime;
+	}
+	public int getFeedbackId() {
+		return feedbackId;
+	}
+	public void setFeedbackId(int feedbackId) {
+		this.feedbackId = feedbackId;
 	}
 	
 	

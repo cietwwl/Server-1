@@ -126,4 +126,18 @@ public class GroupListenerPlayerChange extends PlayerChangePopertySubscribe {
 	interface ModifyMemberDataCallback {
 		public void call(GroupMemberMgr memberMgr, String userId);
 	}
+
+	@Override
+	public void playerChangeHeadBox(final Player p) {
+		// TODO Auto-generated method stub
+		ModifyMemberDataCallback call = new ModifyMemberDataCallback() {
+
+			@Override
+			public void call(GroupMemberMgr memberMgr, String userId) {
+				memberMgr.updateMemberHeadbox(userId, p.getHeadFrame());
+			}
+		};
+
+		modifyGroupMemberInfo(p, call);
+	}
 }

@@ -21,7 +21,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.log.GameLog;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
-import com.rw.service.http.HttpServer;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -32,7 +31,7 @@ public class Server {
 	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		GameWorldFactory.init(32, 16);
+		GameWorldFactory.init(64, 16);
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
 
 		GameManager.initServerProperties();
@@ -43,24 +42,22 @@ public class Server {
 		AttributeBM.initAttributeMap();
 
 		// GameManager.initBeforeLoading();
-		new ClassPathXmlApplicationContext(new String[] {
-			"classpath:applicationContext.xml" });
+		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
 
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
-		int ioThreads = Runtime.getRuntime().availableProcessors() * 4;
+		int ioThreads = Runtime.getRuntime().availableProcessors() * 2;
 		// new PrintServerState().startPrintState();
-		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(64);
-		// final EventExecutorGroup pool = new DefaultEventExecutorGroup(512);
+		EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(ioThreads);
 		try {
-			//检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
+			// 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 			GameManager.CheckAllConfig();
-			
+
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
-			// lida 2015-08-21 启动http通信端口
-			int httpPort = GameManager.getHttpPort();
-			HttpServer.httpServerStart(httpPort);
+//			// lida 2015-08-21 启动http通信端口
+//			int httpPort = GameManager.getHttpPort();
+//			HttpServer.httpServerStart(httpPort);
 
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);

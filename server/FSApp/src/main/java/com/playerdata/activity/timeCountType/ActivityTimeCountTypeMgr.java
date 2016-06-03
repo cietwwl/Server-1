@@ -93,7 +93,7 @@ public class ActivityTimeCountTypeMgr {
 					}					
 					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
 
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
+						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getId());
 						if (isAdd) {
 							subItem.setTaken(true);
 						} else {
@@ -136,18 +136,34 @@ public class ActivityTimeCountTypeMgr {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 
 		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
-		
+
 		if(dataItem!=null){
-			
+			if(dataItem.isClosed()){
+				//玩家已领取完奖励
+				return;
+			}
 			long currentTimeMillis = System.currentTimeMillis();
 			long lastCountTime = dataItem.getLastCountTime();
 			long timeSpan = currentTimeMillis - lastCountTime;
-			
+			boolean istimeout = true;
+			List<ActivityTimeCountTypeSubCfg> subCfgList = ActivityTimeCountTypeSubCfgDAO.getInstance().getAllCfg();
+			for(ActivityTimeCountTypeSubCfg cfg : subCfgList){
+				if(cfg.getCount()>=dataItem.getCount()){
+					istimeout=false;
+					break;
+				}				
+			}		
+			if(istimeout){
+				//礼包处于可领取状态
+				return;
+			}	
 			if( timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond*1000){
+				//过长时间没有响应，比如离线
 				dataItem.setCount(dataItem.getCount() + (int)(timeSpan/1000));
+				
 			}
-			
-			dataItem.setLastCountTime(currentTimeMillis);
+			//礼包处于有效计时状态
+			dataItem.setLastCountTime(currentTimeMillis);	
 			dataHolder.updateItem(player, dataItem);
 		}		
 	}

@@ -7,10 +7,10 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.common.TaskExceptionHandler;
 import com.rw.fsutil.concurrent.ParametricTask;
 import com.rw.fsutil.concurrent.QueuedTaskExecutor;
-import com.rw.fsutil.dao.cache.SimpleThreadFactory;
 import com.rw.fsutil.log.EngineLogger;
 import com.rwbase.common.PlayerTaskListener;
 import com.rwbase.dao.gameworld.GameWorldAttributeData;
@@ -34,7 +34,8 @@ public class GameWorldExecutor implements GameWorld {
 
 	public GameWorldExecutor(int threadSize, EngineLogger logger, int asynThreadSize) {
 		this.logger = logger;
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player"));
+		this.listeners = new ArrayList<PlayerTaskListener>(0);
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player_pool"));
 		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("aysn_logic"));
 		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(threadSize, logger, executor) {
 
@@ -45,19 +46,18 @@ public class GameWorldExecutor implements GameWorld {
 
 			@Override
 			protected void afterExecute(String key, Player player) {
-				if (GameWorldExecutor.this.listeners != null) {
-					for (int i = listeners.size(); --i >= 0;) {
-						try {
-							PlayerTaskListener listener = listeners.get(i);
-							listener.notifyTaskCompleted(player);
-						} catch (Throwable t) {
-							GameWorldExecutor.this.logger.error("listener notification raised an exception", t);
-						}
+				for (int i = listeners.size(); --i >= 0;) {
+					try {
+						PlayerTaskListener listener = listeners.get(i);
+						listener.notifyTaskCompleted(player);
+					} catch (Throwable t) {
+						GameWorldExecutor.this.logger.error("listener notification raised an exception", t);
 					}
 				}
 			}
 		};
-		this.createExecutor = new QueuedTaskExecutor<String, Void>(threadSize, logger, executor) {
+		ThreadPoolExecutor accountExecutor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("account_pool"));
+		this.createExecutor = new QueuedTaskExecutor<String, Void>(threadSize, logger, accountExecutor) {
 
 			@Override
 			protected Void tryFetchParam(String key) {
@@ -146,15 +146,14 @@ public class GameWorldExecutor implements GameWorld {
 		data.setValue(attribute);
 		return GameWorldDAO.getInstance().update(data);
 	}
-
+	
 	@Override
 	public synchronized void registerPlayerDataListener(PlayerTaskListener listener) {
-		ArrayList<PlayerTaskListener> list;
-		if (listeners == null) {
-			list = new ArrayList<PlayerTaskListener>(1);
-		} else {
-			list = new ArrayList<PlayerTaskListener>(listeners);
+		if (listeners.contains(listener)) {
+			return;
 		}
+		ArrayList<PlayerTaskListener> list = new ArrayList<PlayerTaskListener>(listeners.size() + 1);
+		list.addAll(listeners);
 		list.add(listener);
 		this.listeners = list;
 	}

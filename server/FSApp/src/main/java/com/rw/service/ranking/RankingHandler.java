@@ -1,7 +1,6 @@
 package com.rw.service.ranking;
 
 import java.util.List;
-
 import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
@@ -12,7 +11,6 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
-import com.rwbase.dao.ranking.TableRankingMgr;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwproto.MsgDef.Command;
@@ -95,15 +93,16 @@ public class RankingHandler {
 		baseRankInfo.setAthleticsDay(0);//巅峰竞技每日排行
 //		baseRankInfo.setAthleticsCurrent(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_CURRENT, userId));//巅峰竞技实时排行
 		baseRankInfo.setAthleticsCurrent(0);//巅峰竞技实时排行
-		baseRankInfo.setTeam(RankingMgr.getInstance().getRankLevel(RankType.TEAM_FIGHTING_DAILY, userId));//五人小队战斗力排行
+		baseRankInfo.setTeam(RankingMgr.getInstance().getRankLevel(RankType.TEAM_FIGHTING, userId));//五人小队战斗力排行
 //		baseRankInfo.setEndless(RankingMgr.getInstance().getRankLevel(RankType.ENDLESS, userId));//无尽战火排行
 		baseRankInfo.setEndless(0);//无尽战火排行
 //		baseRankInfo.setGlory(RankingMgr.getInstance().getRankLevel(RankType.GLORY, userId));//荣耀山谷排行
 		baseRankInfo.setGlory(0);//荣耀山谷排行
 //		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_FIGHTING, userId));//巅峰竞技战斗力排行
 		baseRankInfo.setAthleticsFighting(0);//巅峰竞技战斗力排行
-		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(RankingMgr.getInstance().getTeamList(rankType, userId)));//获取队伍数据
-		baseRankInfo.setArenaWinCount(TableRankingMgr.getInstance().getArenaTeamWinCount(userId, rankType));
+		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(rankType, userId));//获取队伍数据
+		//TODO
+		//baseRankInfo.setArenaWinCount(TableRankingMgr.getInstance().getArenaTeamWinCount(userId, rankType));
 		String groupName = GroupHelper.getGroupName(userId);
 		if(groupName == null || groupName.isEmpty()){
 			groupName = "无";

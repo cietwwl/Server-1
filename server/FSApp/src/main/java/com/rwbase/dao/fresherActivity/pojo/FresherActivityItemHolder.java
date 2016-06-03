@@ -17,6 +17,7 @@ import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
@@ -190,7 +191,12 @@ public class FresherActivityItemHolder {
 		if(fresherActivityCfg.getStartTimeType() == FresherActivityChecker.START_TYPE_OPENTIME){
 			openTime = GameManager.getOpenTime();
 		}else{
-			openTime = user.getCreateTime();
+			long createTime = user.getCreateTime();
+			openTime = DateUtils.getHour(createTime, 5);   //五点为重置时间
+			//当前创建时间已经转天而且小于5点 应该算上一天
+			if(createTime < openTime){
+				openTime -= 24*60*60*1000l;
+			}
 		}
 		fresherActivityItem.setStartTime(fresherActivityCfg.getStartTime() * DAY_TIME + openTime);
 		if (fresherActivityCfg.getEndTime() == -1) {

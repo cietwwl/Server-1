@@ -3,6 +3,7 @@ package com.rw.netty;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -15,11 +16,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+
 import org.apache.commons.lang3.StringUtils;
+
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
+import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
@@ -27,6 +31,7 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 public class UserChannelMgr {
 
 	private static final AttributeKey<SessionInfo> USER_ID;
+	private static final AttributeKey<SynDataInReqMgr> SYN_DATA;
 	private static final long RECONNECT_TIME;
 	private static final SessionInfo CLOSE_SESSION;
 	private static ConcurrentHashMap<String, ChannelHandlerContext> userChannelMap;
@@ -35,6 +40,7 @@ public class UserChannelMgr {
 
 	static {
 		USER_ID = AttributeKey.valueOf("userId");
+		SYN_DATA = AttributeKey.valueOf("syn_data");
 		RECONNECT_TIME = TimeUnit.MINUTES.toMillis(5);
 		CLOSE_SESSION = new SessionInfo("close", 0);
 		userChannelMap = new ConcurrentHashMap<String, ChannelHandlerContext>();
@@ -116,6 +122,54 @@ public class UserChannelMgr {
 			return -1;
 		}
 		return oldSession.getSessionId();
+	}
+
+	/**
+	 * <pre>
+	 * 获取{@link SynDataInReqMgr}，若玩家不在线，返回null
+	 * </pre>
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public static SynDataInReqMgr getSynDataInReqMgr(String userId) {
+		ChannelHandlerContext ctx = userChannelMap.get(userId);
+		if (ctx == null) {
+			return null;
+		}
+		return getSynDataInReqMgr(ctx);
+	}
+
+	private static SynDataInReqMgr getSynDataInReqMgr(ChannelHandlerContext ctx) {
+		Attribute<SynDataInReqMgr> synDataAttr = ctx.channel().attr(SYN_DATA);
+		SynDataInReqMgr synData = synDataAttr.get();
+		if (synData != null) {
+			return synData;
+		}
+		synData = new SynDataInReqMgr();
+		SynDataInReqMgr oldSynData = synDataAttr.setIfAbsent(synData);
+		return oldSynData == null ? synData : oldSynData;
+	}
+
+	public static boolean onBSBegin(String userId) {
+		SynDataInReqMgr synData = getSynDataInReqMgr(userId);
+		if (synData == null) {
+			return false;
+		}
+		return synData.setInReq();
+	}
+
+	public static boolean onBSEnd(String userId) {
+		ChannelHandlerContext ctx = userChannelMap.get(userId);
+		if (ctx == null) {
+			return false;
+		}
+
+		SynDataInReqMgr synData = getSynDataInReqMgr(ctx);
+		if (synData == null) {
+			return false;
+		}
+		return synData.doSyn(ctx, userId);
 	}
 
 	/**

@@ -34,6 +34,8 @@ public class TableZoneInfo {
 	private String openTime;       //开服时间
 	private String gmPort;
 	private int chargePort;
+	private String giftCodeServerIp; // 兑换码服务器Id
+	private int giftCodeServerPort;  // 兑换码服务器端口
 
 	public int getZoneId() {
 		return zoneId;
@@ -158,6 +160,18 @@ public class TableZoneInfo {
 	}
 	public void setChargePort(int chargePort) {
 		this.chargePort = chargePort;
+	}
+	public String getGiftCodeServerIp() {
+		return giftCodeServerIp;
+	}
+	public void setGiftCodeServerIp(String giftCodeServerIp) {
+		this.giftCodeServerIp = giftCodeServerIp;
+	}
+	public int getGiftCodeServerPort() {
+		return giftCodeServerPort;
+	}
+	public void setGiftCodeServerPort(int giftCodeServerPort) {
+		this.giftCodeServerPort = giftCodeServerPort;
 	}
 	
 	

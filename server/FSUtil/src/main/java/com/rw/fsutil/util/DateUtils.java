@@ -7,11 +7,24 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
-	
-	private static SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyyMMddHHmm");
+
+	private static ThreadLocal<SimpleDateFormat> formate_ddhhmmss = new ThreadLocal<SimpleDateFormat>();
+	private static ThreadLocal<SimpleDateFormat> formate_yyyyMMddHHmm = new ThreadLocal<SimpleDateFormat>();
+	private static ThreadLocal<Calendar> currentCalendar = new ThreadLocal<Calendar>();
+
+	public static Calendar getCalendar() {
+		Calendar current = currentCalendar.get();
+		if (current == null) {
+			current = Calendar.getInstance();
+			currentCalendar.set(current);
+		}
+		return current;
+	}
 
 	public static Calendar getCurrent() {
-		return Calendar.getInstance();
+		Calendar calendar = getCalendar();
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		return calendar;
 	}
 
 	public static int getCurrentHour() {
@@ -94,7 +107,8 @@ public class DateUtils {
 		int dayOfYear = currentDay.get(Calendar.DAY_OF_YEAR);
 		int yearLast = dayFlag.get(Calendar.YEAR);
 		int dayOfYearLast = dayFlag.get(Calendar.DAY_OF_YEAR);
-//		System.out.println("dateutils.year" + year +" dayofyear" + dayOfYear +" yearlast +" + yearLast + " dayofyearlast" + dayOfYearLast);
+		// System.out.println("dateutils.year" + year +" dayofyear" + dayOfYear
+		// +" yearlast +" + yearLast + " dayofyearlast" + dayOfYearLast);
 		if (year > yearLast) {
 			return true;
 		}
@@ -186,9 +200,9 @@ public class DateUtils {
 	 * @return
 	 */
 	public static boolean isResetTime(int hour, int minute, int second, long lastTime, long offTimeMillis) {
-		Calendar calendar = Calendar.getInstance();
-		long curTime = calendar.getTimeInMillis();// 当前时间
-
+		Calendar calendar = getCalendar();
+		// long curTime = calendar.getTimeInMillis();// 当前时间
+		long curTime = System.currentTimeMillis();
 		// 重置时间
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, minute);
@@ -211,9 +225,9 @@ public class DateUtils {
 	 * @return
 	 */
 	public static long getResetTime(int hour, int minute, int second) {
-		Calendar calendar = Calendar.getInstance();
-		long curTime = calendar.getTimeInMillis();// 当前时间
-
+		Calendar calendar = getCalendar();
+		// long curTime = calendar.getTimeInMillis();// 当前时间
+		long curTime = System.currentTimeMillis();
 		// 重置时间
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, minute);
@@ -250,6 +264,7 @@ public class DateUtils {
 		int distance = (int) (distanceTime / (24 * 60 * 60 * 1000));
 		return distance;
 	}
+
 	/**
 	 * 传入yyyyMMddhhmm格式的日期字符串转换为毫秒
 	 * 
@@ -257,18 +272,34 @@ public class DateUtils {
 	 * @param lateDay
 	 * @return
 	 */
-	public static long YyyymmddhhmmToMillionseconds(String str){
-		try{
-			long millionseconds = yyyyMMddHHmm.parse(str).getTime();
+	public static long YyyymmddhhmmToMillionseconds(String str) {
+		try {
+			long millionseconds = getyyyyMMddHHmmFormater().parse(str).getTime();
 			return millionseconds;
-		}catch(Exception e){
-			
-		}		
+		} catch (Exception e) {
+
+		}
 		return 0;
 	}
-	
-	
-	
+
+	public static SimpleDateFormat getyyyyMMddHHmmFormater() {
+		SimpleDateFormat format = formate_yyyyMMddHHmm.get();
+		if (format == null) {
+			format = new SimpleDateFormat("yyyyMMddHHmm");
+			formate_yyyyMMddHHmm.set(format);
+		}
+		return format;
+	}
+
+	public static SimpleDateFormat getddHHmmFormater() {
+		SimpleDateFormat format = formate_ddhhmmss.get();
+		if (format == null) {
+			format = new SimpleDateFormat("dd HH:mm:ss");
+			formate_ddhhmmss.set(format);
+		}
+		return format;
+	}
+
 	public static void setDayZeroTime(Calendar c) {
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);
@@ -304,7 +335,8 @@ public class DateUtils {
 	}
 
 	public static void main(String[] args) throws ParseException {
-		// System.out.println(new Date(getHour(System.currentTimeMillis(), 12)));
+		// System.out.println(new Date(getHour(System.currentTimeMillis(),
+		// 12)));
 		// System.out.println(new Date(getHour(getDateTime(1), 9)));
 
 		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

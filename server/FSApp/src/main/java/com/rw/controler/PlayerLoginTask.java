@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
@@ -155,7 +155,6 @@ public class PlayerLoginTask implements PlayerTask {
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
 		player.setZoneLoginInfo(zoneLoginInfo);
 		BILogMgr.getInstance().logZoneLogin(player);
-		ActivityCountTypeMgr.getInstance().checkActivity(player);
 		
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);

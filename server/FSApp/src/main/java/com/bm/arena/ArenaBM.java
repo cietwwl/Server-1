@@ -510,6 +510,7 @@ public class ArenaBM {
 		int level = player.getLevel();
 		String headImage = player.getHeadImage();
 		String userName = player.getUserName();
+		String headBox = player.getHeadFrame();
 		TableArenaData data = tableArenaDataDAO.get(userId);
 		int fighting = 0;
 		if (data != null) {
@@ -518,6 +519,7 @@ public class ArenaBM {
 			data.setCareer(career);
 			data.setFighting(fighting);
 			data.setHeadImage(headImage);
+			data.setHeadbox(headBox);
 			ItemData magic = player.getMagic();
 			if (magic != null) {
 				data.setMagicId(magic.getModelId());
@@ -538,6 +540,7 @@ public class ArenaBM {
 			// TODO 出问题的时候不更新战力，后面改
 			arenaExt.setFighting(fighting);
 			arenaExt.setHeadImage(headImage);
+			arenaExt.setHeadbox(headBox);
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
 			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());

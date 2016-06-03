@@ -8,6 +8,8 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
+import com.playerdata.army.simple.ArmyHeroSimple;
+import com.playerdata.army.simple.ArmyInfoSimple;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -59,15 +61,12 @@ public class ArmyInfoHelper {
 		armyHero.setFighting(role.getFighting());
 		return armyHero;
 	}
-	// private static ArmyHero getArmyHero(Hero hero) {
-	// SkillMgr skillMgr = hero.getSkillMgr();
-	//
-	// List<Skill> skillList = skillMgr.getSkillList();
-	// AttrData totalAttrData = hero.getAttrMgr().getTotalAttrData();
-	// RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
-	// ArmyHero armyHero = new ArmyHero(baseInfo, totalAttrData, skillList);
-	//
-	// return armyHero;
-	// }
 
+
+	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
+		return ArmySimpleInfoHelper.getSimpleInfo(playerId, heroIdList);
+	}
+
+
+	
 }
