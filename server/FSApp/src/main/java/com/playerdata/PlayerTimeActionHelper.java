@@ -6,7 +6,6 @@ import com.common.TimeActionTask;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
@@ -93,7 +92,6 @@ public class PlayerTimeActionHelper {
 				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityRankTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;

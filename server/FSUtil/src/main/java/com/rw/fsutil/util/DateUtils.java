@@ -250,12 +250,6 @@ public class DateUtils {
 	 * @return
 	 */
 	public static int getDayDistance(long earyDay, long lateDay) {
-		int distance =(int) (getHourDistance(earyDay, lateDay)/24);
-		
-		return distance;
-	}
-	
-	public static int getHourDistance(long earyDay, long lateDay) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTimeInMillis(earyDay);
 		Calendar c2 = Calendar.getInstance();
@@ -268,12 +262,10 @@ public class DateUtils {
 		long timeInMillis2 = c2.getTimeInMillis();
 
 		long distanceTime = Math.abs(timeInMillis2 - timeInMillis);
-		int distance = (int) (distanceTime / ( 60 * 60 * 1000));		
+
+		int distance = (int) (distanceTime / (24 * 60 * 60 * 1000));
 		return distance;
 	}
-	
-	
-	
 
 	/**
 	 * 传入yyyyMMddhhmm格式的日期字符串转换为毫秒

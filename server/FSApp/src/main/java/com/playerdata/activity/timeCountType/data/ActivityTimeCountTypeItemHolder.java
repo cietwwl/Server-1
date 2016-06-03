@@ -36,7 +36,8 @@ public class ActivityTimeCountTypeItemHolder{
 		while (mapEnum.hasMoreElements()) {
 			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem) mapEnum.nextElement();			
 			itemList.add(item);
-		}		
+		}
+		
 		return itemList;
 	}
 	

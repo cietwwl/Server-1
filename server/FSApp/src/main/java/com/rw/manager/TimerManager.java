@@ -13,7 +13,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
-import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.gamble.GambleLogic;
@@ -78,7 +77,7 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				GuildGTSMgr.getInstance().checkAssignMent();				
+				GuildGTSMgr.getInstance().checkAssignMent();
 			}
 		}, HOUR);
 
@@ -176,8 +175,6 @@ public class TimerManager {
 				}
 			}
 		}, 0, 10, TimeUnit.SECONDS);
-		
-		
 
 		biTimeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
@@ -226,11 +223,10 @@ public class TimerManager {
 	/***** 每分刷新 *****/
 	private static void minutesFun() {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
-		/**** 排行 榜奖励***/
-		ActivityRankTypeMgr.getInstance().sendGift();
+		/**** 排行 ***/
+		// RankingMgr.getInstance().onTimeMinute();
 
 		// GambleMgr.minutesUpdate();
-		
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
 	}

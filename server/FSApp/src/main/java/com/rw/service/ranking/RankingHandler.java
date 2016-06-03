@@ -79,16 +79,6 @@ public class RankingHandler {
 		return response.build().toByteString();
 	}
 	
-	/**请求自己的排行信息*/
-	public ByteString rankingInfoSelf(MsgRankRequest request, Player player){
-		MsgRankResponse.Builder response = MsgRankResponse.newBuilder();
-		response.setRequestType(request.getRequestType());		
-		String requestUserId = player.getUserId();
-		response.setBaseRankInfo(getBaseRankInfo(requestUserId, ERankingType.LEVEL_ALL));
-		return response.build().toByteString();
-	}
-	
-	
 	/**获取某个玩家的基础排行数据*/
 	private BaseRankInfo getBaseRankInfo(String userId, ERankingType rankType){
 		Player player = PlayerMgr.getInstance().find(userId);
@@ -128,7 +118,4 @@ public class RankingHandler {
 		response.setResultType(ERankResultType.SUCCESS);
 		player.SendMsg(Command.MSG_RANKING, response.build().toByteString());
 	}
-	
-	
-	
 }

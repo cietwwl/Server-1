@@ -148,7 +148,7 @@ public class MapItemStoreFactory {
 		//
 		// register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
 		//
-		 register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
+		// register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
 
 		register(activityExchangeTypeItemCache = new MapItemStoreCache<ActivityExchangeTypeItem>(ActivityExchangeTypeItem.class, "userId", heroCapacity));		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
 
