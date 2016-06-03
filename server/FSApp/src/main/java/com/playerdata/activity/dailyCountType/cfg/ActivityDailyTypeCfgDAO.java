@@ -83,7 +83,7 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 	}
 
 
-	public List<ActivityDailyTypeSubItem> newItemList(ActivityDailyTypeCfg cfgById) {
+	public List<ActivityDailyTypeSubItem> newItemList() {
 		List<ActivityDailyTypeSubItem> subItemList = new ArrayList<ActivityDailyTypeSubItem>();
 		List<ActivityDailyTypeSubCfg> allsubCfgList = ActivityDailyTypeSubCfgDAO.getInstance().getAllCfg();	
 		for(ActivityDailyTypeSubCfg activityDailyCountTypeSubCfg : allsubCfgList){
