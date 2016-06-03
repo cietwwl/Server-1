@@ -18,9 +18,11 @@ public class TablePeakArenaData {
 	private int maxPlace; //历史最高排名
 	private int winCount;//历史胜利场次
 	private boolean hasRanking;//未入榜的标志
-	private int challengeCount;//挑战次数
-	private int resetCount;//重置次数
-	private int buyCount;//额外购买的挑战次数
+	
+	private int challengeCount;//挑战次数 每天重置
+	private int resetCount;//重置次数 每天重置
+	private int buyCount;//额外购买的挑战次数 每天重置
+	
 	private int expectCurrency; // 预计能获得的货币
 	private volatile long fightStartTime;//开战时间,0表示没有开战
 	private TeamData[] teams = new TeamData[3];

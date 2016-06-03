@@ -13,6 +13,9 @@ import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.stream.IStream;
+import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -24,10 +27,14 @@ import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.PeakArena.datamodel.peakArenaMatchRule;
 import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
+import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
+import com.rw.service.store.StoreHandler;
+import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.TableSkill;
 
-public class PeakArenaBM {
+public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 
 	private static PeakArenaBM instance;
 	private TablePeakArenaDataDAO tablePeakArenaDataDAO = TablePeakArenaDataDAO.getInstance();
@@ -83,6 +90,8 @@ public class PeakArenaBM {
 		randomArray[1] = singleDigitArray;
 		randomArray[2] = doubleValueArray;
 		randomArray[3] = tripleValueArray;
+		
+		StoreHandler.getInstance().getOpenStoreNotification().subscribe(this);
 	}
 
 	private int convertPlace(int pivot, int percentage){
@@ -509,6 +518,41 @@ public class PeakArenaBM {
 	public ListRankingEntry<String, PeakArenaExtAttribute> getEnemyEntry(String enemyId) {
 		ListRanking<String, PeakArenaExtAttribute> ranking = getRanks();
 		return ranking.getRankingEntry(enemyId);
+	}
+
+	/**
+	 * 根据排名结算一次巅峰竞技场可以领取的货币
+	 * @param player
+	 * @param peakBM
+	 * @param playerArenaData
+	 * @param playerPlace
+	 */
+	public void addPeakArenaCoin(Player player,
+			TablePeakArenaData playerArenaData, int playerPlace, long replaceTime) {
+		int gainPerHour = peakArenaPrizeHelper.getInstance().getBestMatchPrizeCount(playerPlace);
+		int addCount = gainExpectCurrency(playerArenaData,gainPerHour,replaceTime);
+		if (addCount > 0){
+			if (player.getItemBagMgr().addItem(eSpecialItemId.PeakArenaCoin.getValue(), addCount)){
+				playerArenaData.setExpectCurrency(0);
+			}else{
+				GameLog.error("巅峰竞技场", player.getUserId(), "增加巅峰竞技场货币失败");
+			}
+		}
+	}
+	
+	@Override
+	public void onChange(Pair<Player, Integer> newValue) {
+		if (newValue != null && newValue.getT1() != null 
+				&& newValue.getT2() != null && newValue.getT2() == eStoreType.PeakStore.getOrder()){
+			Player user = newValue.getT1();
+			TablePeakArenaData data = tablePeakArenaDataDAO.get(user.getUserId());
+			if (data == null) return;
+			int place = getPlace(user);
+			addPeakArenaCoin(user,data,place,System.currentTimeMillis());
+		}
+	}
+	@Override
+	public void onClose(IStream<Pair<Player, Integer>> whichStream) {
 	}
 
 }

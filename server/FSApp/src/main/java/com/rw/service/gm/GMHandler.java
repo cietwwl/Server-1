@@ -25,6 +25,12 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.PeakArena.PeakArenaBM;
+import com.rw.service.PeakArena.datamodel.peakArenaBuyCost;
+import com.rw.service.PeakArena.datamodel.peakArenaInfo;
+import com.rw.service.PeakArena.datamodel.peakArenaMatchRule;
+import com.rw.service.PeakArena.datamodel.peakArenaPrize;
+import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfg;
 import com.rw.service.gamble.datamodel.GamblePlanCfg;
@@ -137,6 +143,10 @@ public class GMHandler {
 		
 		//设置充值开关,0开启1关闭
 		funcCallBackMap.put("setchargeon", "setChargeOn");
+		
+		//巅峰竞技场，重新加载配置
+		funcCallBackMap.put("reloadpeakarenaconfig", "reloadPeakArenaConfig");
+		funcCallBackMap.put("resetpeakarenachallenge", "resetPeakArenaChallenge");
 	}
 
 	public boolean isActive() {
@@ -159,7 +169,25 @@ public class GMHandler {
 	}
 
 	/** GM命令 */
-	//reloadPrivilegeConfig
+	public boolean resetPeakArenaChallenge(String[] arrCommandContents, Player player){
+		GameLog.info("GM", "resetPeakArenaChallenge", "start",null);
+		PeakArenaBM.getInstance().resetDataInNewDay(player);
+		GameLog.info("GM", "resetPeakArenaChallenge", "finished",null);
+		return true;
+	}
+	
+	public boolean reloadPeakArenaConfig(String[] arrCommandContents, Player player){
+		GameLog.info("GM", "reloadPeakArenaConfig", "start",null);
+		boolean result = true;
+		result = result && reloadOneConfigClass(peakArenaInfo.class.getName());
+		result = result && reloadOneConfigClass(peakArenaBuyCost.class.getName());
+		result = result && reloadOneConfigClass(peakArenaResetCost.class.getName());
+		result = result && reloadOneConfigClass(peakArenaMatchRule.class.getName());
+		result = result && reloadOneConfigClass(peakArenaPrize.class.getName());
+		GameLog.info("GM", "reloadPeakArenaConfig", "finished",null);
+		return result;
+	}
+	
 	public boolean reloadPrivilegeConfig(String[] arrCommandContents, Player player){
 		GameLog.info("GM", "reloadPrivilegeConfig", "start",null);
 		PrivilegeConfigHelper.getInstance().reloadAllPrivilegeConfigs();

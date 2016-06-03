@@ -18,6 +18,7 @@ enum eArenaType {
 	SWITCH_OVER = 12;//更换玩家队伍顺序,使用 reorder 参数表示1，2，3队伍的ID
 	BUY_CHALLENGE_COUNT = 13;// 购买挑战次数
 	FIGHT_CONTINUE = 14;//挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
+	GET_CD_TIME = 15;//由于客户端计时不准确，并且过场的时候用UI线程或者单独线程倒计时会崩溃，暂时用重新请求服务器的方式来做
 }
 
 enum eArenaResultType {
@@ -63,6 +64,7 @@ message ArenaData{
 	repeated TeamInfo teams = 19;
     optional string groupName = 23; // 帮派名称
 	optional string armyInfo = 24;//暂时没有用 Json字符串：队伍信息
+	optional string headFrame = 25;//userId对应玩家的头像框
 }
 
 message ArenaInfo{//保存对手概要信息
@@ -76,6 +78,7 @@ message ArenaInfo{//保存对手概要信息
 	optional int32 starLevel = 10;
 	optional string qualityId = 11;
 	optional int32 career = 12;
+	optional string headFrame = 13;//对手的头像框
 }
 
 message ArenaRecord{
@@ -113,4 +116,5 @@ message MsgArenaResponse{
 	optional int32 cdTime = 12;//玩家倒计时
 	optional int32 gainCurrencyPerHour = 13;	//每小时能获得的巅峰币
 	optional int32 resetCost = 14;//重置需要的费用
+	optional int32 placeUp = 15; //战斗胜利后发送
 }

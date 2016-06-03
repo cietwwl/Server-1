@@ -119,6 +119,14 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     FIGHT_CONTINUE(13, 14),
+    /**
+     * <code>GET_CD_TIME = 15;</code>
+     *
+     * <pre>
+     *由于客户端计时不准确，并且过场的时候用UI线程或者单独线程倒计时会崩溃，暂时用重新请求服务器的方式来做
+     * </pre>
+     */
+    GET_CD_TIME(14, 15),
     ;
 
     /**
@@ -227,6 +235,14 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public static final int FIGHT_CONTINUE_VALUE = 14;
+    /**
+     * <code>GET_CD_TIME = 15;</code>
+     *
+     * <pre>
+     *由于客户端计时不准确，并且过场的时候用UI线程或者单独线程倒计时会崩溃，暂时用重新请求服务器的方式来做
+     * </pre>
+     */
+    public static final int GET_CD_TIME_VALUE = 15;
 
 
     public final int getNumber() { return value; }
@@ -247,6 +263,7 @@ public final class PeakArenaServiceProtos {
         case 12: return SWITCH_OVER;
         case 13: return BUY_CHALLENGE_COUNT;
         case 14: return FIGHT_CONTINUE;
+        case 15: return GET_CD_TIME;
         default: return null;
       }
     }
@@ -4373,6 +4390,33 @@ public final class PeakArenaServiceProtos {
      */
     com.google.protobuf.ByteString
         getArmyInfoBytes();
+
+    // optional string headFrame = 25;
+    /**
+     * <code>optional string headFrame = 25;</code>
+     *
+     * <pre>
+     *userId对应玩家的头像框
+     * </pre>
+     */
+    boolean hasHeadFrame();
+    /**
+     * <code>optional string headFrame = 25;</code>
+     *
+     * <pre>
+     *userId对应玩家的头像框
+     * </pre>
+     */
+    java.lang.String getHeadFrame();
+    /**
+     * <code>optional string headFrame = 25;</code>
+     *
+     * <pre>
+     *userId对应玩家的头像框
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadFrameBytes();
   }
   /**
    * Protobuf type {@code ArenaData}
@@ -4499,6 +4543,11 @@ public final class PeakArenaServiceProtos {
             case 194: {
               bitField0_ |= 0x00000800;
               armyInfo_ = input.readBytes();
+              break;
+            }
+            case 202: {
+              bitField0_ |= 0x00001000;
+              headFrame_ = input.readBytes();
               break;
             }
           }
@@ -5029,6 +5078,61 @@ public final class PeakArenaServiceProtos {
       }
     }
 
+    // optional string headFrame = 25;
+    public static final int HEADFRAME_FIELD_NUMBER = 25;
+    private java.lang.Object headFrame_;
+    /**
+     * <code>optional string headFrame = 25;</code>
+     *
+     * <pre>
+     *userId对应玩家的头像框
+     * </pre>
+     */
+    public boolean hasHeadFrame() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional string headFrame = 25;</code>
+     *
+     * <pre>
+     *userId对应玩家的头像框
+     * </pre>
+     */
+    public java.lang.String getHeadFrame() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headFrame_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headFrame = 25;</code>
+     *
+     * <pre>
+     *userId对应玩家的头像框
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadFrameBytes() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headFrame_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       place_ = 0;
@@ -5044,6 +5148,7 @@ public final class PeakArenaServiceProtos {
       teams_ = java.util.Collections.emptyList();
       groupName_ = "";
       armyInfo_ = "";
+      headFrame_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5109,6 +5214,9 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeBytes(24, getArmyInfoBytes());
       }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeBytes(25, getHeadFrameBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -5173,6 +5281,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(24, getArmyInfoBytes());
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(25, getHeadFrameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5328,6 +5440,8 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00001000);
         armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00002000);
+        headFrame_ = "";
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -5422,6 +5536,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000800;
         }
         result.armyInfo_ = armyInfo_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.headFrame_ = headFrame_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5536,6 +5654,11 @@ public final class PeakArenaServiceProtos {
         if (other.hasArmyInfo()) {
           bitField0_ |= 0x00002000;
           armyInfo_ = other.armyInfo_;
+          onChanged();
+        }
+        if (other.hasHeadFrame()) {
+          bitField0_ |= 0x00004000;
+          headFrame_ = other.headFrame_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -6809,6 +6932,104 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // optional string headFrame = 25;
+      private java.lang.Object headFrame_ = "";
+      /**
+       * <code>optional string headFrame = 25;</code>
+       *
+       * <pre>
+       *userId对应玩家的头像框
+       * </pre>
+       */
+      public boolean hasHeadFrame() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional string headFrame = 25;</code>
+       *
+       * <pre>
+       *userId对应玩家的头像框
+       * </pre>
+       */
+      public java.lang.String getHeadFrame() {
+        java.lang.Object ref = headFrame_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headFrame_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headFrame = 25;</code>
+       *
+       * <pre>
+       *userId对应玩家的头像框
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadFrameBytes() {
+        java.lang.Object ref = headFrame_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headFrame_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headFrame = 25;</code>
+       *
+       * <pre>
+       *userId对应玩家的头像框
+       * </pre>
+       */
+      public Builder setHeadFrame(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00004000;
+        headFrame_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headFrame = 25;</code>
+       *
+       * <pre>
+       *userId对应玩家的头像框
+       * </pre>
+       */
+      public Builder clearHeadFrame() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        headFrame_ = getDefaultInstance().getHeadFrame();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headFrame = 25;</code>
+       *
+       * <pre>
+       *userId对应玩家的头像框
+       * </pre>
+       */
+      public Builder setHeadFrameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00004000;
+        headFrame_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ArenaData)
     }
 
@@ -6958,6 +7179,33 @@ public final class PeakArenaServiceProtos {
      * <code>optional int32 career = 12;</code>
      */
     int getCareer();
+
+    // optional string headFrame = 13;
+    /**
+     * <code>optional string headFrame = 13;</code>
+     *
+     * <pre>
+     *对手的头像框
+     * </pre>
+     */
+    boolean hasHeadFrame();
+    /**
+     * <code>optional string headFrame = 13;</code>
+     *
+     * <pre>
+     *对手的头像框
+     * </pre>
+     */
+    java.lang.String getHeadFrame();
+    /**
+     * <code>optional string headFrame = 13;</code>
+     *
+     * <pre>
+     *对手的头像框
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadFrameBytes();
   }
   /**
    * Protobuf type {@code ArenaInfo}
@@ -7062,6 +7310,11 @@ public final class PeakArenaServiceProtos {
             case 96: {
               bitField0_ |= 0x00000200;
               career_ = input.readInt32();
+              break;
+            }
+            case 106: {
+              bitField0_ |= 0x00000400;
+              headFrame_ = input.readBytes();
               break;
             }
           }
@@ -7388,6 +7641,61 @@ public final class PeakArenaServiceProtos {
       return career_;
     }
 
+    // optional string headFrame = 13;
+    public static final int HEADFRAME_FIELD_NUMBER = 13;
+    private java.lang.Object headFrame_;
+    /**
+     * <code>optional string headFrame = 13;</code>
+     *
+     * <pre>
+     *对手的头像框
+     * </pre>
+     */
+    public boolean hasHeadFrame() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string headFrame = 13;</code>
+     *
+     * <pre>
+     *对手的头像框
+     * </pre>
+     */
+    public java.lang.String getHeadFrame() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headFrame_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string headFrame = 13;</code>
+     *
+     * <pre>
+     *对手的头像框
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadFrameBytes() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headFrame_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       userId_ = "";
       place_ = 0;
@@ -7399,6 +7707,7 @@ public final class PeakArenaServiceProtos {
       starLevel_ = 0;
       qualityId_ = "";
       career_ = 0;
+      headFrame_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7445,6 +7754,9 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(12, career_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(13, getHeadFrameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -7494,6 +7806,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(12, career_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(13, getHeadFrameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7635,6 +7951,8 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000100);
         career_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        headFrame_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -7703,6 +8021,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000200;
         }
         result.career_ = career_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.headFrame_ = headFrame_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7756,6 +8078,11 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasCareer()) {
           setCareer(other.getCareer());
+        }
+        if (other.hasHeadFrame()) {
+          bitField0_ |= 0x00000400;
+          headFrame_ = other.headFrame_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -8310,6 +8637,104 @@ public final class PeakArenaServiceProtos {
       public Builder clearCareer() {
         bitField0_ = (bitField0_ & ~0x00000200);
         career_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string headFrame = 13;
+      private java.lang.Object headFrame_ = "";
+      /**
+       * <code>optional string headFrame = 13;</code>
+       *
+       * <pre>
+       *对手的头像框
+       * </pre>
+       */
+      public boolean hasHeadFrame() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string headFrame = 13;</code>
+       *
+       * <pre>
+       *对手的头像框
+       * </pre>
+       */
+      public java.lang.String getHeadFrame() {
+        java.lang.Object ref = headFrame_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headFrame_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string headFrame = 13;</code>
+       *
+       * <pre>
+       *对手的头像框
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadFrameBytes() {
+        java.lang.Object ref = headFrame_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headFrame_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string headFrame = 13;</code>
+       *
+       * <pre>
+       *对手的头像框
+       * </pre>
+       */
+      public Builder setHeadFrame(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headFrame_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headFrame = 13;</code>
+       *
+       * <pre>
+       *对手的头像框
+       * </pre>
+       */
+      public Builder clearHeadFrame() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        headFrame_ = getDefaultInstance().getHeadFrame();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string headFrame = 13;</code>
+       *
+       * <pre>
+       *对手的头像框
+       * </pre>
+       */
+      public Builder setHeadFrameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        headFrame_ = value;
         onChanged();
         return this;
       }
@@ -11227,6 +11652,24 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getResetCost();
+
+    // optional int32 placeUp = 15;
+    /**
+     * <code>optional int32 placeUp = 15;</code>
+     *
+     * <pre>
+     *战斗胜利后发送
+     * </pre>
+     */
+    boolean hasPlaceUp();
+    /**
+     * <code>optional int32 placeUp = 15;</code>
+     *
+     * <pre>
+     *战斗胜利后发送
+     * </pre>
+     */
+    int getPlaceUp();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -11373,6 +11816,11 @@ public final class PeakArenaServiceProtos {
             case 112: {
               bitField0_ |= 0x00000800;
               resetCost_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00001000;
+              placeUp_ = input.readInt32();
               break;
             }
           }
@@ -11806,6 +12254,30 @@ public final class PeakArenaServiceProtos {
       return resetCost_;
     }
 
+    // optional int32 placeUp = 15;
+    public static final int PLACEUP_FIELD_NUMBER = 15;
+    private int placeUp_;
+    /**
+     * <code>optional int32 placeUp = 15;</code>
+     *
+     * <pre>
+     *战斗胜利后发送
+     * </pre>
+     */
+    public boolean hasPlaceUp() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional int32 placeUp = 15;</code>
+     *
+     * <pre>
+     *战斗胜利后发送
+     * </pre>
+     */
+    public int getPlaceUp() {
+      return placeUp_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       arenaResultType_ = com.rwproto.PeakArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -11821,6 +12293,7 @@ public final class PeakArenaServiceProtos {
       cdTime_ = 0;
       gainCurrencyPerHour_ = 0;
       resetCost_ = 0;
+      placeUp_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11898,6 +12371,9 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeInt32(14, resetCost_);
       }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(15, placeUp_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -11962,6 +12438,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(14, resetCost_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, placeUp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12122,6 +12602,8 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00001000);
         resetCost_ = 0;
         bitField0_ = (bitField0_ & ~0x00002000);
+        placeUp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -12220,6 +12702,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000800;
         }
         result.resetCost_ = resetCost_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.placeUp_ = placeUp_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12325,6 +12811,9 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasResetCost()) {
           setResetCost(other.getResetCost());
+        }
+        if (other.hasPlaceUp()) {
+          setPlaceUp(other.getPlaceUp());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -13590,6 +14079,55 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // optional int32 placeUp = 15;
+      private int placeUp_ ;
+      /**
+       * <code>optional int32 placeUp = 15;</code>
+       *
+       * <pre>
+       *战斗胜利后发送
+       * </pre>
+       */
+      public boolean hasPlaceUp() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional int32 placeUp = 15;</code>
+       *
+       * <pre>
+       *战斗胜利后发送
+       * </pre>
+       */
+      public int getPlaceUp() {
+        return placeUp_;
+      }
+      /**
+       * <code>optional int32 placeUp = 15;</code>
+       *
+       * <pre>
+       *战斗胜利后发送
+       * </pre>
+       */
+      public Builder setPlaceUp(int value) {
+        bitField0_ |= 0x00004000;
+        placeUp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 placeUp = 15;</code>
+       *
+       * <pre>
+       *战斗胜利后发送
+       * </pre>
+       */
+      public Builder clearPlaceUp() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        placeUp_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
     }
 
@@ -13655,45 +14193,47 @@ public final class PeakArenaServiceProtos {
       "\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t.HeroData\022\017\n\007heroI" +
       "ds\030\003 \003(\t\022\017\n\007magicId\030\004 \001(\005\022\022\n\nmagicLevel\030" +
       "\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\022\020\n\010army",
-      "Info\030\007 \001(\t\"\242\002\n\tArenaData\022\016\n\006userId\030\001 \002(\t" +
+      "Info\030\007 \001(\t\"\265\002\n\tArenaData\022\016\n\006userId\030\001 \002(\t" +
       "\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022\020\n\010win" +
       "Count\030\010 \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004name\030\014 \001(" +
       "\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage\030\016 \001(\t\022\022\n\nt" +
       "empleteId\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\trol" +
       "eSkill\030\021 \003(\0132\032.SkillService.TagSkillData" +
       "\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022\021\n\tgroupName\030" +
-      "\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\"\264\001\n\tArenaInfo\022\016\n" +
-      "\006userId\030\001 \002(\t\022\r\n\005place\030\004 \001(\005\022\020\n\010winCount" +
-      "\030\005 \001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\th",
-      "eadImage\030\010 \001(\t\022\020\n\010fighting\030\t \001(\005\022\021\n\tstar" +
-      "Level\030\n \001(\005\022\021\n\tqualityId\030\013 \001(\t\022\016\n\006career" +
-      "\030\014 \001(\005\"\214\001\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013" +
-      "\n\003win\030\002 \001(\010\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001" +
-      "(\t\022\021\n\theadImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004" +
-      "time\030\007 \001(\003\022\021\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgAre" +
-      "naRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaTyp" +
-      "e\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamI" +
-      "nfo\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 " +
-      "\001(\010\022\017\n\007reorder\030\006 \003(\005\"\374\002\n\020MsgArenaRespons",
-      "e\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017are" +
-      "naResultType\030\002 \001(\0162\021.eArenaResultType\022\035\n" +
-      "\tarenaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo" +
-      "\030\004 \003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014" +
-      ".ArenaRecord\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip" +
-      "\030\007 \001(\t\022\031\n\021maxChallengeCount\030\010 \001(\005\022\020\n\010buy" +
-      "Count\030\t \001(\005\022\026\n\016currentBuyCost\030\n \001(\005\022\026\n\016c" +
-      "hallengeCount\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023g" +
-      "ainCurrencyPerHour\030\r \001(\005\022\021\n\tresetCost\030\016 " +
-      "\001(\005*\225\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHAN",
-      "GE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_REC" +
-      "ORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n" +
-      "\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_ST" +
-      "ART\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RE" +
-      "CORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027" +
-      "\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINU" +
-      "E\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS" +
-      "\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakA" +
-      "renaServiceProtos"
+      "\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\022\021\n\theadFrame\030\031 \001" +
+      "(\t\"\307\001\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005plac" +
+      "e\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level\030\006 \001(\005",
+      "\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010fig" +
+      "hting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\tqualit" +
+      "yId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\theadFrame\030\r" +
+      " \001(\t\"\214\001\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003" +
+      "win\030\002 \001(\010\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t" +
+      "\022\021\n\theadImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004ti" +
+      "me\030\007 \001(\003\022\021\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArena" +
+      "Request\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022" +
+      "\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInf" +
+      "o\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(",
+      "\010\022\017\n\007reorder\030\006 \003(\005\"\215\003\n\020MsgArenaResponse\022" +
+      "\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017arena" +
+      "ResultType\030\002 \001(\0162\021.eArenaResultType\022\035\n\ta" +
+      "renaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004" +
+      " \003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.A" +
+      "renaRecord\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007" +
+      " \001(\t\022\031\n\021maxChallengeCount\030\010 \001(\005\022\020\n\010buyCo" +
+      "unt\030\t \001(\005\022\026\n\016currentBuyCost\030\n \001(\005\022\026\n\016cha" +
+      "llengeCount\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gai" +
+      "nCurrencyPerHour\030\r \001(\005\022\021\n\tresetCost\030\016 \001(",
+      "\005\022\017\n\007placeUp\030\017 \001(\005*\246\002\n\neArenaType\022\014\n\010GET" +
+      "_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO" +
+      "\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\n" +
+      "CLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n" +
+      "\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINI" +
+      "SH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013" +
+      "SWITCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022" +
+      "\n\016FIGHT_CONTINUE\020\016\022\017\n\013GET_CD_TIME\020\017*5\n\020e" +
+      "ArenaResultType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nAR" +
+      "ENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakArenaServ",
+      "iceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13717,13 +14257,13 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaData_descriptor,
-              new java.lang.String[] { "UserId", "Place", "MaxPlace", "WinCount", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "Teams", "GroupName", "ArmyInfo", });
+              new java.lang.String[] { "UserId", "Place", "MaxPlace", "WinCount", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "Teams", "GroupName", "ArmyInfo", "HeadFrame", });
           internal_static_ArenaInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaInfo_descriptor,
-              new java.lang.String[] { "UserId", "Place", "WinCount", "Level", "Name", "HeadImage", "Fighting", "StarLevel", "QualityId", "Career", });
+              new java.lang.String[] { "UserId", "Place", "WinCount", "Level", "Name", "HeadImage", "Fighting", "StarLevel", "QualityId", "Career", "HeadFrame", });
           internal_static_ArenaRecord_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_ArenaRecord_fieldAccessorTable = new
@@ -13741,7 +14281,7 @@ public final class PeakArenaServiceProtos {
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", "CurrentBuyCost", "ChallengeCount", "CdTime", "GainCurrencyPerHour", "ResetCost", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", "CurrentBuyCost", "ChallengeCount", "CdTime", "GainCurrencyPerHour", "ResetCost", "PlaceUp", });
           return null;
         }
       };
