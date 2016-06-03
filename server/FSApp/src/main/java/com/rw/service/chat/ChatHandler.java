@@ -16,6 +16,8 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BIChatType;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
@@ -110,10 +112,13 @@ public class ChatHandler {
 			data.setReceiveMessageUserInfo(message.getReceiveMessageUserInfo());
 		}
 
-		data.setMessage(filterDirtyWord(message.getMessage()));
+		String chatContent = filterDirtyWord(message.getMessage());
+		data.setMessage(chatContent);
 		data.setTime(getMessageTime());
 
 		msgChatResponse.addListMessage(data);
+		//聊天日志
+		BILogMgr.getInstance().logChat(player, "", BIChatType.WORD.getType(), chatContent);
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		ByteString result = msgChatResponse.build().toByteString();
 
@@ -185,9 +190,13 @@ public class ChatHandler {
 
 			data.setSendMessageUserInfo(sendMsgInfo);
 			data.setTime(getMessageTime());
-			data.setMessage(filterDirtyWord(message.getMessage()));
+			String chatContent = filterDirtyWord(message.getMessage());
+			data.setMessage(chatContent);
 			msgChatResponse.addListMessage(data);
 			ChatBM.getInstance().addFamilyChat(groupId, data);
+			
+			//聊天日志
+			BILogMgr.getInstance().logChat(player, "", BIChatType.GROUP.getType(), chatContent);
 		}
 
 		// 填充完整的消息
@@ -280,8 +289,12 @@ public class ChatHandler {
 		data.setReceiveMessageUserInfo(receiveUserInfo);// 接受消息的人
 
 		data.setTime(getMessageTime());
-		data.setMessage(filterDirtyWord(message.getMessage()));
+		String chatContent = filterDirtyWord(message.getMessage());
+		data.setMessage(chatContent);
 		msgChatResponse.addListMessage(data);
+		
+		//聊天日志
+		BILogMgr.getInstance().logChat(player, receiveUserId, BIChatType.PRIVATE.getType(), chatContent);
 
 		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 		ByteString result = msgChatResponse.build().toByteString();

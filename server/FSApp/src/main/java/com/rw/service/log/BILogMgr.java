@@ -30,6 +30,7 @@ import com.rw.service.log.template.BIActivityEntry;
 import com.rw.service.log.template.BILogTemplate;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BITaskType;
+import com.rw.service.log.template.ChatLogTemplate;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
@@ -104,6 +105,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
 		templateMap.put(eBILogType.ZoneCountChargeGold, new ZoneCountChargeGoldLogTemplate());
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
+		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
 
 	}
 
@@ -126,6 +128,16 @@ public class BILogMgr {
 		logPlayer(eBILogType.ZoneLogout, player, moreInfo);
 		logAccountLogout(player, moreInfo);
 		logRoleLogout(player);
+	}
+	
+	public void logChat(Player player, String targetUserId, int type, String content){
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("chatSenderAccount", player.getUserId());
+		moreInfo.put("vip", String.valueOf(player.getVip()));
+		moreInfo.put("chatReceiverUseId", targetUserId);
+		moreInfo.put("chatType", String.valueOf(type));
+		moreInfo.put("chatContent", String.valueOf(content));
+		logPlayer(eBILogType.Chat, player, moreInfo);
 	}
 
 	private void logAccountLogout(Player player, Map<String, String> moreInfo) {

@@ -99,8 +99,12 @@ public class BILogTemplateHelper {
 		addTemplateToken("赠送充值币余额", "$zoneGiftGoldRemain$");
 		addTemplateToken("付费充值币余额", "$zoneChargeGoldRemain$");
 		
-		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
+		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
+		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
+		
+		addTemplateToken("聊天内容", "$chatContent$");
+		addTemplateToken("聊天范围", "$chatType$");
 
 		addTemplateToken("活动code", "$activityCode$");
 		addTemplateToken("局次code", "$GamesCode$");		
