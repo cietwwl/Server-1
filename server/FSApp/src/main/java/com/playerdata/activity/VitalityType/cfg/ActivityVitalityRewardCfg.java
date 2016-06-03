@@ -1,30 +1,29 @@
 package com.playerdata.activity.VitalityType.cfg;
 
-import com.playerdata.activity.VitalityType.VitalityTypeEnum;
 
 
-public class VitalitySubCfg {
+
+public class ActivityVitalityRewardCfg {
 
 	private String id;
 	
 	
 	//计数
-	private int count;
+	private int activecount;
 	
-	private VitalityTypeEnum type;
 	//计数奖励
 	private String giftId;	
 
 	private int day;
 	
-	private int activeCount;
 	
-	public int getCount() {
-		return count;
+
+	public int getActivecount() {
+		return activecount;
 	}
 
-	public void setCount(int count) {
-		this.count = count;
+	public void setActivecount(int activecount) {
+		this.activecount = activecount;
 	}
 
 	public String getGiftId() {
@@ -54,13 +53,7 @@ public class VitalitySubCfg {
 		return id;
 	}
 
-	public VitalityTypeEnum getType() {
-		return type;
-	}
 
-	public void setType(VitalityTypeEnum type) {
-		this.type = type;
-	}
 
 	public int getDay() {
 		return day;
@@ -70,13 +63,7 @@ public class VitalitySubCfg {
 		this.day = day;
 	}
 
-	public int getActiveCount() {
-		return activeCount;
-	}
 
-	public void setActiveCount(int activeCount) {
-		this.activeCount = activeCount;
-	}
 
 
 

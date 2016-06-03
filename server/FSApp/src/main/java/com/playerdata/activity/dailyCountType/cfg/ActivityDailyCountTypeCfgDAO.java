@@ -73,17 +73,16 @@ public final class ActivityDailyCountTypeCfgDAO extends CfgCsvDao<ActivityDailyC
 			item.setUserId(player.getUserId());
 			item.setCfgid(cfgById.getId());
 			item.setVersion(cfgById.getVersion());
-			item.setSubItemList(newItemList(cfgById));
+			item.setSubItemList(newItemList());
 			item.setLastTime(System.currentTimeMillis());
 			return item;
 		}else{
 			return null;
 		}		
-		
 	}
 
 
-	public List<ActivityDailyCountTypeSubItem> newItemList(ActivityDailyCountTypeCfg cfgById) {
+	public List<ActivityDailyCountTypeSubItem> newItemList() {
 		List<ActivityDailyCountTypeSubItem> subItemList = new ArrayList<ActivityDailyCountTypeSubItem>();
 		List<ActivityDailyCountTypeSubCfg> allsubCfgList = ActivityDailyCountTypeSubCfgDAO.getInstance().getAllCfg();	
 		for(ActivityDailyCountTypeSubCfg activityDailyCountTypeSubCfg : allsubCfgList){

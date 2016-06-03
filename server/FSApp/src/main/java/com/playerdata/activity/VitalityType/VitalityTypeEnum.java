@@ -3,6 +3,7 @@ package com.playerdata.activity.VitalityType;
 import org.apache.commons.lang3.StringUtils;
 
 public enum VitalityTypeEnum{	// implements TypeIdentification
+	Vitality("801"),
 	GoldSpendingKingAttive("80101"),//消费xx钻石
 	GivePowerKingAttive("80102"),//赠送体力x次
 	TreasureLandKingAttive("80103"),//聚宝之地通关x次

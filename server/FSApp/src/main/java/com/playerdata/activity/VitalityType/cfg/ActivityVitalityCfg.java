@@ -3,7 +3,7 @@ package com.playerdata.activity.VitalityType.cfg;
 
 
 
-public class VitalityCfg {
+public class ActivityVitalityCfg {
 
 	private String id;
 	
