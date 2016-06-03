@@ -20,6 +20,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	// 巅峰竞技场排行榜
 	PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
 //	SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
+	LEVEL_PLAYER(2, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()), 
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 1, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),

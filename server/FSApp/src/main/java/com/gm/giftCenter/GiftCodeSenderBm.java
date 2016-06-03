@@ -14,6 +14,7 @@ import com.log.LogModule;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.netty.ServerConfig;
 
 public class GiftCodeSenderBm {
 
@@ -39,7 +40,9 @@ public class GiftCodeSenderBm {
 		}
 
 		// GmSenderConfig senderConfig = null;
-		GmSenderConfig senderConfig = new GmSenderConfig(GameManager.getGiftCodeServerIp(), GameManager.getGiftCodeServerPort(), GameManager.getGiftCodeTimeOut(), (short) 10354);
+		String giftCodeServerIp = ServerConfig.getInstance().getServeZoneInfo().getGiftCodeServerIp();
+		int giftCodeServerPort = ServerConfig.getInstance().getServeZoneInfo().getGiftCodeServerPort();
+		GmSenderConfig senderConfig = new GmSenderConfig(giftCodeServerIp, giftCodeServerPort, GameManager.getGiftCodeTimeOut(), (short) 10354);
 
 		giftSenderPool = new GmSenderPool(senderConfig);
 

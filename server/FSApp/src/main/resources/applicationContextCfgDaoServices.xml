@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
-	
+
+	<bean class="com.rw.service.friend.datamodel.RecommandConditionCfgDAO"  init-method="init" />
+	<bean class="com.rw.service.friend.datamodel.RecommandCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.attribute.AttributeLanguageCfgDAO"  init-method="init" />
 	
 	<bean class="com.bm.arena.ArenaRankCfgDAO"  init-method="init" />
