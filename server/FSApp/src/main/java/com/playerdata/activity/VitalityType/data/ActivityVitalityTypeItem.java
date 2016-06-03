@@ -39,6 +39,8 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	@CombineSave
 	private List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
 	
+	@CombineSave
+	private List<ActivityVitalityTypeSubBoxItem> subBoxItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
 	
 	@CombineSave
 	private String version ;
@@ -86,6 +88,17 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		this.subItemList = subItemList;
 	}
 
+	
+	
+	public List<ActivityVitalityTypeSubBoxItem> getSubBoxItemList() {
+		return subBoxItemList;
+	}
+
+	public void setSubBoxItemList(
+			List<ActivityVitalityTypeSubBoxItem> subBoxItemList) {
+		this.subBoxItemList = subBoxItemList;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -102,6 +115,14 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	public int getActiveCount() {
+		return activeCount;
+	}
+
+	public void setActiveCount(int activeCount) {
+		this.activeCount = activeCount;
 	}
 
 	

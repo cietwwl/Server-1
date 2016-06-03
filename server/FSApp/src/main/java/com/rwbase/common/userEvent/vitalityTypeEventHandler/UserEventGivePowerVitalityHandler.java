@@ -8,6 +8,9 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
@@ -21,10 +24,13 @@ public class UserEventGivePowerVitalityHandler implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-//				boolean isBetween = ActivityDailyTypeMgr.getInstance().isOpen(ActivityDailyTypeSubCfgDAO
-//						.getInstance().getById(ActivityDailyTypeEnum.GoldSpendDaily.getCfgId()));
-//				boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);
-				ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.GivePowerVitality, Integer.parseInt(params.toString()));
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByType(ActivityVitalityTypeEnum.GivePowerVitality.getCfgId());
+				
+				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
+				if(subCfg!=null&&isLevelEnough){
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.GivePowerVitality,subCfg, Integer.parseInt(params.toString()));
+					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
+					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {

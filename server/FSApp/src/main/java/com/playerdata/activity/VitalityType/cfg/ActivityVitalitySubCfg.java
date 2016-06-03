@@ -8,7 +8,7 @@ public class ActivityVitalitySubCfg {
 	private String id;
 	
 	
-	//计数
+	//获得奖励需达到数量
 	private int count;
 	
 	private String type;
@@ -16,7 +16,7 @@ public class ActivityVitalitySubCfg {
 	private String giftId;	
 
 	private int day;
-	
+	//完成任务后奖励的活跃值
 	private int activeCount;
 	
 	public int getCount() {

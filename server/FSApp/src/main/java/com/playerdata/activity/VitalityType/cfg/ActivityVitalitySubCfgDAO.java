@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -30,18 +31,27 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 	
 
 
-
-	public ActivityVitalitySubCfg getById(String subId){
+	/**根据传入的活动类型来查找激活的子活动*/
+	public ActivityVitalitySubCfg getByType(String subId){
+		if(!ActivityVitalityTypeMgr.getInstance().isOpen()){
+			//活动未开启,不计数
+			return null;
+		}
+		
+		int day = ActivityVitalityCfgDAO.getInstance().getday();//getday方法必须在活动开启时才可有效传入参数,故需先用isopen来判断		
 		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
 		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
 		for (ActivityVitalitySubCfg cfg : allCfg) {
-			if(StringUtils.equals(cfg.getId(), subId)){
+			if(StringUtils.equals(cfg.getType(), subId)&&cfg.getDay() == day){
 				target = cfg;
+				break;
 			}
 		}
 		return target;
 		
 	}
+
+
 	
 	
 

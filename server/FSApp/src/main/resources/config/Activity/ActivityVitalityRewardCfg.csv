@@ -1,4 +1,4 @@
-Key,Remarks,id,sort,giftId,startTimeStr,activeCount
+Key,Remarks,id,sort,giftId,day,activeCount
 1,,1,1,807056,1,10
 2,,2,2,807057,1,20
 3,,3,3,807063,1,30

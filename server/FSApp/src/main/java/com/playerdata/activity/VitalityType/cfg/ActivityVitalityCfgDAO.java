@@ -8,6 +8,7 @@ import java.util.Map;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
@@ -62,6 +63,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
 			item.setSubItemList(newItemList(day));
+			item.setSubBoxItemList(newBoxItemList(day));
 			item.setLastTime(System.currentTimeMillis());
 			return item;
 		}else{
@@ -69,6 +71,8 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}		
 	}
 	
+	
+
 	/**根据当前时间返回处于活动之王活动的第几天*/
 	public int getday() {
 		ActivityVitalityCfg cfgById = getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
@@ -99,6 +103,25 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}		
 		return subItemList;
 	}
+	
+	private List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day) {
+		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
+		List< ActivityVitalityRewardCfg> allsubCfgList = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();	
+		for(ActivityVitalityRewardCfg activityVitalitySubCfg : allsubCfgList){
+			if(activityVitalitySubCfg.getDay() != day){
+				continue;
+			}
+			
+			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
+			subitem.setCfgId(activityVitalitySubCfg.getId());
+			subitem.setCount(activityVitalitySubCfg.getActivecount());
+			subitem.setTaken(false);
+			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
+			subItemList.add(subitem);
+		}		
+		return subItemList;
+	}
+	
 	
 
 }

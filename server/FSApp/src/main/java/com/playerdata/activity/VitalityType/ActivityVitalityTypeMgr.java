@@ -6,13 +6,19 @@ import java.util.List;
 import org.apache.commons.codec.binary.StringUtils;
 
 import com.log.GameLog;
+import com.log.LogModule;
+import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 
 
@@ -43,13 +49,10 @@ public class ActivityVitalityTypeMgr {
 	private void checkNewOpen(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder
 				.getInstance();
-		ActivityVitalityCfg vitalityCfg = getparentCfg();
-		if (vitalityCfg == null) {
-			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误");
-			return;
-		}
+		
+		
 
-		if (!isOpen(vitalityCfg)) {
+		if (!isOpen()) {
 			// 活动未开启
 			return;
 		}
@@ -123,14 +126,16 @@ public class ActivityVitalityTypeMgr {
 	}
 	
 
-	private boolean isOpen(ActivityVitalityCfg vitalityCfg) {
-		if (vitalityCfg != null) {
-			long startTime = vitalityCfg.getStartTime();
-			long endTime = vitalityCfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
+	public boolean isOpen( ) {
+		ActivityVitalityCfg vitalityCfg = getparentCfg();
+		if (vitalityCfg == null) {
+			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误");
+			return false;
 		}
-		return false;
+		long startTime = vitalityCfg.getStartTime();
+		long endTime = vitalityCfg.getEndTime();
+		long currentTime = System.currentTimeMillis();
+		return currentTime < endTime && currentTime > startTime;
 	}
 //	
 	public boolean isLevelEnough(Player player) {
@@ -144,13 +149,9 @@ public class ActivityVitalityTypeMgr {
 		}		
 		return true;
 	}
-//	
-	public boolean isOpen(ActivityVitalitySubCfg vitalitySubCfg) {		
-		if (vitalitySubCfg != null) {
-			return ActivityVitalityCfgDAO.getInstance().getday() == vitalitySubCfg.getDay();		
-		}
-		return false;
-	}
+	
+	
+	
 	
 //	private boolean isClose(ActivityDailyCountTypeItem activityDailyCountTypeItem) {
 //	if (activityDailyCountTypeItem != null) {
@@ -167,14 +168,25 @@ public class ActivityVitalityTypeMgr {
 //}
 	
 //	
-	public void addCount(Player player, ActivityVitalityTypeEnum countType, int countadd) {
+	public void addCount(Player player, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId());		
 		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnum(player, countType, dataItem);	
-		subItem.setCount(subItem.getCount() + countadd);
+		
+		addVitalitycount(dataItem,subItem,subCfg,countadd);
+		subItem.setCount(subItem.getCount() + countadd);		
 		dataHolder.updateItem(player, dataItem);
 	}
-//	
+	
+	/**增加活跃度*/
+    private void addVitalitycount(ActivityVitalityTypeItem dataItem, ActivityVitalityTypeSubItem subItem,
+    		ActivityVitalitySubCfg subCfg,int countadd) {
+		if(subItem.getCount() < subCfg.getCount() && (subItem.getCount() + countadd >= subCfg.getCount())){
+			dataItem.setActiveCount(dataItem.getActiveCount() + subCfg.getActiveCount());
+		}   	
+	}
+
+	//	
 	public ActivityVitalityTypeSubItem getbyVitalityTypeEnum (Player player,ActivityVitalityTypeEnum typeEnum,ActivityVitalityTypeItem dataItem){		
 		ActivityVitalityTypeSubItem subItem = null;
 		ActivityVitalitySubCfg cfg = null;
@@ -205,51 +217,79 @@ public class ActivityVitalityTypeMgr {
 		}		
 		return   subItem;
 	}
-//	
-//	
-//	
-//	public ActivityComResult takeGift(Player player, ActivityDailyCountTypeEnum countType, String subItemId) {
-//		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-//
-//		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
-//		ActivityComResult result = ActivityComResult.newInstance(false);
-//
-//		// 未激活
-//		if (dataItem == null) {
-//			result.setReason("活动尚未开启");
-//
-//		} else {
-//			ActivityDailyCountTypeSubItem targetItem = null;
-//
-//			List<ActivityDailyCountTypeSubItem> subItemList = dataItem.getSubItemList();
-//			for (ActivityDailyCountTypeSubItem itemTmp : subItemList) {
-//				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
-//					targetItem = itemTmp;
-//					break;
-//				}
-//			}
-//			if (targetItem != null && !targetItem.isTaken()) {
-//				takeGift(player, targetItem);
-//				result.setSuccess(true);
-//				dataHolder.updateItem(player, dataItem);
-//			}
-//
-//		}
-//
-//		return result;
-//	}
-//
-//	private void takeGift(Player player, ActivityDailyCountTypeSubItem targetItem) {
-//		ActivityDailyCountTypeSubCfg subCfg = ActivityDailyCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
-//		if(subCfg == null){
-//			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-//			return;
-//		}
-//		targetItem.setTaken(true);
-//		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
-//
-//	}
-//	
+	
+	
+	public ActivityComResult takeGift(Player player, String subItemId) {
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		ActivityComResult result = ActivityComResult.newInstance(false);
+
+		// 未激活
+		if (dataItem == null) {
+			result.setReason("活动尚未开启");
+
+		} else {
+			ActivityVitalityTypeSubItem targetItem = null;
+			List<ActivityVitalityTypeSubItem> subItemList = dataItem.getSubItemList();
+			for (ActivityVitalityTypeSubItem itemTmp : subItemList) {
+				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
+					targetItem = itemTmp;
+					break;
+				}
+			}
+			
+			if (targetItem != null && !targetItem.isTaken()) {
+				takeGift(player, targetItem);
+				result.setSuccess(true);
+				dataHolder.updateItem(player, dataItem);
+			}
+
+		}
+
+		return result;
+	}
+	
+	private void takeGift(Player player, ActivityVitalityTypeSubItem targetItem) {		
+		targetItem.setTaken(true);
+		ComGiftMgr.getInstance().addGiftById(player, targetItem.getGiftId());
+	}
+
+	public ActivityComResult openBox(Player player, String rewardItemId) {
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		ActivityComResult result = ActivityComResult.newInstance(false);
+
+		// 未激活
+		if (dataItem == null) {
+			result.setReason("活动尚未开启");
+		} else {
+			ActivityVitalityTypeSubBoxItem targetItem = null;
+			List<ActivityVitalityTypeSubBoxItem> subItemList = dataItem.getSubBoxItemList();
+			for (ActivityVitalityTypeSubBoxItem itemTmp : subItemList) {
+				if (StringUtils.equals(itemTmp.getCfgId(), rewardItemId)) {
+					targetItem = itemTmp;
+					break;
+				}
+			}
+		
+			if (targetItem != null && !targetItem.isTaken()) {
+				takeBoxGift(player, targetItem);
+				result.setSuccess(true);
+				dataHolder.updateItem(player, dataItem);
+			}
+		}
+		return null;
+	}
+
+	private void takeBoxGift(Player player,	ActivityVitalityTypeSubBoxItem targetItem) {
+		
+		targetItem.setTaken(true);
+		ComGiftMgr.getInstance().addGiftById(player, targetItem.getGiftId());
+		
+	}
+
+
+
 //	private void sendEmailIfGiftNotTaken(Player player,
 //			List<ActivityDailyCountTypeSubItem> subItemList) {
 //		for (ActivityDailyCountTypeSubItem subItem : subItemList) {// 配置表里的每种奖励

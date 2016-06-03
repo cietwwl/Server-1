@@ -8,6 +8,7 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
@@ -25,12 +26,11 @@ public class UserEventGoldSpendVitalityHandler  implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				boolean isBetween = ActivityVitalityTypeMgr.getInstance().isOpen(ActivityVitalitySubCfgDAO
-						.getInstance().getById(ActivityVitalityTypeEnum.GoldSpendingVitality.getCfgId()));
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByType(ActivityVitalityTypeEnum.GoldSpendingVitality.getCfgId());
 				
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
-				if(isBetween&&isLevelEnough){
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.GoldSpendingVitality, Integer.parseInt(params.toString()));
+				if(subCfg!= null&&isLevelEnough){
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.GoldSpendingVitality,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-消费开启",null);
 					}
 				}
