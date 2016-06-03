@@ -168,8 +168,8 @@
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.charge.cfg.VipGiftCfgDao"  init-method="init" />
-	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO"  init-method="init" />
-	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO"  init-method="init" />
 	
 	<bean class="com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO"  init-method="init" />
