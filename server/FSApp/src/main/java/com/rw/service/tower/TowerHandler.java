@@ -9,6 +9,7 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.pve.PveHandler;
@@ -172,6 +173,7 @@ public class TowerHandler {
 			towerData.addHeroChageMap(heroChange);
 		}
 
+		StringBuilder sb = new StringBuilder();
 		// 敌方阵容信息
 		Enumeration<ArmyInfo> tableEnemyInfoList = floorData.getEnemyEnumeration();
 		List<TagTowerHeadInfo> enemyHeadList = new ArrayList<TagTowerHeadInfo>();
@@ -181,7 +183,17 @@ public class TowerHandler {
 			TagTowerHeadInfo headInfo = getTowerHeadInfo(enemyInfo, towerIdCount);
 			enemyHeadList.add(headInfo);
 			towerIdCount++;
+
+			int fighting = enemyInfo.getPlayer().getFighting();
+			List<ArmyHero> heroList = enemyInfo.getHeroList();
+			for (int i = 0, size = heroList.size(); i < size; i++) {
+				fighting += heroList.get(i).getFighting();
+			}
+
+			sb.append("\n层数：").append(towerIdCount).append("，名字：").append(enemyInfo.getPlayerName()).append("，战力：").append(fighting);
 		}
+
+		System.err.println(sb.toString());
 
 		// 没有看到实质意义
 		Collections.sort(enemyHeadList, comparator);
@@ -196,7 +208,6 @@ public class TowerHandler {
 				e.printStackTrace();
 			}
 		}
-		// System.err.println(towerData.build());
 		return towerData.build();
 	}
 

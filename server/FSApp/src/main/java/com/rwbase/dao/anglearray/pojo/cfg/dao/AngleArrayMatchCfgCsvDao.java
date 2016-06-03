@@ -29,6 +29,8 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 	 * 匹配规则的缓存。所有的Key依次代表<匹配的最低等级,<万仙阵层数,对应的唯一Json记录Id>>
 	 */
 	private TreeMap<Integer, Map<Integer, Integer>> matchMap;
+	/** 匹配的等级分段<最低等级,最高等级> */
+	private TreeMap<Integer, Integer> levelMap;// 等级配置
 
 	private AngleArrayMatchCfgCsvDao() {
 	}
@@ -39,18 +41,26 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 
 		if (cfgCacheMap != null) {
 			TreeMap<Integer, Map<Integer, Integer>> matchMap = new TreeMap<Integer, Map<Integer, Integer>>();// 初始化
+			TreeMap<Integer, Integer> levelMap = new TreeMap<Integer, Integer>();// 初始化
 			for (Entry<String, AngleArrayMatchCfg> e : cfgCacheMap.entrySet()) {
 				AngleArrayMatchCfg cfg = e.getValue();// Value
 
-				Map<Integer, Integer> map = matchMap.get(cfg.getLevel());
+				int minLevel = cfg.getLevel();
+				Map<Integer, Integer> map = matchMap.get(minLevel);
 				if (map == null) {
 					map = new HashMap<Integer, Integer>();
-					matchMap.put(cfg.getLevel(), map);
+					matchMap.put(minLevel, map);
 				}
 
 				map.put(cfg.getFloor(), cfg.getUniqueId());
+
+				Integer hasLevel = levelMap.get(minLevel);
+				if (hasLevel == null) {
+					levelMap.put(minLevel, cfg.getMaxLevel());
+				}
 			}
 			this.matchMap = matchMap;
+			this.levelMap = levelMap;
 		}
 
 		return cfgCacheMap;
@@ -104,5 +114,20 @@ public class AngleArrayMatchCfgCsvDao extends CfgCsvDao<AngleArrayMatchCfg> {
 		}
 
 		return keyList;
+	}
+
+	/**
+	 * 获取当前等级所在的分段，如果等级低于最低分段起始位置，返回-1，如果高于最后一个返回1
+	 * 
+	 * @param level
+	 * @return
+	 */
+	public int getLevelLimit(int level) {
+		Entry<Integer, Integer> floorEntry = levelMap.floorEntry(level);
+		if (floorEntry == null) {
+			return -1;
+		}
+
+		return floorEntry.getKey().intValue();
 	}
 }

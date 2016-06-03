@@ -1,5 +1,6 @@
 package com.rw.service.group;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
@@ -9,6 +10,7 @@ import com.bm.group.GroupBaseDataMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.group.helper.GroupRankHelper;
@@ -27,6 +29,8 @@ import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GroupBaseMgrProto.CreateGroupReqMsg;
 import com.rwproto.GroupBaseMgrProto.CreateGroupRspMsg;
 import com.rwproto.GroupBaseMgrProto.GroupBaseMgrCommonRspMsg;
@@ -148,7 +152,7 @@ public class GroupBaseManagerHandler {
 
 		// 个人的某些帮派信息
 		String newGroupId = groupData.getGroupId();
-		mgr.updateDataWhenHasGroup(player, newGroupId);// 更新数据
+		mgr.updateDataWhenHasGroup(player, newGroupId, groupName);// 更新数据
 
 		// 基础排行榜
 		int rankIndex = GroupRankHelper.addOrUpdateGroup2BaseRank(group);
@@ -280,7 +284,7 @@ public class GroupBaseManagerHandler {
 
 		int nameLimit = gbct.getGroupNameCharLimit() * 2;
 		// 检查下名字的内容
-		String groupName = req.getGroupName();
+		final String groupName = req.getGroupName();
 		if (StringUtils.isEmpty(groupName)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "名字不能为空");
 		}
@@ -370,6 +374,26 @@ public class GroupBaseManagerHandler {
 		}
 
 		groupBaseDataMgr.updateGroupName(player, groupName);
+
+		PlayerTask task = new PlayerTask() {
+
+			@Override
+			public void run(Player player) {
+				player.getUserGroupAttributeDataMgr().updateGroupName(player, groupName);
+			}
+		};
+
+		// NotifyAllModifyGroupName通知所有人修改名字
+		List<? extends GroupMemberDataIF> memberSortList = group.getGroupMemberMgr().getMemberSortList(null);
+		for (int i = 0, size = memberSortList.size(); i < size; i++) {
+			GroupMemberDataIF member = memberSortList.get(i);
+			String userId = member.getUserId();
+			if (!PlayerMgr.getInstance().isOnline(userId)) {
+				continue;
+			}
+
+			GameWorldFactory.getGameWorld().asyncExecute(userId, task);
+		}
 
 		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();

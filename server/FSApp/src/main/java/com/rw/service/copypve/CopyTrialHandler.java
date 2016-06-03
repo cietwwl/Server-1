@@ -10,6 +10,7 @@ import com.playerdata.readonly.CopyDataIF;
 import com.playerdata.readonly.CopyInfoCfgIF;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.util.DateUtils;
+import com.rwbase.common.enu.EPrivilegeDef;
 import com.rwbase.dao.copypve.CopyInfoCfgDAO;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
@@ -74,21 +75,24 @@ public class CopyTrialHandler {
 		return response.build().toByteString();
 	}
 
-	public ByteString copyCelestial(Player player, MsgTrialRequest msgTrialRequest) {
+	public ByteString copyCelestial(Player player, MsgTrialRequest msgTrialRequest)
+	{
 		MsgTrialResponse.Builder response = MsgTrialResponse.newBuilder().setTrialType(msgTrialRequest.getTrialType());
 		response.setTrialType(msgTrialRequest.getTrialType());
 
 		// 获取副本，生存幻镜。当前开放的关卡配置
 		List<CopyInfoCfgIF> infoCfgList = player.getCopyDataMgr().getTodayInfoCfgList(CopyType.COPY_TYPE_CELESTIAL);// CopyDataMgr.getTodayInfoCfgList(CopyType.COPY_TYPE_CELESTIAL);
 																													// //CopyDataMgr.getTodayInfoCfg(CopyType.COPY_TYPE_CELESTIAL);
-		if (infoCfgList.size() == 0) {
+		if (infoCfgList.size() == 0) 
+		{
 			System.out.println("can not find cfg file...");
 			response.setTrialResultType(eTrialResultType.FAIL);
 			return response.build().toByteString();
 		}
 		// infoCfgList.add(0, infoCfgList1.get(0));
 		int dayOfWeek = CopyDataMgr.getDayOfWeek();
-		for (CopyInfoCfgIF infoCfg : infoCfgList) {
+		for (CopyInfoCfgIF infoCfg : infoCfgList)
+		{
 			TrialData.Builder trialData = TrialData.newBuilder();
 			// TODO 需要再优化，效率比分割好
 			// 判断
@@ -104,7 +108,8 @@ public class CopyTrialHandler {
 			long lastResetTime = data.getLastFreeResetTime();
 			if (DateUtils.isResetTime(0, 0, 0, lastResetTime)) {
 				data.setCopyCount(infoCfg.getCount());
-				data.setResetCount(3);
+				int resetCount = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.COPY_CELESTAL);
+				data.setResetCount(resetCount);
 				data.setLastFreeResetTime(System.currentTimeMillis());
 			}
 			// 根据关卡配置获取副本通关数据
@@ -136,8 +141,10 @@ public class CopyTrialHandler {
 			return response.build().toByteString();
 		}
 
-		CopyDataIF data = player.getCopyDataMgr().resetCopyCount(infoId);
-		if (data == null) {
+		CopyDataIF data = player.getCopyDataMgr().resetCopyCount(infoId,infoCfg.getType());
+		
+		if (data == null)
+		{
 			response.setTrialResultType(eTrialResultType.FAIL);
 			return response.build().toByteString();
 		}

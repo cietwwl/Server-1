@@ -118,7 +118,8 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 	void updateEntityDataToDB() throws Throwable {
 		ArrayList<RankingEntryData> list = new ArrayList<RankingEntryData>(this.hashMap.size());
 		for (final RankingEntryImpl<C, E> entry : this.hashMap.values()) {
-			list.add(new RankingEntryData(entry.getUniqueId(), type, entry.getKey(), parser.encodeComparable(entry.getComparable()), parser.encodeExtendedAttribute(entry.getExtendedAttribute()).toString()));
+			list.add(new RankingEntryData(entry.getUniqueId(), type, entry.getKey(), parser.encodeComparable(entry.getComparable()), parser.encodeExtendedAttribute(entry.getExtendedAttribute())
+					.toString()));
 		}
 		if (list.isEmpty()) {
 			logger.info("排行榜数据没有数据仍然同步：" + RankingImpl.this.type);
@@ -647,4 +648,67 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		}
 	}
 
+	@Override
+	public int higherRanking(C condition) {
+		if (condition == null) {
+			return -1;
+		}
+
+		RankingEntryImpl<C, E> entryDummpy = new RankingEntryImpl<C, E>(null, 0, condition, null);
+		RankingEntryImpl<C, E> entry;
+		ArrayList<MomentEntry<C, E>> list;
+		readLock.lock();
+		try {
+			list = getOrderList_();
+			int size = list.size();
+			if (size == 0) {
+				return -1;
+			}
+
+			// 比较条件比最大值还大，就说明没有可以大过它的排行
+			if (condition.compareTo(list.get(0).entryImpl.getComparable()) > 0) {
+				return -1;
+			}
+
+			entry = this.treeMap.floorKey(entryDummpy);
+			if (entry == null) {
+				return -1;
+			}
+		} finally {
+			readLock.unlock();
+		}
+		return getPosition(entry, list);
+	}
+
+	@Override
+	public int lowerRanking(C condition) {
+		if (condition == null) {
+			return -1;
+		}
+
+		RankingEntryImpl<C, E> entryDummpy = new RankingEntryImpl<C, E>(null, 0, condition, null);
+		RankingEntryImpl<C, E> entry;
+		ArrayList<MomentEntry<C, E>> list;
+		readLock.lock();
+		try {
+			list = getOrderList_();
+			int size = list.size();
+			if (size == 0) {
+				return -1;
+			}
+
+			// 比较条件比最低值还小，说明也找不到比它更小的值
+			if (condition.compareTo(list.get(list.size() - 1).entryImpl.getComparable()) < 0) {
+				return -1;
+			}
+
+			entry = this.treeMap.ceilingKey(entryDummpy);
+			if (entry == null) {
+				return -1;
+			}
+		} finally {
+			readLock.unlock();
+		}
+		return getPosition(entry, list);
+	}
 }
