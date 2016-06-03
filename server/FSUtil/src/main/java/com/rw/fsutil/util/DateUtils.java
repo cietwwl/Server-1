@@ -98,9 +98,16 @@ public class DateUtils {
 
 	public static boolean dayChanged(long timeStmp) {
 		Calendar currentDay = getCalendar(timeStmp);
+		long now = System.currentTimeMillis();
+		int change= (int)(now - timeStmp);
 		return dayChanged(currentDay);
 	}
-
+	/**玩家的5点刷新方法*/
+	public static boolean isNewDayHour(int hour,long lastResetTime){
+		return getCurrentHour() >= hour && dayChanged(lastResetTime);
+	}
+	
+	
 	public static boolean dayChanged(Calendar dayFlag) {
 		Calendar currentDay = Calendar.getInstance();
 		int year = currentDay.get(Calendar.YEAR);

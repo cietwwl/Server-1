@@ -128,7 +128,7 @@ public class ActivityDailyDiscountTypeMgr {
 				//以前开过的活动现在没找到配置文件
 				continue;
 			}			
-			if(DateUtils.dayChanged(targetItem.getLastTime())){
+			if(DateUtils.isNewDayHour(5,targetItem.getLastTime())){
 				targetItem.reset(cfgtmp);
 				dataHolder.updateItem(player, targetItem);
 			}
