@@ -189,7 +189,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			}			
 			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
 			subitem.setCfgId(activityVitalitySubCfg.getId());
-			subitem.setCount(0);
+			subitem.setCount(activityVitalitySubCfg.getActivecount());
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
 			subItemList.add(subitem);
@@ -208,7 +208,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			
 			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
 			subitem.setCfgId(activityVitalityRewardCfg.getId());
-			subitem.setCount(0);
+			subitem.setCount(activityVitalityRewardCfg.getActivecount());
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalityRewardCfg.getGiftId());
 			subItemList.add(subitem);

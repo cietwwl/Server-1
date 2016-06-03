@@ -48,7 +48,7 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		ActivityVitalityCfg cfg = null;
 		for(ActivityVitalityCfg cfgtmp : cfgList){
-			if(StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(),cfgtmp.getId() )){
+			if(StringUtils.equals(ActivityVitalityTypeEnum.VitalityTwo.getCfgId(),cfgtmp.getId() )){
 				cfg = cfgtmp;
 				break;						
 			}
@@ -60,10 +60,10 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 			// 活动未开启,不计数
 			return null;
 		}
-		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
+		ActivityVitalitySubCfg target = null;
 		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
 		for (ActivityVitalitySubCfg subcfg : allCfg) {
-			if (StringUtils.equals(subcfg.getType(), subId)) {
+			if (StringUtils.equals(subcfg.getType(), subId)&&subcfg.getDay() == -1) {
 				target = subcfg;
 				break;
 			}
