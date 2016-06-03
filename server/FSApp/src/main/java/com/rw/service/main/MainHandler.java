@@ -204,7 +204,7 @@ public class MainHandler {
 
 			// 购买体力日常任务
 			pPlayer.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Power, 1);
-			UserEventMgr.getInstance().buyPowerKingActive(pPlayer, 1);
+			UserEventMgr.getInstance().buyPowerVitality(pPlayer, 1);
 			// TODO HC 把改变数据推送到前台
 			PowerInfoDataHolder.synPowerInfo(pPlayer);
 		} else {

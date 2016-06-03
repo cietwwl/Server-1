@@ -670,7 +670,7 @@ public class GroupPersonalHandler {
 		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp());
 		// 更新帮派排行榜属性
 		GroupRankHelper.addOrUpdateGroup2BaseRank(group);
-		UserEventMgr.getInstance().factionDonateKingAttive(player, 1);
+		UserEventMgr.getInstance().factionDonateVitality(player, 1);
 		// 设置回应消息
 		GroupDonateRspMsg.Builder rsp = GroupDonateRspMsg.newBuilder();
 		rsp.setLeftDonateTimes(perDayDonateTimes - memberData.getDonateTimes());

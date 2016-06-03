@@ -9,7 +9,6 @@ import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
-
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -56,12 +55,13 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	 */
 	public ActivityVitalityTypeItem newItem(Player player){
 		ActivityVitalityCfg cfgById = getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
-		if(cfgById!=null){	
+		if(cfgById!=null){
+			int day = getday(cfgById);
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();			
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
-//			item.setSubItemList(newItemList());
+			item.setSubItemList(newItemList(day));
 			item.setLastTime(System.currentTimeMillis());
 			return item;
 		}else{
@@ -69,11 +69,23 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}		
 	}
 	
-	public List<ActivityVitalityTypeSubItem> newItemList() {
+	/**根据当前时间返回处于活动第几天*/
+	private int getday(ActivityVitalityCfg cfgById) {
+		long startTime = cfgById.getStartTime();
+		long currentTime = System.currentTimeMillis();
+		int day = DateUtils.getDayDistance(startTime, currentTime);
+		day++;
+		
+		return day;
+	}
+
+	public List<ActivityVitalityTypeSubItem> newItemList(int day) {
 		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
 		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();	
 		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
-			
+			if(activityVitalitySubCfg.getDay() != day){
+				continue;
+			}
 			
 			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
 			subitem.setCfgId(activityVitalitySubCfg.getId());

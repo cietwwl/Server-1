@@ -23,6 +23,8 @@ import com.rwbase.common.userEvent.eventHandler.UserEventGambleCoinHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventGambleGoldHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventLoginHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventUseGoldHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventGivePowerVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventGoldSpendVitalityHandler;
 import com.rwproto.BattleTowerServiceProtos.EKeyType;
 
 public class UserEventMgr {
@@ -62,29 +64,29 @@ public class UserEventMgr {
 		eventHandlerMap.put(UserEventType.ATTACHDAILY, new UserEventAttachDailyHandler());
 		eventHandlerMap.put(UserEventType.GOLDSPENDDAILY, new UserEventGoldSpendDailyHandler());
 		//------------------------------我是淫荡的分割线！！！通用2↑，活跃之王↓
-		eventHandlerMap.put(UserEventType.GoldSpendingKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.GivePowerKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.TreasureLandKingAttive, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.GoldSpendingVitality, new UserEventGoldSpendVitalityHandler());
+		eventHandlerMap.put(UserEventType.GivePowerVitality, new UserEventGivePowerVitalityHandler());
+		eventHandlerMap.put(UserEventType.TreasureLandVitality, new UserEventLoginHandler());
 		
-		eventHandlerMap.put(UserEventType.TowerKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.BattleTowerKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.AttachKingAttive, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.TowerVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.BattleTowerVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.AttachVitality, new UserEventLoginHandler());
 		
-		eventHandlerMap.put(UserEventType.ResetElityKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.HeroUpgradeKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.WarfareDifficultyTwoKingAttive, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.ResetElityVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.HeroUpgradeVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.WarfareDifficultyTwoVitality, new UserEventLoginHandler());
 		
-		eventHandlerMap.put(UserEventType.BuyInTowerShopKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.BuyPowerKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.FactionDonateKingAttive, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.BuyInTowerShopVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.BuyPowerVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.FactionDonateVitality, new UserEventLoginHandler());
 		
-		eventHandlerMap.put(UserEventType.UseSweepTicketKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.LearnSkillInfactionKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.StrengthenMagicKingAttive, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.UseSweepTicketVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.LearnSkillInfactionVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.StrengthenMagicVitality, new UserEventLoginHandler());
 		
-		eventHandlerMap.put(UserEventType.UseSilverKeyKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.GambleGoldKingAttive, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.arenaKingAttive, new UserEventLoginHandler());		
+		eventHandlerMap.put(UserEventType.UseSilverKeyVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.GambleGoldVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.arenaVitality, new UserEventLoginHandler());		
 	}
 	
 	/*传入登陆时间*/
@@ -110,7 +112,7 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.USE_GOLD, GoldSpending);
 		raiseEvent(player, userEvent);
 		goldSpendDaily(player, GoldSpending);
-		goldSpendKingActive(player, GoldSpending);
+		goldSpendVitality(player, GoldSpending);
 	}
 	
 	
@@ -132,7 +134,7 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.BATTLETOWER, winnum);
 		raiseEvent(player, userEvent);		
 		battleTowerDaily(player, winnum);		
-		battleTowerKingActive(player, winnum);
+		battleTowerVitality(player, winnum);
 	}
 	
 	
@@ -158,7 +160,7 @@ public class UserEventMgr {
 			UserEvent userEvent = new UserEvent(UserEventType.GAMBLE_GOLD, count);
 			raiseEvent(player, userEvent);
 			GambleGoldDaily(player, count);
-			GambleGoldKingActive(player, count);
+			GambleGoldVitality(player, count);
 	}
 	
 	
@@ -174,7 +176,7 @@ public class UserEventMgr {
 	public void TreasureLandCopyWinDaily(Player player, int winnum) {		
 		UserEvent userEvent = new UserEvent(UserEventType.TREASURELANDDAILY, winnum);
 		raiseEvent(player, userEvent);		
-		TreasureLandCopyWinKingActive(player,winnum);
+		TreasureLandCopyWinVitality(player,winnum);
 		
 	}
 	
@@ -215,7 +217,7 @@ public class UserEventMgr {
 	public void ArenaDaily(Player player,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.ARENADAILY, count);
 		raiseEvent(player, userEvent);
-		arenaKingActive(player,1);
+		arenaVitality(player,1);
 	}
 	
 	
@@ -230,7 +232,7 @@ public class UserEventMgr {
 	public void attachDaily(Player player,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.ATTACHDAILY, 1);
 		raiseEvent(player, userEvent);
-		attachKingActive(player, count);
+		attachVitality(player, count);
 	}
 	
 	
@@ -242,118 +244,118 @@ public class UserEventMgr {
 	}
 	
 	/**消费行为分类-活跃之王*/
-	private void goldSpendKingActive(com.playerdata.Player player,
+	private void goldSpendVitality(com.playerdata.Player player,
 			int goldSpending) {
-		UserEvent userEvent = new UserEvent(UserEventType.GoldSpendingKingAttive, goldSpending);
+		UserEvent userEvent = new UserEvent(UserEventType.GoldSpendingVitality, goldSpending);
 		raiseEvent(player, userEvent);		
 	}
 	
 	/*传入赠送体力次数*/
-	public void givePowerKingActive(Player player,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.GivePowerKingAttive, count);
+	public void givePowerVitality(Player player,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.GivePowerVitality, count);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**聚宝之地行为分类-活跃之王*/
-	private void TreasureLandCopyWinKingActive(Player player,
+	private void TreasureLandCopyWinVitality(Player player,
 			int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.TreasureLandKingAttive, count);
+		UserEvent userEvent = new UserEvent(UserEventType.TreasureLandVitality, count);
 		raiseEvent(player, userEvent);		
 	}
 	
 	/**传入万仙阵获得徽记数*/
-	public void TowerKingActive(Player player,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.TowerKingAttive, count);
+	public void TowerVitality(Player player,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.TowerVitality, count);
 		raiseEvent(player, userEvent);			
 	}
 	
 	/**封神台行为分类-活跃之王*/
-	private void battleTowerKingActive(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.BattleTowerKingAttive, count);
+	private void battleTowerVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.BattleTowerVitality, count);
 		raiseEvent(player, userEvent);			
 	}
 	
 	
 	/**附灵行为分类-活跃之王*/
-	private void attachKingActive(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.AttachKingAttive, count);
+	private void attachVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.AttachVitality, count);
 		raiseEvent(player, userEvent);		
 	}
 	
 	/**传入重置精英本次数*/
-	public void ResetElityKingActive(Player player,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.ResetElityKingAttive, count);
+	public void ResetElityVitality(Player player,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.ResetElityVitality, count);
 		raiseEvent(player, userEvent);			
 	}
 	
 	/**传入英雄当前级数*/
-	public void heroUpGradeKingActive(Player player,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.HeroUpgradeKingAttive, count);
+	public void heroUpGradeVitality(Player player,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.HeroUpgradeVitality, count);
 		raiseEvent(player, userEvent);			
 	}
 	
 	/**传入无尽战火的关卡id及小怪波数*/
-	public void warFareDifficultyTwoKingActive(Player player,int levelId ,int count){
+	public void warFareDifficultyTwoVitality(Player player,int levelId ,int count){
 		
 		int[] ints = {levelId,count};
-		UserEvent userEvent = new UserEvent(UserEventType.WarfareDifficultyTwoKingAttive, ints);
+		UserEvent userEvent = new UserEvent(UserEventType.WarfareDifficultyTwoVitality, ints);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**传入仙阵商店购买次数*/
-	public void buyInTowerShopKingActive(Player player ,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.BuyInTowerShopKingAttive, count);
+	public void buyInTowerShopVitality(Player player ,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.BuyInTowerShopVitality, count);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**传入购买体力次数*/
-	public void buyPowerKingActive(Player player ,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.BuyPowerKingAttive, count);
+	public void buyPowerVitality(Player player ,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.BuyPowerVitality, count);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**传入捐献次数*/
-	public void factionDonateKingAttive(Player player ,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.FactionDonateKingAttive, count);
+	public void factionDonateVitality(Player player ,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.FactionDonateVitality, count);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**传入使用扫荡券数*/
-	public void UseSweepTicketKingAttive(Player player ,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.UseSweepTicketKingAttive, count);
+	public void UseSweepTicketVitality(Player player ,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.UseSweepTicketVitality, count);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**传入帮派学习技能次数*/
-	public void LearnSkillInfactionKingAttive(Player player ,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.LearnSkillInfactionKingAttive, count);
+	public void LearnSkillInfactionVitality(Player player ,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.LearnSkillInfactionVitality, count);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**传入法宝当前级别数*/
-	public void StrengthenMagicKingAttive(Player player ,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.StrengthenMagicKingAttive, count);
+	public void StrengthenMagicVitality(Player player ,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.StrengthenMagicVitality, count);
 		raiseEvent(player, userEvent);
 	}
 	
 	/**传入使用钥匙类型和个数*/
-	public void UseSilverKeyKingAttive(Player player ,EKeyType type,int count){
+	public void UseSilverKeyVitality(Player player ,EKeyType type,int count){
 		if(type == EKeyType.KEY_SILVER){
-			UserEvent userEvent = new UserEvent(UserEventType.UseSilverKeyKingAttive, count);
+			UserEvent userEvent = new UserEvent(UserEventType.UseSilverKeyVitality, count);
 			raiseEvent(player, userEvent);
 		}
 	}
 	
 	/**钓鱼行为分类-钻石钓鱼活跃之王*/
-	private void GambleGoldKingActive(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.GambleGoldKingAttive, count);
+	private void GambleGoldVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.GambleGoldVitality, count);
 		raiseEvent(player, userEvent);
 		
 	}
 	
 	/**竞技行为分类-活跃之王*/
-	private void arenaKingActive(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.AttachKingAttive, count);
+	private void arenaVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.AttachVitality, count);
 		raiseEvent(player, userEvent);
 		
 	}

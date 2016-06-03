@@ -289,7 +289,7 @@ public class MagicHandler {
 		if (state == 1) {
 			player.getMagicMgr().updateMagic();
 		}
-		UserEventMgr.getInstance().StrengthenMagicKingAttive(player, newLevel);
+		UserEventMgr.getInstance().StrengthenMagicVitality(player, newLevel);
 		itemBagMgr.updateItem(itemData);
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
 		updateItems.add(itemData);

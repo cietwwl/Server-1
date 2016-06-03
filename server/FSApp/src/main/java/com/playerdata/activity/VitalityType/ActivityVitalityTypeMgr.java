@@ -3,12 +3,17 @@ package com.playerdata.activity.VitalityType;
 
 import java.util.List;
 
+import org.apache.commons.codec.binary.StringUtils;
+
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 
 
 public class ActivityVitalityTypeMgr {
@@ -168,46 +173,44 @@ public class ActivityVitalityTypeMgr {
 //}
 	
 //	
-//	public void addCount(Player player, ActivityDailyCountTypeEnum countType, int countadd) {
-//		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-//		ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());
-//		ActivityDailyCountTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);	
-//		subItem.setCount(subItem.getCount() + countadd);
-//		dataHolder.updateItem(player, dataItem);
-//	}
+	public void addCount(Player player, ActivityVitalityTypeEnum countType, int countadd) {
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnum(player, countType, dataItem);	
+		subItem.setCount(subItem.getCount() + countadd);
+		dataHolder.updateItem(player, dataItem);
+	}
 //	
-//	public ActivityDailyCountTypeSubItem getbyDailyCountTypeEnum (Player player,ActivityDailyCountTypeEnum typeEnum,ActivityDailyCountTypeItem dataItem){		
-//		ActivityDailyCountTypeSubItem subItem = null;
-//		ActivityDailyCountTypeSubCfg cfg = null;
-//		List<ActivityDailyCountTypeSubCfg> subcfglist = ActivityDailyCountTypeSubCfgDAO.getInstance().getAllCfg();
-//		for(ActivityDailyCountTypeSubCfg subcfg :subcfglist){
-//			if(StringUtils.equals(subcfg.getId(), typeEnum.getCfgId())){
-//			cfg = subcfg;
-//			break;
-//			}
-//		}
-//		if(cfg == null){
-//			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
-//			return subItem;
-//		}
-//		
-//		if(dataItem != null){
-//			List<ActivityDailyCountTypeSubItem> sublist = dataItem.getSubItemList();
-//			for(ActivityDailyCountTypeSubItem subitem : sublist){
-//				if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
-//					subItem = subitem;
-//					break;
-//				}
-//			}
-//			
-//		}
-//		
-//		if(subItem == null){
-//			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item或subitem");
-//		}
-//		
-//		return   subItem;
-//	}
+	public ActivityVitalityTypeSubItem getbyVitalityTypeEnum (Player player,ActivityVitalityTypeEnum typeEnum,ActivityVitalityTypeItem dataItem){		
+		ActivityVitalityTypeSubItem subItem = null;
+		ActivityVitalitySubCfg cfg = null;
+		List<ActivityVitalitySubCfg> subcfglist = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
+		for(ActivityVitalitySubCfg subcfg :subcfglist){
+			if(StringUtils.equals(subcfg.getType(), typeEnum.getCfgId())){
+			cfg = subcfg;
+			break;
+			}
+		}
+		if(cfg == null){
+			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启中,但活动配置生成的cfg没有对应的事件枚举");
+			return subItem;
+		}
+		
+		if(dataItem != null){
+			List<ActivityVitalityTypeSubItem> sublist = dataItem.getSubItemList();
+			for(ActivityVitalityTypeSubItem subitem : sublist){
+				if(StringUtils.equals(cfg.getId(), subitem.getCfgId())){				
+					subItem = subitem;
+					break;
+				}
+			}			
+		}
+		
+		if(subItem == null){
+			GameLog.error("Activitydailycounttypemgr", "uid=" + player.getUserId(), "事件判断活动开启,找到了cfg,玩家数据每找到item或subitem");
+		}		
+		return   subItem;
+	}
 //	
 //	
 //	

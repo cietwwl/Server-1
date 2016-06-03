@@ -3,6 +3,7 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
@@ -85,6 +86,7 @@ public class PlayerTimeActionHelper {
 				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;

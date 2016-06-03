@@ -374,7 +374,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				}
 				
 				
-				UserEventMgr.getInstance().givePowerKingActive(m_pPlayer, 1);
+				UserEventMgr.getInstance().givePowerVitality(m_pPlayer, 1);
 				list.add(tableFriend.getFriendList().get(otherUserId));
 				resultVo.resultType = EFriendResultType.SUCCESS;
 				resultVo.updateList = friendItemToInfoList(list);
@@ -445,7 +445,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 					otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
 					friendDAO.update(otherFriend);
 					HotPointMgr.changeHotPointState(giveState.getUserId(), EHotPointType.Friend_Give, true);
-					UserEventMgr.getInstance().givePowerKingActive(m_pPlayer, 1);
+					UserEventMgr.getInstance().givePowerVitality(m_pPlayer, 1);
 				}
 				giveState.setGiveState(false);
 				count++;

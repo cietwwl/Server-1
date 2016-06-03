@@ -177,7 +177,7 @@ public class PvECommonHelper {
 			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), -pCfgBuyLevel.getNeedPurse());
 
 			String buyLevelRecord = player.getCopyRecordMgr().buyLevel(levelId);
-			UserEventMgr.getInstance().ResetElityKingActive(player, 1);
+			UserEventMgr.getInstance().ResetElityVitality(player, 1);
 			listLevelRecord.add(buyLevelRecord);
 			copyResponse.setEResultType(EResultType.PURCHASE_SUCCESS);
 			copyResponse.addAllTagCopyLevelRecord(listLevelRecord);
@@ -251,13 +251,13 @@ public class PvECommonHelper {
 			if (times > ticketCount) {
 				player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, ticketCount);
 				player.getUserGameDataMgr().addGold(-(times - ticketCount));
-				UserEventMgr.getInstance().UseSweepTicketKingAttive(player, ticketCount);
+				UserEventMgr.getInstance().UseSweepTicketVitality(player, ticketCount);
 			} else {
 				player.getUserGameDataMgr().addGold(-times);
 			}
 		} else if (copyRequest.getRequestType() == ERequestType.SWEEP_LEVEL_TICKET) { // 扫荡券扫荡
 			player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, times);
-			UserEventMgr.getInstance().UseSweepTicketKingAttive(player, times);
+			UserEventMgr.getInstance().UseSweepTicketVitality(player, times);
 		}
 	}
 

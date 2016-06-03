@@ -10,6 +10,7 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
@@ -46,6 +47,7 @@ public class ActivityCountTypeMgr {
 		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
+		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 	}
 	
 	

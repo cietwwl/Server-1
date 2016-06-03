@@ -51,7 +51,7 @@ public class WarFareHandler {
 		
 		int times = copyRequest.getTagBattleData().getBattleClearingTime();
 		
-		UserEventMgr.getInstance().warFareDifficultyTwoKingActive(player, levelId, times);
+		UserEventMgr.getInstance().warFareDifficultyTwoVitality(player, levelId, times);
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
 		

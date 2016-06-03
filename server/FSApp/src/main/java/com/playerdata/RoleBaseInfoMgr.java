@@ -122,7 +122,7 @@ public class RoleBaseInfoMgr extends IDataMgr {
 		roleBaseInfo.setLevel(level);
 		roleBaseInfo.setExp(exp);
 		roleBaseInfoHolder.update(m_pPlayer);
-		UserEventMgr.getInstance().heroUpGradeKingActive(m_pPlayer, level);
+		UserEventMgr.getInstance().heroUpGradeVitality(m_pPlayer, level);
 		// 等级修改
 		if (oldLevel != level) {
 			FettersBM.whenHeroChange(m_pPlayer, m_pOwner.getModelId());

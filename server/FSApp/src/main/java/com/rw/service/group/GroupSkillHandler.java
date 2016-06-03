@@ -221,7 +221,7 @@ public class GroupSkillHandler {
 
 		// 扣除个人贡献
 		groupMemberMgr.updateMemberContribution(userId, -skillLevelTemplate.getStudyNeedContribution());
-		UserEventMgr.getInstance().LearnSkillInfactionKingAttive(player, 1);
+		UserEventMgr.getInstance().LearnSkillInfactionVitality(player, 1);
 		commonRsp.setIsSuccess(true);
 		commonRsp.setTipMsg("学习技能成功");
 		return commonRsp.build().toByteString();

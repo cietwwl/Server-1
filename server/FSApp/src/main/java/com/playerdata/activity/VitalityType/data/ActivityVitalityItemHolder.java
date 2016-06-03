@@ -21,7 +21,7 @@ public class ActivityVitalityItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityDailyType;
+	final private eSynType synType = eSynType.ActivityVitalityType;
 	
 	
 	/*

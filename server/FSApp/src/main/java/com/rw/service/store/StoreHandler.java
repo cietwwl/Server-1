@@ -50,7 +50,7 @@ public class StoreHandler {
 			resp.setStoreType(storeCfg.getType());			
 			resp.setCommodity(respCommodity);
 			if(eSpecialItemId.getDef(cfg.getCostType())==eSpecialItemId.BraveCoin){
-				UserEventMgr.getInstance().buyInTowerShopKingActive(m_pPlayer, 1);
+				UserEventMgr.getInstance().buyInTowerShopVitality(m_pPlayer, 1);
 			}			
 		}else if(result==-2){
 			resp.setCostType(cfg.getCostType());

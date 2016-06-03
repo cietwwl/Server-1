@@ -11,7 +11,7 @@ public class ActivityVitalitySubCfg {
 	//计数
 	private int count;
 	
-	private ActivityVitalityTypeEnum type;
+	private String type;
 	//计数奖励
 	private String giftId;	
 
@@ -54,11 +54,12 @@ public class ActivityVitalitySubCfg {
 		return id;
 	}
 
-	public ActivityVitalityTypeEnum getType() {
+	
+	public String getType() {
 		return type;
 	}
 
-	public void setType(ActivityVitalityTypeEnum type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

@@ -369,7 +369,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			}
 			if (towerCoin > 0) {
 				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
-				UserEventMgr.getInstance().TowerKingActive(player, towerCoin);
+				UserEventMgr.getInstance().TowerVitality(player, towerCoin);
 			}
 
 			List<TowerGoodsCfg> formatList = TowerGoodsCfgDAO.getInstance().getCfgsByFormatId(awardCfg.formatId);
