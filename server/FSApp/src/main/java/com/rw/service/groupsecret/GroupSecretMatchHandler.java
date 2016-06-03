@@ -280,6 +280,12 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
+		// // 检查需要的钥石数量够不够
+		// if (cfg.getRobNeedKeyNum() > userGroupSecretBaseData.getKeyCount()) {
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "钥石数量不足");
+		// return rsp.build().toByteString();
+		// }
+
 		// 免战超时
 		long now = System.currentTimeMillis();
 		long atkTime = matchEnemyData.getAtkTime();
@@ -499,7 +505,8 @@ public class GroupSecretMatchHandler {
 		// 检查是否有敌人
 		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
 		GroupSecretMatchEnemyData matchEnemyData = enemyDataMgr.get(userId);
-		if (StringUtils.isEmpty(matchEnemyData.getMatchUserId())) {
+		String matchUserId = matchEnemyData.getMatchUserId();
+		if (StringUtils.isEmpty(matchUserId)) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "当前您没有可以挑战的秘境");
 			return rsp.build().toByteString();
 		}
@@ -513,7 +520,7 @@ public class GroupSecretMatchHandler {
 		UserGroupSecretBaseDataMgr userSecretBaseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
 
 		int secretId = matchEnemyData.getId();
-		String id = GroupSecretHelper.generateCacheSecretId(matchEnemyData.getMatchUserId(), secretId);
+		String id = GroupSecretHelper.generateCacheSecretId(matchUserId, secretId);
 		// 检查是不是自己主动搁置到战斗超时
 		GroupSecretBaseTemplate uniqueCfg = GroupSecretBaseCfgDAO.getCfgDAO().getUniqueCfg();
 		if (uniqueCfg == null) {
@@ -521,7 +528,7 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
-		UserCreateGroupSecretData useCreateData = UserCreateGroupSecretDataMgr.getMgr().get(matchEnemyData.getMatchUserId());
+		UserCreateGroupSecretData useCreateData = UserCreateGroupSecretDataMgr.getMgr().get(matchUserId);
 		GroupSecretData groupSecretData = useCreateData.getGroupSecretData(secretId);
 		if (groupSecretData == null) {
 			GameLog.error("挑战秘境敌人结束", userId, String.format("匹配到的记录Id是[%s],查不着相应的秘境数据", id));
@@ -571,7 +578,8 @@ public class GroupSecretMatchHandler {
 
 		// 后续要通知所有的相关秘境被掠夺的资源数量
 		if (isBeat) {// 打败了
-			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(userId, secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE());
+			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE(),
+					matchEnemyData.getAtkTimes(), groupData.getGroupName());
 		}
 
 		rsp.setIsSuccess(true);

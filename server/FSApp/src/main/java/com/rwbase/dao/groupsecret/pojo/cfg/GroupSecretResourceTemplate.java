@@ -1,5 +1,11 @@
 package com.rwbase.dao.groupsecret.pojo.cfg;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.util.StringUtils;
+
 import com.log.GameLog;
 
 /*
@@ -21,6 +27,8 @@ public class GroupSecretResourceTemplate {
 	private final int robGERatio;// 掠夺帮派经验的权重
 	private final int robRatio;// 掠夺资源的权重
 	private final int fromCreate2RobNeedTime;// 从创建到可以被掠夺至少要过多久
+	private final int robNeedKeyNum;// 掠夺需要消耗的钥石数量
+	private final List<Drop> dropIdBasedOnJoinTimeList;// 掉落宝石方案对应的加入时间剩余
 
 	private final float productRatio;// 每分钟产出资源的权重
 	private final float groupSupplyRatio;// 每分钟帮派物资的产出权重
@@ -40,13 +48,29 @@ public class GroupSecretResourceTemplate {
 		this.robGERatio = cfg.getRobGERatio();
 		this.robRatio = cfg.getRobRatio();
 		this.fromCreate2RobNeedTime = cfg.getFromCreate2RobNeedTime();
+		this.robNeedKeyNum = cfg.getRobNeedKeyNum();
 
 		try {
+			String dropIdBasedOnJoinTime = cfg.getDropIdBasedOnJoinTime();
+			if (StringUtils.isEmpty(dropIdBasedOnJoinTime)) {
+				this.dropIdBasedOnJoinTimeList = Collections.emptyList();
+			} else {
+				String[] arr1 = dropIdBasedOnJoinTime.split(";");
+				int len = arr1.length;
+				List<Drop> dropIdBasedOnJoinTimeList = new ArrayList<Drop>(len);
+				for (int i = 0; i < len; i++) {
+					String[] arr2 = arr1[i].split("_");
+					dropIdBasedOnJoinTimeList.add(new Drop(Integer.valueOf(arr2[0]), Integer.valueOf(arr2[1])));
+				}
+
+				this.dropIdBasedOnJoinTimeList = Collections.unmodifiableList(dropIdBasedOnJoinTimeList);
+			}
+
 			this.productRatio = Float.parseFloat(cfg.getProductRatio());
 			this.groupSupplyRatio = Float.parseFloat(cfg.getGroupSupplyRatio());
 			this.groupExpRatio = Float.parseFloat(cfg.getGroupExpRatio());
 		} catch (Exception e) {
-			GameLog.error("解析秘境资源表", "GroupSecretResourceTemplate", "解析过程中把产出权重，物资权重，贡献权重中的某一个出现了异常");
+			GameLog.error("解析秘境资源表", "GroupSecretResourceTemplate", "解析过程中把产出权重，物资权重，贡献权重，加入时间对应掉落方案中的某一个出现了异常");
 			throw new ExceptionInInitializerError(e);
 		}
 	}
@@ -113,5 +137,28 @@ public class GroupSecretResourceTemplate {
 
 	public int getFromCreate2RobNeedTime() {
 		return fromCreate2RobNeedTime;
+	}
+
+	public int getRobNeedKeyNum() {
+		return robNeedKeyNum;
+	}
+
+	/**
+	 * 获取基于加入时间的掉落方案Id
+	 * 
+	 * @return
+	 */
+	public List<Drop> getDropIdBasedOnJoinTimeList() {
+		return dropIdBasedOnJoinTimeList;
+	}
+
+	public static class Drop {
+		public final int leftMinutes;// 驻守剩余时间
+		public final int dropId;// 掉落方案Id
+
+		public Drop(int leftMinutes, int dropId) {
+			this.leftMinutes = leftMinutes;
+			this.dropId = dropId;
+		}
 	}
 }

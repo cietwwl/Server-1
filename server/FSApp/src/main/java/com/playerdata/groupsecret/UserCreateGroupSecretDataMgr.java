@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
+import com.playerdata.Player;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper.IUpdateSecretStateCallBack;
@@ -14,7 +15,13 @@ import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
+import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
+import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
+import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 /*
  * @author HC
@@ -22,6 +29,7 @@ import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
  * @Description 
  */
 public class UserCreateGroupSecretDataMgr {
+
 	private static UserCreateGroupSecretDataMgr mgr = new UserCreateGroupSecretDataMgr();
 
 	public static UserCreateGroupSecretDataMgr getMgr() {
@@ -139,7 +147,7 @@ public class UserCreateGroupSecretDataMgr {
 	 * @param robGS
 	 * @param robGE
 	 */
-	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE) {
+	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE, int[] atkTimes, String groupName) {
 		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
 		if (userCreateGroupSecretData == null) {
 			return;
@@ -150,6 +158,8 @@ public class UserCreateGroupSecretDataMgr {
 			return;
 		}
 
+		final GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(groupSecretData.getSecretId());
+
 		final int robTimes = groupSecretData.getRobTimes() + 1;
 		groupSecretData.setRobTimes(robTimes);
 
@@ -159,9 +169,6 @@ public class UserCreateGroupSecretDataMgr {
 
 			@Override
 			public boolean call(GroupSecretMatchRankAttribute attr) {
-				int cfgId = attr.getCfgId();
-
-				GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
 				if (cfg != null) {
 					if (robTimes >= cfg.getRobCount()) {
 						attr.setRobMaxProtectState(now);
@@ -188,29 +195,77 @@ public class UserCreateGroupSecretDataMgr {
 
 			int index = userInfo.getIndex();
 			// 设置掠夺的资源数量
-			userInfo.setRobRes(userInfo.getRobRes() + robRes[index - 1]);
-			userInfo.setRobGS(userInfo.getRobGS() + robGS[index - 1]);
-			userInfo.setRobGE(userInfo.getRobGE() + robGE[index - 1]);
+			int robResValue = robRes[index - 1];
+			userInfo.setRobRes(userInfo.getRobRes() + robResValue);
+			int robGSValue = robGS[index - 1];
+			userInfo.setRobGS(userInfo.getRobGS() + robGSValue);
+			int robGEValue = robGE[index - 1];
+			userInfo.setRobGE(userInfo.getRobGE() + robGEValue);
+
+			final DefendRecord record = new DefendRecord();
+			record.setHasKey(true);
+			record.setDefenceTimes(atkTimes[index - 1]);
+			record.setRobGE(robGEValue);
+			record.setRobGS(robGSValue);
+			record.setRobTime(now);
+			record.setSecretId(groupSecretData.getSecretId());
+			record.setGroupName(groupName);
+			record.setDropDiamond(cfg == null ? 0 : cfg.getRobGold());
+
+			GameWorldFactory.getGameWorld().asyncExecute(userInfo.getUserId(), new PlayerTask() {
+
+				@Override
+				public void run(Player p) {
+					GroupSecretDefendRecordDataMgr.getMgr().addDefendRecord(p, record);
+				}
+			});
 		}
 
 		updateData(userId);
 	}
-	// /**
-	// * 同步秘境的数据
-	// *
-	// * @param player
-	// */
-	// private void updateSingleData(Player player, GroupSecretData data) {
-	// GroupSecretDataSynData info = GroupSecretHelper.parseGroupSecretData2Msg(data, player.getUserId());
-	// // 同步数据
-	// SecretBaseInfoSynData base = info.getBase();
-	// if (base != null) {
-	// SecretBaseInfoSynDataHolder.getHolder().updateSingleData(player, base);
-	// }
-	//
-	// SecretTeamInfoSynData team = info.getTeam();
-	// if (team == null) {
-	// SecretTeamInfoSynDataHolder.getHolder().updateSingleData(player, team);
-	// }
-	// }
+
+	/**
+	 * 更新秘境的邀请数据
+	 * 
+	 * @param player
+	 * @param id
+	 * @param inviteList
+	 */
+	public void updateInviteHeroList(Player player, int id, List<String> inviteList) {
+		String userId = player.getUserId();
+		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
+		if (userCreateGroupSecretData == null) {
+			return;
+		}
+
+		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(id);
+		if (groupSecretData == null) {
+			return;
+		}
+
+		groupSecretData.addInviteHeroList(inviteList);
+		updateData(userId);
+
+		// 同步数据
+		updateSingleData(player, groupSecretData);
+	}
+
+	/**
+	 * 同步秘境的数据
+	 *
+	 * @param player
+	 */
+	private void updateSingleData(Player player, GroupSecretData data) {
+		GroupSecretDataSynData info = GroupSecretHelper.parseGroupSecretData2Msg(data, player.getUserId());
+		// 同步数据
+		SecretBaseInfoSynData base = info.getBase();
+		if (base != null) {
+			player.getBaseHolder().updateSingleData(player, base);
+		}
+
+		SecretTeamInfoSynData team = info.getTeam();
+		if (team == null) {
+			player.getTeamHolder().updateSingleData(player, team);
+		}
+	}
 }

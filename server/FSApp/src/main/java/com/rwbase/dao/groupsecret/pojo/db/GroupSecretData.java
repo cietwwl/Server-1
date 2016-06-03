@@ -1,6 +1,8 @@
 package com.rwbase.dao.groupsecret.pojo.db;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
@@ -24,10 +26,12 @@ public class GroupSecretData {
 	private long createTime;// 创建秘境的时间
 	private int robTimes;// 已经被掠夺的次数
 	private int secretId;// 秘境配置Id
+	private List<String> inviteList;// 邀请驻守的成员Id
 	@SaveAsJson
 	private ConcurrentHashMap<Integer, DefendUserInfoData> defendMap;// 驻守的信息
 
 	public GroupSecretData() {
+		inviteList = new ArrayList<String>();// 邀请驻守的列表
 		defendMap = new ConcurrentHashMap<Integer, DefendUserInfoData>();
 	}
 
@@ -54,6 +58,10 @@ public class GroupSecretData {
 
 	public int getSecretId() {
 		return secretId;
+	}
+
+	public List<String> getInviteList() {
+		return inviteList;
 	}
 
 	public ConcurrentHashMap<Integer, DefendUserInfoData> getDefendMap() {
@@ -87,6 +95,10 @@ public class GroupSecretData {
 
 	public void setDefendMap(ConcurrentHashMap<Integer, DefendUserInfoData> defendMap) {
 		this.defendMap = defendMap;
+	}
+
+	public void setInviteList(List<String> inviteList) {
+		this.inviteList = inviteList;
 	}
 
 	// ////////////////////////////////////////////////逻辑区
@@ -141,5 +153,23 @@ public class GroupSecretData {
 	 */
 	public Enumeration<DefendUserInfoData> getEnumerationValues() {
 		return defendMap.elements();
+	}
+
+	/**
+	 * 增加驻守秘境的成员列表
+	 * 
+	 * @param idList
+	 */
+	public void addInviteHeroList(List<String> idList) {
+		if (idList.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0, size = idList.size(); i < size; i++) {
+			String id = idList.get(i);
+			if (inviteList.contains(id)) {
+				inviteList.add(id);
+			}
+		}
 	}
 }

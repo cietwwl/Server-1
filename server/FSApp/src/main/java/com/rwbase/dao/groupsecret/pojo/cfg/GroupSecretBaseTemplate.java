@@ -21,16 +21,18 @@ public class GroupSecretBaseTemplate {
 	private final int keyRecoveryLimit;// 钥石恢复的上限
 	private final int initKeyNum;// 初始化的钥石数量
 	private final int secretCanRobMinLeftTime;// 秘境可以被掠夺的底限剩余时间
+	private final int maxDefendLogSize;// 最大的可以保存防守记录的条数
 
 	public GroupSecretBaseTemplate(GroupSecretBaseCfg cfg) {
 		this.getKeyLimit = cfg.getGetKeyLimit();
 		this.maxKeyLimit = cfg.getMaxKeyLimit();
 		this.rewardKeyCount = cfg.getRewardKeyCount();
-		this.matchNonBattleTime = cfg.getMatchNonBattleTimw();
+		this.matchNonBattleTime = cfg.getMatchNonBattleTime();
 		this.minAssistTime = cfg.getMinAssistTime();
 		this.keyRecoveryLimit = cfg.getKeyRecoveryLimit();
 		this.initKeyNum = cfg.getInitKeyNum();
 		this.secretCanRobMinLeftTime = cfg.getSecretCanRobMinLeftTime();
+		this.maxDefendLogSize = cfg.getMaxDefendLogSize();
 
 		// 转换成对应的数组
 		String buyPriceStr = cfg.getBuyKeyPrice();
@@ -139,5 +141,9 @@ public class GroupSecretBaseTemplate {
 
 	public int getSecretCanRobMinLeftTime() {
 		return secretCanRobMinLeftTime;
+	}
+
+	public int getMaxDefendLogSize() {
+		return maxDefendLogSize;
 	}
 }

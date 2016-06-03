@@ -1,6 +1,8 @@
 package com.rwbase.dao.groupsecret;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -169,7 +171,7 @@ public class GroupSecretMatchHelper {
 
 		int matchUpLevel = level + GroupSecretConst.MATCH_UP_OFF_LEVEL;
 
-		int matchLowFighting = fighting * (int) (1 - GroupSecretConst.MATCH_LOW_OFF_FIGHTING);
+		int matchLowFighting = (int) (fighting * (1 - GroupSecretConst.MATCH_LOW_OFF_FIGHTING));
 		int matchUpFighting = (int) (fighting * (1 + GroupSecretConst.MATCH_UP_OFF_FIGHTING));
 
 		// 搜索下限
@@ -280,6 +282,9 @@ public class GroupSecretMatchHelper {
 		long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 
 		long leftTimeMillis = needTimeMillis - now + createTime;
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.err.println(sdf.format(new Date(createTime)) + ",需要的时间是：" + needTimeMillis);
 		if (leftTimeMillis < secretCanRobMinLeftTimeMillis) {
 			return false;
 		}

@@ -2,6 +2,7 @@ package com.rwbase.dao.groupsecret.pojo.cfg.dao;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,6 +11,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate.Drop;
 
 /*
  * @author HC
@@ -49,10 +51,45 @@ public class GroupSecretResourceCfgDAO extends CfgCsvDao<GroupSecretResourceCfg>
 	/**
 	 * 获取对应的秘境类型配置
 	 * 
-	 * @param id
+	 * @param cfgId
 	 * @return
 	 */
-	public GroupSecretResourceTemplate getGroupSecretResourceTmp(int id) {
-		return tmpMap.get(id);
+	public GroupSecretResourceTemplate getGroupSecretResourceTmp(int cfgId) {
+		return tmpMap.get(cfgId);
+	}
+
+	/**
+	 * 获取掉落钻石的Id
+	 * 
+	 * @param cfgId
+	 * @param minutes
+	 * @return
+	 */
+	public int getDropIdBasedOnJoinTime(int cfgId, int minutes) {
+		GroupSecretResourceTemplate cfg = getGroupSecretResourceTmp(cfgId);
+		if (cfg == null) {
+			return -1;
+		}
+
+		int dropId = -1;
+		int lastMinutes = 0;
+		List<Drop> list = cfg.getDropIdBasedOnJoinTimeList();
+		for (int i = 0, size = list.size(); i < size; i++) {
+			Drop drop = list.get(i);
+			if (drop == null) {
+				continue;
+			}
+
+			int leftMinutes = drop.leftMinutes;
+			if (minutes < leftMinutes && dropId == -1) {
+				dropId = drop.dropId;
+				lastMinutes = leftMinutes;
+			} else if (dropId != -1 && minutes < leftMinutes && leftMinutes < lastMinutes) {
+				dropId = drop.dropId;
+				lastMinutes = leftMinutes;
+			}
+		}
+
+		return dropId;
 	}
 }

@@ -22,6 +22,8 @@ public class GroupSecretResourceCfg {
 	private int protectTime;// 保护的时间（分钟）
 	private int robProtectTime;// 被掠夺之后的保护时间（分钟）
 	private int fromCreate2RobNeedTime;// 从创建到可以被掠夺至少要过多久
+	private int robNeedKeyNum;// 掠夺需要消耗的钥石数量
+	private String dropIdBasedOnJoinTime;// 基于驻守剩余的时间对应的掉落宝石的方案
 
 	public int getId() {
 		return id;
@@ -95,5 +97,18 @@ public class GroupSecretResourceCfg {
 
 	public int getFromCreate2RobNeedTime() {
 		return fromCreate2RobNeedTime;
+	}
+
+	public int getRobNeedKeyNum() {
+		return robNeedKeyNum;
+	}
+
+	/**
+	 * 基于驻守时间掉落宝石的方案
+	 * 
+	 * @return
+	 */
+	public String getDropIdBasedOnJoinTime() {
+		return dropIdBasedOnJoinTime;
 	}
 }

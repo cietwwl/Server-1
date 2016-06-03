@@ -234,12 +234,14 @@ public class GroupSecretHelper {
 		if (protectTimeMillis > 0) {
 			long now = System.currentTimeMillis();
 			long atkTime = enemyData.getAtkTime();
-			long passTimeMillis = now - atkTime;// 已经流过的时间
-			if (passTimeMillis >= protectTimeMillis) {// 超出了时间
-				GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，在规定的攻击时间倒计时中没有打败对手，做删除处理", matchUserId, secretId));
-				UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
-				mgr.clearMatchEnemyData(player);
-				return null;
+			if (atkTime > 0) {
+				long passTimeMillis = now - atkTime;// 已经流过的时间
+				if (passTimeMillis >= protectTimeMillis) {// 超出了时间
+					GameLog.error("填充搜索到的秘境信息", userId, String.format("匹配到角色[%s]的秘境[%s]，在规定的攻击时间倒计时中没有打败对手，做删除处理", matchUserId, secretId));
+					UserGroupSecretBaseDataMgr.getMgr().updateMatchSecretId(player, null);
+					mgr.clearMatchEnemyData(player);
+					return null;
+				}
 			}
 		}
 

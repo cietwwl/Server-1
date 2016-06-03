@@ -40,6 +40,12 @@ public class GroupSecretMatchEnemyData {
 	private int[] atkTimes = new int[3];// 攻击每个驻守点敌人的次数
 	private boolean isBeat = false;// 是否已经抢到了
 
+	public GroupSecretMatchEnemyData() {
+		teamOneMap = new HashMap<String, HeroLeftInfoSynData>(5);
+		teamTwoMap = new HashMap<String, HeroLeftInfoSynData>(5);
+		teamThreeMap = new HashMap<String, HeroLeftInfoSynData>(5);
+	}
+
 	// ////////////////////////////////////////////////逻辑Get区
 	public int getId() {
 		return id;
@@ -75,6 +81,10 @@ public class GroupSecretMatchEnemyData {
 
 	public int[] getRobGE() {
 		return robGE;
+	}
+
+	public int[] getAtkTimes() {
+		return atkTimes;
 	}
 
 	public int getCfgId() {

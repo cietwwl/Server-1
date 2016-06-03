@@ -11,12 +11,13 @@ public class GroupSecretBaseCfg {
 	private int getKeyLimit;// 每天获取钥石的上限
 	private int maxKeyLimit;// 钥石的上限
 	private int rewardKeyCount;// 每抵挡一波敌人进攻奖励多少钥石
-	private int matchNonBattleTimw;// 匹配到人之后多久不打就删除
+	private int matchNonBattleTime;// 匹配到人之后多久不打就删除
 	private String matchPrice;// 探索的价格
 	private int minAssistTime;// 帮忙驻守秘境最小的时间（分钟）
 	private int keyRecoveryLimit;// 钥石恢复的上限
 	private int initKeyNum;// 初始化的钥石数量
 	private int secretCanRobMinLeftTime;// 秘境可以被掠夺的底限剩余时间
+	private int maxDefendLogSize;// 最大的可以保存防守记录的条数
 
 	public String getBuyKeyPrice() {
 		return buyKeyPrice;
@@ -38,8 +39,8 @@ public class GroupSecretBaseCfg {
 		return rewardKeyCount;
 	}
 
-	public int getMatchNonBattleTimw() {
-		return matchNonBattleTimw;
+	public int getMatchNonBattleTime() {
+		return matchNonBattleTime;
 	}
 
 	public String getMatchPrice() {
@@ -60,5 +61,9 @@ public class GroupSecretBaseCfg {
 
 	public int getSecretCanRobMinLeftTime() {
 		return secretCanRobMinLeftTime;
+	}
+
+	public int getMaxDefendLogSize() {
+		return maxDefendLogSize;
 	}
 }

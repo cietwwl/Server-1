@@ -9,10 +9,13 @@ import com.rwbase.dao.groupsecret.pojo.db.dao.GroupSecretDefendRecordDataDAO;
  * @Description 帮派秘境防守记录的Holder
  */
 public class GroupSecretDefendRecordDataHolder {
-	private String userId;
+	private static GroupSecretDefendRecordDataHolder holder = new GroupSecretDefendRecordDataHolder();
 
-	public GroupSecretDefendRecordDataHolder(String userId) {
-		this.userId = userId;
+	public static GroupSecretDefendRecordDataHolder getHolder() {
+		return holder;
+	}
+
+	GroupSecretDefendRecordDataHolder() {
 	}
 
 	/**
@@ -20,7 +23,16 @@ public class GroupSecretDefendRecordDataHolder {
 	 * 
 	 * @return
 	 */
-	public GroupSecretDefendRecordData get() {
+	public GroupSecretDefendRecordData get(String userId) {
 		return GroupSecretDefendRecordDataDAO.getDAO().get(userId);
+	}
+
+	/**
+	 * 更新防守记录
+	 * 
+	 * @param userId
+	 */
+	public void updateData(String userId) {
+		GroupSecretDefendRecordDataDAO.getDAO().update(userId);
 	}
 }

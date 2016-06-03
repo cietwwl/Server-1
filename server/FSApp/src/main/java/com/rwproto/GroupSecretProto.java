@@ -168,6 +168,46 @@ public final class GroupSecretProto {
      * </pre>
      */
     CHANGE_DEFEND_TEAM(3, 4),
+    /**
+     * <code>GET_DEFEND_RECORD = 5;</code>
+     *
+     * <pre>
+     *查看秘境的防守记录
+     * </pre>
+     */
+    GET_DEFEND_RECORD(4, 5),
+    /**
+     * <code>INVITE_MEMBER_DEFEND = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    INVITE_MEMBER_DEFEND(5, 6),
+    /**
+     * <code>GET_DEFEDN_REWARD = 7;</code>
+     *
+     * <pre>
+     *获取防守记录的奖励
+     * </pre>
+     */
+    GET_DEFEDN_REWARD(6, 7),
+    /**
+     * <code>BUY_SECRET_KEY = 8;</code>
+     *
+     * <pre>
+     *购买秘境钥石
+     * </pre>
+     */
+    BUY_SECRET_KEY(7, 8),
+    /**
+     * <code>JOIN_SECRET_DEFEND = 9;</code>
+     *
+     * <pre>
+     *请求协助秘境驻守
+     * </pre>
+     */
+    JOIN_SECRET_DEFEND(8, 9),
     ;
 
     /**
@@ -202,6 +242,46 @@ public final class GroupSecretProto {
      * </pre>
      */
     public static final int CHANGE_DEFEND_TEAM_VALUE = 4;
+    /**
+     * <code>GET_DEFEND_RECORD = 5;</code>
+     *
+     * <pre>
+     *查看秘境的防守记录
+     * </pre>
+     */
+    public static final int GET_DEFEND_RECORD_VALUE = 5;
+    /**
+     * <code>INVITE_MEMBER_DEFEND = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    public static final int INVITE_MEMBER_DEFEND_VALUE = 6;
+    /**
+     * <code>GET_DEFEDN_REWARD = 7;</code>
+     *
+     * <pre>
+     *获取防守记录的奖励
+     * </pre>
+     */
+    public static final int GET_DEFEDN_REWARD_VALUE = 7;
+    /**
+     * <code>BUY_SECRET_KEY = 8;</code>
+     *
+     * <pre>
+     *购买秘境钥石
+     * </pre>
+     */
+    public static final int BUY_SECRET_KEY_VALUE = 8;
+    /**
+     * <code>JOIN_SECRET_DEFEND = 9;</code>
+     *
+     * <pre>
+     *请求协助秘境驻守
+     * </pre>
+     */
+    public static final int JOIN_SECRET_DEFEND_VALUE = 9;
 
 
     public final int getNumber() { return value; }
@@ -212,6 +292,11 @@ public final class GroupSecretProto {
         case 2: return CREATE_GROUP_SECRET;
         case 3: return GET_GROUP_SECRET_REWARD;
         case 4: return CHANGE_DEFEND_TEAM;
+        case 5: return GET_DEFEND_RECORD;
+        case 6: return INVITE_MEMBER_DEFEND;
+        case 7: return GET_DEFEDN_REWARD;
+        case 8: return BUY_SECRET_KEY;
+        case 9: return JOIN_SECRET_DEFEND;
         default: return null;
       }
     }
@@ -2283,6 +2368,2156 @@ public final class GroupSecretProto {
     // @@protoc_insertion_point(class_scope:groupSecret.ChangeDefendTeamReqMsg)
   }
 
+  public interface InviteGroupMemberDefendReqMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string id = 1;
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求协助的秘境Id
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求协助的秘境Id
+     * </pre>
+     */
+    java.lang.String getId();
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求协助的秘境Id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    // repeated string memberId = 2;
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getMemberIdList();
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    int getMemberIdCount();
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    java.lang.String getMemberId(int index);
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getMemberIdBytes(int index);
+  }
+  /**
+   * Protobuf type {@code groupSecret.InviteGroupMemberDefendReqMsg}
+   *
+   * <pre>
+   *请求别人协助驻守秘境
+   * </pre>
+   */
+  public static final class InviteGroupMemberDefendReqMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements InviteGroupMemberDefendReqMsgOrBuilder {
+    // Use InviteGroupMemberDefendReqMsg.newBuilder() to construct.
+    private InviteGroupMemberDefendReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private InviteGroupMemberDefendReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final InviteGroupMemberDefendReqMsg defaultInstance;
+    public static InviteGroupMemberDefendReqMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public InviteGroupMemberDefendReqMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private InviteGroupMemberDefendReqMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                memberId_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              memberId_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          memberId_ = new com.google.protobuf.UnmodifiableLazyStringList(memberId_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupSecretProto.internal_static_groupSecret_InviteGroupMemberDefendReqMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupSecretProto.internal_static_groupSecret_InviteGroupMemberDefendReqMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.class, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<InviteGroupMemberDefendReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<InviteGroupMemberDefendReqMsg>() {
+      public InviteGroupMemberDefendReqMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InviteGroupMemberDefendReqMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InviteGroupMemberDefendReqMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private java.lang.Object id_;
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求协助的秘境Id
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求协助的秘境Id
+     * </pre>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          id_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求协助的秘境Id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated string memberId = 2;
+    public static final int MEMBERID_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList memberId_;
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getMemberIdList() {
+      return memberId_;
+    }
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    public int getMemberIdCount() {
+      return memberId_.size();
+    }
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    public java.lang.String getMemberId(int index) {
+      return memberId_.get(index);
+    }
+    /**
+     * <code>repeated string memberId = 2;</code>
+     *
+     * <pre>
+     *请求协助的秘境的人
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getMemberIdBytes(int index) {
+      return memberId_.getByteString(index);
+    }
+
+    private void initFields() {
+      id_ = "";
+      memberId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getIdBytes());
+      }
+      for (int i = 0; i < memberId_.size(); i++) {
+        output.writeBytes(2, memberId_.getByteString(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getIdBytes());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < memberId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(memberId_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getMemberIdList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupSecret.InviteGroupMemberDefendReqMsg}
+     *
+     * <pre>
+     *请求别人协助驻守秘境
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_InviteGroupMemberDefendReqMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_InviteGroupMemberDefendReqMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.class, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        memberId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_InviteGroupMemberDefendReqMsg_descriptor;
+      }
+
+      public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg build() {
+        com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg buildPartial() {
+        com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg result = new com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          memberId_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              memberId_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.memberId_ = memberId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg) {
+          return mergeFrom((com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg other) {
+        if (other == com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          bitField0_ |= 0x00000001;
+          id_ = other.id_;
+          onChanged();
+        }
+        if (!other.memberId_.isEmpty()) {
+          if (memberId_.isEmpty()) {
+            memberId_ = other.memberId_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureMemberIdIsMutable();
+            memberId_.addAll(other.memberId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string id = 1;
+      private java.lang.Object id_ = "";
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求协助的秘境Id
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求协助的秘境Id
+       * </pre>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求协助的秘境Id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求协助的秘境Id
+       * </pre>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求协助的秘境Id
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求协助的秘境Id
+       * </pre>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated string memberId = 2;
+      private com.google.protobuf.LazyStringList memberId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureMemberIdIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          memberId_ = new com.google.protobuf.LazyStringArrayList(memberId_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getMemberIdList() {
+        return java.util.Collections.unmodifiableList(memberId_);
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public int getMemberIdCount() {
+        return memberId_.size();
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public java.lang.String getMemberId(int index) {
+        return memberId_.get(index);
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getMemberIdBytes(int index) {
+        return memberId_.getByteString(index);
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public Builder setMemberId(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureMemberIdIsMutable();
+        memberId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public Builder addMemberId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureMemberIdIsMutable();
+        memberId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public Builder addAllMemberId(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureMemberIdIsMutable();
+        super.addAll(values, memberId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public Builder clearMemberId() {
+        memberId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string memberId = 2;</code>
+       *
+       * <pre>
+       *请求协助的秘境的人
+       * </pre>
+       */
+      public Builder addMemberIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureMemberIdIsMutable();
+        memberId_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupSecret.InviteGroupMemberDefendReqMsg)
+    }
+
+    static {
+      defaultInstance = new InviteGroupMemberDefendReqMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupSecret.InviteGroupMemberDefendReqMsg)
+  }
+
+  public interface JoinSecretDefendReqMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string id = 1;
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求驻守秘境的Id
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求驻守秘境的Id
+     * </pre>
+     */
+    java.lang.String getId();
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求驻守秘境的Id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    // required .groupSecret.GroupSecretIndex index = 2;
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+     *
+     * <pre>
+     *请求驻守点
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+     *
+     * <pre>
+     *请求驻守点
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.GroupSecretIndex getIndex();
+
+    // repeated string heroId = 3;
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getHeroIdList();
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    int getHeroIdCount();
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    java.lang.String getHeroId(int index);
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeroIdBytes(int index);
+  }
+  /**
+   * Protobuf type {@code groupSecret.JoinSecretDefendReqMsg}
+   *
+   * <pre>
+   *请求帮助别人驻守秘境
+   * </pre>
+   */
+  public static final class JoinSecretDefendReqMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements JoinSecretDefendReqMsgOrBuilder {
+    // Use JoinSecretDefendReqMsg.newBuilder() to construct.
+    private JoinSecretDefendReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JoinSecretDefendReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JoinSecretDefendReqMsg defaultInstance;
+    public static JoinSecretDefendReqMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JoinSecretDefendReqMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JoinSecretDefendReqMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupSecretProto.GroupSecretIndex value = com.rwproto.GroupSecretProto.GroupSecretIndex.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                index_ = value;
+              }
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                heroId_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              heroId_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(heroId_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupSecretProto.internal_static_groupSecret_JoinSecretDefendReqMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupSecretProto.internal_static_groupSecret_JoinSecretDefendReqMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.class, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JoinSecretDefendReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<JoinSecretDefendReqMsg>() {
+      public JoinSecretDefendReqMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JoinSecretDefendReqMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JoinSecretDefendReqMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private java.lang.Object id_;
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求驻守秘境的Id
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求驻守秘境的Id
+     * </pre>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          id_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *请求驻守秘境的Id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required .groupSecret.GroupSecretIndex index = 2;
+    public static final int INDEX_FIELD_NUMBER = 2;
+    private com.rwproto.GroupSecretProto.GroupSecretIndex index_;
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+     *
+     * <pre>
+     *请求驻守点
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+     *
+     * <pre>
+     *请求驻守点
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+      return index_;
+    }
+
+    // repeated string heroId = 3;
+    public static final int HEROID_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList heroId_;
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getHeroIdList() {
+      return heroId_;
+    }
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    public int getHeroIdCount() {
+      return heroId_.size();
+    }
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    public java.lang.String getHeroId(int index) {
+      return heroId_.get(index);
+    }
+    /**
+     * <code>repeated string heroId = 3;</code>
+     *
+     * <pre>
+     *驻守的阵容信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeroIdBytes(int index) {
+      return heroId_.getByteString(index);
+    }
+
+    private void initFields() {
+      id_ = "";
+      index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+      heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, index_.getNumber());
+      }
+      for (int i = 0; i < heroId_.size(); i++) {
+        output.writeBytes(3, heroId_.getByteString(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, index_.getNumber());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < heroId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(heroId_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getHeroIdList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupSecret.JoinSecretDefendReqMsg}
+     *
+     * <pre>
+     *请求帮助别人驻守秘境
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupSecretProto.JoinSecretDefendReqMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_JoinSecretDefendReqMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_JoinSecretDefendReqMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.class, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_JoinSecretDefendReqMsg_descriptor;
+      }
+
+      public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg build() {
+        com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg buildPartial() {
+        com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg result = new com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.index_ = index_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              heroId_);
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.heroId_ = heroId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg) {
+          return mergeFrom((com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg other) {
+        if (other == com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          bitField0_ |= 0x00000001;
+          id_ = other.id_;
+          onChanged();
+        }
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
+        if (!other.heroId_.isEmpty()) {
+          if (heroId_.isEmpty()) {
+            heroId_ = other.heroId_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureHeroIdIsMutable();
+            heroId_.addAll(other.heroId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasIndex()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string id = 1;
+      private java.lang.Object id_ = "";
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求驻守秘境的Id
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求驻守秘境的Id
+       * </pre>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求驻守秘境的Id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求驻守秘境的Id
+       * </pre>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求驻守秘境的Id
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *请求驻守秘境的Id
+       * </pre>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required .groupSecret.GroupSecretIndex index = 2;
+      private com.rwproto.GroupSecretProto.GroupSecretIndex index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+       *
+       * <pre>
+       *请求驻守点
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+       *
+       * <pre>
+       *请求驻守点
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.GroupSecretIndex getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+       *
+       * <pre>
+       *请求驻守点
+       * </pre>
+       */
+      public Builder setIndex(com.rwproto.GroupSecretProto.GroupSecretIndex value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupSecret.GroupSecretIndex index = 2;</code>
+       *
+       * <pre>
+       *请求驻守点
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        index_ = com.rwproto.GroupSecretProto.GroupSecretIndex.MAIN;
+        onChanged();
+        return this;
+      }
+
+      // repeated string heroId = 3;
+      private com.google.protobuf.LazyStringList heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureHeroIdIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          heroId_ = new com.google.protobuf.LazyStringArrayList(heroId_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getHeroIdList() {
+        return java.util.Collections.unmodifiableList(heroId_);
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public int getHeroIdCount() {
+        return heroId_.size();
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public java.lang.String getHeroId(int index) {
+        return heroId_.get(index);
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeroIdBytes(int index) {
+        return heroId_.getByteString(index);
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder setHeroId(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder addHeroId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder addAllHeroId(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureHeroIdIsMutable();
+        super.addAll(values, heroId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder clearHeroId() {
+        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 3;</code>
+       *
+       * <pre>
+       *驻守的阵容信息
+       * </pre>
+       */
+      public Builder addHeroIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupSecret.JoinSecretDefendReqMsg)
+    }
+
+    static {
+      defaultInstance = new JoinSecretDefendReqMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupSecret.JoinSecretDefendReqMsg)
+  }
+
+  public interface GetDefendRecordRewardReqMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 id = 1;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *请求领取记录的Id
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *请求领取记录的Id
+     * </pre>
+     */
+    int getId();
+  }
+  /**
+   * Protobuf type {@code groupSecret.GetDefendRecordRewardReqMsg}
+   *
+   * <pre>
+   *请求领取防守记录里的奖励信息
+   * </pre>
+   */
+  public static final class GetDefendRecordRewardReqMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements GetDefendRecordRewardReqMsgOrBuilder {
+    // Use GetDefendRecordRewardReqMsg.newBuilder() to construct.
+    private GetDefendRecordRewardReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetDefendRecordRewardReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetDefendRecordRewardReqMsg defaultInstance;
+    public static GetDefendRecordRewardReqMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetDefendRecordRewardReqMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetDefendRecordRewardReqMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              id_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupSecretProto.internal_static_groupSecret_GetDefendRecordRewardReqMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupSecretProto.internal_static_groupSecret_GetDefendRecordRewardReqMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.class, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetDefendRecordRewardReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<GetDefendRecordRewardReqMsg>() {
+      public GetDefendRecordRewardReqMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetDefendRecordRewardReqMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetDefendRecordRewardReqMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 id = 1;
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *请求领取记录的Id
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 id = 1;</code>
+     *
+     * <pre>
+     *请求领取记录的Id
+     * </pre>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    private void initFields() {
+      id_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, id_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, id_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupSecret.GetDefendRecordRewardReqMsg}
+     *
+     * <pre>
+     *请求领取防守记录里的奖励信息
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_GetDefendRecordRewardReqMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_GetDefendRecordRewardReqMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.class, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        id_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupSecretProto.internal_static_groupSecret_GetDefendRecordRewardReqMsg_descriptor;
+      }
+
+      public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg build() {
+        com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg buildPartial() {
+        com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg result = new com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.id_ = id_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg) {
+          return mergeFrom((com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg other) {
+        if (other == com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance()) return this;
+        if (other.hasId()) {
+          setId(other.getId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 id = 1;
+      private int id_ ;
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *请求领取记录的Id
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *请求领取记录的Id
+       * </pre>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *请求领取记录的Id
+       * </pre>
+       */
+      public Builder setId(int value) {
+        bitField0_ |= 0x00000001;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 id = 1;</code>
+       *
+       * <pre>
+       *请求领取记录的Id
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupSecret.GetDefendRecordRewardReqMsg)
+    }
+
+    static {
+      defaultInstance = new GetDefendRecordRewardReqMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupSecret.GetDefendRecordRewardReqMsg)
+  }
+
   public interface GroupSecretCommonReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -2408,6 +4643,84 @@ public final class GroupSecretProto {
      * </pre>
      */
     com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsgOrBuilder getChangeTeamReqMsgOrBuilder();
+
+    // optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;
+    /**
+     * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    boolean hasInviteReqMsg();
+    /**
+     * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg getInviteReqMsg();
+    /**
+     * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsgOrBuilder getInviteReqMsgOrBuilder();
+
+    // optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;
+    /**
+     * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+     *
+     * <pre>
+     *请求帮助别人驻守秘境
+     * </pre>
+     */
+    boolean hasJoinReqMsg();
+    /**
+     * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+     *
+     * <pre>
+     *请求帮助别人驻守秘境
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg getJoinReqMsg();
+    /**
+     * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+     *
+     * <pre>
+     *请求帮助别人驻守秘境
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.JoinSecretDefendReqMsgOrBuilder getJoinReqMsgOrBuilder();
+
+    // optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;
+    /**
+     * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+     *
+     * <pre>
+     *获取秘境驻守里的奖励数据
+     * </pre>
+     */
+    boolean hasGetDefendRewardReqMsg();
+    /**
+     * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+     *
+     * <pre>
+     *获取秘境驻守里的奖励数据
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg getGetDefendRewardReqMsg();
+    /**
+     * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+     *
+     * <pre>
+     *获取秘境驻守里的奖励数据
+     * </pre>
+     */
+    com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder getGetDefendRewardReqMsgOrBuilder();
   }
   /**
    * Protobuf type {@code groupSecret.GroupSecretCommonReqMsg}
@@ -2513,6 +4826,45 @@ public final class GroupSecretProto {
                 changeTeamReqMsg_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = inviteReqMsg_.toBuilder();
+              }
+              inviteReqMsg_ = input.readMessage(com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(inviteReqMsg_);
+                inviteReqMsg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
+              break;
+            }
+            case 58: {
+              com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+                subBuilder = joinReqMsg_.toBuilder();
+              }
+              joinReqMsg_ = input.readMessage(com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(joinReqMsg_);
+                joinReqMsg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000040;
+              break;
+            }
+            case 66: {
+              com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000080) == 0x00000080)) {
+                subBuilder = getDefendRewardReqMsg_.toBuilder();
+              }
+              getDefendRewardReqMsg_ = input.readMessage(com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(getDefendRewardReqMsg_);
+                getDefendRewardReqMsg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000080;
               break;
             }
           }
@@ -2736,12 +5088,117 @@ public final class GroupSecretProto {
       return changeTeamReqMsg_;
     }
 
+    // optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;
+    public static final int INVITEREQMSG_FIELD_NUMBER = 6;
+    private com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg inviteReqMsg_;
+    /**
+     * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    public boolean hasInviteReqMsg() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg getInviteReqMsg() {
+      return inviteReqMsg_;
+    }
+    /**
+     * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+     *
+     * <pre>
+     *请求帮派成员帮忙驻守
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsgOrBuilder getInviteReqMsgOrBuilder() {
+      return inviteReqMsg_;
+    }
+
+    // optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;
+    public static final int JOINREQMSG_FIELD_NUMBER = 7;
+    private com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg joinReqMsg_;
+    /**
+     * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+     *
+     * <pre>
+     *请求帮助别人驻守秘境
+     * </pre>
+     */
+    public boolean hasJoinReqMsg() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+     *
+     * <pre>
+     *请求帮助别人驻守秘境
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg getJoinReqMsg() {
+      return joinReqMsg_;
+    }
+    /**
+     * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+     *
+     * <pre>
+     *请求帮助别人驻守秘境
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsgOrBuilder getJoinReqMsgOrBuilder() {
+      return joinReqMsg_;
+    }
+
+    // optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;
+    public static final int GETDEFENDREWARDREQMSG_FIELD_NUMBER = 8;
+    private com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg getDefendRewardReqMsg_;
+    /**
+     * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+     *
+     * <pre>
+     *获取秘境驻守里的奖励数据
+     * </pre>
+     */
+    public boolean hasGetDefendRewardReqMsg() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+     *
+     * <pre>
+     *获取秘境驻守里的奖励数据
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg getGetDefendRewardReqMsg() {
+      return getDefendRewardReqMsg_;
+    }
+    /**
+     * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+     *
+     * <pre>
+     *获取秘境驻守里的奖励数据
+     * </pre>
+     */
+    public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder getGetDefendRewardReqMsgOrBuilder() {
+      return getDefendRewardReqMsg_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupSecretProto.RequestType.OPEN_MAIN_VIEW;
       version_ = "";
       createReqMsg_ = com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg.getDefaultInstance();
       getRewardReqMsg_ = com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg.getDefaultInstance();
       changeTeamReqMsg_ = com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg.getDefaultInstance();
+      inviteReqMsg_ = com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance();
+      joinReqMsg_ = com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance();
+      getDefendRewardReqMsg_ = com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2770,6 +5227,24 @@ public final class GroupSecretProto {
           return false;
         }
       }
+      if (hasInviteReqMsg()) {
+        if (!getInviteReqMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasJoinReqMsg()) {
+        if (!getJoinReqMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasGetDefendRewardReqMsg()) {
+        if (!getGetDefendRewardReqMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2791,6 +5266,15 @@ public final class GroupSecretProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, changeTeamReqMsg_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, inviteReqMsg_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(7, joinReqMsg_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeMessage(8, getDefendRewardReqMsg_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2820,6 +5304,18 @@ public final class GroupSecretProto {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, changeTeamReqMsg_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, inviteReqMsg_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, joinReqMsg_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getDefendRewardReqMsg_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2932,6 +5428,9 @@ public final class GroupSecretProto {
           getCreateReqMsgFieldBuilder();
           getGetRewardReqMsgFieldBuilder();
           getChangeTeamReqMsgFieldBuilder();
+          getInviteReqMsgFieldBuilder();
+          getJoinReqMsgFieldBuilder();
+          getGetDefendRewardReqMsgFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2962,6 +5461,24 @@ public final class GroupSecretProto {
           changeTeamReqMsgBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (inviteReqMsgBuilder_ == null) {
+          inviteReqMsg_ = com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance();
+        } else {
+          inviteReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        if (joinReqMsgBuilder_ == null) {
+          joinReqMsg_ = com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance();
+        } else {
+          joinReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          getDefendRewardReqMsg_ = com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance();
+        } else {
+          getDefendRewardReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -3022,6 +5539,30 @@ public final class GroupSecretProto {
         } else {
           result.changeTeamReqMsg_ = changeTeamReqMsgBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (inviteReqMsgBuilder_ == null) {
+          result.inviteReqMsg_ = inviteReqMsg_;
+        } else {
+          result.inviteReqMsg_ = inviteReqMsgBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        if (joinReqMsgBuilder_ == null) {
+          result.joinReqMsg_ = joinReqMsg_;
+        } else {
+          result.joinReqMsg_ = joinReqMsgBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          result.getDefendRewardReqMsg_ = getDefendRewardReqMsg_;
+        } else {
+          result.getDefendRewardReqMsg_ = getDefendRewardReqMsgBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3055,6 +5596,15 @@ public final class GroupSecretProto {
         if (other.hasChangeTeamReqMsg()) {
           mergeChangeTeamReqMsg(other.getChangeTeamReqMsg());
         }
+        if (other.hasInviteReqMsg()) {
+          mergeInviteReqMsg(other.getInviteReqMsg());
+        }
+        if (other.hasJoinReqMsg()) {
+          mergeJoinReqMsg(other.getJoinReqMsg());
+        }
+        if (other.hasGetDefendRewardReqMsg()) {
+          mergeGetDefendRewardReqMsg(other.getGetDefendRewardReqMsg());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3078,6 +5628,24 @@ public final class GroupSecretProto {
         }
         if (hasChangeTeamReqMsg()) {
           if (!getChangeTeamReqMsg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasInviteReqMsg()) {
+          if (!getInviteReqMsg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasJoinReqMsg()) {
+          if (!getJoinReqMsg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasGetDefendRewardReqMsg()) {
+          if (!getGetDefendRewardReqMsg().isInitialized()) {
             
             return false;
           }
@@ -3711,6 +6279,465 @@ public final class GroupSecretProto {
           changeTeamReqMsg_ = null;
         }
         return changeTeamReqMsgBuilder_;
+      }
+
+      // optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;
+      private com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg inviteReqMsg_ = com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsgOrBuilder> inviteReqMsgBuilder_;
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public boolean hasInviteReqMsg() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg getInviteReqMsg() {
+        if (inviteReqMsgBuilder_ == null) {
+          return inviteReqMsg_;
+        } else {
+          return inviteReqMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public Builder setInviteReqMsg(com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg value) {
+        if (inviteReqMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          inviteReqMsg_ = value;
+          onChanged();
+        } else {
+          inviteReqMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public Builder setInviteReqMsg(
+          com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder builderForValue) {
+        if (inviteReqMsgBuilder_ == null) {
+          inviteReqMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          inviteReqMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public Builder mergeInviteReqMsg(com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg value) {
+        if (inviteReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              inviteReqMsg_ != com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance()) {
+            inviteReqMsg_ =
+              com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.newBuilder(inviteReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            inviteReqMsg_ = value;
+          }
+          onChanged();
+        } else {
+          inviteReqMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public Builder clearInviteReqMsg() {
+        if (inviteReqMsgBuilder_ == null) {
+          inviteReqMsg_ = com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          inviteReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder getInviteReqMsgBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getInviteReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsgOrBuilder getInviteReqMsgOrBuilder() {
+        if (inviteReqMsgBuilder_ != null) {
+          return inviteReqMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return inviteReqMsg_;
+        }
+      }
+      /**
+       * <code>optional .groupSecret.InviteGroupMemberDefendReqMsg inviteReqMsg = 6;</code>
+       *
+       * <pre>
+       *请求帮派成员帮忙驻守
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsgOrBuilder> 
+          getInviteReqMsgFieldBuilder() {
+        if (inviteReqMsgBuilder_ == null) {
+          inviteReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg.Builder, com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsgOrBuilder>(
+                  inviteReqMsg_,
+                  getParentForChildren(),
+                  isClean());
+          inviteReqMsg_ = null;
+        }
+        return inviteReqMsgBuilder_;
+      }
+
+      // optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;
+      private com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg joinReqMsg_ = com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsgOrBuilder> joinReqMsgBuilder_;
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public boolean hasJoinReqMsg() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg getJoinReqMsg() {
+        if (joinReqMsgBuilder_ == null) {
+          return joinReqMsg_;
+        } else {
+          return joinReqMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public Builder setJoinReqMsg(com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg value) {
+        if (joinReqMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          joinReqMsg_ = value;
+          onChanged();
+        } else {
+          joinReqMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public Builder setJoinReqMsg(
+          com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder builderForValue) {
+        if (joinReqMsgBuilder_ == null) {
+          joinReqMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          joinReqMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public Builder mergeJoinReqMsg(com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg value) {
+        if (joinReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+              joinReqMsg_ != com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance()) {
+            joinReqMsg_ =
+              com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.newBuilder(joinReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            joinReqMsg_ = value;
+          }
+          onChanged();
+        } else {
+          joinReqMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public Builder clearJoinReqMsg() {
+        if (joinReqMsgBuilder_ == null) {
+          joinReqMsg_ = com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          joinReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder getJoinReqMsgBuilder() {
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return getJoinReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.JoinSecretDefendReqMsgOrBuilder getJoinReqMsgOrBuilder() {
+        if (joinReqMsgBuilder_ != null) {
+          return joinReqMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return joinReqMsg_;
+        }
+      }
+      /**
+       * <code>optional .groupSecret.JoinSecretDefendReqMsg joinReqMsg = 7;</code>
+       *
+       * <pre>
+       *请求帮助别人驻守秘境
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsgOrBuilder> 
+          getJoinReqMsgFieldBuilder() {
+        if (joinReqMsgBuilder_ == null) {
+          joinReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg.Builder, com.rwproto.GroupSecretProto.JoinSecretDefendReqMsgOrBuilder>(
+                  joinReqMsg_,
+                  getParentForChildren(),
+                  isClean());
+          joinReqMsg_ = null;
+        }
+        return joinReqMsgBuilder_;
+      }
+
+      // optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;
+      private com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg getDefendRewardReqMsg_ = com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder> getDefendRewardReqMsgBuilder_;
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public boolean hasGetDefendRewardReqMsg() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg getGetDefendRewardReqMsg() {
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          return getDefendRewardReqMsg_;
+        } else {
+          return getDefendRewardReqMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public Builder setGetDefendRewardReqMsg(com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg value) {
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          getDefendRewardReqMsg_ = value;
+          onChanged();
+        } else {
+          getDefendRewardReqMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public Builder setGetDefendRewardReqMsg(
+          com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder builderForValue) {
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          getDefendRewardReqMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          getDefendRewardReqMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public Builder mergeGetDefendRewardReqMsg(com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg value) {
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080) &&
+              getDefendRewardReqMsg_ != com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance()) {
+            getDefendRewardReqMsg_ =
+              com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.newBuilder(getDefendRewardReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            getDefendRewardReqMsg_ = value;
+          }
+          onChanged();
+        } else {
+          getDefendRewardReqMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public Builder clearGetDefendRewardReqMsg() {
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          getDefendRewardReqMsg_ = com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          getDefendRewardReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
+        return this;
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder getGetDefendRewardReqMsgBuilder() {
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return getGetDefendRewardReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      public com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder getGetDefendRewardReqMsgOrBuilder() {
+        if (getDefendRewardReqMsgBuilder_ != null) {
+          return getDefendRewardReqMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return getDefendRewardReqMsg_;
+        }
+      }
+      /**
+       * <code>optional .groupSecret.GetDefendRecordRewardReqMsg getDefendRewardReqMsg = 8;</code>
+       *
+       * <pre>
+       *获取秘境驻守里的奖励数据
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder> 
+          getGetDefendRewardReqMsgFieldBuilder() {
+        if (getDefendRewardReqMsgBuilder_ == null) {
+          getDefendRewardReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg.Builder, com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsgOrBuilder>(
+                  getDefendRewardReqMsg_,
+                  getParentForChildren(),
+                  isClean());
+          getDefendRewardReqMsg_ = null;
+        }
+        return getDefendRewardReqMsgBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupSecret.GroupSecretCommonReqMsg)
@@ -4510,6 +7537,21 @@ public final class GroupSecretProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupSecret_ChangeDefendTeamReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupSecret_InviteGroupMemberDefendReqMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupSecret_InviteGroupMemberDefendReqMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupSecret_JoinSecretDefendReqMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupSecret_JoinSecretDefendReqMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupSecret_GetDefendRecordRewardReqMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupSecret_GetDefendRecordRewardReqMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupSecret_GroupSecretCommonReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4533,21 +7575,34 @@ public final class GroupSecretProto {
       "\022\022\n\nteamHeroId\030\002 \003(\t\"(\n\032GetGroupSecretRe" +
       "wardReqMsg\022\n\n\002id\030\001 \002(\t\"8\n\026ChangeDefendTe" +
       "amReqMsg\022\n\n\002id\030\001 \002(\t\022\022\n\nteamHeroId\030\002 \003(\t" +
-      "\"\222\002\n\027GroupSecretCommonReqMsg\022)\n\007reqType\030" +
-      "\001 \002(\0162\030.groupSecret.RequestType\022\017\n\007versi" +
-      "on\030\002 \001(\t\022:\n\014createReqMsg\030\003 \001(\0132$.groupSe" +
-      "cret.CreateGroupSecretReqMsg\022@\n\017getRewar" +
-      "dReqMsg\030\004 \001(\0132\'.groupSecret.GetGroupSecr",
-      "etRewardReqMsg\022=\n\020changeTeamReqMsg\030\005 \001(\013" +
-      "2#.groupSecret.ChangeDefendTeamReqMsg\"g\n" +
-      "\027GroupSecretCommonRspMsg\022)\n\007reqType\030\001 \002(" +
-      "\0162\030.groupSecret.RequestType\022\021\n\tisSuccess" +
-      "\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*1\n\020GroupSecretInd" +
-      "ex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*o\n\013Req" +
-      "uestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREATE_G" +
-      "ROUP_SECRET\020\002\022\033\n\027GET_GROUP_SECRET_REWARD" +
-      "\020\003\022\026\n\022CHANGE_DEFEND_TEAM\020\004B\037\n\013com.rwprot" +
-      "oB\020GroupSecretProto"
+      "\"=\n\035InviteGroupMemberDefendReqMsg\022\n\n\002id\030" +
+      "\001 \002(\t\022\020\n\010memberId\030\002 \003(\t\"b\n\026JoinSecretDef" +
+      "endReqMsg\022\n\n\002id\030\001 \002(\t\022,\n\005index\030\002 \002(\0162\035.g" +
+      "roupSecret.GroupSecretIndex\022\016\n\006heroId\030\003 " +
+      "\003(\t\")\n\033GetDefendRecordRewardReqMsg\022\n\n\002id",
+      "\030\001 \002(\005\"\326\003\n\027GroupSecretCommonReqMsg\022)\n\007re" +
+      "qType\030\001 \002(\0162\030.groupSecret.RequestType\022\017\n" +
+      "\007version\030\002 \001(\t\022:\n\014createReqMsg\030\003 \001(\0132$.g" +
+      "roupSecret.CreateGroupSecretReqMsg\022@\n\017ge" +
+      "tRewardReqMsg\030\004 \001(\0132\'.groupSecret.GetGro" +
+      "upSecretRewardReqMsg\022=\n\020changeTeamReqMsg" +
+      "\030\005 \001(\0132#.groupSecret.ChangeDefendTeamReq" +
+      "Msg\022@\n\014inviteReqMsg\030\006 \001(\0132*.groupSecret." +
+      "InviteGroupMemberDefendReqMsg\0227\n\njoinReq" +
+      "Msg\030\007 \001(\0132#.groupSecret.JoinSecretDefend",
+      "ReqMsg\022G\n\025getDefendRewardReqMsg\030\010 \001(\0132(." +
+      "groupSecret.GetDefendRecordRewardReqMsg\"" +
+      "g\n\027GroupSecretCommonRspMsg\022)\n\007reqType\030\001 " +
+      "\002(\0162\030.groupSecret.RequestType\022\021\n\tisSucce" +
+      "ss\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*1\n\020GroupSecretI" +
+      "ndex\022\010\n\004MAIN\020\001\022\010\n\004LEFT\020\002\022\t\n\005RIGHT\020\003*\343\001\n\013" +
+      "RequestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023CREAT" +
+      "E_GROUP_SECRET\020\002\022\033\n\027GET_GROUP_SECRET_REW" +
+      "ARD\020\003\022\026\n\022CHANGE_DEFEND_TEAM\020\004\022\025\n\021GET_DEF" +
+      "END_RECORD\020\005\022\030\n\024INVITE_MEMBER_DEFEND\020\006\022\025",
+      "\n\021GET_DEFEDN_REWARD\020\007\022\022\n\016BUY_SECRET_KEY\020" +
+      "\010\022\026\n\022JOIN_SECRET_DEFEND\020\tB\037\n\013com.rwproto" +
+      "B\020GroupSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4572,14 +7627,32 @@ public final class GroupSecretProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_ChangeDefendTeamReqMsg_descriptor,
               new java.lang.String[] { "Id", "TeamHeroId", });
-          internal_static_groupSecret_GroupSecretCommonReqMsg_descriptor =
+          internal_static_groupSecret_InviteGroupMemberDefendReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
+          internal_static_groupSecret_InviteGroupMemberDefendReqMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupSecret_InviteGroupMemberDefendReqMsg_descriptor,
+              new java.lang.String[] { "Id", "MemberId", });
+          internal_static_groupSecret_JoinSecretDefendReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_groupSecret_JoinSecretDefendReqMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupSecret_JoinSecretDefendReqMsg_descriptor,
+              new java.lang.String[] { "Id", "Index", "HeroId", });
+          internal_static_groupSecret_GetDefendRecordRewardReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_groupSecret_GetDefendRecordRewardReqMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupSecret_GetDefendRecordRewardReqMsg_descriptor,
+              new java.lang.String[] { "Id", });
+          internal_static_groupSecret_GroupSecretCommonReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(6);
           internal_static_groupSecret_GroupSecretCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "CreateReqMsg", "GetRewardReqMsg", "ChangeTeamReqMsg", });
+              new java.lang.String[] { "ReqType", "Version", "CreateReqMsg", "GetRewardReqMsg", "ChangeTeamReqMsg", "InviteReqMsg", "JoinReqMsg", "GetDefendRewardReqMsg", });
           internal_static_groupSecret_GroupSecretCommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_groupSecret_GroupSecretCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupSecret_GroupSecretCommonRspMsg_descriptor,
