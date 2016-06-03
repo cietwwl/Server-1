@@ -14,14 +14,20 @@ import com.rwbase.dao.groupsecret.syndata.base.DefendUserInfoSynData;
 public class SecretTeamInfoSynData {
 	private final String id;// 秘境的Id
 	private final Map<Integer, DefendUserInfoSynData> map;// 每个驻守点的信息
+	private final int version;// 版本
 
-	public SecretTeamInfoSynData(String id, Map<Integer, DefendUserInfoSynData> map) {
+	public SecretTeamInfoSynData(String id, Map<Integer, DefendUserInfoSynData> map, int version) {
 		this.id = id;
 		this.map = map;
+		this.version = version;
 	}
 
 	public String getId() {
 		return id;
+	}
+
+	public int getVersion() {
+		return version;
 	}
 
 	public Map<Integer, DefendUserInfoSynData> getMap() {

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.Id;
 
@@ -14,6 +15,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
 
@@ -39,6 +41,8 @@ public class GroupSecretMatchEnemyData {
 	private int[] robGE = new int[3];// 可以掠夺的帮派经验
 	private int[] atkTimes = new int[3];// 攻击每个驻守点敌人的次数
 	private boolean isBeat = false;// 是否已经抢到了
+	@NonSave
+	private AtomicInteger version = new AtomicInteger(-1);
 
 	public GroupSecretMatchEnemyData() {
 		teamOneMap = new HashMap<String, HeroLeftInfoSynData>(5);
@@ -204,6 +208,7 @@ public class GroupSecretMatchEnemyData {
 	 */
 	@JsonIgnore
 	public void setRobResValue(int index, int value) {
+		updateVersion();
 		robRes[index - 1] = value;
 	}
 
@@ -215,6 +220,7 @@ public class GroupSecretMatchEnemyData {
 	 */
 	@JsonIgnore
 	public void setRobGSValue(int index, int value) {
+		updateVersion();
 		robGS[index - 1] = value;
 	}
 
@@ -226,6 +232,7 @@ public class GroupSecretMatchEnemyData {
 	 */
 	@JsonIgnore
 	public void setRobGEValue(int index, int value) {
+		updateVersion();
 		robGE[index - 1] = value;
 	}
 
@@ -399,5 +406,23 @@ public class GroupSecretMatchEnemyData {
 		for (int i = 0, len = atkTimes.length; i < len; i++) {
 			atkTimes[i] = 0;
 		}
+
+		updateVersion();
+	}
+
+	/**
+	 * 获取版本号
+	 * 
+	 * @return
+	 */
+	public int getVersion() {
+		return version.get();
+	}
+
+	/**
+	 * 更新版本号
+	 */
+	public void updateVersion() {
+		version.incrementAndGet();
 	}
 }

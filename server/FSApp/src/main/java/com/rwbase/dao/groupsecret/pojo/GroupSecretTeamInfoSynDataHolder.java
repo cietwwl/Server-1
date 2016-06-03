@@ -1,7 +1,6 @@
 package com.rwbase.dao.groupsecret.pojo;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -15,12 +14,28 @@ import com.rwproto.DataSynProtos.eSynType;
  * @Description 
  */
 public class GroupSecretTeamInfoSynDataHolder {
-	// private static SecretTeamInfoSynDataHolder holder = new SecretTeamInfoSynDataHolder();
+	// private AtomicInteger version = new AtomicInteger();
 
-	private AtomicInteger version = new AtomicInteger();
-
-	// public static SecretTeamInfoSynDataHolder getHolder() {
-	// return holder;
+	// private Map<String, AtomicInteger> versionMap = new HashMap<String, AtomicInteger>();
+	//
+	// /**
+	// * 推送版本号
+	// *
+	// * @param id
+	// * @param isGet
+	// * @return
+	// */
+	// public int version(String id, boolean isGet) {
+	// AtomicInteger synVersion = versionMap.get(id);
+	// if (synVersion == null) {
+	// synVersion = new AtomicInteger();
+	// }
+	//
+	// if (isGet) {
+	// return synVersion.get();
+	// }
+	//
+	// return synVersion.incrementAndGet();
 	// }
 
 	private eSynType synType = eSynType.SECRETAREA_DEFEND_TEAM_INFO;
@@ -36,7 +51,7 @@ public class GroupSecretTeamInfoSynDataHolder {
 			return;
 		}
 
-		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST, version.get());
+		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	/**
@@ -50,7 +65,7 @@ public class GroupSecretTeamInfoSynDataHolder {
 			return;
 		}
 
-		ClientDataSynMgr.synData(player, team, synType, eSynOpType.ADD_SINGLE, version.get());
+		ClientDataSynMgr.synData(player, team, synType, eSynOpType.ADD_SINGLE);
 	}
 
 	/**
@@ -64,20 +79,20 @@ public class GroupSecretTeamInfoSynDataHolder {
 			return;
 		}
 
-		ClientDataSynMgr.synData(player, team, synType, eSynOpType.REMOVE_SINGLE, version.get());
+		ClientDataSynMgr.synData(player, team, synType, eSynOpType.REMOVE_SINGLE);
 	}
 
-	/**
-	 * 同步更新一条记录
-	 * 
-	 * @param player
-	 * @param base
-	 */
-	public void updateSingleData(Player player, SecretTeamInfoSynData team) {
-		if (team == null) {
-			return;
-		}
-
-		ClientDataSynMgr.synData(player, team, synType, eSynOpType.UPDATE_SINGLE, version.get());
-	}
+	// /**
+	// * 同步更新一条记录
+	// *
+	// * @param player
+	// * @param base
+	// */
+	// public void updateSingleData(Player player, SecretTeamInfoSynData team) {
+	// if (team == null) {
+	// return;
+	// }
+	//
+	// ClientDataSynMgr.synData(player, team, synType, eSynOpType.UPDATE_SINGLE);
+	// }
 }

@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rwbase.dao.groupsecret.GroupSecretVersionMgr;
 import com.rwproto.GroupSecretMatchProto.GroupSecretMatchCommonReqMsg;
 import com.rwproto.GroupSecretMatchProto.MatchRequestType;
 import com.rwproto.RequestProtos.Request;
@@ -40,6 +41,7 @@ public class GroupSecretMatchService implements FsService {
 				GameLog.error("帮派秘境探索模块", player.getUserId(), "不知道客户端申请了什么鬼协议，反正这里解析不了！！！");
 				break;
 			}
+			GroupSecretVersionMgr.synByVersion(player, req.getVersion());
 		} catch (Exception e) {
 			GameLog.error("帮派秘境模块", player.getUserId(), "解析消息出现了错误", e);
 		} finally {

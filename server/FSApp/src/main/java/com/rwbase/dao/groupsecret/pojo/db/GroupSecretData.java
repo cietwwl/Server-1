@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 
@@ -29,6 +32,8 @@ public class GroupSecretData {
 	private List<String> inviteList;// 邀请驻守的成员Id
 	@SaveAsJson
 	private ConcurrentHashMap<Integer, DefendUserInfoData> defendMap;// 驻守的信息
+	@NonSave
+	private AtomicInteger version = new AtomicInteger();
 
 	public GroupSecretData() {
 		inviteList = new ArrayList<String>();// 邀请驻守的列表
@@ -114,6 +119,7 @@ public class GroupSecretData {
 			return false;
 		}
 
+		updateVersion();
 		return defendMap.putIfAbsent(defendIndex, data) == null;
 	}
 
@@ -124,6 +130,7 @@ public class GroupSecretData {
 	 * @return
 	 */
 	public DefendUserInfoData removeDefendUserInfoData(int defendIndex) {
+		updateVersion();
 		return defendMap.remove(defendIndex);
 	}
 
@@ -133,6 +140,7 @@ public class GroupSecretData {
 	 * @param defendIndex
 	 * @return
 	 */
+	@JsonIgnore
 	public DefendUserInfoData getDefendUserInfoData(int defendIndex) {
 		return defendMap.get(defendIndex);
 	}
@@ -142,6 +150,7 @@ public class GroupSecretData {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public Enumeration<Integer> getEnumerationKeys() {
 		return defendMap.keys();
 	}
@@ -151,6 +160,7 @@ public class GroupSecretData {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public Enumeration<DefendUserInfoData> getEnumerationValues() {
 		return defendMap.elements();
 	}
@@ -171,5 +181,23 @@ public class GroupSecretData {
 				inviteList.add(id);
 			}
 		}
+
+		updateVersion();
+	}
+
+	/**
+	 * 获取当前的版本号
+	 * 
+	 * @return
+	 */
+	public int getVersion() {
+		return version.get();
+	}
+
+	/**
+	 * 增加一个版本号
+	 */
+	public void updateVersion() {
+		version.incrementAndGet();
 	}
 }

@@ -180,11 +180,15 @@ public class GroupSecretHelper {
 	 * @param userId
 	 * @return
 	 */
-	public static GroupSecretDataSynData fillMatchSecretInfo(Player player) {
+	public static GroupSecretDataSynData fillMatchSecretInfo(Player player, int version) {
 		String userId = player.getUserId();
 		GroupSecretMatchEnemyDataMgr mgr = GroupSecretMatchEnemyDataMgr.getMgr();
 		GroupSecretMatchEnemyData enemyData = mgr.get(userId);
 		if (enemyData == null) {
+			return null;
+		}
+
+		if (enemyData.getVersion() == version) {
 			return null;
 		}
 
@@ -247,7 +251,7 @@ public class GroupSecretHelper {
 
 		HashMap<Integer, DefendUserInfoSynData> defendUserInfoMap = new HashMap<Integer, DefendUserInfoSynData>();
 		GroupSecretHelper.getEnemyTeamInfo(secretData, enemyData, defendUserInfoMap);
-		return new GroupSecretDataSynData(baseInfo, new SecretTeamInfoSynData(id, defendUserInfoMap));
+		return new GroupSecretDataSynData(baseInfo, new SecretTeamInfoSynData(id, defendUserInfoMap, enemyData.getVersion()));
 	}
 
 	/**
@@ -290,7 +294,7 @@ public class GroupSecretHelper {
 		}
 
 		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), myDefendInfo.getIndex(), dropDiamond, getRes, getGE, getGS);
-		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap));
+		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap, data.getVersion()));
 	}
 
 	/**

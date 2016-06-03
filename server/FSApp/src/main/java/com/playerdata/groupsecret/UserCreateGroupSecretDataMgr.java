@@ -17,9 +17,6 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
-import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
-import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
-import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 
@@ -96,6 +93,8 @@ public class UserCreateGroupSecretDataMgr {
 		if (groupSecretData.getDefendMap().isEmpty()) {
 			userCreateGroupSecretData.deleteGroupSecretDataById(id);
 		}
+
+		groupSecretData.updateVersion();
 		updateData(userId);
 	}
 
@@ -133,6 +132,9 @@ public class UserCreateGroupSecretDataMgr {
 			defendUserInfoData.setProGS(proGS);
 			defendUserInfoData.setProGE(proGE);
 		}
+
+		groupSecretData.updateVersion();
+
 		updateData(userId);
 
 		return changeList;
@@ -221,6 +223,7 @@ public class UserCreateGroupSecretDataMgr {
 			});
 		}
 
+		groupSecretData.updateVersion();
 		updateData(userId);
 	}
 
@@ -246,26 +249,26 @@ public class UserCreateGroupSecretDataMgr {
 		groupSecretData.addInviteHeroList(inviteList);
 		updateData(userId);
 
-		// 同步数据
-		updateSingleData(player, groupSecretData);
+		// // 同步数据
+		// updateSingleData(player, groupSecretData);
 	}
 
-	/**
-	 * 同步秘境的数据
-	 *
-	 * @param player
-	 */
-	private void updateSingleData(Player player, GroupSecretData data) {
-		GroupSecretDataSynData info = GroupSecretHelper.parseGroupSecretData2Msg(data, player.getUserId());
-		// 同步数据
-		SecretBaseInfoSynData base = info.getBase();
-		if (base != null) {
-			player.getBaseHolder().updateSingleData(player, base);
-		}
-
-		SecretTeamInfoSynData team = info.getTeam();
-		if (team == null) {
-			player.getTeamHolder().updateSingleData(player, team);
-		}
-	}
+	// /**
+	// * 同步秘境的数据
+	// *
+	// * @param player
+	// */
+	// private void updateSingleData(Player player, GroupSecretData data) {
+	// GroupSecretDataSynData info = GroupSecretHelper.parseGroupSecretData2Msg(data, player.getUserId());
+	// // 同步数据
+	// SecretBaseInfoSynData base = info.getBase();
+	// if (base != null) {
+	// player.getBaseHolder().updateSingleData(player, base);
+	// }
+	//
+	// SecretTeamInfoSynData team = info.getTeam();
+	// if (team == null) {
+	// player.getTeamHolder().updateSingleData(player, team);
+	// }
+	// }
 }
