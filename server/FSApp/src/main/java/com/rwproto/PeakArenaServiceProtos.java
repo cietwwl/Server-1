@@ -2453,15 +2453,32 @@ public final class PeakArenaServiceProtos {
     com.google.protobuf.ByteString
         getHeroIdsBytes(int index);
 
-    // optional int32 magicId = 4;
+    // optional string magicId = 4;
     /**
-     * <code>optional int32 magicId = 4;</code>
+     * <code>optional string magicId = 4;</code>
+     *
+     * <pre>
+     * 自己的法宝存储ID，不能够是modelID
+     * </pre>
      */
     boolean hasMagicId();
     /**
-     * <code>optional int32 magicId = 4;</code>
+     * <code>optional string magicId = 4;</code>
+     *
+     * <pre>
+     * 自己的法宝存储ID，不能够是modelID
+     * </pre>
      */
-    int getMagicId();
+    java.lang.String getMagicId();
+    /**
+     * <code>optional string magicId = 4;</code>
+     *
+     * <pre>
+     * 自己的法宝存储ID，不能够是modelID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getMagicIdBytes();
 
     // optional int32 magicLevel = 5;
     /**
@@ -2525,6 +2542,24 @@ public final class PeakArenaServiceProtos {
      */
     com.google.protobuf.ByteString
         getArmyInfoBytes();
+
+    // optional int32 enemyMagicModelId = 8;
+    /**
+     * <code>optional int32 enemyMagicModelId = 8;</code>
+     *
+     * <pre>
+     *对手的法宝模板ID，用来显示
+     * </pre>
+     */
+    boolean hasEnemyMagicModelId();
+    /**
+     * <code>optional int32 enemyMagicModelId = 8;</code>
+     *
+     * <pre>
+     *对手的法宝模板ID，用来显示
+     * </pre>
+     */
+    int getEnemyMagicModelId();
   }
   /**
    * Protobuf type {@code TeamInfo}
@@ -2598,9 +2633,9 @@ public final class PeakArenaServiceProtos {
               heroIds_.add(input.readBytes());
               break;
             }
-            case 32: {
+            case 34: {
               bitField0_ |= 0x00000002;
-              magicId_ = input.readInt32();
+              magicId_ = input.readBytes();
               break;
             }
             case 40: {
@@ -2624,6 +2659,11 @@ public final class PeakArenaServiceProtos {
             case 58: {
               bitField0_ |= 0x00000010;
               armyInfo_ = input.readBytes();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000020;
+              enemyMagicModelId_ = input.readInt32();
               break;
             }
           }
@@ -2790,20 +2830,59 @@ public final class PeakArenaServiceProtos {
       return heroIds_.getByteString(index);
     }
 
-    // optional int32 magicId = 4;
+    // optional string magicId = 4;
     public static final int MAGICID_FIELD_NUMBER = 4;
-    private int magicId_;
+    private java.lang.Object magicId_;
     /**
-     * <code>optional int32 magicId = 4;</code>
+     * <code>optional string magicId = 4;</code>
+     *
+     * <pre>
+     * 自己的法宝存储ID，不能够是modelID
+     * </pre>
      */
     public boolean hasMagicId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 magicId = 4;</code>
+     * <code>optional string magicId = 4;</code>
+     *
+     * <pre>
+     * 自己的法宝存储ID，不能够是modelID
+     * </pre>
      */
-    public int getMagicId() {
-      return magicId_;
+    public java.lang.String getMagicId() {
+      java.lang.Object ref = magicId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          magicId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string magicId = 4;</code>
+     *
+     * <pre>
+     * 自己的法宝存储ID，不能够是modelID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getMagicIdBytes() {
+      java.lang.Object ref = magicId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        magicId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     // optional int32 magicLevel = 5;
@@ -2911,14 +2990,39 @@ public final class PeakArenaServiceProtos {
       }
     }
 
+    // optional int32 enemyMagicModelId = 8;
+    public static final int ENEMYMAGICMODELID_FIELD_NUMBER = 8;
+    private int enemyMagicModelId_;
+    /**
+     * <code>optional int32 enemyMagicModelId = 8;</code>
+     *
+     * <pre>
+     *对手的法宝模板ID，用来显示
+     * </pre>
+     */
+    public boolean hasEnemyMagicModelId() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 enemyMagicModelId = 8;</code>
+     *
+     * <pre>
+     *对手的法宝模板ID，用来显示
+     * </pre>
+     */
+    public int getEnemyMagicModelId() {
+      return enemyMagicModelId_;
+    }
+
     private void initFields() {
       teamId_ = 0;
       heros_ = java.util.Collections.emptyList();
       heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      magicId_ = 0;
+      magicId_ = "";
       magicLevel_ = 0;
       player_ = com.rwproto.PeakArenaServiceProtos.HeroData.getDefaultInstance();
       armyInfo_ = "";
+      enemyMagicModelId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2958,7 +3062,7 @@ public final class PeakArenaServiceProtos {
         output.writeBytes(3, heroIds_.getByteString(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(4, magicId_);
+        output.writeBytes(4, getMagicIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(5, magicLevel_);
@@ -2968,6 +3072,9 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBytes(7, getArmyInfoBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(8, enemyMagicModelId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2997,7 +3104,7 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, magicId_);
+          .computeBytesSize(4, getMagicIdBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3010,6 +3117,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getArmyInfoBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, enemyMagicModelId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3139,7 +3250,7 @@ public final class PeakArenaServiceProtos {
         }
         heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        magicId_ = 0;
+        magicId_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
         magicLevel_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -3151,6 +3262,8 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        enemyMagicModelId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -3218,6 +3331,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.armyInfo_ = armyInfo_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.enemyMagicModelId_ = enemyMagicModelId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3274,7 +3391,9 @@ public final class PeakArenaServiceProtos {
           onChanged();
         }
         if (other.hasMagicId()) {
-          setMagicId(other.getMagicId());
+          bitField0_ |= 0x00000008;
+          magicId_ = other.magicId_;
+          onChanged();
         }
         if (other.hasMagicLevel()) {
           setMagicLevel(other.getMagicLevel());
@@ -3286,6 +3405,9 @@ public final class PeakArenaServiceProtos {
           bitField0_ |= 0x00000040;
           armyInfo_ = other.armyInfo_;
           onChanged();
+        }
+        if (other.hasEnemyMagicModelId()) {
+          setEnemyMagicModelId(other.getEnemyMagicModelId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3804,35 +3926,100 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // optional int32 magicId = 4;
-      private int magicId_ ;
+      // optional string magicId = 4;
+      private java.lang.Object magicId_ = "";
       /**
-       * <code>optional int32 magicId = 4;</code>
+       * <code>optional string magicId = 4;</code>
+       *
+       * <pre>
+       * 自己的法宝存储ID，不能够是modelID
+       * </pre>
        */
       public boolean hasMagicId() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional int32 magicId = 4;</code>
+       * <code>optional string magicId = 4;</code>
+       *
+       * <pre>
+       * 自己的法宝存储ID，不能够是modelID
+       * </pre>
        */
-      public int getMagicId() {
-        return magicId_;
+      public java.lang.String getMagicId() {
+        java.lang.Object ref = magicId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          magicId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 magicId = 4;</code>
+       * <code>optional string magicId = 4;</code>
+       *
+       * <pre>
+       * 自己的法宝存储ID，不能够是modelID
+       * </pre>
        */
-      public Builder setMagicId(int value) {
-        bitField0_ |= 0x00000008;
+      public com.google.protobuf.ByteString
+          getMagicIdBytes() {
+        java.lang.Object ref = magicId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          magicId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string magicId = 4;</code>
+       *
+       * <pre>
+       * 自己的法宝存储ID，不能够是modelID
+       * </pre>
+       */
+      public Builder setMagicId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
         magicId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 magicId = 4;</code>
+       * <code>optional string magicId = 4;</code>
+       *
+       * <pre>
+       * 自己的法宝存储ID，不能够是modelID
+       * </pre>
        */
       public Builder clearMagicId() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        magicId_ = 0;
+        magicId_ = getDefaultInstance().getMagicId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string magicId = 4;</code>
+       *
+       * <pre>
+       * 自己的法宝存储ID，不能够是modelID
+       * </pre>
+       */
+      public Builder setMagicIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        magicId_ = value;
         onChanged();
         return this;
       }
@@ -4117,6 +4304,55 @@ public final class PeakArenaServiceProtos {
   }
   bitField0_ |= 0x00000040;
         armyInfo_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 enemyMagicModelId = 8;
+      private int enemyMagicModelId_ ;
+      /**
+       * <code>optional int32 enemyMagicModelId = 8;</code>
+       *
+       * <pre>
+       *对手的法宝模板ID，用来显示
+       * </pre>
+       */
+      public boolean hasEnemyMagicModelId() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 enemyMagicModelId = 8;</code>
+       *
+       * <pre>
+       *对手的法宝模板ID，用来显示
+       * </pre>
+       */
+      public int getEnemyMagicModelId() {
+        return enemyMagicModelId_;
+      }
+      /**
+       * <code>optional int32 enemyMagicModelId = 8;</code>
+       *
+       * <pre>
+       *对手的法宝模板ID，用来显示
+       * </pre>
+       */
+      public Builder setEnemyMagicModelId(int value) {
+        bitField0_ |= 0x00000080;
+        enemyMagicModelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 enemyMagicModelId = 8;</code>
+       *
+       * <pre>
+       *对手的法宝模板ID，用来显示
+       * </pre>
+       */
+      public Builder clearEnemyMagicModelId() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        enemyMagicModelId_ = 0;
         onChanged();
         return this;
       }
@@ -14189,51 +14425,51 @@ public final class PeakArenaServiceProtos {
       "l\030\004 \001(\005\022\020\n\010fighting\030\005 \001(\005\022\021\n\tqualityId\030\006" +
       " \001(\t\022\013\n\003exp\030\007 \001(\003\022*\n\006skills\030\010 \003(\0132\032.Skil" +
       "lService.TagSkillData\022\016\n\006teamId\030\n \001(\005\022\021\n" +
-      "\theadImage\030\013 \001(\t\"\227\001\n\010TeamInfo\022\016\n\006teamId\030" +
+      "\theadImage\030\013 \001(\t\"\262\001\n\010TeamInfo\022\016\n\006teamId\030" +
       "\001 \002(\005\022\030\n\005heros\030\002 \003(\0132\t.HeroData\022\017\n\007heroI" +
-      "ds\030\003 \003(\t\022\017\n\007magicId\030\004 \001(\005\022\022\n\nmagicLevel\030" +
+      "ds\030\003 \003(\t\022\017\n\007magicId\030\004 \001(\t\022\022\n\nmagicLevel\030" +
       "\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\022\020\n\010army",
-      "Info\030\007 \001(\t\"\265\002\n\tArenaData\022\016\n\006userId\030\001 \002(\t" +
-      "\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022\020\n\010win" +
-      "Count\030\010 \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004name\030\014 \001(" +
-      "\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage\030\016 \001(\t\022\022\n\nt" +
-      "empleteId\030\017 \001(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\trol" +
-      "eSkill\030\021 \003(\0132\032.SkillService.TagSkillData" +
-      "\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022\021\n\tgroupName\030" +
-      "\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\022\021\n\theadFrame\030\031 \001" +
-      "(\t\"\307\001\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005plac" +
-      "e\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level\030\006 \001(\005",
-      "\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010fig" +
-      "hting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\tqualit" +
-      "yId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\theadFrame\030\r" +
-      " \001(\t\"\214\001\n\013ArenaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003" +
-      "win\030\002 \001(\010\022\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t" +
-      "\022\021\n\theadImage\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004ti" +
-      "me\030\007 \001(\003\022\021\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArena" +
-      "Request\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022" +
-      "\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInf" +
-      "o\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(",
-      "\010\022\017\n\007reorder\030\006 \003(\005\"\215\003\n\020MsgArenaResponse\022" +
-      "\036\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017arena" +
-      "ResultType\030\002 \001(\0162\021.eArenaResultType\022\035\n\ta" +
-      "renaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004" +
-      " \003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.A" +
-      "renaRecord\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007" +
-      " \001(\t\022\031\n\021maxChallengeCount\030\010 \001(\005\022\020\n\010buyCo" +
-      "unt\030\t \001(\005\022\026\n\016currentBuyCost\030\n \001(\005\022\026\n\016cha" +
-      "llengeCount\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gai" +
-      "nCurrencyPerHour\030\r \001(\005\022\021\n\tresetCost\030\016 \001(",
-      "\005\022\017\n\007placeUp\030\017 \001(\005*\246\002\n\neArenaType\022\014\n\010GET" +
-      "_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO" +
-      "\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\n" +
-      "CLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n" +
-      "\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINI" +
-      "SH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013" +
-      "SWITCH_OVER\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022" +
-      "\n\016FIGHT_CONTINUE\020\016\022\017\n\013GET_CD_TIME\020\017*5\n\020e" +
-      "ArenaResultType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nAR" +
-      "ENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakArenaServ",
-      "iceProtos"
+      "Info\030\007 \001(\t\022\031\n\021enemyMagicModelId\030\010 \001(\005\"\265\002" +
+      "\n\tArenaData\022\016\n\006userId\030\001 \002(\t\022\r\n\005place\030\005 \001" +
+      "(\005\022\020\n\010maxPlace\030\006 \001(\005\022\020\n\010winCount\030\010 \001(\005\022\016" +
+      "\n\006career\030\013 \001(\005\022\014\n\004name\030\014 \001(\t\022\r\n\005level\030\r " +
+      "\001(\005\022\021\n\theadImage\030\016 \001(\t\022\022\n\ntempleteId\030\017 \001" +
+      "(\t\022\020\n\010fighting\030\020 \001(\005\022-\n\troleSkill\030\021 \003(\0132" +
+      "\032.SkillService.TagSkillData\022\030\n\005teams\030\023 \003" +
+      "(\0132\t.TeamInfo\022\021\n\tgroupName\030\027 \001(\t\022\020\n\010army" +
+      "Info\030\030 \001(\t\022\021\n\theadFrame\030\031 \001(\t\"\307\001\n\tArenaI" +
+      "nfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005place\030\004 \001(\005\022\020\n\010wi",
+      "nCount\030\005 \001(\005\022\r\n\005level\030\006 \001(\005\022\014\n\004name\030\007 \001(" +
+      "\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010fighting\030\t \001(\005\022\021" +
+      "\n\tstarLevel\030\n \001(\005\022\021\n\tqualityId\030\013 \001(\t\022\016\n\006" +
+      "career\030\014 \001(\005\022\021\n\theadFrame\030\r \001(\t\"\214\001\n\013Aren" +
+      "aRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n\007" +
+      "placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImage" +
+      "\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\tc" +
+      "hallenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n\tar" +
+      "enaType\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001" +
+      "(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004 ",
+      "\001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030" +
+      "\006 \003(\005\"\215\003\n\020MsgArenaResponse\022\036\n\tarenaType\030" +
+      "\001 \002(\0162\013.eArenaType\022*\n\017arenaResultType\030\002 " +
+      "\001(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003 \001(" +
+      "\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaI" +
+      "nfo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n" +
+      "\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxCh" +
+      "allengeCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026\n\016" +
+      "currentBuyCost\030\n \001(\005\022\026\n\016challengeCount\030\013" +
+      " \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyPerH",
+      "our\030\r \001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007placeUp\030" +
+      "\017 \001(\005*\246\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CH" +
+      "ANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_R" +
+      "ECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022" +
+      "\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_" +
+      "START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_" +
+      "RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014" +
+      "\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTI" +
+      "NUE\020\016\022\017\n\013GET_CD_TIME\020\017*5\n\020eArenaResultTy" +
+      "pe\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n",
+      "\013com.rwprotoB\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -14251,7 +14487,7 @@ public final class PeakArenaServiceProtos {
           internal_static_TeamInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TeamInfo_descriptor,
-              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", "Player", "ArmyInfo", });
+              new java.lang.String[] { "TeamId", "Heros", "HeroIds", "MagicId", "MagicLevel", "Player", "ArmyInfo", "EnemyMagicModelId", });
           internal_static_ArenaData_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_ArenaData_fieldAccessorTable = new

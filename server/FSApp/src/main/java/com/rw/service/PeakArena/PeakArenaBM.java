@@ -399,11 +399,9 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			TeamData team = new TeamData();
 			team.setTeamId(i);
 			if (magic == null) {
-				team.setMagicId(0);
-				team.setMagicLevel(0);
+				team.setMagicId("");
 			} else {
-				team.setMagicId(magic.getModelId());
-				team.setMagicLevel(magic.getMagicLevel());
+				team.setMagicId(magic.getId());
 			}
 			team.setHeros(new ArrayList<String>());
 			team.setHeroSkills(new ArrayList<TableSkill>());
@@ -416,6 +414,10 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 
 	public TablePeakArenaData getPeakArenaData(String userId) {
 		return tablePeakArenaDataDAO.get(userId);
+	}
+	
+	public void commit(TablePeakArenaData data){
+		tablePeakArenaDataDAO.commit(data);
 	}
 
 	public boolean switchTeam(Player player, List<Integer> list) {

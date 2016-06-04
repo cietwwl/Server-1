@@ -12,6 +12,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
@@ -39,6 +40,7 @@ import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -290,7 +292,6 @@ public class PeakArenaHandler {
 			List<String> heroIdsList = teamInfo.getHeroIdsList();
 			List<TableSkill> heroSkillList = peakBM.getHeroInfoList(heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setMagicId(teamInfo.getMagicId());
-			team.setMagicLevel(teamInfo.getMagicLevel());
 			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
 		}
@@ -689,15 +690,28 @@ public class PeakArenaHandler {
 		
 		data.setTempleteId(player.getTemplateId());
 
-		Player user = PlayerMgr.getInstance().find(userId);
-		HeroData teamMainRole = getHeroData(user);
+		HeroData teamMainRole = getHeroData(player);
+		ItemData magic = player.getMagicMgr().getMagic();
+		ItemBagMgr bagMgr = player.getItemBagMgr();
 		// get player from userId and then set TeamInfo.player
 		for (int i = 0; i < arenaData.getTeamCount(); i++) {
 			TeamInfo.Builder teamBuilder = TeamInfo.newBuilder();
 			TeamData team = arenaData.getTeam(i);
 			teamBuilder.setTeamId(team.getTeamId());
-			teamBuilder.setMagicId(team.getMagicId());
-			teamBuilder.setMagicLevel(team.getMagicLevel());
+			String magicId = team.getMagicId();
+			teamBuilder.setMagicId(magicId);
+			if (magic != null && magic.getId().equals(magicId)){
+				teamBuilder.setMagicLevel(magic.getMagicLevel());
+				teamBuilder.setEnemyMagicModelId(magic.getModelId());
+			}else{
+				ItemData magicItem = bagMgr.findBySlotId(magicId);
+				if (magicItem != null){
+					teamBuilder.setMagicLevel(magicItem.getMagicLevel());
+					teamBuilder.setEnemyMagicModelId(magic.getModelId());
+				}else{
+					GameLog.error("巅峰竞技场", userId, "找不到法宝,ID="+magicId);
+				}
+			}
 			
 			List<String> heroIdList = team.getHeros();
 			if (heroIdList != null)

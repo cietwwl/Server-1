@@ -10,8 +10,7 @@ import com.rwbase.dao.skill.pojo.TableSkill;
 public class TeamData {
 
 	private int teamId;
-	private int magicId;
-	private int magicLevel;
+	private String magicId;
 	private List<String> heros;
 	private List<TableSkill> heroSkills;
 	
@@ -22,17 +21,11 @@ public class TeamData {
 		this.teamId = teamId;
 	}
 	
-	public int getMagicId() {
+	public String getMagicId() {
 		return magicId;
 	}
-	public void setMagicId(int magicId) {
+	public void setMagicId(String magicId) {
 		this.magicId = magicId;
-	}
-	public int getMagicLevel() {
-		return magicLevel;
-	}
-	public void setMagicLevel(int magicLevel) {
-		this.magicLevel = magicLevel;
 	}
 	public List<String> getHeros() {
 		return heros;

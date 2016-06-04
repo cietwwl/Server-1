@@ -35,6 +35,8 @@ import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
+import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.arena.ArenaHandler;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
@@ -261,6 +263,26 @@ public class RobotManager {
 				addToPeakRank(peakHandler,eCareer);
 			}
 		}
+		
+		//TODO 重置全部人的magicID，运行一次后删除
+		PlayerMgr playerMgr = PlayerMgr.getInstance();
+		List<? extends ListRankingEntry<String, PeakArenaExtAttribute>> lst = peakRanking.getRankingEntries(1, peakRanking.getRankingSize());
+		for (ListRankingEntry<String, PeakArenaExtAttribute> listRankingEntry : lst) {
+			String userId = listRankingEntry.getKey();
+			Player user = playerMgr.find(userId);
+			if (user == null) continue;
+			TablePeakArenaData peakData = peakHandler.getPeakArenaData(userId);
+			if (peakData == null) continue;
+			
+			ItemData magicItem = user.getMagic();
+			int teamCount = peakData.getTeamCount();
+			for(int i = 0;i<teamCount;i++){
+				TeamData team = peakData.getTeam(i);
+				team.setMagicId(magicItem!=null?magicItem.getId():"");
+			}
+			peakHandler.commit(peakData);
+		}
+		GameLog.info("", "", "fix finished");
 	}
 	private int peakSize = 10;
 	private void addToPeakRank(PeakArenaBM peakHandler,ECareer career){

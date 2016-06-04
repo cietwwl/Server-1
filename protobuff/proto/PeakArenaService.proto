@@ -43,10 +43,11 @@ message TeamInfo{
 	required int32 teamId = 1;
 	repeated HeroData heros = 2;//用于传递对手的佣兵信息给客户端
 	repeated string heroIds = 3;//仅用于保存自己的阵容，仅有佣兵的ID，不需要主角的ID
-	optional int32 magicId = 4;
+	optional string magicId = 4; // 自己的法宝存储ID，不能够是modelID
 	optional int32 magicLevel = 5;
 	optional HeroData player = 6; //用于传递对手的主角给客户端
 	optional string armyInfo = 7;//Json字符串：对手队伍信息
+	optional int32 enemyMagicModelId = 8; //对手的法宝模板ID，用来显示
 }
 
 message ArenaData{
