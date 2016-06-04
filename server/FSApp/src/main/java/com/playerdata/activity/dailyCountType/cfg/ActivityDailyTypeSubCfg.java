@@ -15,6 +15,8 @@ public class ActivityDailyTypeSubCfg {
 	
 	private long endTime;
 	
+	private String emailTitle;
+	
 	private String startTimeStr;
 	
 	private String endTimeStr;
@@ -84,6 +86,16 @@ public class ActivityDailyTypeSubCfg {
 	public String getId() {
 		return id;
 	}
+
+	public String getEmailTitle() {
+		return emailTitle;
+	}
+
+	public void setEmailTitle(String emailTitle) {
+		this.emailTitle = emailTitle;
+	}
+
+	
 
 
 
