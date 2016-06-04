@@ -233,3 +233,15 @@ key,remarks,id,name,iconId,fixEquipType,levelCostPlanId,levelPlanId,qualityPlanI
 10101104,,10101104,宝命唤魂术简要,Fixequip/fixEquip_Priest_1003,,10001,10504,10504,10504,宝命唤魂术,Fixequip/fixEquip_Priest_2003,,10,祭司功法3
 10101105,,10101105,七宝护符,Fixequip/fixEquip_item_1002,1,10002,10005,10005,10005,飞仙护符,Fixequip/fixEquip_item_2002,,10,护符
 10101106,,10101106,琉璃魂器,Fixequip/fixEquip_item_1003,1,10002,10006,10006,10006,神玉魂器,Fixequip/fixEquip_item_2003,,10,魂器
+10000101,,10000101,黯淡的天命佩,Fixequip/fixEquip_item_100001_01,,10001,10001,10501,10501,天命佩,Fixequip/fixEquip_item_100001_02,,10,专属神器
+10000102,,10000102,鸿寿功残页,Fixequip/fixEquip_Priest_1001,,10001,10002,10502,10502,鸿寿功,Fixequip/fixEquip_Priest_2001,,10,标准功法1
+10000103,,10000103,龟息功断章,Fixequip/fixEquip_Priest_1002,,10001,10003,10503,10503,龟息功,Fixequip/fixEquip_Priest_2002,,10,标准功法2
+10000104,,10000104,宝命唤魂术简要,Fixequip/fixEquip_Priest_1003,,10001,10004,10504,10504,宝命唤魂术,Fixequip/fixEquip_Priest_2003,,10,标准功法3
+10000105,,10000105,七宝护符,Fixequip/fixEquip_item_1002,1,10002,10005,10005,10005,飞仙护符,Fixequip/fixEquip_item_2002,,10,护符
+10000106,,10000106,琉璃魂器,Fixequip/fixEquip_item_1003,1,10002,10006,10006,10006,神玉魂器,Fixequip/fixEquip_item_2003,,10,魂器
+10100101,,10100101,黯淡的天命佩,Fixequip/fixEquip_item_100001_01,,10001,10001,10501,10501,天命佩,Fixequip/fixEquip_item_100001_02,,10,专属神器
+10100102,,10100102,鸿寿功残页,Fixequip/fixEquip_Priest_1001,,10001,10002,10502,10502,鸿寿功,Fixequip/fixEquip_Priest_2001,,10,标准功法1
+10100103,,10100103,龟息功断章,Fixequip/fixEquip_Priest_1002,,10001,10003,10503,10503,龟息功,Fixequip/fixEquip_Priest_2002,,10,标准功法2
+10100104,,10100104,宝命唤魂术简要,Fixequip/fixEquip_Priest_1003,,10001,10004,10504,10504,宝命唤魂术,Fixequip/fixEquip_Priest_2003,,10,标准功法3
+10100105,,10100105,七宝护符,Fixequip/fixEquip_item_1002,1,10002,10005,10005,10005,飞仙护符,Fixequip/fixEquip_item_2002,,10,护符
+10100106,,10100106,琉璃魂器,Fixequip/fixEquip_item_1003,1,10002,10006,10006,10006,神玉魂器,Fixequip/fixEquip_item_2003,,10,魂器
