@@ -70,22 +70,7 @@ public class TableAccount{
 			this.userZoneInfoMap.put(zoneInfo.getZoneId(), zoneInfo);
 		}
 		
-		addToLastLogin(zoneInfo, this.lastLoginList);
-	}
-
-	private void addToLastLogin(UserZoneInfo ZoneInfo,
-			List<Integer> lastLoginListP) {
-		if (lastLoginListP.size() == 0) {
-			lastLoginListP.add(0, ZoneInfo.getZoneId());
-		} else {
-			int lastZoneId = lastLoginListP.get(0);
-			if (lastZoneId != ZoneInfo.getZoneId()) {
-				lastLoginListP.add(0, lastZoneId);
-				if (lastLoginListP.size() > 2) {
-					lastLoginListP.remove(2);
-				}
-			}
-		}
+		setLastLogin(false, zoneInfo.getZoneId());
 	}
 	
 	public UserZoneInfo getUserZoneInfoByZoneId(int zoneId){
@@ -128,6 +113,14 @@ public class TableAccount{
 			iphoneLastLoginList.clear();
 			iphoneLastLoginList.add(zoneId);
 		} else {
+			
+			//兼容旧数据
+			if(lastLoginList.size() < userZoneInfoMap.size()){
+				lastLoginList.clear();
+				lastLoginList.addAll(userZoneInfoMap.keySet());
+			}
+			
+			
 			if (lastLoginList.size() > 0) {
 				Integer lastZoneId = lastLoginList.get(0);
 				if (lastZoneId != zoneId) {

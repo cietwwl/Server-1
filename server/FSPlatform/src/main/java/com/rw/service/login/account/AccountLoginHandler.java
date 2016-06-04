@@ -356,7 +356,7 @@ public class AccountLoginHandler {
 			userInfo.setName(userZoneInfo.getUserName());
 			response.addUserList(userInfo);
 		}
-
+		
 		response.setResultType(eLoginResultType.SUCCESS);
 	}
 
