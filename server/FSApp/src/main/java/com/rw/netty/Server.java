@@ -35,7 +35,7 @@ public class Server {
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
 
 		GameManager.initServerProperties();
-		System.out.println("test");
+		System.out.println("start init...");
 		ServerSwitch.initProperty();
 
 		// 初始化属性的映射关系
