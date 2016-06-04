@@ -1,11 +1,14 @@
 package com.rw.service.log;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 import com.log.GameLog;
 import com.log.LogModule;
@@ -55,14 +58,8 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.gameworld.GameWorldFactory;
 
 public class BILogMgr {
-
-	// private ZoneRegInfo zoneRegInfo;
-	//
-	// private ZoneLoginInfo zoneLoginInfo;
-	//
-	// private RoleGameInfo roleGameInfo;
-
-	private static Logger biLog = Logger.getLogger("biLog");
+	
+	private static Map<eBILogType, Logger> LogMap = new HashMap<eBILogType, Logger>();
 
 	private static BILogMgr instance = new BILogMgr();
 
@@ -99,6 +96,33 @@ public class BILogMgr {
 		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 
+	}
+	
+
+	
+	private Logger getLogger(eBILogType type){
+		if(LogMap.containsKey(type)){
+			return LogMap.get(type);
+		}else{
+			Logger logger = Logger.getLogger(type.getLogName());
+			try {
+
+				logger.removeAllAppenders();
+				logger.setAdditivity(false);
+				PatternLayout layout = new PatternLayout();
+				layout.setConversionPattern("[%-5p] %m%n");
+				DailyRollingFileAppender appender;
+
+				appender = new DailyRollingFileAppender(layout, "./log/biLog/" + type.getLogName()+"/"+type.getLogName(), "yyyy-MM-dd");
+
+				logger.addAppender(appender);
+				LogMap.put(type, logger);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return logger;
+		}
 	}
 
 	public void logZoneReg(Player player) {
@@ -474,7 +498,8 @@ public class BILogMgr {
 				@Override
 				public void run() {
 //					biLog.info(logType + " " + logTemplate.getTextTemplate());
-					biLog.info(logType + " " + log);
+					Logger logger = getLogger(logType);
+					logger.info(logType + " " + log);
 					LogService.getInstance().sendLog(log);
 
 				}

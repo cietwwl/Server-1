@@ -12,7 +12,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
-import com.rw.fsutil.dao.cache.SimpleThreadFactory;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;

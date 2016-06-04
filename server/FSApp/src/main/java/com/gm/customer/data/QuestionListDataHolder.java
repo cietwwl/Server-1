@@ -16,7 +16,6 @@ public class QuestionListDataHolder {
 	private static eSynType synType = eSynType.QuestionList;
 	private final String userId;
 	private List<QueryListResponse> questionList = new ArrayList<QueryListResponse>();
-	private boolean isQuestioning = false;   //是否有问题没有回复 true 有问题待回复  false 所有问题都有回复或者没有问题
 	private boolean blnInit = true;
 	
 	public QuestionListDataHolder(String userId){
@@ -51,9 +50,6 @@ public class QuestionListDataHolder {
 			List<Integer> keys = new ArrayList<Integer>(questionMap.keySet());
 			for (QueryListResponse queryListResponse : questionList) {
 				int id = queryListResponse.getId();
-				if (queryListResponse.getReply()== null) {
-					isQuestioning = true;
-				}
 				if (!questionMap.containsKey(queryListResponse.getId())) {
 					this.questionList.add(queryListResponse);
 					add(player, queryListResponse);
@@ -93,7 +89,12 @@ public class QuestionListDataHolder {
 	}
 
 	public boolean isQuestioning() {
-		return isQuestioning;
+		for (QueryListResponse queryListResponse : questionList) {
+			if (queryListResponse.getReply()== null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean isBlnInit() {

@@ -248,7 +248,7 @@ public class UserGameDataMgr {
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
 			ItemChangedEventType_2 type_2 = null;// 暂时留空
 			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, tableUserOther.getGiftGold());
-			UserEventMgr.getInstance().UseGold(player, -giftGoldChanged);
+			UserEventMgr.getInstance().UseGold(player, -value);
 		}
 		return result;
 	}
@@ -398,6 +398,7 @@ public class UserGameDataMgr {
 		userGameDataHolder.get().setHeadFrame(box);
 		userGameDataHolder.update(player);
 
+		RankingMgr.getInstance().onPlayerChange(player);
 		// 通知一下监听的人，修改对应数据
 		Observer observer = ObserverFactory.getInstance().getObserver(ObserverType.PLAYER_CHANER);
 		if (observer != null) {

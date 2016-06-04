@@ -1,14 +1,37 @@
 package com.rw.service.friend;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import com.bm.rank.RankType;
+import com.bm.rank.level.LevelComparable;
+import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.fsutil.common.SegmentList;
+import com.rw.fsutil.ranking.MomentRankingEntry;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.friend.datamodel.RecommandCfgDAO;
+import com.rw.service.friend.datamodel.RecommandConditionCfg;
+import com.rw.service.friend.datamodel.RecommandConditionCfgDAO;
 import com.rwbase.dao.friend.FriendUtils;
 import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendResultVo;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
+import com.rwbase.dao.user.User;
+import com.rwproto.FriendServiceProtos;
 import com.rwproto.FriendServiceProtos.AllList;
 import com.rwproto.FriendServiceProtos.EFriendRequestType;
 import com.rwproto.FriendServiceProtos.EFriendResultType;
+import com.rwproto.FriendServiceProtos.FriendInfo;
 import com.rwproto.FriendServiceProtos.FriendRequest;
 import com.rwproto.FriendServiceProtos.FriendResponse;
 import com.rwproto.MsgDef.Command;
@@ -72,41 +95,196 @@ public class FriendHandler {
 		response.setRequestType(request.getRequestType());
 		String searchKey = request.getSearchKey();
 		if (searchKey == null || searchKey.isEmpty()) {
-			response.setIsSearchValue(false);
-			response.setResultMsg("没有找到该玩家");
-			response.setResultType(EFriendResultType.FAIL);
-
-			System.err.println(response.build());
-			return response.build().toByteString();
+			return defaultSearch(response, player, "为您推荐以下玩家");
 		} else {
+			// TODO 这个resultVO留待以后重构，创建许多无谓对象，思路混乱
 			FriendResultVo resultVo = player.getFriendMgr().searchFriend(searchKey);
-			response.setIsSearchValue(!resultVo.updateList.isEmpty());
-			response.addAllList(resultVo.updateList);
-			response.setResultMsg(resultVo.resultMsg);
-			response.setResultType(resultVo.resultType);
+			boolean isSearchValue = resultVo.updateList.isEmpty();
+			if (!isSearchValue) {
+				response.setIsSearchValue(isSearchValue);
+				response.addAllList(resultVo.updateList);
+				response.setResultMsg(resultVo.resultMsg);
+				response.setResultType(resultVo.resultType);
+				return response.build().toByteString();
+			} else {
+				return defaultSearch(response, player, "找不到对应玩家，为您推荐以下玩家");
+			}
+		}
+	}
 
-			System.err.println(response.build());
-			return response.build().toByteString();
+	private int defaultRecommandCount = 10;
+
+	private ByteString defaultSearch(FriendResponse.Builder response, Player player, String tips) {
+		List<FriendInfo> friendList = recommandFriends(player);
+		boolean searchValue;
+		String text;
+		if (friendList.isEmpty()) {
+			searchValue = false;
+			text = "找不到对应玩家";
+		} else {
+			searchValue = true;
+			text = tips;
+			Collections.sort(friendList, loginComparator);
+		}
+		response.setIsSearchValue(searchValue);
+		response.addAllList(friendList);
+		response.setResultMsg(text);
+		response.setResultType(EFriendResultType.SUCCESS);
+		return response.build().toByteString();
+	}
+	
+	Comparator<FriendInfo> loginComparator = new Comparator<FriendInfo>() {
+
+		@Override
+		public int compare(FriendInfo f1, FriendInfo f2) {
+			// TODO Auto-generated method stub
+			float dis = f2.getLastLoginTime() - f1.getLastLoginTime();
+			return dis < 0 ? -1 : 1;
+		}
+	};
+	
+	private List<FriendInfo> recommandFriends(Player player) {
+		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.LEVEL_PLAYER);
+		int level = player.getLevel();
+		int start = 0;
+		int end = 0;
+		HashMap<String, Player> playersMap = new HashMap<String, Player>();
+		// 按条件过滤出要随机的人数
+		List<RecommandConditionCfg> cfgList = RecommandConditionCfgDAO.getInstance().getOrderConditions();
+		int recommandCount = defaultRecommandCount;
+		for (int i = 0, len = cfgList.size(); i < len; i++) {
+			RecommandConditionCfg cfg = cfgList.get(i);
+			// 每次循环都会改变随机人数，由配置决定
+			int randomRecommand = cfg.getRandomCount();
+			int days = cfg.getDays();
+			recommandCount = cfg.getCount();
+			if (i == 0) {
+				start = Math.max(1, level + cfg.getDesLevel());
+				end = level + cfg.getIncLevel();
+				fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
+				if (playersMap.size() >= randomRecommand) {
+					break;
+				}
+			} else {
+				int tempEnd = end;
+				if (start > 1) {
+					end = start - 1;
+					start = start + cfg.getDesLevel();
+					fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
+					if (playersMap.size() >= randomRecommand) {
+						break;
+					}
+				}
+				start = tempEnd + 1;
+				end = tempEnd + cfg.getIncLevel();
+				fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
+				if (playersMap.size() >= randomRecommand) {
+					break;
+				}
+			}
+		}
+		// 移除自己
+		playersMap.remove(player.getUserId());
+		int currentSize = playersMap.size();
+		if (currentSize <= recommandCount) {
+			ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(currentSize);
+			for (Player otherPlayer : playersMap.values()) {
+				FriendItem friendItem = FriendItem.newInstance(otherPlayer.getUserId());
+				resultList.add(otherPlayer.getFriendMgr().friendItemToInfo(friendItem));
+			}
+			return resultList;
+		}
+		// 按权重随机
+		RecommandCfgDAO cfgDAO = RecommandCfgDAO.getInstance();
+		ArrayList<TempFriendItem> tempList = new ArrayList<TempFriendItem>(currentSize);
+		int total = 0;
+		for (Player other : playersMap.values()) {
+			int weight = cfgDAO.getWeight(player, other) + 100;
+			if (weight > 0) {
+				total += weight;
+				tempList.add(new TempFriendItem(other, weight));
+			}
+		}
+		Random random = HPCUtil.getRandom();
+		ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(recommandCount);
+		for (int i = recommandCount; --i >= 0;) {
+			int r = random.nextInt(total);
+			int current = 0;
+			int tempListSize = tempList.size();
+			for (int j = tempListSize; --j >= 0;) {
+				TempFriendItem item = tempList.get(j);
+				int w = item.getWeight();
+				current += w;
+				if (current >= r) {
+					total -= w;
+					Player otherPlayer = item.getPlayer();
+					FriendItem friendItem = FriendItem.newInstance(otherPlayer.getUserId());
+					resultList.add(otherPlayer.getFriendMgr().friendItemToInfo(friendItem));
+					// 删除最后一个元素
+					int last = tempListSize - 1;
+					tempList.set(j, tempList.get(last));
+					tempList.remove(last);
+					break;
+				}
+			}
+		}
+		return resultList;
+	}
+
+	private void fillSegmentPlayers(HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days, int randomRecommand) {
+		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
+		int size = segmentList.getRefSize();
+		ArrayList<String> list = new ArrayList<String>(size);
+		for (int i = 0; i < size; i++) {
+			MomentRankingEntry<LevelComparable, RankingLevelData> momentRankingEntry = segmentList.get(i);
+			list.add(momentRankingEntry.getKey());
+		}
+		PlayerMgr playerMgr = PlayerMgr.getInstance();
+		for (int i = 0; i < size; i++) {
+			String userId = list.get(i);
+			Player otherPlayer = playerMgr.findPlayerFromMemory(userId);
+			if (otherPlayer != null) {
+				playersMap.put(userId, otherPlayer);
+			}
 		}
 
-		// FriendResultVo resultVo = player.getFriendMgr().searchFriend(searchKey);
-		// if (resultVo.updateList.isEmpty()) {
-		// resultVo.updateList = player.getFriendMgr().searchNearFriend();
-		// if (resultVo.updateList.isEmpty()) {
-		// response.setIsSearchValue(false);
-		// resultVo.resultMsg = "没有找到该玩家，为你推荐以下玩家";
-		// } else {
-		// response.setIsSearchValue(true);
-		// }
-		// } else {
-		// response.setIsSearchValue(true);
-		// }
-		//
-		// response.setResultType(resultVo.resultType);
-		// response.setResultMsg(resultVo.resultMsg);
-		// response.addAllList(resultVo.updateList);
-		// response.setResultType(EFriendResultType.SUCCESS);
-		// return response.build().toByteString();
+		int currentSize = playersMap.size();
+		// 不够数获取一个
+		if (currentSize < randomRecommand && currentSize < size) {
+			Player otherUser = getOneRandomPlayer(list, playersMap);
+			if (otherUser != null) {
+				playersMap.put(otherUser.getUserId(), otherUser);
+			}
+		}
+		long MAX_OFF_LINE_TIME = TimeUnit.DAYS.toMillis(days);
+		for (Iterator<Player> it = playersMap.values().iterator(); it.hasNext();) {
+			Player player = it.next();
+			User user = player.getUserDataMgr().getUser();
+			if (user == null || System.currentTimeMillis() - user.getLastLoginTime() > MAX_OFF_LINE_TIME) {
+				it.remove();
+			}
+		}
+	}
+
+	private Player getOneRandomPlayer(ArrayList<String> segmentList, HashMap<String, Player> playersMap) {
+		int size = segmentList.size();
+		if (size == 0) {
+			return null;
+		}
+		int random = HPCUtil.getRandom().nextInt(size);
+		for (int i = 0; i < size; i++) {
+			String userId = segmentList.get(random);
+			if (playersMap.containsKey(userId)) {
+				if ((random & 1) == 1) {
+					random++;
+				} else {
+					random--;
+				}
+				continue;
+			}
+			return PlayerMgr.getInstance().find(userId);
+		}
+		return null;
 	}
 
 	/** 赠送体力 */

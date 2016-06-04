@@ -2,10 +2,11 @@ package com.rw.fsutil.dao.cache;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
+
+import com.rw.fsutil.common.SimpleThreadFactory;
 
 public class CacheFactory {
 
