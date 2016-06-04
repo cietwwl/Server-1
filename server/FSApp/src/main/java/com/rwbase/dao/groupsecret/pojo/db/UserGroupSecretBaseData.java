@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
@@ -14,6 +16,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
  * @date 2016年5月26日 下午2:34:44
  * @Description 
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 public class UserGroupSecretBaseData {
 	@Id
