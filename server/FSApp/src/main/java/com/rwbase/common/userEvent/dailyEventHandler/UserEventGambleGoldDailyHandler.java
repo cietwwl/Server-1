@@ -11,10 +11,10 @@ import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
@@ -33,16 +33,16 @@ public class UserEventGambleGoldDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
-					boolean isBetweendays = ActivityDailyCountTypeMgr.getInstance().isOpen(ActivityDailyCountTypeSubCfgDAO
-							.getInstance().getById(ActivityDailyCountTypeEnum.GambleGoldDaily.getCfgId()));
-					boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
+					boolean isBetweendays = ActivityDailyTypeMgr.getInstance().isOpen(ActivityDailyTypeSubCfgDAO
+							.getInstance().getById(ActivityDailyTypeEnum.GambleGoldDaily.getCfgId()));
+					boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);
 					if(isBetweendays&&isLevelEnough){
-						ActivityDailyCountTypeMgr.getInstance().addCount(player, ActivityDailyCountTypeEnum.GambleGoldDaily,Integer.parseInt(params.toString()));							
+						ActivityDailyTypeMgr.getInstance().addCount(player, ActivityDailyTypeEnum.GambleGoldDaily,Integer.parseInt(params.toString()));							
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityDailyCountTypeEnum.GambleGoldDaily.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityDailyTypeEnum.GambleGoldDaily.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});

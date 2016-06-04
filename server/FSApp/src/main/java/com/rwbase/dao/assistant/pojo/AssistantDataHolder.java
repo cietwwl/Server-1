@@ -25,9 +25,9 @@ public class AssistantDataHolder {
 	
 	public void setAssistantEventID(AssistantEventID newEvent) {
 		AssistantEventID oldEvent = assistantData.getAssistantEventID();
-		if (oldEvent == newEvent) {
-			return;
-		}
+//		if (oldEvent == newEvent) {
+//			return;
+//		}
 
 		if (newEvent != AssistantEventID.Invaild || oldEvent != AssistantEventID.Invaild) {
 			assistantData.setAssistantEventID(newEvent);
