@@ -234,8 +234,28 @@ public class RobotManager {
 	public void createPeakArenaRobot(){
 		PeakArenaBM peakHandler = PeakArenaBM.getInstance();
 		ListRanking<String, PeakArenaExtAttribute> peakRanking = peakHandler.getRanks();
+		
+		ArenaBM arenaBM = ArenaBM.getInstance();
+		ECareer[] carerrs = ECareer.values();
+		int av = 0;int count = 0;
+		for (int i = 0; i < carerrs.length; i++) {
+			ECareer eCareer = carerrs[i];
+			int c = eCareer.getValue();
+			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(c);
+			if (listRanking != null){
+				av += listRanking.getRankingSize();
+				count++;
+			}
+		}
+		if (count > 0 && av > 0){
+			av = av / count;
+			if (av > peakSize * 4){
+				peakSize = av / 4;
+			}
+		}
+		GameLog.info("巅峰竞技场", "创建机器人", "需要的数量："+peakSize*4);
 		if (peakRanking.getRankingSize() < peakSize*4){
-			ECareer[] carerrs = ECareer.values();
+			
 			for (int i = 0; i < carerrs.length; i++) {
 				ECareer eCareer = carerrs[i];
 				addToPeakRank(peakHandler,eCareer);
@@ -258,7 +278,6 @@ public class RobotManager {
 			String id = entry.getKey();
 			Player player = PlayerMgr.getInstance().find(id);
 			peakHandler.getOrAddPeakArenaDataForRobot(player);
-			//TODO peakHandler add task.getHeroList()
 		}
 	}
 

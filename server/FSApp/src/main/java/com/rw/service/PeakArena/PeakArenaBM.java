@@ -9,7 +9,10 @@ import java.util.concurrent.TimeUnit;
 import com.bm.rank.ListRankingType;
 import com.common.HPCUtil;
 import com.common.RefInt;
+import com.common.RefParam;
 import com.log.GameLog;
+import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
@@ -266,7 +269,70 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 	
 	public TablePeakArenaData getOrAddPeakArenaDataForRobot(Player player){
-		return getOrAddPeakArenaData(player, null);
+		if (!player.isRobot()) {
+			GameLog.error("巅峰竞技场", player.getUserId(), "这个函数仅仅可以用于机器人的创建！");
+			return null;
+		}
+		TablePeakArenaData result =  getOrAddPeakArenaData(player, null);
+		HeroMgr heroMgr = player.getHeroMgr();
+		List<Hero> heroList = heroMgr.getAllHeros(null);
+		int heroCount = heroList.size();
+		if (heroCount<=0){
+			return result;
+		}
+		int count = result.getTeamCount();
+		if (count <=0){
+			return result;
+		}
+		int av = heroCount / count;
+		int[] distributions = new int[count];
+		int remainder = heroCount % count;
+		for (int i = 0; i<count;i++){
+			distributions[i] = av;
+			if (remainder >0 && i < remainder){
+				distributions[i]++;
+			}
+		}
+		int heroIndex = 0;
+		
+		String playerId = player.getUserId();
+		RefParam<List<String>> checkedHeroIDList = new RefParam<List<String>>();
+		for (int i = 0; i<count ; i++){
+			TeamData team = result.getTeam(i);
+			List<String> heroIdsList = new ArrayList<String>();
+			for (int j = heroIndex;j<heroIndex+distributions[i];j++){
+				Hero hero = heroList.get(j);
+				if (hero == null){
+					continue;
+				}
+				heroIdsList.add(hero.getUUId());
+			}
+			heroIndex += distributions[i];
+			
+			List<TableSkill> heroSkillList = getHeroInfoList(heroIdsList, heroMgr, playerId, checkedHeroIDList);
+			team.setHeros(checkedHeroIDList.value);
+			team.setHeroSkills(heroSkillList);
+		}
+		return result;
+	}
+	
+	public List<TableSkill> getHeroInfoList(List<String> heroIdsList,HeroMgr heroMgr, String playerId,RefParam<List<String>> checkedHeroIDList){
+		List<String> newHeroList = new ArrayList<String>();
+		List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
+		for (String id : heroIdsList) {
+			Hero heroData = heroMgr.getHeroById(id);
+			if (heroData == null){
+				GameLog.error("巅峰竞技场", playerId, "无效佣兵ID="+id);
+				continue;
+			}
+			newHeroList.add(id);
+			TableSkill skill = heroData.getSkillMgr().getTableSkill(); 
+			heroSkillList.add(skill);
+		}
+		if (checkedHeroIDList != null){
+			checkedHeroIDList.value=newHeroList;
+		}
+		return heroSkillList;
 	}
 
 	private TablePeakArenaData getOrAddPeakArenaData(Player player, RefInt temp) {

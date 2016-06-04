@@ -1,6 +1,5 @@
 package com.rw.service.PeakArena;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -280,28 +279,19 @@ public class PeakArenaHandler {
 	public ByteString changeHeros(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-		TablePeakArenaData peakData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
+		PeakArenaBM peakBM = PeakArenaBM.getInstance();
+		TablePeakArenaData peakData = peakBM.getOrAddPeakArenaData(player);
 		List<TeamInfo> teamInfoList = request.getTeamsList();
+		String playerId = player.getUserId();
 		HeroMgr heroMgr = player.getHeroMgr();
+		RefParam<List<String>> checkedHeroIDList = new RefParam<List<String>>();
 		for (TeamInfo teamInfo : teamInfoList) {
 			TeamData team = peakData.search(teamInfo.getTeamId());
-			List<String> newHeroList = new ArrayList<String>();
-			List<TableSkill> heroSkillList = new ArrayList<TableSkill>();
 			List<String> heroIdsList = teamInfo.getHeroIdsList();
-			for (String id : heroIdsList) {
-				Hero heroData = heroMgr.getHeroById(id);
-				if (heroData == null){
-					GameLog.error("巅峰竞技场", player.getUserId(), "无效佣兵ID="+id);
-					continue;
-				}
-				newHeroList.add(id);
-				TableSkill skill = heroData.getSkillMgr().getTableSkill(); 
-				heroSkillList.add(skill);
-				
-			}
+			List<TableSkill> heroSkillList = peakBM.getHeroInfoList(heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setMagicId(teamInfo.getMagicId());
 			team.setMagicLevel(teamInfo.getMagicLevel());
-			team.setHeros(newHeroList);
+			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
 		}
 		TablePeakArenaDataDAO.getInstance().update(peakData);
