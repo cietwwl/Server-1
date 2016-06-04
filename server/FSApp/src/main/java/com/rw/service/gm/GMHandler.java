@@ -119,6 +119,10 @@ public class GMHandler {
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
+		
+		//重新加载某些配置文件
+		funcCallBackMap.put("reloadconfig", "reloadConfig");
+		
 		// 引导
 		funcCallBackMap.put("updatenewguideconfig", "UpdateNewGuideConfig");
 		funcCallBackMap.put("readnewguideconfig", "ReadNewGuideConfig");
@@ -169,6 +173,15 @@ public class GMHandler {
 	}
 
 	/** GM命令 */
+	public boolean reloadConfig(String[] arrCommandContents, Player player){
+		GameLog.info("GM", "reloadConfig", "start",null);
+		boolean result = true;
+		for(int i = 0; i<arrCommandContents.length;i++){
+			result = result && reloadConfigByHelperClass(arrCommandContents[i]);
+		}
+		GameLog.info("GM", "reloadConfig", "finished",null);
+		return result;
+	}
 	public boolean resetPeakArenaChallenge(String[] arrCommandContents, Player player){
 		GameLog.info("GM", "resetPeakArenaChallenge", "start",null);
 		PeakArenaBM.getInstance().resetDataInNewDay(player);

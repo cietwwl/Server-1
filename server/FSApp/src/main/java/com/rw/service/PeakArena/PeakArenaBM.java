@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.bm.arena.ArenaConstant;
 import com.bm.rank.ListRankingType;
 import com.common.HPCUtil;
 import com.common.RefInt;
@@ -32,6 +31,8 @@ import com.rw.service.store.StoreHandler;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.skill.pojo.TableSkill;
 
 public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
@@ -258,7 +259,8 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 	
 	public TablePeakArenaData getOrAddPeakArenaData(Player player) {
-		if (player.getLevel() < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player.getLevel());
+		if (openLevel != -1) {
 			return null;
 		}
 		return getOrAddPeakArenaData(player, null);
@@ -409,7 +411,8 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 
 	public int getPlace(Player player) {
-		if (player.getLevel() < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player.getLevel());
+		if (openLevel != -1) {
 			return -1;
 		}
 		return getPlace(getRanks(),player);
@@ -494,8 +497,8 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 
 	public void resetDataInNewDay(Player player) {
-		int level = player.getLevel();
-		if (level < ArenaConstant.PEAK_ARENA_OPEN_LEVEL) {
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player.getLevel());
+		if (openLevel != -1) {
 			return;
 		}
 		String userId = player.getUserId();
