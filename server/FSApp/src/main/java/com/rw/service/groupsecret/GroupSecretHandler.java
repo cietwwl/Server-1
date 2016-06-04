@@ -43,6 +43,7 @@ import com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
 import com.rwproto.GroupSecretProto.CreateGroupSecretRspMsg;
 import com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg;
+import com.rwproto.GroupSecretProto.GetDefendRecordRewardRspMsg;
 import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
@@ -807,20 +808,6 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		int id = req.getId();
-		GroupSecretDefendRecordDataMgr mgr = GroupSecretDefendRecordDataMgr.getMgr();
-		DefendRecord defendRecord = mgr.getDefendRecord(userId, id);
-		if (defendRecord == null) {
-			GameLog.error("请求领取防守记录奖励", userId, String.format("请求领取的防守记录Id是[%s],在防守记录列表没有这个数据", id));
-			GroupSecretHelper.fillRspInfo(rsp, false, "防守记录不存在");
-			return rsp.build().toByteString();
-		}
-
-		if (!defendRecord.isHasKey()) {
-			GroupSecretHelper.fillRspInfo(rsp, false, "该防守记录奖励已领取");
-			return rsp.build().toByteString();
-		}
-
 		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
 		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
 
@@ -831,18 +818,73 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		if (userGroupSecretBaseData.getKeyCount() >= maxKeyLimit) {
+		int keyCount = userGroupSecretBaseData.getKeyCount();
+		if (keyCount >= maxKeyLimit) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "秘境钥石数量已达上限");
 			return rsp.build().toByteString();
 		}
 
-		int rewardKeys = defendRecord.getDefenceTimes() * uniqueCfg.getRewardKeyCount();
-		baseDataMgr.updateReceiveKeyCount(player, rewardKeys);
+		GroupSecretDefendRecordDataMgr mgr = GroupSecretDefendRecordDataMgr.getMgr();
+		int rewardKeys = 0;
+		int defenceTimes = 0;
 
+		List<Integer> idList = new ArrayList<Integer>();
+		if (req.hasId()) {
+			int id = req.getId();
+			DefendRecord defendRecord = mgr.getDefendRecord(userId, id);
+			if (defendRecord == null) {
+				GameLog.error("请求领取防守记录奖励", userId, String.format("请求领取的防守记录Id是[%s],在防守记录列表没有这个数据", id));
+				GroupSecretHelper.fillRspInfo(rsp, false, "防守记录不存在");
+				return rsp.build().toByteString();
+			}
+
+			if (!defendRecord.isHasKey()) {
+				GroupSecretHelper.fillRspInfo(rsp, false, "该防守记录奖励已领取");
+				return rsp.build().toByteString();
+			}
+
+			idList.add(id);
+			defenceTimes = defendRecord.getDefenceTimes();
+			rewardKeys = defenceTimes * uniqueCfg.getRewardKeyCount();
+		} else {
+			List<DefendRecord> list = mgr.getSortDefendRecordList(userId);
+			for (int i = list.size() - 1; i >= 0; --i) {
+				if (keyCount >= maxKeyLimit) {
+					break;
+				}
+
+				DefendRecord defendRecord = list.get(i);
+				if (defendRecord == null || !defendRecord.isHasKey()) {
+					continue;
+				}
+
+				idList.add(defendRecord.getId());
+				int times = defendRecord.getDefenceTimes();
+				defenceTimes += times;
+
+				int reward = times * uniqueCfg.getRewardKeyCount();
+				rewardKeys += reward;
+				keyCount += reward;
+			}
+		}
+
+		if (rewardKeys <= 0) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "已经没有可以领取的钥石了");
+			return rsp.build().toByteString();
+		}
+
+		baseDataMgr.updateReceiveKeyCount(player, rewardKeys);
 		// 更新记录数据
-		mgr.updateDefendRecordKeyState(player, id);
+		for (int i = 0, size = idList.size(); i < size; i++) {
+			mgr.updateDefendRecordKeyState(player, idList.get(i));
+		}
+
+		GetDefendRecordRewardRspMsg.Builder getDefendRewardRsp = GetDefendRecordRewardRspMsg.newBuilder();
+		getDefendRewardRsp.setDefendTimes(defenceTimes);
+		getDefendRewardRsp.setGetDefendRewardKeyNum(rewardKeys);
 
 		rsp.setIsSuccess(true);
+		rsp.setGetDefendRewardRspMsg(getDefendRewardRsp);
 		return rsp.build().toByteString();
 	}
 
