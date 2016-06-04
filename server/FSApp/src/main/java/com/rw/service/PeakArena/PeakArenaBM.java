@@ -259,8 +259,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 	
 	public TablePeakArenaData getOrAddPeakArenaData(Player player) {
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player.getLevel());
-		if (openLevel != -1) {
+		if (!isOpen(player)) {
 			return null;
 		}
 		return getOrAddPeakArenaData(player, null);
@@ -409,10 +408,24 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		}
 		return tablePeakArenaData.getRecordList();
 	}
+	
+	/**
+	 * 机器人一定开放
+	 * @param player
+	 * @return
+	 */
+	public boolean isOpen(Player player){
+		if (!player.isRobot()){
+			int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player.getLevel());
+			if (openLevel != -1) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public int getPlace(Player player) {
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player.getLevel());
-		if (openLevel != -1) {
+		if (!isOpen(player)) {
 			return -1;
 		}
 		return getPlace(getRanks(),player);
@@ -497,8 +510,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	}
 
 	public void resetDataInNewDay(Player player) {
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player.getLevel());
-		if (openLevel != -1) {
+		if (player.isRobot() || !isOpen(player)) {
 			return;
 		}
 		String userId = player.getUserId();

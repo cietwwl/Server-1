@@ -228,13 +228,20 @@ public class PeakArenaHandler {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 
-		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getPeakArenaData(request.getUserId());
-		if (arenaData == null) {
-			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "数据错误");
-			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-			return response.build().toByteString();
+		String enemyId = request.getUserId();
+		Player enemy= PlayerMgr.getInstance().find(enemyId);
+		if (enemy == null){
+			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "找不到对手");
+			return SetError(response, player, "找不到对手", "enemyId="+enemyId);
 		}
-		response.setArenaData(getPeakArenaData(arenaData, player));
+		
+		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getPeakArenaData(enemyId);
+		if (arenaData == null) {
+			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "找不到对手的巅峰竞技场信息");
+			return SetError(response, player, "找不到对手的巅峰竞技场信息", "enemyId="+enemyId);
+		}
+		
+		response.setArenaData(getPeakArenaData(arenaData, enemy));
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
