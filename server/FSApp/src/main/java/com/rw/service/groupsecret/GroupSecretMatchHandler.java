@@ -239,7 +239,8 @@ public class GroupSecretMatchHandler {
 		// 检查是否有敌人
 		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
 		GroupSecretMatchEnemyData matchEnemyData = enemyDataMgr.get(userId);
-		if (StringUtils.isEmpty(matchEnemyData.getMatchUserId())) {
+		String matchUserId = matchEnemyData.getMatchUserId();
+		if (StringUtils.isEmpty(matchUserId)) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "当前您没有可以挑战的秘境");
 			return rsp.build().toByteString();
 		}
@@ -254,7 +255,7 @@ public class GroupSecretMatchHandler {
 		UserGroupSecretBaseData userGroupSecretBaseData = userSecretBaseDataMgr.get(userId);
 
 		int secretId = matchEnemyData.getId();
-		String id = GroupSecretHelper.generateCacheSecretId(matchEnemyData.getMatchUserId(), secretId);
+		String id = GroupSecretHelper.generateCacheSecretId(matchUserId, secretId);
 		// 检查是不是自己主动搁置到战斗超时
 		GroupSecretBaseTemplate uniqueCfg = GroupSecretBaseCfgDAO.getCfgDAO().getUniqueCfg();
 		if (uniqueCfg == null) {
@@ -262,7 +263,7 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
-		UserCreateGroupSecretData useCreateData = UserCreateGroupSecretDataMgr.getMgr().get(matchEnemyData.getMatchUserId());
+		UserCreateGroupSecretData useCreateData = UserCreateGroupSecretDataMgr.getMgr().get(matchUserId);
 		GroupSecretData groupSecretData = useCreateData.getGroupSecretData(secretId);
 		if (groupSecretData == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("匹配到的记录Id是[%s],查不着相应的秘境数据", id));
@@ -385,11 +386,18 @@ public class GroupSecretMatchHandler {
 		Map<String, CurAttrData> curAttrData = new HashMap<String, CurAttrData>(teamSize);
 		for (Entry<String, HeroLeftInfoSynData> e : teamAttrInfoMap.entrySet()) {
 			String heroId = e.getKey();
+
+			boolean isMainRole = matchUserId.equals(heroId);
+
 			HeroLeftInfoSynData value = e.getValue();
 			if (value == null) {
-				canHeroList.add(heroId);
+				if (!isMainRole) {
+					canHeroList.add(heroId);
+				}
 			} else if (value.getLife() > 0) {
-				canHeroList.add(heroId);
+				if (!isMainRole) {
+					canHeroList.add(heroId);
+				}
 
 				CurAttrData attrData = new CurAttrData();
 				attrData.setId(heroId);
@@ -401,7 +409,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 填充ArmyInfo信息
-		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(matchEnemyData.getMatchUserId(), canHeroList);
+		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(matchUserId, canHeroList);
 		String mainRoleId = armyInfo.getPlayer().getRoleBaseInfo().getId();
 		CurAttrData leftInfo = curAttrData.get(mainRoleId);
 		if (leftInfo == null) {
