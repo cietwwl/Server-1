@@ -54,6 +54,7 @@ import com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg;
 import com.rwproto.GroupSecretMatchProto.GroupSecretMatchCommonRspMsg;
 import com.rwproto.GroupSecretMatchProto.MatchRequestType;
+import com.rwproto.GroupSecretMatchProto.SearchingSecretRspMsg;
 
 /*
  * @author HC
@@ -183,7 +184,11 @@ public class GroupSecretMatchHandler {
 		// 设置角色匹配到的秘境数据
 		userSecretBaseDataMgr.updateMatchSecretId(player, matchId);
 
+		SearchingSecretRspMsg.Builder rspMsg = SearchingSecretRspMsg.newBuilder();
+		rspMsg.setId(matchId);
+
 		rsp.setIsSuccess(true);
+		rsp.setSearchingRspMsg(rspMsg);
 		return rsp.build().toByteString();
 	}
 

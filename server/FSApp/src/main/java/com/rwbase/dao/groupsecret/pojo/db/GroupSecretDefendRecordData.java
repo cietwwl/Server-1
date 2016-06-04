@@ -21,7 +21,7 @@ import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class GroupSecretDefendRecordData {
 	private String userId;// 角色的
-	List<DefendRecord> recordList;// 记录的List
+	private List<DefendRecord> recordList;// 记录的List
 	@NonSave
 	private int oldestIndex = -1;// 最老的记录对应的Id
 

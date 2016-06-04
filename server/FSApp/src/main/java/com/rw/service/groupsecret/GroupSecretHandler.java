@@ -41,6 +41,7 @@ import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.base.GroupSecretDataSynData;
 import com.rwproto.GroupSecretProto.ChangeDefendTeamReqMsg;
 import com.rwproto.GroupSecretProto.CreateGroupSecretReqMsg;
+import com.rwproto.GroupSecretProto.CreateGroupSecretRspMsg;
 import com.rwproto.GroupSecretProto.GetDefendRecordRewardReqMsg;
 import com.rwproto.GroupSecretProto.GetGroupSecretRewardReqMsg;
 import com.rwproto.GroupSecretProto.GroupSecretCommonRspMsg;
@@ -317,7 +318,8 @@ public class GroupSecretHandler {
 		mgr.addGroupSecretData(userId, secretData);
 
 		// 更新目前防守的秘境列表
-		baseDataMgr.addDefendSecretId(userId, GroupSecretHelper.generateCacheSecretId(userId, secretData.getId()));
+		String generateCacheSecretId = GroupSecretHelper.generateCacheSecretId(userId, secretData.getId());
+		baseDataMgr.addDefendSecretId(userId, generateCacheSecretId);
 
 		GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(secretData, userId);
 		SecretBaseInfoSynData base = synData.getBase();
@@ -333,7 +335,12 @@ public class GroupSecretHandler {
 		// 把秘境数据加入到排行榜
 		GroupSecretMatchHelper.addGroupSecret2Rank(player, secretData);
 
+		// 回应消息
+		CreateGroupSecretRspMsg.Builder createRsp = CreateGroupSecretRspMsg.newBuilder();
+		createRsp.setId(generateCacheSecretId);
+
 		rsp.setIsSuccess(true);
+		rsp.setCreateRspMsg(createRsp);
 		return rsp.build().toByteString();
 	}
 

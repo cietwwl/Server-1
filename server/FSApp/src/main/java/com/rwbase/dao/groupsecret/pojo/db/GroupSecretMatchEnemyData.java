@@ -15,7 +15,6 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.playerdata.Hero;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwproto.GroupSecretProto.GroupSecretIndex;
