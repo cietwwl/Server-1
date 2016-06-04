@@ -26,15 +26,15 @@ import com.playerdata.guild.GuildDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
-import com.rw.service.PeakArena.datamodel.peakArenaBuyCost;
-import com.rw.service.PeakArena.datamodel.peakArenaInfo;
-import com.rw.service.PeakArena.datamodel.peakArenaMatchRule;
-import com.rw.service.PeakArena.datamodel.peakArenaPrize;
-import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
+import com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper;
+import com.rw.service.PeakArena.datamodel.peakArenaInfoHelper;
+import com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper;
+import com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper;
+import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
-import com.rw.service.gamble.datamodel.GambleDropCfg;
-import com.rw.service.gamble.datamodel.GamblePlanCfg;
-import com.rw.service.gamble.datamodel.HotGambleCfg;
+import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
+import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
+import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -46,10 +46,10 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
-import com.rwbase.dao.fashion.FashionBuyRenewCfg;
-import com.rwbase.dao.fashion.FashionCommonCfg;
-import com.rwbase.dao.fashion.FashionEffectCfg;
-import com.rwbase.dao.fashion.FashionQuantityEffectCfg;
+import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
+import com.rwbase.dao.fashion.FashionCommonCfgDao;
+import com.rwbase.dao.fashion.FashionEffectCfgDao;
+import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -157,7 +157,7 @@ public class GMHandler {
 		this.active = active;
 	}
 
-	private boolean reloadOneConfigClass(String clname) {
+	private boolean reloadConfigByHelperClass(String clname) {
 		try {
 			CfgCsvReloader.reloadByClassName(clname);
 			GameLog.info("GM", "reload config", "reloadByClassName:" + clname + " success", null);
@@ -179,11 +179,11 @@ public class GMHandler {
 	public boolean reloadPeakArenaConfig(String[] arrCommandContents, Player player){
 		GameLog.info("GM", "reloadPeakArenaConfig", "start",null);
 		boolean result = true;
-		result = result && reloadOneConfigClass(peakArenaInfo.class.getName());
-		result = result && reloadOneConfigClass(peakArenaBuyCost.class.getName());
-		result = result && reloadOneConfigClass(peakArenaResetCost.class.getName());
-		result = result && reloadOneConfigClass(peakArenaMatchRule.class.getName());
-		result = result && reloadOneConfigClass(peakArenaPrize.class.getName());
+		result = result && reloadConfigByHelperClass(peakArenaInfoHelper.class.getName());
+		result = result && reloadConfigByHelperClass(peakArenaBuyCostHelper.class.getName());
+		result = result && reloadConfigByHelperClass(peakArenaResetCostHelper.class.getName());
+		result = result && reloadConfigByHelperClass(peakArenaMatchRuleHelper.class.getName());
+		result = result && reloadConfigByHelperClass(peakArenaPrizeHelper.class.getName());
 		GameLog.info("GM", "reloadPeakArenaConfig", "finished",null);
 		return result;
 	}
@@ -197,10 +197,10 @@ public class GMHandler {
 	
 	public boolean reloadFashionConfig(String[] arrCommandContents, Player player){
 		boolean result = true;
-		result = result && reloadOneConfigClass(FashionBuyRenewCfg.class.getName());
-		result = result && reloadOneConfigClass(FashionEffectCfg.class.getName());
-		result = result && reloadOneConfigClass(FashionQuantityEffectCfg.class.getName());
-		result = result && reloadOneConfigClass(FashionCommonCfg.class.getName());
+		result = result && reloadConfigByHelperClass(FashionBuyRenewCfgDao.class.getName());
+		result = result && reloadConfigByHelperClass(FashionEffectCfgDao.class.getName());
+		result = result && reloadConfigByHelperClass(FashionQuantityEffectCfgDao.class.getName());
+		result = result && reloadConfigByHelperClass(FashionCommonCfgDao.class.getName());
 		return result;
 	}
 
@@ -230,9 +230,9 @@ public class GMHandler {
 	// 钓鱼台配置更新并重新生成热点数据
 	public boolean reloadGambleConfig(String[] arrCommandContents, Player player) {
 		boolean result = true;
-		result = result && reloadOneConfigClass(HotGambleCfg.class.getName());
-		result = result && reloadOneConfigClass(GamblePlanCfg.class.getName());
-		result = result && reloadOneConfigClass(GambleDropCfg.class.getName());
+		result = result && reloadConfigByHelperClass(HotGambleCfgHelper.class.getName());
+		result = result && reloadConfigByHelperClass(GamblePlanCfgHelper.class.getName());
+		result = result && reloadConfigByHelperClass(GambleDropCfgHelper.class.getName());
 		if (result) {
 			player.getGambleMgr().resetHotHeroList();
 		}
@@ -240,7 +240,7 @@ public class GMHandler {
 	}
 
 	public boolean ReloadNewGuideCfg(String[] arrCommandContents, Player player) {
-		return reloadOneConfigClass(GiveItemCfgDAO.class.getName());
+		return reloadConfigByHelperClass(GiveItemCfgDAO.class.getName());
 	}
 
 	public boolean ReadNewGuideConfig(String[] arrCommandContents, Player player) {
