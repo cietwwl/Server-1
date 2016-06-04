@@ -13,13 +13,13 @@ import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeEnum;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeCfgDAO;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyCountTypeSubCfgDAO;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItemHolder;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeSubItem;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
@@ -38,22 +38,22 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				boolean isBetweendays = ActivityDailyCountTypeMgr
+				boolean isBetweendays = ActivityDailyTypeMgr
 						.getInstance()
-						.isOpen(ActivityDailyCountTypeSubCfgDAO
+						.isOpen(ActivityDailyTypeSubCfgDAO
 								.getInstance()
 								.getById(
-										ActivityDailyCountTypeEnum.BattleTowerDaily
+										ActivityDailyTypeEnum.BattleTowerDaily
 												.getCfgId()));
-				boolean isLevelEnough = ActivityDailyCountTypeMgr.getInstance().isLevelEnough(player);
+				boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);
 				int addcount = 0;
-				ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder
+				ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder
 						.getInstance();
-				ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player
+				ActivityDailyTypeItem dataItem = dataHolder.getItem(player
 						.getUserId());
 				
-					ActivityDailyCountTypeSubItem subItem = ActivityDailyCountTypeMgr.getInstance().getbyDailyCountTypeEnum(player,
-								ActivityDailyCountTypeEnum.BattleTowerDaily,dataItem);
+					ActivityDailyTypeSubItem subItem = ActivityDailyTypeMgr.getInstance().getbyDailyCountTypeEnum(player,
+								ActivityDailyTypeEnum.BattleTowerDaily,dataItem);
 				if(subItem != null){
 					// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
 					addcount = Integer.parseInt(params.toString()) - subItem.getCount();
@@ -61,8 +61,8 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 					addcount =  Integer.parseInt(params.toString());
 				}
 				if (isBetweendays&&isLevelEnough) {
-					ActivityDailyCountTypeMgr.getInstance().addCount(player,
-							ActivityDailyCountTypeEnum.BattleTowerDaily,
+					ActivityDailyTypeMgr.getInstance().addCount(player,
+							ActivityDailyTypeEnum.BattleTowerDaily,
 							addcount);
 
 				}
@@ -71,7 +71,7 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 			@Override
 			public void logError(Player player, Throwable ex) {
 				StringBuilder reason = new StringBuilder(
-						ActivityDailyCountTypeEnum.BattleTowerDaily.toString())
+						ActivityDailyTypeEnum.BattleTowerDaily.toString())
 						.append(" error");
 				GameLog.error(LogModule.UserEvent,
 						"userId:" + player.getUserId(), reason.toString(), ex);
