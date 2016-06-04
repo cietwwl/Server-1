@@ -27,6 +27,8 @@ public class UserGroupSecretBaseData {
 	private int receiveKeyCount;// 当天领取钥石的数量
 	private int buyKeyTimes;// 当天购买钥石的次数
 	private int matchTimes;// 当天匹配秘境的次数
+	@IgnoreSynField
+	private long lastResetTime;// 上次重置的时间点
 
 	public UserGroupSecretBaseData() {
 		defendSecretIdList = new ArrayList<String>();
@@ -63,6 +65,10 @@ public class UserGroupSecretBaseData {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public void setLastResetTime(long lastResetTime) {
+		this.lastResetTime = lastResetTime;
 	}
 
 	// ////////////////////////////////////////////////逻辑Get区
@@ -105,6 +111,10 @@ public class UserGroupSecretBaseData {
 		}
 
 		return new ArrayList<String>(defendSecretIdList);
+	}
+
+	public long getLastResetTime() {
+		return lastResetTime;
 	}
 
 	// ////////////////////////////////////////////////逻辑区

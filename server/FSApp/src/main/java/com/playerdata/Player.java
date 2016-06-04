@@ -410,6 +410,8 @@ public class Player implements PlayerIF {
 		getTowerMgr().checkAndResetMatchData(this);
 		// 当角色登录的时候，更新下登录的时间
 		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
+		// 角色登录检查秘境数据是否可以重置
+		UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
 	}
 
 	public void notifyMainRoleCreation() {
@@ -536,6 +538,7 @@ public class Player implements PlayerIF {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime5Clock(now);
 			onNewDay5ClockTimeAction.doAction();
+			UserGroupSecretBaseDataMgr.getMgr().resetGroupSecretData(this, now);
 		}
 	}
 

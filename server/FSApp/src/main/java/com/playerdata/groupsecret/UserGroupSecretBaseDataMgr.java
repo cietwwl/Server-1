@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.groupsecret.pojo.UserGroupSecretDataHolder;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretBaseTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
@@ -169,14 +170,14 @@ public class UserGroupSecretBaseDataMgr {
 	 */
 	public void checkAndUpdateKeyData(Player player) {
 		GroupSecretBaseTemplate uniqueCfg = GroupSecretBaseCfgDAO.getCfgDAO().getUniqueCfg();
-		int maxLimit = uniqueCfg == null ? -1 : uniqueCfg.getMaxKeyLimit();
+		int recoveryLimit = uniqueCfg == null ? -1 : uniqueCfg.getKeyRecoveryLimit();
 
 		String userId = player.getUserId();
 		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
 
 		int keyCount = userGroupSecretBaseData.getKeyCount();
 		long lastTime = userGroupSecretBaseData.getLastRecoveryTime();
-		if (maxLimit > 0 && keyCount >= maxLimit) {// 有上限，并且已经满了，不检查
+		if (recoveryLimit > 0 && keyCount >= recoveryLimit) {// 有上限，并且已经满了，不检查
 			if (lastTime != 0) {
 				userGroupSecretBaseData.setLastRecoveryTime(0);
 				update(userId);
@@ -207,8 +208,8 @@ public class UserGroupSecretBaseDataMgr {
 			return;
 		}
 
-		if (count >= maxLimit) {
-			userGroupSecretBaseData.setKeyCount(maxLimit);
+		if (count >= recoveryLimit) {
+			userGroupSecretBaseData.setKeyCount(recoveryLimit);
 			userGroupSecretBaseData.setLastRecoveryTime(0);
 		} else {
 			userGroupSecretBaseData.setKeyCount(keyCount + count);
@@ -216,6 +217,46 @@ public class UserGroupSecretBaseDataMgr {
 		}
 
 		// 更新并同步数据到客户端
+		update(userId);
+		synData(player);
+	}
+
+	/**
+	 * 检查是否可以重置数据
+	 * 
+	 * @param player
+	 * @param now
+	 */
+	public void checkCanReset(Player player, long now) {
+		String userId = player.getUserId();
+		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
+		if (userGroupSecretBaseData == null) {
+			return;
+		}
+
+		if (DateUtils.isResetTime(5, 0, 0, userGroupSecretBaseData.getLastResetTime())) {
+			resetGroupSecretData(player, now);
+		}
+	}
+
+	/**
+	 * 重置数据
+	 * 
+	 * @param player
+	 * @param now
+	 */
+	public void resetGroupSecretData(Player player, long now) {
+		String userId = player.getUserId();
+		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
+		if (userGroupSecretBaseData == null) {
+			return;
+		}
+
+		userGroupSecretBaseData.setBuyKeyTimes(0);
+		userGroupSecretBaseData.setMatchTimes(0);
+		userGroupSecretBaseData.setReceiveKeyCount(0);
+		userGroupSecretBaseData.setLastResetTime(now);
+
 		update(userId);
 		synData(player);
 	}

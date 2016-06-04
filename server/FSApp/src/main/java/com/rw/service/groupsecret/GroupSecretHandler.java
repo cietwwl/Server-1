@@ -939,6 +939,11 @@ public class GroupSecretHandler {
 		int buyKeyTimes = userGroupSecretBaseData.getBuyKeyTimes();
 
 		int price = uniqueCfg.getBuyKeyPrice(buyKeyTimes);
+		if (price == -1) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "今天购买钥石次数已经用完");
+			return rsp.build().toByteString();
+		}
+		
 		int add = uniqueCfg.getBuyKeyAdd(buyKeyTimes);
 
 		long reward = player.getReward(eSpecialItemId.Gold);

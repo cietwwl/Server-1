@@ -50,7 +50,7 @@ public class GroupSecretDefendRecordData {
 				updateOldestIndex();
 			}
 			recordList.set(oldestIndex, record);
-		} else if (recordList.isEmpty() || recordList.size() < newId) {
+		} else if (recordList.isEmpty() || recordList.size() <= newId) {
 			record.setId(newId);
 			recordList.add(record);
 		}

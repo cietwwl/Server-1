@@ -69,7 +69,7 @@ public class GroupSecretBaseTemplate {
 		}
 
 		if (times >= buyKeyPrice.length) {
-			return buyKeyPrice[buyKeyPrice.length - 1];
+			return -1;
 		}
 
 		return buyKeyPrice[times];
