@@ -601,10 +601,10 @@ public class Robot {
 	/**
 	 * 膜拜
 	 */
-	public  boolean testWorShip() {
+	public  boolean testWorShip(int num) {
 			
 		
-		return worShipHandler.getHandler().ArenaWorship(client, "");
+		return worShipHandler.getHandler().ArenaWorship(client, num);
 	}
 	
 	/**

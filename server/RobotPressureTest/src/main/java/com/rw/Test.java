@@ -18,15 +18,13 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-			 issucc=robot.testFrshActAchieveRewardGiftTake();
-			 
-			 
+			 issucc=robot.testWorShip(3);
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 
 		 
 		//5-27新增部分
-//		 robot.testWorShip();//膜拜
+//		 robot.testWorShip(3);//膜拜
 //		 robot.testMainService();//主服务，买体力
 //		 robot.testDailyActivity();
 //		 robot.testCopyWarfare();//无尽战火
