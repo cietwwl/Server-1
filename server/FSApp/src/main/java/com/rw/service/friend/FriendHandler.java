@@ -124,6 +124,7 @@ public class FriendHandler {
 		} else {
 			searchValue = true;
 			text = tips;
+			Collections.sort(friendList, loginComparator);
 		}
 		response.setIsSearchValue(searchValue);
 		response.addAllList(friendList);
@@ -131,7 +132,17 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		return response.build().toByteString();
 	}
+	
+	Comparator<FriendInfo> loginComparator = new Comparator<FriendInfo>() {
 
+		@Override
+		public int compare(FriendInfo f1, FriendInfo f2) {
+			// TODO Auto-generated method stub
+			float dis = f2.getLastLoginTime() - f1.getLastLoginTime();
+			return dis < 0 ? -1 : 1;
+		}
+	};
+	
 	private List<FriendInfo> recommandFriends(Player player) {
 		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.LEVEL_PLAYER);
 		int level = player.getLevel();
@@ -217,15 +228,6 @@ public class FriendHandler {
 				}
 			}
 		}
-		Collections.sort(resultList, new Comparator<FriendInfo>() {
-
-			@Override
-			public int compare(FriendInfo f1, FriendInfo f2) {
-				// TODO Auto-generated method stub
-				float dis = f2.getLastLoginTime() - f1.getLastLoginTime();
-				return dis < 0 ? -1 : 1;
-			}
-		});
 		return resultList;
 	}
 
