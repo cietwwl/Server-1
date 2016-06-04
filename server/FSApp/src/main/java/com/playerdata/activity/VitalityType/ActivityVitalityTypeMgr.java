@@ -174,7 +174,7 @@ public class ActivityVitalityTypeMgr {
 		ActivityVitalityTypeSubItem subItem = getbyVitalityTypeEnum(player, countType, dataItem);	
 		
 		addVitalitycount(dataItem,subItem,subCfg,countadd);
-		subItem.setCount(subItem.getCount() + countadd);		
+		subItem.setCount(subItem.getCount() + countadd);
 		dataHolder.updateItem(player, dataItem);
 	}
 	
