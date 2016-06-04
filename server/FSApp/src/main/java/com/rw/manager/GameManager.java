@@ -45,6 +45,7 @@ import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.common.RealtimeStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
 import com.rwbase.dao.fetters.FettersBM;
@@ -90,6 +91,8 @@ public class GameManager {
 		
 		//初始化MapItemStoreFactory
 		MapItemStoreFactory.init();
+		//初始化RealtimeStoreFactory
+		RealtimeStoreFactory.init();
 
 		// initServerProperties();
 		initServerOpenTime();

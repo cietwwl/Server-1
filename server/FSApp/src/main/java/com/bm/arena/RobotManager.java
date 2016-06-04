@@ -39,6 +39,7 @@ import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.arena.ArenaHandler;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.common.RealtimeStoreFactory;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.arena.ArenaRobotCfgDAO;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
@@ -115,6 +116,7 @@ public class RobotManager {
 			// 初始主角英雄
 
 			Player player = new Player(userId, false, playerCfg);
+			RealtimeStoreFactory.notifyPlayerCreate(userId);
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
 			mainRoleHero.SetHeroLevel(level);
@@ -301,7 +303,9 @@ public class RobotManager {
 		for (ListRankingEntry<String, ArenaExtAttribute> entry : lst) {
 			String id = entry.getKey();
 			Player player = PlayerMgr.getInstance().find(id);
-			peakHandler.getOrAddPeakArenaDataForRobot(player);
+			if (player != null) {
+				peakHandler.getOrAddPeakArenaDataForRobot(player);
+			}
 		}
 	}
 

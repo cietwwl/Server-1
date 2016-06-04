@@ -20,39 +20,37 @@ import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.util.SpringContextUtil;
 
 /**
- * <pre>
- * MapItemStore的统一缓存
- * 只和MapItemStore有依赖关系
- * </pre>
- * 
- * @author Jamaz
+ * 关键数据采用的缓存
+ * 写操作立刻入库
+ * @author lida
  *
+ * @param <T>
  */
-public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String> {
-
+public class RealtimeStoreCache <T extends IMapItem> implements DataUpdater<String>{
+	
 	private final DataCache<String, MapItemStore<T>> cache;
 	private final String searchFieldP;
 	private CommonMultiTable<T> commonJdbc;
-
-	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
-		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 60, loader);
+	
+	public RealtimeStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount){
+		this.cache = DataCacheFactory.createDataDache(entityClazz,  itemBagCount, itemBagCount, 1, loader);
 		this.searchFieldP = searchFieldP;
 		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(entityClazz);
 		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
 	}
-
-	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName) {
-		this.cache = DataCacheFactory.createDataDache(entityClazz, itemBagCount, itemBagCount, 1, loader);
+	
+	public RealtimeStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount, String datasourceName){
+		this.cache = DataCacheFactory.createDataDache(entityClazz,  itemBagCount, itemBagCount, 1, loader);
 		this.searchFieldP = searchFieldP;
 		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(entityClazz);
 		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP);
 	}
-
-	public MapItemStore<T> getMapItemStore(String userId, Class<T> clazz) {
+	
+	public MapItemStore<T> getRealTimeMapItemStore(String userId, Class<T> clazz) {
 		try {
 			return this.cache.getOrLoadFromDB(userId);
 		} catch (InterruptedException e) {
@@ -63,34 +61,38 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 			return null;
 		}
 	}
-
+	
 	public void notifyPlayerCreate(String userId) {
 		@SuppressWarnings("unchecked")
-		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this, false);
+		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, RealtimeStoreCache.this, true);
 		cache.preInsertIfAbsent(userId, m);
 	}
-
+	
 	private PersistentLoader<String, MapItemStore<T>> loader = new PersistentLoader<String, MapItemStore<T>>() {
 
 		@Override
 		public MapItemStore<T> load(String key) throws DataNotExistException, Exception {
+			// TODO Auto-generated method stub
 			List<T> list = commonJdbc.findByKey(searchFieldP, key);
-			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this, false);
+			return new MapItemStore<T>(list, key, commonJdbc, RealtimeStoreCache.this, true);
 		}
 
 		@Override
 		public boolean delete(String key) throws DataNotExistException, Exception {
-			// 背包不能删除
+			// TODO Auto-generated method stub
+			//不能删除操作
 			return false;
 		}
 
 		@Override
 		public boolean insert(String key, MapItemStore<T> value) throws DuplicatedKeyException, Exception {
+			// TODO Auto-generated method stub
 			return updateToDB(key, value);
 		}
 
 		@Override
 		public boolean updateToDB(String key, MapItemStore<T> value) {
+			// TODO Auto-generated method stub
 			List<String> list = value.flush(true);
 			if (list == null) {
 				return true;
@@ -98,11 +100,11 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 				return false;
 			}
 		}
-
 	};
 
 	@Override
 	public void submitUpdateTask(String key) {
-		this.cache.submitUpdateTask(key);
+		// TODO Auto-generated method stub
+		//更新立刻执行数据库操作，所以不用异步执行更新
 	}
 }

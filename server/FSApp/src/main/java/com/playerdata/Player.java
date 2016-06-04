@@ -52,6 +52,7 @@ import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.PlayerDataMgr;
+import com.rwbase.common.RealtimeStoreFactory;
 import com.rwbase.common.RecordSynchronization;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
@@ -236,6 +237,7 @@ public class Player implements PlayerIF {
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 
 		if (!initMgr) {
+			RealtimeStoreFactory.notifyPlayerCreate(userId);
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 			this.getHeroMgr().init(this, false);
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);

@@ -64,7 +64,7 @@ public class BIStatLogMgr {
 		
 		final Map<String,BICounter> coinAccount = new HashMap<String,BICounter>();
 		final Map<String,BICounter> giftGoldAccount = new HashMap<String,BICounter>();
-		final String sql = "SELECT userId,zoneId,vip,level,zoneRegInfo,dbvalue FROM user_other LEFT JOIN user ON user_other.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
+		final String sql = "SELECT userId,zoneId,vip,level,zoneRegInfo,coin,gold FROM user_other LEFT JOIN user ON user_other.dbkey=user.userId ORDER BY userId LIMIT ? OFFSET ?;";
 		doDbCount(sql, new BIIntefaceCount(){
 
 			@Override
@@ -76,8 +76,8 @@ public class BIStatLogMgr {
 					clientPlatForm = user.getZoneRegInfo().getRegClientPlatForm();
 				}
 				
-				long coin = user.getDbvalue().getCoin();
-				long giftGold = user.getDbvalue().getGold();
+				long coin = user.getCoin();
+				long giftGold = user.getGold();
 				
 //				getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm).add(coin);
 				BICounter count = getCounter(coinAccount, regSubChannelId, "totalCount", clientPlatForm);
