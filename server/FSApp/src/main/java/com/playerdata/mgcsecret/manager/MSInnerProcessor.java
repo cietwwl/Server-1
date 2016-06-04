@@ -86,11 +86,14 @@ class MSInnerProcessor extends MSConditionJudger{
 	 * @param player
 	 * @param dungeonID
 	 */
-	public static void updateSelfMaxStage(Player player, String dungeonID){
+	public static boolean updateSelfMaxStage(Player player, String dungeonID){
 		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
 		int paraStageID = fromDungeonIDToStageID(player, dungeonID);
-		if(paraStageID > umsData.getMaxStageID())
+		if(paraStageID > umsData.getMaxStageID()){
 			umsData.setMaxStageID(paraStageID);
+			return true;
+		}
+		return false;
 	}
 	
 	/**

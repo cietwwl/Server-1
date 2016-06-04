@@ -16,6 +16,8 @@ import com.playerdata.mgcsecret.cfg.DungeonScoreCfg;
 import com.playerdata.mgcsecret.cfg.DungeonScoreCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
+import com.playerdata.mgcsecret.cfg.MagicChapterCfg;
+import com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO;
 import com.playerdata.mgcsecret.data.MSDungeonInfo;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
@@ -161,7 +163,14 @@ public class MagicSecretMgr {
 			for(int i = 0; i < rewardItems.size(); i++){
 				msRsp.addRewardData(JsonUtil.writeValue(rewardItems.get(i)));
 			}
-			MSInnerProcessor.updateSelfMaxStage(player, dungeonID);
+			// 更新最高纪录，添加首次通关章节的奖励(如果刷新了纪录，并且是本章最后一关)
+			if(MSInnerProcessor.updateSelfMaxStage(player, dungeonID) && MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER){
+				MagicChapterCfg mcCfg = MagicChapterCfgDAO.getInstance().getCfgById(String.valueOf(chapterID));
+				for(int i = 0; i < mcCfg.getPassBonus().size(); i++){
+					msRsp.addRewardData(JsonUtil.writeValue(mcCfg.getPassBonus().get(i)));
+				}
+			}
+			// 如果闯完一章节，初始化下一章节的内容（如果不是，就准备下一关卡）
 			if(MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER)
 				MagicChapterInfoHolder.getInstance().initMagicChapterInfo(player, String.valueOf(chapterID + 1));
 			else handleNextDungeonPrepare(player, dungeonID);
