@@ -2,6 +2,8 @@ package com.rwbase.dao.worship;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -24,67 +26,67 @@ import com.rwproto.WorshipServiceProtos.WorshipRewardData;
 
 public class WorshipUtils {
 	/***/
-	public static WorshipItemData getRandomRewardData(int scheme){
+	public static WorshipItemData getRandomRewardData(int scheme) {
 		CfgWorshipRankdomScheme schemeCfg = CfgWorshipRankdomSchemeHelper.getInstance().getWorshipRewardCfg(scheme);
 		int weightGroup = WorshipUtils.getRandomWeightGroup(schemeCfg.getProbabilityList());
 		List<CfgWorshipRandomReward> list = CfgWorshipRandomRewardHelper.getInstance().getWorshipRewardCfg(scheme, weightGroup);
 		return WorshipUtils.getRandomRewardData(list);
 	}
-	
-	/**直接获取奖励数据*/
-	public static WorshipItemData getRandomRewardData(List<CfgWorshipRandomReward> list){
+
+	/** 直接获取奖励数据 */
+	public static WorshipItemData getRandomRewardData(List<CfgWorshipRandomReward> list) {
 		CfgWorshipRandomReward cfg = getRandomRewardCfg(list);
-		if(cfg == null){
+		if (cfg == null) {
 			return null;
 		}
 		WorshipItemData rewardData = new WorshipItemData();
-    	rewardData.setItemId(String.valueOf(cfg.getItemID()));
-    	rewardData.setCount(new Random().nextInt(cfg.getMax()) + 1);
-    	return rewardData;
+		rewardData.setItemId(String.valueOf(cfg.getItemID()));
+		rewardData.setCount(new Random().nextInt(cfg.getMax()) + 1);
+		return rewardData;
 	}
-	
-	/**获取一个随机奖励配置*/
-	public static CfgWorshipRandomReward getRandomRewardCfg(List<CfgWorshipRandomReward> list){
-		if(list == null){
+
+	/** 获取一个随机奖励配置 */
+	public static CfgWorshipRandomReward getRandomRewardCfg(List<CfgWorshipRandomReward> list) {
+		if (list == null) {
 			return null;
 		}
 		int weightTotal = 0;
-		for(CfgWorshipRandomReward cfg : list){
+		for (CfgWorshipRandomReward cfg : list) {
 			weightTotal += cfg.getWeight();
 		}
 		int random = new Random().nextInt(weightTotal);
 		int temp = 0;
-		for(CfgWorshipRandomReward cfg : list){
+		for (CfgWorshipRandomReward cfg : list) {
 			temp += cfg.getWeight();
-			if(random < temp){
+			if (random < temp) {
 				return cfg;
 			}
 		}
 		return null;
 	}
-	
-	/**获取一个随机权重组*/
-	public static int getRandomWeightGroup(String[] list){
+
+	/** 获取一个随机权重组 */
+	public static int getRandomWeightGroup(String[] list) {
 		int weightTotal = 0;
-		for(String temp : list){
+		for (String temp : list) {
 			String[] temp2 = temp.split("_");
 			weightTotal += Integer.parseInt(temp2[1]);
 		}
 		int random = new Random().nextInt(weightTotal);
 		int temp3 = 0;
-		for(String temp : list){
+		for (String temp : list) {
 			String[] temp2 = temp.split("_");
 			temp3 += Integer.parseInt(temp2[1]);
-			if(random < temp3){
+			if (random < temp3) {
 				return Integer.valueOf(temp2[0]);
 			}
 		}
 		return 0;
 	}
-	
-	/**排行信息转换为膜拜信息*/
-	public static WorshipInfo rankInfoToWorshipInfo(RankingLevelData rankInfo){
-		if(rankInfo == null){
+
+	/** 排行信息转换为膜拜信息 */
+	public static WorshipInfo rankInfoToWorshipInfo(RankingLevelData rankInfo) {
+		if (rankInfo == null) {
 			return null;
 		}
 		WorshipInfo.Builder worshipInfo = WorshipInfo.newBuilder();
@@ -98,25 +100,25 @@ public class WorshipUtils {
 		worshipInfo.setLevel(rankInfo.getLevel());
 		worshipInfo.setSex(rankInfo.getSex());
 		worshipInfo.setCareerLevel(rankInfo.getCareerLevel());
-//		worshipInfo.setModelId(rankInfo.getModelId());
+		// worshipInfo.setModelId(rankInfo.getModelId());
 		worshipInfo.setModelId(RankingUtils.getModelId(rankInfo));
 		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(rankInfo.getUserId());
-		if (readOnlyPlayer != null){
+		if (readOnlyPlayer != null) {
 			FashionMgrIF fmgr = readOnlyPlayer.getFashionMgr();
 			List<FashionItemIF> swingOn = fmgr.search(fmgr.getSwingOnItemPred());
-			if (swingOn != null && swingOn.size() > 0){
+			if (swingOn != null && swingOn.size() > 0) {
 				FashionItemIF item = swingOn.get(0);
 				worshipInfo.setSwingID(item.getId());
 			}
-		}else{
-			//print error log
+		} else {
+			// print error log
 		}
-		
+
 		return worshipInfo.build();
 	}
-	
-	/**玩家信息转换为膜拜信息*/
-	public static WorshipItem playerInfoToWorshipItem(Player player, WorshipItemData itemData){
+
+	/** 玩家信息转换为膜拜信息 */
+	public static WorshipItem playerInfoToWorshipItem(Player player, WorshipItemData itemData) {
 		WorshipItem worshipItem = new WorshipItem();
 		worshipItem.setUserId(player.getUserId());
 		worshipItem.setUserName(player.getUserName());
@@ -132,17 +134,30 @@ public class WorshipUtils {
 		worshipItem.setModelId(player.getModelId());
 		return worshipItem;
 	}
-	
-	public static List<WorshipInfo> toWorshipList(List<WorshipItem> itemList){
+
+	private static Comparator<WorshipItem> comparator = new Comparator<WorshipItem>() {
+
+		@Override
+		public int compare(WorshipItem o1, WorshipItem o2) {
+			if (o1.getWorshipTime() - o2.getWorshipTime() > 0) {
+				return -1;
+			} else {
+				return 1;
+			}
+		}
+	};
+
+	public static List<WorshipInfo> toWorshipList(List<WorshipItem> itemList) {
+		Collections.sort(itemList,comparator);
 		List<WorshipInfo> infolist = new ArrayList<WorshipInfo>();
-		for(WorshipItem item : itemList){
+		for (WorshipItem item : itemList) {
 			infolist.add(worshipItemToWorshipInfo(item));
 		}
 		return infolist;
 	}
-	
-	/**膜拜数据转换*/
-	public static WorshipInfo worshipItemToWorshipInfo(WorshipItem worshipItem){
+
+	/** 膜拜数据转换 */
+	public static WorshipInfo worshipItemToWorshipInfo(WorshipItem worshipItem) {
 		WorshipInfo.Builder worshipInfo = WorshipInfo.newBuilder();
 		worshipInfo.setUserId(worshipItem.getUserId());
 		worshipInfo.setUserName(worshipItem.getUserName());
@@ -154,27 +169,27 @@ public class WorshipUtils {
 		worshipInfo.setLevel(worshipItem.getLevel());
 		worshipInfo.setCanReceive(worshipItem.isCanReceive());
 		worshipInfo.setModelId(worshipItem.getModelId());
-		
+
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(worshipItem.getWorshipTime());		
+		calendar.setTimeInMillis(worshipItem.getWorshipTime());
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
-		int minute = calendar.get(Calendar.MINUTE);		
-		
+		int minute = calendar.get(Calendar.MINUTE);
+
 		worshipInfo.setTime((hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute));
 		WorshipRewardData rewardData = worshipRewardDataToItemData(worshipItem.getItemData());
-		if(rewardData != null){
+		if (rewardData != null) {
 			worshipInfo.setRandomRward(rewardData);
 		}
 		return worshipInfo.build();
 	}
-	
-	public static WorshipRewardData worshipRewardDataToItemData(WorshipItemData itemData){
-		if(itemData == null){
+
+	public static WorshipRewardData worshipRewardDataToItemData(WorshipItemData itemData) {
+		if (itemData == null) {
 			return null;
 		}
 		WorshipRewardData.Builder rewardData = WorshipRewardData.newBuilder();
 		rewardData.setItemId(itemData.getItemId());
-		rewardData.setCount(itemData.getCount());	
+		rewardData.setCount(itemData.getCount());
 		return rewardData.build();
 	}
 }
