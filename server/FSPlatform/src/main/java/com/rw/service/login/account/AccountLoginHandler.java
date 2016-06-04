@@ -340,7 +340,8 @@ public class AccountLoginHandler {
 		UserInfo.Builder userInfo;
 		ZoneInfoCache zone;
 
-		for (Integer zoneId : lastLoginList) {
+		for (int i = lastLoginList.size() - 1; i >= 0; i--) {
+			int zoneId = lastLoginList.get(i);
 			Integer isEnable = ZoneStatusList.get(zoneId);
 			if (isEnable == 0 && !account.isWhiteList()) {
 				continue;
