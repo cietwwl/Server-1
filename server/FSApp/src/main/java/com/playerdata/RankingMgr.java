@@ -18,6 +18,8 @@ import com.bm.rank.fightingAll.FightingComparable;
 import com.bm.rank.level.LevelComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.log.GameLog;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.Tuple;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.MomentRankingEntry;
@@ -27,6 +29,7 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.ranking.RankingGetOperation;
 import com.rwbase.common.enu.ECareer;
@@ -60,6 +63,7 @@ public class RankingMgr {
 
 	private final EnumMap<RankType, RankingGetOperation> operationMap;
 	private final RankingGetOperation defaultGetOp;
+	private final EnumMap<ListRankingType, Pair<String, String>> emailMap;
 
 	public RankingMgr() {
 		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
@@ -68,6 +72,12 @@ public class RankingMgr {
 		this.operationMap.put(RankType.PRIEST_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.operationMap.put(RankType.MAGICAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.defaultGetOp = RankingGetOperation.RANKING_GET_OPERATION;
+		// TODO 这个邮件id应该配置到竞技场配置表
+		this.emailMap = new EnumMap<ListRankingType, Pair<String, String>>(ListRankingType.class);
+		this.emailMap.put(ListRankingType.WARRIOR_ARENA, Pair.Create("10011", "10015"));
+		this.emailMap.put(ListRankingType.SWORDMAN_ARENA, Pair.Create("10012", "10016"));
+		this.emailMap.put(ListRankingType.MAGICAN_ARENA, Pair.Create("10013", "10017"));
+		this.emailMap.put(ListRankingType.PRIEST_ARENA, Pair.Create("10014", "10018"));
 	}
 
 	public void onInitRankData() {
@@ -271,10 +281,26 @@ public class RankingMgr {
 		Ranking<ArenaRankingComparable, RankingLevelData> ranking = RankingFactory.getRanking(copyType);
 		int total = Math.min(size, maxCapacity);
 		ArrayList<RankingEntityOfRank<ArenaRankingComparable, RankingLevelData>> currentList = new ArrayList<RankingEntityOfRank<ArenaRankingComparable, RankingLevelData>>(total);
-
+		String oldChampion = null;
+		String currentChampoin = null;
 		for (int i = 1; i <= size; i++) {
 			ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
 			String key = entry.getKey();
+			if (i == 1) {
+				RankingEntry<ArenaRankingComparable, RankingLevelData> lastChampion = ranking.getRankingEntry(1);
+				if (lastChampion == null) {
+					// 第一名悬空
+					currentChampoin = key;
+				} else {
+					String oldKey = lastChampion.getKey();
+					// 第一名易主
+					if (!oldKey.equals(key)) {
+						currentChampoin = key;
+						oldChampion = oldKey;
+					}
+				}
+			}
+
 			RankingLevelData levelData = RankingUtils.createRankingLevelData(entry);
 			ArenaSettleComparable sc = new ArenaSettleComparable();
 			sc.setRanking(i);
@@ -299,6 +325,25 @@ public class RankingMgr {
 			currentList.add(entity);
 		}
 		ranking.clearAndInsert(currentList);
+		// 增加邮件通知
+		boolean hasCurrentChampoin = currentChampoin != null;
+		boolean hasOldChampoin = oldChampion != null;
+		if (hasCurrentChampoin || hasOldChampoin) {
+			try {
+				Pair<String, String> emailInfo = this.emailMap.get(ordinalType);
+				if (emailInfo == null) {
+					return;
+				}
+				if (hasCurrentChampoin) {
+					EmailUtils.sendEmail(currentChampoin, emailInfo.getT1());
+				}
+				if (hasOldChampoin) {
+					EmailUtils.sendEmail(oldChampion, emailInfo.getT2());
+				}
+			} catch (Exception e) {
+				GameLog.error("RankingMgr", "#changeDailyData", "结算邮件发送异常：" + currentChampoin + "," + oldChampion);
+			}
+		}
 	}
 
 	/**

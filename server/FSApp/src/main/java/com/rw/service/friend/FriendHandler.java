@@ -1,6 +1,8 @@
 package com.rw.service.friend;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -215,6 +217,15 @@ public class FriendHandler {
 				}
 			}
 		}
+		Collections.sort(resultList, new Comparator<FriendInfo>() {
+
+			@Override
+			public int compare(FriendInfo f1, FriendInfo f2) {
+				// TODO Auto-generated method stub
+				float dis = f2.getLastLoginTime() - f1.getLastLoginTime();
+				return dis < 0 ? -1 : 1;
+			}
+		});
 		return resultList;
 	}
 
