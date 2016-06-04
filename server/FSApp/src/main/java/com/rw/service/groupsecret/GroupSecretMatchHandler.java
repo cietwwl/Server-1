@@ -558,7 +558,7 @@ public class GroupSecretMatchHandler {
 		// 后续要通知所有的相关秘境被掠夺的资源数量
 		if (isBeat) {// 打败了
 			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE(),
-					matchEnemyData.getAtkTimes(), groupData.getGroupName());
+					matchEnemyData.getAtkTimes(), groupData.getGroupName(), player.getUserName());
 		}
 
 		rsp.setIsSuccess(true);

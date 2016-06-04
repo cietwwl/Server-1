@@ -4,6 +4,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -77,24 +78,42 @@ public class GroupSecretMatchEnemyDataMgr {
 		String userId = player.getUserId();
 		GroupSecretMatchEnemyData enemyData = get(userId);
 
+		int secretId = groupSecretData.getSecretId();
+		long now = System.currentTimeMillis();
 		enemyData.setId(groupSecretData.getId());
-		enemyData.setMatchTime(System.currentTimeMillis());
+		enemyData.setMatchTime(now);
 		enemyData.setMatchUserId(groupSecretData.getUserId());
 		enemyData.setUserId(userId);
-		enemyData.setCfgId(groupSecretData.getSecretId());
+		enemyData.setCfgId(secretId);
 
 		Enumeration<DefendUserInfoData> values = groupSecretData.getEnumerationValues();
 		while (values.hasMoreElements()) {
 			DefendUserInfoData nextElement = values.nextElement();
+
+			long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
+			long changeTeamTime = nextElement.getChangeTeamTime();// 修改阵容时间
+			int proRes = nextElement.getProRes() - nextElement.getRobRes();
+			int proGE = nextElement.getProGE() - nextElement.getRobGE();
+			int proGS = nextElement.getProGS() - nextElement.getRobGS();
+
+			long createTime = groupSecretData.getCreateTime();
+			boolean isFinish = now - createTime >= needTimeMillis;
+
+			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+			int fighting = nextElement.getFighting();
+			proRes += (int) (fighting * cfg.getProductRatio() * minutes);
+			proGE += (int) (cfg.getGroupExpRatio() * minutes);
+			proGS += (int) (cfg.getGroupSupplyRatio() * minutes);
+
 			// 产生的资源
-			int robRes = nextElement.getRobRes() * cfg.getRobGERatio() / AttributeConst.DIVISION;
-			int robGS = nextElement.getRobGS() * cfg.getRobGSRatio() / AttributeConst.DIVISION;
-			int proGE = nextElement.getProGE() * cfg.getRobGERatio() / AttributeConst.DIVISION;
+			int robRes = proRes * cfg.getRobGERatio() / AttributeConst.DIVISION;
+			int robGE = proGE * cfg.getRobGERatio() / AttributeConst.DIVISION;
+			int robGS = proGS * cfg.getRobGSRatio() / AttributeConst.DIVISION;
 
 			int index = nextElement.getIndex();
 			enemyData.setRobResValue(index, robRes);
 			enemyData.setRobGSValue(index, robGS);
-			enemyData.setRobGEValue(index, proGE);
+			enemyData.setRobGEValue(index, robGE);
 
 			List<String> heroList = nextElement.getHeroList();
 			int size = heroList.size();
@@ -109,19 +128,6 @@ public class GroupSecretMatchEnemyDataMgr {
 
 		enemyData.updateVersion();
 		update(userId);
-		//
-		// GroupSecretDataSynData info = GroupSecretHelper.fillMatchSecretInfo(player, enemyData.getVersion());
-		//
-		// // 同步数据
-		// SecretBaseInfoSynData base = info.getBase();
-		// if (base != null) {
-		// player.getBaseHolder().addData(player, base);
-		// }
-		//
-		// SecretTeamInfoSynData team = info.getTeam();
-		// if (team == null) {
-		// player.getTeamHolder().addData(player, team);
-		// }
 	}
 
 	/**

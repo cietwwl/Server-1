@@ -2,14 +2,18 @@ package com.rwbase.dao.groupsecret.pojo.db.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /*
  * @author HC
  * @date 2016年5月26日 下午2:51:25
  * @Description 
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SynClass
 public class DefendRecord {
 	private int id;
+	private String name;// 名字
 	private int zoneId;// 区ID
 	private String zoneName;// 区服名字
 	private String groupName;// 帮派名字
@@ -71,7 +75,15 @@ public class DefendRecord {
 		return hasKey;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	// ////////////////////////////////////////////////逻辑Set区
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public void setId(int id) {
 		this.id = id;

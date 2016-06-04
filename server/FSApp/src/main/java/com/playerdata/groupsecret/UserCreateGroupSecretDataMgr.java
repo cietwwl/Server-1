@@ -149,7 +149,7 @@ public class UserCreateGroupSecretDataMgr {
 	 * @param robGS
 	 * @param robGE
 	 */
-	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE, int[] atkTimes, String groupName) {
+	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE, int[] atkTimes, String groupName, String name) {
 		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
 		if (userCreateGroupSecretData == null) {
 			return;
@@ -206,6 +206,7 @@ public class UserCreateGroupSecretDataMgr {
 
 			final DefendRecord record = new DefendRecord();
 			record.setHasKey(true);
+			record.setName(name);
 			record.setDefenceTimes(atkTimes[index - 1]);
 			record.setRobGE(robGEValue);
 			record.setRobGS(robGSValue);
