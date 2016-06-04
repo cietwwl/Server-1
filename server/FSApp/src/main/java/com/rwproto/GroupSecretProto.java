@@ -169,45 +169,37 @@ public final class GroupSecretProto {
      */
     CHANGE_DEFEND_TEAM(3, 4),
     /**
-     * <code>GET_DEFEND_RECORD = 5;</code>
-     *
-     * <pre>
-     *查看秘境的防守记录
-     * </pre>
-     */
-    GET_DEFEND_RECORD(4, 5),
-    /**
-     * <code>INVITE_MEMBER_DEFEND = 6;</code>
+     * <code>INVITE_MEMBER_DEFEND = 5;</code>
      *
      * <pre>
      *请求帮派成员帮忙驻守
      * </pre>
      */
-    INVITE_MEMBER_DEFEND(5, 6),
+    INVITE_MEMBER_DEFEND(4, 5),
     /**
-     * <code>GET_DEFEDN_REWARD = 7;</code>
+     * <code>GET_DEFEDN_REWARD = 6;</code>
      *
      * <pre>
      *获取防守记录的奖励
      * </pre>
      */
-    GET_DEFEDN_REWARD(6, 7),
+    GET_DEFEDN_REWARD(5, 6),
     /**
-     * <code>BUY_SECRET_KEY = 8;</code>
+     * <code>BUY_SECRET_KEY = 7;</code>
      *
      * <pre>
      *购买秘境钥石
      * </pre>
      */
-    BUY_SECRET_KEY(7, 8),
+    BUY_SECRET_KEY(6, 7),
     /**
-     * <code>JOIN_SECRET_DEFEND = 9;</code>
+     * <code>JOIN_SECRET_DEFEND = 8;</code>
      *
      * <pre>
      *请求协助秘境驻守
      * </pre>
      */
-    JOIN_SECRET_DEFEND(8, 9),
+    JOIN_SECRET_DEFEND(7, 8),
     ;
 
     /**
@@ -243,45 +235,37 @@ public final class GroupSecretProto {
      */
     public static final int CHANGE_DEFEND_TEAM_VALUE = 4;
     /**
-     * <code>GET_DEFEND_RECORD = 5;</code>
-     *
-     * <pre>
-     *查看秘境的防守记录
-     * </pre>
-     */
-    public static final int GET_DEFEND_RECORD_VALUE = 5;
-    /**
-     * <code>INVITE_MEMBER_DEFEND = 6;</code>
+     * <code>INVITE_MEMBER_DEFEND = 5;</code>
      *
      * <pre>
      *请求帮派成员帮忙驻守
      * </pre>
      */
-    public static final int INVITE_MEMBER_DEFEND_VALUE = 6;
+    public static final int INVITE_MEMBER_DEFEND_VALUE = 5;
     /**
-     * <code>GET_DEFEDN_REWARD = 7;</code>
+     * <code>GET_DEFEDN_REWARD = 6;</code>
      *
      * <pre>
      *获取防守记录的奖励
      * </pre>
      */
-    public static final int GET_DEFEDN_REWARD_VALUE = 7;
+    public static final int GET_DEFEDN_REWARD_VALUE = 6;
     /**
-     * <code>BUY_SECRET_KEY = 8;</code>
+     * <code>BUY_SECRET_KEY = 7;</code>
      *
      * <pre>
      *购买秘境钥石
      * </pre>
      */
-    public static final int BUY_SECRET_KEY_VALUE = 8;
+    public static final int BUY_SECRET_KEY_VALUE = 7;
     /**
-     * <code>JOIN_SECRET_DEFEND = 9;</code>
+     * <code>JOIN_SECRET_DEFEND = 8;</code>
      *
      * <pre>
      *请求协助秘境驻守
      * </pre>
      */
-    public static final int JOIN_SECRET_DEFEND_VALUE = 9;
+    public static final int JOIN_SECRET_DEFEND_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -292,11 +276,10 @@ public final class GroupSecretProto {
         case 2: return CREATE_GROUP_SECRET;
         case 3: return GET_GROUP_SECRET_REWARD;
         case 4: return CHANGE_DEFEND_TEAM;
-        case 5: return GET_DEFEND_RECORD;
-        case 6: return INVITE_MEMBER_DEFEND;
-        case 7: return GET_DEFEDN_REWARD;
-        case 8: return BUY_SECRET_KEY;
-        case 9: return JOIN_SECRET_DEFEND;
+        case 5: return INVITE_MEMBER_DEFEND;
+        case 6: return GET_DEFEDN_REWARD;
+        case 7: return BUY_SECRET_KEY;
+        case 8: return JOIN_SECRET_DEFEND;
         default: return null;
       }
     }
@@ -4612,20 +4595,20 @@ public final class GroupSecretProto {
   public interface GetDefendRecordRewardReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 id = 1;
+    // optional int32 id = 1;
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      *
      * <pre>
-     *请求领取记录的Id
+     *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
      * </pre>
      */
     boolean hasId();
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      *
      * <pre>
-     *请求领取记录的Id
+     *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
      * </pre>
      */
     int getId();
@@ -4730,24 +4713,24 @@ public final class GroupSecretProto {
     }
 
     private int bitField0_;
-    // required int32 id = 1;
+    // optional int32 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      *
      * <pre>
-     *请求领取记录的Id
+     *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
      * </pre>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      *
      * <pre>
-     *请求领取记录的Id
+     *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
      * </pre>
      */
     public int getId() {
@@ -4762,10 +4745,6 @@ public final class GroupSecretProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4967,10 +4946,6 @@ public final class GroupSecretProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasId()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -4993,33 +4968,33 @@ public final class GroupSecretProto {
       }
       private int bitField0_;
 
-      // required int32 id = 1;
+      // optional int32 id = 1;
       private int id_ ;
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        *
        * <pre>
-       *请求领取记录的Id
+       *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
        * </pre>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        *
        * <pre>
-       *请求领取记录的Id
+       *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
        * </pre>
        */
       public int getId() {
         return id_;
       }
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        *
        * <pre>
-       *请求领取记录的Id
+       *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
        * </pre>
        */
       public Builder setId(int value) {
@@ -5029,10 +5004,10 @@ public final class GroupSecretProto {
         return this;
       }
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        *
        * <pre>
-       *请求领取记录的Id
+       *请求领取记录的Id&lt;如果没有这个字段代表是一键领取&gt;
        * </pre>
        */
       public Builder clearId() {
@@ -5774,12 +5749,6 @@ public final class GroupSecretProto {
           return false;
         }
       }
-      if (hasGetDefendRewardReqMsg()) {
-        if (!getGetDefendRewardReqMsg().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -6175,12 +6144,6 @@ public final class GroupSecretProto {
         }
         if (hasJoinReqMsg()) {
           if (!getJoinReqMsg().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasGetDefendRewardReqMsg()) {
-          if (!getGetDefendRewardReqMsg().isInitialized()) {
             
             return false;
           }
@@ -8385,7 +8348,7 @@ public final class GroupSecretProto {
       "ndReqMsg\022\n\n\002id\030\001 \002(\t\022,\n\005index\030\002 \002(\0162\035.gr" +
       "oupSecret.GroupSecretIndex\022\016\n\006heroId\030\003 \003",
       "(\t\")\n\033GetDefendRecordRewardReqMsg\022\n\n\002id\030" +
-      "\001 \002(\005\"\326\003\n\027GroupSecretCommonReqMsg\022)\n\007req" +
+      "\001 \001(\005\"\326\003\n\027GroupSecretCommonReqMsg\022)\n\007req" +
       "Type\030\001 \002(\0162\030.groupSecret.RequestType\022\017\n\007" +
       "version\030\002 \001(\t\022:\n\014createReqMsg\030\003 \001(\0132$.gr" +
       "oupSecret.CreateGroupSecretReqMsg\022@\n\017get" +
@@ -8402,13 +8365,13 @@ public final class GroupSecretProto {
       "ss\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022:\n\014createRspMsg" +
       "\030\004 \001(\0132$.groupSecret.CreateGroupSecretRs" +
       "pMsg*1\n\020GroupSecretIndex\022\010\n\004MAIN\020\001\022\010\n\004LE" +
-      "FT\020\002\022\t\n\005RIGHT\020\003*\343\001\n\013RequestType\022\022\n\016OPEN_" +
+      "FT\020\002\022\t\n\005RIGHT\020\003*\314\001\n\013RequestType\022\022\n\016OPEN_" +
       "MAIN_VIEW\020\001\022\027\n\023CREATE_GROUP_SECRET\020\002\022\033\n\027",
       "GET_GROUP_SECRET_REWARD\020\003\022\026\n\022CHANGE_DEFE" +
-      "ND_TEAM\020\004\022\025\n\021GET_DEFEND_RECORD\020\005\022\030\n\024INVI" +
-      "TE_MEMBER_DEFEND\020\006\022\025\n\021GET_DEFEDN_REWARD\020" +
-      "\007\022\022\n\016BUY_SECRET_KEY\020\010\022\026\n\022JOIN_SECRET_DEF" +
-      "END\020\tB\037\n\013com.rwprotoB\020GroupSecretProto"
+      "ND_TEAM\020\004\022\030\n\024INVITE_MEMBER_DEFEND\020\005\022\025\n\021G" +
+      "ET_DEFEDN_REWARD\020\006\022\022\n\016BUY_SECRET_KEY\020\007\022\026" +
+      "\n\022JOIN_SECRET_DEFEND\020\010B\037\n\013com.rwprotoB\020G" +
+      "roupSecretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

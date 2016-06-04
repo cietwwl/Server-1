@@ -60,7 +60,7 @@ public class GroupSecretMatchEnemyDataMgr {
 			return;
 		}
 
-		String id = GroupSecretHelper.generateCacheSecretId(userId, enemyData.getId());
+		String id = GroupSecretHelper.generateCacheSecretId(enemyData.getMatchUserId(), enemyData.getId());
 		enemyData.clearAllData();
 		update(userId);
 

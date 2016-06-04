@@ -193,6 +193,7 @@ public class UserGroupSecretBaseDataMgr {
 		if (lastTime <= 0) {
 			needUpdateAndSyn = true;
 			userGroupSecretBaseData.setLastRecoveryTime(now);
+			lastTime = now;
 		}
 
 		// 检查当前时间总共可以恢复多少个
@@ -206,8 +207,14 @@ public class UserGroupSecretBaseDataMgr {
 			return;
 		}
 
-		userGroupSecretBaseData.setKeyCount(keyCount + count);
-		userGroupSecretBaseData.setLastRecoveryTime(userGroupSecretBaseData.getLastRecoveryTime() + (needTimeMillis * count));
+		if (count >= maxLimit) {
+			userGroupSecretBaseData.setKeyCount(maxLimit);
+			userGroupSecretBaseData.setLastRecoveryTime(0);
+		} else {
+			userGroupSecretBaseData.setKeyCount(keyCount + count);
+			userGroupSecretBaseData.setLastRecoveryTime(userGroupSecretBaseData.getLastRecoveryTime() + (needTimeMillis * count));
+		}
+
 		// 更新并同步数据到客户端
 		update(userId);
 		synData(player);

@@ -207,6 +207,7 @@ public class UserCreateGroupSecretDataMgr {
 			final DefendRecord record = new DefendRecord();
 			record.setHasKey(true);
 			record.setName(name);
+			record.setRobRes(robResValue);
 			record.setDefenceTimes(atkTimes[index - 1]);
 			record.setRobGE(robGEValue);
 			record.setRobGS(robGSValue);

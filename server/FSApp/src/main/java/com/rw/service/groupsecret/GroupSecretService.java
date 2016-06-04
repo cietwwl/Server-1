@@ -42,9 +42,9 @@ public class GroupSecretService implements FsService {
 			case GET_DEFEDN_REWARD:
 				result = handler.getDefendRecordRewardHandler(player, req.getGetDefendRewardReqMsg());
 				break;
-			case GET_DEFEND_RECORD:
-				result = handler.getDefendRecordHandler(player);
-				break;
+			// case GET_DEFEND_RECORD:
+			// result = handler.getDefendRecordHandler(player);
+			// break;
 			case INVITE_MEMBER_DEFEND:
 				result = handler.inviteMemberDefendSecretHandler(player, req.getInviteReqMsg());
 				break;
