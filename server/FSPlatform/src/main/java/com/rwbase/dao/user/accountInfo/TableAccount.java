@@ -3,6 +3,7 @@ package com.rwbase.dao.user.accountInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,7 +51,7 @@ public class TableAccount{
 	
 	private String imei;
 	@SaveAsJson
-	private List<Integer> lastLoginList = new ArrayList<Integer>();
+	private List<Integer> lastLoginList = new LinkedList<Integer>();
 	@SaveAsJson
 	private List<Integer> iphoneLastLoginList = new ArrayList<Integer>();
 	@SaveAsJson
@@ -127,9 +128,20 @@ public class TableAccount{
 			iphoneLastLoginList.clear();
 			iphoneLastLoginList.add(zoneId);
 		} else {
-			lastLoginList.clear();
-			lastLoginList.add(zoneId);
+			if (lastLoginList.size() > 0) {
+				Integer lastZoneId = lastLoginList.get(0);
+				if (lastZoneId != zoneId) {
+					lastLoginList.remove((Integer) zoneId);
+					lastLoginList.add(zoneId);
+				}
+			} else {
+				lastLoginList.add(zoneId);
+			}
 		}
+	}
+	
+	public List<Integer> getLastLogin(){
+		return lastLoginList;
 	}
 	
 	public UserZoneInfo getZoneIdInUserZoneInfoMap(int zoneId){
