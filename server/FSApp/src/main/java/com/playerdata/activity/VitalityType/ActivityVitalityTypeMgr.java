@@ -20,6 +20,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
+import com.rw.fsutil.util.DateUtils;
 
 
 public class ActivityVitalityTypeMgr {
@@ -41,22 +42,18 @@ public class ActivityVitalityTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
-//		checkCfgVersion(player);	
-//		checkOtherDay(player);
-//		checkClose(player);
+		checkCfgVersion(player);
+		checkOtherDay(player);
+		checkClose(player);
 	}
 	
 	private void checkNewOpen(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder
 				.getInstance();
-		
-		
-
 		if (!isOpen()) {
 			// 活动未开启
 			return;
 		}
-
 		ActivityVitalityTypeItem targetItem = dataHolder.getItem(player
 				.getUserId());
 		if (targetItem == null) {
@@ -65,69 +62,64 @@ public class ActivityVitalityTypeMgr {
 		}
 	}
 	
-//	private void checkCfgVersion(Player player) {
-//	ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-//	List<ActivityDailyCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-//	for (ActivityDailyCountTypeItem targetItem : itemList) {			
-//		ActivityDailyCountTypeCfg targetCfg = ActivityDailyCountTypeCfgDAO.getInstance().getConfig(ActivityDailyCountTypeEnum.Daily.getCfgId());
-//		if(targetCfg == null){
-//			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-//			return;
-//		}			
-//		
-//		if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-//			targetItem.reset(targetCfg);
-//			dataHolder.updateItem(player, targetItem);
-//		}
-//	}		
-//}
-//
-//	private void checkOtherDay(Player player) {
-//		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-//		List<ActivityDailyCountTypeItem> item = dataHolder.getItemList(player.getUserId());
-//		ActivityDailyCountTypeCfg targetCfg = ActivityDailyCountTypeCfgDAO.getInstance().getConfig(ActivityDailyCountTypeEnum.Daily.getCfgId());
-//		if(targetCfg == null){
-//			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-//			return;
-//		}
-//		for (ActivityDailyCountTypeItem targetItem : item) {
-//			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
-//				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList() );
-//				targetItem.reset(targetCfg);
-//				dataHolder.updateItem(player, targetItem);
-//			}
-//		}
-//	}
-//	private void checkClose(Player player) {
-//		ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();
-//		List<ActivityDailyCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-//
-//		for (ActivityDailyCountTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
-//			if (isClose(activityDailyCountTypeItem)) {
-//				sendEmailIfGiftNotTaken(player,  activityDailyCountTypeItem.getSubItemList());
-//				activityDailyCountTypeItem.setClosed(true);
-//				dataHolder.updateItem(player, activityDailyCountTypeItem);
-//			}
-//		}
-//	}
-	
-	public ActivityVitalityCfg getparentCfg(){
-		List<ActivityVitalityCfg> allCfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();		
-		if(allCfgList == null){
-			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
-			return null;			
-		}		
-		if(allCfgList.size() != 1){
-			GameLog.error("activityDailyCountTypeMgr", "list", "同时存在多个每日活动" + allCfgList.size());
-			return null;
-		}		
-		ActivityVitalityCfg vitalityCfg = allCfgList.get(0);		
-		return vitalityCfg;
+	private void checkCfgVersion(Player player) {
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+	List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+	ActivityVitalityCfg targetCfg = ActivityVitalityCfgDAO.getInstance().getparentCfg();
+	if(targetCfg == null){
+		GameLog.error(LogModule.ComActivityVitality, null, "通用活动找不到配置文件", null);
+		return;
+	}	
+	for (ActivityVitalityTypeItem targetItem : itemList) {			
+		if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
+			targetItem.reset(targetCfg);
+			dataHolder.updateItem(player, targetItem);
+		}
+	}		
+}
+
+	private void checkOtherDay(Player player) {
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		List<ActivityVitalityTypeItem> item = dataHolder.getItemList(player.getUserId());
+		ActivityVitalityCfg targetCfg = ActivityVitalityCfgDAO.getInstance().getparentCfg();
+		if(targetCfg == null){
+			GameLog.error(LogModule.ComActivityVitality, null, "通用活动找不到配置文件", null);
+			return;
+		}	
+		for (ActivityVitalityTypeItem targetItem : item) {
+			if(DateUtils.getDayDistance(targetItem.getLastTime(), System.currentTimeMillis())>0){
+				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList());//补发过期奖励
+				sendEmailIfBoxGiftNotTaken(player, targetItem.getSubBoxItemList());//补发过期宝箱奖励，区分是否宝箱刷新
+				targetItem.reset(targetCfg);
+				dataHolder.updateItem(player, targetItem);
+			}
+		}
 	}
 	
 
+	
+	
+	private void checkClose(Player player) {
+		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+		List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+
+		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {// 每种活动
+			if (isClose(activityVitalityTypeItem)) {
+				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
+				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem.getSubBoxItemList());
+				activityVitalityTypeItem.setClosed(true);
+				dataHolder.updateItem(player, activityVitalityTypeItem);
+			}
+		}
+	}
+	
+	
+	
+
+	
+
 	public boolean isOpen( ) {
-		ActivityVitalityCfg vitalityCfg = getparentCfg();
+		ActivityVitalityCfg vitalityCfg = ActivityVitalityCfgDAO.getInstance().getparentCfg();
 		if (vitalityCfg == null) {
 			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误");
 			return false;
@@ -138,8 +130,75 @@ public class ActivityVitalityTypeMgr {
 		return currentTime < endTime && currentTime > startTime;
 	}
 //	
+	
+	
+	private void sendEmailIfGiftNotTaken(Player player,List<ActivityVitalityTypeSubItem> subItemList) {
+		for (ActivityVitalityTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
+			ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
+			if (subItemCfg == null) {
+				GameLog.error(LogModule.ComActivityVitality, null,
+						"通用活动找不到配置文件", null);
+				return;
+			}
+			if (subItem.getCount() >= subItemCfg.getCount()
+					&& !subItem.isTaken()) {
+				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
+						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
+						subItemCfg.getId());
+				subItem.setTaken(true);
+				if (!isAdd)
+					GameLog.error(LogModule.ComActivityVitality,
+							player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
+			}
+		}
+	}
+	
+	private void sendEmailIfBoxGiftNotTaken(Player player,List<ActivityVitalityTypeSubBoxItem> subBoxItemList) {
+		if(ActivityVitalityCfgDAO.getInstance().getparentCfg().getIsCanGetReward() == 1){
+			//宝箱功能不开放 
+			return;
+		}
+		for (ActivityVitalityTypeSubBoxItem subItem : subBoxItemList) {// 配置表里的每种奖励
+			ActivityVitalityRewardCfg subItemCfg = ActivityVitalityRewardCfgDAO.getInstance().getById(subItem.getCfgId());
+			if (subItemCfg == null) {
+				GameLog.error(LogModule.ComActivityVitality, null,
+						"通用活动找不到配置文件", null);
+				return;
+			}
+			if (subItem.getCount() >= subItemCfg.getActivecount()
+					&& !subItem.isTaken()) {
+				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
+						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
+						subItemCfg.getId());
+				subItem.setTaken(true);
+				if (!isAdd)
+					GameLog.error(LogModule.ComActivityVitality,
+							player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
+			}
+		}
+		
+	}
+	
+	
+	
+	private boolean isClose(ActivityVitalityTypeItem activityVitalityTypeItem) {
+	if (activityVitalityTypeItem != null) {
+		ActivityVitalityCfg cfgById = ActivityVitalityCfgDAO.getInstance().getparentCfg();
+		if(cfgById!=null){
+			long endTime = cfgById.getEndTime();
+			long currentTime = System.currentTimeMillis();
+			return currentTime > endTime;
+		}else{
+			GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动");
+		}
+	}
+	return false;
+}
+	
+//	
+	
 	public boolean isLevelEnough(Player player) {
-		ActivityVitalityCfg vitalityCfg = getparentCfg();
+		ActivityVitalityCfg vitalityCfg = ActivityVitalityCfgDAO.getInstance().getparentCfg();
 		if(vitalityCfg == null){
 			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 			return false;
@@ -150,24 +209,6 @@ public class ActivityVitalityTypeMgr {
 		return true;
 	}
 	
-	
-	
-	
-//	private boolean isClose(ActivityDailyCountTypeItem activityDailyCountTypeItem) {
-//	if (activityDailyCountTypeItem != null) {
-//		ActivityDailyCountTypeCfg cfgById = ActivityDailyCountTypeCfgDAO.getInstance().getCfgById(ActivityDailyCountTypeEnum.Daily.getCfgId());
-//		if(cfgById!=null){
-//			long endTime = cfgById.getEndTime();
-//			long currentTime = System.currentTimeMillis();
-//			return currentTime > endTime;
-//		}else{
-//			GameLog.error("activitydailycounttypemgr","" , "配置文件找不到数据奎对应的活动"+ ActivityDailyCountTypeEnum.Daily);
-//		}
-//	}
-//	return false;
-//}
-	
-//	
 	public void addCount(Player player, ActivityVitalityTypeEnum countType,ActivityVitalitySubCfg subCfg, int countadd) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
 		ActivityVitalityTypeItem dataItem = dataHolder.getItem(player.getUserId());		
@@ -290,22 +331,7 @@ public class ActivityVitalityTypeMgr {
 
 
 
-//	private void sendEmailIfGiftNotTaken(Player player,
-//			List<ActivityDailyCountTypeSubItem> subItemList) {
-//		for (ActivityDailyCountTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
-//			ActivityDailyCountTypeSubCfg subItemCfg = ActivityDailyCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
-//			if(subItemCfg == null){
-//				GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-//				return;
-//			}
-//			if (subItem.getCount() >= subItemCfg.getCount()&&!subItem.isTaken()) {
-//				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getId());
-//				subItem.setTaken(true);
-//				if (!isAdd) 
-//					GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
-//				}
-//		}		
-//	}
+
 	
 	
 

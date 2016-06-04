@@ -10,6 +10,10 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
+
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -45,12 +49,14 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	@CombineSave
 	private String version ;
 	
-//	public void reset(ActivityDailyCountTypeCfg cfg){
-//		closed = false;
-//		version = cfg.getVersion();
-//		setSubItemList(ActivityDailyCountTypeCfgDAO.getInstance().newItemList(cfg));
-//		lastTime = System.currentTimeMillis();
-//	}
+	public void reset(ActivityVitalityCfg cfg){
+		closed = false;
+		version = cfg.getVersion();
+		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday()));
+		setSubBoxItemList(ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday()));
+		lastTime = System.currentTimeMillis();
+		activeCount = 0;
+	}
 
 	public String getVersion() {
 		return version;

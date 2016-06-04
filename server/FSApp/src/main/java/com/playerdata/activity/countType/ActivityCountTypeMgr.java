@@ -76,7 +76,7 @@ public class ActivityCountTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
-		checkCfgVersion(player);	
+		checkCfgVersion(player);
 		checkClose(player);
 
 	}

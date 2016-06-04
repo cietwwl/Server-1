@@ -17,7 +17,7 @@ public class ActivityVitalityCfg {
 
 	private String endTimeStr;
 
-	// 活跃度能否领奖
+	// 活跃度能否领奖，0=可以，1=不可以
 	private int isCanGetReward;
 	
 	

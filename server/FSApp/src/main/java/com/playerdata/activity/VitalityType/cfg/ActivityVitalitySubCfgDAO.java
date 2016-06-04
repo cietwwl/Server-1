@@ -36,8 +36,7 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		if(!ActivityVitalityTypeMgr.getInstance().isOpen()){
 			//活动未开启,不计数
 			return null;
-		}
-		
+		}		
 		int day = ActivityVitalityCfgDAO.getInstance().getday();//getday方法必须在活动开启时才可有效传入参数,故需先用isopen来判断		
 		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
 		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
@@ -47,13 +46,18 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 				break;
 			}
 		}
-		return target;
-		
+		return target;		
 	}
-
-
-	
-	
-
-
+	//根据传入的id来获得子活动
+	public ActivityVitalitySubCfg getById(String subId){
+		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
+		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
+		for (ActivityVitalitySubCfg cfg : allCfg) {
+			if(StringUtils.equals(cfg.getId(), subId)){
+				target = cfg;
+				break;
+			}
+		}		
+		return target;
+	}
 }

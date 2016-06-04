@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
@@ -104,7 +105,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return subItemList;
 	}
 	
-	private List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day) {
+	public List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day) {
 		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
 		List< ActivityVitalityRewardCfg> allsubCfgList = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();	
 		for(ActivityVitalityRewardCfg activityVitalitySubCfg : allsubCfgList){
@@ -122,6 +123,18 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return subItemList;
 	}
 	
-	
+	public ActivityVitalityCfg getparentCfg(){
+		List<ActivityVitalityCfg> allCfgList = getAllCfg();		
+		if(allCfgList == null){
+			GameLog.error("activityDailyCountTypeMgr", "list", "不存在每日活动" );
+			return null;			
+		}		
+		if(allCfgList.size() != 1){
+			GameLog.error("activityDailyCountTypeMgr", "list", "同时存在多个每日活动" + allCfgList.size());
+			return null;
+		}		
+		ActivityVitalityCfg vitalityCfg = allCfgList.get(0);		
+		return vitalityCfg;
+	}
 
 }
