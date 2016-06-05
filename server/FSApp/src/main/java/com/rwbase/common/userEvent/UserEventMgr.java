@@ -23,8 +23,24 @@ import com.rwbase.common.userEvent.eventHandler.UserEventGambleCoinHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventGambleGoldHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventLoginHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventUseGoldHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventArenaVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventAttachVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventBattleTowerVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventBuyInTowerShopVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventBuyPowerVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventFactionDonateVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventGambleGoldVitalityHandler;
 import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventGivePowerVitalityHandler;
 import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventGoldSpendVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventHeroUpgradeVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventLeanSkillInFactionVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventResetElityVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventStrengthenMagicVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventTowerVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventTreasureLandVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventUseSilverKeyVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventUseSweepTicketVitalityHandler;
+import com.rwbase.common.userEvent.vitalityTypeEventHandler.UserEventWarfareDifficultyTwoVitalityHandler;
 import com.rwproto.BattleTowerServiceProtos.EKeyType;
 
 public class UserEventMgr {
@@ -66,27 +82,27 @@ public class UserEventMgr {
 		//------------------------------我是淫荡的分割线！！！通用2↑，活跃之王↓
 		eventHandlerMap.put(UserEventType.GoldSpendingVitality, new UserEventGoldSpendVitalityHandler());
 		eventHandlerMap.put(UserEventType.GivePowerVitality, new UserEventGivePowerVitalityHandler());
-		eventHandlerMap.put(UserEventType.TreasureLandVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.TreasureLandVitality, new UserEventTreasureLandVitalityHandler());
 		
-		eventHandlerMap.put(UserEventType.TowerVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.BattleTowerVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.AttachVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.TowerVitality, new UserEventTowerVitalityHandler());
+		eventHandlerMap.put(UserEventType.BattleTowerVitality, new UserEventBattleTowerVitalityHandler());
+		eventHandlerMap.put(UserEventType.AttachVitality, new UserEventAttachVitalityHandler());
 		
-		eventHandlerMap.put(UserEventType.ResetElityVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.HeroUpgradeVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.WarfareDifficultyTwoVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.ResetElityVitality, new UserEventResetElityVitalityHandler());
+		eventHandlerMap.put(UserEventType.HeroUpgradeVitality, new UserEventHeroUpgradeVitalityHandler());
+		eventHandlerMap.put(UserEventType.WarfareDifficultyTwoVitality, new UserEventWarfareDifficultyTwoVitalityHandler());
 		
-		eventHandlerMap.put(UserEventType.BuyInTowerShopVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.BuyPowerVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.FactionDonateVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.BuyInTowerShopVitality, new UserEventBuyPowerVitalityHandler());
+		eventHandlerMap.put(UserEventType.BuyPowerVitality, new UserEventBuyInTowerShopVitalityHandler());
+		eventHandlerMap.put(UserEventType.FactionDonateVitality, new UserEventFactionDonateVitalityHandler());
 		
-		eventHandlerMap.put(UserEventType.UseSweepTicketVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.LearnSkillInfactionVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.StrengthenMagicVitality, new UserEventLoginHandler());
+		eventHandlerMap.put(UserEventType.UseSweepTicketVitality, new UserEventUseSweepTicketVitalityHandler());
+		eventHandlerMap.put(UserEventType.LearnSkillInfactionVitality, new UserEventLeanSkillInFactionVitalityHandler());
+		eventHandlerMap.put(UserEventType.StrengthenMagicVitality, new UserEventStrengthenMagicVitalityHandler());
 		
-		eventHandlerMap.put(UserEventType.UseSilverKeyVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.GambleGoldVitality, new UserEventLoginHandler());
-		eventHandlerMap.put(UserEventType.arenaVitality, new UserEventLoginHandler());		
+		eventHandlerMap.put(UserEventType.UseSilverKeyVitality, new UserEventUseSilverKeyVitalityHandler());
+		eventHandlerMap.put(UserEventType.GambleGoldVitality, new UserEventGambleGoldVitalityHandler());
+		eventHandlerMap.put(UserEventType.arenaVitality, new UserEventArenaVitalityHandler());		
 	}
 	
 	/*传入登陆时间*/

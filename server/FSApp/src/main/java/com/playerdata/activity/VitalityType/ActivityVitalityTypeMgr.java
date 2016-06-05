@@ -284,12 +284,18 @@ public class ActivityVitalityTypeMgr {
 					break;
 				}
 			}
+			if(targetItem==null){
+				result.setReason("奖励异常");					
+				return result;				
+			}		
 			
-			if (targetItem != null && !targetItem.isTaken()) {
-				takeGift(player, targetItem);
-				result.setSuccess(true);
-				dataHolder.updateItem(player, dataItem);
-			}
+			if(targetItem.isTaken()){
+				result.setReason("已经领取");	
+				return result;
+			}		
+			takeGift(player, targetItem);
+			result.setSuccess(true);
+			dataHolder.updateItem(player, dataItem);
 
 		}
 
@@ -318,16 +324,24 @@ public class ActivityVitalityTypeMgr {
 					break;
 				}
 			}
+			if(targetItem==null){
+				result.setReason("奖励异常");					
+				return result;				
+			}
+			
 			if(targetItem.getCount() > dataItem.getActiveCount()){
-				result.setReason("积分不足");				
+				result.setReason("积分不足");					
+				return result;
+			}
+			if(targetItem.isTaken()){
+				result.setReason("已经领取");	
 				return result;
 			}
 			
-			if (targetItem != null && !targetItem.isTaken()){
-				takeBoxGift(player, targetItem);
-				result.setSuccess(true);
-				dataHolder.updateItem(player, dataItem);
-			}
+			
+			takeBoxGift(player, targetItem);
+			result.setSuccess(true);
+			dataHolder.updateItem(player, dataItem);
 		}
 		return result;
 	}

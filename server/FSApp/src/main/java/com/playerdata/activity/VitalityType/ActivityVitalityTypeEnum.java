@@ -11,16 +11,16 @@ public enum ActivityVitalityTypeEnum{	// implements TypeIdentification
 	BattleTowerVitality("80105"),//封神通关第x层
 	AttachVitality("80106"),//一件装备封灵到x级
 	ResetElityVitality("80107"),//重置精英关卡x次
-	HeroUpgradeVitality("80108"),//把一个英雄升到x级
+	HeroUpgradeVitality("80108"),//把一个英雄升到x级？？？？？
 	WarfareDifficultyTwoVitality("80109"),//通关无尽战火难度2X次
 	BuyInTowerShopVitality("80110"),//万仙阵商店购买x次
-	BuyPowerVitality("80111"),//购买体力x次
+	BuyPowerVitality("80111"),//购买体力x次？？？？？
 	FactionDonateVitality("80112"),//帮派捐献x次
 	UseSweepTicketVitality("80113"),//使用扫荡券xx张
 	LearnSkillInfactionVitality("80114"),//在帮派学习技能x次
 	StrengthenMagicVitality("80115"),//强化法宝到x级
 	UseSilverKeyVitality("80116"),//使用银钥匙x个
-	GambleGoldVitality("80117"),//购买中级经验丹
+	GambleGoldVitality("80117"),//购买中级经验丹？？？
 	ArenaVitality("80118");//竞技场多少次
 	
 	
