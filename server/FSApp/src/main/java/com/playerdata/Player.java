@@ -764,6 +764,7 @@ public class Player implements PlayerIF {
 
 	public void onCareerChange(int career, int sex) {
 		try {
+			int oldModelId = getModelId();
 			RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, getStarLevel());
 			if (cfg == null) {
 				NotifyCommonMsg(ECommonMsgTypeDef.MsgBox, "配置错误！");
@@ -779,6 +780,8 @@ public class Player implements PlayerIF {
 			getMainRoleHero().getEquipMgr().EquipAdvance(newQuality, false);
 			setStarLevel(cfg.getStarLevel());
 
+			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
+			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);

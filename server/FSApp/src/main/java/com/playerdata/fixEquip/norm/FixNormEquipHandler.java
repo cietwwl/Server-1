@@ -21,10 +21,27 @@ public class FixNormEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixNormEquipMgr().levelUp(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().levelUp(player, ownerId, itemId);
+		
+		response.setIsSuccess(result.isSuccess());
+		if(StringUtils.isNotBlank(result.getReason())){
+			response.setTipMsg(result.getReason());
+		}
+		
+		return response.build().toByteString();
+	}
+	
+	public ByteString levelUpOneKey(Player player, CommonReqMsg commonReq) {
+		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
+		String ownerId = commonReq.getOwnerId();
+		String itemId = commonReq.getEquipId();
+		
+		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().levelUpOneKey(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -38,10 +55,10 @@ public class FixNormEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixNormEquipMgr().qualityUp(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().qualityUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -55,10 +72,10 @@ public class FixNormEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixNormEquipMgr().starUp(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().starUp(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
@@ -71,10 +88,10 @@ public class FixNormEquipHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		String ownerId = commonReq.getOwnerId();
-		String cfgId = commonReq.getCfgId();
+		String itemId = commonReq.getEquipId();
 		
 		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		FixEquipResult result = targetHero.getFixNormEquipMgr().starDown(player, ownerId, cfgId);
+		FixEquipResult result = targetHero.getFixNormEquipMgr().starDown(player, ownerId, itemId);
 		
 		response.setIsSuccess(result.isSuccess());
 		if(StringUtils.isNotBlank(result.getReason())){
