@@ -42,7 +42,7 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	private int activeCount;
 	
 	@CombineSave
-	private int isCanGetReward;
+	private boolean isCanGetReward;
 	
 	@CombineSave
 	private List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
@@ -73,11 +73,13 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	
 	
 
-	public int getIsCanGetReward() {
+
+
+	public boolean isCanGetReward() {
 		return isCanGetReward;
 	}
 
-	public void setIsCanGetReward(int isCanGetReward) {
+	public void setCanGetReward(boolean isCanGetReward) {
 		this.isCanGetReward = isCanGetReward;
 	}
 

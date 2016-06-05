@@ -18,7 +18,7 @@ public class ActivityVitalityCfg {
 	private String endTimeStr;
 
 	// 活跃度能否领奖，0=可以，1=不可以
-	private int isCanGetReward;
+	private boolean isCanGetReward;
 	
 	
 	
@@ -28,11 +28,13 @@ public class ActivityVitalityCfg {
 
 	private int levelLimit;
 
-	public int getIsCanGetReward() {
+	
+
+	public boolean isCanGetReward() {
 		return isCanGetReward;
 	}
 
-	public void setIsCanGetReward(int isCanGetReward) {
+	public void setCanGetReward(boolean isCanGetReward) {
 		this.isCanGetReward = isCanGetReward;
 	}
 

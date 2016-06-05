@@ -154,7 +154,7 @@ public class ActivityVitalityTypeMgr {
 	}
 	
 	private void sendEmailIfBoxGiftNotTaken(Player player,ActivityVitalityTypeItem Item) {
-		if(ActivityVitalityCfgDAO.getInstance().getparentCfg().getIsCanGetReward() == 1){
+		if(!ActivityVitalityCfgDAO.getInstance().getparentCfg().isCanGetReward()){
 			//宝箱功能不开放 
 			return;
 		}
