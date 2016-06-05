@@ -283,8 +283,8 @@ public class GroupSecretMatchHelper {
 
 		long leftTimeMillis = needTimeMillis - now + createTime;
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.err.println(sdf.format(new Date(createTime)) + ",需要的时间是：" + needTimeMillis);
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// System.err.println(sdf.format(new Date(createTime)) + ",需要的时间是：" + needTimeMillis);
 		if (leftTimeMillis < secretCanRobMinLeftTimeMillis) {
 			return false;
 		}

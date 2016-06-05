@@ -100,26 +100,25 @@ public class UserGroupSecretBaseDataMgr {
 		synData(player);
 	}
 
-	/**
-	 * 删除匹配到的敌人秘境Id
-	 * 
-	 * @param player 角色
-	 * @param id 匹配到的秘境id
-	 */
-	public void updateMatchTimes(Player player) {
-		String userId = player.getUserId();
-		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
-		if (userGroupSecretBaseData == null) {
-			return;
-		}
-
-		int matchTimes = userGroupSecretBaseData.getMatchTimes();
-		userGroupSecretBaseData.setMatchTimes(matchTimes + 1);
-		update(userId);
-
-		// 同步数据到前端
-		synData(player);
-	}
+	// /**
+	// * 更新匹配的次数
+	// *
+	// * @param player 角色
+	// */
+	// public void updateMatchTimes(Player player) {
+	// String userId = player.getUserId();
+	// UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
+	// if (userGroupSecretBaseData == null) {
+	// return;
+	// }
+	//
+	// int matchTimes = userGroupSecretBaseData.getMatchTimes();
+	// userGroupSecretBaseData.setMatchTimes(matchTimes + 1);
+	// update(userId);
+	//
+	// // 同步数据到前端
+	// synData(player);
+	// }
 
 	/**
 	 * 更新领取的钥石的数量
@@ -127,11 +126,16 @@ public class UserGroupSecretBaseDataMgr {
 	 * @param player
 	 * @param keyCount
 	 */
-	public void updateReceiveKeyCount(Player player, int keyCount) {
+	public void updateReceiveKeyCount(Player player, int keyCount, boolean updateMatchTimes) {
 		String userId = player.getUserId();
 		UserGroupSecretBaseData userGroupSecretBaseData = get(userId);
 		if (userGroupSecretBaseData == null) {
 			return;
+		}
+
+		if (updateMatchTimes) {
+			int matchTimes = userGroupSecretBaseData.getMatchTimes();
+			userGroupSecretBaseData.setMatchTimes(matchTimes + 1);
 		}
 
 		userGroupSecretBaseData.setKeyCount(userGroupSecretBaseData.getKeyCount() + keyCount);

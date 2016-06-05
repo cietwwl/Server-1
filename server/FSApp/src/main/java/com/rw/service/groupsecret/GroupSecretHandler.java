@@ -873,7 +873,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		baseDataMgr.updateReceiveKeyCount(player, rewardKeys);
+		baseDataMgr.updateReceiveKeyCount(player, rewardKeys, false);
 		// 更新记录数据
 		for (int i = 0, size = idList.size(); i < size; i++) {
 			mgr.updateDefendRecordKeyState(player, idList.get(i));
@@ -943,7 +943,7 @@ public class GroupSecretHandler {
 			GroupSecretHelper.fillRspInfo(rsp, false, "今天购买钥石次数已经用完");
 			return rsp.build().toByteString();
 		}
-		
+
 		int add = uniqueCfg.getBuyKeyAdd(buyKeyTimes);
 
 		long reward = player.getReward(eSpecialItemId.Gold);

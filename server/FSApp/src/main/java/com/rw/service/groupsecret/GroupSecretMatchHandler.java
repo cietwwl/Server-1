@@ -284,7 +284,8 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 检查需要的钥石数量够不够
-		if (cfg.getRobNeedKeyNum() > userGroupSecretBaseData.getKeyCount()) {
+		int robNeedKeyNum = cfg.getRobNeedKeyNum();
+		if (robNeedKeyNum > userGroupSecretBaseData.getKeyCount()) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "钥石数量不足");
 			return rsp.build().toByteString();
 		}
@@ -442,9 +443,11 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
+		userSecretBaseDataMgr.updateReceiveKeyCount(player, -robNeedKeyNum, atkTime <= 0);
+
 		// 更新秘境匹配的次数
 		if (atkTime <= 0) {
-			userSecretBaseDataMgr.updateMatchTimes(player);
+			// userSecretBaseDataMgr.updateMatchTimes(player);
 		}
 
 		// 更新秘境的攻打时间
