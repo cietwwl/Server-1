@@ -3,6 +3,8 @@ package com.rwbase.common.userEvent.vitalityTypeEventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.binary.StringUtils;
+
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -15,6 +17,10 @@ import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
 public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventHandler{
+	
+	public static final int levelId = 150042;//难度2
+	public static final int time = 15;//通关
+	
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
 	public UserEventWarfareDifficultyTwoVitalityHandler(){
 		init();	
@@ -27,7 +33,19 @@ public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventH
 				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByType(ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality.getCfgId());
 				
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
+				int[] ints = (int[])params;
+				if(ints == null){
+					return;
+				}
+				if(ints.length != 2){
+					return;
+				}
+				if(ints[1]!=time||ints[0] != levelId){
+					return;
+				}
 				if(subCfg!=null&&isLevelEnough){
+					
+					
 					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}

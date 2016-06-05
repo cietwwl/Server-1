@@ -28,6 +28,10 @@ public class UserEventBattleTowerVitalityHandler implements IUserEventHandler{
 				
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
 				if(subCfg!=null&&isLevelEnough){
+					if(Integer.parseInt(params.toString())<subCfg.getCount()){//除去等级-存在之外的额外判断
+						//等级不够
+						return;
+					}
 					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.BattleTowerVitality,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
