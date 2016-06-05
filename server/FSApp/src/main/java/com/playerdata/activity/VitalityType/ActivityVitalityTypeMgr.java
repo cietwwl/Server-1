@@ -144,7 +144,7 @@ public class ActivityVitalityTypeMgr {
 					&& !subItem.isTaken()) {
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
 						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
-						subItemCfg.getId());
+						subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
 				if (!isAdd)
 					GameLog.error(LogModule.ComActivityVitality,
@@ -172,7 +172,7 @@ public class ActivityVitalityTypeMgr {
 					&& !subItem.isTaken()) {
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(
 						player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",
-						subItemCfg.getId());
+						subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
 				if (!isAdd)
 					GameLog.error(LogModule.ComActivityVitality,
@@ -325,7 +325,7 @@ public class ActivityVitalityTypeMgr {
 				dataHolder.updateItem(player, dataItem);
 			}
 		}
-		return null;
+		return result;
 	}
 
 	private void takeBoxGift(Player player,	ActivityVitalityTypeSubBoxItem targetItem) {

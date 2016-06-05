@@ -19,6 +19,17 @@ public class ActivityVitalitySubCfg {
 	//完成任务后奖励的活跃值
 	private int activeCount;
 	
+	private String emailTitle;
+
+	public String getEmailTitle() {
+		return emailTitle;
+	}
+
+	public void setEmailTitle(String emailTitle) {
+		this.emailTitle = emailTitle;
+	}
+
+	
 	public int getCount() {
 		return count;
 	}
