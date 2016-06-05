@@ -96,7 +96,7 @@ message FortuneResult //聚宝之地结算数据
 {
 	optional int32 gainGoldCount = 1; //获得金币数量
 	optional float gainGoldPercent = 2; //获取金币百分比
-	optional int totalHurt = 3; //总伤害
-	optional int killMonsterCount = 4; //击杀小财神个数
-	optional int deductGoldCount = 5; //被吸取的金币
+	optional int32 totalHurt = 3; //总伤害
+	optional int32 killMonsterCount = 4; //击杀小财神个数
+	optional int32 deductGoldCount = 5; //被吸取的金币
 }

@@ -5686,6 +5686,32 @@ public final class CopyServiceProtos {
      * </pre>
      */
     com.rwproto.CopyServiceProtos.EBattleStatus getFightResult();
+
+    // optional .FortuneResult fortuneResult = 8;
+    /**
+     * <code>optional .FortuneResult fortuneResult = 8;</code>
+     *
+     * <pre>
+     *聚宝之地结算
+     * </pre>
+     */
+    boolean hasFortuneResult();
+    /**
+     * <code>optional .FortuneResult fortuneResult = 8;</code>
+     *
+     * <pre>
+     *聚宝之地结算
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.FortuneResult getFortuneResult();
+    /**
+     * <code>optional .FortuneResult fortuneResult = 8;</code>
+     *
+     * <pre>
+     *聚宝之地结算
+     * </pre>
+     */
+    com.rwproto.CopyServiceProtos.FortuneResultOrBuilder getFortuneResultOrBuilder();
   }
   /**
    * Protobuf type {@code TagBattleData}
@@ -5786,6 +5812,19 @@ public final class CopyServiceProtos {
                 bitField0_ |= 0x00000020;
                 fightResult_ = value;
               }
+              break;
+            }
+            case 66: {
+              com.rwproto.CopyServiceProtos.FortuneResult.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+                subBuilder = fortuneResult_.toBuilder();
+              }
+              fortuneResult_ = input.readMessage(com.rwproto.CopyServiceProtos.FortuneResult.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fortuneResult_);
+                fortuneResult_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000040;
               break;
             }
           }
@@ -6013,6 +6052,40 @@ public final class CopyServiceProtos {
       return fightResult_;
     }
 
+    // optional .FortuneResult fortuneResult = 8;
+    public static final int FORTUNERESULT_FIELD_NUMBER = 8;
+    private com.rwproto.CopyServiceProtos.FortuneResult fortuneResult_;
+    /**
+     * <code>optional .FortuneResult fortuneResult = 8;</code>
+     *
+     * <pre>
+     *聚宝之地结算
+     * </pre>
+     */
+    public boolean hasFortuneResult() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .FortuneResult fortuneResult = 8;</code>
+     *
+     * <pre>
+     *聚宝之地结算
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.FortuneResult getFortuneResult() {
+      return fortuneResult_;
+    }
+    /**
+     * <code>optional .FortuneResult fortuneResult = 8;</code>
+     *
+     * <pre>
+     *聚宝之地结算
+     * </pre>
+     */
+    public com.rwproto.CopyServiceProtos.FortuneResultOrBuilder getFortuneResultOrBuilder() {
+      return fortuneResult_;
+    }
+
     private void initFields() {
       battleClearingTime_ = 0;
       levelId_ = 0;
@@ -6021,6 +6094,7 @@ public final class CopyServiceProtos {
       battleStatus_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
       fightTime_ = 0;
       fightResult_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
+      fortuneResult_ = com.rwproto.CopyServiceProtos.FortuneResult.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6063,6 +6137,9 @@ public final class CopyServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeEnum(7, fightResult_.getNumber());
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(8, fortuneResult_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6104,6 +6181,10 @@ public final class CopyServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(7, fightResult_.getNumber());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, fortuneResult_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6213,6 +6294,7 @@ public final class CopyServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFortuneResultFieldBuilder();
         }
       }
       private static Builder create() {
@@ -6235,6 +6317,12 @@ public final class CopyServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         fightResult_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
         bitField0_ = (bitField0_ & ~0x00000040);
+        if (fortuneResultBuilder_ == null) {
+          fortuneResult_ = com.rwproto.CopyServiceProtos.FortuneResult.getDefaultInstance();
+        } else {
+          fortuneResultBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -6293,6 +6381,14 @@ public final class CopyServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.fightResult_ = fightResult_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        if (fortuneResultBuilder_ == null) {
+          result.fortuneResult_ = fortuneResult_;
+        } else {
+          result.fortuneResult_ = fortuneResultBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6336,6 +6432,9 @@ public final class CopyServiceProtos {
         }
         if (other.hasFightResult()) {
           setFightResult(other.getFightResult());
+        }
+        if (other.hasFortuneResult()) {
+          mergeFortuneResult(other.getFortuneResult());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6783,6 +6882,159 @@ public final class CopyServiceProtos {
         fightResult_ = com.rwproto.CopyServiceProtos.EBattleStatus.WIN;
         onChanged();
         return this;
+      }
+
+      // optional .FortuneResult fortuneResult = 8;
+      private com.rwproto.CopyServiceProtos.FortuneResult fortuneResult_ = com.rwproto.CopyServiceProtos.FortuneResult.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.FortuneResult, com.rwproto.CopyServiceProtos.FortuneResult.Builder, com.rwproto.CopyServiceProtos.FortuneResultOrBuilder> fortuneResultBuilder_;
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public boolean hasFortuneResult() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.FortuneResult getFortuneResult() {
+        if (fortuneResultBuilder_ == null) {
+          return fortuneResult_;
+        } else {
+          return fortuneResultBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public Builder setFortuneResult(com.rwproto.CopyServiceProtos.FortuneResult value) {
+        if (fortuneResultBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fortuneResult_ = value;
+          onChanged();
+        } else {
+          fortuneResultBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public Builder setFortuneResult(
+          com.rwproto.CopyServiceProtos.FortuneResult.Builder builderForValue) {
+        if (fortuneResultBuilder_ == null) {
+          fortuneResult_ = builderForValue.build();
+          onChanged();
+        } else {
+          fortuneResultBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public Builder mergeFortuneResult(com.rwproto.CopyServiceProtos.FortuneResult value) {
+        if (fortuneResultBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080) &&
+              fortuneResult_ != com.rwproto.CopyServiceProtos.FortuneResult.getDefaultInstance()) {
+            fortuneResult_ =
+              com.rwproto.CopyServiceProtos.FortuneResult.newBuilder(fortuneResult_).mergeFrom(value).buildPartial();
+          } else {
+            fortuneResult_ = value;
+          }
+          onChanged();
+        } else {
+          fortuneResultBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000080;
+        return this;
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public Builder clearFortuneResult() {
+        if (fortuneResultBuilder_ == null) {
+          fortuneResult_ = com.rwproto.CopyServiceProtos.FortuneResult.getDefaultInstance();
+          onChanged();
+        } else {
+          fortuneResultBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
+        return this;
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.FortuneResult.Builder getFortuneResultBuilder() {
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return getFortuneResultFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      public com.rwproto.CopyServiceProtos.FortuneResultOrBuilder getFortuneResultOrBuilder() {
+        if (fortuneResultBuilder_ != null) {
+          return fortuneResultBuilder_.getMessageOrBuilder();
+        } else {
+          return fortuneResult_;
+        }
+      }
+      /**
+       * <code>optional .FortuneResult fortuneResult = 8;</code>
+       *
+       * <pre>
+       *聚宝之地结算
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.CopyServiceProtos.FortuneResult, com.rwproto.CopyServiceProtos.FortuneResult.Builder, com.rwproto.CopyServiceProtos.FortuneResultOrBuilder> 
+          getFortuneResultFieldBuilder() {
+        if (fortuneResultBuilder_ == null) {
+          fortuneResultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.CopyServiceProtos.FortuneResult, com.rwproto.CopyServiceProtos.FortuneResult.Builder, com.rwproto.CopyServiceProtos.FortuneResultOrBuilder>(
+                  fortuneResult_,
+                  getParentForChildren(),
+                  isClean());
+          fortuneResult_ = null;
+        }
+        return fortuneResultBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:TagBattleData)
@@ -7568,6 +7820,886 @@ public final class CopyServiceProtos {
     // @@protoc_insertion_point(class_scope:TagBattleClearingResult)
   }
 
+  public interface FortuneResultOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 gainGoldCount = 1;
+    /**
+     * <code>optional int32 gainGoldCount = 1;</code>
+     *
+     * <pre>
+     *获得金币数量
+     * </pre>
+     */
+    boolean hasGainGoldCount();
+    /**
+     * <code>optional int32 gainGoldCount = 1;</code>
+     *
+     * <pre>
+     *获得金币数量
+     * </pre>
+     */
+    int getGainGoldCount();
+
+    // optional float gainGoldPercent = 2;
+    /**
+     * <code>optional float gainGoldPercent = 2;</code>
+     *
+     * <pre>
+     *获取金币百分比
+     * </pre>
+     */
+    boolean hasGainGoldPercent();
+    /**
+     * <code>optional float gainGoldPercent = 2;</code>
+     *
+     * <pre>
+     *获取金币百分比
+     * </pre>
+     */
+    float getGainGoldPercent();
+
+    // optional int32 totalHurt = 3;
+    /**
+     * <code>optional int32 totalHurt = 3;</code>
+     *
+     * <pre>
+     *总伤害
+     * </pre>
+     */
+    boolean hasTotalHurt();
+    /**
+     * <code>optional int32 totalHurt = 3;</code>
+     *
+     * <pre>
+     *总伤害
+     * </pre>
+     */
+    int getTotalHurt();
+
+    // optional int32 killMonsterCount = 4;
+    /**
+     * <code>optional int32 killMonsterCount = 4;</code>
+     *
+     * <pre>
+     *击杀小财神个数
+     * </pre>
+     */
+    boolean hasKillMonsterCount();
+    /**
+     * <code>optional int32 killMonsterCount = 4;</code>
+     *
+     * <pre>
+     *击杀小财神个数
+     * </pre>
+     */
+    int getKillMonsterCount();
+
+    // optional int32 deductGoldCount = 5;
+    /**
+     * <code>optional int32 deductGoldCount = 5;</code>
+     *
+     * <pre>
+     *被吸取的金币
+     * </pre>
+     */
+    boolean hasDeductGoldCount();
+    /**
+     * <code>optional int32 deductGoldCount = 5;</code>
+     *
+     * <pre>
+     *被吸取的金币
+     * </pre>
+     */
+    int getDeductGoldCount();
+  }
+  /**
+   * Protobuf type {@code FortuneResult}
+   */
+  public static final class FortuneResult extends
+      com.google.protobuf.GeneratedMessage
+      implements FortuneResultOrBuilder {
+    // Use FortuneResult.newBuilder() to construct.
+    private FortuneResult(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FortuneResult(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FortuneResult defaultInstance;
+    public static FortuneResult getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FortuneResult getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FortuneResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              gainGoldCount_ = input.readInt32();
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              gainGoldPercent_ = input.readFloat();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              totalHurt_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              killMonsterCount_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              deductGoldCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.CopyServiceProtos.internal_static_FortuneResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.CopyServiceProtos.internal_static_FortuneResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.CopyServiceProtos.FortuneResult.class, com.rwproto.CopyServiceProtos.FortuneResult.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FortuneResult> PARSER =
+        new com.google.protobuf.AbstractParser<FortuneResult>() {
+      public FortuneResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FortuneResult(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FortuneResult> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 gainGoldCount = 1;
+    public static final int GAINGOLDCOUNT_FIELD_NUMBER = 1;
+    private int gainGoldCount_;
+    /**
+     * <code>optional int32 gainGoldCount = 1;</code>
+     *
+     * <pre>
+     *获得金币数量
+     * </pre>
+     */
+    public boolean hasGainGoldCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 gainGoldCount = 1;</code>
+     *
+     * <pre>
+     *获得金币数量
+     * </pre>
+     */
+    public int getGainGoldCount() {
+      return gainGoldCount_;
+    }
+
+    // optional float gainGoldPercent = 2;
+    public static final int GAINGOLDPERCENT_FIELD_NUMBER = 2;
+    private float gainGoldPercent_;
+    /**
+     * <code>optional float gainGoldPercent = 2;</code>
+     *
+     * <pre>
+     *获取金币百分比
+     * </pre>
+     */
+    public boolean hasGainGoldPercent() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional float gainGoldPercent = 2;</code>
+     *
+     * <pre>
+     *获取金币百分比
+     * </pre>
+     */
+    public float getGainGoldPercent() {
+      return gainGoldPercent_;
+    }
+
+    // optional int32 totalHurt = 3;
+    public static final int TOTALHURT_FIELD_NUMBER = 3;
+    private int totalHurt_;
+    /**
+     * <code>optional int32 totalHurt = 3;</code>
+     *
+     * <pre>
+     *总伤害
+     * </pre>
+     */
+    public boolean hasTotalHurt() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 totalHurt = 3;</code>
+     *
+     * <pre>
+     *总伤害
+     * </pre>
+     */
+    public int getTotalHurt() {
+      return totalHurt_;
+    }
+
+    // optional int32 killMonsterCount = 4;
+    public static final int KILLMONSTERCOUNT_FIELD_NUMBER = 4;
+    private int killMonsterCount_;
+    /**
+     * <code>optional int32 killMonsterCount = 4;</code>
+     *
+     * <pre>
+     *击杀小财神个数
+     * </pre>
+     */
+    public boolean hasKillMonsterCount() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int32 killMonsterCount = 4;</code>
+     *
+     * <pre>
+     *击杀小财神个数
+     * </pre>
+     */
+    public int getKillMonsterCount() {
+      return killMonsterCount_;
+    }
+
+    // optional int32 deductGoldCount = 5;
+    public static final int DEDUCTGOLDCOUNT_FIELD_NUMBER = 5;
+    private int deductGoldCount_;
+    /**
+     * <code>optional int32 deductGoldCount = 5;</code>
+     *
+     * <pre>
+     *被吸取的金币
+     * </pre>
+     */
+    public boolean hasDeductGoldCount() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 deductGoldCount = 5;</code>
+     *
+     * <pre>
+     *被吸取的金币
+     * </pre>
+     */
+    public int getDeductGoldCount() {
+      return deductGoldCount_;
+    }
+
+    private void initFields() {
+      gainGoldCount_ = 0;
+      gainGoldPercent_ = 0F;
+      totalHurt_ = 0;
+      killMonsterCount_ = 0;
+      deductGoldCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, gainGoldCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFloat(2, gainGoldPercent_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, totalHurt_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, killMonsterCount_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, deductGoldCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, gainGoldCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, gainGoldPercent_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, totalHurt_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, killMonsterCount_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, deductGoldCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.CopyServiceProtos.FortuneResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.CopyServiceProtos.FortuneResult prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code FortuneResult}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.CopyServiceProtos.FortuneResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.CopyServiceProtos.internal_static_FortuneResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.CopyServiceProtos.internal_static_FortuneResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.CopyServiceProtos.FortuneResult.class, com.rwproto.CopyServiceProtos.FortuneResult.Builder.class);
+      }
+
+      // Construct using com.rwproto.CopyServiceProtos.FortuneResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        gainGoldCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gainGoldPercent_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        totalHurt_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        killMonsterCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        deductGoldCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.CopyServiceProtos.internal_static_FortuneResult_descriptor;
+      }
+
+      public com.rwproto.CopyServiceProtos.FortuneResult getDefaultInstanceForType() {
+        return com.rwproto.CopyServiceProtos.FortuneResult.getDefaultInstance();
+      }
+
+      public com.rwproto.CopyServiceProtos.FortuneResult build() {
+        com.rwproto.CopyServiceProtos.FortuneResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.CopyServiceProtos.FortuneResult buildPartial() {
+        com.rwproto.CopyServiceProtos.FortuneResult result = new com.rwproto.CopyServiceProtos.FortuneResult(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.gainGoldCount_ = gainGoldCount_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.gainGoldPercent_ = gainGoldPercent_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.totalHurt_ = totalHurt_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.killMonsterCount_ = killMonsterCount_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.deductGoldCount_ = deductGoldCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.CopyServiceProtos.FortuneResult) {
+          return mergeFrom((com.rwproto.CopyServiceProtos.FortuneResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.CopyServiceProtos.FortuneResult other) {
+        if (other == com.rwproto.CopyServiceProtos.FortuneResult.getDefaultInstance()) return this;
+        if (other.hasGainGoldCount()) {
+          setGainGoldCount(other.getGainGoldCount());
+        }
+        if (other.hasGainGoldPercent()) {
+          setGainGoldPercent(other.getGainGoldPercent());
+        }
+        if (other.hasTotalHurt()) {
+          setTotalHurt(other.getTotalHurt());
+        }
+        if (other.hasKillMonsterCount()) {
+          setKillMonsterCount(other.getKillMonsterCount());
+        }
+        if (other.hasDeductGoldCount()) {
+          setDeductGoldCount(other.getDeductGoldCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.CopyServiceProtos.FortuneResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.CopyServiceProtos.FortuneResult) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 gainGoldCount = 1;
+      private int gainGoldCount_ ;
+      /**
+       * <code>optional int32 gainGoldCount = 1;</code>
+       *
+       * <pre>
+       *获得金币数量
+       * </pre>
+       */
+      public boolean hasGainGoldCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 gainGoldCount = 1;</code>
+       *
+       * <pre>
+       *获得金币数量
+       * </pre>
+       */
+      public int getGainGoldCount() {
+        return gainGoldCount_;
+      }
+      /**
+       * <code>optional int32 gainGoldCount = 1;</code>
+       *
+       * <pre>
+       *获得金币数量
+       * </pre>
+       */
+      public Builder setGainGoldCount(int value) {
+        bitField0_ |= 0x00000001;
+        gainGoldCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 gainGoldCount = 1;</code>
+       *
+       * <pre>
+       *获得金币数量
+       * </pre>
+       */
+      public Builder clearGainGoldCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gainGoldCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional float gainGoldPercent = 2;
+      private float gainGoldPercent_ ;
+      /**
+       * <code>optional float gainGoldPercent = 2;</code>
+       *
+       * <pre>
+       *获取金币百分比
+       * </pre>
+       */
+      public boolean hasGainGoldPercent() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional float gainGoldPercent = 2;</code>
+       *
+       * <pre>
+       *获取金币百分比
+       * </pre>
+       */
+      public float getGainGoldPercent() {
+        return gainGoldPercent_;
+      }
+      /**
+       * <code>optional float gainGoldPercent = 2;</code>
+       *
+       * <pre>
+       *获取金币百分比
+       * </pre>
+       */
+      public Builder setGainGoldPercent(float value) {
+        bitField0_ |= 0x00000002;
+        gainGoldPercent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float gainGoldPercent = 2;</code>
+       *
+       * <pre>
+       *获取金币百分比
+       * </pre>
+       */
+      public Builder clearGainGoldPercent() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        gainGoldPercent_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 totalHurt = 3;
+      private int totalHurt_ ;
+      /**
+       * <code>optional int32 totalHurt = 3;</code>
+       *
+       * <pre>
+       *总伤害
+       * </pre>
+       */
+      public boolean hasTotalHurt() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 totalHurt = 3;</code>
+       *
+       * <pre>
+       *总伤害
+       * </pre>
+       */
+      public int getTotalHurt() {
+        return totalHurt_;
+      }
+      /**
+       * <code>optional int32 totalHurt = 3;</code>
+       *
+       * <pre>
+       *总伤害
+       * </pre>
+       */
+      public Builder setTotalHurt(int value) {
+        bitField0_ |= 0x00000004;
+        totalHurt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 totalHurt = 3;</code>
+       *
+       * <pre>
+       *总伤害
+       * </pre>
+       */
+      public Builder clearTotalHurt() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        totalHurt_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 killMonsterCount = 4;
+      private int killMonsterCount_ ;
+      /**
+       * <code>optional int32 killMonsterCount = 4;</code>
+       *
+       * <pre>
+       *击杀小财神个数
+       * </pre>
+       */
+      public boolean hasKillMonsterCount() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 killMonsterCount = 4;</code>
+       *
+       * <pre>
+       *击杀小财神个数
+       * </pre>
+       */
+      public int getKillMonsterCount() {
+        return killMonsterCount_;
+      }
+      /**
+       * <code>optional int32 killMonsterCount = 4;</code>
+       *
+       * <pre>
+       *击杀小财神个数
+       * </pre>
+       */
+      public Builder setKillMonsterCount(int value) {
+        bitField0_ |= 0x00000008;
+        killMonsterCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 killMonsterCount = 4;</code>
+       *
+       * <pre>
+       *击杀小财神个数
+       * </pre>
+       */
+      public Builder clearKillMonsterCount() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        killMonsterCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 deductGoldCount = 5;
+      private int deductGoldCount_ ;
+      /**
+       * <code>optional int32 deductGoldCount = 5;</code>
+       *
+       * <pre>
+       *被吸取的金币
+       * </pre>
+       */
+      public boolean hasDeductGoldCount() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 deductGoldCount = 5;</code>
+       *
+       * <pre>
+       *被吸取的金币
+       * </pre>
+       */
+      public int getDeductGoldCount() {
+        return deductGoldCount_;
+      }
+      /**
+       * <code>optional int32 deductGoldCount = 5;</code>
+       *
+       * <pre>
+       *被吸取的金币
+       * </pre>
+       */
+      public Builder setDeductGoldCount(int value) {
+        bitField0_ |= 0x00000010;
+        deductGoldCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 deductGoldCount = 5;</code>
+       *
+       * <pre>
+       *被吸取的金币
+       * </pre>
+       */
+      public Builder clearDeductGoldCount() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        deductGoldCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:FortuneResult)
+    }
+
+    static {
+      defaultInstance = new FortuneResult(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:FortuneResult)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgCopyRequest_descriptor;
   private static
@@ -7598,6 +8730,11 @@ public final class CopyServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_TagBattleClearingResult_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_FortuneResult_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_FortuneResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7622,28 +8759,32 @@ public final class CopyServiceProtos {
       "unt\030\n \001(\005\022\023\n\013unendingWar\030\013 \001(\005\022\032\n\022eSpeci" +
       "alItemIdList\030\014 \001(\t\"2\n\014TagSweepInfo\022\r\n\005ti" +
       "mes\030\001 \002(\005\022\023\n\013tagItemList\030\002 \003(\t\".\n\016MapGif" +
-      "tRequest\022\r\n\005mapId\030\001 \002(\005\022\r\n\005index\030\002 \002(\005\"\275" +
+      "tRequest\022\r\n\005mapId\030\001 \002(\005\022\r\n\005index\030\002 \002(\005\"\344" +
       "\001\n\rTagBattleData\022\032\n\022battleClearingTime\030\001" +
       " \002(\005\022\017\n\007levelId\030\002 \002(\005\022\016\n\006heroId\030\003 \003(\t\022\021\n" +
       "\tstarLevel\030\004 \001(\005\022$\n\014battleStatus\030\005 \001(\0162\016" +
       ".EBattleStatus\022\021\n\tfightTime\030\006 \001(\005\022#\n\013fig",
-      "htResult\030\007 \001(\0162\016.EBattleStatus\"B\n\027TagBat" +
-      "tleClearingResult\022\020\n\010upHeroId\030\001 \003(\t\022\025\n\rt" +
-      "agCopyRecord\030\002 \001(\t*\267\001\n\014ERequestType\022\026\n\022S" +
-      "WEEP_LEVEL_TICKET\020\001\022\027\n\023SWEEP_LEVEL_DIAMO" +
-      "ND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_USER_CHECKPOI" +
-      "NT_INFO\020\004\022\023\n\017BATTLE_CLEARING\020\005\022\025\n\021BATTLE" +
-      "_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GET_GI" +
-      "FT\020\010*:\n\rEBattleStatus\022\007\n\003WIN\020\001\022\014\n\010TIMES_" +
-      "UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*\213\002\n\013EResultType" +
-      "\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SUCCESS\020\002\022\013\n\007LOW_",
-      "VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMOND\020\004\022\021\n\rNOT_ENO" +
-      "UGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n\021NOT_ENOUGH_TIC" +
-      "KET\020\007\022\024\n\020NOT_ENOUGH_TIMES\020\010\022\014\n\010INIT_MAP\020" +
-      "\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM" +
-      "_SETSUCCESS\020\014\022\021\n\rSWEEP_SUCCESS\020\r\022\024\n\020GET_" +
-      "GIFT_SUCCESS\020\016B \n\013com.rwprotoB\021CopyServi" +
-      "ceProtos"
+      "htResult\030\007 \001(\0162\016.EBattleStatus\022%\n\rfortun" +
+      "eResult\030\010 \001(\0132\016.FortuneResult\"B\n\027TagBatt" +
+      "leClearingResult\022\020\n\010upHeroId\030\001 \003(\t\022\025\n\rta" +
+      "gCopyRecord\030\002 \001(\t\"\205\001\n\rFortuneResult\022\025\n\rg" +
+      "ainGoldCount\030\001 \001(\005\022\027\n\017gainGoldPercent\030\002 " +
+      "\001(\002\022\021\n\ttotalHurt\030\003 \001(\005\022\030\n\020killMonsterCou" +
+      "nt\030\004 \001(\005\022\027\n\017deductGoldCount\030\005 \001(\005*\267\001\n\014ER" +
+      "equestType\022\026\n\022SWEEP_LEVEL_TICKET\020\001\022\027\n\023SW" +
+      "EEP_LEVEL_DIAMOND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GE" +
+      "T_USER_CHECKPOINT_INFO\020\004\022\023\n\017BATTLE_CLEAR",
+      "ING\020\005\022\025\n\021BATTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLE" +
+      "VEL\020\007\022\014\n\010GET_GIFT\020\010*:\n\rEBattleStatus\022\007\n\003" +
+      "WIN\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*" +
+      "\213\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SU" +
+      "CCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMO" +
+      "ND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n" +
+      "\021NOT_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOUGH_TIMES" +
+      "\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTL" +
+      "E_CLEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\rSWEEP_SU" +
+      "CCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016B \n\013com.rwp",
+      "rotoB\021CopyServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7679,13 +8820,19 @@ public final class CopyServiceProtos {
           internal_static_TagBattleData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagBattleData_descriptor,
-              new java.lang.String[] { "BattleClearingTime", "LevelId", "HeroId", "StarLevel", "BattleStatus", "FightTime", "FightResult", });
+              new java.lang.String[] { "BattleClearingTime", "LevelId", "HeroId", "StarLevel", "BattleStatus", "FightTime", "FightResult", "FortuneResult", });
           internal_static_TagBattleClearingResult_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_TagBattleClearingResult_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagBattleClearingResult_descriptor,
               new java.lang.String[] { "UpHeroId", "TagCopyRecord", });
+          internal_static_FortuneResult_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_FortuneResult_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_FortuneResult_descriptor,
+              new java.lang.String[] { "GainGoldCount", "GainGoldPercent", "TotalHurt", "KillMonsterCount", "DeductGoldCount", });
           return null;
         }
       };
