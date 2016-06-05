@@ -265,6 +265,7 @@ public class RobotManager {
 		}
 		
 		//TODO 重置全部人的magicID，运行一次后删除
+		/*
 		PlayerMgr playerMgr = PlayerMgr.getInstance();
 		List<? extends ListRankingEntry<String, PeakArenaExtAttribute>> lst = peakRanking.getRankingEntries(1, peakRanking.getRankingSize());
 		for (ListRankingEntry<String, PeakArenaExtAttribute> listRankingEntry : lst) {
@@ -283,6 +284,7 @@ public class RobotManager {
 			peakHandler.commit(peakData);
 		}
 		GameLog.info("", "", "fix finished");
+		*/
 	}
 	private int peakSize = 10;
 	private void addToPeakRank(PeakArenaBM peakHandler,ECareer career){

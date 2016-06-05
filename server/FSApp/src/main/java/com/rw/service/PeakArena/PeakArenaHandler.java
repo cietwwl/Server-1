@@ -693,24 +693,25 @@ public class PeakArenaHandler {
 		HeroData teamMainRole = getHeroData(player);
 		ItemData magic = player.getMagicMgr().getMagic();
 		ItemBagMgr bagMgr = player.getItemBagMgr();
-		// get player from userId and then set TeamInfo.player
+
 		for (int i = 0; i < arenaData.getTeamCount(); i++) {
 			TeamInfo.Builder teamBuilder = TeamInfo.newBuilder();
 			TeamData team = arenaData.getTeam(i);
 			teamBuilder.setTeamId(team.getTeamId());
 			String magicId = team.getMagicId();
-			teamBuilder.setMagicId(magicId);
-			if (magic != null && magic.getId().equals(magicId)){
+			ItemData selectedMagic = null;
+			//如果背包找不到法宝，可能是法宝被分解了！这时自动切换为玩家的法宝
+			selectedMagic = bagMgr.findBySlotId(magicId);
+			if (selectedMagic == null){
+				selectedMagic = magic;
+			}
+			
+			if (selectedMagic != null){
+				teamBuilder.setMagicId(selectedMagic.getId());
 				teamBuilder.setMagicLevel(magic.getMagicLevel());
 				teamBuilder.setEnemyMagicModelId(magic.getModelId());
 			}else{
-				ItemData magicItem = bagMgr.findBySlotId(magicId);
-				if (magicItem != null){
-					teamBuilder.setMagicLevel(magicItem.getMagicLevel());
-					teamBuilder.setEnemyMagicModelId(magic.getModelId());
-				}else{
-					GameLog.error("巅峰竞技场", userId, "找不到法宝,ID="+magicId);
-				}
+				GameLog.error("巅峰竞技场", userId, "找不到法宝,ID="+magicId);
 			}
 			
 			List<String> heroIdList = team.getHeros();
