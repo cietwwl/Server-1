@@ -42,6 +42,9 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	private int activeCount;
 	
 	@CombineSave
+	private int isCanGetReward;
+	
+	@CombineSave
 	private List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
 	
 	@CombineSave
@@ -69,6 +72,14 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	
 	
 	
+
+	public int getIsCanGetReward() {
+		return isCanGetReward;
+	}
+
+	public void setIsCanGetReward(int isCanGetReward) {
+		this.isCanGetReward = isCanGetReward;
+	}
 
 	public String getCfgId() {
 		return cfgId;

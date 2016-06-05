@@ -68,6 +68,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			item.setSubItemList(newItemList(day));
 			item.setSubBoxItemList(newBoxItemList(day));
 			item.setLastTime(System.currentTimeMillis());
+			item.setIsCanGetReward(cfgById.getIsCanGetReward());
 			return item;
 		}else{
 			return null;
