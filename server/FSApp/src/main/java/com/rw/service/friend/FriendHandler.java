@@ -23,6 +23,7 @@ import com.rw.service.friend.datamodel.RecommandCfgDAO;
 import com.rw.service.friend.datamodel.RecommandConditionCfg;
 import com.rw.service.friend.datamodel.RecommandConditionCfgDAO;
 import com.rwbase.dao.friend.FriendUtils;
+import com.rwbase.dao.friend.TableFriend;
 import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendResultVo;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
@@ -132,7 +133,7 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		return response.build().toByteString();
 	}
-	
+
 	Comparator<FriendInfo> loginComparator = new Comparator<FriendInfo>() {
 
 		@Override
@@ -142,8 +143,9 @@ public class FriendHandler {
 			return dis < 0 ? -1 : 1;
 		}
 	};
-	
+
 	private List<FriendInfo> recommandFriends(Player player) {
+		TableFriend tableFriend = player.getFriendMgr().getTableFriend();
 		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.LEVEL_PLAYER);
 		int level = player.getLevel();
 		int start = 0;
@@ -152,6 +154,7 @@ public class FriendHandler {
 		// 按条件过滤出要随机的人数
 		List<RecommandConditionCfg> cfgList = RecommandConditionCfgDAO.getInstance().getOrderConditions();
 		int recommandCount = defaultRecommandCount;
+		String userId = player.getUserId();
 		for (int i = 0, len = cfgList.size(); i < len; i++) {
 			RecommandConditionCfg cfg = cfgList.get(i);
 			// 每次循环都会改变随机人数，由配置决定
@@ -161,7 +164,7 @@ public class FriendHandler {
 			if (i == 0) {
 				start = Math.max(1, level + cfg.getDesLevel());
 				end = level + cfg.getIncLevel();
-				fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
+				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
@@ -170,21 +173,22 @@ public class FriendHandler {
 				if (start > 1) {
 					end = start - 1;
 					start = start + cfg.getDesLevel();
-					fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
+					fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand);
 					if (playersMap.size() >= randomRecommand) {
 						break;
 					}
 				}
 				start = tempEnd + 1;
 				end = tempEnd + cfg.getIncLevel();
-				fillSegmentPlayers(playersMap, ranking, start, end, days, randomRecommand);
+				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
 			}
 		}
 		// 移除自己
-		playersMap.remove(player.getUserId());
+		playersMap.remove(userId);
+
 		int currentSize = playersMap.size();
 		if (currentSize <= recommandCount) {
 			ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(currentSize);
@@ -231,15 +235,20 @@ public class FriendHandler {
 		return resultList;
 	}
 
-	private void fillSegmentPlayers(HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days, int randomRecommand) {
+	private void fillSegmentPlayers(String hostUserId, TableFriend tableFriend, HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days,
+			int randomRecommand) {
 		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
 		int size = segmentList.getRefSize();
 		ArrayList<String> list = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {
 			MomentRankingEntry<LevelComparable, RankingLevelData> momentRankingEntry = segmentList.get(i);
-			list.add(momentRankingEntry.getKey());
+			String otherUserId = momentRankingEntry.getKey();
+			if (tableFriend.getBlackItem(otherUserId) == null && tableFriend.getFriendItem(otherUserId) == null) {
+				list.add(otherUserId);
+			}
 		}
 		PlayerMgr playerMgr = PlayerMgr.getInstance();
+		size = list.size();
 		for (int i = 0; i < size; i++) {
 			String userId = list.get(i);
 			Player otherPlayer = playerMgr.findPlayerFromMemory(userId);
@@ -262,7 +271,12 @@ public class FriendHandler {
 			User user = player.getUserDataMgr().getUser();
 			if (user == null || System.currentTimeMillis() - user.getLastLoginTime() > MAX_OFF_LINE_TIME) {
 				it.remove();
+//				continue;
 			}
+//			TableFriend otherTableFriend = player.getFriendMgr().getTableFriend();
+//			if (otherTableFriend.getRequestItem(hostUserId) != null) {
+//				it.remove();
+//			}
 		}
 	}
 
@@ -276,9 +290,13 @@ public class FriendHandler {
 			String userId = segmentList.get(random);
 			if (playersMap.containsKey(userId)) {
 				if ((random & 1) == 1) {
-					random++;
+					if (++random >= size) {
+						random = 0;
+					}
 				} else {
-					random--;
+					if (--random <= 0) {
+						random = size - 1;
+					}
 				}
 				continue;
 			}
