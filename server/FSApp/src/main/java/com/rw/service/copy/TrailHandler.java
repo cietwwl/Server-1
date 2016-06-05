@@ -64,7 +64,7 @@ public class TrailHandler {
 		// 练气山谷、聚宝之地日常任务
 		if (copyType == CopyType.COPY_TYPE_TRIAL_JBZD) {
 			// 增加聚宝之地的金币
-			int addCoin = copyRequest.getTagBattleData().getFortuneResult().getDeductGoldCount();
+			int addCoin = copyRequest.getTagBattleData().getFortuneResult().getGainGoldCount();
 			if (addCoin > 0) {
 				player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), addCoin);
 			}
