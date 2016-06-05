@@ -245,10 +245,10 @@ public class UserEventMgr {
 	}
 	
 	/*传入附灵升的级数*/
-	public void attachDaily(Player player,int count){
+	public void attachDaily(Player player,int level,int levelbefore){
 		UserEvent userEvent = new UserEvent(UserEventType.ATTACHDAILY, 1);
 		raiseEvent(player, userEvent);
-		attachVitality(player, count);
+		attachVitality(player, level);
 	}
 	
 	
@@ -371,7 +371,7 @@ public class UserEventMgr {
 	
 	/**竞技行为分类-活跃之王*/
 	private void arenaVitality(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.AttachVitality, count);
+		UserEvent userEvent = new UserEvent(UserEventType.arenaVitality, count);
 		raiseEvent(player, userEvent);
 		
 	}
