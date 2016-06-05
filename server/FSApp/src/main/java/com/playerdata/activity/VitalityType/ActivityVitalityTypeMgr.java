@@ -318,8 +318,12 @@ public class ActivityVitalityTypeMgr {
 					break;
 				}
 			}
-		
-			if (targetItem != null && !targetItem.isTaken()) {
+			if(targetItem.getCount() > dataItem.getActiveCount()){
+				result.setReason("积分不足");				
+				return result;
+			}
+			
+			if (targetItem != null && !targetItem.isTaken()){
 				takeBoxGift(player, targetItem);
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
