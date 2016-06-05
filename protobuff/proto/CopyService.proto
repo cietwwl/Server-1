@@ -83,10 +83,20 @@ message TagBattleData	//结算数据类,客户端发送所用
 	optional EBattleStatus battleStatus = 5; 	//战斗状态
 	optional int32 fightTime = 6; //战斗时间
 	optional EBattleStatus fightResult = 7; //战斗结果
+	optional FortuneResult fortuneResult = 8; //聚宝之地结算
 }
 
 message TagBattleClearingResult		//结算结果数据类,服务端返回所用
 {
 	repeated string upHeroId = 1;			//升级英雄ID列表
 	optional string tagCopyRecord = 2; //关卡记录
+}
+
+message FortuneResult //聚宝之地结算数据
+{
+	optional int32 gainGoldCount = 1; //获得金币数量
+	optional float gainGoldPercent = 2; //获取金币百分比
+	optional int totalHurt = 3; //总伤害
+	optional int killMonsterCount = 4; //击杀小财神个数
+	optional int deductGoldCount = 5; //被吸取的金币
 }
