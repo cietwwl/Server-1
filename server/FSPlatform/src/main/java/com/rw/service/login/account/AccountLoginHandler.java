@@ -347,6 +347,9 @@ public class AccountLoginHandler {
 				continue;
 			}
 			UserZoneInfo userZoneInfo = userAccount.getZoneIdInUserZoneInfoMap(zoneId);
+			if(userZoneInfo == null){
+				continue;
+			}
 			zone = PlatformFactory.getPlatformService().getZoneInfo(zoneId);
 			userInfo = UserInfo.newBuilder();
 			userInfo.setZoneInfo(getZoneInfo(zone, account.isWhiteList()));
