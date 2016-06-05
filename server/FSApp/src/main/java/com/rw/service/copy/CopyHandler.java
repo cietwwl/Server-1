@@ -126,8 +126,8 @@ public class CopyHandler {
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_ARENA){
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
 		}
+		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
 		if(!isWin){
-			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
 			
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
@@ -199,7 +199,7 @@ public class CopyHandler {
 		//设置已经获取
 		state.setLastCopyResponse(copyResponse);
 		
-		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
+		
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL){
 			UserEventMgr.getInstance().CopyWin(player, 1);
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE){
@@ -396,7 +396,9 @@ public class CopyHandler {
 		if (levelRecord4Client != null) {
 			copyResponse.addTagCopyLevelRecord(levelRecord4Client);
 		}
-		BILogMgr.getInstance().logSweep(player, copyCfg.getLevelID(), copyCfg.getLevelType());
+		
+		
+		
 		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL){//游戏0普通1精英，银汉日志处理为1普通2精英
 			UserEventMgr.getInstance().CopyWin(player, times);
 		}else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE){

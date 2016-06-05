@@ -15,6 +15,9 @@ import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.service.dropitem.DropItemManager;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.template.BILogTemplateHelper;
+import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
@@ -39,6 +42,7 @@ public class PvECommonHelper {
 	}
 
 	final public static int SweepTicketID = 806001; // 扫荡券ID...;
+	private static List<ItemInfo> dropItemsSweep;
 
 	public static List<String> addHerosExp(Player player, MsgCopyRequest copyRequest, CopyCfg copyCfg) {
 		List<String> listUpHero = new ArrayList<String>();
@@ -112,7 +116,7 @@ public class PvECommonHelper {
 
 	public static List<TagSweepInfo> gainSweepRewards(Player player, int times, CopyCfg copyCfg) {
 		List<TagSweepInfo> listSweepInfo = new ArrayList<TagSweepInfo>();
-
+		dropItemsSweep = new ArrayList<ItemInfo>();
 		// 物品掉落
 		for (int i = 0; i < times; i++) {
 			String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
@@ -138,15 +142,23 @@ public class PvECommonHelper {
 					int itemNum = item.getItemNum();
 					listItem.add(itemId + "," + itemNum);
 					// 将奖励放入背包
-					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
+					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());					
 				}
+				dropItemsSweep.addAll(dropItems);
+				
 				tagsweepInfo.addAllTagItemList(listItem);
 				listSweepInfo.add(tagsweepInfo.build());
 			}
+				
 		}
-		
-		
-		
+		if (copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL
+				|| copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE) {
+			List<BilogItemInfo> list = BilogItemInfo
+					.fromItemSweepList(dropItemsSweep);
+			String rewardInfoActivity = BILogTemplateHelper.getString(list);
+			BILogMgr.getInstance().logSweep(player, copyCfg.getLevelID(),
+					copyCfg.getLevelType(), rewardInfoActivity);
+		}
 		
 		
 		String extraRewards = copyCfg.getExtraRewards();

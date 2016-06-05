@@ -107,75 +107,11 @@ public class RoleGameInfo {
 			roleGameInfo.setUserCreatedTime(DateUtils.getDateTimeFormatString(userCreateTime, "yyyy-MM-dd HH:mm:ss"));
 		}
 		if(player.getZoneLoginInfo()!=null){
-			long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
-			StringBuilder statInfo = new StringBuilder();			
-			int giftGold = player.getUserGameDataMgr().getGiftGold();
-			int chargeGold = player.getUserGameDataMgr().getChargeGold();
-			long coin = player.getUserGameDataMgr().getCoin();						
-			statInfo.append("online_time:").append(onlineTime).append("#")
-					.append("main_coin:").append(chargeGold).append("#")
-					.append("gift_coin:").append(giftGold).append("#")
-					.append("sub_coin:").append(coin);
-			roleGameInfo.setStatInfo(statInfo.toString());			
-			roleGameInfo.setOnlineTime("online_time:" + onlineTime);
-			
-			
-			int spcase = -1;
-			long nmcase = -1;
-			
-			String fighttime="";
-			if(moreinfo!= null){
-				if(moreinfo.containsKey("fightTime")){
-					fighttime = moreinfo.get("fightTime");
-				}
-				if(moreinfo.containsKey("copyLevel")&&moreinfo.containsKey("enemyTimes")){					
-					if(Integer.parseInt(moreinfo.get("copyLevel")) == CopyType.COPY_TYPE_NORMAL){
-						spcase = Integer.parseInt(moreinfo.get("enemyTimes"));
-					}else{
-						nmcase = Integer.parseInt(moreinfo.get("enemyTimes"));
-					}
-				}
-			}
-			StringBuilder copyInfo = new StringBuilder();
-			copyInfo.append("fight_time:").append(fighttime).append("#")
-			.append("sp_case:").append(spcase).append("#")
-			.append("nm_case:").append(nmcase);
-			roleGameInfo.setCopyInfo(copyInfo.toString());
-			
-			
-			String activityTime="";
-			String rewardsinfoactivity = "";
-			if(moreinfo!= null){
-				if(moreinfo.containsKey("activityTime")){
-					activityTime = moreinfo.get("activityTime");
-				}
-				if(moreinfo.containsKey("rewardsinfoactivity")){
-					rewardsinfoactivity = moreinfo.get("rewardsinfoactivity");
-				}
-			}			
-			StringBuilder activityInfo = new StringBuilder();
-			activityInfo.append("activity_time:").append(activityTime).append("#")
-			.append("activity_reward:").append(rewardsinfoactivity);
-			roleGameInfo.setActivityInfo(activityInfo.toString());
-			
-			
-			
-			String rewardsinfotask = "";
-			if(moreinfo!= null){
-				if(moreinfo.containsKey("rewardsinfotask")){
-					rewardsinfotask = moreinfo.get("rewardsinfotask");
-				}
-			}			
-			StringBuilder taskInfo = new StringBuilder();
-			taskInfo.append("activity_time:").append("").append("#")
-			.append("task_reward:").append(rewardsinfotask);
-			roleGameInfo.setTaskInfo(taskInfo.toString());
-					
-			
-		}
-		
-		
-		
+			logout(player,roleGameInfo);
+			logcopy(player,roleGameInfo,moreinfo);
+			logactivity(player,roleGameInfo,moreinfo);
+			logtask(player,roleGameInfo,moreinfo);			
+		}		
 		
 		if(player.getCopyRecordMgr().getCalculateState() != null){
 			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
@@ -187,6 +123,91 @@ public class RoleGameInfo {
 	
 	
 	
+	private static void logtask(Player player, RoleGameInfo roleGameInfo,
+			Map<String, String> moreinfo) {
+		String rewardsinfotask = "";
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("rewardsinfotask")){
+				rewardsinfotask = moreinfo.get("rewardsinfotask");
+			}
+		}			
+		StringBuilder taskInfo = new StringBuilder();
+		taskInfo.append("activity_time:").append("").append("#")
+		.append("task_reward:").append(rewardsinfotask);
+		roleGameInfo.setTaskInfo(taskInfo.toString());
+		
+	}
+
+	private static void logactivity(Player player, RoleGameInfo roleGameInfo,
+			Map<String, String> moreinfo) {
+		String activityTime="";
+		String rewardsinfoactivity = "";
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("activityTime")){
+				activityTime = moreinfo.get("activityTime");
+			}
+			if(moreinfo.containsKey("rewardsinfoactivity")){
+				rewardsinfoactivity = moreinfo.get("rewardsinfoactivity");
+			}
+		}			
+		StringBuilder activityInfo = new StringBuilder();
+		activityInfo.append("activity_time:").append(activityTime).append("#")
+		.append("activity_reward:").append(rewardsinfoactivity);
+		roleGameInfo.setActivityInfo(activityInfo.toString());
+		
+	}
+
+	private static void logcopy(Player player, RoleGameInfo roleGameInfo, Map<String, String> moreinfo) {
+		int spcase = -1;
+		long nmcase = -1;			
+		String fighttime="";
+		String rewardsinfocopy = "";
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("fightTime")){
+				fighttime = moreinfo.get("fightTime");
+			}
+			if(moreinfo.containsKey("copyLevel")&&moreinfo.containsKey("enemyTimes")){					
+				if(Integer.parseInt(moreinfo.get("copyLevel")) == CopyType.COPY_TYPE_NORMAL){
+					spcase = Integer.parseInt(moreinfo.get("enemyTimes"));
+				}else{
+					nmcase = Integer.parseInt(moreinfo.get("enemyTimes"));
+				}
+			}
+			if(moreinfo.containsKey("rewardsinfocopy")){
+				rewardsinfocopy=moreinfo.get("rewardsinfocopy");
+			}
+		}
+		StringBuilder copyInfo = new StringBuilder();
+		copyInfo.append("fight_time:").append(fighttime).append("#")
+		.append("sp_case:").append(spcase).append("#")
+		.append("nm_case:").append(nmcase).append("#")
+		.append("copy_rewards:").append(rewardsinfocopy);
+		roleGameInfo.setCopyInfo(copyInfo.toString());
+		
+	}
+
+	private static void logout(Player player, RoleGameInfo roleGameInfo) {
+		long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
+		StringBuilder statInfo = new StringBuilder();			
+		int giftGold = player.getUserGameDataMgr().getGiftGold();
+		int chargeGold = player.getUserGameDataMgr().getChargeGold();
+		long coin = player.getUserGameDataMgr().getCoin();						
+		statInfo.append("online_time:").append(onlineTime).append("#")
+				.append("main_coin:").append(chargeGold).append("#")
+				.append("gift_coin:").append(giftGold).append("#")
+				.append("sub_coin:").append(coin);
+		roleGameInfo.setStatInfo(statInfo.toString());			
+		roleGameInfo.setOnlineTime("online_time:" + onlineTime);		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+
 	public String getFactionId() {
 		return factionId;
 	}

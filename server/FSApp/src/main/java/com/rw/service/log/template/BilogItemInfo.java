@@ -1,6 +1,7 @@
 package com.rw.service.log.template;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.gift.ComGiftCfg;
 import com.rwbase.dao.gift.ComGiftCfgDAO;
 import com.rwbase.dao.sign.pojo.SignCfg;
+import com.rwproto.CopyServiceProtos.TagSweepInfo;
 
 public class BilogItemInfo {
 	
@@ -30,6 +32,33 @@ public class BilogItemInfo {
 		}		
 		return newlist;
 	}
+	
+	public static List<BilogItemInfo> fromItemSweepList(List<? extends ItemInfo> list){
+		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
+		if(list == null){
+			return newlist;
+		}
+		Map<Integer, BilogItemInfo> newlisttmp = new HashMap<Integer, BilogItemInfo>();		
+		for(ItemInfo subitem : list){
+			BilogItemInfo newsubitem = new BilogItemInfo();
+			if(newlisttmp.get(subitem.getItemID()) == null){
+				newsubitem.setItemId(subitem.getItemID());
+				newsubitem.setNum(subitem.getItemNum());
+				newlisttmp.put(subitem.getItemID(), newsubitem);
+			}else{
+				newsubitem.setItemId(subitem.getItemID());
+				int numnew = newlisttmp.get(subitem.getItemID()).getNum() + subitem.getItemNum();
+				newsubitem.setNum(numnew);
+				newlisttmp.put(subitem.getItemID(), newsubitem);				
+			}				
+		}
+		return new ArrayList<BilogItemInfo>(newlisttmp.values());
+		
+	}
+	
+	
+	
+	
 	/**各种奇葩的格式，'aid:anum,bid:bnum','aid_anum,bid_bnum'*/
 	public static List<BilogItemInfo> fromStrArr(String[] strlist){
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
@@ -177,6 +206,12 @@ public class BilogItemInfo {
 	public void setNum(int num) {
 		this.num = num;
 	}
+
+
+
+
+
+
 	
 //	public static List<BilogItemInfo> fromItemList(List<ItemInfo> list){
 //		

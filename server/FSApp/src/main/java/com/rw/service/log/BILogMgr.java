@@ -387,7 +387,7 @@ public class BILogMgr {
 	 * @param copyId
 	 * @param isFirst 是否首次
 	 */
-	public void logCopyEnd(Player player, Integer copyId, int copyLevel, boolean isFirst, boolean isWin, int fightTime) {
+	public void logCopyEnd(Player player, Integer copyId, int copyLevel, boolean isFirst, boolean isWin, int fightTime,String rewards) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
@@ -408,6 +408,7 @@ public class BILogMgr {
 		} else {
 			moreInfo.put("operationCode", "case_fail");
 		}
+		moreInfo.put("rewardsinfocopy", rewards);
 		moreInfo.put("enemyTimes", BILogTemplateHelper.getTimes(copyId,copyLevel)+"");
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
@@ -429,7 +430,7 @@ public class BILogMgr {
 	 * @param player
 	 * @param copyId 扫荡
 	 */
-	public void logSweep(Player player, Integer copyId, int copyLevel) {
+	public void logSweep(Player player, Integer copyId, int copyLevel,String rewards) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
@@ -440,6 +441,8 @@ public class BILogMgr {
 		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
 			return;
 		}
+		moreInfo.put("enemyTimes", BILogTemplateHelper.getTimes(copyId,copyLevel)+"");
+		moreInfo.put("rewardsinfocopy", rewards);
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}

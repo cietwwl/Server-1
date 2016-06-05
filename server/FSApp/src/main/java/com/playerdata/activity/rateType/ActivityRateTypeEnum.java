@@ -3,6 +3,7 @@ package com.playerdata.activity.rateType;
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
+import com.log.LogModule;
 import com.rwbase.dao.copypve.CopyType;
 
 public enum ActivityRateTypeEnum{	
@@ -50,36 +51,36 @@ public enum ActivityRateTypeEnum{
 	public static ActivityRateTypeEnum getByCopyTypeAndRewardsType(int copyType,int rewardsType){
 		if(copyType == CopyType.COPY_TYPE_NORMAL){
 			if(rewardsType == 0){
-				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
+//				GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型" + copyType, null);				
 				return Normal_copy_DOUBLE;
 			}else if(rewardsType == 1){
-				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
+//				GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型" + copyType,null);
 				return Normal_copy_EXP_DOUBLE;
 			}
 		}else if(copyType == CopyType.COPY_TYPE_ELITE){
 			if(rewardsType == 0){
-				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
+//				GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型" + copyType,null);
 				return ELITE_copy_DOUBLE;
 			}else if(rewardsType == 1){
-				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
+//				GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型" + copyType,null);
 				return ELITE_copy_EXP_DOUBLE;
 			}
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD){
-			GameLog.error("ActivityRateEnum", "双倍触发", "类型聚宝" + copyType);
+//			GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型聚宝" + copyType,null);
 			return JBZD_DOUBLE;
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
-			GameLog.error("ActivityRateEnum", "双倍触发", "类型练熄" + copyType);
+//			GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型练熄" + copyType,null);
 			return LXSG_DOUBLE;
 		}else if (copyType == CopyType.COPY_TYPE_CELESTIAL){
-			GameLog.error("ActivityRateEnum", "双倍触发", "类型幻境" + copyType);
+//			GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型幻境" + copyType,null);
 			return SCHJ_DOUBLE;
 		}else if(copyType == CopyType.COPY_TYPE_TOWER){
 			if(rewardsType == 3){
-				GameLog.error("ActivityRateEnum", "双倍触发", "类型万仙道具+金币" + copyType);
+//				GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型万仙道具+金币" + copyType,null);
 				return TOWER_DOUBLE;
 			}		
 		}else if (copyType == CopyType.COPY_TYPE_WARFARE){
-			GameLog.error("ActivityRateEnum", "双倍触发", "类型战火" + copyType);
+//			GameLog.info(LogModule.ComActivityRate.toString(), "双倍触发", "类型战火" + copyType,null);
 			return WARFARE_DOUBLE;
 		}
 		return null;
