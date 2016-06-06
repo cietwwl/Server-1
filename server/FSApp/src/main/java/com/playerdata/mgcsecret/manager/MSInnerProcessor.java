@@ -12,6 +12,8 @@ import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfg;
 import com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO;
+import com.playerdata.mgcsecret.cfg.FabaoBuffCfg;
+import com.playerdata.mgcsecret.cfg.FabaoBuffCfgDAO;
 import com.playerdata.mgcsecret.data.MSDungeonInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
@@ -167,7 +169,7 @@ class MSInnerProcessor extends MSConditionJudger{
 		ArrayList<Integer> resultBuff = new ArrayList<Integer>();
 		String[] strLayerArr = fabaoBuffStr.split(",");
 		for(String layerID : strLayerArr){
-			BuffBonusCfg buffCfg = BuffBonusCfgDAO.getInstance().getRandomBuffByLayerID(Integer.parseInt(layerID));
+			FabaoBuffCfg buffCfg = FabaoBuffCfgDAO.getInstance().getRandomBuffByLayerID(Integer.parseInt(layerID));
 			resultBuff.add(Integer.parseInt(buffCfg.getKey()));
 		}
 		return resultBuff;
