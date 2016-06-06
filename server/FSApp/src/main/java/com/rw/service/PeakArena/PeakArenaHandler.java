@@ -504,6 +504,7 @@ public class PeakArenaHandler {
 			if (win && enemyPlace > playerPlace){
 				recordForPlayer.setPlaceUp(enemyPlace-playerPlace);
 				response.setPlaceUp(enemyPlace-playerPlace);
+				response.setPlace(playerPlace);
 			}
 			peakBM.addOthersRecord(playerArenaData, recordForPlayer);
 			
