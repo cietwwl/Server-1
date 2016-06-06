@@ -204,6 +204,13 @@
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO"  init-method="init" />
 	
+	<!-- 法宝秘境 -->
+	<bean class="com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.DungeonScoreCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.FabaoBuffCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO"  init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
