@@ -510,10 +510,12 @@ public class PeakArenaHandler {
 			recordForPlayer.setLevel(enemyUser.getLevel());
 			recordForPlayer.setTime(currentTimeMillis);
 			recordForPlayer.setChallenge(1);
-			if (win && enemyPlace > playerPlace){
-				recordForPlayer.setPlaceUp(enemyPlace-playerPlace);
-				response.setPlaceUp(enemyPlace-playerPlace);
-				response.setPlace(playerPlace);
+			
+			int placeUp = playerPlace-enemyPlace;
+			if (win && placeUp > 0){
+				recordForPlayer.setPlaceUp(placeUp);
+				response.setPlaceUp(placeUp);
+				response.setPlace(enemyPlace);//排名对调了
 			}
 			peakBM.addOthersRecord(playerArenaData, recordForPlayer);
 			
@@ -585,6 +587,7 @@ public class PeakArenaHandler {
 			//交换失败，但其实玩家还没有入榜，则重新加入排行榜，并替换对手的位置
 			return replaceRank(player,playerId,ranking,enemyId,hasSwap,errorTip);
 		}
+		hasSwap.value = playerEntry.getRanking() < enemyEntry.getRanking();
 		return true;
 	}
 	
