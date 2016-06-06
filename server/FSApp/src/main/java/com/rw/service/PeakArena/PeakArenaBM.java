@@ -298,8 +298,8 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			} else {
 				team.setMagicId(magic.getId());
 			}
-			team.setHeros(new ArrayList<String>());
-			team.setHeroSkills(new ArrayList<TableSkill>());
+			team.setHeros(Collections.<String>emptyList());
+			team.setHeroSkills(Collections.<TableSkill>emptyList());
 			peakData.setTeam(team, i);
 		}
 		
@@ -315,6 +315,9 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			distributions[i] = av;
 			if (remainder >0 && i < remainder){
 				distributions[i]++;
+			}
+			if (distributions[i] > 4){
+				distributions[i] = 4;
 			}
 		}
 		int heroIndex = 0;
