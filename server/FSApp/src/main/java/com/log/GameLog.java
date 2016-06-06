@@ -13,7 +13,32 @@ public class GameLog {
     
     private static Logger errorLog = Logger.getLogger("errorLog");
     
+    private static Logger cfgCheckLog = Logger.getLogger("cfgCheckLog");
     
+	/***
+	 * 
+	 * @param module:所属模块
+	 * @param id:发起者ID，如果是系统则为system
+	 * @param errorReason:失败原因
+	 * @param throwableP:捕获的异常，没有则传空
+	 */	
+	public static void cfgError(final LogModule module,final String id, final String errorReason){
+		
+		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+
+			@Override
+			public void run() {				
+				StringBuilder logContent = new StringBuilder();
+				logContent.append(getStackTrace())
+				.append(module.getName()).append("|")
+				.append(id).append("|")
+				.append(errorReason).append("|");
+				
+				cfgCheckLog.error(logContent);
+			}
+			
+		});
+	}
 	/***
 	 * 
 	 * @param module:所属模块

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.playerdata.fixEquip.attr.FixExpEquipAttributeComponent;
+import com.playerdata.fixEquip.attr.FixNormEquipAttributeComponent;
 import com.playerdata.team.HeroInfo;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.common.attrdata.AttrData;
@@ -58,6 +60,11 @@ public class AttributeBM {
 		componentList.add(new HeroFashionAttributeComponent());
 		componentList.add(new HeroGroupSkillAttributeComponent());
 		componentList.add(new HeroTaoistAttributeComponent());
+		componentList.add(new FixExpEquipAttributeComponent());
+		componentList.add(new FixNormEquipAttributeComponent());
+		
+		
+		
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();

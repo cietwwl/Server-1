@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
 
+	<bean class="com.common.CfgChecker"/>
+
 	<bean class="com.rw.service.friend.datamodel.RecommandConditionCfgDAO"  init-method="init" />
 	<bean class="com.rw.service.friend.datamodel.RecommandCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.attribute.AttributeLanguageCfgDAO"  init-method="init" />
@@ -187,6 +189,21 @@
 	<bean class="com.rwbase.dao.item.ItemUseEffectCfgDAO"  init-method="init" />
 
 	<bean class="com.gm.customer.PlayerQuestionService"  init-method="init" />
+	
+	<!-- 专属装备 -->
+	<bean class="com.playerdata.fixEquip.cfg.FixEquipCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCostCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO"  init-method="init" />
+	
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

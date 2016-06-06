@@ -23,33 +23,34 @@ public final class FixExpEquipLevelCfgDAO extends CfgCsvDao<FixExpEquipLevelCfg>
 	
 	@Override
 	public Map<String, FixExpEquipLevelCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("FixEquip/FixExpEquipLevelCfg.csv", FixExpEquipLevelCfg.class);
-		groupByParentId(cfgCacheMap);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/FixExpEquipLevelCfg.csv", FixExpEquipLevelCfg.class);
+		groupByPlanId(cfgCacheMap);
 		return cfgCacheMap;
 	}
 	
 
 
-	private void groupByParentId(Map<String, FixExpEquipLevelCfg> cfgCacheMap) {
+	private void groupByPlanId(Map<String, FixExpEquipLevelCfg> cfgCacheMap) {
 	
-		List<String> parentCfgList = new ArrayList<String>();
+		List<String> planIdList = new ArrayList<String>();
 		for (FixExpEquipLevelCfg tmpCfg : cfgCacheMap.values()) {
-			String parentCfgId = tmpCfg.getParentCfgId();
-			if(!parentCfgList.contains(parentCfgId)){
-				parentCfgList.add(parentCfgId);
+			tmpCfg.initData();
+			String planId = tmpCfg.getPlanId();
+			if(!planIdList.contains(planId)){
+				planIdList.add(planId);
 			}
 		}
 		
-		for (String pCfgId : parentCfgList) {
-			parentCfgLevelMap.put(pCfgId, getByParentCfgId(pCfgId));
+		for (String planId : planIdList) {
+			parentCfgLevelMap.put(planId, getByPlanId(planId));
 		}
 	}
 	
-	private List<FixExpEquipLevelCfg> getByParentCfgId(String parentCfgId){
+	private List<FixExpEquipLevelCfg> getByPlanId(String planId){
 		List<FixExpEquipLevelCfg> targetList = new ArrayList<FixExpEquipLevelCfg>();
 		List<FixExpEquipLevelCfg> allCfg = getAllCfg();
 		for (FixExpEquipLevelCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
+			if(StringUtils.equals(tmpItem.getPlanId(), planId)){
 				targetList.add(tmpItem);
 			}
 		}
@@ -58,12 +59,12 @@ public final class FixExpEquipLevelCfgDAO extends CfgCsvDao<FixExpEquipLevelCfg>
 	}
 
 
-	public FixExpEquipLevelCfg getByParentCfgIdAndLevel(String parentCfgId, int level){
-		List<FixExpEquipLevelCfg> allCfg = parentCfgLevelMap.get(parentCfgId);
+	public FixExpEquipLevelCfg getByPlanIdAndLevel(String planId, int level){
+		List<FixExpEquipLevelCfg> allCfg = parentCfgLevelMap.get(planId);
 		FixExpEquipLevelCfg target = null;
 		if(allCfg!=null){
 			for (FixExpEquipLevelCfg tmpItem : allCfg) {
-				if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId) && tmpItem.getLevel() == level){
+				if(StringUtils.equals(tmpItem.getPlanId(), planId) && tmpItem.getLevel() == level){
 					target = tmpItem;
 				}
 			}

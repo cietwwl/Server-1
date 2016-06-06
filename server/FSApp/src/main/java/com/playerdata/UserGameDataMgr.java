@@ -247,7 +247,7 @@ public class UserGameDataMgr {
 			ItemChangedEventType_1 type_1 = null; // 暂时留空
 			ItemChangedEventType_2 type_2 = null;// 暂时留空
 			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, tableUserOther.getGiftGold());
-			UserEventMgr.getInstance().UseGold(player, -giftGoldChanged);
+			UserEventMgr.getInstance().UseGold(player, -value);
 		}
 		return result;
 	}
