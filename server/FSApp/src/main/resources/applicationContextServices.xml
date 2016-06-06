@@ -84,6 +84,7 @@
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
 			     <entry key="MSG_MAGIC_SECRET" value-ref="magicSecretService" />
 			     <entry key="MSG_FEEDBACK" value-ref="feedbackService" />
+			     <entry key="MSG_FIX_EQUIP" value-ref="fixEquipService" />
 			</map>
 		</property>
 	</bean>
@@ -107,7 +108,7 @@
 	<bean id="rankingService" class="com.rw.service.ranking.RankingService"  />
 	<bean id="dailyActivityService" class="com.rw.service.dailyActivity.DailyActivityService"  />
 	
-	<bean id="peakArenaService" class="com.rw.service.arena.PeakArenaService"  />
+	<bean id="peakArenaService" class="com.rw.service.PeakArena.PeakArenaService"  />
 	<bean id="arenaService" class="com.rw.service.arena.ArenaService"  />
 	<bean id="towerService" class="com.rw.service.tower.TowerService"  />
 	
@@ -145,4 +146,5 @@
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
 	<bean id="magicSecretService" class="com.playerdata.mgcsecret.service.MagicSecretService"/>
 	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
+	<bean id="fixEquipService" class="com.playerdata.fixEquip.FixEquipService"  />
 </beans>  

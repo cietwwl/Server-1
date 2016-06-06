@@ -347,16 +347,7 @@ public class HeroMgr implements HeroMgrIF {
 	}
 
 	/** 自定义战力比较器，所有HeroMgr公用一个对象即可 */
-	private static Comparator<Hero> comparator = new Comparator<Hero>() {
-
-		public int compare(Hero o1, Hero o2) {
-			if (o1.getFighting() < o2.getFighting())
-				return 1;
-			if (o1.getFighting() > o2.getFighting())
-				return -1;
-			return 0;
-		}
-	};
+	private static Comparator<Hero> comparator = HeroFightPowerComparator.getInstance();
 
 	/**
 	 * 获取所有的佣兵数据
@@ -372,4 +363,23 @@ public class HeroMgr implements HeroMgrIF {
 		return list;
 	}
 
+	/**
+	 * 获取出主角外其他所有的佣兵
+	 * 
+	 * @param comparator 排序的接口,如果不需要就直接填个Null
+	 * @return
+	 */
+	public List<Hero> getAllHerosExceptMainRole(Comparator<Hero> comparator) {
+		ArrayList<Hero> list = new ArrayList<Hero>();
+		String userId = player.getUserId();
+		for (Hero data : m_HeroMap.values()) {
+			if (!data.getUUId().equals(userId)) {
+				list.add(data);
+			}
+		}
+		if (comparator != null) {
+			Collections.sort(list, comparator);
+		}
+		return list;
+	}
 }

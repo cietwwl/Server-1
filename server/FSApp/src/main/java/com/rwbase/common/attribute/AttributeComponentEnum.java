@@ -12,6 +12,10 @@ public enum AttributeComponentEnum {
 	Hero_Gem,
 	/** 装备 */
 	Hero_Equip,
+	/** 专属装备 */
+	Hero_Fix_Exp_Equip,
+	/**专属 装备 */
+	Hero_Fix_Norm_Equip,
 	/** 时装 */
 	Hero_Fashion,
 	/** 羁绊 */

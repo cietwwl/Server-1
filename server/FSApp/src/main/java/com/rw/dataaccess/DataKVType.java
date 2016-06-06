@@ -1,14 +1,12 @@
 package com.rw.dataaccess;
 
 import com.common.HPCUtil;
-import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
 import com.rw.dataaccess.processor.EmailCreator;
 import com.rw.dataaccess.processor.FriendCreator;
 import com.rw.dataaccess.processor.GuideProgressCreator;
-import com.rw.dataaccess.processor.MagicSecretCreator;
 import com.rw.dataaccess.processor.PlotProgressCreator;
 import com.rw.dataaccess.processor.SettingProcessor;
 import com.rw.dataaccess.processor.SevenDayGifCreator;
@@ -60,7 +58,7 @@ public enum DataKVType {
 	GUIDE_PROGRESS(17, GuideProgressDAO.class, GuideProgressCreator.class), 
 	COPY(18, TableCopyDataDAO.class, CopyCreator.class),
 	TAOIST(19,TaoistMagicHolder.class,TaoistMagicDataCreator.class),
-	USERMSDATA(20, UserMagicSecretDao.class, MagicSecretCreator.class);
+	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

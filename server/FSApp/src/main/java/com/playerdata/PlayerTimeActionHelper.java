@@ -106,13 +106,6 @@ public class PlayerTimeActionHelper {
 		});
 		
 		return onNewDayZeroTimeAction;
-		
-		
-		
-		// RankingMgr.getInstance().resetUpdateState();
-		// m_ArenaMgr.resetDataInNewDay();
-		// String userId = getUserId();
-		// m_PeakArenaMgr.resetDataInNewDay();
 	}
 
 	public static TimeAction onNewDay5ClockTimeAction(final Player player) {

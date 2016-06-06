@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
 
+	<bean class="com.common.CfgChecker"/>
+
 	<bean class="com.rw.service.friend.datamodel.RecommandConditionCfgDAO"  init-method="init" />
 	<bean class="com.rw.service.friend.datamodel.RecommandCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.attribute.AttributeLanguageCfgDAO"  init-method="init" />
@@ -74,8 +76,13 @@
 	
 	<bean class="com.rwbase.dao.mainmsg.CfgPmdDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.peakArena.PeakArenaPrizeCfgDAO"  init-method="init" />
-	<bean class="com.rwbase.dao.peakArena.PeakArenaScoreCfgDAO"  init-method="init" />
+	
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaInfoHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper"  init-method="init" />
+	<bean class="com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.power.RoleUpgradeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.publicdata.PublicDataCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.ranking.CfgRankingDAO"  init-method="init" />
@@ -183,12 +190,20 @@
 
 	<bean class="com.gm.customer.PlayerQuestionService"  init-method="init" />
 	
-	<bean class="com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO"  init-method="init" />
-	<bean class="com.playerdata.mgcsecret.cfg.DungeonScoreCfgDAO"  init-method="init" />
-	<bean class="com.playerdata.mgcsecret.cfg.DungeonsDataCfgDAO"  init-method="init" />
-	<bean class="com.playerdata.mgcsecret.cfg.FabaoBuffCfgDAO"  init-method="init" />
-	<bean class="com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO"  init-method="init" />
-	<bean class="com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO"  init-method="init" />
+	<!-- 专属装备 -->
+	<bean class="com.playerdata.fixEquip.cfg.FixEquipCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCostCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipLevelCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO"  init-method="init" />
+	
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO"  init-method="init" />
+	
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
