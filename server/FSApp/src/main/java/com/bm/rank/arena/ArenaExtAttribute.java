@@ -12,6 +12,7 @@ public class ArenaExtAttribute extends FightingMember {
 	private int fighting; // 战力
 	private String name; // 名称
 	private String headImage; // 头像
+	private String headbox; //头像框
 	private int level; // 等级
 
 	private int fightingTeam;
@@ -111,6 +112,14 @@ public class ArenaExtAttribute extends FightingMember {
 
 	public void setRankCount(int rankCount) {
 		this.rankCount = rankCount;
+	}
+
+	public String getHeadbox() {
+		return headbox;
+	}
+
+	public void setHeadbox(String headbox) {
+		this.headbox = headbox;
 	}
 
 }

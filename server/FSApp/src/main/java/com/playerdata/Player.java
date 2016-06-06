@@ -327,7 +327,6 @@ public class Player implements PlayerIF {
 		taoistMgr.getEff().subscribe(new IStreamListner<Map<Integer, AttributeItem>>() {
 			@Override
 			public void onChange(Map<Integer, AttributeItem> newValue) {
-				// m_HeroMgr.getMainRoleHero().getAttrMgr().reCal();
 				Enumeration<Hero> heros = m_HeroMgr.getHerosEnumeration();
 				while (heros.hasMoreElements()) {
 					heros.nextElement().getAttrMgr().reCal();
@@ -915,6 +914,10 @@ public class Player implements PlayerIF {
 
 	public String getHeadImage() {
 		return userDataMgr.getHeadImage();
+	}
+	
+	public String getHeadFrame(){
+		return userGameDataMgr.getHeadBox();
 	}
 
 	public int getCareer() {

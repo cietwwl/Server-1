@@ -81,4 +81,6 @@ public interface PlayerIF {
 	public int getVip();
 
 	public String getHeadImage();
+	
+	public String getHeadFrame();
 }

@@ -373,6 +373,7 @@ public class RankingMgr {
 			toData.setFightingAll(p.getHeroMgr().getFightingAll());
 			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
 			toData.setUserHead(p.getHeadImage());
+			toData.setHeadbox(p.getHeadFrame());
 			toData.setModelId(p.getModelId());
 			toData.setJob(p.getCareer());
 			toData.setSex(p.getSex());
@@ -433,6 +434,7 @@ public class RankingMgr {
 			toData.setFightingAll(p.getHeroMgr().getFightingAll());
 			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
 			toData.setUserHead(p.getHeadImage());
+			toData.setHeadbox(p.getHeadFrame());
 			toData.setModelId(RankingUtils.getModelId(levelData));
 			toData.setJob(levelData.getJob());
 			toData.setSex(p.getSex());

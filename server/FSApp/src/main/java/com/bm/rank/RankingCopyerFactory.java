@@ -24,6 +24,7 @@ public class RankingCopyerFactory {
 		toData.setModelId(RankingUtils.getModelId(data));
 		toData.setRankLevel(data.getRankLevel());
 		toData.setRankCount(data.getRankCount());
+		toData.setHeadbox(data.getHeadbox());
 		return toData;
 	}
 
