@@ -18,7 +18,7 @@ import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
 public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventHandler{
 	
-	public static final int levelId = 150042;//难度2
+	public static final int levelId = 150041;//难度1
 	public static final int time = 15;//通关
 	
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();

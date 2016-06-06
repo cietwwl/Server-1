@@ -369,7 +369,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			}
 			if (towerCoin > 0) {
 				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
-				UserEventMgr.getInstance().TowerVitality(player, towerCoin);
+				
 			}
 
 			List<TowerGoodsCfg> formatList = TowerGoodsCfgDAO.getInstance().getCfgsByFormatId(awardCfg.formatId);
@@ -424,6 +424,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "得到英雄id=" + templateId);
 			} else {
 				player.getItemBagMgr().addItem(templateId, num);
+			}
+			if(templateId == eSpecialItemId.BraveCoin.getValue()){
+				UserEventMgr.getInstance().TowerVitality(player, num);
 			}
 		}
 	}
