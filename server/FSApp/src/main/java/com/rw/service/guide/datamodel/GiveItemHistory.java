@@ -19,7 +19,7 @@ public class GiveItemHistory implements IMapItem {
 		return userId+"_"+actId;
 	}
 	
-	private GiveItemHistory(){}
+	public GiveItemHistory(){}
 	
 	public static GiveItemHistory Add(INotifyChange notifyProxy,String userId,int giveActionId){
 		GiveItemHistory result = new GiveItemHistory();
