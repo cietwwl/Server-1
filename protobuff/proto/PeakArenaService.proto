@@ -18,7 +18,6 @@ enum eArenaType {
 	SWITCH_OVER = 12;//更换玩家队伍顺序,使用 reorder 参数表示1，2，3队伍的ID
 	BUY_CHALLENGE_COUNT = 13;// 购买挑战次数
 	FIGHT_CONTINUE = 14;//挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
-	GET_CD_TIME = 15;//由于客户端计时不准确，并且过场的时候用UI线程或者单独线程倒计时会崩溃，暂时用重新请求服务器的方式来做
 }
 
 enum eArenaResultType {

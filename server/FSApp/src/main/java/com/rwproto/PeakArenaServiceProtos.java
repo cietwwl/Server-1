@@ -119,14 +119,6 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     FIGHT_CONTINUE(13, 14),
-    /**
-     * <code>GET_CD_TIME = 15;</code>
-     *
-     * <pre>
-     *由于客户端计时不准确，并且过场的时候用UI线程或者单独线程倒计时会崩溃，暂时用重新请求服务器的方式来做
-     * </pre>
-     */
-    GET_CD_TIME(14, 15),
     ;
 
     /**
@@ -235,14 +227,6 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public static final int FIGHT_CONTINUE_VALUE = 14;
-    /**
-     * <code>GET_CD_TIME = 15;</code>
-     *
-     * <pre>
-     *由于客户端计时不准确，并且过场的时候用UI线程或者单独线程倒计时会崩溃，暂时用重新请求服务器的方式来做
-     * </pre>
-     */
-    public static final int GET_CD_TIME_VALUE = 15;
 
 
     public final int getNumber() { return value; }
@@ -263,7 +247,6 @@ public final class PeakArenaServiceProtos {
         case 12: return SWITCH_OVER;
         case 13: return BUY_CHALLENGE_COUNT;
         case 14: return FIGHT_CONTINUE;
-        case 15: return GET_CD_TIME;
         default: return null;
       }
     }
@@ -14460,16 +14443,16 @@ public final class PeakArenaServiceProtos {
       "currentBuyCost\030\n \001(\005\022\026\n\016challengeCount\030\013" +
       " \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyPerH",
       "our\030\r \001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007placeUp\030" +
-      "\017 \001(\005*\246\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CH" +
+      "\017 \001(\005*\225\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CH" +
       "ANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_R" +
       "ECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022" +
       "\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_" +
       "START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_" +
       "RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014" +
       "\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTI" +
-      "NUE\020\016\022\017\n\013GET_CD_TIME\020\017*5\n\020eArenaResultTy" +
-      "pe\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n",
-      "\013com.rwprotoB\026PeakArenaServiceProtos"
+      "NUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SUCCE" +
+      "SS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026Pea",
+      "kArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
