@@ -12,6 +12,7 @@ import com.common.RefInt;
 import com.common.RefParam;
 import com.log.GameLog;
 import com.playerdata.Hero;
+import com.playerdata.HeroFightPowerComparator;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -274,16 +275,38 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			return null;
 		}
 		TablePeakArenaData result =  getOrAddPeakArenaData(player, null);
+		initTeamInfo(result,player);
+		tablePeakArenaDataDAO.commit(result);
+		return result;
+	}
+	
+	private void initTeamInfo(TablePeakArenaData peakData,Player player){
 		HeroMgr heroMgr = player.getHeroMgr();
-		List<Hero> heroList = heroMgr.getAllHeros(null);
+		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(HeroFightPowerComparator.getInstance());
+		
+		int count = peakData.getTeamCount();
+		if (count <=0){
+			return;
+		}
+		
 		int heroCount = heroList.size();
 		if (heroCount<=0){
-			return result;
+			ItemData magic = player.getMagic();
+			for (int i = 0; i < peakData.getTeamCount(); i++) {
+				TeamData team = new TeamData();
+				team.setTeamId(i);
+				if (magic == null) {
+					team.setMagicId("");
+				} else {
+					team.setMagicId(magic.getId());
+				}
+				team.setHeros(new ArrayList<String>());
+				team.setHeroSkills(new ArrayList<TableSkill>());
+				peakData.setTeam(team, i);
+			}
+			return;
 		}
-		int count = result.getTeamCount();
-		if (count <=0){
-			return result;
-		}
+		
 		int av = heroCount / count;
 		int[] distributions = new int[count];
 		int remainder = heroCount % count;
@@ -298,7 +321,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		String playerId = player.getUserId();
 		RefParam<List<String>> checkedHeroIDList = new RefParam<List<String>>();
 		for (int i = 0; i<count ; i++){
-			TeamData team = result.getTeam(i);
+			TeamData team = peakData.getTeam(i);
 			List<String> heroIdsList = new ArrayList<String>();
 			for (int j = heroIndex;j<heroIndex+distributions[i];j++){
 				Hero hero = heroList.get(j);
@@ -313,7 +336,6 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			team.setHeros(checkedHeroIDList.value);
 			team.setHeroSkills(heroSkillList);
 		}
-		return result;
 	}
 	
 	public List<TableSkill> getHeroInfoList(List<String> heroIdsList,HeroMgr heroMgr, String playerId,RefParam<List<String>> checkedHeroIDList){
@@ -382,31 +404,14 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		return arenaExt;
 	}
 
-	protected TablePeakArenaData createPeakData(Player player, int place) {
-		TablePeakArenaData data = createPeakData(player);
-		data.setMaxPlace(place);
-		return data;
-	}
-	
 	private TablePeakArenaData createPeakData(Player player) {
 		TablePeakArenaData data = new TablePeakArenaData();
 		String userId = player.getUserId();
 		data.setUserId(userId);
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
-
-		ItemData magic = player.getMagic();
-		for (int i = 0; i < data.getTeamCount(); i++) {
-			TeamData team = new TeamData();
-			team.setTeamId(i);
-			if (magic == null) {
-				team.setMagicId("");
-			} else {
-				team.setMagicId(magic.getId());
-			}
-			team.setHeros(new ArrayList<String>());
-			team.setHeroSkills(new ArrayList<TableSkill>());
-			data.setTeam(team, i);
-		}
+		
+		initTeamInfo(data,player);
+		
 		data.setRecordList(new ArrayList<PeakRecordInfo>());
 		tablePeakArenaDataDAO.commit(data);
 		return data;
