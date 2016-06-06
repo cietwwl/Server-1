@@ -92,8 +92,8 @@ public class UserEventMgr {
 		eventHandlerMap.put(UserEventType.HeroUpgradeVitality, new UserEventHeroUpgradeVitalityHandler());
 		eventHandlerMap.put(UserEventType.WarfareDifficultyTwoVitality, new UserEventWarfareDifficultyTwoVitalityHandler());
 		
-		eventHandlerMap.put(UserEventType.BuyInTowerShopVitality, new UserEventBuyPowerVitalityHandler());
-		eventHandlerMap.put(UserEventType.BuyPowerVitality, new UserEventBuyInTowerShopVitalityHandler());
+		eventHandlerMap.put(UserEventType.BuyInTowerShopVitality, new UserEventBuyInTowerShopVitalityHandler());
+		eventHandlerMap.put(UserEventType.BuyPowerVitality, new UserEventBuyPowerVitalityHandler());
 		eventHandlerMap.put(UserEventType.FactionDonateVitality, new UserEventFactionDonateVitalityHandler());
 		
 		eventHandlerMap.put(UserEventType.UseSweepTicketVitality, new UserEventUseSweepTicketVitalityHandler());
