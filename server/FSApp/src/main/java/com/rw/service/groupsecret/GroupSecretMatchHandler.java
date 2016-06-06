@@ -189,6 +189,7 @@ public class GroupSecretMatchHandler {
 
 		rsp.setIsSuccess(true);
 		rsp.setSearchingRspMsg(rspMsg);
+		rsp.setTipMsg("找到一处其他帮派驻守的藏宝洞");
 		return rsp.build().toByteString();
 	}
 
