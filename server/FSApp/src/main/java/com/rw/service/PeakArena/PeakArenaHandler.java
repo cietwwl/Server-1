@@ -115,10 +115,19 @@ public class PeakArenaHandler {
 	}
 	
 	private int computeCdTime(TablePeakArenaData arenaData){
+		long fightStartTime = arenaData.getFightStartTime();
+		if (fightStartTime <= 0){
+			return 0;
+		}
+		//特殊规则：如果剩余挑战次数为0，则返回给客户端的CD时间为0
 		peakArenaInfo cfg = peakArenaInfoHelper.getInstance().getUniqueCfg();
-		long currentTime = System.currentTimeMillis();
-		long nextFightTime = arenaData.getFightStartTime()+cfg.getCdTimeInMillSecond();
+		int challengeCount = arenaData.getChallengeCount();
+		if (challengeCount >= cfg.getCount() + arenaData.getBuyCount()) {
+			return 0;
+		}
+		long nextFightTime = fightStartTime+cfg.getCdTimeInMillSecond();
 		int seconds = 0;
+		long currentTime = System.currentTimeMillis();
 		if (nextFightTime > 0 && nextFightTime>currentTime){
 			seconds  = (int) TimeUnit.MILLISECONDS.toSeconds(nextFightTime - currentTime);
 		}
@@ -308,7 +317,7 @@ public class PeakArenaHandler {
 		response.setArenaType(request.getArenaType());
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		peakArenaInfo cfg = peakArenaInfoHelper.getInstance().getUniqueCfg();
-		if (arenaData.getFightStartTime() + cfg.getCdTimeInMillSecond() > System.currentTimeMillis()){
+		if (computeCdTime(arenaData) > 0) {
 			return sendFailRespon(player, response, ArenaConstant.COOL_DOWN);
 		}
 		
@@ -776,6 +785,10 @@ public class PeakArenaHandler {
 		if (!userMgr.deductCurrency(cfg.getCoinType(), cfg.getCost())){
 			return SetError(response, player, "钻石不足", "购买挑战次数时扣钻石失败:"+cfg.getCost());
 		}
+		
+		//购买挑战次数则直接设置倒计时为0
+		arenaData.setFightStartTime(0);
+		response.setCdTime(0);
 		
 		//保存购买次数
 		arenaData.setBuyCount(buyCount+1);
