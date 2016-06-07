@@ -533,7 +533,7 @@ public class ArenaHandler {
 						builder.setHistoryRanking(maxPlace);
 						builder.setRankingUp(maxPlace - newPlace);
 					}
-					builder.setGoldAward(Math.round(goldPrize.getCount()));
+					builder.setGoldAward(getRound(goldPrize.getCount()));
 				} else {
 					GameLog.error("竞技场历史排名上升奖励异常,userId = " + userId + "(" + maxPlace + "-" + newPlace + ")  " + prizeList);
 				}
@@ -542,7 +542,7 @@ public class ArenaHandler {
 				for (PrizeInfo info : prizeCollection) {
 					sb.append(info.getType().getValue());
 					sb.append("~");
-					sb.append(Math.round(info.getCount()));
+					sb.append(getRound(info.getCount()));
 					if (--prizeSize > 0) {
 						sb.append(",");
 					}
@@ -608,6 +608,15 @@ public class ArenaHandler {
 		} finally {
 			arenaExt.setNotFighting();
 			enemyExt.setNotFighting();
+		}
+	}
+	
+	private int getRound(float value){
+		int r = Math.round(value);
+		if(r <= 0){
+			return 1;
+		}else{
+			return r;
 		}
 	}
 
