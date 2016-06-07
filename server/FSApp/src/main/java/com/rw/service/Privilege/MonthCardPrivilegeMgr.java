@@ -26,7 +26,7 @@ public class MonthCardPrivilegeMgr{
 		previousLevelMap.put(2, ChargeTypePriority.monthPrefix + monthLevelStr[1]);
 	}
 
-	//TODO 改为放在player里面，避免内存泄漏
+	// 改为放在player里面，避免内存泄漏
 	public IPrivilegeProvider getPrivilige(Player player) {
 		IPrivilegeProvider impl = player.getMonthCardPrivilegeProvider();
 		return impl;

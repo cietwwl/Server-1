@@ -4,6 +4,30 @@ import com.log.GameLog;
 import com.rw.fsutil.common.Pair;
 
 public class PairParser {
+	public static Pair<Integer,Integer> ParseRange(String pairStr, String pairSeperator, String moduleID,
+			String errorId, String tip,boolean throwException){
+		int[] result = ListParser.ParseIntList(pairStr, pairSeperator, moduleID, errorId, tip);
+		if (result == null || result.length <= 0){
+			if (throwException){
+				throw new RuntimeException(tip);
+			}
+			return null;
+		}
+		int min = result[0];
+		int max;
+		if (result.length >1){
+			max = result[1];
+			if (min > max){
+				result[0]=max;
+				max = min;
+				min = result[0];
+			}
+		}else{
+			max = min;
+		}
+		return Pair.Create(min, max);
+	}
+	
 	public static boolean ParseTwoInt(String pairStr, String pairSeperator, String module, String moduleID, RefInt i1,
 			RefInt i2) {
 		int[] lst = ListParser.ParseIntList(pairStr, pairSeperator, module, moduleID, "不是一个整数对:");

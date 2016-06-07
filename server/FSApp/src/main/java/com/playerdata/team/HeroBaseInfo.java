@@ -1,10 +1,13 @@
 package com.playerdata.team;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /*
  * @author HC
  * @date 2016年4月15日 下午5:57:19
  * @Description 
  */
+@SynClass
 public class HeroBaseInfo {
 	private int level;// 等级
 	private String quality;// 品质

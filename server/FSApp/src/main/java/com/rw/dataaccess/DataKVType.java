@@ -1,12 +1,14 @@
 package com.rw.dataaccess;
 
 import com.common.HPCUtil;
+import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
 import com.rw.dataaccess.processor.EmailCreator;
 import com.rw.dataaccess.processor.FriendCreator;
 import com.rw.dataaccess.processor.GuideProgressCreator;
+import com.rw.dataaccess.processor.MagicSecretCreator;
 import com.rw.dataaccess.processor.PlotProgressCreator;
 import com.rw.dataaccess.processor.SettingProcessor;
 import com.rw.dataaccess.processor.SevenDayGifCreator;
@@ -27,16 +29,6 @@ import com.rwbase.dao.business.SevenDayGifInfoDAO;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.email.TableEmailDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
-import com.rwbase.dao.groupsecret.creator.GroupSecretDefendRecordDataCreator;
-import com.rwbase.dao.groupsecret.creator.GroupSecretMatchEnemyDataCreator;
-import com.rwbase.dao.groupsecret.creator.GroupSecretTeamDataCreator;
-import com.rwbase.dao.groupsecret.creator.UserCreateGroupSecretDataCreator;
-import com.rwbase.dao.groupsecret.creator.UserGroupSecretBaseDataCreator;
-import com.rwbase.dao.groupsecret.pojo.db.dao.GroupSecretDefendRecordDataDAO;
-import com.rwbase.dao.groupsecret.pojo.db.dao.GroupSecretMatchEnemyDataDAO;
-import com.rwbase.dao.groupsecret.pojo.db.dao.GroupSecretTeamDataDAO;
-import com.rwbase.dao.groupsecret.pojo.db.dao.UserCreateGroupSecretDataDAO;
-import com.rwbase.dao.groupsecret.pojo.db.dao.UserGroupSecretBaseDataDAO;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.hero.UserHeroDAO;
@@ -68,14 +60,8 @@ public enum DataKVType {
 	GUIDE_PROGRESS(17, GuideProgressDAO.class, GuideProgressCreator.class), 
 	COPY(18, TableCopyDataDAO.class, CopyCreator.class),
 	TAOIST(19,TaoistMagicHolder.class,TaoistMagicDataCreator.class),
-	
-	
-	
-	GROUP_SECRET_BASE(20,UserGroupSecretBaseDataDAO.class,UserGroupSecretBaseDataCreator.class),
-	GROUP_SECRE_CREATE(21,UserCreateGroupSecretDataDAO.class,UserCreateGroupSecretDataCreator.class),
-	GROUP_SECRE_TEAM(22,GroupSecretTeamDataDAO.class,GroupSecretTeamDataCreator.class),
-	GROUP_SECRE_ENEMY(23,GroupSecretMatchEnemyDataDAO.class,GroupSecretMatchEnemyDataCreator.class),
-	GROUP_SECRE_DEFEND_RECORD(24,GroupSecretDefendRecordDataDAO.class,GroupSecretDefendRecordDataCreator.class);
+	USERMSDATA(20, UserMagicSecretDao.class, MagicSecretCreator.class),
+	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

@@ -13,6 +13,7 @@ import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -254,6 +255,22 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyType);
+		
+		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {	
+				MagicSecretMgr.getInstance().synMagicChapterData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicChapterData);
+		
+		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				MagicSecretMgr.getInstance().synUserMSData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicSecretData);
 
 		notInVersionControlList.add(notInVersionControlP);
 		
@@ -266,6 +283,5 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.QuestionList);
-		
 	}
 }

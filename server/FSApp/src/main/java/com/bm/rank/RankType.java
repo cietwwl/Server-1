@@ -10,7 +10,7 @@ import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankExtension;
 import com.bm.rank.level.LevelExtension;
-import com.bm.rank.peakArena.PeakArenaExtension;
+import com.bm.rank.magicsecret.MagicSecretExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.RankingConfig;
@@ -18,8 +18,7 @@ import com.rw.fsutil.ranking.RankingExtension;
 
 public enum RankType implements TypeIdentification, RankingConfig {
 
-	// 巅峰竞技场排行榜
-	PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
+	//TODO 巅峰竞技场排行榜 PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class), 
 //	SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
 	LEVEL_PLAYER(2, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()), 
@@ -42,6 +41,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 //	ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),
 	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class),
 	ANGEL_TEAM_INFO_RANK(22, 20000, "万仙阵匹配玩家阵容", 1, AngelArrayTeamInfoExtension.class),
+	MAGIC_SECRET_SCORE_RANK(23, 30000, "法宝秘境积分排行榜",1, MagicSecretExtension.class)
 //	CHARGE_RANK(23, 5000, "充值排行榜", 1, ChargeRankExtension.class),
 	GROUP_SECRET_MATCH_RANK(24, 10000, "帮派秘境匹配排行榜", 1, GroupSecretMatchRankExtension.class),
 	;
@@ -88,6 +88,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 		realTimeMap.put(201, FIGHTING_ALL);
 		realTimeMap.put(203, TEAM_FIGHTING);
 		realTimeMap.put(301, LEVEL_ALL);
+		realTimeMap.put(401, MAGIC_SECRET_SCORE_RANK);
 	}
 	
 	public static RankType getRankType(int type,int realTime){

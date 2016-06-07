@@ -1,0 +1,5 @@
+key,Remarks,id,modelPath,beginPath,flyPath,gainPath,icon
+1,,1,Assets/Model/Item/Prefab/500013.prefab,Assets/Model/Item/Prefab/500013.prefab,Assets/Effect/Prefab/500013/fx_500013_fly.prefab,Assets/Effect/Prefab/500013/fx_500013_end.prefab,ect_chest
+2,,2,Assets/Model/Item/Prefab/500019.prefab,Assets/Model/Item/Prefab/500019.prefab,Assets/Effect/Prefab/301020/fx_301020_fly.prefab,Assets/Effect/Prefab/500013/fx_500013_end.prefab,ect_gold
+3,,3,Assets/Model/Item/Prefab/500020.prefab,Assets/Model/Item/Prefab/500020.prefab,Assets/Effect/Prefab/301020/fx_301020_fly.prefab,Assets/Effect/Prefab/500013/fx_500013_end.prefab,ect_gold
+4,,4,300029/500020,300029/500020,Assets/Effect/Prefab/301020/fx_301020_fly.prefab,Assets/Effect/Prefab/500013/fx_500013_end.prefab,ect_gold

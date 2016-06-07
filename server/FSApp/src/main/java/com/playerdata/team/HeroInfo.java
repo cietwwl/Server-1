@@ -3,11 +3,14 @@ package com.playerdata.team;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /*
  * @author HC
  * @date 2016年4月15日 下午4:30:20
  * @Description 佣兵信息
  */
+@SynClass
 public class HeroInfo {
 	private HeroBaseInfo baseInfo;
 	private List<EquipInfo> equip;// 装备列表
