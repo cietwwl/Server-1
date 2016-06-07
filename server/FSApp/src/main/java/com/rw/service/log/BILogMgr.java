@@ -1,11 +1,14 @@
 package com.rw.service.log;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 
 import com.log.GameLog;
 import com.log.LogModule;
@@ -28,6 +31,7 @@ import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BIActivityEntry;
 import com.rw.service.log.template.BILogTemplate;
 import com.rw.service.log.template.BITaskType;
+import com.rw.service.log.template.ChatLogTemplate;
 import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
@@ -55,14 +59,8 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.gameworld.GameWorldFactory;
 
 public class BILogMgr {
-
-	// private ZoneRegInfo zoneRegInfo;
-	//
-	// private ZoneLoginInfo zoneLoginInfo;
-	//
-	// private RoleGameInfo roleGameInfo;
-
-	private static Logger biLog = Logger.getLogger("biLog");
+	
+	private static Map<eBILogType, Logger> LogMap = new HashMap<eBILogType, Logger>();
 
 	private static BILogMgr instance = new BILogMgr();
 
@@ -98,7 +96,34 @@ public class BILogMgr {
 		templateMap.put(eBILogType.RoleUpgrade, new RoleUpgradeLogTemplate());
 		templateMap.put(eBILogType.ZoneCountGiftGold, new ZoneCountGiftGoldLogTemplate());
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
+		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
+	}
+	
 
+	
+	private Logger getLogger(eBILogType type){
+		if(LogMap.containsKey(type)){
+			return LogMap.get(type);
+		}else{
+			Logger logger = Logger.getLogger(type.getLogName());
+			try {
+
+				logger.removeAllAppenders();
+				logger.setAdditivity(false);
+				PatternLayout layout = new PatternLayout();
+				layout.setConversionPattern("[%-5p] %m%n");
+				DailyRollingFileAppender appender;
+
+				appender = new DailyRollingFileAppender(layout, "./log/biLog/" + type.getLogName()+"/"+type.getLogName(), "yyyy-MM-dd");
+
+				logger.addAppender(appender);
+				LogMap.put(type, logger);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return logger;
+		}
 	}
 
 	public void logZoneReg(Player player) {
@@ -120,6 +145,16 @@ public class BILogMgr {
 		logPlayer(eBILogType.ZoneLogout, player, moreInfo);
 		logAccountLogout(player, moreInfo);
 		logRoleLogout(player);
+	}
+	
+	public void logChat(Player player, String targetUserId, int type, String content){
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("chatSenderAccount", player.getUserId());
+		moreInfo.put("vip", String.valueOf(player.getVip()));
+		moreInfo.put("chatReceiverUseId", targetUserId);
+		moreInfo.put("chatType", String.valueOf(type));
+		moreInfo.put("chatContent", String.valueOf(content));
+		logPlayer(eBILogType.Chat, player, moreInfo);
 	}
 
 	private void logAccountLogout(Player player, Map<String, String> moreInfo) {
@@ -474,7 +509,8 @@ public class BILogMgr {
 				@Override
 				public void run() {
 //					biLog.info(logType + " " + logTemplate.getTextTemplate());
-					biLog.info(logType + " " + log);
+					Logger logger = getLogger(logType);
+					logger.info(logType + " " + log);
 					LogService.getInstance().sendLog(log);
 
 				}

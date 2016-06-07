@@ -9,10 +9,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -249,11 +250,27 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.ActivityDailyType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {				
-				ActivityDailyCountTypeMgr.getInstance().synCountTypeData(player);	
+				ActivityDailyTypeMgr.getInstance().synCountTypeData(player);	
 //				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyType);
+		
+		versionMap.put(eSynType.MagicChapterData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {	
+				MagicSecretMgr.getInstance().synMagicChapterData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicChapterData);
+		
+		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				MagicSecretMgr.getInstance().synUserMSData(player);
+			}
+		}));
+		orderList.add(eSynType.MagicSecretData);
 
 		notInVersionControlList.add(notInVersionControlP);
 		
@@ -262,10 +279,9 @@ public class DataSynVersionHolder {
 			@Override
 			public void synAllData(Player player, int version) {
 				// TODO Auto-generated method stub
-				player.getPlayerQuestionMgr().sync(version);
+//				player.getPlayerQuestionMgr().sync(version);
 			}
 		}));
 		orderList.add(eSynType.QuestionList);
-		
 	}
 }

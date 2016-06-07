@@ -4,11 +4,19 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.gm.GmRequest;
+import com.gm.task.GmItem;
+import com.playerdata.ItemCfgHelper;
 import com.rw.fsutil.log.GmLog;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
+import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.item.pojo.ItemBaseCfg;
 
 public class GmUtils {
 
@@ -86,5 +94,36 @@ public class GmUtils {
 		content = FastJsonUtil.deserialize(json, clazz);
 		GmLog.info("SocketHelper[read] 处理gm请求：" + json);
 		return content;
+	}
+	
+	public static boolean checkAttachItemIegal(String attachment){
+		if (StringUtils.isNotBlank(attachment)) {
+			String[] split = attachment.split(",");
+			for (String itemTmp : split) {
+				if (StringUtils.isEmpty(itemTmp)) {
+					continue;
+				}
+				String[] itemTmpSplit = itemTmp.split("~");
+				if (itemTmpSplit.length == 2) {
+					int itemCode = Integer.valueOf(itemTmpSplit[0]);
+					eSpecialItemId def = eSpecialItemId.getDef(itemCode);
+					if (def != null) {
+						if (def == eSpecialItemId.eSpecial_End) {
+							return false;
+						}
+					} else {
+						ItemBaseCfg itemBaseCfg = ItemCfgHelper
+								.GetConfig(itemCode);
+						if (itemBaseCfg == null) {
+							return false;
+						}
+					}
+
+				} else {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

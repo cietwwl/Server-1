@@ -18,6 +18,11 @@ public class AttributeSet {
 	private AttributeSet(ArrayList<AttributeItem> attributes) {
 		this.attributes = attributes;
 	}
+	
+	public static Builder newBuilder(){
+		
+		return new Builder();
+	}
 
 	public AttributeSet add(AttributeSet attributeNode) {
 		ArrayList<AttributeItem> newList = new ArrayList<AttributeItem>();

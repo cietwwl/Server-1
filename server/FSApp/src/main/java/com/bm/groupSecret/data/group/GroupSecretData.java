@@ -14,29 +14,29 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @Table(name = "group_secret_data")
 @SynClass
 public class GroupSecretData {
-	
+
 	@Id
 	private String id;
-	
-	//秘境的主人
+
+	// 秘境的主人
 	private String ownerId;
 
 	private GroupSecretBaseData groupSecretBaseData = new GroupSecretBaseData();
-	
+
 	private GroupSecretReward groupSecretReward = new GroupSecretReward();
-	
+
 	private GroupSecretDefData groupSecretDefData = new GroupSecretDefData();
-	
-	//邀请的用户id列表
+
+	// 邀请的用户id列表
 	@IgnoreSynField
 	private List<String> invitedUserIdList;
-	
-	//参与驻守的用户Id列表
-	private List<String> joinedUserIdList;	
-	
-	//秘境开启时间
+
+	// 参与驻守的用户Id列表
+	private List<String> joinedUserIdList;
+
+	// 秘境开启时间
 	private long startTime;
-	
+
 	@IgnoreSynField
 	private int defLogNo = 1;
 
@@ -47,8 +47,6 @@ public class GroupSecretData {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
 
 	public String getOwnerId() {
 		return ownerId;
@@ -105,7 +103,5 @@ public class GroupSecretData {
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
-	
-	
-	
+
 }

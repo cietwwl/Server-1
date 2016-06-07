@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.bm.groupSecret.data.group.GroupSecretDefLog;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyCountTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
@@ -13,6 +13,7 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
@@ -68,7 +69,7 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
 	
-	private static MapItemStoreCache<ActivityDailyCountTypeItem> activityDailyCountTypeItemCache;
+	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
 	
@@ -85,6 +86,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 	
 	private static MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache;
+	
+	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -144,11 +147,11 @@ public class MapItemStoreFactory {
 		
 		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
 		
-		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyCountTypeItem>(ActivityDailyCountTypeItem.class, "userId", heroCapacity));
+		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyTypeItem>(ActivityDailyTypeItem.class, "userId", heroCapacity));
 		
-//		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
+		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
 		
-//		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
+		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
 		
 //		register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
 		
@@ -157,6 +160,8 @@ public class MapItemStoreFactory {
 		register(angelArrayFloorData = new MapItemStoreCache<AngelArrayFloorData>(AngelArrayFloorData.class, "userId", heroCapacity));
 
 		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
+		
+		register(magicChapterInfoCache = new MapItemStoreCache<MagicChapterInfo>(MagicChapterInfo.class, "userId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -277,7 +282,7 @@ public class MapItemStoreFactory {
 		return activityCountTypeItemCache;
 	}
 	
-	public static MapItemStoreCache<ActivityDailyCountTypeItem> getActivityDailyCountTypeItemCache() {
+	public static MapItemStoreCache<ActivityDailyTypeItem> getActivityDailyCountTypeItemCache() {
 		return activityDailyCountTypeItemCache;
 	}
 
@@ -344,5 +349,14 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<AngelArrayEnemyInfoData> getAngelArrayEnemyInfoData() {
 		return angelArrayEnemyInfoData;
+	}
+	
+	/**
+	 * 获取法宝秘境的章节缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<MagicChapterInfo> getMagicChapterInfoCache() {
+		return magicChapterInfoCache;
 	}
 }

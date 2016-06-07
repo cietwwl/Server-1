@@ -7,7 +7,6 @@ import com.bm.arena.ArenaConstant;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArenaExtAttribute extends FightingMember {
 
-	private static final int FIGHTING_TIMEOUT = 100000;
 	private int career; // 职业
 	private int fighting; // 战力
 	private String name; // 名称
@@ -15,7 +14,7 @@ public class ArenaExtAttribute extends FightingMember {
 	private String headbox; //头像框
 	private int level; // 等级
 
-	private int fightingTeam;
+	private int fightingTeam; //4个最高战力的佣兵的战力总和
 	private int sex;
 	private int modelId;
 	private int rankLevel;

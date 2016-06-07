@@ -2,9 +2,11 @@ package com.rwbase.dao.copy.pojo;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.readonly.ItemInfoIF;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SynClass
 public class ItemInfo implements ItemInfoIF
 {
 	private int itemID;
