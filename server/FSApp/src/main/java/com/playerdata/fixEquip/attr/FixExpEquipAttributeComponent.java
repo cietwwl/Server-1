@@ -8,6 +8,8 @@ import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeSet;
 import com.rwbase.common.attribute.impl.AbstractAttributeCalc;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 /*
  * @author HC
@@ -18,11 +20,15 @@ public class FixExpEquipAttributeComponent extends AbstractAttributeCalc {
 
 	@Override
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
-		
-		String ownerId = hero.getUUId();
-		List<AttributeItem> attrItems = hero.getFixExpEquipMgr().toAttrItems(ownerId );
-
-		return AttributeSet.newBuilder().addAttribute(attrItems).build();
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
+			
+			String ownerId = hero.getUUId();
+			List<AttributeItem> attrItems = hero.getFixExpEquipMgr().toAttrItems(ownerId );
+			
+			return AttributeSet.newBuilder().addAttribute(attrItems).build();
+		}else{
+			return AttributeSet.newBuilder().build();
+		}
 	}
 
 	@Override
