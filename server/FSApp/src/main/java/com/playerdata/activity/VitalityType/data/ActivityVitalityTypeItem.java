@@ -12,6 +12,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -53,11 +55,11 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	@CombineSave
 	private String version ;
 	
-	public void reset(ActivityVitalityCfg cfg){
+	public void reset(ActivityVitalityCfg cfg,ActivityVitalityTypeEnum eNum){
 		closed = false;
 		version = cfg.getVersion();
-		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday()));
-		setSubBoxItemList(ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday()));
+		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(),eNum));
+		setSubBoxItemList(ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(),eNum));
 		lastTime = System.currentTimeMillis();
 		activeCount = 0;
 	}

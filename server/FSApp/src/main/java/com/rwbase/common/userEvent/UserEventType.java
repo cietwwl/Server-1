@@ -31,8 +31,7 @@ public enum UserEventType {
 	AttachVitality,//一件装备封灵到x级
 	ResetElityVitality,//重置精英关卡x次
 	HeroUpgradeVitality,//把一个英雄升到x级
-	WarfareDifficultyTwoVitality,//通关无尽战火难度2X次
-	
+	WarfareDifficultyTwoVitality,//通关无尽战火难度2X次	
 	BuyInTowerShopVitality,//万仙阵商店购买x次
 	BuyPowerVitality,//购买体力x次
 	FactionDonateVitality,//帮派捐献x次
@@ -41,5 +40,28 @@ public enum UserEventType {
 	StrengthenMagicVitality,//强化法宝到x级
 	UseSilverKeyVitality,//使用银钥匙x个
 	GambleGoldVitality,//购买中级经验丹
-	arenaVitality;//竞技场多少次	
+	arenaVitality,//竞技场多少次	
+	
+	GoldSpendingVitalityTwo,//消费xx钻石
+	GivePowerVitalityTwo,//赠送体力x次
+	TreasureLandVitalityTwo,//聚宝之地通关x次
+	TowerVitalityTwo,//万仙得xx徽记
+	BattleTowerVitalityTwo,//封神通关第x层
+	AttachVitalityTwo,//一件装备封灵到x级
+	ResetElityVitalityTwo,//重置精英关卡x次
+	HeroUpgradeVitalityTwo,//把一个英雄升到x级
+	WarfareDifficultyTwoVitalityTwo,//通关无尽战火难度2X次
+	
+	BuyInTowerShopVitalityTwo,//万仙阵商店购买x次
+	BuyPowerVitalityTwo,//购买体力x次
+	FactionDonateVitalityTwo,//帮派捐献x次
+	UseSweepTicketVitalityTwo,//使用扫荡券xx张
+	LearnSkillInfactionVitalityTwo,//在帮派学习技能x次
+	StrengthenMagicVitalityTwo,//强化法宝到x级
+	UseSilverKeyVitalityTwo,//使用银钥匙x个
+	GambleGoldVitalityTwo,//购买中级经验丹
+	arenaVitalityTwo;//竞技场多少次	
+	
+	
+	
 }

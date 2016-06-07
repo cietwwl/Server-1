@@ -24,9 +24,9 @@ public class UserEventBuyInTowerShopVitalityHandler implements IUserEventHandler
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByType(ActivityVitalityTypeEnum.BuyInTowerShopVitality.getCfgId());
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.BuyInTowerShopVitality.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
+				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
 				if(subCfg!=null&&isLevelEnough){
 					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.BuyInTowerShopVitality,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);

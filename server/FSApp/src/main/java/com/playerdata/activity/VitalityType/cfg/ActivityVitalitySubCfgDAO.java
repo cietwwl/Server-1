@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -32,22 +33,75 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 
 
 	/**根据传入的活动类型来查找激活的子活动*/
-	public ActivityVitalitySubCfg getByType(String subId){
-		if(!ActivityVitalityTypeMgr.getInstance().isOpen()){
-			//活动未开启,不计数
-			return null;
-		}		
-		int day = ActivityVitalityCfgDAO.getInstance().getday();//getday方法必须在活动开启时才可有效传入参数,故需先用isopen来判断		
-		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
-		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
-		for (ActivityVitalitySubCfg cfg : allCfg) {
-			if(StringUtils.equals(cfg.getType(), subId)&&cfg.getDay() == day){
-				target = cfg;
-				break;
-			}
+	public ActivityVitalitySubCfg getByTypeAndActiveType(ActivityVitalityTypeEnum eNum,String subId){
+		ActivityVitalitySubCfg target = null;
+		if(eNum == ActivityVitalityTypeEnum.Vitality){
+			target=getVitalityOne(subId);
+		}
+		if(eNum == ActivityVitalityTypeEnum.VitalityTwo){
+			target=getViatlityTwo(subId);
 		}
 		return target;		
 	}
+	
+	private ActivityVitalitySubCfg getViatlityTwo(String subId) {
+		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		ActivityVitalityCfg cfg = null;
+		for(ActivityVitalityCfg cfgtmp : cfgList){
+			if(StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(),cfgtmp.getId() )){
+				cfg = cfgtmp;
+				break;						
+			}
+		}
+		if(cfg == null){
+			return null;
+		}
+		if (!ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+			// 活动未开启,不计数
+			return null;
+		}
+		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
+		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
+		for (ActivityVitalitySubCfg subcfg : allCfg) {
+			if (StringUtils.equals(subcfg.getType(), subId)) {
+				target = subcfg;
+				break;
+			}
+		}		
+		return target;
+	}
+	
+	
+	
+	private ActivityVitalitySubCfg getVitalityOne(String subId) {
+		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
+		ActivityVitalityCfg cfg = null;
+		for(ActivityVitalityCfg cfgtmp : cfgList){
+			if(StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(),cfgtmp.getId() )){
+				cfg = cfgtmp;
+				break;						
+			}
+		}
+		if(cfg == null){
+			return null;
+		}
+		if (!ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
+			// 活动未开启,不计数
+			return null;
+		}
+		int day = ActivityVitalityCfgDAO.getInstance().getday();// getday方法必须在活动开启时才可有效传入参数,故需先用isopen来判断
+		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
+		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
+		for (ActivityVitalitySubCfg subcfg : allCfg) {
+			if (StringUtils.equals(subcfg.getType(), subId) && subcfg.getDay() == day) {
+				target = subcfg;
+				break;
+			}
+		}
+		return target;
+	}
+
+
 	//根据传入的id来获得子活动
 	public ActivityVitalitySubCfg getById(String subId){
 		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();

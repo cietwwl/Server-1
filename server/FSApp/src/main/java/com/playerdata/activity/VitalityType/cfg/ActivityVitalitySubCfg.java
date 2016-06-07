@@ -21,6 +21,16 @@ public class ActivityVitalitySubCfg {
 	
 	private String emailTitle;
 
+	private int activeType;	
+	
+	public int getActiveType() {
+		return activeType;
+	}
+
+	public void setActiveType(int activeType) {
+		this.activeType = activeType;
+	}
+
 	public String getEmailTitle() {
 		return emailTitle;
 	}

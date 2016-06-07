@@ -5,6 +5,10 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
+import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -45,8 +49,9 @@ public class ActivityVitalityItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityVitalityTypeItem getItem(String userId){
-		return getItemStore(userId).getItem(userId);
+	public ActivityVitalityTypeItem getItem(String userId, ActivityVitalityTypeEnum acVitalityTypeEnum){
+		String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
+		return getItemStore(userId).getItem(itemId);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){

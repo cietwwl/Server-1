@@ -24,9 +24,9 @@ public class UserEventStrengthenMagicVitalityHandler implements IUserEventHandle
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByType(ActivityVitalityTypeEnum.StrengthenMagicVitality.getCfgId());
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.StrengthenMagicVitality.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
+				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
 				if(subCfg!=null&&isLevelEnough){
 					if(Integer.parseInt(params.toString())<subCfg.getCount()){//除去等级-存在之外的额外判断
 						//等级不够

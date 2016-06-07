@@ -24,9 +24,9 @@ public class UserEventGivePowerVitalityHandler implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByType(ActivityVitalityTypeEnum.GivePowerVitality.getCfgId());
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.GivePowerVitality.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
+				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
 				if(subCfg!=null&&isLevelEnough){
 					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.GivePowerVitality,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);

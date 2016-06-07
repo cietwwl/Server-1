@@ -30,9 +30,9 @@ public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventH
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByType(ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality.getCfgId());
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(player);
+				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
 				int[] ints = (int[])params;
 				if(ints == null){
 					return;

@@ -17,6 +17,16 @@ public class ActivityVitalityRewardCfg {
 	private int day;
 	
 	private String emailTitle;
+	
+	private int activeType;	
+	
+	public int getActiveType() {
+		return activeType;
+	}
+
+	public void setActiveType(int activeType) {
+		this.activeType = activeType;
+	}	
 
 	public String getEmailTitle() {
 		return emailTitle;

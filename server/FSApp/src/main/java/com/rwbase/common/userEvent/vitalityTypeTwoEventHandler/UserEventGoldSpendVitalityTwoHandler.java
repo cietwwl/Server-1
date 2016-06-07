@@ -1,4 +1,4 @@
-package com.rwbase.common.userEvent.vitalityTypeEventHandler;
+package com.rwbase.common.userEvent.vitalityTypeTwoEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
-public class UserEventGoldSpendVitalityHandler  implements IUserEventHandler{
+public class UserEventGoldSpendVitalityTwoHandler  implements IUserEventHandler{
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
-	public UserEventGoldSpendVitalityHandler(){
+	public UserEventGoldSpendVitalityTwoHandler(){
 		init();	
 	}
 	
@@ -26,17 +26,17 @@ public class UserEventGoldSpendVitalityHandler  implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.GoldSpendingVitality.getCfgId());
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.VitalityTwo,ActivityVitalityTypeEnum.GoldSpendingVitalityTwo.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
+				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
 				if(subCfg!= null&&isLevelEnough){
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.GoldSpendingVitality,subCfg, Integer.parseInt(params.toString()));
+					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.GoldSpendingVitalityTwo,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-消费开启",null);
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.GoldSpendingVitality.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.GoldSpendingVitalityTwo.toString()).append(" error");				
 				GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});

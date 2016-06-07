@@ -1,4 +1,4 @@
-package com.rwbase.common.userEvent.vitalityTypeEventHandler;
+package com.rwbase.common.userEvent.vitalityTypeTwoEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
-public class UserEventAttachVitalityHandler implements IUserEventHandler{
+public class UserEventArenaVitalityTwoHandler implements IUserEventHandler{
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
-	public UserEventAttachVitalityHandler(){
+	public UserEventArenaVitalityTwoHandler(){
 		init();	
 	}
 	
@@ -24,21 +24,22 @@ public class UserEventAttachVitalityHandler implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.AttachVitality.getCfgId());
+				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.VitalityTwo,ActivityVitalityTypeEnum.ArenaVitalityTwo.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
+				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
 				if(subCfg!=null&&isLevelEnough){
-					if(Integer.parseInt(params.toString())<subCfg.getCount()){//除去等级-存在之外的额外判断
-						//等级不够
-						return;
-					}
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.AttachVitality,subCfg, Integer.parseInt(params.toString()));
+					ActivityVitalityTypeMgr.getInstance().addCountTwo(player, ActivityVitalityTypeEnum.ArenaVitalityTwo,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
+				
+				
+				
+				
+				
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.AttachVitality.toString()).append(" error");				
+				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.ArenaVitalityTwo.toString()).append(" error");				
 				GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
