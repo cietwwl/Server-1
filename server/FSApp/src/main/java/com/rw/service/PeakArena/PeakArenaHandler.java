@@ -510,19 +510,12 @@ public class PeakArenaHandler {
 			recordForPlayer.setLevel(enemyUser.getLevel());
 			recordForPlayer.setTime(currentTimeMillis);
 			recordForPlayer.setChallenge(1);
-<<<<<<< HEAD
-			if (win && enemyPlace > playerPlace){
-				recordForPlayer.setPlaceUp(enemyPlace-playerPlace);
-				response.setPlaceUp(enemyPlace-playerPlace);
-				response.setPlace(playerPlace);
-=======
 			
 			int placeUp = playerPlace-enemyPlace;
 			if (win && placeUp > 0){
 				recordForPlayer.setPlaceUp(placeUp);
 				response.setPlaceUp(placeUp);
 				response.setPlace(enemyPlace);//排名对调了
->>>>>>> origin/develop
 			}
 			peakBM.addOthersRecord(playerArenaData, recordForPlayer);
 			
