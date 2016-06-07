@@ -55,6 +55,8 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg;
@@ -87,6 +89,13 @@ public class GroupSecretMatchHandler {
 
 		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
 		rsp.setReqType(MatchRequestType.SEARCHING_ENEMY);
+
+		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		if (openLevel != -1) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+			return rsp.build().toByteString();
+		}
 
 		// 检查个人的帮派数据
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -229,6 +238,13 @@ public class GroupSecretMatchHandler {
 
 		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
 		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_START);
+
+		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		if (openLevel != -1) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+			return rsp.build().toByteString();
+		}
 
 		// // 检查个人的帮派数据
 		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -495,35 +511,12 @@ public class GroupSecretMatchHandler {
 		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
 		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_END);
 
-		// // 检查个人的帮派数据
-		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		// String groupId = userGroupAttributeData.getGroupId();
-		// if (StringUtils.isEmpty(groupId)) {
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// Group group = GroupBM.get(groupId);
-		// if (group == null) {
-		// GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-		// if (groupData == null) {
-		// GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		// GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
-		// if (selfMemberData == null) {
-		// GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
+		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		if (openLevel != -1) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+			return rsp.build().toByteString();
+		}
 
 		// 检查是否有敌人
 		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
@@ -621,6 +614,13 @@ public class GroupSecretMatchHandler {
 
 		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
 		rsp.setReqType(MatchRequestType.GET_REWARD);
+
+		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player.getLevel());
+		if (openLevel != -1) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+			return rsp.build().toByteString();
+		}
 
 		// // 检查个人的帮派数据
 		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
