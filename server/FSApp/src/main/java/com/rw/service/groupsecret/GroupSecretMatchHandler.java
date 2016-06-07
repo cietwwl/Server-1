@@ -218,35 +218,35 @@ public class GroupSecretMatchHandler {
 		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
 		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_START);
 
-		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		String groupId = userGroupAttributeData.getGroupId();
-		if (StringUtils.isEmpty(groupId)) {
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
-
-		Group group = GroupBM.get(groupId);
-		if (group == null) {
-			GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
-
-		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-		if (groupData == null) {
-			GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
-
-		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
-		if (selfMemberData == null) {
-			GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
+		// // 检查个人的帮派数据
+		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		// String groupId = userGroupAttributeData.getGroupId();
+		// if (StringUtils.isEmpty(groupId)) {
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
+		//
+		// Group group = GroupBM.get(groupId);
+		// if (group == null) {
+		// GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
+		//
+		// GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		// if (groupData == null) {
+		// GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
+		//
+		// GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+		// GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
+		// if (selfMemberData == null) {
+		// GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
 
 		// 检查是否有敌人
 		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
@@ -459,11 +459,9 @@ public class GroupSecretMatchHandler {
 
 		// 更新秘境匹配的次数
 		if (atkTime <= 0) {
-			// userSecretBaseDataMgr.updateMatchTimes(player);
+			// 更新秘境的攻打时间
+			enemyDataMgr.updateMatchState2Atk(player, now);
 		}
-
-		// 更新秘境的攻打时间
-		enemyDataMgr.updateMatchState2Atk(player, now);
 
 		rsp.setIsSuccess(true);
 		rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
@@ -485,35 +483,35 @@ public class GroupSecretMatchHandler {
 		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
 		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_END);
 
-		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		String groupId = userGroupAttributeData.getGroupId();
-		if (StringUtils.isEmpty(groupId)) {
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
-
-		Group group = GroupBM.get(groupId);
-		if (group == null) {
-			GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
-
-		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-		if (groupData == null) {
-			GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
-
-		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
-		if (selfMemberData == null) {
-			GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
-			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-			return rsp.build().toByteString();
-		}
+		// // 检查个人的帮派数据
+		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		// String groupId = userGroupAttributeData.getGroupId();
+		// if (StringUtils.isEmpty(groupId)) {
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
+		//
+		// Group group = GroupBM.get(groupId);
+		// if (group == null) {
+		// GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
+		//
+		// GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		// if (groupData == null) {
+		// GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
+		//
+		// GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+		// GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
+		// if (selfMemberData == null) {
+		// GameLog.error("挑战秘境敌人结束", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
+		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
+		// return rsp.build().toByteString();
+		// }
 
 		// 检查是否有敌人
 		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
@@ -580,8 +578,18 @@ public class GroupSecretMatchHandler {
 
 		// 后续要通知所有的相关秘境被掠夺的资源数量
 		if (isBeat) {// 打败了
+			String groupName = "";
+			UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			Group group = GroupBM.get(userGroupAttributeData.getGroupId());
+			if (group != null) {
+				GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+				if (groupData != null) {
+					groupName = groupData.getGroupName();
+				}
+			}
+
 			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE(),
-					matchEnemyData.getAtkTimes(), groupData.getGroupName(), player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
+					matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
 		}
 
 		rsp.setIsSuccess(true);
