@@ -1,8 +1,8 @@
 package com.rwbase.dao.magicweapon;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -32,4 +32,6 @@ public class CriticalEnhanceCfgDAO extends CfgCsvDao<CriticalEnhanceCfg> {
 
 				return cfgCacheMap;
 			}
+
+
 }

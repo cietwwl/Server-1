@@ -95,10 +95,6 @@ public class DropItemManager {
 		List<Integer> list = CopyHandler.convertToIntList(items);
 		return pretreatDrop(player, list, copyId, firstDrop);
 	}
-	/**无尽战火奖励*/
-	public List<? extends ItemInfo> pretreatDrop(Player player, List<Integer> list, int copyId) throws DataAccessTimeoutException {
-		return pretreatDrop(player, list, copyId, false);
-	}
 
 	/**
 	 * 预处理掉落

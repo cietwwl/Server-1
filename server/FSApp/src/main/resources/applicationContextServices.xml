@@ -82,8 +82,12 @@
 			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyTypeService" />
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
+			     <entry key="MSG_MAGIC_SECRET" value-ref="magicSecretService" />
 			     <entry key="MSG_FEEDBACK" value-ref="feedbackService" />
 			     <entry key="MSG_FIX_EQUIP" value-ref="fixEquipService" />
+			     
+		     	<entry key="MSG_GROUP_SECRET" value-ref="groupSecretService" />
+     			<entry key="MSG_GROUP_SECRET_MATCH" value-ref="groupSecretServiceMatch" />
 			</map>
 		</property>
 	</bean>
@@ -143,6 +147,10 @@
 	<bean id="activityDailyTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
+	<bean id="magicSecretService" class="com.playerdata.mgcsecret.service.MagicSecretService"/>
 	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
 	<bean id="fixEquipService" class="com.playerdata.fixEquip.FixEquipService"  />
+	
+	<bean id="groupSecretService" class="com.rw.service.groupsecret.GroupSecretService"  />
+	<bean id="groupSecretServiceMatch" class="com.rw.service.groupsecret.GroupSecretMatchService"  />
 </beans>  

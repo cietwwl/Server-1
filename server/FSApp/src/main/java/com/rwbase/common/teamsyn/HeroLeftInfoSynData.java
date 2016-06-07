@@ -9,10 +9,13 @@ import com.playerdata.dataSyn.annotation.SynClass;
  */
 @SynClass
 public class HeroLeftInfoSynData {
-	private final int life;// 剩余的生命
-	private final int energy;// 剩余的能量
-	private final int maxLife;// 全部的血量
-	private final int maxEnergy;// 全部的能量
+	private int life;// 剩余的生命
+	private int energy;// 剩余的能量
+	private int maxLife;// 全部的血量
+	private int maxEnergy;// 全部的能量
+
+	public HeroLeftInfoSynData() {
+	}
 
 	public HeroLeftInfoSynData(int life, int energy, int maxLife, int maxEnergy) {
 		this.life = life;

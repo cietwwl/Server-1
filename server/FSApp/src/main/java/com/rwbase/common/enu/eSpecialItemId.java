@@ -8,7 +8,7 @@ public enum eSpecialItemId {
 	ArenaCoin(5, eAttrIdDef.PLAYER_ARENA_COIN), // 5.竞技币
 	BraveCoin(6, eAttrIdDef.PLAYER_TOWER_COIN), // 无畏之塔币
 	GuildCoin(7, eAttrIdDef.PLAYER_GUILD_COIN), // 公会币
-	UnendingWarCoin(8, eAttrIdDef.PLAYER_UNENDING_WAR_COIN), // 无尽战火币
+	MagicSecretCoin(8, eAttrIdDef.PLAYER_MAGIC_SECRET_COIN), // 法宝秘境货币
 	PeakArenaCoin(9, eAttrIdDef.PLAYER_PEAK_ARENA_COIN), // 巅峰刀币
 	BATTLE_TOWER_COPPER_KEY(10, null), // 试练塔铜钥匙
 	BATTLE_TOWER_SILVER_KEY(11, null), // 试练塔银钥匙

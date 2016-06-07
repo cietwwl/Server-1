@@ -3,12 +3,13 @@ package com.playerdata;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.readonly.AttrMgrIF;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.RoleAttrData;
 import com.rwbase.common.attrdata.RoleAttrDataHolder;
 import com.rwproto.SyncAttriProtos.TagAttriData;
 
-public class AttrMgr extends IDataMgr {
+public class AttrMgr extends IDataMgr implements AttrMgrIF {
 
 	private RoleAttrDataHolder roleAttrDataHolder;
 

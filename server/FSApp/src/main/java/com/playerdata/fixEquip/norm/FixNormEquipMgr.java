@@ -26,6 +26,7 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipStarCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItemHolder;
+import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
 
@@ -115,7 +116,7 @@ public class FixNormEquipMgr {
 		fixNormEquipDataItemHolder.synAllData(player, hero);
 	}
 	
-	public List<AttributeItem> toAttrItems(String ownerId){
+	public List<AttributeItem> levelToAttrItems(String ownerId){
 		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
 		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
 		for (FixNormEquipDataItem itemTmp : itemList) {
@@ -124,12 +125,34 @@ public class FixNormEquipMgr {
 			
 			AttributeUtils.calcAttribute(curLevelCfg.getAttrDataMap(),  curLevelCfg.getPrecentAttrDataMap(), attrMap );
 			
+			AttrCheckLoger.logAttr("普通神装_等级", ownerId, attrMap);
+		}
+		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
+		return attrItemList;
+	}
+	public List<AttributeItem> qualityToAttrItems(String ownerId){
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
+		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
+		for (FixNormEquipDataItem itemTmp : itemList) {
+			
 			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(itemTmp.getQualityPlanId(), itemTmp.getQuality());
 			AttributeUtils.calcAttribute(curQualityCfg.getAttrDataMap(),  curQualityCfg.getPrecentAttrDataMap(), attrMap );
 			
+			
+			AttrCheckLoger.logAttr("普通神装_品阶", ownerId, attrMap);
+		}
+		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
+		return attrItemList;
+	}
+	public List<AttributeItem> starToAttrItems(String ownerId){
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
+		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
+		for (FixNormEquipDataItem itemTmp : itemList) {
+		
 			FixNormEquipStarCfg curStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(itemTmp.getStarPlanId(), itemTmp.getStar());
 			AttributeUtils.calcAttribute(curStarCfg.getAttrDataMap(),  curStarCfg.getPrecentAttrDataMap(), attrMap );
 			
+			AttrCheckLoger.logAttr("普通神装_觉醒", ownerId, attrMap);
 		}
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
 		return attrItemList;
@@ -167,10 +190,9 @@ public class FixNormEquipMgr {
 		
 		
 		int toLevel = curQualityCfg.getLevelNeed();
-		Hero targetHero = player.getHeroMgr().getHeroById(ownerId);
-		int heroLevel = targetHero.getLevel();
-		if(toLevel > heroLevel){
-			toLevel = heroLevel;
+		int playerLevel = player.getLevel();
+		if(toLevel > playerLevel){
+			toLevel = playerLevel;
 		}
 		return toLevel;
 	}

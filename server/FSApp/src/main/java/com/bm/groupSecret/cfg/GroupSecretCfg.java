@@ -1,12 +1,10 @@
 package com.bm.groupSecret.cfg;
 
-
-
 public class GroupSecretCfg {
 
 	private String id;
-	
-	//秘境持续时间
+
+	// 秘境持续时间
 	private long duration;
 
 	public String getId() {
@@ -25,9 +23,4 @@ public class GroupSecretCfg {
 		this.duration = duration;
 	}
 
-	
-	
-
-
-	
 }
