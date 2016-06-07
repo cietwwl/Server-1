@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwproto.GroupSecretMatchProto.MatchSecretState;
 
@@ -60,7 +60,7 @@ public class GroupSecretMatchRankAttribute {
 	 */
 	@JsonIgnore
 	private SecretState getState() {
-		GroupSecretResourceTemplate groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);// 秘境的资源模版表
+		GroupSecretResourceCfg groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);// 秘境的资源模版表
 		long now = System.currentTimeMillis();
 		long robProtectMillis = TimeUnit.MINUTES.toMillis(groupSecretResTmp.getRobProtectTime());// 掠夺保护时间
 		long battleProtectMillis = TimeUnit.MINUTES.toMillis(groupSecretResTmp.getProtectTime());// 战斗保护时间

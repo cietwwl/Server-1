@@ -221,7 +221,7 @@ public class GroupSecretMatchEnemyData {
 	}
 
 	/**
-	 * 设置偷取某个防守点的资源
+	 * 设置偷取某个防守点的资源，保底是1
 	 * 
 	 * @param index
 	 * @param value
@@ -229,11 +229,11 @@ public class GroupSecretMatchEnemyData {
 	@JsonIgnore
 	public void setRobResValue(int index, int value) {
 		updateVersion();
-		robRes[index - 1] = value;
+		robRes[index - 1] = value <= 0 ? 1 : value;
 	}
 
 	/**
-	 * 设置偷取某个防守点的帮派物资
+	 * 设置偷取某个防守点的帮派物资，保底是1
 	 * 
 	 * @param index
 	 * @param value
@@ -241,11 +241,11 @@ public class GroupSecretMatchEnemyData {
 	@JsonIgnore
 	public void setRobGSValue(int index, int value) {
 		updateVersion();
-		robGS[index - 1] = value;
+		robGS[index - 1] = value <= 0 ? 1 : value;
 	}
 
 	/**
-	 * 设置偷取某个防守点的帮派经验
+	 * 设置偷取某个防守点的帮派经验，保底是1
 	 * 
 	 * @param index
 	 * @param value
@@ -253,7 +253,7 @@ public class GroupSecretMatchEnemyData {
 	@JsonIgnore
 	public void setRobGEValue(int index, int value) {
 		updateVersion();
-		robGE[index - 1] = value;
+		robGE[index - 1] = value <= 0 ? 1 : value;
 	}
 
 	/**

@@ -32,6 +32,7 @@ public class GroupSecretVersionMgr {
 		Map<String, Integer> map = groupSecretVersion.getMap();
 
 		String userId = player.getUserId();
+		int level = player.getLevel();
 		// 个人的秘境数据
 		UserGroupSecretBaseData userGroupSecretData = UserGroupSecretBaseDataMgr.getMgr().get(userId);
 
@@ -60,7 +61,7 @@ public class GroupSecretVersionMgr {
 				continue;
 			}
 
-			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(data, userId);
+			GroupSecretDataSynData synData = GroupSecretHelper.parseGroupSecretData2Msg(data, userId, level);
 			if (synData == null) {
 				continue;
 			}

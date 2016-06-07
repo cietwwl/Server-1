@@ -16,7 +16,7 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretBaseTemplate;
-import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
@@ -266,7 +266,7 @@ public class GroupSecretMatchHelper {
 			return false;
 		}
 
-		GroupSecretResourceTemplate cfg = secretResCfgDAO.getGroupSecretResourceTmp(attr.getCfgId());
+		GroupSecretResourceCfg cfg = secretResCfgDAO.getGroupSecretResourceTmp(attr.getCfgId());
 		if (cfg == null) {
 			return false;
 		}
@@ -281,8 +281,6 @@ public class GroupSecretMatchHelper {
 
 		long leftTimeMillis = needTimeMillis - now + createTime;
 
-		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		// System.err.println(sdf.format(new Date(createTime)) + ",需要的时间是：" + needTimeMillis);
 		if (leftTimeMillis < secretCanRobMinLeftTimeMillis) {
 			return false;
 		}

@@ -11,7 +11,9 @@ import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper.IUpdateSecretStateCallBack;
 import com.rwbase.dao.groupsecret.pojo.UserCreateGroupSecretDataHolder;
-import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
@@ -149,7 +151,7 @@ public class UserCreateGroupSecretDataMgr {
 	 * @param robGS
 	 * @param robGE
 	 */
-	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE, int[] atkTimes, String groupName, String name, int zoneId, String zoneName) {
+	public void updateGroupSecretRobInfo(String userId, int level, int id, int[] robRes, int[] robGS, int[] robGE, int[] atkTimes, String groupName, String name, int zoneId, String zoneName) {
 		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
 		if (userCreateGroupSecretData == null) {
 			return;
@@ -160,8 +162,7 @@ public class UserCreateGroupSecretDataMgr {
 			return;
 		}
 
-		final GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(groupSecretData.getSecretId());
-
+		final GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(groupSecretData.getSecretId());
 		final int robTimes = groupSecretData.getRobTimes() + 1;
 		groupSecretData.setRobTimes(robTimes);
 
@@ -184,6 +185,11 @@ public class UserCreateGroupSecretDataMgr {
 				return false;
 			}
 		};
+
+		GroupSecretLevelGetResTemplate levelTmp = null;
+		if (cfg != null) {
+			levelTmp = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(cfg.getLevelGroupId(), level);
+		}
 
 		String generateCacheSecretId = GroupSecretHelper.generateCacheSecretId(userId, id);
 		GroupSecretMatchHelper.updateGroupSecretState(generateCacheSecretId, call);// 更新秘境的状态
@@ -214,7 +220,7 @@ public class UserCreateGroupSecretDataMgr {
 			record.setRobTime(now);
 			record.setSecretId(groupSecretData.getSecretId());
 			record.setGroupName(groupName);
-			record.setDropDiamond(cfg == null ? 0 : cfg.getRobGold());
+			record.setDropDiamond(levelTmp == null ? 0 : levelTmp.getRobDiamond());
 			record.setZoneId(zoneId);
 			record.setZoneName(zoneName);
 

@@ -16,7 +16,8 @@ import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretMatchEnemyDataHolder;
-import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
@@ -75,7 +76,7 @@ public class GroupSecretMatchEnemyDataMgr {
 	 * @param groupSecretData
 	 * @param cfg
 	 */
-	public void updateMatchEnemyData(Player player, GroupSecretData groupSecretData, GroupSecretResourceTemplate cfg, int zoneId, String zoneName) {
+	public void updateMatchEnemyData(Player player, GroupSecretData groupSecretData, GroupSecretResourceCfg cfg, GroupSecretLevelGetResTemplate levelTmp, int zoneId, String zoneName) {
 		String userId = player.getUserId();
 		GroupSecretMatchEnemyData enemyData = get(userId);
 
@@ -106,14 +107,14 @@ public class GroupSecretMatchEnemyDataMgr {
 
 			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
 			int fighting = nextElement.getFighting();
-			proRes += (int) (fighting * cfg.getProductRatio() * minutes);
-			proGE += (int) (cfg.getGroupExpRatio() * minutes);
-			proGS += (int) (cfg.getGroupSupplyRatio() * minutes);
+			proRes += (int) (fighting * levelTmp.getProductRatio() * minutes);
+			proGE += (int) (levelTmp.getGroupExpRatio() * minutes);
+			proGS += (int) (levelTmp.getGroupSupplyRatio() * minutes);
 
 			// 产生的资源
-			int robRes = proRes * cfg.getRobGERatio() / AttributeConst.DIVISION;
-			int robGE = proGE * cfg.getRobGERatio() / AttributeConst.DIVISION;
-			int robGS = proGS * cfg.getRobGSRatio() / AttributeConst.DIVISION;
+			int robRes = proRes * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
+			int robGE = proGE * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
+			int robGS = proGS * levelTmp.getRobGSRatio() / AttributeConst.DIVISION;
 
 			int index = nextElement.getIndex();
 			enemyData.setRobResValue(index, robRes);

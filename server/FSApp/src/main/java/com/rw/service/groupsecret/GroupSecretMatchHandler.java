@@ -20,6 +20,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
@@ -28,6 +29,7 @@ import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -43,8 +45,10 @@ import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper.IUpdateSecretStateCallBack;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretBaseTemplate;
-import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
@@ -171,10 +175,18 @@ public class GroupSecretMatchHandler {
 		}
 
 		int cfgId = groupSecretData.getSecretId();
-		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
+		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
 		if (cfg == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("匹配到的记录Id是[%s],秘境CfgId是[%s],找不到配置表", matchId, cfgId));
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到可掠夺秘境，掠夺搜索秘境费用返回");
+			return rsp.build().toByteString();
+		}
+
+		int level = player.getLevel();
+		GroupSecretLevelGetResTemplate levelGetResTemplate = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(cfg.getLevelGroupId(), level);
+		if (levelGetResTemplate == null) {
+			GameLog.error("搜索秘境敌人", userId, String.format("找不到等级组[%s],角色等级[%s]的配置表", cfg.getLevelGroupId(), level));
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "找不到秘境等级组对应的配置");
 			return rsp.build().toByteString();
 		}
 
@@ -190,7 +202,7 @@ public class GroupSecretMatchHandler {
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -matchPrice);
 
 		// 获取可以掠夺的资源数量
-		mgr.updateMatchEnemyData(player, groupSecretData, cfg, zoneId, zoneName);
+		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName);
 
 		// 设置角色匹配到的秘境数据
 		userSecretBaseDataMgr.updateMatchSecretId(player, matchId);
@@ -286,7 +298,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		int cfgId = groupSecretData.getSecretId();
-		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
+		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
 		if (cfg == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("匹配到的记录Id是[%s],秘境CfgId是[%s],找不到配置表", id, cfgId));
 			GroupSecretBM.clearMatchEnemyInfo(player);
@@ -407,7 +419,7 @@ public class GroupSecretMatchHandler {
 				if (!isMainRole) {
 					canHeroList.add(heroId);
 				}
-			} else if (value.getLife() > 0) {
+			} else {
 				if (!isMainRole) {
 					canHeroList.add(heroId);
 				}
@@ -416,7 +428,6 @@ public class GroupSecretMatchHandler {
 				attrData.setId(heroId);
 				attrData.setCurLife(value.getLife());
 				attrData.setCurEnergy(value.getEnergy());
-
 				curAttrData.put(heroId, attrData);
 			}
 		}
@@ -435,15 +446,16 @@ public class GroupSecretMatchHandler {
 
 		List<ArmyHero> heroList = armyInfo.getHeroList();
 		for (int i = 0, size = heroList.size(); i < size; i++) {
-			String heroId = heroList.get(i).getRoleBaseInfo().getId();
+			ArmyHero armyHero = heroList.get(i);
+			String heroId = armyHero.getRoleBaseInfo().getId();
 			CurAttrData left = curAttrData.get(heroId);
 			if (left == null) {
 				left = new CurAttrData();
 				left.setId(heroId);
-				AttrData attrData = armyInfo.getPlayer().getAttrData();
+				AttrData attrData = armyHero.getAttrData();
 				left.setCurLife(attrData.getLife());
 			}
-			armyInfo.getPlayer().setCurAttrData(left);
+			armyHero.setCurAttrData(left);
 		}
 
 		AttackEnemyStartRspMsg.Builder endRsp = AttackEnemyStartRspMsg.newBuilder();
@@ -548,7 +560,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		int cfgId = groupSecretData.getSecretId();
-		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
+		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(cfgId);
 		if (cfg == null) {
 			GameLog.error("挑战秘境敌人结束", userId, String.format("匹配到的记录Id是[%s],秘境CfgId是[%s],找不到配置表", id, cfgId));
 			GroupSecretBM.clearMatchEnemyInfo(player);
@@ -588,8 +600,9 @@ public class GroupSecretMatchHandler {
 				}
 			}
 
-			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE(),
-					matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
+			PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(matchUserId);
+			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, readOnlyPlayer.getLevel(), secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(),
+					matchEnemyData.getRobGE(), matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
 		}
 
 		rsp.setIsSuccess(true);
@@ -607,7 +620,7 @@ public class GroupSecretMatchHandler {
 		String userId = player.getUserId();
 
 		GroupSecretMatchCommonRspMsg.Builder rsp = GroupSecretMatchCommonRspMsg.newBuilder();
-		rsp.setReqType(MatchRequestType.ATTACK_ENEMY_END);
+		rsp.setReqType(MatchRequestType.GET_REWARD);
 
 		// // 检查个人的帮派数据
 		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -666,10 +679,17 @@ public class GroupSecretMatchHandler {
 			}
 		}
 		// 增加资源
-		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(matchEnemyData.getCfgId());
+		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(matchEnemyData.getCfgId());
 		if (cfg != null && robRes > 0) {
 			player.getItemBagMgr().addItem(cfg.getReward(), robRes);
-			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), cfg.getRobGold());
+		}
+
+		if (cfg != null) {
+			int level = player.getLevel();
+			GroupSecretLevelGetResTemplate levelGetResTemplate = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(cfg.getLevelGroupId(), level);
+			if (levelGetResTemplate != null) {
+				player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), levelGetResTemplate.getRobDiamond());
+			}
 		}
 
 		GroupSecretBM.clearMatchEnemyInfo(player);

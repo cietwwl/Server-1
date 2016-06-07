@@ -26,7 +26,9 @@ import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
@@ -231,14 +233,17 @@ public class GroupSecretHelper {
 		}
 
 		int secretCfgId = secretData.getSecretId();
-		GroupSecretResourceTemplate cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
+		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
 		long protectTimeMillis = 0;
 		int robDiamondNum = 0;
 		if (cfg == null) {
 			GameLog.error("填充搜索到的秘境信息", userId, String.format("找不到秘境[%s]对应的配置表GroupSecretResourceTemplate", secretCfgId));
 		} else {
 			protectTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getProtectTime());
-			robDiamondNum = cfg.getRobGold();
+
+			// 掠夺的钻石数量
+			GroupSecretLevelGetResTemplate levelGetResTemplate = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(cfg.getLevelGroupId(), player.getLevel());
+			robDiamondNum = levelGetResTemplate == null ? 0 : levelGetResTemplate.getRobDiamond();
 		}
 
 		String id = generateCacheSecretId(matchUserId, secretId);
@@ -276,12 +281,18 @@ public class GroupSecretHelper {
 	 * @param userId
 	 * @return
 	 */
-	public static GroupSecretDataSynData parseGroupSecretData2Msg(GroupSecretData data, String userId) {
+	public static GroupSecretDataSynData parseGroupSecretData2Msg(GroupSecretData data, String userId, int level) {
 		long now = System.currentTimeMillis();
 		int secretCfgId = data.getSecretId();// 秘境的模版Id
-		GroupSecretResourceTemplate groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
+		GroupSecretResourceCfg groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretCfgId);
 		if (groupSecretResTmp == null) {
 			GameLog.error("把秘境数据填充成Proto消息", userId, String.format("找不到秘境[%s]对应的配置表GroupSecretResourceTemplate", secretCfgId));
+			return null;
+		}
+
+		GroupSecretLevelGetResTemplate levelGetResTemplate = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(groupSecretResTmp.getLevelGroupId(), level);
+		if (levelGetResTemplate == null) {
+			GameLog.error("把秘境数据填充成Proto消息", userId, String.format("找不到等级组[%s],角色等级[%s]的配置表", groupSecretResTmp.getLevelGroupId(), level));
 			return null;
 		}
 
@@ -303,9 +314,9 @@ public class GroupSecretHelper {
 		if (changeTeamTime > 0) {
 			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
 			int fighting = myDefendInfo.getFighting();
-			getRes += (int) (fighting * groupSecretResTmp.getProductRatio() * minutes);
-			getGE += (int) (groupSecretResTmp.getGroupExpRatio() * minutes);
-			getGS += (int) (groupSecretResTmp.getGroupSupplyRatio() * minutes);
+			getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
+			getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
+			getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
 		}
 
 		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), myDefendInfo.getIndex(), dropDiamond, getRes, getGE, getGS);

@@ -16,6 +16,7 @@ public class GroupSecretLevelGetResCfg {
 	private String productRatio;// 每分钟产出资源的权重
 	private String groupSupplyRatio;// 每分钟帮派物资的产出权重
 	private String groupExpRatio;// 每分钟帮派经验的产出权重
+	private String dropIdBasedOnJoinTime;// 基于驻守剩余的时间对应的掉落宝石的方案
 
 	public int getLevel() {
 		return level;
@@ -55,5 +56,9 @@ public class GroupSecretLevelGetResCfg {
 
 	public String getGroupExpRatio() {
 		return groupExpRatio;
+	}
+
+	public String getDropIdBasedOnJoinTime() {
+		return dropIdBasedOnJoinTime;
 	}
 }
