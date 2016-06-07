@@ -41,7 +41,8 @@ public enum eOpenLevelType {
 	SOUL(42), // 魂石开启
 	COPY_SWEEP(43), // 副本扫荡开放
 	USE_EXP_ITEM(44), // 使用经验丹
-	FIX_EQUIP(45), // 神装
+	FIX_EQUIP(53), // 神装
+	FIX_EQUIP_STAR(54), // 神装觉醒
 	;
 
 	private int order;

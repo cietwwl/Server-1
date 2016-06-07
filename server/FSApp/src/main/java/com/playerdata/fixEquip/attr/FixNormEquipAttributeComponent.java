@@ -7,6 +7,7 @@ import com.playerdata.Player;
 import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeSet;
+import com.rwbase.common.attribute.AttributeSet.Builder;
 import com.rwbase.common.attribute.impl.AbstractAttributeCalc;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
@@ -21,17 +22,26 @@ public class FixNormEquipAttributeComponent extends AbstractAttributeCalc {
 	@Override
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		
+		Builder attrSetBuilder = AttributeSet.newBuilder();
 		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
 			
 			String ownerId = hero.getUUId();
-			List<AttributeItem> attrItems = hero.getFixNormEquipMgr().toAttrItems(ownerId );
+			List<AttributeItem> attrItems_level = hero.getFixNormEquipMgr().levelToAttrItems(ownerId );
+			List<AttributeItem> attrItems_quality = hero.getFixNormEquipMgr().qualityToAttrItems(ownerId );
 			
-			return AttributeSet.newBuilder().addAttribute(attrItems).build();
-		}else{
-			return AttributeSet.newBuilder().build();
+			attrSetBuilder.addAttribute(attrItems_level);
+			attrSetBuilder.addAttribute(attrItems_quality);
 		}
 		
-
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())){
+			
+			String ownerId = hero.getUUId();
+			List<AttributeItem> attrItems_star = hero.getFixNormEquipMgr().starToAttrItems(ownerId );
+			
+			attrSetBuilder.addAttribute(attrItems_star);
+		}
+		
+		return attrSetBuilder.build();
 	}
 
 	@Override
