@@ -17,7 +17,7 @@ import com.common.RefInt;
 import com.log.GameLog;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.annotation.NonSave;
-import com.rw.service.gamble.GambleLogic;
+import com.rw.service.gamble.GambleHandler;
 import com.rw.service.gamble.GambleLogicHelper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -55,7 +55,10 @@ public class GambleHotHeroPlan {
 		this.errDefaultModelId = errDefaultModelId;
 	}
 
-	private GambleHotHeroPlan() {
+	/**
+	 * 仅仅用于hson库的序列化/反序列化
+	 */
+	public GambleHotHeroPlan() {
 	}
 
 	private void Init(Random r, int hotPlanId, int hotCount, String errDefaultModelId) {
@@ -100,6 +103,7 @@ public class GambleHotHeroPlan {
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
 		if (result == null || result.dateAsId == null) {
+			//TODO 改为用一个静态的GambleHotHeroPlan做容错，避免并发修改每日热点数据
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;
 			result.Init(r, planId, hotCount, errDefaultModelId);
@@ -124,7 +128,7 @@ public class GambleHotHeroPlan {
 		if (!GambleLogicHelper.isValidHeroId(defaultHero) && StringUtils.isNotBlank(result.errDefaultModelId)) {
 			defaultHero = result.errDefaultModelId;
 		}
-		result.Init(r, helper.getTodayHotPlanId(), GambleLogic.HotHeroPoolSize, defaultHero);
+		result.Init(r, helper.getTodayHotPlanId(), GambleHandler.HotHeroPoolSize, defaultHero);
 		if (!DAO.commit(result)) {
 			GameLog.error("钓鱼台", "数据库操作,gamble_hotHeroPlan", "更新失败");
 		}
@@ -139,7 +143,7 @@ public class GambleHotHeroPlan {
 	public static Iterable<String> getTodayHotList() {
 		String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
 
-		GambleHotHeroPlan.InitTodayHotHeroList(GambleLogic.getInstance().getRandom(), guanrateeHero);
+		GambleHotHeroPlan.InitTodayHotHeroList(GambleHandler.getInstance().getRandom(), guanrateeHero);
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		String date = getDateStr();
 		GambleHotHeroPlan generatedPlan = DAO.get(date);
@@ -170,7 +174,7 @@ public class GambleHotHeroPlan {
 
 		// 用热点组生成N个英雄
 		int hotPlanId = hotGambleConfig.getTodayHotPlanId();
-		GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId, GambleLogic.HotHeroPoolSize, errDefaultModelId);
+		GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId, GambleHandler.HotHeroPoolSize, errDefaultModelId);
 	}
 
 }

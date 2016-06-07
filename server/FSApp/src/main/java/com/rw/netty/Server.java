@@ -21,6 +21,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.log.GameLog;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -55,9 +56,8 @@ public class Server {
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
-//			// lida 2015-08-21 启动http通信端口
-//			int httpPort = GameManager.getHttpPort();
-//			HttpServer.httpServerStart(httpPort);
+			//初始化每日热点数据
+			GambleHotHeroPlan.getTodayHotList();
 
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
