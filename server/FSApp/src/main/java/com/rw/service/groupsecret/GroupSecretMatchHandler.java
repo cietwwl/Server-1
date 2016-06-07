@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.bm.groupSecret.GroupSecretBM;
+import com.bm.login.ZoneBM;
 import com.bm.rank.RankType;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankComparable;
@@ -30,6 +31,7 @@ import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.manager.GameManager;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
@@ -49,6 +51,7 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
+import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartReqMsg;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyStartRspMsg;
@@ -175,11 +178,19 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
+		// 获取zone信息
+		int zoneId = GameManager.getZoneId();
+		String zoneName = "";
+		TableZoneInfo tableZoneInfo = ZoneBM.getInstance().getTableZoneInfo(zoneId);
+		if (tableZoneInfo != null) {
+			zoneName = tableZoneInfo.getZoneName();
+		}
+
 		// 扣除费用
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -matchPrice);
 
 		// 获取可以掠夺的资源数量
-		mgr.updateMatchEnemyData(player, groupSecretData, cfg);
+		mgr.updateMatchEnemyData(player, groupSecretData, cfg, zoneId, zoneName);
 
 		// 设置角色匹配到的秘境数据
 		userSecretBaseDataMgr.updateMatchSecretId(player, matchId);
@@ -570,7 +581,7 @@ public class GroupSecretMatchHandler {
 		// 后续要通知所有的相关秘境被掠夺的资源数量
 		if (isBeat) {// 打败了
 			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE(),
-					matchEnemyData.getAtkTimes(), groupData.getGroupName(), player.getUserName());
+					matchEnemyData.getAtkTimes(), groupData.getGroupName(), player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
 		}
 
 		rsp.setIsSuccess(true);

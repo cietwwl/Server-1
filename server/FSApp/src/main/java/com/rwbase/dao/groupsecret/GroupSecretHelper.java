@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.group.GroupBM;
 import com.bm.groupSecret.GroupSecretBM;
 import com.common.HPCUtil;
 import com.log.GameLog;
@@ -22,6 +23,9 @@ import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.teamsyn.DefendHeroBaseInfoSynData;
 import com.rwbase.common.teamsyn.DefendTeamInfoSynData;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
+import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
@@ -164,9 +168,22 @@ public class GroupSecretHelper {
 							.equals(defendUserId), isDie, heroLeftInfo));
 				}
 
+				String groupName = "";
+				UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+				Group group = GroupBM.get(userGroupAttributeData.getGroupId());
+				if (group != null) {
+					GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+					if (groupData != null) {
+						groupName = groupData.getGroupName();
+					}
+				}
+
+				int zoneId = enemyData == null ? 0 : enemyData.getZoneId();
+				String zoneName = enemyData == null ? "" : enemyData.getZoneName();
+
 				DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(),
-						readOnlyPlayer.getUserName(), readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", readOnlyPlayer
-								.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName())) : new DefendUserInfoSynData(index, true, null);
+						readOnlyPlayer.getUserName(), readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName))
+						: new DefendUserInfoSynData(index, true, null);
 				defendUserInfoMap.put(index, userInfo);
 			}
 		}

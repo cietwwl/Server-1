@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.HeroIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.manager.GameManager;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.teamsyn.HeroLeftInfoSynData;
@@ -74,9 +75,11 @@ public class GroupSecretMatchEnemyDataMgr {
 	 * @param groupSecretData
 	 * @param cfg
 	 */
-	public void updateMatchEnemyData(Player player, GroupSecretData groupSecretData, GroupSecretResourceTemplate cfg) {
+	public void updateMatchEnemyData(Player player, GroupSecretData groupSecretData, GroupSecretResourceTemplate cfg, int zoneId, String zoneName) {
 		String userId = player.getUserId();
 		GroupSecretMatchEnemyData enemyData = get(userId);
+
+		GameManager.getZoneId();
 
 		int secretId = groupSecretData.getSecretId();
 		long now = System.currentTimeMillis();
@@ -85,6 +88,8 @@ public class GroupSecretMatchEnemyDataMgr {
 		enemyData.setMatchUserId(groupSecretData.getUserId());
 		enemyData.setUserId(userId);
 		enemyData.setCfgId(secretId);
+		enemyData.setZoneId(zoneId);
+		enemyData.setZoneName(zoneName);
 
 		Enumeration<DefendUserInfoData> values = groupSecretData.getEnumerationValues();
 		while (values.hasMoreElements()) {

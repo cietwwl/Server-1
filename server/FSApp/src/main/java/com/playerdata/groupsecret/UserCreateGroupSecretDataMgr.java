@@ -149,7 +149,7 @@ public class UserCreateGroupSecretDataMgr {
 	 * @param robGS
 	 * @param robGE
 	 */
-	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE, int[] atkTimes, String groupName, String name) {
+	public void updateGroupSecretRobInfo(String userId, int id, int[] robRes, int[] robGS, int[] robGE, int[] atkTimes, String groupName, String name, int zoneId, String zoneName) {
 		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
 		if (userCreateGroupSecretData == null) {
 			return;
@@ -215,6 +215,8 @@ public class UserCreateGroupSecretDataMgr {
 			record.setSecretId(groupSecretData.getSecretId());
 			record.setGroupName(groupName);
 			record.setDropDiamond(cfg == null ? 0 : cfg.getRobGold());
+			record.setZoneId(zoneId);
+			record.setZoneName(zoneName);
 
 			GameWorldFactory.getGameWorld().asyncExecute(userInfo.getUserId(), new PlayerTask() {
 

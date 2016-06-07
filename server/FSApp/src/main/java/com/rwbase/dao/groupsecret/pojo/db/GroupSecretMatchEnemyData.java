@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -24,6 +25,7 @@ import com.rwproto.GroupSecretProto.GroupSecretIndex;
  * @date 2016年5月26日 下午3:08:51
  * @Description 秘境匹配到的敌人信息
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class GroupSecretMatchEnemyData {
 	private int id;// 搜索到的秘境Id
@@ -41,6 +43,8 @@ public class GroupSecretMatchEnemyData {
 	private int[] robGE = new int[3];// 可以掠夺的帮派经验
 	private int[] atkTimes = new int[3];// 攻击每个驻守点敌人的次数
 	private boolean isBeat = false;// 是否已经抢到了
+	private int zoneId;// 区ID
+	private String zoneName;// 区名字
 	@NonSave
 	private AtomicInteger version = new AtomicInteger(-1);
 
@@ -95,6 +99,14 @@ public class GroupSecretMatchEnemyData {
 		return cfgId;
 	}
 
+	public int getZoneId() {
+		return zoneId;
+	}
+
+	public String getZoneName() {
+		return zoneName;
+	}
+
 	// ////////////////////////////////////////////////逻辑Set区
 	public void setId(int id) {
 		this.id = id;
@@ -122,6 +134,14 @@ public class GroupSecretMatchEnemyData {
 
 	public void setCfgId(int cfgId) {
 		this.cfgId = cfgId;
+	}
+
+	public void setZoneId(int zoneId) {
+		this.zoneId = zoneId;
+	}
+
+	public void setZoneName(String zoneName) {
+		this.zoneName = zoneName;
 	}
 
 	// ////////////////////////////////////////////////逻辑区

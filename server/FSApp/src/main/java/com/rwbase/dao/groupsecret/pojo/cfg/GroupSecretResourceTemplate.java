@@ -18,17 +18,17 @@ public class GroupSecretResourceTemplate {
 	private final int resType;// 秘境的类型
 	private final int needTime;// 产出需要的时间（分钟）
 	private final int reward;// 奖励的物品Id
-	private final int diamondDropId;// 钻石掉落组的Id
 	private final int robCount;// 可以掠夺的次数
-	private final int robGold;// 掠夺的钻石
 	private final int protectTime;// 保护的时间（分钟）
 	private final int robProtectTime;// 被掠夺之后保护时间（分钟）
-	private final int robGSRatio;// 掠夺帮派物资的权重
-	private final int robGERatio;// 掠夺帮派经验的权重
-	private final int robRatio;// 掠夺资源的权重
 	private final int fromCreate2RobNeedTime;// 从创建到可以被掠夺至少要过多久
 	private final int robNeedKeyNum;// 掠夺需要消耗的钥石数量
 	private final List<Drop> dropIdBasedOnJoinTimeList;// 掉落宝石方案对应的加入时间剩余
+	private final int diamondDropId;// 钻石掉落组的Id
+	private final int robGold;// 掠夺的钻石
+	private final int robGSRatio;// 掠夺帮派物资的权重
+	private final int robGERatio;// 掠夺帮派经验的权重
+	private final int robRatio;// 掠夺资源的权重
 
 	private final float productRatio;// 每分钟产出资源的权重
 	private final float groupSupplyRatio;// 每分钟帮派物资的产出权重
