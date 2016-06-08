@@ -1,5 +1,7 @@
 package com.bm.robot;
 
+import java.util.List;
+
 import com.bm.arena.RobotEntryCfg;
 import com.rwbase.common.RandomUtil;
 
@@ -40,8 +42,8 @@ public class RobotHeroBuildData {
 		
 		buildData.roleModelId = roleModelId;
 		//等级
-		int[] level = robotCfg.getHeroLevel(mainRoleLevel);
-		buildData.heroLevel = level[getRandomIndex(level.length)];
+		List<Integer> level = robotCfg.getHeroLevel(mainRoleLevel);
+		buildData.heroLevel = level.get(getRandomIndex(level.size()));
 		// 品质
 		int[] quality = robotCfg.getHeroQuality();
 		buildData.heroQuality = quality[getRandomIndex(quality.length)];

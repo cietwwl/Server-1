@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.arena.RobotCfgDAO;
 import com.bm.arena.RobotEntryCfg;
 import com.bm.arena.RobotHeroCfg;
 import com.bm.arena.RobotHeroCfgDAO;
@@ -25,7 +26,9 @@ import com.rwbase.dao.role.pojo.RoleCfg;
 public final class RobotHeroBuilder {
 
 	
-	public static TeamInfo buildTeamInfo(RobotEntryCfg robotCfg){
+	public static TeamInfo buildOnlyHerosTeamInfo(int robotId){
+		String robotIdStr = String.valueOf(robotId);
+		RobotEntryCfg robotCfg = RobotCfgDAO.getInstance().getOnlyHerosRobotCfg(robotIdStr);
 		
 		RobotHeroCfg robotHeroCfg = getRandomRobotHeroCfg(robotCfg);		
 		List<HeroInfo> heroList = new ArrayList<HeroInfo>();		

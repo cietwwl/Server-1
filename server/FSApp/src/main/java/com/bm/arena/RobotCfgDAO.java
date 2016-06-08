@@ -77,7 +77,7 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 					arenaRobots_.put(i, entry);
 				}
 			} else if(robotType == RobotType.OnlyHeros.type) {
-				Map<String, RobotEntryCfg> map = robotMap_.get(robotType);
+				Map<String, RobotEntryCfg> map = onlyHerorobotMapTmp.get(robotType);
 				if (map == null) {
 					map = new HashMap<String, RobotEntryCfg>();
 					onlyHerorobotMapTmp.put(robotType, map);

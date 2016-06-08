@@ -212,17 +212,15 @@ public class RobotEntryCfg {
 	public int[] getHeroLevel() {
 		return heroLevel;
 	}
-	public int[] getHeroLevel(int maxLevel) {
-		int[] levelArray = new int[]{};
-		int index = 0;
+	public List<Integer> getHeroLevel(int maxLevel) {
+		List<Integer> levelList = new ArrayList<Integer>();
 		for (int levelTmp : heroLevel) {
 			if(levelTmp <= maxLevel){
-				levelArray[index] = levelTmp;
-				index++;
+				levelList.add(levelTmp);
 			}
 		}		
 		
-		return levelArray;
+		return levelList;
 	}
 
 	public int[] getHeroQuality() {
