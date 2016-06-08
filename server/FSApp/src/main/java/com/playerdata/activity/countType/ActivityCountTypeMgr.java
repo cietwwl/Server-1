@@ -65,14 +65,14 @@ public class ActivityCountTypeMgr {
 			}
 			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
 			if (countTypeEnum == null) {
-				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型：" + activityCountTypeCfg.getId());
+				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + activityCountTypeCfg.getId());
 				continue;
 			}
 			ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);// 已在之前生成数据的活动
 			if (targetItem == null) {
 				targetItem = ActivityCountTypeCfgDAO.getInstance().newItem(player, countTypeEnum);// 生成新开启活动的数据
 				if (targetItem == null) {
-					// logger
+					GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "根据活动类型枚举找不到对应的cfg：" + activityCountTypeCfg.getId());
 					continue;
 				}
 				if (addItemList == null) {
