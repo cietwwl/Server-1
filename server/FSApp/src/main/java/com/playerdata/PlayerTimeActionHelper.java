@@ -8,6 +8,7 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
@@ -202,12 +203,14 @@ public class PlayerTimeActionHelper {
 				player.getCopyDataMgr().resetDataInNewDay();
 			}
 		});
-		// onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
-		// @Override
-		// public void doTask() {
-		// player.getCopyDataMgr().resetDataInNewDay();
-		// }
-		// });
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
+				//个人帮派副本数据重置
+				player.getUserGroupCopyLevelRecordMgr().resetDataInNewDay();
+				player.getUserGroupAttributeDataMgr().resetAllotGroupRewardCount();
+			}
+		});
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {

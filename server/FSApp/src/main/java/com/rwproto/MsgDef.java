@@ -639,6 +639,22 @@ public final class MsgDef {
      * </pre>
      */
     MSG_GAMEPRESS(84, 999),
+    /**
+     * <code>MSG_GROUP_COPY_ADMIN = 184;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    MSG_GROUP_COPY_ADMIN(85, 184),
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 185;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    MSG_GROUP_COPY_BATTLE(86, 185),
     ;
 
     /**
@@ -1267,6 +1283,22 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_GAMEPRESS_VALUE = 999;
+    /**
+     * <code>MSG_GROUP_COPY_ADMIN = 184;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_ADMIN_VALUE = 184;
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 185;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_BATTLE_VALUE = 185;
 
 
     public final int getNumber() { return value; }
@@ -1358,6 +1390,8 @@ public final class MsgDef {
         case 997: return MSG_NUMERIC_ANALYSIS;
         case 998: return MSG_PLATFORMGS;
         case 999: return MSG_GAMEPRESS;
+        case 184: return MSG_GROUP_COPY_ADMIN;
+        case 185: return MSG_GROUP_COPY_BATTLE;
         default: return null;
       }
     }
@@ -1418,7 +1452,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\261\r\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\350\r\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1461,8 +1495,9 @@ public final class MsgDef {
       "CRET\020\312\001\022\025\n\020MSG_MAGIC_SECRET\020\313\001\022\021\n\014MSG_FE" +
       "EDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NU" +
       "MERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022" +
-      "\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDe" +
-      "f"
+      "\n\rMSG_GAMEPRESS\020\347\007\022\031\n\024MSG_GROUP_COPY_ADM" +
+      "IN\020\270\001\022\032\n\025MSG_GROUP_COPY_BATTLE\020\271\001B\025\n\013com" +
+      ".rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

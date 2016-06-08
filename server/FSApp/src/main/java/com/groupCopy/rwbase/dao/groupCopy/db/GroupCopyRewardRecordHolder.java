@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -14,13 +16,11 @@ public class GroupCopyRewardRecordHolder{
 	
 	
 	
-	final private String goupId;
-	final private MapItemStore<GroupCopyRewardRecord> itemStore;
+	final private String groupId;
 	final private eSynType synType = eSynType.GroupCopyReward;
 	
 	public GroupCopyRewardRecordHolder(String groupIdP) {
-		goupId = groupIdP;
-		itemStore = new MapItemStore<GroupCopyRewardRecord>("groupId", goupId, GroupCopyRewardRecord.class);
+		groupId = groupIdP;
 	}
 	
 	/*
@@ -30,7 +30,7 @@ public class GroupCopyRewardRecordHolder{
 	{
 		
 		List<GroupCopyRewardRecord> itemList = new ArrayList<GroupCopyRewardRecord>();
-		Enumeration<GroupCopyRewardRecord> mapEnum = itemStore.getEnum();
+		Enumeration<GroupCopyRewardRecord> mapEnum = getItemStore().getEnum();
 		while (mapEnum.hasMoreElements()) {
 			GroupCopyRewardRecord item = (GroupCopyRewardRecord) mapEnum.nextElement();
 			itemList.add(item);
@@ -40,26 +40,17 @@ public class GroupCopyRewardRecordHolder{
 	}
 	
 	public void updateItem(Player player, GroupCopyRewardRecord item){
-		itemStore.updateItem(item);
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		getItemStore().updateItem(item);
 	}
 	
 	public GroupCopyRewardRecord getItem(String itemId){
-		return itemStore.getItem(itemId);
+		return getItemStore().getItem(itemId);
 	}
 	
-	public boolean removeItem(Player player, GroupCopyRewardRecord item){
-		
-		boolean success = itemStore.removeItem(item.getId());
-		if(success){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-		}
-		return success;
-	}
 	
 	public boolean addItem(Player player, GroupCopyRewardRecord item){
 	
-		boolean addSuccess = itemStore.addItem(item);
+		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
@@ -72,8 +63,9 @@ public class GroupCopyRewardRecordHolder{
 	}
 
 	
-	public void flush(){
-		itemStore.flush();
-	}
 	
+	private MapItemStore<GroupCopyRewardRecord> getItemStore(){
+		MapItemStoreCache<GroupCopyRewardRecord> cache = MapItemStoreFactory.getGroupCopyRewardRecordCache();
+		return cache.getMapItemStore(groupId, GroupCopyRewardRecord.class);
+	}
 }

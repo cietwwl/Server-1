@@ -6,6 +6,8 @@ public class GroupCopyResult {
 	
 	private String tipMsg;
 	
+	private Object item;
+	
 	private GroupCopyResult(){
 		
 	}
@@ -30,6 +32,14 @@ public class GroupCopyResult {
 	public GroupCopyResult setTipMsg(String tipMsg) {
 		this.tipMsg = tipMsg;
 		return this;
+	}
+
+	public Object getItem() {
+		return item;
+	}
+
+	public void setItem(Object item) {
+		this.item = item;
 	}
 	
 	

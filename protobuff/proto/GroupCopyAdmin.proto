@@ -1,13 +1,12 @@
 syntax = "proto2";
-option java_package = "com.rwproto";
+option java_package = "com.groupCopy.rwproto";
 option java_outer_classname = "GroupCopyAdminProto";
 
 package GroupCopyAdmin;
 
 enum RequestType{
-	GET_COPY_INFO = 1;//副本打开的时候获取副本信息
-	OPEN_COPY = 2;//开启副本
-	RESET_COPY = 3;//重启副本
+	OPEN_COPY = 1;//开启副本
+	RESET_COPY = 2;//重启副本
 }
 
 

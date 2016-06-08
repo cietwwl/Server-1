@@ -33,7 +33,6 @@ public class GroupCopyBattleService implements FsService {
 				byteString = handler.endFight(player, commonReq);
 				break;
 			default:
-				
 				GameLog.error(LogModule.COPY, "GroupCopyBattleService[doTask]", "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}

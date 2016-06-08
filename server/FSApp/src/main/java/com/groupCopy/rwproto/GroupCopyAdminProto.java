@@ -14,64 +14,47 @@ public final class GroupCopyAdminProto {
   public enum RequestType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>GET_COPY_INFO = 1;</code>
-     *
-     * <pre>
-     *副本打开的时候获取副本信息
-     * </pre>
-     */
-    GET_COPY_INFO(0, 1),
-    /**
-     * <code>OPEN_COPY = 2;</code>
+     * <code>OPEN_COPY = 1;</code>
      *
      * <pre>
      *开启副本
      * </pre>
      */
-    OPEN_COPY(1, 2),
+    OPEN_COPY(0, 1),
     /**
-     * <code>RESET_COPY = 3;</code>
+     * <code>RESET_COPY = 2;</code>
      *
      * <pre>
      *重启副本
      * </pre>
      */
-    RESET_COPY(2, 3),
+    RESET_COPY(1, 2),
     ;
 
     /**
-     * <code>GET_COPY_INFO = 1;</code>
-     *
-     * <pre>
-     *副本打开的时候获取副本信息
-     * </pre>
-     */
-    public static final int GET_COPY_INFO_VALUE = 1;
-    /**
-     * <code>OPEN_COPY = 2;</code>
+     * <code>OPEN_COPY = 1;</code>
      *
      * <pre>
      *开启副本
      * </pre>
      */
-    public static final int OPEN_COPY_VALUE = 2;
+    public static final int OPEN_COPY_VALUE = 1;
     /**
-     * <code>RESET_COPY = 3;</code>
+     * <code>RESET_COPY = 2;</code>
      *
      * <pre>
      *重启副本
      * </pre>
      */
-    public static final int RESET_COPY_VALUE = 3;
+    public static final int RESET_COPY_VALUE = 2;
 
 
     public final int getNumber() { return value; }
 
     public static RequestType valueOf(int value) {
       switch (value) {
-        case 1: return GET_COPY_INFO;
-        case 2: return OPEN_COPY;
-        case 3: return RESET_COPY;
+        case 1: return OPEN_COPY;
+        case 2: return RESET_COPY;
         default: return null;
       }
     }
@@ -435,7 +418,7 @@ public final class GroupCopyAdminProto {
                 com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.class, com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.newBuilder()
+      // Construct using com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -962,7 +945,7 @@ public final class GroupCopyAdminProto {
                 com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.class, com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.newBuilder()
+      // Construct using com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1510,7 +1493,7 @@ public final class GroupCopyAdminProto {
     }
 
     private void initFields() {
-      reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       version_ = "";
       openReqMsg_ = com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.getDefaultInstance();
       resetReqMsg_ = com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.getDefaultInstance();
@@ -1676,7 +1659,7 @@ public final class GroupCopyAdminProto {
                 com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg.class, com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg.newBuilder()
+      // Construct using com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1698,7 +1681,7 @@ public final class GroupCopyAdminProto {
 
       public Builder clear() {
         super.clear();
-        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1840,7 +1823,7 @@ public final class GroupCopyAdminProto {
       private int bitField0_;
 
       // required .GroupCopyAdmin.RequestType reqType = 1;
-      private com.groupCopy.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      private com.groupCopy.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       /**
        * <code>required .GroupCopyAdmin.RequestType reqType = 1;</code>
        *
@@ -1886,7 +1869,7 @@ public final class GroupCopyAdminProto {
        */
       public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         onChanged();
         return this;
       }
@@ -2516,7 +2499,7 @@ public final class GroupCopyAdminProto {
     }
 
     private void initFields() {
-      reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       isSuccess_ = false;
       tipMsg_ = "";
     }
@@ -2666,7 +2649,7 @@ public final class GroupCopyAdminProto {
                 com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg.class, com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg.newBuilder()
+      // Construct using com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2686,7 +2669,7 @@ public final class GroupCopyAdminProto {
 
       public Builder clear() {
         super.clear();
-        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         bitField0_ = (bitField0_ & ~0x00000001);
         isSuccess_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2795,7 +2778,7 @@ public final class GroupCopyAdminProto {
       private int bitField0_;
 
       // required .GroupCopyAdmin.RequestType reqType = 1;
-      private com.groupCopy.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      private com.groupCopy.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       /**
        * <code>required .GroupCopyAdmin.RequestType reqType = 1;</code>
        *
@@ -2841,7 +2824,7 @@ public final class GroupCopyAdminProto {
        */
       public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.groupCopy.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         onChanged();
         return this;
       }
@@ -3044,10 +3027,9 @@ public final class GroupCopyAdminProto {
       "opyAdmin.GroupCopyAdminResetCopyReqMsg\"j" +
       "\n\027GroupCopyAdminComRspMsg\022,\n\007reqType\030\001 \002",
       "(\0162\033.GroupCopyAdmin.RequestType\022\021\n\tisSuc" +
-      "cess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*?\n\013RequestTyp" +
-      "e\022\021\n\rGET_COPY_INFO\020\001\022\r\n\tOPEN_COPY\020\002\022\016\n\nR" +
-      "ESET_COPY\020\003B\"\n\013com.rwprotoB\023GroupCopyAdm" +
-      "inProto"
+      "cess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*,\n\013RequestTyp" +
+      "e\022\r\n\tOPEN_COPY\020\001\022\016\n\nRESET_COPY\020\002B,\n\025com." +
+      "groupCopy.rwprotoB\023GroupCopyAdminProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -1,5 +1,6 @@
 package com.groupCopy.rwbase.dao.groupCopy.db;
 
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -8,7 +9,7 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 /**
- * 时装信息
+ * 帮派副本关卡记录
  * 
  * @author allen
  *
@@ -23,14 +24,24 @@ public class GroupCopyLevelRecord implements IMapItem {
 	
 	@CombineSave
 	private String level;
+	
+	/**
+	 * 副本进度
+	 */
 	@CombineSave
-	private int progress;
+	private GroupCopyProgress progress;
+	
 	@CombineSave
 	private long lastBeginFightTime;//上次战斗的时间
+	
 	@CombineSave
 	private boolean isFighting;//是否在战斗中
 	@CombineSave	
 	private String fighterId;//挑战者Id
+	
+	/**当前关卡的赞助*/
+	@CombineSave
+	private GroupCopyLevelBuffRecord buffRecord;
 	
 	public String getId() {
 		return id;
@@ -50,16 +61,14 @@ public class GroupCopyLevelRecord implements IMapItem {
 	public void setLevel(String level) {
 		this.level = level;
 	}
-	public int getProgress() {
+	
+	public GroupCopyProgress getProgress() {
 		return progress;
 	}
-	public void setProgress(int progress) {
+	public void setProgress(GroupCopyProgress progress) {
 		this.progress = progress;
 	}
-
-	public void addProgress(int delta){
-		this.progress = this.progress+delta;
-	}
+	
 	public long getLastBeginFightTime() {
 		return lastBeginFightTime;
 	}
@@ -78,7 +87,32 @@ public class GroupCopyLevelRecord implements IMapItem {
 	public void setFighterId(String fighterId) {
 		this.fighterId = fighterId;
 	}
+	public GroupCopyLevelBuffRecord getBuffRecord() {
+		return buffRecord;
+	}
+	public void setBuffRecord(GroupCopyLevelBuffRecord buffRecord) {
+		this.buffRecord = buffRecord;
+	}
+
+	/**
+	 * <pre>
+	 * 添加buff
+	 * <b>注意，此方法并不保证线程安全，要求外部进行并发控制</b>
+	 * <pre>
+	 * @param playerID
+	 * @param count
+	 */
+	public void addBuff(String playerID, int count){
+		if(buffRecord == null){
+			buffRecord  = new GroupCopyLevelBuffRecord();
+		}
+		buffRecord.addBuff(playerID, count);
+	}
 	
-	
-	
+	/**
+	 * 地图内所有副本关卡已经完成后清除buff
+	 */
+	public void clearBuff(){
+		buffRecord.clearBuff();
+	}
 }

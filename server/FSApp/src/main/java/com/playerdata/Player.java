@@ -22,7 +22,7 @@ import com.common.Action;
 import com.common.GameUtil;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
-import com.groupCopy.playerdata.group.UserGroupCopyLevelRecordMgr;
+import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.log.GameLog;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
@@ -131,7 +131,7 @@ public class Player implements PlayerIF {
 
 	// 个人帮派数据的Mgr
 	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
-	private UserGroupCopyLevelRecordMgr userGroupCopyLevelRecordMgr;
+	private UserGroupCopyMapRecordMgr userGroupCopyLevelRecordMgr;
 
 	public UnendingWarMgr unendingWarMgr = new UnendingWarMgr();// 无尽战火
 	private FashionMgr m_FashionMgr = new FashionMgr();
@@ -236,7 +236,7 @@ public class Player implements PlayerIF {
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
-		userGroupCopyLevelRecordMgr = new UserGroupCopyLevelRecordMgr(getUserId());
+		userGroupCopyLevelRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
 
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
@@ -1129,7 +1129,7 @@ public class Player implements PlayerIF {
 	 * 
 	 * @return
 	 */
-	public UserGroupCopyLevelRecordMgr getUserGroupCopyLevelRecordMgr() {
+	public UserGroupCopyMapRecordMgr getUserGroupCopyLevelRecordMgr() {
 		return userGroupCopyLevelRecordMgr;
 	}
 

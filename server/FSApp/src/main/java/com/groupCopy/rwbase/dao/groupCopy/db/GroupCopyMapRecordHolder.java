@@ -75,5 +75,36 @@ public class GroupCopyMapRecordHolder{
 		MapItemStoreCache<GroupCopyMapRecord> itemStoreCache = MapItemStoreFactory.getGroupCopyMapRecordCache();
 		return itemStoreCache.getMapItemStore(groupId, GroupCopyMapRecord.class);
 	}
+
+
+	/**
+	 * 更新一下副本地图进度
+	 * @param levelId
+	 * @param p 进度值
+	 */
+	public void updateMapProgress(String levelId, double p) {
+		getItem(levelId).setProgress(p);
+		update();
+	}
+
+
+	public void checkDamageRank(String chaterID,
+			GroupCopyArmyDamageInfo damageInfo) {
+		boolean suc = getItem(chaterID).checkOrAddDamageRank(damageInfo);
+		if(suc){
+			//TODO 这个数据暂时没有向前端同步，后面再考虑是否开放
+			update();
+		}
+	}
+
+
+
+
+
+
+	
+
+
+	
 	
 }

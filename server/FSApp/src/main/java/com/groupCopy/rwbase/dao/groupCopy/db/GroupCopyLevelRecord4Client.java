@@ -15,9 +15,9 @@ public class GroupCopyLevelRecord4Client{
 	
 	private GroupCopyLevelRecord groupCopyLevelRecord;
 	
-	private UserGroupCopyLevelRecord userGroupCopyLevelRecord;
+	private UserGroupCopyMapRecord userGroupCopyLevelRecord;
 	
-	public GroupCopyLevelRecord4Client(GroupCopyLevelRecord groupCopyLevelRecordP,UserGroupCopyLevelRecord userGroupCopyLevelRecordP){
+	public GroupCopyLevelRecord4Client(GroupCopyLevelRecord groupCopyLevelRecordP,UserGroupCopyMapRecord userGroupCopyLevelRecordP){
 	
 		this.id = groupCopyLevelRecordP.getId();
 		this.groupCopyLevelRecord = groupCopyLevelRecordP;

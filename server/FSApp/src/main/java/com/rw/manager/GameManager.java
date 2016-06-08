@@ -145,6 +145,7 @@ public class GameManager {
 		// 羁绊的初始化
 		FettersBM.init();
 
+		
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 	}
 

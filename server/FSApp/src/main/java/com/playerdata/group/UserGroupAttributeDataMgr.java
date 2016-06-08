@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyLevelBL;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -28,6 +29,7 @@ import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwproto.GroupCommonProto.GroupPost;
 
 /*
  * @author HC
@@ -95,6 +97,32 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		return holder.getUserGroupData();
 	}
 
+	/**
+	 * 重置管理员每天分配奖励次数
+	 */
+	public void resetAllotGroupRewardCount(){
+		UserGroupAttributeData data = holder.getUserGroupData();
+		if(data == null){
+			return;
+		}
+		Group group = GroupBM.get(data.getGroupId());
+		if(group == null){
+			return;
+		}
+		//检查职位
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
+		if(memberData == null){
+			return;
+		}
+		
+		int post = memberData.getPost();
+		if(post != GroupPost.LEADER_VALUE && post != GroupPost.ASSISTANT_LEADER_VALUE){
+			return;
+		}
+		group.getGroupMemberMgr().resetAllotGroupRewardCount(userId,GroupCopyLevelBL.MAX_ALLOT_COUNT, false);
+		
+	}
+	
 	/**
 	 * 获取个人的帮贡
 	 * 
@@ -550,6 +578,9 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 
 		return map;
 	}
+	
+	
+	
 	// /**
 	// * 推送个人帮派学习技能的数据
 	// *

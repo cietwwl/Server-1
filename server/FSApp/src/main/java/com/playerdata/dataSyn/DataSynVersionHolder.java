@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
@@ -254,7 +255,7 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyType);
-
+		
 		notInVersionControlList.add(notInVersionControlP);
 		
 		versionMap.put(eSynType.QuestionList, new PlayerDataMgr(new RecordSynchronization() {

@@ -1,22 +1,60 @@
 package com.groupCopy.rwbase.dao.groupCopy.cfg;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.log.GameLog;
+import com.log.LogModule;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupCopyMapCfg {
+	
     private String id; //副本地图ID...
     private String name; //名称...
-    private int levelType; //关卡类型...
-    private int level; //解锁等级...
+    private int unLockLv; //解锁等级...
     private String description; //描述...
-    private int startLevelId; //开始关卡ID...
-    private int endLevelId; //结束关卡...
-    private String levelPicture; //章节底图...
     private int openCost; //开启消耗...
-    private int timeExtraReward; //时间额外奖励...
-    private int damageExtraReward; //伤害额外奖励...
-    private int passaReward; //通关奖励...
-    private int damageNum; //伤害较高额外奖励人数...
+    private int extraRewardTime; //额外奖励时限，单位小时
+    private int extraReward;//额外奖励
+    private String damageExtraReward; //伤害额外奖励...
+    private int passReward; //通关奖励...
+    private Map<Integer, Integer> extRewMap = new HashMap<Integer, Integer>();//格式化后的伤害额外奖励集合
+    private Set<String> lvList = new HashSet<String>();
+    
+    public void formatData(){
+    	if(extRewMap == null){
+    		extRewMap = new HashMap<Integer, Integer>();
+    	}
+    	String[] rews = damageExtraReward.split(",");
+    	int k,v;
+    	for (String rew : rews) {
+			String[] str = rew.split("~");
+			try {
+				k = Integer.valueOf(str[0].toString().trim());
+				v = Integer.valueOf(str[1].toString().trim());
+				extRewMap.put(k, v);
+			} catch (Exception e) {
+				GameLog.error(LogModule.GroupCopy, "GroupCopyMapCfg[formatData]", "初始化帮派副本章节数据时出现问题，章节id:" + id, e);
+				e.printStackTrace();
+			}
+		}
+    	
+    }
+
+    public void addLvID(String lvID){
+    	lvList.add(lvID);
+    }
+    
+	public Set<String> getLvList() {
+		return lvList;
+	}
+
+
+
 	public String getId() {
 		return id;
 	}
@@ -29,41 +67,11 @@ public class GroupCopyMapCfg {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getLevelType() {
-		return levelType;
-	}
-	public void setLevelType(int levelType) {
-		this.levelType = levelType;
-	}
 	public int getLevel() {
-		return level;
+		return unLockLv;
 	}
 	public void setLevel(int level) {
-		this.level = level;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public int getStartLevelId() {
-		return startLevelId;
-	}
-	public void setStartLevelId(int startLevelId) {
-		this.startLevelId = startLevelId;
-	}
-	public int getEndLevelId() {
-		return endLevelId;
-	}
-	public void setEndLevelId(int endLevelId) {
-		this.endLevelId = endLevelId;
-	}
-	public String getLevelPicture() {
-		return levelPicture;
-	}
-	public void setLevelPicture(String levelPicture) {
-		this.levelPicture = levelPicture;
+		this.unLockLv = level;
 	}
 	public int getOpenCost() {
 		return openCost;
@@ -72,30 +80,46 @@ public class GroupCopyMapCfg {
 		this.openCost = openCost;
 	}
 	public int getTimeExtraReward() {
-		return timeExtraReward;
+		return extraRewardTime;
 	}
 	public void setTimeExtraReward(int timeExtraReward) {
-		this.timeExtraReward = timeExtraReward;
+		this.extraRewardTime = timeExtraReward;
 	}
-	public int getDamageExtraReward() {
+	public int getUnLockLv() {
+		return unLockLv;
+	}
+	public void setUnLockLv(int unLockLv) {
+		this.unLockLv = unLockLv;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public int getExtraRewardTime() {
+		return extraRewardTime;
+	}
+	public void setExtraRewardTime(int extraRewardTime) {
+		this.extraRewardTime = extraRewardTime;
+	}
+	public int getExtraReward() {
+		return extraReward;
+	}
+	public void setExtraReward(int extraReward) {
+		this.extraReward = extraReward;
+	}
+	public String getDamageExtraReward() {
 		return damageExtraReward;
 	}
-	public void setDamageExtraReward(int damageExtraReward) {
+	public void setDamageExtraReward(String damageExtraReward) {
 		this.damageExtraReward = damageExtraReward;
 	}
-	public int getPassaReward() {
-		return passaReward;
+	public int getPassReward() {
+		return passReward;
 	}
-	public void setPassaReward(int passaReward) {
-		this.passaReward = passaReward;
+	public void setPassReward(int passReward) {
+		this.passReward = passReward;
 	}
-	public int getDamageNum() {
-		return damageNum;
-	}
-	public void setDamageNum(int damageNum) {
-		this.damageNum = damageNum;
-	}
-	
-    
     
 }

@@ -1,14 +1,32 @@
 package com.groupCopy.bm.groupCopy;
 
+import java.util.Set;
+
 import com.common.BeanCopyer;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
+import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
+import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyStatus;
+import com.playerdata.Player;
 
+
+/**
+ * 
+ */
 public class GroupCopyMapBL {
 
+	/**
+	 * 开启帮派地图副本
+	 * @param groupCopyMapRecordHolder
+	 * @param mapId
+	 * @return
+	 */
 	public static GroupCopyResult  openMap(GroupCopyMapRecordHolder groupCopyMapRecordHolder,String mapId){
 		GroupCopyResult result = GroupCopyResult.newResult();
 		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
@@ -38,6 +56,12 @@ public class GroupCopyMapBL {
 	}	
 	
 	
+	/**
+	 * 重置帮派副本
+	 * @param groupCopyMapRecordHolder
+	 * @param mapId
+	 * @return
+	 */
 	public static GroupCopyResult resetMap(GroupCopyMapRecordHolder groupCopyMapRecordHolder,String mapId){
 		
 		GroupCopyResult result = GroupCopyResult.newResult();
@@ -51,4 +75,36 @@ public class GroupCopyMapBL {
 		result.setSuccess(success);
 		return result;
 	}
+
+	/**
+	 * 内部同步副本进度
+	 * @param player
+	 * @param levelRecordHolder
+	 * @param mapRecordHolder
+	 * @param levelId
+	 */
+	public static void calculateMapProgress(Player player,
+			GroupCopyLevelRecordHolder levelRecordHolder,
+			GroupCopyMapRecordHolder mapRecordHolder, String levelId) {
+		
+		int totalHp = 0;
+		int currentHp = 0;
+		GroupCopyLevelRecord lvRecord;
+		GroupCopyProgress progress;
+		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
+		GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(cfg.getChaterID());
+		Set<String> lvList = mapCfg.getLvList();
+		for (String id : lvList) {
+			lvRecord = levelRecordHolder.getByLevel(id);
+			progress = lvRecord.getProgress();
+			totalHp += progress.getTotalHp();
+			currentHp += progress.getCurrentHp();
+		}
+		double p = (double) (totalHp - currentHp)/ totalHp * 100;
+		mapRecordHolder.updateMapProgress(levelId, p);
+		
+	}
+	
+	
+	
 }

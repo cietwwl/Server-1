@@ -28,15 +28,14 @@ public class GroupCopyAdminHandler {
 	private GroupCopyAdminHandler() {
 	}
 
-	public ByteString getInfo(Player player, GroupCopyAdminComReqMsg req) {
-		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
-		commonRsp.setReqType(RequestType.GET_COPY_INFO);	
-	
 
-		commonRsp.setIsSuccess(true);
-		return commonRsp.build().toByteString();
-	}
 	
+	/**
+	 * 开启副本地图
+	 * @param player
+	 * @param req
+	 * @return
+	 */
 	public ByteString open(Player player, GroupCopyAdminComReqMsg req) {
 		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.OPEN_COPY);
@@ -56,6 +55,12 @@ public class GroupCopyAdminHandler {
 	}
 
 
+	/**
+	 * 重置副本地图
+	 * @param player
+	 * @param req
+	 * @return
+	 */
 	public ByteString reset(Player player, GroupCopyAdminComReqMsg req) {
 		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.RESET_COPY);

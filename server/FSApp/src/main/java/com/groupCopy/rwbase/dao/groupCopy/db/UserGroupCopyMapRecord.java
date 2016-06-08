@@ -7,22 +7,28 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 
 /**
- * 时装信息
  * 
+ * 角色副本章节数据
  * @author allen
  *
  */
-@Table(name = "user_group_copy_level_record")
+@Table(name = "user_group_copy_map_record")
 @SynClass
-public class UserGroupCopyLevelRecord implements IMapItem {
+public class UserGroupCopyMapRecord implements IMapItem {
 
 	@Id
 	private String id; // lid
 	private String userId;	
-	private String level;
+	private String chaterID;//章节id
 	
 	private int fightCount;
 	
+	public String getChaterID() {
+		return chaterID;
+	}
+	public void setChaterID(String chaterID) {
+		this.chaterID = chaterID;
+	}
 	public String getId() {
 		return id;
 	}
@@ -34,12 +40,6 @@ public class UserGroupCopyLevelRecord implements IMapItem {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-	public String getLevel() {
-		return level;
-	}
-	public void setLevel(String level) {
-		this.level = level;
 	}
 	public int getFightCount() {
 		return fightCount;

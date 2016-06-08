@@ -83,7 +83,10 @@
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
 			     <entry key="MSG_FEEDBACK" value-ref="feedbackService" />
+			     
 			     <entry key="MSG_GROUP_COPY_ADMIN" value-ref="groupCopyAdminService" />
+			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleServce"/>
+			     
 			</map>
 		</property>
 	</bean>
@@ -144,5 +147,8 @@
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
 	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
-	<bean id="groupCopyAdminService" class="com.groupCopy.rw.service.groupCopyAdmin.GroupCopyAdminService"  />
+	
+	<bean id="groupCopyAdminService" class="com.groupCopy.rw.service.groupCopy.GroupCopyAdminService"  />
+	<bean id="groupCopyBattleServce" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
+	
 </beans>  

@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.rwproto.GroupCommonProto.GroupPost;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.GroupMemberJoinCallback;
@@ -14,7 +15,6 @@ import com.rwbase.dao.group.pojo.db.dao.GroupMemberDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
-import com.rwproto.GroupCommonProto.GroupPost;
 
 /**
  * 帮派成员管理类
@@ -548,5 +548,18 @@ public class GroupMemberMgr {
 		StringBuilder sb = new StringBuilder();
 		sb.append(userId).append("_").append(groupId);
 		return sb.toString();
+	}
+
+	/**
+	 * 重置帮派管理员每天分配奖励次数
+	 * @param userId
+	 * @param maxAllotCount
+	 * @param b
+	 */
+	public void resetAllotGroupRewardCount(String userId, int maxAllotCount,
+			boolean b) {
+		GroupMemberData data = holder.getMemberData(userId, b);
+		data.setAllotRewardCount(maxAllotCount);
+		
 	}
 }

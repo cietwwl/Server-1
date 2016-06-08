@@ -26,13 +26,10 @@ public class GroupCopyAdminService implements FsService {
 			RequestType reqType = commonReq.getReqType();
 			switch (reqType) {
 			// ==============================帮派管理处理===========================
-			case GET_COPY_INFO:// 获取帮派副本信息
-				byteString = handler.getInfo(player, commonReq);
-				break;
-			case OPEN_COPY:// 修改帮派公告
+			case OPEN_COPY:// 开启地图
 				byteString = handler.open(player, commonReq);
 				break;
-			case RESET_COPY:// 修改帮派名字
+			case RESET_COPY:// 重置帮派地图
 				byteString = handler.reset(player, commonReq);
 				break;			
 			default:
