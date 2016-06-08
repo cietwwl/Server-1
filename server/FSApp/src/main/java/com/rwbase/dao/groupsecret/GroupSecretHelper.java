@@ -137,7 +137,7 @@ public class GroupSecretHelper {
 				Integer index = e.getKey();
 				Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData == null ? null : enemyData.getTeamAttrInfoMap(index);
 
-				boolean isHasLife = true;
+				boolean isHasLife = false;
 				int fighting = 0;
 				List<String> heroList = value.getHeroList();
 				int heroSize = heroList.size();
@@ -156,11 +156,15 @@ public class GroupSecretHelper {
 					HeroLeftInfoSynData heroLeftInfo = null;
 					if (teamAttrInfoMap != null) {
 						heroLeftInfo = teamAttrInfoMap.get(heroId);
-						int leftLife = heroLeftInfo != null ? heroLeftInfo.getLife() : 0;
-						if (leftLife <= 0) {
-							isDie = true;
-						} else {
+						if (heroLeftInfo == null) {
 							isHasLife = true;
+						} else {
+							int leftLife = heroLeftInfo.getLife();
+							if (leftLife <= 0) {
+								isDie = true;
+							} else {
+								isHasLife = true;
+							}
 						}
 					} else {
 						isHasLife = true;
@@ -310,7 +314,7 @@ public class GroupSecretHelper {
 		int getGE = 0;
 		int getGS = 0;
 		int dropDiamond = 0;
-		int index = 0;
+		int index = -1;
 		if (myDefendInfo != null) {
 			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
 			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();

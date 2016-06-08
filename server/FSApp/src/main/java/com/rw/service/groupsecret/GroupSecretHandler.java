@@ -1056,7 +1056,7 @@ public class GroupSecretHandler {
 		}
 
 		// 获取是否邀请了这个人，并且这个人是不是该帮派成员
-		if (groupSecretData.getInviteList().contains(userId)) {
+		if (!groupSecretData.getInviteList().contains(userId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "此秘境并未邀请您来驻守");
 			return rsp.build().toByteString();
 		}
@@ -1149,7 +1149,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		if (canAddDefendList.size() < 2) {
+		if (canAddDefendList.size() > 5) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "驻守阵容不能超过5个人");
 			return rsp.build().toByteString();
 		}
@@ -1171,6 +1171,12 @@ public class GroupSecretHandler {
 		userInfoData.setUserId(userId);
 		userInfoData.setDropDiamond(diamondDropNum);
 		userInfoData.setFighting(totalFighting);
+
+		// 增加秘境防守阵容
+		if (!mgr.addDefendTeamInfo(createUserId, id, index, userInfoData)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, "驻守失败");
+			return rsp.build().toByteString();
+		}
 
 		// 更新目前防守的秘境列表
 		baseDataMgr.addDefendSecretId(userId, reqId);
@@ -1272,7 +1278,7 @@ public class GroupSecretHandler {
 		}
 
 		// 获取是否邀请了这个人，并且这个人是不是该帮派成员
-		if (groupSecretData.getInviteList().contains(userId)) {
+		if (!groupSecretData.getInviteList().contains(userId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "此秘境并未邀请您来驻守");
 			return rsp.build().toByteString();
 		}
