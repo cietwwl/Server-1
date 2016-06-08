@@ -75,6 +75,9 @@ public class Hero implements HeroIF {
 
 		// Attrmgr要在最后做初始化
 		m_AttrMgr.init(this);
+		
+		m_FixExpEquipMgr.initIfNeed(m_pPlayer, this);
+		m_FixNormEquipMgr.initIfNeed(m_pPlayer, this);
 	}
 
 	// 属性的初始化有依赖，要等所有的mgr初始化完了才能做属性的初始化。
