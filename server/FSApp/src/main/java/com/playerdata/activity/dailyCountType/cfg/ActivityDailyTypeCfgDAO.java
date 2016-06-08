@@ -57,6 +57,7 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 		ActivityDailyTypeCfg cfg = getCfgById(id);
 		return cfg;
 	}
+	
 	/**
 	 * 
 	 * @param player
@@ -73,17 +74,16 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 			item.setUserId(player.getUserId());
 			item.setCfgid(cfgById.getId());
 			item.setVersion(cfgById.getVersion());
-			item.setSubItemList(newItemList(cfgById));
+			item.setSubItemList(newItemList());
 			item.setLastTime(System.currentTimeMillis());
 			return item;
 		}else{
 			return null;
 		}		
-		
 	}
 
 
-	public List<ActivityDailyTypeSubItem> newItemList(ActivityDailyTypeCfg cfgById) {
+	public List<ActivityDailyTypeSubItem> newItemList() {
 		List<ActivityDailyTypeSubItem> subItemList = new ArrayList<ActivityDailyTypeSubItem>();
 		List<ActivityDailyTypeSubCfg> allsubCfgList = ActivityDailyTypeSubCfgDAO.getInstance().getAllCfg();	
 		for(ActivityDailyTypeSubCfg activityDailyCountTypeSubCfg : allsubCfgList){
@@ -97,10 +97,7 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 			subitem.setTaken(false);
 			subitem.setGiftId(activityDailyCountTypeSubCfg.getGiftId());
 			subItemList.add(subitem);
-		}
-		
-		
-		
+		}		
 		return subItemList;
 	}
 	

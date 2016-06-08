@@ -177,6 +177,13 @@
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfgDAO"  init-method="init" />
+	
+	
+	
+	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->
