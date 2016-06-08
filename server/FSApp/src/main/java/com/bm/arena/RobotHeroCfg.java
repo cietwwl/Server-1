@@ -6,6 +6,7 @@ public class RobotHeroCfg {
 	private String secondHeroId;
 	private String thirdHeroId;
 	private String fourthHeroId;
+	private String fifthHeroId;
 
 	public String getFirstHeroId() {
 		return firstHeroId;
@@ -39,5 +40,15 @@ public class RobotHeroCfg {
 		this.fourthHeroId = fourthHeroId;
 	}
 
+	public String getFifthHeroId() {
+		return fifthHeroId;
+	}
+
+	public void setFifthHeroId(String fifthHeroId) {
+		this.fifthHeroId = fifthHeroId;
+	}
+
+	
+	
 	
 }
