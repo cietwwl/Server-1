@@ -19,6 +19,7 @@ import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.item.ConsumeCfgDAO;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
@@ -288,12 +289,12 @@ public class MagicHandler {
 		if (state == 1) {
 			player.getMagicMgr().updateMagic();
 		}
-
+		UserEventMgr.getInstance().StrengthenMagicVitality(player, newLevel);
 		itemBagMgr.updateItem(itemData);
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
 		updateItems.add(itemData);
 		itemBagMgr.syncItemData(updateItems);
-
+		
 		player.getFresherActivityMgr().doCheck(eActivityType.A_MagicLv);
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		return msgMagicResponse.build().toByteString();

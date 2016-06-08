@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import com.common.Action;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoHolder;
@@ -121,7 +122,7 @@ public class RoleBaseInfoMgr extends IDataMgr {
 		roleBaseInfo.setLevel(level);
 		roleBaseInfo.setExp(exp);
 		roleBaseInfoHolder.update(m_pPlayer);
-
+		UserEventMgr.getInstance().heroUpGradeVitality(m_pPlayer, level);
 		// 等级修改
 		if (oldLevel != level) {
 			FettersBM.whenHeroChange(m_pPlayer, m_pOwner.getModelId());

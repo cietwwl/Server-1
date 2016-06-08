@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.groupSecret.data.group.GroupSecretDefLog;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
@@ -81,6 +82,9 @@ public class MapItemStoreFactory {
 	
 	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
 	
+	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
+	
+	
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 	
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
@@ -150,6 +154,8 @@ public class MapItemStoreFactory {
 		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyTypeItem>(ActivityDailyTypeItem.class, "userId", heroCapacity));
 		
 		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
+		register(activityVitalityItemCache = new MapItemStoreCache<ActivityVitalityTypeItem>(ActivityVitalityTypeItem.class, "userId", heroCapacity));
+//		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
 		
 		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
 		
@@ -304,6 +310,11 @@ public class MapItemStoreFactory {
 		return activityTimeCountTypeItemCache;
 	}
 
+	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
+		return activityVitalityItemCache;
+	}
+	
+	
 	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
 		return fixExpEquipDataItemCache;
 	}
