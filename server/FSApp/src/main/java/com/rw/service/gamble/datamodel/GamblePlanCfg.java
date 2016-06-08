@@ -59,8 +59,8 @@ public class GamblePlanCfg extends BaseConfig {
 		String[] cond = openCondition.split(",");
 		openLevel = Integer.parseInt(cond[0]);
 		openVipLevel=Integer.parseInt(cond[1]);
-		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeFreeCheckNum);
-		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum);
+		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeFreeCheckNum,freeExclusiveCount);
+		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum,chargeExclusiveCount);
 
 		if (hotCount > 0){
 			RefInt i1=new RefInt();
@@ -93,6 +93,7 @@ public class GamblePlanCfg extends BaseConfig {
 			}
 		}
 		
+		//TODO fix maxCheckCount
 		maxCheckCount = Math.max(freePlan.getMaxCheckNum(),chargePlan.getMaxCheckNum());
 	}
 

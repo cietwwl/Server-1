@@ -1,6 +1,7 @@
 package com.rw.service.gamble;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import com.playerdata.Player;
 import com.playerdata.UserGameDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
+import com.rw.service.gamble.datamodel.GambleDropGroup;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.gamble.datamodel.GamblePlanCfg;
@@ -124,6 +126,7 @@ public class GambleHandler {
 			//特殊容错处理：如果保底英雄有效就作为容错默认值，否则使用必送丹药作为默认值
 			String errDefaultModelId= GambleLogicHelper.isValidHeroId(heroId) ? heroId : defaultItem;
 			
+			//TODO 热点是否也需要考虑去重？
 			if (historyRecord.getHotHistoryCount() < historyRecord.getHotCheckThreshold()-1) {
 				// 用热点组生成N个英雄
 				int hotPlanId = hotGambleConfig.getTodayHotPlanId();
@@ -150,20 +153,47 @@ public class GambleHandler {
 		int maxCount = planCfg.getDropItemCount();
 		while (dropList.size() < maxCount){
 			int dropGroupId;
-			if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
-				dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
-				historyRecord.increseInitDuplicateCheckCount(isFree);
+			if (historyRecord.passExclusiveCheck(isFree)){
+				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
+					dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
+					historyRecord.increseInitDuplicateCheckCount(isFree);
+				}else{
+					dropGroupId = dropPlan.getOrdinaryGroup(ranGen);
+				}
+				String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
+				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
+					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+				}else{
+					//有错误，减少最大抽卡数量
+					maxCount --;
+				}
+				
 			}else{
-				dropGroupId = dropPlan.getOrdinaryGroup(ranGen);
+				List<String> checkHistory = historyRecord.getHistory(isFree);
+				GambleDropGroup tmpGroup=null;
+				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
+					tmpGroup = dropPlan.getGuaranteeGroup(ranGen,checkHistory);
+					historyRecord.increseInitDuplicateCheckCount(isFree);
+				}else{
+					tmpGroup = dropPlan.getOrdinaryGroup(ranGen,checkHistory);
+				}
+				
+				if (tmpGroup == null){
+					GameLog.error("钓鱼台", player.getUserId(), "严重错误，无法去重");//TODO 打印更详细的调试信息
+					maxCount --;
+					continue;
+				}
+				
+				RefInt tmpWeight = null;
+				String itemModel = tmpGroup.getRandomGroup(ranGen, slotCount,tmpWeight);
+				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
+					historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
+				}else{
+					//有错误，减少最大抽卡数量
+					maxCount --;
+				}
 			}
 			
-			String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
-			if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-				historyRecord.add(isFree,itemModel,slotCount.value,maxHistoryNumber);
-			}else{
-				//有错误，减少最大抽卡数量
-				maxCount --;
-			}
 		}
 
 		//扣钱

@@ -65,8 +65,9 @@ public class GambleDropGroup extends RandomStringGroups {
 	
 	@JsonIgnore
 	public String getRandomGroup(Random r, RefInt slotCount,RefInt weight) {
-		String result = super.getRandomGroup(r, slotCount,weight);//use slotCount to get plan index
-		slotCount.value = slotCountArr[slotCount.value];
+		RefInt planIndex = new RefInt();
+		String result = super.getRandomGroup(r, planIndex,weight);//use slotCount to get plan index
+		slotCount.value = slotCountArr[planIndex.value];
 		return result;
 	}
 
@@ -113,5 +114,10 @@ public class GambleDropGroup extends RandomStringGroups {
 			result.add(plans[i]);
 		}
 		return result;
+	}
+
+	public GambleDropGroup removeHistory(List<String> historyRecord) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

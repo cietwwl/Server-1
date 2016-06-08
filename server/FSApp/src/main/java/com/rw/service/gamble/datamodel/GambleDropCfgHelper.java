@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Random;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.common.RefInt;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -49,7 +48,8 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 	}
 	
 	public String getRandomDrop(Random r,int groupKey,RefInt slotCount){
-		return getRandomDrop(r,groupKey,slotCount,null);
+		RefInt weight = null;
+		return getRandomDrop(r,groupKey,slotCount,weight);
 	}
 	
 	public String getRandomDrop(Random r,int groupKey,RefInt slotCount,RefInt weight){
@@ -58,6 +58,10 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 			return null;
 		}
 		return group.getRandomGroup(r, slotCount,weight);
+	}
+	
+	public GambleDropGroup getGroup(int groupKey){
+		return dropGroupMappings.get(groupKey);
 	}
 	
 	public boolean checkInGroup(int groupKey,String itemModelId){

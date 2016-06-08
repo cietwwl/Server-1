@@ -22,6 +22,29 @@ public class GambleDropHistory {
 	
 	private int freeInitCheckDuplicateCount = 0;//免费保底检索的索引
 	private int chargeInitCheckDuplicateCount=0;//收费保底检索的索引
+	
+	private boolean passFreeExclusiveCheck = false;
+	private boolean passChargeExclusiveCheck = false;
+
+	public boolean passExclusiveCheck(boolean isFree){
+		return isFree?passFreeExclusiveCheck:passChargeExclusiveCheck;
+	}
+	
+	public boolean isPassFreeExclusiveCheck() {
+		return passFreeExclusiveCheck;
+	}
+
+	public void setPassFreeExclusiveCheck(boolean passFreeExclusiveCheck) {
+		this.passFreeExclusiveCheck = passFreeExclusiveCheck;
+	}
+
+	public boolean isPassChargeExclusiveCheck() {
+		return passChargeExclusiveCheck;
+	}
+
+	public void setPassChargeExclusiveCheck(boolean passChargeExclusiveCheck) {
+		this.passChargeExclusiveCheck = passChargeExclusiveCheck;
+	}
 
 	public int getFreeInitCheckDuplicateCount() {
 		return freeInitCheckDuplicateCount;
@@ -229,5 +252,10 @@ public class GambleDropHistory {
 		}else{
 			chargeInitCheckDuplicateCount++;
 		}
+	}
+
+	@JsonIgnore
+	public List<String> getHistory(boolean isFree) {
+		return isFree?freeGambleHistory:chargeGambleHistory;
 	}
 }

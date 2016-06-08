@@ -40,6 +40,11 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 			}
 			lst.add(cfg);
 		}
+		
+		//TODO maxCheckCount,GamblePlanCfg 考虑同类型的配置
+		//TODO 检查配置：唯一性的存在可能的判断
+		//TODO 跨表检查物品/英雄是否存在，然后寻找合适的默认保底容错英雄或物品
+
 		return cfgCacheMap;
 	}
 	
