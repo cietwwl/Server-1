@@ -88,11 +88,14 @@ public class GmUserInfo implements IGmTask{
 		String blockStatus = blocked?"1":"0";
 		resultMap.put("blockStatus", blockStatus);
 		if(blocked){
-			resultMap.put("blockTime", userDataMgr.getBlockTimeDiff());
+			resultMap.put("blockTime", userDataMgr.getUnblockTime());
 		}
 		
 		int chatBanStatus = userDataMgr.isChatBan() ? 1 : 0;
 		resultMap.put("talkStatus", chatBanStatus);
+		if (userDataMgr.isChatBan()) {
+			resultMap.put("banTime", userDataMgr.getUnbanTime());
+		}
 		 ChannelHandlerContext channelHandlerContext = UserChannelMgr.get(player.getUserId());
 		 int onlineStatus = channelHandlerContext == null ? 0 : 1;
 		 resultMap.put("onlineStatus", onlineStatus);

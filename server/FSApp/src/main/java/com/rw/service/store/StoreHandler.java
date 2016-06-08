@@ -5,6 +5,8 @@ import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.StreamImpl;
+import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.store.CommodityCfgDAO;
 import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.store.pojo.CommodityCfg;
@@ -59,9 +61,11 @@ public class StoreHandler {
 			tagCommodity.Builder respCommodity = tagCommodity.newBuilder();
 			respCommodity.setId(reqCommodity.getId());
 			respCommodity.setCount(0);
-			resp.setStoreType(storeCfg.getType());
-			
+			resp.setStoreType(storeCfg.getType());			
 			resp.setCommodity(respCommodity);
+			if(eSpecialItemId.getDef(cfg.getCostType())==eSpecialItemId.BraveCoin){
+				UserEventMgr.getInstance().buyInTowerShopVitality(m_pPlayer, 1);
+			}			
 		}else if(result==-2){
 			resp.setCostType(cfg.getCostType());
 			resp.setReslutValue(String.valueOf(cfg.getCostType()) + "不足");

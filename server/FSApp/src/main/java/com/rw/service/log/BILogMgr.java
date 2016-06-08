@@ -149,7 +149,7 @@ public class BILogMgr {
 	
 	public void logChat(Player player, String targetUserId, int type, String content){
 		Map<String, String> moreInfo = new HashMap<String, String>();
-		moreInfo.put("chatSenderAccount", player.getUserId());
+		moreInfo.put("chatSenderAccount", player.getUserDataMgr().getAccount());
 		moreInfo.put("vip", String.valueOf(player.getVip()));
 		moreInfo.put("chatReceiverUseId", targetUserId);
 		moreInfo.put("chatType", String.valueOf(type));

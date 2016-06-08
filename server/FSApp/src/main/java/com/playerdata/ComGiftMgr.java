@@ -79,12 +79,10 @@ public class ComGiftMgr {
 	
 	/**将传入的str中的某个符号替换为mark*/
 	private static String replace(String str, String mark) {
-		System.out.println("~~~~~~~~~~" + str + " | " + mark);
 		if(StringUtils.isEmpty(mark)||StringUtils.isEmpty(str)){
 			return str;
 		}
 		String newstr = str.replace("{0}", mark);
-		System.out.println("~~~~~~~~~~" + str );
 		return newstr;
 	}
 
