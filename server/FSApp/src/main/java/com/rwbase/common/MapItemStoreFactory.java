@@ -3,7 +3,6 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bm.groupSecret.data.group.GroupSecretDefLog;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
@@ -84,8 +83,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 	
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
-	
-	private static MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache;
 	
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
@@ -312,16 +309,6 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
 		return fixNormEquipDataItemCache;
-	}
-	
-
-	public static MapItemStoreCache<GroupSecretDefLog> getGroupSecretDefLogCache() {
-		return groupSecretDefLogCache;
-	}
-
-	public static void setGroupSecretDefLogCache(
-			MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache) {
-		MapItemStoreFactory.groupSecretDefLogCache = groupSecretDefLogCache;
 	}
 
 	/**

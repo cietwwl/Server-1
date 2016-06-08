@@ -169,4 +169,11 @@ public class UserPrivateChat {
 		}
 		return list;
 	}
+
+	/**
+	 * 退出帮派的时候清除掉所有的秘境聊天信息
+	 */
+	public synchronized void clearAllTreasureChatMessage() {
+		treasureChatList.clear();
+	}
 }

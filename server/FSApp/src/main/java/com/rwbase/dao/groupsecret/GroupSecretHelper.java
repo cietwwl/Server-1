@@ -306,20 +306,28 @@ public class GroupSecretHelper {
 
 		String id = generateCacheSecretId(data.getUserId(), data.getId());
 
-		long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
-		int getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
-		int getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
-		int getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
-		int dropDiamond = myDefendInfo.getDropDiamond();
-		if (changeTeamTime > 0) {
-			long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
-			int fighting = myDefendInfo.getFighting();
-			getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
-			getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
-			getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
+		int getRes = 0;
+		int getGE = 0;
+		int getGS = 0;
+		int dropDiamond = 0;
+		int index = 0;
+		if (myDefendInfo != null) {
+			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
+			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
+			getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
+			getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+			dropDiamond = myDefendInfo.getDropDiamond();
+			if (changeTeamTime > 0) {
+				long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+				int fighting = myDefendInfo.getFighting();
+				getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
+				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
+				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
+			}
+			index = myDefendInfo.getIndex();
 		}
 
-		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), myDefendInfo.getIndex(), dropDiamond, getRes, getGE, getGS);
+		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS);
 		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap, data.getVersion()));
 	}
 

@@ -30,7 +30,6 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
-import com.rwproto.ChatServiceProtos.ChatMessageData.Builder;
 import com.rwproto.ChatServiceProtos.MessageUserInfo;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;

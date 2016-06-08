@@ -82,17 +82,17 @@ public class GroupSecretTeamInfoSynDataHolder {
 		ClientDataSynMgr.synData(player, team, synType, eSynOpType.REMOVE_SINGLE);
 	}
 
-	// /**
-	// * 同步更新一条记录
-	// *
-	// * @param player
-	// * @param base
-	// */
-	// public void updateSingleData(Player player, SecretTeamInfoSynData team) {
-	// if (team == null) {
-	// return;
-	// }
-	//
-	// ClientDataSynMgr.synData(player, team, synType, eSynOpType.UPDATE_SINGLE);
-	// }
+	/**
+	 * 同步更新一条记录
+	 *
+	 * @param player
+	 * @param base
+	 */
+	public void updateSingleData(Player player, SecretTeamInfoSynData team) {
+		if (team == null) {
+			return;
+		}
+
+		ClientDataSynMgr.synData(player, team, synType, eSynOpType.UPDATE_SINGLE);
+	}
 }
