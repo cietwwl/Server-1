@@ -71,7 +71,7 @@ public class DropItemManager {
 		}
 	}
 	
-	/**副本及扫荡类*/
+	/**聚宝之地 ！炼息山谷！生存幻境；普通本精英本*/
 	public List<? extends ItemInfo> pretreatDrop(Player player, CopyCfg copyCfg) throws DataAccessTimeoutException {
 		String userId = player.getUserId();
 		DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
