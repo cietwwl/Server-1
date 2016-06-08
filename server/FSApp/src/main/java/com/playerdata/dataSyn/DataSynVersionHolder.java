@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.playerdata.Player;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
@@ -271,6 +273,20 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MagicSecretData);
+		
+		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+//				ActivityDailyTypeMgr.getInstance().synCountTypeData(player);	
+				ActivityVitalityTypeMgr.getInstance().synVitalityTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityVitalityType);
+		
+		
+		
+		
+		
 
 		notInVersionControlList.add(notInVersionControlP);
 		
