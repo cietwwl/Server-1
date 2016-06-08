@@ -16,10 +16,22 @@ public class TaoistMagicRecord {
 	@Id
 	private String userId;
 	private Map<Integer,Integer> levelMap;
+	
+	/**
+	 * set方法只能用于Json库
+	 */
 	public TaoistMagicRecord(){
 		levelMap = new HashMap<Integer, Integer>();
 	}
 	
+	public Map<Integer, Integer> getLevelMap() {
+		return levelMap;
+	}
+
+	public void setLevelMap(Map<Integer, Integer> levelMap) {
+		this.levelMap = levelMap;
+	}
+
 	public TaoistMagicRecord(String uid) {
 		this();
 		userId = uid;
@@ -29,6 +41,10 @@ public class TaoistMagicRecord {
 		return levelMap.entrySet();
 	}
 	
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
