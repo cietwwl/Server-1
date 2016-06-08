@@ -11,18 +11,33 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 	private int[] checkList;
 	private RandomIntGroups ordinaryGroup;
 	private RandomIntGroups guaranteeGroup;
-	private int guaranteeCheckNum; // 收费保底检索次数
+	private int[] guaranteeCheckNumList; // 收费保底检索次数
+	private int maxCheckCount=0;
 	
-	public DropGamblePlan(String guaranteeCheckList,String ordinaryPlan,String guaranteePlan,int guaranteeCheckNum){
+	public DropGamblePlan(String guaranteeCheckList,String ordinaryPlan,String guaranteePlan,String guaranteeCheckNum){
 		checkList = ListParser.ParseIntList(guaranteeCheckList, ",", "钓鱼台", "", "解释保底检索物品组");
 		ordinaryGroup = RandomIntGroups.Create("钓鱼台", "GamblePlanCfg.csv", ",", "_", ordinaryPlan);
 		guaranteeGroup = RandomIntGroups.Create("钓鱼台", "GamblePlanCfg.csv", ",", "_", guaranteePlan);
-		this.guaranteeCheckNum = guaranteeCheckNum;
+		guaranteeCheckNumList = ListParser.ParseIntList(guaranteeCheckNum, "|", "钓鱼台", "", "收费保底检索次数");
+		if (guaranteeCheckNumList.length <=0){
+			throw new RuntimeException("钓鱼台 GamblePlanCfg.csv 没有配置 收费保底检索次数 guaranteeCheckNum");
+		}
+		for (int i = 0;i<guaranteeCheckNumList.length;i++){
+			if (guaranteeCheckNumList[i]>maxCheckCount){
+				maxCheckCount = guaranteeCheckNumList[i];
+			}
+		}
 	}
 
+	public int getMaxCheckNum() {
+		return maxCheckCount;
+	}
+	
 	@Override
-	public int getCheckNum() {
-		return guaranteeCheckNum;
+	public int getCheckNum(int index){
+		int length = guaranteeCheckNumList.length;
+		int ind = index < 0 ? 0 : index >= length ? length -1: index; 
+		return guaranteeCheckNumList[ind];
 	}
 
 	@Override

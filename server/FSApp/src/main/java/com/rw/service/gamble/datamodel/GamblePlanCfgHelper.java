@@ -32,6 +32,11 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 			if (lst == null){
 				lst = new ArrayList<GamblePlanCfg>();
 				typeLevelMapping.put(cfg.getDropType(), lst);
+			}else{
+				GamblePlanCfg other = lst.get(0);
+				if (other.getMoneyNum() != cfg.getMoneyNum() || other.getMoneyType() != cfg.getMoneyType()){
+					throw new RuntimeException("钓鱼台配置有错，相同类型的抽卡类型配置的货币类型或者金额必须一致！"+"关键字:"+other.getKey()+",另一个关键字"+cfg.getKey());
+				}
 			}
 			lst.add(cfg);
 		}

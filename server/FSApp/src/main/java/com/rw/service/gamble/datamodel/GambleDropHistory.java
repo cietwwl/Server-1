@@ -19,6 +19,25 @@ public class GambleDropHistory {
 	private int hotCheckRandomThreshold;
 	private boolean firstFreeGamble = true;
 	private boolean firstChargeGamble = true;
+	
+	private int freeInitCheckDuplicateCount = 0;//免费保底检索的索引
+	private int chargeInitCheckDuplicateCount=0;//收费保底检索的索引
+
+	public int getFreeInitCheckDuplicateCount() {
+		return freeInitCheckDuplicateCount;
+	}
+
+	public void setFreeInitCheckDuplicateCount(int freeInitCheckDuplicateCount) {
+		this.freeInitCheckDuplicateCount = freeInitCheckDuplicateCount;
+	}
+
+	public int getChargeInitCheckDuplicateCount() {
+		return chargeInitCheckDuplicateCount;
+	}
+
+	public void setChargeInitCheckDuplicateCount(int chargeInitCheckDuplicateCount) {
+		this.chargeInitCheckDuplicateCount = chargeInitCheckDuplicateCount;
+	}
 
 	// set方法仅仅用于Json库反射使用，其他类不要调用！
 	public List<String> getChargeGambleHistory() {
@@ -152,7 +171,8 @@ public class GambleDropHistory {
 	 */
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
 		List<String> history = checkHistoryNum(isFree, maxHistory);
-		if (history.size() < dropPlan.getCheckNum() - 1) {
+		int index = isFree?freeInitCheckDuplicateCount:chargeInitCheckDuplicateCount;
+		if (history.size() < dropPlan.getCheckNum(index) - 1) {
 			return false;
 		}
 		for (String itemModelId : history) {
@@ -200,5 +220,14 @@ public class GambleDropHistory {
 	public boolean canUseFree(GamblePlanCfg planCfg) {
 		if (planCfg == null) return false;
 		return freeCount < planCfg.getFreeCountPerDay() && GambleLogicHelper.isLeftTimeOver(getFreeLeftTime(planCfg));
+	}
+
+	@JsonIgnore
+	public void increseInitDuplicateCheckCount(boolean isFree) {
+		if (isFree){
+			freeInitCheckDuplicateCount++;
+		}else{
+			chargeInitCheckDuplicateCount++;
+		}
 	}
 }

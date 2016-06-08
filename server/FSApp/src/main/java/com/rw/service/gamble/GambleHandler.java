@@ -78,16 +78,13 @@ public class GambleHandler {
 		String userId = player.getUserId();
 		GambleRecord record = gambleRecords.getOrCreate(userId);
 		GambleDropHistory historyRecord = record.getHistory(gamblePlanId);
-		//保证热点初始化
+		// 保证热点随机种子初始化
 		if (planCfg.getHotCount() > 0 && historyRecord.getHotCheckThreshold() <= 0){
 			historyRecord.GenerateHotCheckCount(getRandom(), planCfg.getHotCheckMin(), planCfg.getHotCheckMax());
 		}
 
 		IDropGambleItemPlan dropPlan;//免费或者收费方案组
-		int configFreeCount = planCfg.getFreeCountPerDay();
-		boolean isFree = historyRecord.getFreeLeftTime(planCfg) <= 2 && configFreeCount > historyRecord.getFreeCount();
-		isFree = historyRecord.canUseFree(planCfg);
-		
+		boolean isFree = historyRecord.canUseFree(planCfg);
 		
 		if (isFree){//使用免费方案
 			dropPlan = planCfg.getFreePlan();
@@ -102,7 +99,7 @@ public class GambleHandler {
 		RefInt slotCount = new RefInt();
 		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>();
 		
-		final int maxHistoryNumber = dropPlan.getCheckNum();
+		final int maxHistoryNumber = planCfg.getMaxCheckCount();
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
@@ -155,6 +152,7 @@ public class GambleHandler {
 			int dropGroupId;
 			if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
 				dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
+				historyRecord.increseInitDuplicateCheckCount(isFree);
 			}else{
 				dropGroupId = dropPlan.getOrdinaryGroup(ranGen);
 			}
