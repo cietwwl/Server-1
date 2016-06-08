@@ -98,7 +98,6 @@ public class ActivityDailyTypeMgr {
 			if (subItem.getCount() >= subItemCfg.getCount()&&!subItem.isTaken()) {
 				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
-				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~补发" + subItem.getCfgId());
 				if (!isAdd) 
 					GameLog.error(LogModule.ComActivityDailyCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
 				}

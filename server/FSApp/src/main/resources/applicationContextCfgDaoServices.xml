@@ -177,6 +177,13 @@
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfgDAO"  init-method="init" />
+	
+	
+	
+	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->
@@ -211,6 +218,13 @@
 	<bean class="com.playerdata.mgcsecret.cfg.FabaoBuffCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.mgcsecret.cfg.MagicChapterCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO"  init-method="init" />
+	
+	<!-- 帮派秘境 -->
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretDiamondDropCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO"  init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

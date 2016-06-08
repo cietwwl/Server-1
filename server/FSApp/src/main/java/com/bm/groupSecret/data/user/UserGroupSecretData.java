@@ -13,16 +13,16 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @Table(name = "user_group_secret_data")
 @SynClass
 public class UserGroupSecretData {
-	
+
 	@Id
 	private String id;
 
 	private GroupSecretBattleInfo battleInfo;
-	
+
 	private List<String> invitedSecretIdList;
-	
+
 	private List<String> joinSecretIdList;
-	
+
 	private List<String> owenSecretIdList;
 
 	public GroupSecretBattleInfo getBattleInfo() {
@@ -56,8 +56,4 @@ public class UserGroupSecretData {
 	public void setOwenSecretIdList(List<String> owenSecretIdList) {
 		this.owenSecretIdList = owenSecretIdList;
 	}
-	
-	
-	
-	
 }

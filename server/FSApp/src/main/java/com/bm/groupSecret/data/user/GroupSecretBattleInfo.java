@@ -9,13 +9,12 @@ import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GroupSecretBattleInfo {	
-	
-	
+public class GroupSecretBattleInfo {
+
 	private ArmyInfo attackArmy;
-	
-	private List<ArmyInfo> defArmyList;	
-	
+
+	private List<ArmyInfo> defArmyList;
+
 	private List<ArmyInfo> loseArmyList;
 
 	public ArmyInfo getAttackArmy() {
@@ -41,8 +40,4 @@ public class GroupSecretBattleInfo {
 	public void setLoseArmyList(List<ArmyInfo> loseArmyList) {
 		this.loseArmyList = loseArmyList;
 	}
-	
-	
-	
-	
 }

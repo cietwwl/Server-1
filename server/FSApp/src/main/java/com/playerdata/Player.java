@@ -31,6 +31,8 @@ import com.playerdata.common.PlayerEventListener;
 import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -63,6 +65,8 @@ import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.fetters.HeroFettersDataHolder;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
+import com.rwbase.dao.groupsecret.pojo.GroupSecretBaseInfoSynDataHolder;
+import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamInfoSynDataHolder;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
@@ -142,10 +146,10 @@ public class Player implements PlayerIF {
 	private TaoistMgr taoistMgr = new TaoistMgr();
 
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
-	
-	//客户端管理工具
+
+	// 客户端管理工具
 	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
-	
+
 	private ZoneLoginInfo zoneLoginInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -168,6 +172,10 @@ public class Player implements PlayerIF {
 
 	// 同步数据的版本记录
 	private DataSynVersionHolder dataSynVersionHolder = new DataSynVersionHolder();
+
+	// 个人帮派秘境的Holder
+	private GroupSecretBaseInfoSynDataHolder baseHolder = new GroupSecretBaseInfoSynDataHolder();
+	private GroupSecretTeamInfoSynDataHolder teamHolder = new GroupSecretTeamInfoSynDataHolder();
 
 	public static Player newOld(String userId) {
 		return new Player(userId, true);
@@ -250,7 +258,7 @@ public class Player implements PlayerIF {
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
 		m_FresherActivityMgr.init(this);
-		
+
 		playerQuestionMgr.init(this);
 
 		if (initMgr) {
@@ -371,9 +379,14 @@ public class Player implements PlayerIF {
 					PowerInfoDataHolder.synPowerInfo(player);
 					// 登录推送所有的羁绊属性
 					HeroFettersDataHolder.synAll(player);
-					
+
 					ActivityCountTypeMgr.getInstance().checkActivity(player);
 					m_AssistantMgr.synData();
+
+					// 推送帮派秘境基础数据
+					UserGroupSecretBaseDataMgr.getMgr().synData(player);
+					// 推送帮派秘境的Team信息
+					GroupSecretTeamDataMgr.getMgr().synData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -386,7 +399,7 @@ public class Player implements PlayerIF {
 		notifyLogin();
 		initDataVersionControl();
 		try {
-			dataSynVersionHolder.synAll(this); 
+			dataSynVersionHolder.synAll(this);
 		} finally {
 			UserChannelMgr.onBSEnd(userId);
 		}
@@ -397,6 +410,8 @@ public class Player implements PlayerIF {
 		getTowerMgr().checkAndResetMatchData(this);
 		// 当角色登录的时候，更新下登录的时间
 		AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
+		// 角色登录检查秘境数据是否可以重置
+		UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
 	}
 
 	public void notifyMainRoleCreation() {
@@ -523,6 +538,7 @@ public class Player implements PlayerIF {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime5Clock(now);
 			onNewDay5ClockTimeAction.doAction();
+			UserGroupSecretBaseDataMgr.getMgr().resetGroupSecretData(this, now);
 		}
 	}
 
@@ -919,8 +935,8 @@ public class Player implements PlayerIF {
 	public String getHeadImage() {
 		return userDataMgr.getHeadImage();
 	}
-	
-	public String getHeadFrame(){
+
+	public String getHeadFrame() {
 		return userGameDataMgr.getHeadBox();
 	}
 
@@ -1078,7 +1094,7 @@ public class Player implements PlayerIF {
 	public UserDataMgr getUserDataMgr() {
 		return userDataMgr;
 	}
-	
+
 	public RedPointMgr getRedPointMgr() {
 		return redPointMgr;
 	}
@@ -1111,8 +1127,8 @@ public class Player implements PlayerIF {
 	public UpgradeMgr getUpgradeMgr() {
 		return upgradeMgr;
 	}
-	
-	public PlayerQuestionMgr getPlayerQuestionMgr(){
+
+	public PlayerQuestionMgr getPlayerQuestionMgr() {
 		return playerQuestionMgr;
 	}
 
@@ -1328,5 +1344,23 @@ public class Player implements PlayerIF {
 			monthProvider = MonthCardPrivilegeMgr.CreateProvider(this);
 		}
 		return monthProvider;
+	}
+
+	/**
+	 * 获取秘境基础数据的Holder
+	 * 
+	 * @return
+	 */
+	public GroupSecretBaseInfoSynDataHolder getBaseHolder() {
+		return baseHolder;
+	}
+
+	/**
+	 * 获取秘境Team信息的Holder
+	 * 
+	 * @return
+	 */
+	public GroupSecretTeamInfoSynDataHolder getTeamHolder() {
+		return teamHolder;
 	}
 }
