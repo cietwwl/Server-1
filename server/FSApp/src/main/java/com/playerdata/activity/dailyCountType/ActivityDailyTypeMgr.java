@@ -119,9 +119,7 @@ public class ActivityDailyTypeMgr {
 				targetItem.reset(targetCfg);
 				dataHolder.updateItem(player, targetItem);
 			}
-		}
-		
-		
+		}		
 	}
 	private void checkNewOpen(Player player) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();

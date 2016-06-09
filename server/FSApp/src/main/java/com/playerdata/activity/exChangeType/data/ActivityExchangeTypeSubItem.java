@@ -12,12 +12,24 @@ public class ActivityExchangeTypeSubItem {
 	
 	private int time;
 	
+	private boolean isrefresh;
+	
 	public String getCfgId() {
 		return cfgId;
 	}
 
 	public void setCfgId(String cfgId) {
 		this.cfgId = cfgId;
+	}
+	
+	
+	
+	public boolean isIsrefresh() {
+		return isrefresh;
+	}
+
+	public void setIsrefresh(boolean isrefresh) {
+		this.isrefresh = isrefresh;
 	}
 
 	public int getTime() {

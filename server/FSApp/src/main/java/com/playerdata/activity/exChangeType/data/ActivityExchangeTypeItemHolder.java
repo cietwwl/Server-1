@@ -25,7 +25,7 @@ public class ActivityExchangeTypeItemHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityCountType;
+	final private eSynType synType = eSynType.ActivityExchangeType;
 	
 	
 	/*

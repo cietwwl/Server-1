@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -36,11 +37,18 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 	
 	@CombineSave
 	private List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
-	
+	@CombineSave
+	private long lasttime;
 	
 	@CombineSave
 	private String version ;
-
+	
+	/**版本刷新*/
+	public void reset(ActivityExchangeTypeCfg targetCfg,List<ActivityExchangeTypeSubItem> list){
+		this.closed = false;
+		this.version = targetCfg.getVersion();
+		subItemList = list;
+	}
 
 	public String getVersion() {
 		return version;
@@ -52,8 +60,14 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 
 
 	
-	public void reset(){
-		subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
+	
+
+	public long getLasttime() {
+		return lasttime;
+	}
+
+	public void setLasttime(long lasttime) {
+		this.lasttime = lasttime;
 	}
 
 	public String getId() {

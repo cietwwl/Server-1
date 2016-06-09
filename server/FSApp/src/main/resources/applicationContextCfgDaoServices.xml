@@ -177,6 +177,11 @@
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfgDAO"  init-method="init" />
+	
+	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->

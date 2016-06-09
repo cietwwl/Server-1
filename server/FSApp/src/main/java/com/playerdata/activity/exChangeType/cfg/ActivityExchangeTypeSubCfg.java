@@ -10,7 +10,7 @@ public class ActivityExchangeTypeSubCfg {
 
 	private String id;
 	
-	private int parentCfg;
+	private String parentCfg;
 	
 	private String emailTitle;
 	
@@ -60,11 +60,13 @@ public class ActivityExchangeTypeSubCfg {
 		return id;
 	}
 
-	public int getParentCfg() {
+
+
+	public String getParentCfg() {
 		return parentCfg;
 	}
 
-	public void setParentCfg(int parentCfg) {
+	public void setParentCfg(String parentCfg) {
 		this.parentCfg = parentCfg;
 	}
 

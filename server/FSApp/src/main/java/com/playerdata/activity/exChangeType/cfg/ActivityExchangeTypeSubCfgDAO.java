@@ -1,5 +1,6 @@
 package com.playerdata.activity.exChangeType.cfg;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.fsutil.util.StringUtil;
@@ -44,6 +46,30 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 			changelisttmp.put(Strs[0],Strs[1] );
 		}
 		cfgTmp.setChangelist(changelisttmp);
+	}
+	
+	public List<ActivityExchangeTypeSubCfg> getByParentCfgId(String parentCfgId){
+		List<ActivityExchangeTypeSubCfg> targetList = new ArrayList<ActivityExchangeTypeSubCfg>();
+		List<ActivityExchangeTypeSubCfg> allCfg = getAllCfg();
+		for (ActivityExchangeTypeSubCfg tmpItem : allCfg) {
+			if(StringUtils.equals(tmpItem.getParentCfg(), parentCfgId)){
+				targetList.add(tmpItem);
+			}
+		}
+		return targetList;				
+	}
+
+
+	public ActivityExchangeTypeSubCfg getById(String cfgId) {
+		ActivityExchangeTypeSubCfg cfg = null;
+		List<ActivityExchangeTypeSubCfg> cfglist = getAllCfg();
+		for(ActivityExchangeTypeSubCfg subcfg : cfglist){
+			if(StringUtils.equals(subcfg.getId(), cfgId)){
+				cfg = subcfg;
+				break;
+			}
+		}
+		return cfg;
 	}
 	
 
