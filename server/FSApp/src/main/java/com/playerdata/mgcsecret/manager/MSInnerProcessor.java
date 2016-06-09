@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.rank.magicsecret.MSScoreRankMgr;
+import com.bm.robot.RobotHeroBuilder;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
@@ -157,7 +158,10 @@ class MSInnerProcessor extends MSConditionJudger{
 	 * @return
 	 */
 	private static TeamInfo generateEnimyForDungeon(String enimyStr){
-		return AngleArrayMatchHelper.getRobotTeamInfo(Integer.parseInt(enimyStr));
+	
+		int robotId = Integer.parseInt(enimyStr);
+		return RobotHeroBuilder.buildOnlyHerosTeamInfo(robotId);
+//		return AngleArrayMatchHelper.getRobotTeamInfo(robotId);
 	}
 
 	/**

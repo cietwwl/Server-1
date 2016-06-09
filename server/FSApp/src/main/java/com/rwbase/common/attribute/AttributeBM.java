@@ -169,7 +169,9 @@ public class AttributeBM {
 		componentList.add(new RobotBaseAttributeComponent(heroInfo));
 		componentList.add(new RobotEquipAttributeComponent(heroInfo));
 		componentList.add(new RobotGemAttributeComponent(heroInfo));
-		componentList.add(new RobotMagicAttributeComponent(magicInfo));
+		if(magicInfo!=null){
+			componentList.add(new RobotMagicAttributeComponent(magicInfo));
+		}
 		componentList.add(new RobotSkillAttributeComponent(heroInfo));
 
 		AttributeCalculator<AttrData> attributeCalculator = new AttributeCalculator<AttrData>(userId, heroInfo.getBaseInfo().getTmpId(), componentList, attributeFormula);

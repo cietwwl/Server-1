@@ -490,13 +490,21 @@ public class AngelArrayTeamInfoHelper {
 		armyHero.setSkillList(skillList);
 		// 其他属性
 		// AttrData heroAttrData = AttrDataCalcFactory.getHeroAttrData(heroInfo);
-		MagicParam.MagicBuilder builder = new MagicBuilder();
-		builder.setMagicId(String.valueOf(magic.getModelId()));
-		builder.setMagicLevel(magic.getLevel());
-		builder.setUserId(tmpId);
-
-		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, builder.build());
+		MagicParam magicParam = null;
+		if(magic!=null){
+			
+			MagicParam.MagicBuilder builder = new MagicBuilder();
+			builder.setMagicId(String.valueOf(magic.getModelId()));
+			builder.setMagicLevel(magic.getLevel());
+			builder.setUserId(tmpId);
+			
+			magicParam = builder.build();
+		}
+		
+		
+		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, magicParam);
 		armyHero.setAttrData(heroAttrData);
+
 		// 当前血量
 		CurAttrData curAttrData = new CurAttrData();
 		curAttrData.setCurLife(heroAttrData.getLife());

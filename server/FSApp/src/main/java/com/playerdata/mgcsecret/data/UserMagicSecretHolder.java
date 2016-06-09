@@ -79,6 +79,7 @@ public class UserMagicSecretHolder {
 	 * @return
 	 */
 	public boolean isDailyFirstLogin(long lastResetTime){
-		return DateUtils.isResetTime(5, 0, 0, lastResetTime);
+		return true;
+		//return DateUtils.isResetTime(5, 0, 0, lastResetTime);
 	}
 }
