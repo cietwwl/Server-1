@@ -2,6 +2,7 @@ package com.playerdata.activity.rateType;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
 import com.rwbase.dao.copypve.CopyType;
 
 public enum ActivityRateTypeEnum{	
@@ -41,21 +42,28 @@ public enum ActivityRateTypeEnum{
 	public static ActivityRateTypeEnum getByCopyTypeAndRewardsType(int copyType,int rewardsType){
 		if(copyType == CopyType.COPY_TYPE_NORMAL){
 			if(rewardsType == 0){
+				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return Normal_copy_DOUBLE;
 			}else{
+				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return Normal_copy_EXP_DOUBLE;
 			}
 		}else if(copyType == CopyType.COPY_TYPE_ELITE){
 			if(rewardsType == 0){
+				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return ELITE_copy_DOUBLE;
 			}else{
+				GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 				return ELITE_copy_EXP_DOUBLE;
 			}
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_JBZD){
+			GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 			return JBZD_DOUBLE;
 		}else if(copyType == CopyType.COPY_TYPE_TRIAL_LQSG){
+			GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 			return LXSG_DOUBLE;
 		}else if (copyType == CopyType.COPY_TYPE_CELESTIAL){
+			GameLog.error("ActivityRateEnum", "双倍触发", "类型" + copyType);
 			return SCHJ_DOUBLE;
 		}		
 		return null;
