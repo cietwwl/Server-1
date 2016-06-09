@@ -50,8 +50,7 @@ public enum UserEventType {
 	AttachVitalityTwo,//一件装备封灵到x级
 	ResetElityVitalityTwo,//重置精英关卡x次
 	HeroUpgradeVitalityTwo,//把一个英雄升到x级
-	WarfareDifficultyTwoVitalityTwo,//通关无尽战火难度2X次
-	
+	WarfareDifficultyTwoVitalityTwo,//通关无尽战火难度2X次	
 	BuyInTowerShopVitalityTwo,//万仙阵商店购买x次
 	BuyPowerVitalityTwo,//购买体力x次
 	FactionDonateVitalityTwo,//帮派捐献x次

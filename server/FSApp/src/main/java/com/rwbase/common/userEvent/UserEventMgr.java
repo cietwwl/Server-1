@@ -472,7 +472,7 @@ public class UserEventMgr {
 	
 	/**捐献行为分类-活跃之王二*/
 	private void factionDonateVitalityTwo(Player player ,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.FactionDonateVitality, count);
+		UserEvent userEvent = new UserEvent(UserEventType.FactionDonateVitalityTwo, count);
 		raiseEvent(player, userEvent);
 	}	
 	
