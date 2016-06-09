@@ -9,10 +9,11 @@ import com.rwproto.DataSynProtos.eSynType;
 public class UserGroupSecretDataHolder {
 
 	private static UserGroupSecretDataHolder instance = new UserGroupSecretDataHolder();
-	
-	public static UserGroupSecretDataHolder getInstance(){
+
+	public static UserGroupSecretDataHolder getInstance() {
 		return instance;
 	}
+
 	private static eSynType synType = eSynType.UserGroupSecretData;
 
 	public void syn(Player player, int version) {
@@ -39,7 +40,4 @@ public class UserGroupSecretDataHolder {
 			GameLog.error("UserGroupSecretDataHolder", "#update()", "find UserGroupSecretData fail:" + userId);
 		}
 	}
-	
-
-
 }

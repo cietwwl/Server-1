@@ -191,6 +191,48 @@ public class HPCUtil {
 	}
 
 	/**
+	 * 通过指定分隔符解析成List<Integer>，如不包含指定分隔符，按一个Integer解析
+	 * 
+	 * @param text
+	 * @param split
+	 * @return
+	 */
+	public static int[] parseIntegerArray(String text, String split) {
+		if (!text.contains(split)) {
+			return new int[] { Integer.parseInt(text) };
+		}
+
+		StringTokenizer token = new StringTokenizer(text, split);
+		int[] arr = new int[token.countTokens()];
+		int i = 0;
+		while (token.hasMoreTokens()) {
+			arr[i++] = Integer.parseInt(token.nextToken());
+		}
+		return arr;
+	}
+
+	/**
+	 * 通过指定分隔符解析成List<String>，如不包含指定分隔符，按一个String解析
+	 * 
+	 * @param text
+	 * @param split
+	 * @return
+	 */
+	public static String[] parseStringArray(String text, String split) {
+		if (!text.contains(split)) {
+			return new String[] { text };
+		}
+
+		StringTokenizer token = new StringTokenizer(text, split);
+		String[] arr = new String[token.countTokens()];
+		int i = 0;
+		while (token.hasMoreTokens()) {
+			arr[i++] = token.nextToken();
+		}
+		return arr;
+	}
+
+	/**
 	 * 通过一级与二级分隔符，把文本解析成Map<Integer,Integer>
 	 * 
 	 * @param text

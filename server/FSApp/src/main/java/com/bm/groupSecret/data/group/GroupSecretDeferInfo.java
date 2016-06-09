@@ -4,16 +4,14 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.dataSyn.annotation.SynClass;
 
-
-
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupSecretDeferInfo {
 
 	private ArmyInfo armyInfo;
-	
+
 	private String userId;
-	
+
 	private String userName;
 
 	public ArmyInfo getArmyInfo() {
@@ -39,8 +37,4 @@ public class GroupSecretDeferInfo {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	
-	
-	
 }

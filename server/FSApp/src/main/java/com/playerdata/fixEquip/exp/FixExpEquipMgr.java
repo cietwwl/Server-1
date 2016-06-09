@@ -124,24 +124,46 @@ public class FixExpEquipMgr {
 	}
 	
 
-	public List<AttributeItem> toAttrItems(String ownerId){
+	public List<AttributeItem> levelToAttrItems(String ownerId){
 		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
 		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
-		for (FixExpEquipDataItem itemTmp : itemList) {
-			
+		for (FixExpEquipDataItem itemTmp : itemList) {			
 
 			FixExpEquipLevelCfg curLevelCfg = FixExpEquipLevelCfgDAO.getInstance().getByPlanIdAndLevel(itemTmp.getLevelPlanId(), itemTmp.getLevel());
 			
-			AttributeUtils.calcAttribute(curLevelCfg.getAttrDataMap(),  curLevelCfg.getPrecentAttrDataMap(), attrMap );
+			AttributeUtils.calcAttribute(curLevelCfg.getAttrDataMap(),  curLevelCfg.getPrecentAttrDataMap(), attrMap );		
+			
+			
+			AttrCheckLoger.logAttr("经验神装_等级", ownerId, attrMap);
+			
+		}
+		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
+		return attrItemList;
+	}
+	
+	public List<AttributeItem> qualityToAttrItems(String ownerId){
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
+		for (FixExpEquipDataItem itemTmp : itemList) {		
 			
 			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(itemTmp.getQualityPlanId(), itemTmp.getQuality());
-			AttributeUtils.calcAttribute(curQualityCfg.getAttrDataMap(),  curQualityCfg.getPrecentAttrDataMap(), attrMap );
+			AttributeUtils.calcAttribute(curQualityCfg.getAttrDataMap(),  curQualityCfg.getPrecentAttrDataMap(), attrMap );	
+			
+			AttrCheckLoger.logAttr("经验神装_品阶", ownerId, attrMap);
+			
+		}
+		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
+		return attrItemList;
+	}
+	public List<AttributeItem> starToAttrItems(String ownerId){
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		HashMap<Integer, AttributeItem> attrMap = new HashMap<Integer, AttributeItem>();
+		for (FixExpEquipDataItem itemTmp : itemList) {	
 			
 			FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(itemTmp.getStarPlanId(), itemTmp.getStar());
 			AttributeUtils.calcAttribute(curStarCfg.getAttrDataMap(),  curStarCfg.getPrecentAttrDataMap(), attrMap );
 			
-			AttrCheckLoger.logAttr("经验神装", ownerId, attrMap);
-			
+			AttrCheckLoger.logAttr("经验神装_觉醒", ownerId, attrMap);			
 		}
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
 		return attrItemList;
