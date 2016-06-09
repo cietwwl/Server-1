@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.Player;
@@ -24,29 +25,9 @@ public class TaoistMagicRecord {
 		levelMap = new HashMap<Integer, Integer>();
 	}
 	
-	public Map<Integer, Integer> getLevelMap() {
-		return levelMap;
-	}
-
-	public void setLevelMap(Map<Integer, Integer> levelMap) {
-		this.levelMap = levelMap;
-	}
-
 	public TaoistMagicRecord(String uid) {
 		this();
 		userId = uid;
-	}
-
-	public Iterable<Entry<Integer, Integer>> getAll(){
-		return levelMap.entrySet();
-	}
-	
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getUserId() {
-		return userId;
 	}
 
 	public static TaoistMagicRecord Create(String uid){
@@ -55,6 +36,28 @@ public class TaoistMagicRecord {
 		return data;
 	}
 	
+	@JsonIgnore
+	public Iterable<Entry<Integer, Integer>> getAll(){
+		return levelMap.entrySet();
+	}
+	
+	public Map<Integer, Integer> getLevelMap() {
+		return levelMap;
+	}
+
+	public void setLevelMap(Map<Integer, Integer> levelMap) {
+		this.levelMap = levelMap;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	@JsonIgnore
 	protected boolean setLevel(int magicId,int level){
 		if (level <= 0) {
 			return false;
@@ -81,6 +84,7 @@ public class TaoistMagicRecord {
 		return true;
 	}
 
+	@JsonIgnore
 	public Integer getLevel(int tid) {
 		return levelMap.get(tid);
 	}
