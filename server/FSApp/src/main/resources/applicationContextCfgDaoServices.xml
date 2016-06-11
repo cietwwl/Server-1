@@ -142,6 +142,12 @@
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
+	<!-- 羁绊 -->
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />
+	
 	<!--  
 	<bean class="com.rwbase.dao.gulid.CfgGuildIconDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.hero.HeroEquipStrenghCfgDAO"  init-method="init" />

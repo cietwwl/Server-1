@@ -80,15 +80,15 @@ public class GroupUtils {
 	}
 
 	/**
-	 * 退出时间
+	 * 计算冷却时间
 	 * 
 	 * @param now
-	 * @param quitTime
+	 * @param startTime
 	 * @param needCoolingTime
 	 * @return
 	 */
-	public static String quitGroupTimeTip(long now, long quitTime, long needCoolingTime) {
-		long offTime = now - quitTime;
+	public static String coolingTimeTip(long now, long startTime, long needCoolingTime) {
+		long offTime = now - startTime;
 		if (offTime <= 0 || offTime >= needCoolingTime) {
 			return "";
 		}
