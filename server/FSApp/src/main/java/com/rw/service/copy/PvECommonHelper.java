@@ -83,14 +83,18 @@ public class PvECommonHelper {
 	}
 
 	public static void addPlayerAttr4Battle(Player player, CopyCfg copyCfg) {
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
+		int multiple = isRateOpen?2:1; 	
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -(copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()));
-		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp());
+		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp()*multiple);
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin());
 	}
 
 	public static void addPlayerAttr4Sweep(Player player, CopyCfg copyCfg, int times) {
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
+		int multiple = isRateOpen?2:1; 	
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getSuccSubPower() * times);
-		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times);
+		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times*multiple);
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times);
 	}
 
@@ -128,6 +132,11 @@ public class PvECommonHelper {
 				listSweepInfo.add(tagsweepInfo.build());
 			}
 		}
+		
+		
+		
+		
+		
 		String extraRewards = copyCfg.getExtraRewards();
 		if (extraRewards != null && !extraRewards.isEmpty()) {
 			try {

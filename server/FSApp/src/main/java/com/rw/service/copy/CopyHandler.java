@@ -219,7 +219,7 @@ public class CopyHandler {
 			GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
 		}
 			if (dropItems != null) {
-			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改
+			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改;经验和物品反馈信息拼接在一起
 			for (int i = 0; i < dropItems.size(); i++) {
 				ItemInfo itemInfo = dropItems.get(i);
 				int itemId = itemInfo.getItemID();
@@ -227,6 +227,12 @@ public class CopyHandler {
 				itemList.add(itemId + "," + itemNum);
 			}
 		}
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
+		int multiple = isRateOpen?2:1; 
+//		itemList.add(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
+		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
+		
+			
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
 		//
 		copyResponse.addAllTagItemList(itemList);
@@ -326,7 +332,13 @@ public class CopyHandler {
 		PvECommonHelper.addPlayerAttr4Sweep(player, copyCfg, times);
 
 		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
-
+		
+		/**扫荡处发送经验双倍字段给客户端显示*/
+		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1));
+		int multiple = isRateOpen?2:1; 
+		copyResponse.setESpecialItemIdList(eSpecialItemId.PlayerExp.getValue()+","+copyCfg.getPlayerExp()*multiple);
+		
+		
 		copyResponse.addAllTagSweepInfoList(listSweepInfo);
 		if (levelRecord4Client != null) {
 			copyResponse.addTagCopyLevelRecord(levelRecord4Client);
