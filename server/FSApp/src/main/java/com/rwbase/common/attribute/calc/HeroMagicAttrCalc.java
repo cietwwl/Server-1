@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.log.GameLog;
 import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeSet;
@@ -25,19 +24,19 @@ public class HeroMagicAttrCalc implements IComponentCalc {
 	@Override
 	public AttributeSet calc(Object obj) {
 		MagicParam param = (MagicParam) obj;
-		String userId = param.getUserId();
+		// String userId = param.getUserId();
 		String magicId = param.getMagicId();
 		int magicLevel = param.getMagicLevel();
 
 		MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(String.valueOf(magicId));
 		if (magicCfg == null) {
-			GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]没有找到对应的MagicCfg表", magicId));
+			// GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]没有找到对应的MagicCfg表", magicId));
 			return null;
 		}
 
 		List<Integer> passiveSkillIdList = magicCfg.getPassiveSkillIdList();
 		if (passiveSkillIdList == null || passiveSkillIdList.isEmpty()) {
-			GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]没有找到任何的被动技能", magicId));
+			// GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]没有找到任何的被动技能", magicId));
 			return null;
 		}
 
@@ -49,7 +48,7 @@ public class HeroMagicAttrCalc implements IComponentCalc {
 			String bufferId = passiveSkillIdList.get(i) + "_" + magicLevel;
 			BufferCfg bufferCfg = cfgDAO.getCfgById(bufferId);
 			if (bufferCfg == null) {
-				GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]的被动技能[%s]找不到BufferCfg的配置表", magicId, bufferId));
+				// GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]的被动技能[%s]找不到BufferCfg的配置表", magicId, bufferId));
 				continue;
 			}
 
@@ -57,11 +56,11 @@ public class HeroMagicAttrCalc implements IComponentCalc {
 		}
 
 		if (map.isEmpty()) {
-			GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]的所有被动属性没有计算到任何属性加成", magicId));
+			// GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]的所有被动属性没有计算到任何属性加成", magicId));
 			return null;
 		}
 
-		GameLog.info("计算法宝属性", userId, AttributeUtils.partAttrMap2Str("英雄法宝", map), null);
+		// AttrCheckLoger.logAttr("法宝属性", userId, map);
 		return new AttributeSet.Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
 

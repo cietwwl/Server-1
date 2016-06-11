@@ -704,7 +704,6 @@ public final class AngleArrayMatchHelper {
 		GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
 		for (int i = 0, gemSize = canGemList.size(); i < gemSize; i++) {
 			String nextGemId = canGemList.get(i).toString();
-			;
 			int gemLevel = gemLevelArray[getRandomIndex(r, gemLevelArray.length)];
 			for (int j = gemLevel; --j >= 0;) {
 				GemCfg gemCfg = (GemCfg) gemCfgDAO.getCfgById(nextGemId);

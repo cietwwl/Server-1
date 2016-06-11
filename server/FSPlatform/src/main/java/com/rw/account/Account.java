@@ -1,5 +1,7 @@
 package com.rw.account;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.login.AccoutBM;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.whiteList.TableWhiteList;
@@ -28,7 +30,11 @@ public class Account {
 	public boolean isWhiteList() {
 		
 		if(whiteList == null){
-			whiteList = new TableWhiteListHolder(accountId);
+			TableAccount tableAccount = getTableAccount();
+			String openAccount = tableAccount.getOpenAccount();
+			if(!StringUtils.isEmpty(openAccount)){
+				whiteList = new TableWhiteListHolder(openAccount);
+			}
 		}
 		if(whiteList == null){
 			return false;

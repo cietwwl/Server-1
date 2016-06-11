@@ -116,11 +116,12 @@ public class HeroChecker implements RedPointCollector {
 				upgradeStarList.add(templateId);
 			}
 		}
-		if (!heroRedPointList.isEmpty()) {
-			map.put(RedPointType.ROLE_WINDOW_ADVANCED, heroRedPointList);
-		}
+//		if (!heroRedPointList.isEmpty()) {
+//			map.put(RedPointType.ROLE_WINDOW_ADVANCED, heroRedPointList);
+//		}
+		//穿装红点用进阶代替
 		if (!heroEquipList.isEmpty()) {
-			map.put(RedPointType.ROLE_WINDOW_DRESS_EQUIP, heroEquipList);
+			map.put(RedPointType.ROLE_WINDOW_ADVANCED, heroEquipList);
 		}
 		if (!upgradeStarList.isEmpty()) {
 			map.put(RedPointType.ROLE_WINDOW_UPGRADE_STAR, upgradeStarList);

@@ -20,8 +20,6 @@ public class ServerData {
 	private List<String> whiteList = new ArrayList<String>();	
 	//是否开启充值
 	private boolean chargeOn= true;
-	//全服邮件列表
-	private List<ServerGmEmail> gmMailList = new ArrayList<ServerGmEmail>();
 	
 	private long lastBIStatLogTime;
 	
@@ -56,12 +54,6 @@ public class ServerData {
 	}
 	public void setLastBIStatLogTime(long lastBIStatLogTime) {
 		this.lastBIStatLogTime = lastBIStatLogTime;
-	}
-	public List<ServerGmEmail> getGmMailList() {
-		return gmMailList;
-	}
-	public void setGmMailList(List<ServerGmEmail> gmMailList) {
-		this.gmMailList = gmMailList;
 	}
 	public long getTaskId() {
 		return taskId;

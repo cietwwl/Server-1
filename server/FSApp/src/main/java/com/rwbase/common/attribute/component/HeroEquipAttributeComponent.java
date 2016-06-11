@@ -27,7 +27,7 @@ public class HeroEquipAttributeComponent extends AbstractAttributeCalc {
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		List<EquipItem> equipList = hero.getEquipMgr().getEquipList();
 		if (equipList == null || equipList.isEmpty()) {
-			GameLog.error("计算英雄装备属性", player.getUserId(), String.format("Id为[%s]的英雄身上的装备列表是空的", hero.getUUId()));
+//			GameLog.error("计算英雄装备属性", player.getUserId(), String.format("Id为[%s]的英雄身上的装备列表是空的", hero.getUUId()));
 			return null;
 		}
 

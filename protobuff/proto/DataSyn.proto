@@ -23,10 +23,10 @@ enum eSynType	//数据同步类型
 {
 	COPY_LEVEL_RECORD = 1;	//关卡记录，包括精英，普通，英雄
 	COPY_MAP_RECORD = 2;    //地图记录，包括精英，普通，英雄
-	SECRETAREA_INFO = 3;    //帮派秘境-秘境信息
+	SECRETAREA_BASE_INFO = 3;    //帮派秘境-秘境基础信息
 	SECRETAREA_DEF_RECORD = 4;    //帮派秘境-防守记录
 	SECRETAREA_USER_INFO = 5;    //帮派秘境-用户信息
-	SECRETAREA_BATTLE_INFO = 6;    //帮派秘境-用户信息
+	SECRETAREA_DEFEND_TEAM_INFO = 6;    //帮派秘境-秘境的防守信息
 	SECRETAREA_USER_RECORD = 7;  //帮派秘境-用户的秘境记录
 	FASHION_ITEM = 8;			//时装数据
 	EQUIP_ITEM=9;//装备列表
@@ -87,6 +87,7 @@ enum eSynType	//数据同步类型
 	ActivityExchangeType = 67;//活动，兑换
 	ActivityTimeCountType = 68;//活动，在线奖励
 	ActivityDailyType = 69;//活动，每日福利
+	ActivityVitalityType = 70;//活动，活跃度
 
 	QuestionList = 80; //反馈问题列表
 }
