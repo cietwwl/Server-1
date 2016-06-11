@@ -196,9 +196,8 @@ public class RankingMgr {
 			ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
 			String key = entry.getKey();
 			RankingLevelData levelData = createRankingLevelData(entry);
-			int rank = ranking.getRanking(key);
 			ArenaSettleComparable sc = new ArenaSettleComparable();
-			sc.setRanking(rank);
+			sc.setRanking(i);
 			ArenaSettlement settlement = new ArenaSettlement();
 			settlement.setCareer(career);
 			settlement.setSettleMillis(currentTime);
@@ -207,6 +206,7 @@ public class RankingMgr {
 			if (size > total) {
 				continue;
 			}
+			int rank = ranking.getRanking(key);
 			if (rank > 0) {
 				levelData.setRankCount(Math.abs(rank - i));
 			}
@@ -242,8 +242,10 @@ public class RankingMgr {
 		ListRanking<String, ArenaExtAttribute> sranking = RankingFactory.getSRanking(ordinalType);// 获取排行榜数据
 		List<? extends ListRankingEntry<String, ArenaExtAttribute>> list = sranking.getEntrysCopy();// 拷贝一份数据
 		int size = list.size();
-		// ArrayList<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>> currentList = new
-		// ArrayList<RankingEntityOfRank<AngleArrayComparable, AngleArrayAttribute>>(size);
+		// ArrayList<RankingEntityOfRank<AngleArrayComparable,
+		// AngleArrayAttribute>> currentList = new
+		// ArrayList<RankingEntityOfRank<AngleArrayComparable,
+		// AngleArrayAttribute>>(size);
 		for (int i = 1; i <= size; i++) {
 			ListRankingEntry<String, ArenaExtAttribute> entry = list.get(i - 1);
 			String key = entry.getKey();
