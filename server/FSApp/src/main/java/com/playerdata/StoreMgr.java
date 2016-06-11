@@ -249,17 +249,24 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param Commodity
 	 */
 	private CommodityCfg getRandomCommondity(List<CommodityCfg> Commodity) {
-		if (m_nRandom > 5000) {
-			return null;
+		int size = Commodity.size();
+		int total = 0;
+		for (int i = 0; i < size; i++) {
+			CommodityCfg cfg = Commodity.get(i);
+			total += cfg.getProb();
 		}
-		m_nRandom++;
-		int index = RandomUtil.nextInt(Commodity.size());
-		CommodityCfg cfg = Commodity.get(index);
-		int prob = RandomUtil.nextInt(100);
-		if (prob > cfg.getProb()) {
-			cfg = getRandomCommondity(Commodity);
+		System.out.println();
+		int prob = RandomUtil.nextInt(total);
+		for (int i = 0; i < size; i++) {
+			CommodityCfg cfg = Commodity.get(i);
+			int rate = cfg.getProb();
+			if (rate > prob) {
+				return cfg;
+			}
+			prob -= rate;
 		}
-		return cfg;
+		GameLog.error("StoreMgr", "#getRandomCommondity()", "随机商店物品失败：" + total);
+		return size > 0 ? Commodity.get(size - 1) : null;
 	}
 
 	/**
@@ -461,11 +468,11 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	public String getStoreId(int type, Player m_Player) {
 		return m_Player.getUserId() + "_" + type;
 	}
-	
+
 	/**
 	 * 重置刷新次数
 	 */
-	public void resetRefreshNum(){
+	public void resetRefreshNum() {
 		for (Iterator<Entry<Integer, StoreData>> iterator = storeDataHolder.get().getStoreDataMap().entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, StoreData> entry = iterator.next();
 			StoreData storeData = entry.getValue();
