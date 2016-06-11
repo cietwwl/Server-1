@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.bm.rank.arena.ArenaDailyExtension;
 import com.bm.rank.arena.ArenaSettleExtension;
+import com.bm.rank.charge.ChargeRankExtension;
 import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
@@ -41,6 +42,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 //	ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),
 	ARENA_SETTLEMENT(21,40000,"竞技场结算",1,ArenaSettleExtension.class),
 	ANGEL_TEAM_INFO_RANK(22, 20000, "万仙阵匹配玩家阵容", 1, AngelArrayTeamInfoExtension.class),
+//	CHARGE_RANK(23, 5000, "充值排行榜", 1, ChargeRankExtension.class),
 	;
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz,RankingEntityCopyer copyer) {
