@@ -3,6 +3,7 @@ package com.playerdata;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,7 @@ import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.friend.FriendUtils;
@@ -24,8 +26,6 @@ import com.rwbase.dao.friend.vo.FriendResultVo;
 import com.rwbase.dao.hotPoint.EHotPointType;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.FriendServiceProtos;
 import com.rwproto.FriendServiceProtos.EFriendResultType;
 import com.rwproto.FriendServiceProtos.FriendInfo;
@@ -34,8 +34,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	private final int FRIEND_LIMIT = 100;// 好友上限
 	private final int BLACK_LIMIT = 30;// 黑名单上限
 	private final int A_POWER_COUNT = 1;// 领取一次体力获得体力数
-
-	// private TableFriend tableFriend;
 	private String userId;
 	private TableFriendDAO friendDAO = TableFriendDAO.getInstance();
 
@@ -59,8 +57,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		try {
 			long currentTime = System.currentTimeMillis();
 			TableFriend tableFriend = getTableFriend();
-			notifyLoginTime(tableFriend.getBlackList(), FriendType.BLACK, userId, currentTime);
-			notifyLoginTime(tableFriend.getFriendList(), FriendType.FRIEND, userId, currentTime);
+			notifyLoginTime(tableFriend, FriendGetOperation.FRIEND, userId, currentTime);
+			notifyLoginTime(tableFriend, FriendGetOperation.BLACKLIST, userId, currentTime);
 		} catch (Exception e) {
 			GameLog.error("FriendMgr", "#updateLoginTime()", "登录更新好友信息异常", e);
 		}
@@ -70,11 +68,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	public void init(Player playerP) {
 		m_pPlayer = playerP;
 		this.userId = playerP.getUserId();
-		// tableFriend = friendDAO.get(playerP.getUserId());
-		// if (tableFriend == null) {
-		// tableFriend = new TableFriend();
-		// tableFriend.setUserId(playerP.getUserId());
-		// }
 	}
 
 	/** 每日5点重置 */
@@ -581,15 +574,14 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 		return friendItemToInfoList(map);
 	}
-	
 
 	private Comparator<FriendInfo> comparator = new Comparator<FriendInfo>() {
 
 		@Override
 		public int compare(FriendInfo o1, FriendInfo o2) {
-			if(o1.getLastLoginTime() - o2.getLastLoginTime() > 0){
+			if (o1.getLastLoginTime() - o2.getLastLoginTime() > 0) {
 				return -1;
-			}else{
+			} else {
 				return 1;
 			}
 		}
@@ -608,7 +600,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			FriendItem item = it.next();
 			list.add(friendItemToInfo(item));
 		}
-		Collections.sort(list,comparator);
+		Collections.sort(list, comparator);
 		return list;
 	}
 
@@ -653,72 +645,60 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	}
 
 	/** 玩家数据改变 */
-	public void onPlayerChange(Player player) {
+	public void onPlayerChange(Player changedPlayer) {
 		TableFriend tableFriend = getTableFriend();
-		Iterator<FriendItem> it = tableFriend.getFriendList().values().iterator();
-		while (it.hasNext()) {
-			FriendItem item = it.next();
-			PlayerIF otherPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(item.getUserId());
-			if (otherPlayer != null) {
-				GameWorldFactory.getGameWorld().asyncExecute(item.getUserId(), new PlayerTask() {
+		changeOtherInfo(tableFriend, changedPlayer, FriendGetOperation.FRIEND);
+		changeOtherInfo(tableFriend, changedPlayer, FriendGetOperation.BLACKLIST);
+	}
 
-					@Override
-					public void run(Player player) {
-
-						player.getFriendMgr().pushPlayerChange(player);
-					}
-				});
-
+	private void changeOtherInfo(TableFriend hostTable, Player changedPlayer, FriendGetOperation op) {
+		Enumeration<FriendItem> it = op.getItemEnumeration(hostTable);
+		while (it.hasMoreElements()) {
+			FriendItem item = it.nextElement();
+			String otherUserId = item.getUserId();
+			// 只更新在内存玩家
+			TableFriend otherTableFriend = TableFriendDAO.getInstance().getFromMemory(otherUserId);
+			if (otherTableFriend == null) {
+				return;
+			}
+			FriendItem friendItem = op.getItem(otherTableFriend, userId);
+			if (friendItem != null) {
+				changeFriendItem(friendItem, changedPlayer);
 			}
 		}
 	}
 
-	/** 角色数据改变(由其它玩家数据改变时调用) */
-	public void pushPlayerChange(Player player) {
-		TableFriend tableFriend = getTableFriend();
-		if (tableFriend.getFriendList().containsKey(player.getUserId())) {
-			FriendItem friendItem = tableFriend.getFriendList().get(player.getUserId());
-			friendItem.setUserId(player.getUserId());
-			friendItem.setUserName(player.getUserName());
-			friendItem.setLastLoginTime(player.getUserGameDataMgr().getLastLoginTime());
-			friendItem.setLevel(player.getLevel());
-			friendItem.setUserHead(player.getHeadImage());
-			friendItem.setCareer(player.getCareer());
-			// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
-			// TODO 帮派获取名字后再提供
-			friendItem.setUnionName("");
-		}
+	private void changeFriendItem(FriendItem friendItem, Player player) {
+		friendItem.setUserId(player.getUserId());
+		friendItem.setUserName(player.getUserName());
+		friendItem.setLastLoginTime(player.getUserGameDataMgr().getLastLoginTime());
+		friendItem.setLevel(player.getLevel());
+		friendItem.setUserHead(player.getHeadImage());
+		friendItem.setCareer(player.getCareer());
+		// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
+		// TODO 帮派获取名字后再提供
+		friendItem.setUnionName("");
 	}
 
-	private void notifyLoginTime(Map<String, FriendItem> map, FriendType type, String userId, long currentTime) {
+	private void notifyLoginTime(TableFriend hostTable, FriendGetOperation getOp, String userId, long currentTime) {
 		TableFriendDAO friendDAO = TableFriendDAO.getInstance();
-		for (FriendItem item : map.values()) {
+		Enumeration<FriendItem> enumeration = getOp.getItemEnumeration(hostTable);
+		while (enumeration.hasMoreElements()) {
+			FriendItem item = enumeration.nextElement();
 			String otherUserId = item.getUserId();
 			TableFriend otherTable = friendDAO.getFromMemory(otherUserId);
 			if (otherTable == null) {
 				continue;
 			}
-			// 更新别人上次更新时间(只限内存操作)
+			// 获取别人最新信息(只限内存操作)
 			Player otherPlayer = PlayerMgr.getInstance().findPlayerFromMemory(otherUserId);
-			if (otherPlayer != null) {
-				item.setLastLoginTime(otherPlayer.getUserGameDataMgr().getLastLoginTime());
-			}
-			// 通知别人(只限内存操作)
-			Map<String, FriendItem> friendMap;
-			if (type == FriendType.FRIEND) {
-				friendMap = otherTable.getFriendList();
-			} else {
-				friendMap = otherTable.getBlackList();
-			}
-			FriendItem self = friendMap.get(userId);
+			changeFriendItem(item, otherPlayer);
+			// 把自己的登录时间更新给其他人(只限内存操作)
+			FriendItem self = getOp.getItem(otherTable, userId);
 			if (self != null) {
 				self.setLastLoginTime(currentTime);
 			}
 		}
-	}
-
-	enum FriendType {
-		FRIEND, BLACK
 	}
 
 	public boolean save() {

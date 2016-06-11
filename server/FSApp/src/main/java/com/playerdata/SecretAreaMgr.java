@@ -204,12 +204,13 @@ public class SecretAreaMgr {
 	public void updateSecretRank(SecretAreaInfo areaInfo){//更新秘境排行信息
 		Ranking ranking = RankingFactory.getRanking(RankType.SECRET_RANK);
 		RankingEntry<SecretInfoComp, SecretExtAttribute> entry = ranking.getRankingEntry(areaInfo.getId());//获取秘境排行信息
-		SecretInfoComp comp=null;
-		if(entry==null||entry.getComparable()==null){//无添加过
-			comp = new SecretInfoComp();
-		}else{
-			comp = entry.getComparable();
-		}
+		SecretInfoComp comp= new SecretInfoComp();
+//		if(entry==null||entry.getComparable()==null){//无添加过
+//			comp = new SecretInfoComp();
+//		}
+//		else{
+//			comp = entry.getComparable();
+//		}
 		
 		int totalFight = getTotalFight(areaInfo);
 		int sourceNum = getTotalSource(areaInfo);
