@@ -211,7 +211,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 				rs = (int) remainSeconds;
 			}
 		}
-		response.setRemainSeconds(rs);
+		response.setRemainSeconds(rs + 1);
 		response.setRecoverSkillPoints(max - count);
 		return response;
 	}
@@ -461,6 +461,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		return 0;
 	}
 
+	
 	/**
 	 * 重算技能点（技能点数量，技能点时间）
 	 */
