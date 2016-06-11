@@ -16,6 +16,7 @@ import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
+import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.dao.friend.FriendUtils;
 import com.rwbase.dao.friend.TableFriend;
@@ -677,7 +678,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendItem.setCareer(player.getCareer());
 		// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
 		// TODO 帮派获取名字后再提供
-		friendItem.setUnionName("");
+		friendItem.setUnionName(GroupMemberHelper.getGroupName(player));
 	}
 
 	private void notifyLoginTime(TableFriend hostTable, FriendGetOperation getOp, String userId, long currentTime) {
