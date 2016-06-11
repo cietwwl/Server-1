@@ -3,15 +3,15 @@ option java_package = "com.rwproto";
 option java_outer_classname = "HeroServiceProtos";
 
 enum eHeroType {
-		UPGRADE_QUALITY = 1;
-		EQUIP_STRENGTH = 2 ;
-		USE_EQUIPMENT = 3;
-		SUMMON_HERO = 4;
-		EVOLUTION_HERO = 5;
-		ONEKEY_STRENGTH = 6 ;
-		USE_EXP = 7;
-		BUY_SKILL_POINT = 8;
-		HERO_LEVEL_UP = 9;
+	UPGRADE_QUALITY = 1;
+	EQUIP_STRENGTH = 2 ;
+	USE_EQUIPMENT = 3;
+	SUMMON_HERO = 4;
+	EVOLUTION_HERO = 5;
+	ONEKEY_STRENGTH = 6 ;
+	USE_EXP = 7;
+	BUY_SKILL_POINT = 8;
+	HERO_LEVEL_UP = 9;
 }
 enum eHeroResultType {
 	SUCCESS = 1;//成功
@@ -24,6 +24,10 @@ enum eHeroResultType {
 	ALL_HERO = 8;//所用佣兵信息
 	ADD_HERO =9;//添加佣兵
 	UPDATE_HERO =10;//更新佣兵
+	HERO_NOT_EXIST = 11;//英雄不存在
+	DATA_ERROR = 12;//数据异常
+	HERO_EXP_FULL = 13;//佣兵经验已满
+	EXP_ITEM_NOT_EXIST = 14;//没有对应的道具
 }
 
 message MsgHeroRequest{
@@ -34,6 +38,7 @@ message MsgHeroRequest{
     optional int32 soltId = 6;
     optional string heroModelId = 7;//英雄模板ID
     repeated TagUseItem tagUseItem = 8;//消耗物品
+	required bool isAddBtnUse = 9;//是否是添加按钮消耗
 }
 
 message MsgHeroResponse{
