@@ -57,4 +57,11 @@ public interface UserGroupAttributeDataIF {
 	 * @return
 	 */
 	public boolean hasApplyGroup(String groupId);
+
+	/**
+	 * 获取帮派名字
+	 * 
+	 * @return
+	 */
+	public String getGroupName();
 }
