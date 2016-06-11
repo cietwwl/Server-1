@@ -1,5 +1,7 @@
 package com.rw.handler.group.holder;
 
+import java.util.List;
+
 import com.rw.dataSyn.SynDataListHolder;
 import com.rw.handler.group.data.UserGroupData;
 import com.rwproto.DataSynProtos.MsgDataSyn;
@@ -14,5 +16,14 @@ public class UserGroupDataHolder {
 
 	public void syn(MsgDataSyn msgDataSyn) {
 		listHolder.Syn(msgDataSyn);
+	}
+
+	public UserGroupData getUserGroupData() {
+		List<UserGroupData> itemList = listHolder.getItemList();
+		if (itemList == null || itemList.isEmpty()) {
+			return null;
+		}
+
+		return itemList.get(0);
 	}
 }

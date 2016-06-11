@@ -197,7 +197,8 @@ public class GroupBaseDataMgr {
 			return;
 		}
 
-		groupData.setSupplies(groupData.getSupplies() + rewardGroupSupply);
+		int supplies = groupData.getSupplies() + rewardGroupSupply;
+		groupData.setSupplies(supplies < 0 ? 0 : supplies);
 		addGroupExp(player, groupData, logMgr, rewardGroupExp);
 		updateAndSynGroupData(player);
 	}

@@ -8,9 +8,37 @@ public class Test {
 		// Robot robot = createRobot("testallen0002");
 		// long start = System.currentTimeMillis();
 		// Robot robot = loginRobot("testallen0003");
-		Robot robot = loginRobot("hclovehf3012");
+		// Robot robot = loginRobot("hclovehf");
+		// Client client = robot.getClient();
+		// BattleTowerHandler handler = BattleTowerHandler.getHandler();
+		// handler.resetData(client);
+		// handler.openMainView(client);
+		// handler.openChallengeView(client);
+		// handler.openLuckyView(client);
+		// // for (int i = 0; i < 10; i++) {
+		// handler.challengeBattleStart(client);
+		// handler.challengeBattleEnd(client);
+		// handler.challengeBossStart(client);
+		// handler.challengeBossEnd(client);
+		// }
+
+		// -------------------------------旧版本服务器机器人
+		Robot robot = loginRobot("hclovehf3013");
+		// robot.buyRandom();
+		// robot.wearEquip();
+		// robot.equipAttach();
+		// robot.upgrade(35);
+		// robot.heroAdvance();
+		// robot.heroUpgrade();
+		robot.magicForge();
+
+		// handler.sweepStart(client);
+		// handler.sweepEnd(client);
+		// handler.useLuckyKey(client);
+		// handler.getFriendRankInfo(client);
+		// handler.getStrategyList(client);
 		// robot.givePowerAll();
-		robot.receivePowerAll();
+		// robot.receivePowerAll();
 		// robot.givePower();
 		// robot.receivePower();
 		// robot.buyRandom();

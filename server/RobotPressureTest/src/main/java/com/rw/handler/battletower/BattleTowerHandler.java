@@ -1,12 +1,17 @@
 package com.rw.handler.battletower;
 
+import java.util.List;
+import java.util.Random;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.PrintMsg;
 import com.rw.common.MsgLog;
 import com.rw.common.MsgReciver;
+import com.rw.handler.battletower.data.BattleTowerData;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonReqMsg;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonRspMsg;
+import com.rwproto.BattleTowerServiceProtos.BossInfoMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeBossEndReqMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeBossEndRspMsg;
 import com.rwproto.BattleTowerServiceProtos.ChallengeBossStartReqMsg;
@@ -37,37 +42,49 @@ import com.rwproto.ResponseProtos.Response;
  * @Description 
  */
 public class BattleTowerHandler {
-	private Client client;// 客户端对象
 
-	public BattleTowerHandler(Client client) {
-		this.client = client;
+	private static final Random r = new Random();
+	private static BattleTowerHandler handler = new BattleTowerHandler();
+
+	public static BattleTowerHandler getHandler() {
+		return handler;
 	}
 
-	public boolean openMainView() {
+	private BattleTowerHandler() {
+	}
+
+	private static final Command command = Command.MSG_BATTLE_TOWER;
+	private static final String functionName = "封神台";
+
+	public boolean openMainView(Client client) {
 		if (client == null) {
 			return false;
 		}
 
+		final BattleTowerData battleTowerData = client.getBattleTowerData();
+
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.OPEN_MAIN_VIEW);
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					OpenMainViewRspMsg rsp = OpenMainViewRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					battleTowerData.setSweepFloor(rsp.getSweepFloor());
+					battleTowerData.setBossInfoMsg(rsp.getBossInfoMsgList());
+					battleTowerData.setHighestFloor(rsp.getHighestFloor());
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--打开主界面出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean openChallengeView() {
+	public boolean openChallengeView(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -75,23 +92,25 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.OPEN_CHALLENGE_VIEW);
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					OpenChallengeViewRspMsg rsp = OpenChallengeViewRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--打开挑战界面出现错误，OpenChallengeViewRspMsg==null");
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--打开挑战界面出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean challengeBattleStart(int floor) {
+	public boolean challengeBattleStart(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -99,43 +118,52 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.CHALLENGE_START);
 		ChallengeStartReqMsg.Builder req = ChallengeStartReqMsg.newBuilder();
-		req.setFloor(floor);
+		req.setFloor(client.getBattleTowerData().getSweepFloor(r));
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(null));
-
-		return true;
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(null));
+		return success;
 	}
 
-	public boolean challengeBattleEnd(int floor, boolean result) {
+	public boolean challengeBattleEnd(Client client) {
 		if (client == null) {
 			return false;
 		}
 
+		final BattleTowerData battleTowerData = client.getBattleTowerData();
+
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.CHALLENGE_END);
 		ChallengeEndReqMsg.Builder req = ChallengeEndReqMsg.newBuilder();
-		req.setFloor(floor);
-		req.setResult(result);
+		final int value = battleTowerData.getSweepFloor(r) + 2;
+		req.setFloor(value);
+		// boolean result = r.nextBoolean();
+		// req.setResult(result);
+		req.setResult(true);
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					ChallengeEndRspMsg rsp = ChallengeEndRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--挑战结束出现错误，ChallengeEndRspMsg==null");
+					} else {
+						battleTowerData.addBossInfo(rsp.getBossInfoMsgList());// 增加Boss
+						battleTowerData.setSweepFloor(value + 1);
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--挑战结束出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean openLuckyView() {
+	public boolean openLuckyView(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -143,23 +171,27 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.OPEN_TRY_LUCK_VIEW);
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					OpenTryLuckViewRspMsg rsp = OpenTryLuckViewRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--打开兑换界面出现错误，OpenTryLuckViewRspMsg==null");
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--打开兑换界面出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean useLuckyKey() {
+	private static final EKeyType[] keyType = new EKeyType[] { EKeyType.KEY_COPPER, EKeyType.KEY_GOLD, EKeyType.KEY_SILVER };
+
+	public boolean useLuckyKey(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -167,27 +199,29 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.USE_LUCKY_KEY);
 		UseLuckyKeyReqMsg.Builder req = UseLuckyKeyReqMsg.newBuilder();
-		req.setKeyType(EKeyType.KEY_COPPER);
-		req.setUseNum(-1);
+		req.setKeyType(keyType[r.nextInt(keyType.length)]);
+		req.setUseNum(r.nextInt(10));
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					UseLuckyKeyRspMsg rsp = UseLuckyKeyRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--使用幸运钥匙出现错误，UseLuckyKeyRspMsg==null");
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--使用幸运钥匙出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean sweepStart(int floor) {
+	public boolean sweepStart(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -196,26 +230,28 @@ public class BattleTowerHandler {
 		commonReq.setReqType(ERequestType.SWEEP_START);
 
 		SweepStartReqMsg.Builder req = SweepStartReqMsg.newBuilder();
-		req.setFloor(floor);
+		req.setFloor(client.getBattleTowerData().getSweepFloor(r));
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					SweepStartRspMsg rsp = SweepStartRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--扫荡开始出现错误，SweepStartRspMsg==null");
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--扫荡开始出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean sweepEnd() {
+	public boolean sweepEnd(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -223,23 +259,25 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.SWEEP_END);
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					SweepEndRspMsg rsp = SweepEndRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--扫荡结束出现错误，SweepEndRspMsg==null");
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--扫荡结束出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean challengeBossStart() {
+	public boolean challengeBossStart(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -247,16 +285,27 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.CHALLENGE_BOSS_START);
 
+		BattleTowerData battleTowerData = client.getBattleTowerData();
+		List<BossInfoMsg> bossInfoMsg = battleTowerData.getBossInfoMsg();
+		BossInfoMsg boss = null;
+		if (!bossInfoMsg.isEmpty()) {
+			int index = r.nextInt(bossInfoMsg.size());
+			boss = bossInfoMsg.get(index);
+			if (boss != null) {
+				battleTowerData.setBattleTowerBossId(boss.getBossId());
+			}
+		}
+
 		ChallengeBossStartReqMsg.Builder req = ChallengeBossStartReqMsg.newBuilder();
-		req.setBossId(1);
+		req.setBossId(boss == null ? 0 : boss.getBossId());
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(null));
-
-		return true;
+		MsgLog.info("挑战BossId---" + battleTowerData.getBossId());
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(null));
+		return success;
 	}
 
-	public boolean challengeBossEnd() {
+	public boolean challengeBossEnd(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -264,29 +313,36 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.CHALLENGE_BOSS_END);
 
+		final int bossId = client.getBattleTowerData().getBossId();
+
 		ChallengeBossEndReqMsg.Builder req = ChallengeBossEndReqMsg.newBuilder();
-		req.setBossId(1);
+		req.setBossId(bossId);
+		// req.setResult(r.nextBoolean());
 		req.setResult(true);
 
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					ChallengeBossEndRspMsg rsp = ChallengeBossEndRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--挑战Boss结束出现错误，ChallengeBossEndRspMsg==null");
+					}
+
+					MsgLog.info("挑战的BossId是" + bossId + "");
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--挑战Boss结束出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean getFriendRankInfo() {
+	public boolean getFriendRankInfo(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -295,26 +351,29 @@ public class BattleTowerHandler {
 		commonReq.setReqType(ERequestType.GET_FRIEND_RANK_LIST);
 
 		GetFriendBattleTowerRankInfoReqMsg.Builder req = GetFriendBattleTowerRankInfoReqMsg.newBuilder();
+		// req.setPageIndex(r.nextInt(5) + 1);
 		req.setPageIndex(1);
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					GetFriendBattleTowerRankInfoRspMsg rsp = GetFriendBattleTowerRankInfoRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--获取好友排行出现错误，GetFriendBattleTowerRankInfoRspMsg==null");
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--获取好友排行出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean getStrategyList() {
+	public boolean getStrategyList(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -323,26 +382,28 @@ public class BattleTowerHandler {
 		commonReq.setReqType(ERequestType.GET_STRATEGY_LIST);
 
 		GetStrategyListReqMsg.Builder req = GetStrategyListReqMsg.newBuilder();
-		req.setFloor(4);
+		req.setFloor(client.getBattleTowerData().getStrategyFloor(r));
 		commonReq.setReqBody(req.build().toByteString());
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(new PrintMsg<BattleTowerCommonRspMsg>() {
 
 			@Override
 			public void print(BattleTowerCommonRspMsg commonRsp) {
 				try {
 					GetStrategyListRspMsg rsp = GetStrategyListRspMsg.parseFrom(commonRsp.getRspBody());
-					System.err.println(rsp.toBuilder().build());
+					if (rsp == null) {
+						MsgLog.info(functionName + "--获取攻略出现错误，GetStrategyListRspMsg==null");
+					}
 				} catch (InvalidProtocolBufferException e) {
-					MsgLog.error("PrintMsg===================================", e);
+					MsgLog.error(functionName + "--获取攻略出现异常", e);
 				}
 			}
 		}));
 
-		return true;
+		return success;
 	}
 
-	public boolean resetData() {
+	public boolean resetData(Client client) {
 		if (client == null) {
 			return false;
 		}
@@ -350,9 +411,9 @@ public class BattleTowerHandler {
 		BattleTowerCommonReqMsg.Builder commonReq = BattleTowerCommonReqMsg.newBuilder();
 		commonReq.setReqType(ERequestType.RESET_BATTLE_TOWER_DATA);
 
-		client.getMsgHandler().sendMsg(Command.MSG_BATTLE_TOWER, commonReq.build().toByteString(), new Receiver(null));
+		boolean success = client.getMsgHandler().sendMsg(command, commonReq.build().toByteString(), new Receiver(null));
 
-		return true;
+		return success;
 	}
 
 	class Receiver implements MsgReciver {
@@ -365,7 +426,7 @@ public class BattleTowerHandler {
 
 		@Override
 		public Command getCmd() {
-			return Command.MSG_BATTLE_TOWER;
+			return command;
 		}
 
 		@SuppressWarnings("finally")
@@ -374,19 +435,21 @@ public class BattleTowerHandler {
 			try {
 				BattleTowerCommonRspMsg commonRsp = BattleTowerCommonRspMsg.parseFrom(response.getSerializedContent());
 				EResponseState rspState = commonRsp.getRspState();
-				System.err.println(rspState);
-				System.err.println(commonRsp.getReqType());
 				if (rspState == EResponseState.RSP_FAIL) {
 					return false;
 				}
 
 				if (msg != null) {
 					msg.print(commonRsp);
-				} else {
-					System.err.println(commonRsp.toBuilder().build());
 				}
+
+				if (commonRsp.getReqType() == ERequestType.RESET_BATTLE_TOWER_DATA && rspState == EResponseState.RSP_SUCESS) {
+					client.getBattleTowerData().setSweepFloor(0);
+				}
+
+				MsgLog.info("消息：" + commonRsp.getReqType() + ",处理结果是：" + rspState);
 			} catch (InvalidProtocolBufferException e) {
-				MsgLog.error("Execute===================================", e);
+				MsgLog.error(functionName + "--解析Common消息出现异常", e);
 			} finally {
 				return true;
 			}

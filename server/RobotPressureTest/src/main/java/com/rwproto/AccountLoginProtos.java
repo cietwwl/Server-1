@@ -29,6 +29,14 @@ public final class AccountLoginProtos {
      * </pre>
      */
     ZONE_LIST(1, 2),
+    /**
+     * <code>REFRESH_ZONE_STATUS = 3;</code>
+     *
+     * <pre>
+     *刷新服务器状态
+     * </pre>
+     */
+    REFRESH_ZONE_STATUS(2, 3),
     ;
 
     /**
@@ -47,6 +55,14 @@ public final class AccountLoginProtos {
      * </pre>
      */
     public static final int ZONE_LIST_VALUE = 2;
+    /**
+     * <code>REFRESH_ZONE_STATUS = 3;</code>
+     *
+     * <pre>
+     *刷新服务器状态
+     * </pre>
+     */
+    public static final int REFRESH_ZONE_STATUS_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -55,6 +71,7 @@ public final class AccountLoginProtos {
       switch (value) {
         case 1: return ACCOUNT_LOGIN;
         case 2: return ZONE_LIST;
+        case 3: return REFRESH_ZONE_STATUS;
         default: return null;
       }
     }
@@ -1614,15 +1631,20 @@ public final class AccountLoginProtos {
     com.google.protobuf.ByteString
         getPortBytes();
 
-    // optional int32 status = 5;
+    // optional string status = 5;
     /**
-     * <code>optional int32 status = 5;</code>
+     * <code>optional string status = 5;</code>
      */
     boolean hasStatus();
     /**
-     * <code>optional int32 status = 5;</code>
+     * <code>optional string status = 5;</code>
      */
-    int getStatus();
+    java.lang.String getStatus();
+    /**
+     * <code>optional string status = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getStatusBytes();
 
     // optional int32 recommand = 6;
     /**
@@ -1643,6 +1665,16 @@ public final class AccountLoginProtos {
      * <code>optional int32 isOpen = 7;</code>
      */
     int getIsOpen();
+
+    // optional int32 color = 8;
+    /**
+     * <code>optional int32 color = 8;</code>
+     */
+    boolean hasColor();
+    /**
+     * <code>optional int32 color = 8;</code>
+     */
+    int getColor();
   }
   /**
    * Protobuf type {@code ZoneInfo}
@@ -1715,9 +1747,9 @@ public final class AccountLoginProtos {
               port_ = input.readBytes();
               break;
             }
-            case 40: {
+            case 42: {
               bitField0_ |= 0x00000010;
-              status_ = input.readInt32();
+              status_ = input.readBytes();
               break;
             }
             case 48: {
@@ -1728,6 +1760,11 @@ public final class AccountLoginProtos {
             case 56: {
               bitField0_ |= 0x00000040;
               isOpen_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              color_ = input.readInt32();
               break;
             }
           }
@@ -1915,20 +1952,47 @@ public final class AccountLoginProtos {
       }
     }
 
-    // optional int32 status = 5;
+    // optional string status = 5;
     public static final int STATUS_FIELD_NUMBER = 5;
-    private int status_;
+    private java.lang.Object status_;
     /**
-     * <code>optional int32 status = 5;</code>
+     * <code>optional string status = 5;</code>
      */
     public boolean hasStatus() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional int32 status = 5;</code>
+     * <code>optional string status = 5;</code>
      */
-    public int getStatus() {
-      return status_;
+    public java.lang.String getStatus() {
+      java.lang.Object ref = status_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          status_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string status = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStatusBytes() {
+      java.lang.Object ref = status_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        status_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     // optional int32 recommand = 6;
@@ -1963,14 +2027,31 @@ public final class AccountLoginProtos {
       return isOpen_;
     }
 
+    // optional int32 color = 8;
+    public static final int COLOR_FIELD_NUMBER = 8;
+    private int color_;
+    /**
+     * <code>optional int32 color = 8;</code>
+     */
+    public boolean hasColor() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 color = 8;</code>
+     */
+    public int getColor() {
+      return color_;
+    }
+
     private void initFields() {
       zoneId_ = 0;
       zoneName_ = "";
       serverIp_ = "";
       port_ = "";
-      status_ = 0;
+      status_ = "";
       recommand_ = 0;
       isOpen_ = 0;
+      color_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2005,13 +2086,16 @@ public final class AccountLoginProtos {
         output.writeBytes(4, getPortBytes());
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(5, status_);
+        output.writeBytes(5, getStatusBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeInt32(6, recommand_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(7, isOpen_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(8, color_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2040,7 +2124,7 @@ public final class AccountLoginProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, status_);
+          .computeBytesSize(5, getStatusBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
@@ -2049,6 +2133,10 @@ public final class AccountLoginProtos {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(7, isOpen_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, color_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2174,12 +2262,14 @@ public final class AccountLoginProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         port_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
-        status_ = 0;
+        status_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
         recommand_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
         isOpen_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
+        color_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -2236,6 +2326,10 @@ public final class AccountLoginProtos {
           to_bitField0_ |= 0x00000040;
         }
         result.isOpen_ = isOpen_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.color_ = color_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2271,13 +2365,18 @@ public final class AccountLoginProtos {
           onChanged();
         }
         if (other.hasStatus()) {
-          setStatus(other.getStatus());
+          bitField0_ |= 0x00000010;
+          status_ = other.status_;
+          onChanged();
         }
         if (other.hasRecommand()) {
           setRecommand(other.getRecommand());
         }
         if (other.hasIsOpen()) {
           setIsOpen(other.getIsOpen());
+        }
+        if (other.hasColor()) {
+          setColor(other.getColor());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2569,35 +2668,76 @@ public final class AccountLoginProtos {
         return this;
       }
 
-      // optional int32 status = 5;
-      private int status_ ;
+      // optional string status = 5;
+      private java.lang.Object status_ = "";
       /**
-       * <code>optional int32 status = 5;</code>
+       * <code>optional string status = 5;</code>
        */
       public boolean hasStatus() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional int32 status = 5;</code>
+       * <code>optional string status = 5;</code>
        */
-      public int getStatus() {
-        return status_;
+      public java.lang.String getStatus() {
+        java.lang.Object ref = status_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          status_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 status = 5;</code>
+       * <code>optional string status = 5;</code>
        */
-      public Builder setStatus(int value) {
-        bitField0_ |= 0x00000010;
+      public com.google.protobuf.ByteString
+          getStatusBytes() {
+        java.lang.Object ref = status_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          status_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string status = 5;</code>
+       */
+      public Builder setStatus(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
         status_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 status = 5;</code>
+       * <code>optional string status = 5;</code>
        */
       public Builder clearStatus() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        status_ = 0;
+        status_ = getDefaultInstance().getStatus();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string status = 5;</code>
+       */
+      public Builder setStatusBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        status_ = value;
         onChanged();
         return this;
       }
@@ -2664,6 +2804,39 @@ public final class AccountLoginProtos {
       public Builder clearIsOpen() {
         bitField0_ = (bitField0_ & ~0x00000040);
         isOpen_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 color = 8;
+      private int color_ ;
+      /**
+       * <code>optional int32 color = 8;</code>
+       */
+      public boolean hasColor() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 color = 8;</code>
+       */
+      public int getColor() {
+        return color_;
+      }
+      /**
+       * <code>optional int32 color = 8;</code>
+       */
+      public Builder setColor(int value) {
+        bitField0_ |= 0x00000080;
+        color_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 color = 8;</code>
+       */
+      public Builder clearColor() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        color_ = 0;
         onChanged();
         return this;
       }
@@ -3783,6 +3956,20 @@ public final class AccountLoginProtos {
      * <code>required .AccountInfo account = 2;</code>
      */
     com.rwproto.AccountLoginProtos.AccountInfoOrBuilder getAccountOrBuilder();
+
+    // optional .ZoneInfo zone = 3;
+    /**
+     * <code>optional .ZoneInfo zone = 3;</code>
+     */
+    boolean hasZone();
+    /**
+     * <code>optional .ZoneInfo zone = 3;</code>
+     */
+    com.rwproto.AccountLoginProtos.ZoneInfo getZone();
+    /**
+     * <code>optional .ZoneInfo zone = 3;</code>
+     */
+    com.rwproto.AccountLoginProtos.ZoneInfoOrBuilder getZoneOrBuilder();
   }
   /**
    * Protobuf type {@code AccountLoginRequest}
@@ -3857,6 +4044,19 @@ public final class AccountLoginProtos {
                 account_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
+              break;
+            }
+            case 26: {
+              com.rwproto.AccountLoginProtos.ZoneInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = zone_.toBuilder();
+              }
+              zone_ = input.readMessage(com.rwproto.AccountLoginProtos.ZoneInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(zone_);
+                zone_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
               break;
             }
           }
@@ -3937,9 +4137,32 @@ public final class AccountLoginProtos {
       return account_;
     }
 
+    // optional .ZoneInfo zone = 3;
+    public static final int ZONE_FIELD_NUMBER = 3;
+    private com.rwproto.AccountLoginProtos.ZoneInfo zone_;
+    /**
+     * <code>optional .ZoneInfo zone = 3;</code>
+     */
+    public boolean hasZone() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .ZoneInfo zone = 3;</code>
+     */
+    public com.rwproto.AccountLoginProtos.ZoneInfo getZone() {
+      return zone_;
+    }
+    /**
+     * <code>optional .ZoneInfo zone = 3;</code>
+     */
+    public com.rwproto.AccountLoginProtos.ZoneInfoOrBuilder getZoneOrBuilder() {
+      return zone_;
+    }
+
     private void initFields() {
       loginType_ = com.rwproto.AccountLoginProtos.eAccountLoginType.ACCOUNT_LOGIN;
       account_ = com.rwproto.AccountLoginProtos.AccountInfo.getDefaultInstance();
+      zone_ = com.rwproto.AccountLoginProtos.ZoneInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3954,6 +4177,12 @@ public final class AccountLoginProtos {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (hasZone()) {
+        if (!getZone().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -3966,6 +4195,9 @@ public final class AccountLoginProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, account_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, zone_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3983,6 +4215,10 @@ public final class AccountLoginProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, account_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, zone_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4093,6 +4329,7 @@ public final class AccountLoginProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getAccountFieldBuilder();
+          getZoneFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4109,6 +4346,12 @@ public final class AccountLoginProtos {
           accountBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (zoneBuilder_ == null) {
+          zone_ = com.rwproto.AccountLoginProtos.ZoneInfo.getDefaultInstance();
+        } else {
+          zoneBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -4149,6 +4392,14 @@ public final class AccountLoginProtos {
         } else {
           result.account_ = accountBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (zoneBuilder_ == null) {
+          result.zone_ = zone_;
+        } else {
+          result.zone_ = zoneBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4171,6 +4422,9 @@ public final class AccountLoginProtos {
         if (other.hasAccount()) {
           mergeAccount(other.getAccount());
         }
+        if (other.hasZone()) {
+          mergeZone(other.getZone());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4183,6 +4437,12 @@ public final class AccountLoginProtos {
         if (!hasAccount()) {
           
           return false;
+        }
+        if (hasZone()) {
+          if (!getZone().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -4357,6 +4617,123 @@ public final class AccountLoginProtos {
           account_ = null;
         }
         return accountBuilder_;
+      }
+
+      // optional .ZoneInfo zone = 3;
+      private com.rwproto.AccountLoginProtos.ZoneInfo zone_ = com.rwproto.AccountLoginProtos.ZoneInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.AccountLoginProtos.ZoneInfo, com.rwproto.AccountLoginProtos.ZoneInfo.Builder, com.rwproto.AccountLoginProtos.ZoneInfoOrBuilder> zoneBuilder_;
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public boolean hasZone() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ZoneInfo getZone() {
+        if (zoneBuilder_ == null) {
+          return zone_;
+        } else {
+          return zoneBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public Builder setZone(com.rwproto.AccountLoginProtos.ZoneInfo value) {
+        if (zoneBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          zone_ = value;
+          onChanged();
+        } else {
+          zoneBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public Builder setZone(
+          com.rwproto.AccountLoginProtos.ZoneInfo.Builder builderForValue) {
+        if (zoneBuilder_ == null) {
+          zone_ = builderForValue.build();
+          onChanged();
+        } else {
+          zoneBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public Builder mergeZone(com.rwproto.AccountLoginProtos.ZoneInfo value) {
+        if (zoneBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              zone_ != com.rwproto.AccountLoginProtos.ZoneInfo.getDefaultInstance()) {
+            zone_ =
+              com.rwproto.AccountLoginProtos.ZoneInfo.newBuilder(zone_).mergeFrom(value).buildPartial();
+          } else {
+            zone_ = value;
+          }
+          onChanged();
+        } else {
+          zoneBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public Builder clearZone() {
+        if (zoneBuilder_ == null) {
+          zone_ = com.rwproto.AccountLoginProtos.ZoneInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          zoneBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ZoneInfo.Builder getZoneBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getZoneFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ZoneInfoOrBuilder getZoneOrBuilder() {
+        if (zoneBuilder_ != null) {
+          return zoneBuilder_.getMessageOrBuilder();
+        } else {
+          return zone_;
+        }
+      }
+      /**
+       * <code>optional .ZoneInfo zone = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.AccountLoginProtos.ZoneInfo, com.rwproto.AccountLoginProtos.ZoneInfo.Builder, com.rwproto.AccountLoginProtos.ZoneInfoOrBuilder> 
+          getZoneFieldBuilder() {
+        if (zoneBuilder_ == null) {
+          zoneBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.AccountLoginProtos.ZoneInfo, com.rwproto.AccountLoginProtos.ZoneInfo.Builder, com.rwproto.AccountLoginProtos.ZoneInfoOrBuilder>(
+                  zone_,
+                  getParentForChildren(),
+                  isClean());
+          zone_ = null;
+        }
+        return zoneBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:AccountLoginRequest)
@@ -6218,25 +6595,27 @@ public final class AccountLoginProtos {
       "\n\022AccountLogin.proto\"\205\001\n\013AccountInfo\022\021\n\t" +
       "accountId\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\022\025\n\rope" +
       "nAccountId\030\003 \001(\t\022\017\n\007logType\030\004 \001(\005\022\021\n\tpho" +
-      "neInfo\030\005 \001(\t\022\026\n\016clientInfoJson\030\006 \001(\t\"\177\n\010" +
-      "ZoneInfo\022\016\n\006zoneId\030\001 \002(\005\022\020\n\010zoneName\030\002 \002" +
-      "(\t\022\020\n\010serverIp\030\003 \001(\t\022\014\n\004port\030\004 \001(\t\022\016\n\006st" +
-      "atus\030\005 \001(\005\022\021\n\trecommand\030\006 \001(\005\022\016\n\006isOpen\030" +
-      "\007 \001(\005\"s\n\010UserInfo\022\033\n\010zoneInfo\030\001 \002(\0132\t.Zo" +
-      "neInfo\022\021\n\theadImage\030\002 \001(\t\022\r\n\005vipLv\030\003 \001(\005" +
-      "\022\016\n\006career\030\004 \001(\005\022\n\n\002lv\030\005 \001(\005\022\014\n\004name\030\006 \001",
-      "(\t\"[\n\023AccountLoginRequest\022%\n\tloginType\030\001" +
-      " \002(\0162\022.eAccountLoginType\022\035\n\007account\030\002 \002(" +
-      "\0132\014.AccountInfo\"\351\001\n\024AccountLoginResponse" +
-      "\022%\n\tloginType\030\001 \002(\0162\022.eAccountLoginType\022" +
-      "%\n\nresultType\030\002 \002(\0162\021.eLoginResultType\022\035" +
-      "\n\007account\030\003 \001(\0132\014.AccountInfo\022\r\n\005error\030\004" +
-      " \001(\t\022\033\n\010lastZone\030\005 \001(\0132\t.ZoneInfo\022\033\n\010zon" +
-      "eList\030\006 \003(\0132\t.ZoneInfo\022\033\n\010userList\030\007 \003(\013" +
-      "2\t.UserInfo*5\n\021eAccountLoginType\022\021\n\rACCO" +
-      "UNT_LOGIN\020\001\022\r\n\tZONE_LIST\020\002*)\n\020eLoginResu",
-      "ltType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwp" +
-      "rotoB\022AccountLoginProtos"
+      "neInfo\030\005 \001(\t\022\026\n\016clientInfoJson\030\006 \001(\t\"\216\001\n" +
+      "\010ZoneInfo\022\016\n\006zoneId\030\001 \002(\005\022\020\n\010zoneName\030\002 " +
+      "\002(\t\022\020\n\010serverIp\030\003 \001(\t\022\014\n\004port\030\004 \001(\t\022\016\n\006s" +
+      "tatus\030\005 \001(\t\022\021\n\trecommand\030\006 \001(\005\022\016\n\006isOpen" +
+      "\030\007 \001(\005\022\r\n\005color\030\010 \001(\005\"s\n\010UserInfo\022\033\n\010zon" +
+      "eInfo\030\001 \002(\0132\t.ZoneInfo\022\021\n\theadImage\030\002 \001(" +
+      "\t\022\r\n\005vipLv\030\003 \001(\005\022\016\n\006career\030\004 \001(\005\022\n\n\002lv\030\005",
+      " \001(\005\022\014\n\004name\030\006 \001(\t\"t\n\023AccountLoginReques" +
+      "t\022%\n\tloginType\030\001 \002(\0162\022.eAccountLoginType" +
+      "\022\035\n\007account\030\002 \002(\0132\014.AccountInfo\022\027\n\004zone\030" +
+      "\003 \001(\0132\t.ZoneInfo\"\351\001\n\024AccountLoginRespons" +
+      "e\022%\n\tloginType\030\001 \002(\0162\022.eAccountLoginType" +
+      "\022%\n\nresultType\030\002 \002(\0162\021.eLoginResultType\022" +
+      "\035\n\007account\030\003 \001(\0132\014.AccountInfo\022\r\n\005error\030" +
+      "\004 \001(\t\022\033\n\010lastZone\030\005 \001(\0132\t.ZoneInfo\022\033\n\010zo" +
+      "neList\030\006 \003(\0132\t.ZoneInfo\022\033\n\010userList\030\007 \003(" +
+      "\0132\t.UserInfo*N\n\021eAccountLoginType\022\021\n\rACC",
+      "OUNT_LOGIN\020\001\022\r\n\tZONE_LIST\020\002\022\027\n\023REFRESH_Z" +
+      "ONE_STATUS\020\003*)\n\020eLoginResultType\022\013\n\007SUCC" +
+      "ESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022AccountL" +
+      "oginProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6254,7 +6633,7 @@ public final class AccountLoginProtos {
           internal_static_ZoneInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ZoneInfo_descriptor,
-              new java.lang.String[] { "ZoneId", "ZoneName", "ServerIp", "Port", "Status", "Recommand", "IsOpen", });
+              new java.lang.String[] { "ZoneId", "ZoneName", "ServerIp", "Port", "Status", "Recommand", "IsOpen", "Color", });
           internal_static_UserInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_UserInfo_fieldAccessorTable = new
@@ -6266,7 +6645,7 @@ public final class AccountLoginProtos {
           internal_static_AccountLoginRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_AccountLoginRequest_descriptor,
-              new java.lang.String[] { "LoginType", "Account", });
+              new java.lang.String[] { "LoginType", "Account", "Zone", });
           internal_static_AccountLoginResponse_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_AccountLoginResponse_fieldAccessorTable = new

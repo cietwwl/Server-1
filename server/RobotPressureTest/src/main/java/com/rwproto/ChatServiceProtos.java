@@ -4414,20 +4414,20 @@ public final class ChatServiceProtos {
     com.rwproto.ChatServiceProtos.ChatMessageDataOrBuilder getListMessageOrBuilder(
         int index);
 
-    // optional bool onLogin = 4;
+    // optional bool onLogin = 5;
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     boolean hasOnLogin();
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     boolean getOnLogin();
@@ -4513,7 +4513,7 @@ public final class ChatServiceProtos {
               listMessage_.add(input.readMessage(com.rwproto.ChatServiceProtos.ChatMessageData.PARSER, extensionRegistry));
               break;
             }
-            case 32: {
+            case 40: {
               bitField0_ |= 0x00000004;
               onLogin_ = input.readBool();
               break;
@@ -4629,24 +4629,24 @@ public final class ChatServiceProtos {
       return listMessage_.get(index);
     }
 
-    // optional bool onLogin = 4;
-    public static final int ONLOGIN_FIELD_NUMBER = 4;
+    // optional bool onLogin = 5;
+    public static final int ONLOGIN_FIELD_NUMBER = 5;
     private boolean onLogin_;
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     public boolean hasOnLogin() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional bool onLogin = 4;</code>
+     * <code>optional bool onLogin = 5;</code>
      *
      * <pre>
-     *是否是登录时发送的
+     *是否是登录
      * </pre>
      */
     public boolean getOnLogin() {
@@ -4691,7 +4691,7 @@ public final class ChatServiceProtos {
         output.writeMessage(3, listMessage_.get(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBool(4, onLogin_);
+        output.writeBool(5, onLogin_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4716,7 +4716,7 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, onLogin_);
+          .computeBoolSize(5, onLogin_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5296,33 +5296,33 @@ public final class ChatServiceProtos {
         return listMessageBuilder_;
       }
 
-      // optional bool onLogin = 4;
+      // optional bool onLogin = 5;
       private boolean onLogin_ ;
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public boolean hasOnLogin() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public boolean getOnLogin() {
         return onLogin_;
       }
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public Builder setOnLogin(boolean value) {
@@ -5332,10 +5332,10 @@ public final class ChatServiceProtos {
         return this;
       }
       /**
-       * <code>optional bool onLogin = 4;</code>
+       * <code>optional bool onLogin = 5;</code>
        *
        * <pre>
-       *是否是登录时发送的
+       *是否是登录
        * </pre>
        */
       public Builder clearOnLogin() {
@@ -5400,7 +5400,7 @@ public final class ChatServiceProtos {
       "ageData\"\221\001\n\017MsgChatResponse\022\034\n\010chatType\030" +
       "\001 \002(\0162\n.eChatType\022(\n\016chatResultType\030\002 \001(" +
       "\0162\020.eChatResultType\022%\n\013listMessage\030\003 \003(\013" +
-      "2\020.ChatMessageData\022\017\n\007onLogin\030\004 \001(\010*P\n\te" +
+      "2\020.ChatMessageData\022\017\n\007onLogin\030\005 \001(\010*P\n\te" +
       "ChatType\022\016\n\nCHAT_WORLD\020\001\022\017\n\013CHAT_FAMILY\020" +
       "\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\rCHAT_TREASURE\020\004*(\n" +
       "\017eChatResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B" +

@@ -225,10 +225,6 @@ public final class CopyServiceProtos {
      * <code>NULL = 3;</code>
      */
     NULL(2, 3),
-    /**
-     * <code>FAIL = 4;</code>
-     */
-    FAIL(3, 4),
     ;
 
     /**
@@ -243,10 +239,6 @@ public final class CopyServiceProtos {
      * <code>NULL = 3;</code>
      */
     public static final int NULL_VALUE = 3;
-    /**
-     * <code>FAIL = 4;</code>
-     */
-    public static final int FAIL_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -256,7 +248,6 @@ public final class CopyServiceProtos {
         case 1: return WIN;
         case 2: return TIMES_UP;
         case 3: return NULL;
-        case 4: return FAIL;
         default: return null;
       }
     }
@@ -5452,7 +5443,7 @@ public final class CopyServiceProtos {
      * <code>optional int32 fightTime = 6;</code>
      *
      * <pre>
-     *战斗时常
+     *战斗时间
      * </pre>
      */
     boolean hasFightTime();
@@ -5460,7 +5451,7 @@ public final class CopyServiceProtos {
      * <code>optional int32 fightTime = 6;</code>
      *
      * <pre>
-     *战斗时常
+     *战斗时间
      * </pre>
      */
     int getFightTime();
@@ -5768,7 +5759,7 @@ public final class CopyServiceProtos {
      * <code>optional int32 fightTime = 6;</code>
      *
      * <pre>
-     *战斗时常
+     *战斗时间
      * </pre>
      */
     public boolean hasFightTime() {
@@ -5778,7 +5769,7 @@ public final class CopyServiceProtos {
      * <code>optional int32 fightTime = 6;</code>
      *
      * <pre>
-     *战斗时常
+     *战斗时间
      * </pre>
      */
     public int getFightTime() {
@@ -6486,7 +6477,7 @@ public final class CopyServiceProtos {
        * <code>optional int32 fightTime = 6;</code>
        *
        * <pre>
-       *战斗时常
+       *战斗时间
        * </pre>
        */
       public boolean hasFightTime() {
@@ -6496,7 +6487,7 @@ public final class CopyServiceProtos {
        * <code>optional int32 fightTime = 6;</code>
        *
        * <pre>
-       *战斗时常
+       *战斗时间
        * </pre>
        */
       public int getFightTime() {
@@ -6506,7 +6497,7 @@ public final class CopyServiceProtos {
        * <code>optional int32 fightTime = 6;</code>
        *
        * <pre>
-       *战斗时常
+       *战斗时间
        * </pre>
        */
       public Builder setFightTime(int value) {
@@ -6519,7 +6510,7 @@ public final class CopyServiceProtos {
        * <code>optional int32 fightTime = 6;</code>
        *
        * <pre>
-       *战斗时常
+       *战斗时间
        * </pre>
        */
       public Builder clearFightTime() {
@@ -7429,16 +7420,16 @@ public final class CopyServiceProtos {
       "_LEVEL_DIAMOND\020\002\022\r\n\tBUY_LEVEL\020\003\022\034\n\030GET_U" +
       "SER_CHECKPOINT_INFO\020\004\022\023\n\017BATTLE_CLEARING" +
       "\020\005\022\025\n\021BATTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL" +
-      "\020\007\022\014\n\010GET_GIFT\020\010*:\n\rEBattleStatus\022\007\n\003WIN" +
-      "\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n\004FAIL\020\004*\213\002\n" +
-      "\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SUCCE" +
-      "SS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMOND\020",
-      "\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n\021NO" +
-      "T_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOUGH_TIMES\020\010\022" +
-      "\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTLE_C" +
-      "LEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\rSWEEP_SUCCE" +
-      "SS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016B \n\013com.rwprot" +
-      "oB\021CopyServiceProtos"
+      "\020\007\022\014\n\010GET_GIFT\020\010*0\n\rEBattleStatus\022\007\n\003WIN" +
+      "\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003*\213\002\n\013EResultTy" +
+      "pe\022\010\n\004NONE\020\001\022\024\n\020PURCHASE_SUCCESS\020\002\022\013\n\007LO" +
+      "W_VIP\020\003\022\026\n\022NOT_ENOUGH_DIAMOND\020\004\022\021\n\rNOT_E",
+      "NOUGH_HP\020\005\022\014\n\010NOT_OPEN\020\006\022\025\n\021NOT_ENOUGH_T" +
+      "ICKET\020\007\022\024\n\020NOT_ENOUGH_TIMES\020\010\022\014\n\010INIT_MA" +
+      "P\020\t\022\r\n\tITEM_BACK\020\n\022\020\n\014BATTLE_CLEAR\020\013\022\021\n\r" +
+      "GM_SETSUCCESS\020\014\022\021\n\rSWEEP_SUCCESS\020\r\022\024\n\020GE" +
+      "T_GIFT_SUCCESS\020\016B \n\013com.rwprotoB\021CopySer" +
+      "viceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

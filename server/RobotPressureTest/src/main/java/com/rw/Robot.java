@@ -6,7 +6,6 @@ import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
 import com.rw.handler.battle.PVEHandler;
 import com.rw.handler.battle.PVPHandler;
-import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.email.EmailHandler;
@@ -230,7 +229,7 @@ public class Robot {
 	 * @return
 	 */
 	public boolean equipAttach() {
-		// gainItem(804001, 30);
+		gainItem(804001, 30);
 		return EquipHandler.instance().equipAttach(client);
 	}
 
@@ -415,8 +414,7 @@ public class Robot {
 		}
 	}
 
-	public BattleTowerHandler getBattleTowerHandler() {
-		return new BattleTowerHandler(client);
+	public Client getClient() {
+		return client;
 	}
-
 }

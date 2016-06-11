@@ -28,6 +28,9 @@ public class GroupBaseMsgReceiver extends PrintMsgReciver {
 			if (rsp == null) {
 				RobotLog.fail(parseFunctionDesc() + "转换响应消息为null");
 				return false;
+			} else if (!rsp.getIsSuccess()) {
+				RobotLog.info(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : ""));
+				return false;
 			} else {
 				RobotLog.info(parseFunctionDesc() + "成功");
 				return true;

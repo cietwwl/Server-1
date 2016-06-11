@@ -5,17 +5,17 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
-import com.rwproto.GroupMemberMgrProto.GroupMemberMgrCommonRspMsg;
+import com.rwproto.GroupSkillServiceProto.GroupSkillCommonRspMsg;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
 /*
  * @author HC
- * @date 2016年3月15日 下午6:01:09
- * @Description 
+ * @date 2016年3月20日 上午12:45:50
+ * @Description 帮派技能接受
  */
-public class GroupMemberMsgReceiver extends PrintMsgReciver {
-	public GroupMemberMsgReceiver(Command command, String functionName, String protoType) {
+public class GroupSkillMsgReceiver extends PrintMsgReciver {
+	public GroupSkillMsgReceiver(Command command, String functionName, String protoType) {
 		super(command, functionName, protoType);
 	}
 
@@ -23,7 +23,7 @@ public class GroupMemberMsgReceiver extends PrintMsgReciver {
 	public boolean execute(Client client, Response response) {
 		ByteString bs = response.getSerializedContent();
 		try {
-			GroupMemberMgrCommonRspMsg rsp = GroupMemberMgrCommonRspMsg.parseFrom(bs);
+			GroupSkillCommonRspMsg rsp = GroupSkillCommonRspMsg.parseFrom(bs);
 			if (rsp == null) {
 				RobotLog.fail(parseFunctionDesc() + "转换响应消息为null");
 				return false;
