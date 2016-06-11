@@ -7,22 +7,24 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 import com.bm.chat.ChatBM;
 import com.bm.chat.ChatInfo;
-import com.bm.guild.GuildGTSMgr;
+import com.bm.group.GroupBM;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.guild.GuildDataMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.pojo.UserPrivateChat;
 import com.rwbase.dao.friend.FriendUtils;
-import com.rwbase.dao.gulid.faction.GuildMember;
+import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
@@ -129,21 +131,27 @@ public class ChatHandler {
 	 * @param msgChatRequest
 	 * @return
 	 */
-	public ByteString chatInGruild(Player player, MsgChatRequest msgChatRequest) {
+	public ByteString chatInGroup(Player player, MsgChatRequest msgChatRequest) {
 		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
 		msgChatResponse.setChatType(msgChatRequest.getChatType());
 
-//		String guildId = player.getGuildUserMgr().getGuildId();
-		String guildId = "";
-		if (guildId == null || guildId.isEmpty()) {
+		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String groupId = userGroupData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
 			msgChatResponse.setChatResultType(eChatResultType.FAIL);
 			ByteString result = msgChatResponse.build().toByteString();
 			return result;
 		}
 
-		GuildDataMgr guildDataMgr = GuildGTSMgr.getInstance().getById(guildId);
-		// 帮派不存在
-		if (guildDataMgr == null) {
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			msgChatResponse.setChatResultType(eChatResultType.FAIL);
+			ByteString result = msgChatResponse.build().toByteString();
+			return result;
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
 			msgChatResponse.setChatResultType(eChatResultType.FAIL);
 			ByteString result = msgChatResponse.build().toByteString();
 			return result;
@@ -151,7 +159,7 @@ public class ChatHandler {
 
 		ChatMessageData message = msgChatRequest.getChatMessageData();
 		if (!message.hasSendMessageUserInfo()) {
-			List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(guildId);
+			List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId);
 			for (int i = 0, size = list.size(); i < size; i++) {
 				msgChatResponse.addListMessage(list.get(i));
 			}
@@ -163,7 +171,7 @@ public class ChatHandler {
 			data.setTime(getMessageTime());
 			data.setMessage(filterDirtyWord(message.getMessage()));
 			msgChatResponse.addListMessage(data);
-			ChatBM.getInstance().addFamilyChat(guildId, data);
+			ChatBM.getInstance().addFamilyChat(groupId, data);
 		}
 
 		// 填充完整的消息
@@ -172,8 +180,9 @@ public class ChatHandler {
 
 		// 发送给其他成员
 		String pId = player.getUserId();
-		List<GuildMember> itemList = guildDataMgr.getGuildMemberHolder().getItemList();
-		for (GuildMember guildMember : itemList) {
+		List<? extends GroupMemberDataIF> memberSortList = group.getGroupMemberMgr().getMemberSortList(null);
+		// List<GuildMember> itemList = guildDataMgr.getGuildMemberHolder().getItemList();
+		for (GroupMemberDataIF guildMember : memberSortList) {
 			String memUserId = guildMember.getUserId();
 			if (pId.equals(memUserId)) {
 				continue;
@@ -335,10 +344,11 @@ public class ChatHandler {
 		}
 
 		String headImage = player.getHeadImage();// 头像
-//		String familyId = player.getGuildUserMgr().getGuildId();// 帮派Id
-		String familyId = "";
-		//String familyName = player.getGuildUserMgr().getGuildName();// 帮派名字？player持有一个帮派名字，万一以后帮派出来改名功能？
-		String familyName = "";
+		// String familyId = player.getGuildUserMgr().getGuildId();// 帮派Id
+		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String familyId = userGroupData.getGroupId();
+		// String familyName = player.getGuildUserMgr().getGuildName();// 帮派名字？player持有一个帮派名字，万一以后帮派出来改名功能？
+		String familyName = userGroupData.getGroupName();
 		int pLevel = player.getLevel();// 等级
 		String playerName = player.getUserName();// 角色名字
 		String msgTime = getMessageTime();// 发布消息的时间
@@ -456,21 +466,16 @@ public class ChatHandler {
 	}
 
 	private void sendFamilyMsg(Player player) {
-		String guildId = player.getGuildUserMgr().getGuildId();
-		if (StringUtils.isBlank(guildId)) {
-			return;
-		}
-
-		GuildDataMgr guildDataMgr = GuildGTSMgr.getInstance().getById(guildId);
-		// 帮派不存在
-		if (guildDataMgr == null) {
+		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String groupId = userGroupData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
 			return;
 		}
 
 		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
 		msgChatResponse.setOnLogin(true);
 		msgChatResponse.setChatType(eChatType.CHAT_FAMILY);
-		List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(guildId);
+		List<ChatMessageData.Builder> list = ChatBM.getInstance().getFamilyChatList(groupId);
 		for (int i = 0, size = list.size(); i < size; i++) {
 			msgChatResponse.addListMessage(list.get(i));
 		}
