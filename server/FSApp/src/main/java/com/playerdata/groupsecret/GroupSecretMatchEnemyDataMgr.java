@@ -113,7 +113,7 @@ public class GroupSecretMatchEnemyDataMgr {
 			proGS += (int) (levelTmp.getGroupSupplyRatio() * minutes);
 
 			// 产生的资源
-			int robRes = proRes * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
+			int robRes = proRes * levelTmp.getRobRatio() / AttributeConst.DIVISION;
 			int robGE = proGE * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
 			int robGS = proGS * levelTmp.getRobGSRatio() / AttributeConst.DIVISION;
 

@@ -18,7 +18,6 @@ import com.rw.fsutil.ranking.RankingExtension;
 
 public enum RankType implements TypeIdentification, RankingConfig {
 
-	// TODO 巅峰竞技场排行榜 PEAK_ARENA(1, 100000, "巅峰竞技场", 1, PeakArenaExtension.class),
 	// SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
 	LEVEL_PLAYER(2, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
@@ -42,7 +41,12 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	ARENA_SETTLEMENT(21, 40000, "竞技场结算", 1, ArenaSettleExtension.class),
 	ANGEL_TEAM_INFO_RANK(22, 20000, "万仙阵匹配玩家阵容", 1, AngelArrayTeamInfoExtension.class),
 	MAGIC_SECRET_SCORE_RANK(23, 30000, "法宝秘境积分排行榜", 1, MagicSecretExtension.class),
-	GROUP_SECRET_MATCH_RANK(24, 10000, "帮派秘境匹配排行榜", 1, GroupSecretMatchRankExtension.class), ;
+	GROUP_SECRET_MATCH_RANK(24, 10000, "帮派秘境匹配排行榜", 1, GroupSecretMatchRankExtension.class),
+
+	// TODO 巅峰竞技场排行榜
+	PEAK_ARENA(25, 100000, "巅峰竞技场", 10, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	PEAK_ARENA_FIGHTING(26, 100000, "巅峰竞技场", 10, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
+	;
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {
 		this(type, maxCapacity, name, updatePeriodMinutes, clazz);
@@ -125,7 +129,8 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	}
 
 	/**
-	 * 获取本职业 每日 排行类型 None(0), //新手 Warrior(1), //力士... SwordsMan(2), //行者... Magican(3), //术士... Priest(4); //祭祀...
+	 * 获取本职业 每日 排行类型 None(0), //新手 Warrior(1), //力士... SwordsMan(2), //行者...
+	 * Magican(3), //术士... Priest(4); //祭祀...
 	 */
 	public static RankType getJobDay(int job) {
 		switch (job) {
