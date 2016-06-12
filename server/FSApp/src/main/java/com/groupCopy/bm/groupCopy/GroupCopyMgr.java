@@ -14,11 +14,12 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyTeamInfo;
+import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.db.TeamHero;
-import com.groupCopy.rwproto.GroupCopyBattleProto.CopyMonsterStruct;
-import com.groupCopy.rwproto.GroupCopyBattleProto.CopyRewardInfo;
-import com.groupCopy.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
-import com.groupCopy.rwproto.GroupCopyBattleProto.CopyRewardStruct;
+import com.rwproto.GroupCopyBattleProto.CopyMonsterStruct;
+import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
+import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
+import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -44,6 +45,8 @@ public class GroupCopyMgr {
 	private GroupCopyRewardRecordHolder groupCopyRewardRecordHolder;
 
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
+
+	public static final int MAX_RANK_RECORDS = 10;
 	
 	public GroupCopyMgr(String groupIdP) {
 		groupCopyLevelRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);

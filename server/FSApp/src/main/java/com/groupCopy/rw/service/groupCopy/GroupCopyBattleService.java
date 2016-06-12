@@ -2,8 +2,8 @@ package com.groupCopy.rw.service.groupCopy;
 
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
-import com.groupCopy.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
-import com.groupCopy.rwproto.GroupCopyBattleProto.RequestType;
+import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
+import com.rwproto.GroupCopyBattleProto.RequestType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;

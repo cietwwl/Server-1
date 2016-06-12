@@ -3,12 +3,12 @@ package com.groupCopy.rw.service.groupCopy;
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
-import com.groupCopy.rwproto.GroupCopyBattleProto;
-import com.groupCopy.rwproto.GroupCopyBattleProto.CopyRewardInfo;
-import com.groupCopy.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
-import com.groupCopy.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
-import com.groupCopy.rwproto.GroupCopyBattleProto.GroupCopyMonsterData;
-import com.groupCopy.rwproto.GroupCopyBattleProto.RequestType;
+import com.rwproto.GroupCopyBattleProto;
+import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
+import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
+import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
+import com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData;
+import com.rwproto.GroupCopyBattleProto.RequestType;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 

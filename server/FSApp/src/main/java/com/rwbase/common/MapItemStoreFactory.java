@@ -76,7 +76,7 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<GroupCopyLevelRecord> groupCopyLevelRecordCache;
 	private static MapItemStoreCache<GroupCopyRewardRecord> groupCopyRewardRecordCache;
 	private static MapItemStoreCache<UserGroupCopyMapRecord> userGroupCopyLevelRecordCache;
-	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDanageRecordCache;
+	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
 	
 	
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
@@ -151,7 +151,7 @@ public class MapItemStoreFactory {
 		register(groupCopyRewardRecordCache = new MapItemStoreCache<GroupCopyRewardRecord>(GroupCopyRewardRecord.class, "groupId", heroCapacity));
 
 		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyMapRecord>(UserGroupCopyMapRecord.class, "userId", heroCapacity));
-		register(serverGroupCopyDanageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
+		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
 		
 		
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
@@ -315,8 +315,8 @@ public class MapItemStoreFactory {
 	 * 获取帮派副本关卡全服单次伤害缓存
 	 * @return
 	 */
-	public static MapItemStoreCache<ServerGroupCopyDamageRecord> getServerGroupCopyDanageRecordCache() {
-		return serverGroupCopyDanageRecordCache;
+	public static MapItemStoreCache<ServerGroupCopyDamageRecord> getServerGroupCopyDamageRecordCache() {
+		return serverGroupCopyDamageRecordCache;
 	}
 
 	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
