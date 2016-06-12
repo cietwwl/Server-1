@@ -177,7 +177,7 @@ public class GroupSecretData {
 
 		for (int i = 0, size = idList.size(); i < size; i++) {
 			String id = idList.get(i);
-			if (inviteList.contains(id)) {
+			if (!inviteList.contains(id)) {
 				inviteList.add(id);
 			}
 		}

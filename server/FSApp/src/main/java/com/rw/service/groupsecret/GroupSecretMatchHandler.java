@@ -55,6 +55,7 @@ import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretTeamData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
+import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.zone.TableZoneInfo;
@@ -246,36 +247,6 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
-		// // 检查个人的帮派数据
-		// UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		// String groupId = userGroupAttributeData.getGroupId();
-		// if (StringUtils.isEmpty(groupId)) {
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// Group group = GroupBM.get(groupId);
-		// if (group == null) {
-		// GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-		// if (groupData == null) {
-		// GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-		//
-		// GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		// GroupMemberDataIF selfMemberData = memberMgr.getMemberData(userId, false);
-		// if (selfMemberData == null) {
-		// GameLog.error("挑战秘境敌人", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
-		// GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
-		// return rsp.build().toByteString();
-		// }
-
 		// 检查是否有敌人
 		GroupSecretMatchEnemyDataMgr enemyDataMgr = GroupSecretMatchEnemyDataMgr.getMgr();
 		GroupSecretMatchEnemyData matchEnemyData = enemyDataMgr.get(userId);
@@ -310,6 +281,13 @@ public class GroupSecretMatchHandler {
 			GroupSecretBM.clearMatchEnemyInfo(player);
 
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "秘境状态错误");
+			return rsp.build().toByteString();
+		}
+
+		int index = req.getIndex().getNumber();
+		DefendUserInfoData defendUserInfoData = groupSecretData.getDefendUserInfoData(index);
+		if (defendUserInfoData == null) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "此驻守点没人驻守");
 			return rsp.build().toByteString();
 		}
 
@@ -413,7 +391,6 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 检查传递来请求攻打的矿点是否有人，或者是否被击败
-		int index = req.getIndex().getNumber();
 		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = matchEnemyData.getTeamAttrInfoMap(index);
 		if (teamAttrInfoMap.isEmpty()) {
 			GameLog.error("挑战秘境敌人", userId, String.format("角色挑战的驻守点[%s]没有任何人驻守", index));
@@ -422,22 +399,28 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 检查剩余的血量信息
+		String defendUserId = defendUserInfoData.getUserId();
+		boolean hasAlive = false;
 		int teamSize = teamAttrInfoMap.size();
 		List<String> canHeroList = new ArrayList<String>(teamSize);
 		Map<String, CurAttrData> curAttrData = new HashMap<String, CurAttrData>(teamSize);
 		for (Entry<String, HeroLeftInfoSynData> e : teamAttrInfoMap.entrySet()) {
 			String heroId = e.getKey();
 
-			boolean isMainRole = matchUserId.equals(heroId);
+			boolean isMainRole = defendUserId.equals(heroId);
 
 			HeroLeftInfoSynData value = e.getValue();
 			if (value == null) {
 				if (!isMainRole) {
 					canHeroList.add(heroId);
 				}
+				hasAlive = true;
 			} else {
-				if (!isMainRole) {
-					canHeroList.add(heroId);
+				if (value.getLife() > 0) {
+					if (!isMainRole) {
+						canHeroList.add(heroId);
+					}
+					hasAlive = true;
 				}
 
 				CurAttrData attrData = new CurAttrData();
@@ -448,8 +431,13 @@ public class GroupSecretMatchHandler {
 			}
 		}
 
+		if (!hasAlive) {
+			GroupSecretHelper.fillMatchRspInfo(rsp, false, "此驻守点已经被击败");
+			return rsp.build().toByteString();
+		}
+
 		// 填充ArmyInfo信息
-		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(matchUserId, canHeroList);
+		ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(defendUserId, canHeroList);
 		String mainRoleId = armyInfo.getPlayer().getRoleBaseInfo().getId();
 		CurAttrData leftInfo = curAttrData.get(mainRoleId);
 		if (leftInfo == null) {
@@ -492,7 +480,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		rsp.setIsSuccess(true);
-		rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
+		// rsp.setTipMsg("找到其他帮派驻守的一处藏宝洞");
 		rsp.setAttackStartRsp(endRsp);
 		return rsp.build().toByteString();
 	}

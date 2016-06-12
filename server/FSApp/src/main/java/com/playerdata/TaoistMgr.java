@@ -106,7 +106,12 @@ public class TaoistMgr extends RandomMgr implements PlayerEventListener, ITaoist
 		TaoistMagicHolder holder = TaoistMagicHolder.getInstance();
 		TaoistMagicRecord record = holder.getOrCreate(player.getUserId());
 		for (TaoistMagicCfg taoistMagicCfg : openList) {
-			boolean result = holder.setLevel(record, taoistMagicCfg.getKey(), 1);
+			int taoistKey = taoistMagicCfg.getKey();
+			Integer oldLevel = record.getLevel(taoistKey);
+			if (oldLevel != null) {
+				continue;
+			}
+			boolean result = holder.setLevel(record, taoistKey, 1);
 			if (!result) {
 				GameLog.error("道术", player.getUserId(), "更新数据失败");
 			}

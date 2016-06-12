@@ -3,7 +3,6 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bm.groupSecret.data.group.GroupSecretDefLog;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
@@ -69,34 +68,31 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<AngelArrayEnemyInfoData> angelArrayEnemyInfoData;
 
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
-	
+
 	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
-	
+
 	private static MapItemStoreCache<ActivityRateTypeItem> activityRateTypeItemCache;
-	
+
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
-	
+
 	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
-	
+
 	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
-	
+
 	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
-	
-	
+
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
-	
+
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
-	
-	private static MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache;
-	
+
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
 	private static List<MapItemStoreCache> list;
 
 	private static boolean init = false;
-	
+
 	static {
 		init();
 	}
@@ -105,7 +101,7 @@ public class MapItemStoreFactory {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
 				return;
-			}else{
+			} else {
 				init = true;
 			}
 		}
@@ -142,31 +138,31 @@ public class MapItemStoreFactory {
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
 
 		register(activityTimeCardTypeItemCache = new MapItemStoreCache<ActivityTimeCardTypeItem>(ActivityTimeCardTypeItem.class, "userId", heroCapacity));
-		
+
 		register(activityRateTypeItemCache = new MapItemStoreCache<ActivityRateTypeItem>(ActivityRateTypeItem.class, "userId", heroCapacity));
-//		
-//		register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
-//
-//		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
-		
+		//
+		// register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
+		//
+		// register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
+
 		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
-		
+
 		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyTypeItem>(ActivityDailyTypeItem.class, "userId", heroCapacity));
-		
+
 		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
 		register(activityVitalityItemCache = new MapItemStoreCache<ActivityVitalityTypeItem>(ActivityVitalityTypeItem.class, "userId", heroCapacity));
-//		register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
-		
+		// register(fixExpEquipDataItemCache = new MapItemStoreCache<FixExpEquipDataItem>(FixExpEquipDataItem.class, "ownerId", heroCapacity));
+
 		register(fixNormEquipDataItemCache = new MapItemStoreCache<FixNormEquipDataItem>(FixNormEquipDataItem.class, "ownerId", heroCapacity));
-		
-//		register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
-		
+
+		// register(groupSecretDefLogCache = new MapItemStoreCache<GroupSecretDefLog>(GroupSecretDefLog.class, "secretId", heroCapacity));
+
 		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
 
 		register(angelArrayFloorData = new MapItemStoreCache<AngelArrayFloorData>(AngelArrayFloorData.class, "userId", heroCapacity));
 
 		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
-		
+
 		register(magicChapterInfoCache = new MapItemStoreCache<MagicChapterInfo>(MagicChapterInfo.class, "userId", heroCapacity));
 	}
 
@@ -287,7 +283,7 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
 		return activityCountTypeItemCache;
 	}
-	
+
 	public static MapItemStoreCache<ActivityDailyTypeItem> getActivityDailyCountTypeItemCache() {
 		return activityDailyCountTypeItemCache;
 	}
@@ -295,17 +291,19 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
 		return activityTimeCardTypeItemCache;
 	}
-	
 
 	public static MapItemStoreCache<ActivityRateTypeItem> getActivityRateTypeItemCache() {
 		return activityRateTypeItemCache;
 	}
+
 	public static MapItemStoreCache<ActivityDateTypeItem> getActivityDateTypeItemCache() {
 		return activityDateTypeItemCache;
 	}
+
 	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
 		return activityRankTypeItemCache;
 	}
+
 	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
 		return activityTimeCountTypeItemCache;
 	}
@@ -313,26 +311,13 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
 		return activityVitalityItemCache;
 	}
-	
-	
+
 	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
 		return fixExpEquipDataItemCache;
 	}
-	
-	
 
 	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
 		return fixNormEquipDataItemCache;
-	}
-	
-
-	public static MapItemStoreCache<GroupSecretDefLog> getGroupSecretDefLogCache() {
-		return groupSecretDefLogCache;
-	}
-
-	public static void setGroupSecretDefLogCache(
-			MapItemStoreCache<GroupSecretDefLog> groupSecretDefLogCache) {
-		MapItemStoreFactory.groupSecretDefLogCache = groupSecretDefLogCache;
 	}
 
 	/**
@@ -361,7 +346,7 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<AngelArrayEnemyInfoData> getAngelArrayEnemyInfoData() {
 		return angelArrayEnemyInfoData;
 	}
-	
+
 	/**
 	 * 获取法宝秘境的章节缓存
 	 * 

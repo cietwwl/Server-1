@@ -20,6 +20,7 @@ import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretMatchEnemyData;
+import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendUserInfoData;
 import com.rwbase.dao.groupsecret.syndata.SecretBaseInfoSynData;
 import com.rwbase.dao.groupsecret.syndata.SecretTeamInfoSynData;
@@ -112,7 +113,7 @@ public class GroupSecretMatchEnemyDataMgr {
 			proGS += (int) (levelTmp.getGroupSupplyRatio() * minutes);
 
 			// 产生的资源
-			int robRes = proRes * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
+			int robRes = proRes * levelTmp.getRobRatio() / AttributeConst.DIVISION;
 			int robGE = proGE * levelTmp.getRobGERatio() / AttributeConst.DIVISION;
 			int robGS = proGS * levelTmp.getRobGSRatio() / AttributeConst.DIVISION;
 
@@ -168,8 +169,27 @@ public class GroupSecretMatchEnemyDataMgr {
 
 		String userId = player.getUserId();
 		GroupSecretMatchEnemyData enemyData = get(userId);
+		if (enemyData == null) {
+			return false;
+		}
 
-		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(enemyData.getMatchUserId());
+		String matchUserId = enemyData.getMatchUserId();
+		UserCreateGroupSecretData userCreateGroupSecretData = UserCreateGroupSecretDataMgr.getMgr().get(matchUserId);
+		if (userCreateGroupSecretData == null) {
+			return false;
+		}
+
+		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(enemyData.getId());
+		if (groupSecretData == null) {
+			return false;
+		}
+
+		DefendUserInfoData defendUserInfoData = groupSecretData.getDefendUserInfoData(index);
+		if (defendUserInfoData == null) {
+			return false;
+		}
+
+		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(defendUserInfoData.getUserId());
 
 		Map<String, HeroLeftInfoSynData> teamAttrInfoMap = enemyData.getTeamAttrInfoMap(index);
 

@@ -30,7 +30,6 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
-import com.rwproto.ChatServiceProtos.ChatMessageData.Builder;
 import com.rwproto.ChatServiceProtos.MessageUserInfo;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
@@ -367,10 +366,7 @@ public class ChatHandler {
 		String headFrame = player.getHeadFrame();//头像品质框
 
 		for (int i = 0, size = playerList.size(); i < size; i++) {
-			Player p = PlayerMgr.getInstance().find(playerList.get(i));
-
 			ChatMessageData.Builder msgData = ChatMessageData.newBuilder();
-
 			MessageUserInfo.Builder sendMessaegUserInfo = MessageUserInfo.newBuilder();
 			sendMessaegUserInfo.setUserId(userId);
 			sendMessaegUserInfo.setUserName(playerName);
@@ -387,6 +383,8 @@ public class ChatHandler {
 			msgData.setTime(msgTime);
 			msgData.setMessage(message == null ? "" : message);
 
+			String playerId = playerList.get(i);
+			Player p = PlayerMgr.getInstance().find(playerId);
 			if (p != null) {// 在线才有发送
 				MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
 				msgChatResponse.setChatType(eChatType.CHAT_TREASURE);
@@ -397,7 +395,7 @@ public class ChatHandler {
 				PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
 			}
 
-			updatePlayerChatMsg(playerList.get(i), msgData, eChatType.CHAT_TREASURE);
+			updatePlayerChatMsg(playerId, msgData, eChatType.CHAT_TREASURE);
 		}
 
 		return true;

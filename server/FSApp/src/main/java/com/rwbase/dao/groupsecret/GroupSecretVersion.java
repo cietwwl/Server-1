@@ -15,6 +15,7 @@ public class GroupSecretVersion {
 	private Map<String, Integer> map;
 	private int enemyVersion;// 敌人的版本号
 	private int defendRecordVersion;// 防守记录的版本号
+	private int memberVersion;// 成员的版本号
 
 	public GroupSecretVersion() {
 		map = new HashMap<String, Integer>();
@@ -30,5 +31,14 @@ public class GroupSecretVersion {
 
 	public int getDefendRecordVersion() {
 		return defendRecordVersion;
+	}
+
+	/**
+	 * 成员的列表
+	 * 
+	 * @return
+	 */
+	public int getMemberVersion() {
+		return memberVersion;
 	}
 }
