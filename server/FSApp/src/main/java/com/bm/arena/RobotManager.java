@@ -101,9 +101,10 @@ public class RobotManager {
 			// 初始主角英雄
 			int star = getRandom(cfg.getStar());
 			int quality = getRandom(cfg.getQuality());
-			Player player = new Player(userId, false);
+
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
-			Hero mainRoleHero = player.getHeroMgr().addMainRoleHero(player, playerCfg);
+			Player player = new Player(userId, false, playerCfg);
+			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
 			mainRoleHero.SetHeroLevel(level);
 			// 品质
 			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
@@ -168,7 +169,7 @@ public class RobotManager {
 			player.initMgr();
 			player.getUserDataMgr().setUserName(userName);
 			player.getAttrMgr().reCal();
-			for(Hero hero:heroList){
+			for (Hero hero : heroList) {
 				hero.getAttrMgr().reCal();
 			}
 			player.save(true);
@@ -283,7 +284,7 @@ public class RobotManager {
 	private static void changeHero(Hero hero, RobotEntryCfg cfg) {
 		int startLevel = getRandom(cfg.getHeroStar());
 		int quality = getRandom(cfg.getHeroQuality());
-		if(startLevel == 0){
+		if (startLevel == 0) {
 			System.out.println();
 		}
 		hero.setStarLevel(startLevel);
@@ -486,7 +487,8 @@ public class RobotManager {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
 				handler.setArenaHero(player, arenaData, task.getHeroList());
-				GameLog.error("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = " + listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
+				GameLog.error("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
+						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}
 	}
