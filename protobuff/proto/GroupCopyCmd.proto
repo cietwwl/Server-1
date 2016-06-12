@@ -1,0 +1,28 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCopyCmdProto";
+
+package GroupCopyCmd;
+
+enum GroupCopyReqType{
+	GET_INFO = 1;
+}
+
+enum ResultCode{
+	CODE_SUC = 1;//成功
+	CODE_FAIL = 2;//失败
+}
+
+message GroupCopyCmdReqMsg{
+	required GroupCopyReqType reqType = 1;//请求的协议类型
+	optional string version = 2; //版本号
+	
+	
+}
+
+message GroupCopyCmdRspMsg{
+	required GroupCopyReqType reqType = 1; //请求的协议类型
+	required ResultCode resCode = 2;//返回的结果代码
+}
+
+
