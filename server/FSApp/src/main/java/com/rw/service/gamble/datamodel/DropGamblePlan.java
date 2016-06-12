@@ -21,7 +21,7 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 		checkList = ListParser.ParseIntList(guaranteeCheckList, ",", "钓鱼台", "", "解释保底检索物品组");
 		ordinaryGroup = RandomIntGroups.Create("钓鱼台", "GamblePlanCfg.csv", ",", "_", ordinaryPlan);
 		guaranteeGroup = RandomIntGroups.Create("钓鱼台", "GamblePlanCfg.csv", ",", "_", guaranteePlan);
-		guaranteeCheckNumList = ListParser.ParseIntList(guaranteeCheckNum, "|", "钓鱼台", "", "收费保底检索次数");
+		guaranteeCheckNumList = ListParser.ParseIntList(guaranteeCheckNum, "\\|", "钓鱼台", "", "收费保底检索次数");
 		if (guaranteeCheckNumList.length <=0){
 			throw new RuntimeException("钓鱼台 GamblePlanCfg.csv 没有配置 收费保底检索次数 guaranteeCheckNum");
 		}

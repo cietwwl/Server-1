@@ -158,4 +158,9 @@ public class GambleDropGroup extends RandomStringGroups {
 		
 		return new GambleDropGroup(pair, array);
 	}
+
+	public List<Pair<String, Integer>> getRandomGroup(Random r, int hotCount) {
+		// TODO 连续生成N个热点
+		return null;
+	}
 }

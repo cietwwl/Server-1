@@ -25,7 +25,9 @@ public class GambleDropHistory {
 	
 	private boolean passFreeExclusiveCheck = false;
 	private boolean passChargeExclusiveCheck = false;
-
+	private List<String> freeExclusiveHistory;
+	private List<String> chargeExclusiveHistory;
+	
 	public boolean passExclusiveCheck(boolean isFree){
 		return isFree?passFreeExclusiveCheck:passChargeExclusiveCheck;
 	}
@@ -79,6 +81,22 @@ public class GambleDropHistory {
 		this.freeGambleHistory = freeGambleHistory;
 	}
 
+	public List<String> getChargeExclusiveHistory() {
+		return chargeExclusiveHistory;
+	}
+
+	public void setChargeExclusiveHistory(List<String> chargeExclusiveHistory) {
+		this.chargeExclusiveHistory = chargeExclusiveHistory;
+	}
+
+	public List<String> getFreeExclusiveHistory() {
+		return freeExclusiveHistory;
+	}
+
+	public void setFreeExclusiveHistory(List<String> freeExclusiveHistory) {
+		this.freeExclusiveHistory = freeExclusiveHistory;
+	}
+
 	public long getLastFreeGambleTime() {
 		return lastFreeGambleTime;
 	}
@@ -130,6 +148,8 @@ public class GambleDropHistory {
 	public GambleDropHistory() {
 		chargeGambleHistory = new ArrayList<String>();
 		freeGambleHistory = new ArrayList<String>();
+		freeExclusiveHistory = new ArrayList<String>();
+		chargeExclusiveHistory = new ArrayList<String>();
 	}
 
 	@JsonIgnore
@@ -186,18 +206,37 @@ public class GambleDropHistory {
 	}
 
 	/**
+	 * 保底检查次数达到后，需要清除旧的历史纪录，另保底不会过早发生
+	 * @param isFree
+	 */
+	public void clearHistory(boolean isFree,IDropGambleItemPlan dropPlan){
+		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
+		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
+		int checkNum = dropPlan.getCheckNum(index);
+		int historySize = history.size();
+		if (historySize >= checkNum){
+			int removeCount = checkNum;
+			for (int i = 0; i < removeCount; i++) {
+				history.remove(0);
+			}
+		}
+	}
+	
+	/**
 	 * 返回true表示需要使用保底方案
-	 * 
 	 * @param isFree
 	 * @param dropPlan
 	 * @return
 	 */
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
-		List<String> history = checkHistoryNum(isFree, maxHistory);
 		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
-		if (history.size() < dropPlan.getCheckNum(index) - 1) {
+		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
+		int checkNum = dropPlan.getCheckNum(index);
+		int historySize = history.size();
+		if (historySize < checkNum - 1) {
 			return false;
 		}
+		
 		for (String itemModelId : history) {
 			if (dropPlan.checkInList(itemModelId)) {
 				return false;
@@ -205,9 +244,18 @@ public class GambleDropHistory {
 		}
 		return true;
 	}
+	
+	public void increaseGuaranteePlanIndex(boolean isFree){
+		if (isFree){
+			freeGuaranteePlanIndex++;
+		}else{
+			chargeGuaranteePlanIndex++;
+		}
+	}
 
 	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
-		List<String> history = checkHistoryNum(isFree, maxHistory);
+		//List<String> history = checkHistoryNum(isFree, maxHistory);
+		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		history.add(itemModel);
 		if (isFree) {
 			firstFreeGamble = false;
@@ -216,8 +264,16 @@ public class GambleDropHistory {
 		} else {
 			firstChargeGamble = false;
 		}
+		addExclusiveHistory(isFree,itemModel);
 	}
 
+	/**
+	 * 保底检查次数达到后，需要清除旧的历史纪录，另保底不会过早发生
+	 * @param isFree
+	 * @param maxHistory
+	 * @return
+	 */
+	/*
 	private List<String> checkHistoryNum(boolean isFree, int maxHistory) {
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		int removeCount = history.size() - maxHistory + 1;
@@ -225,7 +281,7 @@ public class GambleDropHistory {
 			history.remove(0);
 		}
 		return history;
-	}
+	}*/
 
 	public void addHotHistoryCount() {
 		hotCount++;
@@ -245,15 +301,34 @@ public class GambleDropHistory {
 		return freeCount < planCfg.getFreeCountPerDay() && GambleLogicHelper.isLeftTimeOver(getFreeLeftTime(planCfg));
 	}
 
-	//假设历史纪录增加成功，检查是否可以关闭去重检查！
+	/**
+	 * 假设历史纪录增加成功，检查是否可以关闭去重检查！
+	 * @param isFree
+	 * @param exclusiveCount
+	 */
 	@JsonIgnore
 	public void checkDistinctTag(boolean isFree, int exclusiveCount) {
-		int historySize = getHistory(isFree).size();
+		int historySize = (isFree?freeExclusiveHistory:chargeExclusiveHistory).size();
 		if (historySize >= exclusiveCount){//假设历史添加成功：historySize+1 > exclusiveCount
 			if (isFree) {
 				passFreeExclusiveCheck = true;
+				freeExclusiveHistory.clear();
 			} else {
 				passChargeExclusiveCheck = true;
+				chargeExclusiveHistory.clear();
+			}
+		}
+	}
+	
+	@JsonIgnore
+	private void addExclusiveHistory(boolean isFree, String itemId){
+		if (isFree) {
+			if (!passFreeExclusiveCheck){
+				freeExclusiveHistory.add(itemId);
+			}
+		} else {
+			if (!passChargeExclusiveCheck){
+				chargeExclusiveHistory.add(itemId);
 			}
 		}
 	}

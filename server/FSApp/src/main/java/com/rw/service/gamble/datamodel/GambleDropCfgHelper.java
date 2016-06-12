@@ -3,6 +3,7 @@ package com.rw.service.gamble.datamodel;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -12,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.common.RefInt;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.service.gamble.GambleLogicHelper;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -33,6 +35,9 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 		HashMap<Integer,LinkedList<GambleDropCfg>> tmp = new HashMap<Integer, LinkedList<GambleDropCfg>>(vals.size());
 		for (GambleDropCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
+			if (cfg.getWeight() < 0){
+				throw new RuntimeException("权重不能小于零"+"key="+cfg.getKey()+",权重:"+cfg.getWeight());
+			}
 			LinkedList<GambleDropCfg> old = tmp.get(cfg.getItemGroup());
 			if (old == null){
 				old = new LinkedList<GambleDropCfg>();
@@ -84,5 +89,13 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 			return false;
 		}
 		return group.checkInGroup(itemModelId);
+	}
+
+	public List<Pair<String, Integer>> getRandomDrop(Random r, int hotPlanId, int hotCount) {
+		GambleDropGroup group = dropGroupMappings.get(hotPlanId);
+		if (group == null){
+			return null;
+		}
+		return group.getRandomGroup(r, hotCount);
 	}
 }

@@ -68,9 +68,11 @@ public class GambleHotHeroPlan {
 		RefInt weight = new RefInt();
 		RefInt slotCount = new RefInt();
 		List<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>(hotCount);
+		//list = gambleDropConfig.getRandomDrop(r, hotPlanId, hotCount);
 		int[] slots = new int[hotCount];
 		for (int i = 0; i < hotCount; i++) {
 			String itemModel = gambleDropConfig.getRandomDrop(r, hotPlanId, slotCount, weight);
+			//TODO 生成热点不重复：待优化
 			if (GambleLogicHelper.isValidHeroOrItemId(itemModel)) {
 				list.add(Pair.Create(itemModel, weight.value));
 				// 忽略配置的数量(slotCount.value)，客户端已经写死一定只能是一个

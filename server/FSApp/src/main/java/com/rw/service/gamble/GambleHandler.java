@@ -153,9 +153,10 @@ public class GambleHandler {
 		int maxCount = planCfg.getDropItemCount();
 		while (dropList.size() < maxCount){
 			int dropGroupId;
-			if (historyRecord.passExclusiveCheck(isFree)){
+			if (historyRecord.passExclusiveCheck(isFree)){//前面N次的抽卡必须不一样，之后的就不需要唯一性检查
 				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
 					dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
+					historyRecord.increaseGuaranteePlanIndex(isFree);//保底次数数组的索引需要调整
 				}else{
 					dropGroupId = dropPlan.getOrdinaryGroup(ranGen);
 				}
@@ -173,6 +174,7 @@ public class GambleHandler {
 				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
 					tmpGroup = dropPlan.getGuaranteeGroup(ranGen,checkHistory);
 					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount());
+					historyRecord.increaseGuaranteePlanIndex(isFree);//保底次数数组的索引需要调整
 				}else{
 					tmpGroup = dropPlan.getOrdinaryGroup(ranGen,checkHistory);
 				}
@@ -193,6 +195,7 @@ public class GambleHandler {
 				}
 			}
 			
+			historyRecord.clearHistory(isFree, dropPlan);
 		}
 
 		//扣钱
