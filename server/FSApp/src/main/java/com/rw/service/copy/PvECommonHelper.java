@@ -8,6 +8,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
@@ -72,6 +73,8 @@ public class PvECommonHelper {
 				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 			}
 			
+			ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+			
 			StringBuilder rewardInfo = new StringBuilder();
 			rewardInfo.append("成功获取战斗奖励 levelId=").append(levelId).append(" rewards:").append(JsonUtil.writeValue(dropItems));
 			GameLog.info(LogModule.COPY.getName(), player.getUserId(), rewardInfo.toString(), null);
@@ -126,8 +129,10 @@ public class PvECommonHelper {
 					// 将奖励放入背包
 					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
+				
 				tagsweepInfo.addAllTagItemList(listItem);
 				listSweepInfo.add(tagsweepInfo.build());
+				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
 			}
 		}
 		

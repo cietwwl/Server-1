@@ -1,5 +1,6 @@
 package com.playerdata.activity.exChangeType.cfg;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,5 +60,19 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 		}
 		return target;		
 	}
+	
+	/**根据传入的父类id来查找激活的子活动列表*/
+	public List<ActivityExchangeTypeDropCfg> getByParentId(String subId){
+		List<ActivityExchangeTypeDropCfg> cfgList = new ArrayList<ActivityExchangeTypeDropCfg>();
+		List<ActivityExchangeTypeDropCfg> allCfg = getAllCfg();
+		for (ActivityExchangeTypeDropCfg cfg : allCfg) {
+			if(StringUtils.equals(cfg.getParentCfg(), subId)){
+				cfgList.add(cfg);		
+			}
+		}
+		return cfgList;
+	}
+	
+	
 	
 }

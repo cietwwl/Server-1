@@ -207,7 +207,13 @@ public class ActivityRateTypeMgr {
 		return eSpecialItemIDUserInfo;
 	}
 	
-	/**对金币,经验等是否处于双倍活动进行处理*/
+	/**
+	 * 
+	 * @param copyCfg  副本
+	 * @param player
+	 * @param eSpecialItemIDUserInfo  传入的战斗结果数据对象
+	 * 此方法用于站前将结算双倍信息发给客户端显示
+	 */
 	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
 		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
 		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, activityRateTypeEnum);
@@ -225,6 +231,7 @@ public class ActivityRateTypeMgr {
 	 * @param copyType 战斗类型
 	 * @param doubleType 奖励双倍的类型 
 	 * @return  倍数
+	 * 此方法用于战后结算后台增加数据
 	 */
 	public int  checkEnumIsExistAndActivityIsOpen(Player player,int copyType,int doubleType){
 		int multiple = 1;

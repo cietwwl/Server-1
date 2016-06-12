@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,19 +23,28 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activity.rateType.ActivityRateTypeEnum;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
+import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
+import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copypve.CopyType;
 
 
 public class ActivityExchangeTypeMgr {
 
 	private static ActivityExchangeTypeMgr instance = new ActivityExchangeTypeMgr();
-
+	public static final Random random = new Random();
 	private final static int MAKEUPEMAIL = 10055;
 
 	public static ActivityExchangeTypeMgr getInstance() {
@@ -227,4 +237,49 @@ public class ActivityExchangeTypeMgr {
 	}
 	
 	
+	/**
+	 * 根据传入的玩家和副本，额外获得兑换道具
+	 * @param player  玩家等级是否足够
+	 * @param copyCfg  战斗场景是否有掉落
+	 */
+	public void AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
+		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
+		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历所有的活动
+			if (!isDropOpen(activityExchangeTypeCfg)) {
+				// 活动未开启
+				continue;
+			}
+			if(player.getLevel() < activityExchangeTypeCfg.getLevelLimit()){
+				//等级不足
+				continue;
+			}
+			List<ActivityExchangeTypeDropCfg> dropCfgList = ActivityExchangeTypeDropCfgDAO.getInstance().getByParentId(activityExchangeTypeCfg.getId());
+			for(ActivityExchangeTypeDropCfg cfg : dropCfgList){//遍历单个活动可能对应的所有掉落道具类型
+				Map<String, String> map = cfg.getDroplist();
+				
+				if(map.get(copyCfg.getLevelType()+"") != null){//该掉落配置表的该条记录适合此类战斗场景
+					int probability =Integer.parseInt(map.get(copyCfg.getLevelType()+""));
+					if(random.nextInt(100)<=probability){
+						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), 1);
+					}
+				}				
+			}			
+		}		
+	}	
+	
+	
+
+	public boolean isDropOpen(ActivityExchangeTypeCfg activityExchangeTypeCfg) {
+		if (activityExchangeTypeCfg != null) {
+//			if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
+//				return false;
+//			}
+			long startTime = activityExchangeTypeCfg.getDropStartTime();
+			long endTime = activityExchangeTypeCfg.getDropEndTime();
+			long currentTime = System.currentTimeMillis();
+			return currentTime < endTime && currentTime > startTime;
+		}
+		return false;
+	}
 }
