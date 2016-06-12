@@ -151,6 +151,10 @@ public class GambleDropGroup extends RandomStringGroups {
 			return this;
 		}
 		
+		if (tmpCount.size() <= 0){
+			return null;
+		}
+		
 		int[] array = new int[tmpCount.size()];
 		for (int i = 0; i < array.length; i++) {
 			array[i] = tmpCount.get(i);

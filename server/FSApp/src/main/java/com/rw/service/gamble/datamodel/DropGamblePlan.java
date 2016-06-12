@@ -89,11 +89,15 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 		}
 		
 		RefInt selectedGroupIndex=new RefInt();
-		GambleDropGroup result = findRandomGroup(r,historyRecord,startGroup,selectedGroupIndex);
-		if (result != null) return result;
-		
-		RandomIntGroups tmpGroup = startGroup.removeIndex(selectedGroupIndex.value);
-		while (result == null && tmpGroup.size() > 0){
+		RandomIntGroups tmpGroup = startGroup;
+		GambleDropGroup result = null;
+		boolean isFirst = true;
+		while (result == null && tmpGroup != null && tmpGroup.size() > 0){
+			if (isFirst){
+				isFirst = false;
+			}else{
+				tmpGroup = startGroup.removeIndex(selectedGroupIndex.value);
+			}
 			result = findRandomGroup(r, historyRecord,tmpGroup, selectedGroupIndex);
 		}
 		return result;
@@ -102,7 +106,9 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 	private GambleDropGroup findRandomGroup(Random r, List<String> historyRecord,RandomIntGroups startGroup,RefInt selectedGroupIndex){
 		int groupKey = startGroup.getRandomGroup(r, selectedGroupIndex);
 		GambleDropGroup result =GambleDropCfgHelper.getInstance().getGroup(groupKey);
-		result = result.removeHistory(historyRecord);
+		if (result != null){
+			result = result.removeHistory(historyRecord);
+		}
 		return result;
 	}
 }

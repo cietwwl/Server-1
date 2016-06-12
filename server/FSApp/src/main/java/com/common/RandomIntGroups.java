@@ -42,6 +42,9 @@ public class RandomIntGroups {
 	}
 
 	public int getRandomGroup(Random r, RefInt selectedGroupIndex) {
+		if (accumulation <= 0) return 0;
+		if (plans.length <= 0) return 0;
+		
 		int ran = r.nextInt(accumulation);
 		for (int i = 0; i < distributions.length; i++) {
 			int dis = distributions[i];
