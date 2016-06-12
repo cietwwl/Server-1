@@ -60,6 +60,9 @@ public class FixNormEquipMgr {
 		List<FixNormEquipDataItem> equipItemList = new ArrayList<FixNormEquipDataItem>();
 	
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));		
+		if(roleFixEquipCfg == null){
+			return false;
+		}
 		
 		int slot = 0;
 		for (String cfgId : roleFixEquipCfg.getNormCfgIdList()) {

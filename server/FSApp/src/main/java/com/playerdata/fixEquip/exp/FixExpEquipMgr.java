@@ -64,6 +64,9 @@ public class FixExpEquipMgr {
 		List<FixExpEquipDataItem> equipItemList = new ArrayList<FixExpEquipDataItem>();
 		
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
+		if(roleFixEquipCfg == null){		
+			return false;
+		}
 		
 		int slot = 4;
 		for (String cfgId : roleFixEquipCfg.getExpCfgIdList()) {
