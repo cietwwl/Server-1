@@ -49,6 +49,14 @@ public final class HeroServiceProtos {
      * <code>HERO_LEVEL_UP = 9;</code>
      */
     HERO_LEVEL_UP(8, 9),
+    /**
+     * <code>USE_EXP_MAX = 10;</code>
+     *
+     * <pre>
+     *直接使用经验丹到上限(一键升级)
+     * </pre>
+     */
+    USE_EXP_MAX(9, 10),
     ;
 
     /**
@@ -87,6 +95,14 @@ public final class HeroServiceProtos {
      * <code>HERO_LEVEL_UP = 9;</code>
      */
     public static final int HERO_LEVEL_UP_VALUE = 9;
+    /**
+     * <code>USE_EXP_MAX = 10;</code>
+     *
+     * <pre>
+     *直接使用经验丹到上限(一键升级)
+     * </pre>
+     */
+    public static final int USE_EXP_MAX_VALUE = 10;
 
 
     public final int getNumber() { return value; }
@@ -102,6 +118,7 @@ public final class HeroServiceProtos {
         case 7: return USE_EXP;
         case 8: return BUY_SKILL_POINT;
         case 9: return HERO_LEVEL_UP;
+        case 10: return USE_EXP_MAX;
         default: return null;
       }
     }
@@ -238,7 +255,7 @@ public final class HeroServiceProtos {
      * <code>HERO_NOT_EXIST = 11;</code>
      *
      * <pre>
-     *佣兵不存在
+     *英雄不存在
      * </pre>
      */
     HERO_NOT_EXIST(10, 11),
@@ -348,7 +365,7 @@ public final class HeroServiceProtos {
      * <code>HERO_NOT_EXIST = 11;</code>
      *
      * <pre>
-     *佣兵不存在
+     *英雄不存在
      * </pre>
      */
     public static final int HERO_NOT_EXIST_VALUE = 11;
@@ -610,7 +627,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是用的升1/10级的按钮使用的
+     *是否是添加按钮消耗
      * </pre>
      */
     boolean hasIsAddBtnUse();
@@ -618,7 +635,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是用的升1/10级的按钮使用的
+     *是否是添加按钮消耗
      * </pre>
      */
     boolean getIsAddBtnUse();
@@ -1019,7 +1036,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是用的升1/10级的按钮使用的
+     *是否是添加按钮消耗
      * </pre>
      */
     public boolean hasIsAddBtnUse() {
@@ -1029,7 +1046,7 @@ public final class HeroServiceProtos {
      * <code>required bool isAddBtnUse = 9;</code>
      *
      * <pre>
-     *是否是用的升1/10级的按钮使用的
+     *是否是添加按钮消耗
      * </pre>
      */
     public boolean getIsAddBtnUse() {
@@ -2116,7 +2133,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是用的升1/10级的按钮使用的
+       *是否是添加按钮消耗
        * </pre>
        */
       public boolean hasIsAddBtnUse() {
@@ -2126,7 +2143,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是用的升1/10级的按钮使用的
+       *是否是添加按钮消耗
        * </pre>
        */
       public boolean getIsAddBtnUse() {
@@ -2136,7 +2153,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是用的升1/10级的按钮使用的
+       *是否是添加按钮消耗
        * </pre>
        */
       public Builder setIsAddBtnUse(boolean value) {
@@ -2149,7 +2166,7 @@ public final class HeroServiceProtos {
        * <code>required bool isAddBtnUse = 9;</code>
        *
        * <pre>
-       *是否是用的升1/10级的按钮使用的
+       *是否是添加按钮消耗
        * </pre>
        */
       public Builder clearIsAddBtnUse() {
@@ -2333,6 +2350,32 @@ public final class HeroServiceProtos {
      * <code>optional .eHeroType eventType = 8;</code>
      */
     com.rwproto.HeroServiceProtos.eHeroType getEventType();
+
+    // optional .MaxUseExpRes maxUseExp = 9;
+    /**
+     * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+     *
+     * <pre>
+     *一键升级结果
+     * </pre>
+     */
+    boolean hasMaxUseExp();
+    /**
+     * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+     *
+     * <pre>
+     *一键升级结果
+     * </pre>
+     */
+    com.rwproto.HeroServiceProtos.MaxUseExpRes getMaxUseExp();
+    /**
+     * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+     *
+     * <pre>
+     *一键升级结果
+     * </pre>
+     */
+    com.rwproto.HeroServiceProtos.MaxUseExpResOrBuilder getMaxUseExpOrBuilder();
   }
   /**
    * Protobuf type {@code MsgHeroResponse}
@@ -2457,6 +2500,19 @@ public final class HeroServiceProtos {
                 bitField0_ |= 0x00000020;
                 eventType_ = value;
               }
+              break;
+            }
+            case 74: {
+              com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+                subBuilder = maxUseExp_.toBuilder();
+              }
+              maxUseExp_ = input.readMessage(com.rwproto.HeroServiceProtos.MaxUseExpRes.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(maxUseExp_);
+                maxUseExp_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000040;
               break;
             }
           }
@@ -2772,6 +2828,40 @@ public final class HeroServiceProtos {
       return eventType_;
     }
 
+    // optional .MaxUseExpRes maxUseExp = 9;
+    public static final int MAXUSEEXP_FIELD_NUMBER = 9;
+    private com.rwproto.HeroServiceProtos.MaxUseExpRes maxUseExp_;
+    /**
+     * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+     *
+     * <pre>
+     *一键升级结果
+     * </pre>
+     */
+    public boolean hasMaxUseExp() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+     *
+     * <pre>
+     *一键升级结果
+     * </pre>
+     */
+    public com.rwproto.HeroServiceProtos.MaxUseExpRes getMaxUseExp() {
+      return maxUseExp_;
+    }
+    /**
+     * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+     *
+     * <pre>
+     *一键升级结果
+     * </pre>
+     */
+    public com.rwproto.HeroServiceProtos.MaxUseExpResOrBuilder getMaxUseExpOrBuilder() {
+      return maxUseExp_;
+    }
+
     private void initFields() {
       msgHeroRequest_ = com.rwproto.HeroServiceProtos.MsgHeroRequest.getDefaultInstance();
       eHeroResultType_ = com.rwproto.HeroServiceProtos.eHeroResultType.SUCCESS;
@@ -2781,6 +2871,7 @@ public final class HeroServiceProtos {
       tagUserHero_ = com.rwproto.HeroServiceProtos.TagUserHero.getDefaultInstance();
       moderId_ = "";
       eventType_ = com.rwproto.HeroServiceProtos.eHeroType.UPGRADE_QUALITY;
+      maxUseExp_ = com.rwproto.HeroServiceProtos.MaxUseExpRes.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2795,6 +2886,12 @@ public final class HeroServiceProtos {
       }
       if (hasTagUserHero()) {
         if (!getTagUserHero().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasMaxUseExp()) {
+        if (!getMaxUseExp().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2829,6 +2926,9 @@ public final class HeroServiceProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeEnum(8, eventType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(9, maxUseExp_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2870,6 +2970,10 @@ public final class HeroServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(8, eventType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, maxUseExp_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2983,6 +3087,7 @@ public final class HeroServiceProtos {
           getArrtTypeAndValeBufFieldBuilder();
           getQualityAttriFieldBuilder();
           getTagUserHeroFieldBuilder();
+          getMaxUseExpFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3023,6 +3128,12 @@ public final class HeroServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         eventType_ = com.rwproto.HeroServiceProtos.eHeroType.UPGRADE_QUALITY;
         bitField0_ = (bitField0_ & ~0x00000080);
+        if (maxUseExpBuilder_ == null) {
+          maxUseExp_ = com.rwproto.HeroServiceProtos.MaxUseExpRes.getDefaultInstance();
+        } else {
+          maxUseExpBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -3101,6 +3212,14 @@ public final class HeroServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.eventType_ = eventType_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        if (maxUseExpBuilder_ == null) {
+          result.maxUseExp_ = maxUseExp_;
+        } else {
+          result.maxUseExp_ = maxUseExpBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3191,6 +3310,9 @@ public final class HeroServiceProtos {
         if (other.hasEventType()) {
           setEventType(other.getEventType());
         }
+        if (other.hasMaxUseExp()) {
+          mergeMaxUseExp(other.getMaxUseExp());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3204,6 +3326,12 @@ public final class HeroServiceProtos {
         }
         if (hasTagUserHero()) {
           if (!getTagUserHero().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasMaxUseExp()) {
+          if (!getMaxUseExp().isInitialized()) {
             
             return false;
           }
@@ -4237,6 +4365,159 @@ public final class HeroServiceProtos {
         eventType_ = com.rwproto.HeroServiceProtos.eHeroType.UPGRADE_QUALITY;
         onChanged();
         return this;
+      }
+
+      // optional .MaxUseExpRes maxUseExp = 9;
+      private com.rwproto.HeroServiceProtos.MaxUseExpRes maxUseExp_ = com.rwproto.HeroServiceProtos.MaxUseExpRes.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.HeroServiceProtos.MaxUseExpRes, com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder, com.rwproto.HeroServiceProtos.MaxUseExpResOrBuilder> maxUseExpBuilder_;
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public boolean hasMaxUseExp() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public com.rwproto.HeroServiceProtos.MaxUseExpRes getMaxUseExp() {
+        if (maxUseExpBuilder_ == null) {
+          return maxUseExp_;
+        } else {
+          return maxUseExpBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public Builder setMaxUseExp(com.rwproto.HeroServiceProtos.MaxUseExpRes value) {
+        if (maxUseExpBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          maxUseExp_ = value;
+          onChanged();
+        } else {
+          maxUseExpBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000100;
+        return this;
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public Builder setMaxUseExp(
+          com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder builderForValue) {
+        if (maxUseExpBuilder_ == null) {
+          maxUseExp_ = builderForValue.build();
+          onChanged();
+        } else {
+          maxUseExpBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000100;
+        return this;
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public Builder mergeMaxUseExp(com.rwproto.HeroServiceProtos.MaxUseExpRes value) {
+        if (maxUseExpBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) == 0x00000100) &&
+              maxUseExp_ != com.rwproto.HeroServiceProtos.MaxUseExpRes.getDefaultInstance()) {
+            maxUseExp_ =
+              com.rwproto.HeroServiceProtos.MaxUseExpRes.newBuilder(maxUseExp_).mergeFrom(value).buildPartial();
+          } else {
+            maxUseExp_ = value;
+          }
+          onChanged();
+        } else {
+          maxUseExpBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000100;
+        return this;
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public Builder clearMaxUseExp() {
+        if (maxUseExpBuilder_ == null) {
+          maxUseExp_ = com.rwproto.HeroServiceProtos.MaxUseExpRes.getDefaultInstance();
+          onChanged();
+        } else {
+          maxUseExpBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000100);
+        return this;
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder getMaxUseExpBuilder() {
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return getMaxUseExpFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      public com.rwproto.HeroServiceProtos.MaxUseExpResOrBuilder getMaxUseExpOrBuilder() {
+        if (maxUseExpBuilder_ != null) {
+          return maxUseExpBuilder_.getMessageOrBuilder();
+        } else {
+          return maxUseExp_;
+        }
+      }
+      /**
+       * <code>optional .MaxUseExpRes maxUseExp = 9;</code>
+       *
+       * <pre>
+       *一键升级结果
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.HeroServiceProtos.MaxUseExpRes, com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder, com.rwproto.HeroServiceProtos.MaxUseExpResOrBuilder> 
+          getMaxUseExpFieldBuilder() {
+        if (maxUseExpBuilder_ == null) {
+          maxUseExpBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.HeroServiceProtos.MaxUseExpRes, com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder, com.rwproto.HeroServiceProtos.MaxUseExpResOrBuilder>(
+                  maxUseExp_,
+                  getParentForChildren(),
+                  isClean());
+          maxUseExp_ = null;
+        }
+        return maxUseExpBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgHeroResponse)
@@ -10395,6 +10676,684 @@ public final class HeroServiceProtos {
     // @@protoc_insertion_point(class_scope:TagUseItem)
   }
 
+  public interface MaxUseExpResOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 level = 1;
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     *升级后的等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     *升级后的等级
+     * </pre>
+     */
+    int getLevel();
+
+    // required int32 incrExp = 2;
+    /**
+     * <code>required int32 incrExp = 2;</code>
+     *
+     * <pre>
+     *使用的经验
+     * </pre>
+     */
+    boolean hasIncrExp();
+    /**
+     * <code>required int32 incrExp = 2;</code>
+     *
+     * <pre>
+     *使用的经验
+     * </pre>
+     */
+    int getIncrExp();
+
+    // required int32 costNum = 3;
+    /**
+     * <code>required int32 costNum = 3;</code>
+     *
+     * <pre>
+     *消耗的道具数量
+     * </pre>
+     */
+    boolean hasCostNum();
+    /**
+     * <code>required int32 costNum = 3;</code>
+     *
+     * <pre>
+     *消耗的道具数量
+     * </pre>
+     */
+    int getCostNum();
+  }
+  /**
+   * Protobuf type {@code MaxUseExpRes}
+   */
+  public static final class MaxUseExpRes extends
+      com.google.protobuf.GeneratedMessage
+      implements MaxUseExpResOrBuilder {
+    // Use MaxUseExpRes.newBuilder() to construct.
+    private MaxUseExpRes(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MaxUseExpRes(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MaxUseExpRes defaultInstance;
+    public static MaxUseExpRes getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MaxUseExpRes getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MaxUseExpRes(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              level_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              incrExp_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              costNum_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.HeroServiceProtos.internal_static_MaxUseExpRes_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.HeroServiceProtos.internal_static_MaxUseExpRes_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.HeroServiceProtos.MaxUseExpRes.class, com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MaxUseExpRes> PARSER =
+        new com.google.protobuf.AbstractParser<MaxUseExpRes>() {
+      public MaxUseExpRes parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MaxUseExpRes(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MaxUseExpRes> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 level = 1;
+    public static final int LEVEL_FIELD_NUMBER = 1;
+    private int level_;
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     *升级后的等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 level = 1;</code>
+     *
+     * <pre>
+     *升级后的等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // required int32 incrExp = 2;
+    public static final int INCREXP_FIELD_NUMBER = 2;
+    private int incrExp_;
+    /**
+     * <code>required int32 incrExp = 2;</code>
+     *
+     * <pre>
+     *使用的经验
+     * </pre>
+     */
+    public boolean hasIncrExp() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 incrExp = 2;</code>
+     *
+     * <pre>
+     *使用的经验
+     * </pre>
+     */
+    public int getIncrExp() {
+      return incrExp_;
+    }
+
+    // required int32 costNum = 3;
+    public static final int COSTNUM_FIELD_NUMBER = 3;
+    private int costNum_;
+    /**
+     * <code>required int32 costNum = 3;</code>
+     *
+     * <pre>
+     *消耗的道具数量
+     * </pre>
+     */
+    public boolean hasCostNum() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 costNum = 3;</code>
+     *
+     * <pre>
+     *消耗的道具数量
+     * </pre>
+     */
+    public int getCostNum() {
+      return costNum_;
+    }
+
+    private void initFields() {
+      level_ = 0;
+      incrExp_ = 0;
+      costNum_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIncrExp()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCostNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, level_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, incrExp_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, costNum_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, level_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, incrExp_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, costNum_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.HeroServiceProtos.MaxUseExpRes parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.HeroServiceProtos.MaxUseExpRes prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code MaxUseExpRes}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.HeroServiceProtos.MaxUseExpResOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.HeroServiceProtos.internal_static_MaxUseExpRes_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.HeroServiceProtos.internal_static_MaxUseExpRes_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.HeroServiceProtos.MaxUseExpRes.class, com.rwproto.HeroServiceProtos.MaxUseExpRes.Builder.class);
+      }
+
+      // Construct using com.rwproto.HeroServiceProtos.MaxUseExpRes.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        incrExp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        costNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.HeroServiceProtos.internal_static_MaxUseExpRes_descriptor;
+      }
+
+      public com.rwproto.HeroServiceProtos.MaxUseExpRes getDefaultInstanceForType() {
+        return com.rwproto.HeroServiceProtos.MaxUseExpRes.getDefaultInstance();
+      }
+
+      public com.rwproto.HeroServiceProtos.MaxUseExpRes build() {
+        com.rwproto.HeroServiceProtos.MaxUseExpRes result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.HeroServiceProtos.MaxUseExpRes buildPartial() {
+        com.rwproto.HeroServiceProtos.MaxUseExpRes result = new com.rwproto.HeroServiceProtos.MaxUseExpRes(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.incrExp_ = incrExp_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.costNum_ = costNum_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.HeroServiceProtos.MaxUseExpRes) {
+          return mergeFrom((com.rwproto.HeroServiceProtos.MaxUseExpRes)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.HeroServiceProtos.MaxUseExpRes other) {
+        if (other == com.rwproto.HeroServiceProtos.MaxUseExpRes.getDefaultInstance()) return this;
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasIncrExp()) {
+          setIncrExp(other.getIncrExp());
+        }
+        if (other.hasCostNum()) {
+          setCostNum(other.getCostNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasIncrExp()) {
+          
+          return false;
+        }
+        if (!hasCostNum()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.HeroServiceProtos.MaxUseExpRes parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.HeroServiceProtos.MaxUseExpRes) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 level = 1;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       *升级后的等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       *升级后的等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       *升级后的等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000001;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 1;</code>
+       *
+       * <pre>
+       *升级后的等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 incrExp = 2;
+      private int incrExp_ ;
+      /**
+       * <code>required int32 incrExp = 2;</code>
+       *
+       * <pre>
+       *使用的经验
+       * </pre>
+       */
+      public boolean hasIncrExp() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 incrExp = 2;</code>
+       *
+       * <pre>
+       *使用的经验
+       * </pre>
+       */
+      public int getIncrExp() {
+        return incrExp_;
+      }
+      /**
+       * <code>required int32 incrExp = 2;</code>
+       *
+       * <pre>
+       *使用的经验
+       * </pre>
+       */
+      public Builder setIncrExp(int value) {
+        bitField0_ |= 0x00000002;
+        incrExp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 incrExp = 2;</code>
+       *
+       * <pre>
+       *使用的经验
+       * </pre>
+       */
+      public Builder clearIncrExp() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        incrExp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 costNum = 3;
+      private int costNum_ ;
+      /**
+       * <code>required int32 costNum = 3;</code>
+       *
+       * <pre>
+       *消耗的道具数量
+       * </pre>
+       */
+      public boolean hasCostNum() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 costNum = 3;</code>
+       *
+       * <pre>
+       *消耗的道具数量
+       * </pre>
+       */
+      public int getCostNum() {
+        return costNum_;
+      }
+      /**
+       * <code>required int32 costNum = 3;</code>
+       *
+       * <pre>
+       *消耗的道具数量
+       * </pre>
+       */
+      public Builder setCostNum(int value) {
+        bitField0_ |= 0x00000004;
+        costNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 costNum = 3;</code>
+       *
+       * <pre>
+       *消耗的道具数量
+       * </pre>
+       */
+      public Builder clearCostNum() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        costNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:MaxUseExpRes)
+    }
+
+    static {
+      defaultInstance = new MaxUseExpRes(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:MaxUseExpRes)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgHeroRequest_descriptor;
   private static
@@ -10440,6 +11399,11 @@ public final class HeroServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_TagUseItem_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_MaxUseExpRes_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_MaxUseExpRes_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -10454,41 +11418,44 @@ public final class HeroServiceProtos {
       " \001(\t\022\017\n\007equipId\030\004 \001(\005\022\r\n\005order\030\005 \001(\005\022\016\n\006" +
       "soltId\030\006 \001(\005\022\023\n\013heroModelId\030\007 \001(\t\022\037\n\ntag" +
       "UseItem\030\010 \003(\0132\013.TagUseItem\022\023\n\013isAddBtnUs" +
-      "e\030\t \002(\010\"\237\002\n\017MsgHeroResponse\022\'\n\016msgHeroRe" +
+      "e\030\t \002(\010\"\301\002\n\017MsgHeroResponse\022\'\n\016msgHeroRe" +
       "quest\030\001 \001(\0132\017.MsgHeroRequest\022)\n\017eHeroRes" +
       "ultType\030\002 \001(\0162\020.eHeroResultType\022/\n\022arrtT" +
       "ypeAndValeBuf\030\003 \003(\0132\023.ArrtTypeAndValeBuf" +
       "\022#\n\014qualityAttri\030\004 \003(\0132\r.QualityAttri\022\017\n",
       "\007skillId\030\005 \001(\t\022!\n\013tagUserHero\030\006 \001(\0132\014.Ta" +
       "gUserHero\022\017\n\007moderId\030\007 \001(\t\022\035\n\teventType\030" +
-      "\010 \001(\0162\n.eHeroType\"1\n\022ArrtTypeAndValeBuf\022" +
-      "\014\n\004type\030\001 \001(\005\022\r\n\005value\030\002 \001(\001\"E\n\014QualityA" +
-      "ttri\022\014\n\004type\030\001 \001(\005\022\023\n\013beforeValue\030\002 \001(\001\022" +
-      "\022\n\nafterValue\030\003 \001(\001\"a\n\013TagUserHero\022!\n\013ta" +
-      "gHeroInfo\030\001 \003(\0132\014.TagHeroInfo\022\022\n\nskillCo" +
-      "unt\030\002 \001(\005\022\033\n\023lastSkillUpdateTime\030\003 \001(\003\"\325" +
-      "\001\n\013TagHeroInfo\022\020\n\010heroUUID\030\001 \002(\t\022\016\n\006hero" +
-      "Id\030\002 \001(\t\022\013\n\003exp\030\003 \001(\005\022\r\n\005level\030\004 \001(\005\022\021\n\t",
-      "qualityId\030\005 \001(\t\022\021\n\tstarLevel\030\006 \001(\005\022\020\n\010fi" +
-      "ghting\030\007 \001(\005\022\'\n\016tagSkillRecord\030\010 \003(\0132\017.T" +
-      "agSkillRecord\022\'\n\016tagEquipRecord\030\t \003(\0132\017." +
-      "TagEquipRecord\"?\n\016TagEquipRecord\022\017\n\007equi" +
-      "pId\030\001 \001(\005\022\017\n\007levelId\030\002 \001(\005\022\013\n\003exp\030\003 \001(\005\"" +
-      "?\n\016TagSkillRecord\022\017\n\007skillId\030\001 \001(\t\022\r\n\005le" +
-      "vel\030\002 \001(\005\022\r\n\005order\030\003 \001(\005\",\n\nTagUseItem\022\016" +
-      "\n\006soltId\030\001 \001(\005\022\016\n\006number\030\002 \001(\005*\266\001\n\teHero" +
-      "Type\022\023\n\017UPGRADE_QUALITY\020\001\022\022\n\016EQUIP_STREN" +
-      "GTH\020\002\022\021\n\rUSE_EQUIPMENT\020\003\022\017\n\013SUMMON_HERO\020",
-      "\004\022\022\n\016EVOLUTION_HERO\020\005\022\023\n\017ONEKEY_STRENGTH" +
-      "\020\006\022\013\n\007USE_EXP\020\007\022\023\n\017BUY_SKILL_POINT\020\010\022\021\n\r" +
-      "HERO_LEVEL_UP\020\t*\207\002\n\017eHeroResultType\022\013\n\007S" +
-      "UCCESS\020\001\022\013\n\007LOW_VIP\020\002\022\023\n\017NOT_ENOUGH_COIN" +
-      "\020\003\022\r\n\tLOW_LEVEL\020\004\022\030\n\024NOT_ENOUGH_SOULSTON" +
-      "E\020\005\022\023\n\017NOT_ENOUGH_GOLD\020\006\022\013\n\007LOW_EXP\020\007\022\014\n" +
-      "\010ALL_HERO\020\010\022\014\n\010ADD_HERO\020\t\022\017\n\013UPDATE_HERO" +
-      "\020\n\022\022\n\016HERO_NOT_EXIST\020\013\022\016\n\nDATA_ERROR\020\014\022\021" +
-      "\n\rHERO_EXP_FULL\020\r\022\026\n\022EXP_ITEM_NOT_EXIST\020" +
-      "\016B \n\013com.rwprotoB\021HeroServiceProtos"
+      "\010 \001(\0162\n.eHeroType\022 \n\tmaxUseExp\030\t \001(\0132\r.M" +
+      "axUseExpRes\"1\n\022ArrtTypeAndValeBuf\022\014\n\004typ" +
+      "e\030\001 \001(\005\022\r\n\005value\030\002 \001(\001\"E\n\014QualityAttri\022\014" +
+      "\n\004type\030\001 \001(\005\022\023\n\013beforeValue\030\002 \001(\001\022\022\n\naft" +
+      "erValue\030\003 \001(\001\"a\n\013TagUserHero\022!\n\013tagHeroI" +
+      "nfo\030\001 \003(\0132\014.TagHeroInfo\022\022\n\nskillCount\030\002 " +
+      "\001(\005\022\033\n\023lastSkillUpdateTime\030\003 \001(\003\"\325\001\n\013Tag" +
+      "HeroInfo\022\020\n\010heroUUID\030\001 \002(\t\022\016\n\006heroId\030\002 \001",
+      "(\t\022\013\n\003exp\030\003 \001(\005\022\r\n\005level\030\004 \001(\005\022\021\n\tqualit" +
+      "yId\030\005 \001(\t\022\021\n\tstarLevel\030\006 \001(\005\022\020\n\010fighting" +
+      "\030\007 \001(\005\022\'\n\016tagSkillRecord\030\010 \003(\0132\017.TagSkil" +
+      "lRecord\022\'\n\016tagEquipRecord\030\t \003(\0132\017.TagEqu" +
+      "ipRecord\"?\n\016TagEquipRecord\022\017\n\007equipId\030\001 " +
+      "\001(\005\022\017\n\007levelId\030\002 \001(\005\022\013\n\003exp\030\003 \001(\005\"?\n\016Tag" +
+      "SkillRecord\022\017\n\007skillId\030\001 \001(\t\022\r\n\005level\030\002 " +
+      "\001(\005\022\r\n\005order\030\003 \001(\005\",\n\nTagUseItem\022\016\n\006solt" +
+      "Id\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\"?\n\014MaxUseExpRes" +
+      "\022\r\n\005level\030\001 \002(\005\022\017\n\007incrExp\030\002 \002(\005\022\017\n\007cost",
+      "Num\030\003 \002(\005*\307\001\n\teHeroType\022\023\n\017UPGRADE_QUALI" +
+      "TY\020\001\022\022\n\016EQUIP_STRENGTH\020\002\022\021\n\rUSE_EQUIPMEN" +
+      "T\020\003\022\017\n\013SUMMON_HERO\020\004\022\022\n\016EVOLUTION_HERO\020\005" +
+      "\022\023\n\017ONEKEY_STRENGTH\020\006\022\013\n\007USE_EXP\020\007\022\023\n\017BU" +
+      "Y_SKILL_POINT\020\010\022\021\n\rHERO_LEVEL_UP\020\t\022\017\n\013US" +
+      "E_EXP_MAX\020\n*\207\002\n\017eHeroResultType\022\013\n\007SUCCE" +
+      "SS\020\001\022\013\n\007LOW_VIP\020\002\022\023\n\017NOT_ENOUGH_COIN\020\003\022\r" +
+      "\n\tLOW_LEVEL\020\004\022\030\n\024NOT_ENOUGH_SOULSTONE\020\005\022" +
+      "\023\n\017NOT_ENOUGH_GOLD\020\006\022\013\n\007LOW_EXP\020\007\022\014\n\010ALL" +
+      "_HERO\020\010\022\014\n\010ADD_HERO\020\t\022\017\n\013UPDATE_HERO\020\n\022\022",
+      "\n\016HERO_NOT_EXIST\020\013\022\016\n\nDATA_ERROR\020\014\022\021\n\rHE" +
+      "RO_EXP_FULL\020\r\022\026\n\022EXP_ITEM_NOT_EXIST\020\016B \n" +
+      "\013com.rwprotoB\021HeroServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -10506,7 +11473,7 @@ public final class HeroServiceProtos {
           internal_static_MsgHeroResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgHeroResponse_descriptor,
-              new java.lang.String[] { "MsgHeroRequest", "EHeroResultType", "ArrtTypeAndValeBuf", "QualityAttri", "SkillId", "TagUserHero", "ModerId", "EventType", });
+              new java.lang.String[] { "MsgHeroRequest", "EHeroResultType", "ArrtTypeAndValeBuf", "QualityAttri", "SkillId", "TagUserHero", "ModerId", "EventType", "MaxUseExp", });
           internal_static_ArrtTypeAndValeBuf_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_ArrtTypeAndValeBuf_fieldAccessorTable = new
@@ -10549,6 +11516,12 @@ public final class HeroServiceProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TagUseItem_descriptor,
               new java.lang.String[] { "SoltId", "Number", });
+          internal_static_MaxUseExpRes_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_MaxUseExpRes_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_MaxUseExpRes_descriptor,
+              new java.lang.String[] { "Level", "IncrExp", "CostNum", });
           return null;
         }
       };

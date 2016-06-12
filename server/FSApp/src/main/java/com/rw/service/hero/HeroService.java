@@ -45,6 +45,9 @@ public class HeroService implements FsService{
 			case USE_EXP:
 				result = heroHandler.useHeroExp(player, msgHeroRequest);
 				break;
+			case USE_EXP_MAX://一键升级到上限
+				result = heroHandler.useHeroExpMax(player, msgHeroRequest);
+				break;
 //			case BUY_SKILL_POINT:
 //				result = heroHandler.buyHeroSkill(player, msgHeroRequest);
 			default:

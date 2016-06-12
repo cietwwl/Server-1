@@ -12,6 +12,7 @@ enum eHeroType {
 	USE_EXP = 7;
 	BUY_SKILL_POINT = 8;
 	HERO_LEVEL_UP = 9;
+	USE_EXP_MAX = 10;//直接使用经验丹到上限(一键升级)
 }
 enum eHeroResultType {
 	SUCCESS = 1;//成功
@@ -50,6 +51,7 @@ message MsgHeroResponse{
 	optional TagUserHero tagUserHero = 6;
 	optional string moderId = 7;//英雄ID
 	optional eHeroType eventType = 8;
+	optional MaxUseExpRes maxUseExp = 9; //一键升级结果
 }
 message ArrtTypeAndValeBuf {
 	optional int32 type = 1;
@@ -93,4 +95,10 @@ message TagSkillRecord{
 message TagUseItem{
 	optional int32 soltId = 1;//物品背包的Id
 	optional int32 number = 2;//数量
+}
+
+message MaxUseExpRes{
+    required int32 level = 1;//升级后的等级
+    required int32 incrExp = 2;//升级后的经验
+    required int32 costNum = 3;//消耗的道具数量
 }
