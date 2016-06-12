@@ -56,6 +56,8 @@ public class Hero implements HeroIF {
 		init(roleUUId, roleBaseInfo);
 		m_SkillMgr.initSkill(heroCfg);
 		
+		pPlayer.getUserTmpGameDataFlag().setSynFightingAll(true);
+		
 //		m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
 //		m_FixExpEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
 	}
