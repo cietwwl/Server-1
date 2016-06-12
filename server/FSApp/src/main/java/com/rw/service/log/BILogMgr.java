@@ -104,6 +104,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.GiftGoldChanged, new GiftGoldChangedLogTemplate());
 		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
 
+	}
 	
 	private Logger getLogger(eBILogType type){
 		if(LogMap.containsKey(type)){
