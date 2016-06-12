@@ -301,7 +301,9 @@ public class RobotManager {
 		for (ListRankingEntry<String, ArenaExtAttribute> entry : lst) {
 			String id = entry.getKey();
 			Player player = PlayerMgr.getInstance().find(id);
-			peakHandler.getOrAddPeakArenaDataForRobot(player);
+			if (player != null){
+				peakHandler.getOrAddPeakArenaDataForRobot(player);
+			}
 		}
 	}
 
