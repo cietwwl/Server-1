@@ -30,6 +30,7 @@ import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.magic.MagicHandler;
 import com.rw.handler.mainService.MainHandler;
+import com.rw.handler.peakArena.PeakArenaHandler;
 import com.rw.handler.platform.PlatformHandler;
 import com.rw.handler.sign.SignHandler;
 import com.rw.handler.sevenDayGift.DailyGiftHandler;
@@ -781,5 +782,14 @@ public class Robot {
 	
 	public void BuyCoin(){
 		MainHandler.getHandler().buyCoin(client);
+	}
+
+	public boolean testPeakArena() {
+		upgrade(50);
+		boolean issuc = PeakArenaHandler.getHandler().changeEnemy(client, "");
+		System.out.println("~~~~~~~~~~change enemy"+ issuc);
+		issuc = PeakArenaHandler.getHandler().fightStart(client, "");
+		System.out.println("~~~~~~~~~~start"+ issuc);
+		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
 }
