@@ -20,6 +20,7 @@ import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
 import com.rwbase.dao.copy.cfg.BuyLevelCfgDAO;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -202,7 +203,7 @@ public class PvECommonHelper {
 			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), -pCfgBuyLevel.getNeedPurse());
 
 			String buyLevelRecord = player.getCopyRecordMgr().buyLevel(levelId);
-
+			UserEventMgr.getInstance().ResetElityVitality(player, 1);
 			listLevelRecord.add(buyLevelRecord);
 			copyResponse.setEResultType(EResultType.PURCHASE_SUCCESS);
 			copyResponse.addAllTagCopyLevelRecord(listLevelRecord);
@@ -276,11 +277,13 @@ public class PvECommonHelper {
 			if (times > ticketCount) {
 				player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, ticketCount);
 				player.getUserGameDataMgr().addGold(-(times - ticketCount));
+				UserEventMgr.getInstance().UseSweepTicketVitality(player, ticketCount);
 			} else {
 				player.getUserGameDataMgr().addGold(-times);
 			}
 		} else if (copyRequest.getRequestType() == ERequestType.SWEEP_LEVEL_TICKET) { // 扫荡券扫荡
 			player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, times);
+			UserEventMgr.getInstance().UseSweepTicketVitality(player, times);
 		}
 	}
 

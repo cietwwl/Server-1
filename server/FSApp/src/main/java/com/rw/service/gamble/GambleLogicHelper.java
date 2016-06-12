@@ -147,6 +147,7 @@ public class GambleLogicHelper {
 		if(!StringUtils.isBlank(tip)) {
 			response.setTips(tip);
 		}
+		response.setResultType(EGambleResultType.FAIL);
 		return response.build().toByteString();
 	}
 

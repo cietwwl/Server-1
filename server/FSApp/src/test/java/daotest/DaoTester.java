@@ -32,13 +32,13 @@ public class DaoTester extends AbstractJUnit4SpringContextTests{
 //		System.out.println(fromDb.getScore());
 //		System.out.println(fromDb.getUserId());
 		
-		
+		/*
 		RankService rankService = new RankService(RankType.PEAK_ARENA);		
 		List<IRankEntry> rankList = rankService.getRankList(0, 10);
 		for (IRankEntry iRankEntry : rankList) {
 			System.out.println(iRankEntry.rankId());
 		}
-		
+		*/
 	}
 	
 	

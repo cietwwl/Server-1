@@ -98,7 +98,7 @@ public class ActivityTimeCountTypeMgr {
 					}					
 					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
 
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "");
+						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "","");
 						if (isAdd) {
 							subItem.setTaken(true);
 						} else {

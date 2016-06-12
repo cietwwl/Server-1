@@ -8,13 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
-import com.alibaba.druid.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import com.log.GameLog;
-import com.playerdata.HotPointMgr;
-import com.playerdata.PlayerMgr;
-import com.playerdata.readonly.PlayerIF;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -22,7 +21,6 @@ import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.email.EmailItem;
 import com.rwbase.dao.email.TableEmail;
 import com.rwbase.dao.email.TableEmailDAO;
-import com.rwbase.dao.hotPoint.EHotPointType;
 
 public class EmailUtils {
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
@@ -53,6 +51,29 @@ public class EmailUtils {
 		return sendEmail(userId, cfgId, "", args);
 	}
 
+	
+	
+	/**
+	 * 发送邮件
+	 * 
+	 * @param userId
+	 *            收件人
+	 * @param cfgId
+	 *            配置表ＩＤ
+	 * @param itemMap Map<物品id,物品数量>
+	 *            物品附件
+	 * */
+	public static boolean sendEmail(String userId, String cfgId, Map<Integer,Integer> itemMap) {
+		StringBuilder attachBuilder = new StringBuilder();
+		Set<Entry<Integer, Integer>> entrySet = itemMap.entrySet();
+		for (Entry<Integer, Integer> entryTmp : entrySet) {
+			attachBuilder.append(entryTmp.getKey()).append("~").append(entryTmp.getValue()).append(",");
+		}
+		
+		String attachment = StringUtils.removeEnd(attachBuilder.toString(), ",");
+		
+		return sendEmail(userId, cfgId, attachment);
+	}
 	/**
 	 * 发送邮件
 	 * 

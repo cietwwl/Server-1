@@ -22,4 +22,4 @@ ZoneLogoutLogTemplate    = "打印时间|core_gamesvr|用户登录区ID|日志�
 ZoneRegLogTemplate       = "打印时间|core_gamesvr|用户登录区ID|日志的触发时间|gamesvr_reg|用户登录区ID|注册渠道ID_UID|UID|用户注册子渠道|用户登录子渠道|4（4=安卓/5=ios/7=wm）|区UID创建时间|用户VIP等级|手机运营商|wifi（2g/3g/4g/wifi等）|手机型号|客户端版本|ip地址，不包含端口|IMEI信息|mac地址|此处为空|此处为空|gamesvr_reg|此处为空|1|此处为空|广告短链接id";
 ZoneCountGiftGoldLogTemplate       = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_main_coin|用户登录区ID|注册渠道ID|赠送充值币余额|4=安卓/5=ios/7=wm|进程id";
 ZoneCountChargeGoldLogTemplate       = "打印时间|core_stat_1|用户登录区ID|日志的触发时间|stat_main_coin|用户登录区ID|注册渠道ID|付费充值币余额|4=安卓/5=ios/7=wm|进程id";
-ChatLogTemplate     = "打印时间|dynamic_chat|用户登录区ID|账号唯一识别符|角色ID|注册渠道ID|用户VIP等级|用户角色等级|接收者角色ID|聊天范围|聊天内容";
+ChatLogTemplate     = "打印时间|dynamic_chat|用户登录区ID|发送者账号|角色ID|注册渠道ID|用户VIP等级|用户角色等级|接收者角色ID|聊天范围|聊天内容";

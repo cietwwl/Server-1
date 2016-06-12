@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.playerdata.fixEquip.attr.FixExpEquipAttributeComponent;
+import com.playerdata.fixEquip.attr.FixNormEquipAttributeComponent;
 import com.playerdata.team.HeroInfo;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.common.attrdata.AttrData;
@@ -58,6 +60,11 @@ public class AttributeBM {
 		componentList.add(new HeroFashionAttributeComponent());
 		componentList.add(new HeroGroupSkillAttributeComponent());
 		componentList.add(new HeroTaoistAttributeComponent());
+		componentList.add(new FixExpEquipAttributeComponent());
+		componentList.add(new FixNormEquipAttributeComponent());
+		
+		
+		
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();
@@ -162,7 +169,9 @@ public class AttributeBM {
 		componentList.add(new RobotBaseAttributeComponent(heroInfo));
 		componentList.add(new RobotEquipAttributeComponent(heroInfo));
 		componentList.add(new RobotGemAttributeComponent(heroInfo));
-		componentList.add(new RobotMagicAttributeComponent(magicInfo));
+		if(magicInfo!=null){
+			componentList.add(new RobotMagicAttributeComponent(magicInfo));
+		}
 		componentList.add(new RobotSkillAttributeComponent(heroInfo));
 
 		AttributeCalculator<AttrData> attributeCalculator = new AttributeCalculator<AttrData>(userId, heroInfo.getBaseInfo().getTmpId(), componentList, attributeFormula);

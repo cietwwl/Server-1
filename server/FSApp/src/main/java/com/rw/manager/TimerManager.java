@@ -6,12 +6,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.guild.GuildGTSMgr;
+import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
-import com.rw.fsutil.dao.cache.SimpleThreadFactory;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
@@ -94,6 +95,7 @@ public class TimerManager {
 				RankingMgr.getInstance().resetUpdateState();
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
 				AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
+				MSScoreRankMgr.dispatchMSDailyReward();
 			}
 		}, 5);
 

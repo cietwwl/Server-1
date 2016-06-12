@@ -103,6 +103,13 @@ public class BILogTemplateHelper {
 		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
 		addTemplateToken("活动入口", "$activityEntry$");
 		
+		addTemplateToken("游戏币余额", "$zoneCoinRemain$");
+		
+		addTemplateToken("发送者账号", "$chatSenderAccount$");
+		addTemplateToken("接收者角色ID", "$chatReceiverUseId$");
+		addTemplateToken("发送者注册渠道", "$zoneCoinRemain$");
+		addTemplateToken("活动入口", "$activityEntry$");
+		
 		addTemplateToken("聊天内容", "$chatContent$");
 		addTemplateToken("聊天范围", "$chatType$");
 

@@ -1,10 +1,13 @@
 package com.playerdata.team;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /*
  * @author HC
  * @date 2016年4月15日 下午4:31:17
  * @Description 
  */
+@SynClass
 public class EquipInfo {
 	private String tId;// 装备模版Id
 	private int eLevel;// 附灵等级

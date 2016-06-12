@@ -218,6 +218,7 @@ public class ArenaBM {
 		return ranking.getRankingEntry(userId);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ListRanking<String, ArenaExtAttribute> getRanking(int career) {
 		return RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
 	}
@@ -322,7 +323,7 @@ public class ArenaBM {
 		// 前10名以外按照此规则拉取对手(M是名次)：
 		// 第三个人区间[0.8M,1.0M)
 		// 第二个人区间[0.6M,0.8M)
-		// 第个人区间[0.4M,0.6M)
+		// 第一个人区间[0.4M,0.6M)
 		int place = getArenaPlace(player);
 		if (place <= 10) {
 			fillByTenSteps(userId, result, 0, ranking, 3);

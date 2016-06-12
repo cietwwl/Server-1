@@ -7,6 +7,7 @@ import java.util.List;
 import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.rw.fsutil.util.DateUtils;
 import com.playerdata.PlayerMgr;
 import com.rw.dataaccess.processor.EmailCreator;
 import com.rw.service.log.BILogMgr;
@@ -105,7 +106,8 @@ public class EmailHandler {
 		if(item.isReceive()){
 			result = "附件已领取。";
 		}else if(isInCoolTime){
-			result = "附件暂未能领取。请稍后。";
+			String strCoolTime = DateUtils.getDateTimeFormatString(item.getCoolTime(), "yyyy-MM-dd HH:mm:ss");
+			result = "冻结时间为"+strCoolTime+",结束后可领取附件奖励。";
 		}else if(isBeforBeginTime){
 			result = "附件尚未到可领取时间,请耐心等待。";
 		}else if(isAfterEndTime){

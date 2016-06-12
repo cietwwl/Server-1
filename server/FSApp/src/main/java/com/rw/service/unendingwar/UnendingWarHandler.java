@@ -129,7 +129,7 @@ public class UnendingWarHandler {
 			}
 			/*** 加奖励到背包 ****/
 			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz //添加货币
-			player.getItemBagMgr().addItem(eSpecialItemId.UnendingWarCoin.getValue(), cfgUnendingWar.uNum);
+			player.getItemBagMgr().addItem(eSpecialItemId.MagicSecretCoin.getValue(), cfgUnendingWar.uNum);
 			unendingCoin.addAndGet(cfgUnendingWar.uNum);
 
 			String[] array = cfgUnendingWar.jl1.split(",");
@@ -140,7 +140,7 @@ public class UnendingWarHandler {
 		// TODO DropItemManaer可优化成一个方法调用，少一次数据库操作和减少遍历操作
 		List<? extends ItemInfo> listItemBattle = null;
 		try {
-			DropItemManager.getInstance().pretreatDrop(player, dropList, cMap);
+			DropItemManager.getInstance().pretreatDrop(player, dropList, cMap, false);
 			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, cMap);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -174,7 +174,7 @@ public class UnendingWarHandler {
 		uNum = cfgUnendingWar.uNum;
 
 		if (uNum > 0) {
-			player.getItemBagMgr().addItem(eSpecialItemId.UnendingWarCoin.getValue(), uNum);
+			player.getItemBagMgr().addItem(eSpecialItemId.MagicSecretCoin.getValue(), uNum);
 
 		}
 

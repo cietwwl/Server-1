@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
-import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.UserDataHolder;
 import com.rwbase.dao.user.readonly.TableUserIF;
 
@@ -148,17 +147,25 @@ public class UserDataMgr implements PlayerEventListener{
 		return userDataHolder.get();
 	}
 	
-	public long getBlockTimeDiff(){
-		
+	public long getUnblockTime() {
+
 		long blockCoolTime = userDataHolder.get().getBlockCoolTime();
-		
-		//-1 表示永久封号，直接赋值
+
+		// -1 表示永久封号，直接赋值
 		long blockTimeDiffInSecond = blockCoolTime;
-		if(blockCoolTime > 0 ){
-			blockTimeDiffInSecond = ( blockCoolTime - System.currentTimeMillis())/1000;
+		if (blockCoolTime > 0) {
+			blockTimeDiffInSecond = blockCoolTime / 1000;
 		}
-		
+
 		return blockTimeDiffInSecond;
+	}
+	
+	public long getUnbanTime() {
+		long banCoolTime = userDataHolder.get().getChatBanCoolTime();
+		if (banCoolTime > 0) {
+			banCoolTime = banCoolTime / 1000;
+		}
+		return banCoolTime;
 	}
 
 	@Override

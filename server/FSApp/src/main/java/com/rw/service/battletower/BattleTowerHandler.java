@@ -782,7 +782,7 @@ public class BattleTowerHandler {
 			SetFail(commonRsp, "试练塔试手气", userId, "客户端发送了一个未知的钥匙类型", "钥匙数量不足");
 			return;
 		}
-
+		UserEventMgr.getInstance().UseSilverKeyVitality(player, keyType,useNum);
 		BattleTowerRewardCfgDao rewardCfgDao = BattleTowerRewardCfgDao.getCfgDao();
 		// 奖励的物品
 		for (int i = 0; i < useNum; i++) {

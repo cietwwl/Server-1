@@ -55,10 +55,8 @@ public class DailyGifHandler {
 
 		res.setType(EType.GetGif);
 		res.setCount(dailyGiftData.getCount());
-//		res.setGetCount(dailyGiftData.getGetCount());
 		res.addAllGetCount(dailyGiftData.getCounts());
 		sendGoods(player, count);
-		player.NotifyCommonMsg("领取成功");
 
 		player.getDailyGifMgr().save();
 		return res.build().toByteString();

@@ -15,6 +15,7 @@ import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rw.support.FriendSupportFactory;
+import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -233,6 +234,8 @@ public final class GroupBM {
 				EmailUtils.sendEmail(player.getUserId(), emailData);
 				// 通知好友更改更新帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
+				// 清除所有的秘境消息
+				TableUserPrivateChatDao.getDao().get(player.getUserId()).clearAllTreasureChatMessage();
 			}
 		};
 
