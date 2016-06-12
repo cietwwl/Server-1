@@ -64,7 +64,6 @@ public class RankingHandler {
 			return response.build().toByteString();
 		}
 		
-
 		RankType rankType = RankType.getRankType(request.getRankType(),cfgRanking.getRealTime());
 		List<RankInfo> rankList = RankingUtils.createRankList(rankType);
 		pushRankList(player, rankList.size() > 20 ? rankList.subList(0, 20) : rankList, ERankRequestType.RANK_LIST_PART1);
@@ -91,15 +90,15 @@ public class RankingHandler {
 		baseRankInfo.setJobCurrent(RankingMgr.getInstance().getRankLevel(RankType.getJobCurrent(job), userId));//本职业实时排行
 //		baseRankInfo.setAthleticsDay(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_DAY, userId));//巅峰竞技每日排行
 		baseRankInfo.setAthleticsDay(0);//巅峰竞技每日排行
-//		baseRankInfo.setAthleticsCurrent(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_CURRENT, userId));//巅峰竞技实时排行
-		baseRankInfo.setAthleticsCurrent(0);//巅峰竞技实时排行
+		baseRankInfo.setAthleticsCurrent(RankingMgr.getInstance().getRankLevel(RankType.PEAK_ARENA, userId));//巅峰竞技实时排行
+//		baseRankInfo.setAthleticsCurrent(0);//巅峰竞技实时排行
 		baseRankInfo.setTeam(RankingMgr.getInstance().getRankLevel(RankType.TEAM_FIGHTING, userId));//五人小队战斗力排行
 //		baseRankInfo.setEndless(RankingMgr.getInstance().getRankLevel(RankType.ENDLESS, userId));//无尽战火排行
 		baseRankInfo.setEndless(0);//无尽战火排行
 //		baseRankInfo.setGlory(RankingMgr.getInstance().getRankLevel(RankType.GLORY, userId));//荣耀山谷排行
 		baseRankInfo.setGlory(0);//荣耀山谷排行
 //		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_FIGHTING, userId));//巅峰竞技战斗力排行
-		baseRankInfo.setAthleticsFighting(0);//巅峰竞技战斗力排行
+		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.PEAK_ARENA_FIGHTING, userId));//巅峰竞技战斗力排行
 		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(rankType, userId));//获取队伍数据
 		//TODO
 		//baseRankInfo.setArenaWinCount(TableRankingMgr.getInstance().getArenaTeamWinCount(userId, rankType));

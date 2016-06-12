@@ -19,7 +19,6 @@ import com.bm.rank.level.LevelComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.log.GameLog;
 import com.rw.fsutil.common.Pair;
-import com.rw.fsutil.common.Tuple;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.MomentRankingEntry;
@@ -30,6 +29,9 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
+import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.ranking.RankingGetOperation;
 import com.rwbase.common.enu.ECareer;
@@ -71,6 +73,7 @@ public class RankingMgr {
 		this.operationMap.put(RankType.SWORDMAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.operationMap.put(RankType.PRIEST_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.operationMap.put(RankType.MAGICAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.PEAK_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.defaultGetOp = RankingGetOperation.RANKING_GET_OPERATION;
 		// TODO 这个邮件id应该配置到竞技场配置表
 		this.emailMap = new EnumMap<ListRankingType, Pair<String, String>>(ListRankingType.class);
@@ -477,6 +480,9 @@ public class RankingMgr {
 		if (pPlayer == null) {
 			return false;
 		}
+		if (rankType == ERankingType.ATHLETICS_FIGHTING) {
+			return pPlayer.getLevel() >= 45;
+		}
 		CfgRanking cfgRank = CfgRankingDAO.getInstance().getRankingCf(rankType.getValue());
 		if (cfgRank == null || pPlayer.getLevel() < cfgRank.getLimitLevel()) {// 未到达开放等级返回
 			return false;
@@ -495,14 +501,39 @@ public class RankingMgr {
 		String userId = player.getUserId();
 		boolean teamFightingChanged = checkUpdateFighting(player, RankType.TEAM_FIGHTING, teamFighting, ERankingType.TEAM_FIGHTING_ALL);
 		boolean allFightingChanged = checkUpdateFighting(player, RankType.FIGHTING_ALL, fighting, ERankingType.FIGHTING_ALL);
+		checkUpdateFighting(player, RankType.PEAK_ARENA_FIGHTING, getPeakArenaFighting(player), ERankingType.ATHLETICS_FIGHTING);
 		if (teamFightingChanged || allFightingChanged) {
 			updateEntryFighting(RankType.LEVEL_ALL, fighting, teamFighting, userId);
 			// TODO 这两个可以合并在updateFighting操作中
 			updateEntryFighting(RankType.TEAM_FIGHTING, fighting, teamFighting, userId);
 			updateEntryFighting(RankType.FIGHTING_ALL, fighting, teamFighting, userId);
+			updateEntryFighting(RankType.PEAK_ARENA_FIGHTING, fighting, teamFighting, userId);
 			// 通知竞技场更新
 			ArenaBM.getInstance().onPlayerChanged(player);
 		}
+	}
+
+	public int getPeakArenaFighting(Player player) {
+		TablePeakArenaData peakArenaData = TablePeakArenaDataDAO.getInstance().get(player.getUserId());
+		if (peakArenaData == null) {
+			return 0;
+		}
+		TeamData[] array = peakArenaData.getTeams();
+		int fighting = 0;
+		HeroMgr heroMgr = player.getHeroMgr();
+		for (int i = array.length; --i >= 0;) {
+			TeamData teamData = array[i];
+			List<String> list = teamData.getHeros();
+			for (int j = list.size(); --j >= 0;) {
+				String id = list.get(j);
+				Hero hero = heroMgr.getHeroById(id);
+				if (hero == null) {
+					continue;
+				}
+				fighting += hero.getFighting();
+			}
+		}
+		return fighting;
 	}
 
 	/**

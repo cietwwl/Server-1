@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.log.GameLog;
 import com.playerdata.team.EquipInfo;
-import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeSet;
@@ -28,11 +26,11 @@ public class HeroEquipAttrCalc implements IComponentCalc {
 	@Override
 	public AttributeSet calc(Object obj) {
 		EquipParam param = (EquipParam) obj;
-		String userId = param.getUserId();
+		// String userId = param.getUserId();
 		List<EquipInfo> equipList = param.getEquipList();
-		String heroId = param.getHeroId();
+		// String heroId = param.getHeroId();
 		if (equipList == null || equipList.isEmpty()) {
-			GameLog.error("计算英雄装备属性", userId, String.format("Id为[%s]的英雄身上没有任何装备", heroId));
+			// GameLog.error("计算英雄装备属性", userId, String.format("Id为[%s]的英雄身上没有任何装备", heroId));
 			return null;
 		}
 
@@ -62,11 +60,11 @@ public class HeroEquipAttrCalc implements IComponentCalc {
 		}
 
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄装备属性", userId, String.format("Id为[%s]的英雄计算出来的装备属性是空的", heroId));
+			// GameLog.error("计算英雄装备属性", userId, String.format("Id为[%s]的英雄计算出来的装备属性是空的", heroId));
 			return null;
 		}
 
-		AttrCheckLoger.logAttr("英雄装备属性", heroId, map);
+		// AttrCheckLoger.logAttr("英雄装备属性", heroId, map);
 		return new AttributeSet.Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
 

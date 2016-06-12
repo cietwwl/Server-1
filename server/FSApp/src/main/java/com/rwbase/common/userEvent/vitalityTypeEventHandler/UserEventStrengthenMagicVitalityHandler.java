@@ -11,6 +11,9 @@ import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
@@ -28,11 +31,14 @@ public class UserEventStrengthenMagicVitalityHandler implements IUserEventHandle
 				
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
 				if(subCfg!=null&&isLevelEnough){
-					if(Integer.parseInt(params.toString())<subCfg.getCount()){//除去等级-存在之外的额外判断
-						//等级不够
-						return;
+					ActivityVitalityItemHolder activityVitalityItemHolder = ActivityVitalityItemHolder.getInstance();
+					ActivityVitalityTypeItem activityVitalityTypeItem = activityVitalityItemHolder.getItem(player.getUserId(), ActivityVitalityTypeEnum.Vitality);
+					ActivityVitalityTypeSubItem activityVitalityTypeSubItem = activityVitalityTypeItem.getByType(subCfg.getType());
+					int add = Integer.parseInt(params.toString());
+					if(activityVitalityTypeSubItem.getCount() > 0){
+						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.StrengthenMagicVitality,subCfg, Integer.parseInt(params.toString()));
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.StrengthenMagicVitality,subCfg, add);
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}

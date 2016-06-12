@@ -121,6 +121,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			subitem.setCount(0);
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
+			subitem.setType(activityVitalitySubCfg.getType());
 			subItemList.add(subitem);
 		}	
 		return subItemList;
@@ -141,6 +142,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			subitem.setCount(0);
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
+			subitem.setType(activityVitalitySubCfg.getType());
 			subItemList.add(subitem);
 		}	
 		return subItemList;

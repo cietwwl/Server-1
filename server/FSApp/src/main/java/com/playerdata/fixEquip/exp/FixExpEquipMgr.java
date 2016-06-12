@@ -49,11 +49,24 @@ public class FixExpEquipMgr {
 		}
 		
 	};
+	public boolean initIfNeed(Player player, Hero hero){
+		if(!isInited(player, hero)){
+			newHeroInit(player, hero.getUUId(), hero.getModelId());
+		}
+		return true;
+	}
 	
+	private boolean isInited(Player player, Hero hero){
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(hero.getUUId());
+		return !itemList.isEmpty();
+	}
 	public boolean newHeroInit(Player player, String ownerId, int modelId ){
 		List<FixExpEquipDataItem> equipItemList = new ArrayList<FixExpEquipDataItem>();
 		
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
+		if(roleFixEquipCfg == null){		
+			return false;
+		}
 		
 		int slot = 4;
 		for (String cfgId : roleFixEquipCfg.getExpCfgIdList()) {

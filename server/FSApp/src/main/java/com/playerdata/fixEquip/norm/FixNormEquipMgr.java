@@ -44,10 +44,25 @@ public class FixNormEquipMgr {
 		}
 		
 	};
+	
+	public boolean initIfNeed(Player player, Hero hero){
+		if(!isInited(player, hero)){
+			newHeroInit(player, hero.getUUId(), hero.getModelId());
+		}
+		return true;
+	}
+	
+	private boolean isInited(Player player, Hero hero){
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
+		return !itemList.isEmpty();
+	}
 	public boolean newHeroInit(Player player, String ownerId, int modelId ){
 		List<FixNormEquipDataItem> equipItemList = new ArrayList<FixNormEquipDataItem>();
 	
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));		
+		if(roleFixEquipCfg == null){
+			return false;
+		}
 		
 		int slot = 0;
 		for (String cfgId : roleFixEquipCfg.getNormCfgIdList()) {
