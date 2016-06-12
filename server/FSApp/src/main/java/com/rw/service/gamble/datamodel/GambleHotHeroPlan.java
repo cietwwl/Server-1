@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.RefInt;
@@ -55,9 +56,10 @@ public class GambleHotHeroPlan {
 		this.errDefaultModelId = errDefaultModelId;
 	}
 
-	private GambleHotHeroPlan() {
+	public GambleHotHeroPlan() {
 	}
 
+	@JsonIgnore
 	private void Init(Random r, int hotPlanId, int hotCount, String errDefaultModelId) {
 		this.errDefaultModelId = errDefaultModelId;
 
@@ -65,13 +67,20 @@ public class GambleHotHeroPlan {
 		RefInt weight = new RefInt();
 		RefInt slotCount = new RefInt();
 		List<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>(hotCount);
+		List<String> hotHeroList = new ArrayList<String>(hotCount);
 		int[] slots = new int[hotCount];
 		for (int i = 0; i < hotCount; i++) {
 			String itemModel = gambleDropConfig.getRandomDrop(r, hotPlanId, slotCount, weight);
+			//TODO 生成热点不重复：待优化
+			if (hotHeroList.contains(itemModel)){
+				i--;
+				continue;
+			}
 			if (GambleLogicHelper.isValidHeroId(itemModel)) {
 				list.add(Pair.Create(itemModel, weight.value));
 				// 忽略配置的数量(slotCount.value)，客户端已经写死一定只能是一个
 				slots[i] = 1;
+				hotHeroList.add(itemModel);
 			} else {
 				GameLog.error("钓鱼台", "热点数据初始化", "无效英雄ID:" + itemModel);
 				list.add(Pair.Create(errDefaultModelId, 1));
@@ -82,6 +91,7 @@ public class GambleHotHeroPlan {
 		hotPlan = new GambleDropGroup(list, slots);
 	}
 
+	@JsonIgnore
 	public String getRandomDrop(Random r, RefInt slotCount) {
 		return hotPlan.getRandomGroup(r, slotCount);
 	}
@@ -95,6 +105,7 @@ public class GambleHotHeroPlan {
 	 * @param errDefaultModelId
 	 * @return
 	 */
+	@JsonIgnore
 	public static GambleHotHeroPlan getTodayHotHeroPlan(Random r, int planId, int hotCount, String errDefaultModelId) {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
@@ -110,6 +121,7 @@ public class GambleHotHeroPlan {
 		return result;
 	}
 
+	@JsonIgnore
 	public static void resetHotHeroList(Random r) {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
@@ -130,12 +142,14 @@ public class GambleHotHeroPlan {
 		}
 	}
 
+	@JsonIgnore
 	private static String getDateStr() {
 		Calendar cal = Calendar.getInstance();
 		String date = dataFormat.format(cal.getTime());
 		return date;
 	}
 
+	@JsonIgnore
 	public static Iterable<String> getTodayHotList() {
 		String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
 
@@ -152,6 +166,7 @@ public class GambleHotHeroPlan {
 		return result;
 	}
 
+	@JsonIgnore
 	public static boolean isTodayInited() {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
@@ -159,6 +174,7 @@ public class GambleHotHeroPlan {
 		return result != null && result.hotPlan != null;
 	}
 
+	@JsonIgnore
 	public static void InitTodayHotHeroList(Random ranGen, String defaultItem) {
 		if (GambleHotHeroPlan.isTodayInited())
 			return;
