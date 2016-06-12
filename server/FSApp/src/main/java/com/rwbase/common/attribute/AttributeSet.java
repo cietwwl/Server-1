@@ -24,40 +24,40 @@ public class AttributeSet {
 		return new Builder();
 	}
 
-	// /**
-	// * 检查一下是否有重复元素，针对current从Null到第一次赋值
-	// *
-	// * @return
-	// */
-	// public AttributeSet initCheckSame() {
-	// ArrayList<AttributeItem> newList = new ArrayList<AttributeItem>();
-	// for (int i = attributes.size(); --i >= 0;) {
-	// AttributeItem attributeItem = attributes.get(i);
-	// if (attributeItem == null) {
-	// continue;
-	// }
-	//
-	// AttributeType type = attributeItem.getType();
-	//
-	// if (newList.isEmpty()) {
-	// newList.add(attributeItem);
-	// } else {
-	// int addValue = attributeItem.getIncreaseValue();
-	// int addPrecent = attributeItem.getIncPerTenthousand();
-	// for (int j = newList.size(); --j >= 0;) {
-	// AttributeItem item = newList.get(j);
-	// if (item.getType() == type) {
-	// addValue += item.getIncreaseValue();
-	// addPrecent += item.getIncPerTenthousand();
-	// }
-	// }
-	//
-	// newList.add(new AttributeItem(type, addValue, addPrecent));
-	// }
-	// }
-	//
-	// return new AttributeSet(newList);
-	// }
+	/**
+	 * 检查一下是否有重复元素，针对current从Null到第一次赋值
+	 *
+	 * @return
+	 */
+	public AttributeSet initCheckSame() {
+		ArrayList<AttributeItem> newList = new ArrayList<AttributeItem>();
+		for (int i = attributes.size(); --i >= 0;) {
+			AttributeItem attributeItem = attributes.get(i);
+			if (attributeItem == null) {
+				continue;
+			}
+
+			AttributeType type = attributeItem.getType();
+
+			if (newList.isEmpty()) {
+				newList.add(attributeItem);
+			} else {
+				int addValue = attributeItem.getIncreaseValue();
+				int addPrecent = attributeItem.getIncPerTenthousand();
+				for (int j = newList.size(); --j >= 0;) {
+					AttributeItem item = newList.get(j);
+					if (item.getType() == type) {
+						addValue += item.getIncreaseValue();
+						addPrecent += item.getIncPerTenthousand();
+						newList.set(i, new AttributeItem(type, addValue, addPrecent));
+						break;
+					}
+				}
+			}
+		}
+
+		return new AttributeSet(newList);
+	}
 
 	public AttributeSet add(AttributeSet attributeNode) {
 		if (attributeNode == null) {

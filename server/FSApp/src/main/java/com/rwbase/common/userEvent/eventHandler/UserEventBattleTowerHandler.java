@@ -34,6 +34,9 @@ private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleT
 				
 				ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), ActivityCountTypeEnum.BattleTower);
 				//试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
+				if(dataItem == null){
+					return;
+				}
 				int addcount = Integer.parseInt(params.toString()) - dataItem.getCount();
 				if(addcount > 0&&isBetweendays&&isLevelEnough){
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.BattleTower,addcount);	

@@ -1,7 +1,6 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -12,7 +11,9 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
+import com.rwbase.dao.fresherActivity.FresherActivityFinalRewardCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
+import com.rwbase.dao.fresherActivity.pojo.FresherActivityFinalRewardCfg;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityItemHolder;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityItemIF;
@@ -39,9 +40,9 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		}
 		fresherActivityItemHolder.synAllData(m_Player, version);
 	}
-	
-	public void doCheck(eActivityType type){
-		if(m_Player == null || !m_Player.getUserId().contains(GameManager.getServerId())){
+
+	public void doCheck(eActivityType type) {
+		if (m_Player == null || !m_Player.getUserId().contains(GameManager.getServerId())) {
 			return;
 		}
 		FresherActivityCheckerResult returnResult = fresherActivityChecker.checkActivityCondition(m_Player, type);
@@ -87,22 +88,75 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 
 	public List<String> getFresherActivityList() {
 		ArrayList<String> configList = new ArrayList<String>();
-		if(fresherActivityItemHolder == null){
+		if (fresherActivityItemHolder == null) {
 			return configList;
 		}
 		List<FresherActivityItem> fresherActivityItemList = fresherActivityItemHolder.getFresherActivityItemList();
-		
+
+		FresherActivityItem finalActItem = null;// 最终的任务
+
+		int finishCount = 0;// 已经完成的数量
+		int totalCount = 0;// 总数量
+
+		long now = System.currentTimeMillis();
 		for (FresherActivityItem item : fresherActivityItemList) {
-			if(item.getType() == eActivityType.A_Final && item.getStartTime() <= System.currentTimeMillis() && !item.isGiftTaken()){
-				configList.add(String.valueOf(item.getCfgId()));
+			if (item.getType() == eActivityType.A_Final) {
+				finalActItem = item;
 			}
-			if(item.getStartTime() > System.currentTimeMillis()){
+
+			if (item.isFinish()) {
+				finishCount++;
+			}
+
+			// 不能算最终奖励的个数
+			if (item.getType() != eActivityType.A_Final) {
+				totalCount++;
+			}
+
+			if (item.getStartTime() > now) {
 				continue;
 			}
-			if (item.isFinish() && !item.isGiftTaken()) {
+
+			if (item.isFinish() && !item.isGiftTaken() && item.getType() != eActivityType.A_Final) {
 				configList.add(String.valueOf(item.getCfgId()));
 			}
 		}
+
+		// 检查最终的红点
+		if (finalActItem != null && finalActItem.getStartTime() <= now && !finalActItem.isGiftTaken()) {
+			double result = (double) finishCount / totalCount * 100;
+			int maxprogress = -1;
+			String reward = "";
+			List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getAllCfg();
+			for (FresherActivityFinalRewardCfg fresherActivityFinalRewardCfg : allCfg) {
+				int progress = fresherActivityFinalRewardCfg.getProgress();
+				if (progress <= result) {
+					if (progress > maxprogress) {
+						maxprogress = progress;
+						reward = fresherActivityFinalRewardCfg.getReward();
+					}
+				}
+			}
+
+			// 检查奖励
+			boolean hasReward = false;
+			String[] split = reward.split(";");
+			for (String value : split) {
+				String[] split2 = value.split(":");
+				if (split2.length < 2) {
+					continue;
+				}
+
+				if (Integer.parseInt(split2[1]) > 0) {
+					hasReward = true;
+				}
+			}
+
+			if (hasReward) {
+				configList.add(String.valueOf(finalActItem.getCfgId()));
+			}
+		}
+
 		return configList;
 	}
 }

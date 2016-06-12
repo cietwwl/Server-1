@@ -6,7 +6,9 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 
 
 
@@ -155,7 +157,17 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		this.activeCount = activeCount;
 	}
 
-	
+	public ActivityVitalityTypeSubItem getByType(String type){
+		ActivityVitalityTypeSubItem subitem = null;
+		for(ActivityVitalityTypeSubItem subitemtmp : subItemList){
+			if(StringUtils.equals(subitemtmp.getType(), type)){
+				subitem = subitemtmp;
+				break;
+			}
+		}
+		
+		return subitem;
+	}
 
 	
 	

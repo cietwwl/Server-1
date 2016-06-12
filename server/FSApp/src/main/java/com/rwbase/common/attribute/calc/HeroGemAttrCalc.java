@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.log.GameLog;
-import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeSet;
@@ -30,11 +28,11 @@ public class HeroGemAttrCalc implements IComponentCalc {
 	@Override
 	public AttributeSet calc(Object obj) {
 		GemParam param = (GemParam) obj;
-		String userId = param.getUserId();
+		// String userId = param.getUserId();
 		List<String> inlayGemList = param.getGemList();
-		String heroId = param.getHeroId();
+		// String heroId = param.getHeroId();
 		if (inlayGemList == null || inlayGemList.isEmpty()) {
-			GameLog.error("计算英雄宝石属性", userId, String.format("Id为[%s]的英雄身上没有任何宝石", heroId));
+			// GameLog.error("计算英雄宝石属性", userId, String.format("Id为[%s]的英雄身上没有任何宝石", heroId));
 			return null;
 		}
 
@@ -77,11 +75,11 @@ public class HeroGemAttrCalc implements IComponentCalc {
 
 		// 计算属性
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄宝石属性", userId, String.format("Id为[%s]的英雄计算出来的宝石属性是空的", heroId));
+			// GameLog.error("计算英雄宝石属性", userId, String.format("Id为[%s]的英雄计算出来的宝石属性是空的", heroId));
 			return null;
 		}
 
-		AttrCheckLoger.logAttr("英雄宝石属性", heroId, map);
+		// AttrCheckLoger.logAttr("英雄宝石属性", heroId, map);
 		return new Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
 

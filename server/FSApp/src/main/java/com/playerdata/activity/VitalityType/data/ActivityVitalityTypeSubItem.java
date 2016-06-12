@@ -15,7 +15,17 @@ public class ActivityVitalityTypeSubItem {
 	//是否已经领取
 	private boolean taken = false;
 
-	private String giftId ;
+	private String giftId ;	
+	
+	private String type;
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getGiftId() {
 		return giftId;
 	}
