@@ -298,12 +298,14 @@ public class UserEventMgr {
 		raiseEvent(player, userEvent);
 	}
 	
-	/*传入附灵升的级数*/
-	public void attachDaily(Player player,int level,int levelbefore){
-		UserEvent userEvent = new UserEvent(UserEventType.ATTACHDAILY, 1);
-		raiseEvent(player, userEvent);
-		attachVitality(player, level);
-		attachVitalityTwo(player, level);
+	/* 传入附灵升的级数和之前级数 */
+	public void attachDaily(Player player, int level, int starLevelBefore) {
+		if (level > starLevelBefore) {
+			UserEvent userEvent = new UserEvent(UserEventType.ATTACHDAILY, 1);
+			raiseEvent(player, userEvent);
+			attachVitality(player, level);
+			attachVitalityTwo(player, level);
+		}
 	}
 	
 	
