@@ -82,7 +82,7 @@ public class TrailHandler {
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
 		
 		// TODO HC @Modify 2015-11-30 bug fix 没有把掉落物品放进去发送给玩家
-		PvECommonHelper.addCopyRewards(player, copyCfg);
+		PvECommonHelper.addCopyRewards(player, copyCfg, dropItems);
 
 		// 英雄经验
 		List<String> listUpHero = PvECommonHelper.addHerosExp(player, copyRequest, copyCfg);

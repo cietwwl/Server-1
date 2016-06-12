@@ -159,7 +159,7 @@ public class CopyHandler {
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
 
 		// 物品增加...
-		PvECommonHelper.addCopyRewards(player, copyCfg);
+		PvECommonHelper.addCopyRewards(player, copyCfg, dropItems);
 
 		// 英雄经验
 		List<String> listUpHero = PvECommonHelper.addHerosExp(player, copyRequest, copyCfg);
