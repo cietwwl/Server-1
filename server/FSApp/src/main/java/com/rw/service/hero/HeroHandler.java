@@ -374,11 +374,9 @@ public class HeroHandler {
 //		int totalExp = 0;
 		while(curLevel < player.getLevel()){
 			
-			if(list.isEmpty()){
-				break;
-			}
+			
 		
-			itemTempData = list.get(0);
+			
 			if(curExp >= levelExp){
 				//直接升级
 				levelCfg = levelCfgDao.getByLevel(curLevel + 1);
@@ -392,6 +390,14 @@ public class HeroHandler {
 				curExp -= levelExp;
 				levelExp = levelCfg.getHeroUpgradeExp();
 			}else{
+				
+				if(list.isEmpty()){
+					break;
+				}
+				
+				itemTempData = list.get(0);
+				System.out.println("----" + itemTempData.getModelId());
+				
 				addExp = (int) (levelExp - curExp);
 				
 				//确定当前道具消耗个数 
@@ -454,7 +460,7 @@ public class HeroHandler {
 		
 		
 		msgRsp.setMaxUseExp(muer);
-		
+		System.out.println("------curlevel:" + curLevel + ", curExp:" + curExp + ",levelExp" + levelExp);
 		if(!usedMap.isEmpty()){
 			player.getItemBagMgr().useLikeBoxItem(getUseItem(usedMap), null);
 			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
