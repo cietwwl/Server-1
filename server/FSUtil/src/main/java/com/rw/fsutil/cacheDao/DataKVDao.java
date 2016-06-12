@@ -79,7 +79,7 @@ public class DataKVDao<T> {
 	public boolean commit(T t) {
 		if (update(t)) {
 			String id = getId(t);
-			System.out.println("commit id=" + id);
+			//System.out.println("commit id=" + id);
 			update(id);
 			return true;
 		}
