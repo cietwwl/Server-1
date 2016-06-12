@@ -20,8 +20,8 @@ public class GambleDropHistory {
 	private boolean firstFreeGamble = true;
 	private boolean firstChargeGamble = true;
 	
-	private int freeInitCheckDuplicateCount = 0;//免费保底检索的索引
-	private int chargeInitCheckDuplicateCount=0;//收费保底检索的索引
+	private int freeGuaranteePlanIndex = 0;//免费保底检索的索引
+	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
 	
 	private boolean passFreeExclusiveCheck = false;
 	private boolean passChargeExclusiveCheck = false;
@@ -46,20 +46,20 @@ public class GambleDropHistory {
 		this.passChargeExclusiveCheck = passChargeExclusiveCheck;
 	}
 
-	public int getFreeInitCheckDuplicateCount() {
-		return freeInitCheckDuplicateCount;
+	public int getFreeGuaranteePlanIndex() {
+		return freeGuaranteePlanIndex;
 	}
 
-	public void setFreeInitCheckDuplicateCount(int freeInitCheckDuplicateCount) {
-		this.freeInitCheckDuplicateCount = freeInitCheckDuplicateCount;
+	public void setFreeGuaranteePlanIndex(int freeGuaranteePlanIndex) {
+		this.freeGuaranteePlanIndex = freeGuaranteePlanIndex;
 	}
 
-	public int getChargeInitCheckDuplicateCount() {
-		return chargeInitCheckDuplicateCount;
+	public int getChargeGuaranteePlanIndex() {
+		return chargeGuaranteePlanIndex;
 	}
 
-	public void setChargeInitCheckDuplicateCount(int chargeInitCheckDuplicateCount) {
-		this.chargeInitCheckDuplicateCount = chargeInitCheckDuplicateCount;
+	public void setChargeGuaranteePlanIndex(int chargeGuaranteePlanIndex) {
+		this.chargeGuaranteePlanIndex = chargeGuaranteePlanIndex;
 	}
 
 	// set方法仅仅用于Json库反射使用，其他类不要调用！
@@ -194,7 +194,7 @@ public class GambleDropHistory {
 	 */
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
 		List<String> history = checkHistoryNum(isFree, maxHistory);
-		int index = isFree?freeInitCheckDuplicateCount:chargeInitCheckDuplicateCount;
+		int index = isFree?freeGuaranteePlanIndex:chargeGuaranteePlanIndex;
 		if (history.size() < dropPlan.getCheckNum(index) - 1) {
 			return false;
 		}
@@ -245,12 +245,16 @@ public class GambleDropHistory {
 		return freeCount < planCfg.getFreeCountPerDay() && GambleLogicHelper.isLeftTimeOver(getFreeLeftTime(planCfg));
 	}
 
+	//假设历史纪录增加成功，检查是否可以关闭去重检查！
 	@JsonIgnore
-	public void increseInitDuplicateCheckCount(boolean isFree) {
-		if (isFree){
-			freeInitCheckDuplicateCount++;
-		}else{
-			chargeInitCheckDuplicateCount++;
+	public void checkDistinctTag(boolean isFree, int exclusiveCount) {
+		int historySize = getHistory(isFree).size();
+		if (historySize >= exclusiveCount){//假设历史添加成功：historySize+1 > exclusiveCount
+			if (isFree) {
+				passFreeExclusiveCheck = true;
+			} else {
+				passChargeExclusiveCheck = true;
+			}
 		}
 	}
 

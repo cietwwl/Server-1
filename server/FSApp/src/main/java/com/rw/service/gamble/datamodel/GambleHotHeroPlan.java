@@ -71,7 +71,7 @@ public class GambleHotHeroPlan {
 		int[] slots = new int[hotCount];
 		for (int i = 0; i < hotCount; i++) {
 			String itemModel = gambleDropConfig.getRandomDrop(r, hotPlanId, slotCount, weight);
-			if (GambleLogicHelper.isValidHeroId(itemModel)) {
+			if (GambleLogicHelper.isValidHeroOrItemId(itemModel)) {
 				list.add(Pair.Create(itemModel, weight.value));
 				// 忽略配置的数量(slotCount.value)，客户端已经写死一定只能是一个
 				slots[i] = 1;
@@ -82,7 +82,7 @@ public class GambleHotHeroPlan {
 			}
 		}
 
-		hotPlan = new GambleDropGroup(list, slots);
+		hotPlan = GambleDropGroup.Create(list, slots);
 	}
 
 	public String getRandomDrop(Random r, RefInt slotCount) {
@@ -103,6 +103,7 @@ public class GambleHotHeroPlan {
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
 		if (result == null || result.dateAsId == null) {
+			GameLog.info("钓鱼台", "","每日热点未初始化");
 			//TODO 改为用一个静态的GambleHotHeroPlan做容错，避免并发修改每日热点数据
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;
@@ -125,7 +126,7 @@ public class GambleHotHeroPlan {
 
 		HotGambleCfgHelper helper = HotGambleCfgHelper.getInstance();
 		String defaultHero = helper.getTodayGuanrateeHotHero(null);
-		if (!GambleLogicHelper.isValidHeroId(defaultHero) && StringUtils.isNotBlank(result.errDefaultModelId)) {
+		if (!GambleLogicHelper.isValidHeroOrItemId(defaultHero) && StringUtils.isNotBlank(result.errDefaultModelId)) {
 			defaultHero = result.errDefaultModelId;
 		}
 		result.Init(r, helper.getTodayHotPlanId(), GambleHandler.HotHeroPoolSize, defaultHero);
@@ -170,7 +171,7 @@ public class GambleHotHeroPlan {
 		RefInt slotCount = new RefInt();
 		String heroId = hotGambleConfig.getTodayGuanrateeHotHero(slotCount);
 		// 特殊容错处理：如果保底英雄有效就作为容错默认值，否则使用必送丹药作为默认值
-		String errDefaultModelId = GambleLogicHelper.isValidHeroId(heroId) ? heroId : defaultItem;
+		String errDefaultModelId = GambleLogicHelper.isValidHeroOrItemId(heroId) ? heroId : defaultItem;
 
 		// 用热点组生成N个英雄
 		int hotPlanId = hotGambleConfig.getTodayHotPlanId();

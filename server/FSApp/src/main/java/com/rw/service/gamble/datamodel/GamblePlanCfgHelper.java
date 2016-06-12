@@ -20,11 +20,13 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 	}
 
 	private Map<Integer, List<GamblePlanCfg>> typeLevelMapping;
+	private Map<Integer,Integer> maxHistoryCountMap;
 	
 	@Override
 	public Map<String, GamblePlanCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("gamble/GamblePlanCfg.csv", GamblePlanCfg.class);
 		typeLevelMapping = new HashMap<Integer, List<GamblePlanCfg>>();
+		maxHistoryCountMap = new HashMap<Integer, Integer>();
 		Collection<GamblePlanCfg> vals = cfgCacheMap.values();
 		for (GamblePlanCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
@@ -39,15 +41,22 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 				}
 			}
 			lst.add(cfg);
+			
+			Integer old = maxHistoryCountMap.get(cfg.getDropType());
+			if (old == null || old > cfg.getMaxCheckCount()){
+				maxHistoryCountMap.put(cfg.getDropType(), cfg.getMaxCheckCount());
+			}
 		}
 		
-		//TODO maxCheckCount,GamblePlanCfg 考虑同类型的配置
-		//TODO 检查配置：唯一性的存在可能的判断
-		//TODO 跨表检查物品/英雄是否存在，然后寻找合适的默认保底容错英雄或物品
-
 		return cfgCacheMap;
 	}
 	
+	@Override
+	public void CheckConfig() {
+		//TODO 检查配置：唯一性的存在可能的判断
+		//TODO 跨表检查，group id 是否有效 物品ID是否有效
+	}
+
 	public GamblePlanCfg getConfig(int dropType,int level){
 		List<GamblePlanCfg> lst = typeLevelMapping.get(dropType);
 		if (lst == null) {
@@ -62,5 +71,9 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 		}
 		GameLog.error("钓鱼台", "dropType="+dropType, "找不到等级段,level="+level);
 		return null;
+	}
+
+	public int getMaxHistoryCount(int dropType) {
+		return maxHistoryCountMap.get(dropType);
 	}
 }

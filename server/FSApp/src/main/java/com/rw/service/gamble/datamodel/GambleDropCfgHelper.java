@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.common.RefInt;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.gamble.GambleLogicHelper;
 import com.rwbase.common.config.CfgCsvHelper;
 /*
 <bean class="com.rw.service.gamble.datamodel.GambleDropCfgHelper"  init-method="init" />
@@ -47,6 +48,17 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 		return cfgCacheMap;
 	}
 	
+	@Override
+	public void CheckConfig() {
+		// 跨表检查物品/英雄是否存在
+		Collection<GambleDropCfg> vals = cfgCacheMap.values();
+		for (GambleDropCfg cfg : vals) {
+			if (!GambleLogicHelper.isValidHeroOrItemId(cfg.getItemID())){
+				throw new RuntimeException("无效物品/英雄ID:"+cfg.getItemID());
+			}
+		}
+	}
+
 	public String getRandomDrop(Random r,int groupKey,RefInt slotCount){
 		RefInt weight = null;
 		return getRandomDrop(r,groupKey,slotCount,weight);

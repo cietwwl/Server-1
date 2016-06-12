@@ -150,7 +150,30 @@ public class GambleLogicHelper {
 		return response.build().toByteString();
 	}
 
-	public static boolean isValidHeroId(String itemModelId) {
+	public static boolean isValidHeroId(String heroModelId){
+		if (StringUtils.isNotBlank(heroModelId)){
+			if (heroModelId.indexOf("_") != -1){
+				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(heroModelId);
+				return roleCfg != null;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isValidItemId(String itemModelId){
+		if (StringUtils.isNotBlank(itemModelId)){
+			try {
+				int modelId = Integer.parseInt(itemModelId);
+				ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(modelId);// 检查物品的基础模版
+				return itemBaseCfg != null;
+			} catch (Exception e) {
+				GameLog.error("钓鱼台", itemModelId, "无效物品／英雄ID="+itemModelId);
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isValidHeroOrItemId(String itemModelId) {
 		if (StringUtils.isNotBlank(itemModelId)){
 			if (itemModelId.indexOf("_") != -1){
 				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(itemModelId);

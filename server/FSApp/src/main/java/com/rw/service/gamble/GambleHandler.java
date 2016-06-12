@@ -101,7 +101,7 @@ public class GambleHandler {
 		RefInt slotCount = new RefInt();
 		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>();
 		
-		final int maxHistoryNumber = planCfg.getMaxCheckCount();
+		final int maxHistoryNumber = GamblePlanCfgHelper.getInstance().getMaxHistoryCount(planCfg.getDropType());// planCfg.getMaxCheckCount();
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
@@ -124,7 +124,7 @@ public class GambleHandler {
 			HotGambleCfgHelper hotGambleConfig = HotGambleCfgHelper.getInstance();
 			String heroId = hotGambleConfig.getTodayGuanrateeHotHero(slotCount);
 			//特殊容错处理：如果保底英雄有效就作为容错默认值，否则使用必送丹药作为默认值
-			String errDefaultModelId= GambleLogicHelper.isValidHeroId(heroId) ? heroId : defaultItem;
+			String errDefaultModelId= GambleLogicHelper.isValidHeroOrItemId(heroId) ? heroId : defaultItem;
 			
 			//TODO 热点是否也需要考虑去重？
 			if (historyRecord.getHotHistoryCount() < historyRecord.getHotCheckThreshold()-1) {
@@ -156,7 +156,6 @@ public class GambleHandler {
 			if (historyRecord.passExclusiveCheck(isFree)){
 				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
 					dropGroupId = dropPlan.getGuaranteeGroup(ranGen);
-					historyRecord.increseInitDuplicateCheckCount(isFree);
 				}else{
 					dropGroupId = dropPlan.getOrdinaryGroup(ranGen);
 				}
@@ -173,13 +172,13 @@ public class GambleHandler {
 				GambleDropGroup tmpGroup=null;
 				if(historyRecord.checkGuarantee(isFree,dropPlan,maxHistoryNumber)){
 					tmpGroup = dropPlan.getGuaranteeGroup(ranGen,checkHistory);
-					historyRecord.increseInitDuplicateCheckCount(isFree);
+					historyRecord.checkDistinctTag(isFree,dropPlan.getExclusiveCount());
 				}else{
 					tmpGroup = dropPlan.getOrdinaryGroup(ranGen,checkHistory);
 				}
 				
 				if (tmpGroup == null){
-					GameLog.error("钓鱼台", player.getUserId(), "严重错误，无法去重");//TODO 打印更详细的调试信息
+					GameLog.error("钓鱼台", player.getUserId(), "严重错误,无法去重,history:"+checkHistory+",isFree:"+isFree+",plan key:"+planCfg.getKey());
 					maxCount --;
 					continue;
 				}

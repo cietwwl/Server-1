@@ -15,4 +15,6 @@ public interface IDropGambleItemPlan {
 	public GambleDropGroup getGuaranteeGroup(Random ranGen, List<String> checkHistory);
 
 	public GambleDropGroup getOrdinaryGroup(Random ranGen, List<String> checkHistory);
+
+	int getExclusiveCount();
 }

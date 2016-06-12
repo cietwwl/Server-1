@@ -2,6 +2,7 @@ package com.rw.service.gamble.datamodel;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -52,7 +53,7 @@ public class GambleDropGroup extends RandomStringGroups {
 	
 	protected GambleDropGroup(){super();}
 	
-	public GambleDropGroup(List<Pair<String, Integer>> pairList,int[] slotCountArr) {
+	protected GambleDropGroup(List<Pair<String, Integer>> pairList,int[] slotCountArr) {
 		super(pairList);
 		if (pairList.size() != slotCountArr.length) throw new RuntimeIoException("无效参数，两个数组长度不一致");
 		this.slotCountArr=slotCountArr;
@@ -95,6 +96,10 @@ public class GambleDropGroup extends RandomStringGroups {
 		GambleDropGroup result = new GambleDropGroup(pairList,slotCountArr);
 		return result;
 	}
+	
+	public static GambleDropGroup Create(List<Pair<String, Integer>> pairList,int[] slotCountArr){
+		return new GambleDropGroup(pairList,slotCountArr);
+	}
 
 	@JsonIgnore
 	public List<String> getStringList() {
@@ -117,7 +122,40 @@ public class GambleDropGroup extends RandomStringGroups {
 	}
 
 	public GambleDropGroup removeHistory(List<String> historyRecord) {
-		// TODO Auto-generated method stub
-		return null;
+		HashSet<String> tmp = new HashSet<String>();
+		for (String hideId : historyRecord) {
+			tmp.add(hideId);
+		}
+		List<Pair<String,Integer>> pair = new ArrayList<Pair<String,Integer>>();
+		List<Integer> tmpCount = new ArrayList<Integer>();
+		
+		boolean decreased = false;
+		int count =distributions.length;
+		for (int i = 0; i < count; i++) {
+			int delta;
+			if (i > 0) {
+				delta = distributions[i] - distributions[i - 1];
+			} else {
+				delta = distributions[i];
+			}
+			boolean isDuplicate = tmp.contains(plans[i]);
+			if (!isDuplicate){
+				pair.add(Pair.Create(plans[i], delta));
+				tmpCount.add(this.slotCountArr[i]);
+			}else{
+				decreased = true;
+			}
+		}
+		
+		if (!decreased){
+			return this;
+		}
+		
+		int[] array = new int[tmpCount.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = tmpCount.get(i);
+		}
+		
+		return new GambleDropGroup(pair, array);
 	}
 }

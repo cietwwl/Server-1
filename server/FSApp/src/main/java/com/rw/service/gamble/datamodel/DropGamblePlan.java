@@ -33,6 +33,7 @@ public class DropGamblePlan implements IDropGambleItemPlan {
 		this.exclusiveCount = exclusiveCount;
 	}
 
+	@Override
 	public int getExclusiveCount() {
 		return exclusiveCount;
 	}

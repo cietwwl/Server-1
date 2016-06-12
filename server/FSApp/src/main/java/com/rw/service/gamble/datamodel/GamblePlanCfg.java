@@ -93,8 +93,9 @@ public class GamblePlanCfg extends BaseConfig {
 			}
 		}
 		
-		//TODO fix maxCheckCount
 		maxCheckCount = Math.max(freePlan.getMaxCheckNum(),chargePlan.getMaxCheckNum());
+		int distinctCount = Math.max(freeExclusiveCount,chargeExclusiveCount);
+		maxCheckCount = Math.max(distinctCount, maxCheckCount);
 	}
 
 	public int getMaxCheckCount() {
