@@ -212,7 +212,7 @@ public class ActivityRateTypeMgr {
 	 * @param copyCfg  副本
 	 * @param player
 	 * @param eSpecialItemIDUserInfo  传入的战斗结果数据对象
-	 * 此方法用于站前将结算双倍信息发给客户端显示
+	 * 此方法用于站前将结算双倍金币经验等信息发给客户端显示
 	 */
 	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
 		ActivityRateTypeEnum activityRateTypeEnum = ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 1);
@@ -231,7 +231,7 @@ public class ActivityRateTypeMgr {
 	 * @param copyType 战斗类型
 	 * @param doubleType 奖励双倍的类型 
 	 * @return  倍数
-	 * 此方法用于战后结算后台增加数据
+	 * 此方法用于战后结算后台增加金币经验数据，以及战前生成物品道具
 	 */
 	public int  checkEnumIsExistAndActivityIsOpen(Player player,int copyType,int doubleType){
 		int multiple = 1;

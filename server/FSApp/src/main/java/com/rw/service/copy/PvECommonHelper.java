@@ -73,7 +73,7 @@ public class PvECommonHelper {
 				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 			}
 			
-			ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+//			ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
 			
 			StringBuilder rewardInfo = new StringBuilder();
 			rewardInfo.append("成功获取战斗奖励 levelId=").append(levelId).append(" rewards:").append(JsonUtil.writeValue(dropItems));
@@ -129,10 +129,17 @@ public class PvECommonHelper {
 					// 将奖励放入背包
 					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
+				List<String> listId = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+				int tmp = listItem.size();
+				for(String id : listId){
+					listItem.add(id+","+1);
+				}
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@" + tmp + " →" + listItem.size());
+				
 				
 				tagsweepInfo.addAllTagItemList(listItem);
 				listSweepInfo.add(tagsweepInfo.build());
-				ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+				
 			}
 		}
 		

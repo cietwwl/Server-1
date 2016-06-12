@@ -38,6 +38,7 @@ import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
 
 
@@ -46,6 +47,7 @@ public class ActivityExchangeTypeMgr {
 	private static ActivityExchangeTypeMgr instance = new ActivityExchangeTypeMgr();
 	public static final Random random = new Random();
 	private final static int MAKEUPEMAIL = 10055;
+	private List<String> listId;
 
 	public static ActivityExchangeTypeMgr getInstance() {
 		return instance;
@@ -238,12 +240,13 @@ public class ActivityExchangeTypeMgr {
 	
 	
 	/**
-	 * 根据传入的玩家和副本，额外获得兑换道具
+	 * 根据传入的玩家和副本，额外获得兑换道具;当前适用扫荡
 	 * @param player  玩家等级是否足够
 	 * @param copyCfg  战斗场景是否有掉落
 	 */
-	public void AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
-		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+	public List<String> AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
+		listId = null;
+		listId = new ArrayList<String>();
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历所有的活动
 			if (!isDropOpen(activityExchangeTypeCfg)) {
@@ -262,13 +265,29 @@ public class ActivityExchangeTypeMgr {
 					int probability =Integer.parseInt(map.get(copyCfg.getLevelType()+""));
 					if(random.nextInt(100)<=probability){
 						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), 1);
+						listId.add(cfg.getItemId());
 					}
 				}				
 			}			
-		}		
+		}
+		return listId;
 	}	
 	
-	
+	/**
+	 * 根据传入的玩家和副本，额外获得兑换道具，当前适用副本预掉落
+	 * @param player  玩家等级是否足够
+	 * @param copyCfg  战斗场景是否有掉落
+	 */
+	public void AddItemOfExchangeActivityBefore(Player player, CopyCfg copyCfg,List<ItemInfo> itemInfoList) {
+		AddItemOfExchangeActivity(player, copyCfg);
+		for(String id: listId){
+			ItemInfo newItem = new ItemInfo();
+			newItem.setItemID(Integer.parseInt(id));
+			newItem.setItemNum(1);
+			itemInfoList.add(newItem);
+		}
+		
+	}
 
 	public boolean isDropOpen(ActivityExchangeTypeCfg activityExchangeTypeCfg) {
 		if (activityExchangeTypeCfg != null) {
