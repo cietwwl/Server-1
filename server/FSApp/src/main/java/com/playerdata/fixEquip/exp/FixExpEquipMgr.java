@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.common.Action;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
@@ -51,7 +53,11 @@ public class FixExpEquipMgr {
 	};
 	public boolean initIfNeed(Player player, Hero hero){
 		if(!isInited(player, hero)){
-			newHeroInit(player, hero.getUUId(), hero.getModelId());
+			try {				
+				newHeroInit(player, hero.getUUId(), hero.getModelId());
+			} catch (Exception e) {
+				GameLog.error(LogModule.FixEquip, "playerId:"+player.getUserId(), "英雄神器初始化失败,heroId:"+hero.getUUId(), e);
+			}
 		}
 		return true;
 	}
