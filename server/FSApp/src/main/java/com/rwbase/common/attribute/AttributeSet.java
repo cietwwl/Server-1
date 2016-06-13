@@ -49,7 +49,7 @@ public class AttributeSet {
 					if (item.getType() == type) {
 						addValue += item.getIncreaseValue();
 						addPrecent += item.getIncPerTenthousand();
-						newList.set(i, new AttributeItem(type, addValue, addPrecent));
+						newList.set(j, new AttributeItem(type, addValue, addPrecent));
 						break;
 					}
 				}
