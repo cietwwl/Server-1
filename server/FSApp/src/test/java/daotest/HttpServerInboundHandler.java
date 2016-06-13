@@ -11,12 +11,13 @@ import org.slf4j.LoggerFactory;
 public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter{
 	private static Logger log = LoggerFactory.getLogger(HttpServerInboundHandler.class);
 
+	
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
-    	System.out.println("-------------------");
+//    	System.out.println("-------------------");
     	ByteBuf buf = Unpooled.copiedBuffer(((String)msg + System.getProperty("line.separator")).getBytes("UTF-8"));
-    	Thread.sleep(10);
+//    	Thread.sleep(10);
         ctx.writeAndFlush(buf);
     }
 
@@ -28,6 +29,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.error(cause.getMessage());
+        System.out.println(cause.getMessage());
         ctx.close();
     }
 }
