@@ -9,6 +9,7 @@ import java.util.Map;
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.gamble.GambleLogicHelper;
 import com.rwbase.common.config.CfgCsvHelper;
 /*
 <bean class="com.rw.service.gamble.datamodel.GamblePlanCfgHelper"  init-method="init" />
@@ -55,6 +56,12 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 	public void CheckConfig() {
 		//TODO 检查配置：唯一性的存在可能的判断
 		//TODO 跨表检查，group id 是否有效 物品ID是否有效
+		Collection<GamblePlanCfg> vals = cfgCacheMap.values();
+		for (GamblePlanCfg cfg : vals) {
+			if (!GambleLogicHelper.isValidHeroOrItemId(String.valueOf(cfg.getGoods()))){
+				throw new RuntimeException("无效道具ID:"+cfg.getGoods()+",key="+cfg.getKey());
+			}
+		}
 	}
 
 	public GamblePlanCfg getConfig(int dropType,int level){

@@ -64,23 +64,32 @@ public class GambleHotHeroPlan {
 	private void Init(Random r, int hotPlanId, int hotCount, String errDefaultModelId) {
 		this.errDefaultModelId = errDefaultModelId;
 
-		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
-		RefInt weight = new RefInt();
-		RefInt slotCount = new RefInt();
-		List<Pair<String, Integer>> list = new ArrayList<Pair<String, Integer>>(hotCount);
-		//list = gambleDropConfig.getRandomDrop(r, hotPlanId, hotCount);
+		List<Pair<String, Integer>> list = null;
 		int[] slots = new int[hotCount];
-		for (int i = 0; i < hotCount; i++) {
-			String itemModel = gambleDropConfig.getRandomDrop(r, hotPlanId, slotCount, weight);
-			//TODO 生成热点不重复：待优化
-			if (GambleLogicHelper.isValidHeroOrItemId(itemModel)) {
-				list.add(Pair.Create(itemModel, weight.value));
-				// 忽略配置的数量(slotCount.value)，客户端已经写死一定只能是一个
-				slots[i] = 1;
-			} else {
-				GameLog.error("钓鱼台", "热点数据初始化", "无效英雄ID:" + itemModel);
-				list.add(Pair.Create(errDefaultModelId, 1));
-				slots[i] = 1;
+		for (int i = 0; i < slots.length; i++) {
+			slots[i] = 1;
+		}
+		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
+		int hotGroupSize= gambleDropConfig.getDropGroupSize(hotPlanId);
+		boolean checkDuplicated = hotGroupSize > hotCount;
+		if (checkDuplicated){
+			String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
+			// 生成热点不重复
+			list = gambleDropConfig.getHotRandomDrop(r, hotPlanId, hotCount,guanrateeHero);
+		}else{
+			RefInt weight = new RefInt();
+			RefInt slotCount = new RefInt();
+			list = new ArrayList<Pair<String, Integer>>(hotCount);
+			
+			for (int i = 0; i < hotCount; i++) {
+				String itemModel = gambleDropConfig.getRandomDrop(r, hotPlanId, slotCount, weight);
+				if (GambleLogicHelper.isValidHeroOrItemId(itemModel)) {
+					list.add(Pair.Create(itemModel, weight.value));
+					// 忽略配置的数量(slotCount.value)，客户端已经写死一定只能是一个
+				} else {
+					GameLog.error("钓鱼台", "热点数据初始化", "无效英雄ID:" + itemModel);
+					list.add(Pair.Create(errDefaultModelId, 1));
+				}
 			}
 		}
 
@@ -93,7 +102,6 @@ public class GambleHotHeroPlan {
 
 	/**
 	 * 需要保证额外的容错配置(errDefaultModelId)是有效的！
-	 * 
 	 * @param r
 	 * @param planId
 	 * @param hotCount

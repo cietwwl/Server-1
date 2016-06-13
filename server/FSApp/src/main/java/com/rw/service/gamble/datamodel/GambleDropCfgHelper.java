@@ -91,11 +91,28 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 		return group.checkInGroup(itemModelId);
 	}
 
-	public List<Pair<String, Integer>> getRandomDrop(Random r, int hotPlanId, int hotCount) {
+	/**
+	 * 连续生成N个热点
+	 * 避免重复，如果热电组人数不够才允许重复
+	 * @param r
+	 * @param hotPlanId
+	 * @param hotCount
+	 * @param guanrateeHero
+	 * @return
+	 */
+	public List<Pair<String, Integer>> getHotRandomDrop(Random r, int hotPlanId, int hotCount,String guanrateeHero) {
 		GambleDropGroup group = dropGroupMappings.get(hotPlanId);
 		if (group == null){
 			return null;
 		}
-		return group.getRandomGroup(r, hotCount);
+		return group.getHotRandomGroup(r, hotCount,guanrateeHero);
+	}
+
+	public int getDropGroupSize(int groupKey) {
+		GambleDropGroup group = dropGroupMappings.get(groupKey);
+		if (group == null){
+			return 0;
+		}
+		return group.size();
 	}
 }

@@ -121,11 +121,14 @@ public class GambleDropGroup extends RandomStringGroups {
 		return result;
 	}
 
+	@JsonIgnore
 	public GambleDropGroup removeHistory(List<String> historyRecord) {
-		HashSet<String> tmp = new HashSet<String>();
-		for (String hideId : historyRecord) {
-			tmp.add(hideId);
-		}
+		HashSet<String> tmp = new HashSet<String>(historyRecord);
+		return removeHistory(tmp);
+	}
+	
+	@JsonIgnore
+	private GambleDropGroup removeHistory(Collection<String> tmp){
 		List<Pair<String,Integer>> pair = new ArrayList<Pair<String,Integer>>();
 		List<Integer> tmpCount = new ArrayList<Integer>();
 		
@@ -163,8 +166,33 @@ public class GambleDropGroup extends RandomStringGroups {
 		return new GambleDropGroup(pair, array);
 	}
 
-	public List<Pair<String, Integer>> getRandomGroup(Random r, int hotCount) {
-		// TODO 连续生成N个热点
-		return null;
+	/**
+	 * 连续生成N个热点
+	 * 避免重复，如果热电组人数不够才允许重复
+	 * @param r
+	 * @param hotCount
+	 * @param guanrateeHero
+	 * @return
+	 */
+	public List<Pair<String, Integer>> getHotRandomGroup(Random r, int hotCount,String guanrateeHero) {
+		List<String> historyRecord=new ArrayList<String>(1);
+		List<Pair<String, Integer>> result = new ArrayList<Pair<String, Integer>>(hotCount);
+		RefInt slotCount=new RefInt();
+		RefInt weight=new RefInt();
+		GambleDropGroup tmpGroup = this;
+		String heroId = guanrateeHero;
+		
+		while (result.size() < hotCount){
+			if (historyRecord.size() <= 0){
+				historyRecord.add(heroId);
+			}else{
+				historyRecord.set(0, heroId);
+			}
+			tmpGroup = tmpGroup.removeHistory(historyRecord);
+			heroId = tmpGroup.getRandomGroup(r, slotCount, weight);
+			result.add(Pair.Create(heroId, weight.value));
+		}
+		
+		return result;
 	}
 }
