@@ -229,7 +229,7 @@ public class GroupSecretMatchHelper {
 		int maxSize = ranking.size();
 		int lowerRanking = ranking.lowerRanking(lowComparable);
 		if (lowerRanking != -1) {
-			for (int i = lowerRanking; i < maxSize; i++) {
+			for (int i = lowerRanking; i <= maxSize; i++) {
 				RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> rankingEntry = ranking.getRankingEntry(i);
 				if (rankingEntry == null) {
 					continue;
