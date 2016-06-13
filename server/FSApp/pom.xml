@@ -128,6 +128,13 @@
 			<artifactId>jutils</artifactId>
 			<version>1.0.2</version>
 		</dependency>
+		
+		<!-- http://mvnrepository.com/artifact/com.alibaba.rocketmq/rocketmq-client -->
+		<dependency>
+      		<groupId>com.alibaba.rocketmq</groupId>
+      		<artifactId>rocketmq-client</artifactId>
+      		<version>3.4.9</version>
+		</dependency>
 	</dependencies>
 
 

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.log.GameLog;
 import com.playerdata.team.SkillInfo;
-import com.rwbase.common.attribute.AttrCheckLoger;
 import com.rwbase.common.attribute.AttributeComponentEnum;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeSet;
@@ -25,11 +23,11 @@ public class HeroSkillAttrCalc implements IComponentCalc {
 	@Override
 	public AttributeSet calc(Object obj) {
 		SkillParam param = (SkillParam) obj;
-		String userId = param.getUserId();
+		// String userId = param.getUserId();
 		List<SkillInfo> skillList = param.getSkillList();
-		String heroId = param.getHeroId();
+		// String heroId = param.getHeroId();
 		if (skillList == null || skillList.isEmpty()) {
-			GameLog.error("计算英雄技能属性", userId, String.format("Id为[%s]的英雄身上没有任何技能", heroId));
+			// GameLog.error("计算英雄技能属性", userId, String.format("Id为[%s]的英雄身上没有任何技能", heroId));
 			return null;
 		}
 
@@ -52,11 +50,11 @@ public class HeroSkillAttrCalc implements IComponentCalc {
 		}
 
 		if (map.isEmpty()) {
-			GameLog.error("计算英雄技能属性", userId, String.format("Id为[%s]的英雄技能计算出来的属性是空的", heroId));
+			// GameLog.error("计算英雄技能属性", userId, String.format("Id为[%s]的英雄技能计算出来的属性是空的", heroId));
 			return null;
 		}
 
-		AttrCheckLoger.logAttr("技能属性", heroId, map);
+		// AttrCheckLoger.logAttr("技能属性", heroId, map);
 		return new AttributeSet.Builder().addAttribute(new ArrayList<AttributeItem>(map.values())).build();
 	}
 
