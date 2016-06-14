@@ -169,6 +169,7 @@ public class MagicSecretMgr {
 				for(int i = 0; i < mcCfg.getPassBonus().size(); i++){
 					msRsp.addRewardData(JsonUtil.writeValue(mcCfg.getPassBonus().get(i)));
 				}
+				MSInnerProcessor.handleDropItem(player, mcCfg.getPassBonus());
 				msRsp.setIsFirstFinish(true);
 			}else msRsp.setIsFirstFinish(false);
 			// 如果闯完一章节，初始化下一章节的内容（如果不是，就准备下一关卡）
