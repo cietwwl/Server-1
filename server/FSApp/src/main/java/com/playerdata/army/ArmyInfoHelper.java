@@ -39,6 +39,20 @@ public class ArmyInfoHelper {
 		armyInfo.setHeroList(heroList);
 		return armyInfo;
 	}
+	
+	public static ArmyHero getArmyHero(String playerId, String heroId){
+		if (playerId == null || heroId == null) return null;
+		Player player = PlayerMgr.getInstance().find(playerId);
+		return getArmyHero(player,heroId);
+	}
+	
+	public static ArmyHero getArmyHero(Player player, String heroId){
+		if (player == null || heroId == null) return null;
+		HeroMgr heroMgr = player.getHeroMgr();
+		Hero heroTmp = heroMgr.getHeroById(heroId);
+		ArmyHero armyHero = getArmyHero(heroTmp);
+		return armyHero;
+	}
 
 	private static List<ArmyHero> getArmyHeros(Player player, List<String> heroIdList) {
 		List<ArmyHero> heroList = new ArrayList<ArmyHero>();
@@ -53,6 +67,7 @@ public class ArmyInfoHelper {
 	}
 
 	private static ArmyHero getArmyHero(Hero role) {
+		if (role == null) return null;
 		SkillMgr skillMgr = role.getSkillMgr();
 		List<Skill> skillList = skillMgr.getSkillList();
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
