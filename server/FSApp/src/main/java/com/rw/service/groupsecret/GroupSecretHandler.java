@@ -478,7 +478,7 @@ public class GroupSecretHandler {
 		GroupSecretMatchHelper.removeGroupSecretMatchEntry(player, getRewardSecretId);
 
 		// 通知客户端删除
-		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0));
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(getRewardSecretId, 0, true, 0, 0, 0, 0, 0, 0, ""));
 		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(getRewardSecretId, null, 0));
 
 		rsp.setIsSuccess(true);

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
 import com.bm.arena.ArenaRankCfgDAO;
@@ -13,6 +15,7 @@ import com.bm.arena.ArenaRankEntity;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.HotPointMgr;
@@ -100,7 +103,8 @@ public class ArenaHandler {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 		int recordId = request.getRecordId();
-		List<HurtValueRecord> listRecord = ArenaBM.getInstance().getRecordHurtValue(player.getUserId(), recordId);
+		RefParam<String> enemyId = new RefParam<String>();
+		List<HurtValueRecord> listRecord = ArenaBM.getInstance().getRecordHurtValue(player.getUserId(), recordId,enemyId);
 		if (listRecord == null) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
@@ -114,6 +118,11 @@ public class ArenaHandler {
 			for (int i = 0; i < size; i++) {
 				HurtValueRecord record = listRecord.get(i);
 				HurtValue.Builder builder = HurtValue.newBuilder();
+				
+				if (StringUtils.isNotBlank(record.getQualityId())){
+					builder.setQuality(record.getQualityId());
+				}
+				
 				builder.setHeroId(record.getHeroId());
 				builder.setCamp(record.getCamp());
 				builder.setIcon(record.getIcon());
@@ -582,6 +591,7 @@ public class ArenaHandler {
 		valueRecord.setPlayerType(value.getPlayerType());
 		valueRecord.setIcon(value.getIcon());
 		valueRecord.setValue(value.getValue());
+		valueRecord.setQualityId(value.getQuality());
 		return valueRecord;
 	}
 
