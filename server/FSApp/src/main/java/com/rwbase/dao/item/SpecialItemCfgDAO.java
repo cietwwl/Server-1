@@ -3,6 +3,7 @@ package com.rwbase.dao.item;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
 
@@ -12,11 +13,11 @@ import com.rwbase.dao.item.pojo.SpecialItemCfg;
  * @Description 特殊物品的DAO
  */
 public class SpecialItemCfgDAO extends CfgCsvDao<SpecialItemCfg> {
-	private static SpecialItemCfgDAO dao = new SpecialItemCfgDAO();
-
+	
 	public static SpecialItemCfgDAO getDAO() {
-		return dao;
+		return SpringContextUtil.getBean(SpecialItemCfgDAO.class);
 	}
+
 
 	@Override
 	public Map<String, SpecialItemCfg> initJsonCfg() {

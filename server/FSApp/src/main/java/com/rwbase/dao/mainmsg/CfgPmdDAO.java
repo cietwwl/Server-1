@@ -3,17 +3,14 @@ package com.rwbase.dao.mainmsg;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.magicweapon.MagicSmeltCfgDAO;
 
 
 public class CfgPmdDAO extends CfgCsvDao<PmdCfg> {
-	private static CfgPmdDAO instance = new CfgPmdDAO();
-	private CfgPmdDAO() {
-		
-	}
-	
-	public static CfgPmdDAO getInstance(){
-		return instance;
+	public static CfgPmdDAO getInstance() {
+		return SpringContextUtil.getBean(CfgPmdDAO.class);
 	}
 	
 	public Map<String, PmdCfg> initJsonCfg() {

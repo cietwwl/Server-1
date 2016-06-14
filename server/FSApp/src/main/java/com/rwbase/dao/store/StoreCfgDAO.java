@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.store.pojo.StoreCfg;
 
 public class StoreCfgDAO extends CfgCsvDao<StoreCfg> {
-	private static StoreCfgDAO instance  =  new StoreCfgDAO();
-	private StoreCfgDAO(){};
-	public static StoreCfgDAO getInstance(){
-		return instance;
+	public static StoreCfgDAO getInstance() {
+		return SpringContextUtil.getBean(StoreCfgDAO.class);
 	}
 	@Override
 	public Map<String, StoreCfg> initJsonCfg() {

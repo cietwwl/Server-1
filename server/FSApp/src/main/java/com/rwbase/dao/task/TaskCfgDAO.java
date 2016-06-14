@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.task.pojo.TaskCfg;
 
 public class TaskCfgDAO extends CfgCsvDao<TaskCfg> {
-	private static TaskCfgDAO m_instance = new TaskCfgDAO();
-	public static TaskCfgDAO getInstance(){
-		return m_instance;
+	public static TaskCfgDAO getInstance() {
+		return SpringContextUtil.getBean(TaskCfgDAO.class);
 	}
 
 	@Override

@@ -3,15 +3,14 @@ package com.rwbase.dao.power;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 
 public class RoleUpgradeCfgDAO extends CfgCsvDao<RoleUpgradeCfg> {
 
-	private static RoleUpgradeCfgDAO instance = new RoleUpgradeCfgDAO();
-	private RoleUpgradeCfgDAO(){}
 	public static RoleUpgradeCfgDAO getInstance(){
-		return instance;
+		return SpringContextUtil.getBean(RoleUpgradeCfgDAO.class);
 	}
 	
 	@Override

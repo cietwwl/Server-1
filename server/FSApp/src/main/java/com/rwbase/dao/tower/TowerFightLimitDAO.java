@@ -2,13 +2,12 @@ package com.rwbase.dao.tower;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class TowerFightLimitDAO extends CfgCsvDao<TowerFightLimitCfg> {
-	private static TowerFightLimitDAO instance  =  new TowerFightLimitDAO();
-	private TowerFightLimitDAO(){};
-	public static TowerFightLimitDAO getInstance(){
-		return instance;
+	public static TowerFightLimitDAO getInstance() {
+		return SpringContextUtil.getBean(TowerFightLimitDAO.class);
 	}
 	@Override
 	public Map<String, TowerFightLimitCfg> initJsonCfg() {

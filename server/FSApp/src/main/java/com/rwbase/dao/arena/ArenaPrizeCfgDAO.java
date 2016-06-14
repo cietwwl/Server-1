@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.arena.pojo.ArenaPrizeCfg;
 
@@ -13,12 +14,8 @@ public class ArenaPrizeCfgDAO extends CfgCsvDao<ArenaPrizeCfg> {
 	private static ArenaPrizeCfgDAO instance;
 	private ArenaPrizeCfgDAO(){}
 	
-	public static ArenaPrizeCfgDAO getInstance()
-	{
-		if(instance == null){
-			instance = new ArenaPrizeCfgDAO();
-		}
-		return instance;
+	public static ArenaPrizeCfgDAO getInstance() {
+		return SpringContextUtil.getBean(ArenaPrizeCfgDAO.class);
 	}
 	
 	@Override

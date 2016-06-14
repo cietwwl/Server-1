@@ -4,21 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.peakArena.pojo.PeakArenaScoreCfg;
 
 public class PeakArenaScoreCfgDAO extends CfgCsvDao<PeakArenaScoreCfg> {
 
-	private static PeakArenaScoreCfgDAO instance;
-	private PeakArenaScoreCfgDAO(){}
-	
-	public static PeakArenaScoreCfgDAO getInstance()
-	{
-		if(instance == null){
-			instance = new PeakArenaScoreCfgDAO();
-		}
-		return instance;
+	public static PeakArenaScoreCfgDAO getInstance() {
+		return SpringContextUtil.getBean(PeakArenaScoreCfgDAO.class);
 	}
+
 	
 	@Override
 	public Map<String, PeakArenaScoreCfg> initJsonCfg() {

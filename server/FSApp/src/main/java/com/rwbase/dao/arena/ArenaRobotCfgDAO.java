@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.RandomUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
@@ -14,13 +15,10 @@ public class ArenaRobotCfgDAO extends CfgCsvDao<ArenaRobotCfg> {
 	private static ArenaRobotCfgDAO instance;
 	private ArenaRobotCfgDAO() {}
 	
-	public static ArenaRobotCfgDAO getInstance()
-	{
-		if(instance == null){
-			instance = new ArenaRobotCfgDAO();
-		}
-		return instance;
+	public static ArenaRobotCfgDAO getInstance() {
+		return SpringContextUtil.getBean(ArenaRobotCfgDAO.class);
 	}
+	
 	
 	@Override
 	public Map<String, ArenaRobotCfg> initJsonCfg() {

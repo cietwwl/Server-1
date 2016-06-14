@@ -3,17 +3,14 @@ package com.rwbase.dao.friend;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.fresherActivity.FresherActivityFinalRewardCfgDao;
 import com.rwbase.dao.friend.vo.CfgFriendGift;
 
 public class CfgFriendGiftDAO extends CfgCsvDao<CfgFriendGift> {
-	private static CfgFriendGiftDAO instance = new CfgFriendGiftDAO();
-	private CfgFriendGiftDAO() {
-		
-	}
-	
-	public static CfgFriendGiftDAO getInstance(){
-		return instance;
+	public static CfgFriendGiftDAO getInstance() {
+		return SpringContextUtil.getBean(CfgFriendGiftDAO.class);
 	}
 	
 	public Map<String, CfgFriendGift> initJsonCfg() {

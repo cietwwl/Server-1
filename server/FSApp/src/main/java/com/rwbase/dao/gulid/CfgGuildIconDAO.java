@@ -3,17 +3,14 @@ package com.rwbase.dao.gulid;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 public class CfgGuildIconDAO extends CfgCsvDao<GuildIconCfg> {
-	private static CfgGuildIconDAO instance = new CfgGuildIconDAO();
-	private CfgGuildIconDAO() {
-		
+	public static CfgGuildIconDAO getInstance() {
+		return SpringContextUtil.getBean(CfgGuildIconDAO.class);
 	}
 	
-	public static CfgGuildIconDAO getInstance(){
-		return instance;
-	}
 	
 	public Map<String, GuildIconCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Guild/GuildIconCfg.csv",GuildIconCfg.class);

@@ -3,7 +3,9 @@ package com.rwbase.dao.arena;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.arena.RobotCfgDAO;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.copypve.CopyType;
@@ -13,12 +15,8 @@ public class ArenaInfoCfgDAO extends CfgCsvDao<ArenaInfoCfg> {
 	private static ArenaInfoCfgDAO instance;
 	private ArenaInfoCfgDAO() {}
 	
-	public static ArenaInfoCfgDAO getInstance()
-	{
-		if(instance == null){
-			instance = new ArenaInfoCfgDAO();
-		}
-		return instance;
+	public static ArenaInfoCfgDAO getInstance() {
+		return SpringContextUtil.getBean(ArenaInfoCfgDAO.class);
 	}
 	
 	@Override

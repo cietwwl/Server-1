@@ -3,16 +3,13 @@ package com.rwbase.dao.gulid;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.guide.GuideCfgDAO;
 
 public class CfgGuildDAO extends CfgCsvDao<GuildCfg> {
-	private static CfgGuildDAO instance = new CfgGuildDAO();
-	private CfgGuildDAO() {
-		
-	}
-	
-	public static CfgGuildDAO getInstance(){
-		return instance;
+	public static CfgGuildDAO getInstance() {
+		return SpringContextUtil.getBean(CfgGuildDAO.class);
 	}
 	
 	public Map<String, GuildCfg> initJsonCfg() {

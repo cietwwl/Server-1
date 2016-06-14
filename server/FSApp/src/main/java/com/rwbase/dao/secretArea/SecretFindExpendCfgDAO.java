@@ -4,17 +4,14 @@ package com.rwbase.dao.secretArea;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.secretArea.pojo.SecretFindExpendCfg;
 
 public class SecretFindExpendCfgDAO extends CfgCsvDao<SecretFindExpendCfg>{//查找敌方 花费
-	private static SecretFindExpendCfgDAO instance = new SecretFindExpendCfgDAO();
-	private SecretFindExpendCfgDAO() {
-		
-	}
 	
-	public static SecretFindExpendCfgDAO getInstance(){
-		return instance;
+	public static SecretFindExpendCfgDAO getInstance() {
+		return SpringContextUtil.getBean(SecretFindExpendCfgDAO.class);
 	}
 	
 	public Map<String, SecretFindExpendCfg> initJsonCfg() {

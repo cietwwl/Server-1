@@ -4,15 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.role.pojo.InlayCfg;
 
 public class InlayCfgDAO extends CfgCsvDao<InlayCfg> {
 
-	private static InlayCfgDAO instance = new InlayCfgDAO();
-	private InlayCfgDAO(){}
-	public static InlayCfgDAO getInstance(){
-		return instance;
+	public static InlayCfgDAO getInstance() {
+		return SpringContextUtil.getBean(InlayCfgDAO.class);
 	}
 
 	@Override

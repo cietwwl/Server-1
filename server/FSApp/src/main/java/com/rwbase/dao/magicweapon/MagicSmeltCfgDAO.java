@@ -3,15 +3,14 @@ package com.rwbase.dao.magicweapon;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.magicweapon.pojo.MagicSmeltCfg;
 
 public class MagicSmeltCfgDAO extends CfgCsvDao<MagicSmeltCfg> {
 
-	private static MagicSmeltCfgDAO instance = new MagicSmeltCfgDAO();
-	private MagicSmeltCfgDAO(){}
-	public static MagicSmeltCfgDAO getInstance(){
-		return instance;
+	public static MagicSmeltCfgDAO getInstance() {
+		return SpringContextUtil.getBean(MagicSmeltCfgDAO.class);
 	}
 	
 	@Override

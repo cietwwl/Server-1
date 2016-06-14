@@ -3,15 +3,14 @@ package com.rwbase.dao.skill;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.skill.pojo.SkillFeeCfg;
 
 public class SkillFeeCfgDAO extends CfgCsvDao<SkillFeeCfg> {
 	
-	private static SkillFeeCfgDAO instance  =  new SkillFeeCfgDAO();
-	private SkillFeeCfgDAO(){};
-	public static SkillFeeCfgDAO getInstance(){
-		return instance;
+	public static SkillFeeCfgDAO getInstance() {
+		return SpringContextUtil.getBean(SkillFeeCfgDAO.class);
 	}
 	//isPlayer+"_"+order+"_"+level
 	public SkillFeeCfg getSkillFeeCfg(int isPlayer,int order,int level){

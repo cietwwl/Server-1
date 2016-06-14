@@ -9,22 +9,18 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.pojo.Skill;
 
 public class RoleCfgDAO extends CfgCsvDao<RoleCfg> {
 
-	private static RoleCfgDAO instance = new RoleCfgDAO();
-	protected HashMap<String, RoleCfg> cfgModeMap;// 保存唯一召唤的英雄配置信息
-
-	private RoleCfgDAO() {
-	}
-
 	public static RoleCfgDAO getInstance() {
-		return instance;
+		return SpringContextUtil.getBean(RoleCfgDAO.class);
 	}
 
+	protected HashMap<String, RoleCfg> cfgModeMap;// 保存唯一召唤的英雄配置信息
 	@Override
 	public Map<String, RoleCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("role/RoleCfg.csv", RoleCfg.class);

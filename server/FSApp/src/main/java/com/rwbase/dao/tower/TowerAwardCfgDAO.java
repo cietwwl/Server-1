@@ -6,10 +6,15 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.task.TaskCfgDAO;
 
 public final class TowerAwardCfgDAO extends CfgCsvDao<TowerAwardCfg> {
-	private static TowerAwardCfgDAO dao = new TowerAwardCfgDAO();
+	
+	public static TowerAwardCfgDAO getInstance() {
+		return SpringContextUtil.getBean(TowerAwardCfgDAO.class);
+	}
 
 	private TreeMap<Integer, Map<Integer, String>> awardMap;
 
@@ -55,7 +60,7 @@ public final class TowerAwardCfgDAO extends CfgCsvDao<TowerAwardCfg> {
 	 * @return
 	 */
 	public static TowerAwardCfg getLevelTowerCfgByFloor(int level, int floor) {
-		Entry<Integer, Map<Integer, String>> e = dao.awardMap.floorEntry(level);
+		Entry<Integer, Map<Integer, String>> e = getInstance().awardMap.floorEntry(level);
 		if (e == null) {
 			return null;
 		}
@@ -70,6 +75,6 @@ public final class TowerAwardCfgDAO extends CfgCsvDao<TowerAwardCfg> {
 			return null;
 		}
 
-		return (TowerAwardCfg) dao.getCfgById(id);
+		return (TowerAwardCfg) getInstance().getCfgById(id);
 	}
 }
