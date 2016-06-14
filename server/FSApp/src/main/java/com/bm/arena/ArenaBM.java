@@ -13,6 +13,7 @@ import com.bm.rank.arena.ArenaSettleComparable;
 import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.HPCUtil;
+import com.common.RefParam;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -479,17 +480,24 @@ public class ArenaBM {
 	 * @return
 	 */
 	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId) {
+		return getRecordHurtValue(userId, recordId, null);
+	}
+	
+	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId,RefParam<String> enemyUserId) {
 		List<RecordInfo> list = getArenaRecordList(userId);
 		if (list == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		for (int i = list.size(); --i >= 0;) {
 			RecordInfo info = list.get(i);
 			if (info.getRecordId() == recordId) {
+				if (enemyUserId!=null){
+					enemyUserId.value = info.getUserId();
+				}
 				return info.getHurtList();
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public List<RecordInfo> getArenaRecordList(String userId) {
