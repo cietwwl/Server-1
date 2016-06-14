@@ -32,12 +32,6 @@ public class GroupSecretVersionMgr {
 	 * @param versionJson
 	 */
 	public static void synByVersion(Player player, String versionJson) {
-		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
-		Group group = GroupBM.get(groupId);
-		if (group == null) {
-			return;
-		}
-
 		GroupSecretVersion groupSecretVersion = fromJson(versionJson);
 		if (groupSecretVersion == null) {
 			return;
@@ -117,7 +111,11 @@ public class GroupSecretVersionMgr {
 
 		// 发送帮派成员的列表
 
-		group.synGroupMemberData(player, false, groupSecretVersion.getMemberVersion());
+		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
+		Group group = GroupBM.get(groupId);
+		if (group != null) {
+			group.synGroupMemberData(player, false, groupSecretVersion.getMemberVersion());
+		}
 	}
 
 	public static GroupSecretVersion fromJson(String versionJson) {

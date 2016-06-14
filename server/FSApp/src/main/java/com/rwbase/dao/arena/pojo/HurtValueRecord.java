@@ -14,6 +14,11 @@ public class HurtValueRecord {
 	private ePlayerCamp camp; // 阵营
 	private float Hp; // 剩余血量
 	private float Sp; // 剩余蓝量
+	private String qualityId; //品质配置ID
+
+	public String getQualityId() {
+		return qualityId;
+	}
 
 	public String getHeroId() {
 		return heroId;
@@ -93,6 +98,10 @@ public class HurtValueRecord {
 
 	public void setSp(float sp) {
 		Sp = sp;
+	}
+
+	public void setQualityId(String quality) {
+		qualityId = quality;
 	}
 
 }

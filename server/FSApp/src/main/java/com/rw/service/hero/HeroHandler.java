@@ -366,6 +366,14 @@ public class HeroHandler {
 			return msgRsp.build().toByteString();
 		}
 		
+		//判断一下是不是达到了最高级
+		if(levelCfgDao.getByLevel(curLevel + 1) == null){
+			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("佣兵Id是[%s],当前等级是[%s]", heroUUID, curLevel), null);
+			msgRsp.setEHeroResultType(eHeroResultType.HERO_EXP_FULL);// 达到了最高级
+			return msgRsp.build().toByteString();
+		}
+		
+		
 		long levelExp = levelCfg.getHeroUpgradeExp();// 目前等级升级需要的经验值
 		int addExp = 0;
 		UseItemTempData itemTempData;

@@ -1,2 +1,2 @@
-key,Remarks,WaitAfterBorn,RunSpeed,DistanceForReady,DistanceToEnemy,DistanceInFront,DistanceInBack,HurtColor,CriticalColor,SpColor,HpColor,BattleCameraXOffset,SlowDownTime,SlowDownRate,CameraZoomingParam
-battle,,1,1,8,4,4,8,ff2e14ff,f8e7d2ff,ffcc00ff,72ff00ff,3,1.5,0.3,"1,0,25,-2,2,1.5,0.15,0.6,0.15,0.6"
+key,Remarks,WaitAfterBorn,RunSpeed,DistanceForReady,DistanceToEnemy,DistanceInFront,DistanceInBack,HurtColor,CriticalColor,SpColor,HpColor,ToneupColor,TonedownColor,ControlColor,SpecialbuffColor,ShieldColor,BattleCameraXOffset,SlowDownTime,SlowDownRate,CameraZoomingParam
+battle,,1,1,8,4,4,8,ff0000ff,ff7f0bff,ffd400ff,86e500ff,86e500ff,ff0000ff,f600ffff,ffd400ff,e0fcffff,3,1.5,0.3,"1,0,25,-2,2,1.5,0.15,0.6,0.15,0.6"
