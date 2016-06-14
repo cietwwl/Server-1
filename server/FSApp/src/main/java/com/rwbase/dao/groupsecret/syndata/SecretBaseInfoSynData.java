@@ -18,8 +18,9 @@ public class SecretBaseInfoSynData {
 	private final int getRes;// 被掠夺的资源
 	private final int getGE;// 被掠夺的帮派经验
 	private final int getGS;// 被掠夺的帮派物资
+	private final String groupId;// 此秘境所属的帮派Id，对于自己创建的是自己创建那一刻的帮派Id，对于匹配的来说，是自己匹配到那一刻的秘境Id
 
-	public SecretBaseInfoSynData(String id, int cfgId, boolean isFinish, long creatTime, int myIndex, int dropDiamond, int getRes, int getGE, int getGS) {
+	public SecretBaseInfoSynData(String id, int cfgId, boolean isFinish, long creatTime, int myIndex, int dropDiamond, int getRes, int getGE, int getGS, String groupId) {
 		this.id = id;
 		this.cfgId = cfgId;
 		this.isFinish = isFinish;
@@ -29,6 +30,7 @@ public class SecretBaseInfoSynData {
 		this.getRes = getRes;
 		this.getGE = getGE;
 		this.getGS = getGS;
+		this.groupId = groupId;
 	}
 
 	public int getDropDiamond() {
@@ -65,5 +67,9 @@ public class SecretBaseInfoSynData {
 
 	public int getGetGS() {
 		return getGS;
+	}
+
+	public String getGroupId() {
+		return groupId;
 	}
 }

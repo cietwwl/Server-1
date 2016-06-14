@@ -10512,6 +10512,33 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     float getSp();
+
+    // optional string quality = 11;
+    /**
+     * <code>optional string quality = 11;</code>
+     *
+     * <pre>
+     *品质配置ID
+     * </pre>
+     */
+    boolean hasQuality();
+    /**
+     * <code>optional string quality = 11;</code>
+     *
+     * <pre>
+     *品质配置ID
+     * </pre>
+     */
+    java.lang.String getQuality();
+    /**
+     * <code>optional string quality = 11;</code>
+     *
+     * <pre>
+     *品质配置ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getQualityBytes();
   }
   /**
    * Protobuf type {@code HurtValue}
@@ -10624,6 +10651,11 @@ public final class ArenaServiceProtos {
             case 85: {
               bitField0_ |= 0x00000200;
               sp_ = input.readFloat();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              quality_ = input.readBytes();
               break;
             }
           }
@@ -10956,6 +10988,61 @@ public final class ArenaServiceProtos {
       return sp_;
     }
 
+    // optional string quality = 11;
+    public static final int QUALITY_FIELD_NUMBER = 11;
+    private java.lang.Object quality_;
+    /**
+     * <code>optional string quality = 11;</code>
+     *
+     * <pre>
+     *品质配置ID
+     * </pre>
+     */
+    public boolean hasQuality() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string quality = 11;</code>
+     *
+     * <pre>
+     *品质配置ID
+     * </pre>
+     */
+    public java.lang.String getQuality() {
+      java.lang.Object ref = quality_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          quality_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string quality = 11;</code>
+     *
+     * <pre>
+     *品质配置ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getQualityBytes() {
+      java.lang.Object ref = quality_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        quality_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       heroId_ = "";
       value_ = 0F;
@@ -10967,6 +11054,7 @@ public final class ArenaServiceProtos {
       camp_ = com.rwproto.BattleCommon.ePlayerCamp.Me;
       hp_ = 0F;
       sp_ = 0F;
+      quality_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11050,6 +11138,9 @@ public final class ArenaServiceProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeFloat(10, sp_);
       }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getQualityBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -11098,6 +11189,10 @@ public final class ArenaServiceProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(10, sp_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getQualityBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11235,6 +11330,8 @@ public final class ArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000100);
         sp_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000200);
+        quality_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -11303,6 +11400,10 @@ public final class ArenaServiceProtos {
           to_bitField0_ |= 0x00000200;
         }
         result.sp_ = sp_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.quality_ = quality_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11352,6 +11453,11 @@ public final class ArenaServiceProtos {
         }
         if (other.hasSp()) {
           setSp(other.getSp());
+        }
+        if (other.hasQuality()) {
+          bitField0_ |= 0x00000400;
+          quality_ = other.quality_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -11986,6 +12092,104 @@ public final class ArenaServiceProtos {
       public Builder clearSp() {
         bitField0_ = (bitField0_ & ~0x00000200);
         sp_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // optional string quality = 11;
+      private java.lang.Object quality_ = "";
+      /**
+       * <code>optional string quality = 11;</code>
+       *
+       * <pre>
+       *品质配置ID
+       * </pre>
+       */
+      public boolean hasQuality() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string quality = 11;</code>
+       *
+       * <pre>
+       *品质配置ID
+       * </pre>
+       */
+      public java.lang.String getQuality() {
+        java.lang.Object ref = quality_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          quality_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string quality = 11;</code>
+       *
+       * <pre>
+       *品质配置ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getQualityBytes() {
+        java.lang.Object ref = quality_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          quality_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string quality = 11;</code>
+       *
+       * <pre>
+       *品质配置ID
+       * </pre>
+       */
+      public Builder setQuality(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        quality_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string quality = 11;</code>
+       *
+       * <pre>
+       *品质配置ID
+       * </pre>
+       */
+      public Builder clearQuality() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        quality_ = getDefaultInstance().getQuality();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string quality = 11;</code>
+       *
+       * <pre>
+       *品质配置ID
+       * </pre>
+       */
+      public Builder setQualityBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        quality_ = value;
         onChanged();
         return this;
       }
@@ -18872,42 +19076,43 @@ public final class ArenaServiceProtos {
       "\022\013\n\003win\030\005 \001(\005\022\035\n\thurtValue\030\006 \003(\0132\n.HurtV",
       "alue\022\020\n\010recordId\030\007 \001(\005\022\021\n\tatkIdList\030\010 \003(" +
       "\t\022\020\n\010rewardId\030\016 \001(\005\022\027\n\017historyRewardId\030\017" +
-      " \001(\005\"\301\001\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005va" +
+      " \001(\005\"\322\001\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005va" +
       "lue\030\002 \002(\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nstartlevel\030\004 " +
       "\002(\005\022\r\n\005level\030\005 \002(\005\022\016\n\006isDead\030\006 \002(\010\022 \n\npl" +
       "ayerType\030\007 \002(\0162\014.ePlayerType\022\032\n\004camp\030\010 \002" +
       "(\0162\014.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002" +
-      "\"\340\003\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\016" +
-      "2\013.eArenaType\022*\n\017arenaResultType\030\002 \001(\0162\021" +
-      ".eArenaResultType\022\035\n\tarenaData\030\003 \001(\0132\n.A",
-      "renaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 " +
-      "\n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005plac" +
-      "e\030\006 \001(\005\022\035\n\thurtValue\030\007 \003(\0132\n.HurtValue\022\017" +
-      "\n\007atkList\030\010 \003(\t\022$\n\007history\030\t \001(\0132\023.Histo" +
-      "ryRankingRise\022\021\n\tresetCost\030\n \001(\005\022\024\n\014buyT" +
-      "imesCost\030\013 \001(\005\022\020\n\010buyTimes\030\014 \001(\005\022\024\n\014curr" +
-      "entScore\030\r \001(\005\022\020\n\010getCount\030\016 \003(\005\022,\n\rhist" +
-      "oryReward\030\017 \001(\0132\025.ArenaHistoryResponse\022+" +
-      "\n\020gainRewardResult\030\020 \001(\0162\021.eArenaResultT" +
-      "ype\"j\n\022HistoryRankingRise\022\026\n\016historyRank",
-      "ing\030\001 \002(\005\022\026\n\016currentRanking\030\002 \002(\005\022\021\n\tgol" +
-      "dAward\030\003 \001(\005\022\021\n\trankingUp\030\004 \002(\005\"j\n\024Arena" +
-      "HistoryResponse\022)\n\trewardSum\030\001 \003(\0132\026.Are" +
-      "naHistoryRewardSum\022\'\n\nrewardView\030\002 \003(\0132\023" +
-      ".ArenaHisRewardView\"4\n\025ArenaHistoryRewar" +
-      "dSum\022\016\n\006itemId\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\":\n\022Are" +
-      "naHisRewardView\022\020\n\010rewardId\030\001 \002(\005\022\022\n\ngai" +
-      "nReward\030\002 \002(\010*\310\002\n\neArenaType\022\014\n\010GET_INFO" +
-      "\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n" +
-      "\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR",
-      "_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021AREN" +
-      "A_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022" +
-      "\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\022\n\016GET_H" +
-      "URT_VALUE\020\013\022\r\n\tBUY_TIMES\020\014\022\t\n\005SCORE\020\r\022\016\n" +
-      "\nGET_REWARD\020\016\022\030\n\024HIS_RANK_REWARD_VIEW\020\017\022" +
-      "\027\n\023HIS_RANK_GET_REWARD\020\020*5\n\020eArenaResult" +
-      "Type\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B" +
-      "!\n\013com.rwprotoB\022ArenaServiceProtos"
+      "\022\017\n\007quality\030\013 \001(\t\"\340\003\n\020MsgArenaResponse\022\036" +
+      "\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017arenaR" +
+      "esultType\030\002 \001(\0162\021.eArenaResultType\022\035\n\tar",
+      "enaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 " +
+      "\003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.Ar" +
+      "enaRecord\022\r\n\005place\030\006 \001(\005\022\035\n\thurtValue\030\007 " +
+      "\003(\0132\n.HurtValue\022\017\n\007atkList\030\010 \003(\t\022$\n\007hist" +
+      "ory\030\t \001(\0132\023.HistoryRankingRise\022\021\n\tresetC" +
+      "ost\030\n \001(\005\022\024\n\014buyTimesCost\030\013 \001(\005\022\020\n\010buyTi" +
+      "mes\030\014 \001(\005\022\024\n\014currentScore\030\r \001(\005\022\020\n\010getCo" +
+      "unt\030\016 \003(\005\022,\n\rhistoryReward\030\017 \001(\0132\025.Arena" +
+      "HistoryResponse\022+\n\020gainRewardResult\030\020 \001(" +
+      "\0162\021.eArenaResultType\"j\n\022HistoryRankingRi",
+      "se\022\026\n\016historyRanking\030\001 \002(\005\022\026\n\016currentRan" +
+      "king\030\002 \002(\005\022\021\n\tgoldAward\030\003 \001(\005\022\021\n\tranking" +
+      "Up\030\004 \002(\005\"j\n\024ArenaHistoryResponse\022)\n\trewa" +
+      "rdSum\030\001 \003(\0132\026.ArenaHistoryRewardSum\022\'\n\nr" +
+      "ewardView\030\002 \003(\0132\023.ArenaHisRewardView\"4\n\025" +
+      "ArenaHistoryRewardSum\022\016\n\006itemId\030\001 \002(\005\022\013\n" +
+      "\003num\030\002 \002(\005\":\n\022ArenaHisRewardView\022\020\n\010rewa" +
+      "rdId\030\001 \002(\005\022\022\n\ngainReward\030\002 \002(\010*\310\002\n\neAren" +
+      "aType\022\014\n\010GET_INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n" +
+      "\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEM",
+      "Y_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_" +
+      "PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022AREN" +
+      "A_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET" +
+      "_PLACE\020\n\022\022\n\016GET_HURT_VALUE\020\013\022\r\n\tBUY_TIME" +
+      "S\020\014\022\t\n\005SCORE\020\r\022\016\n\nGET_REWARD\020\016\022\030\n\024HIS_RA" +
+      "NK_REWARD_VIEW\020\017\022\027\n\023HIS_RANK_GET_REWARD\020" +
+      "\020*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS\020\001" +
+      "\022\016\n\nARENA_FAIL\020\002B!\n\013com.rwprotoB\022ArenaSe" +
+      "rviceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -18949,7 +19154,7 @@ public final class ArenaServiceProtos {
           internal_static_HurtValue_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_HurtValue_descriptor,
-              new java.lang.String[] { "HeroId", "Value", "Icon", "Startlevel", "Level", "IsDead", "PlayerType", "Camp", "Hp", "Sp", });
+              new java.lang.String[] { "HeroId", "Value", "Icon", "Startlevel", "Level", "IsDead", "PlayerType", "Camp", "Hp", "Sp", "Quality", });
           internal_static_MsgArenaResponse_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_MsgArenaResponse_fieldAccessorTable = new

@@ -12,7 +12,7 @@ public class RecordInfo {
 	private String headImage;
 	private int level;
 	private long time;
-	private String userId;
+	private String userId;  //对手的ID
 	private int challenge;// 1是我打别人，01是别人打我
 	private List<HurtValueRecord> hurtList;
 
