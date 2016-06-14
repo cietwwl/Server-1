@@ -16,8 +16,8 @@ import com.rwbase.dao.item.pojo.ItemData;
 public class LogTemplateMaker {
 
 	
-	final private String filePath="F:\\NewGitSource\\root_develop\\server\\server\\FSApp\\src\\main\\java\\com\\rw\\service\\log\\template\\maker\\OriginalLogText";
-
+	final private String filePath="E:\\projectnew\\server\\server\\FSApp\\src\\main\\java\\com\\rw\\service\\log\\template\\maker\\OriginalLogText";
+	
 	public void doTask() throws Exception{
 		File file = new File(filePath);
 		

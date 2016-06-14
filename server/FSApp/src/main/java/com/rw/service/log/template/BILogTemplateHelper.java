@@ -9,9 +9,11 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.Player;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
+import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
@@ -260,6 +262,24 @@ public class BILogTemplateHelper {
 		CopyCfg cfg = CopyCfgDAO.getInstance().getCfgById(levelId+"");
 		return cfg.getSubtype();
 		
+	}
+	
+	/**角色登出时获取主线任务的滞留数据*/
+	public static int[] getLevelId(Player player){
+		int[] levelId = {0,0};
+		List<CopyLevelRecord> list = player.getCopyRecordMgr().getLevelRecordList();
+		for(CopyLevelRecord record : list){
+			if(record.isFirst()){
+				//未通关
+				continue;
+			}
+			if(record.getLevelId()>120000&&record.getLevelId()< 129999){//精英
+				levelId[1] =record.getLevelId()>levelId[1]?record.getLevelId():levelId[1];
+			}else if(record.getLevelId()>110000&&record.getLevelId()< 120000){//普通
+				levelId[0] =record.getLevelId()>levelId[0]?record.getLevelId():levelId[0];
+			}
+		}
+		return levelId;
 	}
 	
 	

@@ -172,7 +172,12 @@ public class BILogMgr {
 	}
 
 	private void logRoleLogout(Player player) {
-		logPlayer(eBILogType.RoleLogout, player, null);
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		int[] levelId = BILogTemplateHelper.getLevelId(player);
+		moreInfo.put("sp_case",levelId[0]+"");
+		moreInfo.put("nm_case",levelId[1]+"");
+		
+		logPlayer(eBILogType.RoleLogout, player, moreInfo);
 	}
 
 	/* 服务器当前没人在线时传入onlinecount为null */
@@ -387,6 +392,7 @@ public class BILogMgr {
 
 	public void logCopyBegin(Player player, Integer copyId, int copyLevel, boolean isFirst, eBILogCopyEntrance entranceType) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("copyEntrance", "" + player.getUserDataMgr().getEntranceId());
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));
@@ -411,6 +417,7 @@ public class BILogMgr {
 	 */
 	public void logCopyEnd(Player player, Integer copyId, int copyLevel, boolean isFirst, boolean isWin, int fightTime,String rewards) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("copyEntrance", "" + player.getUserDataMgr().getEntranceId());
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyLevel", getLogCopyLevel(copyLevel));

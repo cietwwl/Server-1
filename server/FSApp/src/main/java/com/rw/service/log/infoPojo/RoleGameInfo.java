@@ -54,6 +54,7 @@ public class RoleGameInfo {
 	//在线时长
 	private String onlineTime;
 	
+	public static final int Copy_Normal = 1;//银汉识别普通本为1
 	
 	final private static Field[] fieldList;
 	
@@ -107,7 +108,7 @@ public class RoleGameInfo {
 			roleGameInfo.setUserCreatedTime(DateUtils.getDateTimeFormatString(userCreateTime, "yyyy-MM-dd HH:mm:ss"));
 		}
 		if(player.getZoneLoginInfo()!=null){
-			logout(player,roleGameInfo);
+			logout(player,roleGameInfo,moreinfo);
 			logcopy(player,roleGameInfo,moreinfo);
 			logactivity(player,roleGameInfo,moreinfo);
 			logtask(player,roleGameInfo,moreinfo);			
@@ -132,7 +133,7 @@ public class RoleGameInfo {
 			}
 		}			
 		StringBuilder taskInfo = new StringBuilder();
-		taskInfo.append("activity_time:").append("").append("#")
+		taskInfo.append("task_time:").append("").append("#")
 		.append("task_reward:").append(rewardsinfotask);
 		roleGameInfo.setTaskInfo(taskInfo.toString());
 		
@@ -158,8 +159,8 @@ public class RoleGameInfo {
 	}
 
 	private static void logcopy(Player player, RoleGameInfo roleGameInfo, Map<String, String> moreinfo) {
-		int spcase = -1;
-		long nmcase = -1;			
+		int spcase = 0;
+		long nmcase = 0;			
 		String fighttime="";
 		String rewardsinfocopy = "";
 		if(moreinfo!= null){
@@ -167,7 +168,7 @@ public class RoleGameInfo {
 				fighttime = moreinfo.get("fightTime");
 			}
 			if(moreinfo.containsKey("copyLevel")&&moreinfo.containsKey("enemyTimes")){					
-				if(Integer.parseInt(moreinfo.get("copyLevel")) == CopyType.COPY_TYPE_NORMAL){
+				if(Integer.parseInt(moreinfo.get("copyLevel")) == Copy_Normal){
 					spcase = Integer.parseInt(moreinfo.get("enemyTimes"));
 				}else{
 					nmcase = Integer.parseInt(moreinfo.get("enemyTimes"));
@@ -186,16 +187,29 @@ public class RoleGameInfo {
 		
 	}
 
-	private static void logout(Player player, RoleGameInfo roleGameInfo) {
+	private static void logout(Player player, RoleGameInfo roleGameInfo, Map<String, String> moreinfo) {
 		long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
 		StringBuilder statInfo = new StringBuilder();			
 		int giftGold = player.getUserGameDataMgr().getGiftGold();
 		int chargeGold = player.getUserGameDataMgr().getChargeGold();
-		long coin = player.getUserGameDataMgr().getCoin();						
+		long coin = player.getUserGameDataMgr().getCoin();		
+		String spcase = "0";
+		String nmcase = "0";
+		if(moreinfo!= null){
+			if(moreinfo.containsKey("sp_case")){
+				spcase = moreinfo.get("sp_case");
+			}
+			if(moreinfo.containsKey("nm_case")){
+				nmcase = moreinfo.get("nm_case");
+			}			
+		}		
 		statInfo.append("online_time:").append(onlineTime).append("#")
 				.append("main_coin:").append(chargeGold).append("#")
 				.append("gift_coin:").append(giftGold).append("#")
-				.append("sub_coin:").append(coin);
+				.append("sub_coin:").append(coin).append("#")
+				.append("sp_case:").append(spcase).append("#")
+				.append("nm_case:").append(nmcase).append("#")			
+				.append("gang:").append(roleGameInfo.getFactionId());
 		roleGameInfo.setStatInfo(statInfo.toString());			
 		roleGameInfo.setOnlineTime("online_time:" + onlineTime);		
 	}
