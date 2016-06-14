@@ -9,6 +9,8 @@ import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
+import com.rw.handler.fixEquip.FixNormEquipDataItemHolder;
+import com.rw.handler.fixExpEquip.FixExpEquipDataItemHolder;
 import com.rw.handler.fresheractivity.FresherActivityHolder;
 import com.rw.handler.group.data.GroupDataVersion;
 import com.rw.handler.group.data.GroupRequestCacheData;
@@ -72,8 +74,10 @@ public class Client {
 	//玩家封神之路数据
 	private FresherActivityHolder fresherActivityHolder = new FresherActivityHolder();
 	
-	
+	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
 
+	
 
 
 	public Client(String accountIdP) {
@@ -242,7 +246,26 @@ public class Client {
 	public void setFresherActivityHolder(FresherActivityHolder fresherActivityHolder) {
 		this.fresherActivityHolder = fresherActivityHolder;
 	}
+	
+	public FixNormEquipDataItemHolder getFixNormEquipDataItemHolder() {
+		return fixNormEquipDataItemHolder;
+	}
 
+	public void setFixNormEquipDataItemHolder(
+			FixNormEquipDataItemHolder fixNormEquipDataItemHolder) {
+		this.fixNormEquipDataItemHolder = fixNormEquipDataItemHolder;
+	}
+
+	public FixExpEquipDataItemHolder getFixExpEquipDataItemHolder() {
+		return fixExpEquipDataItemHolder;
+	}
+
+	public void setFixExpEquipDataItemHolder(
+			FixExpEquipDataItemHolder fixExpEquipDataItemHolder) {
+		this.fixExpEquipDataItemHolder = fixExpEquipDataItemHolder;
+	}
+	
+	
 	public HeroEquipHolder getHeroEquipHolder() {
 		return heroEquipHolder;
 	}

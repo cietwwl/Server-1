@@ -24,9 +24,7 @@ public class ActivityDailyCountHolder{
 	}
 	
 
-	public void setGiftlist(Map<String, String> giftlist) {
-		this.giftlist = giftlist;
-	}
+
 
 	public void syn(MsgDataSyn msgDataSyn) {
 		listHolder.Syn(msgDataSyn);
