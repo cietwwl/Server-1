@@ -202,12 +202,12 @@ public class FixExpEquipMgr {
 	private FixEquipResult checkLevel(Player player, String ownerId, FixExpEquipDataItem dataItem){
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		if(dataItem == null){
-			result.setReason("装备不存在。");			
+			result.setReason("装备不存在");			
 		}else{
 			int nextLevel = dataItem.getLevel()+1;
 			
 			if(player.getLevel() < nextLevel){
-				result.setReason("装备等级不能超过英雄等级。");	
+				result.setReason("装备等级不能超过英雄等级");	
 			}else{				
 				result.setSuccess(true);
 			}
@@ -231,7 +231,7 @@ public class FixExpEquipMgr {
 				
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		if(consumeType == null){
-			result.setReason("所选经验道具和升级装备不匹配。");
+			result.setReason("所选经验道具和升级装备不匹配");
 		}else{
 			
 			int totalExp = selectItems2Exp(consumeType, selectItemList);
@@ -335,22 +335,22 @@ public class FixExpEquipMgr {
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		if(dataItem == null){
-			result.setReason("装备不存在。");			
+			result.setReason("装备不存在");			
 		}else{
 			int curlevel = dataItem.getLevel();
 			int currentQuality = dataItem.getQuality();
 			
 			FixExpEquipQualityCfg nextQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality+1);
 			if(nextQualityCfg == null){
-				result.setReason("装备已经达到最品质。");
+				result.setReason("装备已经达到最品质");
 			}else{
 				
 				FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality);
 				Map<Integer, Integer> itemsNeed = curQualityCfg.getItemsNeed();
 				if(curlevel < curQualityCfg.getLevelNeed() ){
-					result.setReason("装备等级不够。");	
+					result.setReason("装备等级不够");	
 				}else if(!FixEquipHelper.isItemEnough(player, itemsNeed)){
-					result.setReason("进化材料不足.");	
+					result.setReason("进化材料不足");	
 				}else{
 					result.setSuccess(true);
 					
