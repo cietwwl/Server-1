@@ -179,6 +179,110 @@ public final class GroupCopyCmdProto {
     // @@protoc_insertion_point(enum_scope:GroupCopyCmd.ResultCode)
   }
 
+  /**
+   * Protobuf enum {@code GroupCopyCmd.GroupCopyMapStatus}
+   *
+   * <pre>
+   *副本地图章节状态
+   * </pre>
+   */
+  public enum GroupCopyMapStatus
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>LOCKING = 1;</code>
+     */
+    LOCKING(0, 1),
+    /**
+     * <code>NOTSTART = 2;</code>
+     */
+    NOTSTART(1, 2),
+    /**
+     * <code>ONGOING = 3;</code>
+     */
+    ONGOING(2, 3),
+    /**
+     * <code>FINISH = 4;</code>
+     */
+    FINISH(3, 4),
+    ;
+
+    /**
+     * <code>LOCKING = 1;</code>
+     */
+    public static final int LOCKING_VALUE = 1;
+    /**
+     * <code>NOTSTART = 2;</code>
+     */
+    public static final int NOTSTART_VALUE = 2;
+    /**
+     * <code>ONGOING = 3;</code>
+     */
+    public static final int ONGOING_VALUE = 3;
+    /**
+     * <code>FINISH = 4;</code>
+     */
+    public static final int FINISH_VALUE = 4;
+
+
+    public final int getNumber() { return value; }
+
+    public static GroupCopyMapStatus valueOf(int value) {
+      switch (value) {
+        case 1: return LOCKING;
+        case 2: return NOTSTART;
+        case 3: return ONGOING;
+        case 4: return FINISH;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<GroupCopyMapStatus>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<GroupCopyMapStatus>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<GroupCopyMapStatus>() {
+            public GroupCopyMapStatus findValueByNumber(int number) {
+              return GroupCopyMapStatus.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyCmdProto.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final GroupCopyMapStatus[] VALUES = values();
+
+    public static GroupCopyMapStatus valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private GroupCopyMapStatus(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:GroupCopyCmd.GroupCopyMapStatus)
+  }
+
   public interface GroupCopyCmdReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -1429,8 +1533,10 @@ public final class GroupCopyCmdProto {
       "\0162\036.GroupCopyCmd.GroupCopyReqType\022)\n\007res" +
       "Code\030\002 \002(\0162\030.GroupCopyCmd.ResultCode* \n\020" +
       "GroupCopyReqType\022\014\n\010GET_INFO\020\001*)\n\nResult" +
-      "Code\022\014\n\010CODE_SUC\020\001\022\r\n\tCODE_FAIL\020\002B \n\013com" +
-      ".rwprotoB\021GroupCopyCmdProto"
+      "Code\022\014\n\010CODE_SUC\020\001\022\r\n\tCODE_FAIL\020\002*H\n\022Gro" +
+      "upCopyMapStatus\022\013\n\007LOCKING\020\001\022\014\n\010NOTSTART" +
+      "\020\002\022\013\n\007ONGOING\020\003\022\n\n\006FINISH\020\004B \n\013com.rwpro",
+      "toB\021GroupCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

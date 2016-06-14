@@ -12,6 +12,7 @@ import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 /**
  * 
@@ -25,12 +26,13 @@ public class GroupCopyMapRecord implements IMapItem {
 
 	@Id
 	private String id; // 唯一id
+	@IgnoreSynField
 	private String groupId; // 帮派ID
 	
 	@CombineSave
-	private int chaterID; //章节id
+	private String chaterID; //章节id
 	@CombineSave
-	private GroupCopyStatus status;//状态 开启 关闭 完成
+	private GroupCopyMapStatus status;//状态 开启 关闭 完成
 	
 	@CombineSave
 	private long rewardTime;//结束奖励时间点ms
@@ -84,16 +86,16 @@ public class GroupCopyMapRecord implements IMapItem {
 		this.groupId = groupId;
 	}
 	
-	public int getChaterID() {
+	public String getChaterID() {
 		return chaterID;
 	}
-	public void setChaterID(int chaterID) {
+	public void setChaterID(String chaterID) {
 		this.chaterID = chaterID;
 	}
-	public GroupCopyStatus getStatus() {
+	public GroupCopyMapStatus getStatus() {
 		return status;
 	}
-	public void setStatus(GroupCopyStatus status) {
+	public void setStatus(GroupCopyMapStatus status) {
 		this.status = status;
 	}
 	public double getProgress() {

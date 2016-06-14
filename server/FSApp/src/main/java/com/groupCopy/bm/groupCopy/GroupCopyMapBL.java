@@ -12,8 +12,8 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyStatus;
 import com.playerdata.Player;
+import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 
 /**
@@ -33,10 +33,10 @@ public class GroupCopyMapBL {
 		if(mapRecord == null){
 			GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
 			mapRecord = fromCfg(mapCfg);
-			mapRecord.setStatus(GroupCopyStatus.OPEN);
+			mapRecord.setStatus(GroupCopyMapStatus.NOTSTART);
 			groupCopyMapRecordHolder.addItem(mapRecord);
 		}else{
-			mapRecord.setStatus(GroupCopyStatus.OPEN);
+			mapRecord.setStatus(GroupCopyMapStatus.NOTSTART);
 			groupCopyMapRecordHolder.updateItem(mapRecord);
 		}
 		
@@ -100,7 +100,7 @@ public class GroupCopyMapBL {
 			totalHp += progress.getTotalHp();
 			currentHp += progress.getCurrentHp();
 		}
-		double p = (double) (totalHp - currentHp)/ totalHp * 100;
+		double p = (double) (totalHp - currentHp)/ totalHp;
 		mapRecordHolder.updateMapProgress(levelId, p);
 		
 	}

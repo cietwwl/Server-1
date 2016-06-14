@@ -13,6 +13,15 @@ enum ResultCode{
 	CODE_FAIL = 2;//失败
 }
 
+
+//副本地图章节状态
+enum GroupCopyMapStatus{
+	LOCKING = 1;
+    NOTSTART = 2;
+	ONGOING = 3;
+	FINISH = 4;
+}
+
 message GroupCopyCmdReqMsg{
 	required GroupCopyReqType reqType = 1;//请求的协议类型
 	optional string version = 2; //版本号

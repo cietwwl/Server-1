@@ -85,7 +85,8 @@
 			     <entry key="MSG_FEEDBACK" value-ref="feedbackService" />
 			     
 			     <entry key="MSG_GROUP_COPY_ADMIN" value-ref="groupCopyAdminService" />
-			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleServce"/>
+			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleService"/>
+			     <entry key="MSG_GROUP_COPY_CMD" value-ref="groupCopyCmdService" />
 			     
 			</map>
 		</property>
@@ -149,6 +150,8 @@
 	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
 	
 	<bean id="groupCopyAdminService" class="com.groupCopy.rw.service.groupCopy.GroupCopyAdminService"  />
-	<bean id="groupCopyBattleServce" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
+	<bean id="groupCopyBattleService" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />
+	<bean id="groupCopyCmdService" class="com.groupCopy.rw.service.groupCopy.GroupCopyCmdService" />
+	
 	
 </beans>  

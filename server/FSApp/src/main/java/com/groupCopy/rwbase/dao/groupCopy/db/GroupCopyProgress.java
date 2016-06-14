@@ -10,7 +10,7 @@ public class GroupCopyProgress {
 	private int totalHp;
 	private int currentHp;
 	
-	private double progress;
+	private double progress;//0-1
 	
 	private List<CopyMonsterStruct> mDatas = new ArrayList<CopyMonsterStruct>();
 	
@@ -28,7 +28,7 @@ public class GroupCopyProgress {
 			currentHp += struct.getCurrentHp();
 		}
 		
-		progress = (totalHp - currentHp) / totalHp * 100;
+		progress = (totalHp - currentHp) / totalHp;
 	}
 
 	public int getTotalHp() {
