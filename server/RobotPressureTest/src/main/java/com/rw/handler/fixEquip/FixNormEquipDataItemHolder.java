@@ -57,15 +57,5 @@ public class FixNormEquipDataItemHolder{
 			num++;
 		}
 	}
-	
-
-//	private List<Action> callbackList = new ArrayList<Action>();
-
-
-
-
-
-	
-
-	
+		
 }

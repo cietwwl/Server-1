@@ -18,7 +18,7 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-			 issucc=robot.testFixEquip(2, 3, -1, -1);
+			 issucc=robot.testFixEquip(-1, -1, 1, 9);
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 
