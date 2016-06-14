@@ -45,7 +45,7 @@ public class UnendingWarHandler {
 		UnendingWarResponse.Builder res = UnendingWarResponse.newBuilder();
 		// res.setInfo(otherRoleAttr);
 		res.setType(EUnendingWarType.OtherMsg);
-//		player.unendingWarMgr.getTable().setNum(player.unendingWarMgr.getTable().getNum()+1);
+		// player.unendingWarMgr.getTable().setNum(player.unendingWarMgr.getTable().getNum()+1);
 		player.unendingWarMgr.getTable().setDqCj(0);
 		res.setZhCj(player.unendingWarMgr.getTable().getZhCj());
 		res.setNum(player.unendingWarMgr.getTable().getNum());
@@ -91,15 +91,14 @@ public class UnendingWarHandler {
 	}
 
 	/*** 重置副本 ****/
-	public ByteString ResetNum(Player player) 
-	{
-		int count =  player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);;
+	public ByteString ResetNum(Player player) {
+		int count = player.getVipMgr().GetMaxPrivilege(EPrivilegeDef.WARFARE_COPY_RESET_TIMES);
+		;
 		int num = player.unendingWarMgr.getTable().getResetNum();
-		if(num<count)
-		{
+		if (num < count) {
 			player.unendingWarMgr.getTable().setResetNum(num + 1);
 		}
-		  
+
 		player.unendingWarMgr.getTable().setNum(0);
 
 		player.unendingWarMgr.save();
@@ -111,19 +110,19 @@ public class UnendingWarHandler {
 
 	/*** 获取对应的奖励 ****/
 	public List<? extends ItemInfo> getJlItem(Player player, int num, int cMap) {
-
 		this.setEnd(player, num, cMap);
-		List<ItemInfo> addList = new ArrayList<ItemInfo>();
-		CfgUnendingWar cfgUnendingWar = (CfgUnendingWar) CfgUnendingWarDAO.getInstance().getCfg(cMap, num);
-		if (cfgUnendingWar == null || cfgUnendingWar.jl1 == null) {
-			return addList;
-		}
-		/*** 加奖励到背包 ****/
-		// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz
-		String[] array = cfgUnendingWar.jl1.split(",");
-		ArrayList<Integer> dropList = new ArrayList<Integer>(array.length);
-		for (int i = 0; i < array.length; i++) {
-			dropList.add(Integer.parseInt(array[i]));
+		ArrayList<Integer> dropList = new ArrayList<Integer>();
+		for (int j = 1; j <= num; j++) {
+			CfgUnendingWar cfgUnendingWar = (CfgUnendingWar) CfgUnendingWarDAO.getInstance().getCfg(cMap, j);
+			if (cfgUnendingWar == null || cfgUnendingWar.jl1 == null) {
+				continue;
+			}
+			/*** 加奖励到背包 ****/
+			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz
+			String[] array = cfgUnendingWar.jl1.split(",");
+			for (int i = 0; i < array.length; i++) {
+				dropList.add(Integer.parseInt(array[i]));
+			}
 		}
 		// TODO DropItemManaer可优化成一个方法调用，少一次数据库操作和减少遍历操作
 		List<? extends ItemInfo> listItemBattle = null;
@@ -136,7 +135,7 @@ public class UnendingWarHandler {
 		if (listItemBattle != null) {
 			addJlItem(listItemBattle, player);
 			return listItemBattle;
-		}else{
+		} else {
 			return Collections.EMPTY_LIST;
 		}
 	}
