@@ -29,6 +29,7 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
@@ -481,7 +482,7 @@ public class RankingMgr {
 			return false;
 		}
 		if (rankType == ERankingType.ATHLETICS_FIGHTING) {
-			return pPlayer.getLevel() >= 45;
+			return PeakArenaBM.getInstance().isOpen(pPlayer);
 		}
 		CfgRanking cfgRank = CfgRankingDAO.getInstance().getRankingCf(rankType.getValue());
 		if (cfgRank == null || pPlayer.getLevel() < cfgRank.getLimitLevel()) {// 未到达开放等级返回
@@ -577,6 +578,14 @@ public class RankingMgr {
 			ranking.addOrUpdateRankingEntry(userId, levelComparable, player);
 		} else {
 			ranking.updateRankingEntry(entry, levelComparable);
+		}
+	}
+
+	public void addPeakFightingRanking(Player player) {
+		try {
+			checkUpdateFighting(player, RankType.PEAK_ARENA_FIGHTING, getPeakArenaFighting(player), ERankingType.ATHLETICS_FIGHTING);
+		} catch (Exception ex) {
+			GameLog.error("PeakArenaBM", player.getUserId(), "添加到排行榜异常:", ex);
 		}
 	}
 
