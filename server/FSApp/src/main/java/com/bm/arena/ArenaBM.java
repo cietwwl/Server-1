@@ -14,6 +14,7 @@ import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.HPCUtil;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -171,6 +172,18 @@ public class ArenaBM {
 		// TableAttrDAO.getInstance().get(player.getUserId()));
 		// data.setPlayerSkill(player.getSkillMgr().getTableSkill()); //
 		// TableSkillDAO.getInstance().get(player.getUserId()));
+
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		ArrayList<String> defaultHeros = new ArrayList<String>(4);
+		for (Hero hero : maxFightingHeros) {
+			String heroId = hero.getUUId();
+			if (!heroId.equals(userId)) {
+				defaultHeros.add(heroId);
+			}
+		}
+
+		data.setHeroIdList(defaultHeros);
+		
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
 		data.setHeadImage(headImage);

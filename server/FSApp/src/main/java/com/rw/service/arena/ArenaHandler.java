@@ -150,7 +150,7 @@ public class ArenaHandler {
 				response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 				return response.build().toByteString();
 			}
-			setArenaHero(player, arenaData, request.getHeroIdsList());
+			setArenaHero(player, arenaData, null);
 		}
 
 		List<ListRankingEntry<String, ArenaExtAttribute>> listInfo = ArenaBM.getInstance().selectArenaInfos(player);
@@ -217,8 +217,9 @@ public class ArenaHandler {
 		String userId = player.getUserId();
 		int fighting = player.getMainRoleHero().getFighting();
 		arenaData.setUserId(userId);
-		arenaData.setHeroIdList(heroIds);
-
+		if(heroIds!=null){
+			arenaData.setHeroIdList(heroIds);
+		}
 		arenaData.setFighting(fighting);
 		TableArenaDataDAO.getInstance().update(arenaData);
 		ListRanking<String, ArenaExtAttribute> ranking = ArenaBM.getInstance().getRanking(player.getCareer());
