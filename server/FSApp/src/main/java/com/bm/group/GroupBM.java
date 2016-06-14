@@ -28,6 +28,8 @@ import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataDAO;
 import com.rwbase.dao.group.pojo.db.dao.GroupLogDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.gameworld.PlayerTask;
+import com.rwproto.GroupCommonProto.GroupPost;
+import com.rwproto.GroupCommonProto.GroupState;
 
 /*
  * @author HC

@@ -113,8 +113,8 @@ public class MapItemStoreFactory {
 	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
-				return;
 				init = true;
+				return;
 			}
 		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();

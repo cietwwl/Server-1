@@ -246,7 +246,7 @@ public class FashionMgr implements FashionMgrIF {
 	}
 
 	public void onMinutes() {
-		GameLog.info("时装", "定时检查", "OnMinutes", null);
+//		GameLog.info("时装", "定时检查", "OnMinutes", null);
 		checkExpired();
 		notifyProxy.checkDelayNotify();
 	}
