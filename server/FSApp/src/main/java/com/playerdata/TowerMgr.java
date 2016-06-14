@@ -9,7 +9,6 @@ import com.bm.rank.RankType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Weight;
 import com.log.GameLog;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
@@ -24,6 +23,7 @@ import com.rw.service.tower.TowerHandler.FloorState;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.anglearray.AngelArrayConst;
 import com.rwbase.dao.anglearray.AngelArrayUtils;
 import com.rwbase.dao.anglearray.pojo.AngleArrayMatchHelper;
@@ -368,6 +368,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			}
 			if (towerCoin > 0) {
 				dropReward.append(eSpecialItemId.BraveCoin.getValue()).append("_").append(towerCoin).append(",");
+				
 			}
 
 			List<TowerGoodsCfg> formatList = TowerGoodsCfgDAO.getInstance().getCfgsByFormatId(awardCfg.formatId);
@@ -422,6 +423,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "得到英雄id=" + templateId);
 			} else {
 				player.getItemBagMgr().addItem(templateId, num);
+			}
+			if(templateId == eSpecialItemId.BraveCoin.getValue()){
+				UserEventMgr.getInstance().TowerVitality(player, num);
 			}
 		}
 	}

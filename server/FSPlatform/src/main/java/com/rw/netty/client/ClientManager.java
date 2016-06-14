@@ -1,5 +1,8 @@
 package com.rw.netty.client;
 
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -21,9 +24,11 @@ public class ClientManager {
 	private final HashMap<Integer, Client> ClientPool;
 
 	public ClientManager(){
+		EventLoopGroup group = new NioEventLoopGroup();
 		ClientPool = new HashMap<Integer, Client>(PlatformFactory.getPlatform_connect_num());
 		for (int i = 0; i < PLATFORM_CONNECT_NUM; i++) {
 			Client client = new Client(i + 1);
+			client.setGroup(group);
 			ClientPool.put(client.getId(), client);
 			PlatformFactory.getPlatformService().submitClientTask(client);
 		}

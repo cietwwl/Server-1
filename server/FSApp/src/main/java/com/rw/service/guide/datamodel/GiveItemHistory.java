@@ -19,7 +19,10 @@ public class GiveItemHistory implements IMapItem {
 		return userId+"_"+actId;
 	}
 	
-	private GiveItemHistory(){}
+	/**
+	 * 仅仅用于json库的序列化/反序列化，其他人不要调用
+	 */
+	public GiveItemHistory(){}
 	
 	public static GiveItemHistory Add(INotifyChange notifyProxy,String userId,int giveActionId){
 		GiveItemHistory result = new GiveItemHistory();

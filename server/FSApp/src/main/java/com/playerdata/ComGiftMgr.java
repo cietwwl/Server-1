@@ -3,8 +3,13 @@ package com.playerdata;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.tools.ant.taskdefs.Replace;
+
+import com.alibaba.druid.util.StringUtils;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
+import com.rw.fsutil.util.StringUtil;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.log.template.maker.LogTemplateMaker;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -39,8 +44,15 @@ public class ComGiftMgr {
 		}		
 	}
 	
-	/**传入comgiftdao表里的道具奖励 包id,邮箱的对话格式id，将包里的奖励道具派出到用户邮箱 */
-	public boolean addGiftTOEmailById(Player player, String giftid  ,String emailid){
+	/**
+	 *  传入comgiftdao表里的道具奖励 包id,邮箱的对话格式id，将包里的奖励道具派出到用户邮箱 
+	 * @param player
+	 * @param giftid 奖励id，对应gift奖励表格
+	 * @param emailid 使用的邮件格式id
+	 * @param mark 用来标记奖励的明细,目前只支持附加在标题上
+	 * @return
+	 */
+	public boolean addGiftTOEmailById(Player player, String giftid  ,String emailid ,String mark){
 		boolean isadd = false;
 		
 		
@@ -49,8 +61,9 @@ public class ComGiftMgr {
 		EmailData emailData = new EmailData();
 		if(cfg != null){
 		emailData.setEmailAttachment(sb);
-		emailData.setTitle(cfg.getTitle());
-		emailData.setContent(cfg.getContent());
+		
+		emailData.setTitle(replace(cfg.getTitle(),mark));
+		emailData.setContent(replace(cfg.getContent(),mark));
 		emailData.setSender(cfg.getSender());
 		emailData.setCheckIcon(cfg.getCheckIcon());
 		emailData.setSubjectIcon(cfg.getSubjectIcon());
@@ -62,6 +75,19 @@ public class ComGiftMgr {
 		}
 		return isadd;
 	}
+	
+	
+	/**将传入的str中的某个符号替换为mark*/
+	private static String replace(String str, String mark) {
+		if(StringUtils.isEmpty(mark)||StringUtils.isEmpty(str)){
+			return str;
+		}
+		String newstr = str.replace("{0}", mark);
+		return newstr;
+	}
+
+	
+	
 	/**通过gift奖励包的id，生成 邮箱的奖励表字符串 */
 	private String makegiftToMail(String giftid){
 		StringBuilder sb = new StringBuilder();

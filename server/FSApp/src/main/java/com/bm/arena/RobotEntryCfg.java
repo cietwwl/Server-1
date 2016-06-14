@@ -1,7 +1,6 @@
 package com.bm.arena;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -212,6 +211,16 @@ public class RobotEntryCfg {
 
 	public int[] getHeroLevel() {
 		return heroLevel;
+	}
+	public List<Integer> getHeroLevel(int maxLevel) {
+		List<Integer> levelList = new ArrayList<Integer>();
+		for (int levelTmp : heroLevel) {
+			if(levelTmp <= maxLevel){
+				levelList.add(levelTmp);
+			}
+		}		
+		
+		return levelList;
 	}
 
 	public int[] getHeroQuality() {

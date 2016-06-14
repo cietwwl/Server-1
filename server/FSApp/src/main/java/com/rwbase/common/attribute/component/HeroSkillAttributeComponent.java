@@ -3,7 +3,6 @@ package com.rwbase.common.attribute.component;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.team.SkillInfo;
@@ -27,7 +26,7 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
 		List<Skill> skillList = hero.getSkillMgr().getSkillList();
 		if (skillList == null || skillList.isEmpty()) {
-			GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄身上的技能是空的", hero.getUUId()));
+			// GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄身上的技能是空的", hero.getUUId()));
 			return null;
 		}
 
@@ -39,9 +38,14 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 				continue;
 			}
 
+			int level = skill.getLevel();
+			if (level <= 0) {
+				continue;
+			}
+
 			SkillInfo si = new SkillInfo();
-			si.setSkillId(skill.getId());
-			si.setSkillLevel(skill.getLevel());
+			si.setSkillId(skill.getSkillId());
+			si.setSkillLevel(level);
 
 			skillInfoList.add(si);
 		}
@@ -53,7 +57,8 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {
-			GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(), getComponentTypeEnum()));
+			// GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(),
+			// getComponentTypeEnum()));
 			return null;
 		}
 		return calc.calc(builder.build());

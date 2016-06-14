@@ -528,24 +528,24 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
 		if (userGroupData == null) {
-			GameLog.error("计算英雄帮派属性", userId, "角色没有对应的UserGroupAttributeData数据");
+			// GameLog.error("计算英雄帮派属性", userId, "角色没有对应的UserGroupAttributeData数据");
 			return map;
 		}
 
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {// 没有帮派
-			GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
+		// GameLog.error("计算英雄帮派属性", userId, "角色没有帮派");
 			return map;
 		}
 
 		if (!userGroupData.hasStudySkill()) {
-			GameLog.error("计算英雄帮派属性", userId, "角色没有学习过任何技能");
+			// GameLog.error("计算英雄帮派属性", userId, "角色没有学习过任何技能");
 			return map;
 		}
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
+			// GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
 			return map;
 		}
 

@@ -25,15 +25,15 @@ public final class UserGroupAttributeDataDAO extends DataRdbDao<UserGroupAttribu
 	 * @return
 	 */
 	public UserGroupAttributeData getUserGroupAttributeData(String userId) {
-//		UserGroupAttributeData data = dao.getObject(userId);
-//		if (data == null) {
-//			data = new UserGroupAttributeData();
-//			data.setUserId(userId);
-//			data.setGroupId("");
-//			dao.saveOrUpdate(data);
-//		}
-//
-//		return data;
+		// UserGroupAttributeData data = dao.getObject(userId);
+		// if (data == null) {
+		// data = new UserGroupAttributeData();
+		// data.setUserId(userId);
+		// data.setGroupId("");
+		// dao.saveOrUpdate(data);
+		// }
+		//
+		// return data;
 		return dao.getObject(userId);
 	}
 

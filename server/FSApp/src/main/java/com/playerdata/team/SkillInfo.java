@@ -1,10 +1,13 @@
 package com.playerdata.team;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
 /*
  * @author HC
  * @date 2016年4月15日 下午4:31:26
  * @Description 
  */
+@SynClass
 public class SkillInfo {
 	private String skillId;// 技能Id
 	private int skillLevel;// 技能等级

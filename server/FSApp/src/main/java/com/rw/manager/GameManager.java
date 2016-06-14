@@ -61,15 +61,12 @@ public class GameManager {
 	private static boolean reloadconfig;
 	// author:lida 2015-09-23 区id
 	private static int zoneId;
-	private static int httpPort;
 	private static long openTime; // 新服开服时间
 	private static List<PlatformInfo> platformInfos = new ArrayList<PlatformInfo>(); // 登陆服信息
 	private static String logServerIp; // 日志服ip
 	private static int logServerPort; // 日志服端口
 	private static ServerPerformanceConfig performanceConfig;
 	private static GameNoticeDataHolder gameNotice;
-	private static String giftCodeServerIp;// 兑换码服务器Id
-	private static int giftCodeServerPort;// 兑换码服务器端口
 	private static int giftCodeTimeOut;// 兑换码服务器请求超时
 	private static String gmAccount;// GM账户名
 	private static String gmPassword;// GM密码
@@ -126,6 +123,7 @@ public class GameManager {
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
 		RobotManager.getInstance().createRobots();
+		RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
@@ -157,7 +155,6 @@ public class GameManager {
 			generateIdNumber = Integer.parseInt(props.getProperty("generateIdNumber"));
 			generateTotalNumber = Integer.parseInt(props.getProperty("generateTotalNumber"));
 			zoneId = Integer.parseInt(props.getProperty("zoneId"));
-			httpPort = Integer.parseInt(props.getProperty("httpPort"));
 			String strPlatformUrl = props.getProperty("platformUrl");
 			String[] split = strPlatformUrl.split(",");
 			for (String value : split) {
@@ -173,8 +170,6 @@ public class GameManager {
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
 
-			giftCodeServerIp = props.getProperty("giftCodeServerIp");
-			giftCodeServerPort = Integer.parseInt(props.getProperty("giftCodeServerPort"));
 			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
 
 			gmAccount = props.getProperty("gmAccount");
@@ -366,10 +361,6 @@ public class GameManager {
 		return zoneId;
 	}
 
-	public static int getHttpPort() {
-		return httpPort;
-	}
-
 	public static long getOpenTime() {
 		return openTime;
 	}
@@ -392,14 +383,6 @@ public class GameManager {
 
 	public static ServerPerformanceConfig getPerformanceConfig() {
 		return performanceConfig;
-	}
-
-	public static String getGiftCodeServerIp() {
-		return giftCodeServerIp;
-	}
-
-	public static int getGiftCodeServerPort() {
-		return giftCodeServerPort;
 	}
 
 	public static int getGiftCodeTimeOut() {

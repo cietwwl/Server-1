@@ -26,6 +26,7 @@ public class GmStartRobotCreation implements IGmTask{
 			public void run() {
 				try {
 					RobotManager.getInstance().createRobots();
+					RobotManager.getInstance().createPeakArenaRobot();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.GM.getName(), "GmStartRobotCreation", "GmStartRobotCreation[doTask] GmExecutor run", e);
 				}

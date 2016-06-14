@@ -79,10 +79,17 @@
 			     
 			     <entry key="MSG_ACTIVITY_COUNTTYPE" value-ref="activityCountTypeService" />
 			     <entry key="MSG_ACTIVITY_TIME_COUNT_TYPE" value-ref="activityTimeCountTypeService" />
-			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyCountTypeService" />
+			     <entry key="MSG_ACTIVITY_DAILY_TYPE" value-ref="activityDailyTypeService" />
+			     <entry key="MSG_ACTIVITY_VITALITY_TYPE" value-ref="activityVitalityTypeService" />
+			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
+			     <entry key="MSG_MAGIC_SECRET" value-ref="magicSecretService" />
 			     <entry key="MSG_FEEDBACK" value-ref="feedbackService" />
+			     <entry key="MSG_FIX_EQUIP" value-ref="fixEquipService" />
+			     
+		     	<entry key="MSG_GROUP_SECRET" value-ref="groupSecretService" />
+     			<entry key="MSG_GROUP_SECRET_MATCH" value-ref="groupSecretServiceMatch" />
 			     
 			     <entry key="MSG_GROUP_COPY_ADMIN" value-ref="groupCopyAdminService" />
 			     <entry key="MSG_GROUP_COPY_BATTLE" value-ref="groupCopyBattleService"/>
@@ -144,10 +151,16 @@
 	
 	<bean id="activityCountTypeService" class="com.playerdata.activity.countType.service.ActivityCountTypeService"  />
 	<bean id="activityTimeCountTypeService" class="com.playerdata.activity.timeCountType.service.ActivityTimeCountTypeService"  />
-	<bean id="activityDailyCountTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyCountTypeService"  />
+	<bean id="activityDailyTypeService" class="com.playerdata.activity.dailyCountType.service.ActivityDailyTypeService"  />
+	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
+	<bean id="magicSecretService" class="com.playerdata.mgcsecret.service.MagicSecretService"/>
 	<bean id="feedbackService" class="com.rw.service.customer.FeedbackService"  />
+	<bean id="fixEquipService" class="com.playerdata.fixEquip.FixEquipService"  />
+	
+	<bean id="groupSecretService" class="com.rw.service.groupsecret.GroupSecretService"  />
+	<bean id="groupSecretServiceMatch" class="com.rw.service.groupsecret.GroupSecretMatchService"  />
 	
 	<bean id="groupCopyAdminService" class="com.groupCopy.rw.service.groupCopy.GroupCopyAdminService"  />
 	<bean id="groupCopyBattleService" class="com.groupCopy.rw.service.groupCopy.GroupCopyBattleService" />

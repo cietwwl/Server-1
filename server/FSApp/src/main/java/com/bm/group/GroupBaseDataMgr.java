@@ -339,11 +339,13 @@ public class GroupBaseDataMgr {
 
 		if (oldLevel != curLevel) {// 如果两个等级不一样
 			groupData.setToLevelTime(now);
-			GroupLog log = new GroupLog();
-			log.setLogType(GroupLogType.GROUP_UPGRADE_VALUE);
-			log.setTime(now);
-			log.setGroupLevel(curLevel);
-			logMgr.addLog(player, log);
+			if (logMgr != null) {
+				GroupLog log = new GroupLog();
+				log.setLogType(GroupLogType.GROUP_UPGRADE_VALUE);
+				log.setTime(now);
+				log.setGroupLevel(curLevel);
+				logMgr.addLog(player, log);
+			}
 		}
 
 		// 更新下排行榜的扩展属性

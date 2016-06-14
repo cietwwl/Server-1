@@ -28,12 +28,13 @@ public class GmWhiteListModify implements IGmTask{
 		WhiteListBaseDataResponse whiteListBaseDataResponse = new WhiteListBaseDataResponse();
 		List<String> accountList = new ArrayList<String>();
 		
+		//传进来的是openAccount 使用openAccount绑定白名单
 		String accountIdStr = (String)request.getArgs().get("add");
 		if(StringUtils.isNotBlank(accountIdStr)){//开启
 			String[] split = accountIdStr.split(",");
 			for (String accountId : split) {
 				if(StringUtils.isNotBlank(accountId)){
-					TableAccount tableAccount = AccoutBM.getInstance().getByAccountId(accountId);
+					TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(accountId);
 					if (tableAccount != null) {
 						ServerStatusMgr.addWhite(accountId.trim());
 						accountList.add(accountId);

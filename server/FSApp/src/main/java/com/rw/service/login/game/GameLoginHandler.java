@@ -59,18 +59,19 @@ public class GameLoginHandler {
 
 		final String accountId = request.getAccountId();
 		final int zoneId = request.getZoneId();
-		// 检测白名单 by lida
-		if (GameManager.isWhiteListLimit(accountId)) {
-			response.setError("该区维护中，请稍后尝试，");
-			response.setResultType(eLoginResultType.ServerMainTain);
-			sendResponse(header, response.build().toByteString(), ctx);
-			return;
-		}
+		
 		GameLog.debug("Game Login Start --> accountId:" + accountId + ",zoneId:" + zoneId);
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 		if (userAccount == null) {
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("账号不存在");
+			sendResponse(header, response.build().toByteString(), ctx);
+			return;
+		}
+		// 检测白名单 by lida
+		if (GameManager.isWhiteListLimit(userAccount.getOpenAccount())) {
+			response.setError("该区维护中，请稍后尝试，");
+			response.setResultType(eLoginResultType.ServerMainTain);
 			sendResponse(header, response.build().toByteString(), ctx);
 			return;
 		}
@@ -101,10 +102,10 @@ public class GameLoginHandler {
 
 		final String accountId = request.getAccountId();
 		final int zoneId = request.getZoneId();
-		if (GameManager.isWhiteListLimit(accountId)) {
-			sendResponse(header, createLoginResponse("该区维护中，请稍后尝试，", eLoginResultType.ServerMainTain), ctx);
-			return;
-		}
+//		if (GameManager.isWhiteListLimit(accountId)) {
+//			sendResponse(header, createLoginResponse("该区维护中，请稍后尝试，", eLoginResultType.ServerMainTain), ctx);
+//			return;
+//		}
 		GameLog.debug("Game Create Role Start --> accountId:" + accountId + " , zoneId:" + zoneId);
 		GameWorldFactory.getGameWorld().executeAccountTask(accountId, new PlayerCreateTask(request, header, ctx, generator));
 	}

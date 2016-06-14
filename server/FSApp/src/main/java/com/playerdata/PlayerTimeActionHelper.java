@@ -3,10 +3,14 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyCountTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.publicdata.PublicData;
@@ -24,6 +28,8 @@ public class PlayerTimeActionHelper {
 				// 体力更新
 				int level = player.getLevel();
 				player.getUserGameDataMgr().addPowerByTime(level);
+				// 秘境钥石恢复
+				UserGroupSecretBaseDataMgr.getMgr().checkAndUpdateKeyData(player);
 			}
 		});
 		return onSecondTimeAction;
@@ -81,11 +87,12 @@ public class PlayerTimeActionHelper {
 		onNewHourTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
-				//每个小时都检查一下活动的开启关闭状态
+				// 每个小时都检查一下活动的开启关闭状态
 				ActivityCountTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 				ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-				ActivityDailyCountTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
+				ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 			}
 		});
 		return onNewHourTimeAction;
@@ -97,22 +104,15 @@ public class PlayerTimeActionHelper {
 
 		TimeAction onNewDayZeroTimeAction = new TimeAction(player.getUserId());
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
-		
+
 		onNewDayZeroTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
 				MonthCardPrivilegeMgr.getShareInstance().checkPrivilege(player);
 			}
 		});
-		
+
 		return onNewDayZeroTimeAction;
-		
-		
-		
-		// RankingMgr.getInstance().resetUpdateState();
-		// m_ArenaMgr.resetDataInNewDay();
-		// String userId = getUserId();
-		// m_PeakArenaMgr.resetDataInNewDay();
 	}
 
 	public static TimeAction onNewDay5ClockTimeAction(final Player player) {
@@ -214,6 +214,12 @@ public class PlayerTimeActionHelper {
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
+				PeakArenaBM.getInstance().resetDataInNewDay(player);
+			}
+		});
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
 				ArenaBM.getInstance().resetDataInNewDay(player);
 			}
 		});
@@ -223,6 +229,14 @@ public class PlayerTimeActionHelper {
 			@Override
 			public void doTask() {
 				player.getTowerMgr().resetDataInNewDay();
+			}
+		});
+
+		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
+
+			@Override
+			public void doTask() {
+				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 		});
 

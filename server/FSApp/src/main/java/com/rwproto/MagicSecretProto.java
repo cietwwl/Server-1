@@ -17,7 +17,7 @@ public final class MagicSecretProto {
      * <code>GET_MS_RANK = 1;</code>
      *
      * <pre>
-     *»ñÈ¡·¨±¦ÃØ¾³ÅÅĞĞ°ñ
+     *è·å–æ³•å®ç§˜å¢ƒæ’è¡Œæ¦œ
      * </pre>
      */
     GET_MS_RANK(0, 1),
@@ -25,7 +25,7 @@ public final class MagicSecretProto {
      * <code>ENTER_MS_FIGHT = 2;</code>
      *
      * <pre>
-     *½øÈëÕ½¶·
+     *è¿›å…¥æˆ˜æ–—
      * </pre>
      */
     ENTER_MS_FIGHT(1, 2),
@@ -33,7 +33,7 @@ public final class MagicSecretProto {
      * <code>GET_MS_SINGLE_REWARD = 3;</code>
      *
      * <pre>
-     *»ñÈ¡µ¥¹Ø½±Àø
+     *è·å–å•å…³å¥–åŠ±
      * </pre>
      */
     GET_MS_SINGLE_REWARD(2, 3),
@@ -41,7 +41,7 @@ public final class MagicSecretProto {
      * <code>GET_MS_SWEEP_REWARD = 4;</code>
      *
      * <pre>
-     *»ñÈ¡É¨µ´½±Àø
+     *è·å–æ‰«è¡å¥–åŠ±
      * </pre>
      */
     GET_MS_SWEEP_REWARD(3, 4),
@@ -49,7 +49,7 @@ public final class MagicSecretProto {
      * <code>EXCHANGE_BUFF = 5;</code>
      *
      * <pre>
-     *»»È¡buff
+     *æ¢å–buff
      * </pre>
      */
     EXCHANGE_BUFF(4, 5),
@@ -57,7 +57,7 @@ public final class MagicSecretProto {
      * <code>OPEN_REWARD_BOX = 6;</code>
      *
      * <pre>
-     *´ò¿ª±¦Ïä
+     *æ‰“å¼€å®ç®±
      * </pre>
      */
     OPEN_REWARD_BOX(5, 6),
@@ -65,7 +65,7 @@ public final class MagicSecretProto {
      * <code>CHANGE_ARMY = 7;</code>
      *
      * <pre>
-     *¸ü»»¶ÓÎé
+     *æ›´æ¢é˜Ÿä¼
      * </pre>
      */
     CHANGE_ARMY(6, 7),
@@ -73,7 +73,7 @@ public final class MagicSecretProto {
      * <code>GET_SCORE_REWARD = 8;</code>
      *
      * <pre>
-     *ÁìÈ¡»ı·Ö½±Àø
+     *é¢†å–ç§¯åˆ†å¥–åŠ±
      * </pre>
      */
     GET_SCORE_REWARD(7, 8),
@@ -81,7 +81,7 @@ public final class MagicSecretProto {
      * <code>GET_SELF_MS_RANK = 9;</code>
      *
      * <pre>
-     *»ñÈ¡×Ô¼ºµÄÅÅÃû
+     *è·å–è‡ªå·±çš„æ’å
      * </pre>
      */
     GET_SELF_MS_RANK(8, 9),
@@ -89,17 +89,25 @@ public final class MagicSecretProto {
      * <code>GIVE_UP_REWARD_BOX = 10;</code>
      *
      * <pre>
-     *·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó£¨ÒòÎªÒª»¨·Ñ×êÊ¯£¬ËùÒÔ¿ÉÒÔ·ÅÆú²»¿ª£©
+     *æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ï¼ˆå› ä¸ºè¦èŠ±è´¹é’»çŸ³ï¼Œæ‰€ä»¥å¯ä»¥æ”¾å¼ƒä¸å¼€ï¼‰
      * </pre>
      */
     GIVE_UP_REWARD_BOX(9, 10),
+    /**
+     * <code>GIVE_UP_BUFF = 11;</code>
+     *
+     * <pre>
+     *æ”¾å¼ƒå¯ä»¥é€‰æ‹©çš„buff
+     * </pre>
+     */
+    GIVE_UP_BUFF(10, 11),
     ;
 
     /**
      * <code>GET_MS_RANK = 1;</code>
      *
      * <pre>
-     *»ñÈ¡·¨±¦ÃØ¾³ÅÅĞĞ°ñ
+     *è·å–æ³•å®ç§˜å¢ƒæ’è¡Œæ¦œ
      * </pre>
      */
     public static final int GET_MS_RANK_VALUE = 1;
@@ -107,7 +115,7 @@ public final class MagicSecretProto {
      * <code>ENTER_MS_FIGHT = 2;</code>
      *
      * <pre>
-     *½øÈëÕ½¶·
+     *è¿›å…¥æˆ˜æ–—
      * </pre>
      */
     public static final int ENTER_MS_FIGHT_VALUE = 2;
@@ -115,7 +123,7 @@ public final class MagicSecretProto {
      * <code>GET_MS_SINGLE_REWARD = 3;</code>
      *
      * <pre>
-     *»ñÈ¡µ¥¹Ø½±Àø
+     *è·å–å•å…³å¥–åŠ±
      * </pre>
      */
     public static final int GET_MS_SINGLE_REWARD_VALUE = 3;
@@ -123,7 +131,7 @@ public final class MagicSecretProto {
      * <code>GET_MS_SWEEP_REWARD = 4;</code>
      *
      * <pre>
-     *»ñÈ¡É¨µ´½±Àø
+     *è·å–æ‰«è¡å¥–åŠ±
      * </pre>
      */
     public static final int GET_MS_SWEEP_REWARD_VALUE = 4;
@@ -131,7 +139,7 @@ public final class MagicSecretProto {
      * <code>EXCHANGE_BUFF = 5;</code>
      *
      * <pre>
-     *»»È¡buff
+     *æ¢å–buff
      * </pre>
      */
     public static final int EXCHANGE_BUFF_VALUE = 5;
@@ -139,7 +147,7 @@ public final class MagicSecretProto {
      * <code>OPEN_REWARD_BOX = 6;</code>
      *
      * <pre>
-     *´ò¿ª±¦Ïä
+     *æ‰“å¼€å®ç®±
      * </pre>
      */
     public static final int OPEN_REWARD_BOX_VALUE = 6;
@@ -147,7 +155,7 @@ public final class MagicSecretProto {
      * <code>CHANGE_ARMY = 7;</code>
      *
      * <pre>
-     *¸ü»»¶ÓÎé
+     *æ›´æ¢é˜Ÿä¼
      * </pre>
      */
     public static final int CHANGE_ARMY_VALUE = 7;
@@ -155,7 +163,7 @@ public final class MagicSecretProto {
      * <code>GET_SCORE_REWARD = 8;</code>
      *
      * <pre>
-     *ÁìÈ¡»ı·Ö½±Àø
+     *é¢†å–ç§¯åˆ†å¥–åŠ±
      * </pre>
      */
     public static final int GET_SCORE_REWARD_VALUE = 8;
@@ -163,7 +171,7 @@ public final class MagicSecretProto {
      * <code>GET_SELF_MS_RANK = 9;</code>
      *
      * <pre>
-     *»ñÈ¡×Ô¼ºµÄÅÅÃû
+     *è·å–è‡ªå·±çš„æ’å
      * </pre>
      */
     public static final int GET_SELF_MS_RANK_VALUE = 9;
@@ -171,10 +179,18 @@ public final class MagicSecretProto {
      * <code>GIVE_UP_REWARD_BOX = 10;</code>
      *
      * <pre>
-     *·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó£¨ÒòÎªÒª»¨·Ñ×êÊ¯£¬ËùÒÔ¿ÉÒÔ·ÅÆú²»¿ª£©
+     *æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ï¼ˆå› ä¸ºè¦èŠ±è´¹é’»çŸ³ï¼Œæ‰€ä»¥å¯ä»¥æ”¾å¼ƒä¸å¼€ï¼‰
      * </pre>
      */
     public static final int GIVE_UP_REWARD_BOX_VALUE = 10;
+    /**
+     * <code>GIVE_UP_BUFF = 11;</code>
+     *
+     * <pre>
+     *æ”¾å¼ƒå¯ä»¥é€‰æ‹©çš„buff
+     * </pre>
+     */
+    public static final int GIVE_UP_BUFF_VALUE = 11;
 
 
     public final int getNumber() { return value; }
@@ -191,6 +207,7 @@ public final class MagicSecretProto {
         case 8: return GET_SCORE_REWARD;
         case 9: return GET_SELF_MS_RANK;
         case 10: return GIVE_UP_REWARD_BOX;
+        case 11: return GIVE_UP_BUFF;
         default: return null;
       }
     }
@@ -251,7 +268,7 @@ public final class MagicSecretProto {
      * <code>SUCCESS = 1;</code>
      *
      * <pre>
-     *³É¹¦
+     *æˆåŠŸ
      * </pre>
      */
     SUCCESS(0, 1),
@@ -259,7 +276,7 @@ public final class MagicSecretProto {
      * <code>TIMES_NOT_ENOUGH = 2;</code>
      *
      * <pre>
-     *ÌôÕ½´ÎÊı²»×ã
+     *æŒ‘æˆ˜æ¬¡æ•°ä¸è¶³
      * </pre>
      */
     TIMES_NOT_ENOUGH(1, 2),
@@ -267,7 +284,7 @@ public final class MagicSecretProto {
      * <code>LOW_LEVEL = 3;</code>
      *
      * <pre>
-     *µÈ¼¶²»×ã
+     *ç­‰çº§ä¸è¶³
      * </pre>
      */
     LOW_LEVEL(2, 3),
@@ -275,7 +292,7 @@ public final class MagicSecretProto {
      * <code>CONDITION_UNREACH = 4;</code>
      *
      * <pre>
-     *Ç°ÌáÌõ¼şÎ´´ïµ½
+     *å‰ææ¡ä»¶æœªè¾¾åˆ°
      * </pre>
      */
     CONDITION_UNREACH(3, 4),
@@ -283,7 +300,7 @@ public final class MagicSecretProto {
      * <code>NO_REWARD_CAN_GET = 5;</code>
      *
      * <pre>
-     *Ã»ÓĞ¿ÉÒÔÁìÈ¡µÄ½±Àø
+     *æ²¡æœ‰å¯ä»¥é¢†å–çš„å¥–åŠ±
      * </pre>
      */
     NO_REWARD_CAN_GET(4, 5),
@@ -291,7 +308,7 @@ public final class MagicSecretProto {
      * <code>NO_REWARD_BOX = 6;</code>
      *
      * <pre>
-     *Ã»ÓĞ¿ÉÒÔÁìÈ¡µÄ±¦Ïä
+     *æ²¡æœ‰å¯ä»¥é¢†å–çš„å®ç®±
      * </pre>
      */
     NO_REWARD_BOX(5, 6),
@@ -299,7 +316,7 @@ public final class MagicSecretProto {
      * <code>NOT_ENOUGH_GOLD = 7;</code>
      *
      * <pre>
-     *½ğÇ®²»×ã
+     *é‡‘é’±ä¸è¶³
      * </pre>
      */
     NOT_ENOUGH_GOLD(6, 7),
@@ -307,7 +324,7 @@ public final class MagicSecretProto {
      * <code>NOT_ENOUGH_STAR = 8;</code>
      *
      * <pre>
-     *Ã»ÓĞ×ã¹»µÄĞÇĞÇ
+     *æ²¡æœ‰è¶³å¤Ÿçš„æ˜Ÿæ˜Ÿ
      * </pre>
      */
     NOT_ENOUGH_STAR(7, 8),
@@ -315,7 +332,7 @@ public final class MagicSecretProto {
      * <code>NO_EXCHANGE_BUFF = 9;</code>
      *
      * <pre>
-     *Ã»ÓĞ¿ÉÒÔ½»»»µÄbuff
+     *æ²¡æœ‰å¯ä»¥äº¤æ¢çš„buff
      * </pre>
      */
     NO_EXCHANGE_BUFF(8, 9),
@@ -323,7 +340,7 @@ public final class MagicSecretProto {
      * <code>DATA_ERROR = 10;</code>
      *
      * <pre>
-     *Êı¾İÒì³£
+     *æ•°æ®å¼‚å¸¸
      * </pre>
      */
     DATA_ERROR(9, 10),
@@ -333,7 +350,7 @@ public final class MagicSecretProto {
      * <code>SUCCESS = 1;</code>
      *
      * <pre>
-     *³É¹¦
+     *æˆåŠŸ
      * </pre>
      */
     public static final int SUCCESS_VALUE = 1;
@@ -341,7 +358,7 @@ public final class MagicSecretProto {
      * <code>TIMES_NOT_ENOUGH = 2;</code>
      *
      * <pre>
-     *ÌôÕ½´ÎÊı²»×ã
+     *æŒ‘æˆ˜æ¬¡æ•°ä¸è¶³
      * </pre>
      */
     public static final int TIMES_NOT_ENOUGH_VALUE = 2;
@@ -349,7 +366,7 @@ public final class MagicSecretProto {
      * <code>LOW_LEVEL = 3;</code>
      *
      * <pre>
-     *µÈ¼¶²»×ã
+     *ç­‰çº§ä¸è¶³
      * </pre>
      */
     public static final int LOW_LEVEL_VALUE = 3;
@@ -357,7 +374,7 @@ public final class MagicSecretProto {
      * <code>CONDITION_UNREACH = 4;</code>
      *
      * <pre>
-     *Ç°ÌáÌõ¼şÎ´´ïµ½
+     *å‰ææ¡ä»¶æœªè¾¾åˆ°
      * </pre>
      */
     public static final int CONDITION_UNREACH_VALUE = 4;
@@ -365,7 +382,7 @@ public final class MagicSecretProto {
      * <code>NO_REWARD_CAN_GET = 5;</code>
      *
      * <pre>
-     *Ã»ÓĞ¿ÉÒÔÁìÈ¡µÄ½±Àø
+     *æ²¡æœ‰å¯ä»¥é¢†å–çš„å¥–åŠ±
      * </pre>
      */
     public static final int NO_REWARD_CAN_GET_VALUE = 5;
@@ -373,7 +390,7 @@ public final class MagicSecretProto {
      * <code>NO_REWARD_BOX = 6;</code>
      *
      * <pre>
-     *Ã»ÓĞ¿ÉÒÔÁìÈ¡µÄ±¦Ïä
+     *æ²¡æœ‰å¯ä»¥é¢†å–çš„å®ç®±
      * </pre>
      */
     public static final int NO_REWARD_BOX_VALUE = 6;
@@ -381,7 +398,7 @@ public final class MagicSecretProto {
      * <code>NOT_ENOUGH_GOLD = 7;</code>
      *
      * <pre>
-     *½ğÇ®²»×ã
+     *é‡‘é’±ä¸è¶³
      * </pre>
      */
     public static final int NOT_ENOUGH_GOLD_VALUE = 7;
@@ -389,7 +406,7 @@ public final class MagicSecretProto {
      * <code>NOT_ENOUGH_STAR = 8;</code>
      *
      * <pre>
-     *Ã»ÓĞ×ã¹»µÄĞÇĞÇ
+     *æ²¡æœ‰è¶³å¤Ÿçš„æ˜Ÿæ˜Ÿ
      * </pre>
      */
     public static final int NOT_ENOUGH_STAR_VALUE = 8;
@@ -397,7 +414,7 @@ public final class MagicSecretProto {
      * <code>NO_EXCHANGE_BUFF = 9;</code>
      *
      * <pre>
-     *Ã»ÓĞ¿ÉÒÔ½»»»µÄbuff
+     *æ²¡æœ‰å¯ä»¥äº¤æ¢çš„buff
      * </pre>
      */
     public static final int NO_EXCHANGE_BUFF_VALUE = 9;
@@ -405,7 +422,7 @@ public final class MagicSecretProto {
      * <code>DATA_ERROR = 10;</code>
      *
      * <pre>
-     *Êı¾İÒì³£
+     *æ•°æ®å¼‚å¸¸
      * </pre>
      */
     public static final int DATA_ERROR_VALUE = 10;
@@ -484,7 +501,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+     *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     boolean hasReqType();
@@ -492,7 +509,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+     *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     com.rwproto.MagicSecretProto.msRequestType getReqType();
@@ -502,7 +519,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+     *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
      * </pre>
      */
     boolean hasDungeonId();
@@ -510,7 +527,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+     *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
      * </pre>
      */
     java.lang.String getDungeonId();
@@ -518,7 +535,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+     *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -529,7 +546,7 @@ public final class MagicSecretProto {
      * <code>optional string finishState = 3;</code>
      *
      * <pre>
-     *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+     *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
      * </pre>
      */
     boolean hasFinishState();
@@ -537,7 +554,7 @@ public final class MagicSecretProto {
      * <code>optional string finishState = 3;</code>
      *
      * <pre>
-     *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+     *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
      * </pre>
      */
     java.lang.String getFinishState();
@@ -545,7 +562,7 @@ public final class MagicSecretProto {
      * <code>optional string finishState = 3;</code>
      *
      * <pre>
-     *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+     *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -556,7 +573,7 @@ public final class MagicSecretProto {
      * <code>optional string chapterId = 4;</code>
      *
      * <pre>
-     *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+     *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
      * </pre>
      */
     boolean hasChapterId();
@@ -564,7 +581,7 @@ public final class MagicSecretProto {
      * <code>optional string chapterId = 4;</code>
      *
      * <pre>
-     *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+     *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
      * </pre>
      */
     java.lang.String getChapterId();
@@ -572,7 +589,7 @@ public final class MagicSecretProto {
      * <code>optional string chapterId = 4;</code>
      *
      * <pre>
-     *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+     *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -583,7 +600,7 @@ public final class MagicSecretProto {
      * <code>optional string buffId = 5;</code>
      *
      * <pre>
-     *ÇëÇó¶Ò»»µÄbuff
+     *è¯·æ±‚å…‘æ¢çš„buff
      * </pre>
      */
     boolean hasBuffId();
@@ -591,7 +608,7 @@ public final class MagicSecretProto {
      * <code>optional string buffId = 5;</code>
      *
      * <pre>
-     *ÇëÇó¶Ò»»µÄbuff
+     *è¯·æ±‚å…‘æ¢çš„buff
      * </pre>
      */
     java.lang.String getBuffId();
@@ -599,7 +616,7 @@ public final class MagicSecretProto {
      * <code>optional string buffId = 5;</code>
      *
      * <pre>
-     *ÇëÇó¶Ò»»µÄbuff
+     *è¯·æ±‚å…‘æ¢çš„buff
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -610,7 +627,7 @@ public final class MagicSecretProto {
      * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
-     *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+     *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
      * </pre>
      */
     boolean hasRwdBox();
@@ -618,7 +635,7 @@ public final class MagicSecretProto {
      * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
-     *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+     *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
      * </pre>
      */
     com.rwproto.MagicSecretProto.msRewardBox getRwdBox();
@@ -626,7 +643,7 @@ public final class MagicSecretProto {
      * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
-     *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+     *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
      * </pre>
      */
     com.rwproto.MagicSecretProto.msRewardBoxOrBuilder getRwdBoxOrBuilder();
@@ -636,7 +653,7 @@ public final class MagicSecretProto {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+     *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
      * </pre>
      */
     boolean hasArmyInfo();
@@ -644,7 +661,7 @@ public final class MagicSecretProto {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+     *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
      * </pre>
      */
     java.lang.String getArmyInfo();
@@ -652,7 +669,7 @@ public final class MagicSecretProto {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+     *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -663,7 +680,7 @@ public final class MagicSecretProto {
      * <code>optional int32 scoreRewardID = 8;</code>
      *
      * <pre>
-     *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+     *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
      * </pre>
      */
     boolean hasScoreRewardID();
@@ -671,7 +688,7 @@ public final class MagicSecretProto {
      * <code>optional int32 scoreRewardID = 8;</code>
      *
      * <pre>
-     *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+     *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
      * </pre>
      */
     int getScoreRewardID();
@@ -828,7 +845,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+     *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     public boolean hasReqType() {
@@ -838,7 +855,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+     *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     public com.rwproto.MagicSecretProto.msRequestType getReqType() {
@@ -852,7 +869,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+     *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
      * </pre>
      */
     public boolean hasDungeonId() {
@@ -862,7 +879,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+     *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
      * </pre>
      */
     public java.lang.String getDungeonId() {
@@ -883,7 +900,7 @@ public final class MagicSecretProto {
      * <code>optional string dungeonId = 2;</code>
      *
      * <pre>
-     *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+     *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -907,7 +924,7 @@ public final class MagicSecretProto {
      * <code>optional string finishState = 3;</code>
      *
      * <pre>
-     *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+     *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
      * </pre>
      */
     public boolean hasFinishState() {
@@ -917,7 +934,7 @@ public final class MagicSecretProto {
      * <code>optional string finishState = 3;</code>
      *
      * <pre>
-     *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+     *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
      * </pre>
      */
     public java.lang.String getFinishState() {
@@ -938,7 +955,7 @@ public final class MagicSecretProto {
      * <code>optional string finishState = 3;</code>
      *
      * <pre>
-     *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+     *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -962,7 +979,7 @@ public final class MagicSecretProto {
      * <code>optional string chapterId = 4;</code>
      *
      * <pre>
-     *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+     *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
      * </pre>
      */
     public boolean hasChapterId() {
@@ -972,7 +989,7 @@ public final class MagicSecretProto {
      * <code>optional string chapterId = 4;</code>
      *
      * <pre>
-     *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+     *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
      * </pre>
      */
     public java.lang.String getChapterId() {
@@ -993,7 +1010,7 @@ public final class MagicSecretProto {
      * <code>optional string chapterId = 4;</code>
      *
      * <pre>
-     *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+     *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1017,7 +1034,7 @@ public final class MagicSecretProto {
      * <code>optional string buffId = 5;</code>
      *
      * <pre>
-     *ÇëÇó¶Ò»»µÄbuff
+     *è¯·æ±‚å…‘æ¢çš„buff
      * </pre>
      */
     public boolean hasBuffId() {
@@ -1027,7 +1044,7 @@ public final class MagicSecretProto {
      * <code>optional string buffId = 5;</code>
      *
      * <pre>
-     *ÇëÇó¶Ò»»µÄbuff
+     *è¯·æ±‚å…‘æ¢çš„buff
      * </pre>
      */
     public java.lang.String getBuffId() {
@@ -1048,7 +1065,7 @@ public final class MagicSecretProto {
      * <code>optional string buffId = 5;</code>
      *
      * <pre>
-     *ÇëÇó¶Ò»»µÄbuff
+     *è¯·æ±‚å…‘æ¢çš„buff
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1072,7 +1089,7 @@ public final class MagicSecretProto {
      * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
-     *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+     *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
      * </pre>
      */
     public boolean hasRwdBox() {
@@ -1082,7 +1099,7 @@ public final class MagicSecretProto {
      * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
-     *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+     *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
      * </pre>
      */
     public com.rwproto.MagicSecretProto.msRewardBox getRwdBox() {
@@ -1092,7 +1109,7 @@ public final class MagicSecretProto {
      * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
      *
      * <pre>
-     *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+     *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
      * </pre>
      */
     public com.rwproto.MagicSecretProto.msRewardBoxOrBuilder getRwdBoxOrBuilder() {
@@ -1106,7 +1123,7 @@ public final class MagicSecretProto {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+     *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
      * </pre>
      */
     public boolean hasArmyInfo() {
@@ -1116,7 +1133,7 @@ public final class MagicSecretProto {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+     *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
      * </pre>
      */
     public java.lang.String getArmyInfo() {
@@ -1137,7 +1154,7 @@ public final class MagicSecretProto {
      * <code>optional string armyInfo = 7;</code>
      *
      * <pre>
-     *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+     *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -1161,7 +1178,7 @@ public final class MagicSecretProto {
      * <code>optional int32 scoreRewardID = 8;</code>
      *
      * <pre>
-     *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+     *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
      * </pre>
      */
     public boolean hasScoreRewardID() {
@@ -1171,7 +1188,7 @@ public final class MagicSecretProto {
      * <code>optional int32 scoreRewardID = 8;</code>
      *
      * <pre>
-     *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+     *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
      * </pre>
      */
     public int getScoreRewardID() {
@@ -1569,7 +1586,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+       *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public boolean hasReqType() {
@@ -1579,7 +1596,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+       *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public com.rwproto.MagicSecretProto.msRequestType getReqType() {
@@ -1589,7 +1606,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+       *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public Builder setReqType(com.rwproto.MagicSecretProto.msRequestType value) {
@@ -1605,7 +1622,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *ÇëÇó¹¦ÄÜĞ­ÒéÀàĞÍ
+       *è¯·æ±‚åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public Builder clearReqType() {
@@ -1621,7 +1638,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+       *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
        * </pre>
        */
       public boolean hasDungeonId() {
@@ -1631,7 +1648,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+       *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
        * </pre>
        */
       public java.lang.String getDungeonId() {
@@ -1649,7 +1666,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+       *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1669,7 +1686,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+       *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
        * </pre>
        */
       public Builder setDungeonId(
@@ -1686,7 +1703,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+       *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
        * </pre>
        */
       public Builder clearDungeonId() {
@@ -1699,7 +1716,7 @@ public final class MagicSecretProto {
        * <code>optional string dungeonId = 2;</code>
        *
        * <pre>
-       *ÇëÇóµÄ¸±±¾(½øÈëÕ½¶·»áÓÃµ½£¬»ñÈ¡µ¥¹Ø½±ÀøÒ²»áÓÃµ½)
+       *è¯·æ±‚çš„å‰¯æœ¬(è¿›å…¥æˆ˜æ–—ä¼šç”¨åˆ°ï¼Œè·å–å•å…³å¥–åŠ±ä¹Ÿä¼šç”¨åˆ°)
        * </pre>
        */
       public Builder setDungeonIdBytes(
@@ -1719,7 +1736,7 @@ public final class MagicSecretProto {
        * <code>optional string finishState = 3;</code>
        *
        * <pre>
-       *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+       *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
        * </pre>
        */
       public boolean hasFinishState() {
@@ -1729,7 +1746,7 @@ public final class MagicSecretProto {
        * <code>optional string finishState = 3;</code>
        *
        * <pre>
-       *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+       *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
        * </pre>
        */
       public java.lang.String getFinishState() {
@@ -1747,7 +1764,7 @@ public final class MagicSecretProto {
        * <code>optional string finishState = 3;</code>
        *
        * <pre>
-       *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+       *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1767,7 +1784,7 @@ public final class MagicSecretProto {
        * <code>optional string finishState = 3;</code>
        *
        * <pre>
-       *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+       *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
        * </pre>
        */
       public Builder setFinishState(
@@ -1784,7 +1801,7 @@ public final class MagicSecretProto {
        * <code>optional string finishState = 3;</code>
        *
        * <pre>
-       *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+       *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
        * </pre>
        */
       public Builder clearFinishState() {
@@ -1797,7 +1814,7 @@ public final class MagicSecretProto {
        * <code>optional string finishState = 3;</code>
        *
        * <pre>
-       *¸±±¾Í¨¹ØÇé¿ö(Ä¿Ç°Ö»ÓÃÀ´±íÊ¾Í¨¹ØĞÇ¼¶£º0±íÊ¾Ê§°Ü)
+       *å‰¯æœ¬é€šå…³æƒ…å†µ(ç›®å‰åªç”¨æ¥è¡¨ç¤ºé€šå…³æ˜Ÿçº§ï¼š0è¡¨ç¤ºå¤±è´¥)
        * </pre>
        */
       public Builder setFinishStateBytes(
@@ -1817,7 +1834,7 @@ public final class MagicSecretProto {
        * <code>optional string chapterId = 4;</code>
        *
        * <pre>
-       *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+       *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
        * </pre>
        */
       public boolean hasChapterId() {
@@ -1827,7 +1844,7 @@ public final class MagicSecretProto {
        * <code>optional string chapterId = 4;</code>
        *
        * <pre>
-       *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+       *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
        * </pre>
        */
       public java.lang.String getChapterId() {
@@ -1845,7 +1862,7 @@ public final class MagicSecretProto {
        * <code>optional string chapterId = 4;</code>
        *
        * <pre>
-       *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+       *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1865,7 +1882,7 @@ public final class MagicSecretProto {
        * <code>optional string chapterId = 4;</code>
        *
        * <pre>
-       *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+       *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
        * </pre>
        */
       public Builder setChapterId(
@@ -1882,7 +1899,7 @@ public final class MagicSecretProto {
        * <code>optional string chapterId = 4;</code>
        *
        * <pre>
-       *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+       *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
        * </pre>
        */
       public Builder clearChapterId() {
@@ -1895,7 +1912,7 @@ public final class MagicSecretProto {
        * <code>optional string chapterId = 4;</code>
        *
        * <pre>
-       *ÇëÇóµÄÕÂ½Ú(É¨µ´¡¢·ÅÆú¿ÉÒÔÁìÈ¡µÄÏä×Ó¡¢¶Ò»»buff¶¼ÓĞÓÃµ½)
+       *è¯·æ±‚çš„ç« èŠ‚(æ‰«è¡ã€æ”¾å¼ƒå¯ä»¥é¢†å–çš„ç®±å­ã€å…‘æ¢bufféƒ½æœ‰ç”¨åˆ°)
        * </pre>
        */
       public Builder setChapterIdBytes(
@@ -1915,7 +1932,7 @@ public final class MagicSecretProto {
        * <code>optional string buffId = 5;</code>
        *
        * <pre>
-       *ÇëÇó¶Ò»»µÄbuff
+       *è¯·æ±‚å…‘æ¢çš„buff
        * </pre>
        */
       public boolean hasBuffId() {
@@ -1925,7 +1942,7 @@ public final class MagicSecretProto {
        * <code>optional string buffId = 5;</code>
        *
        * <pre>
-       *ÇëÇó¶Ò»»µÄbuff
+       *è¯·æ±‚å…‘æ¢çš„buff
        * </pre>
        */
       public java.lang.String getBuffId() {
@@ -1943,7 +1960,7 @@ public final class MagicSecretProto {
        * <code>optional string buffId = 5;</code>
        *
        * <pre>
-       *ÇëÇó¶Ò»»µÄbuff
+       *è¯·æ±‚å…‘æ¢çš„buff
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -1963,7 +1980,7 @@ public final class MagicSecretProto {
        * <code>optional string buffId = 5;</code>
        *
        * <pre>
-       *ÇëÇó¶Ò»»µÄbuff
+       *è¯·æ±‚å…‘æ¢çš„buff
        * </pre>
        */
       public Builder setBuffId(
@@ -1980,7 +1997,7 @@ public final class MagicSecretProto {
        * <code>optional string buffId = 5;</code>
        *
        * <pre>
-       *ÇëÇó¶Ò»»µÄbuff
+       *è¯·æ±‚å…‘æ¢çš„buff
        * </pre>
        */
       public Builder clearBuffId() {
@@ -1993,7 +2010,7 @@ public final class MagicSecretProto {
        * <code>optional string buffId = 5;</code>
        *
        * <pre>
-       *ÇëÇó¶Ò»»µÄbuff
+       *è¯·æ±‚å…‘æ¢çš„buff
        * </pre>
        */
       public Builder setBuffIdBytes(
@@ -2015,7 +2032,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public boolean hasRwdBox() {
@@ -2025,7 +2042,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public com.rwproto.MagicSecretProto.msRewardBox getRwdBox() {
@@ -2039,7 +2056,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public Builder setRwdBox(com.rwproto.MagicSecretProto.msRewardBox value) {
@@ -2059,7 +2076,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public Builder setRwdBox(
@@ -2077,7 +2094,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public Builder mergeRwdBox(com.rwproto.MagicSecretProto.msRewardBox value) {
@@ -2100,7 +2117,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public Builder clearRwdBox() {
@@ -2117,7 +2134,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public com.rwproto.MagicSecretProto.msRewardBox.Builder getRwdBoxBuilder() {
@@ -2129,7 +2146,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       public com.rwproto.MagicSecretProto.msRewardBoxOrBuilder getRwdBoxOrBuilder() {
@@ -2143,7 +2160,7 @@ public final class MagicSecretProto {
        * <code>optional .magicSecret.msRewardBox rwdBox = 6;</code>
        *
        * <pre>
-       *ÇëÇó´ò¿ªµÄÏä×Ó¼°ÊıÁ¿
+       *è¯·æ±‚æ‰“å¼€çš„ç®±å­åŠæ•°é‡
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
@@ -2166,7 +2183,7 @@ public final class MagicSecretProto {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+       *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
        * </pre>
        */
       public boolean hasArmyInfo() {
@@ -2176,7 +2193,7 @@ public final class MagicSecretProto {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+       *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
        * </pre>
        */
       public java.lang.String getArmyInfo() {
@@ -2194,7 +2211,7 @@ public final class MagicSecretProto {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+       *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2214,7 +2231,7 @@ public final class MagicSecretProto {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+       *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
        * </pre>
        */
       public Builder setArmyInfo(
@@ -2231,7 +2248,7 @@ public final class MagicSecretProto {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+       *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
        * </pre>
        */
       public Builder clearArmyInfo() {
@@ -2244,7 +2261,7 @@ public final class MagicSecretProto {
        * <code>optional string armyInfo = 7;</code>
        *
        * <pre>
-       *µ÷ÕûºóµÄ¶ÓÎéĞÅÏ¢
+       *è°ƒæ•´åçš„é˜Ÿä¼ä¿¡æ¯
        * </pre>
        */
       public Builder setArmyInfoBytes(
@@ -2264,7 +2281,7 @@ public final class MagicSecretProto {
        * <code>optional int32 scoreRewardID = 8;</code>
        *
        * <pre>
-       *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+       *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
        * </pre>
        */
       public boolean hasScoreRewardID() {
@@ -2274,7 +2291,7 @@ public final class MagicSecretProto {
        * <code>optional int32 scoreRewardID = 8;</code>
        *
        * <pre>
-       *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+       *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
        * </pre>
        */
       public int getScoreRewardID() {
@@ -2284,7 +2301,7 @@ public final class MagicSecretProto {
        * <code>optional int32 scoreRewardID = 8;</code>
        *
        * <pre>
-       *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+       *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
        * </pre>
        */
       public Builder setScoreRewardID(int value) {
@@ -2297,7 +2314,7 @@ public final class MagicSecretProto {
        * <code>optional int32 scoreRewardID = 8;</code>
        *
        * <pre>
-       *ÇëÇóÁìÈ¡µÄ»ı·Ö½±ÀøµÄid
+       *è¯·æ±‚é¢†å–çš„ç§¯åˆ†å¥–åŠ±çš„id
        * </pre>
        */
       public Builder clearScoreRewardID() {
@@ -2326,7 +2343,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+     *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     boolean hasReqType();
@@ -2334,7 +2351,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+     *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     com.rwproto.MagicSecretProto.msRequestType getReqType();
@@ -2344,7 +2361,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msResultType rstType = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦´¦Àí
+     *æ˜¯å¦æˆåŠŸå¤„ç†
      * </pre>
      */
     boolean hasRstType();
@@ -2352,7 +2369,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msResultType rstType = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦´¦Àí
+     *æ˜¯å¦æˆåŠŸå¤„ç†
      * </pre>
      */
     com.rwproto.MagicSecretProto.msResultType getRstType();
@@ -2362,7 +2379,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     java.util.List<java.lang.String>
@@ -2371,7 +2388,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     int getMsRankDataCount();
@@ -2379,7 +2396,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     java.lang.String getMsRankData(int index);
@@ -2387,7 +2404,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -2398,7 +2415,7 @@ public final class MagicSecretProto {
      * <code>optional int32 selfRank = 4;</code>
      *
      * <pre>
-     *×Ô¼ºµÄÅÅÃû
+     *è‡ªå·±çš„æ’å
      * </pre>
      */
     boolean hasSelfRank();
@@ -2406,7 +2423,7 @@ public final class MagicSecretProto {
      * <code>optional int32 selfRank = 4;</code>
      *
      * <pre>
-     *×Ô¼ºµÄÅÅÃû
+     *è‡ªå·±çš„æ’å
      * </pre>
      */
     int getSelfRank();
@@ -2416,7 +2433,7 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     java.util.List<java.lang.String>
@@ -2425,7 +2442,7 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     int getRewardDataCount();
@@ -2433,7 +2450,7 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     java.lang.String getRewardData(int index);
@@ -2441,11 +2458,56 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     com.google.protobuf.ByteString
         getRewardDataBytes(int index);
+
+    // optional string armyInfo = 6;
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+     * </pre>
+     */
+    boolean hasArmyInfo();
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+     * </pre>
+     */
+    java.lang.String getArmyInfo();
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getArmyInfoBytes();
+
+    // optional bool isFirstFinish = 7;
+    /**
+     * <code>optional bool isFirstFinish = 7;</code>
+     *
+     * <pre>
+     *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+     * </pre>
+     */
+    boolean hasIsFirstFinish();
+    /**
+     * <code>optional bool isFirstFinish = 7;</code>
+     *
+     * <pre>
+     *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+     * </pre>
+     */
+    boolean getIsFirstFinish();
   }
   /**
    * Protobuf type {@code magicSecret.MagicSecretRspMsg}
@@ -2541,6 +2603,16 @@ public final class MagicSecretProto {
               rewardData_.add(input.readBytes());
               break;
             }
+            case 50: {
+              bitField0_ |= 0x00000008;
+              armyInfo_ = input.readBytes();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000010;
+              isFirstFinish_ = input.readBool();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2594,7 +2666,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+     *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     public boolean hasReqType() {
@@ -2604,7 +2676,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msRequestType reqType = 1;</code>
      *
      * <pre>
-     *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+     *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
      * </pre>
      */
     public com.rwproto.MagicSecretProto.msRequestType getReqType() {
@@ -2618,7 +2690,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msResultType rstType = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦´¦Àí
+     *æ˜¯å¦æˆåŠŸå¤„ç†
      * </pre>
      */
     public boolean hasRstType() {
@@ -2628,7 +2700,7 @@ public final class MagicSecretProto {
      * <code>required .magicSecret.msResultType rstType = 2;</code>
      *
      * <pre>
-     *ÊÇ·ñ³É¹¦´¦Àí
+     *æ˜¯å¦æˆåŠŸå¤„ç†
      * </pre>
      */
     public com.rwproto.MagicSecretProto.msResultType getRstType() {
@@ -2642,7 +2714,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     public java.util.List<java.lang.String>
@@ -2653,7 +2725,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     public int getMsRankDataCount() {
@@ -2663,7 +2735,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     public java.lang.String getMsRankData(int index) {
@@ -2673,7 +2745,7 @@ public final class MagicSecretProto {
      * <code>repeated string msRankData = 3;</code>
      *
      * <pre>
-     *ÅÅĞĞ°ñµÄÊı¾İ
+     *æ’è¡Œæ¦œçš„æ•°æ®
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2688,7 +2760,7 @@ public final class MagicSecretProto {
      * <code>optional int32 selfRank = 4;</code>
      *
      * <pre>
-     *×Ô¼ºµÄÅÅÃû
+     *è‡ªå·±çš„æ’å
      * </pre>
      */
     public boolean hasSelfRank() {
@@ -2698,7 +2770,7 @@ public final class MagicSecretProto {
      * <code>optional int32 selfRank = 4;</code>
      *
      * <pre>
-     *×Ô¼ºµÄÅÅÃû
+     *è‡ªå·±çš„æ’å
      * </pre>
      */
     public int getSelfRank() {
@@ -2712,7 +2784,7 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     public java.util.List<java.lang.String>
@@ -2723,7 +2795,7 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     public int getRewardDataCount() {
@@ -2733,7 +2805,7 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     public java.lang.String getRewardData(int index) {
@@ -2743,12 +2815,91 @@ public final class MagicSecretProto {
      * <code>repeated string rewardData = 5;</code>
      *
      * <pre>
-     *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+     *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
      * </pre>
      */
     public com.google.protobuf.ByteString
         getRewardDataBytes(int index) {
       return rewardData_.getByteString(index);
+    }
+
+    // optional string armyInfo = 6;
+    public static final int ARMYINFO_FIELD_NUMBER = 6;
+    private java.lang.Object armyInfo_;
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+     * </pre>
+     */
+    public boolean hasArmyInfo() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+     * </pre>
+     */
+    public java.lang.String getArmyInfo() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          armyInfo_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string armyInfo = 6;</code>
+     *
+     * <pre>
+     *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getArmyInfoBytes() {
+      java.lang.Object ref = armyInfo_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        armyInfo_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional bool isFirstFinish = 7;
+    public static final int ISFIRSTFINISH_FIELD_NUMBER = 7;
+    private boolean isFirstFinish_;
+    /**
+     * <code>optional bool isFirstFinish = 7;</code>
+     *
+     * <pre>
+     *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+     * </pre>
+     */
+    public boolean hasIsFirstFinish() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional bool isFirstFinish = 7;</code>
+     *
+     * <pre>
+     *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+     * </pre>
+     */
+    public boolean getIsFirstFinish() {
+      return isFirstFinish_;
     }
 
     private void initFields() {
@@ -2757,6 +2908,8 @@ public final class MagicSecretProto {
       msRankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       selfRank_ = 0;
       rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      armyInfo_ = "";
+      isFirstFinish_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2792,6 +2945,12 @@ public final class MagicSecretProto {
       }
       for (int i = 0; i < rewardData_.size(); i++) {
         output.writeBytes(5, rewardData_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(6, getArmyInfoBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBool(7, isFirstFinish_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2831,6 +2990,14 @@ public final class MagicSecretProto {
         }
         size += dataSize;
         size += 1 * getRewardDataList().size();
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getArmyInfoBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, isFirstFinish_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2958,6 +3125,10 @@ public final class MagicSecretProto {
         bitField0_ = (bitField0_ & ~0x00000008);
         rewardData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
+        armyInfo_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        isFirstFinish_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -3010,6 +3181,14 @@ public final class MagicSecretProto {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.rewardData_ = rewardData_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.armyInfo_ = armyInfo_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.isFirstFinish_ = isFirstFinish_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3055,6 +3234,14 @@ public final class MagicSecretProto {
           }
           onChanged();
         }
+        if (other.hasArmyInfo()) {
+          bitField0_ |= 0x00000020;
+          armyInfo_ = other.armyInfo_;
+          onChanged();
+        }
+        if (other.hasIsFirstFinish()) {
+          setIsFirstFinish(other.getIsFirstFinish());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3096,7 +3283,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+       *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public boolean hasReqType() {
@@ -3106,7 +3293,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+       *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public com.rwproto.MagicSecretProto.msRequestType getReqType() {
@@ -3116,7 +3303,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+       *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public Builder setReqType(com.rwproto.MagicSecretProto.msRequestType value) {
@@ -3132,7 +3319,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msRequestType reqType = 1;</code>
        *
        * <pre>
-       *»ØÓ¦µÄ¹¦ÄÜĞ­ÒéÀàĞÍ
+       *å›åº”çš„åŠŸèƒ½åè®®ç±»å‹
        * </pre>
        */
       public Builder clearReqType() {
@@ -3148,7 +3335,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msResultType rstType = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦´¦Àí
+       *æ˜¯å¦æˆåŠŸå¤„ç†
        * </pre>
        */
       public boolean hasRstType() {
@@ -3158,7 +3345,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msResultType rstType = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦´¦Àí
+       *æ˜¯å¦æˆåŠŸå¤„ç†
        * </pre>
        */
       public com.rwproto.MagicSecretProto.msResultType getRstType() {
@@ -3168,7 +3355,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msResultType rstType = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦´¦Àí
+       *æ˜¯å¦æˆåŠŸå¤„ç†
        * </pre>
        */
       public Builder setRstType(com.rwproto.MagicSecretProto.msResultType value) {
@@ -3184,7 +3371,7 @@ public final class MagicSecretProto {
        * <code>required .magicSecret.msResultType rstType = 2;</code>
        *
        * <pre>
-       *ÊÇ·ñ³É¹¦´¦Àí
+       *æ˜¯å¦æˆåŠŸå¤„ç†
        * </pre>
        */
       public Builder clearRstType() {
@@ -3206,7 +3393,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public java.util.List<java.lang.String>
@@ -3217,7 +3404,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public int getMsRankDataCount() {
@@ -3227,7 +3414,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public java.lang.String getMsRankData(int index) {
@@ -3237,7 +3424,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3248,7 +3435,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public Builder setMsRankData(
@@ -3265,7 +3452,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public Builder addMsRankData(
@@ -3282,7 +3469,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public Builder addAllMsRankData(
@@ -3296,7 +3483,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public Builder clearMsRankData() {
@@ -3309,7 +3496,7 @@ public final class MagicSecretProto {
        * <code>repeated string msRankData = 3;</code>
        *
        * <pre>
-       *ÅÅĞĞ°ñµÄÊı¾İ
+       *æ’è¡Œæ¦œçš„æ•°æ®
        * </pre>
        */
       public Builder addMsRankDataBytes(
@@ -3329,7 +3516,7 @@ public final class MagicSecretProto {
        * <code>optional int32 selfRank = 4;</code>
        *
        * <pre>
-       *×Ô¼ºµÄÅÅÃû
+       *è‡ªå·±çš„æ’å
        * </pre>
        */
       public boolean hasSelfRank() {
@@ -3339,7 +3526,7 @@ public final class MagicSecretProto {
        * <code>optional int32 selfRank = 4;</code>
        *
        * <pre>
-       *×Ô¼ºµÄÅÅÃû
+       *è‡ªå·±çš„æ’å
        * </pre>
        */
       public int getSelfRank() {
@@ -3349,7 +3536,7 @@ public final class MagicSecretProto {
        * <code>optional int32 selfRank = 4;</code>
        *
        * <pre>
-       *×Ô¼ºµÄÅÅÃû
+       *è‡ªå·±çš„æ’å
        * </pre>
        */
       public Builder setSelfRank(int value) {
@@ -3362,7 +3549,7 @@ public final class MagicSecretProto {
        * <code>optional int32 selfRank = 4;</code>
        *
        * <pre>
-       *×Ô¼ºµÄÅÅÃû
+       *è‡ªå·±çš„æ’å
        * </pre>
        */
       public Builder clearSelfRank() {
@@ -3384,7 +3571,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public java.util.List<java.lang.String>
@@ -3395,7 +3582,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public int getRewardDataCount() {
@@ -3405,7 +3592,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public java.lang.String getRewardData(int index) {
@@ -3415,7 +3602,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -3426,7 +3613,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public Builder setRewardData(
@@ -3443,7 +3630,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public Builder addRewardData(
@@ -3460,7 +3647,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public Builder addAllRewardData(
@@ -3474,7 +3661,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public Builder clearRewardData() {
@@ -3487,7 +3674,7 @@ public final class MagicSecretProto {
        * <code>repeated string rewardData = 5;</code>
        *
        * <pre>
-       *»ñµÃµÄÎïÆ·£¬°üÀ¨ĞÇĞÇ£¬»ı·Ö£¬ÃØ¾³»õ±ÒºÍÊµ¼ÊµÄÎïÆ·
+       *è·å¾—çš„ç‰©å“ï¼ŒåŒ…æ‹¬æ˜Ÿæ˜Ÿï¼Œç§¯åˆ†ï¼Œç§˜å¢ƒè´§å¸å’Œå®é™…çš„ç‰©å“
        * </pre>
        */
       public Builder addRewardDataBytes(
@@ -3497,6 +3684,153 @@ public final class MagicSecretProto {
   }
   ensureRewardDataIsMutable();
         rewardData_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional string armyInfo = 6;
+      private java.lang.Object armyInfo_ = "";
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+       * </pre>
+       */
+      public boolean hasArmyInfo() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+       * </pre>
+       */
+      public java.lang.String getArmyInfo() {
+        java.lang.Object ref = armyInfo_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          armyInfo_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getArmyInfoBytes() {
+        java.lang.Object ref = armyInfo_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          armyInfo_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+       * </pre>
+       */
+      public Builder setArmyInfo(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        armyInfo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+       * </pre>
+       */
+      public Builder clearArmyInfo() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        armyInfo_ = getDefaultInstance().getArmyInfo();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string armyInfo = 6;</code>
+       *
+       * <pre>
+       *è¿›æˆ˜æ–—çš„æ—¶å€™æ•Œæ–¹ä¿¡æ¯
+       * </pre>
+       */
+      public Builder setArmyInfoBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        armyInfo_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional bool isFirstFinish = 7;
+      private boolean isFirstFinish_ ;
+      /**
+       * <code>optional bool isFirstFinish = 7;</code>
+       *
+       * <pre>
+       *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+       * </pre>
+       */
+      public boolean hasIsFirstFinish() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional bool isFirstFinish = 7;</code>
+       *
+       * <pre>
+       *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+       * </pre>
+       */
+      public boolean getIsFirstFinish() {
+        return isFirstFinish_;
+      }
+      /**
+       * <code>optional bool isFirstFinish = 7;</code>
+       *
+       * <pre>
+       *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+       * </pre>
+       */
+      public Builder setIsFirstFinish(boolean value) {
+        bitField0_ |= 0x00000040;
+        isFirstFinish_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool isFirstFinish = 7;</code>
+       *
+       * <pre>
+       *æ˜¯å¦é¦–æ¬¡é€šå…³ç« èŠ‚
+       * </pre>
+       */
+      public Builder clearIsFirstFinish() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        isFirstFinish_ = false;
         onChanged();
         return this;
       }
@@ -3520,7 +3854,7 @@ public final class MagicSecretProto {
      * <code>required string boxID = 1;</code>
      *
      * <pre>
-     *Ïä×Óid
+     *ç®±å­id
      * </pre>
      */
     boolean hasBoxID();
@@ -3528,7 +3862,7 @@ public final class MagicSecretProto {
      * <code>required string boxID = 1;</code>
      *
      * <pre>
-     *Ïä×Óid
+     *ç®±å­id
      * </pre>
      */
     java.lang.String getBoxID();
@@ -3536,7 +3870,7 @@ public final class MagicSecretProto {
      * <code>required string boxID = 1;</code>
      *
      * <pre>
-     *Ïä×Óid
+     *ç®±å­id
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -3547,7 +3881,7 @@ public final class MagicSecretProto {
      * <code>required int32 boxCount = 2;</code>
      *
      * <pre>
-     *Ïä×ÓÊıÁ¿
+     *ç®±å­æ•°é‡
      * </pre>
      */
     boolean hasBoxCount();
@@ -3555,7 +3889,7 @@ public final class MagicSecretProto {
      * <code>required int32 boxCount = 2;</code>
      *
      * <pre>
-     *Ïä×ÓÊıÁ¿
+     *ç®±å­æ•°é‡
      * </pre>
      */
     int getBoxCount();
@@ -3668,7 +4002,7 @@ public final class MagicSecretProto {
      * <code>required string boxID = 1;</code>
      *
      * <pre>
-     *Ïä×Óid
+     *ç®±å­id
      * </pre>
      */
     public boolean hasBoxID() {
@@ -3678,7 +4012,7 @@ public final class MagicSecretProto {
      * <code>required string boxID = 1;</code>
      *
      * <pre>
-     *Ïä×Óid
+     *ç®±å­id
      * </pre>
      */
     public java.lang.String getBoxID() {
@@ -3699,7 +4033,7 @@ public final class MagicSecretProto {
      * <code>required string boxID = 1;</code>
      *
      * <pre>
-     *Ïä×Óid
+     *ç®±å­id
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -3723,7 +4057,7 @@ public final class MagicSecretProto {
      * <code>required int32 boxCount = 2;</code>
      *
      * <pre>
-     *Ïä×ÓÊıÁ¿
+     *ç®±å­æ•°é‡
      * </pre>
      */
     public boolean hasBoxCount() {
@@ -3733,7 +4067,7 @@ public final class MagicSecretProto {
      * <code>required int32 boxCount = 2;</code>
      *
      * <pre>
-     *Ïä×ÓÊıÁ¿
+     *ç®±å­æ•°é‡
      * </pre>
      */
     public int getBoxCount() {
@@ -4008,7 +4342,7 @@ public final class MagicSecretProto {
        * <code>required string boxID = 1;</code>
        *
        * <pre>
-       *Ïä×Óid
+       *ç®±å­id
        * </pre>
        */
       public boolean hasBoxID() {
@@ -4018,7 +4352,7 @@ public final class MagicSecretProto {
        * <code>required string boxID = 1;</code>
        *
        * <pre>
-       *Ïä×Óid
+       *ç®±å­id
        * </pre>
        */
       public java.lang.String getBoxID() {
@@ -4036,7 +4370,7 @@ public final class MagicSecretProto {
        * <code>required string boxID = 1;</code>
        *
        * <pre>
-       *Ïä×Óid
+       *ç®±å­id
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -4056,7 +4390,7 @@ public final class MagicSecretProto {
        * <code>required string boxID = 1;</code>
        *
        * <pre>
-       *Ïä×Óid
+       *ç®±å­id
        * </pre>
        */
       public Builder setBoxID(
@@ -4073,7 +4407,7 @@ public final class MagicSecretProto {
        * <code>required string boxID = 1;</code>
        *
        * <pre>
-       *Ïä×Óid
+       *ç®±å­id
        * </pre>
        */
       public Builder clearBoxID() {
@@ -4086,7 +4420,7 @@ public final class MagicSecretProto {
        * <code>required string boxID = 1;</code>
        *
        * <pre>
-       *Ïä×Óid
+       *ç®±å­id
        * </pre>
        */
       public Builder setBoxIDBytes(
@@ -4106,7 +4440,7 @@ public final class MagicSecretProto {
        * <code>required int32 boxCount = 2;</code>
        *
        * <pre>
-       *Ïä×ÓÊıÁ¿
+       *ç®±å­æ•°é‡
        * </pre>
        */
       public boolean hasBoxCount() {
@@ -4116,7 +4450,7 @@ public final class MagicSecretProto {
        * <code>required int32 boxCount = 2;</code>
        *
        * <pre>
-       *Ïä×ÓÊıÁ¿
+       *ç®±å­æ•°é‡
        * </pre>
        */
       public int getBoxCount() {
@@ -4126,7 +4460,7 @@ public final class MagicSecretProto {
        * <code>required int32 boxCount = 2;</code>
        *
        * <pre>
-       *Ïä×ÓÊıÁ¿
+       *ç®±å­æ•°é‡
        * </pre>
        */
       public Builder setBoxCount(int value) {
@@ -4139,7 +4473,7 @@ public final class MagicSecretProto {
        * <code>required int32 boxCount = 2;</code>
        *
        * <pre>
-       *Ïä×ÓÊıÁ¿
+       *ç®±å­æ•°é‡
        * </pre>
        */
       public Builder clearBoxCount() {
@@ -4190,24 +4524,26 @@ public final class MagicSecretProto {
       "\n\013finishState\030\003 \001(\t\022\021\n\tchapterId\030\004 \001(\t\022\016" +
       "\n\006buffId\030\005 \001(\t\022(\n\006rwdBox\030\006 \001(\0132\030.magicSe" +
       "cret.msRewardBox\022\020\n\010armyInfo\030\007 \001(\t\022\025\n\rsc" +
-      "oreRewardID\030\010 \001(\005\"\246\001\n\021MagicSecretRspMsg\022" +
+      "oreRewardID\030\010 \001(\005\"\317\001\n\021MagicSecretRspMsg\022" +
       "+\n\007reqType\030\001 \002(\0162\032.magicSecret.msRequest" +
       "Type\022*\n\007rstType\030\002 \002(\0162\031.magicSecret.msRe" +
       "sultType\022\022\n\nmsRankData\030\003 \003(\t\022\020\n\010selfRank",
-      "\030\004 \001(\005\022\022\n\nrewardData\030\005 \003(\t\".\n\013msRewardBo" +
-      "x\022\r\n\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\344\001\n\rm" +
-      "sRequestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_M" +
-      "S_FIGHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023G" +
-      "ET_MS_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005\022" +
-      "\023\n\017OPEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024\n" +
-      "\020GET_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK\020" +
-      "\t\022\026\n\022GIVE_UP_REWARD_BOX\020\n*\321\001\n\014msResultTy" +
-      "pe\022\013\n\007SUCCESS\020\001\022\024\n\020TIMES_NOT_ENOUGH\020\002\022\r\n" +
-      "\tLOW_LEVEL\020\003\022\025\n\021CONDITION_UNREACH\020\004\022\025\n\021N",
-      "O_REWARD_CAN_GET\020\005\022\021\n\rNO_REWARD_BOX\020\006\022\023\n" +
-      "\017NOT_ENOUGH_GOLD\020\007\022\023\n\017NOT_ENOUGH_STAR\020\010\022" +
-      "\024\n\020NO_EXCHANGE_BUFF\020\t\022\016\n\nDATA_ERROR\020\nB\037\n" +
-      "\013com.rwprotoB\020MagicSecretProto"
+      "\030\004 \001(\005\022\022\n\nrewardData\030\005 \003(\t\022\020\n\010armyInfo\030\006" +
+      " \001(\t\022\025\n\risFirstFinish\030\007 \001(\010\".\n\013msRewardB" +
+      "ox\022\r\n\005boxID\030\001 \002(\t\022\020\n\010boxCount\030\002 \002(\005*\366\001\n\r" +
+      "msRequestType\022\017\n\013GET_MS_RANK\020\001\022\022\n\016ENTER_" +
+      "MS_FIGHT\020\002\022\030\n\024GET_MS_SINGLE_REWARD\020\003\022\027\n\023" +
+      "GET_MS_SWEEP_REWARD\020\004\022\021\n\rEXCHANGE_BUFF\020\005" +
+      "\022\023\n\017OPEN_REWARD_BOX\020\006\022\017\n\013CHANGE_ARMY\020\007\022\024" +
+      "\n\020GET_SCORE_REWARD\020\010\022\024\n\020GET_SELF_MS_RANK" +
+      "\020\t\022\026\n\022GIVE_UP_REWARD_BOX\020\n\022\020\n\014GIVE_UP_BU" +
+      "FF\020\013*\321\001\n\014msResultType\022\013\n\007SUCCESS\020\001\022\024\n\020TI",
+      "MES_NOT_ENOUGH\020\002\022\r\n\tLOW_LEVEL\020\003\022\025\n\021CONDI" +
+      "TION_UNREACH\020\004\022\025\n\021NO_REWARD_CAN_GET\020\005\022\021\n" +
+      "\rNO_REWARD_BOX\020\006\022\023\n\017NOT_ENOUGH_GOLD\020\007\022\023\n" +
+      "\017NOT_ENOUGH_STAR\020\010\022\024\n\020NO_EXCHANGE_BUFF\020\t" +
+      "\022\016\n\nDATA_ERROR\020\nB\037\n\013com.rwprotoB\020MagicSe" +
+      "cretProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4225,7 +4561,7 @@ public final class MagicSecretProto {
           internal_static_magicSecret_MagicSecretRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_magicSecret_MagicSecretRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", });
+              new java.lang.String[] { "ReqType", "RstType", "MsRankData", "SelfRank", "RewardData", "ArmyInfo", "IsFirstFinish", });
           internal_static_magicSecret_msRewardBox_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_magicSecret_msRewardBox_fieldAccessorTable = new

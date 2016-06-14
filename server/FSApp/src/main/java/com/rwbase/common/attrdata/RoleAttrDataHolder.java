@@ -1,7 +1,6 @@
 package com.rwbase.common.attrdata;
 
 import com.common.BeanOperationHelper;
-import com.log.GameLog;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -66,17 +65,20 @@ public class RoleAttrDataHolder {
 		builder.setRoleBaseTotalData(baseData);
 
 		StringBuilder sb = new StringBuilder();
+		// String attrDesc = calc.getAttrDesc();
+		// System.err.println("获取的属性描述:" + attrDesc);
+		sb.append(calc.getAttrDesc()).append("\n");
 
-		String baseAttrDesc = BeanOperationHelper.getPositiveValueDiscription(baseData);
-		sb.append("角色固定值总属性>>>>>-").append(baseAttrDesc).append("\n");
-		GameLog.info("角色的固定总属性", "固定总属性", baseAttrDesc, null);
+		// String baseAttrDesc = BeanOperationHelper.getPositiveValueDiscription(baseData);
+		// sb.append("角色固定值总属性>>>>>-").append(baseAttrDesc).append("\n");
+		// GameLog.info("角色的固定总属性", "固定总属性", baseAttrDesc, null);
 
 		AttrData totalData = calc.getResult();
 		builder.setTotalData(totalData);
 
 		String totalAttrDesc = BeanOperationHelper.getPositiveValueDiscription(totalData);
 		sb.append("角色总属性>>>>>-").append(totalAttrDesc);
-		GameLog.info("角色的总属性", "总属性", totalAttrDesc, null);
+		// GameLog.info("角色的总属性", "总属性", totalAttrDesc, null);
 
 		builder.setLog(sb.toString());
 

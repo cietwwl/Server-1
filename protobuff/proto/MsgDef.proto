@@ -102,6 +102,4 @@ enum Command {
 	MSG_GAMEPRESS = 999;//压测协议
 	
 
-
-	
 }

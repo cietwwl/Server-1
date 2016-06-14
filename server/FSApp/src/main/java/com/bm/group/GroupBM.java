@@ -8,8 +8,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.rwproto.GroupCommonProto.GroupPost;
-import com.rwproto.GroupCommonProto.GroupState;
+import com.bm.chat.ChatBM;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -233,6 +232,8 @@ public final class GroupBM {
 				EmailUtils.sendEmail(player.getUserId(), emailData);
 				// 通知好友更改更新帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
+				// 清除所有的秘境消息
+				ChatBM.getInstance().clearAllGroupSecretChatMessage(player.getUserId());
 			}
 		};
 
@@ -286,6 +287,4 @@ public final class GroupBM {
 		sb.append(generator.generateId());
 		return sb.toString();
 	}
-	
-	
 }
