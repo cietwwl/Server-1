@@ -121,7 +121,7 @@ class MSInnerProcessor extends MSConditionJudger {
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
 			return;
 		}
-		String nextDungeonID = (stageID + 1) + "_1";
+		String nextDungeonID = (stageID + 1) + "_3";
 		DungeonsDataCfg dungDataCfg = DungeonsDataCfgDAO.getInstance().getCfgById(nextDungeonID);
 		if (dungDataCfg != null) {
 			String[] strLayerArr = dungDataCfg.getBuffBonus().split(",");
