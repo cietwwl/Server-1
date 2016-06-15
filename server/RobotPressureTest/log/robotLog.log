@@ -1,7 +1,0 @@
-[INFO ] 2016-05-28 10:32:38,121 robotLog 文件的路径：/E:/projectnew/server/server/RobotPressureTest/target/classes/
-[INFO ] 2016-05-28 10:32:38,121 robotLog 平台Host：192.168.2.234 端口：8081
-[INFO ] 2016-05-28 10:32:38,331 robotLog 生成新的channel  accountId是：053027274
-[INFO ] 2016-05-28 10:32:38,371 robotLog PlatformHandler[execute] 验证或者创建成功, accoutId:053027274 password:123456 lastZondId:27 address:192.168.2.106:8082
-[INFO ] 2016-05-28 10:32:38,402 robotLog PlatformHandler[loadZoneAndRoleList] 获取服务器的所有列表成功！！
-[INFO ] 2016-05-28 10:32:38,402 robotLog 生成新的channel  accountId是：053027274
-[INFO ] 2016-05-28 10:32:38,613 robotLog GameLoginHandler[loginGame] 角色登录通过！  accountId:053027274 password:123456

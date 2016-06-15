@@ -31,6 +31,7 @@ public class GroupSecretMatchEnemyData {
 	private int id;// 搜索到的秘境Id
 	@Id
 	private String matchUserId;// 匹配到的人Id
+	private String groupId;// 匹配那一刻的帮派Id
 	private String userId;// 搜索人的Id
 	private long matchTime;// 搜索到的时间
 	private long atkTime;// 攻击的时间
@@ -107,7 +108,15 @@ public class GroupSecretMatchEnemyData {
 		return zoneName;
 	}
 
+	public String getGroupId() {
+		return groupId;
+	}
+
 	// ////////////////////////////////////////////////逻辑Set区
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}

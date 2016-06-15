@@ -108,6 +108,12 @@ public abstract class ClientMsgHandler {
 					case USER_HEROS:
 						getClient().getUserHerosDataHolder().syn(msgDataSyn);
 						break;
+					case FIX_NORM_EQUIP:
+						getClient().getFixNormEquipDataItemHolder().syn(msgDataSyn);
+						break;
+					case FIX_EXP_EQUIP:
+						getClient().getFixExpEquipDataItemHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}

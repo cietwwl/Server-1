@@ -112,6 +112,7 @@ message HurtValue{
 	required ePlayerCamp camp = 8;	//阵营
 	required float Hp = 9;			//剩余血量
 	required float Sp = 10;			//剩余蓝量
+	optional string quality = 11;   //品质配置ID
 }
 
 message MsgArenaResponse{

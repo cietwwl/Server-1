@@ -18,6 +18,8 @@ import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
 import com.rw.handler.fashion.FashionHandler;
+import com.rw.handler.fixEquip.FixEquipHandler;
+import com.rw.handler.fixExpEquip.FixExpEquipHandler;
 import com.rw.handler.fresheractivity.FresherActivityHandler;
 import com.rw.handler.friend.FriendHandler;
 import com.rw.handler.gamble.GambleHandler;
@@ -37,6 +39,7 @@ import com.rw.handler.platform.PlatformHandler;
 import com.rw.handler.sign.SignHandler;
 import com.rw.handler.sevenDayGift.DailyGiftHandler;
 import com.rw.handler.store.StoreHandler;
+import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
@@ -321,6 +324,11 @@ public class Robot {
 
 	public boolean addGold(int gold) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addGold " + gold);
+		return sendSuccess;
+	}
+	
+	public boolean additem(int id) {
+		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + id + " " + 999);
 		return sendSuccess;
 	}
 
@@ -653,18 +661,24 @@ public class Robot {
 		}else return false;
 	}
 	
-	/**聚宝胜利两 次 */
-	public boolean testCopyJbzd() {		
-		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_JBZD);
-		if(getitemback){
-			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_JBZD,EBattleStatus.WIN);		
+	/** 聚宝胜利,根据参数决定战斗次数 */
+	public boolean testCopyJbzd(int num) {
+		if (num == 2) {
+			boolean getitemback = CopyHandler.getHandler().battleItemsBack(
+					client, CopyType.COPY_TYPE_TRIAL_JBZD);
+			if (getitemback) {
+				CopyHandler.getHandler().battleClear(client,
+						CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
+			}
 		}
 		clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
-		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_JBZD);
-		if(getitembacksecond){
-			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_JBZD,EBattleStatus.WIN);		
+		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(
+				client, CopyType.COPY_TYPE_TRIAL_JBZD);
+		if (getitembacksecond) {
+			return CopyHandler.getHandler().battleClear(client,
+					CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
 		}
-		
+
 		return false;
 	}
 	
@@ -787,11 +801,10 @@ public class Robot {
 	}
 
 	public boolean testPeakArena() {
-		upgrade(50);
-		boolean issuc = PeakArenaHandler.getHandler().changeEnemy(client, "");
-		System.out.println("~~~~~~~~~~change enemy"+ issuc);
-		issuc = PeakArenaHandler.getHandler().fightStart(client, "");
-		System.out.println("~~~~~~~~~~start"+ issuc);
+		boolean issuc = upgrade(50);
+		RobotLog.fail("巅峰竞技场-设置50级结果" + issuc);
+		PeakArenaHandler.getHandler().changeEnemy(client, "");
+		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
 	
@@ -819,4 +832,39 @@ public class Robot {
 		ChatHandler.instance().sendRequestTreasure(client);
 		GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
+	
+	/**前两个参数控制前4个道具及5种相关操作,后两个参数控制后两个参数的4种操作类型;同时只可操作一个道具;操作前者后者置-1,反之亦然
+	 * 开始前需要升级，加金币，加钻石，加进化和升星材料；
+	 * 因为部分判断在客户端，所以如果要测试进化，建议直接一键升满，否则单个升满会无法确保10级，非10级申请进化会生成错误数据影响后续操作
+	 * 15234,强化,一键强化,进化,升星,降星;4个装备，0123
+	 * 6789,强化,进化,升星,降星，2个装备01
+	 * */
+	public boolean testFixEquip(int equipId ,int type,int expequipId,int exptype){
+		upgrade(50);
+		addCoin(99999);
+		additem(806511);//进化材料
+		additem(806523);//升星材料
+		addGold(9999);//降星材料
+		additem(806501);//下两格经验材料
+		boolean issuc = false;
+		if(equipId != -1){
+			issuc=FixEquipHandler.instance().doEquip(client,equipId, type);
+		}else{
+			issuc=FixExpEquipHandler.instance().doExpEquip(client,expequipId, exptype);			
+		}		
+		return issuc;
+	}
+	
+	/**预制升级和加金币；参数不存在则选择首项提升*/
+	public boolean testTaoist(int id){
+		upgrade(50);
+		addCoin(9999999);		
+		boolean issuc = false;
+//		TaoistHandler.getHandler().getTaoistData(client);
+		issuc=TaoistHandler.getHandler().upTaoist(client,id);
+		return issuc;
+	}
+	
+	
+	
 }

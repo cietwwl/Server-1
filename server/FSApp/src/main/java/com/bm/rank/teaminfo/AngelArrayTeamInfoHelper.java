@@ -10,7 +10,6 @@ import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
-import com.playerdata.SkillMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyMagic;
@@ -38,6 +37,7 @@ import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.pojo.Skill;
 import com.rwbase.dao.skill.pojo.SkillCfg;
+import com.rwbase.dao.skill.pojo.SkillHelper;
 
 /*
  * @author HC
@@ -450,8 +450,7 @@ public class AngelArrayTeamInfoHelper {
 
 		SkillCfgDAO skillCfgDAO = SkillCfgDAO.getInstance();
 
-		SkillMgr skillMgr = new SkillMgr();
-		List<Skill> skillList = skillMgr.initSkill(roleCfg, baseInfo.getQuality(), baseInfo.getLevel());
+		List<Skill> skillList = SkillHelper.initSkill(roleCfg, baseInfo.getQuality(), baseInfo.getLevel());
 
 		int skillSize = skillList.size();
 
@@ -491,17 +490,16 @@ public class AngelArrayTeamInfoHelper {
 		// 其他属性
 		// AttrData heroAttrData = AttrDataCalcFactory.getHeroAttrData(heroInfo);
 		MagicParam magicParam = null;
-		if(magic!=null){
-			
+		if (magic != null) {
+
 			MagicParam.MagicBuilder builder = new MagicBuilder();
 			builder.setMagicId(String.valueOf(magic.getModelId()));
 			builder.setMagicLevel(magic.getLevel());
 			builder.setUserId(tmpId);
-			
+
 			magicParam = builder.build();
 		}
-		
-		
+
 		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, magicParam);
 		armyHero.setAttrData(heroAttrData);
 

@@ -61,14 +61,14 @@ public class CopyHandler {
 
 					EResultType result = rsp.getEResultType();
 					if (result != EResultType.ITEM_BACK) {
-						RobotLog.fail("CopyHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("CopyHandler[send] 服务器处理战前申请消息失败 " + result);
 						return false;
 					}
-
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("CopyHandler[send] 失败", e);
+					RobotLog.fail("CopyHandler[send]战前申请 失败", e);
 					return false;
 				}
+				RobotLog.info("copyhandler[send]战前申请成功");
 				return true;
 			}
 
@@ -109,14 +109,15 @@ public class CopyHandler {
 					EResultType result = rsp.getEResultType();
 					RobotLog.fail("CopyHandler[send] 服务器处理消息结果 " + result);
 					if (result != EResultType.BATTLE_CLEAR) {
-						RobotLog.fail("CopyHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("CopyHandler[send] 服务器处理申请战斗结束消息失败 " + result);
 						return false;
 					}
 
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("CopyHandler[send] 失败", e);
+					RobotLog.fail("CopyHandler[send] 申请战斗结束失败", e);
 					return false;
 				}
+				RobotLog.info("copyhandler[send]申请战斗结束成功");
 				return true;
 			}
 
