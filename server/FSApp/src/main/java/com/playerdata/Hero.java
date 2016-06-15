@@ -37,8 +37,8 @@ public class Hero implements HeroIF {
 	private SkillMgr m_SkillMgr = new SkillMgr();
 	private EquipMgr m_EquipMgr = new EquipMgr();
 	private InlayMgr m_inlayMgr = new InlayMgr();// 镶嵌宝石
-	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr();  //专属装备
-	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr();  //专属装备
+	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr(); // 专属装备
+	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr(); // 专属装备
 
 	// 新添加的英雄做基本属性和技能的初始化
 	public Hero(Player pPlayer, eRoleType roleTypeP, RoleCfg heroCfg, String roleUUId) {
@@ -55,13 +55,13 @@ public class Hero implements HeroIF {
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
 		m_SkillMgr.initSkill(heroCfg);
-		
+
 		pPlayer.getUserTmpGameDataFlag().setSynFightingAll(true);
-		
-//		m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
-//		m_FixExpEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
+
+		// m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
+		// m_FixExpEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
 	}
-	
+
 	public Hero(Player pPlayer, eRoleType roleTypeP, String roleUUId) {
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;
@@ -77,7 +77,7 @@ public class Hero implements HeroIF {
 
 		// Attrmgr要在最后做初始化
 		m_AttrMgr.init(this);
-		
+
 		m_FixExpEquipMgr.initIfNeed(m_pPlayer, this);
 		m_FixNormEquipMgr.initIfNeed(m_pPlayer, this);
 	}
@@ -116,13 +116,13 @@ public class Hero implements HeroIF {
 		m_FixNormEquipMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
-				m_AttrMgr.reCal();				
+				m_AttrMgr.reCal();
 			}
 		});
 		m_FixExpEquipMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
-				m_AttrMgr.reCal();				
+				m_AttrMgr.reCal();
 			}
 		});
 
@@ -168,11 +168,15 @@ public class Hero implements HeroIF {
 	/**
 	 * 是否可升星
 	 * 
-	 * @return -1:魂石不足;-2:铜钱不足;-3:最高星;-4满星；0:可升星
+	 * @return -1:魂石不足;-2:铜钱不足;-3:最高星;-4配置错误；0:可升星
 	 */
 	public int canUpgradeStar() {
 		int result = 0;
 		RoleCfg rolecfg = getHeroCfg();
+		if (rolecfg == null) {// 配置不存在
+			return -4;
+		}
+
 		int soulStoneCount = m_pPlayer.getItemBagMgr().getItemCountByModelId(rolecfg.getSoulStoneId());
 		if (soulStoneCount < rolecfg.getRisingNumber()) {
 			result = -1;
@@ -180,9 +184,6 @@ public class Hero implements HeroIF {
 			result = -2;
 		} else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())) {
 			result = -3;
-		} else if (getStarLevel() >= 5) {
-			// 满星
-			result = -4;
 		}
 
 		return result;
@@ -316,7 +317,7 @@ public class Hero implements HeroIF {
 	 * @param level
 	 */
 	public void gmEditHeroLevel(int level) {
-		int preLevel = getRoleBaseInfo().getLevel();
+		// int preLevel = getRoleBaseInfo().getLevel();
 		m_roleBaseInfoMgr.setLevel(level);
 	}
 
@@ -414,6 +415,4 @@ public class Hero implements HeroIF {
 		return m_FixExpEquipMgr;
 	}
 
-	
-	
 }
