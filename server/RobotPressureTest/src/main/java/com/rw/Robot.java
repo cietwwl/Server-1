@@ -37,6 +37,7 @@ import com.rw.handler.platform.PlatformHandler;
 import com.rw.handler.sign.SignHandler;
 import com.rw.handler.sevenDayGift.DailyGiftHandler;
 import com.rw.handler.store.StoreHandler;
+import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
@@ -808,8 +809,8 @@ public class Robot {
 	/**前两个参数控制前4个道具及5种相关操作,后两个参数控制后两个参数的4种操作类型;同时只可操作一个道具;操作前者后者置-1,反之亦然
 	 * 开始前需要升级，加金币，加钻石，加进化和升星材料；
 	 * 因为部分判断在客户端，所以如果要测试进化，建议直接一键升满，否则单个升满会无法确保10级，非10级申请进化会生成错误数据影响后续操作
-	 * 15234,强化,一键强化,进化,升星,降星;4个装备
-	 * 1234,强化,进化,升星,降星
+	 * 15234,强化,一键强化,进化,升星,降星;4个装备，0123
+	 * 6789,强化,进化,升星,降星，2个装备01
 	 * */
 	public boolean testFixEquip(int equipId ,int type,int expequipId,int exptype){
 		upgrade(50);
@@ -826,4 +827,16 @@ public class Robot {
 		}		
 		return issuc;
 	}
+	
+	/**预制升级和加金币；参数小于0为随机，大于则选择对应分支提升*/
+	public boolean testTaoist(int equipId){
+		upgrade(50);
+		addCoin(9999999);		
+		boolean issuc = false;
+		TaoistHandler.getHandler().getTaoistData(client);
+		return issuc;
+	}
+	
+	
+	
 }
