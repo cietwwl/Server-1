@@ -134,7 +134,6 @@ public class PvECommonHelper {
 				for(String id : listId){
 					listItem.add(id+","+1);
 				}
-				System.out.println("@@@@@@@@@@@@@@@@@@@@@@" + tmp + " →" + listItem.size());
 				
 				
 				tagsweepInfo.addAllTagItemList(listItem);

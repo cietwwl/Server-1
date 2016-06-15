@@ -35,6 +35,7 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -235,7 +236,10 @@ public class ActivityExchangeTypeMgr {
 			return;
 		}
 		targetItem.setTime(targetItem.getTime()+1);
-		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
+//		ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
+		
+		String[] str = subCfg.getAwardGift().split("_");
+		player.getItemBagMgr().addItem(Integer.parseInt(str[0]),Integer.parseInt(str[1]));
 	}
 	
 	
