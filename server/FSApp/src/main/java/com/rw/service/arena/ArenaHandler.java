@@ -33,6 +33,7 @@ import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.playerext.PlayerTempAttribute;
@@ -64,6 +65,7 @@ import com.rwproto.ArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.ArenaServiceProtos.eArenaResultType;
 import com.rwproto.ArenaServiceProtos.eArenaType;
 import com.rwproto.BattleCommon.ePlayerCamp;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
@@ -757,7 +759,11 @@ public class ArenaHandler {
 		result.setPlace(info.getRanking());
 		result.addAllHeroImages(heroImages);
 		result.setModelId(player.getModelId());
-		// player.getAttrMgr()
+		// 设置时装数据
+		FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(key);
+		if (fashionUsing != null){
+			result.setFashionUsage(fashionUsing);
+		}
 		return result.build();
 	}
 

@@ -9,7 +9,7 @@ public final class ArenaServiceProtos {
       com.google.protobuf.ExtensionRegistry registry) {
   }
   /**
-   * Protobuf enum {@code eArenaType}
+   * Protobuf enum {@code ArenaService.eArenaType}
    */
   public enum eArenaType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -332,11 +332,11 @@ public final class ArenaServiceProtos {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:eArenaType)
+    // @@protoc_insertion_point(enum_scope:ArenaService.eArenaType)
   }
 
   /**
-   * Protobuf enum {@code eArenaResultType}
+   * Protobuf enum {@code ArenaService.eArenaResultType}
    */
   public enum eArenaResultType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -430,7 +430,7 @@ public final class ArenaServiceProtos {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:eArenaResultType)
+    // @@protoc_insertion_point(enum_scope:ArenaService.eArenaResultType)
   }
 
   public interface HeroDataOrBuilder
@@ -572,7 +572,7 @@ public final class ArenaServiceProtos {
         int index);
   }
   /**
-   * Protobuf type {@code HeroData}
+   * Protobuf type {@code ArenaService.HeroData}
    */
   public static final class HeroData extends
       com.google.protobuf.GeneratedMessage
@@ -693,12 +693,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_HeroData_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HeroData_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_HeroData_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HeroData_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.HeroData.class, com.rwproto.ArenaServiceProtos.HeroData.Builder.class);
     }
@@ -1172,19 +1172,19 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code HeroData}
+     * Protobuf type {@code ArenaService.HeroData}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.ArenaServiceProtos.HeroDataOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HeroData_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HeroData_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HeroData_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HeroData_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.HeroData.class, com.rwproto.ArenaServiceProtos.HeroData.Builder.class);
       }
@@ -1246,7 +1246,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HeroData_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HeroData_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.HeroData getDefaultInstanceForType() {
@@ -2281,7 +2281,7 @@ public final class ArenaServiceProtos {
         return attrsBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:HeroData)
+      // @@protoc_insertion_point(builder_scope:ArenaService.HeroData)
     }
 
     static {
@@ -2289,7 +2289,7 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:HeroData)
+    // @@protoc_insertion_point(class_scope:ArenaService.HeroData)
   }
 
   public interface ArenaDataOrBuilder
@@ -2420,27 +2420,27 @@ public final class ArenaServiceProtos {
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // repeated .HeroData heros = 12;
+    // repeated .ArenaService.HeroData heros = 12;
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     java.util.List<com.rwproto.ArenaServiceProtos.HeroData> 
         getHerosList();
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     com.rwproto.ArenaServiceProtos.HeroData getHeros(int index);
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     int getHerosCount();
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     java.util.List<? extends com.rwproto.ArenaServiceProtos.HeroDataOrBuilder> 
         getHerosOrBuilderList();
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     com.rwproto.ArenaServiceProtos.HeroDataOrBuilder getHerosOrBuilder(
         int index);
@@ -2556,7 +2556,7 @@ public final class ArenaServiceProtos {
         getArmyInfoBytes();
   }
   /**
-   * Protobuf type {@code ArenaData}
+   * Protobuf type {@code ArenaService.ArenaData}
    */
   public static final class ArenaData extends
       com.google.protobuf.GeneratedMessage
@@ -2733,12 +2733,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaData_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaData_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaData_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaData_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.ArenaData.class, com.rwproto.ArenaServiceProtos.ArenaData.Builder.class);
     }
@@ -3016,36 +3016,36 @@ public final class ArenaServiceProtos {
       }
     }
 
-    // repeated .HeroData heros = 12;
+    // repeated .ArenaService.HeroData heros = 12;
     public static final int HEROS_FIELD_NUMBER = 12;
     private java.util.List<com.rwproto.ArenaServiceProtos.HeroData> heros_;
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     public java.util.List<com.rwproto.ArenaServiceProtos.HeroData> getHerosList() {
       return heros_;
     }
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     public java.util.List<? extends com.rwproto.ArenaServiceProtos.HeroDataOrBuilder> 
         getHerosOrBuilderList() {
       return heros_;
     }
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     public int getHerosCount() {
       return heros_.size();
     }
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     public com.rwproto.ArenaServiceProtos.HeroData getHeros(int index) {
       return heros_.get(index);
     }
     /**
-     * <code>repeated .HeroData heros = 12;</code>
+     * <code>repeated .ArenaService.HeroData heros = 12;</code>
      */
     public com.rwproto.ArenaServiceProtos.HeroDataOrBuilder getHerosOrBuilder(
         int index) {
@@ -3528,19 +3528,19 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code ArenaData}
+     * Protobuf type {@code ArenaService.ArenaData}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.ArenaServiceProtos.ArenaDataOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaData_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaData_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaData_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaData_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.ArenaData.class, com.rwproto.ArenaServiceProtos.ArenaData.Builder.class);
       }
@@ -3627,7 +3627,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaData_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaData_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.ArenaData getDefaultInstanceForType() {
@@ -4418,7 +4418,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // repeated .HeroData heros = 12;
+      // repeated .ArenaService.HeroData heros = 12;
       private java.util.List<com.rwproto.ArenaServiceProtos.HeroData> heros_ =
         java.util.Collections.emptyList();
       private void ensureHerosIsMutable() {
@@ -4432,7 +4432,7 @@ public final class ArenaServiceProtos {
           com.rwproto.ArenaServiceProtos.HeroData, com.rwproto.ArenaServiceProtos.HeroData.Builder, com.rwproto.ArenaServiceProtos.HeroDataOrBuilder> herosBuilder_;
 
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public java.util.List<com.rwproto.ArenaServiceProtos.HeroData> getHerosList() {
         if (herosBuilder_ == null) {
@@ -4442,7 +4442,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public int getHerosCount() {
         if (herosBuilder_ == null) {
@@ -4452,7 +4452,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public com.rwproto.ArenaServiceProtos.HeroData getHeros(int index) {
         if (herosBuilder_ == null) {
@@ -4462,7 +4462,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder setHeros(
           int index, com.rwproto.ArenaServiceProtos.HeroData value) {
@@ -4479,7 +4479,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder setHeros(
           int index, com.rwproto.ArenaServiceProtos.HeroData.Builder builderForValue) {
@@ -4493,7 +4493,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder addHeros(com.rwproto.ArenaServiceProtos.HeroData value) {
         if (herosBuilder_ == null) {
@@ -4509,7 +4509,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder addHeros(
           int index, com.rwproto.ArenaServiceProtos.HeroData value) {
@@ -4526,7 +4526,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder addHeros(
           com.rwproto.ArenaServiceProtos.HeroData.Builder builderForValue) {
@@ -4540,7 +4540,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder addHeros(
           int index, com.rwproto.ArenaServiceProtos.HeroData.Builder builderForValue) {
@@ -4554,7 +4554,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder addAllHeros(
           java.lang.Iterable<? extends com.rwproto.ArenaServiceProtos.HeroData> values) {
@@ -4568,7 +4568,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder clearHeros() {
         if (herosBuilder_ == null) {
@@ -4581,7 +4581,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public Builder removeHeros(int index) {
         if (herosBuilder_ == null) {
@@ -4594,14 +4594,14 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public com.rwproto.ArenaServiceProtos.HeroData.Builder getHerosBuilder(
           int index) {
         return getHerosFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public com.rwproto.ArenaServiceProtos.HeroDataOrBuilder getHerosOrBuilder(
           int index) {
@@ -4611,7 +4611,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public java.util.List<? extends com.rwproto.ArenaServiceProtos.HeroDataOrBuilder> 
            getHerosOrBuilderList() {
@@ -4622,14 +4622,14 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public com.rwproto.ArenaServiceProtos.HeroData.Builder addHerosBuilder() {
         return getHerosFieldBuilder().addBuilder(
             com.rwproto.ArenaServiceProtos.HeroData.getDefaultInstance());
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public com.rwproto.ArenaServiceProtos.HeroData.Builder addHerosBuilder(
           int index) {
@@ -4637,7 +4637,7 @@ public final class ArenaServiceProtos {
             index, com.rwproto.ArenaServiceProtos.HeroData.getDefaultInstance());
       }
       /**
-       * <code>repeated .HeroData heros = 12;</code>
+       * <code>repeated .ArenaService.HeroData heros = 12;</code>
        */
       public java.util.List<com.rwproto.ArenaServiceProtos.HeroData.Builder> 
            getHerosBuilderList() {
@@ -5385,7 +5385,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:ArenaData)
+      // @@protoc_insertion_point(builder_scope:ArenaService.ArenaData)
     }
 
     static {
@@ -5393,7 +5393,7 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:ArenaData)
+    // @@protoc_insertion_point(class_scope:ArenaService.ArenaData)
   }
 
   public interface ArenaInfoOrBuilder
@@ -5531,9 +5531,35 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     int getModelId();
+
+    // optional .FashionService.FashionUsed fashionUsage = 12;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    boolean hasFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
   }
   /**
-   * Protobuf type {@code ArenaInfo}
+   * Protobuf type {@code ArenaService.ArenaInfo}
    */
   public static final class ArenaInfo extends
       com.google.protobuf.GeneratedMessage
@@ -5636,6 +5662,19 @@ public final class ArenaServiceProtos {
               modelId_ = input.readInt32();
               break;
             }
+            case 98: {
+              com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000200) == 0x00000200)) {
+                subBuilder = fashionUsage_.toBuilder();
+              }
+              fashionUsage_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fashionUsage_);
+                fashionUsage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000200;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5653,12 +5692,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaInfo_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaInfo_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaInfo_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.ArenaInfo.class, com.rwproto.ArenaServiceProtos.ArenaInfo.Builder.class);
     }
@@ -5942,6 +5981,40 @@ public final class ArenaServiceProtos {
       return modelId_;
     }
 
+    // optional .FashionService.FashionUsed fashionUsage = 12;
+    public static final int FASHIONUSAGE_FIELD_NUMBER = 12;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public boolean hasFashionUsage() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+      return fashionUsage_;
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+      return fashionUsage_;
+    }
+
     private void initFields() {
       userId_ = "";
       career_ = 0;
@@ -5953,6 +6026,7 @@ public final class ArenaServiceProtos {
       name_ = "";
       heroImages_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       modelId_ = 0;
+      fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5999,6 +6073,9 @@ public final class ArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(11, modelId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeMessage(12, fashionUsage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6053,6 +6130,10 @@ public final class ArenaServiceProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, modelId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, fashionUsage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6133,19 +6214,19 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code ArenaInfo}
+     * Protobuf type {@code ArenaService.ArenaInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaInfo_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaInfo_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaInfo_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.ArenaInfo.class, com.rwproto.ArenaServiceProtos.ArenaInfo.Builder.class);
       }
@@ -6162,6 +6243,7 @@ public final class ArenaServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFashionUsageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -6190,6 +6272,12 @@ public final class ArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000100);
         modelId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -6199,7 +6287,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaInfo_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaInfo_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.ArenaInfo getDefaultInstanceForType() {
@@ -6260,6 +6348,14 @@ public final class ArenaServiceProtos {
           to_bitField0_ |= 0x00000100;
         }
         result.modelId_ = modelId_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        if (fashionUsageBuilder_ == null) {
+          result.fashionUsage_ = fashionUsage_;
+        } else {
+          result.fashionUsage_ = fashionUsageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6318,6 +6414,9 @@ public final class ArenaServiceProtos {
         }
         if (other.hasModelId()) {
           setModelId(other.getModelId());
+        }
+        if (other.hasFashionUsage()) {
+          mergeFashionUsage(other.getFashionUsage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -6879,7 +6978,160 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:ArenaInfo)
+      // optional .FashionService.FashionUsed fashionUsage = 12;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsageBuilder_;
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public boolean hasFashionUsage() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          return fashionUsage_;
+        } else {
+          return fashionUsageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fashionUsage_ = value;
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000400;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(
+          com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = builderForValue.build();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000400;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder mergeFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (((bitField0_ & 0x00000400) == 0x00000400) &&
+              fashionUsage_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsage_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsage_).mergeFrom(value).buildPartial();
+          } else {
+            fashionUsage_ = value;
+          }
+          onChanged();
+        } else {
+          fashionUsageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000400;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder clearFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000400);
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsageBuilder() {
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return getFashionUsageFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+        if (fashionUsageBuilder_ != null) {
+          return fashionUsageBuilder_.getMessageOrBuilder();
+        } else {
+          return fashionUsage_;
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
+          getFashionUsageFieldBuilder() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
+                  fashionUsage_,
+                  getParentForChildren(),
+                  isClean());
+          fashionUsage_ = null;
+        }
+        return fashionUsageBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ArenaService.ArenaInfo)
     }
 
     static {
@@ -6887,7 +7139,7 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:ArenaInfo)
+    // @@protoc_insertion_point(class_scope:ArenaService.ArenaInfo)
   }
 
   public interface ArenaRecordOrBuilder
@@ -7007,7 +7259,7 @@ public final class ArenaServiceProtos {
     int getChallenge();
   }
   /**
-   * Protobuf type {@code ArenaRecord}
+   * Protobuf type {@code ArenaService.ArenaRecord}
    */
   public static final class ArenaRecord extends
       com.google.protobuf.GeneratedMessage
@@ -7116,12 +7368,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaRecord_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaRecord_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaRecord_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaRecord_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.ArenaRecord.class, com.rwproto.ArenaServiceProtos.ArenaRecord.Builder.class);
     }
@@ -7557,19 +7809,19 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code ArenaRecord}
+     * Protobuf type {@code ArenaService.ArenaRecord}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaRecord_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaRecord_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaRecord_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaRecord_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.ArenaRecord.class, com.rwproto.ArenaServiceProtos.ArenaRecord.Builder.class);
       }
@@ -7621,7 +7873,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaRecord_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaRecord_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.ArenaRecord getDefaultInstanceForType() {
@@ -8196,7 +8448,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:ArenaRecord)
+      // @@protoc_insertion_point(builder_scope:ArenaService.ArenaRecord)
     }
 
     static {
@@ -8204,19 +8456,19 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:ArenaRecord)
+    // @@protoc_insertion_point(class_scope:ArenaService.ArenaRecord)
   }
 
   public interface MsgArenaRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .eArenaType arenaType = 1;
+    // required .ArenaService.eArenaType arenaType = 1;
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     boolean hasArenaType();
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     com.rwproto.ArenaServiceProtos.eArenaType getArenaType();
 
@@ -8255,17 +8507,17 @@ public final class ArenaServiceProtos {
     com.google.protobuf.ByteString
         getHeroIdsBytes(int index);
 
-    // optional .ArenaInfo enemy = 4;
+    // optional .ArenaService.ArenaInfo enemy = 4;
     /**
-     * <code>optional .ArenaInfo enemy = 4;</code>
+     * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
      */
     boolean hasEnemy();
     /**
-     * <code>optional .ArenaInfo enemy = 4;</code>
+     * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaInfo getEnemy();
     /**
-     * <code>optional .ArenaInfo enemy = 4;</code>
+     * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder getEnemyOrBuilder();
 
@@ -8279,9 +8531,9 @@ public final class ArenaServiceProtos {
      */
     int getWin();
 
-    // repeated .HurtValue hurtValue = 6;
+    // repeated .ArenaService.HurtValue hurtValue = 6;
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8290,7 +8542,7 @@ public final class ArenaServiceProtos {
     java.util.List<com.rwproto.ArenaServiceProtos.HurtValue> 
         getHurtValueList();
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8298,7 +8550,7 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.ArenaServiceProtos.HurtValue getHurtValue(int index);
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8306,7 +8558,7 @@ public final class ArenaServiceProtos {
      */
     int getHurtValueCount();
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8315,7 +8567,7 @@ public final class ArenaServiceProtos {
     java.util.List<? extends com.rwproto.ArenaServiceProtos.HurtValueOrBuilder> 
         getHurtValueOrBuilderList();
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8415,7 +8667,7 @@ public final class ArenaServiceProtos {
     int getHistoryRewardId();
   }
   /**
-   * Protobuf type {@code MsgArenaRequest}
+   * Protobuf type {@code ArenaService.MsgArenaRequest}
    */
   public static final class MsgArenaRequest extends
       com.google.protobuf.GeneratedMessage
@@ -8561,12 +8813,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaRequest_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaRequest_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.MsgArenaRequest.class, com.rwproto.ArenaServiceProtos.MsgArenaRequest.Builder.class);
     }
@@ -8587,17 +8839,17 @@ public final class ArenaServiceProtos {
     }
 
     private int bitField0_;
-    // required .eArenaType arenaType = 1;
+    // required .ArenaService.eArenaType arenaType = 1;
     public static final int ARENATYPE_FIELD_NUMBER = 1;
     private com.rwproto.ArenaServiceProtos.eArenaType arenaType_;
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     public boolean hasArenaType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     public com.rwproto.ArenaServiceProtos.eArenaType getArenaType() {
       return arenaType_;
@@ -8676,23 +8928,23 @@ public final class ArenaServiceProtos {
       return heroIds_.getByteString(index);
     }
 
-    // optional .ArenaInfo enemy = 4;
+    // optional .ArenaService.ArenaInfo enemy = 4;
     public static final int ENEMY_FIELD_NUMBER = 4;
     private com.rwproto.ArenaServiceProtos.ArenaInfo enemy_;
     /**
-     * <code>optional .ArenaInfo enemy = 4;</code>
+     * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
      */
     public boolean hasEnemy() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .ArenaInfo enemy = 4;</code>
+     * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaInfo getEnemy() {
       return enemy_;
     }
     /**
-     * <code>optional .ArenaInfo enemy = 4;</code>
+     * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder getEnemyOrBuilder() {
       return enemy_;
@@ -8714,11 +8966,11 @@ public final class ArenaServiceProtos {
       return win_;
     }
 
-    // repeated .HurtValue hurtValue = 6;
+    // repeated .ArenaService.HurtValue hurtValue = 6;
     public static final int HURTVALUE_FIELD_NUMBER = 6;
     private java.util.List<com.rwproto.ArenaServiceProtos.HurtValue> hurtValue_;
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8728,7 +8980,7 @@ public final class ArenaServiceProtos {
       return hurtValue_;
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8739,7 +8991,7 @@ public final class ArenaServiceProtos {
       return hurtValue_;
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8749,7 +9001,7 @@ public final class ArenaServiceProtos {
       return hurtValue_.size();
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -8759,7 +9011,7 @@ public final class ArenaServiceProtos {
       return hurtValue_.get(index);
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 6;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -9096,19 +9348,19 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code MsgArenaRequest}
+     * Protobuf type {@code ArenaService.MsgArenaRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.ArenaServiceProtos.MsgArenaRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaRequest_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaRequest_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.MsgArenaRequest.class, com.rwproto.ArenaServiceProtos.MsgArenaRequest.Builder.class);
       }
@@ -9172,7 +9424,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaRequest_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaRequest_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.MsgArenaRequest getDefaultInstanceForType() {
@@ -9372,22 +9624,22 @@ public final class ArenaServiceProtos {
       }
       private int bitField0_;
 
-      // required .eArenaType arenaType = 1;
+      // required .ArenaService.eArenaType arenaType = 1;
       private com.rwproto.ArenaServiceProtos.eArenaType arenaType_ = com.rwproto.ArenaServiceProtos.eArenaType.GET_INFO;
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public boolean hasArenaType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public com.rwproto.ArenaServiceProtos.eArenaType getArenaType() {
         return arenaType_;
       }
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public Builder setArenaType(com.rwproto.ArenaServiceProtos.eArenaType value) {
         if (value == null) {
@@ -9399,7 +9651,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public Builder clearArenaType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -9575,18 +9827,18 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // optional .ArenaInfo enemy = 4;
+      // optional .ArenaService.ArenaInfo enemy = 4;
       private com.rwproto.ArenaServiceProtos.ArenaInfo enemy_ = com.rwproto.ArenaServiceProtos.ArenaInfo.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.ArenaServiceProtos.ArenaInfo, com.rwproto.ArenaServiceProtos.ArenaInfo.Builder, com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder> enemyBuilder_;
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public boolean hasEnemy() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfo getEnemy() {
         if (enemyBuilder_ == null) {
@@ -9596,7 +9848,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public Builder setEnemy(com.rwproto.ArenaServiceProtos.ArenaInfo value) {
         if (enemyBuilder_ == null) {
@@ -9612,7 +9864,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public Builder setEnemy(
           com.rwproto.ArenaServiceProtos.ArenaInfo.Builder builderForValue) {
@@ -9626,7 +9878,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public Builder mergeEnemy(com.rwproto.ArenaServiceProtos.ArenaInfo value) {
         if (enemyBuilder_ == null) {
@@ -9645,7 +9897,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public Builder clearEnemy() {
         if (enemyBuilder_ == null) {
@@ -9658,7 +9910,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfo.Builder getEnemyBuilder() {
         bitField0_ |= 0x00000008;
@@ -9666,7 +9918,7 @@ public final class ArenaServiceProtos {
         return getEnemyFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder getEnemyOrBuilder() {
         if (enemyBuilder_ != null) {
@@ -9676,7 +9928,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .ArenaInfo enemy = 4;</code>
+       * <code>optional .ArenaService.ArenaInfo enemy = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.ArenaServiceProtos.ArenaInfo, com.rwproto.ArenaServiceProtos.ArenaInfo.Builder, com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder> 
@@ -9725,7 +9977,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // repeated .HurtValue hurtValue = 6;
+      // repeated .ArenaService.HurtValue hurtValue = 6;
       private java.util.List<com.rwproto.ArenaServiceProtos.HurtValue> hurtValue_ =
         java.util.Collections.emptyList();
       private void ensureHurtValueIsMutable() {
@@ -9739,7 +9991,7 @@ public final class ArenaServiceProtos {
           com.rwproto.ArenaServiceProtos.HurtValue, com.rwproto.ArenaServiceProtos.HurtValue.Builder, com.rwproto.ArenaServiceProtos.HurtValueOrBuilder> hurtValueBuilder_;
 
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9753,7 +10005,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9767,7 +10019,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9781,7 +10033,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9802,7 +10054,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9820,7 +10072,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9840,7 +10092,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9861,7 +10113,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9879,7 +10131,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9897,7 +10149,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9915,7 +10167,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9932,7 +10184,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9949,7 +10201,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9960,7 +10212,7 @@ public final class ArenaServiceProtos {
         return getHurtValueFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9974,7 +10226,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -9989,7 +10241,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -10000,7 +10252,7 @@ public final class ArenaServiceProtos {
             com.rwproto.ArenaServiceProtos.HurtValue.getDefaultInstance());
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -10012,7 +10264,7 @@ public final class ArenaServiceProtos {
             index, com.rwproto.ArenaServiceProtos.HurtValue.getDefaultInstance());
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 6;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 6;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -10313,7 +10565,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:MsgArenaRequest)
+      // @@protoc_insertion_point(builder_scope:ArenaService.MsgArenaRequest)
     }
 
     static {
@@ -10321,7 +10573,7 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:MsgArenaRequest)
+    // @@protoc_insertion_point(class_scope:ArenaService.MsgArenaRequest)
   }
 
   public interface HurtValueOrBuilder
@@ -10441,9 +10693,9 @@ public final class ArenaServiceProtos {
      */
     boolean getIsDead();
 
-    // required .ePlayerType playerType = 7;
+    // required .BattleCommon.ePlayerType playerType = 7;
     /**
-     * <code>required .ePlayerType playerType = 7;</code>
+     * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
      *
      * <pre>
      *角色类型
@@ -10451,7 +10703,7 @@ public final class ArenaServiceProtos {
      */
     boolean hasPlayerType();
     /**
-     * <code>required .ePlayerType playerType = 7;</code>
+     * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
      *
      * <pre>
      *角色类型
@@ -10459,9 +10711,9 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.BattleCommon.ePlayerType getPlayerType();
 
-    // required .ePlayerCamp camp = 8;
+    // required .BattleCommon.ePlayerCamp camp = 8;
     /**
-     * <code>required .ePlayerCamp camp = 8;</code>
+     * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
      *
      * <pre>
      *阵营
@@ -10469,7 +10721,7 @@ public final class ArenaServiceProtos {
      */
     boolean hasCamp();
     /**
-     * <code>required .ePlayerCamp camp = 8;</code>
+     * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
      *
      * <pre>
      *阵营
@@ -10541,7 +10793,7 @@ public final class ArenaServiceProtos {
         getQualityBytes();
   }
   /**
-   * Protobuf type {@code HurtValue}
+   * Protobuf type {@code ArenaService.HurtValue}
    */
   public static final class HurtValue extends
       com.google.protobuf.GeneratedMessage
@@ -10672,12 +10924,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_HurtValue_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HurtValue_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_HurtValue_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HurtValue_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.HurtValue.class, com.rwproto.ArenaServiceProtos.HurtValue.Builder.class);
     }
@@ -10892,11 +11144,11 @@ public final class ArenaServiceProtos {
       return isDead_;
     }
 
-    // required .ePlayerType playerType = 7;
+    // required .BattleCommon.ePlayerType playerType = 7;
     public static final int PLAYERTYPE_FIELD_NUMBER = 7;
     private com.rwproto.BattleCommon.ePlayerType playerType_;
     /**
-     * <code>required .ePlayerType playerType = 7;</code>
+     * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
      *
      * <pre>
      *角色类型
@@ -10906,7 +11158,7 @@ public final class ArenaServiceProtos {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>required .ePlayerType playerType = 7;</code>
+     * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
      *
      * <pre>
      *角色类型
@@ -10916,11 +11168,11 @@ public final class ArenaServiceProtos {
       return playerType_;
     }
 
-    // required .ePlayerCamp camp = 8;
+    // required .BattleCommon.ePlayerCamp camp = 8;
     public static final int CAMP_FIELD_NUMBER = 8;
     private com.rwproto.BattleCommon.ePlayerCamp camp_;
     /**
-     * <code>required .ePlayerCamp camp = 8;</code>
+     * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
      *
      * <pre>
      *阵营
@@ -10930,7 +11182,7 @@ public final class ArenaServiceProtos {
       return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>required .ePlayerCamp camp = 8;</code>
+     * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
      *
      * <pre>
      *阵营
@@ -11273,19 +11525,19 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code HurtValue}
+     * Protobuf type {@code ArenaService.HurtValue}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.ArenaServiceProtos.HurtValueOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HurtValue_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HurtValue_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HurtValue_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HurtValue_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.HurtValue.class, com.rwproto.ArenaServiceProtos.HurtValue.Builder.class);
       }
@@ -11341,7 +11593,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HurtValue_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HurtValue_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.HurtValue getDefaultInstanceForType() {
@@ -11894,10 +12146,10 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // required .ePlayerType playerType = 7;
+      // required .BattleCommon.ePlayerType playerType = 7;
       private com.rwproto.BattleCommon.ePlayerType playerType_ = com.rwproto.BattleCommon.ePlayerType.MAINPLAYER;
       /**
-       * <code>required .ePlayerType playerType = 7;</code>
+       * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
        *
        * <pre>
        *角色类型
@@ -11907,7 +12159,7 @@ public final class ArenaServiceProtos {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>required .ePlayerType playerType = 7;</code>
+       * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
        *
        * <pre>
        *角色类型
@@ -11917,7 +12169,7 @@ public final class ArenaServiceProtos {
         return playerType_;
       }
       /**
-       * <code>required .ePlayerType playerType = 7;</code>
+       * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
        *
        * <pre>
        *角色类型
@@ -11933,7 +12185,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .ePlayerType playerType = 7;</code>
+       * <code>required .BattleCommon.ePlayerType playerType = 7;</code>
        *
        * <pre>
        *角色类型
@@ -11946,10 +12198,10 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // required .ePlayerCamp camp = 8;
+      // required .BattleCommon.ePlayerCamp camp = 8;
       private com.rwproto.BattleCommon.ePlayerCamp camp_ = com.rwproto.BattleCommon.ePlayerCamp.Me;
       /**
-       * <code>required .ePlayerCamp camp = 8;</code>
+       * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
        *
        * <pre>
        *阵营
@@ -11959,7 +12211,7 @@ public final class ArenaServiceProtos {
         return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>required .ePlayerCamp camp = 8;</code>
+       * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
        *
        * <pre>
        *阵营
@@ -11969,7 +12221,7 @@ public final class ArenaServiceProtos {
         return camp_;
       }
       /**
-       * <code>required .ePlayerCamp camp = 8;</code>
+       * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
        *
        * <pre>
        *阵营
@@ -11985,7 +12237,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .ePlayerCamp camp = 8;</code>
+       * <code>required .BattleCommon.ePlayerCamp camp = 8;</code>
        *
        * <pre>
        *阵营
@@ -12194,7 +12446,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:HurtValue)
+      // @@protoc_insertion_point(builder_scope:ArenaService.HurtValue)
     }
 
     static {
@@ -12202,92 +12454,92 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:HurtValue)
+    // @@protoc_insertion_point(class_scope:ArenaService.HurtValue)
   }
 
   public interface MsgArenaResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .eArenaType arenaType = 1;
+    // required .ArenaService.eArenaType arenaType = 1;
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     boolean hasArenaType();
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     com.rwproto.ArenaServiceProtos.eArenaType getArenaType();
 
-    // optional .eArenaResultType arenaResultType = 2;
+    // optional .ArenaService.eArenaResultType arenaResultType = 2;
     /**
-     * <code>optional .eArenaResultType arenaResultType = 2;</code>
+     * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
      */
     boolean hasArenaResultType();
     /**
-     * <code>optional .eArenaResultType arenaResultType = 2;</code>
+     * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
      */
     com.rwproto.ArenaServiceProtos.eArenaResultType getArenaResultType();
 
-    // optional .ArenaData arenaData = 3;
+    // optional .ArenaService.ArenaData arenaData = 3;
     /**
-     * <code>optional .ArenaData arenaData = 3;</code>
+     * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
      */
     boolean hasArenaData();
     /**
-     * <code>optional .ArenaData arenaData = 3;</code>
+     * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaData getArenaData();
     /**
-     * <code>optional .ArenaData arenaData = 3;</code>
+     * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaDataOrBuilder getArenaDataOrBuilder();
 
-    // repeated .ArenaInfo listInfo = 4;
+    // repeated .ArenaService.ArenaInfo listInfo = 4;
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     java.util.List<com.rwproto.ArenaServiceProtos.ArenaInfo> 
         getListInfoList();
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaInfo getListInfo(int index);
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     int getListInfoCount();
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder> 
         getListInfoOrBuilderList();
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder getListInfoOrBuilder(
         int index);
 
-    // repeated .ArenaRecord listRecord = 5;
+    // repeated .ArenaService.ArenaRecord listRecord = 5;
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     java.util.List<com.rwproto.ArenaServiceProtos.ArenaRecord> 
         getListRecordList();
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaRecord getListRecord(int index);
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     int getListRecordCount();
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder> 
         getListRecordOrBuilderList();
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder getListRecordOrBuilder(
         int index);
@@ -12302,9 +12554,9 @@ public final class ArenaServiceProtos {
      */
     int getPlace();
 
-    // repeated .HurtValue hurtValue = 7;
+    // repeated .ArenaService.HurtValue hurtValue = 7;
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12313,7 +12565,7 @@ public final class ArenaServiceProtos {
     java.util.List<com.rwproto.ArenaServiceProtos.HurtValue> 
         getHurtValueList();
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12321,7 +12573,7 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.ArenaServiceProtos.HurtValue getHurtValue(int index);
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12329,7 +12581,7 @@ public final class ArenaServiceProtos {
      */
     int getHurtValueCount();
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12338,7 +12590,7 @@ public final class ArenaServiceProtos {
     java.util.List<? extends com.rwproto.ArenaServiceProtos.HurtValueOrBuilder> 
         getHurtValueOrBuilderList();
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12383,9 +12635,9 @@ public final class ArenaServiceProtos {
     com.google.protobuf.ByteString
         getAtkListBytes(int index);
 
-    // optional .HistoryRankingRise history = 9;
+    // optional .ArenaService.HistoryRankingRise history = 9;
     /**
-     * <code>optional .HistoryRankingRise history = 9;</code>
+     * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
      *
      * <pre>
      *历史排名上升提示
@@ -12393,7 +12645,7 @@ public final class ArenaServiceProtos {
      */
     boolean hasHistory();
     /**
-     * <code>optional .HistoryRankingRise history = 9;</code>
+     * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
      *
      * <pre>
      *历史排名上升提示
@@ -12401,7 +12653,7 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.ArenaServiceProtos.HistoryRankingRise getHistory();
     /**
-     * <code>optional .HistoryRankingRise history = 9;</code>
+     * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
      *
      * <pre>
      *历史排名上升提示
@@ -12507,9 +12759,9 @@ public final class ArenaServiceProtos {
      */
     int getGetCount(int index);
 
-    // optional .ArenaHistoryResponse historyReward = 15;
+    // optional .ArenaService.ArenaHistoryResponse historyReward = 15;
     /**
-     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
      *
      * <pre>
      *历史排行榜奖励总和
@@ -12517,7 +12769,7 @@ public final class ArenaServiceProtos {
      */
     boolean hasHistoryReward();
     /**
-     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
      *
      * <pre>
      *历史排行榜奖励总和
@@ -12525,7 +12777,7 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.ArenaServiceProtos.ArenaHistoryResponse getHistoryReward();
     /**
-     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
      *
      * <pre>
      *历史排行榜奖励总和
@@ -12533,9 +12785,9 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder getHistoryRewardOrBuilder();
 
-    // optional .eArenaResultType gainRewardResult = 16;
+    // optional .ArenaService.eArenaResultType gainRewardResult = 16;
     /**
-     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
      *
      * <pre>
      *领取历史排行榜奖励结果
@@ -12543,7 +12795,7 @@ public final class ArenaServiceProtos {
      */
     boolean hasGainRewardResult();
     /**
-     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
      *
      * <pre>
      *领取历史排行榜奖励结果
@@ -12552,7 +12804,7 @@ public final class ArenaServiceProtos {
     com.rwproto.ArenaServiceProtos.eArenaResultType getGainRewardResult();
   }
   /**
-   * Protobuf type {@code MsgArenaResponse}
+   * Protobuf type {@code ArenaService.MsgArenaResponse}
    */
   public static final class MsgArenaResponse extends
       com.google.protobuf.GeneratedMessage
@@ -12781,12 +13033,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaResponse_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaResponse_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.MsgArenaResponse.class, com.rwproto.ArenaServiceProtos.MsgArenaResponse.Builder.class);
     }
@@ -12807,126 +13059,126 @@ public final class ArenaServiceProtos {
     }
 
     private int bitField0_;
-    // required .eArenaType arenaType = 1;
+    // required .ArenaService.eArenaType arenaType = 1;
     public static final int ARENATYPE_FIELD_NUMBER = 1;
     private com.rwproto.ArenaServiceProtos.eArenaType arenaType_;
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     public boolean hasArenaType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .eArenaType arenaType = 1;</code>
+     * <code>required .ArenaService.eArenaType arenaType = 1;</code>
      */
     public com.rwproto.ArenaServiceProtos.eArenaType getArenaType() {
       return arenaType_;
     }
 
-    // optional .eArenaResultType arenaResultType = 2;
+    // optional .ArenaService.eArenaResultType arenaResultType = 2;
     public static final int ARENARESULTTYPE_FIELD_NUMBER = 2;
     private com.rwproto.ArenaServiceProtos.eArenaResultType arenaResultType_;
     /**
-     * <code>optional .eArenaResultType arenaResultType = 2;</code>
+     * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
      */
     public boolean hasArenaResultType() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .eArenaResultType arenaResultType = 2;</code>
+     * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
      */
     public com.rwproto.ArenaServiceProtos.eArenaResultType getArenaResultType() {
       return arenaResultType_;
     }
 
-    // optional .ArenaData arenaData = 3;
+    // optional .ArenaService.ArenaData arenaData = 3;
     public static final int ARENADATA_FIELD_NUMBER = 3;
     private com.rwproto.ArenaServiceProtos.ArenaData arenaData_;
     /**
-     * <code>optional .ArenaData arenaData = 3;</code>
+     * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
      */
     public boolean hasArenaData() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .ArenaData arenaData = 3;</code>
+     * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaData getArenaData() {
       return arenaData_;
     }
     /**
-     * <code>optional .ArenaData arenaData = 3;</code>
+     * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaDataOrBuilder getArenaDataOrBuilder() {
       return arenaData_;
     }
 
-    // repeated .ArenaInfo listInfo = 4;
+    // repeated .ArenaService.ArenaInfo listInfo = 4;
     public static final int LISTINFO_FIELD_NUMBER = 4;
     private java.util.List<com.rwproto.ArenaServiceProtos.ArenaInfo> listInfo_;
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     public java.util.List<com.rwproto.ArenaServiceProtos.ArenaInfo> getListInfoList() {
       return listInfo_;
     }
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder> 
         getListInfoOrBuilderList() {
       return listInfo_;
     }
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     public int getListInfoCount() {
       return listInfo_.size();
     }
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaInfo getListInfo(int index) {
       return listInfo_.get(index);
     }
     /**
-     * <code>repeated .ArenaInfo listInfo = 4;</code>
+     * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder getListInfoOrBuilder(
         int index) {
       return listInfo_.get(index);
     }
 
-    // repeated .ArenaRecord listRecord = 5;
+    // repeated .ArenaService.ArenaRecord listRecord = 5;
     public static final int LISTRECORD_FIELD_NUMBER = 5;
     private java.util.List<com.rwproto.ArenaServiceProtos.ArenaRecord> listRecord_;
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     public java.util.List<com.rwproto.ArenaServiceProtos.ArenaRecord> getListRecordList() {
       return listRecord_;
     }
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder> 
         getListRecordOrBuilderList() {
       return listRecord_;
     }
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     public int getListRecordCount() {
       return listRecord_.size();
     }
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaRecord getListRecord(int index) {
       return listRecord_.get(index);
     }
     /**
-     * <code>repeated .ArenaRecord listRecord = 5;</code>
+     * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
      */
     public com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder getListRecordOrBuilder(
         int index) {
@@ -12949,11 +13201,11 @@ public final class ArenaServiceProtos {
       return place_;
     }
 
-    // repeated .HurtValue hurtValue = 7;
+    // repeated .ArenaService.HurtValue hurtValue = 7;
     public static final int HURTVALUE_FIELD_NUMBER = 7;
     private java.util.List<com.rwproto.ArenaServiceProtos.HurtValue> hurtValue_;
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12963,7 +13215,7 @@ public final class ArenaServiceProtos {
       return hurtValue_;
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12974,7 +13226,7 @@ public final class ArenaServiceProtos {
       return hurtValue_;
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12984,7 +13236,7 @@ public final class ArenaServiceProtos {
       return hurtValue_.size();
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -12994,7 +13246,7 @@ public final class ArenaServiceProtos {
       return hurtValue_.get(index);
     }
     /**
-     * <code>repeated .HurtValue hurtValue = 7;</code>
+     * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
      *
      * <pre>
      *战斗伤害统计
@@ -13051,11 +13303,11 @@ public final class ArenaServiceProtos {
       return atkList_.getByteString(index);
     }
 
-    // optional .HistoryRankingRise history = 9;
+    // optional .ArenaService.HistoryRankingRise history = 9;
     public static final int HISTORY_FIELD_NUMBER = 9;
     private com.rwproto.ArenaServiceProtos.HistoryRankingRise history_;
     /**
-     * <code>optional .HistoryRankingRise history = 9;</code>
+     * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
      *
      * <pre>
      *历史排名上升提示
@@ -13065,7 +13317,7 @@ public final class ArenaServiceProtos {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional .HistoryRankingRise history = 9;</code>
+     * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
      *
      * <pre>
      *历史排名上升提示
@@ -13075,7 +13327,7 @@ public final class ArenaServiceProtos {
       return history_;
     }
     /**
-     * <code>optional .HistoryRankingRise history = 9;</code>
+     * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
      *
      * <pre>
      *历史排名上升提示
@@ -13216,11 +13468,11 @@ public final class ArenaServiceProtos {
       return getCount_.get(index);
     }
 
-    // optional .ArenaHistoryResponse historyReward = 15;
+    // optional .ArenaService.ArenaHistoryResponse historyReward = 15;
     public static final int HISTORYREWARD_FIELD_NUMBER = 15;
     private com.rwproto.ArenaServiceProtos.ArenaHistoryResponse historyReward_;
     /**
-     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
      *
      * <pre>
      *历史排行榜奖励总和
@@ -13230,7 +13482,7 @@ public final class ArenaServiceProtos {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
      *
      * <pre>
      *历史排行榜奖励总和
@@ -13240,7 +13492,7 @@ public final class ArenaServiceProtos {
       return historyReward_;
     }
     /**
-     * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+     * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
      *
      * <pre>
      *历史排行榜奖励总和
@@ -13250,11 +13502,11 @@ public final class ArenaServiceProtos {
       return historyReward_;
     }
 
-    // optional .eArenaResultType gainRewardResult = 16;
+    // optional .ArenaService.eArenaResultType gainRewardResult = 16;
     public static final int GAINREWARDRESULT_FIELD_NUMBER = 16;
     private com.rwproto.ArenaServiceProtos.eArenaResultType gainRewardResult_;
     /**
-     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
      *
      * <pre>
      *领取历史排行榜奖励结果
@@ -13264,7 +13516,7 @@ public final class ArenaServiceProtos {
       return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
-     * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+     * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
      *
      * <pre>
      *领取历史排行榜奖励结果
@@ -13554,19 +13806,19 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code MsgArenaResponse}
+     * Protobuf type {@code ArenaService.MsgArenaResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements com.rwproto.ArenaServiceProtos.MsgArenaResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaResponse_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaResponse_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.MsgArenaResponse.class, com.rwproto.ArenaServiceProtos.MsgArenaResponse.Builder.class);
       }
@@ -13662,7 +13914,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_MsgArenaResponse_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_MsgArenaResponse_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.MsgArenaResponse getDefaultInstanceForType() {
@@ -13989,22 +14241,22 @@ public final class ArenaServiceProtos {
       }
       private int bitField0_;
 
-      // required .eArenaType arenaType = 1;
+      // required .ArenaService.eArenaType arenaType = 1;
       private com.rwproto.ArenaServiceProtos.eArenaType arenaType_ = com.rwproto.ArenaServiceProtos.eArenaType.GET_INFO;
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public boolean hasArenaType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public com.rwproto.ArenaServiceProtos.eArenaType getArenaType() {
         return arenaType_;
       }
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public Builder setArenaType(com.rwproto.ArenaServiceProtos.eArenaType value) {
         if (value == null) {
@@ -14016,7 +14268,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>required .eArenaType arenaType = 1;</code>
+       * <code>required .ArenaService.eArenaType arenaType = 1;</code>
        */
       public Builder clearArenaType() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -14025,22 +14277,22 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // optional .eArenaResultType arenaResultType = 2;
+      // optional .ArenaService.eArenaResultType arenaResultType = 2;
       private com.rwproto.ArenaServiceProtos.eArenaResultType arenaResultType_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
       /**
-       * <code>optional .eArenaResultType arenaResultType = 2;</code>
+       * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
        */
       public boolean hasArenaResultType() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .eArenaResultType arenaResultType = 2;</code>
+       * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
        */
       public com.rwproto.ArenaServiceProtos.eArenaResultType getArenaResultType() {
         return arenaResultType_;
       }
       /**
-       * <code>optional .eArenaResultType arenaResultType = 2;</code>
+       * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
        */
       public Builder setArenaResultType(com.rwproto.ArenaServiceProtos.eArenaResultType value) {
         if (value == null) {
@@ -14052,7 +14304,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .eArenaResultType arenaResultType = 2;</code>
+       * <code>optional .ArenaService.eArenaResultType arenaResultType = 2;</code>
        */
       public Builder clearArenaResultType() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -14061,18 +14313,18 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // optional .ArenaData arenaData = 3;
+      // optional .ArenaService.ArenaData arenaData = 3;
       private com.rwproto.ArenaServiceProtos.ArenaData arenaData_ = com.rwproto.ArenaServiceProtos.ArenaData.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.ArenaServiceProtos.ArenaData, com.rwproto.ArenaServiceProtos.ArenaData.Builder, com.rwproto.ArenaServiceProtos.ArenaDataOrBuilder> arenaDataBuilder_;
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public boolean hasArenaData() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaData getArenaData() {
         if (arenaDataBuilder_ == null) {
@@ -14082,7 +14334,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public Builder setArenaData(com.rwproto.ArenaServiceProtos.ArenaData value) {
         if (arenaDataBuilder_ == null) {
@@ -14098,7 +14350,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public Builder setArenaData(
           com.rwproto.ArenaServiceProtos.ArenaData.Builder builderForValue) {
@@ -14112,7 +14364,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public Builder mergeArenaData(com.rwproto.ArenaServiceProtos.ArenaData value) {
         if (arenaDataBuilder_ == null) {
@@ -14131,7 +14383,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public Builder clearArenaData() {
         if (arenaDataBuilder_ == null) {
@@ -14144,7 +14396,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaData.Builder getArenaDataBuilder() {
         bitField0_ |= 0x00000004;
@@ -14152,7 +14404,7 @@ public final class ArenaServiceProtos {
         return getArenaDataFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaDataOrBuilder getArenaDataOrBuilder() {
         if (arenaDataBuilder_ != null) {
@@ -14162,7 +14414,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .ArenaData arenaData = 3;</code>
+       * <code>optional .ArenaService.ArenaData arenaData = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.ArenaServiceProtos.ArenaData, com.rwproto.ArenaServiceProtos.ArenaData.Builder, com.rwproto.ArenaServiceProtos.ArenaDataOrBuilder> 
@@ -14178,7 +14430,7 @@ public final class ArenaServiceProtos {
         return arenaDataBuilder_;
       }
 
-      // repeated .ArenaInfo listInfo = 4;
+      // repeated .ArenaService.ArenaInfo listInfo = 4;
       private java.util.List<com.rwproto.ArenaServiceProtos.ArenaInfo> listInfo_ =
         java.util.Collections.emptyList();
       private void ensureListInfoIsMutable() {
@@ -14192,7 +14444,7 @@ public final class ArenaServiceProtos {
           com.rwproto.ArenaServiceProtos.ArenaInfo, com.rwproto.ArenaServiceProtos.ArenaInfo.Builder, com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder> listInfoBuilder_;
 
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public java.util.List<com.rwproto.ArenaServiceProtos.ArenaInfo> getListInfoList() {
         if (listInfoBuilder_ == null) {
@@ -14202,7 +14454,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public int getListInfoCount() {
         if (listInfoBuilder_ == null) {
@@ -14212,7 +14464,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfo getListInfo(int index) {
         if (listInfoBuilder_ == null) {
@@ -14222,7 +14474,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder setListInfo(
           int index, com.rwproto.ArenaServiceProtos.ArenaInfo value) {
@@ -14239,7 +14491,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder setListInfo(
           int index, com.rwproto.ArenaServiceProtos.ArenaInfo.Builder builderForValue) {
@@ -14253,7 +14505,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder addListInfo(com.rwproto.ArenaServiceProtos.ArenaInfo value) {
         if (listInfoBuilder_ == null) {
@@ -14269,7 +14521,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder addListInfo(
           int index, com.rwproto.ArenaServiceProtos.ArenaInfo value) {
@@ -14286,7 +14538,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder addListInfo(
           com.rwproto.ArenaServiceProtos.ArenaInfo.Builder builderForValue) {
@@ -14300,7 +14552,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder addListInfo(
           int index, com.rwproto.ArenaServiceProtos.ArenaInfo.Builder builderForValue) {
@@ -14314,7 +14566,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder addAllListInfo(
           java.lang.Iterable<? extends com.rwproto.ArenaServiceProtos.ArenaInfo> values) {
@@ -14328,7 +14580,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder clearListInfo() {
         if (listInfoBuilder_ == null) {
@@ -14341,7 +14593,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public Builder removeListInfo(int index) {
         if (listInfoBuilder_ == null) {
@@ -14354,14 +14606,14 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfo.Builder getListInfoBuilder(
           int index) {
         return getListInfoFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder getListInfoOrBuilder(
           int index) {
@@ -14371,7 +14623,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaInfoOrBuilder> 
            getListInfoOrBuilderList() {
@@ -14382,14 +14634,14 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfo.Builder addListInfoBuilder() {
         return getListInfoFieldBuilder().addBuilder(
             com.rwproto.ArenaServiceProtos.ArenaInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaInfo.Builder addListInfoBuilder(
           int index) {
@@ -14397,7 +14649,7 @@ public final class ArenaServiceProtos {
             index, com.rwproto.ArenaServiceProtos.ArenaInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaInfo listInfo = 4;</code>
+       * <code>repeated .ArenaService.ArenaInfo listInfo = 4;</code>
        */
       public java.util.List<com.rwproto.ArenaServiceProtos.ArenaInfo.Builder> 
            getListInfoBuilderList() {
@@ -14418,7 +14670,7 @@ public final class ArenaServiceProtos {
         return listInfoBuilder_;
       }
 
-      // repeated .ArenaRecord listRecord = 5;
+      // repeated .ArenaService.ArenaRecord listRecord = 5;
       private java.util.List<com.rwproto.ArenaServiceProtos.ArenaRecord> listRecord_ =
         java.util.Collections.emptyList();
       private void ensureListRecordIsMutable() {
@@ -14432,7 +14684,7 @@ public final class ArenaServiceProtos {
           com.rwproto.ArenaServiceProtos.ArenaRecord, com.rwproto.ArenaServiceProtos.ArenaRecord.Builder, com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder> listRecordBuilder_;
 
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public java.util.List<com.rwproto.ArenaServiceProtos.ArenaRecord> getListRecordList() {
         if (listRecordBuilder_ == null) {
@@ -14442,7 +14694,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public int getListRecordCount() {
         if (listRecordBuilder_ == null) {
@@ -14452,7 +14704,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaRecord getListRecord(int index) {
         if (listRecordBuilder_ == null) {
@@ -14462,7 +14714,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder setListRecord(
           int index, com.rwproto.ArenaServiceProtos.ArenaRecord value) {
@@ -14479,7 +14731,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder setListRecord(
           int index, com.rwproto.ArenaServiceProtos.ArenaRecord.Builder builderForValue) {
@@ -14493,7 +14745,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder addListRecord(com.rwproto.ArenaServiceProtos.ArenaRecord value) {
         if (listRecordBuilder_ == null) {
@@ -14509,7 +14761,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder addListRecord(
           int index, com.rwproto.ArenaServiceProtos.ArenaRecord value) {
@@ -14526,7 +14778,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder addListRecord(
           com.rwproto.ArenaServiceProtos.ArenaRecord.Builder builderForValue) {
@@ -14540,7 +14792,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder addListRecord(
           int index, com.rwproto.ArenaServiceProtos.ArenaRecord.Builder builderForValue) {
@@ -14554,7 +14806,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder addAllListRecord(
           java.lang.Iterable<? extends com.rwproto.ArenaServiceProtos.ArenaRecord> values) {
@@ -14568,7 +14820,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder clearListRecord() {
         if (listRecordBuilder_ == null) {
@@ -14581,7 +14833,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public Builder removeListRecord(int index) {
         if (listRecordBuilder_ == null) {
@@ -14594,14 +14846,14 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaRecord.Builder getListRecordBuilder(
           int index) {
         return getListRecordFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder getListRecordOrBuilder(
           int index) {
@@ -14611,7 +14863,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaRecordOrBuilder> 
            getListRecordOrBuilderList() {
@@ -14622,14 +14874,14 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaRecord.Builder addListRecordBuilder() {
         return getListRecordFieldBuilder().addBuilder(
             com.rwproto.ArenaServiceProtos.ArenaRecord.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public com.rwproto.ArenaServiceProtos.ArenaRecord.Builder addListRecordBuilder(
           int index) {
@@ -14637,7 +14889,7 @@ public final class ArenaServiceProtos {
             index, com.rwproto.ArenaServiceProtos.ArenaRecord.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaRecord listRecord = 5;</code>
+       * <code>repeated .ArenaService.ArenaRecord listRecord = 5;</code>
        */
       public java.util.List<com.rwproto.ArenaServiceProtos.ArenaRecord.Builder> 
            getListRecordBuilderList() {
@@ -14691,7 +14943,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // repeated .HurtValue hurtValue = 7;
+      // repeated .ArenaService.HurtValue hurtValue = 7;
       private java.util.List<com.rwproto.ArenaServiceProtos.HurtValue> hurtValue_ =
         java.util.Collections.emptyList();
       private void ensureHurtValueIsMutable() {
@@ -14705,7 +14957,7 @@ public final class ArenaServiceProtos {
           com.rwproto.ArenaServiceProtos.HurtValue, com.rwproto.ArenaServiceProtos.HurtValue.Builder, com.rwproto.ArenaServiceProtos.HurtValueOrBuilder> hurtValueBuilder_;
 
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14719,7 +14971,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14733,7 +14985,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14747,7 +14999,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14768,7 +15020,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14786,7 +15038,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14806,7 +15058,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14827,7 +15079,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14845,7 +15097,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14863,7 +15115,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14881,7 +15133,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14898,7 +15150,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14915,7 +15167,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14926,7 +15178,7 @@ public final class ArenaServiceProtos {
         return getHurtValueFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14940,7 +15192,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14955,7 +15207,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14966,7 +15218,7 @@ public final class ArenaServiceProtos {
             com.rwproto.ArenaServiceProtos.HurtValue.getDefaultInstance());
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -14978,7 +15230,7 @@ public final class ArenaServiceProtos {
             index, com.rwproto.ArenaServiceProtos.HurtValue.getDefaultInstance());
       }
       /**
-       * <code>repeated .HurtValue hurtValue = 7;</code>
+       * <code>repeated .ArenaService.HurtValue hurtValue = 7;</code>
        *
        * <pre>
        *战斗伤害统计
@@ -15132,12 +15384,12 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // optional .HistoryRankingRise history = 9;
+      // optional .ArenaService.HistoryRankingRise history = 9;
       private com.rwproto.ArenaServiceProtos.HistoryRankingRise history_ = com.rwproto.ArenaServiceProtos.HistoryRankingRise.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.ArenaServiceProtos.HistoryRankingRise, com.rwproto.ArenaServiceProtos.HistoryRankingRise.Builder, com.rwproto.ArenaServiceProtos.HistoryRankingRiseOrBuilder> historyBuilder_;
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15147,7 +15399,7 @@ public final class ArenaServiceProtos {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15161,7 +15413,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15181,7 +15433,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15199,7 +15451,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15222,7 +15474,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15239,7 +15491,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15251,7 +15503,7 @@ public final class ArenaServiceProtos {
         return getHistoryFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15265,7 +15517,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .HistoryRankingRise history = 9;</code>
+       * <code>optional .ArenaService.HistoryRankingRise history = 9;</code>
        *
        * <pre>
        *历史排名上升提示
@@ -15575,12 +15827,12 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // optional .ArenaHistoryResponse historyReward = 15;
+      // optional .ArenaService.ArenaHistoryResponse historyReward = 15;
       private com.rwproto.ArenaServiceProtos.ArenaHistoryResponse historyReward_ = com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.ArenaServiceProtos.ArenaHistoryResponse, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder> historyRewardBuilder_;
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15590,7 +15842,7 @@ public final class ArenaServiceProtos {
         return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15604,7 +15856,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15624,7 +15876,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15642,7 +15894,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15665,7 +15917,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15682,7 +15934,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15694,7 +15946,7 @@ public final class ArenaServiceProtos {
         return getHistoryRewardFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15708,7 +15960,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>optional .ArenaHistoryResponse historyReward = 15;</code>
+       * <code>optional .ArenaService.ArenaHistoryResponse historyReward = 15;</code>
        *
        * <pre>
        *历史排行榜奖励总和
@@ -15728,10 +15980,10 @@ public final class ArenaServiceProtos {
         return historyRewardBuilder_;
       }
 
-      // optional .eArenaResultType gainRewardResult = 16;
+      // optional .ArenaService.eArenaResultType gainRewardResult = 16;
       private com.rwproto.ArenaServiceProtos.eArenaResultType gainRewardResult_ = com.rwproto.ArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
       /**
-       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
        *
        * <pre>
        *领取历史排行榜奖励结果
@@ -15741,7 +15993,7 @@ public final class ArenaServiceProtos {
         return ((bitField0_ & 0x00008000) == 0x00008000);
       }
       /**
-       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
        *
        * <pre>
        *领取历史排行榜奖励结果
@@ -15751,7 +16003,7 @@ public final class ArenaServiceProtos {
         return gainRewardResult_;
       }
       /**
-       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
        *
        * <pre>
        *领取历史排行榜奖励结果
@@ -15767,7 +16019,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>optional .eArenaResultType gainRewardResult = 16;</code>
+       * <code>optional .ArenaService.eArenaResultType gainRewardResult = 16;</code>
        *
        * <pre>
        *领取历史排行榜奖励结果
@@ -15780,7 +16032,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
+      // @@protoc_insertion_point(builder_scope:ArenaService.MsgArenaResponse)
     }
 
     static {
@@ -15788,7 +16040,7 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:MsgArenaResponse)
+    // @@protoc_insertion_point(class_scope:ArenaService.MsgArenaResponse)
   }
 
   public interface HistoryRankingRiseOrBuilder
@@ -15867,7 +16119,7 @@ public final class ArenaServiceProtos {
     int getRankingUp();
   }
   /**
-   * Protobuf type {@code HistoryRankingRise}
+   * Protobuf type {@code ArenaService.HistoryRankingRise}
    *
    * <pre>
    *历史排名上升
@@ -15955,12 +16207,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_HistoryRankingRise_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HistoryRankingRise_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_HistoryRankingRise_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HistoryRankingRise_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.HistoryRankingRise.class, com.rwproto.ArenaServiceProtos.HistoryRankingRise.Builder.class);
     }
@@ -16223,7 +16475,7 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code HistoryRankingRise}
+     * Protobuf type {@code ArenaService.HistoryRankingRise}
      *
      * <pre>
      *历史排名上升
@@ -16234,12 +16486,12 @@ public final class ArenaServiceProtos {
        implements com.rwproto.ArenaServiceProtos.HistoryRankingRiseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HistoryRankingRise_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HistoryRankingRise_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HistoryRankingRise_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HistoryRankingRise_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.HistoryRankingRise.class, com.rwproto.ArenaServiceProtos.HistoryRankingRise.Builder.class);
       }
@@ -16281,7 +16533,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_HistoryRankingRise_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_HistoryRankingRise_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.HistoryRankingRise getDefaultInstanceForType() {
@@ -16579,7 +16831,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:HistoryRankingRise)
+      // @@protoc_insertion_point(builder_scope:ArenaService.HistoryRankingRise)
     }
 
     static {
@@ -16587,15 +16839,15 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:HistoryRankingRise)
+    // @@protoc_insertion_point(class_scope:ArenaService.HistoryRankingRise)
   }
 
   public interface ArenaHistoryResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .ArenaHistoryRewardSum rewardSum = 1;
+    // repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16604,7 +16856,7 @@ public final class ArenaServiceProtos {
     java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> 
         getRewardSumList();
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16612,7 +16864,7 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum getRewardSum(int index);
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16620,7 +16872,7 @@ public final class ArenaServiceProtos {
      */
     int getRewardSumCount();
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16629,7 +16881,7 @@ public final class ArenaServiceProtos {
     java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder> 
         getRewardSumOrBuilderList();
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16638,9 +16890,9 @@ public final class ArenaServiceProtos {
     com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder getRewardSumOrBuilder(
         int index);
 
-    // repeated .ArenaHisRewardView rewardView = 2;
+    // repeated .ArenaService.ArenaHisRewardView rewardView = 2;
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16649,7 +16901,7 @@ public final class ArenaServiceProtos {
     java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> 
         getRewardViewList();
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16657,7 +16909,7 @@ public final class ArenaServiceProtos {
      */
     com.rwproto.ArenaServiceProtos.ArenaHisRewardView getRewardView(int index);
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16665,7 +16917,7 @@ public final class ArenaServiceProtos {
      */
     int getRewardViewCount();
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16674,7 +16926,7 @@ public final class ArenaServiceProtos {
     java.util.List<? extends com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder> 
         getRewardViewOrBuilderList();
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16684,7 +16936,7 @@ public final class ArenaServiceProtos {
         int index);
   }
   /**
-   * Protobuf type {@code ArenaHistoryResponse}
+   * Protobuf type {@code ArenaService.ArenaHistoryResponse}
    *
    * <pre>
    *打开历史排名奖励界面的响应
@@ -16774,12 +17026,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryResponse_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.class, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder.class);
     }
@@ -16799,11 +17051,11 @@ public final class ArenaServiceProtos {
       return PARSER;
     }
 
-    // repeated .ArenaHistoryRewardSum rewardSum = 1;
+    // repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;
     public static final int REWARDSUM_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> rewardSum_;
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16813,7 +17065,7 @@ public final class ArenaServiceProtos {
       return rewardSum_;
     }
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16824,7 +17076,7 @@ public final class ArenaServiceProtos {
       return rewardSum_;
     }
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16834,7 +17086,7 @@ public final class ArenaServiceProtos {
       return rewardSum_.size();
     }
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16844,7 +17096,7 @@ public final class ArenaServiceProtos {
       return rewardSum_.get(index);
     }
     /**
-     * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+     * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
      *
      * <pre>
      *收益总和
@@ -16855,11 +17107,11 @@ public final class ArenaServiceProtos {
       return rewardSum_.get(index);
     }
 
-    // repeated .ArenaHisRewardView rewardView = 2;
+    // repeated .ArenaService.ArenaHisRewardView rewardView = 2;
     public static final int REWARDVIEW_FIELD_NUMBER = 2;
     private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> rewardView_;
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16869,7 +17121,7 @@ public final class ArenaServiceProtos {
       return rewardView_;
     }
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16880,7 +17132,7 @@ public final class ArenaServiceProtos {
       return rewardView_;
     }
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16890,7 +17142,7 @@ public final class ArenaServiceProtos {
       return rewardView_.size();
     }
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -16900,7 +17152,7 @@ public final class ArenaServiceProtos {
       return rewardView_.get(index);
     }
     /**
-     * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+     * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
      *
      * <pre>
      *领取列表
@@ -17041,7 +17293,7 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code ArenaHistoryResponse}
+     * Protobuf type {@code ArenaService.ArenaHistoryResponse}
      *
      * <pre>
      *打开历史排名奖励界面的响应
@@ -17052,12 +17304,12 @@ public final class ArenaServiceProtos {
        implements com.rwproto.ArenaServiceProtos.ArenaHistoryResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryResponse_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.class, com.rwproto.ArenaServiceProtos.ArenaHistoryResponse.Builder.class);
       }
@@ -17105,7 +17357,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryResponse_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryResponse_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.ArenaHistoryResponse getDefaultInstanceForType() {
@@ -17247,7 +17499,7 @@ public final class ArenaServiceProtos {
       }
       private int bitField0_;
 
-      // repeated .ArenaHistoryRewardSum rewardSum = 1;
+      // repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;
       private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum> rewardSum_ =
         java.util.Collections.emptyList();
       private void ensureRewardSumIsMutable() {
@@ -17261,7 +17513,7 @@ public final class ArenaServiceProtos {
           com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder> rewardSumBuilder_;
 
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17275,7 +17527,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17289,7 +17541,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17303,7 +17555,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17324,7 +17576,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17342,7 +17594,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17362,7 +17614,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17383,7 +17635,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17401,7 +17653,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17419,7 +17671,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17437,7 +17689,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17454,7 +17706,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17471,7 +17723,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17482,7 +17734,7 @@ public final class ArenaServiceProtos {
         return getRewardSumFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17496,7 +17748,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17511,7 +17763,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17522,7 +17774,7 @@ public final class ArenaServiceProtos {
             com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17534,7 +17786,7 @@ public final class ArenaServiceProtos {
             index, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaHistoryRewardSum rewardSum = 1;</code>
+       * <code>repeated .ArenaService.ArenaHistoryRewardSum rewardSum = 1;</code>
        *
        * <pre>
        *收益总和
@@ -17559,7 +17811,7 @@ public final class ArenaServiceProtos {
         return rewardSumBuilder_;
       }
 
-      // repeated .ArenaHisRewardView rewardView = 2;
+      // repeated .ArenaService.ArenaHisRewardView rewardView = 2;
       private java.util.List<com.rwproto.ArenaServiceProtos.ArenaHisRewardView> rewardView_ =
         java.util.Collections.emptyList();
       private void ensureRewardViewIsMutable() {
@@ -17573,7 +17825,7 @@ public final class ArenaServiceProtos {
           com.rwproto.ArenaServiceProtos.ArenaHisRewardView, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder, com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder> rewardViewBuilder_;
 
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17587,7 +17839,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17601,7 +17853,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17615,7 +17867,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17636,7 +17888,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17654,7 +17906,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17674,7 +17926,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17695,7 +17947,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17713,7 +17965,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17731,7 +17983,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17749,7 +18001,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17766,7 +18018,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17783,7 +18035,7 @@ public final class ArenaServiceProtos {
         return this;
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17794,7 +18046,7 @@ public final class ArenaServiceProtos {
         return getRewardViewFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17808,7 +18060,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17823,7 +18075,7 @@ public final class ArenaServiceProtos {
         }
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17834,7 +18086,7 @@ public final class ArenaServiceProtos {
             com.rwproto.ArenaServiceProtos.ArenaHisRewardView.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17846,7 +18098,7 @@ public final class ArenaServiceProtos {
             index, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.getDefaultInstance());
       }
       /**
-       * <code>repeated .ArenaHisRewardView rewardView = 2;</code>
+       * <code>repeated .ArenaService.ArenaHisRewardView rewardView = 2;</code>
        *
        * <pre>
        *领取列表
@@ -17871,7 +18123,7 @@ public final class ArenaServiceProtos {
         return rewardViewBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:ArenaHistoryResponse)
+      // @@protoc_insertion_point(builder_scope:ArenaService.ArenaHistoryResponse)
     }
 
     static {
@@ -17879,7 +18131,7 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:ArenaHistoryResponse)
+    // @@protoc_insertion_point(class_scope:ArenaService.ArenaHistoryResponse)
   }
 
   public interface ArenaHistoryRewardSumOrBuilder
@@ -17922,7 +18174,7 @@ public final class ArenaServiceProtos {
     int getNum();
   }
   /**
-   * Protobuf type {@code ArenaHistoryRewardSum}
+   * Protobuf type {@code ArenaService.ArenaHistoryRewardSum}
    *
    * <pre>
    *历史排行榜奖励总和
@@ -18000,12 +18252,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryRewardSum_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryRewardSum_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.class, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder.class);
     }
@@ -18200,7 +18452,7 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code ArenaHistoryRewardSum}
+     * Protobuf type {@code ArenaService.ArenaHistoryRewardSum}
      *
      * <pre>
      *历史排行榜奖励总和
@@ -18211,12 +18463,12 @@ public final class ArenaServiceProtos {
        implements com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSumOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryRewardSum_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryRewardSum_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.class, com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum.Builder.class);
       }
@@ -18254,7 +18506,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHistoryRewardSum_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHistoryRewardSum_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.ArenaHistoryRewardSum getDefaultInstanceForType() {
@@ -18436,7 +18688,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:ArenaHistoryRewardSum)
+      // @@protoc_insertion_point(builder_scope:ArenaService.ArenaHistoryRewardSum)
     }
 
     static {
@@ -18444,7 +18696,7 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:ArenaHistoryRewardSum)
+    // @@protoc_insertion_point(class_scope:ArenaService.ArenaHistoryRewardSum)
   }
 
   public interface ArenaHisRewardViewOrBuilder
@@ -18479,7 +18731,7 @@ public final class ArenaServiceProtos {
     boolean getGainReward();
   }
   /**
-   * Protobuf type {@code ArenaHisRewardView}
+   * Protobuf type {@code ArenaService.ArenaHisRewardView}
    *
    * <pre>
    *单个历史排名奖励领取界面
@@ -18557,12 +18809,12 @@ public final class ArenaServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_descriptor;
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHisRewardView_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_fieldAccessorTable
+      return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHisRewardView_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.rwproto.ArenaServiceProtos.ArenaHisRewardView.class, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder.class);
     }
@@ -18749,7 +19001,7 @@ public final class ArenaServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code ArenaHisRewardView}
+     * Protobuf type {@code ArenaService.ArenaHisRewardView}
      *
      * <pre>
      *单个历史排名奖励领取界面
@@ -18760,12 +19012,12 @@ public final class ArenaServiceProtos {
        implements com.rwproto.ArenaServiceProtos.ArenaHisRewardViewOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHisRewardView_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_fieldAccessorTable
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHisRewardView_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 com.rwproto.ArenaServiceProtos.ArenaHisRewardView.class, com.rwproto.ArenaServiceProtos.ArenaHisRewardView.Builder.class);
       }
@@ -18803,7 +19055,7 @@ public final class ArenaServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.ArenaServiceProtos.internal_static_ArenaHisRewardView_descriptor;
+        return com.rwproto.ArenaServiceProtos.internal_static_ArenaService_ArenaHisRewardView_descriptor;
       }
 
       public com.rwproto.ArenaServiceProtos.ArenaHisRewardView getDefaultInstanceForType() {
@@ -18969,7 +19221,7 @@ public final class ArenaServiceProtos {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:ArenaHisRewardView)
+      // @@protoc_insertion_point(builder_scope:ArenaService.ArenaHisRewardView)
     }
 
     static {
@@ -18977,64 +19229,64 @@ public final class ArenaServiceProtos {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:ArenaHisRewardView)
+    // @@protoc_insertion_point(class_scope:ArenaService.ArenaHisRewardView)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_HeroData_descriptor;
+    internal_static_ArenaService_HeroData_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_HeroData_fieldAccessorTable;
+      internal_static_ArenaService_HeroData_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_ArenaData_descriptor;
+    internal_static_ArenaService_ArenaData_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ArenaData_fieldAccessorTable;
+      internal_static_ArenaService_ArenaData_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_ArenaInfo_descriptor;
+    internal_static_ArenaService_ArenaInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ArenaInfo_fieldAccessorTable;
+      internal_static_ArenaService_ArenaInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_ArenaRecord_descriptor;
+    internal_static_ArenaService_ArenaRecord_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ArenaRecord_fieldAccessorTable;
+      internal_static_ArenaService_ArenaRecord_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_MsgArenaRequest_descriptor;
+    internal_static_ArenaService_MsgArenaRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_MsgArenaRequest_fieldAccessorTable;
+      internal_static_ArenaService_MsgArenaRequest_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_HurtValue_descriptor;
+    internal_static_ArenaService_HurtValue_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_HurtValue_fieldAccessorTable;
+      internal_static_ArenaService_HurtValue_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_MsgArenaResponse_descriptor;
+    internal_static_ArenaService_MsgArenaResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_MsgArenaResponse_fieldAccessorTable;
+      internal_static_ArenaService_MsgArenaResponse_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_HistoryRankingRise_descriptor;
+    internal_static_ArenaService_HistoryRankingRise_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_HistoryRankingRise_fieldAccessorTable;
+      internal_static_ArenaService_HistoryRankingRise_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_ArenaHistoryResponse_descriptor;
+    internal_static_ArenaService_ArenaHistoryResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ArenaHistoryResponse_fieldAccessorTable;
+      internal_static_ArenaService_ArenaHistoryResponse_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_ArenaHistoryRewardSum_descriptor;
+    internal_static_ArenaService_ArenaHistoryRewardSum_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ArenaHistoryRewardSum_fieldAccessorTable;
+      internal_static_ArenaService_ArenaHistoryRewardSum_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_ArenaHisRewardView_descriptor;
+    internal_static_ArenaService_ArenaHisRewardView_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ArenaHisRewardView_fieldAccessorTable;
+      internal_static_ArenaService_ArenaHisRewardView_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -19044,146 +19296,153 @@ public final class ArenaServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022ArenaService.proto\032\022SkillService.proto" +
-      "\032\017SyncAttri.proto\032\022BattleCommon.proto\"\326\001" +
-      "\n\010HeroData\022\016\n\006heroId\030\001 \002(\t\022\022\n\ntempleteId" +
-      "\030\002 \002(\t\022\r\n\005level\030\003 \001(\005\022\021\n\tstarLevel\030\004 \001(\005" +
-      "\022\020\n\010fighting\030\005 \001(\005\022\021\n\tqualityId\030\006 \001(\t\022\013\n" +
-      "\003exp\030\007 \001(\003\022*\n\006skills\030\010 \003(\0132\032.SkillServic" +
-      "e.TagSkillData\022&\n\005attrs\030\t \003(\0132\027.SyncAttr" +
-      "i.TagAttriData\"\233\003\n\tArenaData\022\016\n\006userId\030\001" +
-      " \002(\t\022\016\n\006career\030\002 \001(\005\022\r\n\005place\030\003 \001(\005\022\020\n\010m" +
-      "axPlace\030\004 \001(\005\022\023\n\013remainCount\030\005 \001(\005\022\016\n\006cd",
-      "Time\030\006 \001(\003\022\025\n\rlastFightTime\030\007 \001(\003\022\021\n\thea" +
-      "dImage\030\010 \001(\t\022\r\n\005level\030\t \001(\005\022\020\n\010fighting\030" +
-      "\n \001(\005\022\014\n\004name\030\013 \001(\t\022\030\n\005heros\030\014 \003(\0132\t.Her" +
-      "oData\022\017\n\007magicId\030\r \001(\005\022\022\n\nmagicLevel\030\016 \001" +
-      "(\005\022-\n\troleSkill\030\017 \003(\0132\032.SkillService.Tag" +
-      "SkillData\022)\n\010roleAttr\030\020 \003(\0132\027.SyncAttri." +
-      "TagAttriData\022\022\n\ntempleteId\030\021 \001(\t\022\020\n\010winC" +
-      "ount\030\022 \001(\005\022\020\n\010armyInfo\030\023 \001(\t\"\260\001\n\tArenaIn" +
-      "fo\022\016\n\006userId\030\002 \002(\t\022\016\n\006career\030\003 \001(\005\022\r\n\005pl" +
-      "ace\030\004 \001(\005\022\r\n\005state\030\005 \001(\005\022\021\n\theadImage\030\006 ",
-      "\001(\t\022\r\n\005level\030\007 \001(\005\022\020\n\010fighting\030\010 \001(\005\022\014\n\004" +
-      "name\030\t \001(\t\022\022\n\nheroImages\030\n \003(\t\022\017\n\007modelI" +
-      "d\030\013 \001(\005\"\236\001\n\013ArenaRecord\022\020\n\010recordId\030\001 \002(" +
-      "\005\022\016\n\006userId\030\002 \002(\t\022\013\n\003win\030\003 \001(\005\022\017\n\007placeU" +
-      "p\030\004 \001(\005\022\014\n\004name\030\005 \001(\t\022\021\n\theadImage\030\006 \001(\t" +
-      "\022\r\n\005level\030\007 \001(\005\022\014\n\004time\030\010 \001(\003\022\021\n\tchallen" +
-      "ge\030\t \001(\005\"\351\001\n\017MsgArenaRequest\022\036\n\tarenaTyp" +
-      "e\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(\t\022\017\n\007" +
-      "heroIds\030\003 \003(\t\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo" +
-      "\022\013\n\003win\030\005 \001(\005\022\035\n\thurtValue\030\006 \003(\0132\n.HurtV",
-      "alue\022\020\n\010recordId\030\007 \001(\005\022\021\n\tatkIdList\030\010 \003(" +
-      "\t\022\020\n\010rewardId\030\016 \001(\005\022\027\n\017historyRewardId\030\017" +
-      " \001(\005\"\322\001\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005va" +
-      "lue\030\002 \002(\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nstartlevel\030\004 " +
-      "\002(\005\022\r\n\005level\030\005 \002(\005\022\016\n\006isDead\030\006 \002(\010\022 \n\npl" +
-      "ayerType\030\007 \002(\0162\014.ePlayerType\022\032\n\004camp\030\010 \002" +
-      "(\0162\014.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030\n \002(\002" +
-      "\022\017\n\007quality\030\013 \001(\t\"\340\003\n\020MsgArenaResponse\022\036" +
-      "\n\tarenaType\030\001 \002(\0162\013.eArenaType\022*\n\017arenaR" +
-      "esultType\030\002 \001(\0162\021.eArenaResultType\022\035\n\tar",
-      "enaData\030\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 " +
-      "\003(\0132\n.ArenaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.Ar" +
-      "enaRecord\022\r\n\005place\030\006 \001(\005\022\035\n\thurtValue\030\007 " +
-      "\003(\0132\n.HurtValue\022\017\n\007atkList\030\010 \003(\t\022$\n\007hist" +
-      "ory\030\t \001(\0132\023.HistoryRankingRise\022\021\n\tresetC" +
-      "ost\030\n \001(\005\022\024\n\014buyTimesCost\030\013 \001(\005\022\020\n\010buyTi" +
-      "mes\030\014 \001(\005\022\024\n\014currentScore\030\r \001(\005\022\020\n\010getCo" +
-      "unt\030\016 \003(\005\022,\n\rhistoryReward\030\017 \001(\0132\025.Arena" +
-      "HistoryResponse\022+\n\020gainRewardResult\030\020 \001(" +
-      "\0162\021.eArenaResultType\"j\n\022HistoryRankingRi",
-      "se\022\026\n\016historyRanking\030\001 \002(\005\022\026\n\016currentRan" +
-      "king\030\002 \002(\005\022\021\n\tgoldAward\030\003 \001(\005\022\021\n\tranking" +
-      "Up\030\004 \002(\005\"j\n\024ArenaHistoryResponse\022)\n\trewa" +
-      "rdSum\030\001 \003(\0132\026.ArenaHistoryRewardSum\022\'\n\nr" +
-      "ewardView\030\002 \003(\0132\023.ArenaHisRewardView\"4\n\025" +
-      "ArenaHistoryRewardSum\022\016\n\006itemId\030\001 \002(\005\022\013\n" +
-      "\003num\030\002 \002(\005\":\n\022ArenaHisRewardView\022\020\n\010rewa" +
-      "rdId\030\001 \002(\005\022\022\n\ngainReward\030\002 \002(\010*\310\002\n\neAren" +
-      "aType\022\014\n\010GET_INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n" +
-      "\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEM",
-      "Y_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_" +
-      "PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022AREN" +
-      "A_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET" +
-      "_PLACE\020\n\022\022\n\016GET_HURT_VALUE\020\013\022\r\n\tBUY_TIME" +
-      "S\020\014\022\t\n\005SCORE\020\r\022\016\n\nGET_REWARD\020\016\022\030\n\024HIS_RA" +
-      "NK_REWARD_VIEW\020\017\022\027\n\023HIS_RANK_GET_REWARD\020" +
-      "\020*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS\020\001" +
-      "\022\016\n\nARENA_FAIL\020\002B!\n\013com.rwprotoB\022ArenaSe" +
-      "rviceProtos"
+      "\n\022ArenaService.proto\022\014ArenaService\032\022Skil" +
+      "lService.proto\032\017SyncAttri.proto\032\022BattleC" +
+      "ommon.proto\032\024FashionService.proto\"\326\001\n\010He" +
+      "roData\022\016\n\006heroId\030\001 \002(\t\022\022\n\ntempleteId\030\002 \002" +
+      "(\t\022\r\n\005level\030\003 \001(\005\022\021\n\tstarLevel\030\004 \001(\005\022\020\n\010" +
+      "fighting\030\005 \001(\005\022\021\n\tqualityId\030\006 \001(\t\022\013\n\003exp" +
+      "\030\007 \001(\003\022*\n\006skills\030\010 \003(\0132\032.SkillService.Ta" +
+      "gSkillData\022&\n\005attrs\030\t \003(\0132\027.SyncAttri.Ta" +
+      "gAttriData\"\250\003\n\tArenaData\022\016\n\006userId\030\001 \002(\t" +
+      "\022\016\n\006career\030\002 \001(\005\022\r\n\005place\030\003 \001(\005\022\020\n\010maxPl",
+      "ace\030\004 \001(\005\022\023\n\013remainCount\030\005 \001(\005\022\016\n\006cdTime" +
+      "\030\006 \001(\003\022\025\n\rlastFightTime\030\007 \001(\003\022\021\n\theadIma" +
+      "ge\030\010 \001(\t\022\r\n\005level\030\t \001(\005\022\020\n\010fighting\030\n \001(" +
+      "\005\022\014\n\004name\030\013 \001(\t\022%\n\005heros\030\014 \003(\0132\026.ArenaSe" +
+      "rvice.HeroData\022\017\n\007magicId\030\r \001(\005\022\022\n\nmagic" +
+      "Level\030\016 \001(\005\022-\n\troleSkill\030\017 \003(\0132\032.SkillSe" +
+      "rvice.TagSkillData\022)\n\010roleAttr\030\020 \003(\0132\027.S" +
+      "yncAttri.TagAttriData\022\022\n\ntempleteId\030\021 \001(" +
+      "\t\022\020\n\010winCount\030\022 \001(\005\022\020\n\010armyInfo\030\023 \001(\t\"\343\001" +
+      "\n\tArenaInfo\022\016\n\006userId\030\002 \002(\t\022\016\n\006career\030\003 ",
+      "\001(\005\022\r\n\005place\030\004 \001(\005\022\r\n\005state\030\005 \001(\005\022\021\n\thea" +
+      "dImage\030\006 \001(\t\022\r\n\005level\030\007 \001(\005\022\020\n\010fighting\030" +
+      "\010 \001(\005\022\014\n\004name\030\t \001(\t\022\022\n\nheroImages\030\n \003(\t\022" +
+      "\017\n\007modelId\030\013 \001(\005\0221\n\014fashionUsage\030\014 \001(\0132\033" +
+      ".FashionService.FashionUsed\"\236\001\n\013ArenaRec" +
+      "ord\022\020\n\010recordId\030\001 \002(\005\022\016\n\006userId\030\002 \002(\t\022\013\n" +
+      "\003win\030\003 \001(\005\022\017\n\007placeUp\030\004 \001(\005\022\014\n\004name\030\005 \001(" +
+      "\t\022\021\n\theadImage\030\006 \001(\t\022\r\n\005level\030\007 \001(\005\022\014\n\004t" +
+      "ime\030\010 \001(\003\022\021\n\tchallenge\030\t \001(\005\"\220\002\n\017MsgAren" +
+      "aRequest\022+\n\tarenaType\030\001 \002(\0162\030.ArenaServi",
+      "ce.eArenaType\022\016\n\006userId\030\002 \001(\t\022\017\n\007heroIds" +
+      "\030\003 \003(\t\022&\n\005enemy\030\004 \001(\0132\027.ArenaService.Are" +
+      "naInfo\022\013\n\003win\030\005 \001(\005\022*\n\thurtValue\030\006 \003(\0132\027" +
+      ".ArenaService.HurtValue\022\020\n\010recordId\030\007 \001(" +
+      "\005\022\021\n\tatkIdList\030\010 \003(\t\022\020\n\010rewardId\030\016 \001(\005\022\027" +
+      "\n\017historyRewardId\030\017 \001(\005\"\354\001\n\tHurtValue\022\016\n" +
+      "\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\002\022\014\n\004icon\030\003 \002" +
+      "(\t\022\022\n\nstartlevel\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\016\n" +
+      "\006isDead\030\006 \002(\010\022-\n\nplayerType\030\007 \002(\0162\031.Batt" +
+      "leCommon.ePlayerType\022\'\n\004camp\030\010 \002(\0162\031.Bat",
+      "tleCommon.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030" +
+      "\n \002(\002\022\017\n\007quality\030\013 \001(\t\"\325\004\n\020MsgArenaRespo" +
+      "nse\022+\n\tarenaType\030\001 \002(\0162\030.ArenaService.eA" +
+      "renaType\0227\n\017arenaResultType\030\002 \001(\0162\036.Aren" +
+      "aService.eArenaResultType\022*\n\tarenaData\030\003" +
+      " \001(\0132\027.ArenaService.ArenaData\022)\n\010listInf" +
+      "o\030\004 \003(\0132\027.ArenaService.ArenaInfo\022-\n\nlist" +
+      "Record\030\005 \003(\0132\031.ArenaService.ArenaRecord\022" +
+      "\r\n\005place\030\006 \001(\005\022*\n\thurtValue\030\007 \003(\0132\027.Aren" +
+      "aService.HurtValue\022\017\n\007atkList\030\010 \003(\t\0221\n\007h",
+      "istory\030\t \001(\0132 .ArenaService.HistoryRanki" +
+      "ngRise\022\021\n\tresetCost\030\n \001(\005\022\024\n\014buyTimesCos" +
+      "t\030\013 \001(\005\022\020\n\010buyTimes\030\014 \001(\005\022\024\n\014currentScor" +
+      "e\030\r \001(\005\022\020\n\010getCount\030\016 \003(\005\0229\n\rhistoryRewa" +
+      "rd\030\017 \001(\0132\".ArenaService.ArenaHistoryResp" +
+      "onse\0228\n\020gainRewardResult\030\020 \001(\0162\036.ArenaSe" +
+      "rvice.eArenaResultType\"j\n\022HistoryRanking" +
+      "Rise\022\026\n\016historyRanking\030\001 \002(\005\022\026\n\016currentR" +
+      "anking\030\002 \002(\005\022\021\n\tgoldAward\030\003 \001(\005\022\021\n\tranki" +
+      "ngUp\030\004 \002(\005\"\204\001\n\024ArenaHistoryResponse\0226\n\tr",
+      "ewardSum\030\001 \003(\0132#.ArenaService.ArenaHisto" +
+      "ryRewardSum\0224\n\nrewardView\030\002 \003(\0132 .ArenaS" +
+      "ervice.ArenaHisRewardView\"4\n\025ArenaHistor" +
+      "yRewardSum\022\016\n\006itemId\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"" +
+      ":\n\022ArenaHisRewardView\022\020\n\010rewardId\030\001 \002(\005\022" +
+      "\022\n\ngainReward\030\002 \002(\010*\310\002\n\neArenaType\022\014\n\010GE" +
+      "T_INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HER" +
+      "O\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n" +
+      "\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025" +
+      "\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FIN",
+      "ISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\022\n" +
+      "\016GET_HURT_VALUE\020\013\022\r\n\tBUY_TIMES\020\014\022\t\n\005SCOR" +
+      "E\020\r\022\016\n\nGET_REWARD\020\016\022\030\n\024HIS_RANK_REWARD_V" +
+      "IEW\020\017\022\027\n\023HIS_RANK_GET_REWARD\020\020*5\n\020eArena" +
+      "ResultType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_F" +
+      "AIL\020\002B!\n\013com.rwprotoB\022ArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_HeroData_descriptor =
+          internal_static_ArenaService_HeroData_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_HeroData_fieldAccessorTable = new
+          internal_static_ArenaService_HeroData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_HeroData_descriptor,
+              internal_static_ArenaService_HeroData_descriptor,
               new java.lang.String[] { "HeroId", "TempleteId", "Level", "StarLevel", "Fighting", "QualityId", "Exp", "Skills", "Attrs", });
-          internal_static_ArenaData_descriptor =
+          internal_static_ArenaService_ArenaData_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_ArenaData_fieldAccessorTable = new
+          internal_static_ArenaService_ArenaData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ArenaData_descriptor,
+              internal_static_ArenaService_ArenaData_descriptor,
               new java.lang.String[] { "UserId", "Career", "Place", "MaxPlace", "RemainCount", "CdTime", "LastFightTime", "HeadImage", "Level", "Fighting", "Name", "Heros", "MagicId", "MagicLevel", "RoleSkill", "RoleAttr", "TempleteId", "WinCount", "ArmyInfo", });
-          internal_static_ArenaInfo_descriptor =
+          internal_static_ArenaService_ArenaInfo_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_ArenaInfo_fieldAccessorTable = new
+          internal_static_ArenaService_ArenaInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ArenaInfo_descriptor,
-              new java.lang.String[] { "UserId", "Career", "Place", "State", "HeadImage", "Level", "Fighting", "Name", "HeroImages", "ModelId", });
-          internal_static_ArenaRecord_descriptor =
+              internal_static_ArenaService_ArenaInfo_descriptor,
+              new java.lang.String[] { "UserId", "Career", "Place", "State", "HeadImage", "Level", "Fighting", "Name", "HeroImages", "ModelId", "FashionUsage", });
+          internal_static_ArenaService_ArenaRecord_descriptor =
             getDescriptor().getMessageTypes().get(3);
-          internal_static_ArenaRecord_fieldAccessorTable = new
+          internal_static_ArenaService_ArenaRecord_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ArenaRecord_descriptor,
+              internal_static_ArenaService_ArenaRecord_descriptor,
               new java.lang.String[] { "RecordId", "UserId", "Win", "PlaceUp", "Name", "HeadImage", "Level", "Time", "Challenge", });
-          internal_static_MsgArenaRequest_descriptor =
+          internal_static_ArenaService_MsgArenaRequest_descriptor =
             getDescriptor().getMessageTypes().get(4);
-          internal_static_MsgArenaRequest_fieldAccessorTable = new
+          internal_static_ArenaService_MsgArenaRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_MsgArenaRequest_descriptor,
+              internal_static_ArenaService_MsgArenaRequest_descriptor,
               new java.lang.String[] { "ArenaType", "UserId", "HeroIds", "Enemy", "Win", "HurtValue", "RecordId", "AtkIdList", "RewardId", "HistoryRewardId", });
-          internal_static_HurtValue_descriptor =
+          internal_static_ArenaService_HurtValue_descriptor =
             getDescriptor().getMessageTypes().get(5);
-          internal_static_HurtValue_fieldAccessorTable = new
+          internal_static_ArenaService_HurtValue_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_HurtValue_descriptor,
+              internal_static_ArenaService_HurtValue_descriptor,
               new java.lang.String[] { "HeroId", "Value", "Icon", "Startlevel", "Level", "IsDead", "PlayerType", "Camp", "Hp", "Sp", "Quality", });
-          internal_static_MsgArenaResponse_descriptor =
+          internal_static_ArenaService_MsgArenaResponse_descriptor =
             getDescriptor().getMessageTypes().get(6);
-          internal_static_MsgArenaResponse_fieldAccessorTable = new
+          internal_static_ArenaService_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_MsgArenaResponse_descriptor,
+              internal_static_ArenaService_MsgArenaResponse_descriptor,
               new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "HurtValue", "AtkList", "History", "ResetCost", "BuyTimesCost", "BuyTimes", "CurrentScore", "GetCount", "HistoryReward", "GainRewardResult", });
-          internal_static_HistoryRankingRise_descriptor =
+          internal_static_ArenaService_HistoryRankingRise_descriptor =
             getDescriptor().getMessageTypes().get(7);
-          internal_static_HistoryRankingRise_fieldAccessorTable = new
+          internal_static_ArenaService_HistoryRankingRise_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_HistoryRankingRise_descriptor,
+              internal_static_ArenaService_HistoryRankingRise_descriptor,
               new java.lang.String[] { "HistoryRanking", "CurrentRanking", "GoldAward", "RankingUp", });
-          internal_static_ArenaHistoryResponse_descriptor =
+          internal_static_ArenaService_ArenaHistoryResponse_descriptor =
             getDescriptor().getMessageTypes().get(8);
-          internal_static_ArenaHistoryResponse_fieldAccessorTable = new
+          internal_static_ArenaService_ArenaHistoryResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ArenaHistoryResponse_descriptor,
+              internal_static_ArenaService_ArenaHistoryResponse_descriptor,
               new java.lang.String[] { "RewardSum", "RewardView", });
-          internal_static_ArenaHistoryRewardSum_descriptor =
+          internal_static_ArenaService_ArenaHistoryRewardSum_descriptor =
             getDescriptor().getMessageTypes().get(9);
-          internal_static_ArenaHistoryRewardSum_fieldAccessorTable = new
+          internal_static_ArenaService_ArenaHistoryRewardSum_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ArenaHistoryRewardSum_descriptor,
+              internal_static_ArenaService_ArenaHistoryRewardSum_descriptor,
               new java.lang.String[] { "ItemId", "Num", });
-          internal_static_ArenaHisRewardView_descriptor =
+          internal_static_ArenaService_ArenaHisRewardView_descriptor =
             getDescriptor().getMessageTypes().get(10);
-          internal_static_ArenaHisRewardView_fieldAccessorTable = new
+          internal_static_ArenaService_ArenaHisRewardView_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ArenaHisRewardView_descriptor,
+              internal_static_ArenaService_ArenaHisRewardView_descriptor,
               new java.lang.String[] { "RewardId", "GainReward", });
           return null;
         }
@@ -19194,6 +19453,7 @@ public final class ArenaServiceProtos {
           com.rwproto.SkillServiceProtos.getDescriptor(),
           com.rwproto.SyncAttriProtos.getDescriptor(),
           com.rwproto.BattleCommon.getDescriptor(),
+          com.rwproto.FashionServiceProtos.getDescriptor(),
         }, assigner);
   }
 

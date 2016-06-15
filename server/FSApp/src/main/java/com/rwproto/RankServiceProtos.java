@@ -2818,6 +2818,32 @@ public final class RankServiceProtos {
      */
     com.google.protobuf.ByteString
         getHeadboxBytes();
+
+    // optional .FashionService.FashionUsed fashionUsage = 12;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    boolean hasFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
   }
   /**
    * Protobuf type {@code RankInfo}
@@ -2923,6 +2949,19 @@ public final class RankServiceProtos {
             case 90: {
               bitField0_ |= 0x00000400;
               headbox_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000800) == 0x00000800)) {
+                subBuilder = fashionUsage_.toBuilder();
+              }
+              fashionUsage_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fashionUsage_);
+                fashionUsage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000800;
               break;
             }
           }
@@ -3353,6 +3392,40 @@ public final class RankServiceProtos {
       }
     }
 
+    // optional .FashionService.FashionUsed fashionUsage = 12;
+    public static final int FASHIONUSAGE_FIELD_NUMBER = 12;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public boolean hasFashionUsage() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+      return fashionUsage_;
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+      return fashionUsage_;
+    }
+
     private void initFields() {
       heroUUID_ = "";
       rankingLevel_ = 0;
@@ -3365,6 +3438,7 @@ public final class RankServiceProtos {
       fightingTeam_ = 0;
       rankCount_ = 0;
       headbox_ = "";
+      fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3410,6 +3484,9 @@ public final class RankServiceProtos {
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeBytes(11, getHeadboxBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeMessage(12, fashionUsage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3463,6 +3540,10 @@ public final class RankServiceProtos {
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(11, getHeadboxBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, fashionUsage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3572,6 +3653,7 @@ public final class RankServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFashionUsageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3602,6 +3684,12 @@ public final class RankServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000200);
         headbox_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -3674,6 +3762,14 @@ public final class RankServiceProtos {
           to_bitField0_ |= 0x00000400;
         }
         result.headbox_ = headbox_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        if (fashionUsageBuilder_ == null) {
+          result.fashionUsage_ = fashionUsage_;
+        } else {
+          result.fashionUsage_ = fashionUsageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3730,6 +3826,9 @@ public final class RankServiceProtos {
           bitField0_ |= 0x00000400;
           headbox_ = other.headbox_;
           onChanged();
+        }
+        if (other.hasFashionUsage()) {
+          mergeFashionUsage(other.getFashionUsage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4491,6 +4590,159 @@ public final class RankServiceProtos {
         headbox_ = value;
         onChanged();
         return this;
+      }
+
+      // optional .FashionService.FashionUsed fashionUsage = 12;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsageBuilder_;
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public boolean hasFashionUsage() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          return fashionUsage_;
+        } else {
+          return fashionUsageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fashionUsage_ = value;
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(
+          com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = builderForValue.build();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder mergeFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) == 0x00000800) &&
+              fashionUsage_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsage_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsage_).mergeFrom(value).buildPartial();
+          } else {
+            fashionUsage_ = value;
+          }
+          onChanged();
+        } else {
+          fashionUsageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder clearFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000800);
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsageBuilder() {
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return getFashionUsageFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+        if (fashionUsageBuilder_ != null) {
+          return fashionUsageBuilder_.getMessageOrBuilder();
+        } else {
+          return fashionUsage_;
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
+          getFashionUsageFieldBuilder() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
+                  fashionUsage_,
+                  getParentForChildren(),
+                  isClean());
+          fashionUsage_ = null;
+        }
+        return fashionUsageBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:RankInfo)
@@ -9827,39 +10079,41 @@ public final class RankServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021RankService.proto\"Z\n\016MsgRankRequest\022&\n" +
-      "\013requestType\030\001 \002(\0162\021.ERankRequestType\022\020\n" +
-      "\010rankType\030\002 \002(\005\022\016\n\006userId\030\003 \001(\t\"\322\001\n\017MsgR" +
-      "ankResponse\022&\n\013requestType\030\001 \002(\0162\021.ERank" +
-      "RequestType\022\020\n\010rankType\030\002 \001(\005\022$\n\nresultT" +
-      "ype\030\003 \001(\0162\020.ERankResultType\022\035\n\nmyRankInf" +
-      "o\030\004 \001(\0132\t.RankInfo\022\033\n\010RankList\030\005 \003(\0132\t.R" +
-      "ankInfo\022#\n\014baseRankInfo\030\006 \001(\0132\r.BaseRank" +
-      "Info\"\321\001\n\010RankInfo\022\020\n\010heroUUID\030\001 \001(\t\022\024\n\014r" +
-      "ankingLevel\030\002 \001(\005\022\r\n\005level\030\003 \001(\005\022\020\n\010hero",
-      "Name\030\004 \001(\t\022\017\n\007imageId\030\005 \001(\t\022\013\n\003job\030\006 \001(\005" +
-      "\022\017\n\007modelId\030\007 \001(\005\022\023\n\013fightingAll\030\010 \001(\005\022\024" +
-      "\n\014fightingTeam\030\t \001(\005\022\021\n\trankCount\030\n \001(\005\022" +
-      "\017\n\007headbox\030\013 \001(\t\"\240\002\n\014BaseRankInfo\022\023\n\013fig" +
-      "htingAll\030\001 \001(\005\022\020\n\010levelAll\030\002 \001(\005\022\016\n\006jobD" +
-      "ay\030\003 \001(\005\022\022\n\njobCurrent\030\004 \001(\005\022\024\n\014athletic" +
-      "sDay\030\005 \001(\005\022\030\n\020athleticsCurrent\030\006 \001(\005\022\014\n\004" +
-      "team\030\007 \001(\005\022\017\n\007endless\030\010 \001(\005\022\r\n\005glory\030\t \001" +
-      "(\005\022\031\n\021athleticsFighting\030\n \001(\005\022\"\n\010teamDat" +
-      "a\030\013 \003(\0132\020.RankingTeamData\022\025\n\rarenaWinCou",
-      "nt\030\014 \001(\005\022\021\n\tgroupName\030\r \001(\t\"[\n\017RankingTe" +
-      "amData\022$\n\tmagicData\030\001 \002(\0132\021.RankingMagic" +
-      "Data\022\"\n\010heroList\030\002 \003(\0132\020.RankingHeroData" +
-      "\"f\n\017RankingHeroData\022\016\n\006heroId\030\001 \002(\t\022\r\n\005l" +
-      "evel\030\002 \002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\017\n\007quality" +
-      "\030\004 \002(\t\022\020\n\010heroHead\030\005 \002(\t\"U\n\020RankingMagic" +
-      "Data\022\022\n\nmagicImage\030\001 \002(\t\022\024\n\014magicQuality" +
-      "\030\002 \002(\005\022\027\n\017magicAttackType\030\003 \002(\005*_\n\020ERank" +
-      "RequestType\022\r\n\tRANK_LIST\020\001\022\022\n\016RANK_HERO_" +
-      "INFO\020\002\022\023\n\017RANK_LIST_PART1\020\003\022\023\n\017RANK_LIST",
-      "_PART2\020\004*-\n\017ERankResultType\022\013\n\007SUCCESS\020\000" +
-      "\022\r\n\tNOT_LEVEL\020\001B \n\013com.rwprotoB\021RankServ" +
-      "iceProtos"
+      "\n\021RankService.proto\032\024FashionService.prot" +
+      "o\"Z\n\016MsgRankRequest\022&\n\013requestType\030\001 \002(\016" +
+      "2\021.ERankRequestType\022\020\n\010rankType\030\002 \002(\005\022\016\n" +
+      "\006userId\030\003 \001(\t\"\322\001\n\017MsgRankResponse\022&\n\013req" +
+      "uestType\030\001 \002(\0162\021.ERankRequestType\022\020\n\010ran" +
+      "kType\030\002 \001(\005\022$\n\nresultType\030\003 \001(\0162\020.ERankR" +
+      "esultType\022\035\n\nmyRankInfo\030\004 \001(\0132\t.RankInfo" +
+      "\022\033\n\010RankList\030\005 \003(\0132\t.RankInfo\022#\n\014baseRan" +
+      "kInfo\030\006 \001(\0132\r.BaseRankInfo\"\204\002\n\010RankInfo\022" +
+      "\020\n\010heroUUID\030\001 \001(\t\022\024\n\014rankingLevel\030\002 \001(\005\022",
+      "\r\n\005level\030\003 \001(\005\022\020\n\010heroName\030\004 \001(\t\022\017\n\007imag" +
+      "eId\030\005 \001(\t\022\013\n\003job\030\006 \001(\005\022\017\n\007modelId\030\007 \001(\005\022" +
+      "\023\n\013fightingAll\030\010 \001(\005\022\024\n\014fightingTeam\030\t \001" +
+      "(\005\022\021\n\trankCount\030\n \001(\005\022\017\n\007headbox\030\013 \001(\t\0221" +
+      "\n\014fashionUsage\030\014 \001(\0132\033.FashionService.Fa" +
+      "shionUsed\"\240\002\n\014BaseRankInfo\022\023\n\013fightingAl" +
+      "l\030\001 \001(\005\022\020\n\010levelAll\030\002 \001(\005\022\016\n\006jobDay\030\003 \001(" +
+      "\005\022\022\n\njobCurrent\030\004 \001(\005\022\024\n\014athleticsDay\030\005 " +
+      "\001(\005\022\030\n\020athleticsCurrent\030\006 \001(\005\022\014\n\004team\030\007 " +
+      "\001(\005\022\017\n\007endless\030\010 \001(\005\022\r\n\005glory\030\t \001(\005\022\031\n\021a",
+      "thleticsFighting\030\n \001(\005\022\"\n\010teamData\030\013 \003(\013" +
+      "2\020.RankingTeamData\022\025\n\rarenaWinCount\030\014 \001(" +
+      "\005\022\021\n\tgroupName\030\r \001(\t\"[\n\017RankingTeamData\022" +
+      "$\n\tmagicData\030\001 \002(\0132\021.RankingMagicData\022\"\n" +
+      "\010heroList\030\002 \003(\0132\020.RankingHeroData\"f\n\017Ran" +
+      "kingHeroData\022\016\n\006heroId\030\001 \002(\t\022\r\n\005level\030\002 " +
+      "\002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\017\n\007quality\030\004 \002(\t\022" +
+      "\020\n\010heroHead\030\005 \002(\t\"U\n\020RankingMagicData\022\022\n" +
+      "\nmagicImage\030\001 \002(\t\022\024\n\014magicQuality\030\002 \002(\005\022" +
+      "\027\n\017magicAttackType\030\003 \002(\005*_\n\020ERankRequest",
+      "Type\022\r\n\tRANK_LIST\020\001\022\022\n\016RANK_HERO_INFO\020\002\022" +
+      "\023\n\017RANK_LIST_PART1\020\003\022\023\n\017RANK_LIST_PART2\020" +
+      "\004*-\n\017ERankResultType\022\013\n\007SUCCESS\020\000\022\r\n\tNOT" +
+      "_LEVEL\020\001B \n\013com.rwprotoB\021RankServiceProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9883,7 +10137,7 @@ public final class RankServiceProtos {
           internal_static_RankInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankInfo_descriptor,
-              new java.lang.String[] { "HeroUUID", "RankingLevel", "Level", "HeroName", "ImageId", "Job", "ModelId", "FightingAll", "FightingTeam", "RankCount", "Headbox", });
+              new java.lang.String[] { "HeroUUID", "RankingLevel", "Level", "HeroName", "ImageId", "Job", "ModelId", "FightingAll", "FightingTeam", "RankCount", "Headbox", "FashionUsage", });
           internal_static_BaseRankInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_BaseRankInfo_fieldAccessorTable = new
@@ -9914,6 +10168,7 @@ public final class RankServiceProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.FashionServiceProtos.getDescriptor(),
         }, assigner);
   }
 

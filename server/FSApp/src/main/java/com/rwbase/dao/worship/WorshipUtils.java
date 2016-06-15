@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
-import com.playerdata.readonly.FashionMgrIF;
-import com.playerdata.readonly.PlayerIF;
-import com.rwbase.dao.fashion.FashionUsedIF;
+import com.rw.service.fashion.FashionHandle;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.worship.pojo.CfgWorshipRandomReward;
@@ -100,36 +97,11 @@ public class WorshipUtils {
 		worshipInfo.setCareerLevel(rankInfo.getCareerLevel());
 		// worshipInfo.setModelId(rankInfo.getModelId());
 		worshipInfo.setModelId(RankingUtils.getModelId(rankInfo));
-		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(rankInfo.getUserId());
-		if (readOnlyPlayer != null) {
-			FashionMgrIF fmgr = readOnlyPlayer.getFashionMgr();
-			FashionUsedIF fashionUsed = fmgr.getFashionUsed();
-			if (fashionUsed != null) {
-				//by Franky:
-				//worshipInfo.setSwingID(String.valueOf(fashionUsed.getWingId()));
-				FashionUsed.Builder value = FashionUsed.newBuilder();
-				boolean fashionSet = false;
-				int wingId = fashionUsed.getWingId();
-				if (wingId != -1){
-					value.setWingId(wingId);
-					fashionSet = true;
-				}
-				int petId = fashionUsed.getPetId();
-				if (petId != -1){
-					value.setPetId(petId);
-					fashionSet = true;
-				}
-				int suitId = fashionUsed.getSuitId();
-				if (suitId != -1){
-					value.setSuitId(suitId);
-					fashionSet = true;
-				}
-				if (fashionSet){
-					worshipInfo.setFashionUsage(value);
-				}
-			}
-		} else {
-			// print error log
+		
+		//by Franky:
+		FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(rankInfo.getUserId());
+		if (fashionUsing != null){
+			worshipInfo.setFashionUsage(fashionUsing);
 		}
 		
 		return worshipInfo.build();

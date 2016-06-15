@@ -1,6 +1,7 @@
 syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "RankServiceProtos";
+import "FashionService.proto";
 
 enum ERankRequestType{
 	RANK_LIST = 1;//排行列表
@@ -41,6 +42,7 @@ message RankInfo{
 	optional int32 fightingTeam = 9;//队伍战斗力	
 	optional int32 rankCount = 10;//排名升降位数
 	optional string headbox = 11;//头像框
+	optional FashionService.FashionUsed fashionUsage = 12;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 }
 
 message BaseRankInfo{
@@ -57,6 +59,7 @@ message BaseRankInfo{
 	repeated RankingTeamData teamData = 11;//队伍数据
 	optional int32 arenaWinCount = 12;//竞技场胜场次数
 	optional string groupName = 13; //帮派名字
+	optional FashionService.FashionUsed fashionUsage = 14;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 }
 
 message RankingTeamData{
