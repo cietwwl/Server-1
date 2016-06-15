@@ -18,7 +18,7 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-			 issucc=robot.testTaoist(-1);
+			 issucc=robot.testTaoist(110014);
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 
@@ -39,7 +39,7 @@ public class Test {
 //		 robot.testFrshActAchieveRewardGiftTake();//封神之路
 //		 robot.testPeakArena();//巅峰竞技场；改级别，获取战斗对象，生成战斗数据，获得战斗最终结果；在获取对象和生成数据之间都有额外的sys打印结果。默认为挑战三个敌人的第一个，默认申请胜利结果
 //		 robot.testFixEquip(-1, -1, 1, 9);//神器。
-		 
+//		 robot.testTaoist(110014);//道术
 		 
 		 
 		 

@@ -828,12 +828,13 @@ public class Robot {
 		return issuc;
 	}
 	
-	/**预制升级和加金币；参数小于0为随机，大于则选择对应分支提升*/
-	public boolean testTaoist(int equipId){
+	/**预制升级和加金币；参数不存在则选择首项提升*/
+	public boolean testTaoist(int id){
 		upgrade(50);
 		addCoin(9999999);		
 		boolean issuc = false;
-		TaoistHandler.getHandler().getTaoistData(client);
+//		TaoistHandler.getHandler().getTaoistData(client);
+		issuc=TaoistHandler.getHandler().upTaoist(client,id);
 		return issuc;
 	}
 	
