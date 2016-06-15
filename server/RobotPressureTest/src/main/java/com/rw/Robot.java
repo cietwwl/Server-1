@@ -26,6 +26,8 @@ import com.rw.handler.gameLogin.SelectCareerHandler;
 import com.rw.handler.group.GroupBaseHandler;
 import com.rw.handler.group.GroupMemberHandler;
 import com.rw.handler.group.GroupPersonalHandler;
+import com.rw.handler.groupsecret.GroupSecretHandler;
+import com.rw.handler.groupsecret.GroupSecretMatchHandler;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.magic.MagicHandler;
@@ -791,5 +793,30 @@ public class Robot {
 		issuc = PeakArenaHandler.getHandler().fightStart(client, "");
 		System.out.println("~~~~~~~~~~start"+ issuc);
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
+	}
+	
+	public void createGroupSecret(){
+		GroupSecretHandler.getInstance().createGroupSecret(client);
+	}
+	
+	public void searchGroupSecret(){
+		GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
+	}
+	
+	public void attackEnemyGroupSecret(){
+		GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
+	}
+	
+	public void getGroupSecretReward(){
+		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
+	}
+	
+	public void inviteMemberDefend(){
+		GroupSecretHandler.getInstance().inviteMemberDefend(client);
+	}
+	
+	public void acceptMemberDefend(){
+		ChatHandler.instance().sendRequestTreasure(client);
+		GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
 }

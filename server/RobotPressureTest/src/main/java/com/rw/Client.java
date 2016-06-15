@@ -18,6 +18,10 @@ import com.rw.handler.group.holder.GroupLogHolder;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
+import com.rw.handler.groupsecret.GroupSecretBaseInfoSynDataHolder;
+import com.rw.handler.groupsecret.GroupSecretInviteDataHolder;
+import com.rw.handler.groupsecret.GroupSecretTeamDataHolder;
+import com.rw.handler.hero.UserHerosDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
@@ -73,8 +77,10 @@ public class Client {
 	private FresherActivityHolder fresherActivityHolder = new FresherActivityHolder();
 	
 	
-
-
+	private GroupSecretTeamDataHolder groupSecretTeamDataHolder = new GroupSecretTeamDataHolder();
+	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
+	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
+	private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -165,22 +171,6 @@ public class Client {
 		this.serverId = serverId;
 	}
 
-	// public String getLastHost() {
-	// return lastHost;
-	// }
-
-	// public void setLastHost(String lastHost) {
-	// this.lastHost = lastHost;
-	// }
-
-	// public int getLastPort() {
-	// return Integer.parseInt(lastPort);
-	// }
-	//
-	// public void setLastPort(String lastPort) {
-	// this.lastPort = lastPort;
-	// }
-
 	public ServerInfo getServerById(int serverId) {
 		ServerInfo target = null;
 		for (ServerInfo serverInfo : serverList) {
@@ -270,8 +260,14 @@ public class Client {
 	public void setDailyActivityDataHolder(DailyActivityDataHolder dailyActivityDataHolder) {
 		this.dailyActivityDataHolder = dailyActivityDataHolder;
 	}
-	
 
+	public GroupSecretTeamDataHolder getGroupSecretTeamDataHolder() {
+		return groupSecretTeamDataHolder;
+	}
+
+	public UserHerosDataHolder getUserHerosDataHolder() {
+		return userHerosDataHolder;
+	}
 
 	public String getGroupVersion() {
 		groupVersion.setApplyMemberData(applyMemberHolder.getVersion());
@@ -279,5 +275,13 @@ public class Client {
 		groupVersion.setGroupBaseData(groupBaseDataHolder.getVersion());
 		groupVersion.setResearchSkill(researchSkillDataHolder.getVersion());
 		return JsonUtil.writeValue(groupVersion);
+	}
+
+	public GroupSecretBaseInfoSynDataHolder getGroupSecretBaseInfoSynDataHolder() {
+		return groupSecretBaseInfoSynDataHolder;
+	}
+
+	public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
+		return groupSecretInviteDataHolder;
 	}
 }
