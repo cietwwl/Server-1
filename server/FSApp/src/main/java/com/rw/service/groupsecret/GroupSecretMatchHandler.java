@@ -212,7 +212,7 @@ public class GroupSecretMatchHandler {
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -matchPrice);
 
 		// 获取可以掠夺的资源数量
-		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName);
+		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName, groupId);
 
 		// 设置角色匹配到的秘境数据
 		userSecretBaseDataMgr.updateMatchSecretId(player, matchId);
