@@ -3,9 +3,9 @@ package com.rwbase.dao.majorDatas;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.RealtimeStoreCache;
+import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rwbase.common.RealtimeStoreFactory;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -30,8 +30,8 @@ public class MajorDataDataHolder {
 	}
 	
 	private MapItemStore<MajorData> getMapItemStore(){
-		RealtimeStoreCache<MajorData> cache = RealtimeStoreFactory.getMajorDataCache();
-		return cache.getRealTimeMapItemStore(userId, MajorData.class);
+		MapItemStoreCache<MajorData> cache = MapItemStoreFactory.getMajorDataCache();
+		return cache.getMapItemStore(userId, MajorData.class);
 	}
 	
 	public void updateItem(Player player, MajorData majorData){
