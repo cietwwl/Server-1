@@ -41,6 +41,7 @@ import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 
 public class FashionMgr implements FashionMgrIF {
+	private static TimeUnit timeUnit = TimeUnit.DAYS;
 	private static String ExpiredEMailID = "10030";
 	private static String GiveEMailID = "10036";
 	private static String ExpiredNotifycation = "您的时装%s已过期，请到试衣间续费";
@@ -119,7 +120,7 @@ public class FashionMgr implements FashionMgrIF {
 				expiredTime = now;
 			}
 			// 在上次有效期内延长对应的时间，如果已经过期，使用当前时间作为基数
-			expiredTime += TimeUnit.HOURS.toMillis(renewDay);
+			expiredTime += timeUnit.toMillis(renewDay);
 		}
 		item.setExpiredTime(expiredTime);
 		item.setBrought(true);
@@ -451,7 +452,7 @@ public class FashionMgr implements FashionMgrIF {
 		long now = System.currentTimeMillis();
 		item.setBuyTime(now);
 		if (days > 0) {
-			item.setExpiredTime(now + TimeUnit.DAYS.toMillis(days));
+			item.setExpiredTime(now + timeUnit.toMillis(days));
 		} else {
 			item.setExpiredTime(-1);
 			GameLog.info("时装", m_player.getUserId(), "增加永久时装:" + cfg.getId(), null);

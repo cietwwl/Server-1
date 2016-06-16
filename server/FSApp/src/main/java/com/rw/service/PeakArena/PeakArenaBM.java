@@ -15,6 +15,7 @@ import com.playerdata.Hero;
 import com.playerdata.HeroFightPowerComparator;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.RankingMgr;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.stream.IStream;
@@ -386,6 +387,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 				entry = ranking.addLast(userId, extension);
 				place = entry.getRanking();
 				data.setMaxPlace(place);
+				RankingMgr.getInstance().addPeakFightingRanking(player);
 			} catch (RankingCapacityNotEougthException e) {
 				e.printStackTrace();
 				place = ranking.getMaxCapacity();
@@ -634,14 +636,14 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	
 	@Override
 	public void onChange(Pair<Player, Integer> newValue) {
-		if (newValue != null && newValue.getT1() != null 
-				&& newValue.getT2() != null && newValue.getT2() == eStoreType.PeakStore.getOrder()){
+//		if (newValue != null && newValue.getT1() != null 
+//				&& newValue.getT2() != null && newValue.getT2() == eStoreType.PeakStore.getOrder()){
 			Player user = newValue.getT1();
 			TablePeakArenaData data = tablePeakArenaDataDAO.get(user.getUserId());
 			if (data == null) return;
 			int place = getPlace(user);
 			addPeakArenaCoin(user,data,place,System.currentTimeMillis());
-		}
+//		}
 	}
 	@Override
 	public void onClose(IStream<Pair<Player, Integer>> whichStream) {

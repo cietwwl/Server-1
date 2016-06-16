@@ -310,7 +310,7 @@ public class GroupSecretHelper {
 		String id = generateCacheSecretId(matchUserId, secretId);
 		boolean beat = enemyData.isBeat();
 		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
-				enemyData.getAllRobGSValue());
+				enemyData.getAllRobGSValue(), enemyData.getGroupId());
 
 		if (beat) {// 如果已经打败了
 			return new GroupSecretDataSynData(baseInfo, null);
@@ -388,7 +388,7 @@ public class GroupSecretHelper {
 			index = myDefendInfo.getIndex();
 		}
 
-		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS);
+		SecretBaseInfoSynData base = new SecretBaseInfoSynData(id, secretCfgId, isFinish, data.getCreateTime(), index, dropDiamond, getRes, getGE, getGS, data.getGroupId());
 		return isFinish ? new GroupSecretDataSynData(base, null) : new GroupSecretDataSynData(base, new SecretTeamInfoSynData(id, defendUserInfoMap, data.getVersion()));
 	}
 
