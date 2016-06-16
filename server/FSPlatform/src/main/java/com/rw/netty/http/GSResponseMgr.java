@@ -1,6 +1,7 @@
 package com.rw.netty.http;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
@@ -9,6 +10,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import com.log.PlatformLog;
+import com.rw.fsutil.log.GmLog;
+import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.service.http.request.RequestObject;
 
 import io.netty.buffer.Unpooled;
@@ -62,6 +66,21 @@ public class GSResponseMgr {
 		}
 	}
 	
+	public static byte[] processMsg(RequestObject requestObject) {
+		try {
+			String className = requestObject.getClassName();
+			String methodName = requestObject.getMethodName();
+			ArrayList<HashMap<Class, Object>> paramList = requestObject.getParamList();
+			Object result = invokeMethod(paramList, methodName, className);
+			String json = FastJsonUtil.serialize(result);
+			byte[] bytes = json.getBytes("utf-8");
+			return bytes;
+		} catch (Exception ex) {
+			PlatformLog.error("platformService", "", ex.getMessage());
+		}
+		return null;
+	}
+	
 
 	/**
 	 * 反射调用方法
@@ -71,6 +90,7 @@ public class GSResponseMgr {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	private static Object invokeMethod(ArrayList<HashMap<Class, Object>> list, String methodName, String className)throws Exception{
 		Class<?> forName = Class.forName(className);
 		Object[] args = new Object[list.size()];
@@ -79,7 +99,7 @@ public class GSResponseMgr {
 		for (HashMap<Class, Object> map : list) {
 			for (Iterator<Entry<Class, Object>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 				Entry<Class, Object> entry = iterator.next();
-				Object param = FieldTypeHelper.parseType(entry.getKey(), entry.getValue());
+				Object param = FastJsonUtil.deserialize(entry.getValue().toString(), entry.getKey());
 				args[count]= param;
 				argsClass[count] = entry.getKey();
 			}

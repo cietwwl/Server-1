@@ -14,6 +14,7 @@ import com.playerdata.PlayerMgr;
 import com.rw.service.http.HttpServer;
 import com.rw.service.http.platformResponse.PlatformNoticeBaseDataResponse;
 import com.rw.service.http.platformResponse.WhiteListBaseDataResponse;
+import com.rw.service.platformService.PlatformService;
 
 public class GmWhiteListSwitch implements IGmTask{
 
@@ -40,7 +41,7 @@ public class GmWhiteListSwitch implements IGmTask{
 		whiteListBaseDataResponse.setAccountList(accountList);
 		whiteListBaseDataResponse.setProcess("close");
 		
-		HttpServer.SendResponse("com.rw.netty.http.requestHandler.WhiteListHandler", "updateWhiteList", whiteListBaseDataResponse, WhiteListBaseDataResponse.class);
+		PlatformService.SendResponse("com.rw.netty.http.requestHandler.WhiteListHandler", "updateWhiteList", whiteListBaseDataResponse, WhiteListBaseDataResponse.class);
 		
 		response.setStatus(0);
 		response.setCount(1);

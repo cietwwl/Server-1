@@ -100,16 +100,16 @@ public class DropItemManager {
 	 * @return
 	 * @throws DataAccessTimeoutException
 	 */
-	public List<ItemInfo> pretreatDrop(Player player, List<Integer> list, int copyId, boolean firstDrop) throws DataAccessTimeoutException {
+	public List<ItemInfo> pretreatDrop(Player player, List<Integer> dropRuleList, int copyId, boolean firstDrop) throws DataAccessTimeoutException {
 		ArrayList<ItemInfo> dropItemInfoList = new ArrayList<ItemInfo>();
 		try {
 			String userId = player.getUserId();
 			DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
 			DropRecord record = dropRecordDAO.getDropRecord(userId);
 			HashMap<Integer, DropAdjustmentState> adjustmentMap = null;
-			int dropRuleSize = list.size();
+			int dropRuleSize = dropRuleList.size();
 			for (int j = 0; j < dropRuleSize; j++) {
-				int dropRuleId = list.get(j);
+				int dropRuleId = dropRuleList.get(j);
 				List<DropCfg> dropGroupList = DropCfgDAO.getInstance().getDropCfg(dropRuleId);
 				if (dropGroupList == null) {
 					GameLog.error("找不到掉落规则：" + dropRuleId + ",userId = " + userId);

@@ -9,12 +9,15 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
+import com.bm.group.GroupBaseDataMgr;
+import com.bm.group.GroupMemberMgr;
 import com.bm.guild.GuildGTSMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.gm.hero.GMHeroProcesser;
@@ -762,7 +765,7 @@ public class GMHandler {
 	}
 
 	public boolean groupChange(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 2) {
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			return false;
 		}
 
@@ -770,7 +773,18 @@ public class GMHandler {
 			return false;
 		}
 
-		UserGroupAttributeDataIF baseGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataIF baseGroupData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+
+		String functionName = arrCommandContents[0];
+		if (functionName.equalsIgnoreCase("cet")) {// 清除发送邮件冷却时间
+			userGroupAttributeDataMgr.updateSendEmailTime(player, 0);
+			return true;
+		} else if (functionName.equalsIgnoreCase("cqt")) {// 清除个人退去帮派时间
+			userGroupAttributeDataMgr.updateDataWhenQuitGroup(player, 0);
+			return true;
+		}
+
 		String groupId = baseGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return false;
@@ -781,34 +795,49 @@ public class GMHandler {
 			return false;
 		}
 
-		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();
+		GroupBaseDataIF groupData = groupBaseDataMgr.getGroupData();
 		if (groupData == null) {
 			return false;
 		}
 
 		String userId = player.getUserId();
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
+		GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
+		GroupMemberDataIF memberData = groupMemberMgr.getMemberData(userId, false);
 		if (memberData == null) {
 			return false;
 		}
 
-		String functionName = arrCommandContents[0];
-		int value = Integer.parseInt(arrCommandContents[1]);
+		int value = arrCommandContents.length > 1 ? Integer.parseInt(arrCommandContents[1]) : 0;
 
-		if (functionName.equalsIgnoreCase("gs")) {
+		if (functionName.equalsIgnoreCase("gs")) {// 改变帮派物资
+			if (value == 0) {
+				return false;
+			}
+
 			int su = groupData.getSupplies() + value;
 			if (su < 0) {
 				return false;
 			}
 
-			group.getGroupBaseDataMgr().updateGroupDonate(player, group.getGroupLogMgr(), value, 0);
-		} else if (functionName.equalsIgnoreCase("pc")) {
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), value, 0);
+		} else if (functionName.equalsIgnoreCase("pc")) {// 改变个人贡献
+			if (value == 0) {
+				return false;
+			}
+
 			int su = memberData.getContribution() + value;
 			if (su < 0) {
 				return false;
 			}
 
-			group.getGroupMemberMgr().updateMemberContribution(userId, value);
+			groupMemberMgr.updateMemberContribution(userId, value);
+		} else if (functionName.equalsIgnoreCase("exp")) {// 增加帮派经验
+			if (value <= 0) {
+				return false;
+			}
+
+			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value);
 		}
 
 		return true;

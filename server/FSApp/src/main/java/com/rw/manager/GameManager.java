@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -41,6 +42,8 @@ import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.gm.GMHandler;
 import com.rw.service.http.HttpServer;
 import com.rw.service.log.LogService;
+import com.rw.service.platformService.PlatformInfo;
+import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
@@ -60,9 +63,7 @@ public class GameManager {
 	private static int zoneId;
 	private static int httpPort;
 	private static long openTime; // 新服开服时间
-	private static String platformUrl; // 登陆服url
-	// private static int serverPort; //服务器端口
-	private static List<String> platformUrls = new ArrayList<String>(); // 登陆服
+	private static List<PlatformInfo> platformInfos = new ArrayList<PlatformInfo>(); //登陆服信息
 	private static String logServerIp; // 日志服ip
 	private static int logServerPort; // 日志服端口
 	private static ServerPerformanceConfig performanceConfig;
@@ -124,6 +125,7 @@ public class GameManager {
 		/**** 游戏时间功能 ******/
 		TimerManager.init();
 
+		PlatformService.init();
 		// author:lida 2015-09-23 启动游戏服通知平台服务器
 		PlatformGSService.init();
 
@@ -152,9 +154,14 @@ public class GameManager {
 			String strPlatformUrl = props.getProperty("platformUrl");
 			String[] split = strPlatformUrl.split(",");
 			for (String value : split) {
-				platformUrls.add(value);
+				String[] subSplit = value.split(":");
+				if(subSplit.length >1){
+					String ip = subSplit[0];
+					int port = Integer.parseInt(subSplit[1]);
+					PlatformInfo platformInfo = new PlatformInfo(ip, port);
+					platformInfos.add(platformInfo);
+				}
 			}
-			// serverPort = Integer.parseInt(props.getProperty("serverPort"));
 			TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(zoneId);
 			openTime = DateUtils.getTime(zoneInfo.getOpenTime());
 			logServerIp = props.getProperty("logServerIp");
@@ -347,16 +354,8 @@ public class GameManager {
 		return openTime;
 	}
 
-	public static String getPlatformUrl() {
-		for (String url : platformUrls) {
-			HttpServer.checkConnectOpen(url);
-			return url;
-		}
-		return platformUrls.get(0);
-	}
-
-	public static List<String> getPlatformUrls() {
-		return platformUrls;
+	public static List<PlatformInfo> getPlatformInfos() {
+		return platformInfos;
 	}
 
 	public static String getLogServerIp() {

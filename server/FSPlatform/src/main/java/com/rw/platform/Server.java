@@ -18,7 +18,7 @@ import java.net.InetSocketAddress;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.log.GameLog;
+import com.log.PlatformLog;
 import com.rw.common.SynTaskExecutor;
 import com.rw.netty.FrameDecoder;
 import com.rw.netty.ProtobufFrameEncoder;
@@ -40,7 +40,7 @@ public class Server {
     	
     	PlatformFactory.init();
     	SynTaskExecutor.init();
-    	HttpServer.httpServerStart(PlatformFactory.getHttpPort());
+    	//HttpServer.httpServerStart(PlatformFactory.getHttpPort());
     	
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
 		int ioThreads = Runtime.getRuntime().availableProcessors()+1;
@@ -88,7 +88,7 @@ public class Server {
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
-			GameLog.error(e);
+			PlatformLog.error(e);
 		} finally {
 			bossEventLoopGroup.shutdownGracefully();
 			ioGroup.shutdownGracefully();
