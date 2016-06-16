@@ -50,22 +50,22 @@ public class PeakArenaHandler {
 
 					MsgArenaResponse rsp = MsgArenaResponse.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("PeakArenaHandler[send] 转换响应消息为null");
+						RobotLog.fail("PeakArenaHandler[send]changeEnemy。 转换响应消息为null");
 						return false;
 					}
 
 					eArenaResultType result = rsp.getArenaResultType();
 					if (result == eArenaResultType.ARENA_FAIL) {
-						RobotLog.fail("PeakArenaHandler[send] 服务器处理获取列表消息失败 " + result);
+						RobotLog.fail("PeakArenaHandler[send] changeEnemy。服务器处理获取列表消息失败 " + result);
 						return false;
 					}
 					ArenaInfo arenaInfo = rsp.getListInfo(0);
 					enemyUserid = arenaInfo.getUserId();
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("PeakArenaHandler[send]获取列表 失败", e);
+					RobotLog.fail("PeakArenaHandler[send]changeEnemy。获取列表 失败", e);
 					return false;
 				}
-				RobotLog.info("PeakArenaHandler[send] 获取列表成功");
+				RobotLog.info("PeakArenaHandler[send]changeEnemy。 获取列表成功");
 				return true;
 			}
 
@@ -106,21 +106,21 @@ public class PeakArenaHandler {
 
 					MsgArenaResponse rsp = MsgArenaResponse.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("PeakArenaHandler[send] 转换响应消息为null");
+						RobotLog.fail("PeakArenaHandler[send]fightStart。 转换响应消息为null");
 						return false;
 					}
 
 					eArenaResultType result = rsp.getArenaResultType();
 					if (result == eArenaResultType.ARENA_FAIL) {
-						RobotLog.fail("PeakArenaHandler[send] 服务器处理 申请开始战斗消息失败 " + result);
+						RobotLog.fail("PeakArenaHandler[send]fightStart。 服务器处理 申请开始战斗消息失败 " + result);
 						return false;
 					}
 
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("PeakArenaHandler[send]  申请开始战斗失败", e);
+					RobotLog.fail("PeakArenaHandler[send] fightStart。 申请开始战斗失败", e);
 					return false;
 				}
-				RobotLog.info("PeakArenaHandler[send] 申请开始战斗成功");
+				RobotLog.info("PeakArenaHandler[send] fightStart。申请开始战斗成功");
 				return true;
 			}
 
@@ -156,21 +156,21 @@ public class PeakArenaHandler {
 
 					MsgArenaResponse rsp = MsgArenaResponse.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("PeakArenaHandler[send] 转换响应消息为null");
+						RobotLog.fail("PeakArenaHandler[send]fightFinish。 转换响应消息为null");
 						return false;
 					}
 
 					eArenaResultType result = rsp.getArenaResultType();
 					if (result == eArenaResultType.ARENA_FAIL) {
-						RobotLog.fail("PeakArenaHandler[send] 服务器处理 申请结束战斗消息失败 " + result);
+						RobotLog.fail("PeakArenaHandler[send]fightFinish。 服务器处理 申请结束战斗消息失败 " + result);
 						return false;
 					}
 
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("PeakArenaHandler[send]  申请结束战斗失败", e);
+					RobotLog.fail("PeakArenaHandler[send]fightFinish。  申请结束战斗失败", e);
 					return false;
 				}
-				RobotLog.info("PeakArenaHandler[send] 申请结束战斗成功");
+				RobotLog.info("PeakArenaHandler[send]fightFinish。 申请结束战斗成功");
 				return true;
 			}
 

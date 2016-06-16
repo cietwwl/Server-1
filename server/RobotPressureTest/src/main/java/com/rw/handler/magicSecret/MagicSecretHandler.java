@@ -25,6 +25,7 @@ import com.rwproto.ResponseProtos.Response;
 public class MagicSecretHandler {
 	private static final int GET_SELF_MS_RANK =9;
 	private static final int GET_MS_RANK = 1;//查看
+	private static final int GET_MS_SWEEP_REWARD =4 ;//扫荡
 	
 	private static final int CHANGE_ARMY =7;
 	private static final int ENTER_MS_FIGHT =2;//战斗
@@ -60,11 +61,13 @@ public class MagicSecretHandler {
 			RobotLog.fail("放弃道具反馈结果="+isucc);	
 			isucc=exchangeBuff(client);//坑爹的协议，兑换buff和奖励的内容在战斗时已推送，所以机器人无法分开操作功能	
 			
-		}else if(id == OPEN_REWARD_BOX){
-					
+		}else if(id == GET_MS_SWEEP_REWARD){
+			isucc=sweep(client);
 		}
 		return isucc;
 	}
+
+	
 
 	
 
@@ -115,16 +118,16 @@ public class MagicSecretHandler {
 				try {
 					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("MagicSecretHandler[send] 转换响应消息为null");
+						RobotLog.fail("MagicSecretHandler[send]changeTeam 转换响应消息为null");
 						return false;
 					}
 					msResultType result =rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("MagicSecretHandler[send]changeTeam 服务器处理消息失败 " + result);
 						return false;
 					}				
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("MagicSecretHandler[send] 失败", e);
+					RobotLog.fail("MagicSecretHandler[send]changeTeam 失败", e);
 					return false;
 				}				
 				return true;
@@ -158,16 +161,16 @@ public class MagicSecretHandler {
 				try {
 					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("MagicSecretHandler[send] 转换响应消息为null");
+						RobotLog.fail("MagicSecretHandler[send]fight 转换响应消息为null");
 						return false;
 					}
 					msResultType result =rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("MagicSecretHandler[send]fight 服务器处理消息失败 " + result);
 						return false;
 					}				
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("MagicSecretHandler[send] 失败", e);
+					RobotLog.fail("MagicSecretHandler[send]fight 失败", e);
 					return false;
 				}				
 				return true;
@@ -198,16 +201,16 @@ public class MagicSecretHandler {
 				try {
 					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("MagicSecretHandler[send] 转换响应消息为null");
+						RobotLog.fail("MagicSecretHandler[send]getReward 转换响应消息为null");
 						return false;
 					}
 					msResultType result =rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("MagicSecretHandler[send]getReward 服务器处理消息失败 " + result);
 						return false;
 					}				
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("MagicSecretHandler[send] 失败", e);
+					RobotLog.fail("MagicSecretHandler[send]getReward 失败", e);
 					return false;
 				}				
 				return true;
@@ -243,16 +246,16 @@ public class MagicSecretHandler {
 				try {
 					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("MagicSecretHandler[send] 转换响应消息为null");
+						RobotLog.fail("MagicSecretHandler[send]openBox 转换响应消息为null");
 						return false;
 					}
 					msResultType result =rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("MagicSecretHandler[send]openBox 服务器处理消息失败 " + result);
 						return false;
 					}				
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("MagicSecretHandler[send] 失败", e);
+					RobotLog.fail("MagicSecretHandler[send]openBox 失败", e);
 					return false;
 				}				
 				return true;
@@ -283,16 +286,16 @@ public class MagicSecretHandler {
 				try {
 					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("MagicSecretHandler[send] 转换响应消息为null");
+						RobotLog.fail("MagicSecretHandler[send]giveUpBox 转换响应消息为null");
 						return false;
 					}
 					msResultType result =rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("MagicSecretHandler[send]giveUpBox 服务器处理消息失败 " + result);
 						return false;
 					}				
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("MagicSecretHandler[send] 失败", e);
+					RobotLog.fail("MagicSecretHandler[send]giveUpBox 失败", e);
 					return false;
 				}				
 				return true;
@@ -330,16 +333,16 @@ public class MagicSecretHandler {
 				try {
 					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
 					if (rsp == null) {
-						RobotLog.fail("MagicSecretHandler[send] 转换响应消息为null");
+						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 转换响应消息为null");
 						return false;
 					}
 					msResultType result =rsp.getRstType();
 					if (!result.equals(msResultType.SUCCESS)) {
-						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
+						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
 						return false;
 					}				
 				} catch (InvalidProtocolBufferException e) {
-					RobotLog.fail("MagicSecretHandler[send] 失败", e);
+					RobotLog.fail("MagicSecretHandler[send]exchangeBuff 失败", e);
 					return false;
 				}				
 				return true;
@@ -347,4 +350,48 @@ public class MagicSecretHandler {
 		});		
 		return success;	
 	}	
+	
+	private boolean sweep(Client client) {
+		MagicSecretReqMsg.Builder req = MagicSecretReqMsg.newBuilder();		
+		req.setReqType(msRequestType.GET_MS_SWEEP_REWARD);
+		Map<String,MagicChapterInfo> magiChapterInfolist = client.getMagicChapterInfoHolder().getList();
+		if(magiChapterInfolist.size()>0){
+		MagicChapterInfo magiChapterInfo = magiChapterInfolist.get(client.getUserId());	
+			int tmp = Integer.parseInt(magiChapterInfo.getChapterId()) -1;
+			req.setChapterId(tmp+"");
+		}else{
+			req.setChapterId(client.getMagicSecretHolder().getChapterId());
+			
+		}
+		
+		boolean success =client.getMsgHandler().sendMsg(Command.MSG_MAGIC_SECRET, req.build().toByteString(), new MsgReciver() {
+			@Override
+			public Command getCmd() {
+				return Command.MSG_MAGIC_SECRET;
+			}
+			@Override
+			public boolean execute(Client client, Response response) {
+				ByteString serializedContent = response.getSerializedContent();
+				try {
+					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
+					if (rsp == null) {
+						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 转换响应消息为null");
+						return false;
+					}
+					msResultType result =rsp.getRstType();
+					if (!result.equals(msResultType.SUCCESS)) {
+						RobotLog.fail("MagicSecretHandler[send]exchangeBuff 服务器处理消息失败 " + result);
+						return false;
+					}				
+				} catch (InvalidProtocolBufferException e) {
+					RobotLog.fail("MagicSecretHandler[send]exchangeBuff 失败", e);
+					return false;
+				}				
+				return true;
+			}			
+		});		
+		return success;	
+	}
+	
+	
 }
