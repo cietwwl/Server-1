@@ -13,10 +13,9 @@ import com.log.LogModule;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupCopyMapCfg {
 	
-    private String id; //副本地图ID...
+    private String chaterID; //副本地图ID...
     private String name; //名称...
     private int unLockLv; //解锁等级...
-    private String description; //描述...
     private int openCost; //开启消耗...
     private int extraRewardTime; //额外奖励时限，单位小时
     private int extraReward;//额外奖励
@@ -38,7 +37,7 @@ public class GroupCopyMapCfg {
 				v = Integer.valueOf(str[1].toString().trim());
 				extRewMap.put(k, v);
 			} catch (Exception e) {
-				GameLog.error(LogModule.GroupCopy, "GroupCopyMapCfg[formatData]", "初始化帮派副本章节数据时出现问题，章节id:" + id, e);
+				GameLog.error(LogModule.GroupCopy, "GroupCopyMapCfg[formatData]", "初始化帮派副本章节数据时出现问题，章节id:" + chaterID, e);
 				e.printStackTrace();
 			}
 		}
@@ -56,10 +55,10 @@ public class GroupCopyMapCfg {
 
 
 	public String getId() {
-		return id;
+		return chaterID;
 	}
 	public void setId(String id) {
-		this.id = id;
+		this.chaterID = id;
 	}
 	public String getName() {
 		return name;
@@ -90,12 +89,6 @@ public class GroupCopyMapCfg {
 	}
 	public void setUnLockLv(int unLockLv) {
 		this.unLockLv = unLockLv;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	public int getExtraRewardTime() {
 		return extraRewardTime;

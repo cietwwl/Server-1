@@ -1,11 +1,11 @@
-key,Remarks,id,name,levelType,level,description,startLevelId,endLevelId,levelPicture,openCost,timeExtraReward,damageExtraReward,passReward,damageNum
-10001,,10001,第一章,,,第一章  封神计划,110101,110106,bg_map001,100,100,50,80,10
-10002,,10002,第二章,,7,第二章  时空旅者,110201,110209,bg_map002,100,100,50,80,10
-10003,,10003,第三章,,13,第三章  法宝人类,110301,110318,bg_map003,100,100,50,80,10
-10004,,10004,第四章,,25,第四章  金鳌岛众,110401,110421,bg_map004,100,100,50,80,10
-10005,,10005,第五章,,34,第五章  九龙遗址,110501,110521,bg_map005,100,100,50,80,10
-10006,,10006,第六章,,40,第六章  闻仲现身,110601,110621,bg_map006,100,100,50,80,10
-10007,,10007,第七章,,50,第七章  北海之战,110701,110721,bg_map007,100,100,50,80,10
-10008,,10008,第八章,,59,第八章  倾世妖姬,110801,110821,bg_map008,100,100,50,80,10
-10009,,10009,第九章,,67,第九章  重返昆仑,110901,110921,bg_map009,100,100,50,80,10
-10010,,10010,第十章,,75,第十章  昆仑之殇,111001,111021,bg_map010,100,100,50,80,10
+key,mark,chaterID,name,unlockLv,openCost,extraRewardTime,extraReward,damageExtraReward,passReward,chaterIcon,chaterBg,startLvID,endLvID,rewardItems
+10001,,10001,第一章  封神计划,,100,168,200,"1~2400,2~1200,3~600",200,Assets/Textures/PackIn/PlayerHead/head_hero.png,bg_map001,110101,110106,"602005,602008"
+10002,,10002,第二章  时空旅者,7,200,192,300,"1~2400,2~1200,3~601",400,Assets/Textures/PackIn/PlayerHead/head_hero_assist_01.png,bg_map002,110201,110209,"602015,602006"
+10003,,10003,第三章  法宝人类,13,300,216,400,"1~2400,2~1200,3~602",600,Assets/Textures/PackIn/PlayerHead/head_hero_killer_01.png,bg_map003,110301,110318,"602009,602014"
+10004,,10004,第四章  金鳌岛众,25,400,240,500,"1~2400,2~1200,3~603",800,Assets/Textures/PackIn/PlayerHead/head_hero_power_01.png,bg_map004,110401,110421,"602001,602011"
+10005,,10005,第五章  九龙遗址,34,500,264,600,"1~2400,2~1200,3~604",1000,Assets/Textures/PackIn/PlayerHead/head_heroine.png,bg_map005,110501,110521,"602013,602010"
+10006,,10006,第六章  闻仲现身,40,600,288,700,"1~2400,2~1200,3~605",1200,Assets/Textures/PackIn/PlayerHead/head_heroine_assist_01.png,bg_map006,110601,110621,"602012,602001"
+10007,,10007,第七章  北海之战,50,700,312,800,"1~2400,2~1200,3~606",1400,Assets/Textures/PackIn/PlayerHead/head_heroine_killer_01.png,bg_map007,110701,110721,"602015,602006"
+10008,,10008,第八章  倾世妖姬,59,800,336,900,"1~2400,2~1200,3~607",1600,Assets/Textures/PackIn/PlayerHead/head_heroine_power_01.png,bg_map008,110801,110821,"602009,602014"
+10009,,10009,第九章  重返昆仑,67,900,360,1000,"1~2400,2~1200,3~608",1800,Assets/Textures/PackIn/PlayerHead/head_heroine_tank_01.png,bg_map009,110901,110921,"602001,602011"
+10010,,10010,第十章  昆仑之殇,75,1000,384,1100,"1~2400,2~1200,3~609",2000,Assets/Textures/PackIn/PlayerHead/head_ShiZhuang_01.png,bg_map010,111001,111021,"602013,602010"

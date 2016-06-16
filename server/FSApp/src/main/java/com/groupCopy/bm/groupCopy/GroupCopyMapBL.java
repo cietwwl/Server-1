@@ -2,6 +2,7 @@ package com.groupCopy.bm.groupCopy;
 
 import java.util.Set;
 
+import com.bm.group.GroupBaseDataMgr;
 import com.common.BeanCopyer;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
@@ -13,6 +14,9 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
 import com.playerdata.Player;
+import com.rwbase.dao.group.pojo.db.GroupBaseData;
+import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataDAO;
+import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataHolder;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 
@@ -28,6 +32,9 @@ public class GroupCopyMapBL {
 	 * @return
 	 */
 	public static GroupCopyResult  openMap(GroupCopyMapRecordHolder groupCopyMapRecordHolder,String mapId){
+		
+		
+		
 		GroupCopyResult result = GroupCopyResult.newResult();
 		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
 		if(mapRecord == null){
