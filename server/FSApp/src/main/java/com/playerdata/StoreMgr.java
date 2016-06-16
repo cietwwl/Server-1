@@ -249,6 +249,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param Commodity
 	 */
 	private CommodityCfg getRandomCommondity(List<CommodityCfg> Commodity) {
+		if(Commodity == null || Commodity.isEmpty()){
+			return null;
+		}
 		int size = Commodity.size();
 		int total = 0;
 		for (int i = 0; i < size; i++) {
