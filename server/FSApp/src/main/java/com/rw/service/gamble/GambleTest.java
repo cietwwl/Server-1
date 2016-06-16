@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -37,8 +35,8 @@ public class GambleTest {
 		
 		Random ranGen = HPCUtil.getRandom();
 		String userId = "测试概率脚本";
-		//10,10,10,20,30,50,100,100,100*10000;//1000*10000
-		int[] gambleTimes = {1000*10000};
+		//10,10,10,20,30,50,100,100,100*10000,1000*10000
+		int[] gambleTimes = {10,10,10,20,30,50,100,100,100*10000,1000*10000};
 		Iterable<GamblePlanCfg> allCfgs = GamblePlanCfgHelper.getInstance().getIterateAllCfg();
 		for (GamblePlanCfg cfg : allCfgs) {
 			int cfgKey = cfg.getKey();
@@ -57,7 +55,7 @@ public class GambleTest {
 	private static void testOneCfg(int gamblePlanId, int playerLevel, String userId, int gambleTime, boolean isFree,
 			Random ranGen, int cfgKey) {
 		GambleDropHistory historyRecord = new GambleDropHistory();// 临时数据不写入数据库
-		LinkedList<ArrayList<GambleRewardData>> collector = new LinkedList<ArrayList<GambleRewardData>>();
+		HashMap<String,Integer> collector = new HashMap<String,Integer>();
 		long startTime = System.currentTimeMillis();
 		for (int i = 0;i<gambleTime;i++){
 			if (!isFree){
@@ -68,31 +66,18 @@ public class GambleTest {
 				historyRecord.setFreeCount(0);
 				historyRecord.setLastFreeGambleTime(0);
 			}
-			ArrayList<GambleRewardData> result = simulateGamble(userId, gamblePlanId, playerLevel, ranGen, historyRecord);
-			collector.add(result);
-			if (i > 9400000){
+			HashMap<String,Integer> result = simulateGamble(userId, gamblePlanId, playerLevel, ranGen, historyRecord);
+			merge(collector,result);
+			/*
+			if (gamblePlanId > 3 && i > 9400000){
 				System.out.println("track count:"+i);
 			}
-			if (i % 100000 == 0){
+			if (gamblePlanId > 3 && i % 100000 == 0){
 				System.out.println("gamble count:"+i);
 			}
+			*/
 		}
 		long endTime = System.currentTimeMillis();
-		
-		HashMap<String,Integer> collectResult = new HashMap<String,Integer>();
-		for (ArrayList<GambleRewardData> result : collector) {
-			for (GambleRewardData gambleRewardData : result) {
-				String id = gambleRewardData.getItemId();
-				int count = gambleRewardData.getItemNum();
-				Integer old = collectResult.get(id);
-				if (old != null){
-					collectResult.replace(id, old+count);
-				}else{
-					collectResult.put(id, count);
-				}
-			}
-		}
-
 		
 		FileOutputStream fos;
 		try {
@@ -107,7 +92,7 @@ public class GambleTest {
 			logger.println("playerLevel:"+playerLevel);
 			logger.println("isFree:"+isFree);
 			
-			Set<Entry<String, Integer>> entryList = collectResult.entrySet();
+			Set<Entry<String, Integer>> entryList = collector.entrySet();
 			for (Entry<String, Integer> entry : entryList) {
 				logger.println(entry.getKey()+":"+entry.getValue());
 			}
@@ -119,7 +104,21 @@ public class GambleTest {
 		}
 	}
 
-	private static ArrayList<GambleRewardData> simulateGamble(String userId, int gamblePlanId, int playerLevel,
+	private static void merge(HashMap<String, Integer> collector, HashMap<String, Integer> result) {
+		Set<Entry<String, Integer>> added = result.entrySet();
+		for (Entry<String, Integer> entry : added) {
+			String id = entry.getKey();
+			Integer add = entry.getValue();
+			Integer old = collector.get(id);
+			if (old != null){
+				collector.replace(id, old+add);
+			}else{
+				collector.put(id, add);
+			}
+		}
+	}
+
+	private static HashMap<String,Integer> simulateGamble(String userId, int gamblePlanId, int playerLevel,
 			Random ranGen, GambleDropHistory historyRecord) {
 		String planIdStr = String.valueOf(gamblePlanId);
 		RefInt slotCount = new RefInt();
@@ -137,7 +136,7 @@ public class GambleTest {
 			dropPlan = planCfg.getChargePlan();
 		}
 
-		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>();
+		HashMap<String,Integer> dropList = new HashMap<String,Integer>();
 
 		final int maxHistoryNumber = GamblePlanCfgHelper.getInstance().getMaxHistoryCount(planCfg.getDropType());// planCfg.getMaxCheckCount();
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
@@ -245,9 +244,8 @@ public class GambleTest {
 		return dropList;
 	}
 
-	private static boolean add2DropList(ArrayList<GambleRewardData> dropList, int slotCount, String itemModelId,
+	private static boolean add2DropList(HashMap<String,Integer> dropList, int slotCount, String itemModelId,
 			String uid, String planIdStr, String defaultModelId) {
-		GambleRewardData rewardData=new GambleRewardData();
 		if (StringUtils.isBlank(itemModelId)){
 			GameLog.error("钓鱼台", uid, String.format("配置物品ID无效，配置:%s", planIdStr));
 			itemModelId = defaultModelId;
@@ -274,32 +272,13 @@ public class GambleTest {
 			}
 		}
 		
-		rewardData.setItemId(itemModelId);
-		rewardData.setItemNum(slotCount);
-		dropList.add(rewardData);
+		Integer old = dropList.get(itemModelId);
+		if (old != null){
+			dropList.replace(itemModelId, old+slotCount);
+		}else{
+			dropList.put(itemModelId, slotCount);
+		}
 		return true;
-	}
-
-}
-
-class GambleRewardData {
-	private String itemId;
-	private int itemNum;
-
-	public String getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
-
-	public int getItemNum() {
-		return itemNum;
-	}
-
-	public void setItemNum(int itemNum) {
-		this.itemNum = itemNum;
 	}
 
 }

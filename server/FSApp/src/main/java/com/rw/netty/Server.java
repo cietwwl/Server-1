@@ -59,7 +59,7 @@ public class Server {
 
 			//初始化每日热点数据
 			GambleMgr.resetWhenStart();
-			GambleTest.Test();
+			//GambleTest.Test();
 
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
