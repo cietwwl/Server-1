@@ -764,40 +764,40 @@ public class Robot {
 
 	
 	
-	public void sign(){
-		SignHandler.getInstance().processsSign(client);
+	public boolean sign(){
+		return SignHandler.getInstance().processsSign(client);
 	}
 	
-	public void dailyActivity(){
-		DailyHandler.getInstance().processDaily(client);
+	public boolean dailyActivity(){
+		return DailyHandler.getInstance().processDaily(client);
 	}
 	
-	public void buyFashion(){
-		FashionHandler.getInstance().processBuyFashion(client);
+	public boolean buyFashion(){
+		return FashionHandler.getInstance().processBuyFashion(client);
 	}
 	
-	public void buyWing(){
-		FashionHandler.getInstance().processBuyWing(client);
+	public boolean buyWing(){
+		return FashionHandler.getInstance().processBuyWing(client);
 	}
 	
-	public void buyPet(){
-		FashionHandler.getInstance().processBuyPet(client);
+	public boolean buyPet(){
+		return FashionHandler.getInstance().processBuyPet(client);
 	}
 
-	public void WearFashion(){
-		FashionHandler.getInstance().processWearFashion(client);
+	public boolean WearFashion(){
+		return FashionHandler.getInstance().processWearFashion(client);
 	}
 	
-	public void WearWing(){
-		FashionHandler.getInstance().processWearWing(client);
+	public boolean WearWing(){
+		return FashionHandler.getInstance().processWearWing(client);
 	}
 	
-	public void WearPet(){
-		FashionHandler.getInstance().processBuyPet(client);
+	public boolean WearPet(){
+		return FashionHandler.getInstance().processBuyPet(client);
 	}
 	
-	public void BuyCoin(){
-		MainHandler.getHandler().buyCoin(client);
+	public boolean BuyCoin(){
+		return MainHandler.getHandler().buyCoin(client);
 	}
 
 	public boolean testPeakArena() {
@@ -808,29 +808,29 @@ public class Robot {
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
 	
-	public void createGroupSecret(){
-		GroupSecretHandler.getInstance().createGroupSecret(client);
+	public boolean createGroupSecret(){
+		return GroupSecretHandler.getInstance().createGroupSecret(client);
 	}
 	
-	public void searchGroupSecret(){
-		GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
+	public boolean searchGroupSecret(){
+		return GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
 	}
 	
-	public void attackEnemyGroupSecret(){
-		GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
+	public boolean attackEnemyGroupSecret(){
+		return GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
 	}
 	
-	public void getGroupSecretReward(){
-		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
+	public boolean getGroupSecretReward(){
+		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 	}
 	
-	public void inviteMemberDefend(){
-		GroupSecretHandler.getInstance().inviteMemberDefend(client);
+	public boolean inviteMemberDefend(){
+		return GroupSecretHandler.getInstance().inviteMemberDefend(client);
 	}
 	
-	public void acceptMemberDefend(){
+	public boolean acceptMemberDefend(){
 		ChatHandler.instance().sendRequestTreasure(client);
-		GroupSecretHandler.getInstance().acceptMemberDefend(client);
+		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
 	
 	/**前两个参数控制前4个道具及5种相关操作,后两个参数控制后两个参数的4种操作类型;同时只可操作一个道具;操作前者后者置-1,反之亦然

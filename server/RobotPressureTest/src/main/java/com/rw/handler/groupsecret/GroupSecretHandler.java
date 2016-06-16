@@ -37,7 +37,7 @@ public class GroupSecretHandler {
 	 * 探索
 	 * @param client
 	 */
-	public void createGroupSecret(Client client) {
+	public boolean createGroupSecret(Client client) {
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.CREATE_GROUP_SECRET);
 		CreateGroupSecretReqMsg.Builder msg = CreateGroupSecretReqMsg.newBuilder();
@@ -57,10 +57,10 @@ public class GroupSecretHandler {
 			}
 		}
 		req.setCreateReqMsg(msg);
-		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
 	}
 	
-	public void inviteMemberDefend(Client client){
+	public boolean inviteMemberDefend(Client client){
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.INVITE_MEMBER_DEFEND);
 		GroupNormalMemberHolder normalMemberHolder = client.getNormalMemberHolder();
@@ -71,25 +71,25 @@ public class GroupSecretHandler {
 		String defendSecretId = groupSecretBaseInfoSynDataHolder.getDefendSecretId();
 		if(defendSecretId == null){
 			RobotLog.fail("你当前没有秘境，邀请秘境失败");
-			return;
+			return false;
 		}
 		if(randomMemberId == null){
 			RobotLog.fail("当前帮派没有成员，邀请秘境失败");
-			return;
+			return false;
 		}
 		msg.setId(defendSecretId);
 		msg.addMemberId(randomMemberId);
-		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "发送邀请"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "发送邀请"));
 	}
 	
-	public void acceptMemberDefend(Client client){
+	public boolean acceptMemberDefend(Client client){
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.JOIN_SECRET_DEFEND);
 		GroupSecretInviteDataHolder groupSecretInviteDataHolder = client.getGroupSecretInviteDataHolder();
 		List<ChatMessageData> list = groupSecretInviteDataHolder.getList();
 		if(list == null || list.size()<=0){
 			RobotLog.fail("当前没有秘境邀请，接受失败");
-			return;
+			return false;
 		}
 		ChatMessageData chatMessageData = list.get(0);
 		String treasureId = chatMessageData.getTreasureId();
@@ -107,7 +107,7 @@ public class GroupSecretHandler {
 			}
 		}
 		msg.addAllHeroId(battleHeroList);
-		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "接受邀请"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "接受邀请"));
 	}
 
 	private class GroupSecretReceier extends PrintMsgReciver {

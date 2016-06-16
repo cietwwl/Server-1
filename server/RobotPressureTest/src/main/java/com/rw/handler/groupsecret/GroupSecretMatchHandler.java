@@ -30,10 +30,10 @@ public class GroupSecretMatchHandler {
 	 * 匹配秘境
 	 * @param client
 	 */
-	public void searchGroupSecret(Client client){
+	public boolean searchGroupSecret(Client client){
 		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg.newBuilder();
 		req.setReqType(MatchRequestType.SEARCHING_ENEMY);
-		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "匹配秘境"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "匹配秘境"));
 		
 	}
 	
@@ -41,7 +41,7 @@ public class GroupSecretMatchHandler {
 	 * 攻击匹配秘境
 	 * @param client
 	 */
-	public void attackEnemyGroupSecret(Client client){
+	public boolean attackEnemyGroupSecret(Client client){
 		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg.newBuilder();
 		req.setReqType(MatchRequestType.ATTACK_ENEMY_START);
 		AttackEnemyStartReqMsg.Builder msg = AttackEnemyStartReqMsg.newBuilder();
@@ -57,17 +57,17 @@ public class GroupSecretMatchHandler {
 			}
 		}
 		msg.addAllHeroList(battleHeroList);
-		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "匹配秘境"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "匹配秘境"));
 	}
 	
 	/**
 	 * 秘境奖励
 	 * @param client
 	 */
-	public void getGroupSecretReward(Client client){
+	public boolean getGroupSecretReward(Client client){
 		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg.newBuilder();
 		req.setReqType(MatchRequestType.GET_REWARD);
-		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "秘境奖励"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "秘境奖励"));
 	}
 	
 	private class GroupSecretMatchReceier extends PrintMsgReciver {
