@@ -3,6 +3,7 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.groupChamp.data.GroupChampArmyItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
@@ -89,6 +90,8 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
+	private static MapItemStoreCache<GroupChampArmyItem> groupChampArmyItemCache;
+	
 	private static List<MapItemStoreCache> list;
 
 	private static boolean init = false;
@@ -164,6 +167,8 @@ public class MapItemStoreFactory {
 		register(angelArrayEnemyInfoData = new MapItemStoreCache<AngelArrayEnemyInfoData>(AngelArrayEnemyInfoData.class, "userId", heroCapacity));
 
 		register(magicChapterInfoCache = new MapItemStoreCache<MagicChapterInfo>(MagicChapterInfo.class, "userId", heroCapacity));
+		
+		register(groupChampArmyItemCache = new MapItemStoreCache<GroupChampArmyItem>(GroupChampArmyItem.class, "champId", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -318,6 +323,16 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
 		return fixNormEquipDataItemCache;
+	}
+
+	
+	public static MapItemStoreCache<GroupChampArmyItem> getGroupChampArmyItemCache() {
+		return groupChampArmyItemCache;
+	}
+
+	public static void setGroupChampArmyItemCache(
+			MapItemStoreCache<GroupChampArmyItem> groupChampArmyItemCache) {
+		MapItemStoreFactory.groupChampArmyItemCache = groupChampArmyItemCache;
 	}
 
 	/**

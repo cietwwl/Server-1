@@ -26,6 +26,7 @@ public enum LogModule {
 	ComActivityVitality("通用活动_VitalityType"),
 	
 	FixEquip("专属装备"),
+	GroupChamp("帮派竞技"),
 	GroupSecret("帮派秘境"),
 	MagicSecret("法宝秘境"),
 	;
