@@ -17,7 +17,8 @@ public class PlayerTempAttribute {
 	private final AtomicBoolean levelChanged;
 	private final AtomicBoolean heroFightingChanged;
 	private final AtomicBoolean checkRedPoint;
-	
+	private boolean recordChanged; //竞技场日志变动
+
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
 		this.levelChanged = new AtomicBoolean();
@@ -36,13 +37,14 @@ public class PlayerTempAttribute {
 	public void setHeroFightingChanged() {
 		this.heroFightingChanged.set(true);
 	}
-	
-	public void setRedPointChanged(){
+
+	public void setRedPointChanged() {
 		this.checkRedPoint.set(true);
 	}
 
 	/**
 	 * 检查角色的经验是否发生变化，如果是重置为未变化
+	 * 
 	 * @return
 	 */
 	public boolean checkAndResetExpChanged() {
@@ -51,6 +53,7 @@ public class PlayerTempAttribute {
 
 	/**
 	 * 检查角色的等级是否发生变化，如果是重置为未变化
+	 * 
 	 * @return
 	 */
 	public boolean checkAndResetLevelChanged() {
@@ -59,16 +62,17 @@ public class PlayerTempAttribute {
 
 	/**
 	 * 检查角色的战力是否发生变化，如果是重置为未变化
+	 * 
 	 * @return
 	 */
 	public boolean checkAndResetFightingChanged() {
 		return getBooleanAndReset(heroFightingChanged);
 	}
 
-	public boolean checkAndResetRedPoint(){
+	public boolean checkAndResetRedPoint() {
 		return getBooleanAndReset(checkRedPoint);
 	}
-	
+
 	private boolean getBooleanAndReset(AtomicBoolean atomicBool) {
 		boolean current = atomicBool.get();
 		if (!current) {
@@ -76,4 +80,13 @@ public class PlayerTempAttribute {
 		}
 		return atomicBool.getAndSet(false);
 	}
+
+	public boolean isRecordChanged() {
+		return recordChanged;
+	}
+
+	public void setRecordChanged(boolean recordChanged) {
+		this.recordChanged = recordChanged;
+	}
+
 }

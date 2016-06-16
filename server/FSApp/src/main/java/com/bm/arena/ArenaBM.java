@@ -479,7 +479,7 @@ public class ArenaBM {
 		return tableArenaDataDAO.get(userId).getRecordList();
 	}
 
-	public void addRecord(TableArenaData table, RecordInfo record) {
+	public void addRecord(TableArenaData table, RecordInfo record, boolean updateDB) {
 		// 此方法不是线程安全
 		List<RecordInfo> list = table.getRecordList();
 		int size = list.size();
@@ -494,7 +494,9 @@ public class ArenaBM {
 			record.setRecordId(last.getRecordId() + 1);
 		}
 		list.add(record);
-		tableArenaDataDAO.update(table);
+		if (updateDB) {
+			tableArenaDataDAO.update(table);
+		}
 	}
 
 	public void onPlayerChanged(Player player) {

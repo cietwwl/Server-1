@@ -29,6 +29,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.arena.ArenaCostCfgDAO;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.ArenaUpPrizeCfgDAO;
@@ -245,13 +246,20 @@ public class ArenaHandler {
 	public ByteString getArenaRecordInfo(MsgArenaRequest request, Player player) {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
-
-		List<RecordInfo> listRecord = ArenaBM.getInstance().getArenaRecordList(player.getUserId());
-		for (RecordInfo record : listRecord) {
-			response.addListRecord(getArenaRecord(record));
+		TableArenaDataDAO arenaDAO = TableArenaDataDAO.getInstance();
+		String userId = player.getUserId();
+		TableArenaData arenaTable = arenaDAO.get(userId);
+		if (arenaTable == null) {
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+		} else {
+			List<RecordInfo> listRecord = arenaTable.getRecordList();
+			for (RecordInfo record : listRecord) {
+				response.addListRecord(getArenaRecord(record));
+			}
+			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+			PlayerTempAttribute tempAttribute = player.getTempAttribute();
+			tempAttribute.setRecordChanged(false);
 		}
-
-		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return response.build().toByteString();
 	}
 
@@ -412,27 +420,26 @@ public class ArenaHandler {
 			return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
 		}
 
+		boolean isWin = win == 1;
 		ArenaExtAttribute enemyExt = enemyEntry.getExtension();
 		// 必须交换完双方位置才能设置战斗状态
 		try {
 			// 挑战者(我)胜利的情况
-			if (win == 1) {
+			if (isWin) {
 				// 这里多线程情况会导致交换出错
 				if (entry != null) {
-					if (entry.getRanking() > enemyEntry.getRanking()) {
-						if (!ranking.swap(userId, enemyUserId)) {
-							if (ranking.contains(userId)) {
-								return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
-							}
-							arenaExt = ArenaBM.getInstance().createArenaExt(player);
-							try {
-								ranking.replace(userId, arenaExt, enemyUserId);
-							} catch (ReplacerAlreadyExistException e) {
-								GameLog.error("严重错误@竞技场#replace失败：" + userId);
-								return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
-							} catch (ReplaceTargetNotExistException e) {
-								return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
-							}
+					if (entry.getRanking() > enemyEntry.getRanking() && !ranking.swap(userId, enemyUserId)) {
+						if (ranking.contains(userId)) {
+							return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
+						}
+						arenaExt = ArenaBM.getInstance().createArenaExt(player);
+						try {
+							ranking.replace(userId, arenaExt, enemyUserId);
+						} catch (ReplacerAlreadyExistException e) {
+							GameLog.error("严重错误@竞技场#replace失败：" + userId);
+							return sendFailResponse(response, ArenaConstant.UNKOWN_EXCEPTION, player);
+						} catch (ReplaceTargetNotExistException e) {
+							return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
 						}
 					}
 					// 排名比他高，就不做处理啦
@@ -566,13 +573,13 @@ public class ArenaHandler {
 
 			}
 			m_MyArenaData.setWinCount(m_MyArenaData.getWinCount() + 1);
-			ArenaBM.getInstance().addRecord(m_MyArenaData, record);
+			ArenaBM.getInstance().addRecord(m_MyArenaData, record, false);
 
 			RecordInfo recordForEnemy = new RecordInfo();
 			recordForEnemy.setHurtList(hurtValueList_);
 			recordForEnemy.setUserId(m_MyArenaData.getUserId());
 			recordForEnemy.setWin(1 - win);
-			if (win == 0) {
+			if (!isWin) {
 				recordForEnemy.setPlaceUp(0);
 			} else {
 				// TODO 这里排名变化准确需要ListRanking支持，迟点实现
@@ -585,12 +592,15 @@ public class ArenaHandler {
 			recordForEnemy.setLevel(m_MyArenaData.getLevel());
 			recordForEnemy.setTime(currentTime);
 			recordForEnemy.setChallenge(0);
-			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy);
+			ArenaBM.getInstance().addRecord(enemyArenaData, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
 			ArenaInfoCfg arenaInfoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 			m_MyArenaData.setNextFightTime(System.currentTimeMillis() + arenaInfoCfg.getCdTime() * 1000);
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
+			//胜利时增加的积分
+			int addScore = isWin ? 2 : 1;
+			m_MyArenaData.setScore(m_MyArenaData.getScore() + addScore);
 			TableArenaDataDAO.getInstance().update(m_MyArenaData);
 
 			MsgArenaResponse.Builder recordBuilder = MsgArenaResponse.newBuilder();
@@ -610,12 +620,12 @@ public class ArenaHandler {
 			enemyExt.setNotFighting();
 		}
 	}
-	
-	private int getRound(float value){
+
+	private int getRound(float value) {
 		int r = Math.round(value);
-		if(r <= 0){
+		if (r <= 0) {
 			return 1;
-		}else{
+		} else {
 			return r;
 		}
 	}
@@ -630,7 +640,7 @@ public class ArenaHandler {
 			return response.build().toByteString();
 		}
 		int remainCount = m_MyArenaData.getRemainCount();
-		if(remainCount > 0){
+		if (remainCount > 0) {
 			response.setArenaData(getArenaData(m_MyArenaData));
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
@@ -699,7 +709,7 @@ public class ArenaHandler {
 			return response.build().toByteString();
 		}
 		long nextFightingTime = m_MyArenaData.getNextFightTime();
-		if(nextFightingTime <= 0){
+		if (nextFightingTime <= 0) {
 			response.setArenaData(getArenaData(m_MyArenaData));
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 			return response.build().toByteString();
