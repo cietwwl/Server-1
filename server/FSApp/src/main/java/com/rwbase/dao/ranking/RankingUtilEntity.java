@@ -100,7 +100,7 @@ public class RankingUtilEntity {
 				levelData.setHeadbox(defaultHeadBoxList.get(0));
 			}
 			rankInfo.setHeadbox(levelData.getHeadbox());
-			//TODO 设置时装数据，速度很慢，需要优化
+			// 设置时装数据
 			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(levelData.getUserId());
 			if (fashionUsing != null){
 				rankInfo.setFashionUsage(fashionUsing);

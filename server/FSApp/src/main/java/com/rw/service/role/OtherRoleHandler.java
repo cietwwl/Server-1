@@ -53,16 +53,17 @@ public class OtherRoleHandler {
 	}
 
 	public void setOtherInfo(OtherRoleAttr.Builder otherRoleAttr,PlayerIF player) {
-		//by franky
-		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player);
-		if (usingFashion != null){
-			otherRoleAttr.setFashionUsage(usingFashion);
-		}
-		
 		TableUserIF tableUser = player.getTableUser();
 		otherRoleAttr.setUserId(tableUser.getUserId());
 		otherRoleAttr.setLevel(player.getLevel());
 		otherRoleAttr.setUserName(tableUser.getUserName());
+		
+		//by franky
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(tableUser.getUserId());
+		if (usingFashion != null){
+			otherRoleAttr.setFashionUsage(usingFashion);
+		}
+		
 
 		if (tableUser.getHeadImageWithDefault() == null) {
 			otherRoleAttr.setHeadImage("");

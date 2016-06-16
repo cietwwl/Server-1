@@ -7,10 +7,8 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.FashionMgr;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
-import com.playerdata.readonly.FashionMgrIF;
-import com.playerdata.readonly.PlayerIF;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.fashion.FashionBuyRenewCfg;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfg;
@@ -175,43 +173,35 @@ public class FashionHandle {
 	}
  
 	public FashionUsed.Builder getFashionUsedProto(String uid){
-		PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(uid);
-		return getFashionUsedProto(readOnlyPlayer);
-	}
-
-	public FashionUsed.Builder getFashionUsedProto(PlayerIF readOnlyPlayer) {
-		if (readOnlyPlayer != null) {
-			FashionMgrIF fmgr = readOnlyPlayer.getFashionMgr();
-			FashionUsedIF fashionUsed = fmgr.getFashionUsed();
-			if (fashionUsed != null) {
-				//by Franky:
-				FashionUsed.Builder value = FashionUsed.newBuilder();
-				boolean fashionSet = false;
-				int wingId = fashionUsed.getWingId();
-				if (wingId != -1){
-					value.setWingId(wingId);
-					fashionSet = true;
-				}
-				int petId = fashionUsed.getPetId();
-				if (petId != -1){
-					value.setPetId(petId);
-					fashionSet = true;
-				}
-				int suitId = fashionUsed.getSuitId();
-				if (suitId != -1){
-					value.setSuitId(suitId);
-					fashionSet = true;
-				}
-				if (fashionSet){
-					return value;
-				}
+		//绕开player直接加载时装数据
+		FashionBeingUsedHolder holder = FashionBeingUsedHolder.getInstance();
+		FashionUsedIF fashionUsed = holder.get(uid);
+		if (fashionUsed != null) {
+			//by Franky:
+			FashionUsed.Builder value = FashionUsed.newBuilder();
+			boolean fashionSet = false;
+			int wingId = fashionUsed.getWingId();
+			if (wingId != -1){
+				value.setWingId(wingId);
+				fashionSet = true;
 			}
-		} else {
-			// print error log
+			int petId = fashionUsed.getPetId();
+			if (petId != -1){
+				value.setPetId(petId);
+				fashionSet = true;
+			}
+			int suitId = fashionUsed.getSuitId();
+			if (suitId != -1){
+				value.setSuitId(suitId);
+				fashionSet = true;
+			}
+			if (fashionSet){
+				return value;
+			}
 		}
 		return null;
 	}
-	
+
 	private ByteString setErrorResponse(Builder response, Player player, String addedLog, String reason,
 			ErrorType err) {
 		if (addedLog != null){
