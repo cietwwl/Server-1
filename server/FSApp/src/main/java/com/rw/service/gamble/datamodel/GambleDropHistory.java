@@ -13,7 +13,7 @@ public class GambleDropHistory {
 	//历史纪录队列，越早的越靠前，越迟的越靠后
 	private List<String> chargeGambleHistory;
 	private List<String> freeGambleHistory;
-	private int freeCount;// 免费抽卡次数，每日重置
+	private int freeCount;// 当天使用免费抽卡次数，每日重置
 	private long lastFreeGambleTime;
 	private int hotCount;// 热点英雄抽卡次数，保底时重置
 	private int hotCheckRandomThreshold;
