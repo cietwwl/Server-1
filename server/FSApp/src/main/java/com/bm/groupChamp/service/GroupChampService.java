@@ -4,11 +4,9 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.fixEquip.exp.FixExpEquipHandler;
-import com.playerdata.fixEquip.norm.FixNormEquipHandler;
 import com.rw.service.FsService;
-import com.rwproto.FixEquipProto.CommonReqMsg;
-import com.rwproto.FixEquipProto.RequestType;
+import com.rwproto.GroupChampProto.CommonReqMsg;
+import com.rwproto.GroupChampProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 
@@ -18,17 +16,16 @@ public class GroupChampService implements FsService {
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		
-		FixExpEquipHandler expEquipHandler = FixExpEquipHandler.getInstance();
-		FixNormEquipHandler normEquipHandler = FixNormEquipHandler.getInstance();
 		
+		GroupChampHandler handler = GroupChampHandler.getInstance();
 		ByteString byteString = null;
 		try {
 			CommonReqMsg commonReq = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 			
 			RequestType reqType = commonReq.getReqType();
 			switch (reqType) {	
-			case Norm_level_up:
-				byteString = normEquipHandler.levelUp(player, commonReq);
+			case Enter:
+				byteString = handler.enter(player,commonReq);
 				break;
 			
 			default:
