@@ -1,0 +1,3 @@
+Key,Remarks,id,sort,goToType,title,subTitle,titleBG,dropStartTimeStr,dropEndTimeStr,changeStartTimeStr,changeEndTimeStr,levelLimit,version
+901,,901,1,2,端午,端午兑换,打副本掉道具,201606030000,201606212359,201606030000,201606232359,30,1
+902,,902,2,2,中秋,中秋兑换,打副本掉道具,201606030000,201606282359,201606030000,201606232359,25,1
