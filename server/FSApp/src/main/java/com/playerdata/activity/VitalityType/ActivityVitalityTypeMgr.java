@@ -39,6 +39,7 @@ public class ActivityVitalityTypeMgr {
 	}
 
 	public void synVitalityTypeData(Player player) {
+		checkCfgVersion(player);
 		ActivityVitalityItemHolder.getInstance().synAllData(player);
 	}
 	
