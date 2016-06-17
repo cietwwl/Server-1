@@ -159,7 +159,7 @@ public class DropItemManager {
 					// 达到最小概率时必掉
 					if (minRate > 0) {
 						if (currentRate <= minRate) {
-							addOrMerge(dropItemInfoList, dropCfg,copyCfg,player);
+							addOrMerge(dropItemInfoList, dropCfg,copyCfg,player,firstDrop);
 							adjustmentMap.put(dropRecordId, DropAdjustmentState.MIN_RATE);
 							minRateDrop = true;
 							break;
@@ -194,7 +194,7 @@ public class DropItemManager {
 						}
 					}
 					if (random < rate) {
-						addOrMerge(dropItemInfoList, dropCfg,copyCfg,player);
+						addOrMerge(dropItemInfoList, dropCfg,copyCfg,player,firstDrop);
 						if (addRate) {
 							adjustmentMap.put(dropRecordId, DropAdjustmentState.ADD_RATE);
 						}
@@ -219,9 +219,12 @@ public class DropItemManager {
 		return dropItemInfoList;
 	}
 	/**传入copy对象，在此判断是否激活了通用活动双倍*/
-	private void addOrMerge(List<ItemInfo> list, DropCfg dropCfg,CopyCfg copyCfg,Player player) {
-		boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0));
-		int multiple = isRateOpen?2:1;
+	private void addOrMerge(List<ItemInfo> list, DropCfg dropCfg,CopyCfg copyCfg,Player player,boolean isfirst) {
+		int multiple = 1;
+		if(!isfirst){
+			boolean isRateOpen = ActivityRateTypeMgr.getInstance().isActivityOnGoing(player, ActivityRateTypeEnum.getByCopyTypeAndRewardsType(copyCfg.getLevelType(), 0));
+			multiple = isRateOpen?2:1;
+		}
 		int id = dropCfg.getItemCfgId();
 		for (int i = list.size(); --i >= 0;) {
 			ItemInfo info = list.get(i);
