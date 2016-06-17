@@ -203,6 +203,7 @@ public class DateUtils {
 		Calendar calendar = getCalendar();
 		// long curTime = calendar.getTimeInMillis();// 当前时间
 		long curTime = System.currentTimeMillis();
+		calendar.setTimeInMillis(curTime);
 		// 重置时间
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, minute);
@@ -228,6 +229,7 @@ public class DateUtils {
 		Calendar calendar = getCalendar();
 		// long curTime = calendar.getTimeInMillis();// 当前时间
 		long curTime = System.currentTimeMillis();
+		calendar.setTimeInMillis(curTime);
 		// 重置时间
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 		calendar.set(Calendar.MINUTE, minute);
