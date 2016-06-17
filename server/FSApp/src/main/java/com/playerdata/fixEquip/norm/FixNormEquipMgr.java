@@ -16,6 +16,8 @@ import com.playerdata.fixEquip.cfg.FixEquipCfg;
 import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfg;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfg;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfg;
@@ -174,6 +176,39 @@ public class FixNormEquipMgr {
 	}
 	
 	
+	public List<String> qualityUpList(Player player, String ownerId){
+		
+		List<String> upIdList = new ArrayList<String>();
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
+		
+		for (FixNormEquipDataItem dataItem : itemList) {
+			int level = dataItem.getLevel();
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());			
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(level == nextQualityLevel){
+				FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
+				if(result.isSuccess()){
+					upIdList.add(dataItem.getId());
+				}
+			}
+		}
+		return upIdList;
+		
+	}
+	public List<String> starUpList(Player player, String ownerId){
+		List<String> upIdList = new ArrayList<String>();
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
+		for (FixNormEquipDataItem dataItem : itemList) {
+			FixEquipResult result = checkStarUp(player, ownerId, dataItem);
+			if(result.isSuccess()){
+				upIdList.add(dataItem.getId());
+			}
+			
+		}
+		return upIdList;
+		
+	}
+	
 
 	public FixEquipResult levelUpOneKey(Player player, String ownerId, String itemId){
 		
@@ -277,7 +312,7 @@ public class FixNormEquipMgr {
 		
 		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 		
-		FixEquipResult result = checkQuality(player, ownerId, dataItem);
+		FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
 		if(result.isSuccess()){			
 			result = doQualityUp(player, dataItem);
 		}
@@ -285,7 +320,7 @@ public class FixNormEquipMgr {
 		return result;
 	}
 
-	private FixEquipResult checkQuality(Player player, String ownerId, FixNormEquipDataItem dataItem){
+	private FixEquipResult checkQualityUp(Player player, String ownerId, FixNormEquipDataItem dataItem){
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		if(dataItem == null){
