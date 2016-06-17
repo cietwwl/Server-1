@@ -224,7 +224,7 @@ public class DataSynVersionHolder {
 				ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
-		orderList.add(eSynType.ActivityCountType);
+		orderList.add(eSynType.ActivityTimeCardType);
 
 		notInVersionControlList.add(notInVersionControlP);
 		
