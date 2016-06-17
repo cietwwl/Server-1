@@ -248,8 +248,12 @@ public class GroupSecretHelper {
 			int zoneId = enemyData.getZoneId();
 			String zoneName = enemyData.getZoneName();
 
-			DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-					readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName)) : new DefendUserInfoSynData(index, true, null);
+			// DefendUserInfoSynData userInfo = isHasLife ? new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId,
+			// readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
+			// readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName)) : new
+			// DefendUserInfoSynData(index, true, null);
+			DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, !isHasLife, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
+					readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName));
 			defendUserInfoMap.put(index, userInfo);
 		}
 	}
@@ -312,9 +316,9 @@ public class GroupSecretHelper {
 		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
 				enemyData.getAllRobGSValue(), enemyData.getGroupId());
 
-		if (beat) {// 如果已经打败了
-			return new GroupSecretDataSynData(baseInfo, null);
-		}
+		// if (beat) {// 如果已经打败了
+		// return new GroupSecretDataSynData(baseInfo, null);
+		// }
 
 		if (protectTimeMillis > 0) {
 			long now = System.currentTimeMillis();
