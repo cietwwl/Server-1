@@ -268,7 +268,7 @@ public class GroupSecretMatchEnemyDataMgr {
 	 */
 	private void removeData(Player player, String id) {
 		// 同步数据
-		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0));
+		player.getBaseHolder().removeData(player, new SecretBaseInfoSynData(id, 0, true, 0, 0, 0, 0, 0, 0, ""));
 		player.getTeamHolder().removeData(player, new SecretTeamInfoSynData(id, null, 0));
 	}
 }
