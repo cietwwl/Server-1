@@ -88,8 +88,7 @@ public class FixExpEquipMgr {
 			FixExpEquipDataItem.setSlot(slot);
 			
 			equipItemList.add(FixExpEquipDataItem);
-			slot++;
-			
+			slot++;		
 			
 		}
 		
@@ -186,6 +185,40 @@ public class FixExpEquipMgr {
 		}
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(attrMap.values());
 		return attrItemList;
+	}
+	
+	public List<String> qualityUpList(Player player, String ownerId){
+		
+		List<String> upIdList = new ArrayList<String>();
+		
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		for (FixExpEquipDataItem dataItem : itemList) {
+			int level = dataItem.getLevel();
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());			
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(level == nextQualityLevel){
+				FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
+				if(result.isSuccess()){
+					upIdList.add(dataItem.getId());
+				}
+			}
+		}
+		return upIdList;
+		
+	}
+	public List<String> starUpList(Player player, String ownerId){
+		List<String> upIdList = new ArrayList<String>();
+		
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		for (FixExpEquipDataItem dataItem : itemList) {
+			FixEquipResult result = checkStarUp(player, ownerId, dataItem);
+			if(result.isSuccess()){
+				upIdList.add(dataItem.getId());
+			}
+			
+		}
+		return upIdList;
+		
 	}
 	
 	public FixEquipResult levelUp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams){
@@ -323,7 +356,7 @@ public class FixExpEquipMgr {
 		
 		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
 		
-		FixEquipResult result = checkQuality(player, ownerId, dataItem);
+		FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
 		if(result.isSuccess()){
 			result = doQualityUp(player, dataItem);
 		}
@@ -331,7 +364,7 @@ public class FixExpEquipMgr {
 		return result;
 	}
 
-	private FixEquipResult checkQuality(Player player, String ownerId, FixExpEquipDataItem dataItem){
+	private FixEquipResult checkQualityUp(Player player, String ownerId, FixExpEquipDataItem dataItem){
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		if(dataItem == null){
@@ -358,6 +391,12 @@ public class FixExpEquipMgr {
 			}
 			
 			
+		}
+		if(result.isSuccess()){
+			int curQuality = dataItem.getQuality();
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
+		
+			result = FixEquipHelper.checkCost(player, curQualityCfg.getCostType(), curQualityCfg.getCostCount());
 		}
 		return result;
 	}
@@ -417,6 +456,12 @@ public class FixExpEquipMgr {
 					result.setSuccess(true);
 				}
 			}
+		}
+		if(result.isSuccess()){
+			int curStar = dataItem.getStar();
+			FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
+			
+			result = FixEquipHelper.checkCost(player, curStarCfg.getUpCostType(), curStarCfg.getUpCount());
 		}
 		return result;
 	}
