@@ -14,6 +14,8 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.playerdata.groupFightOnline.uData.GFBiddingItem;
+import com.playerdata.groupFightOnline.uData.GFDefendArmyItem;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -91,6 +93,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
 	private static MapItemStoreCache<GroupChampArmyItem> groupChampArmyItemCache;
+	
+	private static MapItemStoreCache<GFDefendArmyItem> groupDefendArmyItemCache;
+	
+	private static MapItemStoreCache<GFBiddingItem> groupFightBiddingItemCache;
 	
 	private static List<MapItemStoreCache> list;
 
@@ -369,5 +375,22 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<MagicChapterInfo> getMagicChapterInfoCache() {
 		return magicChapterInfoCache;
+	}
+	
+	/**
+	 * 获取在线帮派战斗的防守队伍缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<GFDefendArmyItem> getGFDefendArmyCache() {
+		return groupDefendArmyItemCache;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<GFBiddingItem> getGFBiddingItemCache() {
+		return groupFightBiddingItemCache;
 	}
 }
