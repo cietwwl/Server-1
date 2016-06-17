@@ -1,6 +1,7 @@
 package com.rw.manager;
 
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +38,8 @@ public class TimerManager {
 	private static TimeSpanOpHelper timeSecondOp;// 秒时效
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("time_manager"));
-	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1);
+	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("biTimeService"));
+	private static ExecutorService heavyWeightsExecturos = Executors.newFixedThreadPool(4);
 
 	public static void init() {
 		final long SECOND = 1000;// 秒
@@ -64,11 +66,8 @@ public class TimerManager {
 		time5MinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
 			public void doTask() {
-				// PlayerMgr.getInstance().saveAllPlayer();
 				GuildDAO.getInstance().flush();
-				// SecretAreaInfoDAO.getInstance().flush();
 				UserArmyDataDAO.getInstance().flush();
-
 			}
 		}, MINUTE_5);
 
@@ -84,7 +83,13 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().dayZero4Func4AllPlayer();
-				RankingActivity.getInstance().notifyRecord();
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						RankingActivity.getInstance().notifyRecord();
+					}
+				});
 			}
 		}, 0);
 
@@ -92,10 +97,30 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				RankingMgr.getInstance().resetUpdateState();
+				// TODO 与allen沟通后临时解决慢速任务阻塞时效问题问题，时效需要整理
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						RankingMgr.getInstance().resetUpdateState();
+					}
+				});
+
 				PlayerMgr.getInstance().day5amFunc4AllPlayer();
-				AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
-				MSScoreRankMgr.dispatchMSDailyReward();
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						AngelArrayTeamInfoDataHolder.getHolder().resetAngelArrayTeamInfo();
+					}
+				});
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						MSScoreRankMgr.dispatchMSDailyReward();
+					}
+				});
 			}
 		}, 5);
 
@@ -103,7 +128,13 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				RankingMgr.getInstance().arenaCalculate();
+				heavyWeightsExecturos.execute(new Runnable() {
+
+					@Override
+					public void run() {
+						RankingMgr.getInstance().arenaCalculate();
+					}
+				});
 			}
 		}, 21);
 
@@ -129,6 +160,7 @@ public class TimerManager {
 					timeHourOp.tryRun();
 					dayOpOnZero.tryRun();
 					dayOpOn5Am.tryRun();
+					dayOpOn9Pm.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
 				}
@@ -172,13 +204,11 @@ public class TimerManager {
 					dayOpOn23h50m4Bilog.tryRun();
 					biTime10MinuteOp.tryRun();
 					biTimeMinuteOp.tryRun();
-					dayOpOn9Pm.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[biTimeService]", e);
 				}
 			}
 		}, 0, 1, TimeUnit.SECONDS);
-
 	}
 
 	/***** 每分刷新 *****/
@@ -187,7 +217,7 @@ public class TimerManager {
 		/**** 排行 ***/
 		// RankingMgr.getInstance().onTimeMinute();
 
-		//GambleMgr.minutesUpdate();
+		// GambleMgr.minutesUpdate();
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
 	}
