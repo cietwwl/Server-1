@@ -20,6 +20,24 @@ public class BattleTowerRoleInfo implements BattleTowerRoleInfoIF {
 	private int floor;// 挑战的最高层数
 	private String magicIcon;// 使用法宝的Icon
 	private List<BattleTowerHeroInfo> heroInfoList;// 试练塔挑战成功的阵容中的佣兵信息列表
+	private int magicLevel;
+	private String qualityId;
+
+	public String getQualityId() {
+		return qualityId;
+	}
+
+	public void setQualityId(String qualityId) {
+		this.qualityId = qualityId;
+	}
+
+	public int getMagicLevel() {
+		return magicLevel;
+	}
+
+	public void setMagicLevel(int magicLevel) {
+		this.magicLevel = magicLevel;
+	}
 
 	public BattleTowerRoleInfo() {
 		this.heroInfoList = new ArrayList<BattleTowerHeroInfo>();
