@@ -38,6 +38,34 @@ public class FixEquipHelper {
 		return itemsNeed;
 	}
 	
+	public static FixEquipResult checkCost(Player player, FixEquipCostType costType, int count){
+		
+		FixEquipResult result = FixEquipResult.newInstance(false);
+		
+		
+		switch (costType) {
+		case COIN:
+			if(checkCoin(player,count)){
+				result.setSuccess(true);
+			}else{
+				result.setSuccess(false);
+				result.setReason("金币不足");				
+			}
+			break;
+		case GOLD:
+			if(checkGold(player,count)){
+				result.setSuccess(true);
+			}else{
+				result.setSuccess(false);
+				result.setReason("钻石不足");				
+			}		
+			break;
+			
+		default:
+			break;
+		}
+		return result;
+	}
 	public static FixEquipResult takeCost(Player player, FixEquipCostType costType, int count){
 		
 		FixEquipResult result = FixEquipResult.newInstance(false);
@@ -73,6 +101,15 @@ public class FixEquipHelper {
 	private static boolean costCoin(Player player, int count) {
 		int resultCode = player.getUserGameDataMgr().addCoin(-count);
 		return resultCode == 0;
+	}
+	
+	private static boolean checkGold(Player player, int count) {
+		
+		return player.getUserGameDataMgr().isGoldEngough(-count);
+		
+	}
+	private static boolean checkCoin(Player player, int count) {
+		return player.getUserGameDataMgr().isCoinEnough(-count);
 	}
 	
 	final private static String emailCfgId = "10063";
