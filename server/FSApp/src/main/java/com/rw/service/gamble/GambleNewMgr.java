@@ -21,11 +21,10 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	}
 	
 	/**
-	 * 每天五点重置数据
+	 * 每天五点重置玩家的钓鱼台数据
 	 * @param player 
 	 */
 	public void resetForNewDay(){
-		GambleHotHeroPlan.resetHotHeroList(GambleLogic.getInstance().getRandom());
 		GambleRecordDAO.getInstance().reset(m_pPlayer.getUserId());
 		GameLog.info("钓鱼台", m_pPlayer.getUserId(), "每天五点重置数据", null);
 	}
