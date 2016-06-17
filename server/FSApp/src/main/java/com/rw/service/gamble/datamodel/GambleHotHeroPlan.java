@@ -126,6 +126,11 @@ public class GambleHotHeroPlan {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
+		if (result != null && result.getDateAsId() != null){
+			//System.out.println("gamble hot hero list already set for today:"+date);
+			return;
+		}
+		
 		if (result == null || result.getDateAsId() == null) {
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;

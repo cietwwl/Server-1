@@ -26,7 +26,7 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 	 */
 	public void resetForNewDay(){
 		GambleRecordDAO.getInstance().reset(m_pPlayer.getUserId());
-		GameLog.info("钓鱼台", m_pPlayer.getUserId(), "每天五点重置数据", null);
+		GameLog.info("钓鱼台", m_pPlayer.getUserId(), "每天五点重置玩家数据", null);
 	}
 
 	//用于GM命令！
