@@ -54,6 +54,10 @@ public interface BattleTowerRoleInfoIF {
 	 */
 	public String getMagicIcon();
 
+	public int getMagicLevel();
+	
+	public String getQualityId();
+	
 	/**
 	 * 获取参与试练塔阵容的佣兵的快照
 	 * 

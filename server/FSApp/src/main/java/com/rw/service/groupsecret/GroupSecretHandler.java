@@ -1101,6 +1101,13 @@ public class GroupSecretHandler {
 		int index = req.getIndex().getNumber();
 		DefendUserInfoData defendUserInfoData = groupSecretData.getDefendUserInfoData(index);
 		if (defendUserInfoData != null) {
+			// 同步数据到前台
+			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+			if (synMsg != null) {
+				player.getBaseHolder().updateSingleData(player, synMsg.getBase());
+				player.getTeamHolder().updateSingleData(player, synMsg.getTeam());
+			}
+
 			GroupSecretHelper.fillRspInfo(rsp, false, "据点已被其他成员派驻");
 			return rsp.build().toByteString();
 		}
@@ -1182,7 +1189,15 @@ public class GroupSecretHandler {
 
 		// 增加秘境防守阵容
 		if (!mgr.addDefendTeamInfo(createUserId, id, index, userInfoData)) {
-			GroupSecretHelper.fillRspInfo(rsp, false, "驻守失败");
+			// 同步数据到前台
+			GroupSecretDataSynData synMsg = GroupSecretHelper.parseGroupSecretData2Msg(groupSecretData, userId, player.getLevel());
+			if (synMsg != null) {
+				player.getBaseHolder().updateSingleData(player, synMsg.getBase());
+				player.getTeamHolder().updateSingleData(player, synMsg.getTeam());
+			}
+
+			GameLog.error("接受邀请驻守成员", userId, String.format("请求的秘境[%s],驻守点为[%s],已经有人驻守了", reqId, req.getIndex()));
+			GroupSecretHelper.fillRspInfo(rsp, false, "据点已被其他成员派驻");
 			return rsp.build().toByteString();
 		}
 

@@ -336,10 +336,8 @@ public final class AngleArrayMatchHelper {
 		return null;
 	}
 
-	private static final String[] fNameArr = {
-			"赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
-	private static final String[] sNameArr = {
-			"豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
+	private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
+	private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
 
 	/**
 	 * 获取角色信息
@@ -532,7 +530,7 @@ public final class AngleArrayMatchHelper {
 						heroTmpIdList.addAll(heroIdList);
 					} else {
 						for (int i = 0; i < needSize; i++) {
-							Integer hasValue = heroTmpIdList.remove(getRandomIndex(r, heroIdList.size()));
+							Integer hasValue = heroIdList.remove(getRandomIndex(r, heroIdList.size()));
 							if (hasValue != null) {
 								heroTmpIdList.add(hasValue);
 							}
