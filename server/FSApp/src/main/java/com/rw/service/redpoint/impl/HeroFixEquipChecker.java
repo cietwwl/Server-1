@@ -11,6 +11,8 @@ import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.rw.service.redpoint.RedPointType;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class HeroFixEquipChecker implements RedPointCollector {
 
@@ -31,9 +33,16 @@ public class HeroFixEquipChecker implements RedPointCollector {
 		List<String> heroIdList = heroMgr.getHeroIdList();
 
 		Set<String> heroIdSet = new HashSet<String>();
-		checkQualityUP(map, player, heroMgr, heroIdList, heroIdSet);
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())){
+			
+			checkQualityUP(map, player, heroMgr, heroIdList, heroIdSet);
+		}
 		
-		checkStarUp(map, player, heroMgr, heroIdList, heroIdSet);
+		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())){
+			
+			checkStarUp(map, player, heroMgr, heroIdList, heroIdSet);
+		}
+		
 		if(!heroIdSet.isEmpty()){
 			List<String> redHeroIdList = new ArrayList<String>(heroIdSet);
 			map.put(RedPointType.FIX_EQUIP_HERO_LIST, redHeroIdList);

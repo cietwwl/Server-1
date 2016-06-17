@@ -510,7 +510,6 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			curAttrData = new CurAttrData();
 			curAttrData.setId(heroId);
 			curAttrData.setCurLife(attrData.getLife());
-			curAttrData.setCurEnergy(attrData.getEnergy());
 		}
 
 		return curAttrData;

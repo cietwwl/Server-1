@@ -9,6 +9,7 @@ import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.readonly.HeroIF;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.eActivityType;
+import com.rwbase.common.enu.eQuaTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -77,9 +78,10 @@ public class Hero implements HeroIF {
 
 		// Attrmgr要在最后做初始化
 		m_AttrMgr.init(this);
-
-		m_FixExpEquipMgr.initIfNeed(m_pPlayer, this);
-		m_FixNormEquipMgr.initIfNeed(m_pPlayer, this);
+		if (!m_pPlayer.isRobot()) {
+			m_FixExpEquipMgr.initIfNeed(m_pPlayer, this);
+			m_FixNormEquipMgr.initIfNeed(m_pPlayer, this);
+		}
 	}
 
 	// 属性的初始化有依赖，要等所有的mgr初始化完了才能做属性的初始化。
@@ -168,15 +170,11 @@ public class Hero implements HeroIF {
 	/**
 	 * 是否可升星
 	 * 
-	 * @return -1:魂石不足;-2:铜钱不足;-3:最高星;-4配置错误；0:可升星
+	 * @return -1:魂石不足;-2:铜钱不足;-3:最高星;-4满星；0:可升星
 	 */
 	public int canUpgradeStar() {
 		int result = 0;
 		RoleCfg rolecfg = getHeroCfg();
-		if (rolecfg == null) {// 配置不存在
-			return -4;
-		}
-
 		int soulStoneCount = m_pPlayer.getItemBagMgr().getItemCountByModelId(rolecfg.getSoulStoneId());
 		if (soulStoneCount < rolecfg.getRisingNumber()) {
 			result = -1;
@@ -184,6 +182,9 @@ public class Hero implements HeroIF {
 			result = -2;
 		} else if (!StringUtils.isNotBlank(rolecfg.getNextRoleId())) {
 			result = -3;
+		} else if (getStarLevel() >= 5) {
+			// 满星
+			result = -4;
 		}
 
 		return result;
@@ -282,7 +283,12 @@ public class Hero implements HeroIF {
 			if (type == marqueeStar) {
 				MainMsgHandler.getInstance().sendPmdHpsx(m_pPlayer, heroCfg.getName(), num);
 			} else if (type == marqueeQuality) {
-				MainMsgHandler.getInstance().sendPmdHpJj(m_pPlayer, heroCfg.getName(), num);
+				Hero hero = m_pPlayer.getHeroMgr().getHeroByModerId(heroCfg.getModelId());
+				if(hero != null){
+					String qualityId = hero.getQualityId();
+					RoleQualityCfg roleQualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(qualityId);
+					MainMsgHandler.getInstance().sendPmdHpJj(m_pPlayer, heroCfg.getName(), num, roleQualityCfg);
+				}
 			}
 		}
 	}
@@ -317,7 +323,7 @@ public class Hero implements HeroIF {
 	 * @param level
 	 */
 	public void gmEditHeroLevel(int level) {
-		// int preLevel = getRoleBaseInfo().getLevel();
+		int preLevel = getRoleBaseInfo().getLevel();
 		m_roleBaseInfoMgr.setLevel(level);
 	}
 

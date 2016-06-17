@@ -182,6 +182,29 @@ public class UserGameDataMgr {
 	public int getChargeGold() {
 		return userGameDataHolder.get().getChargeGold();
 	}
+	
+	public boolean isGoldEngough(int value){
+		if(value>0){
+			return true;
+		}
+		
+		UserGameData tableUserOther = userGameDataHolder.get();
+		
+		int giftGold = tableUserOther.getGiftGold();
+		int chargeGold = tableUserOther.getChargeGold();
+		boolean hasEngoughGold = giftGold + chargeGold + value >= 0;
+		return hasEngoughGold;
+		
+	}
+	
+	public boolean isCoinEnough(int value){
+		if(value > 0){
+			return true;
+		}
+		UserGameData tableUserOther = userGameDataHolder.get();
+		long curCoin = tableUserOther.getCoin();
+		return curCoin + value >0;
+	}
 
 	public int addGold(int value) {
 		UserGameData tableUserOther = userGameDataHolder.get();

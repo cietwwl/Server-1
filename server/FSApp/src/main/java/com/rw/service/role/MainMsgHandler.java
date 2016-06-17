@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rwbase.dao.mainmsg.CfgPmdDAO;
 import com.rwbase.dao.mainmsg.PmdCfg;
+import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwproto.MainMsgProtos.EMsgType;
 import com.rwproto.MainMsgProtos.MainMsgResponse;
 import com.rwproto.MsgDef.Command;
@@ -225,44 +226,28 @@ public class MainMsgHandler {
 	//id:6、7、8、9、10显示为紫色
 	//id:11、12、13显示为橙色
 	/**伙伴进阶,蓝色以上**/
-	public void sendPmdHpJj(Player player,String pName,int num) 
+	public void sendPmdHpJj(Player player,String pName,int num, RoleQualityCfg roleQualityCfg) 
 	{
 	
 	    String st="";
-		if(num<=3)
-		{
+		String qualityName = roleQualityCfg.getQualityName();
+		if(qualityName.indexOf("白色") != -1 || qualityName.indexOf("绿色") != -1){
 			return;
 		}
 		
 		String colors="[ffffff]";
-		if(num<6)
+		if(qualityName.indexOf("蓝色") != -1)
 		{
-			int stNum=num-3;
-			st="蓝色";
-			if(stNum>0)
-			{
-				st+="+"+stNum;
-			}
-		
+			st= roleQualityCfg.getQualityName();
 			colors="[00b5ff]";
-		}else if(num<11)
+		}else if(qualityName.indexOf("紫色") != -1)
 		{
-			int stNum=num-6;
-			st="紫色";
-			if(stNum>0)
-			{
-				st+="+"+stNum;
-			}
+			st= roleQualityCfg.getQualityName();
 		
 			colors="[ef00ff]";
-		}else if(num<14)
+		}else if(qualityName.indexOf("橙色") != -1)
 		{
-			int stNum=num-11;
-			st="橙色";
-			if(stNum>0)
-			{
-				st+="+"+stNum;
-			}
+			st= roleQualityCfg.getQualityName();
 			colors="[ff7800]";
 		}
 		
