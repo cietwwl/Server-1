@@ -121,7 +121,7 @@ public class RedPointManager {
 		for (int i = list.size(); --i >= 0;) {
 			try {
 				list.get(i).fillRedPoints(player, map);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				GameLog.error("RedPointManager", "#getRedPointMap()", "红点刷新异常", e);
 			}
 		}

@@ -38,8 +38,8 @@ public class Hero implements HeroIF {
 	private SkillMgr m_SkillMgr = new SkillMgr();
 	private EquipMgr m_EquipMgr = new EquipMgr();
 	private InlayMgr m_inlayMgr = new InlayMgr();// 镶嵌宝石
-	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr();  //专属装备
-	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr();  //专属装备
+	private FixNormEquipMgr m_FixNormEquipMgr = new FixNormEquipMgr(); // 专属装备
+	private FixExpEquipMgr m_FixExpEquipMgr = new FixExpEquipMgr(); // 专属装备
 
 	// 新添加的英雄做基本属性和技能的初始化
 	public Hero(Player pPlayer, eRoleType roleTypeP, RoleCfg heroCfg, String roleUUId) {
@@ -56,13 +56,13 @@ public class Hero implements HeroIF {
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
 		m_SkillMgr.initSkill(heroCfg);
-		
+
 		pPlayer.getUserTmpGameDataFlag().setSynFightingAll(true);
-		
-//		m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
-//		m_FixExpEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
+
+		// m_FixNormEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
+		// m_FixExpEquipMgr.newHeroInit(pPlayer, roleUUId, modelId);
 	}
-	
+
 	public Hero(Player pPlayer, eRoleType roleTypeP, String roleUUId) {
 		roleType = roleTypeP;
 		m_pPlayer = pPlayer;
@@ -78,9 +78,10 @@ public class Hero implements HeroIF {
 
 		// Attrmgr要在最后做初始化
 		m_AttrMgr.init(this);
-		
-		m_FixExpEquipMgr.initIfNeed(m_pPlayer, this);
-		m_FixNormEquipMgr.initIfNeed(m_pPlayer, this);
+		if (!m_pPlayer.isRobot()) {
+			m_FixExpEquipMgr.initIfNeed(m_pPlayer, this);
+			m_FixNormEquipMgr.initIfNeed(m_pPlayer, this);
+		}
 	}
 
 	// 属性的初始化有依赖，要等所有的mgr初始化完了才能做属性的初始化。
@@ -117,13 +118,13 @@ public class Hero implements HeroIF {
 		m_FixNormEquipMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
-				m_AttrMgr.reCal();				
+				m_AttrMgr.reCal();
 			}
 		});
 		m_FixExpEquipMgr.regChangeCallBack(new Action() {
 			@Override
 			public void doAction() {
-				m_AttrMgr.reCal();				
+				m_AttrMgr.reCal();
 			}
 		});
 
@@ -420,6 +421,4 @@ public class Hero implements HeroIF {
 		return m_FixExpEquipMgr;
 	}
 
-	
-	
 }

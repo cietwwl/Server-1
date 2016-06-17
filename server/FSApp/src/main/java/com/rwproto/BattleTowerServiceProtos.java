@@ -21101,7 +21101,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string magicIcon = 6;</code>
      *
      * <pre>
-     *法宝的图标
+     *法宝的ModelId，客户端用这个ID读取配置表
      * </pre>
      */
     boolean hasMagicIcon();
@@ -21109,7 +21109,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string magicIcon = 6;</code>
      *
      * <pre>
-     *法宝的图标
+     *法宝的ModelId，客户端用这个ID读取配置表
      * </pre>
      */
     java.lang.String getMagicIcon();
@@ -21117,7 +21117,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string magicIcon = 6;</code>
      *
      * <pre>
-     *法宝的图标
+     *法宝的ModelId，客户端用这个ID读取配置表
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -21230,6 +21230,51 @@ public final class BattleTowerServiceProtos {
      * </pre>
      */
     int getStarNum();
+
+    // optional int32 magicLevel = 11;
+    /**
+     * <code>optional int32 magicLevel = 11;</code>
+     *
+     * <pre>
+     *法宝的等级
+     * </pre>
+     */
+    boolean hasMagicLevel();
+    /**
+     * <code>optional int32 magicLevel = 11;</code>
+     *
+     * <pre>
+     *法宝的等级
+     * </pre>
+     */
+    int getMagicLevel();
+
+    // optional string qualityId = 12;
+    /**
+     * <code>optional string qualityId = 12;</code>
+     *
+     * <pre>
+     *主角的品质配置ID
+     * </pre>
+     */
+    boolean hasQualityId();
+    /**
+     * <code>optional string qualityId = 12;</code>
+     *
+     * <pre>
+     *主角的品质配置ID
+     * </pre>
+     */
+    java.lang.String getQualityId();
+    /**
+     * <code>optional string qualityId = 12;</code>
+     *
+     * <pre>
+     *主角的品质配置ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getQualityIdBytes();
   }
   /**
    * Protobuf type {@code RankingRoleInfoMsg}
@@ -21337,6 +21382,16 @@ public final class BattleTowerServiceProtos {
             case 80: {
               bitField0_ |= 0x00000100;
               starNum_ = input.readInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000200;
+              magicLevel_ = input.readInt32();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000400;
+              qualityId_ = input.readBytes();
               break;
             }
           }
@@ -21571,7 +21626,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string magicIcon = 6;</code>
      *
      * <pre>
-     *法宝的图标
+     *法宝的ModelId，客户端用这个ID读取配置表
      * </pre>
      */
     public boolean hasMagicIcon() {
@@ -21581,7 +21636,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string magicIcon = 6;</code>
      *
      * <pre>
-     *法宝的图标
+     *法宝的ModelId，客户端用这个ID读取配置表
      * </pre>
      */
     public java.lang.String getMagicIcon() {
@@ -21602,7 +21657,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string magicIcon = 6;</code>
      *
      * <pre>
-     *法宝的图标
+     *法宝的ModelId，客户端用这个ID读取配置表
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -21778,6 +21833,85 @@ public final class BattleTowerServiceProtos {
       return starNum_;
     }
 
+    // optional int32 magicLevel = 11;
+    public static final int MAGICLEVEL_FIELD_NUMBER = 11;
+    private int magicLevel_;
+    /**
+     * <code>optional int32 magicLevel = 11;</code>
+     *
+     * <pre>
+     *法宝的等级
+     * </pre>
+     */
+    public boolean hasMagicLevel() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 magicLevel = 11;</code>
+     *
+     * <pre>
+     *法宝的等级
+     * </pre>
+     */
+    public int getMagicLevel() {
+      return magicLevel_;
+    }
+
+    // optional string qualityId = 12;
+    public static final int QUALITYID_FIELD_NUMBER = 12;
+    private java.lang.Object qualityId_;
+    /**
+     * <code>optional string qualityId = 12;</code>
+     *
+     * <pre>
+     *主角的品质配置ID
+     * </pre>
+     */
+    public boolean hasQualityId() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string qualityId = 12;</code>
+     *
+     * <pre>
+     *主角的品质配置ID
+     * </pre>
+     */
+    public java.lang.String getQualityId() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          qualityId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string qualityId = 12;</code>
+     *
+     * <pre>
+     *主角的品质配置ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getQualityIdBytes() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        qualityId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       rankIndex_ = 0;
       name_ = "";
@@ -21789,6 +21923,8 @@ public final class BattleTowerServiceProtos {
       isMyself_ = false;
       headFrame_ = "";
       starNum_ = 0;
+      magicLevel_ = 0;
+      qualityId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -21854,6 +21990,12 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(10, starNum_);
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(11, magicLevel_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(12, getQualityIdBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -21902,6 +22044,14 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(10, starNum_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, magicLevel_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getQualityIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -22048,6 +22198,10 @@ public final class BattleTowerServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000100);
         starNum_ = 0;
         bitField0_ = (bitField0_ & ~0x00000200);
+        magicLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        qualityId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -22121,6 +22275,14 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000100;
         }
         result.starNum_ = starNum_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.magicLevel_ = magicLevel_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.qualityId_ = qualityId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -22197,6 +22359,14 @@ public final class BattleTowerServiceProtos {
         }
         if (other.hasStarNum()) {
           setStarNum(other.getStarNum());
+        }
+        if (other.hasMagicLevel()) {
+          setMagicLevel(other.getMagicLevel());
+        }
+        if (other.hasQualityId()) {
+          bitField0_ |= 0x00000800;
+          qualityId_ = other.qualityId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -22596,7 +22766,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string magicIcon = 6;</code>
        *
        * <pre>
-       *法宝的图标
+       *法宝的ModelId，客户端用这个ID读取配置表
        * </pre>
        */
       public boolean hasMagicIcon() {
@@ -22606,7 +22776,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string magicIcon = 6;</code>
        *
        * <pre>
-       *法宝的图标
+       *法宝的ModelId，客户端用这个ID读取配置表
        * </pre>
        */
       public java.lang.String getMagicIcon() {
@@ -22624,7 +22794,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string magicIcon = 6;</code>
        *
        * <pre>
-       *法宝的图标
+       *法宝的ModelId，客户端用这个ID读取配置表
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -22644,7 +22814,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string magicIcon = 6;</code>
        *
        * <pre>
-       *法宝的图标
+       *法宝的ModelId，客户端用这个ID读取配置表
        * </pre>
        */
       public Builder setMagicIcon(
@@ -22661,7 +22831,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string magicIcon = 6;</code>
        *
        * <pre>
-       *法宝的图标
+       *法宝的ModelId，客户端用这个ID读取配置表
        * </pre>
        */
       public Builder clearMagicIcon() {
@@ -22674,7 +22844,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string magicIcon = 6;</code>
        *
        * <pre>
-       *法宝的图标
+       *法宝的ModelId，客户端用这个ID读取配置表
        * </pre>
        */
       public Builder setMagicIconBytes(
@@ -23196,6 +23366,153 @@ public final class BattleTowerServiceProtos {
         return this;
       }
 
+      // optional int32 magicLevel = 11;
+      private int magicLevel_ ;
+      /**
+       * <code>optional int32 magicLevel = 11;</code>
+       *
+       * <pre>
+       *法宝的等级
+       * </pre>
+       */
+      public boolean hasMagicLevel() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional int32 magicLevel = 11;</code>
+       *
+       * <pre>
+       *法宝的等级
+       * </pre>
+       */
+      public int getMagicLevel() {
+        return magicLevel_;
+      }
+      /**
+       * <code>optional int32 magicLevel = 11;</code>
+       *
+       * <pre>
+       *法宝的等级
+       * </pre>
+       */
+      public Builder setMagicLevel(int value) {
+        bitField0_ |= 0x00000400;
+        magicLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 magicLevel = 11;</code>
+       *
+       * <pre>
+       *法宝的等级
+       * </pre>
+       */
+      public Builder clearMagicLevel() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        magicLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string qualityId = 12;
+      private java.lang.Object qualityId_ = "";
+      /**
+       * <code>optional string qualityId = 12;</code>
+       *
+       * <pre>
+       *主角的品质配置ID
+       * </pre>
+       */
+      public boolean hasQualityId() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional string qualityId = 12;</code>
+       *
+       * <pre>
+       *主角的品质配置ID
+       * </pre>
+       */
+      public java.lang.String getQualityId() {
+        java.lang.Object ref = qualityId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          qualityId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string qualityId = 12;</code>
+       *
+       * <pre>
+       *主角的品质配置ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getQualityIdBytes() {
+        java.lang.Object ref = qualityId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          qualityId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string qualityId = 12;</code>
+       *
+       * <pre>
+       *主角的品质配置ID
+       * </pre>
+       */
+      public Builder setQualityId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string qualityId = 12;</code>
+       *
+       * <pre>
+       *主角的品质配置ID
+       * </pre>
+       */
+      public Builder clearQualityId() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        qualityId_ = getDefaultInstance().getQualityId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string qualityId = 12;</code>
+       *
+       * <pre>
+       *主角的品质配置ID
+       * </pre>
+       */
+      public Builder setQualityIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:RankingRoleInfoMsg)
     }
 
@@ -23215,7 +23532,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string heroId = 1;</code>
      *
      * <pre>
-     *佣兵的资源Id
+     *佣兵的头像Id
      * </pre>
      */
     boolean hasHeroId();
@@ -23223,7 +23540,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string heroId = 1;</code>
      *
      * <pre>
-     *佣兵的资源Id
+     *佣兵的头像Id
      * </pre>
      */
     java.lang.String getHeroId();
@@ -23231,15 +23548,15 @@ public final class BattleTowerServiceProtos {
      * <code>required string heroId = 1;</code>
      *
      * <pre>
-     *佣兵的资源Id
+     *佣兵的头像Id
      * </pre>
      */
     com.google.protobuf.ByteString
         getHeroIdBytes();
 
-    // required int32 starNum = 2;
+    // optional int32 starNum = 2;
     /**
-     * <code>required int32 starNum = 2;</code>
+     * <code>optional int32 starNum = 2;</code>
      *
      * <pre>
      *佣兵的星数
@@ -23247,7 +23564,7 @@ public final class BattleTowerServiceProtos {
      */
     boolean hasStarNum();
     /**
-     * <code>required int32 starNum = 2;</code>
+     * <code>optional int32 starNum = 2;</code>
      *
      * <pre>
      *佣兵的星数
@@ -23260,7 +23577,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 quality = 3;</code>
      *
      * <pre>
-     *佣兵的品质
+     *佣兵的品质配置ID
      * </pre>
      */
     boolean hasQuality();
@@ -23268,14 +23585,14 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 quality = 3;</code>
      *
      * <pre>
-     *佣兵的品质
+     *佣兵的品质配置ID
      * </pre>
      */
     int getQuality();
 
-    // required int32 level = 4;
+    // optional int32 level = 4;
     /**
-     * <code>required int32 level = 4;</code>
+     * <code>optional int32 level = 4;</code>
      *
      * <pre>
      *佣兵的等级
@@ -23283,7 +23600,7 @@ public final class BattleTowerServiceProtos {
      */
     boolean hasLevel();
     /**
-     * <code>required int32 level = 4;</code>
+     * <code>optional int32 level = 4;</code>
      *
      * <pre>
      *佣兵的等级
@@ -23308,6 +23625,33 @@ public final class BattleTowerServiceProtos {
      * </pre>
      */
     boolean getIsMainRole();
+
+    // optional string heroUUID = 6;
+    /**
+     * <code>optional string heroUUID = 6;</code>
+     *
+     * <pre>
+     *佣兵ID
+     * </pre>
+     */
+    boolean hasHeroUUID();
+    /**
+     * <code>optional string heroUUID = 6;</code>
+     *
+     * <pre>
+     *佣兵ID
+     * </pre>
+     */
+    java.lang.String getHeroUUID();
+    /**
+     * <code>optional string heroUUID = 6;</code>
+     *
+     * <pre>
+     *佣兵ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeroUUIDBytes();
   }
   /**
    * Protobuf type {@code RankingHeroInfoMsg}
@@ -23389,6 +23733,11 @@ public final class BattleTowerServiceProtos {
               isMainRole_ = input.readBool();
               break;
             }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              heroUUID_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -23436,7 +23785,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string heroId = 1;</code>
      *
      * <pre>
-     *佣兵的资源Id
+     *佣兵的头像Id
      * </pre>
      */
     public boolean hasHeroId() {
@@ -23446,7 +23795,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string heroId = 1;</code>
      *
      * <pre>
-     *佣兵的资源Id
+     *佣兵的头像Id
      * </pre>
      */
     public java.lang.String getHeroId() {
@@ -23467,7 +23816,7 @@ public final class BattleTowerServiceProtos {
      * <code>required string heroId = 1;</code>
      *
      * <pre>
-     *佣兵的资源Id
+     *佣兵的头像Id
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -23484,11 +23833,11 @@ public final class BattleTowerServiceProtos {
       }
     }
 
-    // required int32 starNum = 2;
+    // optional int32 starNum = 2;
     public static final int STARNUM_FIELD_NUMBER = 2;
     private int starNum_;
     /**
-     * <code>required int32 starNum = 2;</code>
+     * <code>optional int32 starNum = 2;</code>
      *
      * <pre>
      *佣兵的星数
@@ -23498,7 +23847,7 @@ public final class BattleTowerServiceProtos {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 starNum = 2;</code>
+     * <code>optional int32 starNum = 2;</code>
      *
      * <pre>
      *佣兵的星数
@@ -23515,7 +23864,7 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 quality = 3;</code>
      *
      * <pre>
-     *佣兵的品质
+     *佣兵的品质配置ID
      * </pre>
      */
     public boolean hasQuality() {
@@ -23525,18 +23874,18 @@ public final class BattleTowerServiceProtos {
      * <code>optional int32 quality = 3;</code>
      *
      * <pre>
-     *佣兵的品质
+     *佣兵的品质配置ID
      * </pre>
      */
     public int getQuality() {
       return quality_;
     }
 
-    // required int32 level = 4;
+    // optional int32 level = 4;
     public static final int LEVEL_FIELD_NUMBER = 4;
     private int level_;
     /**
-     * <code>required int32 level = 4;</code>
+     * <code>optional int32 level = 4;</code>
      *
      * <pre>
      *佣兵的等级
@@ -23546,7 +23895,7 @@ public final class BattleTowerServiceProtos {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 level = 4;</code>
+     * <code>optional int32 level = 4;</code>
      *
      * <pre>
      *佣兵的等级
@@ -23580,12 +23929,68 @@ public final class BattleTowerServiceProtos {
       return isMainRole_;
     }
 
+    // optional string heroUUID = 6;
+    public static final int HEROUUID_FIELD_NUMBER = 6;
+    private java.lang.Object heroUUID_;
+    /**
+     * <code>optional string heroUUID = 6;</code>
+     *
+     * <pre>
+     *佣兵ID
+     * </pre>
+     */
+    public boolean hasHeroUUID() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string heroUUID = 6;</code>
+     *
+     * <pre>
+     *佣兵ID
+     * </pre>
+     */
+    public java.lang.String getHeroUUID() {
+      java.lang.Object ref = heroUUID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          heroUUID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string heroUUID = 6;</code>
+     *
+     * <pre>
+     *佣兵ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeroUUIDBytes() {
+      java.lang.Object ref = heroUUID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        heroUUID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       heroId_ = "";
       starNum_ = 0;
       quality_ = 0;
       level_ = 0;
       isMainRole_ = false;
+      heroUUID_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -23593,14 +23998,6 @@ public final class BattleTowerServiceProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasHeroId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasStarNum()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasLevel()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -23625,6 +24022,9 @@ public final class BattleTowerServiceProtos {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBool(5, isMainRole_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getHeroUUIDBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -23654,6 +24054,10 @@ public final class BattleTowerServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, isMainRole_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getHeroUUIDBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -23785,6 +24189,8 @@ public final class BattleTowerServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         isMainRole_ = false;
         bitField0_ = (bitField0_ & ~0x00000010);
+        heroUUID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -23833,6 +24239,10 @@ public final class BattleTowerServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.isMainRole_ = isMainRole_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.heroUUID_ = heroUUID_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -23866,20 +24276,17 @@ public final class BattleTowerServiceProtos {
         if (other.hasIsMainRole()) {
           setIsMainRole(other.getIsMainRole());
         }
+        if (other.hasHeroUUID()) {
+          bitField0_ |= 0x00000020;
+          heroUUID_ = other.heroUUID_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasHeroId()) {
-          
-          return false;
-        }
-        if (!hasStarNum()) {
-          
-          return false;
-        }
-        if (!hasLevel()) {
           
           return false;
         }
@@ -23911,7 +24318,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string heroId = 1;</code>
        *
        * <pre>
-       *佣兵的资源Id
+       *佣兵的头像Id
        * </pre>
        */
       public boolean hasHeroId() {
@@ -23921,7 +24328,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string heroId = 1;</code>
        *
        * <pre>
-       *佣兵的资源Id
+       *佣兵的头像Id
        * </pre>
        */
       public java.lang.String getHeroId() {
@@ -23939,7 +24346,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string heroId = 1;</code>
        *
        * <pre>
-       *佣兵的资源Id
+       *佣兵的头像Id
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -23959,7 +24366,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string heroId = 1;</code>
        *
        * <pre>
-       *佣兵的资源Id
+       *佣兵的头像Id
        * </pre>
        */
       public Builder setHeroId(
@@ -23976,7 +24383,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string heroId = 1;</code>
        *
        * <pre>
-       *佣兵的资源Id
+       *佣兵的头像Id
        * </pre>
        */
       public Builder clearHeroId() {
@@ -23989,7 +24396,7 @@ public final class BattleTowerServiceProtos {
        * <code>required string heroId = 1;</code>
        *
        * <pre>
-       *佣兵的资源Id
+       *佣兵的头像Id
        * </pre>
        */
       public Builder setHeroIdBytes(
@@ -24003,10 +24410,10 @@ public final class BattleTowerServiceProtos {
         return this;
       }
 
-      // required int32 starNum = 2;
+      // optional int32 starNum = 2;
       private int starNum_ ;
       /**
-       * <code>required int32 starNum = 2;</code>
+       * <code>optional int32 starNum = 2;</code>
        *
        * <pre>
        *佣兵的星数
@@ -24016,7 +24423,7 @@ public final class BattleTowerServiceProtos {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 starNum = 2;</code>
+       * <code>optional int32 starNum = 2;</code>
        *
        * <pre>
        *佣兵的星数
@@ -24026,7 +24433,7 @@ public final class BattleTowerServiceProtos {
         return starNum_;
       }
       /**
-       * <code>required int32 starNum = 2;</code>
+       * <code>optional int32 starNum = 2;</code>
        *
        * <pre>
        *佣兵的星数
@@ -24039,7 +24446,7 @@ public final class BattleTowerServiceProtos {
         return this;
       }
       /**
-       * <code>required int32 starNum = 2;</code>
+       * <code>optional int32 starNum = 2;</code>
        *
        * <pre>
        *佣兵的星数
@@ -24058,7 +24465,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 quality = 3;</code>
        *
        * <pre>
-       *佣兵的品质
+       *佣兵的品质配置ID
        * </pre>
        */
       public boolean hasQuality() {
@@ -24068,7 +24475,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 quality = 3;</code>
        *
        * <pre>
-       *佣兵的品质
+       *佣兵的品质配置ID
        * </pre>
        */
       public int getQuality() {
@@ -24078,7 +24485,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 quality = 3;</code>
        *
        * <pre>
-       *佣兵的品质
+       *佣兵的品质配置ID
        * </pre>
        */
       public Builder setQuality(int value) {
@@ -24091,7 +24498,7 @@ public final class BattleTowerServiceProtos {
        * <code>optional int32 quality = 3;</code>
        *
        * <pre>
-       *佣兵的品质
+       *佣兵的品质配置ID
        * </pre>
        */
       public Builder clearQuality() {
@@ -24101,10 +24508,10 @@ public final class BattleTowerServiceProtos {
         return this;
       }
 
-      // required int32 level = 4;
+      // optional int32 level = 4;
       private int level_ ;
       /**
-       * <code>required int32 level = 4;</code>
+       * <code>optional int32 level = 4;</code>
        *
        * <pre>
        *佣兵的等级
@@ -24114,7 +24521,7 @@ public final class BattleTowerServiceProtos {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 level = 4;</code>
+       * <code>optional int32 level = 4;</code>
        *
        * <pre>
        *佣兵的等级
@@ -24124,7 +24531,7 @@ public final class BattleTowerServiceProtos {
         return level_;
       }
       /**
-       * <code>required int32 level = 4;</code>
+       * <code>optional int32 level = 4;</code>
        *
        * <pre>
        *佣兵的等级
@@ -24137,7 +24544,7 @@ public final class BattleTowerServiceProtos {
         return this;
       }
       /**
-       * <code>required int32 level = 4;</code>
+       * <code>optional int32 level = 4;</code>
        *
        * <pre>
        *佣兵的等级
@@ -24195,6 +24602,104 @@ public final class BattleTowerServiceProtos {
       public Builder clearIsMainRole() {
         bitField0_ = (bitField0_ & ~0x00000010);
         isMainRole_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional string heroUUID = 6;
+      private java.lang.Object heroUUID_ = "";
+      /**
+       * <code>optional string heroUUID = 6;</code>
+       *
+       * <pre>
+       *佣兵ID
+       * </pre>
+       */
+      public boolean hasHeroUUID() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string heroUUID = 6;</code>
+       *
+       * <pre>
+       *佣兵ID
+       * </pre>
+       */
+      public java.lang.String getHeroUUID() {
+        java.lang.Object ref = heroUUID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          heroUUID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string heroUUID = 6;</code>
+       *
+       * <pre>
+       *佣兵ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeroUUIDBytes() {
+        java.lang.Object ref = heroUUID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          heroUUID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string heroUUID = 6;</code>
+       *
+       * <pre>
+       *佣兵ID
+       * </pre>
+       */
+      public Builder setHeroUUID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        heroUUID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string heroUUID = 6;</code>
+       *
+       * <pre>
+       *佣兵ID
+       * </pre>
+       */
+      public Builder clearHeroUUID() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        heroUUID_ = getDefaultInstance().getHeroUUID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string heroUUID = 6;</code>
+       *
+       * <pre>
+       *佣兵ID
+       * </pre>
+       */
+      public Builder setHeroUUIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        heroUUID_ = value;
         onChanged();
         return this;
       }
@@ -24407,27 +24912,28 @@ public final class BattleTowerServiceProtos {
       "ossInfoMsg\022\016\n\006bossId\030\001 \002(\005\022\021\n\tbossCfgId\030" +
       "\002 \002(\005\022\026\n\016bossRemainTime\030\003 \002(\003\022\023\n\013bossInF" +
       "loor\030\004 \001(\005\",\n\rRewardInfoMsg\022\014\n\004type\030\001 \002(" +
-      "\005\022\r\n\005count\030\002 \002(\005\"\346\001\n\022RankingRoleInfoMsg\022" +
+      "\005\022\r\n\005count\030\002 \002(\005\"\215\002\n\022RankingRoleInfoMsg\022" +
       "\021\n\trankIndex\030\001 \001(\005\022\014\n\004name\030\002 \002(\t\022\020\n\010head" +
       "Icon\030\003 \002(\t\022\024\n\014highestFloor\030\004 \001(\005\022\r\n\005leve" +
       "l\030\005 \002(\005\022\021\n\tmagicIcon\030\006 \002(\t\022/\n\022rankingHer" +
       "oInfoMsg\030\007 \003(\0132\023.RankingHeroInfoMsg\022\020\n\010i" +
       "sMyself\030\010 \001(\010\022\021\n\theadFrame\030\t \001(\t\022\017\n\007star" +
-      "Num\030\n \001(\005\"i\n\022RankingHeroInfoMsg\022\016\n\006heroI",
-      "d\030\001 \002(\t\022\017\n\007starNum\030\002 \002(\005\022\017\n\007quality\030\003 \001(" +
-      "\005\022\r\n\005level\030\004 \002(\005\022\022\n\nisMainRole\030\005 \001(\010*\256\002\n" +
-      "\014ERequestType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPE" +
-      "N_CHALLENGE_VIEW\020\002\022\030\n\024GET_FRIEND_RANK_LI" +
-      "ST\020\003\022\025\n\021GET_STRATEGY_LIST\020\004\022\026\n\022OPEN_TRY_" +
-      "LUCK_VIEW\020\005\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEEP_EN" +
-      "D\020\007\022\021\n\rUSE_LUCKY_KEY\020\010\022\033\n\027RESET_BATTLE_T" +
-      "OWER_DATA\020\t\022\023\n\017CHALLENGE_START\020\n\022\021\n\rCHAL" +
-      "LENGE_END\020\013\022\030\n\024CHALLENGE_BOSS_START\020\014\022\026\n" +
-      "\022CHALLENGE_BOSS_END\020\r*.\n\016EResponseState\022",
-      "\016\n\nRSP_SUCESS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyTyp" +
-      "e\022\016\n\nKEY_COPPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY" +
-      "_GOLD\020\003B\'\n\013com.rwprotoB\030BattleTowerServi" +
-      "ceProtos"
+      "Num\030\n \001(\005\022\022\n\nmagicLevel\030\013 \001(\005\022\021\n\tquality",
+      "Id\030\014 \001(\t\"{\n\022RankingHeroInfoMsg\022\016\n\006heroId" +
+      "\030\001 \002(\t\022\017\n\007starNum\030\002 \001(\005\022\017\n\007quality\030\003 \001(\005" +
+      "\022\r\n\005level\030\004 \001(\005\022\022\n\nisMainRole\030\005 \001(\010\022\020\n\010h" +
+      "eroUUID\030\006 \001(\t*\256\002\n\014ERequestType\022\022\n\016OPEN_M" +
+      "AIN_VIEW\020\001\022\027\n\023OPEN_CHALLENGE_VIEW\020\002\022\030\n\024G" +
+      "ET_FRIEND_RANK_LIST\020\003\022\025\n\021GET_STRATEGY_LI" +
+      "ST\020\004\022\026\n\022OPEN_TRY_LUCK_VIEW\020\005\022\017\n\013SWEEP_ST" +
+      "ART\020\006\022\r\n\tSWEEP_END\020\007\022\021\n\rUSE_LUCKY_KEY\020\010\022" +
+      "\033\n\027RESET_BATTLE_TOWER_DATA\020\t\022\023\n\017CHALLENG" +
+      "E_START\020\n\022\021\n\rCHALLENGE_END\020\013\022\030\n\024CHALLENG",
+      "E_BOSS_START\020\014\022\026\n\022CHALLENGE_BOSS_END\020\r*." +
+      "\n\016EResponseState\022\016\n\nRSP_SUCESS\020\001\022\014\n\010RSP_" +
+      "FAIL\020\002*8\n\010EKeyType\022\016\n\nKEY_COPPER\020\001\022\016\n\nKE" +
+      "Y_SILVER\020\002\022\014\n\010KEY_GOLD\020\003B\'\n\013com.rwprotoB" +
+      "\030BattleTowerServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -24589,13 +25095,13 @@ public final class BattleTowerServiceProtos {
           internal_static_RankingRoleInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingRoleInfoMsg_descriptor,
-              new java.lang.String[] { "RankIndex", "Name", "HeadIcon", "HighestFloor", "Level", "MagicIcon", "RankingHeroInfoMsg", "IsMyself", "HeadFrame", "StarNum", });
+              new java.lang.String[] { "RankIndex", "Name", "HeadIcon", "HighestFloor", "Level", "MagicIcon", "RankingHeroInfoMsg", "IsMyself", "HeadFrame", "StarNum", "MagicLevel", "QualityId", });
           internal_static_RankingHeroInfoMsg_descriptor =
             getDescriptor().getMessageTypes().get(26);
           internal_static_RankingHeroInfoMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankingHeroInfoMsg_descriptor,
-              new java.lang.String[] { "HeroId", "StarNum", "Quality", "Level", "IsMainRole", });
+              new java.lang.String[] { "HeroId", "StarNum", "Quality", "Level", "IsMainRole", "HeroUUID", });
           return null;
         }
       };

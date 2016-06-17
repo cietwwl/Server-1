@@ -79,25 +79,29 @@ public class HeroChecker implements RedPointCollector {
 						continue;
 					}
 					ItemData itemData = itemBagMgr.getFirstItemByModelId(equipCfgId);
-					if (itemData == null) {
-						HashMap<Integer, Integer> composeItems = ComposeCfgDAO.getInstance().getMate(equipCfgId);
-						if (composeItems == null) {
-							continue;
-						}
-						boolean canCompose = true;
-						for (Map.Entry<Integer, Integer> entry : composeItems.entrySet()) {
-							if (itemBagMgr.getItemCountByModelId(entry.getKey()) < entry.getValue()) {
-								canCompose = false;
-								break;
-							}
-						}
-						if (!canCompose) {
-							continue;
-						}
+					// if (itemData == null) {
+					// HashMap<Integer, Integer> composeItems =
+					// ComposeCfgDAO.getInstance().getMate(equipCfgId);
+					// if (composeItems == null) {
+					// continue;
+					// }
+					// boolean canCompose = true;
+					// for (Map.Entry<Integer, Integer> entry :
+					// composeItems.entrySet()) {
+					// if (itemBagMgr.getItemCountByModelId(entry.getKey()) <
+					// entry.getValue()) {
+					// canCompose = false;
+					// break;
+					// }
+					// }
+					// if (!canCompose) {
+					// continue;
+					// }
+					// }
+					if (itemData != null) {
+						heroEquipList.add(templateId);
+						break;
 					}
-
-					heroEquipList.add(templateId);
-					break;
 				}
 			}
 
@@ -116,10 +120,10 @@ public class HeroChecker implements RedPointCollector {
 				upgradeStarList.add(templateId);
 			}
 		}
-//		if (!heroRedPointList.isEmpty()) {
-//			map.put(RedPointType.ROLE_WINDOW_ADVANCED, heroRedPointList);
-//		}
-		//穿装红点用进阶代替
+		// if (!heroRedPointList.isEmpty()) {
+		// map.put(RedPointType.ROLE_WINDOW_ADVANCED, heroRedPointList);
+		// }
+		// 穿装红点用进阶代替
 		if (!heroEquipList.isEmpty()) {
 			map.put(RedPointType.ROLE_WINDOW_ADVANCED, heroEquipList);
 		}
