@@ -25,6 +25,15 @@ public class ActivityRateTypeCfg {
 	
 	private float rate;
 
+	private String version;
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	public String getId() {
 		return id;

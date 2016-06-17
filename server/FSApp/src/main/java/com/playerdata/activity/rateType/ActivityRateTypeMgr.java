@@ -2,6 +2,8 @@ package com.playerdata.activity.rateType;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
@@ -37,7 +39,7 @@ public class ActivityRateTypeMgr {
 
 	
 	/**登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空*/
-	public void checkActivity(Player player) {
+	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);		
 		checkClose(player);
 		
@@ -57,6 +59,11 @@ public class ActivityRateTypeMgr {
 						if(targetItem!=null){
 							dataHolder.addItem(player, targetItem);
 						}
+					}else{
+						if(!StringUtils.equals(targetItem.getVersion(), activityRateTypeCfg.getVersion())){
+							targetItem.setVersion(activityRateTypeCfg.getVersion());
+							targetItem.setClosed(false);
+							dataHolder.updateItem(player, targetItem);						}
 					}
 				}
 				

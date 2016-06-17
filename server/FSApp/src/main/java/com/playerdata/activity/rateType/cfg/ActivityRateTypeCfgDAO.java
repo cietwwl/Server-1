@@ -56,7 +56,8 @@ public final class ActivityRateTypeCfgDAO extends CfgCsvDao<ActivityRateTypeCfg>
 			String itemId = ActivityRateTypeHelper.getItemId(player.getUserId(), typeEnum);
 			item.setId(itemId);
 			item.setCfgId(cfgId);
-			item.setUserId(player.getUserId());			
+			item.setUserId(player.getUserId());	
+			item.setVersion(cfgById.getVersion());
 			return item;
 		}else{
 			return null;

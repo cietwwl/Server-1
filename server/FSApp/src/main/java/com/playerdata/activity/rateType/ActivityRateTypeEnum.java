@@ -5,7 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 public enum ActivityRateTypeEnum{	
 	// implements TypeIdentification
 	ELITE_copy_DOUBLE("1"),
-	Normal_copy_DOUBLE("2");
+	Normal_copy_DOUBLE("2"),
+	CBZD_DOUBLE("3"),
+	LXSG_DOUBLE("4"),
+	SCHJ_DOUBLE("5"),
+	ELITE_copy_EXP_DOUBLE("6"),
+	Normal_copy_EXP_DOUBLE("7");
 
 	
 	private String cfgId;
