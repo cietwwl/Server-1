@@ -15,6 +15,8 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.gamble.GambleLogic;
+import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
@@ -98,6 +100,13 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				// TODO 与allen沟通后临时解决慢速任务阻塞时效问题问题，时效需要整理
+				heavyWeightsExecturos.execute(new Runnable() {
+					@Override
+					public void run() {
+						GambleHotHeroPlan.resetHotHeroList(GambleLogic.getInstance().getRandom());
+					}
+				});
+				
 				heavyWeightsExecturos.execute(new Runnable() {
 
 					@Override
