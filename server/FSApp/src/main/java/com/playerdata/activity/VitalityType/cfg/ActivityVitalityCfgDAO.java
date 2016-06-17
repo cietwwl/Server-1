@@ -187,6 +187,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			List<ActivityVitalityRewardCfg> allsubCfgList) {
 		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
 		boolean isempty=true;
+		if(allsubCfgList == null){
+			subItemList = null;
+			return subItemList;
+		}
 		for(ActivityVitalityRewardCfg rewardCfg : allsubCfgList){
 			if(rewardCfg.getActiveType()==Integer.parseInt(eNum.getCfgId())){
 				isempty = false;
@@ -219,6 +223,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			List<ActivityVitalityRewardCfg> allsubCfgList) {
 		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
 		boolean isempty=true;
+		if(allsubCfgList == null){
+			subItemList = null;
+			return subItemList;
+		}
 		for(ActivityVitalityRewardCfg rewardCfg : allsubCfgList){
 			if(rewardCfg.getActiveType()==Integer.parseInt(eNum.getCfgId())){
 				isempty = false;
