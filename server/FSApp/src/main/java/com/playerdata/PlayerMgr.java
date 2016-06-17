@@ -222,7 +222,6 @@ public class PlayerMgr {
 	};
 
 	public int minutesFunc4AllPlayer() {
-		// List<Player> playerList = new ArrayList<Player>(m_PlayerMap.values());
 		List<Player> playerList = getOnlinePlayers();
 		return gamePlayerOpHelper.addTask(playerList, minuteFuncTask);
 	}
