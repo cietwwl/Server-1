@@ -232,6 +232,7 @@ message RankingHeroInfoMsg{
 	optional int32 level = 4;//佣兵的等级
 	optional bool isMainRole = 5;//是否是主角
 	optional string heroUUID = 6;//佣兵ID
+	optional string qualityId = 12;//主角的品质配置ID
 }
 
 

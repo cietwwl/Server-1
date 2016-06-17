@@ -28,6 +28,8 @@ public interface BattleTowerHeroInfoIF {
 	 * @return
 	 */
 	public int getQuality();
+	
+	public String getQualityId();
 
 	/**
 	 * 获取佣兵的星数

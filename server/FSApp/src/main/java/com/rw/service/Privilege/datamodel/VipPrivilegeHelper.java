@@ -34,7 +34,7 @@ public class VipPrivilegeHelper {
 			String chargeSource = sources[i];
 			if (chargeSource == null) continue;
 			int index = chargeSource.indexOf(ChargeTypePriority.vipPrefix);
-			if (index!=-1){
+			if (index == 0){//vip前缀
 				String vipLevelStr = chargeSource.substring(ChargeTypePriority.vipPrefix.length() + index);
 				int lvl = -1;
 				try{
