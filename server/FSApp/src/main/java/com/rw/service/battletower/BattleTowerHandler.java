@@ -374,6 +374,10 @@ public class BattleTowerHandler {
 				rankingHeroInfo.setHeroId(heroInfo.getHeroId());
 				rankingHeroInfo.setLevel(heroInfo.getLevel());
 				rankingHeroInfo.setQuality(heroInfo.getQuality());
+				String playerQualityId = heroInfo.getQualityId();
+				if (StringUtils.isNotBlank(playerQualityId)){
+					rankingHeroInfo.setQualityId(playerQualityId);
+				}
 				rankingHeroInfo.setStarNum(heroInfo.getStarNum());
 				rankingHeroInfo.setIsMainRole(heroInfo.isMainRole());
 				// 添加到RankingRoleInfo中
@@ -439,6 +443,10 @@ public class BattleTowerHandler {
 				rankingHeroInfo.setHeroId(heroInfo.getHeroId());
 				rankingHeroInfo.setLevel(heroInfo.getLevel());
 				rankingHeroInfo.setQuality(heroInfo.getQuality());
+				String playerQualityId = heroInfo.getQualityId();
+				if (StringUtils.isNotBlank(playerQualityId)){
+					rankingHeroInfo.setQualityId(playerQualityId);
+				}
 				rankingHeroInfo.setStarNum(heroInfo.getStarNum());
 				rankingHeroInfo.setIsMainRole(heroInfo.isMainRole());
 				// 添加到RankingRoleInfo中
@@ -1073,6 +1081,7 @@ public class BattleTowerHandler {
 						RoleQualityCfg qualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
 						heroInfo.setHeroId(heroInfoMsg.getHeroId());
 						heroInfo.setLevel(hero.getLevel());
+						heroInfo.setQualityId(hero.getQualityId());
 						heroInfo.setQuality(qualityCfg!=null?qualityCfg.getQuality():0);
 						heroInfo.setStarNum(hero.getStarLevel());
 						heroInfo.setMainRole(hero.isMainRole());
