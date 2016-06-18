@@ -25,7 +25,7 @@ public class ActivityExchangeTypeHandler {
 		ActivityExChangeTypeEnum countType = ActivityExChangeTypeEnum.getById(activityId);
 		
 		boolean success = false;
-		String tips = null;
+		String tips = "没找到对应的活动";
 		
 		if(countType!=null){
 			ActivityComResult result = ActivityExchangeTypeMgr.getInstance().takeGift(player, countType, subItemId);
