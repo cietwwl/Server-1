@@ -100,9 +100,8 @@ public class FixEquipHelper {
 	
 	public static FixEquipResult takeItemCost(Player player, Map<Integer,Integer> itemCostMap){		
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		
-		if(costItemBag(itemBagMgr,itemCostMap)){
+		if(costItemBag(player,itemCostMap)){
 			result.setSuccess(true);
 		}else{
 			result.setReason("物品不足。");			
@@ -110,7 +109,10 @@ public class FixEquipHelper {
 		return result;
 		
 	}
-	private static boolean costItemBag(ItemBagMgr itemBagMgr,Map<Integer, Integer> itemCostMap) {
+	
+	public static boolean isItemEnough(Player player,Map<Integer, Integer> itemCostMap){
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		
 		boolean isItemEnough = true;
 		for (int modelId : itemCostMap.keySet()) {
 			int countInBag = itemBagMgr.getItemCountByModelId(modelId);
@@ -120,8 +122,13 @@ public class FixEquipHelper {
 			}
 			
 		}
-		boolean success = isItemEnough;
-		if(isItemEnough){			
+		return isItemEnough;
+	}
+	
+	private static boolean costItemBag(Player player, Map<Integer, Integer> itemCostMap) {
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		boolean success = isItemEnough(player, itemCostMap);
+		if(success){			
 			for (int modelId : itemCostMap.keySet()) {
 				Integer need = itemCostMap.get(modelId);
 				if(!itemBagMgr.useItemByCfgId(modelId, need)){

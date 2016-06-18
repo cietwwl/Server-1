@@ -238,23 +238,32 @@ public class FixExpEquipMgr {
 	}
 
 	private FixEquipResult checkQuality(Player player, String ownerId, FixExpEquipDataItem dataItem){
-		
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		if(dataItem == null){
 			result.setReason("装备不存在。");			
 		}else{
 			int curlevel = dataItem.getLevel();
-			int curQuality = dataItem.getQuality();
+			int currentQuality = dataItem.getQuality();
 			
-			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
-			if(curQualityCfg == null){
+			FixExpEquipQualityCfg nextQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality+1);
+			if(nextQualityCfg == null){
 				result.setReason("装备已经达到最品质。");
-			}else if(curlevel < curQualityCfg.getLevelNeed() ){
-				result.setReason("装备等级不够。");	
 			}else{
-				result.setSuccess(true);
+				
+				FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality);
+				Map<Integer, Integer> itemsNeed = curQualityCfg.getItemsNeed();
+				if(curlevel < curQualityCfg.getLevelNeed() ){
+					result.setReason("装备等级不够。");	
+				}else if(!FixEquipHelper.isItemEnough(player, itemsNeed)){
+					result.setReason("进化材料不足.");	
+				}else{
+					result.setSuccess(true);
+					
+				}
 			}
+			
+			
 		}
 		return result;
 	}
@@ -264,16 +273,18 @@ public class FixExpEquipMgr {
 		
 		int curQuality = dataItem.getQuality();
 		FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
+	
 		result = FixEquipHelper.takeCost(player, curQualityCfg.getCostType(), curQualityCfg.getCostCount());
-		if(result.isSuccess()){
+		if(result.isSuccess()){					
 			Map<Integer, Integer> itemsNeed = curQualityCfg.getItemsNeed();
-			result = FixEquipHelper.takeItemCost(player, itemsNeed);
+			result = FixEquipHelper.takeItemCost(player, itemsNeed);				
 		}		
 		
 		if(result.isSuccess()){
 			dataItem.setQuality(curQuality+1);
 			fixExpEquipDataItemHolder.updateItem(player, dataItem);
 		}
+		
 		return result;
 		
 	}
@@ -297,12 +308,20 @@ public class FixExpEquipMgr {
 		if(dataItem == null){
 			result.setReason("装备不存在。");			
 		}else {
-			int nextStar = dataItem.getStar()+1;
-			FixExpEquipStarCfg nextStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), nextStar);
+			int curStar = dataItem.getStar();
+			FixExpEquipStarCfg nextStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar+1);
+			
 			if(nextStarCfg == null){
 				result.setReason("装备已达最高星级。");
 			}else{
-				result.setSuccess(true);
+				FixExpEquipStarCfg curStarCfg = FixExpEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
+				
+				Map<Integer, Integer> itemsNeed = curStarCfg.getItemsNeed();
+				if(!FixEquipHelper.isItemEnough(player, itemsNeed)){	
+					result.setReason("觉醒材料不足");
+				}else{					
+					result.setSuccess(true);
+				}
 			}
 		}
 		return result;
@@ -317,7 +336,7 @@ public class FixExpEquipMgr {
 		result = FixEquipHelper.takeCost(player, curStarCfg.getUpCostType(), curStarCfg.getUpCount());
 		
 		if(result.isSuccess()){
-			Map<Integer, Integer> itemsNeed = curStarCfg.getItemsNeed();
+			Map<Integer, Integer> itemsNeed = curStarCfg.getItemsNeed();			
 			result = FixEquipHelper.takeItemCost(player, itemsNeed);
 		}	
 		
