@@ -108,6 +108,12 @@ public abstract class ClientMsgHandler {
 					case FIX_EXP_EQUIP:
 						getClient().getFixExpEquipDataItemHolder().syn(msgDataSyn);
 						break;
+					case MagicSecretData:
+						getClient().getMagicSecretHolder().syn(msgDataSyn);
+						break;
+					case MagicChapterData:
+						getClient().getMagicChapterInfoHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}

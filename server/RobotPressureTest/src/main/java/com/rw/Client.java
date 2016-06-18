@@ -21,6 +21,8 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
+import com.rw.handler.magicSecret.MagicChapterInfoHolder;
+import com.rw.handler.magicSecret.MagicSecretHolder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.task.TaskItemHolder;
@@ -74,10 +76,13 @@ public class Client {
 	//玩家封神之路数据
 	private FresherActivityHolder fresherActivityHolder = new FresherActivityHolder();
 	
+	//神器
 	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
 	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
-
 	
+	//乾坤幻境
+	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
+	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
 
 
 	public Client(String accountIdP) {
@@ -266,6 +271,17 @@ public class Client {
 	}
 	
 	
+	
+	
+	
+	public MagicSecretHolder getMagicSecretHolder() {
+		return magicSecretHolder;
+	}
+
+	public void setMagicSecretHolder(MagicSecretHolder magicSecretHolder) {
+		this.magicSecretHolder = magicSecretHolder;
+	}
+
 	public HeroEquipHolder getHeroEquipHolder() {
 		return heroEquipHolder;
 	}
@@ -295,6 +311,15 @@ public class Client {
 	}
 	
 
+
+	public MagicChapterInfoHolder getMagicChapterInfoHolder() {
+		return magicChapterInfoHolder;
+	}
+
+	public void setMagicChapterInfoHolder(
+			MagicChapterInfoHolder magicChapterInfoHolder) {
+		this.magicChapterInfoHolder = magicChapterInfoHolder;
+	}
 
 	public String getGroupVersion() {
 		groupVersion.setApplyMemberData(applyMemberHolder.getVersion());

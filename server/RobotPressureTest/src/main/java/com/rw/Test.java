@@ -10,7 +10,7 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-		 Robot robot = loginRobot("0614855240");
+		 Robot robot = loginRobot("0616128669");
 //		 robot.dailyActivity();
 
 //		 Robot robot = createRobot("testallen"+random.nextInt(2000));
@@ -18,7 +18,7 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-			 issucc=robot.testTaoist(110014);
+			 issucc=robot.testMagicSecret(6);
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 

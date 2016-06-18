@@ -31,6 +31,7 @@ import com.rw.handler.group.GroupPersonalHandler;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.magic.MagicHandler;
+import com.rw.handler.magicSecret.MagicSecretHandler;
 import com.rw.handler.mainService.MainHandler;
 import com.rw.handler.peakArena.PeakArenaHandler;
 import com.rw.handler.platform.PlatformHandler;
@@ -838,6 +839,17 @@ public class Robot {
 		return issuc;
 	}
 	
-	
+	/**1查看;独立的
+	 * 2战斗；需要7来获得当前进度信息
+	 * 5换buff
+	 * 6道具；*/
+	public boolean testMagicSecret(int id){
+		upgrade(50);
+		addCoin(9999999);		
+		addGold(8888);
+		boolean issuc = false;
+		issuc=MagicSecretHandler.getHandler().doType(client , id);
+		return issuc;
+	}
 	
 }
