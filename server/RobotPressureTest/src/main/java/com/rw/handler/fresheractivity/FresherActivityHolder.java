@@ -1,14 +1,9 @@
 package com.rw.handler.fresheractivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.rw.dataSyn.SynDataListHolder;
-import com.rw.handler.activity.ActivityCountHolder;
-import com.rw.handler.activity.ActivityCountTypeItem;
-import com.rw.handler.activity.ActivityCountTypeSubItem;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class FresherActivityHolder {

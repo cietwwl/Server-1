@@ -20,6 +20,10 @@ import com.rw.handler.group.holder.GroupLogHolder;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
+import com.rw.handler.groupsecret.GroupSecretBaseInfoSynDataHolder;
+import com.rw.handler.groupsecret.GroupSecretInviteDataHolder;
+import com.rw.handler.groupsecret.GroupSecretTeamDataHolder;
+import com.rw.handler.hero.UserHerosDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.magicSecret.MagicChapterInfoHolder;
 import com.rw.handler.magicSecret.MagicSecretHolder;
@@ -80,10 +84,13 @@ public class Client {
 	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
 	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
 	
+	private GroupSecretTeamDataHolder groupSecretTeamDataHolder = new GroupSecretTeamDataHolder();
+	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
+	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
+	private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
 	//乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
 	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
-
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -173,22 +180,6 @@ public class Client {
 	public void setLastServerId(int serverId) {
 		this.serverId = serverId;
 	}
-
-	// public String getLastHost() {
-	// return lastHost;
-	// }
-
-	// public void setLastHost(String lastHost) {
-	// this.lastHost = lastHost;
-	// }
-
-	// public int getLastPort() {
-	// return Integer.parseInt(lastPort);
-	// }
-	//
-	// public void setLastPort(String lastPort) {
-	// this.lastPort = lastPort;
-	// }
 
 	public ServerInfo getServerById(int serverId) {
 		ServerInfo target = null;
@@ -309,8 +300,14 @@ public class Client {
 	public void setDailyActivityDataHolder(DailyActivityDataHolder dailyActivityDataHolder) {
 		this.dailyActivityDataHolder = dailyActivityDataHolder;
 	}
-	
 
+	public GroupSecretTeamDataHolder getGroupSecretTeamDataHolder() {
+		return groupSecretTeamDataHolder;
+	}
+
+	public UserHerosDataHolder getUserHerosDataHolder() {
+		return userHerosDataHolder;
+	}
 
 	public MagicChapterInfoHolder getMagicChapterInfoHolder() {
 		return magicChapterInfoHolder;
@@ -327,5 +324,13 @@ public class Client {
 		groupVersion.setGroupBaseData(groupBaseDataHolder.getVersion());
 		groupVersion.setResearchSkill(researchSkillDataHolder.getVersion());
 		return JsonUtil.writeValue(groupVersion);
+	}
+
+	public GroupSecretBaseInfoSynDataHolder getGroupSecretBaseInfoSynDataHolder() {
+		return groupSecretBaseInfoSynDataHolder;
+	}
+
+	public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
+		return groupSecretInviteDataHolder;
 	}
 }

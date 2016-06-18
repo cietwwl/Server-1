@@ -102,6 +102,12 @@ public abstract class ClientMsgHandler {
 					case FRESHER_ATIVITY_DATA:
 						getClient().getFresherActivityHolder().syn(msgDataSyn);
 						break;
+					case SECRETAREA_TEAM_INFO:
+						getClient().getGroupSecretTeamDataHolder().syn(msgDataSyn);
+						break;
+					case USER_HEROS:
+						getClient().getUserHerosDataHolder().syn(msgDataSyn);
+						break;
 					case FIX_NORM_EQUIP:
 						getClient().getFixNormEquipDataItemHolder().syn(msgDataSyn);
 						break;
