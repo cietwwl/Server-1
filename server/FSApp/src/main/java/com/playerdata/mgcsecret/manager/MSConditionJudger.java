@@ -238,7 +238,7 @@ class MSConditionJudger {
 		}
 		// 资源扣除
 		ItemBagMgr bagMgr = player.getItemBagMgr();
-		if(!bagMgr.addItem(cost.getItemID(), cost.getItemNum())){
+		if(!bagMgr.addItem(cost.getItemID(), -cost.getItemNum())){
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeOpenBoxCost, 扣除物品[%s]的时候不成功，有[%s]未能扣除", cost.getItemID(), cost.getItemNum()), null);
 			return false;
 		}

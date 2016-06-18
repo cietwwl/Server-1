@@ -25,6 +25,7 @@ import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.data.UserMagicSecretHolder;
 import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 import com.rwproto.MagicSecretProto.msResultType;
@@ -169,12 +170,14 @@ public class MagicSecretMgr {
 				for(int i = 0; i < mcCfg.getPassBonus().size(); i++){
 					msRsp.addRewardData(JsonUtil.writeValue(mcCfg.getPassBonus().get(i)));
 				}
+				MSInnerProcessor.handleDropItem(player, mcCfg.getPassBonus());
 				msRsp.setIsFirstFinish(true);
 			}else msRsp.setIsFirstFinish(false);
 			// 如果闯完一章节，初始化下一章节的内容（如果不是，就准备下一关卡）
 			if(MSConditionJudger.fromStageIDToLayerID(stageID) == STAGE_COUNT_EACH_CHATPER)
 				MagicChapterInfoHolder.getInstance().initMagicChapterInfo(player, String.valueOf(chapterID + 1));
 			else handleNextDungeonPrepare(player, dungeonID);
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.UNENDINGWAR, 1);
 		}
 		//清空刚战斗的关卡
 		msData.setCurrentDungeonID(null);
