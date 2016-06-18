@@ -48,14 +48,16 @@ public class MagicSecretHandler {
 		if(id == GET_MS_RANK){			
 			isucc=getMsRank(client);
 		}else if(id == ENTER_MS_FIGHT){
-//			isucc = changeTeam(client);
-//			RobotLog.fail("战斗前的设置队伍反馈结果="+isucc);
+			isucc = changeTeam(client);
+			RobotLog.fail("战斗前的设置队伍反馈结果="+isucc);
 			isucc=fight(client);
 			RobotLog.fail("战斗申请反馈结果="+isucc);
 			isucc = getReward(client);
 			RobotLog.fail("领取前的生成奖励反馈结果="+isucc);			
 			isucc=openBox(client);//奖励需要战斗来生成，多次连续申请会失败
 			RobotLog.fail("领取道具反馈结果="+isucc);	
+			isucc=giveUpBox(client);
+			RobotLog.fail("放弃道具反馈结果="+isucc);	
 			isucc=exchangeBuff(client);//坑爹的协议，兑换buff和奖励的内容在战斗时已推送，所以机器人无法分开操作功能	
 			
 		}else if(id == OPEN_REWARD_BOX){
@@ -63,6 +65,8 @@ public class MagicSecretHandler {
 		}
 		return isucc;
 	}
+
+	
 
 	public boolean getMsRank(Client client) {		
 		MagicSecretReqMsg.Builder req = MagicSecretReqMsg.newBuilder();		
@@ -139,10 +143,8 @@ public class MagicSecretHandler {
 		MagicSecretReqMsg.Builder req = MagicSecretReqMsg.newBuilder();		
 		req.setReqType(msRequestType.ENTER_MS_FIGHT);
 		dungeonId = "";
-		Map<String,UserMagicSecretData> userMagicSecretDatalist = client.getMagicSecretHolder().getList();
-		UserMagicSecretData userMagicSecretData = userMagicSecretDatalist.get(client.getUserId());
-		int tmp = userMagicSecretData.getMaxStageID()+1;
-		dungeonId = tmp+"_"+3;//难度还tm不能随时改的0.0我区，策划这么逗比，抄刀塔都抄的不痛快要标新立异
+		
+		dungeonId = 101+"_"+3;//难度还tm不能随时改的0.0我区，策划这么逗比，抄刀塔都抄的不痛快要标新立异
 		req.setDungeonId(dungeonId);
 		
 		boolean success =client.getMsgHandler().sendMsg(Command.MSG_MAGIC_SECRET, req.build().toByteString(), new MsgReciver() {
@@ -180,7 +182,7 @@ public class MagicSecretHandler {
 		dungeonId = "";
 		Map<String,UserMagicSecretData> userMagicSecretDatalist = client.getMagicSecretHolder().getList();
 		UserMagicSecretData userMagicSecretData = userMagicSecretDatalist.get(client.getUserId());
-		int tmp = userMagicSecretData.getMaxStageID()+1;
+		int tmp = userMagicSecretData.getMaxStageID()+101;
 		dungeonId = tmp+"_"+3;//难度还tm不能随时改的0.0我区，策划这么逗比，抄刀塔都抄的不痛快要标新立异
 		req.setDungeonId(dungeonId);
 		req.setFinishState("3");
@@ -258,6 +260,47 @@ public class MagicSecretHandler {
 		});		
 		return success;	
 	}	
+	
+	private boolean giveUpBox(Client client) {
+		MagicSecretReqMsg.Builder req = MagicSecretReqMsg.newBuilder();		
+		req.setReqType(msRequestType.GIVE_UP_REWARD_BOX);
+		Map<String,MagicChapterInfo> magiChapterInfolist = client.getMagicChapterInfoHolder().getList();
+		if(magiChapterInfolist.size()>0){
+			MagicChapterInfo magiChapterInfo = magiChapterInfolist.get(client.getUserId());	
+			req.setChapterId(magiChapterInfo.getChapterId());
+		}else{
+			req.setChapterId(client.getMagicSecretHolder().getChapterId());
+		}
+		
+		boolean success =client.getMsgHandler().sendMsg(Command.MSG_MAGIC_SECRET, req.build().toByteString(), new MsgReciver() {
+			@Override
+			public Command getCmd() {
+				return Command.MSG_MAGIC_SECRET;
+			}
+			@Override
+			public boolean execute(Client client, Response response) {
+				ByteString serializedContent = response.getSerializedContent();
+				try {
+					MagicSecretRspMsg rsp = MagicSecretRspMsg.parseFrom(serializedContent);
+					if (rsp == null) {
+						RobotLog.fail("MagicSecretHandler[send] 转换响应消息为null");
+						return false;
+					}
+					msResultType result =rsp.getRstType();
+					if (!result.equals(msResultType.SUCCESS)) {
+						RobotLog.fail("MagicSecretHandler[send] 服务器处理消息失败 " + result);
+						return false;
+					}				
+				} catch (InvalidProtocolBufferException e) {
+					RobotLog.fail("MagicSecretHandler[send] 失败", e);
+					return false;
+				}				
+				return true;
+			}			
+		});		
+		return success;	
+	}
+	
 	
 	private boolean exchangeBuff(Client client) {
 		MagicSecretReqMsg.Builder req = MagicSecretReqMsg.newBuilder();		
