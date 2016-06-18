@@ -9,6 +9,8 @@ import com.log.LogModule;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.activity.rateType.ActivityRateTypeEnum;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.CopyRewardsIF;
 import com.playerdata.readonly.ItemInfoIF;
@@ -67,11 +69,13 @@ public class PvECommonHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (dropItems != null) {
+		
+		
+		if (dropItems != null) {	
 			for (ItemInfoIF item : dropItems) {
 				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 			}
-
+			
 			StringBuilder rewardInfo = new StringBuilder();
 			rewardInfo.append("成功获取战斗奖励 levelId=").append(levelId).append(" rewards:").append(JsonUtil.writeValue(dropItems));
 			GameLog.info(LogModule.COPY.getName(), player.getUserId(), rewardInfo.toString(), null);
