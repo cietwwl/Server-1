@@ -18,7 +18,7 @@ public class Test {
 		 }else{
 			 boolean issucc =false;
 			 
-			 issucc=robot.testMagicSecret(6);
+			 issucc=robot.testMagicSecret(2);
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 

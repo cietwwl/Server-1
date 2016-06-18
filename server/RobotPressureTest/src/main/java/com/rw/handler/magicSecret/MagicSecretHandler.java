@@ -48,15 +48,18 @@ public class MagicSecretHandler {
 		if(id == GET_MS_RANK){			
 			isucc=getMsRank(client);
 		}else if(id == ENTER_MS_FIGHT){
-			isucc = changeTeam(client);
-			RobotLog.fail("战斗前的设置队伍反馈结果="+isucc);
+//			isucc = changeTeam(client);
+//			RobotLog.fail("战斗前的设置队伍反馈结果="+isucc);
 			isucc=fight(client);
-		}else if(id == OPEN_REWARD_BOX){
+			RobotLog.fail("战斗申请反馈结果="+isucc);
 			isucc = getReward(client);
 			RobotLog.fail("领取前的生成奖励反馈结果="+isucc);			
 			isucc=openBox(client);//奖励需要战斗来生成，多次连续申请会失败
 			RobotLog.fail("领取道具反馈结果="+isucc);	
-			isucc=exchangeBuff(client);//坑爹的协议，兑换buff和奖励的内容在战斗时已推送，所以机器人无法分开操作功能			
+			isucc=exchangeBuff(client);//坑爹的协议，兑换buff和奖励的内容在战斗时已推送，所以机器人无法分开操作功能	
+			
+		}else if(id == OPEN_REWARD_BOX){
+					
 		}
 		return isucc;
 	}

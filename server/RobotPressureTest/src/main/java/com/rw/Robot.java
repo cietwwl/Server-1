@@ -867,9 +867,7 @@ public class Robot {
 	}
 	
 	/**1查看;独立的
-	 * 2战斗；需要7来获得当前进度信息
-	 * 5换buff
-	 * 6道具；*/
+	 * 2战斗；接5换buff和6换道具*/
 	public boolean testMagicSecret(int id){
 		upgrade(50);
 		addCoin(9999999);		
