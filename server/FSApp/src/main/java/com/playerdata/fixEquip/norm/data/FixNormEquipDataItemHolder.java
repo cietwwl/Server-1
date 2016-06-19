@@ -40,6 +40,14 @@ public class FixNormEquipDataItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 		notifyChange();
 	}
+	public void updateItemList(Player player, List<FixNormEquipDataItem> itemList){
+		for (FixNormEquipDataItem item : itemList) {			
+			getItemStore(item.getOwnerId()).updateItem(item);			
+		}
+		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		notifyChange();
+	}
+	
 	
 	public FixNormEquipDataItem getItem(String ownerId, String itemId){		
 		return getItemStore(ownerId).getItem(itemId);

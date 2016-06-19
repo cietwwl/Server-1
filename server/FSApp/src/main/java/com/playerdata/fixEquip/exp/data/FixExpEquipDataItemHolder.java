@@ -41,6 +41,14 @@ public class FixExpEquipDataItemHolder{
 		notifyChange();
 	}
 	
+	public void updateItemList(Player player, List<FixExpEquipDataItem> itemList){
+		for (FixExpEquipDataItem item : itemList) {			
+			getItemStore(item.getOwnerId()).updateItem(item);
+		}
+		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		notifyChange();
+	}
+	
 	public FixExpEquipDataItem getItem(String ownerId, String itemId){		
 		return getItemStore(ownerId).getItem(itemId);
 	}

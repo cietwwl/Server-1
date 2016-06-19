@@ -72,8 +72,41 @@ public class FixNormEquipMgr {
 		
 		
 	}
+	public boolean onCarrerChange(Player player){
+		
+		Hero mainRoleHero = player.getMainRoleHero();
+		int newModelId = mainRoleHero.getModelId();
+		String ownerId = player.getUserId();
+		
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);	
+	
+		RoleFixEquipCfg newRoleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(newModelId));		
+		
+		int slot = 0;
+		for (String cfgId : newRoleFixEquipCfg.getNormCfgIdList()) {			
+			FixNormEquipDataItem  fixNormEquipDataItem = getBySlot(itemList,slot);
+			if(fixNormEquipDataItem!=null){
+				fixNormEquipDataItem.setCfgId(cfgId);
+			}
+			slot++;
+		}		
+		
+		fixNormEquipDataItemHolder.updateItemList(player, itemList);
+		return true;
+		
+	}
 	
 
+	private FixNormEquipDataItem getBySlot(List<FixNormEquipDataItem> itemList, int slot) {
+		FixNormEquipDataItem target = null;
+		for (FixNormEquipDataItem fixNormEquipDataItem : itemList) {
+			if(fixNormEquipDataItem.getSlot() == slot){
+				target = fixNormEquipDataItem;
+				break;
+			}
+		}
+		return target;
+	}
 	public void regChangeCallBack(Action callBack) {
 		fixNormEquipDataItemHolder.regChangeCallBack(callBack);
 	}

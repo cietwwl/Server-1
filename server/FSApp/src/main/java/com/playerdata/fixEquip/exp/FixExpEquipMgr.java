@@ -78,6 +78,41 @@ public class FixExpEquipMgr {
 		return fixExpEquipDataItemHolder.initItems(player, ownerId, equipItemList);
 	}
 	
+	public boolean onCarrerChange( Player player ){
+		
+		Hero mainRoleHero = player.getMainRoleHero();
+		int newModelId = mainRoleHero.getModelId();
+		String ownerId = player.getUserId();
+		
+		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);	
+	
+		RoleFixEquipCfg newRoleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(newModelId));		
+		
+		int slot = 0;
+		for (String cfgId : newRoleFixEquipCfg.getExpCfgIdList()) {			
+			FixExpEquipDataItem  item = getBySlot(itemList,slot);
+			if(item!=null){
+				item.setCfgId(cfgId);
+			}
+			slot++;
+		}		
+		
+		fixExpEquipDataItemHolder.updateItemList(player, itemList);
+		return true;
+		
+	}
+	private FixExpEquipDataItem getBySlot(List<FixExpEquipDataItem> itemList, int slot) {
+		FixExpEquipDataItem target = null;
+		for (FixExpEquipDataItem fixNormEquipDataItem : itemList) {
+			if(fixNormEquipDataItem.getSlot() == slot){
+				target = fixNormEquipDataItem;
+				break;
+			}
+		}
+		return target;
+	}
+	
+	
 
 	public void regChangeCallBack(Action callBack) {
 		fixExpEquipDataItemHolder.regChangeCallBack(callBack);
