@@ -20,7 +20,7 @@ public class FixExpEquipQualityCfg {
 
 	private int levelNeed;
 	
-	private FixEquipCostType costType;
+	private FixEquipCostType costType = FixEquipCostType.COIN;
 	
 	private int costCount;	
 	

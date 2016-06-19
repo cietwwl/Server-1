@@ -20,11 +20,11 @@ public class FixNormEquipStarCfg {
 
 	private int levelNeed;
 	
-	private FixEquipCostType upCostType;
+	private FixEquipCostType upCostType = FixEquipCostType.COIN;
 	
 	private int upCount;
 	
-	private FixEquipCostType downCostType;
+	private FixEquipCostType downCostType = FixEquipCostType.COIN;
 	
 	private int downCount;
 	

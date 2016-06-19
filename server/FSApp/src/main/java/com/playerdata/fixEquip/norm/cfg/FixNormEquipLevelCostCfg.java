@@ -10,7 +10,7 @@ public class FixNormEquipLevelCostCfg {
 	private String planId;	
 	private int level;
 	
-	private FixEquipCostType costType;
+	private FixEquipCostType costType = FixEquipCostType.COIN;
 	
 	private int costCount;
 
