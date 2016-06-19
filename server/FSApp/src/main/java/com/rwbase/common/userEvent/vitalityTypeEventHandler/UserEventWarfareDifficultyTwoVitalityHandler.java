@@ -13,6 +13,9 @@ import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
@@ -40,11 +43,19 @@ public class UserEventWarfareDifficultyTwoVitalityHandler implements IUserEventH
 				if(ints.length != 2){
 					return;
 				}
-				if(ints[1]!=time||ints[0] != levelId){
+				if(ints[0] != levelId){
 					return;
 				}
-				if(subCfg!=null&&isLevelEnough){					
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality,subCfg, 1);
+				if(subCfg!=null&&isLevelEnough){	
+					ActivityVitalityItemHolder activityVitalityItemHolder = ActivityVitalityItemHolder.getInstance();
+					ActivityVitalityTypeItem activityVitalityTypeItem = activityVitalityItemHolder.getItem(player.getUserId(), ActivityVitalityTypeEnum.Vitality);
+					ActivityVitalityTypeSubItem activityVitalityTypeSubItem = activityVitalityTypeItem.getByType(subCfg.getType());
+					int add = ints[1];
+					if(activityVitalityTypeSubItem.getCount() > 0){
+						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
+					}
+					
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.WarfareDifficultyTwoVitality,subCfg, add);
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
 					}
 				}
