@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.bm.chat.ChatBM;
 import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -15,7 +16,6 @@ import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rw.support.FriendSupportFactory;
-import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -235,7 +235,7 @@ public final class GroupBM {
 				// 通知好友更改更新帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 				// 清除所有的秘境消息
-				TableUserPrivateChatDao.getDao().get(player.getUserId()).clearAllTreasureChatMessage();
+				ChatBM.getInstance().clearAllGroupSecretChatMessage(player.getUserId());
 			}
 		};
 
