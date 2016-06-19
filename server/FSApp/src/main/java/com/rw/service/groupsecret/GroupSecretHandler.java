@@ -1023,6 +1023,16 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
+		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
+		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
+		List<String> defendSecretIdList = userGroupSecretBaseData.getDefendSecretIdList();// 当前的秘境列表
+		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
+		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
+		if (defendSecretIdList.size() >= intPrivilege) {
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("您当前只能驻守%s个秘境", intPrivilege));
+			return rsp.build().toByteString();
+		}
+
 		GroupSecretBaseTemplate uniqueCfg = GroupSecretBaseCfgDAO.getCfgDAO().getUniqueCfg();
 		if (uniqueCfg == null) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "找不到秘境的基础配置表");
@@ -1031,8 +1041,6 @@ public class GroupSecretHandler {
 
 		String reqId = req.getId();
 
-		UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
-		UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(userId);
 		if (userGroupSecretBaseData.hasDefendSecretId(reqId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "您不能重复驻守同一秘境");
 			return rsp.build().toByteString();
