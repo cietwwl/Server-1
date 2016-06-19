@@ -16,3 +16,5 @@ Key,Remarks,modelId,combineUse,useEffectClass,directResult,dropResult
 802018,,802018,,com.rw.service.item.useeffect.impl.UseVipCardEffectImpl,14,
 802019,,802019,,com.rw.service.item.useeffect.impl.UseVipCardEffectImpl,15,
 806101,,806101,806102_1,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,97501;97501;97501;97501
+806103,,806103,1_100,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,97501;97501;97501;97501
+806104,,806104,2_50000,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,97501;97501;97501;97501
