@@ -44,7 +44,7 @@ public class FixNormEquipCfgChecker {
 		for (int i = 1; i < level; i++) {
 			FixNormEquipLevelCostCfg  costcfg= FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(planId, i);
 			if(costcfg == null){
-				GameLog.error(LogModule.FixEquip, "FixNormEquipLevelCostCfg", "配置不存在 planId:"+planId+" level:"+i, null);
+				GameLog.cfgError(LogModule.FixEquip, "FixNormEquipLevelCostCfg", "配置不存在 planId:"+planId+" level:"+i);
 			}
 			
 		}	
@@ -57,7 +57,7 @@ public class FixNormEquipCfgChecker {
 		for (int i = 1; i < level; i++) {
 			FixNormEquipLevelCfg  costcfg= FixNormEquipLevelCfgDAO.getInstance().getByPlanIdAndLevel(planId, i);
 			if(costcfg == null){
-				GameLog.error(LogModule.FixEquip, "FixNormEquipLevelCfg", "配置不存在 planId:"+planId+" level:"+i, null);
+				GameLog.cfgError(LogModule.FixEquip, "FixNormEquipLevelCfg", "配置不存在 planId:"+planId+" level:"+i);
 			}
 			
 		}	
@@ -76,7 +76,7 @@ public class FixNormEquipCfgChecker {
 		for (int i = 1; i < quality; i++) {
 			FixNormEquipQualityCfg  costcfg= FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(planId, i);
 			if(costcfg == null){
-				GameLog.error(LogModule.FixEquip, "FixNormEquipQualityCostCfg", "配置不存在 planId:"+planId+" level:"+i, null);
+				GameLog.cfgError(LogModule.FixEquip, "FixNormEquipQualityCostCfg", "配置不存在 planId:"+planId+" level:"+i);
 			}
 			
 		}	
@@ -94,7 +94,7 @@ public class FixNormEquipCfgChecker {
 		for (int i = 0; i < star; i++) {
 			FixNormEquipStarCfg  costcfg= FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(planId, i);
 			if(costcfg == null){
-				GameLog.error(LogModule.FixEquip, "FixNormEquipStarCostCfg", "配置不存在 planId:"+planId+" level:"+i, null);
+				GameLog.cfgError(LogModule.FixEquip, "FixNormEquipStarCostCfg", "配置不存在 planId:"+planId+" level:"+i);
 			}
 			
 		}	
