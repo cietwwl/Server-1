@@ -1029,7 +1029,7 @@ public class GroupSecretHandler {
 		// TODO HC 这里可能要从特权加，检查秘境创建的数量是不是超出了上限
 		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
 		if (defendSecretIdList.size() >= intPrivilege) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("您当前只能驻守%s个秘境", intPrivilege));
+			GroupSecretHelper.fillRspInfo(rsp, false, String.format("探索秘境已达上限", intPrivilege));
 			return rsp.build().toByteString();
 		}
 
