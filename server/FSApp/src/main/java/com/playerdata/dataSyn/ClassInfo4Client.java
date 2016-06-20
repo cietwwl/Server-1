@@ -11,6 +11,8 @@ import javax.persistence.Id;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.dataSyn.json.FieldInfo;
@@ -107,6 +109,30 @@ public class ClassInfo4Client {
 			jsonData = JsonUtil.writeValue(clientData);
 		}
 		return jsonData;
+	}
+	
+	public Object fromJson(String json){	
+		String fieldName = null;
+		String fieldJson = null;
+		Object target = null;
+		try{
+			target = clazz.newInstance();
+			Map<String,String> tableData = JsonUtil.readToMap(json, String.class);	
+			
+			for (FieldInfo fieldInfo : clientFiledList) {
+				fieldName = fieldInfo.getName();
+				fieldJson = tableData.get(fieldName);
+				if(StringUtils.isNotBlank(fieldJson)){
+					fieldInfo.fromJson(target, fieldJson);
+				}
+				
+			}
+			
+		}catch(Exception e){
+			GameLog.error(LogModule.Util, json, "ClassInfo4Client[FromJson] erro, fieldName:"+fieldName+" fieldJson:"+fieldJson, e);		
+		}
+	
+		return target;
 	}
 
 
