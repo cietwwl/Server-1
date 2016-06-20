@@ -34,17 +34,24 @@ public class ActivityExchangeTypeDropCfgDAO extends CfgCsvDao<ActivityExchangeTy
 	
 	/**解析copytype_几率,copyType_几率*/
 	private void parseTime(ActivityExchangeTypeDropCfg cfgTmp) {
-		Map<String, String> droplisttmp = new HashMap<String, String>();
+		Map<Integer, Integer[]> droplisttmp = new HashMap<Integer, Integer[]>();
 		if(StringUtils.isBlank(cfgTmp.getDrop())){
 			GameLog.error(LogModule.ComActivityExchange, "", "配置文件没有exchangeneed字段", null);
 			return;
 		}
 		String[] dropStrs = cfgTmp.getDrop().split(",");
 		for(String tmp :dropStrs){
-			String[] Strs = tmp.split("_");
-			droplisttmp.put(Strs[0],Strs[1] );
+			String[] Strs = tmp.split("_");			
+			if(Strs.length!=3){
+				GameLog.error("exchangetypedropcfgdao", null, "掉率解析异常", null);
+				break;
+			}
+			Integer[] numAndProbility = new Integer[2];
+			numAndProbility[0] =Integer.parseInt(Strs[1]);
+			numAndProbility[1] =Integer.parseInt(Strs[2]);
+			droplisttmp.put(Integer.parseInt(Strs[0]),numAndProbility );
 		}
-		cfgTmp.setDroplist(droplisttmp);
+		cfgTmp.setDropMap(droplisttmp);
 	}
 
 

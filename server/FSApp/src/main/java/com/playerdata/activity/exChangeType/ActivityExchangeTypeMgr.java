@@ -48,7 +48,7 @@ public class ActivityExchangeTypeMgr {
 	private static ActivityExchangeTypeMgr instance = new ActivityExchangeTypeMgr();
 	public static final Random random = new Random();
 	private final static int MAKEUPEMAIL = 10055;
-	private List<String> listId;
+	private Map<Integer, Integer> idAndNumMap =new HashMap<Integer, Integer>();
 
 	public static ActivityExchangeTypeMgr getInstance() {
 		return instance;
@@ -248,9 +248,8 @@ public class ActivityExchangeTypeMgr {
 	 * @param player  玩家等级是否足够
 	 * @param copyCfg  战斗场景是否有掉落
 	 */
-	public List<String> AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
-		listId = null;
-		listId = new ArrayList<String>();
+	public Map<Integer, Integer> AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
+		idAndNumMap = new HashMap<Integer, Integer>();
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历所有的活动
 			if (!isDropOpen(activityExchangeTypeCfg)) {
@@ -263,18 +262,24 @@ public class ActivityExchangeTypeMgr {
 			}
 			List<ActivityExchangeTypeDropCfg> dropCfgList = ActivityExchangeTypeDropCfgDAO.getInstance().getByParentId(activityExchangeTypeCfg.getId());
 			for(ActivityExchangeTypeDropCfg cfg : dropCfgList){//遍历单个活动可能对应的所有掉落道具类型
-				Map<String, String> map = cfg.getDroplist();
+				Map<Integer, Integer[]> map = cfg.getDropMap();
 				
-				if(map.get(copyCfg.getLevelType()+"") != null){//该掉落配置表的该条记录适合此类战斗场景
-					int probability =Integer.parseInt(map.get(copyCfg.getLevelType()+""));
-					if(random.nextInt(100)<=probability){
-						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), 1);
-						listId.add(cfg.getItemId());
+				if(map.get(copyCfg.getLevelType()) != null){//该掉落配置表的该条记录适合此类战斗场景
+					Integer[] numAndProbability =map.get(copyCfg.getLevelType());
+					
+					if(numAndProbability.length != 2){
+						GameLog.error("兑换币配置文件错误", player.getUserId(), "物品掉落没有生成几率和数量,str=" + numAndProbability, null);
+						idAndNumMap = null;
+						return idAndNumMap;
+					}
+					if(random.nextInt(10000)<=numAndProbability[1]){
+//						player.getItemBagMgr().addItem(Integer.parseInt(cfg.getItemId()), numAndProbability[0]);
+						idAndNumMap.put(Integer.parseInt(cfg.getItemId()),numAndProbability[0]);
 					}
 				}				
 			}			
 		}
-		return listId;
+		return idAndNumMap;
 	}	
 	
 	/**
@@ -284,13 +289,17 @@ public class ActivityExchangeTypeMgr {
 	 */
 	public void AddItemOfExchangeActivityBefore(Player player, CopyCfg copyCfg,List<ItemInfo> itemInfoList) {
 		AddItemOfExchangeActivity(player, copyCfg);
-		for(String id: listId){
-			ItemInfo newItem = new ItemInfo();
-			newItem.setItemID(Integer.parseInt(id));
-			newItem.setItemNum(1);
-			itemInfoList.add(newItem);
+		if(idAndNumMap == null){
+			//没声场额外掉落
+			return;
 		}
-		
+		for(Map.Entry<Integer, Integer> entry:idAndNumMap.entrySet()){
+			ItemInfo itemInfo = new ItemInfo();
+			itemInfo.setItemID(entry.getKey());
+			itemInfo.setItemNum(entry.getValue());
+			itemInfoList.add(itemInfo);
+			
+		}	
 	}
 
 	public boolean isDropOpen(ActivityExchangeTypeCfg activityExchangeTypeCfg) {

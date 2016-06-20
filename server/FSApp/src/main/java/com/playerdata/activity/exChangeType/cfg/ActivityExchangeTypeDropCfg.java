@@ -23,21 +23,27 @@ public class ActivityExchangeTypeDropCfg {
 	
 	private String drop ;	
 	
-	private Map<String, String> droplist = new HashMap<String, String>();
+	private Map<Integer, Integer[]> dropMap = new HashMap<Integer, Integer[]>();
 
 
 	
 	
 	
 
-	public Map<String, String> getDroplist() {
-		return droplist;
+	public Map<Integer, Integer[]> getDropMap() {
+		return dropMap;
 	}
 
 
-	public void setDroplist(Map<String, String> droplist) {
-		this.droplist = droplist;
+
+
+
+	public void setDropMap(Map<Integer, Integer[]> dropMap) {
+		this.dropMap = dropMap;
 	}
+
+
+
 
 
 	public String getParentCfg() {

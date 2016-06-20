@@ -2,6 +2,7 @@ package com.rw.service.copy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -130,11 +131,11 @@ public class PvECommonHelper {
 					// 将奖励放入背包
 					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
-				List<String> listId = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
-				int tmp = listItem.size();
-				for(String id : listId){
-					listItem.add(id+","+1);
+				Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+				for(Map.Entry<Integer, Integer> entry:map.entrySet()){
+					listItem.add(entry.getKey()+","+entry.getValue());
 				}
+			
 				
 				
 				tagsweepInfo.addAllTagItemList(listItem);
