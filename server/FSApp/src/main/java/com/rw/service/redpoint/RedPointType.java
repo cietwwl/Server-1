@@ -6,7 +6,6 @@ package com.rw.service.redpoint;
  *
  */
 public enum RedPointType {
-	
 	HOME_TOP_WINDOW_MAINCITY,
     HOME_TOP_WINDOW_GROUP,
     HOME_TOP_WINDOW_AREA,
@@ -50,5 +49,8 @@ public enum RedPointType {
     FIX_EQUIP_LIST,
     HERO_FIX_EQUIP_QUALITY_UP,
     HERO_FIX_EQUIP_START_UP,
-
+    SECRET_ENTRY,
+    SECRET_RES_REWARD,
+    SECRET_RECORD_KEY,
+    MAGIC_SECRET_SCORE_REWARD,
 }
