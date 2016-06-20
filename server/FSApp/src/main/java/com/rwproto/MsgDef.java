@@ -624,21 +624,13 @@ public final class MsgDef {
      */
     MSG_GROUP_SECRET_MATCH(82, 204),
     /**
-     * <code>MSG_GROUP_CHAMP = 205;</code>
+     * <code>MSG_GROUP_FIGHT_ONLINE = 205;</code>
      *
      * <pre>
-     *帮派竞技
+     *在线帮战
      * </pre>
      */
-    MSG_GROUP_CHAMP(83, 205),
-    /**
-     * <code>MSG_GROUP_FIGHT_ONLINE = 206;</code>
-     *
-     * <pre>
-     *帮派竞技
-     * </pre>
-     */
-    MSG_GROUP_FIGHT_ONLINE(84, 206),
+    MSG_GROUP_FIGHT_ONLINE(83, 205),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -646,7 +638,7 @@ public final class MsgDef {
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(85, 995),
+    MSG_FEEDBACK(84, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -654,7 +646,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(86, 996),
+    MSG_SDK_VERIFY(85, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -662,7 +654,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(87, 997),
+    MSG_NUMERIC_ANALYSIS(86, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -670,7 +662,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(88, 998),
+    MSG_PLATFORMGS(87, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -678,7 +670,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(89, 999),
+    MSG_GAMEPRESS(88, 999),
     ;
 
     /**
@@ -1292,21 +1284,13 @@ public final class MsgDef {
      */
     public static final int MSG_GROUP_SECRET_MATCH_VALUE = 204;
     /**
-     * <code>MSG_GROUP_CHAMP = 205;</code>
+     * <code>MSG_GROUP_FIGHT_ONLINE = 205;</code>
      *
      * <pre>
-     *帮派竞技
+     *在线帮战
      * </pre>
      */
-    public static final int MSG_GROUP_CHAMP_VALUE = 205;
-    /**
-     * <code>MSG_GROUP_FIGHT_ONLINE = 206;</code>
-     *
-     * <pre>
-     *帮派竞技
-     * </pre>
-     */
-    public static final int MSG_GROUP_FIGHT_ONLINE_VALUE = 206;
+    public static final int MSG_GROUP_FIGHT_ONLINE_VALUE = 205;
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -1436,8 +1420,7 @@ public final class MsgDef {
         case 202: return MSG_GROUP_SECRET;
         case 203: return MSG_MAGIC_SECRET;
         case 204: return MSG_GROUP_SECRET_MATCH;
-        case 205: return MSG_GROUP_CHAMP;
-        case 206: return MSG_GROUP_FIGHT_ONLINE;
+        case 205: return MSG_GROUP_FIGHT_ONLINE;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -1503,7 +1486,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\303\016\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\255\016\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1546,11 +1529,11 @@ public final class MsgDef {
       "HANGE_TYPE\020\266\001\022\017\n\nMSG_TAOIST\020\310\001\022\022\n\rMSG_FI" +
       "X_EQUIP\020\311\001\022\025\n\020MSG_GROUP_SECRET\020\312\001\022\025\n\020MSG" +
       "_MAGIC_SECRET\020\313\001\022\033\n\026MSG_GROUP_SECRET_MAT" +
-      "CH\020\314\001\022\024\n\017MSG_GROUP_CHAMP\020\315\001\022\033\n\026MSG_GROUP" +
-      "_FIGHT_ONLINE\020\316\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016M" +
-      "SG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS" +
-      "\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRES" +
-      "S\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
+      "CH\020\314\001\022\033\n\026MSG_GROUP_FIGHT_ONLINE\020\315\001\022\021\n\014MS" +
+      "G_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MS" +
+      "G_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020" +
+      "\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006M" +
+      "sgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
