@@ -584,13 +584,37 @@ public final class MsgDef {
      */
     MSG_ACTIVITY_EXCHANGE_TYPE(77, 182),
     /**
+     * <code>MSG_GROUP_COPY_ADMIN = 184;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    MSG_GROUP_COPY_ADMIN(78, 184),
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 185;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    MSG_GROUP_COPY_BATTLE(79, 185),
+    /**
+     * <code>MSG_GROUP_COPY_CMD = 186;</code>
+     *
+     * <pre>
+     *帮派副本协议
+     * </pre>
+     */
+    MSG_GROUP_COPY_CMD(80, 186),
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
      *道术系统
      * </pre>
      */
-    MSG_TAOIST(78, 200),
+    MSG_TAOIST(81, 200),
     /**
      * <code>MSG_FIX_EQUIP = 201;</code>
      *
@@ -598,7 +622,7 @@ public final class MsgDef {
      *专属装备
      * </pre>
      */
-    MSG_FIX_EQUIP(79, 201),
+    MSG_FIX_EQUIP(82, 201),
     /**
      * <code>MSG_GROUP_SECRET = 202;</code>
      *
@@ -606,7 +630,7 @@ public final class MsgDef {
      *帮派秘境
      * </pre>
      */
-    MSG_GROUP_SECRET(80, 202),
+    MSG_GROUP_SECRET(83, 202),
     /**
      * <code>MSG_MAGIC_SECRET = 203;</code>
      *
@@ -614,7 +638,7 @@ public final class MsgDef {
      *法宝秘境
      * </pre>
      */
-    MSG_MAGIC_SECRET(81, 203),
+    MSG_MAGIC_SECRET(84, 203),
     /**
      * <code>MSG_GROUP_SECRET_MATCH = 204;</code>
      *
@@ -622,7 +646,7 @@ public final class MsgDef {
      *帮派秘境探索
      * </pre>
      */
-    MSG_GROUP_SECRET_MATCH(82, 204),
+    MSG_GROUP_SECRET_MATCH(85, 204),
     /**
      * <code>MSG_GROUP_CHAMP = 205;</code>
      *
@@ -630,7 +654,7 @@ public final class MsgDef {
      *帮派竞技
      * </pre>
      */
-    MSG_GROUP_CHAMP(83, 205),
+    MSG_GROUP_CHAMP(86, 205),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -638,7 +662,7 @@ public final class MsgDef {
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(84, 995),
+    MSG_FEEDBACK(87, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -646,7 +670,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(85, 996),
+    MSG_SDK_VERIFY(88, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -654,7 +678,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(86, 997),
+    MSG_NUMERIC_ANALYSIS(89, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -662,7 +686,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(87, 998),
+    MSG_PLATFORMGS(90, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -670,7 +694,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(88, 999),
+    MSG_GAMEPRESS(91, 999),
     ;
 
     /**
@@ -1244,6 +1268,30 @@ public final class MsgDef {
      */
     public static final int MSG_ACTIVITY_EXCHANGE_TYPE_VALUE = 182;
     /**
+     * <code>MSG_GROUP_COPY_ADMIN = 184;</code>
+     *
+     * <pre>
+     *帮派副本管理
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_ADMIN_VALUE = 184;
+    /**
+     * <code>MSG_GROUP_COPY_BATTLE = 185;</code>
+     *
+     * <pre>
+     *帮派副本战斗
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_BATTLE_VALUE = 185;
+    /**
+     * <code>MSG_GROUP_COPY_CMD = 186;</code>
+     *
+     * <pre>
+     *帮派副本协议
+     * </pre>
+     */
+    public static final int MSG_GROUP_COPY_CMD_VALUE = 186;
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
@@ -1415,6 +1463,9 @@ public final class MsgDef {
         case 180: return MSG_ACTIVITY_DAILY_TYPE;
         case 181: return MSG_ACTIVITY_VITALITY_TYPE;
         case 182: return MSG_ACTIVITY_EXCHANGE_TYPE;
+        case 184: return MSG_GROUP_COPY_ADMIN;
+        case 185: return MSG_GROUP_COPY_BATTLE;
+        case 186: return MSG_GROUP_COPY_CMD;
         case 200: return MSG_TAOIST;
         case 201: return MSG_FIX_EQUIP;
         case 202: return MSG_GROUP_SECRET;
@@ -1486,7 +1537,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\246\016\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\366\016\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1526,7 +1577,9 @@ public final class MsgDef {
       "\262\001\022!\n\034MSG_ACTIVITY_TIME_COUNT_TYPE\020\263\001\022\034\n" +
       "\027MSG_ACTIVITY_DAILY_TYPE\020\264\001\022\037\n\032MSG_ACTIV" +
       "ITY_VITALITY_TYPE\020\265\001\022\037\n\032MSG_ACTIVITY_EXC",
-      "HANGE_TYPE\020\266\001\022\017\n\nMSG_TAOIST\020\310\001\022\022\n\rMSG_FI" +
+      "HANGE_TYPE\020\266\001\022\031\n\024MSG_GROUP_COPY_ADMIN\020\270\001" +
+      "\022\032\n\025MSG_GROUP_COPY_BATTLE\020\271\001\022\027\n\022MSG_GROU" +
+      "P_COPY_CMD\020\272\001\022\017\n\nMSG_TAOIST\020\310\001\022\022\n\rMSG_FI" +
       "X_EQUIP\020\311\001\022\025\n\020MSG_GROUP_SECRET\020\312\001\022\025\n\020MSG" +
       "_MAGIC_SECRET\020\313\001\022\033\n\026MSG_GROUP_SECRET_MAT" +
       "CH\020\314\001\022\024\n\017MSG_GROUP_CHAMP\020\315\001\022\021\n\014MSG_FEEDB" +
