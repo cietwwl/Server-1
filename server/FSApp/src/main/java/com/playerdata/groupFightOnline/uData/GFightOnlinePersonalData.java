@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupFightOnline.dataExtend.DefendArmySimpleInfo;
+import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,14 +18,19 @@ public class GFightOnlinePersonalData {
 	@Id
 	private String id;
 	
+	@CombineSave
 	private List<ArmyHeroSimple> selfArmyInfo;
 	
+	@CombineSave
 	private int changeEnimyTimes;
 	
+	@CombineSave
 	private DefendArmySimpleInfo randomDefender;
 
+	@CombineSave
 	private int killCount;
 	
+	@CombineSave
 	private int hurtTotal;
 	
 	public String getId() {

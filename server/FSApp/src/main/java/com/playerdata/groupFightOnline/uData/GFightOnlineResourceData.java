@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.dao.annotation.CombineSave;
 
 
 @SynClass
@@ -14,6 +15,7 @@ public class GFightOnlineResourceData {
 	@Id
 	private int resourceID;
 
+	@CombineSave
 	private int ownerGroupID;
 
 	public int getResourceID() {
