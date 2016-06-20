@@ -34,5 +34,14 @@ public class FieldClass implements IFieldToJson{
 		return info.toString();
 	}
 
+	@Override
+	public void fromJson(Object target, String json) throws Exception {
+		Object objValue = classInfo.fromJson(json);
+		if(objValue!=null){
+			field.set(target, objValue);
+		}
+		
+	}
+
 
 }

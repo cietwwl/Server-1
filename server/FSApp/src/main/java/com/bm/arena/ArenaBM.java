@@ -309,8 +309,7 @@ public class ArenaBM {
 			GameLog.error("ArenaBM", "#arenaDailyPrize()", "获取奖励为空：" + userId + "," + entry.getComparable().getRanking());
 		}
 		EmailUtils.sendEmail(userId, ArenaConstant.DAILY_PRIZE_MAIL_ID, strPrize, settle.getSettleMillis());
-		Player player = PlayerMgr.getInstance().find(userId);
-		player.getTempAttribute().setRedPointChanged();
+		PlayerMgr.getInstance().setRedPointForHeartBeat(userId);
 	}
 
 	// 筛选玩家

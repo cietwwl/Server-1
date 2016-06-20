@@ -544,6 +544,23 @@ public class MagicSecretMgr {
 	}
 	
 	/**
+	 * 用于前端判断红点
+	 * @param player
+	 * @return
+	 */
+	public boolean hasScoreReward(Player player){
+		List<DungeonScoreCfg> dungScoreCfgList = DungeonScoreCfgDAO.getInstance().getAllCfg();
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
+		if(umsData == null) return false;
+		int totalScore = getTotalScore(umsData.getHistoryScore(), umsData.getTodayScore());
+		for(DungeonScoreCfg cfg : dungScoreCfgList) {
+			if(umsData.getGotScoreReward().contains(cfg.getKey())) continue;
+			if(totalScore >= cfg.getScore()) return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * 获取副本星级对应的得分系数
 	 * @param finishStar
 	 * @return
