@@ -204,4 +204,9 @@ public class ClientDataSynMgr {
 		}
 	}
 	
+	public static Object fromClientJson2Data(Class<?> clazz, String json) throws Exception {
+		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(clazz);
+		return serverClassInfo.fromJson(json);
+	}
+	
 }
