@@ -17,7 +17,7 @@ public class GroupCopyMapRecordHolder{
 	
 	
 	final private String groupId;
-	final private eSynType synType = eSynType.GroupCopyMap;	
+	final private eSynType synType = eSynType.GROUP_COPY_MAP;	
 	
 	final private AtomicInteger dataVersion = new AtomicInteger(1);
 	
@@ -40,10 +40,11 @@ public class GroupCopyMapRecordHolder{
 		return itemList;
 	}
 	
-	public void updateItem( GroupCopyMapRecord item ){
-		getItemStore().updateItem(item);
+	public boolean updateItem(Player player, GroupCopyMapRecord item ){
+		boolean suc = getItemStore().updateItem(item);
 		update();
-//		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		return suc;
 	}
 	
 	public GroupCopyMapRecord getItem(String itemId){
@@ -51,12 +52,15 @@ public class GroupCopyMapRecordHolder{
 	}
 	
 	
-	public boolean addItem( GroupCopyMapRecord item ){
+	public boolean addItem(Player player, GroupCopyMapRecord item ){
 	
+		if(item.getGroupId() == null || item.getGroupId().equals("")){
+			item.setGroupId(groupId);
+		}
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
 			update();
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
+			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
 	}

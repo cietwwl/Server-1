@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +22,7 @@ public class GroupCopyLevelRecordHolder{
 	
 	
 	final private String groupId;
-	final private eSynType synType = eSynType.GroupCopyLevel;
+	final private eSynType synType = eSynType.GROUP_COPY_LEVEL;
 	
 	final private AtomicInteger dataVersion = new AtomicInteger(1);
 	
@@ -82,22 +83,23 @@ public class GroupCopyLevelRecordHolder{
 	
 	public void synSingleData(Player player, String level){
 		GroupCopyLevelRecord groupRecord = getByLevel(level);
-		UserGroupCopyMapRecord userRecord = player.getUserGroupCopyLevelRecordMgr().getByLevel(level);
+		UserGroupCopyMapRecord userRecord = player.getUserGroupCopyRecordMgr().getByLevel(level);
 		GroupCopyLevelRecord4Client record4client = new GroupCopyLevelRecord4Client(groupRecord, userRecord);
 		ClientDataSynMgr.updateData(player, record4client, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public void synAllData(Player player, int version){
-		int combineVersion = dataVersion.get()+player.getUserGroupCopyLevelRecordMgr().getDataVersion();
+		int combineVersion = dataVersion.get()+player.getUserGroupCopyRecordMgr().getDataVersion();
 		if(combineVersion == version){
 			return;
 		}
 		List<GroupCopyLevelRecord> groupRecordList = getItemList();
-		List<UserGroupCopyMapRecord> userRecordList = player.getUserGroupCopyLevelRecordMgr().getRecordList();
-		List<GroupCopyLevelRecord4Client> record4ClientList = buildLevelRecord4ClientList(userRecordList, groupRecordList);
-		ClientDataSynMgr.synDataList(player, record4ClientList, synType, eSynOpType.UPDATE_LIST,combineVersion);
+//		List<UserGroupCopyMapRecord> userRecordList = player.getUserGroupCopyLevelRecordMgr().getUserMapRecordList();
+//		List<GroupCopyLevelRecord4Client> record4ClientList = buildLevelRecord4ClientList(userRecordList, groupRecordList);
+		ClientDataSynMgr.synDataList(player, groupRecordList, synType, eSynOpType.UPDATE_LIST,combineVersion);
 	}
 	
+	@Deprecated
 	private List<GroupCopyLevelRecord4Client> buildLevelRecord4ClientList(List<UserGroupCopyMapRecord> userRecordList, List<GroupCopyLevelRecord> groupRecordList){
 		List<GroupCopyLevelRecord4Client> record4ClientList = new ArrayList<GroupCopyLevelRecord4Client>();
 		
@@ -114,7 +116,7 @@ public class GroupCopyLevelRecordHolder{
 	private Map<String,UserGroupCopyMapRecord> toLevelMap(List<UserGroupCopyMapRecord> userRecordList){
 		Map<String,UserGroupCopyMapRecord> levelMap = new HashMap<String,UserGroupCopyMapRecord>();
 		for (UserGroupCopyMapRecord recordItem : userRecordList) {
-			levelMap.put(recordItem.getChaterID(), recordItem);
+			levelMap.put(recordItem.getId(), recordItem);
 		}
 		return levelMap;
 	}
@@ -129,6 +131,20 @@ public class GroupCopyLevelRecordHolder{
 	private MapItemStore<GroupCopyLevelRecord> getItemStore(){
 		MapItemStoreCache<GroupCopyLevelRecord> itemStoreCache = MapItemStoreFactory.getGroupCopyLevelRecordCache();
 		return itemStoreCache.getMapItemStore(groupId, GroupCopyLevelRecord.class);
+	}
+
+	public void resetLevelData(Player player,Set<String> set) {
+		
+		List<GroupCopyLevelRecord> list = new ArrayList<GroupCopyLevelRecord>();
+		GroupCopyLevelRecord record;
+		for (String id : set) {
+			record = getByLevel(id);
+			record.resetLevelData();
+			list.add(record);
+		}
+		updateVersion();
+		
+		ClientDataSynMgr.synDataList(player, list, synType, eSynOpType.UPDATE_LIST);
 	}
 	
 }

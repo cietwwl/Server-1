@@ -25,12 +25,10 @@ import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 public class GroupCopyMapRecord implements IMapItem {
 
 	@Id
-	private String id; // 唯一id
+	private String id; // 对应章节id
 	@IgnoreSynField
 	private String groupId; // 帮派ID
 	
-	@CombineSave
-	private String chaterID; //章节id
 	@CombineSave
 	private GroupCopyMapStatus status;//状态 开启 关闭 完成
 	
@@ -85,13 +83,7 @@ public class GroupCopyMapRecord implements IMapItem {
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
-	
-	public String getChaterID() {
-		return chaterID;
-	}
-	public void setChaterID(String chaterID) {
-		this.chaterID = chaterID;
-	}
+
 	public GroupCopyMapStatus getStatus() {
 		return status;
 	}
@@ -111,13 +103,12 @@ public class GroupCopyMapRecord implements IMapItem {
 		this.damegeRankInfo = damegeRankInfo;
 	}
 	
-	
-	
-//	
-//	public synchronized void addProgress(double p){
-//		this.progress += p;
-//	}
-	
+	public long getRewardTime() {
+		return rewardTime;
+	}
+	public void setRewardTime(long rewardTime) {
+		this.rewardTime = rewardTime;
+	}
 	/**
 	 * 此方法只是提供序列化使用，一般功能禁止调用，
 	 * 如需迭代，请使用{@link GroupCopyMapRecord#getDropApplyEnumeration()}
@@ -144,5 +135,13 @@ public class GroupCopyMapRecord implements IMapItem {
 		return damegeRankInfo.addInfo(info);
 	}
 
+	/**
+	 * 开启或重置时消除旧数据
+	 */
+	public void cleanData(){
+		progress = 0;
+		damegeRankInfo.clear();
+		groupRoleDamageMap.clear();
+	}
 	
 }

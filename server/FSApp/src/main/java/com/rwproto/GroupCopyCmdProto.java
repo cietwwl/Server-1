@@ -183,55 +183,55 @@ public final class GroupCopyCmdProto {
    * Protobuf enum {@code GroupCopyCmd.GroupCopyMapStatus}
    *
    * <pre>
-   *副本地图章节状态
+   *副本地图章节状态  [枚举类型要从0开始，否则后端序列化给前端的时候会出错]
    * </pre>
    */
   public enum GroupCopyMapStatus
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>LOCKING = 1;</code>
+     * <code>LOCKING = 0;</code>
      */
-    LOCKING(0, 1),
+    LOCKING(0, 0),
     /**
-     * <code>NOTSTART = 2;</code>
+     * <code>NOTSTART = 1;</code>
      */
-    NOTSTART(1, 2),
+    NOTSTART(1, 1),
     /**
-     * <code>ONGOING = 3;</code>
+     * <code>ONGOING = 2;</code>
      */
-    ONGOING(2, 3),
+    ONGOING(2, 2),
     /**
-     * <code>FINISH = 4;</code>
+     * <code>FINISH = 3;</code>
      */
-    FINISH(3, 4),
+    FINISH(3, 3),
     ;
 
     /**
-     * <code>LOCKING = 1;</code>
+     * <code>LOCKING = 0;</code>
      */
-    public static final int LOCKING_VALUE = 1;
+    public static final int LOCKING_VALUE = 0;
     /**
-     * <code>NOTSTART = 2;</code>
+     * <code>NOTSTART = 1;</code>
      */
-    public static final int NOTSTART_VALUE = 2;
+    public static final int NOTSTART_VALUE = 1;
     /**
-     * <code>ONGOING = 3;</code>
+     * <code>ONGOING = 2;</code>
      */
-    public static final int ONGOING_VALUE = 3;
+    public static final int ONGOING_VALUE = 2;
     /**
-     * <code>FINISH = 4;</code>
+     * <code>FINISH = 3;</code>
      */
-    public static final int FINISH_VALUE = 4;
+    public static final int FINISH_VALUE = 3;
 
 
     public final int getNumber() { return value; }
 
     public static GroupCopyMapStatus valueOf(int value) {
       switch (value) {
-        case 1: return LOCKING;
-        case 2: return NOTSTART;
-        case 3: return ONGOING;
-        case 4: return FINISH;
+        case 0: return LOCKING;
+        case 1: return NOTSTART;
+        case 2: return ONGOING;
+        case 3: return FINISH;
         default: return null;
       }
     }
@@ -1534,8 +1534,8 @@ public final class GroupCopyCmdProto {
       "Code\030\002 \002(\0162\030.GroupCopyCmd.ResultCode* \n\020" +
       "GroupCopyReqType\022\014\n\010GET_INFO\020\001*)\n\nResult" +
       "Code\022\014\n\010CODE_SUC\020\001\022\r\n\tCODE_FAIL\020\002*H\n\022Gro" +
-      "upCopyMapStatus\022\013\n\007LOCKING\020\001\022\014\n\010NOTSTART" +
-      "\020\002\022\013\n\007ONGOING\020\003\022\n\n\006FINISH\020\004B \n\013com.rwpro",
+      "upCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART" +
+      "\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwpro",
       "toB\021GroupCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =

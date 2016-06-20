@@ -18,6 +18,18 @@ public class GroupCopyDamegeRankInfo {
 
 	
 	
+	public LinkedList<GroupCopyArmyDamageInfo> getDamageRank() {
+		return damageRank;
+	}
+
+
+
+	public void setDamageRank(LinkedList<GroupCopyArmyDamageInfo> damageRank) {
+		this.damageRank = damageRank;
+	}
+
+
+
 	public synchronized boolean addInfo(GroupCopyArmyDamageInfo info) {
 		//先与最后的比较
 		GroupCopyArmyDamageInfo tem = null;
@@ -51,4 +63,7 @@ public class GroupCopyDamegeRankInfo {
 		return true;
 	}
 
+	public synchronized void clear(){
+		damageRank.clear();
+	}
 }

@@ -447,29 +447,29 @@ public final class DataSynProtos {
      */
     UserGroupAttributeData(34, 35),
     /**
-     * <code>GroupCopyLevel = 36;</code>
+     * <code>GROUP_COPY_LEVEL = 36;</code>
      *
      * <pre>
      *帮派关卡记录
      * </pre>
      */
-    GroupCopyLevel(35, 36),
+    GROUP_COPY_LEVEL(35, 36),
     /**
-     * <code>GroupCopyMap = 37;</code>
+     * <code>GROUP_COPY_MAP = 37;</code>
      *
      * <pre>
      *帮派地图记录
      * </pre>
      */
-    GroupCopyMap(36, 37),
+    GROUP_COPY_MAP(36, 37),
     /**
-     * <code>GroupCopyReward = 38;</code>
+     * <code>GROUP_COPY_REWARD = 38;</code>
      *
      * <pre>
      *帮派奖励分配记录
      * </pre>
      */
-    GroupCopyReward(37, 38),
+    GROUP_COPY_REWARD(37, 38),
     /**
      * <code>GroupApplyMemberData = 39;</code>
      *
@@ -583,13 +583,21 @@ public final class DataSynProtos {
      */
     SECRETAREA_TEAM_INFO(51, 52),
     /**
+     * <code>USE_GROUP_COPY_DATA = 53;</code>
+     *
+     * <pre>
+     *帮派副本个人数据
+     * </pre>
+     */
+    USE_GROUP_COPY_DATA(52, 53),
+    /**
      * <code>ActivityCountType = 60;</code>
      *
      * <pre>
      *活动从60-79
      * </pre>
      */
-    ActivityCountType(52, 60),
+    ActivityCountType(53, 60),
     /**
      * <code>ActivityTimeCardType = 61;</code>
      *
@@ -597,7 +605,7 @@ public final class DataSynProtos {
      *月卡
      * </pre>
      */
-    ActivityTimeCardType(53, 61),
+    ActivityTimeCardType(54, 61),
     /**
      * <code>ActivityRateType = 62;</code>
      *
@@ -605,7 +613,7 @@ public final class DataSynProtos {
      *活动，奖励翻倍类型
      * </pre>
      */
-    ActivityRateType(54, 62),
+    ActivityRateType(55, 62),
     /**
      * <code>ActivityDateType = 63;</code>
      *
@@ -613,7 +621,7 @@ public final class DataSynProtos {
      *活动，日期类型
      * </pre>
      */
-    ActivityDateType(55, 63),
+    ActivityDateType(56, 63),
     /**
      * <code>ActivityTimeSaleType = 64;</code>
      *
@@ -621,7 +629,7 @@ public final class DataSynProtos {
      *活动，限时折扣
      * </pre>
      */
-    ActivityTimeSaleType(56, 64),
+    ActivityTimeSaleType(57, 64),
     /**
      * <code>ActivityDateSaleType = 65;</code>
      *
@@ -629,7 +637,7 @@ public final class DataSynProtos {
      *活动，每日折扣
      * </pre>
      */
-    ActivityDateSaleType(57, 65),
+    ActivityDateSaleType(58, 65),
     /**
      * <code>ActivityRankType = 66;</code>
      *
@@ -637,7 +645,7 @@ public final class DataSynProtos {
      *活动，排行榜
      * </pre>
      */
-    ActivityRankType(58, 66),
+    ActivityRankType(59, 66),
     /**
      * <code>ActivityExchangeType = 67;</code>
      *
@@ -645,7 +653,7 @@ public final class DataSynProtos {
      *活动，兑换
      * </pre>
      */
-    ActivityExchangeType(59, 67),
+    ActivityExchangeType(60, 67),
     /**
      * <code>ActivityTimeCountType = 68;</code>
      *
@@ -653,7 +661,7 @@ public final class DataSynProtos {
      *活动，在线奖励
      * </pre>
      */
-    ActivityTimeCountType(60, 68),
+    ActivityTimeCountType(61, 68),
     /**
      * <code>ActivityDailyType = 69;</code>
      *
@@ -661,7 +669,7 @@ public final class DataSynProtos {
      *活动，每日福利
      * </pre>
      */
-    ActivityDailyType(61, 69),
+    ActivityDailyType(62, 69),
     /**
      * <code>ActivityVitalityType = 70;</code>
      *
@@ -669,7 +677,7 @@ public final class DataSynProtos {
      *活动，活跃度
      * </pre>
      */
-    ActivityVitalityType(62, 70),
+    ActivityVitalityType(63, 70),
     /**
      * <code>QuestionList = 80;</code>
      *
@@ -677,7 +685,7 @@ public final class DataSynProtos {
      *反馈问题列表
      * </pre>
      */
-    QuestionList(63, 80),
+    QuestionList(64, 80),
     ;
 
     /**
@@ -961,29 +969,29 @@ public final class DataSynProtos {
      */
     public static final int UserGroupAttributeData_VALUE = 35;
     /**
-     * <code>GroupCopyLevel = 36;</code>
+     * <code>GROUP_COPY_LEVEL = 36;</code>
      *
      * <pre>
      *帮派关卡记录
      * </pre>
      */
-    public static final int GroupCopyLevel_VALUE = 36;
+    public static final int GROUP_COPY_LEVEL_VALUE = 36;
     /**
-     * <code>GroupCopyMap = 37;</code>
+     * <code>GROUP_COPY_MAP = 37;</code>
      *
      * <pre>
      *帮派地图记录
      * </pre>
      */
-    public static final int GroupCopyMap_VALUE = 37;
+    public static final int GROUP_COPY_MAP_VALUE = 37;
     /**
-     * <code>GroupCopyReward = 38;</code>
+     * <code>GROUP_COPY_REWARD = 38;</code>
      *
      * <pre>
      *帮派奖励分配记录
      * </pre>
      */
-    public static final int GroupCopyReward_VALUE = 38;
+    public static final int GROUP_COPY_REWARD_VALUE = 38;
     /**
      * <code>GroupApplyMemberData = 39;</code>
      *
@@ -1096,6 +1104,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int SECRETAREA_TEAM_INFO_VALUE = 52;
+    /**
+     * <code>USE_GROUP_COPY_DATA = 53;</code>
+     *
+     * <pre>
+     *帮派副本个人数据
+     * </pre>
+     */
+    public static final int USE_GROUP_COPY_DATA_VALUE = 53;
     /**
      * <code>ActivityCountType = 60;</code>
      *
@@ -1233,9 +1249,9 @@ public final class DataSynProtos {
         case 33: return GroupMemberData;
         case 34: return GroupLog;
         case 35: return UserGroupAttributeData;
-        case 36: return GroupCopyLevel;
-        case 37: return GroupCopyMap;
-        case 38: return GroupCopyReward;
+        case 36: return GROUP_COPY_LEVEL;
+        case 37: return GROUP_COPY_MAP;
+        case 38: return GROUP_COPY_REWARD;
         case 39: return GroupApplyMemberData;
         case 40: return GroupResearchSkill;
         case 41: return GroupStudySkill;
@@ -1250,6 +1266,7 @@ public final class DataSynProtos {
         case 50: return MagicSecretData;
         case 51: return MagicChapterData;
         case 52: return SECRETAREA_TEAM_INFO;
+        case 53: return USE_GROUP_COPY_DATA;
         case 60: return ActivityCountType;
         case 61: return ActivityTimeCardType;
         case 62: return ActivityRateType;
@@ -5146,7 +5163,7 @@ public final class DataSynProtos {
       "\030\003 \003(\0132\020.DataSyn.SynData\022\017\n\007version\030\004 \001(",
       "\005*e\n\neSynOpType\022\017\n\013UPDATE_LIST\020\001\022\021\n\rUPDA" +
       "TE_SINGLE\020\002\022\016\n\nADD_SINGLE\020\003\022\021\n\rREMOVE_SI" +
-      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\271\n\n\010eSynType\022\025\n" +
+      "NGLE\020\004\022\020\n\014UPDATE_FIELD\020\005*\330\n\n\010eSynType\022\025\n" +
       "\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_RECORD\020" +
       "\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRETARE" +
       "A_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_INFO\020\005" +
@@ -5164,23 +5181,24 @@ public final class DataSynProtos {
       "Y_DATA\020\035\022\r\n\tASSISTANT\020\036\022\020\n\014VERSION_COPY\020" +
       "\037\022\021\n\rGroupBaseData\020 \022\023\n\017GroupMemberData\020" +
       "!\022\014\n\010GroupLog\020\"\022\032\n\026UserGroupAttributeDat",
-      "a\020#\022\022\n\016GroupCopyLevel\020$\022\020\n\014GroupCopyMap\020" +
-      "%\022\023\n\017GroupCopyReward\020&\022\030\n\024GroupApplyMemb" +
-      "erData\020\'\022\026\n\022GroupResearchSkill\020(\022\023\n\017Grou" +
-      "pStudySkill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER_INFO\020" +
-      "+\022\026\n\022USER_TMP_GAME_DATA\020,\022\020\n\014HERO_FETTER" +
-      "S\020-\022\022\n\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP_EQUIP" +
-      "\020/\022\027\n\023UserGroupSecretData\0200\022\023\n\017GroupSecr" +
-      "etData\0201\022\023\n\017MagicSecretData\0202\022\024\n\020MagicCh" +
-      "apterData\0203\022\030\n\024SECRETAREA_TEAM_INFO\0204\022\025\n" +
-      "\021ActivityCountType\020<\022\030\n\024ActivityTimeCard",
-      "Type\020=\022\024\n\020ActivityRateType\020>\022\024\n\020Activity" +
-      "DateType\020?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024" +
-      "ActivityDateSaleType\020A\022\024\n\020ActivityRankTy" +
-      "pe\020B\022\030\n\024ActivityExchangeType\020C\022\031\n\025Activi" +
-      "tyTimeCountType\020D\022\025\n\021ActivityDailyType\020E" +
-      "\022\030\n\024ActivityVitalityType\020F\022\020\n\014QuestionLi" +
-      "st\020PB\034\n\013com.rwprotoB\rDataSynProtos"
+      "a\020#\022\024\n\020GROUP_COPY_LEVEL\020$\022\022\n\016GROUP_COPY_" +
+      "MAP\020%\022\025\n\021GROUP_COPY_REWARD\020&\022\030\n\024GroupApp" +
+      "lyMemberData\020\'\022\026\n\022GroupResearchSkill\020(\022\023" +
+      "\n\017GroupStudySkill\020)\022\n\n\006Charge\020*\022\016\n\nPOWER" +
+      "_INFO\020+\022\026\n\022USER_TMP_GAME_DATA\020,\022\020\n\014HERO_" +
+      "FETTERS\020-\022\022\n\016FIX_NORM_EQUIP\020.\022\021\n\rFIX_EXP" +
+      "_EQUIP\020/\022\027\n\023UserGroupSecretData\0200\022\023\n\017Gro" +
+      "upSecretData\0201\022\023\n\017MagicSecretData\0202\022\024\n\020M" +
+      "agicChapterData\0203\022\030\n\024SECRETAREA_TEAM_INF" +
+      "O\0204\022\027\n\023USE_GROUP_COPY_DATA\0205\022\025\n\021Activity",
+      "CountType\020<\022\030\n\024ActivityTimeCardType\020=\022\024\n" +
+      "\020ActivityRateType\020>\022\024\n\020ActivityDateType\020" +
+      "?\022\030\n\024ActivityTimeSaleType\020@\022\030\n\024ActivityD" +
+      "ateSaleType\020A\022\024\n\020ActivityRankType\020B\022\030\n\024A" +
+      "ctivityExchangeType\020C\022\031\n\025ActivityTimeCou" +
+      "ntType\020D\022\025\n\021ActivityDailyType\020E\022\030\n\024Activ" +
+      "ityVitalityType\020F\022\020\n\014QuestionList\020PB\034\n\013c" +
+      "om.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

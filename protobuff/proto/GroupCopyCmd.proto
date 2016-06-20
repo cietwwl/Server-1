@@ -14,12 +14,12 @@ enum ResultCode{
 }
 
 
-//副本地图章节状态
+//副本地图章节状态  [枚举类型要从0开始，否则后端序列化给前端的时候会出错]
 enum GroupCopyMapStatus{
-	LOCKING = 1;
-    NOTSTART = 2;
-	ONGOING = 3;
-	FINISH = 4;
+	LOCKING = 0;
+    NOTSTART = 1;
+	ONGOING = 2;
+	FINISH = 3;
 }
 
 message GroupCopyCmdReqMsg{

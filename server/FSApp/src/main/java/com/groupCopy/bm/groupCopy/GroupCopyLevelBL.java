@@ -59,7 +59,7 @@ public class GroupCopyLevelBL {
 				result.setTipMsg("无法找到关卡对应的章节");
 			}else{
 				
-				UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyLevelRecordMgr();
+				UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
 				UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(levelCfg.getChaterID());
 				
 				if(userRecord.getFightCount() >= MAX_FIGHT_COUNT){
@@ -74,7 +74,7 @@ public class GroupCopyLevelBL {
 					
 					boolean success = groupCopyLevelRecordHolder.updateItem(player, groupRecord);
 					if(success){
-						success = userRecordMgr.updateItem(userRecord);
+						success = userRecordMgr.updateItem(player, userRecord);
 					}
 					result.setSuccess(true);
 					
@@ -130,7 +130,7 @@ public class GroupCopyLevelBL {
 		}else{
 			
 			
-			UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyLevelRecordMgr();
+			UserGroupCopyMapRecordMgr userRecordMgr = player.getUserGroupCopyRecordMgr();
 			UserGroupCopyMapRecord userRecord = userRecordMgr.getByLevel(level);
 			
 			
@@ -154,7 +154,7 @@ public class GroupCopyLevelBL {
 			
 			boolean success = recordHolder.updateItem(player, copyLvRecd);
 			if(success){
-				success = userRecordMgr.updateItem(userRecord);
+				success = userRecordMgr.updateItem(player,userRecord);
 			}
 			result.setSuccess(true);
 		}

@@ -1,9 +1,8 @@
 package com.groupCopy.bm.groupCopy;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-import com.bm.group.GroupBaseDataMgr;
-import com.common.BeanCopyer;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
@@ -13,10 +12,9 @@ import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
-import com.rwbase.dao.group.pojo.db.GroupBaseData;
-import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataDAO;
-import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataHolder;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 
@@ -27,61 +25,70 @@ public class GroupCopyMapBL {
 
 	/**
 	 * 开启帮派地图副本
-	 * @param groupCopyMapRecordHolder
+	 * @param mapRecordHolder
+	 * @param lvRecordHolder TODO
 	 * @param mapId
 	 * @return
 	 */
-	public static GroupCopyResult  openMap(GroupCopyMapRecordHolder groupCopyMapRecordHolder,String mapId){
-		
-		
-		
+	public static GroupCopyResult  openMap(Player player, GroupCopyMapRecordHolder mapRecordHolder,
+			GroupCopyLevelRecordHolder lvRecordHolder, String mapId){
+		boolean suc = false;
 		GroupCopyResult result = GroupCopyResult.newResult();
-		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
-		if(mapRecord == null){
+		try {
+			GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(mapId);
 			GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
-			mapRecord = fromCfg(mapCfg);
-			mapRecord.setStatus(GroupCopyMapStatus.NOTSTART);
-			groupCopyMapRecordHolder.addItem(mapRecord);
-		}else{
-			mapRecord.setStatus(GroupCopyMapStatus.NOTSTART);
-			groupCopyMapRecordHolder.updateItem(mapRecord);
+			boolean add = false;
+			if(mapRecord == null){
+				add = true;
+				mapRecord = new GroupCopyMapRecord();
+				mapRecord.setId(mapCfg.getId());
+			}
+
+			//设置额外奖励时间
+			mapRecord.setRewardTime(System.currentTimeMillis() + mapCfg.getExtraRewardTime() * TimeUnit.HOURS.toMillis(1));
+			mapRecord.setStatus(GroupCopyMapStatus.ONGOING);
+			mapRecord.cleanData();
+
+			//重置所有关卡的进度
+			lvRecordHolder.resetLevelData(player, mapCfg.getLvList());
+			
+			if(add){
+				suc = mapRecordHolder.addItem(player, mapRecord);
+			}else{
+				suc = mapRecordHolder.updateItem(player, mapRecord);
+			}
+			
+			
+		} catch (Exception e) {
+			GameLog.error(LogModule.GroupCopy, "GroupCopyMapBL[openMap]", "开启帮派副本时异常", e);
 		}
-		
-		result.setSuccess(true);
+		result.setSuccess(suc);
 		return result;
 		
 	}
 	
-	//从配置转换成record
-	private static GroupCopyMapRecord fromCfg(GroupCopyMapCfg copyMapCfg){
-		if(copyMapCfg == null){
-			return null;
-		}
-		GroupCopyMapRecord record = new GroupCopyMapRecord();				
-		BeanCopyer.copy(record, copyMapCfg);		
-		return record;
-	}	
 	
 	
-	/**
-	 * 重置帮派副本
-	 * @param groupCopyMapRecordHolder
-	 * @param mapId
-	 * @return
-	 */
-	public static GroupCopyResult resetMap(GroupCopyMapRecordHolder groupCopyMapRecordHolder,String mapId){
-		
-		GroupCopyResult result = GroupCopyResult.newResult();
-		boolean success = false;
-		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
-		if(mapRecord != null){			
-			mapRecord.setProgress(0);
-			groupCopyMapRecordHolder.updateItem(mapRecord);
-			success = true;
-		}
-		result.setSuccess(success);
-		return result;
-	}
+//	/**
+//	 * 重置帮派副本
+//	 * @param groupCopyMapRecordHolder
+//	 * @param mapId
+//	 * @param player TODO
+//	 * @return
+//	 */
+//	public static GroupCopyResult resetMap(GroupCopyMapRecordHolder groupCopyMapRecordHolder,String mapId, Player player){
+//		
+//		GroupCopyResult result = GroupCopyResult.newResult();
+//		boolean success = false;
+//		GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(mapId);
+//		if(mapRecord != null){			
+//			mapRecord.cleanData();
+//			groupCopyMapRecordHolder.updateItem(player, mapRecord);
+//			success = true;
+//		}
+//		result.setSuccess(success);
+//		return result;
+//	}
 
 	/**
 	 * 内部同步副本进度

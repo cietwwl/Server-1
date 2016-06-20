@@ -38,7 +38,7 @@ public class GroupCopyAdminService implements FsService {
 				break;
 			}
 			
-			GroupCopyDataVersionMgr.synByVersion(player, commonReq.getVersion());			
+//			GroupCopyDataVersionMgr.synByVersion(player, commonReq.getVersion());			
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.COPY, "GroupCopyAdminService[doTask]", "出现了Exception异常", e);

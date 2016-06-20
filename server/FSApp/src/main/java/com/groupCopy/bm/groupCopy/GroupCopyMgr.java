@@ -36,22 +36,22 @@ import com.playerdata.army.ArmyInfoHelper;
 public class GroupCopyMgr {
 
 	/**帮派副本关卡数据*/
-	private GroupCopyLevelRecordHolder groupCopyLevelRecordHolder;
+	private GroupCopyLevelRecordHolder lvRecordHolder;
 
 	/**帮派副本地图数据*/
-	private GroupCopyMapRecordHolder groupCopyMapRecordHolder;
+	private GroupCopyMapRecordHolder mapRecordHolder;
 
 	/**帮派副本奖励分配记录*/
-	private GroupCopyRewardRecordHolder groupCopyRewardRecordHolder;
+	private GroupCopyRewardRecordHolder rewardRecordHolder;
 
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
 
 	public static final int MAX_RANK_RECORDS = 10;
 	
 	public GroupCopyMgr(String groupIdP) {
-		groupCopyLevelRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);
-		groupCopyMapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
-		groupCopyRewardRecordHolder = new GroupCopyRewardRecordHolder(groupIdP);
+		lvRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);
+		mapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
+		rewardRecordHolder = new GroupCopyRewardRecordHolder(groupIdP);
 	}
 	
 	
@@ -60,17 +60,18 @@ public class GroupCopyMgr {
 	 * @param mapId
 	 * @return
 	 */
-	public synchronized GroupCopyResult  openMap(String mapId){
-		return GroupCopyMapBL.openMap(groupCopyMapRecordHolder, mapId);
+	public synchronized GroupCopyResult  openMap(Player player, String mapId){
+		return GroupCopyMapBL.openMap(player, mapRecordHolder, lvRecordHolder, mapId);
 	}
 	
 	/**
 	 * 重置副本地图
+	 * @param player TODO
 	 * @param mapId
 	 * @return
 	 */
-	public synchronized GroupCopyResult resetMap(String mapId){
-		return GroupCopyMapBL.resetMap(groupCopyMapRecordHolder, mapId);
+	public synchronized GroupCopyResult resetMap(Player player, String mapId){
+		return GroupCopyMapBL.openMap(player, mapRecordHolder, lvRecordHolder, mapId);
 	}
 	
 	/**
@@ -80,7 +81,7 @@ public class GroupCopyMgr {
 	 * @return
 	 */
 	public synchronized GroupCopyResult  beginFight(Player player, String levelId){
-		return GroupCopyLevelBL.beginFight(player, groupCopyLevelRecordHolder, levelId);
+		return GroupCopyLevelBL.beginFight(player, lvRecordHolder, levelId);
 	}
 	
 	/**
@@ -95,13 +96,13 @@ public class GroupCopyMgr {
 			List<CopyMonsterStruct> mData, List<String> heroList){
 		//获取伤害
 		int damage = getDamage(mData, levelId);
-		GroupCopyResult result = GroupCopyLevelBL.endFight(player, groupCopyLevelRecordHolder, levelId, mData);
+		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData);
 		//同步一下副本地图进度
-		GroupCopyMapBL.calculateMapProgress(player, groupCopyLevelRecordHolder, groupCopyMapRecordHolder,levelId);
+		GroupCopyMapBL.calculateMapProgress(player, lvRecordHolder, mapRecordHolder,levelId);
 		//检查是否进入章节前10伤害排行 
 		checkDamageRank(player,levelId, damage, heroList);
 		//将奖励入放帮派奖励缓存
-		addReward2Group(levelId,groupCopyMapRecordHolder, (CopyRewardInfo.Builder)result.getItem());
+		addReward2Group(player,levelId, mapRecordHolder, (CopyRewardInfo.Builder)result.getItem());
 		
 		
 		return result;
@@ -110,12 +111,15 @@ public class GroupCopyMgr {
 	
 	private int getDamage(List<CopyMonsterStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);
-		GroupCopyLevelRecord record = groupCopyLevelRecordHolder.getByLevel(level);
+		GroupCopyLevelRecord record = lvRecordHolder.getByLevel(level);
+		if(record.getProgress().getCurrentHp() == 0){
+			return nowPro.getTotalHp() - nowPro.getCurrentHp();
+		}
 		return record.getProgress().getCurrentHp() - nowPro.getCurrentHp();
 	}
 
-	private void addReward2Group(String levelId,
-			GroupCopyMapRecordHolder mapHolder, Builder item) {
+	private void addReward2Group(Player player,
+			String levelId, GroupCopyMapRecordHolder mapHolder, Builder item) {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 		GroupCopyMapRecord mapRecord = mapHolder.getItem(cfg.getChaterID());
@@ -130,7 +134,7 @@ public class GroupCopyMgr {
 			dropApplyRecord = null;
 		}
 		
-		mapHolder.updateItem(mapRecord);
+		mapHolder.updateItem(player, mapRecord);
 	}
 
 
@@ -141,12 +145,12 @@ public class GroupCopyMgr {
 			ArmyInfo info = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroList);
 			GroupCopyArmyDamageInfo damageInfo = armyInfo2DamageInfo(info);
 			damageInfo.setDamage(damage);
-			groupCopyMapRecordHolder.checkDamageRank(cfg.getChaterID(),damageInfo);
+			mapRecordHolder.checkDamageRank(cfg.getChaterID(),damageInfo);
 			//关卡全服单次伤害排行
 			ServerGroupCopyDamageRecordMgr.getInstance().checkDamageRank(levelId,damageInfo);
 			
 			//增加成员章节总伤害
-			GroupCopyMapRecord mapRecord = groupCopyMapRecordHolder.getItem(cfg.getChaterID());
+			GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(cfg.getChaterID());
 			mapRecord.addPlayerDamage(player.getUserId(), damage);
 			
 		} catch (Exception e) {
@@ -201,7 +205,7 @@ public class GroupCopyMgr {
 	 */
 	public synchronized void synMapData(Player player, int version){
 		
-		groupCopyMapRecordHolder.synAllData(player, version);
+		mapRecordHolder.synAllData(player, version);
 		
 	}
 	
@@ -212,7 +216,7 @@ public class GroupCopyMgr {
 	 */
 	public synchronized void synLevelData(Player player, int version){
 		
-		groupCopyLevelRecordHolder.synAllData(player, version);
+		lvRecordHolder.synAllData(player, version);
 		
 	}
 	
@@ -222,7 +226,7 @@ public class GroupCopyMgr {
 	 * @param version
 	 */
 	public synchronized void synRewardData(Player player, int version){
-		groupCopyRewardRecordHolder.synAllData(player, version);
+		rewardRecordHolder.synAllData(player, version);
 	}
 	
 	

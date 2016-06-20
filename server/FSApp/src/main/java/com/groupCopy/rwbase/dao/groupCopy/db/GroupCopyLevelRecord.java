@@ -19,7 +19,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class GroupCopyLevelRecord implements IMapItem {
 
 	@Id
-	private String id; // 唯一id
+	private String id; // 唯一id 关卡id
 	private String groupId; // 帮派ID
 	
 	@CombineSave
@@ -109,10 +109,9 @@ public class GroupCopyLevelRecord implements IMapItem {
 		buffRecord.addBuff(playerID, count);
 	}
 	
-	/**
-	 * 地图内所有副本关卡已经完成后清除buff
-	 */
-	public void clearBuff(){
+	
+	public synchronized void resetLevelData(){
+		progress = new GroupCopyProgress();
 		buffRecord.clearBuff();
 	}
 }

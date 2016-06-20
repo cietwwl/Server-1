@@ -8,6 +8,7 @@ import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
+import com.groupCopy.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg;
 import com.groupCopy.rwproto.GroupCopyAdminProto.RequestType;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
@@ -63,20 +64,25 @@ public class GroupCopyAdminHandler {
 				commonRsp.setIsSuccess(success);		
 				return commonRsp.build().toByteString();
 			}
-			
+//			group.getGroupBaseDataMgr().setGroupSupplier(100000);
+//			group.getGroupBaseDataMgr().updateAndSynGroupData(player);
 			int supplies = group.getGroupBaseDataMgr().getGroupData().getSupplies();
 			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
-			//测试 暂时去了这个
-//			if(cfg.getOpenCost() > supplies){
-//				commonRsp.setTipMsg("帮派物资不足");
-//			}else{
-				openResult = group.getGroupCopyMgr().openMap( mapId );
+			
+			if(cfg.getOpenCost() > supplies){
+				commonRsp.setTipMsg("帮派物资不足");
+			}else{
+				openResult = group.getGroupCopyMgr().openMap(player, mapId );
 				success = openResult.isSuccess();
-				commonRsp.setTipMsg(commonRsp.getTipMsg());
 				if(success){
-					//TODO 扣除帮派物资
+					// 扣除帮派物资
+					supplies -= cfg.getOpenCost();
+					group.getGroupBaseDataMgr().setGroupSupplier(supplies);
+					group.getGroupBaseDataMgr().updateAndSynGroupData(player);
+				}else{
+					commonRsp.setTipMsg("开启失败");
 				}
-//			}
+			}
 		}	
 		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
@@ -93,14 +99,36 @@ public class GroupCopyAdminHandler {
 		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.RESET_COPY);
 
-		GroupCopyAdminOpenCopyReqMsg openReqMsg = req.getOpenReqMsg();
+		GroupCopyAdminResetCopyReqMsg openReqMsg = req.getResetReqMsg();
 		Group group = GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
 			String mapId = openReqMsg.getMapId();
-			GroupCopyResult openResult = group.getGroupCopyMgr().resetMap( mapId );
-			success = openResult.isSuccess();
-			commonRsp.setTipMsg(commonRsp.getTipMsg());
+			int supplies = group.getGroupBaseDataMgr().getGroupData().getSupplies();
+			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
+			if(cfg == null){
+				commonRsp.setIsSuccess(success);	
+				commonRsp.setTipMsg("数据异常~");
+				return commonRsp.build().toByteString();
+			}
+			
+			if(cfg.getOpenCost() > supplies){
+				commonRsp.setTipMsg("帮派物资不足");
+			}else{
+				GroupCopyResult openResult = group.getGroupCopyMgr().resetMap( player, mapId );
+				success = openResult.isSuccess();
+				if(success){
+					// 扣除帮派物资
+					supplies -= cfg.getOpenCost();
+					group.getGroupBaseDataMgr().setGroupSupplier(supplies);
+					group.getGroupBaseDataMgr().updateAndSynGroupData(player);
+					commonRsp.setTipMsg("重置成功");
+				}else{
+					commonRsp.setTipMsg("开启失败");
+				}
+				
+			}
+			
 		}	
 		commonRsp.setIsSuccess(success);	
 		return commonRsp.build().toByteString();

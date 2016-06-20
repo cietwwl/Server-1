@@ -207,7 +207,7 @@ public class PlayerTimeActionHelper {
 			@Override
 			public void doTask() {
 				//个人帮派副本数据重置
-				player.getUserGroupCopyLevelRecordMgr().resetDataInNewDay();
+				player.getUserGroupCopyRecordMgr().resetDataInNewDay();
 				player.getUserGroupAttributeDataMgr().resetAllotGroupRewardCount();
 			}
 		});

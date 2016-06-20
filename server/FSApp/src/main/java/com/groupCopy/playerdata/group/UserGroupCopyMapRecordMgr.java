@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecordHolder;
+import com.playerdata.Player;
 
 
 public class UserGroupCopyMapRecordMgr {
@@ -18,7 +19,7 @@ public class UserGroupCopyMapRecordMgr {
 	}
 
 
-	public List<UserGroupCopyMapRecord> getRecordList(){
+	public List<UserGroupCopyMapRecord> getUserMapRecordList(){
 		return holder.getItemList();
 	}
 	
@@ -30,14 +31,18 @@ public class UserGroupCopyMapRecordMgr {
 		return holder.getVersion();
 	}
 	
-	public boolean updateItem(UserGroupCopyMapRecord item){
-		return holder.updateItem(item);
+	public boolean updateItem(Player player,UserGroupCopyMapRecord item){
+		return holder.updateItem(player, item);
 	}
 
 
 	public void resetDataInNewDay() {
 		
 		holder.resetFightCount();
+	}
+	
+	public void syncData(Player player){
+		holder.syncData(player);
 	}
 
 }

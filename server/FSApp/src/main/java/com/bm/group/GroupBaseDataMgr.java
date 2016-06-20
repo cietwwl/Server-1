@@ -417,4 +417,9 @@ public class GroupBaseDataMgr {
 	public void synGroupData(Player player, int version) {
 		groupBaseDataHolder.synGroupData(player, version);
 	}
+
+	public void setGroupSupplier(int s) {
+		groupBaseDataHolder.setGroupSupplier(s);
+		
+	}
 }

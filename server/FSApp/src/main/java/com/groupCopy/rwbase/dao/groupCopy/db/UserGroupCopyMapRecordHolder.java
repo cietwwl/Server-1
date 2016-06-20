@@ -7,9 +7,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 public class UserGroupCopyMapRecordHolder{
 	
@@ -18,8 +22,10 @@ public class UserGroupCopyMapRecordHolder{
 	
 	final private AtomicInteger dataVersion = new AtomicInteger(1);
 	
-	public UserGroupCopyMapRecordHolder(String groupIdP) {
-		userId = groupIdP;
+	private final eSynType synType = eSynType.USE_GROUP_COPY_DATA;
+	
+	public UserGroupCopyMapRecordHolder(String userID) {
+		userId = userID;
 	}
 	
 
@@ -40,17 +46,18 @@ public class UserGroupCopyMapRecordHolder{
 	public UserGroupCopyMapRecord getByLevel(String level){
 		UserGroupCopyMapRecord target = null;
 		for (UserGroupCopyMapRecord item : getItemList()) {
-			if(StringUtils.equals(item.getChaterID() , level)){
+			if(StringUtils.equals(item.getId() , level)){
 				target = item;
 			}
 		}
 		return target;
 	}
 	
-	public boolean updateItem( UserGroupCopyMapRecord item ){
+	public boolean updateItem(Player player, UserGroupCopyMapRecord item ){
 		boolean success = getItemStore().updateItem(item);
 		if(success){
 			update();
+			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 		}
 		return success;
 	}
@@ -60,11 +67,12 @@ public class UserGroupCopyMapRecordHolder{
 	}
 	
 	
-	public boolean addItem( UserGroupCopyMapRecord item ){
+	public boolean addItem(Player player, UserGroupCopyMapRecord item ){
 	
 		boolean addSuccess = getItemStore().addItem(item);
 		if(addSuccess){
 			update();
+			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
 	}
@@ -88,6 +96,15 @@ public class UserGroupCopyMapRecordHolder{
 			record.setFightCount(0);
 		}
 		update();
+	}
+	
+	
+	
+	public void syncData(Player player){
+		List<UserGroupCopyMapRecord> list = getItemList();
+		if(!list.isEmpty()){
+			ClientDataSynMgr.synData(player, getItemList(), synType, eSynOpType.UPDATE_LIST);
+		}
 	}
 	
 }

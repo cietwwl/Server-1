@@ -61,6 +61,14 @@ public final class Group {
 	public GroupCopyMgr getGroupCopyMgr() {
 		return groupCopyMgr;
 	}
+	
+	/**
+	 * 修改帮派物资
+	 * @param s
+	 */
+	public void setGroupSupplier(int s){
+		getGroupBaseDataMgr().setGroupSupplier(s);
+	}
 
 	/**
 	 * <pre>

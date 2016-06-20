@@ -17,7 +17,7 @@ public class GroupCopyRewardRecordHolder{
 	
 	
 	final private String groupId;
-	final private eSynType synType = eSynType.GroupCopyReward;
+	final private eSynType synType = eSynType.GROUP_COPY_REWARD;
 	
 	public GroupCopyRewardRecordHolder(String groupIdP) {
 		groupId = groupIdP;

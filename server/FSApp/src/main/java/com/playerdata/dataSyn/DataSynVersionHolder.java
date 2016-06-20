@@ -285,7 +285,7 @@ public class DataSynVersionHolder {
 		orderList.add(eSynType.ActivityVitalityType);
 		
 		
-		
+		notInVersionControlList.add(notInVersionControlP);
 		
 		
 

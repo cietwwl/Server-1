@@ -135,7 +135,7 @@ public class Player implements PlayerIF {
 
 	// 个人帮派数据的Mgr
 	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
-	private UserGroupCopyMapRecordMgr userGroupCopyLevelRecordMgr;
+	private UserGroupCopyMapRecordMgr userGroupCopyRecordMgr;
 
 	public UnendingWarMgr unendingWarMgr = new UnendingWarMgr();// 无尽战火
 	private FashionMgr m_FashionMgr = new FashionMgr();
@@ -244,7 +244,7 @@ public class Player implements PlayerIF {
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
-		userGroupCopyLevelRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
+		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
 
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
@@ -1149,8 +1149,8 @@ public class Player implements PlayerIF {
 	 * 
 	 * @return
 	 */
-	public UserGroupCopyMapRecordMgr getUserGroupCopyLevelRecordMgr() {
-		return userGroupCopyLevelRecordMgr;
+	public UserGroupCopyMapRecordMgr getUserGroupCopyRecordMgr() {
+		return userGroupCopyRecordMgr;
 	}
 
 	/**

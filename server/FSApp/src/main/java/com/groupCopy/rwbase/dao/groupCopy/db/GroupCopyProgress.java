@@ -2,9 +2,6 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import com.rwproto.GroupCopyBattleProto.CopyMonsterStruct;
 
@@ -18,6 +15,11 @@ public class GroupCopyProgress {
 	private List<CopyMonsterStruct> mDatas = new ArrayList<CopyMonsterStruct>();
 	
 	
+	public GroupCopyProgress() {
+		mDatas.clear();
+		initProgress();
+	}
+
 	public GroupCopyProgress(List<CopyMonsterStruct> mData) {
 		this.mDatas.addAll(mData);
 		initProgress();

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bm.group.GroupBM;
 import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.playerdata.Player;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.dao.group.pojo.Group;
@@ -25,6 +26,7 @@ public class GroupCopyDataVersionMgr {
 				group.synGroupLevelData(player, groupDataVersion.getGroupCopyLevelData());
 				group.synGroupMapData(player, groupDataVersion.getGroupCopyMapData());
 				group.synGroupRewardData(player, groupDataVersion.getGroupCopyRewardData());
+				player.getUserGroupCopyRecordMgr().syncData(player);
 			}
 			
 		}

@@ -1,4 +1,4 @@
-key,mark,chaterID,name,unlockLv,openCost,extraRewardTime,extraReward,damageExtraReward,passReward,chaterIcon,chaterBg,startLvID,endLvID,rewardItems
+key,mark,id,name,unlockLv,openCost,extraRewardTime,extraReward,damageExtraReward,passReward,chaterIcon,chaterBg,startLvID,endLvID,rewardItems
 10001,,10001,第一章  封神计划,,100,168,200,"1~2400,2~1200,3~600",200,Assets/Textures/PackIn/PlayerHead/head_hero.png,bg_map001,110101,110106,"602005,602008"
 10002,,10002,第二章  时空旅者,7,200,192,300,"1~2400,2~1200,3~601",400,Assets/Textures/PackIn/PlayerHead/head_hero_assist_01.png,bg_map002,110201,110209,"602015,602006"
 10003,,10003,第三章  法宝人类,13,300,216,400,"1~2400,2~1200,3~602",600,Assets/Textures/PackIn/PlayerHead/head_hero_killer_01.png,bg_map003,110301,110318,"602009,602014"
