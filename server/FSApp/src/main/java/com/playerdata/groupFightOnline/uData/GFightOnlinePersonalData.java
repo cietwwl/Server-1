@@ -1,12 +1,14 @@
 package com.playerdata.groupFightOnline.uData;
 
+import java.util.List;
+
 import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupFightOnline.dataExtend.DefendArmySimpleInfo;
-import com.playerdata.groupFightOnline.dataExtend.GFOnlineSelfArmyInfo;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -15,13 +17,15 @@ public class GFightOnlinePersonalData {
 	@Id
 	private String id;
 	
-	private GFOnlineSelfArmyInfo selfArmyInfo;
+	private List<ArmyHeroSimple> selfArmyInfo;
 	
 	private int changeEnimyTimes;
 	
 	private DefendArmySimpleInfo randomDefender;
+
+	private int killCount;
 	
-	private int version;
+	private int hurtTotal;
 	
 	public String getId() {
 		return id;
@@ -31,11 +35,11 @@ public class GFightOnlinePersonalData {
 		this.id = id;
 	}
 
-	public GFOnlineSelfArmyInfo getSelfArmyInfo() {
+	public List<ArmyHeroSimple> getSelfArmyInfo() {
 		return selfArmyInfo;
 	}
 
-	public void setSelfArmyInfo(GFOnlineSelfArmyInfo selfArmyInfo) {
+	public void setSelfArmyInfo(List<ArmyHeroSimple> selfArmyInfo) {
 		this.selfArmyInfo = selfArmyInfo;
 	}
 
@@ -55,11 +59,19 @@ public class GFightOnlinePersonalData {
 		this.randomDefender = randomDefender;
 	}
 
-	public int getVersion() {
-		return version;
+	public int getKillCount() {
+		return killCount;
 	}
 
-	public void setVersion(int version) {
-		this.version = version;
+	public void setKillCount(int killCount) {
+		this.killCount = killCount;
+	}
+
+	public int getHurtTotal() {
+		return hurtTotal;
+	}
+
+	public void setHurtTotal(int hurtTotal) {
+		this.hurtTotal = hurtTotal;
 	}
 }

@@ -13,15 +13,15 @@ import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GFDefendArmyHolder {
+public class GFDefendArmyItemHolder {
 	public static int MAX_DEFEND_ARMY_COUNT = 5;
-	private static GFDefendArmyHolder instance = new GFDefendArmyHolder();
+	private static GFDefendArmyItemHolder instance = new GFDefendArmyItemHolder();
 
-	public static GFDefendArmyHolder getInstance() {
+	public static GFDefendArmyItemHolder getInstance() {
 		return instance;
 	}
 
-	private GFDefendArmyHolder() {
+	private GFDefendArmyItemHolder() {
 		
 	}
 	

@@ -12,14 +12,14 @@ import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GFBiddingHolder {
-	private static GFBiddingHolder instance = new GFBiddingHolder();
+public class GFBiddingItemHolder {
+	private static GFBiddingItemHolder instance = new GFBiddingItemHolder();
 
-	public static GFBiddingHolder getInstance() {
+	public static GFBiddingItemHolder getInstance() {
 		return instance;
 	}
 
-	private GFBiddingHolder() {
+	private GFBiddingItemHolder() {
 		
 	}
 	

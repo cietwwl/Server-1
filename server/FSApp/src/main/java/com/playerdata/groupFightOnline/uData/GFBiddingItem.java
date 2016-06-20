@@ -27,8 +27,6 @@ public class GFBiddingItem implements IMapItem{
 	
 	@CombineSave
 	private int rateID;	//压标倍率
-	
-	private int version;
 
 	public String getId() {
 		return biddingID;
@@ -72,13 +70,5 @@ public class GFBiddingItem implements IMapItem{
 
 	public void setRateID(int rateID) {
 		this.rateID = rateID;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
 	}
 }
