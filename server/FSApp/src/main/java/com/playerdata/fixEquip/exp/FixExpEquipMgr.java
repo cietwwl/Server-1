@@ -192,6 +192,8 @@ public class FixExpEquipMgr {
 		}else{
 			
 			int totalExp = selectItems2Exp(consumeType, selectItemList);
+			int nextQualityNeedExp = getNextQualityNeedExp(dataItem);
+			totalExp = totalExp < nextQualityNeedExp?totalExp:nextQualityNeedExp;		
 			
 			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int totalCost = totalExp * equipCfg.getCostPerExp();
@@ -217,6 +219,19 @@ public class FixExpEquipMgr {
 		return result;
 	}
 
+
+	private int getNextQualityNeedExp(FixExpEquipDataItem dataItem) {
+		FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());
+		int curLevel = dataItem.getLevel();
+		int nextQualityLevel = curQualityCfg.getLevelNeed();
+		int expNeed = 0;
+		for (int level = curLevel; curLevel <=nextQualityLevel; level++) {
+			FixExpEquipLevelCostCfg levelCostCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), level);
+			expNeed = expNeed + levelCostCfg.getExpNeed();
+			
+		}		
+		return expNeed;
+	}
 
 	private void iterateLevelUp(FixExpEquipDataItem dataItem, int totalExp) {
 		
