@@ -10,14 +10,14 @@ import com.rwproto.GroupChampProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 
-public class GroupChampService implements FsService {
+public class GFightOnlineService implements FsService {
 
 
 	@Override
 	public ByteString doTask(Request request, Player player) {
 		
 		
-		GroupChampHandler handler = GroupChampHandler.getInstance();
+		GFightOnlineHandler handler = GFightOnlineHandler.getInstance();
 		ByteString byteString = null;
 		try {
 			CommonReqMsg commonReq = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());

@@ -6,11 +6,11 @@ import com.rwproto.GroupChampProto.CommonReqMsg;
 import com.rwproto.GroupChampProto.CommonRspMsg;
 
 
-public class GroupChampHandler {
+public class GFightOnlineHandler {
 	
-	private static GroupChampHandler instance = new GroupChampHandler();
+	private static GFightOnlineHandler instance = new GFightOnlineHandler();
 	
-	public static GroupChampHandler getInstance(){
+	public static GFightOnlineHandler getInstance(){
 		return instance;
 	}
 
