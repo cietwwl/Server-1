@@ -96,7 +96,7 @@ public class ActivityDailyTypeMgr {
 				return;
 			}
 			if (subItem.getCount() >= subItemCfg.getCount()&&!subItem.isTaken()) {
-				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getId());
+				boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "",subItemCfg.getEmailTitle());
 				subItem.setTaken(true);
 				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~补发" + subItem.getCfgId());
 				if (!isAdd) 
