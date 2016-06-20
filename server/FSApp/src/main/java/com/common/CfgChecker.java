@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContextAware;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.fixEquip.cfg.FixEquipCfgChecker;
+import com.rw.manager.ServerSwitch;
 
 /**
  * This class saves a map of spring-bean ids to their corresponding interfaces. <br/>
@@ -15,10 +16,9 @@ import com.playerdata.fixEquip.cfg.FixEquipCfgChecker;
  */
 public class CfgChecker implements ApplicationContextAware {
 	
-	private boolean doCheck;
 	
 	public void setApplicationContext(ApplicationContext context) {
-		if(doCheck){
+		if(ServerSwitch.isCheckCfg()){
 			
 			GameLog.info(LogModule.COMMON.getName(), "CfgChecker", "配置检查开始。。。");
 			FixEquipCfgChecker.checkAll();
@@ -26,10 +26,6 @@ public class CfgChecker implements ApplicationContextAware {
 		}
 	}
 
-	public void setDoCheck(boolean doCheck) {
-		this.doCheck = doCheck ;
-	}
-	
 	
 
 }

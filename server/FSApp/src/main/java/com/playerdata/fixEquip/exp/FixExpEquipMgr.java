@@ -225,8 +225,9 @@ public class FixExpEquipMgr {
 		int curLevel = dataItem.getLevel();
 		int nextQualityLevel = curQualityCfg.getLevelNeed();
 		int expNeed = 0;
-		for (int level = curLevel; curLevel <=nextQualityLevel; level++) {
+		for (int level = curLevel; level < nextQualityLevel; level++) {
 			FixExpEquipLevelCostCfg levelCostCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), level);
+		
 			expNeed = expNeed + levelCostCfg.getExpNeed();
 			
 		}		

@@ -4,9 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
 	default-init-method="init">
 
-		<bean class="com.common.CfgChecker">
-		<property name="doCheck" value="${checkCfg}"></property>
-	</bean>
+	<bean class="com.common.CfgChecker"/>
 
 	<bean class="com.rw.service.friend.datamodel.RecommandConditionCfgDAO"  init-method="init" />
 	<bean class="com.rw.service.friend.datamodel.RecommandCfgDAO"  init-method="init" />
