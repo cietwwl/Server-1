@@ -17,7 +17,7 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 	}
 
 	enum RobotType {
-		Arena(1), Angel(2), OnlyHeros(3);
+		Arena(1), Angel(2), OnlyHeros(3), PeakArena(4);
 
 		public final int type;
 
@@ -27,7 +27,8 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 	}
 
 	private TreeMap<Integer, RobotEntryCfg> arenaRobots;
-
+	private TreeMap<Integer, RobotEntryCfg> peakArenaRobots;
+	
 	private Map<String, Integer> robotId2TypeMap;// 机器人的Id对应的机器人类型
 
 	private Map<Integer, Map<String, RobotEntryCfg>> robotMap;// 机器人
@@ -54,6 +55,7 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 		// }
 
 		TreeMap<Integer, RobotEntryCfg> arenaRobots_ = new TreeMap<Integer, RobotEntryCfg>();
+		TreeMap<Integer, RobotEntryCfg> peakArenaRobots_ = new TreeMap<Integer, RobotEntryCfg>();
 		// Map<String, RobotEntryCfg> angelRobots_ = new HashMap<String, RobotEntryCfg>();
 		// Map<String, RobotEntryCfg> magicSecretRobots_ = new HashMap<String, RobotEntryCfg>();// 万仙阵要用的机器人
 		Map<Integer, Map<String, RobotEntryCfg>> robotMap_ = new HashMap<Integer, Map<String, RobotEntryCfg>>();
@@ -67,16 +69,21 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 			}
 
 			int robotType = cfg.getRobotType();
-			if (robotType == RobotType.Arena.type) {// 竞技场
+			if (robotType == RobotType.Arena.type || robotType == RobotType.PeakArena.type) {// 竞技场
 				String ranking = cfg.getRanking();
 				int[] arrayArray = parseIntArray(ranking, "~");
 				int start = arrayArray[0];
 				int end = arrayArray[1];
 				for (int i = start; i <= end; i++) {
 					RobotEntryCfg entry = new RobotEntryCfg(i, cfg);
-					arenaRobots_.put(i, entry);
+					if(robotType == RobotType.Arena.type){
+						arenaRobots_.put(i, entry);
+					}else{
+						peakArenaRobots_.put(i, entry);
+					}
 				}
-			} else if(robotType == RobotType.OnlyHeros.type) {
+			} 
+			else if(robotType == RobotType.OnlyHeros.type) {
 				Map<String, RobotEntryCfg> map = onlyHerorobotMapTmp.get(robotType);
 				if (map == null) {
 					map = new HashMap<String, RobotEntryCfg>();
@@ -98,6 +105,7 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 		}
 
 		arenaRobots = arenaRobots_;
+		peakArenaRobots = peakArenaRobots_;
 		robotMap = robotMap_;
 		robotId2TypeMap = robotId2TypeMap_;
 		onlyHerosRobotMap = onlyHerorobotMapTmp;
@@ -128,6 +136,13 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 			initJsonCfg();
 		}
 		return this.arenaRobots;
+	}
+	
+	public TreeMap<Integer, RobotEntryCfg> getAllPeakArenaRobets() {
+		if (this.peakArenaRobots == null) {
+			initJsonCfg();
+		}
+		return this.peakArenaRobots;
 	}
 
 	/**
