@@ -49,11 +49,11 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 	@Override
 	public void notifyPlayerCreated(Player player) {
-//		if (!player.isRobot()) {
-//			TableFriend tableFriend = new TableFriend();
-//			tableFriend.setUserId(player.getUserId());
-//			friendDAO.update(tableFriend);
-//		}
+		// if (!player.isRobot()) {
+		// TableFriend tableFriend = new TableFriend();
+		// tableFriend.setUserId(player.getUserId());
+		// friendDAO.update(tableFriend);
+		// }
 	}
 
 	@Override
@@ -191,10 +191,11 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 					tableFriend.removeFromBlackList(otherUserId);
 				}
 				friendDAO.update(otherTable);
-				HotPointMgr.changeHotPointState(otherUserId, EHotPointType.Friend_Request, true);
 			}
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "已向对方发送添加好友请求";
+			//增加红点检查
+			PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
 		}
 		return resultVo;
 	}
@@ -372,13 +373,13 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 						HotPointMgr.changeHotPointState(otherUserId, EHotPointType.Friend_Give, true);
 					}
 				}
-				
-				
+
 				UserEventMgr.getInstance().givePowerVitality(m_pPlayer, 1);
 				list.add(tableFriend.getFriendList().get(otherUserId));
 				resultVo.resultType = EFriendResultType.SUCCESS;
 				resultVo.updateList = friendItemToInfoList(list);
 				resultVo.resultMsg = "赠送成功";
+				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
 			} else {
 				resultVo.resultType = EFriendResultType.FAIL;
 				resultVo.resultMsg = "已赠送过该玩家体力";
@@ -601,17 +602,17 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		if (map == null || map.isEmpty()) {
 			return new ArrayList<FriendInfo>();
 		}
-		//TODO 不改好友协议临时兼容方案，  多一次ArrayList的创建
+		// TODO 不改好友协议临时兼容方案， 多一次ArrayList的创建
 		ArrayList<FriendItem> l = new ArrayList<FriendItem>(map.values());
 		Collections.sort(l, comparator);
 		List<FriendInfo> list = new ArrayList<FriendInfo>(l.size());
-		//Iterator<FriendItem> it = map.values().iterator();
+		// Iterator<FriendItem> it = map.values().iterator();
 		Iterator<FriendItem> it = l.iterator();
 		while (it.hasNext()) {
 			FriendItem item = it.next();
 			list.add(friendItemToInfo(item));
 		}
-//		Collections.sort(list, comparator);
+		// Collections.sort(list, comparator);
 		return list;
 	}
 
@@ -625,7 +626,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendInfo.setLastLoginTime(item.getLastLoginTime());
 		friendInfo.setLastLoginTip(FriendUtils.getLastLoginTip(item.getLastLoginTime()));
 		friendInfo.setLevel(item.getLevel());
-		if(item.getHeadFrame() == null){
+		if (item.getHeadFrame() == null) {
 			List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
 			// TODO 这个逻辑应该放在setting中完成
 			item.setHeadFrame(defaultHeadBoxList.get(0));
@@ -692,7 +693,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendItem.setLevel(player.getLevel());
 		friendItem.setUserHead(player.getHeadImage());
 		friendItem.setCareer(player.getCareer());
-		//添加头像框
+		// 添加头像框
 		friendItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
 		// TODO 帮派获取名字后再提供
