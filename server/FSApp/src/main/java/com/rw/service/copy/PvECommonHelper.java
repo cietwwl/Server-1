@@ -131,10 +131,10 @@ public class PvECommonHelper {
 					// 将奖励放入背包
 					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
-				Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
-				for(Map.Entry<Integer, Integer> entry:map.entrySet()){
-					listItem.add(entry.getKey()+","+entry.getValue());
-				}
+//				Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+//				for(Map.Entry<Integer, Integer> entry:map.entrySet()){
+//					listItem.add(entry.getKey()+","+entry.getValue());
+//				}
 			
 				
 				
