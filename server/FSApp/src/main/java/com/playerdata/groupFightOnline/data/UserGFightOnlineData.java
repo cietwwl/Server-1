@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.uData;
+package com.playerdata.groupFightOnline.data;
 
 import java.util.List;
 
@@ -17,6 +17,9 @@ public class UserGFightOnlineData {
 
 	@Id
 	private String id;
+	
+	@CombineSave
+	private int resourceID;
 	
 	@CombineSave
 	private List<ArmyHeroSimple> selfArmyInfo;
@@ -39,6 +42,14 @@ public class UserGFightOnlineData {
 	
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getResourceID() {
+		return resourceID;
+	}
+
+	public void setResourceID(int resourceID) {
+		this.resourceID = resourceID;
 	}
 
 	public List<ArmyHeroSimple> getSelfArmyInfo() {

@@ -1,8 +1,8 @@
-package com.playerdata.groupFightOnline.uData;
+package com.playerdata.groupFightOnline.data;
 
 import com.rw.fsutil.cacheDao.DataKVDao;
 
-public class UserGFightOnlineDAO extends DataKVDao<UserGFightOnlineDAO>{
+public class UserGFightOnlineDAO extends DataKVDao<UserGFightOnlineData>{
 	private static UserGFightOnlineDAO instance = new UserGFightOnlineDAO();
 
 	public static UserGFightOnlineDAO getInstance() {
@@ -10,6 +10,4 @@ public class UserGFightOnlineDAO extends DataKVDao<UserGFightOnlineDAO>{
 	}
 
 	private UserGFightOnlineDAO() { }
-
-	
 }

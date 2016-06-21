@@ -1,9 +1,8 @@
-package com.playerdata.groupFightOnline.uData;
+package com.playerdata.groupFightOnline.data;
 
-import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.rw.fsutil.cacheDao.DataKVDao;
 
-public class GFightOnlineGroupDAO extends DataKVDao<UserMagicSecretData>{
+public class GFightOnlineGroupDAO extends DataKVDao<GFightOnlineGroupData>{
 	private static GFightOnlineGroupDAO instance = new GFightOnlineGroupDAO();
 
 	public static GFightOnlineGroupDAO getInstance() {

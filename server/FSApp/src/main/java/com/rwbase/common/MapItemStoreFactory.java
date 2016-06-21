@@ -3,7 +3,6 @@ package com.rwbase.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bm.groupChamp.data.GroupChampArmyItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
@@ -14,8 +13,8 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
-import com.playerdata.groupFightOnline.uData.GFBiddingItem;
-import com.playerdata.groupFightOnline.uData.GFDefendArmyItem;
+import com.playerdata.groupFightOnline.data.GFBiddingItem;
+import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -91,8 +90,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
-
-	private static MapItemStoreCache<GroupChampArmyItem> groupChampArmyItemCache;
 	
 	private static MapItemStoreCache<GFDefendArmyItem> groupDefendArmyItemCache;
 	
@@ -174,7 +171,9 @@ public class MapItemStoreFactory {
 
 		register(magicChapterInfoCache = new MapItemStoreCache<MagicChapterInfo>(MagicChapterInfo.class, "userId", heroCapacity));
 		
-		register(groupChampArmyItemCache = new MapItemStoreCache<GroupChampArmyItem>(GroupChampArmyItem.class, "champId", heroCapacity));
+		register(groupDefendArmyItemCache = new MapItemStoreCache<GFDefendArmyItem>(GFDefendArmyItem.class, "groupID", heroCapacity));
+		
+		register(groupFightBiddingItemCache = new MapItemStoreCache<GFBiddingItem>(GFBiddingItem.class, "resourceID", heroCapacity));
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -329,16 +328,6 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
 		return fixNormEquipDataItemCache;
-	}
-
-	
-	public static MapItemStoreCache<GroupChampArmyItem> getGroupChampArmyItemCache() {
-		return groupChampArmyItemCache;
-	}
-
-	public static void setGroupChampArmyItemCache(
-			MapItemStoreCache<GroupChampArmyItem> groupChampArmyItemCache) {
-		MapItemStoreFactory.groupChampArmyItemCache = groupChampArmyItemCache;
 	}
 
 	/**

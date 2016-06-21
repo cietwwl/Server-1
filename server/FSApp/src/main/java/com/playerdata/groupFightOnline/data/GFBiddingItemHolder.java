@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.uData;
+package com.playerdata.groupFightOnline.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;

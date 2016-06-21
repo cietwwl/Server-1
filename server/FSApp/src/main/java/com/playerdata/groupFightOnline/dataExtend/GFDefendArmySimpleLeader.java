@@ -7,7 +7,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
 
-
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GFDefendArmySimpleLeader{
@@ -18,9 +17,9 @@ public class GFDefendArmySimpleLeader{
 	
 	private ArmyHeroSimple leaderHero;
 	
-	private long lastOperateTime; // 被操作的时间，需要判断是否过期(包括选中和挑战) ::注意多线程并发问题
+	private long lastOperateTime; 
 	
-	private int state;	// 是否正在被挑战,是否被选中,以及是否阵亡 ::注意多线程并发问题
+	private int state;	
 
 	public String getArmyID() {
 		return armyID;

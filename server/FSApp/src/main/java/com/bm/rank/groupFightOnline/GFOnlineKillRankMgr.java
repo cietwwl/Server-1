@@ -4,108 +4,72 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.rank.RankType;
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.mgcsecret.cfg.MagicScoreRankCfg;
-import com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO;
-import com.playerdata.mgcsecret.data.MSScoreDataItem;
-import com.playerdata.mgcsecret.data.UserMagicSecretData;
-import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.playerdata.groupFightOnline.data.UserGFightOnlineData;
+import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
-import com.rw.service.Email.EmailUtils;
 
 public class GFOnlineKillRankMgr {
-	private static boolean IS_FIRST_CALL_DISPATCH = true;
-
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static int addOrUpdateMSScoreRank(Player player, UserMagicSecretData msInfo) {
-		Ranking ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
+	public static int addOrUpdateUserGFKillRank(Player player, UserGFightOnlineData userGFInfo) {
+		Ranking ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
 		if (ranking == null) {
 			return -1;
 		}
 		// 比较数据
-		MagicSecretComparable comparable = new MagicSecretComparable(msInfo.getHistoryScore(), msInfo.getTodayScore(), msInfo.getRecentScoreTime());
-		String userId = msInfo.getUserId();
-		RankingEntry<MagicSecretComparable, MSScoreDataItem> rankingEntry = ranking.getRankingEntry(userId);
+		GFOnlineKillComparable comparable = new GFOnlineKillComparable(userGFInfo.getResourceID(), userGFInfo.getKillCount(), System.currentTimeMillis());
+		String userID = userGFInfo.getId();
+		RankingEntry<GFOnlineKillComparable, GFOnlineKillItem> rankingEntry = ranking.getRankingEntry(userID);
 		if (rankingEntry == null) {
 			// 加入榜
-			ranking.addOrUpdateRankingEntry(userId, comparable, player);
+			ranking.addOrUpdateRankingEntry(userID, comparable, player);
 		} else {
 			// 更新榜
 			ranking.updateRankingEntry(rankingEntry, comparable);
 		}
-		return ranking.getRanking(userId);
+		return ranking.getRanking(userID);
 	}
 
 	/**
-	 * 获取法宝秘境在基础排行榜中的排名
-	 * 
-	 * @param userId
+	 * 资源点中的杀敌数排名
+	 * @param resourceID
+	 * @param groupID
 	 * @return
 	 */
-
-	@SuppressWarnings("rawtypes")
-	public static int getRankIndex(String userId) {
-		Ranking ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		if (ranking == null) {
-			return -1;
+	public static int getRankIndex(int resourceID, String userID) {
+		List<GFOnlineKillItem> itemList = new ArrayList<GFOnlineKillItem>();
+		GFOnlineKillItem target = null;
+		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
+		EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration();
+		for (; it.hasMoreElements();) {
+			MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
+			GFOnlineKillComparable killComparable = entry.getComparable();
+			if(killComparable.getResourceID() != resourceID) continue;
+			GFOnlineKillItem hurtItem = entry.getExtendedAttribute();
+			if(hurtItem.getUserId().equals(userID)) target = hurtItem;
+			itemList.add(hurtItem);
 		}
-		return ranking.getRanking(userId);
+		int indx = itemList.indexOf(target);
+		return indx >= 0 ? indx + 1 : -1;
 	}
 
-	public static List<MSScoreDataItem> getMSScoreRankList() {
-		List<MSScoreDataItem> itemList = new ArrayList<MSScoreDataItem>();
-		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
+	public static List<GFOnlineKillItem> getGFGroupBidRankList(int resourceID) {
+		List<GFOnlineKillItem> itemList = new ArrayList<GFOnlineKillItem>();
+		Ranking<GFOnlineKillComparable, GFOnlineKillItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_KILL_RANK);
+		EnumerateList<? extends MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem>> it = ranking.getEntriesEnumeration();
 		for (; it.hasMoreElements();) {
-			MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
-			MSScoreDataItem scoreDataItem = entry.getExtendedAttribute();
-			MagicSecretComparable scoreComparable = entry.getComparable();
-			scoreDataItem.setTotalScore(scoreComparable.getTotalScore());
-			itemList.add(scoreDataItem);
+			MomentRankingEntry<GFOnlineKillComparable, GFOnlineKillItem> entry = it.nextElement();
+			GFOnlineKillComparable killComparable = entry.getComparable();
+			if(killComparable.getResourceID() != resourceID) continue;
+			GFOnlineKillItem hurtItem = entry.getExtendedAttribute();
+			hurtItem.setTotalKill(killComparable.getTotalKill());
+			itemList.add(hurtItem);
 		}
 		return itemList;
-	}
-
-	/**
-	 * 发放法宝秘境每日排行奖励
-	 */
-	public static void dispatchMSDailyReward() {
-		if(IS_FIRST_CALL_DISPATCH){
-			// 防止服务器启动的时候立即调用
-			IS_FIRST_CALL_DISPATCH = false;
-			return;
-		}
-		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
-		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
-		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		try {
-			EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
-			int rewardCfgCount = MagicScoreRankCfgDAO.getInstance().getEntryCount();
-			for (int i = 1; i <= rewardCfgCount; i++) {
-				int startRank = 1;
-				if (i != 1)
-					startRank = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
-				MagicScoreRankCfg rewardCfg = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i));
-				int endRank = rewardCfg.getRankEnd();
-				for (int j = startRank; j <= endRank; j++) {
-					dispatchingRank = j;
-					while (it.hasMoreElements()) {
-						MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
-						dispatchingUser = entry.getExtendedAttribute().getUserId();
-						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
-					}
-				}
-			}
-		} catch (Exception ex) {
-			GameLog.error(LogModule.MagicSecret, "MSScoreRankMgr", String.format("dispatchMSDailyReward, 给角色[%s]发放每日法宝秘境排行榜奖励[%s]的时候出现异常", dispatchingUser, dispatchingRank), ex);
-		} finally {
-			ranking.clear();
-		}
 	}
 }

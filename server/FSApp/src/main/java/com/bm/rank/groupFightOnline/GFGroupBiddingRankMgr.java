@@ -4,25 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.rank.RankType;
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
-import com.playerdata.groupFightOnline.uData.GFightOnlineGroupData;
-import com.playerdata.mgcsecret.cfg.MagicScoreRankCfg;
-import com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO;
-import com.playerdata.mgcsecret.data.MSScoreDataItem;
-import com.playerdata.mgcsecret.data.UserMagicSecretData;
-import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
-import com.rw.service.Email.EmailUtils;
 
 public class GFGroupBiddingRankMgr {
-	private static boolean IS_FIRST_CALL_DISPATCH = true;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static int addOrUpdateGFGroupBidRank(Player player, GFightOnlineGroupData bidInfo) {
@@ -45,69 +36,40 @@ public class GFGroupBiddingRankMgr {
 	}
 
 	/**
-	 * 获取法宝秘境在基础排行榜中的排名
-	 * 
-	 * @param userId
+	 * 资源点中的帮派竞标排名
+	 * @param resourceID
+	 * @param groupID
 	 * @return
 	 */
-
-	@SuppressWarnings("rawtypes")
-	public static int getRankIndex(String userId) {
-		Ranking ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		if (ranking == null) {
-			return -1;
+	public static int getRankIndex(int resourceID, String groupID) {
+		List<GFGroupBiddingItem> itemList = new ArrayList<GFGroupBiddingItem>();
+		GFGroupBiddingItem target = null;
+		Ranking<GFGroupBiddingComparable, GFGroupBiddingItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_GROUP_BID_RANK);
+		EnumerateList<? extends MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem>> it = ranking.getEntriesEnumeration();
+		for (; it.hasMoreElements();) {
+			MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem> entry = it.nextElement();
+			GFGroupBiddingComparable bidComparable = entry.getComparable();
+			if(bidComparable.getResourceID() != resourceID) continue;
+			GFGroupBiddingItem bidItem = entry.getExtendedAttribute();
+			if(bidItem.getGroupID().equals(groupID)) target = bidItem;
+			itemList.add(bidItem);
 		}
-		return ranking.getRanking(userId);
+		int indx = itemList.indexOf(target);
+		return indx >= 0 ? indx + 1 : -1;
 	}
 
-	public static List<MSScoreDataItem> getMSScoreRankList() {
-		List<MSScoreDataItem> itemList = new ArrayList<MSScoreDataItem>();
-		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
+	public static List<GFGroupBiddingItem> getGFGroupBidRankList(int resourceID) {
+		List<GFGroupBiddingItem> itemList = new ArrayList<GFGroupBiddingItem>();
+		Ranking<GFGroupBiddingComparable, GFGroupBiddingItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_GROUP_BID_RANK);
+		EnumerateList<? extends MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem>> it = ranking.getEntriesEnumeration();
 		for (; it.hasMoreElements();) {
-			MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
-			MSScoreDataItem scoreDataItem = entry.getExtendedAttribute();
-			MagicSecretComparable scoreComparable = entry.getComparable();
-			scoreDataItem.setTotalScore(scoreComparable.getTotalScore());
-			itemList.add(scoreDataItem);
+			MomentRankingEntry<GFGroupBiddingComparable, GFGroupBiddingItem> entry = it.nextElement();
+			GFGroupBiddingComparable bidComparable = entry.getComparable();
+			if(bidComparable.getResourceID() != resourceID) continue;
+			GFGroupBiddingItem bidItem = entry.getExtendedAttribute();
+			bidItem.setTotalBidding(bidComparable.getTotalBid());
+			itemList.add(bidItem);
 		}
 		return itemList;
-	}
-
-	/**
-	 * 发放法宝秘境每日排行奖励
-	 */
-	public static void dispatchMSDailyReward() {
-		if(IS_FIRST_CALL_DISPATCH){
-			// 防止服务器启动的时候立即调用
-			IS_FIRST_CALL_DISPATCH = false;
-			return;
-		}
-		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
-		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
-		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
-		try {
-			EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
-			int rewardCfgCount = MagicScoreRankCfgDAO.getInstance().getEntryCount();
-			for (int i = 1; i <= rewardCfgCount; i++) {
-				int startRank = 1;
-				if (i != 1)
-					startRank = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
-				MagicScoreRankCfg rewardCfg = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i));
-				int endRank = rewardCfg.getRankEnd();
-				for (int j = startRank; j <= endRank; j++) {
-					dispatchingRank = j;
-					while (it.hasMoreElements()) {
-						MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
-						dispatchingUser = entry.getExtendedAttribute().getUserId();
-						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
-					}
-				}
-			}
-		} catch (Exception ex) {
-			GameLog.error(LogModule.MagicSecret, "MSScoreRankMgr", String.format("dispatchMSDailyReward, 给角色[%s]发放每日法宝秘境排行榜奖励[%s]的时候出现异常", dispatchingUser, dispatchingRank), ex);
-		} finally {
-			ranking.clear();
-		}
 	}
 }
