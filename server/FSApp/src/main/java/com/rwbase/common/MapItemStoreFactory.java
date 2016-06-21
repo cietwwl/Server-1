@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyRewardRecord;
@@ -78,6 +79,9 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<GroupCopyRewardRecord> groupCopyRewardRecordCache;
 	private static MapItemStoreCache<UserGroupCopyMapRecord> userGroupCopyLevelRecordCache;
 	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
+	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
+	
+	
 	
 	
 	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
@@ -154,7 +158,7 @@ public class MapItemStoreFactory {
 
 		register(userGroupCopyLevelRecordCache = new MapItemStoreCache<UserGroupCopyMapRecord>(UserGroupCopyMapRecord.class, "userId", heroCapacity));
 		register(serverGroupCopyDamageRecordCache = new MapItemStoreCache<ServerGroupCopyDamageRecord>(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity));
-		
+		register(itemDropAndApplyRecordCache = new MapItemStoreCache<CopyItemDropAndApplyRecord>(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity));
 		
 		register(activityCountTypeItemCache = new MapItemStoreCache<ActivityCountTypeItem>(ActivityCountTypeItem.class, "userId", heroCapacity));
 
@@ -323,6 +327,10 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<ServerGroupCopyDamageRecord> getServerGroupCopyDamageRecordCache() {
 		return serverGroupCopyDamageRecordCache;
+	}
+
+	public static MapItemStoreCache<CopyItemDropAndApplyRecord> getItemDropAndApplyRecordCache() {
+		return itemDropAndApplyRecordCache;
 	}
 
 	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {

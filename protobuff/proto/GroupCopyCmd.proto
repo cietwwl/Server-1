@@ -6,6 +6,7 @@ package GroupCopyCmd;
 
 enum GroupCopyReqType{
 	GET_INFO = 1;
+	GET_DROP_APPLY_INFO = 2;//请求同步掉落及申请列表
 }
 
 enum ResultCode{
@@ -25,7 +26,6 @@ enum GroupCopyMapStatus{
 message GroupCopyCmdReqMsg{
 	required GroupCopyReqType reqType = 1;//请求的协议类型
 	optional string version = 2; //版本号
-	
 	
 }
 

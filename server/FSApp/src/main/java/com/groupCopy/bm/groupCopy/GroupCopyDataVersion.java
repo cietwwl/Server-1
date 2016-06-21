@@ -10,6 +10,10 @@ public class GroupCopyDataVersion {
 	private int groupCopyMapData;
 	
 	private int groupCopyRewardData;
+	
+	private int groupCopyDropApplyData;
+	
+	
 
 	public int getGroupCopyLevelData() {
 		return groupCopyLevelData;
@@ -21,6 +25,10 @@ public class GroupCopyDataVersion {
 
 	public int getGroupCopyRewardData() {
 		return groupCopyRewardData;
+	}
+
+	public int getGroupCopyDropApplyData() {
+		return groupCopyDropApplyData;
 	}
 
 

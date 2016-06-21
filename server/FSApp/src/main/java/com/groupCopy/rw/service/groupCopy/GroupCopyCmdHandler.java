@@ -2,6 +2,7 @@ package com.groupCopy.rw.service.groupCopy;
 
 import com.google.protobuf.ByteString;
 import com.groupCopy.bm.GroupHelper;
+import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
@@ -26,9 +27,27 @@ public class GroupCopyCmdHandler {
 		Group group = GroupHelper.getGroup(player);
 		if(group != null){
 			rspCmd.setResCode(ResultCode.CODE_SUC);
+			GroupCopyDataVersionMgr.synAllDataByVersion(player, reqMsg.getVersion());
 		}else{
 			rspCmd.setResCode(ResultCode.CODE_FAIL);
 		}
+		return rspCmd.build().toByteString();
+	}
+
+
+	public ByteString getDropApplyInfo(Player player, GroupCopyCmdReqMsg reqMsg) {
+		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
+		rspCmd.setReqType(GroupCopyReqType.GET_INFO);
+		Group group = GroupHelper.getGroup(player);
+		if(group != null){
+			GroupCopyDataVersionMgr.syncSingleDataByVersion(player, reqMsg.getVersion(),
+					GroupCopyDataVersionMgr.TYPE_DROP_APPLY);
+			rspCmd.setResCode(ResultCode.CODE_SUC);
+		}else{
+			rspCmd.setResCode(ResultCode.CODE_FAIL);
+		}
+		
+		
 		return rspCmd.build().toByteString();
 	}
 

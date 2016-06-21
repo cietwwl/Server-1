@@ -28,12 +28,14 @@ public class GroupCopyCmdService implements FsService{
 			case GET_INFO:
 				bStr = cmdHandler.getGroupCopyInfo(player, reqMsg);
 				break;
-
+			case GET_DROP_APPLY_INFO:
+				bStr = cmdHandler.getDropApplyInfo(player,reqMsg);
+				break;
 			default:
 				GameLog.error(LogModule.GroupCopy, "GroupCopyCmdService[doTask]", "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-			GroupCopyDataVersionMgr.synByVersion(player, reqMsg.getVersion());
+//			GroupCopyDataVersionMgr.synByVersion(player, reqMsg.getVersion());
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCopy, "GroupCopyCmdService[doTask]", "出现了Exception异常", e);

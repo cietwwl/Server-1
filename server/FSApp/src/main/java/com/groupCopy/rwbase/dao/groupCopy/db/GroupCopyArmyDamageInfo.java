@@ -12,6 +12,7 @@ public class GroupCopyArmyDamageInfo {
 	private int damage;
 	
 	private String guildName;
+	
 	public void setDamage(int damage) {
 		
 	}

@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
+import com.groupCopy.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.DropAndApplyRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyArmyDamageInfo;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
-import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapItemDropAndApplyRecord;
+import com.groupCopy.rwbase.dao.groupCopy.db.ItemDropAndApplyTemplate;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMapRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
@@ -43,6 +45,9 @@ public class GroupCopyMgr {
 
 	/**帮派副本奖励分配记录*/
 	private GroupCopyRewardRecordHolder rewardRecordHolder;
+	
+	/**帮派副本胜利品及申请列表*/
+	private DropAndApplyRecordHolder dropHolder;
 
 	public final static GroupCopyDamegeRankComparator RANK_COMPARATOR = new GroupCopyDamegeRankComparator();
 
@@ -52,6 +57,7 @@ public class GroupCopyMgr {
 		lvRecordHolder = new GroupCopyLevelRecordHolder(groupIdP);
 		mapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
 		rewardRecordHolder = new GroupCopyRewardRecordHolder(groupIdP);
+		dropHolder = new DropAndApplyRecordHolder(groupIdP);
 	}
 	
 	
@@ -102,7 +108,7 @@ public class GroupCopyMgr {
 		//检查是否进入章节前10伤害排行 
 		checkDamageRank(player,levelId, damage, heroList);
 		//将奖励入放帮派奖励缓存
-		addReward2Group(player,levelId, mapRecordHolder, (CopyRewardInfo.Builder)result.getItem());
+		addReward2Group(player,levelId, (CopyRewardInfo.Builder)result.getItem());
 		
 		
 		return result;
@@ -119,22 +125,24 @@ public class GroupCopyMgr {
 	}
 
 	private void addReward2Group(Player player,
-			String levelId, GroupCopyMapRecordHolder mapHolder, Builder item) {
+			String levelId, Builder item) {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
-		GroupCopyMapRecord mapRecord = mapHolder.getItem(cfg.getChaterID());
-		GroupCopyMapItemDropAndApplyRecord dropApplyRecord = null;
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItem(cfg.getChaterID());
+		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItem(cfg.getChaterID());
+		ItemDropAndApplyTemplate dropApplyRecord = null;
 		List<CopyRewardStruct> list = item.getDropList();
 		for (CopyRewardStruct d : list) {
-			dropApplyRecord = mapRecord.getDropApplyRecord(d.getItemID());
+			dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
 			if(dropApplyRecord == null){
-				dropApplyRecord = new GroupCopyMapItemDropAndApplyRecord(d.getItemID());
+				dropApplyRecord = new ItemDropAndApplyTemplate(d.getItemID());
 			}
 			dropApplyRecord.addDropItem(d.getCount());
+			dropHolder.updateItem(player, dropAndApplyRecord);
 			dropApplyRecord = null;
 		}
 		
-		mapHolder.updateItem(player, mapRecord);
+		mapRecordHolder.updateItem(player, mapRecord);
 	}
 
 
@@ -229,6 +237,10 @@ public class GroupCopyMgr {
 		rewardRecordHolder.synAllData(player, version);
 	}
 	
+	public synchronized void synDropAppyData(Player player, int version){
+		dropHolder.synAllData(player, version);
+	}
+	
 	
 	
 	/**
@@ -239,5 +251,8 @@ public class GroupCopyMgr {
 	public synchronized void submitBuff(Player player, int buffValue){
 		
 	}
+
+
+	
 
 }

@@ -17,12 +17,28 @@ public final class GroupCopyCmdProto {
      * <code>GET_INFO = 1;</code>
      */
     GET_INFO(0, 1),
+    /**
+     * <code>GET_DROP_APPLY_INFO = 2;</code>
+     *
+     * <pre>
+     *请求同步掉落及申请列表
+     * </pre>
+     */
+    GET_DROP_APPLY_INFO(1, 2),
     ;
 
     /**
      * <code>GET_INFO = 1;</code>
      */
     public static final int GET_INFO_VALUE = 1;
+    /**
+     * <code>GET_DROP_APPLY_INFO = 2;</code>
+     *
+     * <pre>
+     *请求同步掉落及申请列表
+     * </pre>
+     */
+    public static final int GET_DROP_APPLY_INFO_VALUE = 2;
 
 
     public final int getNumber() { return value; }
@@ -30,6 +46,7 @@ public final class GroupCopyCmdProto {
     public static GroupCopyReqType valueOf(int value) {
       switch (value) {
         case 1: return GET_INFO;
+        case 2: return GET_DROP_APPLY_INFO;
         default: return null;
       }
     }
@@ -330,6 +347,33 @@ public final class GroupCopyCmdProto {
      */
     com.google.protobuf.ByteString
         getVersionBytes();
+
+    // optional string mapID = 3;
+    /**
+     * <code>optional string mapID = 3;</code>
+     *
+     * <pre>
+     *章节关卡id
+     * </pre>
+     */
+    boolean hasMapID();
+    /**
+     * <code>optional string mapID = 3;</code>
+     *
+     * <pre>
+     *章节关卡id
+     * </pre>
+     */
+    java.lang.String getMapID();
+    /**
+     * <code>optional string mapID = 3;</code>
+     *
+     * <pre>
+     *章节关卡id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getMapIDBytes();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.GroupCopyCmdReqMsg}
@@ -396,6 +440,11 @@ public final class GroupCopyCmdProto {
             case 18: {
               bitField0_ |= 0x00000002;
               version_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              mapID_ = input.readBytes();
               break;
             }
           }
@@ -517,9 +566,65 @@ public final class GroupCopyCmdProto {
       }
     }
 
+    // optional string mapID = 3;
+    public static final int MAPID_FIELD_NUMBER = 3;
+    private java.lang.Object mapID_;
+    /**
+     * <code>optional string mapID = 3;</code>
+     *
+     * <pre>
+     *章节关卡id
+     * </pre>
+     */
+    public boolean hasMapID() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string mapID = 3;</code>
+     *
+     * <pre>
+     *章节关卡id
+     * </pre>
+     */
+    public java.lang.String getMapID() {
+      java.lang.Object ref = mapID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          mapID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string mapID = 3;</code>
+     *
+     * <pre>
+     *章节关卡id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getMapIDBytes() {
+      java.lang.Object ref = mapID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        mapID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCopyCmdProto.GroupCopyReqType.GET_INFO;
       version_ = "";
+      mapID_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -543,6 +648,9 @@ public final class GroupCopyCmdProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getVersionBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getMapIDBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -559,6 +667,10 @@ public final class GroupCopyCmdProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getVersionBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getMapIDBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -680,6 +792,8 @@ public final class GroupCopyCmdProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        mapID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -716,6 +830,10 @@ public final class GroupCopyCmdProto {
           to_bitField0_ |= 0x00000002;
         }
         result.version_ = version_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.mapID_ = mapID_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -738,6 +856,11 @@ public final class GroupCopyCmdProto {
         if (other.hasVersion()) {
           bitField0_ |= 0x00000002;
           version_ = other.version_;
+          onChanged();
+        }
+        if (other.hasMapID()) {
+          bitField0_ |= 0x00000004;
+          mapID_ = other.mapID_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -917,6 +1040,104 @@ public final class GroupCopyCmdProto {
   }
   bitField0_ |= 0x00000002;
         version_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string mapID = 3;
+      private java.lang.Object mapID_ = "";
+      /**
+       * <code>optional string mapID = 3;</code>
+       *
+       * <pre>
+       *章节关卡id
+       * </pre>
+       */
+      public boolean hasMapID() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string mapID = 3;</code>
+       *
+       * <pre>
+       *章节关卡id
+       * </pre>
+       */
+      public java.lang.String getMapID() {
+        java.lang.Object ref = mapID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          mapID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string mapID = 3;</code>
+       *
+       * <pre>
+       *章节关卡id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getMapIDBytes() {
+        java.lang.Object ref = mapID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          mapID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string mapID = 3;</code>
+       *
+       * <pre>
+       *章节关卡id
+       * </pre>
+       */
+      public Builder setMapID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        mapID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string mapID = 3;</code>
+       *
+       * <pre>
+       *章节关卡id
+       * </pre>
+       */
+      public Builder clearMapID() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        mapID_ = getDefaultInstance().getMapID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string mapID = 3;</code>
+       *
+       * <pre>
+       *章节关卡id
+       * </pre>
+       */
+      public Builder setMapIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        mapID_ = value;
         onChanged();
         return this;
       }
@@ -1526,16 +1747,17 @@ public final class GroupCopyCmdProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"V\n\022Gr" +
+      "\n\022GroupCopyCmd.proto\022\014GroupCopyCmd\"e\n\022Gr" +
       "oupCopyCmdReqMsg\022/\n\007reqType\030\001 \002(\0162\036.Grou" +
       "pCopyCmd.GroupCopyReqType\022\017\n\007version\030\002 \001" +
-      "(\t\"p\n\022GroupCopyCmdRspMsg\022/\n\007reqType\030\001 \002(" +
-      "\0162\036.GroupCopyCmd.GroupCopyReqType\022)\n\007res" +
-      "Code\030\002 \002(\0162\030.GroupCopyCmd.ResultCode* \n\020" +
-      "GroupCopyReqType\022\014\n\010GET_INFO\020\001*)\n\nResult" +
+      "(\t\022\r\n\005mapID\030\003 \001(\t\"p\n\022GroupCopyCmdRspMsg\022" +
+      "/\n\007reqType\030\001 \002(\0162\036.GroupCopyCmd.GroupCop" +
+      "yReqType\022)\n\007resCode\030\002 \002(\0162\030.GroupCopyCmd" +
+      ".ResultCode*9\n\020GroupCopyReqType\022\014\n\010GET_I" +
+      "NFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020\002*)\n\nResult" +
       "Code\022\014\n\010CODE_SUC\020\001\022\r\n\tCODE_FAIL\020\002*H\n\022Gro" +
-      "upCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART" +
-      "\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwpro",
+      "upCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART",
+      "\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwpro" +
       "toB\021GroupCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
@@ -1548,7 +1770,7 @@ public final class GroupCopyCmdProto {
           internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_GroupCopyCmdReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", });
+              new java.lang.String[] { "ReqType", "Version", "MapID", });
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_GroupCopyCmd_GroupCopyCmdRspMsg_fieldAccessorTable = new

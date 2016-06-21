@@ -191,4 +191,8 @@ public final class Group {
 	public void synGroupRewardData(Player player, int version){
 		groupCopyMgr.synRewardData(player, version);
 	}
+	
+	public void synGroupCopyDropApplyData(Player player, int version){
+		groupCopyMgr.synDropAppyData(player, version);
+	}
 }

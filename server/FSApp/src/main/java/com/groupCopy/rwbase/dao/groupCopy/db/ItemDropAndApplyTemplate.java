@@ -8,15 +8,16 @@ import java.util.LinkedList;
  * @author Alex
  * 2016年6月12日 下午4:54:00
  */
-public class GroupCopyMapItemDropAndApplyRecord {
+public class ItemDropAndApplyTemplate {
 
 	int itemID;
 	
 	private LinkedList<DropInfo> dropInfoList = new LinkedList<DropInfo>();
 	
+	//申请的角色列表
+	private LinkedList<String> applyRoleList = new LinkedList<String>();
 	
-	
-	public GroupCopyMapItemDropAndApplyRecord(int itemID) {
+	public ItemDropAndApplyTemplate(int itemID) {
 		this.itemID = itemID;
 	}
 

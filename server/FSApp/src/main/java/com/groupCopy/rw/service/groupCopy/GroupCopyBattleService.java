@@ -37,7 +37,7 @@ public class GroupCopyBattleService implements FsService {
 				break;
 			}
 			
-			GroupCopyDataVersionMgr.synByVersion(player, commonReq.getVersion());			
+			GroupCopyDataVersionMgr.synAllDataByVersion(player, commonReq.getVersion());			
 			
 		} catch (Exception e) {
 			GameLog.error(LogModule.COPY, "GroupCopyBattleService[doTask]", "出现了Exception异常", e);

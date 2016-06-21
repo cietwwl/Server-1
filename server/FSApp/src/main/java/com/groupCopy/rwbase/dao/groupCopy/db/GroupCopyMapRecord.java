@@ -39,10 +39,6 @@ public class GroupCopyMapRecord implements IMapItem {
 	private double progress;//进度  这个进度应该是由关卡决定
 	
 	
-	/**当前地图的掉落物品及对应的申请列表<key=itemID,value=掉落记录>*/
-	@CombineSave
-	@IgnoreSynField
-	private ConcurrentHashMap<Integer, GroupCopyMapItemDropAndApplyRecord> daMap = new ConcurrentHashMap<Integer, GroupCopyMapItemDropAndApplyRecord>();
 	
 	@CombineSave
 	@IgnoreSynField
@@ -109,27 +105,7 @@ public class GroupCopyMapRecord implements IMapItem {
 	public void setRewardTime(long rewardTime) {
 		this.rewardTime = rewardTime;
 	}
-	/**
-	 * 此方法只是提供序列化使用，一般功能禁止调用，
-	 * 如需迭代，请使用{@link GroupCopyMapRecord#getDropApplyEnumeration()}
-	 * */
-	public ConcurrentHashMap<Integer, GroupCopyMapItemDropAndApplyRecord> getDaMap() {
-		return daMap;
-	}
 	
-	/**此方法只是提供序列化使用，一般功能禁止调用*/
-	public void setDaMap(
-			ConcurrentHashMap<Integer, GroupCopyMapItemDropAndApplyRecord> daMap) {
-		this.daMap = daMap;
-	}
-	
-	public Enumeration<GroupCopyMapItemDropAndApplyRecord> getDropApplyEnumeration(){
-		return daMap.elements();
-	}
-
-	public GroupCopyMapItemDropAndApplyRecord getDropApplyRecord(int key){
-		return daMap.get(key);
-	}
 	
 	public boolean checkOrAddDamageRank(GroupCopyArmyDamageInfo info){
 		return damegeRankInfo.addInfo(info);
