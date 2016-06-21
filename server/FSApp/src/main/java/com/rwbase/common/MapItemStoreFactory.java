@@ -7,7 +7,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
@@ -85,7 +85,7 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
 
-	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
+	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 
@@ -151,7 +151,7 @@ public class MapItemStoreFactory {
 		//
 		// register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
 
-		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
+		register(activityExchangeTypeItemCache = new MapItemStoreCache<ActivityExchangeTypeItem>(ActivityExchangeTypeItem.class, "userId", heroCapacity));		register(activityTimeCountTypeItemCache = new MapItemStoreCache<ActivityTimeCountTypeItem>(ActivityTimeCountTypeItem.class, "userId", heroCapacity));
 
 		register(activityDailyCountTypeItemCache = new MapItemStoreCache<ActivityDailyTypeItem>(ActivityDailyTypeItem.class, "userId", heroCapacity));
 
@@ -317,7 +317,11 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
 		return activityTimeCountTypeItemCache;
 	}
-
+	
+	public static MapItemStoreCache<ActivityExchangeTypeItem> getActivityExchangeTypeItemCache() {
+		return activityExchangeTypeItemCache;
+	}
+	
 	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
 		return activityVitalityItemCache;
 	}
@@ -368,7 +372,6 @@ public class MapItemStoreFactory {
 	
 	/**
 	 * 获取在线帮派战斗的防守队伍缓存
-	 * 
 	 * @return
 	 */
 	public static MapItemStoreCache<GFDefendArmyItem> getGFDefendArmyCache() {
@@ -376,7 +379,7 @@ public class MapItemStoreFactory {
 	}
 	
 	/**
-	 * 
+	 * 获取在线帮战帮派竞标缓存
 	 * @return
 	 */
 	public static MapItemStoreCache<GFBiddingItem> getGFBiddingItemCache() {

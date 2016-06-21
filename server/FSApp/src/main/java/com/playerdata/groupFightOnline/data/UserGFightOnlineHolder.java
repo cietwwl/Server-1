@@ -1,7 +1,5 @@
 package com.playerdata.groupFightOnline.data;
 
-import com.bm.rank.groupFightOnline.GFOnlineHurtRankMgr;
-import com.bm.rank.groupFightOnline.GFOnlineKillRankMgr;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -28,8 +26,8 @@ public class UserGFightOnlineHolder {
 	}
 	
 	public void updateAndInformRank(Player player, UserGFightOnlineData data) {
-		GFOnlineKillRankMgr.addOrUpdateUserGFKillRank(player, data);
-		GFOnlineHurtRankMgr.addOrUpdateUserGFHurtRank(player, data);
+		// GFOnlineKillRankMgr.addOrUpdateUserGFKillRank(player, data);
+		// GFOnlineHurtRankMgr.addOrUpdateUserGFHurtRank(player, data);
 		update(player, data);
 	}
 	
