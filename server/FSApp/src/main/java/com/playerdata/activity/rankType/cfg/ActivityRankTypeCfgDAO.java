@@ -41,11 +41,11 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 		cfgItem.setEndTime(endTime);		
 	}
 	
-	public ActivityRankTypeCfg getConfig(String id){
-		ActivityRankTypeCfg cfg = getCfgById(id);
-		return cfg;
-	}
-	
+//	public ActivityRankTypeCfg getConfig(String id){
+//		ActivityRankTypeCfg cfg = getCfgById(id);
+//		return cfg;
+//	}
+//	
 	public ActivityRankTypeItem newItem(Player player, ActivityRankTypeEnum typeEnum){
 		
 		String cfgId = typeEnum.getCfgId();

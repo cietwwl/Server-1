@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityRankTypeEnum{	// implements TypeIdentification
 	
-	CONSUME("1"),//消费排行
-	CHARGE("2");//充值排行
+	FIGHTING("1001"),//战力大比拼
+	ARENA("1002");//竞技之王
 	
 	
 	private String cfgId;

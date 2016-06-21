@@ -4,50 +4,50 @@ package com.playerdata.activity.rankType.cfg;
 public class ActivityRankTypeCfg {
 
 	private String id;
-	
-	private String cion;
-	
-	private String title;
-	
-	private String titleBG;
-	
-	private String desc;	
 
-	private int sortNum;
-	
 	private long startTime;
-	
+
 	private long endTime;
-	
+
 	private String startTimeStr;
-	
+
 	private String endTimeStr;
-	
+
+	private int levelLimit;
+
+	private int version;
 
 	public String getId() {
 		return id;
 	}
 
-	public String getCion() {
-		return cion;
+	public int getLevelLimit() {
+		return levelLimit;
 	}
 
-	public String getTitle() {
-		return title;
+	public void setLevelLimit(int levelLimit) {
+		this.levelLimit = levelLimit;
 	}
 
-	public String getTitleBG() {
-		return titleBG;
+	public int getVersion() {
+		return version;
 	}
 
-	public String getDesc() {
-		return desc;
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
-	public int getSortNum() {
-		return sortNum;
+	public void setId(String id) {
+		this.id = id;
 	}
 
+	public void setStartTimeStr(String startTimeStr) {
+		this.startTimeStr = startTimeStr;
+	}
+
+	public void setEndTimeStr(String endTimeStr) {
+		this.endTimeStr = endTimeStr;
+	}
 
 	public String getStartTimeStr() {
 		return startTimeStr;
@@ -72,6 +72,5 @@ public class ActivityRankTypeCfg {
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
-	
-	
+
 }
