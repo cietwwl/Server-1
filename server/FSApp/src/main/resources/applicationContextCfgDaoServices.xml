@@ -229,6 +229,12 @@
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO"  init-method="init" />
 	
+	<!-- 在线帮战 -->
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDamageRankDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineDefeatRankDAO"  init-method="init" />
+	<bean class="com.playerdata.groupFightOnline.cfg.GFightOnlineResourceDAO"  init-method="init" />
+	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />
