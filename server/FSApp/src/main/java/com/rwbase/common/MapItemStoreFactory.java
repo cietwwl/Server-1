@@ -98,7 +98,7 @@ public class MapItemStoreFactory {
 
 	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
-			if (!init) {
+			if (init) {
 				return;
 			} else {
 				init = true;
