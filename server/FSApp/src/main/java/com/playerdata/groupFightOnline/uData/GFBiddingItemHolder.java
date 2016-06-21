@@ -23,7 +23,7 @@ public class GFBiddingItemHolder {
 		
 	}
 	
-	final private eSynType synType = eSynType.MagicChapterData;
+	final private eSynType synType = eSynType.GFBiddingData;
 	
 	/**
 	 * 获取某个资源点所有的压标信息

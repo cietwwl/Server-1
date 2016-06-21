@@ -25,7 +25,7 @@ public class GFDefendArmyItemHolder {
 		
 	}
 	
-	final private eSynType synType = eSynType.MagicChapterData;
+	final private eSynType synType = eSynType.GFDefendArmyData;
 	
 	/**
 	 * 获取已经设置的防守队伍信息(公会级别)

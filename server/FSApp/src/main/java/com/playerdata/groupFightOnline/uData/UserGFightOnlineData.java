@@ -13,7 +13,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GFightOnlinePersonalData {
+public class UserGFightOnlineData {
 
 	@Id
 	private String id;

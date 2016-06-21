@@ -1,5 +1,7 @@
 package com.playerdata.groupFightOnline.uData;
 
+import com.rwproto.DataSynProtos.eSynType;
+
 public class GFightOnlineGroupHolder {
 	private static GFightOnlineGroupHolder instance = new GFightOnlineGroupHolder();
 	private static GFightOnlineGroupDAO gfGroupDao = GFightOnlineGroupDAO.getInstance();
@@ -10,6 +12,8 @@ public class GFightOnlineGroupHolder {
 
 	private GFightOnlineGroupHolder() { }
 
+	final private eSynType synType = eSynType.GFightOnlineGroupData;
+	
 	public void get(){
 		
 	}

@@ -12,7 +12,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class GFightOnlineGroupData {
 	
 	@Id
-	private int groupID;
+	private String groupID;
 	
 	@CombineSave
 	private int biddingCount;  // 帮派竞标用的令牌数
@@ -23,11 +23,11 @@ public class GFightOnlineGroupData {
 	@CombineSave
 	private long lastBidTime;	// 上次竞标时间，主要用于排名
 
-	public int getGroupID() {
+	public String getGroupID() {
 		return groupID;
 	}
 
-	public void setGroupID(int groupID) {
+	public void setGroupID(String groupID) {
 		this.groupID = groupID;
 	}
 
