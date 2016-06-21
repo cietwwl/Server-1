@@ -32,11 +32,8 @@ import com.playerdata.SkillMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
-import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
-import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
-import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.arena.ArenaHandler;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
@@ -66,159 +63,6 @@ public class RobotManager {
 		return instance;
 	}
 
-	private static class ProductPlayerTask implements Callable<RankingPlayer> {
-		private final int career;
-		private final int expectRanking;
-		private final RobotEntryCfg cfg;
-		private final String userName;
-
-		public ProductPlayerTask(int career, int expectRanking, RobotEntryCfg cfg, String userName) {
-			this.career = career;
-			this.cfg = cfg;
-			this.expectRanking = expectRanking;
-			this.userName = userName;
-		}
-
-		@Override
-		public RankingPlayer call() throws Exception {
-			long start = System.currentTimeMillis();
-			if (UserDataDao.getInstance().validateName(userName)) {
-				GameLog.error("robot", "product player", "arena robot already exist , continue...");
-				return null;
-			}
-
-			// 创建User，并初始化基本属性
-			User user = new User();
-			String userId = UUID.randomUUID().toString();
-			int sex = getRandom().nextInt(2);
-			int level = getRandom(cfg.getLevel());
-			user.setSex(sex);
-			user.setAccount(AccoutBM.getInstance().getGuestAccountId());
-			user.setUserId(userId);
-			user.setZoneId(1);// 这个需要更改
-			user.setLevel(level);
-			UserDataDao.getInstance().saveOrUpdate(user);
-			// UserGameData userOther = new UserGameData();
-			// userOther.setUserId(userId);
-			// userOther.setIphone(false);
-			// UserGameDataDao.getInstance().update(userOther);
-			int star = getRandom(cfg.getStar());
-			int quality = getRandom(cfg.getQuality());
-
-			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
-			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
-			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
-
-			GameOperationFactory.getCreatedOperation().execute(param);
-			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
-			// 初始化主角
-			// 初始主角英雄
-
-			Player player = new Player(userId, false, playerCfg);
-			MapItemStoreFactory.notifyPlayerCreated(userId);
-			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
-			mainRoleHero.SetHeroLevel(level);
-			// 品质
-			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
-			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
-			roleBaseInfoMgr.setLevel(level);
-			player.getUserDataMgr().setHeadId(headImage);
-			player.initMgr();
-			player.getUserDataMgr().setUserName(userName);
-
-			PlayerMgr.getInstance().putToMap(player);
-			// 更改装备
-			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
-			// 更改宝石
-			changeGem(mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
-			// 更改技能
-			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
-			String fashonId = getRandom(cfg.getFashions());
-			if (!fashonId.equals("0")) {
-				int fashionID = Integer.parseInt(fashonId);
-				player.getFashionMgr().giveFashionItem(fashionID, -1, true, false);
-			}
-			int maigcId = getRandom(cfg.getMagicId());
-			int magicLevel = getRandom(cfg.getMagicLevel());
-			ItemBagMgr itemBagMgr = player.getItemBagMgr();
-			itemBagMgr.addItem(maigcId, 1);
-			ItemData magic = itemBagMgr.getItemListByCfgId(maigcId).get(0);
-			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
-			player.getMagicMgr().wearMagic(magic.getId());
-			HeroMgr heroMgr = player.getHeroMgr();
-
-			String heroGroupId = getRandom(cfg.getHeroGroupId());
-			List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroGroupId);
-			if (heroCfgList == null) {
-				GameLog.error("生成机器人找不到佣兵组合：" + heroGroupId);
-				return null;
-			}
-			RobotHeroCfg heroCfg = heroCfgList.get(getRandom().nextInt(heroCfgList.size()));
-			int[] heroLevel = cfg.getHeroLevel();
-			ArrayList<Hero> heroList = new ArrayList<Hero>(4);
-			addHero(heroCfg.getFirstHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getSecondHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getThirdHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getFourthHeroId(), heroList, heroMgr, heroLevel, level);
-			// 装备部分
-			int[] heroEnchant = cfg.getHeroEnchant();
-			int[] equipments = cfg.getHeroEquipments();
-			int heroQuality = getRandom(cfg.getHeroQuality());
-			// 宝石部分
-			int[] heroGemType = cfg.getHeroGemType();
-			int[] heroGemLevel = cfg.getHeroGemLevel();
-			int[] heroGemCount = cfg.getHeroGemCount();
-			// 技能部分
-			int[] heroSkill1 = cfg.getHeroFirstSkillLevel();
-			int[] heroSkill2 = cfg.getHeroSecondSkillLevel();
-			int[] heroSkill3 = cfg.getHeroThirdSkillLevel();
-			int[] heroSkill4 = cfg.getHeroFourthSkillLevel();
-			int[] heroSkill5 = cfg.getHeroFifthSkillLevel();
-			ArrayList<String> arenaList = new ArrayList<String>();
-			for (Hero hero : heroList) {
-				changeHero(hero, cfg);
-				changeEquips(userId, hero, equipments, heroQuality, heroEnchant);
-				changeGem(hero, heroGemType, heroGemCount, heroGemLevel);
-				changeSkill(hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
-				arenaList.add(hero.getUUId());
-			}
-			player.getAttrMgr().reCal();
-			for (Hero hero : heroList) {
-				hero.getAttrMgr().reCal();
-			}
-			// player.save(true);
-			printHeroSkill(mainRoleHero);
-			for (Hero hero : heroList) {
-				printHeroSkill(hero);
-			}
-
-			// 检查机器人数据并加入到万仙阵阵容排行榜
-			List<Integer> heroModelList = new ArrayList<Integer>();
-			int mainRoleModelId = mainRoleHero.getModelId();
-			heroModelList.add(mainRoleModelId);
-
-			int fighting = mainRoleHero.getFighting();
-
-			for (Hero hero : heroList) {
-				if (hero == null) {
-					continue;
-				}
-
-				int modelId = hero.getModelId();
-				if (modelId == mainRoleModelId) {
-					continue;
-				}
-
-				heroModelList.add(modelId);
-				fighting += hero.getFighting();
-			}
-
-			AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(player, heroModelList, fighting);
-			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + level + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
-			return new RankingPlayer(player, arenaList, expectRanking);
-		}
-	}
-
 	private static void printHeroSkill(Hero hero) {
 		// StringBuilder sb = new StringBuilder();
 		// sb.append(hero.getUUId());
@@ -231,80 +75,6 @@ public class RobotManager {
 		// sb.append("\r\n");
 		// }
 		// System.out.println(sb.toString());
-	}
-	
-	public void createPeakArenaRobot(){
-		PeakArenaBM peakHandler = PeakArenaBM.getInstance();
-		ListRanking<String, PeakArenaExtAttribute> peakRanking = peakHandler.getRanks();
-		
-		ArenaBM arenaBM = ArenaBM.getInstance();
-		ECareer[] carerrs = ECareer.values();
-		int av = 0;int count = 0;
-		for (int i = 0; i < carerrs.length; i++) {
-			ECareer eCareer = carerrs[i];
-			int c = eCareer.getValue();
-			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(c);
-			if (listRanking != null){
-				av += listRanking.getRankingSize();
-				count++;
-			}
-		}
-		if (count > 0 && av > 0){
-			av = av / count;
-			if (av > peakSize * 4){
-				peakSize = av / 4;
-			}
-		}
-		GameLog.info("巅峰竞技场", "创建机器人", "需要的数量："+peakSize*4);
-		if (peakRanking.getRankingSize() < peakSize*4){
-			
-			for (int i = 0; i < carerrs.length; i++) {
-				ECareer eCareer = carerrs[i];
-				addToPeakRank(peakHandler,eCareer);
-			}
-		}
-		
-		//TODO 重置全部人的magicID，运行一次后删除
-		/*
-		PlayerMgr playerMgr = PlayerMgr.getInstance();
-		List<? extends ListRankingEntry<String, PeakArenaExtAttribute>> lst = peakRanking.getRankingEntries(1, peakRanking.getRankingSize());
-		for (ListRankingEntry<String, PeakArenaExtAttribute> listRankingEntry : lst) {
-			String userId = listRankingEntry.getKey();
-			Player user = playerMgr.find(userId);
-			if (user == null) continue;
-			TablePeakArenaData peakData = peakHandler.getPeakArenaData(userId);
-			if (peakData == null) continue;
-			
-			ItemData magicItem = user.getMagic();
-			int teamCount = peakData.getTeamCount();
-			for(int i = 0;i<teamCount;i++){
-				TeamData team = peakData.getTeam(i);
-				team.setMagicId(magicItem!=null?magicItem.getId():"");
-			}
-			peakHandler.commit(peakData);
-		}
-		GameLog.info("", "", "fix finished");
-		*/
-	}
-	private int peakSize = 10;
-	private void addToPeakRank(PeakArenaBM peakHandler,ECareer career){
-		if (career == ECareer.None) {
-			return;
-		}
-		int c = career.getValue();
-		ArenaBM arenaBM = ArenaBM.getInstance();
-		ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(c);
-		if (listRanking == null){
-			return;
-		}
-		List<? extends ListRankingEntry<String, ArenaExtAttribute>> lst = listRanking.getRankingEntries(1, peakSize);
-		for (ListRankingEntry<String, ArenaExtAttribute> entry : lst) {
-			String id = entry.getKey();
-			Player player = PlayerMgr.getInstance().find(id);
-			if (player != null){
-				peakHandler.getOrAddPeakArenaDataForRobot(player);
-			}
-		}
 	}
 
 	public void createRobots() {
@@ -322,7 +92,7 @@ public class RobotManager {
 		String[] arrName = robotCfg.getData().split(",");
 		int len = arrName.length;
 		if (len < count) {
-			GameLog.error("当前机器名字人数量少于竞技场名次");
+			GameLog.error("RobotManager", "createRobots", "当前机器名字人数量少于竞技场名次");
 			return;
 		}
 		ArrayList<String> nameList = new ArrayList<String>(len - count);
@@ -333,12 +103,12 @@ public class RobotManager {
 		ArenaBM arenaBM = ArenaBM.getInstance();
 		int size = carerrList.size();
 		// 只用于存储。。哈哈
-		HashMap<Future, ProductionCompletionTask> futures = new HashMap<Future, ProductionCompletionTask>();
+		HashMap<Future<?>, ProductionCompletionTask> futures = new HashMap<Future<?>, ProductionCompletionTask>();
 		ExecutorService futureExecutor = Executors.newFixedThreadPool(size);
 		for (int career : carerrList) {
 			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(career);
 			if (listRanking == null) {
-				GameLog.error("不存在竞技场排行榜：" + career);
+				GameLog.error("RobotManager", "createRobots", "不存在竞技场排行榜：" + career);
 				continue;
 			}
 			int rankingSize = listRanking.getRankingSize();
@@ -357,21 +127,80 @@ public class RobotManager {
 			}
 			if (!productPlayerList.isEmpty()) {
 				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 5, productPlayerList);
-				Future f = futureExecutor.submit(productionCompletionTask);
+				Future<?> f = futureExecutor.submit(productionCompletionTask);
 				futures.put(f, productionCompletionTask);
 			}
 		}
-		for (Map.Entry<Future, ProductionCompletionTask> entry : futures.entrySet()) {
+		for (Map.Entry<Future<?>, ProductionCompletionTask> entry : futures.entrySet()) {
 			try {
 				entry.getKey().get();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {
-				GameLog.error(e);
+				e.printStackTrace();
 			}
 			entry.getValue().close();
 		}
 		futureExecutor.shutdown();
+	}
+
+	public void createPeakArenaRobot() {
+		PeakArenaBM peakHandler = PeakArenaBM.getInstance();
+		ListRanking<String, PeakArenaExtAttribute> peakRanking = peakHandler.getRanks();
+		int count = peakRanking.getRankingSize();
+		// TODO 临时定的数量，少于100进行创建
+		if (count > 100) {
+			return;
+		}
+
+		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
+		String[] arrName = robotCfg.getData().split(",");
+		int len = arrName.length;
+		if (len < count) {
+			GameLog.error("RobotManager", "createPeakArenaRobot", "当前机器名字人数量少于竞技场名次");
+			return;
+		}
+		ArrayList<String> nameList = new ArrayList<String>();
+		for (; count < len; count++) {
+			nameList.add(arrName[count]);
+		}
+		ECareer[] carerrs = ECareer.values();
+		int totalCarerrs = carerrs.length;
+		TreeMap<Integer, RobotEntryCfg> map = RobotCfgDAO.getInstance().getAllPeakArenaRobets();
+		ArrayList<ProductPlayerTask> productPlayerList = new ArrayList<ProductPlayerTask>(map.size());
+		ArrayList<Future<RankingPlayer>> futures = new ArrayList<Future<RankingPlayer>>(map.size());
+		Random random = new Random();
+		int index = 0;
+		for (Map.Entry<Integer, RobotEntryCfg> entry : map.entrySet()) {
+			// 随机名字
+			String userName = nameList.remove(index++);
+			if (userName != null && !userName.isEmpty()) {
+				productPlayerList.add(new ProductPlayerTask(carerrs[random.nextInt(totalCarerrs)].getValue(), entry.getKey(), entry.getValue(), userName));
+			}
+		}
+		ExecutorService e = Executors.newFixedThreadPool(10);
+		try {
+			for (ProductPlayerTask task : productPlayerList) {
+				futures.add(e.submit(task));
+			}
+			for (Future<RankingPlayer> f : futures) {
+				try {
+					RankingPlayer r = f.get();
+					if (r == null) {
+						continue;
+					}
+					Player p = r.getPlayer();
+					if (p != null) {
+						peakHandler.getOrAddPeakArenaData(p);
+					}
+				} catch (Throwable t) {
+					GameLog.error("RobotManager", "createPeakArenaRobot", "创建巅峰机器人异常", t);
+				}
+			}
+		} finally {
+			e.shutdown();
+		}
+
 	}
 
 	private static void addHero(String templateId, ArrayList<Hero> heroList, HeroMgr mgr, int[] heroLevel, int roleLevel) {
@@ -379,15 +208,15 @@ public class RobotManager {
 			return;
 		}
 		Hero hero = mgr.addHeroWhenCreatUser(templateId);
+		if (hero == null) {
+			GameLog.error("RobotManager", "#addHero", "机器人添加佣兵失败：" + templateId);
+			return;
+		}
 		int lv = getRandom(heroLevel);
 		if (lv > roleLevel) {
 			lv = roleLevel;
 		}
 		hero.SetHeroLevel(lv);
-		if (hero == null) {
-			GameLog.error("机器人添加佣兵失败：" + templateId);
-			return;
-		}
 		heroList.add(hero);
 	}
 
@@ -492,7 +321,7 @@ public class RobotManager {
 			Skill skill = skillList.get(i);
 			RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
 			if (cfg == null) {
-				GameLog.error("找不到英雄品质：" + hero.getQualityId());
+				GameLog.error("RobotManager", "changeSkill", "找不到英雄品质：" + hero.getQualityId());
 				continue;
 			}
 			if (!hero.getSkillMgr().isSkillCanActive(skill, hero.getLevel(), cfg.getQuality())) {
@@ -544,7 +373,6 @@ public class RobotManager {
 			return array.get(0);
 		}
 		String str = array.get(getRandom().nextInt(array.size()));
-		// System.out.println(str + "," + array);
 		return str;
 	}
 
@@ -588,10 +416,10 @@ public class RobotManager {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
-					GameLog.error("创建机器人异常", e);
+					e.printStackTrace();
 				}
 			}
-			GameLog.error("职业[" + carerr + "]创建机器人完成");
+			GameLog.info("RobotManager", "run", "职业[" + carerr + "]创建机器人完成");
 			ArenaBM arenaBM = ArenaBM.getInstance();
 			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(carerr);
 			ArenaHandler handler = ArenaHandler.getInstance();
@@ -602,6 +430,155 @@ public class RobotManager {
 				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
 						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
+		}
+	}
+
+	static class ProductPlayerTask implements Callable<RankingPlayer> {
+		private final int career;
+		private final int expectRanking;
+		private final RobotEntryCfg cfg;
+		private final String userName;
+
+		public ProductPlayerTask(int career, int expectRanking, RobotEntryCfg cfg, String userName) {
+			this.career = career;
+			this.cfg = cfg;
+			this.expectRanking = expectRanking;
+			this.userName = userName;
+		}
+
+		@Override
+		public RankingPlayer call() throws Exception {
+			long start = System.currentTimeMillis();
+			if (UserDataDao.getInstance().validateName(userName)) {
+				GameLog.error("robot", "product player", "arena robot already exist , continue...");
+				return null;
+			}
+
+			// 创建User，并初始化基本属性
+			User user = new User();
+			String userId = UUID.randomUUID().toString();
+			int sex = getRandom().nextInt(2);
+			int level = getRandom(cfg.getLevel());
+			user.setSex(sex);
+			user.setAccount(AccoutBM.getInstance().getGuestAccountId());
+			user.setUserId(userId);
+			user.setZoneId(1);// 这个需要更改
+			user.setLevel(level);
+			UserDataDao.getInstance().saveOrUpdate(user);
+			int star = getRandom(cfg.getStar());
+			int quality = getRandom(cfg.getQuality());
+
+			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
+			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
+			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
+
+			GameOperationFactory.getCreatedOperation().execute(param);
+			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
+			// 初始化主角
+			// 初始主角英雄
+
+			Player player = new Player(userId, false, playerCfg);
+			MapItemStoreFactory.notifyPlayerCreated(userId);
+			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
+			mainRoleHero.SetHeroLevel(level);
+			// 品质
+			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
+			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
+			roleBaseInfoMgr.setLevel(level);
+			player.getUserDataMgr().setHeadId(headImage);
+			player.initMgr();
+			player.getUserDataMgr().setUserName(userName);
+
+			PlayerMgr.getInstance().putToMap(player);
+			// 更改装备
+			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
+			// 更改宝石
+			changeGem(mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
+			// 更改技能
+			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
+			String fashonId = getRandom(cfg.getFashions());
+			if (!fashonId.equals("0")) {
+				int fashionID = Integer.parseInt(fashonId);
+				player.getFashionMgr().giveFashionItem(fashionID, -1, true, false);
+			}
+			int maigcId = getRandom(cfg.getMagicId());
+			int magicLevel = getRandom(cfg.getMagicLevel());
+			ItemBagMgr itemBagMgr = player.getItemBagMgr();
+			itemBagMgr.addItem(maigcId, 1);
+			ItemData magic = itemBagMgr.getItemListByCfgId(maigcId).get(0);
+			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
+			player.getMagicMgr().wearMagic(magic.getId());
+			HeroMgr heroMgr = player.getHeroMgr();
+
+			String heroGroupId = getRandom(cfg.getHeroGroupId());
+			List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroGroupId);
+			if (heroCfgList == null) {
+				GameLog.error("RobotManager", "call", "生成机器人找不到佣兵组合：" + heroGroupId);
+				return null;
+			}
+			RobotHeroCfg heroCfg = heroCfgList.get(getRandom().nextInt(heroCfgList.size()));
+			int[] heroLevel = cfg.getHeroLevel();
+			ArrayList<Hero> heroList = new ArrayList<Hero>(4);
+			addHero(heroCfg.getFirstHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(heroCfg.getSecondHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(heroCfg.getThirdHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(heroCfg.getFourthHeroId(), heroList, heroMgr, heroLevel, level);
+			// 装备部分
+			int[] heroEnchant = cfg.getHeroEnchant();
+			int[] equipments = cfg.getHeroEquipments();
+			int heroQuality = getRandom(cfg.getHeroQuality());
+			// 宝石部分
+			int[] heroGemType = cfg.getHeroGemType();
+			int[] heroGemLevel = cfg.getHeroGemLevel();
+			int[] heroGemCount = cfg.getHeroGemCount();
+			// 技能部分
+			int[] heroSkill1 = cfg.getHeroFirstSkillLevel();
+			int[] heroSkill2 = cfg.getHeroSecondSkillLevel();
+			int[] heroSkill3 = cfg.getHeroThirdSkillLevel();
+			int[] heroSkill4 = cfg.getHeroFourthSkillLevel();
+			int[] heroSkill5 = cfg.getHeroFifthSkillLevel();
+			ArrayList<String> arenaList = new ArrayList<String>();
+			for (Hero hero : heroList) {
+				changeHero(hero, cfg);
+				changeEquips(userId, hero, equipments, heroQuality, heroEnchant);
+				changeGem(hero, heroGemType, heroGemCount, heroGemLevel);
+				changeSkill(hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
+				arenaList.add(hero.getUUId());
+			}
+			player.getAttrMgr().reCal();
+			for (Hero hero : heroList) {
+				hero.getAttrMgr().reCal();
+			}
+			// player.save(true);
+			printHeroSkill(mainRoleHero);
+			for (Hero hero : heroList) {
+				printHeroSkill(hero);
+			}
+
+			// 检查机器人数据并加入到万仙阵阵容排行榜
+			List<Integer> heroModelList = new ArrayList<Integer>();
+			int mainRoleModelId = mainRoleHero.getModelId();
+			heroModelList.add(mainRoleModelId);
+
+			int fighting = mainRoleHero.getFighting();
+
+			for (Hero hero : heroList) {
+				if (hero == null) {
+					continue;
+				}
+
+				int modelId = hero.getModelId();
+				if (modelId == mainRoleModelId) {
+					continue;
+				}
+
+				heroModelList.add(modelId);
+				fighting += hero.getFighting();
+			}
+
+			AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(player, heroModelList, fighting);
+			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + level + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
+			return new RankingPlayer(player, arenaList, expectRanking);
 		}
 	}
 

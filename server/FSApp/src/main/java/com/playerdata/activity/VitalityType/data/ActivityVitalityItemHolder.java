@@ -44,6 +44,10 @@ public class ActivityVitalityItemHolder{
 		return itemList;
 	}
 	
+	public void removeItem(Player player, ActivityVitalityTypeItem item){
+		getItemStore(player.getUserId()).removeItem(item.getId());
+	}
+	
 	public void updateItem(Player player, ActivityVitalityTypeItem item){
 		getItemStore(player.getUserId()).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
