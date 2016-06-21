@@ -99,7 +99,7 @@ public class GambleHandler {
 
 		Random ranGen = getRandom();
 		RefInt slotCount = new RefInt();
-		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>();
+		ArrayList<GambleRewardData> dropList = new ArrayList<GambleRewardData>(10);
 		
 		final int maxHistoryNumber = GamblePlanCfgHelper.getInstance().getMaxHistoryCount(planCfg.getDropType());// planCfg.getMaxCheckCount();
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
