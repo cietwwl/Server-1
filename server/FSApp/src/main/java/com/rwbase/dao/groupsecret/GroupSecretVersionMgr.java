@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.group.GroupBM;
 import com.playerdata.Player;
 import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
@@ -23,6 +25,12 @@ import com.rwproto.DataSynProtos.eSynType;
  * @Description 
  */
 public class GroupSecretVersionMgr {
+	/**
+	 * 同步成员的信息
+	 * 
+	 * @param player
+	 * @param versionJson
+	 */
 	public static void synByVersion(Player player, String versionJson) {
 		GroupSecretVersion groupSecretVersion = fromJson(versionJson);
 		if (groupSecretVersion == null) {
@@ -99,6 +107,14 @@ public class GroupSecretVersionMgr {
 		int version = player.getDataSynVersionHolder().getVersion(eSynType.SECRETAREA_DEF_RECORD);
 		if (defendRecordVersion != version) {
 			GroupSecretDefendRecordDataMgr.getMgr().synData(player);
+		}
+
+		// 发送帮派成员的列表
+
+		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
+		Group group = GroupBM.get(groupId);
+		if (group != null) {
+			group.synGroupMemberData(player, false, groupSecretVersion.getMemberVersion());
 		}
 	}
 

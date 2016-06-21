@@ -256,7 +256,6 @@ public class GambleDropHistory {
 	}
 
 	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
-		//List<String> history = checkHistoryNum(isFree, maxHistory);
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		history.add(itemModel);
 		if (isFree) {

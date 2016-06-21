@@ -1,13 +1,11 @@
 package com.playerdata;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.alibaba.druid.support.logging.Log;
 import com.common.Action;
 import com.playerdata.readonly.SkillMgrIF;
 import com.rwbase.common.enu.EPrivilegeDef;
@@ -16,7 +14,6 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.role.RoleCfgDAO;
-import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.SkillFeeCfgDAO;
@@ -64,26 +61,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		return skillItemHolder.getItemList();
 	}
 
-	// public AttrData getTotalSkillAttrData() {
-	// return skillItemHolder.toAttrData();
-	// }
-
-	/**
-	 * 升级技能
-	 * 
-	 * @param nSkillOrder
-	 * @return
-	 */
-	public void upgradeSkill(int nSkillOrder) {
-		Skill skill = skillItemHolder.getByOrder(nSkillOrder);
-		AddSkillPointCount(-1);
-		SkillCfg skillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
-		skill.setLevel(skill.getLevel() + 1);
-		skill.setSkillId(skillCfg.getNextSillId());
-		updateMoreInfo(skill, null);
-		skillItemHolder.updateItem(m_pPlayer, skill);
-	}
-
 	public boolean canUpgradeSkill() {
 		List<Skill> list = getSkillList();
 		for (Skill skill : list) {
@@ -94,7 +71,7 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		return false;
 	}
 
-	public boolean canUpgradeSkill(Skill skill, boolean showError) {
+	private boolean canUpgradeSkill(Skill skill, boolean showError) {
 		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SKILL_OPEN, m_pPlayer.getLevel())) {
 			if (showError) {
 				m_pPlayer.NotifyCommonMsg("角色等级不足！");
@@ -146,9 +123,9 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	}
 
 	public boolean updateSkill(String skillId, int addLevel) {
-		// Skill skill = skillItemHolder.getItem(SkillHelper.getItemId(this.m_pOwner.getUUId(), skillId));
 		Skill skill = null;
-		for (Skill current : skillItemHolder.getItemList()) {
+		List<Skill> skillList = skillItemHolder.getItemList();
+		for (Skill current : skillList) {
 			if (current.getSkillId().equals(skillId)) {
 				skill = current;
 				break;
@@ -158,7 +135,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			return false;
 		}
 		int level = skill.getLevel() + addLevel;
-		// List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(m_pOwner.getTemplateId());
 		StringTokenizer token = new StringTokenizer(skillId, "_");
 		String newSkillId = token.nextToken() + "_" + level;
 		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
@@ -170,15 +146,6 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		updateMoreInfo(skill, null);
 		skillItemHolder.updateItem(m_pPlayer, skill);
 		return true;
-	}
-
-	private void AddSkillPointCount(int value) {
-		int count = m_pPlayer.getUserGameDataMgr().getSkillPointCount();
-		int max = getMaxSkillCount();
-		if (count + value == max - 1) {
-			m_pPlayer.getUserGameDataMgr().setLastRecoverSkillPointTime(System.currentTimeMillis());
-		}
-		m_pPlayer.getUserGameDataMgr().addSkillPointCount(value);
 	}
 
 	/**
@@ -222,15 +189,15 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	 * @param quality
 	 */
 	public void activeSkill(int level, int quality) {
-		int maxOrder = -1;
+		// int maxOrder = -1;
 		// modify by Jamaz 2015-11-23 抽取判断能否激活技能的方法
 		for (Skill skill : skillItemHolder.getItemList()) {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
 				updateMoreInfo(skill, null);
-				if (maxOrder < skill.getOrder()) {
-					maxOrder = skill.getOrder();
-				}
+				// if (maxOrder < skill.getOrder()) {
+				// maxOrder = skill.getOrder();
+				// }
 			}
 		}
 		skillItemHolder.synAllData(m_pPlayer, -1);
@@ -294,70 +261,224 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 	 * @param pRole
 	 */
 	public void initSkill(RoleCfg rolecfg) {
-		// List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
-		// // 技能buff有相关性，要先一次过加入到列表才行
-		// List<Skill> battleSkillList = new ArrayList<Skill>();
-		// for (Skill skilltmp : cfgSkillList) {
-		// SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skilltmp.getSkillId());
-		// if (cfg == null) {
-		// if (skilltmp.getLevel() != DIE_SKILL_LEVEL) {
-		// m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skilltmp.getSkillId() + "的技能");
-		// }
-		// } else {
-		// battleSkillList.add(skilltmp);
-		// }
-		// }
-		//
-		// for (Skill pSkill : battleSkillList) {
-		// SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(pSkill.getSkillId());
-		//
-		// int quality = RoleQualityCfgDAO.getInstance().getQuality(m_pOwner.getQualityId());
-		// int level = cfg.getRoleLevel() <= m_pOwner.getLevel() && cfg.getRoleQuality() <= quality ? 1 : 0;
-		// pSkill.setLevel(level);
-		// updateMoreInfo(pSkill, cfgSkillList);
-		// }
-
-		// for (Skill pSkill : battleSkillList) {
-		// skillItemHolder.addItem(m_pPlayer, pSkill);
-		// }
-		List<Skill> battleSkillList = initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
+		// List<Skill> battleSkillList = initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
+		List<Skill> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
 		skillItemHolder.addItem(m_pPlayer, battleSkillList);
 	}
 
-	/**
-	 * 初始化技能
-	 * 
-	 * @param rolecfg
-	 * @param qualityId
-	 * @param playerLevel
-	 * @return
-	 */
-	public List<Skill> initSkill(RoleCfg rolecfg, String qualityId, int playerLevel) {
-		List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
-		// 技能buff有相关性，要先一次过加入到列表才行
-		List<Skill> battleSkillList = new ArrayList<Skill>();
-		for (Skill skilltmp : cfgSkillList) {
-			SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skilltmp.getSkillId());
-			if (cfg == null) {
-				if (skilltmp.getLevel() != DIE_SKILL_LEVEL) {
-					m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skilltmp.getSkillId() + "的技能");
-				}
-			} else {
-				battleSkillList.add(skilltmp);
-			}
-		}
+	// /**
+	// * 初始化技能
+	// *
+	// * @param rolecfg
+	// * @param qualityId
+	// * @param playerLevel
+	// * @return
+	// */
+	// public List<Skill> initSkill(RoleCfg rolecfg, String qualityId, int playerLevel) {
+	// List<Skill> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
+	// // 技能buff有相关性，要先一次过加入到列表才行
+	// List<Skill> battleSkillList = new ArrayList<Skill>();
+	// for (Skill skilltmp : cfgSkillList) {
+	// SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skilltmp.getSkillId());
+	// if (cfg == null) {
+	// if (skilltmp.getLevel() != DIE_SKILL_LEVEL) {
+	// m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skilltmp.getSkillId() + "的技能");
+	// }
+	// } else {
+	// battleSkillList.add(skilltmp);
+	// }
+	// }
+	//
+	// for (Skill pSkill : battleSkillList) {
+	// SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(pSkill.getSkillId());
+	//
+	// int quality = RoleQualityCfgDAO.getInstance().getQuality(qualityId);
+	// int level = cfg.getRoleLevel() <= playerLevel && cfg.getRoleQuality() <= quality ? 1 : 0;
+	// pSkill.setLevel(level);
+	//
+	// updateMoreInfo(pSkill, cfgSkillList);
+	// }
+	//
+	// return battleSkillList;
+	// }
 
-		for (Skill pSkill : battleSkillList) {
-			SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(pSkill.getSkillId());
-
-			int quality = RoleQualityCfgDAO.getInstance().getQuality(qualityId);
-			int level = cfg.getRoleLevel() <= playerLevel && cfg.getRoleQuality() <= quality ? 1 : 0;
-			pSkill.setLevel(level);
-			updateMoreInfo(pSkill, cfgSkillList);
-		}
-
-		return battleSkillList;
-	}
+	// /**
+	// * 重置掉技能伤害，技能对敌Buff和SelfBuff，技能额外附加伤害，以及附加百分比
+	// *
+	// * @param skillList
+	// */
+	// private void checkAllSkill(List<Skill> skillList) {
+	// SkillCfgDAO cfgDAO = SkillCfgDAO.getInstance();
+	// // 相互影响的伤害值
+	// for (int i = skillList.size() - 1; i >= 0; --i) {
+	// Skill skillInfo = skillList.get(i);
+	// if (skillInfo.getLevel() <= 0) {
+	// continue;
+	// }
+	//
+	// SkillCfg skillCfg = cfgDAO.getCfg(skillInfo.getSkillId());
+	// if (skillCfg == null) {
+	// return;
+	// }
+	//
+	// skillInfo.getBuffId().clear();
+	// skillInfo.getSelfBuffId().clear();
+	// skillInfo.setExtraDamage(0);
+	// skillInfo.setSkillRate(0);
+	//
+	// // 设置技能伤害
+	// skillInfo.setSkillDamage(skillCfg.getSkillDamage());
+	//
+	// // 检查控制技能
+	// checkControl(skillInfo, skillList);
+	//
+	// // 检查技能所受的Buff
+	// checkSkillBuffs(skillInfo, skillCfg, skillList);
+	//
+	// // 更新技能
+	// if (skillItemHolder != null) {
+	// skillItemHolder.updateItem(m_pPlayer, skillInfo);
+	// }
+	// }
+	// }
+	//
+	// /**
+	// * 检查受那些技能的影响
+	// *
+	// * @param skill
+	// * @param skillList
+	// */
+	// private void checkControl(Skill skill, List<Skill> skillList) {
+	// String updateSkillId = skill.getSkillId();
+	// if (skill.getLevel() <= 0) {
+	// return;
+	// }
+	//
+	// SkillCfgDAO cfgDAO = SkillCfgDAO.getInstance();
+	//
+	// float skillRate = 0;
+	// int extraDamage = 0;
+	//
+	// // 相互影响的伤害值
+	// for (int i = skillList.size() - 1; i >= 0; --i) {
+	// Skill skillInfo = skillList.get(i);
+	// if (skillInfo.getLevel() <= 0) {
+	// continue;
+	// }
+	//
+	// String skillId = skillInfo.getSkillId();
+	// SkillCfg cfg = cfgDAO.getCfg(skillId);
+	// if (cfg == null) {
+	// continue;
+	// }
+	//
+	// String controlId = cfg.getControlId();
+	// if (StringUtils.isEmpty(controlId)) {
+	// continue;
+	// }
+	//
+	// boolean hasControl = false;// 是否受此技能影响
+	// String[] arr = controlId.split("_");
+	// for (int j = 0, len = arr.length; j < len; j++) {
+	// String controlSkillId = arr[j];// 控制的技能到的技能Id
+	// if (updateSkillId.startsWith(controlSkillId)) {
+	// hasControl = true;
+	// break;
+	// }
+	// }
+	//
+	// if (hasControl) {
+	// skillRate += cfg.getSkillRate();
+	// extraDamage += cfg.getExtraDamage();
+	// }
+	// }
+	//
+	// skill.setExtraDamage(extraDamage);
+	// skill.setSkillRate(skillRate);
+	// }
+	//
+	// /**
+	// * 检查技能所有的buff
+	// *
+	// * @param skill
+	// * @param skillCfg
+	// * @param skillList
+	// */
+	// private void checkSkillBuffs(Skill skill, SkillCfg skillCfg, List<Skill> skillList) {
+	// String updateSkillId = skill.getSkillId();
+	// if (skill.getLevel() <= 0) {
+	// return;
+	// }
+	//
+	// SkillCfgDAO cfgDAO = SkillCfgDAO.getInstance();
+	//
+	// List<Integer> buffList = new ArrayList<Integer>();
+	// List<Integer> selfBuffList = new ArrayList<Integer>();
+	//
+	// // 相互影响的伤害值
+	// for (int i = skillList.size() - 1; i >= 0; --i) {
+	// Skill skillInfo = skillList.get(i);
+	// if (skillInfo.getLevel() <= 0) {
+	// continue;
+	// }
+	//
+	// String skillId = skillInfo.getSkillId();
+	// SkillCfg cfg = cfgDAO.getCfg(skillId);
+	// if (cfg == null) {
+	// continue;
+	// }
+	//
+	// List<Integer> buffs = checkBuffer(updateSkillId, cfg.getBuffId(), buffList);
+	// if (buffs != null && !buffs.isEmpty()) {
+	// buffList.addAll(buffs);
+	// }
+	//
+	// List<Integer> selfBuffs = checkBuffer(updateSkillId, cfg.getSelfBuffId(), selfBuffList);
+	// if (selfBuffs != null && !selfBuffs.isEmpty()) {
+	// selfBuffList.addAll(selfBuffs);
+	// }
+	// }
+	//
+	// skill.setBuffId(buffList);
+	// skill.setSelfBuffId(selfBuffList);
+	// }
+	//
+	// /**
+	// * 检查被影响到的Buff列表
+	// *
+	// * @param updateSkillId
+	// * @param buffIdStr
+	// * @param hasBuff
+	// * @return
+	// */
+	// private List<Integer> checkBuffer(String updateSkillId, String buffIdStr, List<Integer> hasBuff) {
+	// if (StringUtils.isEmpty(buffIdStr)) {
+	// return null;
+	// }
+	//
+	// String[] split = buffIdStr.split(";");
+	//
+	// List<Integer> buffList = new ArrayList<Integer>();
+	//
+	// for (int i = 0, len = split.length; i < len; i++) {
+	// String[] split1 = split[0].split("_");
+	//
+	// if (!updateSkillId.startsWith(split1[0])) {
+	// return null;
+	// }
+	//
+	// for (int j = 1, buffLen = split1.length; j < buffLen; j++) {
+	// int buffId = Integer.parseInt(split1[j]);
+	// if (buffId <= 0 || hasBuff.contains(buffId)) {
+	// continue;
+	// }
+	//
+	// buffList.add(buffId);
+	// }
+	// }
+	//
+	// return buffList;
+	// }
 
 	/**
 	 * 更新技能其它信息
@@ -369,76 +490,165 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 			return;
 		}
 
-		SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(pSkill.getSkillId());
+		String skillId = pSkill.getSkillId();
+		SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
 		if (pSkillCfg == null) {
 			if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
 				if (m_pPlayer != null) {
-					m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + pSkill.getSkillId() + "的技能");
+					m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
 				}
 			}
 			return;
 		}
 
-		pSkill.setSkillRate(pSkillCfg.getSkillRate());
-		pSkill.setExtraDamage(pSkillCfg.getExtraDamage());
-		pSkill.setSkillDamage(pSkillCfg.getSkillDamage());
-		pSkill.setSelfBuffId(new ArrayList<Integer>());
+		List<Skill> itemList = skillItemHolder.getItemList();
+
+		SkillHelper.checkAllSkill(itemList);// 检查所有的技能
+
+		// StringBuilder sb = new StringBuilder();
+		for (int i = 0, size = itemList.size(); i < size; i++) {
+			Skill skill = itemList.get(i);
+			if (skill == null) {
+				continue;
+			}
+
+			skillItemHolder.updateItem(m_pPlayer, skill);
+
+			// sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(),
+			// skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
+			// skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
+		}
+
+		// GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
+
+		// pSkill.setSkillRate();
+		// pSkill.setExtraDamage();
+		// pSkill.setSkillDamage(pSkillCfg.getSkillDamage());
+		// pSkill.setSelfBuffId(new ArrayList<Integer>());
 
 		// 查找控制技能的技能系数和额外伤害
-		if (StringUtils.isNotBlank(pSkillCfg.getControlId())) {
-			String[] relatedSkillCfgId = pSkillCfg.getControlId().split("_");
-			for (String cfgIdTmp : relatedSkillCfgId) {
-				Skill targetSkill = getSkill(cfgIdTmp, skillList);
-				if (targetSkill != null && targetSkill.getLevel() > 0) {
-					SkillCfg conSkillCfg = SkillCfgDAO.getInstance().getCfg(targetSkill.getSkillId());
+		// if (StringUtils.isNotBlank(pSkillCfg.getControlId())) {
+		// String[] relatedSkillCfgId = pSkillCfg.getControlId().split("_");
+		// for (String cfgIdTmp : relatedSkillCfgId) {
+		// Skill targetSkill = getSkill(cfgIdTmp, skillList);
+		// if (targetSkill != null && targetSkill.getLevel() > 0) {
+		// SkillCfg conSkillCfg = SkillCfgDAO.getInstance().getCfg(targetSkill.getSkillId());
+		//
+		// targetSkill.setSkillRate(conSkillCfg.getSkillRate() + pSkillCfg.getSkillRate());
+		// targetSkill.setExtraDamage(conSkillCfg.getExtraDamage() + pSkillCfg.getExtraDamage());
+		// }
+		// }
+		// }
 
-					targetSkill.setSkillRate(conSkillCfg.getSkillRate() + pSkillCfg.getSkillRate());
-					targetSkill.setExtraDamage(conSkillCfg.getExtraDamage() + pSkillCfg.getExtraDamage());
-				}
-			}
-		}
-		pSkill.getBuffId().clear();
-		// 查找控制技能的buff
-		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getBuffId())) {
-			parseSkillBuffs(skillList, pSkillCfg.getBuffId(), false);
-		}
-
-		pSkill.getSelfBuffId().clear();
-		if (pSkill.getLevel() > 0 && StringUtils.isNotBlank(pSkillCfg.getSelfBuffId())) {
-			parseSkillBuffs(skillList, pSkillCfg.getSelfBuffId(), true);
-		}
+		// checkSkillControlSkill(pSkill, skillList);// 改变我自己的技能
+		//
+		// pSkill.getBuffId().clear();
+		// // 查找控制技能的buff
+		// if (StringUtils.isNotBlank(pSkillCfg.getBuffId())) {
+		// parseSkillBuffs(skillList, pSkillCfg.getBuffId(), false);
+		// }
+		//
+		// pSkill.getSelfBuffId().clear();
+		// if (StringUtils.isNotBlank(pSkillCfg.getSelfBuffId())) {
+		// parseSkillBuffs(skillList, pSkillCfg.getSelfBuffId(), true);
+		// }
+		//
+		// // 检查其他的
+		// if (skillList != null) {
+		// for (int i = skillList.size() - 1; i >= 0; --i) {
+		// Skill skill = skillList.get(i);
+		// if (skill.getSkillId().equals(skillId)) {
+		// continue;
+		// }
+		//
+		// checkSkillControlSkill(skill, skillList);
+		// }
+		// }
 	}
 
-	private void parseSkillBuffs(List<Skill> skillList, String id, boolean isSelf) {
-		String[] skillBufflist = id.split(";");
-		Skill targetSkill;
-		String[] targetBuffarr;
-		for (String skillBuff : skillBufflist) {
-			targetBuffarr = skillBuff.split("_");// skillBuff xxxx
-			targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
-			if (targetSkill != null && targetSkill.getLevel() > 0) {
-				for (int j = 1; j < targetBuffarr.length; j++) {
-					String targetBuff = targetBuffarr[j];
-					if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
-						List<Integer> curBuffList = null;
-						if (isSelf) {
-							curBuffList = targetSkill.getSelfBuffId();
-						} else {
-							curBuffList = targetSkill.getBuffId();
-						}
-						if (curBuffList.size() > j - 1) {
-							curBuffList.set(j - 1, Integer.parseInt(targetBuff));
-						} else {
-							curBuffList.add(Integer.parseInt(targetBuff));
-						}
-					}
-				}
-			}
-		}
-	}
-
-	public void skill() {
-	}
+	// /**
+	// * 检查自己影响了那些技能
+	// *
+	// * @param pSkill
+	// * @param skillList
+	// */
+	// private void checkSkillControlSkill(Skill pSkill, List<Skill> skillList) {
+	// if (skillList == null) {
+	// return;
+	// }
+	//
+	// String skillId = pSkill.getSkillId();
+	// SkillCfg pSkillCfg = SkillCfgDAO.getInstance().getCfgById(skillId);
+	// if (pSkillCfg == null) {
+	// return;
+	// }
+	//
+	// float skillRate = pSkillCfg.getSkillRate();
+	// int extraDamage = pSkillCfg.getExtraDamage();
+	// int skillDamage = pSkillCfg.getSkillDamage();
+	//
+	// for (int i = skillList.size() - 1; i >= 0; --i) {
+	// Skill skill = skillList.get(i);
+	// if (skill.getSkillId().equals(skillId)) {
+	// continue;
+	// }
+	//
+	// if (skill.getLevel() <= 0) {
+	// continue;
+	// }
+	//
+	// SkillCfg conSkillCfg = SkillCfgDAO.getInstance().getCfg(skill.getSkillId());
+	// if (conSkillCfg == null) {
+	// continue;
+	// }
+	//
+	// String controlId = conSkillCfg.getControlId();
+	// if (StringUtils.isEmpty(controlId)) {
+	// continue;
+	// }
+	//
+	// String[] arr = controlId.split("_");
+	// for (int j = 0, len = arr.length; j < len; j++) {
+	// if (skillId.startsWith(arr[j])) {// 受到这个技能的影响了
+	// skillRate += conSkillCfg.getSkillRate();
+	// extraDamage += conSkillCfg.getExtraDamage();
+	// break;
+	// }
+	// }
+	// }
+	//
+	// pSkill.setSkillRate(skillRate);
+	// pSkill.setExtraDamage(extraDamage);
+	// pSkill.setSkillDamage(skillDamage);
+	// }
+	//
+	// private void parseSkillBuffs(List<Skill> skillList, String id, boolean isSelf) {
+	// String[] skillBufflist = id.split(";");
+	// Skill targetSkill;
+	// String[] targetBuffarr;
+	// for (String skillBuff : skillBufflist) {
+	// targetBuffarr = skillBuff.split("_");// skillBuff xxxx
+	// targetSkill = getSkill(targetBuffarr[0], skillList);// 目标技能
+	// if (targetSkill != null && targetSkill.getLevel() > 0) {
+	// for (int j = 1; j < targetBuffarr.length; j++) {
+	// String targetBuff = targetBuffarr[j];
+	// if (StringUtils.isNotBlank(targetBuff) && !targetBuff.equals("0")) {
+	// List<Integer> curBuffList = null;
+	// if (isSelf) {
+	// curBuffList = targetSkill.getSelfBuffId();
+	// } else {
+	// curBuffList = targetSkill.getBuffId();
+	// }
+	// if (curBuffList.size() > j - 1) {
+	// curBuffList.set(j - 1, Integer.parseInt(targetBuff));
+	// } else {
+	// curBuffList.add(Integer.parseInt(targetBuff));
+	// }
+	// }
+	// }
+	// }
+	// }
+	// }
 
 	/**
 	 * 发送全部技能
@@ -561,27 +771,27 @@ public class SkillMgr extends IDataMgr implements SkillMgrIF {
 		return skillItemHolder.getByOrder(order);
 	}
 
-	/**
-	 * 根据id获取技能
-	 * 
-	 * @param cfgId
-	 * @return
-	 */
-	private Skill getSkill(String cfgId, List<Skill> skillList) {
-		Skill targetItem = null;
-		if (skillList == null) {
-			skillList = skillItemHolder.getItemList();
-		}
-
-		for (Skill skill : skillList) {
-			if (skill.getSkillId().startsWith(cfgId)) {
-				targetItem = skill;
-				break;
-			}
-		}
-
-		return targetItem;
-	}
+	// /**
+	// * 根据id获取技能
+	// *
+	// * @param cfgId
+	// * @return
+	// */
+	// private Skill getSkill(String cfgId, List<Skill> skillList) {
+	// Skill targetItem = null;
+	// if (skillList == null) {
+	// skillList = skillItemHolder.getItemList();
+	// }
+	//
+	// for (Skill skill : skillList) {
+	// if (skill.getSkillId().startsWith(cfgId)) {
+	// targetItem = skill;
+	// break;
+	// }
+	// }
+	//
+	// return targetItem;
+	// }
 
 	public long getCoolTime() {
 		long cooltime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.SKILL_POINT_COOL_TIME);

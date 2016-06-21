@@ -143,6 +143,37 @@ public class UserCreateGroupSecretDataMgr {
 	}
 
 	/**
+	 * 增加防守阵容
+	 * 
+	 * @param userId
+	 * @param id
+	 * @param index
+	 * @param userInfo
+	 */
+	public boolean addDefendTeamInfo(String userId, int id, int index, DefendUserInfoData userInfo) {
+		UserCreateGroupSecretData userCreateGroupSecretData = get(userId);
+		if (userCreateGroupSecretData == null) {
+			return false;
+		}
+
+		GroupSecretData groupSecretData = userCreateGroupSecretData.getGroupSecretData(id);
+		if (groupSecretData == null) {
+			return false;
+		}
+
+		DefendUserInfoData defendUserInfoData = groupSecretData.getDefendUserInfoData(index);
+		if (defendUserInfoData != null) {
+			return false;
+		}
+
+		groupSecretData.addDefendUserInfoData(index, userInfo);
+
+		updateData(userId);
+
+		return true;
+	}
+
+	/**
 	 * 更新成员秘境被掠夺的资源数量
 	 * 
 	 * @param player

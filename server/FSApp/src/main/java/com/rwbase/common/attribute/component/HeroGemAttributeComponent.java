@@ -1,6 +1,5 @@
 package com.rwbase.common.attribute.component;
 
-import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.rwbase.common.attribute.AttributeBM;
@@ -28,7 +27,7 @@ public class HeroGemAttributeComponent extends AbstractAttributeCalc {
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {
-			GameLog.error("计算英雄宝石属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(), getComponentTypeEnum()));
+//			GameLog.error("计算英雄宝石属性", player.getUserId(), String.format("Id为[%s]的英雄[%s]对应类型的IComponentCacl的实现类为Null", hero.getUUId(), getComponentTypeEnum()));
 			return null;
 		}
 		return calc.calc(builder.build());

@@ -6,7 +6,10 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+
 
 
 
@@ -59,7 +62,10 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		closed = false;
 		version = cfg.getVersion();
 		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(),eNum));
-		setSubBoxItemList(ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(),eNum));
+		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(),eNum);
+		if(boxlist != null){
+			setSubBoxItemList(boxlist);
+		}
 		lastTime = System.currentTimeMillis();
 		activeCount = 0;
 	}
@@ -155,7 +161,17 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		this.activeCount = activeCount;
 	}
 
-	
+	public ActivityVitalityTypeSubItem getByType(String type){
+		ActivityVitalityTypeSubItem subitem = null;
+		for(ActivityVitalityTypeSubItem subitemtmp : subItemList){
+			if(StringUtils.equals(subitemtmp.getType(), type)){
+				subitem = subitemtmp;
+				break;
+			}
+		}
+		
+		return subitem;
+	}
 
 	
 	

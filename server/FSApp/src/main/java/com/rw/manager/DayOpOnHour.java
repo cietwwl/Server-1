@@ -39,6 +39,7 @@ public class DayOpOnHour {
 		if(lastExecuteFinishTime==null || DateUtils.dayChanged(lastExecuteFinishTime)){
 			isRunning = true;
 			try {
+				System.out.println("执行小时任务："+hourOfDay+","+opMinute);
 				timeOp.doTask();
 			} catch (Exception e) {
 				GameLog.error(LogModule.COMMON.getName(), "DayOpOnHour", "DayOpOnHour[tryRun]", e);

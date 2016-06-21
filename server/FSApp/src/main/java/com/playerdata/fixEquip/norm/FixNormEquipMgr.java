@@ -16,6 +16,8 @@ import com.playerdata.fixEquip.cfg.FixEquipCfg;
 import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfg;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfg;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCfgDAO;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipLevelCostCfg;
@@ -44,10 +46,25 @@ public class FixNormEquipMgr {
 		}
 		
 	};
+	
+	public boolean initIfNeed(Player player, Hero hero){
+		if(!isInited(player, hero)){
+			newHeroInit(player, hero.getUUId(), hero.getModelId());
+		}
+		return true;
+	}
+	
+	private boolean isInited(Player player, Hero hero){
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(hero.getUUId());
+		return !itemList.isEmpty();
+	}
 	public boolean newHeroInit(Player player, String ownerId, int modelId ){
 		List<FixNormEquipDataItem> equipItemList = new ArrayList<FixNormEquipDataItem>();
 	
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));		
+		if(roleFixEquipCfg == null){
+			return false;
+		}
 		
 		int slot = 0;
 		for (String cfgId : roleFixEquipCfg.getNormCfgIdList()) {
@@ -58,7 +75,7 @@ public class FixNormEquipMgr {
 			FixNormEquipDataItem.setId( id );
 			FixNormEquipDataItem.setCfgId(cfgId);
 			FixNormEquipDataItem.setOwnerId(ownerId);
-			FixNormEquipDataItem.setQuality(1);
+			FixNormEquipDataItem.setQuality(0);
 			FixNormEquipDataItem.setLevel(1);
 			FixNormEquipDataItem.setStar(0);
 			FixNormEquipDataItem.setSlot(slot);
@@ -159,6 +176,39 @@ public class FixNormEquipMgr {
 	}
 	
 	
+	public List<String> qualityUpList(Player player, String ownerId){
+		
+		List<String> upIdList = new ArrayList<String>();
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
+		
+		for (FixNormEquipDataItem dataItem : itemList) {
+			int level = dataItem.getLevel();
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());			
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(level == nextQualityLevel){
+				FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
+				if(result.isSuccess()){
+					upIdList.add(dataItem.getId());
+				}
+			}
+		}
+		return upIdList;
+		
+	}
+	public List<String> starUpList(Player player, String ownerId){
+		List<String> upIdList = new ArrayList<String>();
+		List<FixNormEquipDataItem> itemList = fixNormEquipDataItemHolder.getItemList(ownerId);
+		for (FixNormEquipDataItem dataItem : itemList) {
+			FixEquipResult result = checkStarUp(player, ownerId, dataItem);
+			if(result.isSuccess()){
+				upIdList.add(dataItem.getId());
+			}
+			
+		}
+		return upIdList;
+		
+	}
+	
 
 	public FixEquipResult levelUpOneKey(Player player, String ownerId, String itemId){
 		
@@ -225,15 +275,15 @@ public class FixNormEquipMgr {
 	private FixEquipResult checkLevel(Player player, String ownerId, FixNormEquipDataItem dataItem){
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		if(dataItem == null){
-			result.setReason("装备不存在。");			
+			result.setReason("装备不存在");			
 		}else{
 			int nextLevel = dataItem.getLevel()+1;
 			FixNormEquipLevelCostCfg nextLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), nextLevel);
 			
 			if(player.getLevel() < nextLevel){
-				result.setReason("装备已经达到最高级。");	
+				result.setReason("装备已经达到最高级");	
 			}else if(nextLevelCostCfg == null){
-				result.setReason("装备等级不能超过英雄等级。");	
+				result.setReason("装备等级不能超过英雄等级");	
 			}else{
 				result.setSuccess(true);
 				
@@ -262,7 +312,7 @@ public class FixNormEquipMgr {
 		
 		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 		
-		FixEquipResult result = checkQuality(player, ownerId, dataItem);
+		FixEquipResult result = checkQualityUp(player, ownerId, dataItem);
 		if(result.isSuccess()){			
 			result = doQualityUp(player, dataItem);
 		}
@@ -270,33 +320,39 @@ public class FixNormEquipMgr {
 		return result;
 	}
 
-	private FixEquipResult checkQuality(Player player, String ownerId, FixNormEquipDataItem dataItem){
+	private FixEquipResult checkQualityUp(Player player, String ownerId, FixNormEquipDataItem dataItem){
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		if(dataItem == null){
-			result.setReason("装备不存在。");			
+			result.setReason("装备不存在");			
 		}else{
 			int curlevel = dataItem.getLevel();
 			int currentQuality = dataItem.getQuality();
 			FixNormEquipQualityCfg nextQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality+1);
 			if(nextQualityCfg == null){
-				result.setReason("装备已经达到最品质。");
+				result.setReason("装备已经达到最品质");
 			}else{
 				
 				FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), currentQuality);
 				Map<Integer, Integer> itemsNeed = curQualityCfg.getItemsNeed();
 				if(curlevel < curQualityCfg.getLevelNeed() ){
-					result.setReason("装备等级不够。");	
+					result.setReason("装备等级不够");	
 				}else if(!FixEquipHelper.isItemEnough(player, itemsNeed)){
-					result.setReason("进化材料不足.");	
+					result.setReason("进化材料不足");	
 				}else{
 					result.setSuccess(true);
 					
 				}
-			}
-			
+			}		
 			
 		}
+		
+		if(result.isSuccess()){
+			int curQuality = dataItem.getQuality();
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), curQuality);
+			result = FixEquipHelper.checkCost(player, curQualityCfg.getCostType(), curQualityCfg.getCostCount());
+		}
+		
 		return result;
 	}
 
@@ -340,13 +396,13 @@ public class FixNormEquipMgr {
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
 		if(dataItem == null){
-			result.setReason("装备不存在。");			
+			result.setReason("装备不存在");			
 		}else {
 			int curStar = dataItem.getStar();
 			FixNormEquipStarCfg nextStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar+1);
 			
 			if(nextStarCfg == null){
-				result.setReason("装备已达最高星级。");
+				result.setReason("装备已达最高星级");
 			}else{
 				FixNormEquipStarCfg curStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
 				
@@ -357,6 +413,13 @@ public class FixNormEquipMgr {
 					result.setSuccess(true);
 				}
 			}
+		}
+		
+		if(result.isSuccess()){
+			int curStar = dataItem.getStar();
+			
+			FixNormEquipStarCfg curStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
+			result = FixEquipHelper.checkCost(player, curStarCfg.getUpCostType(), curStarCfg.getUpCount());
 		}
 		return result;
 	}
@@ -391,8 +454,10 @@ public class FixNormEquipMgr {
 			int curStar = dataItem.getStar();
 			int nextStar = curStar -1;
 
+			//降星读当前的配置
+			FixNormEquipStarCfg curStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), curStar);
 			FixNormEquipStarCfg nextStarCfg = FixNormEquipStarCfgDAO.getInstance().getByPlanIdAndStar(dataItem.getStarPlanId(), nextStar);
-			result = FixEquipHelper.takeCost(player, nextStarCfg.getDownCostType(), nextStarCfg.getDownCount());
+			result = FixEquipHelper.takeCost(player, curStarCfg.getDownCostType(), curStarCfg.getDownCount());
 			
 			if(result.isSuccess()){
 				dataItem.setStar(nextStar);
@@ -411,11 +476,11 @@ public class FixNormEquipMgr {
 		FixEquipResult result = FixEquipResult.newInstance(false);
 		
 		if(dataItem == null){
-			result.setReason("装备不存在。");			
+			result.setReason("装备不存在");			
 		}else{
 			int nextStar = dataItem.getStar()-1;
 			if(nextStar < 0){
-				result.setReason("装备已是最低等级。");	
+				result.setReason("装备已是最低等级");	
 			}else{
 				result.setSuccess(true);
 			}			

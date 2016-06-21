@@ -77,7 +77,7 @@ public class CopyHandler {
 		case CopyType.COPY_TYPE_TRIAL_LQSG:
 		case CopyType.COPY_TYPE_TRIAL_JBZD:
 			// 聚宝之地、练气山谷战斗结算
-			result = TrailHandler.getInstance().battleClear(player, copyRequest,copyType);
+			result = TrailHandler.getInstance().battleClear(player, copyRequest, copyType);
 			break;
 
 		default:
@@ -95,9 +95,9 @@ public class CopyHandler {
 	public ByteString copyBattleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		TagBattleData tagBattleData = copyRequest.getTagBattleData();
-		boolean isWin = tagBattleData.getFightResult()==EBattleStatus.WIN;
+		boolean isWin = tagBattleData.getFightResult() == EBattleStatus.WIN;
 		int fightTime = tagBattleData.getFightTime();
-		
+
 		int levelId = tagBattleData.getLevelId();
 
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
@@ -105,11 +105,10 @@ public class CopyHandler {
 		CopyCalculateState state = copyRecordMgr.getCalculateState();
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		boolean isFirst = copyRecord.isFirst();
-		
-		if(!isWin){
+
+		if (!isWin) {
 			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
-			
-			
+
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 
@@ -122,20 +121,18 @@ public class CopyHandler {
 			GameLog.error("battle", "copyBattleClear", player + "请求获取不一致的战斗结算：" + levelId + "," + lastBattleId, null);
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
-		//重复请求
+		// 重复请求
 		MsgCopyResponse.Builder lastResponse = state.getLastCopyResponse();
-		if(lastResponse!=null){
+		if (lastResponse != null) {
 			return lastResponse.build().toByteString();
 		}
-	
+
 		// 合法性检查
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
 
-		
-		
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
 
@@ -177,16 +174,16 @@ public class CopyHandler {
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
-		//设置已经获取
+		// 设置已经获取
 		state.setLastCopyResponse(copyResponse);
-		
+
 		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime);
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL){
+		if (copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL) {
 			UserEventMgr.getInstance().CopyWin(player, 1);
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE){
+		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE) {
 			UserEventMgr.getInstance().ElityCopyWin(player, 1);
 		}
-		
+
 		return copyResponse.build().toByteString();
 	}
 
@@ -197,6 +194,10 @@ public class CopyHandler {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder().setRequestType(ERequestType.BATTLE_ITEMS_BACK);
 		int levelId = copyRequest.getLevelId();
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId); // 地图的配置...
+		if (copyCfg == null) {
+			GameLog.error("CopyHandler", player.getUserId(), "获取副本ID失败：" + levelId);
+			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
+		}
 		CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
 		// 删除之前的奖励记录
 		copyRecordMgr.setCopyRewards(null);
@@ -211,7 +212,7 @@ public class CopyHandler {
 		// 物品掉落
 		List<String> itemList = new ArrayList<String>();
 		String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
-//		List<Integer> list = convertToIntList(pItemsID);
+		// List<Integer> list = convertToIntList(pItemsID);
 		List<? extends ItemInfo> dropItems = null;
 		try {
 			dropItems = DropItemManager.getInstance().pretreatDrop(player, copyCfg);
@@ -220,40 +221,36 @@ public class CopyHandler {
 		} catch (DataAccessTimeoutException e) {
 			GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
 		}
-			if (dropItems != null) {
+		if (dropItems != null) {
 			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改;经验和物品反馈信息拼接在一起
 			for (int i = 0; i < dropItems.size(); i++) {
 				ItemInfo itemInfo = dropItems.get(i);
 				int itemId = itemInfo.getItemID();
-				int itemNum = itemInfo.getItemNum() ;
+				int itemNum = itemInfo.getItemNum();
 				itemList.add(itemId + "," + itemNum);
 			}
 		}
-		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
-		ActivityRateTypeMgr.getInstance().setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);		
-		if(eSpecialItemIDUserInfo!=null){
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();
+		ActivityRateTypeMgr.getInstance().setEspecialItemidlis(copyCfg, player, eSpecialItemIDUserInfo);
+		if (eSpecialItemIDUserInfo != null) {
 			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
-			if(StringUtils.isNotBlank(clientData)){
+			if (StringUtils.isNotBlank(clientData)) {
 				copyResponse.setESpecialItemIdList(clientData);
 			}
 		}
-			
+
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
 		//
 		copyResponse.addAllTagItemList(itemList);
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.ITEM_BACK);
-		
-		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(),copyCfg.getLevelType(),copyRecord.isFirst(),eBILogCopyEntrance.Empty);
-		
-		return copyResponse.build().toByteString();
-		
-	}
-	
 
-	
-	
-	
+		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(), copyCfg.getLevelType(), copyRecord.isFirst(), eBILogCopyEntrance.Empty);
+
+		return copyResponse.build().toByteString();
+
+	}
+
 	public static List<Integer> convertToIntList(String str) {
 		if (str == null || str.isEmpty()) {
 			return Collections.EMPTY_LIST;
@@ -290,7 +287,7 @@ public class CopyHandler {
 		case CopyType.COPY_TYPE_TRIAL_JBZD:
 		case CopyType.COPY_TYPE_TRIAL_LQSG:
 			// 聚宝之地、练气山谷扫荡结算
-			result = TrailHandler.getInstance().sweep(player, copyRequest,copyType);
+			result = TrailHandler.getInstance().sweep(player, copyRequest, copyType);
 			break;
 
 		default:
@@ -343,29 +340,25 @@ public class CopyHandler {
 		PvECommonHelper.addPlayerAttr4Sweep(player, copyCfg, times);
 
 		List<TagSweepInfo> listSweepInfo = PvECommonHelper.gainSweepRewards(player, times, copyCfg);
-		
-		/**扫荡处发送经验双倍字段给客户端显示*/
-		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();		
-		ActivityRateTypeMgr.getInstance().setEspecialItemidlis(copyCfg,player,eSpecialItemIDUserInfo);		
-		if(eSpecialItemIDUserInfo!=null){
+
+		/** 扫荡处发送经验双倍字段给客户端显示 */
+		eSpecialItemIDUserInfo eSpecialItemIDUserInfo = new eSpecialItemIDUserInfo();
+		ActivityRateTypeMgr.getInstance().setEspecialItemidlis(copyCfg, player, eSpecialItemIDUserInfo);
+		if (eSpecialItemIDUserInfo != null) {
 			String clientData = ClientDataSynMgr.toClientData(eSpecialItemIDUserInfo);
-			if(StringUtils.isNotBlank(clientData)){
+			if (StringUtils.isNotBlank(clientData)) {
 				copyResponse.setESpecialItemIdList(clientData);
 			}
 		}
-		
-		
-		
-		
-		
+
 		copyResponse.addAllTagSweepInfoList(listSweepInfo);
 		if (levelRecord4Client != null) {
 			copyResponse.addTagCopyLevelRecord(levelRecord4Client);
 		}
 		BILogMgr.getInstance().logSweep(player, copyCfg.getLevelID(), copyCfg.getLevelType());
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL){//游戏0普通1精英，银汉日志处理为1普通2精英
+		if (copyCfg.getLevelType() == CopyType.COPY_TYPE_NORMAL) {// 游戏0普通1精英，银汉日志处理为1普通2精英
 			UserEventMgr.getInstance().CopyWin(player, times);
-		}else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE){
+		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_ELITE) {
 			UserEventMgr.getInstance().ElityCopyWin(player, times);
 		}
 		return copyResponse.setEResultType(EResultType.SWEEP_SUCCESS).build().toByteString();

@@ -71,7 +71,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			item.setVersion(cfgById.getVersion());
 			item.setActiveCount(0);
 			item.setSubItemList(newItemList(day,aVitalityTypeEnum));
-			item.setSubBoxItemList(newBoxItemList(day,aVitalityTypeEnum));
+			List<ActivityVitalityTypeSubBoxItem> boxlist = newBoxItemList(day,aVitalityTypeEnum);
+			if(boxlist != null){
+				item.setSubBoxItemList(boxlist);
+			}
 			item.setLastTime(System.currentTimeMillis());
 			item.setCanGetReward(cfgById.isCanGetReward());
 			return item;
@@ -121,6 +124,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			subitem.setCount(0);
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
+			subitem.setType(activityVitalitySubCfg.getType());
 			subItemList.add(subitem);
 		}	
 		return subItemList;
@@ -141,6 +145,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			subitem.setCount(0);
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalitySubCfg.getGiftId());
+			subitem.setType(activityVitalitySubCfg.getType());
 			subItemList.add(subitem);
 		}	
 		return subItemList;
@@ -181,6 +186,22 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			ActivityVitalityTypeEnum eNum,
 			List<ActivityVitalityRewardCfg> allsubCfgList) {
 		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
+		boolean isempty=true;
+		if(allsubCfgList == null){
+			subItemList = null;
+			return subItemList;
+		}
+		for(ActivityVitalityRewardCfg rewardCfg : allsubCfgList){
+			if(rewardCfg.getActiveType()==Integer.parseInt(eNum.getCfgId())){
+				isempty = false;
+				break;
+			}
+		}
+		
+		if(isempty){			
+			subItemList = null;
+			return subItemList;
+		}
 		for(ActivityVitalityRewardCfg activityVitalitySubCfg : allsubCfgList){
 			String eNumStr = eNum.getCfgId();
 			if(!StringUtils.equals(eNumStr, activityVitalitySubCfg.getActiveType()+"")){
@@ -201,6 +222,22 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			ActivityVitalityTypeEnum eNum,
 			List<ActivityVitalityRewardCfg> allsubCfgList) {
 		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
+		boolean isempty=true;
+		if(allsubCfgList == null){
+			subItemList = null;
+			return subItemList;
+		}
+		for(ActivityVitalityRewardCfg rewardCfg : allsubCfgList){
+			if(rewardCfg.getActiveType()==Integer.parseInt(eNum.getCfgId())){
+				isempty = false;
+				break;
+			}
+		}
+		
+		if(isempty){			
+			subItemList = null;
+			return subItemList;
+		}
 		for(ActivityVitalityRewardCfg activityVitalityRewardCfg : allsubCfgList){
 			if(activityVitalityRewardCfg.getDay() != day){
 				continue;
@@ -212,7 +249,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			subitem.setTaken(false);
 			subitem.setGiftId(activityVitalityRewardCfg.getGiftId());
 			subItemList.add(subitem);
-		}	
+		}
 		return subItemList;
 	}
 	

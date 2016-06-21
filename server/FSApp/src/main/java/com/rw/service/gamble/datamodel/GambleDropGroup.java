@@ -53,7 +53,8 @@ public class GambleDropGroup extends RandomStringGroups {
 	
 	protected GambleDropGroup(){super();}
 	
-	protected GambleDropGroup(List<Pair<String, Integer>> pairList,int[] slotCountArr) {
+	@JsonIgnore
+	public GambleDropGroup(List<Pair<String, Integer>> pairList,int[] slotCountArr) {
 		super(pairList);
 		if (pairList.size() != slotCountArr.length) throw new RuntimeIoException("无效参数，两个数组长度不一致");
 		this.slotCountArr=slotCountArr;
@@ -72,6 +73,7 @@ public class GambleDropGroup extends RandomStringGroups {
 		return result;
 	}
 
+	@JsonIgnore
 	public boolean checkInGroup(String itemModelId) {
 		if (StringUtils.isBlank(itemModelId))
 			return false;
@@ -83,6 +85,7 @@ public class GambleDropGroup extends RandomStringGroups {
 		return false;
 	}
 
+	@JsonIgnore
 	public static GambleDropGroup Create(LinkedList<GambleDropCfg> value) {
 		ArrayList<Pair<String, Integer>> pairList = new ArrayList<Pair<String, Integer>>(value.size());
 		int groupCount = value.size();

@@ -12,23 +12,24 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class UserMagicSecretHolder {
 
-	private static class InstanceHolder{
+	private static class InstanceHolder {
 		private static UserMagicSecretHolder instance = new UserMagicSecretHolder();
 		private static UserMagicSecretDao userMagicSecretDao = UserMagicSecretDao.getInstance();
 	}
-	
+
 	private static eSynType synType = eSynType.MagicSecretData;
-	
-	private UserMagicSecretHolder(){ }
-	
-	public static UserMagicSecretHolder getInstance(){
+
+	private UserMagicSecretHolder() {
+	}
+
+	public static UserMagicSecretHolder getInstance() {
 		return InstanceHolder.instance;
 	}
 
 	public void syn(Player player) {
 		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
-			if(isDailyFirstLogin(userMagicSecret.getLastResetTime())){
+			if (isDailyFirstLogin(userMagicSecret.getLastResetTime())) {
 				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 			ClientDataSynMgr.synData(player, userMagicSecret, synType, eSynOpType.UPDATE_SINGLE);
@@ -40,7 +41,7 @@ public class UserMagicSecretHolder {
 	public UserMagicSecretData get(Player player) {
 		String userId = player.getUserId();
 		UserMagicSecretData umsData = InstanceHolder.userMagicSecretDao.get(userId);
-		if(umsData.getSecretArmy() == null) {
+		if (umsData.getSecretArmy() == null) {
 			umsData.setSecretArmy("");
 			syn(player);
 		}
@@ -56,8 +57,8 @@ public class UserMagicSecretHolder {
 			GameLog.error("UserMagicSecretHolder", "#update()", "find UserMagicSecretData fail:" + player.getUserId());
 		}
 	}
-	
-	public void update(Player player, String fieldName){
+
+	public void update(Player player, String fieldName) {
 		InstanceHolder.userMagicSecretDao.update(player.getUserId());
 		UserMagicSecretData userMagicSecret = get(player);
 		if (userMagicSecret != null) {
@@ -73,12 +74,12 @@ public class UserMagicSecretHolder {
 	}
 
 	/**
-	 * 每日重置的比对时间
-	 * 05:00:00
+	 * 每日重置的比对时间 05:00:00
+	 * 
 	 * @param lastResetTime
 	 * @return
 	 */
-	public boolean isDailyFirstLogin(long lastResetTime){
+	public boolean isDailyFirstLogin(long lastResetTime) {
 		return DateUtils.isResetTime(5, 0, 0, lastResetTime);
 	}
 }

@@ -26,6 +26,8 @@ import com.rw.service.gamble.datamodel.GambleCreator;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.business.SevenDayGifInfoDAO;
+import com.rwbase.dao.chat.TableUserPrivateChatDao;
+import com.rwbase.dao.chat.creator.UserChatCreator;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.email.TableEmailDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
@@ -75,7 +77,9 @@ public enum DataKVType {
 	GROUP_SECRE_CREATE(22, UserCreateGroupSecretDataDAO.class, UserCreateGroupSecretDataCreator.class),
 	GROUP_SECRE_TEAM(23, GroupSecretTeamDataDAO.class, GroupSecretTeamDataCreator.class),
 	GROUP_SECRE_ENEMY(24, GroupSecretMatchEnemyDataDAO.class, GroupSecretMatchEnemyDataCreator.class),
-	GROUP_SECRE_DEFEND_RECORD(25, GroupSecretDefendRecordDataDAO.class, GroupSecretDefendRecordDataCreator.class);
+	GROUP_SECRE_DEFEND_RECORD(25, GroupSecretDefendRecordDataDAO.class, GroupSecretDefendRecordDataCreator.class),
+	// 私聊记录数据
+	USER_CHAT(26, TableUserPrivateChatDao.class, UserChatCreator.class);
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

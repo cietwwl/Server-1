@@ -2,7 +2,6 @@ package com.rw.service.chat;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.mysql.jdbc.TimeUtil;
 import com.playerdata.Player;
 import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.DateUtils;
@@ -36,8 +35,7 @@ public class ChatService implements FsService {
 					result = chatHandler.chatPerson(player, msgChatRequest);
 					break;
 				case CHAT_TREASURE:
-					result = chatHandler
-							.getChatTreasure(player, msgChatRequest);
+					result = chatHandler.getChatTreasure(player, msgChatRequest);
 					break;
 				default:
 					break;
@@ -52,9 +50,9 @@ public class ChatService implements FsService {
 		return result;
 	}
 
-	public ByteString isChatBan(Player player, MsgChatRequest msgChatRequest){
+	public ByteString isChatBan(Player player, MsgChatRequest msgChatRequest) {
 		UserDataMgr userDataMgr = player.getUserDataMgr();
-		if(userDataMgr.isChatBan()){
+		if (userDataMgr.isChatBan()) {
 			MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
 			msgChatResponse.setChatType(msgChatRequest.getChatType());
 			StringBuilder sb = new StringBuilder();
@@ -68,8 +66,8 @@ public class ChatService implements FsService {
 			}
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, sb.toString());
 			msgChatResponse.setChatResultType(eChatResultType.FAIL);
-			return  msgChatResponse.build().toByteString();
-		}else{
+			return msgChatResponse.build().toByteString();
+		} else {
 			return null;
 		}
 	}

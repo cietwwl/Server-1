@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.RefInt;
@@ -61,6 +62,7 @@ public class GambleHotHeroPlan {
 	public GambleHotHeroPlan() {
 	}
 
+	@JsonIgnore
 	private void Init(Random r, int hotPlanId, int hotCount, String errDefaultModelId) {
 		this.errDefaultModelId = errDefaultModelId;
 
@@ -96,6 +98,7 @@ public class GambleHotHeroPlan {
 		hotPlan = GambleDropGroup.Create(list, slots);
 	}
 
+	@JsonIgnore
 	public String getRandomDrop(Random r, RefInt slotCount) {
 		return hotPlan.getRandomGroup(r, slotCount);
 	}
@@ -108,6 +111,7 @@ public class GambleHotHeroPlan {
 	 * @param errDefaultModelId
 	 * @return
 	 */
+	@JsonIgnore
 	public static GambleHotHeroPlan getTodayHotHeroPlan(Random r, int planId, int hotCount, String errDefaultModelId) {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
@@ -125,10 +129,16 @@ public class GambleHotHeroPlan {
 		return result;
 	}
 
+	@JsonIgnore
 	public static void resetHotHeroList(Random r) {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
+		if (result != null && result.getDateAsId() != null){
+			//System.out.println("gamble hot hero list already set for today:"+date);
+			return;
+		}
+		
 		if (result == null || result.getDateAsId() == null) {
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;
@@ -145,12 +155,14 @@ public class GambleHotHeroPlan {
 		}
 	}
 
+	@JsonIgnore
 	private static String getDateStr() {
 		Calendar cal = Calendar.getInstance();
 		String date = dataFormat.format(cal.getTime());
 		return date;
 	}
 
+	@JsonIgnore
 	public static Iterable<String> getTodayHotList() {
 		String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
 
@@ -167,6 +179,7 @@ public class GambleHotHeroPlan {
 		return result;
 	}
 
+	@JsonIgnore
 	public static boolean isTodayInited() {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
@@ -174,6 +187,7 @@ public class GambleHotHeroPlan {
 		return result != null && result.hotPlan != null;
 	}
 
+	@JsonIgnore
 	public static void InitTodayHotHeroList(Random ranGen, String defaultItem) {
 		if (GambleHotHeroPlan.isTodayInited())
 			return;

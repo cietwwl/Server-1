@@ -12,6 +12,7 @@
 	            <directory>src/main/resources</directory>       
                <includes>
                 <include>config.properties</include>
+                <include>charge.properties</include>
                </includes>
                <outputDirectory>/config</outputDirectory>
         </fileSet>
@@ -19,6 +20,7 @@
             <directory>target/classes</directory>
             <excludes>
             	<exclude>config.properties</exclude>
+            	<exclude>charge.properties</exclude>
             	<exclude>zip.xml</exclude>
             </excludes>	
             <outputDirectory>game</outputDirectory>

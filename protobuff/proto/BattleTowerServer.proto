@@ -215,20 +215,24 @@ message RankingRoleInfoMsg{
 	required string headIcon = 3;//头像图标
 	optional int32 highestFloor = 4;//最高调整层数
 	required int32 level = 5;//等级
-	required string magicIcon = 6;//法宝的图标
+	required string magicIcon = 6;//法宝的ModelId，客户端用这个ID读取配置表
 	repeated RankingHeroInfoMsg rankingHeroInfoMsg = 7;//阵容中的佣兵信息列表
 	optional bool isMyself = 8;//是否是自己
 	optional string headFrame = 9;//头像框
 	optional int32 starNum = 10;//星数
+	optional int32 magicLevel = 11;//法宝的等级
+	optional string qualityId = 12;//主角的品质配置ID
 }
 
 //排行榜阵容中的佣兵信息
 message RankingHeroInfoMsg{
-	required string heroId = 1;//佣兵的资源Id
-	required int32 starNum = 2;//佣兵的星数
-	optional int32 quality = 3;//佣兵的品质
-	required int32 level = 4;//佣兵的等级
+	required string heroId = 1;//佣兵的头像Id
+	optional int32 starNum = 2;//佣兵的星数
+	optional int32 quality = 3;//佣兵的品质配置ID
+	optional int32 level = 4;//佣兵的等级
 	optional bool isMainRole = 5;//是否是主角
+	optional string heroUUID = 6;//佣兵ID
+	optional string qualityId = 12;//主角的品质配置ID
 }
 
 
