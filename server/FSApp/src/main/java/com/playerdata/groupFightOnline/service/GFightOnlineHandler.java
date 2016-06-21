@@ -2,6 +2,7 @@ package com.playerdata.groupFightOnline.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.manager.GFightGroupBidMgr;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
@@ -16,12 +17,14 @@ public class GFightOnlineHandler {
 	public ByteString getResourceInfo(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightGroupBidMgr.getInstance().getResourceInfo(player, gfRsp);
 		return gfRsp.build().toByteString();
 	}
 	
 	public ByteString groupBidding(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightGroupBidMgr.getInstance().groupBidding(player, gfRsp);
 		return gfRsp.build().toByteString();
 	}
 	
