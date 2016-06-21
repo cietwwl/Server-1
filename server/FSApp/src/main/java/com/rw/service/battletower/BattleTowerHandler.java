@@ -347,7 +347,8 @@ public class BattleTowerHandler {
 
 		List<BattleTowerRoleInfo> roleInfoList = tableBattleTowerStrategy.getRoleInfoList();
 		int size = roleInfoList.size();
-
+		
+		ItemData playerMagic = player.getMagic();
 		for (int i = 0; i < size; i++) {
 			BattleTowerRoleInfo roleInfo = roleInfoList.get(i);
 			// 转换成正式协议对象
@@ -355,7 +356,14 @@ public class BattleTowerHandler {
 			rankingRoleInfo.setName(roleInfo.getName());
 			rankingRoleInfo.setHeadIcon(roleInfo.getHeadIcon());
 			rankingRoleInfo.setLevel(roleInfo.getLevel());
-			rankingRoleInfo.setMagicIcon(roleInfo.getMagicIcon());
+			String magicId = roleInfo.getMagicIcon();
+			if (StringUtils.isNotBlank(magicId)){
+				//正常玩家一定有法宝的！
+				rankingRoleInfo.setMagicIcon(magicId);
+			}else{
+				//装假狗：兼容旧玩家的数据，不去查询好友的法宝，太耗时，直接用玩家自己的
+				rankingRoleInfo.setMagicIcon(String.valueOf(playerMagic.getModelId()));
+			}
 			rankingRoleInfo.setMagicLevel(roleInfo.getMagicLevel());
 			String roleQualityId = roleInfo.getQualityId();
 			if (StringUtils.isNotBlank(roleQualityId)){
@@ -408,6 +416,7 @@ public class BattleTowerHandler {
 		int size = friendRankList.size();
 
 		// 填充消息
+		ItemData playerMagic = player.getMagic();
 		GetFriendBattleTowerRankInfoRspMsg.Builder rsp = GetFriendBattleTowerRankInfoRspMsg.newBuilder();
 		for (int i = 0; i < size; i++) {
 			TableBattleTowerRankIF rankInfo = friendRankList.get(i);
@@ -418,7 +427,14 @@ public class BattleTowerHandler {
 			rankingRoleInfo.setName(roleInfo.getName());
 			rankingRoleInfo.setHeadIcon(roleInfo.getHeadIcon());
 			rankingRoleInfo.setLevel(roleInfo.getLevel());
-			rankingRoleInfo.setMagicIcon(roleInfo.getMagicIcon());
+			String magicId = roleInfo.getMagicIcon();
+			if (StringUtils.isNotBlank(magicId)){
+				//正常玩家一定有法宝的！
+				rankingRoleInfo.setMagicIcon(magicId);
+			}else{
+				//装假狗：兼容旧玩家的数据，不去查询好友的法宝，太耗时，直接用玩家自己的
+				rankingRoleInfo.setMagicIcon(String.valueOf(playerMagic.getModelId()));
+			}
 			rankingRoleInfo.setMagicLevel(roleInfo.getMagicLevel());
 			String roleQualityId = roleInfo.getQualityId();
 			if (StringUtils.isNotBlank(roleQualityId)){
