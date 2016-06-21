@@ -447,7 +447,7 @@ public class UserEventMgr {
 	private void buyInTowerShopVitalityTwo(Player player ,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.BuyInTowerShopVitalityTwo, count);
 		raiseEvent(player, userEvent);
-		buyInTowerShopVitalityTwo(player ,count);
+		//buyInTowerShopVitalityTwo(player ,count);
 	}
 	
 	

@@ -20,6 +20,7 @@ import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.activity.exChangeType.service.ActivityExchangeTypeHandler;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.guild.GuildDataMgr;
@@ -371,6 +372,10 @@ public class GMHandler {
 			player.getUserGameDataMgr().addCoin(addNum);
 			return true;
 		}
+//		String [] strs = {"901","90001"};
+//		ActivityExchangeTypeHandler.getInstance();
+//		ActivityExchangeTypeHandler.GmTakeGift(player, strs);
+//		
 		return false;
 	}
 

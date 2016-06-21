@@ -76,5 +76,49 @@ public class FieldList implements IFieldToJson{
 		return info.toString();
 	}
 
+	@Override
+	public void fromJson(Object target, String json) throws Exception {
+		
+		List<Object> objectList = new ArrayList<Object>();
+
+		List<String> listData = JsonUtil.readList(json, String.class);
+       		
+		
+		for (String jsonTmp : listData) {
+			Object valueTmp = null;			
+			
+			switch (genericType) {
+				case Class:
+					valueTmp = genericClassInfo.fromJson(jsonTmp);
+					break;
+				case Enum:
+					valueTmp = FieldTypeHelper.toEnumValue(field.getType(), jsonTmp);
+					break;
+				case Primitive:
+					valueTmp = FieldTypeHelper.ToPrimitiveValue(field.getType(), jsonTmp);
+					break;
+				case String:
+					valueTmp = jsonTmp;
+					break;
+				case List:
+					//do nothing 不支持
+					break;
+				case Map:
+					//do nothing 不支持
+					break;
+				default:
+					//do nothing 不支持
+					break;
+			}				
+			if(valueTmp!=null){
+				objectList.add(valueTmp);
+			}
+		}
+		if(objectList.size()>0){
+			field.set(target, objectList);
+		}
+		
+	}
+
 
 }

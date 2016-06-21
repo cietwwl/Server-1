@@ -280,7 +280,12 @@ public class FixExpEquipMgr {
 				for (SelectItem selectItem : selectItemList) {
 					int modelId = selectItem.getModelId();
 					int count = selectItem.getCount();
-					itemsSelected.put(modelId, count);
+					if(itemsSelected.containsKey(modelId)){
+						count = count + itemsSelected.get(modelId);
+						itemsSelected.put(modelId, count);						
+					}else{
+						itemsSelected.put(modelId, count);						
+					}
 				}
 				result = FixEquipHelper.takeItemCost(player, itemsSelected);
 			}
