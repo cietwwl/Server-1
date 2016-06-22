@@ -55,7 +55,7 @@ public class Hero implements HeroIF {
 		roleBaseInfo.setStarLevel(heroCfg.getStarLevel());
 		roleBaseInfo.setQualityId(heroCfg.getQualityId());
 		init(roleUUId, roleBaseInfo);
-//		m_SkillMgr.initSkill(heroCfg);
+		m_SkillMgr.initSkill(heroCfg);
 
 		pPlayer.getUserTmpGameDataFlag().setSynFightingAll(true);
 
@@ -284,7 +284,7 @@ public class Hero implements HeroIF {
 				MainMsgHandler.getInstance().sendPmdHpsx(m_pPlayer, heroCfg.getName(), num);
 			} else if (type == marqueeQuality) {
 				Hero hero = m_pPlayer.getHeroMgr().getHeroByModerId(heroCfg.getModelId());
-				if(hero != null){
+				if (hero != null) {
 					String qualityId = hero.getQualityId();
 					RoleQualityCfg roleQualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(qualityId);
 					MainMsgHandler.getInstance().sendPmdHpJj(m_pPlayer, heroCfg.getName(), num, roleQualityCfg);

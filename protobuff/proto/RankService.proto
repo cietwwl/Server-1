@@ -7,6 +7,7 @@ enum ERankRequestType{
 	RANK_HERO_INFO = 2;//排行榜单个玩家信息
 	RANK_LIST_PART1 = 3;//分包排行列表
 	RANK_LIST_PART2 = 4;//分包排行列表
+	RANK_MY_INFO = 5;//我自己的各种榜排名
 }
 
 enum ERankResultType{
