@@ -840,22 +840,24 @@ public class Robot {
 		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
 	
-	/**前两个参数控制前4个道具及5种相关操作,后两个参数控制后两个参数的4种操作类型;同时只可操作一个道具;操作前者后者置-1,反之亦然
-	 * 开始前需要升级，加金币，加钻石，加进化和升星材料；
-	 * 因为部分判断在客户端，所以如果要测试进化，建议直接一键升满，否则单个升满会无法确保10级，非10级申请进化会生成错误数据影响后续操作
-	 * 15234,强化,一键强化,进化,升星,降星;4个装备，0123
-	 * 6789,强化,进化,升星,降星，2个装备01
-	 * */
-	public boolean testFixEquip(int equipId ,int type,int expequipId,int exptype){
+	/**
+	 * 
+	 * @param type 类型，支持0-1；0为普通装备，1为特殊装备
+	 * @param heronumber 英雄位置，0为玩家，1234依次为英雄
+	 * @param expequipId 装备位置普通装备0123；特殊装备01；
+	 * @param servicetype 操作类型；普通装备支持15234；特殊装备支持6789
+	 * @return
+	 */
+	public boolean testFixEquip(int type ,int heronumber,int expequipId,int servicetype){
 		upgrade(50);
 		additem(806511);//进化材料
 		additem(806523);//升星材料
 		additem(806501);//下两格经验材料
 		boolean issuc = false;
-		if(equipId != -1){
-			issuc=FixEquipHandler.instance().doEquip(client,equipId, type);
+		if(type == 0){
+			issuc=FixEquipHandler.instance().doEquip(client,heronumber,expequipId, servicetype);
 		}else{
-			issuc=FixExpEquipHandler.instance().doExpEquip(client,expequipId, exptype);			
+			issuc=FixExpEquipHandler.instance().doExpEquip(client,heronumber,expequipId, servicetype);			
 		}		
 		return issuc;
 	}
