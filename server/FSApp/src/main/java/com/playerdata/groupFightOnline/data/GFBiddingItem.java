@@ -9,7 +9,10 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
-
+/**
+ * 个人压标信息
+ * @author aken
+ */
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "gf_bidding_item")

@@ -17,7 +17,7 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GFDefendArmyItemHolder {
 	public static int MAX_DEFEND_ARMY_COUNT = 5;
-	public static AtomicInteger defendArmyVersion = new AtomicInteger(0);
+	private static AtomicInteger defendArmyVersion = new AtomicInteger(0);
 	private static GFDefendArmyItemHolder instance = new GFDefendArmyItemHolder();
 
 	public static GFDefendArmyItemHolder getInstance() {
@@ -29,6 +29,10 @@ public class GFDefendArmyItemHolder {
 	}
 	
 	final private eSynType synType = eSynType.GFDefendArmyData;
+	
+	public int getCurrentVersion(){
+		return defendArmyVersion.get();
+	}
 	
 	/**
 	 * 获取已经设置的防守队伍信息(公会级别)
@@ -63,9 +67,12 @@ public class GFDefendArmyItemHolder {
 	 * @param player
 	 * @param item
 	 */
-	public void updateItem(Player player, GFDefendArmyItem item){
+	private int updateItem(Player player, GFDefendArmyItem item){
+		int newVersion = defendArmyVersion.incrementAndGet();
+		item.setVersion(newVersion);
 		getItemStore(item.getGroupID()).updateItem(item);
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		return newVersion;
 	}
 	
 	/**
@@ -102,7 +109,7 @@ public class GFDefendArmyItemHolder {
 	}
 	
 	/**
-	 *  获取个人的某一个队伍
+	 * 获取个人的某一个队伍
 	 * @param userId
 	 * @param armyId
 	 * @return
@@ -118,7 +125,7 @@ public class GFDefendArmyItemHolder {
 	 * @param items
 	 * @return
 	 */
-	public boolean addItems(Player player, List<GFDefendArmyItem> items){
+	private boolean addItems(Player player, List<GFDefendArmyItem> items){
 		String groupID = player.getGuildUserMgr().getGuildId();
 		try {
 			return getItemStore(groupID).addItem(items);
@@ -132,9 +139,9 @@ public class GFDefendArmyItemHolder {
 	 * 重置个人的防守队伍信息
 	 * @param player
 	 * @param items
-	 * @return
+	 * @return 最新的版本号
 	 */
-	public void resetItems(Player player, List<GFDefendArmyItem> items){
+	public int resetItems(Player player, List<GFDefendArmyItem> items){
 		int newVersion = defendArmyVersion.incrementAndGet();
 		long operateTime = System.currentTimeMillis();
 		for(GFDefendArmyItem item : items) {
@@ -146,6 +153,7 @@ public class GFDefendArmyItemHolder {
 			needUpateItem.setVersion(newVersion);
 			updateItem(player, needUpateItem.getArmyID());
 		}
+		return newVersion;
 	}
 	
 	/**

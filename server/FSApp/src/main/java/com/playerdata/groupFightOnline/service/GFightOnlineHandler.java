@@ -2,7 +2,9 @@ package com.playerdata.groupFightOnline.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.playerdata.groupFightOnline.data.version.GFightDataVersionMgr;
 import com.playerdata.groupFightOnline.manager.GFightGroupBidMgr;
+import com.playerdata.groupFightOnline.manager.GFightPrepareMgr;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
@@ -92,6 +94,8 @@ public class GFightOnlineHandler {
 	public ByteString getDefenderTeams(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightPrepareMgr.getInstance().getDefenderTeams(player, gfRsp, msgGFRequest.getGroupID(), 
+				GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()).getDefendArmyItem());
 		return gfRsp.build().toByteString();
 	}
 	

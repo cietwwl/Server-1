@@ -30,7 +30,16 @@ public class GFightOnlineGroupData {
 	private long lastBidTime;	// 上次竞标时间，主要用于排名
 	
 	@CombineSave
+	@IgnoreSynField
 	private List<GFFightRecord> recordList = new ArrayList<GFFightRecord>();
+	
+	@CombineSave
+	private int defenderCount;	//总的防守队伍数
+	
+	@CombineSave
+	private int aliveCount;		//存活队伍数
+	
+	private int version = 0;
 	
 	@IgnoreSynField
 	private byte[] recordLock = new byte[0];
@@ -61,6 +70,46 @@ public class GFightOnlineGroupData {
 		this.resourceID = resourceID;
 	}
 	
+	public long getLastBidTime() {
+		return lastBidTime;
+	}
+
+	public void setLastBidTime(long lastBidTime) {
+		this.lastBidTime = lastBidTime;
+	}
+
+	public int getDefenderCount() {
+		return defenderCount;
+	}
+
+	public void setDefenderCount(int defenderCount) {
+		this.defenderCount = defenderCount;
+	}
+	
+	public void addDefenderCount(int count) {
+		this.defenderCount += count;
+	}
+
+	public int getAliveCount() {
+		return aliveCount;
+	}
+
+	public void setAliveCount(int aliveCount) {
+		this.aliveCount = aliveCount;
+	}
+	
+	public void deductAliveCount(int count) {
+		this.aliveCount -= count;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 	public void addFightRecord(GFFightRecord record){
 		synchronized (recordLock) {
 			if(recordList.size() >= LIST_SIZE){

@@ -14,7 +14,6 @@ import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
-import com.playerdata.groupFightOnline.dataForClient.GFGroupSimpleInfo;
 import com.playerdata.groupFightOnline.dataForClient.GFResourceInfo;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -68,6 +67,10 @@ public class GFightGroupBidMgr {
 			gfRsp.setRstType(canBid);
 			return;
 		}
+		if(!GFightConditionJudge.getInstance().isBidPeriod(resourceID)) {
+			gfRsp.setRstType(GFResultType.NOT_IN_OPEN_TIME);
+			return;
+		}
 		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().getByUser(player);
 		gfGroupData.setBiddingCount(biddingCount);
 	}
@@ -79,11 +82,10 @@ public class GFightGroupBidMgr {
 			return null;
 		}
 		String leaderName = GroupBM.get(resData.getOwnerGroupID()).getGroupMemberMgr().getGroupLeader().getName();
-		GFGroupSimpleInfo groupSimple = new GFGroupSimpleInfo();
+		GFGroupBiddingItem groupSimple = new GFGroupBiddingItem();
 		groupSimple.setGroupID(groupData.getGroupId());
-		groupSimple.setIcon(groupData.getIconId());
-		groupSimple.setLevel(groupData.getGroupLevel());
-		groupSimple.setName(groupData.getGroupName());
+		groupSimple.setIconID(groupData.getIconId());
+		groupSimple.setGroupName(groupData.getGroupName());
 		groupSimple.setLeaderName(leaderName);
 		GFResourceInfo resInfo = new GFResourceInfo();
 		resInfo.setResourceID(resData.getResourceID());

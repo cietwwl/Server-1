@@ -19,4 +19,20 @@ class GFightConditionJudge {
 		
 		return GFResultType.SUCCESS;
 	}
+	
+	public boolean isBidPeriod(int resourceID) {
+		return true;
+	}
+	
+	public boolean isPreparePeriod(int resourceID) {
+		return true;
+	}
+	
+	public boolean isFightPeriod(int resourceID) {
+		return true;
+	}
+	
+	public boolean isFinalPeriod(int resourceID) {
+		return true;
+	}
 }

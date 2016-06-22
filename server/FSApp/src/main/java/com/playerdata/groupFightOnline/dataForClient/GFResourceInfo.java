@@ -1,5 +1,7 @@
 package com.playerdata.groupFightOnline.dataForClient;
 
+import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
+
 /**
  * 资源点信息（打开资源点界面时用到）
  * @author aken
@@ -7,7 +9,7 @@ package com.playerdata.groupFightOnline.dataForClient;
 public class GFResourceInfo {
 	private int resourceID;	//资源点ID
 	
-	private GFGroupSimpleInfo groupInfo;		//占有公会简要信息
+	private GFGroupBiddingItem groupInfo;		//占有公会简要信息
 
 	public int getResourceID() {
 		return resourceID;
@@ -17,11 +19,11 @@ public class GFResourceInfo {
 		this.resourceID = resourceID;
 	}
 
-	public GFGroupSimpleInfo getGroupInfo() {
+	public GFGroupBiddingItem getGroupInfo() {
 		return groupInfo;
 	}
 
-	public void setGroupInfo(GFGroupSimpleInfo groupInfo) {
+	public void setGroupInfo(GFGroupBiddingItem groupInfo) {
 		this.groupInfo = groupInfo;
 	}
 }
