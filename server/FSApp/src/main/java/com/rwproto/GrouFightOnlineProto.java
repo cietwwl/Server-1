@@ -141,6 +141,14 @@ public final class GrouFightOnlineProto {
      * </pre>
      */
     GET_FIGHT_OVER_REWARD(15, 16),
+    /**
+     * <code>SYN_GROUP_DATA = 17;</code>
+     *
+     * <pre>
+     *请求同步帮派数据
+     * </pre>
+     */
+    SYN_GROUP_DATA(16, 17),
     ;
 
     /**
@@ -271,6 +279,14 @@ public final class GrouFightOnlineProto {
      * </pre>
      */
     public static final int GET_FIGHT_OVER_REWARD_VALUE = 16;
+    /**
+     * <code>SYN_GROUP_DATA = 17;</code>
+     *
+     * <pre>
+     *请求同步帮派数据
+     * </pre>
+     */
+    public static final int SYN_GROUP_DATA_VALUE = 17;
 
 
     public final int getNumber() { return value; }
@@ -293,6 +309,7 @@ public final class GrouFightOnlineProto {
         case 14: return VIEW_DEFENDER_TEAM;
         case 15: return GET_FIGHT_RECORD;
         case 16: return GET_FIGHT_OVER_REWARD;
+        case 17: return SYN_GROUP_DATA;
         default: return null;
       }
     }
@@ -5603,7 +5620,7 @@ public final class GrouFightOnlineProto {
       "ArmySimpleLeader\030\007 \003(\t\022\021\n\ttotalPage\030\010 \001(" +
       "\005\022\023\n\013currentPage\030\t \001(\005\022\023\n\013fightRecord\030\n " +
       "\003(\t\022\024\n\014gfRewardInfo\030\013 \003(\t\022\025\n\rserverVersi" +
-      "on\030\014 \001(\005*\200\003\n\rGFRequestType\022\025\n\021GET_RESOUR" +
+      "on\030\014 \001(\005*\224\003\n\rGFRequestType\022\025\n\021GET_RESOUR" +
       "CE_INFO\020\001\022\021\n\rGROUP_BIDDING\020\002\022\024\n\020PERSONAL" +
       "_BIDDING\020\003\022\030\n\024MODIFY_SELF_DEFENDER\020\004\022\026\n\022",
       "GET_ENIMY_DEFENDER\020\005\022\031\n\025CHANGE_ENIMY_DEF" +
@@ -5612,18 +5629,19 @@ public final class GrouFightOnlineProto {
       "_KILL_RANK\020\n\022\021\n\rGET_HURT_RANK\020\013\022\031\n\025GET_A" +
       "LL_RANK_IN_GROUP\020\014\022\026\n\022GET_DEFENDER_TEAMS" +
       "\020\r\022\026\n\022VIEW_DEFENDER_TEAM\020\016\022\024\n\020GET_FIGHT_" +
-      "RECORD\020\017\022\031\n\025GET_FIGHT_OVER_REWARD\020\020*\203\003\n\014" +
-      "GFResultType\022\013\n\007SUCCESS\020\001\022\024\n\020NOT_IN_OPEN" +
-      "_TIME\020\002\022\033\n\027BID_UNREACH_LEAST_COUNT\020\003\022\033\n\027" +
-      "BID_UNREACH_LEAST_LEVEL\020\004\022\033\n\027BID_UNREACH",
-      "_GROUP_LEVEL\020\005\022\021\n\rCOST_UNENOUGH\020\006\022\031\n\025BID" +
-      "_WITHOUT_AUTHORITY\020\007\022\025\n\021CANNOT_BID_IN_TW" +
-      "O\020\010\022\020\n\014BID_NEED_VIP\020\t\022\024\n\020BID_CANNOT_LOWE" +
-      "R\020\n\022\026\n\022DEFENDER_COUNT_MAX\020\013\022\035\n\031CANNOT_FI" +
-      "ND_PROP_DEFENDER\020\014\022\017\n\013NO_DEFENDER\020\r\022\017\n\013O" +
-      "NLY_PLAYER\020\016\022\r\n\tOVER_TIME\020\017\022\024\n\020REWARD_NO" +
-      "T_EXIST\020\020\022\016\n\nDATA_ERROR\020\021B#\n\013com.rwproto" +
-      "B\024GrouFightOnlineProto"
+      "RECORD\020\017\022\031\n\025GET_FIGHT_OVER_REWARD\020\020\022\022\n\016S" +
+      "YN_GROUP_DATA\020\021*\203\003\n\014GFResultType\022\013\n\007SUCC" +
+      "ESS\020\001\022\024\n\020NOT_IN_OPEN_TIME\020\002\022\033\n\027BID_UNREA" +
+      "CH_LEAST_COUNT\020\003\022\033\n\027BID_UNREACH_LEAST_LE",
+      "VEL\020\004\022\033\n\027BID_UNREACH_GROUP_LEVEL\020\005\022\021\n\rCO" +
+      "ST_UNENOUGH\020\006\022\031\n\025BID_WITHOUT_AUTHORITY\020\007" +
+      "\022\025\n\021CANNOT_BID_IN_TWO\020\010\022\020\n\014BID_NEED_VIP\020" +
+      "\t\022\024\n\020BID_CANNOT_LOWER\020\n\022\026\n\022DEFENDER_COUN" +
+      "T_MAX\020\013\022\035\n\031CANNOT_FIND_PROP_DEFENDER\020\014\022\017" +
+      "\n\013NO_DEFENDER\020\r\022\017\n\013ONLY_PLAYER\020\016\022\r\n\tOVER" +
+      "_TIME\020\017\022\024\n\020REWARD_NOT_EXIST\020\020\022\016\n\nDATA_ER" +
+      "ROR\020\021B#\n\013com.rwprotoB\024GrouFightOnlinePro" +
+      "to"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
