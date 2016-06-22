@@ -3371,9 +3371,9 @@ public final class GrouFightOnlineProto {
     com.google.protobuf.ByteString
         getGfRewardInfoBytes(int index);
 
-    // optional string serverVersion = 12;
+    // optional int32 serverVersion = 12;
     /**
-     * <code>optional string serverVersion = 12;</code>
+     * <code>optional int32 serverVersion = 12;</code>
      *
      * <pre>
      *服务端当前数据的版本（对应结构GFightDataVersion）
@@ -3381,22 +3381,13 @@ public final class GrouFightOnlineProto {
      */
     boolean hasServerVersion();
     /**
-     * <code>optional string serverVersion = 12;</code>
+     * <code>optional int32 serverVersion = 12;</code>
      *
      * <pre>
      *服务端当前数据的版本（对应结构GFightDataVersion）
      * </pre>
      */
-    java.lang.String getServerVersion();
-    /**
-     * <code>optional string serverVersion = 12;</code>
-     *
-     * <pre>
-     *服务端当前数据的版本（对应结构GFightDataVersion）
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getServerVersionBytes();
+    int getServerVersion();
   }
   /**
    * Protobuf type {@code groupFightOnline.GroupFightOnlineRspMsg}
@@ -3531,9 +3522,9 @@ public final class GrouFightOnlineProto {
               gfRewardInfo_.add(input.readBytes());
               break;
             }
-            case 98: {
+            case 96: {
               bitField0_ |= 0x00000040;
-              serverVersion_ = input.readBytes();
+              serverVersion_ = input.readInt32();
               break;
             }
           }
@@ -3996,11 +3987,11 @@ public final class GrouFightOnlineProto {
       return gfRewardInfo_.getByteString(index);
     }
 
-    // optional string serverVersion = 12;
+    // optional int32 serverVersion = 12;
     public static final int SERVERVERSION_FIELD_NUMBER = 12;
-    private java.lang.Object serverVersion_;
+    private int serverVersion_;
     /**
-     * <code>optional string serverVersion = 12;</code>
+     * <code>optional int32 serverVersion = 12;</code>
      *
      * <pre>
      *服务端当前数据的版本（对应结构GFightDataVersion）
@@ -4010,45 +4001,14 @@ public final class GrouFightOnlineProto {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional string serverVersion = 12;</code>
+     * <code>optional int32 serverVersion = 12;</code>
      *
      * <pre>
      *服务端当前数据的版本（对应结构GFightDataVersion）
      * </pre>
      */
-    public java.lang.String getServerVersion() {
-      java.lang.Object ref = serverVersion_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          serverVersion_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string serverVersion = 12;</code>
-     *
-     * <pre>
-     *服务端当前数据的版本（对应结构GFightDataVersion）
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getServerVersionBytes() {
-      java.lang.Object ref = serverVersion_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        serverVersion_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getServerVersion() {
+      return serverVersion_;
     }
 
     private void initFields() {
@@ -4063,7 +4023,7 @@ public final class GrouFightOnlineProto {
       currentPage_ = 0;
       fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      serverVersion_ = "";
+      serverVersion_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4119,7 +4079,7 @@ public final class GrouFightOnlineProto {
         output.writeBytes(11, gfRewardInfo_.getByteString(i));
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBytes(12, getServerVersionBytes());
+        output.writeInt32(12, serverVersion_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4201,7 +4161,7 @@ public final class GrouFightOnlineProto {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(12, getServerVersionBytes());
+          .computeInt32Size(12, serverVersion_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4341,7 +4301,7 @@ public final class GrouFightOnlineProto {
         bitField0_ = (bitField0_ & ~0x00000200);
         gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000400);
-        serverVersion_ = "";
+        serverVersion_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
@@ -4516,9 +4476,7 @@ public final class GrouFightOnlineProto {
           onChanged();
         }
         if (other.hasServerVersion()) {
-          bitField0_ |= 0x00000800;
-          serverVersion_ = other.serverVersion_;
-          onChanged();
+          setServerVersion(other.getServerVersion());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5549,10 +5507,10 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // optional string serverVersion = 12;
-      private java.lang.Object serverVersion_ = "";
+      // optional int32 serverVersion = 12;
+      private int serverVersion_ ;
       /**
-       * <code>optional string serverVersion = 12;</code>
+       * <code>optional int32 serverVersion = 12;</code>
        *
        * <pre>
        *服务端当前数据的版本（对应结构GFightDataVersion）
@@ -5562,62 +5520,30 @@ public final class GrouFightOnlineProto {
         return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
-       * <code>optional string serverVersion = 12;</code>
+       * <code>optional int32 serverVersion = 12;</code>
        *
        * <pre>
        *服务端当前数据的版本（对应结构GFightDataVersion）
        * </pre>
        */
-      public java.lang.String getServerVersion() {
-        java.lang.Object ref = serverVersion_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          serverVersion_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getServerVersion() {
+        return serverVersion_;
       }
       /**
-       * <code>optional string serverVersion = 12;</code>
+       * <code>optional int32 serverVersion = 12;</code>
        *
        * <pre>
        *服务端当前数据的版本（对应结构GFightDataVersion）
        * </pre>
        */
-      public com.google.protobuf.ByteString
-          getServerVersionBytes() {
-        java.lang.Object ref = serverVersion_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          serverVersion_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string serverVersion = 12;</code>
-       *
-       * <pre>
-       *服务端当前数据的版本（对应结构GFightDataVersion）
-       * </pre>
-       */
-      public Builder setServerVersion(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000800;
+      public Builder setServerVersion(int value) {
+        bitField0_ |= 0x00000800;
         serverVersion_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string serverVersion = 12;</code>
+       * <code>optional int32 serverVersion = 12;</code>
        *
        * <pre>
        *服务端当前数据的版本（对应结构GFightDataVersion）
@@ -5625,24 +5551,7 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearServerVersion() {
         bitField0_ = (bitField0_ & ~0x00000800);
-        serverVersion_ = getDefaultInstance().getServerVersion();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string serverVersion = 12;</code>
-       *
-       * <pre>
-       *服务端当前数据的版本（对应结构GFightDataVersion）
-       * </pre>
-       */
-      public Builder setServerVersionBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000800;
-        serverVersion_ = value;
+        serverVersion_ = 0;
         onChanged();
         return this;
       }
@@ -5694,7 +5603,7 @@ public final class GrouFightOnlineProto {
       "ArmySimpleLeader\030\007 \003(\t\022\021\n\ttotalPage\030\010 \001(" +
       "\005\022\023\n\013currentPage\030\t \001(\005\022\023\n\013fightRecord\030\n " +
       "\003(\t\022\024\n\014gfRewardInfo\030\013 \003(\t\022\025\n\rserverVersi" +
-      "on\030\014 \001(\t*\200\003\n\rGFRequestType\022\025\n\021GET_RESOUR" +
+      "on\030\014 \001(\005*\200\003\n\rGFRequestType\022\025\n\021GET_RESOUR" +
       "CE_INFO\020\001\022\021\n\rGROUP_BIDDING\020\002\022\024\n\020PERSONAL" +
       "_BIDDING\020\003\022\030\n\024MODIFY_SELF_DEFENDER\020\004\022\026\n\022",
       "GET_ENIMY_DEFENDER\020\005\022\031\n\025CHANGE_ENIMY_DEF" +
