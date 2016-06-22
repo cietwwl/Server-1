@@ -85,7 +85,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	
 	
 
-	/**根据当前时间返回处于活动之王活动的第几天*/
+	/**根据当前时间返回处于活动之王活动的第几天,相对间隔天数，以hour点为基准*/
 	public int getday() {
 		ActivityVitalityCfg cfgById = getConfig(ActivityVitalityTypeEnum.Vitality.getCfgId());
 		if(cfgById == null){

@@ -123,7 +123,7 @@ public class ActivityVitalityTypeMgr {
 			if(cfgenum == null){				
 				continue;
 			}
-			if (DateUtils.getDayDistance(activityVitalityTypeItem.getLastTime(), System.currentTimeMillis())>0) {
+			if (DateUtils.dayChanged(activityVitalityTypeItem.getLastTime())) {
 				sendEmailIfGiftNotTaken(player,  activityVitalityTypeItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
 				activityVitalityTypeItem.reset(cfg,cfgenum);
