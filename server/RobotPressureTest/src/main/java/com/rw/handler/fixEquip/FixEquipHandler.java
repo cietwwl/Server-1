@@ -54,6 +54,10 @@ public class FixEquipHandler {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_level_up);
 		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		if(equipid+hero*4 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -103,6 +107,10 @@ public class FixEquipHandler {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_level_up_one_key);
 		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		if(equipid+hero*4 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -151,6 +159,10 @@ public class FixEquipHandler {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_quality_up);
 		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		if(equipid+hero*4 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -200,6 +212,10 @@ public class FixEquipHandler {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_star_up);
 		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		if(equipid+hero*4 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
@@ -249,6 +265,10 @@ public class FixEquipHandler {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(RequestType.Norm_star_down);
 		List<String> giftList = client.getFixNormEquipDataItemHolder().getEquiplist();
+		if(equipid+hero*4 +1> giftList.size()){
+			RobotLog.fail("fixequipHandler[send]  输入的英雄编号或装备编号超出");
+			return false;
+		}
 		String tmp = giftList.get(equipid+hero*4);
 		if(tmp==null){
 			RobotLog.fail("fixequipHandler[send]  传入的参数没获得对应的数据");
