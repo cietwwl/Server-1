@@ -95,7 +95,7 @@ public class MainHandler {
 				switch (eMainResultType) {
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
-					break;
+					return true;
 				case LOW_VIP:
 					throw new Exception("VIP 等级不足");
 				case NOT_ENOUGH_GOLD:

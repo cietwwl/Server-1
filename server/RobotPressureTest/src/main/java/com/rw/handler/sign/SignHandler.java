@@ -96,7 +96,7 @@ public class SignHandler {
 					throw new Exception("砖石不足");
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
-					break;
+					return true;
 				case FAIL:
 					throw new Exception(resp.getResultMsg());
 				default:

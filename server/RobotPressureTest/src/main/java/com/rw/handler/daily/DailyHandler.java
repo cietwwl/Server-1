@@ -97,7 +97,7 @@ public class DailyHandler {
 				switch (resultype) {
 				case SUCCESS:
 					processResponse(client, resp);
-					break;
+					return true;
 				case FAIL:
 					throw new Exception("获取任务失败");
 				default:
