@@ -81,7 +81,7 @@ public class FashionHandler {
 				switch (error) {
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
-					break;
+					return true;
 				default:
 					throw new Exception(resp.getTips());
 				}
