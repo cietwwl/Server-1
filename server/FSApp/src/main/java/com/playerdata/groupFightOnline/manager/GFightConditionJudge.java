@@ -35,4 +35,8 @@ class GFightConditionJudge {
 	public boolean isFinalPeriod(int resourceID) {
 		return true;
 	}
+	
+	public boolean isLegalBidCount(int resourceID, int oriCount, int addCount) {
+		return true;
+	}
 }

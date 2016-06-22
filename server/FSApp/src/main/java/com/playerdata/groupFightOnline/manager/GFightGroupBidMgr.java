@@ -72,7 +72,18 @@ public class GFightGroupBidMgr {
 			return;
 		}
 		GFightOnlineGroupData gfGroupData = GFightOnlineGroupHolder.getInstance().getByUser(player);
-		gfGroupData.setBiddingCount(biddingCount);
+		if(!GFightConditionJudge.getInstance().isLegalBidCount(resourceID, gfGroupData.getBiddingCount(), bidCount)) {
+			gfRsp.setRstType(GFResultType.BID_UNREACH_LEAST_COUNT);
+			return;
+		}
+		gfGroupData.setBiddingCount(gfGroupData.getBiddingCount() + bidCount);
+		GFightOnlineGroupHolder.getInstance().update(player, gfGroupData, true);
+		// 排行榜有改变
+		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		if(groupBidRank == null) gfRsp.setRstType(GFResultType.DATA_ERROR);
+		for(GFGroupBiddingItem item : groupBidRank) 
+			gfRsp.addRankData(ClientDataSynMgr.toClientData(item));
+		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
 	private GFResourceInfo toClientResourceData(String userID, GFightOnlineResourceData resData){

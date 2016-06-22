@@ -7,9 +7,11 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItemHolder;
+import com.playerdata.groupFightOnline.data.GFightOnlineGroupHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFDefendArmySimpleLeader;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
+import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg.Builder;
 
 /**
  * 在线帮战，准备阶段管理类
@@ -29,7 +31,6 @@ public class GFightPrepareMgr {
 	private GFightPrepareMgr() { }
 	
 	public void getDefenderTeams(Player player, GroupFightOnlineRspMsg.Builder gfRsp, String groupID, int version) {
-		int currentVersion = GFDefendArmyItemHolder.getInstance().getCurrentVersion();
 		List<GFDefendArmyItem> defenders = GFDefendArmyItemHolder.getInstance().getGroupItemList(player, groupID, version);
 		for(GFDefendArmyItem defender : defenders) {
 			ArmyHeroSimple heroSimple = defender.getSimpleArmy().getHeroList().get(0);
@@ -44,7 +45,15 @@ public class GFightPrepareMgr {
 			leader.setStarLevel(heroSimple.getStarLevel());
 			gfRsp.addDefendArmySimpleLeader(ClientDataSynMgr.toClientData(leader));
 		}
-		gfRsp.setServerVersion(currentVersion);
 		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+
+	public void synGroupData(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID, int dataVersion) {
+		GFightOnlineGroupHolder.getInstance().synAllData(player, resourceID, dataVersion);
+		gfRsp.setRstType(GFResultType.SUCCESS);
+	}
+
+	public void viewDefenderTeam(Player player, Builder gfRsp, String groupID, String viewTeamID) {
+		GFDefendArmyItem defendTeam = GFDefendArmyItemHolder.getInstance().getItem(groupID, viewTeamID);
 	}
 }

@@ -19,12 +19,8 @@ public class GFightDataVersionMgr {
 		if (groupDataVersion == null) {
 			return;
 		}
-
-		
 	}
 	
-	
-
 	public static GFightDataVersion fromJson(String versionJson) {
 		GFightDataVersion groupDataVersion = JsonUtil.readValue(versionJson, GFightDataVersion.class);
 		return groupDataVersion;

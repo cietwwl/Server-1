@@ -102,6 +102,7 @@ public class GFightOnlineHandler {
 	public ByteString viewDefenderTeam(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightPrepareMgr.getInstance().viewDefenderTeam(player, gfRsp, msgGFRequest.getGroupID(), msgGFRequest.getViewTeamID());
 		return gfRsp.build().toByteString();
 	}
 	
@@ -114,6 +115,14 @@ public class GFightOnlineHandler {
 	public ByteString getFightOverReward(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		return gfRsp.build().toByteString();
+	}
+	
+	public ByteString synGroupData(Player player, GroupFightOnlineReqMsg msgGFRequest) {
+		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
+		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightPrepareMgr.getInstance().synGroupData(player, gfRsp, msgGFRequest.getResourceID(), 
+				GFightDataVersionMgr.fromJson(msgGFRequest.getClientVersion()).getOnlineGroupData());
 		return gfRsp.build().toByteString();
 	}
 }

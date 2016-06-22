@@ -88,6 +88,7 @@ public class GFightOnlineGroupData {
 	
 	public void addDefenderCount(int count) {
 		this.defenderCount += count;
+		this.aliveCount += count;
 	}
 
 	public int getAliveCount() {
@@ -98,8 +99,8 @@ public class GFightOnlineGroupData {
 		this.aliveCount = aliveCount;
 	}
 	
-	public void deductAliveCount(int count) {
-		this.aliveCount -= count;
+	public void deductAliveCount() {
+		this.aliveCount--;
 	}
 
 	public int getVersion() {

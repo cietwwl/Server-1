@@ -70,6 +70,9 @@ public class GFightOnlineService implements FsService {
 			case GET_FIGHT_OVER_REWARD:
 				result = gfHandler.getFightOverReward(player, msgGFRequest);
 				break;
+			case SYN_GROUP_DATA:
+				result = gfHandler.synGroupData(player, msgGFRequest);
+				break;
 			default:
 				GameLog.error(LogModule.GroupFightOnline, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;

@@ -24,10 +24,6 @@ public class GFightOnlineGroupHolder {
 
 	final private eSynType synType = eSynType.GFightOnlineGroupData;
 	
-	public int getCurrentVersion(){
-		return gfGroupVersion.get();
-	}
-	
 	public GFightOnlineGroupData get(String groupId) {
 		return getItem(groupId, 0);
 	}
@@ -67,9 +63,14 @@ public class GFightOnlineGroupHolder {
 			if(groupData != null) groupList.add(groupData);
 		}
 		if(groupList.size() > 0)
-			ClientDataSynMgr.synDataList(player, groupList, synType, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, groupList, synType, eSynOpType.UPDATE_LIST, gfGroupVersion.get());
 	}
 	
+	/**
+	 * 增加防守队伍总数
+	 * @param groupId
+	 * @param count
+	 */
 	public synchronized void addDefenderCount(String groupId, int count) {
 		int newVersion = gfGroupVersion.incrementAndGet();
 		GFightOnlineGroupData groupData = get(groupId);
@@ -78,11 +79,16 @@ public class GFightOnlineGroupHolder {
 		gfGroupDao.update(groupData);
 	}
 	
-	public synchronized void deductAliveCount(String groupId, int count) {
+	/**
+	 * 减少存活队伍总数
+	 * @param groupId
+	 * @param count
+	 */
+	public synchronized void deductAliveCount(String groupId) {
 		int newVersion = gfGroupVersion.incrementAndGet();
 		GFightOnlineGroupData groupData = get(groupId);
 		groupData.setVersion(newVersion);
-		groupData.deductAliveCount(count);
+		groupData.deductAliveCount();
 		gfGroupDao.update(groupData);
 	}
 }
