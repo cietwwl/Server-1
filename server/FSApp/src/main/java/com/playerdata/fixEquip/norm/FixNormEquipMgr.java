@@ -75,7 +75,7 @@ public class FixNormEquipMgr {
 			FixNormEquipDataItem.setId( id );
 			FixNormEquipDataItem.setCfgId(cfgId);
 			FixNormEquipDataItem.setOwnerId(ownerId);
-			FixNormEquipDataItem.setQuality(1);
+			FixNormEquipDataItem.setQuality(0);
 			FixNormEquipDataItem.setLevel(1);
 			FixNormEquipDataItem.setStar(0);
 			FixNormEquipDataItem.setSlot(slot);

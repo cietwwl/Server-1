@@ -39,6 +39,7 @@ public class ActivityVitalityTypeMgr {
 	}
 
 	public void synVitalityTypeData(Player player) {
+		checkCfgVersion(player);
 		ActivityVitalityItemHolder.getInstance().synAllData(player);
 	}
 	
@@ -91,10 +92,12 @@ public class ActivityVitalityTypeMgr {
 	for(ActivityVitalityTypeItem activityVitalityTypeItem: itemList){
 		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgByItem(activityVitalityTypeItem);		
 		if(cfg == null ){
+			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
 		}
 		ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getId());
-		if(cfgenum == null){			
+		if(cfgenum == null){
+			dataHolder.removeItem(player, activityVitalityTypeItem);
 			continue;
 		}
 		if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
