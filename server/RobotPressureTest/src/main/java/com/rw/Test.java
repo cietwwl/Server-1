@@ -13,7 +13,7 @@ public class Test {
 		 Robot robot = loginRobot("0701143984");
 //		 robot.addCoin(10000000);
 //		 robot.addGold(1000000);
-		 robot.playerMagicSecret();
+//		 robot.playerMagicSecret();
 
 //		 Robot robot = createRobot("testallen"+random.nextInt(2000));
 		 if(robot == null){
