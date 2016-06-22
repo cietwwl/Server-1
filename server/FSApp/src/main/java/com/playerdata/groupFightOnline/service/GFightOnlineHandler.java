@@ -24,7 +24,7 @@ public class GFightOnlineHandler {
 	public ByteString groupBidding(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
-		GFightGroupBidMgr.getInstance().groupBidding(player, gfRsp);
+		GFightGroupBidMgr.getInstance().groupBidding(player, gfRsp, msgGFRequest.getResourceID(), msgGFRequest.getBidCount());
 		return gfRsp.build().toByteString();
 	}
 	
@@ -67,6 +67,7 @@ public class GFightOnlineHandler {
 	public ByteString getGroupBidRank(Player player, GroupFightOnlineReqMsg msgGFRequest) {
 		GroupFightOnlineRspMsg.Builder gfRsp = GroupFightOnlineRspMsg.newBuilder();
 		gfRsp.setReqType(msgGFRequest.getReqType());
+		GFightGroupBidMgr.getInstance().getGroupBidRank(player, gfRsp, msgGFRequest.getResourceID());
 		return gfRsp.build().toByteString();
 	}
 	

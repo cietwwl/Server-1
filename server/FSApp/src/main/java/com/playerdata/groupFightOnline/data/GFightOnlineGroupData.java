@@ -6,10 +6,9 @@ import java.util.List;
 
 import javax.persistence.Id;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -33,9 +32,9 @@ public class GFightOnlineGroupData {
 	@CombineSave
 	private List<GFFightRecord> recordList = new ArrayList<GFFightRecord>();
 	
-	@Ignore
+	@IgnoreSynField
 	private byte[] recordLock = new byte[0];
-	@Ignore
+	@IgnoreSynField
 	private static final int LIST_SIZE = 50;
 
 	public String getGroupID() {
