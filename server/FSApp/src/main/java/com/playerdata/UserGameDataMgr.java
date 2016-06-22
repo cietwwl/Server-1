@@ -213,10 +213,10 @@ public class UserGameDataMgr {
 			return true;
 		}
 		
-		UserGameData tableUserOther = userGameDataHolder.get();
+		MajorData marjorData = majorDataHolder.getMarjorData();
 		
-		int giftGold = tableUserOther.getGiftGold();
-		int chargeGold = tableUserOther.getChargeGold();
+		int giftGold = marjorData.getGiftGold();
+		int chargeGold = marjorData.getChargeGold();
 		boolean hasEngoughGold = giftGold + chargeGold + value >= 0;
 		return hasEngoughGold;
 		
@@ -226,9 +226,9 @@ public class UserGameDataMgr {
 		if(value > 0){
 			return true;
 		}
-		UserGameData tableUserOther = userGameDataHolder.get();
-		long curCoin = tableUserOther.getCoin();
-		return curCoin + value >0;
+		MajorData marjorData = majorDataHolder.getMarjorData();
+		long curCoin = marjorData.getCoin();
+		return curCoin + value >=0;
 	}
 
 //	public int addGold(int value) {
