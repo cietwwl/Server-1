@@ -21,6 +21,7 @@ enum GFRequestType{
 	VIEW_DEFENDER_TEAM = 14;	//获取指定一个队伍的详细信息
 	GET_FIGHT_RECORD = 15;		//获取战斗记录
 	GET_FIGHT_OVER_REWARD = 16;		//获取帮战结束后产生的各类奖励（包括获胜者的每日奖励，失败奖励，胜利奖励）
+	SYN_GROUP_DATA = 17;	//请求同步帮派数据
 }
 
 enum GFResultType {
