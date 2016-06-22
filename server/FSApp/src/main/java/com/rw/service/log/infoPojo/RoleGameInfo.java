@@ -194,21 +194,31 @@ public class RoleGameInfo {
 		long coin = player.getUserGameDataMgr().getCoin();		
 		String spcase = "0";
 		String nmcase = "0";
+		boolean isroleout = false;
 		if(moreinfo!= null){
 			if(moreinfo.containsKey("sp_case")){
 				spcase = moreinfo.get("sp_case");
+				isroleout = true;
 			}
 			if(moreinfo.containsKey("nm_case")){
 				nmcase = moreinfo.get("nm_case");
 			}			
 		}		
+		String gang = roleGameInfo.getFactionId();
+		if(org.apache.commons.lang3.StringUtils.isBlank(gang)){
+			gang = "0";
+		}		
 		statInfo.append("online_time:").append(onlineTime).append("#")
 				.append("main_coin:").append(chargeGold).append("#")
 				.append("gift_coin:").append(giftGold).append("#")
-				.append("sub_coin:").append(coin).append("#")
-				.append("sp_case:").append(spcase).append("#")
-				.append("nm_case:").append(nmcase).append("#")			
-				.append("gang:").append(roleGameInfo.getFactionId());
+				.append("sub_coin:").append(coin);
+		if(isroleout){
+			statInfo.append("#")
+			.append("sp_case:").append(spcase).append("#")
+			.append("nm_case:").append(nmcase).append("#")			
+			.append("gang:").append(gang);			
+		}
+
 		roleGameInfo.setStatInfo(statInfo.toString());			
 		roleGameInfo.setOnlineTime("online_time:" + onlineTime);		
 	}

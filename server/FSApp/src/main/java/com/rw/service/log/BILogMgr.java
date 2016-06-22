@@ -404,7 +404,7 @@ public class BILogMgr {
 		} else {
 			moreInfo.put("copyStatus", "2");
 		}
-		moreInfo.put("copyEntrance", entranceType.name());
+//		moreInfo.put("copyEntrance", entranceType.name());
 
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 	}
@@ -463,6 +463,7 @@ public class BILogMgr {
 	 */
 	public void logSweep(Player player, Integer copyId, int copyLevel,String rewards) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("copyEntrance", "" + player.getUserDataMgr().getEntranceId());
 		moreInfo.put("copyId", copyId.toString());
 		moreInfo.put("result", "1");
 		moreInfo.put("copyStatus", "3");
