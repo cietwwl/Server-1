@@ -82,16 +82,9 @@ public class RankingHandler {
 	/**请求自己的排行信息*/
 	public ByteString rankingInfoSelf(MsgRankRequest request, Player player){
 		MsgRankResponse.Builder response = MsgRankResponse.newBuilder();
-		response.setRequestType(request.getRequestType());
-		int requestType = request.getRankType();
-		CfgRanking cfgRanking = CfgRankingDAO.getInstance().getRankingCf(requestType);
-		
+		response.setRequestType(request.getRequestType());		
 		String requestUserId = player.getUserId();
-		response.setRankType(requestType);
-		response.setBaseRankInfo(getBaseRankInfo(requestUserId, ERankingType.valueOf(requestType)));
-		RankType rankType = RankType.getRankType(requestType, cfgRanking.getRealTime());
-		Ranking ranking = RankingFactory.getRanking(rankType);
-		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId),RankingMgr.getInstance().getRankLevel(rankType,requestUserId)));
+		response.setBaseRankInfo(getBaseRankInfo(requestUserId, ERankingType.LEVEL_ALL));
 		return response.build().toByteString();
 	}
 	

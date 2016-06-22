@@ -44,17 +44,14 @@ public class ActivityRankTypeMgr {
 							dataHolder.removeItem(player, RankTypeEnum);
 							
 						}
-					}
-					
+					}					
 					if(targetItem == null){
 						targetItem = ActivityRankTypeCfgDAO.getInstance().newItem(player, RankTypeEnum);//生成新开启活动的数据
 						if(targetItem!=null){
 							dataHolder.addItem(player, targetItem);
 						}
 					}
-				}
-				
-				
+				}				
 			}
 		}
 	}
