@@ -14,7 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
-import com.playerdata.ItemCfgHelper;
+import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -42,8 +43,10 @@ import com.rwbase.dao.battletower.pojo.readonly.BattleTowerHeroInfoIF;
 import com.rwbase.dao.battletower.pojo.readonly.BattleTowerRoleInfoIF;
 import com.rwbase.dao.battletower.pojo.readonly.TableBattleTowerRankIF;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.item.pojo.MagicCfg;
+import com.rwbase.dao.role.RoleQualityCfgDAO;
+import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonRspMsg;
@@ -353,6 +356,11 @@ public class BattleTowerHandler {
 			rankingRoleInfo.setHeadIcon(roleInfo.getHeadIcon());
 			rankingRoleInfo.setLevel(roleInfo.getLevel());
 			rankingRoleInfo.setMagicIcon(roleInfo.getMagicIcon());
+			rankingRoleInfo.setMagicLevel(roleInfo.getMagicLevel());
+			String roleQualityId = roleInfo.getQualityId();
+			if (StringUtils.isNotBlank(roleQualityId)){
+				rankingRoleInfo.setQualityId(roleQualityId);
+			}
 			rankingRoleInfo.setHighestFloor(roleInfo.getFloor());
 			// 获取使用的角色信息
 			String rankingUserId = roleInfo.getUserId();
@@ -407,6 +415,11 @@ public class BattleTowerHandler {
 			rankingRoleInfo.setHeadIcon(roleInfo.getHeadIcon());
 			rankingRoleInfo.setLevel(roleInfo.getLevel());
 			rankingRoleInfo.setMagicIcon(roleInfo.getMagicIcon());
+			rankingRoleInfo.setMagicLevel(roleInfo.getMagicLevel());
+			String roleQualityId = roleInfo.getQualityId();
+			if (StringUtils.isNotBlank(roleQualityId)){
+				rankingRoleInfo.setQualityId(roleQualityId);
+			}
 			rankingRoleInfo.setRankIndex(i + 1);
 			rankingRoleInfo.setHighestFloor(roleInfo.getFloor());
 			String friendUserId = roleInfo.getUserId();
@@ -1024,33 +1037,50 @@ public class BattleTowerHandler {
 			// 角色信息
 			BattleTowerRoleInfo roleInfo = new BattleTowerRoleInfo(userId);
 			roleInfo.setFloor(floor);
-			roleInfo.setHeadIcon(player.getHeadImage());
+			String playerHeadImage = player.getHeadImage();
+			roleInfo.setHeadIcon(playerHeadImage);
 			roleInfo.setLevel(player.getLevel());
 			roleInfo.setName(player.getUserName());
 			roleInfo.setStartNum(player.getStarLevel());
-			String playerHeadFrame = player.getUserGameDataMgr().getHeadBox();
+			String playerHeadFrame = player.getHeadFrame();
 			if (!StringUtils.isBlank(playerHeadFrame)) {
 				roleInfo.setHeadFrame(playerHeadFrame);
 			}
+			Hero playerMainHero = player.getMainRoleHero();
+			RoleBaseInfo playerMainInfo = playerMainHero.getRoleBaseInfoMgr().getBaseInfo();
+			roleInfo.setQualityId(playerMainInfo.getQualityId());
 
 			// 法宝
 			ItemData magic = player.getMagic();
 			if (magic != null) {
-				MagicCfg magicCfg = ItemCfgHelper.getMagicCfg(magic.getModelId());
-				if (magicCfg != null) {
-					roleInfo.setMagicIcon(magicCfg.getIcon());
-				}
+				roleInfo.setMagicIcon(String.valueOf(magic.getModelId()));
+				roleInfo.setMagicLevel(magic.getMagicLevel());
 			}
 
 			// 阵容中的英雄信息
 			List<RankingHeroInfoMsg> rankingHeroInfoMsgList = req.getRankingHeroInfoMsgList();
 			int size = rankingHeroInfoMsgList.size();
 
+			HeroMgr playerHeroMgr = player.getHeroMgr();
 			List<BattleTowerHeroInfo> heroInfoList = new ArrayList<BattleTowerHeroInfo>(size);
 			for (int i = 0; i < size; i++) {
 				RankingHeroInfoMsg heroInfoMsg = rankingHeroInfoMsgList.get(i);
-
 				BattleTowerHeroInfo heroInfo = new BattleTowerHeroInfo();
+				
+				if (heroInfoMsg.hasHeroUUID()){
+					Hero hero = playerHeroMgr.getHeroById(heroInfoMsg.getHeroUUID());
+					if (hero != null){
+						RoleQualityCfg qualityCfg = RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
+						heroInfo.setHeroId(heroInfoMsg.getHeroId());
+						heroInfo.setLevel(hero.getLevel());
+						heroInfo.setQuality(qualityCfg!=null?qualityCfg.getQuality():0);
+						heroInfo.setStarNum(hero.getStarLevel());
+						heroInfo.setMainRole(hero.isMainRole());
+						heroInfoList.add(heroInfo);
+						continue;
+					}
+				}
+				//兼容旧的客户端
 				heroInfo.setHeroId(heroInfoMsg.getHeroId());
 				heroInfo.setLevel(heroInfoMsg.getLevel());
 				heroInfo.setQuality(heroInfoMsg.getQuality());
