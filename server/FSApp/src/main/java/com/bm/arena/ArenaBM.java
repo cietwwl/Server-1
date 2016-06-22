@@ -184,7 +184,7 @@ public class ArenaBM {
 		}
 
 		data.setHeroIdList(defaultHeros);
-		
+		data.setAtkHeroList(new ArrayList<String>(defaultHeros));
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
 		data.setHeadImage(headImage);
