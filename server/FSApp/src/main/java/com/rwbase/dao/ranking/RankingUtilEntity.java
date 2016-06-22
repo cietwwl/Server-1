@@ -13,6 +13,7 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.arena.pojo.TableArenaData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
@@ -26,6 +27,7 @@ import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
 import com.rwproto.RankServiceProtos;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.RankServiceProtos.RankInfo;
 import com.rwproto.RankServiceProtos.RankingHeroData;
 import com.rwproto.RankServiceProtos.RankingMagicData;
@@ -98,6 +100,13 @@ public class RankingUtilEntity {
 				levelData.setHeadbox(defaultHeadBoxList.get(0));
 			}
 			rankInfo.setHeadbox(levelData.getHeadbox());
+			// 设置时装数据
+			rankInfo.setSex(levelData.getSex());
+			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(levelData.getUserId());
+			if (fashionUsing != null){
+				rankInfo.setFashionUsage(fashionUsing);
+			}
+
 		}
 		return rankInfo.build();
 	}

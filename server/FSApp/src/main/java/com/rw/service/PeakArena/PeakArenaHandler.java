@@ -721,8 +721,8 @@ public class PeakArenaHandler {
 			
 			if (selectedMagic != null){
 				teamBuilder.setMagicId(selectedMagic.getId());
-				teamBuilder.setMagicLevel(magic.getMagicLevel());
-				teamBuilder.setEnemyMagicModelId(magic.getModelId());
+				teamBuilder.setMagicLevel(selectedMagic.getMagicLevel());
+				teamBuilder.setEnemyMagicModelId(selectedMagic.getModelId());
 			}else{
 				GameLog.error("巅峰竞技场", userId, "找不到法宝,ID="+magicId);
 			}
