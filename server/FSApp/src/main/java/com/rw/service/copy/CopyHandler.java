@@ -126,7 +126,7 @@ public class CopyHandler {
 		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_ARENA){
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
 		}
-		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
+		
 		if(!isWin){
 			
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
@@ -166,6 +166,10 @@ public class CopyHandler {
 
 		// 此处专门处理副本地图的关卡记录...
 		String levelRecord4Client = copyRecordMgr.updateLevelRecord(levelId, tagBattleData.getStarLevel(), 1);
+		//日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
+		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
+		
+		
 		if (StringUtils.isBlank(levelRecord4Client)) {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 
