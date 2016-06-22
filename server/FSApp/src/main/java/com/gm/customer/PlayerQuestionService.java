@@ -26,6 +26,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.netty.ServerConfig;
 
 public class PlayerQuestionService {
 	private static PlayerQuestionService instance = new PlayerQuestionService();
@@ -46,7 +47,9 @@ public class PlayerQuestionService {
 		if (!ServerSwitch.isGiftCodeOpen()) {
 			return;
 		}
-		senderConfig = new GmSenderConfig(GameManager.getGiftCodeServerIp(), GameManager.getGiftCodeServerPort(), 10000, (short)10354);
+		String giftCodeServerIp = ServerConfig.getInstance().getServeZoneInfo().getGiftCodeServerIp();
+		int giftCodeServerPort = ServerConfig.getInstance().getServeZoneInfo().getGiftCodeServerPort();
+		senderConfig = new GmSenderConfig(giftCodeServerIp, giftCodeServerPort, 10000, (short)10354);
 		
 
 		giftSenderPool = new GmSenderPool(senderConfig);

@@ -8,6 +8,8 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
+import com.playerdata.army.simple.ArmyHeroSimple;
+import com.playerdata.army.simple.ArmyInfoSimple;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -37,6 +39,20 @@ public class ArmyInfoHelper {
 		armyInfo.setHeroList(heroList);
 		return armyInfo;
 	}
+	
+	public static ArmyHero getArmyHero(String playerId, String heroId){
+		if (playerId == null || heroId == null) return null;
+		Player player = PlayerMgr.getInstance().find(playerId);
+		return getArmyHero(player,heroId);
+	}
+	
+	public static ArmyHero getArmyHero(Player player, String heroId){
+		if (player == null || heroId == null) return null;
+		HeroMgr heroMgr = player.getHeroMgr();
+		Hero heroTmp = heroMgr.getHeroById(heroId);
+		ArmyHero armyHero = getArmyHero(heroTmp);
+		return armyHero;
+	}
 
 	private static List<ArmyHero> getArmyHeros(Player player, List<String> heroIdList) {
 		List<ArmyHero> heroList = new ArrayList<ArmyHero>();
@@ -51,6 +67,7 @@ public class ArmyInfoHelper {
 	}
 
 	private static ArmyHero getArmyHero(Hero role) {
+		if (role == null) return null;
 		SkillMgr skillMgr = role.getSkillMgr();
 		List<Skill> skillList = skillMgr.getSkillList();
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
@@ -59,15 +76,12 @@ public class ArmyInfoHelper {
 		armyHero.setFighting(role.getFighting());
 		return armyHero;
 	}
-	// private static ArmyHero getArmyHero(Hero hero) {
-	// SkillMgr skillMgr = hero.getSkillMgr();
-	//
-	// List<Skill> skillList = skillMgr.getSkillList();
-	// AttrData totalAttrData = hero.getAttrMgr().getTotalAttrData();
-	// RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
-	// ArmyHero armyHero = new ArmyHero(baseInfo, totalAttrData, skillList);
-	//
-	// return armyHero;
-	// }
 
+
+	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
+		return ArmySimpleInfoHelper.getSimpleInfo(playerId, heroIdList);
+	}
+
+
+	
 }

@@ -10,15 +10,15 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-		 Robot robot = loginRobot("0531972110");
+//		 Robot robot = loginRobot("0616393792");
 //		 robot.dailyActivity();
 
-//		 Robot robot = createRobot("testallen"+random.nextInt(2000));
+		 Robot robot = createRobot("testallen"+random.nextInt(2000));
 		 if(robot == null){
 		 }else{
 			 boolean issucc =false;
 			 
-			 issucc=robot.testWorShip(3);
+			 issucc=robot.testMagicSecret(4);
 			 System.out.println("@@@@@@@@@@@test" + issucc);			 
 		 }
 		 
@@ -30,17 +30,17 @@ public class Test {
 //		 robot.testCopyWarfare();//无尽战火
 //		 robot.testCopyTower();//万仙阵胜利一次
 //		 robot.clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);//清楚该类副本的cd
-//		 robot.testCopyJbzd();//聚宝之地两次
+//		 robot.testCopyJbzd(1);//聚宝之地,参数1战斗1次,战斗胜利返回true，参数2战斗1后清cd再打一次，两次都胜利才返回true
 //		 robot.testCopyLxsg();//炼息山谷两次
 //		 robot.testCopyschj();//生存幻境 2次
 //		 robot.testActivityCountTakeGift();//通用活动一领取所有奖励
 //		 robot.testActivityDailyCountTakeGift();//通用活动二领取所有奖励
 //		 robot.testDailyGiftTake();//七日礼包
 //		 robot.testFrshActAchieveRewardGiftTake();//封神之路
-		 
-		 
-		 
-		 
+//		 robot.testPeakArena();//巅峰竞技场；改级别，获取战斗对象，生成战斗数据，获得战斗最终结果；在获取对象和生成数据之间都有额外的sys打印结果。默认为挑战三个敌人的第一个，默认申请胜利结果
+//		 robot.testFixEquip(-1, -1, 1, 9);//神器。
+//		 robot.testTaoist(110014);//道术
+//		 robot.testMagicSecret(2);//乾坤幻境
 		 
 		 
 		// long start = System.currentTimeMillis();

@@ -23,10 +23,10 @@ public class DailyHandler {
 		return handler;
 	}
 	
-	public void processDaily(Client client){
+	public boolean processDaily(Client client){
 		MsgDailyActivityRequest.Builder request = MsgDailyActivityRequest.newBuilder();
 		request.setRequestType(EDailyActivityRequestType.Task_List);
-		client.getMsgHandler().sendMsg(Command.MSG_DAILY_ACTIVITY, request.build().toByteString(), new DailyMsgReceier(command, functionName, "日常"));
+		return client.getMsgHandler().sendMsg(Command.MSG_DAILY_ACTIVITY, request.build().toByteString(), new DailyMsgReceier(command, functionName, "日常"));
 	}
 	
 	public void achieveDailyReward(Client client){
@@ -97,7 +97,7 @@ public class DailyHandler {
 				switch (resultype) {
 				case SUCCESS:
 					processResponse(client, resp);
-					break;
+					return true;
 				case FAIL:
 					throw new Exception("获取任务失败");
 				default:

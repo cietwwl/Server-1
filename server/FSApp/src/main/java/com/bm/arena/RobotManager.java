@@ -32,6 +32,11 @@ import com.playerdata.SkillMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
+import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.service.PeakArena.PeakArenaBM;
+import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
+import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.arena.ArenaHandler;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.ECareer;
@@ -227,6 +232,80 @@ public class RobotManager {
 		// }
 		// System.out.println(sb.toString());
 	}
+	
+	public void createPeakArenaRobot(){
+		PeakArenaBM peakHandler = PeakArenaBM.getInstance();
+		ListRanking<String, PeakArenaExtAttribute> peakRanking = peakHandler.getRanks();
+		
+		ArenaBM arenaBM = ArenaBM.getInstance();
+		ECareer[] carerrs = ECareer.values();
+		int av = 0;int count = 0;
+		for (int i = 0; i < carerrs.length; i++) {
+			ECareer eCareer = carerrs[i];
+			int c = eCareer.getValue();
+			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(c);
+			if (listRanking != null){
+				av += listRanking.getRankingSize();
+				count++;
+			}
+		}
+		if (count > 0 && av > 0){
+			av = av / count;
+			if (av > peakSize * 4){
+				peakSize = av / 4;
+			}
+		}
+		GameLog.info("巅峰竞技场", "创建机器人", "需要的数量："+peakSize*4);
+		if (peakRanking.getRankingSize() < peakSize*4){
+			
+			for (int i = 0; i < carerrs.length; i++) {
+				ECareer eCareer = carerrs[i];
+				addToPeakRank(peakHandler,eCareer);
+			}
+		}
+		
+		//TODO 重置全部人的magicID，运行一次后删除
+		/*
+		PlayerMgr playerMgr = PlayerMgr.getInstance();
+		List<? extends ListRankingEntry<String, PeakArenaExtAttribute>> lst = peakRanking.getRankingEntries(1, peakRanking.getRankingSize());
+		for (ListRankingEntry<String, PeakArenaExtAttribute> listRankingEntry : lst) {
+			String userId = listRankingEntry.getKey();
+			Player user = playerMgr.find(userId);
+			if (user == null) continue;
+			TablePeakArenaData peakData = peakHandler.getPeakArenaData(userId);
+			if (peakData == null) continue;
+			
+			ItemData magicItem = user.getMagic();
+			int teamCount = peakData.getTeamCount();
+			for(int i = 0;i<teamCount;i++){
+				TeamData team = peakData.getTeam(i);
+				team.setMagicId(magicItem!=null?magicItem.getId():"");
+			}
+			peakHandler.commit(peakData);
+		}
+		GameLog.info("", "", "fix finished");
+		*/
+	}
+	private int peakSize = 10;
+	private void addToPeakRank(PeakArenaBM peakHandler,ECareer career){
+		if (career == ECareer.None) {
+			return;
+		}
+		int c = career.getValue();
+		ArenaBM arenaBM = ArenaBM.getInstance();
+		ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(c);
+		if (listRanking == null){
+			return;
+		}
+		List<? extends ListRankingEntry<String, ArenaExtAttribute>> lst = listRanking.getRankingEntries(1, peakSize);
+		for (ListRankingEntry<String, ArenaExtAttribute> entry : lst) {
+			String id = entry.getKey();
+			Player player = PlayerMgr.getInstance().find(id);
+			if (player != null){
+				peakHandler.getOrAddPeakArenaDataForRobot(player);
+			}
+		}
+	}
 
 	public void createRobots() {
 		ECareer[] carerrs = ECareer.values();
@@ -239,7 +318,7 @@ public class RobotManager {
 				count += ArenaBM.getInstance().getRanking(carerr).getRankingSize();
 			}
 		}
-		ArenaRobotCfg robotCfg = (ArenaRobotCfg) ArenaRobotCfgDAO.getInstance().getCfgById("7");
+		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
 		String[] arrName = robotCfg.getData().split(",");
 		int len = arrName.length;
 		if (len < count) {
@@ -520,7 +599,7 @@ public class RobotManager {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
 				handler.setArenaHero(player, arenaData, task.getHeroList());
-				GameLog.error("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
+				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
 						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}

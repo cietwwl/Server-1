@@ -144,6 +144,19 @@ public class GambleDropHistory {
 	}
 
 	/**
+	 * 保底检查次数达到后，需要清除旧的历史纪录，另保底不会过早发生
+	 * @param isFree
+	 */
+	public void clearHistory(boolean isFree,IDropGambleItemPlan dropPlan){
+		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
+		int checkNum = dropPlan.getCheckNum();
+		int historySize = history.size();
+		if (historySize >= checkNum){
+			history.clear();
+		}
+	}
+	
+	/**
 	 * 返回true表示需要使用保底方案
 	 * 
 	 * @param isFree
@@ -151,7 +164,7 @@ public class GambleDropHistory {
 	 * @return
 	 */
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, int maxHistory) {
-		List<String> history = checkHistoryNum(isFree, maxHistory);
+		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		if (history.size() < dropPlan.getCheckNum() - 1) {
 			return false;
 		}
@@ -164,7 +177,7 @@ public class GambleDropHistory {
 	}
 
 	public void add(boolean isFree, String itemModel, int itemCount, int maxHistory) {
-		List<String> history = checkHistoryNum(isFree, maxHistory);
+		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		history.add(itemModel);
 		if (isFree) {
 			firstFreeGamble = false;
@@ -175,6 +188,7 @@ public class GambleDropHistory {
 		}
 	}
 
+	/*
 	private List<String> checkHistoryNum(boolean isFree, int maxHistory) {
 		List<String> history = isFree ? freeGambleHistory : chargeGambleHistory;
 		int removeCount = history.size() - maxHistory + 1;
@@ -182,7 +196,7 @@ public class GambleDropHistory {
 			history.remove(0);
 		}
 		return history;
-	}
+	}*/
 
 	public void addHotHistoryCount() {
 		hotCount++;

@@ -1,0 +1,14 @@
+key,remarks,time,cost,coinType
+1,,1,5,Gold
+2,,2,5,Gold
+3,,3,5,Gold
+4,,4,5,Gold
+5,,5,5,Gold
+6,,6,10,Gold
+7,,7,10,Gold
+8,,8,10,Gold
+9,,9,10,Gold
+10,,10,10,Gold
+11,,11~20,20,Gold
+12,,21~40,50,Gold
+13,,21~100,100,Gold

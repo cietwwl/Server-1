@@ -35,7 +35,7 @@ public abstract class ClientMsgHandler {
 
 	private Response getResp() {
 		Response resp = null;
-		long maxTime = 60L;
+		long maxTime = 600L;
 		// 超过十秒拿不到认为超时。
 		try {
 			resp = resultQueue.poll(maxTime, TimeUnit.SECONDS);
@@ -101,6 +101,27 @@ public abstract class ClientMsgHandler {
 						break;
 					case FRESHER_ATIVITY_DATA:
 						getClient().getFresherActivityHolder().syn(msgDataSyn);
+						break;
+					case SECRETAREA_TEAM_INFO:
+						getClient().getGroupSecretTeamDataHolder().syn(msgDataSyn);
+						break;
+					case USER_HEROS:
+						getClient().getUserHerosDataHolder().syn(msgDataSyn);
+						break;
+					case FIX_NORM_EQUIP:
+						getClient().getFixNormEquipDataItemHolder().syn(msgDataSyn);
+						break;
+					case FIX_EXP_EQUIP:
+						getClient().getFixExpEquipDataItemHolder().syn(msgDataSyn);
+						break;
+					case MagicSecretData:
+						getClient().getMagicSecretHolder().syn(msgDataSyn);
+						break;
+					case MagicChapterData:
+						getClient().getMagicChapterInfoHolder().syn(msgDataSyn);
+						break;
+					case MajorData:
+						getClient().getMajorDataholder().syn(msgDataSyn);
 						break;
 					default:
 					}

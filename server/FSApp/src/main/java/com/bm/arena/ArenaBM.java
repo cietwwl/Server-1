@@ -13,7 +13,9 @@ import com.bm.rank.arena.ArenaSettleComparable;
 import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.HPCUtil;
+import com.common.RefParam;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -171,6 +173,18 @@ public class ArenaBM {
 		// TableAttrDAO.getInstance().get(player.getUserId()));
 		// data.setPlayerSkill(player.getSkillMgr().getTableSkill()); //
 		// TableSkillDAO.getInstance().get(player.getUserId()));
+
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		ArrayList<String> defaultHeros = new ArrayList<String>(4);
+		for (Hero hero : maxFightingHeros) {
+			String heroId = hero.getUUId();
+			if (!heroId.equals(userId)) {
+				defaultHeros.add(heroId);
+			}
+		}
+
+		data.setHeroIdList(defaultHeros);
+		
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
 		data.setHeadImage(headImage);
@@ -214,6 +228,7 @@ public class ArenaBM {
 		return ranking.getRankingEntry(userId);
 	}
 
+	@SuppressWarnings("unchecked")
 	public ListRanking<String, ArenaExtAttribute> getRanking(int career) {
 		return RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
 	}
@@ -311,7 +326,7 @@ public class ArenaBM {
 		// 前10名以外按照此规则拉取对手(M是名次)：
 		// 第三个人区间[0.8M,1.0M)
 		// 第二个人区间[0.6M,0.8M)
-		// 第个人区间[0.4M,0.6M)
+		// 第一个人区间[0.4M,0.6M)
 		int place = getArenaPlace(player);
 		if (place <= 10) {
 			fillByTenSteps(userId, result, 0, ranking, 3);
@@ -465,17 +480,24 @@ public class ArenaBM {
 	 * @return
 	 */
 	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId) {
+		return getRecordHurtValue(userId, recordId, null);
+	}
+	
+	public List<HurtValueRecord> getRecordHurtValue(String userId, int recordId,RefParam<String> enemyUserId) {
 		List<RecordInfo> list = getArenaRecordList(userId);
 		if (list == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		for (int i = list.size(); --i >= 0;) {
 			RecordInfo info = list.get(i);
 			if (info.getRecordId() == recordId) {
+				if (enemyUserId!=null){
+					enemyUserId.value = info.getUserId();
+				}
 				return info.getHurtList();
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public List<RecordInfo> getArenaRecordList(String userId) {

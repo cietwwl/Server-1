@@ -19,12 +19,15 @@ public enum LogModule {
 	ComActivityCount("通用活动_CountType"),
 	ComActivityDailyCount("通用活动_DailyCountType"),
 	ComActivityRate("通用活动_RateType"),
-	ComActivityTimeCount("通用活动_TimeCountType"),
+	ComActivityTimeCount("通用活动_TimeCountType"),	
 	
 	ComActivityDate("通用活动_DateType"),
-	ComActivityRank("通用活动_DateType"),
+	ComActivityRank("通用活动_RankType"),
+	ComActivityVitality("通用活动_VitalityType"),
+	
 	FixEquip("专属装备"),
 	GroupSecret("帮派秘境"),
+	MagicSecret("法宝秘境"),
 	;
 	
 	private String name;

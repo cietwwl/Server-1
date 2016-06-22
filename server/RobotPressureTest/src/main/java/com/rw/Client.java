@@ -9,6 +9,8 @@ import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
+import com.rw.handler.fixEquip.FixNormEquipDataItemHolder;
+import com.rw.handler.fixExpEquip.FixExpEquipDataItemHolder;
 import com.rw.handler.fresheractivity.FresherActivityHolder;
 import com.rw.handler.group.data.GroupDataVersion;
 import com.rw.handler.group.data.GroupRequestCacheData;
@@ -18,7 +20,14 @@ import com.rw.handler.group.holder.GroupLogHolder;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
+import com.rw.handler.groupsecret.GroupSecretBaseInfoSynDataHolder;
+import com.rw.handler.groupsecret.GroupSecretInviteDataHolder;
+import com.rw.handler.groupsecret.GroupSecretTeamDataHolder;
+import com.rw.handler.hero.UserHerosDataHolder;
 import com.rw.handler.itembag.ItembagHolder;
+import com.rw.handler.magicSecret.MagicChapterInfoHolder;
+import com.rw.handler.magicSecret.MagicSecretHolder;
+import com.rw.handler.majordata.MajorDataholder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.task.TaskItemHolder;
@@ -72,9 +81,20 @@ public class Client {
 	//玩家封神之路数据
 	private FresherActivityHolder fresherActivityHolder = new FresherActivityHolder();
 	
+	//神器
+	private FixNormEquipDataItemHolder fixNormEquipDataItemHolder = new FixNormEquipDataItemHolder();
+	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new FixExpEquipDataItemHolder();
 	
-
-
+	private GroupSecretTeamDataHolder groupSecretTeamDataHolder = new GroupSecretTeamDataHolder();
+	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
+	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
+	private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
+	//乾坤幻境
+	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
+	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
+	
+	//主要数据
+	private MajorDataholder majorDataholder = new MajorDataholder();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -165,22 +185,6 @@ public class Client {
 		this.serverId = serverId;
 	}
 
-	// public String getLastHost() {
-	// return lastHost;
-	// }
-
-	// public void setLastHost(String lastHost) {
-	// this.lastHost = lastHost;
-	// }
-
-	// public int getLastPort() {
-	// return Integer.parseInt(lastPort);
-	// }
-	//
-	// public void setLastPort(String lastPort) {
-	// this.lastPort = lastPort;
-	// }
-
 	public ServerInfo getServerById(int serverId) {
 		ServerInfo target = null;
 		for (ServerInfo serverInfo : serverList) {
@@ -242,6 +246,36 @@ public class Client {
 	public void setFresherActivityHolder(FresherActivityHolder fresherActivityHolder) {
 		this.fresherActivityHolder = fresherActivityHolder;
 	}
+	
+	public FixNormEquipDataItemHolder getFixNormEquipDataItemHolder() {
+		return fixNormEquipDataItemHolder;
+	}
+
+	public void setFixNormEquipDataItemHolder(
+			FixNormEquipDataItemHolder fixNormEquipDataItemHolder) {
+		this.fixNormEquipDataItemHolder = fixNormEquipDataItemHolder;
+	}
+
+	public FixExpEquipDataItemHolder getFixExpEquipDataItemHolder() {
+		return fixExpEquipDataItemHolder;
+	}
+
+	public void setFixExpEquipDataItemHolder(
+			FixExpEquipDataItemHolder fixExpEquipDataItemHolder) {
+		this.fixExpEquipDataItemHolder = fixExpEquipDataItemHolder;
+	}
+	
+	
+	
+	
+	
+	public MagicSecretHolder getMagicSecretHolder() {
+		return magicSecretHolder;
+	}
+
+	public void setMagicSecretHolder(MagicSecretHolder magicSecretHolder) {
+		this.magicSecretHolder = magicSecretHolder;
+	}
 
 	public HeroEquipHolder getHeroEquipHolder() {
 		return heroEquipHolder;
@@ -270,8 +304,22 @@ public class Client {
 	public void setDailyActivityDataHolder(DailyActivityDataHolder dailyActivityDataHolder) {
 		this.dailyActivityDataHolder = dailyActivityDataHolder;
 	}
-	
 
+	public GroupSecretTeamDataHolder getGroupSecretTeamDataHolder() {
+		return groupSecretTeamDataHolder;
+	}
+
+	public UserHerosDataHolder getUserHerosDataHolder() {
+		return userHerosDataHolder;
+	}
+
+	public MagicChapterInfoHolder getMagicChapterInfoHolder() {
+		return magicChapterInfoHolder;
+	}
+
+	public void setMagicChapterInfoHolder(MagicChapterInfoHolder magicChapterInfoHolder) {
+		this.magicChapterInfoHolder = magicChapterInfoHolder;
+	}
 
 	public String getGroupVersion() {
 		groupVersion.setApplyMemberData(applyMemberHolder.getVersion());
@@ -279,5 +327,21 @@ public class Client {
 		groupVersion.setGroupBaseData(groupBaseDataHolder.getVersion());
 		groupVersion.setResearchSkill(researchSkillDataHolder.getVersion());
 		return JsonUtil.writeValue(groupVersion);
+	}
+
+	public GroupSecretBaseInfoSynDataHolder getGroupSecretBaseInfoSynDataHolder() {
+		return groupSecretBaseInfoSynDataHolder;
+	}
+
+	public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
+		return groupSecretInviteDataHolder;
+	}
+
+	public MajorDataholder getMajorDataholder() {
+		return majorDataholder;
+	}
+
+	public void setMajorDataholder(MajorDataholder majorDataholder) {
+		this.majorDataholder = majorDataholder;
 	}
 }

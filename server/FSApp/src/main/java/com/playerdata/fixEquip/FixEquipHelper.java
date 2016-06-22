@@ -1,9 +1,15 @@
 package com.playerdata.fixEquip;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.rw.service.Email.EmailUtils;
 
 public class FixEquipHelper {
 
@@ -17,6 +23,21 @@ public class FixEquipHelper {
 		return heroId+"_"+cfgId;
 	}
 	
+	public static Map<Integer, Integer> parseNeedItems(String itemsNeedStr) {
+		 Map<Integer, Integer> itemsNeed = new HashMap<Integer, Integer>();
+		 if(StringUtils.isNotBlank(itemsNeedStr)){
+			 //modelAId:count;modelBId:count
+			 String[] itemArray = itemsNeedStr.split(";");
+			 for (String itemTmp : itemArray) {
+				 String[] split = itemTmp.split(":");
+				 int modelId = Integer.valueOf(split[0]) ;
+				 int count = Integer.valueOf(split[1]) ;
+				 itemsNeed.put(modelId, count);
+			 }
+		 }
+		return itemsNeed;
+	}
+	
 	public static FixEquipResult takeCost(Player player, FixEquipCostType costType, int count){
 		
 		FixEquipResult result = FixEquipResult.newInstance(false);
@@ -24,26 +45,63 @@ public class FixEquipHelper {
 		
 		switch (costType) {
 		case COIN:
-			costCoin(player,count);
+			if(costCoin(player,count)){
+				result.setSuccess(true);
+			}else{
+				result.setSuccess(false);
+				result.setReason("金币不足");				
+			}
 			break;
 		case GOLD:
-			costGold(player,count);			
+			if(costGold(player,count)){
+				result.setSuccess(true);
+			}else{
+				result.setSuccess(false);
+				result.setReason("钻石不足");				
+			}		
 			break;
 
 		default:
 			break;
 		}
+		return result;
+	}
+	private static boolean costGold(Player player, int count) {
+		int resultCode = player.getUserGameDataMgr().addGold(-count);
+		return resultCode == 0;
+	}
+	private static boolean costCoin(Player player, int count) {
+		int resultCode = player.getUserGameDataMgr().addCoin(-count);
+		return resultCode == 0;
+	}
+	
+	final private static String emailCfgId = "10063";
+	public static FixEquipResult turnBackItemCost(Player player, Map<Integer,Integer> itemCostMap){		
 		
+		FixEquipResult result = FixEquipResult.newInstance(false);
+		
+		
+		String userId = player.getUserId();
+		boolean sendEmail = EmailUtils.sendEmail(userId, emailCfgId, itemCostMap);
+		if(sendEmail){
+			result.setSuccess(true);
+			
+		}else{
+			String errorReason = "物品返回邮件发送失败";
+			result.setReason(errorReason);
+			GameLog.error(LogModule.FixEquip, userId, errorReason, null);
+			result.setSuccess(sendEmail);
+		}
 		
 		return result;
 		
-		
 	}
+
+	
 	public static FixEquipResult takeItemCost(Player player, Map<Integer,Integer> itemCostMap){		
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		
-		if(costItemBag(itemBagMgr,itemCostMap)){
+		if(costItemBag(player,itemCostMap)){
 			result.setSuccess(true);
 		}else{
 			result.setReason("物品不足。");			
@@ -51,7 +109,10 @@ public class FixEquipHelper {
 		return result;
 		
 	}
-	private static boolean costItemBag(ItemBagMgr itemBagMgr,Map<Integer, Integer> itemCostMap) {
+	
+	public static boolean isItemEnough(Player player,Map<Integer, Integer> itemCostMap){
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		
 		boolean isItemEnough = true;
 		for (int modelId : itemCostMap.keySet()) {
 			int countInBag = itemBagMgr.getItemCountByModelId(modelId);
@@ -61,11 +122,16 @@ public class FixEquipHelper {
 			}
 			
 		}
-		boolean success = true;
-		if(isItemEnough){			
+		return isItemEnough;
+	}
+	
+	private static boolean costItemBag(Player player, Map<Integer, Integer> itemCostMap) {
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		boolean success = isItemEnough(player, itemCostMap);
+		if(success){			
 			for (int modelId : itemCostMap.keySet()) {
 				Integer need = itemCostMap.get(modelId);
-				if(!itemBagMgr.addItem(modelId, -need)){
+				if(!itemBagMgr.useItemByCfgId(modelId, need)){
 					success = false;
 					break;
 				}
@@ -75,13 +141,17 @@ public class FixEquipHelper {
 		}
 		return success;
 	}
-	private static void costGold(Player player, int count) {
-		// TODO Auto-generated method stub
+	public static boolean turnBackItems(Player player, Map<Integer, Integer> itemCostMap) {
 		
-	}
-	private static void costCoin(Player player, int count) {
-		// TODO Auto-generated method stub
+		boolean success = true;
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		for (Integer modelId : itemCostMap.keySet()) {
+			Integer count = itemCostMap.get(modelId);
+			itemBagMgr.addItem(modelId, count);
+		}	
 		
+		return success;
 	}
+
 	
 }

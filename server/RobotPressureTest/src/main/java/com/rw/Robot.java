@@ -18,6 +18,8 @@ import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
 import com.rw.handler.fashion.FashionHandler;
+import com.rw.handler.fixEquip.FixEquipHandler;
+import com.rw.handler.fixExpEquip.FixExpEquipHandler;
 import com.rw.handler.fresheractivity.FresherActivityHandler;
 import com.rw.handler.friend.FriendHandler;
 import com.rw.handler.gamble.GambleHandler;
@@ -26,14 +28,20 @@ import com.rw.handler.gameLogin.SelectCareerHandler;
 import com.rw.handler.group.GroupBaseHandler;
 import com.rw.handler.group.GroupMemberHandler;
 import com.rw.handler.group.GroupPersonalHandler;
+import com.rw.handler.groupsecret.GroupSecretHandler;
+import com.rw.handler.groupsecret.GroupSecretMatchHandler;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
+import com.rw.handler.itembag.ItemData;
 import com.rw.handler.magic.MagicHandler;
+import com.rw.handler.magicSecret.MagicSecretHandler;
 import com.rw.handler.mainService.MainHandler;
+import com.rw.handler.peakArena.PeakArenaHandler;
 import com.rw.handler.platform.PlatformHandler;
 import com.rw.handler.sign.SignHandler;
 import com.rw.handler.sevenDayGift.DailyGiftHandler;
 import com.rw.handler.store.StoreHandler;
+import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
@@ -176,7 +184,6 @@ public class Robot {
 		if (client == null) {
 			return false;
 		}
-		addCoin(100000);
 		return StoreHandler.instance().buyRandom(client);
 	}
 
@@ -237,6 +244,14 @@ public class Robot {
 		// equipCompose(700098);
 		boolean sendSuccess = EquipHandler.instance().compose(client, modelId);
 		return sendSuccess;
+	}
+	
+	
+	public void checkItemEnough(int modelId) {
+		ItemData itemData = client.getItembagHolder().getByModelId(modelId);
+		if (itemData.getCount() < 10) {
+			gainItem(modelId, 888);
+		}
 	}
 
 	/**
@@ -318,6 +333,11 @@ public class Robot {
 
 	public boolean addGold(int gold) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addGold " + gold);
+		return sendSuccess;
+	}
+	
+	public boolean additem(int id) {
+		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + id + " " + 999);
 		return sendSuccess;
 	}
 
@@ -611,7 +631,6 @@ public class Robot {
 	 * 买体
 	 */
 	public  boolean testMainService() {
-		addGold(500);
 		return MainHandler.getHandler().buyTower(client);
 	}
 	
@@ -628,7 +647,6 @@ public class Robot {
 	/**消费300钻 */
 	public boolean testDailyActivity() {
 		// TODO Auto-generated method stub
-		addGold(500);
 		return DailyActivityHandler.getHandler().Const(this);		
 		
 	}
@@ -650,18 +668,24 @@ public class Robot {
 		}else return false;
 	}
 	
-	/**聚宝胜利两 次 */
-	public boolean testCopyJbzd() {		
-		boolean getitemback = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_JBZD);
-		if(getitemback){
-			CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_JBZD,EBattleStatus.WIN);		
+	/** 聚宝胜利,根据参数决定战斗次数 */
+	public boolean testCopyJbzd(int num) {
+		if (num == 2) {
+			boolean getitemback = CopyHandler.getHandler().battleItemsBack(
+					client, CopyType.COPY_TYPE_TRIAL_JBZD);
+			if (getitemback) {
+				CopyHandler.getHandler().battleClear(client,
+						CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
+			}
 		}
 		clearCd(CopyType.COPY_TYPE_TRIAL_JBZD);
-		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(client,CopyType.COPY_TYPE_TRIAL_JBZD);
-		if(getitembacksecond){
-			return CopyHandler.getHandler().battleClear(client,CopyType.COPY_TYPE_TRIAL_JBZD,EBattleStatus.WIN);		
+		boolean getitembacksecond = CopyHandler.getHandler().battleItemsBack(
+				client, CopyType.COPY_TYPE_TRIAL_JBZD);
+		if (getitembacksecond) {
+			return CopyHandler.getHandler().battleClear(client,
+					CopyType.COPY_TYPE_TRIAL_JBZD, EBattleStatus.WIN);
 		}
-		
+
 		return false;
 	}
 	
@@ -747,39 +771,122 @@ public class Robot {
 
 	
 	
-	public void sign(){
-		SignHandler.getInstance().processsSign(client);
+	public boolean sign(){
+		return SignHandler.getInstance().processsSign(client);
 	}
 	
-	public void dailyActivity(){
-		DailyHandler.getInstance().processDaily(client);
+	public boolean dailyActivity(){
+		return DailyHandler.getInstance().processDaily(client);
 	}
 	
-	public void buyFashion(){
-		FashionHandler.getInstance().processBuyFashion(client);
+	public boolean buyFashion(){
+		return FashionHandler.getInstance().processBuyFashion(client);
 	}
 	
-	public void buyWing(){
-		FashionHandler.getInstance().processBuyWing(client);
+	public boolean buyWing(){
+		return FashionHandler.getInstance().processBuyWing(client);
 	}
 	
-	public void buyPet(){
-		FashionHandler.getInstance().processBuyPet(client);
+	public boolean buyPet(){
+		return FashionHandler.getInstance().processBuyPet(client);
 	}
 
-	public void WearFashion(){
-		FashionHandler.getInstance().processWearFashion(client);
+	public boolean WearFashion(boolean wear){
+		return FashionHandler.getInstance().processWearFashion(client, wear);
 	}
 	
-	public void WearWing(){
-		FashionHandler.getInstance().processWearWing(client);
+	public boolean WearWing(boolean wear){
+		return FashionHandler.getInstance().processWearWing(client, wear);
 	}
 	
-	public void WearPet(){
-		FashionHandler.getInstance().processBuyPet(client);
+	public boolean WearPet(boolean wear){
+		return FashionHandler.getInstance().processWearPet(client, wear);
 	}
 	
-	public void BuyCoin(){
-		MainHandler.getHandler().buyCoin(client);
+	public boolean BuyCoin(){
+		return MainHandler.getHandler().buyCoin(client);
+	}
+
+	public boolean testPeakArena() {
+		boolean issuc = upgrade(50);
+		RobotLog.fail("巅峰竞技场-设置50级结果" + issuc);
+		PeakArenaHandler.getHandler().changeEnemy(client, "");
+		PeakArenaHandler.getHandler().fightStart(client, "");
+		return PeakArenaHandler.getHandler().fightFinish(client, "");
+	}
+	
+	public boolean createGroupSecret(){
+		return GroupSecretHandler.getInstance().createGroupSecret(client);
+	}
+	
+	public boolean searchGroupSecret(){
+		return GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
+	}
+	
+	public boolean attackEnemyGroupSecret(){
+		return GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
+	}
+	
+	public boolean getGroupSecretReward(){
+		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
+	}
+	
+	public boolean inviteMemberDefend(){
+		return GroupSecretHandler.getInstance().inviteMemberDefend(client);
+	}
+	
+	public boolean acceptMemberDefend(){
+		ChatHandler.instance().sendRequestTreasure(client);
+		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
+	}
+	
+	/**前两个参数控制前4个道具及5种相关操作,后两个参数控制后两个参数的4种操作类型;同时只可操作一个道具;操作前者后者置-1,反之亦然
+	 * 开始前需要升级，加金币，加钻石，加进化和升星材料；
+	 * 因为部分判断在客户端，所以如果要测试进化，建议直接一键升满，否则单个升满会无法确保10级，非10级申请进化会生成错误数据影响后续操作
+	 * 15234,强化,一键强化,进化,升星,降星;4个装备，0123
+	 * 6789,强化,进化,升星,降星，2个装备01
+	 * */
+	public boolean testFixEquip(int equipId ,int type,int expequipId,int exptype){
+		upgrade(50);
+		additem(806511);//进化材料
+		additem(806523);//升星材料
+		additem(806501);//下两格经验材料
+		boolean issuc = false;
+		if(equipId != -1){
+			issuc=FixEquipHandler.instance().doEquip(client,equipId, type);
+		}else{
+			issuc=FixExpEquipHandler.instance().doExpEquip(client,expequipId, exptype);			
+		}		
+		return issuc;
+	}
+	
+	/**预制升级和加金币；参数不存在则选择首项提升*/
+	public boolean testTaoist(int id){
+		upgrade(50);	
+		boolean issuc = false;
+//		TaoistHandler.getHandler().getTaoistData(client);
+		issuc=TaoistHandler.getHandler().upTaoist(client,id);
+		return issuc;
+	}
+	
+	/**1查看;独立的
+	 * 2战斗；接5换buff和6换道具*/
+	public boolean testMagicSecret(int id){
+		upgrade(50);
+		boolean issuc = false;
+		issuc=MagicSecretHandler.getHandler().doType(client , id);
+		return issuc;
+	}
+	public boolean sendGmCommand(String value){
+		return GmHandler.instance().send(client, value);
+	}
+
+	public void checkEnoughMoney(){
+		if(!client.getMajorDataholder().CheckEnoughCoin()){
+			addCoin(1000000000);
+		}
+		if(!client.getMajorDataholder().CheckEnoughGold()){
+			addGold(10000000);
+		}
 	}
 }

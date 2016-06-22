@@ -21,19 +21,19 @@ public class SignHandler {
 		return handler;
 	}
 	
-	public void processsSign(Client client){
+	public boolean processsSign(Client client){
 		SignDataHolder signDataHolder = client.getSignDataHolder();
 		List<String> signDataList = signDataHolder.getSignDataList();
 		if (signDataList == null || signDataList.size() <= 0) {
 			MsgSignRequest.Builder request = MsgSignRequest.newBuilder();
 			request.setRequestType(ERequestType.SIGNDATA_BACK);
-			client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
+			return client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
 		} else {
-			processRequestSign(client);
+			return processRequestSign(client);
 		}
 	}
 	
-	private void processRequestSign(Client client){
+	private boolean processRequestSign(Client client){
 		SignDataHolder signDataHolder = client.getSignDataHolder();
 		List<String> signDataList = signDataHolder.getSignDataList();
 		
@@ -52,7 +52,7 @@ public class SignHandler {
 		MsgSignRequest.Builder request = MsgSignRequest.newBuilder();
 		request.setRequestType(ERequestType.SIGN);
 		request.setSignId(maxSignId);
-		client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
+		return client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
 	}
 	
 	public void initSignData(Client client, List<String> signDataList, int year, int month, int reSignCount){
@@ -96,7 +96,7 @@ public class SignHandler {
 					throw new Exception("砖石不足");
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
-					break;
+					return true;
 				case FAIL:
 					throw new Exception(resp.getResultMsg());
 				default:

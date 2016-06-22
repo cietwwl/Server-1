@@ -33,6 +33,9 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 		HashMap<Integer,LinkedList<GambleDropCfg>> tmp = new HashMap<Integer, LinkedList<GambleDropCfg>>(vals.size());
 		for (GambleDropCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
+			if (cfg.getWeight() < 0){
+				throw new RuntimeException("权重不能小于零"+"key="+cfg.getKey()+",权重:"+cfg.getWeight());
+			}
 			LinkedList<GambleDropCfg> old = tmp.get(cfg.getItemGroup());
 			if (old == null){
 				old = new LinkedList<GambleDropCfg>();

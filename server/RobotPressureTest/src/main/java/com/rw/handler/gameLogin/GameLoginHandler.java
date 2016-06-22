@@ -32,7 +32,7 @@ public class GameLoginHandler {
 	 * @param serverId
 	 * @param accountId
 	 */
-	public boolean createRole(final Client client, int serverId ) {
+	public boolean createRole(final Client client, int serverId) {
 		
 		String accountId = client.getAccountId();
 		System.err.printf("[%s]用户选择服务器创建角色开始....\n", accountId );
@@ -54,7 +54,7 @@ public class GameLoginHandler {
 		req.setAccountId(accountId);
 		req.setPassword(client.getPassword());
 		req.setZoneId(sInfo.getZoneId());
-		req.setNick("独孤求败"+random.nextInt(2000));// 随机角色名字
+		req.setNick("独孤求败"+accountId);// 随机角色名字
 		req.setSex(random.nextInt(2));// 随机性别
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_LOGIN_GAME, req.build().toByteString(), new MsgReciver() {

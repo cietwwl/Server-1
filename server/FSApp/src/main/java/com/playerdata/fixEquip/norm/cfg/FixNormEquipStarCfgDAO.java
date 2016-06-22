@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.fixEquip.FixEquipHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -23,33 +24,40 @@ public final class FixNormEquipStarCfgDAO extends CfgCsvDao<FixNormEquipStarCfg>
 	
 	@Override
 	public Map<String, FixNormEquipStarCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("FixEquip/FixNormEquipStarCfg.csv", FixNormEquipStarCfg.class);
-		groupByParentId(cfgCacheMap);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("fixEquip/FixNormEquipStarCfg.csv", FixNormEquipStarCfg.class);
+		parseNeedItemsAndGroupByPlanId(cfgCacheMap);
 		return cfgCacheMap;
 	}
 	
 
 
-	private void groupByParentId(Map<String, FixNormEquipStarCfg> cfgCacheMap) {
+	private void parseNeedItemsAndGroupByPlanId(Map<String, FixNormEquipStarCfg> cfgCacheMap) {
 	
-		List<String> parentCfgList = new ArrayList<String>();
+		List<String> planIdList = new ArrayList<String>();
 		for (FixNormEquipStarCfg tmpCfg : cfgCacheMap.values()) {
-			String parentCfgId = tmpCfg.getParentCfgId();
-			if(!parentCfgList.contains(parentCfgId)){
-				parentCfgList.add(parentCfgId);
+			tmpCfg.initData();
+			parseNeedItems(tmpCfg);
+			String planId = tmpCfg.getPlanId();
+			if(!planIdList.contains(planId)){
+				planIdList.add(planId);
 			}
 		}
 		
-		for (String pCfgId : parentCfgList) {
-			parentCfgLevelMap.put(pCfgId, getByParentCfgId(pCfgId));
+		for (String planId : planIdList) {
+			parentCfgLevelMap.put(planId, getByPlanId(planId));
 		}
 	}
 	
-	private List<FixNormEquipStarCfg> getByParentCfgId(String parentCfgId){
+	private void parseNeedItems(FixNormEquipStarCfg tmpCfg) {
+		Map<Integer, Integer> itemsNeed = FixEquipHelper.parseNeedItems(tmpCfg.getItemsNeedStr());		
+		tmpCfg.setItemsNeed(itemsNeed);
+	}
+	
+	private List<FixNormEquipStarCfg> getByPlanId(String parentCfgId){
 		List<FixNormEquipStarCfg> targetList = new ArrayList<FixNormEquipStarCfg>();
 		List<FixNormEquipStarCfg> allCfg = getAllCfg();
 		for (FixNormEquipStarCfg tmpItem : allCfg) {
-			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
+			if(StringUtils.equals(tmpItem.getPlanId(), parentCfgId)){
 				targetList.add(tmpItem);
 			}
 		}
@@ -58,12 +66,12 @@ public final class FixNormEquipStarCfgDAO extends CfgCsvDao<FixNormEquipStarCfg>
 	}
 
 
-	public FixNormEquipStarCfg getByParentCfgIdAndStar(String parentCfgId, int star){
-		List<FixNormEquipStarCfg> allCfg = parentCfgLevelMap.get(parentCfgId);
+	public FixNormEquipStarCfg getByPlanIdAndStar(String planId, int star){
+		List<FixNormEquipStarCfg> allCfg = parentCfgLevelMap.get(planId);
 		FixNormEquipStarCfg target = null;
 		if(allCfg!=null){
 			for (FixNormEquipStarCfg tmpItem : allCfg) {
-				if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId) && tmpItem.getStar() == star){
+				if(StringUtils.equals(tmpItem.getPlanId(), planId) && tmpItem.getStar() == star){
 					target = tmpItem;
 				}
 			}

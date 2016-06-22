@@ -19,49 +19,49 @@ public class FashionHandler {
 		return handler;
 	}
 	
-	public void processBuyFashion(Client client){
+	public boolean processBuyFashion(Client client){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(FashionEventType.buy);
 		request.setFashionId(10002);
 		request.setBuyRenewPlanId("10002_2");
-		client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买时装"));
+		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买时装"));
 	}
 	
-	public void processBuyWing(Client client){
+	public boolean processBuyWing(Client client){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(FashionEventType.buy);
 		request.setFashionId(10007);
 		request.setBuyRenewPlanId("10007_1");
-		client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买翅膀"));
+		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买翅膀"));
 	}
 	
-	public void processBuyPet(Client client){
+	public boolean processBuyPet(Client client){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
 		request.setEventType(FashionEventType.buy);
 		request.setFashionId(10004);
 		request.setBuyRenewPlanId("10004_1");
-		client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买宠物"));
+		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "购买宠物"));
 	}
 	
-	public void processWearFashion(Client client){
+	public boolean processWearFashion(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
-		request.setEventType(FashionEventType.on);
+		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
 		request.setFashionId(10002);
-		client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿时装"));
+		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿时装"));
 	}
 	
-	public void processWearWing(Client client){
+	public boolean processWearWing(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
-		request.setEventType(FashionEventType.on);
+		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
 		request.setFashionId(10007);
-		client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿翅膀"));
+		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿翅膀"));
 	}
 	
-	public void processWearPet(Client client){
+	public boolean processWearPet(Client client, boolean wear){
 		FashionRequest.Builder  request = FashionRequest.newBuilder();
-		request.setEventType(FashionEventType.on);
+		request.setEventType(wear ? FashionEventType.on : FashionEventType.off);
 		request.setFashionId(10004);
-		client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿宠物"));
+		return client.getMsgHandler().sendMsg(Command.MSG_FASHION, request.build().toByteString(), new FashionMsgReceier(command, functionName, "穿宠物"));
 	}
 	
 	private class FashionMsgReceier extends PrintMsgReciver{
@@ -81,7 +81,7 @@ public class FashionHandler {
 				switch (error) {
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
-					break;
+					return true;
 				default:
 					throw new Exception(resp.getTips());
 				}

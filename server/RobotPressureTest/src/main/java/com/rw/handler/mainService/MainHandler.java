@@ -23,10 +23,10 @@ public class MainHandler {
 		return handler;
 	}
 	
-	public void buyCoin(Client client){
+	public boolean buyCoin(Client client){
 		MsgMainRequest.Builder req = MsgMainRequest.newBuilder();
 		req.setRequestType(EMainServiceType.BUY_COIN);
-		client.getMsgHandler().sendMsg(Command.MSG_MainService, req.build().toByteString(), new MainMsgReceiver(command, functionName, "购买金币"));
+		return client.getMsgHandler().sendMsg(Command.MSG_MainService, req.build().toByteString(), new MainMsgReceiver(command, functionName, "购买金币"));
 	}
 	/**
 	 * 买体
@@ -95,7 +95,7 @@ public class MainHandler {
 				switch (eMainResultType) {
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");
-					break;
+					return true;
 				case LOW_VIP:
 					throw new Exception("VIP 等级不足");
 				case NOT_ENOUGH_GOLD:
