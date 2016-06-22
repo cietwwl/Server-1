@@ -960,6 +960,33 @@ public final class GrouFightOnlineProto {
      */
     com.google.protobuf.ByteString
         getFightResultBytes();
+
+    // optional string clientVersion = 12;
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    boolean hasClientVersion();
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    java.lang.String getClientVersion();
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getClientVersionBytes();
   }
   /**
    * Protobuf type {@code groupFightOnline.GroupFightOnlineReqMsg}
@@ -1074,6 +1101,11 @@ public final class GrouFightOnlineProto {
             case 90: {
               bitField0_ |= 0x00000200;
               fightResult_ = input.readBytes();
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000400;
+              clientVersion_ = input.readBytes();
               break;
             }
           }
@@ -1560,6 +1592,61 @@ public final class GrouFightOnlineProto {
       }
     }
 
+    // optional string clientVersion = 12;
+    public static final int CLIENTVERSION_FIELD_NUMBER = 12;
+    private java.lang.Object clientVersion_;
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public boolean hasClientVersion() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public java.lang.String getClientVersion() {
+      java.lang.Object ref = clientVersion_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          clientVersion_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string clientVersion = 12;</code>
+     *
+     * <pre>
+     *客户端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getClientVersionBytes() {
+      java.lang.Object ref = clientVersion_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        clientVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GrouFightOnlineProto.GFRequestType.GET_RESOURCE_INFO;
       bidCount_ = 0;
@@ -1572,6 +1659,7 @@ public final class GrouFightOnlineProto {
       resourceID_ = 0;
       groupID_ = "";
       fightResult_ = "";
+      clientVersion_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1621,6 +1709,9 @@ public final class GrouFightOnlineProto {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeBytes(11, getFightResultBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(12, getClientVersionBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1679,6 +1770,10 @@ public final class GrouFightOnlineProto {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(11, getFightResultBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getClientVersionBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1818,6 +1913,8 @@ public final class GrouFightOnlineProto {
         bitField0_ = (bitField0_ & ~0x00000200);
         fightResult_ = "";
         bitField0_ = (bitField0_ & ~0x00000400);
+        clientVersion_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -1892,6 +1989,10 @@ public final class GrouFightOnlineProto {
           to_bitField0_ |= 0x00000200;
         }
         result.fightResult_ = fightResult_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.clientVersion_ = clientVersion_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1956,6 +2057,11 @@ public final class GrouFightOnlineProto {
         if (other.hasFightResult()) {
           bitField0_ |= 0x00000400;
           fightResult_ = other.fightResult_;
+          onChanged();
+        }
+        if (other.hasClientVersion()) {
+          bitField0_ |= 0x00000800;
+          clientVersion_ = other.clientVersion_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -2856,6 +2962,104 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
+      // optional string clientVersion = 12;
+      private java.lang.Object clientVersion_ = "";
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public boolean hasClientVersion() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public java.lang.String getClientVersion() {
+        java.lang.Object ref = clientVersion_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          clientVersion_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getClientVersionBytes() {
+        java.lang.Object ref = clientVersion_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          clientVersion_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder setClientVersion(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        clientVersion_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder clearClientVersion() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        clientVersion_ = getDefaultInstance().getClientVersion();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string clientVersion = 12;</code>
+       *
+       * <pre>
+       *客户端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder setClientVersionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        clientVersion_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:groupFightOnline.GroupFightOnlineReqMsg)
     }
 
@@ -3077,9 +3281,27 @@ public final class GrouFightOnlineProto {
      */
     int getTotalPage();
 
-    // repeated string fightRecord = 9;
+    // optional int32 currentPage = 9;
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    boolean hasCurrentPage();
+    /**
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    int getCurrentPage();
+
+    // repeated string fightRecord = 10;
+    /**
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3088,7 +3310,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getFightRecordList();
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3096,7 +3318,7 @@ public final class GrouFightOnlineProto {
      */
     int getFightRecordCount();
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3104,7 +3326,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getFightRecord(int index);
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3113,9 +3335,9 @@ public final class GrouFightOnlineProto {
     com.google.protobuf.ByteString
         getFightRecordBytes(int index);
 
-    // repeated string gfRewardInfo = 10;
+    // repeated string gfRewardInfo = 11;
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3124,7 +3346,7 @@ public final class GrouFightOnlineProto {
     java.util.List<java.lang.String>
     getGfRewardInfoList();
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3132,7 +3354,7 @@ public final class GrouFightOnlineProto {
      */
     int getGfRewardInfoCount();
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3140,7 +3362,7 @@ public final class GrouFightOnlineProto {
      */
     java.lang.String getGfRewardInfo(int index);
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3148,6 +3370,33 @@ public final class GrouFightOnlineProto {
      */
     com.google.protobuf.ByteString
         getGfRewardInfoBytes(int index);
+
+    // optional string serverVersion = 12;
+    /**
+     * <code>optional string serverVersion = 12;</code>
+     *
+     * <pre>
+     *服务端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    boolean hasServerVersion();
+    /**
+     * <code>optional string serverVersion = 12;</code>
+     *
+     * <pre>
+     *服务端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    java.lang.String getServerVersion();
+    /**
+     * <code>optional string serverVersion = 12;</code>
+     *
+     * <pre>
+     *服务端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getServerVersionBytes();
   }
   /**
    * Protobuf type {@code groupFightOnline.GroupFightOnlineRspMsg}
@@ -3261,20 +3510,30 @@ public final class GrouFightOnlineProto {
               totalPage_ = input.readInt32();
               break;
             }
-            case 74: {
-              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
-                fightRecord_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000100;
-              }
-              fightRecord_.add(input.readBytes());
+            case 72: {
+              bitField0_ |= 0x00000020;
+              currentPage_ = input.readInt32();
               break;
             }
             case 82: {
               if (!((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
-                gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList();
+                fightRecord_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000200;
               }
+              fightRecord_.add(input.readBytes());
+              break;
+            }
+            case 90: {
+              if (!((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
+                gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000400;
+              }
               gfRewardInfo_.add(input.readBytes());
+              break;
+            }
+            case 98: {
+              bitField0_ |= 0x00000040;
+              serverVersion_ = input.readBytes();
               break;
             }
           }
@@ -3294,10 +3553,10 @@ public final class GrouFightOnlineProto {
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           defendArmySimpleLeader_ = new com.google.protobuf.UnmodifiableLazyStringList(defendArmySimpleLeader_);
         }
-        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
           fightRecord_ = new com.google.protobuf.UnmodifiableLazyStringList(fightRecord_);
         }
-        if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
+        if (((mutable_bitField0_ & 0x00000400) == 0x00000400)) {
           gfRewardInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(gfRewardInfo_);
         }
         this.unknownFields = unknownFields.build();
@@ -3621,11 +3880,35 @@ public final class GrouFightOnlineProto {
       return totalPage_;
     }
 
-    // repeated string fightRecord = 9;
-    public static final int FIGHTRECORD_FIELD_NUMBER = 9;
+    // optional int32 currentPage = 9;
+    public static final int CURRENTPAGE_FIELD_NUMBER = 9;
+    private int currentPage_;
+    /**
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    public boolean hasCurrentPage() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 currentPage = 9;</code>
+     *
+     * <pre>
+     *防守队伍的总页数
+     * </pre>
+     */
+    public int getCurrentPage() {
+      return currentPage_;
+    }
+
+    // repeated string fightRecord = 10;
+    public static final int FIGHTRECORD_FIELD_NUMBER = 10;
     private com.google.protobuf.LazyStringList fightRecord_;
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3636,7 +3919,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_;
     }
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3646,7 +3929,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_.size();
     }
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3656,7 +3939,7 @@ public final class GrouFightOnlineProto {
       return fightRecord_.get(index);
     }
     /**
-     * <code>repeated string fightRecord = 9;</code>
+     * <code>repeated string fightRecord = 10;</code>
      *
      * <pre>
      *战斗记录
@@ -3667,11 +3950,11 @@ public final class GrouFightOnlineProto {
       return fightRecord_.getByteString(index);
     }
 
-    // repeated string gfRewardInfo = 10;
-    public static final int GFREWARDINFO_FIELD_NUMBER = 10;
+    // repeated string gfRewardInfo = 11;
+    public static final int GFREWARDINFO_FIELD_NUMBER = 11;
     private com.google.protobuf.LazyStringList gfRewardInfo_;
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3682,7 +3965,7 @@ public final class GrouFightOnlineProto {
       return gfRewardInfo_;
     }
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3692,7 +3975,7 @@ public final class GrouFightOnlineProto {
       return gfRewardInfo_.size();
     }
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3702,7 +3985,7 @@ public final class GrouFightOnlineProto {
       return gfRewardInfo_.get(index);
     }
     /**
-     * <code>repeated string gfRewardInfo = 10;</code>
+     * <code>repeated string gfRewardInfo = 11;</code>
      *
      * <pre>
      *可以领取的奖励
@@ -3711,6 +3994,61 @@ public final class GrouFightOnlineProto {
     public com.google.protobuf.ByteString
         getGfRewardInfoBytes(int index) {
       return gfRewardInfo_.getByteString(index);
+    }
+
+    // optional string serverVersion = 12;
+    public static final int SERVERVERSION_FIELD_NUMBER = 12;
+    private java.lang.Object serverVersion_;
+    /**
+     * <code>optional string serverVersion = 12;</code>
+     *
+     * <pre>
+     *服务端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public boolean hasServerVersion() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string serverVersion = 12;</code>
+     *
+     * <pre>
+     *服务端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public java.lang.String getServerVersion() {
+      java.lang.Object ref = serverVersion_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          serverVersion_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string serverVersion = 12;</code>
+     *
+     * <pre>
+     *服务端当前数据的版本（对应结构GFightDataVersion）
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getServerVersionBytes() {
+      java.lang.Object ref = serverVersion_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        serverVersion_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
@@ -3722,8 +4060,10 @@ public final class GrouFightOnlineProto {
       rankData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       defendArmySimpleLeader_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       totalPage_ = 0;
+      currentPage_ = 0;
       fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      serverVersion_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3769,11 +4109,17 @@ public final class GrouFightOnlineProto {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt32(8, totalPage_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(9, currentPage_);
+      }
       for (int i = 0; i < fightRecord_.size(); i++) {
-        output.writeBytes(9, fightRecord_.getByteString(i));
+        output.writeBytes(10, fightRecord_.getByteString(i));
       }
       for (int i = 0; i < gfRewardInfo_.size(); i++) {
-        output.writeBytes(10, gfRewardInfo_.getByteString(i));
+        output.writeBytes(11, gfRewardInfo_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(12, getServerVersionBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -3831,6 +4177,10 @@ public final class GrouFightOnlineProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, totalPage_);
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, currentPage_);
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < fightRecord_.size(); i++) {
@@ -3848,6 +4198,10 @@ public final class GrouFightOnlineProto {
         }
         size += dataSize;
         size += 1 * getGfRewardInfoList().size();
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(12, getServerVersionBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3981,10 +4335,14 @@ public final class GrouFightOnlineProto {
         bitField0_ = (bitField0_ & ~0x00000040);
         totalPage_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
-        fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        currentPage_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000200);
+        gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        serverVersion_ = "";
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -4051,18 +4409,26 @@ public final class GrouFightOnlineProto {
           to_bitField0_ |= 0x00000010;
         }
         result.totalPage_ = totalPage_;
-        if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.currentPage_ = currentPage_;
+        if (((bitField0_ & 0x00000200) == 0x00000200)) {
           fightRecord_ = new com.google.protobuf.UnmodifiableLazyStringList(
               fightRecord_);
-          bitField0_ = (bitField0_ & ~0x00000100);
-        }
-        result.fightRecord_ = fightRecord_;
-        if (((bitField0_ & 0x00000200) == 0x00000200)) {
-          gfRewardInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              gfRewardInfo_);
           bitField0_ = (bitField0_ & ~0x00000200);
         }
+        result.fightRecord_ = fightRecord_;
+        if (((bitField0_ & 0x00000400) == 0x00000400)) {
+          gfRewardInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              gfRewardInfo_);
+          bitField0_ = (bitField0_ & ~0x00000400);
+        }
         result.gfRewardInfo_ = gfRewardInfo_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.serverVersion_ = serverVersion_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4126,10 +4492,13 @@ public final class GrouFightOnlineProto {
         if (other.hasTotalPage()) {
           setTotalPage(other.getTotalPage());
         }
+        if (other.hasCurrentPage()) {
+          setCurrentPage(other.getCurrentPage());
+        }
         if (!other.fightRecord_.isEmpty()) {
           if (fightRecord_.isEmpty()) {
             fightRecord_ = other.fightRecord_;
-            bitField0_ = (bitField0_ & ~0x00000100);
+            bitField0_ = (bitField0_ & ~0x00000200);
           } else {
             ensureFightRecordIsMutable();
             fightRecord_.addAll(other.fightRecord_);
@@ -4139,11 +4508,16 @@ public final class GrouFightOnlineProto {
         if (!other.gfRewardInfo_.isEmpty()) {
           if (gfRewardInfo_.isEmpty()) {
             gfRewardInfo_ = other.gfRewardInfo_;
-            bitField0_ = (bitField0_ & ~0x00000200);
+            bitField0_ = (bitField0_ & ~0x00000400);
           } else {
             ensureGfRewardInfoIsMutable();
             gfRewardInfo_.addAll(other.gfRewardInfo_);
           }
+          onChanged();
+        }
+        if (other.hasServerVersion()) {
+          bitField0_ |= 0x00000800;
+          serverVersion_ = other.serverVersion_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -4868,16 +5242,65 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated string fightRecord = 9;
+      // optional int32 currentPage = 9;
+      private int currentPage_ ;
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public boolean hasCurrentPage() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public int getCurrentPage() {
+        return currentPage_;
+      }
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public Builder setCurrentPage(int value) {
+        bitField0_ |= 0x00000100;
+        currentPage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 currentPage = 9;</code>
+       *
+       * <pre>
+       *防守队伍的总页数
+       * </pre>
+       */
+      public Builder clearCurrentPage() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        currentPage_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated string fightRecord = 10;
       private com.google.protobuf.LazyStringList fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureFightRecordIsMutable() {
-        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
           fightRecord_ = new com.google.protobuf.LazyStringArrayList(fightRecord_);
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000200;
          }
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4888,7 +5311,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(fightRecord_);
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4898,7 +5321,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.size();
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4908,7 +5331,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.get(index);
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4919,7 +5342,7 @@ public final class GrouFightOnlineProto {
         return fightRecord_.getByteString(index);
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4936,7 +5359,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4953,7 +5376,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4967,7 +5390,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4975,12 +5398,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearFightRecord() {
         fightRecord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string fightRecord = 9;</code>
+       * <code>repeated string fightRecord = 10;</code>
        *
        * <pre>
        *战斗记录
@@ -4997,16 +5420,16 @@ public final class GrouFightOnlineProto {
         return this;
       }
 
-      // repeated string gfRewardInfo = 10;
+      // repeated string gfRewardInfo = 11;
       private com.google.protobuf.LazyStringList gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureGfRewardInfoIsMutable() {
-        if (!((bitField0_ & 0x00000200) == 0x00000200)) {
+        if (!((bitField0_ & 0x00000400) == 0x00000400)) {
           gfRewardInfo_ = new com.google.protobuf.LazyStringArrayList(gfRewardInfo_);
-          bitField0_ |= 0x00000200;
+          bitField0_ |= 0x00000400;
          }
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5017,7 +5440,7 @@ public final class GrouFightOnlineProto {
         return java.util.Collections.unmodifiableList(gfRewardInfo_);
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5027,7 +5450,7 @@ public final class GrouFightOnlineProto {
         return gfRewardInfo_.size();
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5037,7 +5460,7 @@ public final class GrouFightOnlineProto {
         return gfRewardInfo_.get(index);
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5048,7 +5471,7 @@ public final class GrouFightOnlineProto {
         return gfRewardInfo_.getByteString(index);
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5065,7 +5488,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5082,7 +5505,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5096,7 +5519,7 @@ public final class GrouFightOnlineProto {
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5104,12 +5527,12 @@ public final class GrouFightOnlineProto {
        */
       public Builder clearGfRewardInfo() {
         gfRewardInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string gfRewardInfo = 10;</code>
+       * <code>repeated string gfRewardInfo = 11;</code>
        *
        * <pre>
        *可以领取的奖励
@@ -5122,6 +5545,104 @@ public final class GrouFightOnlineProto {
   }
   ensureGfRewardInfoIsMutable();
         gfRewardInfo_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // optional string serverVersion = 12;
+      private java.lang.Object serverVersion_ = "";
+      /**
+       * <code>optional string serverVersion = 12;</code>
+       *
+       * <pre>
+       *服务端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public boolean hasServerVersion() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional string serverVersion = 12;</code>
+       *
+       * <pre>
+       *服务端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public java.lang.String getServerVersion() {
+        java.lang.Object ref = serverVersion_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          serverVersion_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string serverVersion = 12;</code>
+       *
+       * <pre>
+       *服务端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getServerVersionBytes() {
+        java.lang.Object ref = serverVersion_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          serverVersion_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string serverVersion = 12;</code>
+       *
+       * <pre>
+       *服务端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder setServerVersion(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        serverVersion_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string serverVersion = 12;</code>
+       *
+       * <pre>
+       *服务端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder clearServerVersion() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        serverVersion_ = getDefaultInstance().getServerVersion();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string serverVersion = 12;</code>
+       *
+       * <pre>
+       *服务端当前数据的版本（对应结构GFightDataVersion）
+       * </pre>
+       */
+      public Builder setServerVersionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000800;
+        serverVersion_ = value;
         onChanged();
         return this;
       }
@@ -5157,41 +5678,43 @@ public final class GrouFightOnlineProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\026GroupFightOnline.proto\022\020groupFightOnli" +
-      "ne\"\210\002\n\026GroupFightOnlineReqMsg\0220\n\007reqType" +
+      "ne\"\237\002\n\026GroupFightOnlineReqMsg\0220\n\007reqType" +
       "\030\001 \002(\0162\037.groupFightOnline.GFRequestType\022" +
       "\020\n\010bidCount\030\002 \001(\005\022\023\n\013selfBidRate\030\003 \001(\005\022\016" +
       "\n\006heroID\030\004 \003(\t\022\014\n\004page\030\005 \001(\005\022\027\n\017viewTeam" +
       "GroupID\030\006 \001(\t\022\022\n\nviewTeamID\030\007 \001(\t\022\020\n\010rew" +
       "ardID\030\010 \001(\t\022\022\n\nresourceID\030\t \001(\005\022\017\n\007group" +
-      "ID\030\n \001(\t\022\023\n\013fightResult\030\013 \001(\t\"\265\002\n\026GroupF" +
-      "ightOnlineRspMsg\0220\n\007reqType\030\001 \002(\0162\037.grou" +
-      "pFightOnline.GFRequestType\022/\n\007rstType\030\002 ",
-      "\002(\0162\036.groupFightOnline.GFResultType\022\022\n\ns" +
-      "ystemTime\030\003 \001(\003\022\026\n\016gfResourceInfo\030\004 \003(\t\022" +
-      "\034\n\024enimyDefenderDetails\030\005 \001(\t\022\020\n\010rankDat" +
-      "a\030\006 \003(\t\022\036\n\026defendArmySimpleLeader\030\007 \003(\t\022" +
-      "\021\n\ttotalPage\030\010 \001(\005\022\023\n\013fightRecord\030\t \003(\t\022" +
-      "\024\n\014gfRewardInfo\030\n \003(\t*\200\003\n\rGFRequestType\022" +
-      "\025\n\021GET_RESOURCE_INFO\020\001\022\021\n\rGROUP_BIDDING\020" +
-      "\002\022\024\n\020PERSONAL_BIDDING\020\003\022\030\n\024MODIFY_SELF_D" +
-      "EFENDER\020\004\022\026\n\022GET_ENIMY_DEFENDER\020\005\022\031\n\025CHA" +
-      "NGE_ENIMY_DEFENDER\020\006\022\017\n\013START_FIGHT\020\007\022\027\n",
-      "\023INFORM_FIGHT_RESULT\020\010\022\026\n\022GET_GROUP_BID_" +
-      "RANK\020\t\022\021\n\rGET_KILL_RANK\020\n\022\021\n\rGET_HURT_RA" +
-      "NK\020\013\022\031\n\025GET_ALL_RANK_IN_GROUP\020\014\022\026\n\022GET_D" +
-      "EFENDER_TEAMS\020\r\022\026\n\022VIEW_DEFENDER_TEAM\020\016\022" +
-      "\024\n\020GET_FIGHT_RECORD\020\017\022\031\n\025GET_FIGHT_OVER_" +
-      "REWARD\020\020*\203\003\n\014GFResultType\022\013\n\007SUCCESS\020\001\022\024" +
-      "\n\020NOT_IN_OPEN_TIME\020\002\022\033\n\027BID_UNREACH_LEAS" +
-      "T_COUNT\020\003\022\033\n\027BID_UNREACH_LEAST_LEVEL\020\004\022\033" +
-      "\n\027BID_UNREACH_GROUP_LEVEL\020\005\022\021\n\rCOST_UNEN" +
-      "OUGH\020\006\022\031\n\025BID_WITHOUT_AUTHORITY\020\007\022\025\n\021CAN",
-      "NOT_BID_IN_TWO\020\010\022\020\n\014BID_NEED_VIP\020\t\022\024\n\020BI" +
-      "D_CANNOT_LOWER\020\n\022\026\n\022DEFENDER_COUNT_MAX\020\013" +
-      "\022\035\n\031CANNOT_FIND_PROP_DEFENDER\020\014\022\017\n\013NO_DE" +
-      "FENDER\020\r\022\017\n\013ONLY_PLAYER\020\016\022\r\n\tOVER_TIME\020\017" +
-      "\022\024\n\020REWARD_NOT_EXIST\020\020\022\016\n\nDATA_ERROR\020\021B#" +
-      "\n\013com.rwprotoB\024GrouFightOnlineProto"
+      "ID\030\n \001(\t\022\023\n\013fightResult\030\013 \001(\t\022\025\n\rclientV" +
+      "ersion\030\014 \001(\t\"\341\002\n\026GroupFightOnlineRspMsg\022" +
+      "0\n\007reqType\030\001 \002(\0162\037.groupFightOnline.GFRe",
+      "questType\022/\n\007rstType\030\002 \002(\0162\036.groupFightO" +
+      "nline.GFResultType\022\022\n\nsystemTime\030\003 \001(\003\022\026" +
+      "\n\016gfResourceInfo\030\004 \003(\t\022\034\n\024enimyDefenderD" +
+      "etails\030\005 \001(\t\022\020\n\010rankData\030\006 \003(\t\022\036\n\026defend" +
+      "ArmySimpleLeader\030\007 \003(\t\022\021\n\ttotalPage\030\010 \001(" +
+      "\005\022\023\n\013currentPage\030\t \001(\005\022\023\n\013fightRecord\030\n " +
+      "\003(\t\022\024\n\014gfRewardInfo\030\013 \003(\t\022\025\n\rserverVersi" +
+      "on\030\014 \001(\t*\200\003\n\rGFRequestType\022\025\n\021GET_RESOUR" +
+      "CE_INFO\020\001\022\021\n\rGROUP_BIDDING\020\002\022\024\n\020PERSONAL" +
+      "_BIDDING\020\003\022\030\n\024MODIFY_SELF_DEFENDER\020\004\022\026\n\022",
+      "GET_ENIMY_DEFENDER\020\005\022\031\n\025CHANGE_ENIMY_DEF" +
+      "ENDER\020\006\022\017\n\013START_FIGHT\020\007\022\027\n\023INFORM_FIGHT" +
+      "_RESULT\020\010\022\026\n\022GET_GROUP_BID_RANK\020\t\022\021\n\rGET" +
+      "_KILL_RANK\020\n\022\021\n\rGET_HURT_RANK\020\013\022\031\n\025GET_A" +
+      "LL_RANK_IN_GROUP\020\014\022\026\n\022GET_DEFENDER_TEAMS" +
+      "\020\r\022\026\n\022VIEW_DEFENDER_TEAM\020\016\022\024\n\020GET_FIGHT_" +
+      "RECORD\020\017\022\031\n\025GET_FIGHT_OVER_REWARD\020\020*\203\003\n\014" +
+      "GFResultType\022\013\n\007SUCCESS\020\001\022\024\n\020NOT_IN_OPEN" +
+      "_TIME\020\002\022\033\n\027BID_UNREACH_LEAST_COUNT\020\003\022\033\n\027" +
+      "BID_UNREACH_LEAST_LEVEL\020\004\022\033\n\027BID_UNREACH",
+      "_GROUP_LEVEL\020\005\022\021\n\rCOST_UNENOUGH\020\006\022\031\n\025BID" +
+      "_WITHOUT_AUTHORITY\020\007\022\025\n\021CANNOT_BID_IN_TW" +
+      "O\020\010\022\020\n\014BID_NEED_VIP\020\t\022\024\n\020BID_CANNOT_LOWE" +
+      "R\020\n\022\026\n\022DEFENDER_COUNT_MAX\020\013\022\035\n\031CANNOT_FI" +
+      "ND_PROP_DEFENDER\020\014\022\017\n\013NO_DEFENDER\020\r\022\017\n\013O" +
+      "NLY_PLAYER\020\016\022\r\n\tOVER_TIME\020\017\022\024\n\020REWARD_NO" +
+      "T_EXIST\020\020\022\016\n\nDATA_ERROR\020\021B#\n\013com.rwproto" +
+      "B\024GrouFightOnlineProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5203,13 +5726,13 @@ public final class GrouFightOnlineProto {
           internal_static_groupFightOnline_GroupFightOnlineReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupFightOnline_GroupFightOnlineReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "BidCount", "SelfBidRate", "HeroID", "Page", "ViewTeamGroupID", "ViewTeamID", "RewardID", "ResourceID", "GroupID", "FightResult", });
+              new java.lang.String[] { "ReqType", "BidCount", "SelfBidRate", "HeroID", "Page", "ViewTeamGroupID", "ViewTeamID", "RewardID", "ResourceID", "GroupID", "FightResult", "ClientVersion", });
           internal_static_groupFightOnline_GroupFightOnlineRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_groupFightOnline_GroupFightOnlineRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupFightOnline_GroupFightOnlineRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "RstType", "SystemTime", "GfResourceInfo", "EnimyDefenderDetails", "RankData", "DefendArmySimpleLeader", "TotalPage", "FightRecord", "GfRewardInfo", });
+              new java.lang.String[] { "ReqType", "RstType", "SystemTime", "GfResourceInfo", "EnimyDefenderDetails", "RankData", "DefendArmySimpleLeader", "TotalPage", "CurrentPage", "FightRecord", "GfRewardInfo", "ServerVersion", });
           return null;
         }
       };
