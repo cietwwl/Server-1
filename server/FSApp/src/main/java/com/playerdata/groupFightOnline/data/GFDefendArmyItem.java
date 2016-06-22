@@ -1,7 +1,5 @@
 package com.playerdata.groupFightOnline.data;
 
-import java.util.List;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -29,7 +27,7 @@ public class GFDefendArmyItem implements IMapItem{
 	private int teamID;
 	
 	@CombineSave
-	private List<ArmyInfoSimple> simpleArmy;
+	private ArmyInfoSimple simpleArmy;
 	
 	@CombineSave
 	private long lastOperateTime; // 被操作的时间，需要判断是否过期(包括选中和挑战) ::注意多线程并发问题
@@ -76,11 +74,11 @@ public class GFDefendArmyItem implements IMapItem{
 		this.teamID = teamID;
 	}
 
-	public List<ArmyInfoSimple> getSimpleArmy() {
+	public ArmyInfoSimple getSimpleArmy() {
 		return simpleArmy;
 	}
 
-	public void setSimpleArmy(List<ArmyInfoSimple> simpleArmy) {
+	public void setSimpleArmy(ArmyInfoSimple simpleArmy) {
 		this.simpleArmy = simpleArmy;
 	}
 

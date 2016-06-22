@@ -1,10 +1,10 @@
 package com.playerdata.groupFightOnline.dataExtend;
 
-public enum RewardType {
+public enum GFRewardType {
 	KillRankReward(1);
 	
 	private int value;
-	RewardType(int value){
+	GFRewardType(int value){
 		this.value = value;
 	}
 	

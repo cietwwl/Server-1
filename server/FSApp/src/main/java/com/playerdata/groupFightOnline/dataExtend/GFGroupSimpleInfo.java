@@ -1,6 +1,6 @@
 package com.playerdata.groupFightOnline.dataExtend;
 
-public class GroupSimpleInfo {
+public class GFGroupSimpleInfo {
 	private String groupID;		//帮派ID
 	
 	private String icon;	//帮派图标

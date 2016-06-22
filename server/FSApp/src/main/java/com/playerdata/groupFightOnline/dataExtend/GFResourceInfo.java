@@ -3,7 +3,7 @@ package com.playerdata.groupFightOnline.dataExtend;
 public class GFResourceInfo {
 	private int resourceID;	//资源点ID
 	
-	private GroupSimpleInfo groupInfo;		//占有公会简要信息
+	private GFGroupSimpleInfo groupInfo;		//占有公会简要信息
 
 	public int getResourceID() {
 		return resourceID;
@@ -13,11 +13,11 @@ public class GFResourceInfo {
 		this.resourceID = resourceID;
 	}
 
-	public GroupSimpleInfo getGroupInfo() {
+	public GFGroupSimpleInfo getGroupInfo() {
 		return groupInfo;
 	}
 
-	public void setGroupInfo(GroupSimpleInfo groupInfo) {
+	public void setGroupInfo(GFGroupSimpleInfo groupInfo) {
 		this.groupInfo = groupInfo;
 	}
 }
