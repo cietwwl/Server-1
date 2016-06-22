@@ -79,6 +79,23 @@ public class RankingHandler {
 		return response.build().toByteString();
 	}
 	
+	/**请求自己的排行信息*/
+	public ByteString rankingInfoSelf(MsgRankRequest request, Player player){
+		MsgRankResponse.Builder response = MsgRankResponse.newBuilder();
+		response.setRequestType(request.getRequestType());
+		int requestType = request.getRankType();
+		CfgRanking cfgRanking = CfgRankingDAO.getInstance().getRankingCf(requestType);
+		
+		String requestUserId = player.getUserId();
+		response.setRankType(requestType);
+		response.setBaseRankInfo(getBaseRankInfo(requestUserId, ERankingType.valueOf(requestType)));
+		RankType rankType = RankType.getRankType(requestType, cfgRanking.getRealTime());
+		Ranking ranking = RankingFactory.getRanking(rankType);
+		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId),RankingMgr.getInstance().getRankLevel(rankType,requestUserId)));
+		return response.build().toByteString();
+	}
+	
+	
 	/**获取某个玩家的基础排行数据*/
 	private BaseRankInfo getBaseRankInfo(String userId, ERankingType rankType){
 		Player player = PlayerMgr.getInstance().find(userId);
@@ -118,4 +135,7 @@ public class RankingHandler {
 		response.setResultType(ERankResultType.SUCCESS);
 		player.SendMsg(Command.MSG_RANKING, response.build().toByteString());
 	}
+	
+	
+	
 }

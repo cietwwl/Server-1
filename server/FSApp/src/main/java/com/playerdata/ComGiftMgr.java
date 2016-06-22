@@ -41,7 +41,7 @@ public class ComGiftMgr {
 			String giftid = iterable.next();
 			int count = giftcfg.getGiftMap().get(giftid);
 			player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
-		}		
+		}
 	}
 	
 	/**
