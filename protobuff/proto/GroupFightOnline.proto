@@ -55,6 +55,7 @@ message GroupFightOnlineReqMsg{
 	optional int32 resourceID = 9; //请求的资源点ID
 	optional string groupID = 10;  //请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
 	optional string fightResult = 11; //战斗结果：GFightResult
+	optional string clientVersion = 12; //客户端当前数据的版本（对应结构GFightDataVersion）
 }
 
 message GroupFightOnlineRspMsg{
@@ -66,6 +67,8 @@ message GroupFightOnlineRspMsg{
 	repeated string rankData = 6;	//帮派竞标排行,杀敌排行，伤害排行和帮派内部排行（帮派内部排行：每个字符串对应repeated kill;repeated hurt;int32 total;）
 	repeated string defendArmySimpleLeader = 7;	//防守队伍简要信息
 	optional int32 totalPage = 8;	//防守队伍的总页数
-	repeated string fightRecord = 9; //战斗记录
-	repeated string gfRewardInfo = 10;	//可以领取的奖励
+	optional int32 currentPage = 9;	//防守队伍的总页数
+	repeated string fightRecord = 10; //战斗记录
+	repeated string gfRewardInfo = 11;	//可以领取的奖励
+	optional int32 serverVersion = 12;	//服务端当前数据的版本（对应结构GFightDataVersion）
 }
