@@ -48,12 +48,13 @@ message GroupFightOnlineReqMsg{
 	optional int32 bidCount = 2; //帮派竞标令牌数量
 	optional int32 selfBidRate = 3; //个人选择的压标倍率
 	repeated string heroID = 4; //个人调整的防守队伍信息（List<string> heroID）不用包括主角
-	optional string selfArmyInfo = 5;	//只更新战斗中用到的人物，队伍id可以不用，只传List<CurAttrData> 
-	optional string enimyInfo = 6;	//敌方队伍id和List<CurAttrData>
-	optional int32 page = 7;	//请求查看的防守队伍的页面
-	optional string viewTeamGroupID = 8;	//要查看的队伍（或页面）所属的公会ID
-	optional string viewTeamID = 9;	//要查看详情的队伍ID
-	optional string rewardID = 10;	//要获取的奖励ID
+	optional int32 page = 5;	//请求查看的防守队伍的页面
+	optional string viewTeamGroupID = 6;	//要查看的队伍（或页面）所属的公会ID
+	optional string viewTeamID = 7;	//要查看详情的队伍ID
+	optional string rewardID = 8;	//要获取的奖励ID
+	optional int32 resourceID = 9; //请求的资源点ID
+	optional string groupID = 10;  //请求挑战的公会id(请求查看防守队伍的公会和换挑战队伍的公会id)
+	optional string fightResult = 11; //战斗结果：GFightResult
 }
 
 message GroupFightOnlineRspMsg{
