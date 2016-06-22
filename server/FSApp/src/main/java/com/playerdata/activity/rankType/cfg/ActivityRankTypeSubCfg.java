@@ -12,7 +12,17 @@ public class ActivityRankTypeSubCfg {
 	private String rankRange;
 	// 排名奖励
 	private String reward;
+	
+	private int[] rankRanges = new int[2];
+	
+	public int[] getRankRanges() {
+		return rankRanges;
+	}
 
+	public void setRankRanges(int[] rankRanges) {
+		this.rankRanges = rankRanges;
+	}
+	
 	public String getParentCfgId() {
 		return parentCfgId;
 	}

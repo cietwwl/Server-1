@@ -1,3 +1,3 @@
-Key,Remarks,id,sort,goToType,title,subTitle,titleBG,startTimeStr,endTimeStr,levelLimit,version
-1001,,1001,1,,战力大比拼,,战力大比拼拼拼拼,201606200001,201607212359,1,1
-1002,,1002,2,,竞技之王,,竞技之王王王王王,201606200001,201607212359,1,1
+Key,Remarks,id,dailyOrRealtime,rewardNum,sort,goToType,title,subRankType,subTitle,titleBG,startTimeStr,endTimeStr,levelLimit,version
+1001,,1001,,100,1,,战力大比拼,,,战力大比拼拼拼拼,201606200001,201607212359,1,2
+1002,,1002,,1000,2,,竞技之王,1,,竞技之王王王王王,201606200001,201607212359,1,2

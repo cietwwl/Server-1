@@ -2,6 +2,8 @@ package com.playerdata.activity.rankType.cfg;
 
 import java.util.Map;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.rankType.ActivityRankTypeEnum;
 import com.playerdata.activity.rankType.ActivityRankTypeHelper;
@@ -19,27 +21,35 @@ import com.rwbase.common.config.CfgCsvHelper;
 public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg> {
 
 
+	
 	public static ActivityRankTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityRankTypeCfgDAO.class);
 	}
-
+	
+	
+	
 	
 	@Override
 	public Map<String, ActivityRankTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRankTypeCfg.csv", ActivityRankTypeCfg.class);
 		for (ActivityRankTypeCfg cfgTmp : cfgCacheMap.values()) {
 			parseTime(cfgTmp);
+			
+			
 		}
+		
 		return cfgCacheMap;
 	}
 	
-	private void parseTime(ActivityRankTypeCfg cfgItem){
-		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getStartTimeStr());
-		cfgItem.setStartTime(startTime);
+	private void parseTime(ActivityRankTypeCfg cfg){
+		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getStartTimeStr());
+		cfg.setStartTime(startTime);
 		
-		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem.getEndTimeStr());
-		cfgItem.setEndTime(endTime);		
+		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getEndTimeStr());
+		cfg.setEndTime(endTime);		
 	}
+	
+	
 	
 //	public ActivityRankTypeCfg getConfig(String id){
 //		ActivityRankTypeCfg cfg = getCfgById(id);
@@ -56,7 +66,7 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 			item.setId(itemId);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfgId);
-			
+			item.setVersion(cfgById.getVersion());
 			return item;
 		}else{
 			return null;

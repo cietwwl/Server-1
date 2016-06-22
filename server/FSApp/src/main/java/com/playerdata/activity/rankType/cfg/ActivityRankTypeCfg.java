@@ -15,7 +15,33 @@ public class ActivityRankTypeCfg {
 
 	private int levelLimit;
 
-	private int version;
+	private String version;
+	
+	private int dailyOrRealtime;
+	
+	private String rankRange;
+	
+	private int rewardNum;
+	
+	
+	
+	public int getRewardNum() {
+		return rewardNum;
+	}
+
+	public void setRewardNum(int rewardNum) {
+		this.rewardNum = rewardNum;
+	}
+
+	public String getRankRange() {
+		return rankRange;
+	}
+
+	public void setRankRange(String rankRange) {
+		this.rankRange = rankRange;
+	}
+
+
 
 	public String getId() {
 		return id;
@@ -29,11 +55,21 @@ public class ActivityRankTypeCfg {
 		this.levelLimit = levelLimit;
 	}
 
-	public int getVersion() {
+	
+
+	public int getDailyOrRealtime() {
+		return dailyOrRealtime;
+	}
+
+	public void setDailyOrRealtime(int dailyOrRealtime) {
+		this.dailyOrRealtime = dailyOrRealtime;
+	}
+
+	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(int version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 
