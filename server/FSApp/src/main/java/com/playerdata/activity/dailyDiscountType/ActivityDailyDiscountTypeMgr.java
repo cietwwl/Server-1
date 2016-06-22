@@ -8,14 +8,14 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.rw.fsutil.util.DateUtils;
 
 
@@ -158,8 +158,91 @@ public class ActivityDailyDiscountTypeMgr {
 		return false;
 	}
 	
-//	public boolean isLevelEnough(Player player) {
-//		ActivityDailyTypeCfg activityCountTypeCfg = getparentCfg();
+
+		
+	public ActivityComResult buyItem(Player player, ActivityDailyDiscountTypeEnum countType, String subItemId) {
+		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+
+		ActivityDailyDiscountTypeItem dataItem = dataHolder.getItem(player.getUserId(),countType);
+		ActivityComResult result = ActivityComResult.newInstance(false);
+
+		// 未激活
+		if (dataItem == null) {
+			result.setReason("活动尚未开启");
+			result.setSuccess(false);
+		} else {
+			ActivityDailyDiscountTypeSubItem targetItem = null;
+			List<ActivityDailyDiscountTypeSubItem> subItemList = dataItem.getSubItemList();
+			ActivityDailyDiscountItemCfg itemCfg = null;
+			List<ActivityDailyDiscountItemCfg> itemCfgList = ActivityDailyDiscountItemCfgDao.getInstance().getAllCfg();
+			
+			
+			for (ActivityDailyDiscountTypeSubItem itemTmp : subItemList) {
+				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
+					targetItem = itemTmp;
+					break;
+				}
+			}
+			if(targetItem == null){
+				result.setReason("数据异常，请重登陆");
+				result.setSuccess(false);
+				return result;
+			}
+			
+			for(ActivityDailyDiscountItemCfg itemCfgTmp : itemCfgList){
+				if(StringUtils.equals(itemCfgTmp.getId(), subItemId)){
+					itemCfg = itemCfgTmp;
+					break;
+				}
+			}
+			if(itemCfg == null){
+				result.setReason("异常，请联系游戏官方");
+				GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "玩家数据有某个兑换道具的数据，但没有找到对应的折扣商品", null);
+				result.setSuccess(false);
+				return result;		
+			}			
+			
+			if(!isLevelEnough(player, countType)){
+				result.setReason("等级不足");
+				result.setSuccess(false);
+				return result;				
+			}
+			if(!isCountEnough(targetItem.getCount(),itemCfg)){
+				result.setReason("次数不足，请隔天刷新");
+				result.setSuccess(false);
+				return result;				
+			}
+			if(!isGoldEnough(player,itemCfg)){
+				result.setReason("钻石不足");
+				result.setSuccess(false);
+				return result;
+			}
+			
+			
+			
+			
+			
+			
+			
+			getItem(player, targetItem);
+			dataHolder.updateItem(player, dataItem);
+		}
+		return result;
+	}
+	
+	private boolean isGoldEnough(Player player,
+			ActivityDailyDiscountItemCfg itemCfg) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	private boolean isCountEnough(int count, ActivityDailyDiscountItemCfg cfg) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public boolean isLevelEnough(Player player,ActivityDailyDiscountTypeEnum countType) {
+//		ActivityDailyDiscountTypeCfg activityCountTypeCfg = getparentCfg();
 //		if(activityCountTypeCfg == null){
 ////			GameLog.error("activityDailyCountTypeMgr", "list", "配置文件总表错误" );
 //			return false;
@@ -167,46 +250,19 @@ public class ActivityDailyDiscountTypeMgr {
 //		if(player.getLevel() < activityCountTypeCfg.getLevelLimit()){
 //			return false;
 //		}		
-//		return true;
-//	}
-		
-//	public ActivityComResult takeGift(Player player, ActivityDailyTypeEnum countType, String subItemId) {
-//		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-//
-//		ActivityDailyTypeItem dataItem = dataHolder.getItem(player.getUserId());
-//		ActivityComResult result = ActivityComResult.newInstance(false);
-//
-//		// 未激活
-//		if (dataItem == null) {
-//			result.setReason("活动尚未开启");
-//
-//		} else {
-//			ActivityDailyTypeSubItem targetItem = null;
-//
-//			List<ActivityDailyTypeSubItem> subItemList = dataItem.getSubItemList();
-//			for (ActivityDailyTypeSubItem itemTmp : subItemList) {
-//				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
-//					targetItem = itemTmp;
-//					break;
-//				}
-//			}
-//			if (targetItem != null && !targetItem.isTaken()) {
-//				takeGift(player, targetItem);
-//				result.setSuccess(true);
-//				dataHolder.updateItem(player, dataItem);
-//			}
-//		}
-//		return result;
-//	}
-//
-//	private void takeGift(Player player, ActivityDailyTypeSubItem targetItem) {
-//		ActivityDailyTypeSubCfg subCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
-//		if(subCfg == null){
-//			GameLog.error(LogModule.ComActivityDailyCount, null, "通用活动找不到配置文件", null);
-//			return;
-//		}
-//		targetItem.setTaken(true);
-//		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
-//	}	
+		return true;
+	}
+	
+	
+	
+	private void getItem(Player player, ActivityDailyDiscountTypeSubItem targetItem) {
+		ActivityDailyDiscountItemCfg subCfg = ActivityDailyDiscountItemCfgDao.getInstance().getCfgById(targetItem.getCfgId());
+		if(subCfg == null){
+			GameLog.error(LogModule.ComActivityDailyDisCount, null, "通用活动找不到配置文件", null);
+			return;
+		}
+		targetItem.setCount(targetItem.getCount()+1);
+		player.getItemBagMgr().addItem(Integer.parseInt(targetItem.getItemId()),1);
+	}	
 	
 }
