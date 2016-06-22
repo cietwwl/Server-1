@@ -33,7 +33,7 @@ public class MagicChapterInfoHolder{
 		List<MagicChapterInfo> itemList = listHolder.getItemList();
 		for (int i = 0, size = itemList.size(); i < size; i++) {
 			MagicChapterInfo magicChapterInfo = itemList.get(i);
-			list.put(magicChapterInfo.getUserId(), magicChapterInfo);
+			list.put(magicChapterInfo.getChapterId(), magicChapterInfo);
 		}		
 	}
 

@@ -127,6 +127,6 @@ public class UserMagicSecretData implements  SynItem{
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
-		return null;
+		return userId;
 	}
 }
