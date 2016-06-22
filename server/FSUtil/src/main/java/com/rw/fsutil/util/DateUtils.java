@@ -243,7 +243,7 @@ public class DateUtils {
 	}
 
 	/**
-	 * 相隔的天数
+	 * 相隔的天数，此处是绝对时间上隔天数
 	 * 
 	 * @param earyDay
 	 * @param lateDay
@@ -254,7 +254,13 @@ public class DateUtils {
 		
 		return distance;
 	}
-	
+	/**
+	 * 相隔的小时数
+	 * 
+	 * @param earyDay
+	 * @param lateDay
+	 * @return
+	 */
 	public static int getHourDistance(long earyDay, long lateDay) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTimeInMillis(earyDay);
