@@ -128,7 +128,7 @@ public class CopyHandler {
 		}
 		
 		if(!isWin){
-			
+			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 
