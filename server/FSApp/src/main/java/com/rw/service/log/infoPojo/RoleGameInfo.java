@@ -159,21 +159,20 @@ public class RoleGameInfo {
 	}
 
 	private static void logcopy(Player player, RoleGameInfo roleGameInfo, Map<String, String> moreinfo) {
-		int spcase = 0;
-		long nmcase = 0;			
+		String spcase = "0";
+		String nmcase = "0";		
 		String fighttime="";
 		String rewardsinfocopy = "";
 		if(moreinfo!= null){
 			if(moreinfo.containsKey("fightTime")){
 				fighttime = moreinfo.get("fightTime");
+			}				
+			if(moreinfo.containsKey("sp_case")){
+					spcase = moreinfo.get("sp_case");
 			}
-			if(moreinfo.containsKey("copyLevel")&&moreinfo.containsKey("enemyTimes")){					
-				if(Integer.parseInt(moreinfo.get("copyLevel")) == Copy_Normal){
-					spcase = Integer.parseInt(moreinfo.get("enemyTimes"));
-				}else{
-					nmcase = Integer.parseInt(moreinfo.get("enemyTimes"));
-				}
-			}
+			if(moreinfo.containsKey("nm_case")){
+				nmcase = moreinfo.get("nm_case");
+			}	
 			if(moreinfo.containsKey("rewardsinfocopy")){
 				rewardsinfocopy=moreinfo.get("rewardsinfocopy");
 			}

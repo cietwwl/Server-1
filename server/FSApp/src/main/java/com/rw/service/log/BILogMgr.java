@@ -438,7 +438,9 @@ public class BILogMgr {
 			moreInfo.put("operationCode", "case_fail");
 		}
 		moreInfo.put("rewardsinfocopy", rewards);
-		moreInfo.put("enemyTimes", BILogTemplateHelper.getTimes(copyId,copyLevel)+"");
+		int[] levelId = BILogTemplateHelper.getLevelId(player);
+		moreInfo.put("sp_case",levelId[0]+"");
+		moreInfo.put("nm_case",levelId[1]+"");
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
 	}
 
@@ -470,7 +472,9 @@ public class BILogMgr {
 		if(Integer.parseInt(getLogCopyLevel(copyLevel))==0){
 			return;
 		}
-		moreInfo.put("enemyTimes", BILogTemplateHelper.getTimes(copyId,copyLevel)+"");
+		int[] levelId = BILogTemplateHelper.getLevelId(player);
+		moreInfo.put("sp_case",levelId[0]+"");
+		moreInfo.put("nm_case",levelId[1]+"");
 		moreInfo.put("rewardsinfocopy", rewards);
 		logPlayer(eBILogType.CopyBegin, player, moreInfo);
 		logPlayer(eBILogType.CopyEnd, player, moreInfo);
