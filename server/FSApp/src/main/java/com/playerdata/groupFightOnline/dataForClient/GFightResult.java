@@ -1,9 +1,13 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
 import java.util.List;
 
 import com.playerdata.army.CurAttrData;
 
+/**
+ * 客户端传给服务端的战斗结果（包括两个队伍的血量信息）
+ * @author aken
+ */
 public class GFightResult {
 	private String groupID;
 	private String defendArmyID;

@@ -11,7 +11,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupFightOnline.dataExtend.GFFightRecord;
+import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass

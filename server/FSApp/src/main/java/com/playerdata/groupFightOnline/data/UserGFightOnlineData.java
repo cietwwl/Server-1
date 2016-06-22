@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupFightOnline.dataExtend.DefendArmySimpleInfo;
+import com.playerdata.groupFightOnline.dataForClient.DefendArmySimpleInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 @SynClass

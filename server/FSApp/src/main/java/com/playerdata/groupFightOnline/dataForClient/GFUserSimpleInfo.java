@@ -1,8 +1,10 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
-import com.playerdata.dataSyn.annotation.SynClass;
 
-@SynClass
+/**
+ * 人物的简要信息，用于战斗记录
+ * @author aken
+ */
 public class GFUserSimpleInfo {
 	
 	private String userName;	//角色名字

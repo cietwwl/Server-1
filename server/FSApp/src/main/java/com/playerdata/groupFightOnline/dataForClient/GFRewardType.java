@@ -1,5 +1,9 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
+/**
+ * 帮战结束时的奖励类型
+ * @author aken
+ */
 public enum GFRewardType {
 	KillRankReward(1);
 	

@@ -1,5 +1,9 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
+/**
+ * 帮派的简要信息，用在资源争夺时，显示四个战斗帮派的基本信息
+ * @author aken
+ */
 public class GFGroupSimpleInfo {
 	private String groupID;		//帮派ID
 	

@@ -1,5 +1,9 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
+/**
+ * 帮战结束时的各类奖励信息
+ * @author aken
+ */
 public class GFRewardInfo {
 	private int typeID;		//奖励的类型ID
 	

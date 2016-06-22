@@ -1,7 +1,11 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 
+/**
+ * 战斗结果记录的结构
+ * @author aken
+ */
 @SynClass
 public class GFFightRecord implements Comparable<GFFightRecord>{
 	

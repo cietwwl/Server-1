@@ -1,10 +1,15 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
 import java.util.List;
 
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
 
+/**
+ * 防守队伍的基本信息
+ * 用来返回给客户端，锁定的要挑战的队伍
+ * @author aken
+ */
 @SynClass
 public class DefendArmySimpleInfo {
 	private String groupID;

@@ -1,4 +1,4 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
 import javax.persistence.Id;
 
@@ -7,6 +7,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
 
+/**
+ * 请求查看所有防守队伍信息的时候，返回给客户端一个最强的人物组成的列表
+ * 按页请求
+ * @author aken
+ */
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GFDefendArmySimpleLeader{

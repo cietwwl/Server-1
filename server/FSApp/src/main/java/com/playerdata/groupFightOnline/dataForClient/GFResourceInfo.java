@@ -1,5 +1,9 @@
-package com.playerdata.groupFightOnline.dataExtend;
+package com.playerdata.groupFightOnline.dataForClient;
 
+/**
+ * 资源点信息（打开资源点界面时用到）
+ * @author aken
+ */
 public class GFResourceInfo {
 	private int resourceID;	//资源点ID
 	
