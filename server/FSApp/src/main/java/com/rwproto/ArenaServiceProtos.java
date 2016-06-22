@@ -5557,6 +5557,24 @@ public final class ArenaServiceProtos {
      * </pre>
      */
     com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
+
+    // optional int32 sex = 13;
+    /**
+     * <code>optional int32 sex = 13;</code>
+     *
+     * <pre>
+     * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+     * </pre>
+     */
+    boolean hasSex();
+    /**
+     * <code>optional int32 sex = 13;</code>
+     *
+     * <pre>
+     * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+     * </pre>
+     */
+    int getSex();
   }
   /**
    * Protobuf type {@code ArenaService.ArenaInfo}
@@ -5673,6 +5691,11 @@ public final class ArenaServiceProtos {
                 fashionUsage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000200;
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00000400;
+              sex_ = input.readInt32();
               break;
             }
           }
@@ -6015,6 +6038,30 @@ public final class ArenaServiceProtos {
       return fashionUsage_;
     }
 
+    // optional int32 sex = 13;
+    public static final int SEX_FIELD_NUMBER = 13;
+    private int sex_;
+    /**
+     * <code>optional int32 sex = 13;</code>
+     *
+     * <pre>
+     * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+     * </pre>
+     */
+    public boolean hasSex() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int32 sex = 13;</code>
+     *
+     * <pre>
+     * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+     * </pre>
+     */
+    public int getSex() {
+      return sex_;
+    }
+
     private void initFields() {
       userId_ = "";
       career_ = 0;
@@ -6027,6 +6074,7 @@ public final class ArenaServiceProtos {
       heroImages_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       modelId_ = 0;
       fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      sex_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6076,6 +6124,9 @@ public final class ArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeMessage(12, fashionUsage_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(13, sex_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6134,6 +6185,10 @@ public final class ArenaServiceProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, fashionUsage_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, sex_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6278,6 +6333,8 @@ public final class ArenaServiceProtos {
           fashionUsageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000400);
+        sex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -6356,6 +6413,10 @@ public final class ArenaServiceProtos {
         } else {
           result.fashionUsage_ = fashionUsageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.sex_ = sex_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6417,6 +6478,9 @@ public final class ArenaServiceProtos {
         }
         if (other.hasFashionUsage()) {
           mergeFashionUsage(other.getFashionUsage());
+        }
+        if (other.hasSex()) {
+          setSex(other.getSex());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7129,6 +7193,55 @@ public final class ArenaServiceProtos {
           fashionUsage_ = null;
         }
         return fashionUsageBuilder_;
+      }
+
+      // optional int32 sex = 13;
+      private int sex_ ;
+      /**
+       * <code>optional int32 sex = 13;</code>
+       *
+       * <pre>
+       * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+       * </pre>
+       */
+      public boolean hasSex() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional int32 sex = 13;</code>
+       *
+       * <pre>
+       * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+       * </pre>
+       */
+      public int getSex() {
+        return sex_;
+      }
+      /**
+       * <code>optional int32 sex = 13;</code>
+       *
+       * <pre>
+       * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+       * </pre>
+       */
+      public Builder setSex(int value) {
+        bitField0_ |= 0x00000800;
+        sex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 sex = 13;</code>
+       *
+       * <pre>
+       * 显示时装需要性别，具体的值参见服务器ESex,客户端eSex
+       * </pre>
+       */
+      public Builder clearSex() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        sex_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ArenaService.ArenaInfo)
@@ -19314,64 +19427,65 @@ public final class ArenaServiceProtos {
       "Level\030\016 \001(\005\022-\n\troleSkill\030\017 \003(\0132\032.SkillSe" +
       "rvice.TagSkillData\022)\n\010roleAttr\030\020 \003(\0132\027.S" +
       "yncAttri.TagAttriData\022\022\n\ntempleteId\030\021 \001(" +
-      "\t\022\020\n\010winCount\030\022 \001(\005\022\020\n\010armyInfo\030\023 \001(\t\"\343\001" +
+      "\t\022\020\n\010winCount\030\022 \001(\005\022\020\n\010armyInfo\030\023 \001(\t\"\360\001" +
       "\n\tArenaInfo\022\016\n\006userId\030\002 \002(\t\022\016\n\006career\030\003 ",
       "\001(\005\022\r\n\005place\030\004 \001(\005\022\r\n\005state\030\005 \001(\005\022\021\n\thea" +
       "dImage\030\006 \001(\t\022\r\n\005level\030\007 \001(\005\022\020\n\010fighting\030" +
       "\010 \001(\005\022\014\n\004name\030\t \001(\t\022\022\n\nheroImages\030\n \003(\t\022" +
       "\017\n\007modelId\030\013 \001(\005\0221\n\014fashionUsage\030\014 \001(\0132\033" +
-      ".FashionService.FashionUsed\"\236\001\n\013ArenaRec" +
-      "ord\022\020\n\010recordId\030\001 \002(\005\022\016\n\006userId\030\002 \002(\t\022\013\n" +
-      "\003win\030\003 \001(\005\022\017\n\007placeUp\030\004 \001(\005\022\014\n\004name\030\005 \001(" +
-      "\t\022\021\n\theadImage\030\006 \001(\t\022\r\n\005level\030\007 \001(\005\022\014\n\004t" +
-      "ime\030\010 \001(\003\022\021\n\tchallenge\030\t \001(\005\"\220\002\n\017MsgAren" +
-      "aRequest\022+\n\tarenaType\030\001 \002(\0162\030.ArenaServi",
-      "ce.eArenaType\022\016\n\006userId\030\002 \001(\t\022\017\n\007heroIds" +
-      "\030\003 \003(\t\022&\n\005enemy\030\004 \001(\0132\027.ArenaService.Are" +
-      "naInfo\022\013\n\003win\030\005 \001(\005\022*\n\thurtValue\030\006 \003(\0132\027" +
-      ".ArenaService.HurtValue\022\020\n\010recordId\030\007 \001(" +
-      "\005\022\021\n\tatkIdList\030\010 \003(\t\022\020\n\010rewardId\030\016 \001(\005\022\027" +
-      "\n\017historyRewardId\030\017 \001(\005\"\354\001\n\tHurtValue\022\016\n" +
-      "\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\002\022\014\n\004icon\030\003 \002" +
-      "(\t\022\022\n\nstartlevel\030\004 \002(\005\022\r\n\005level\030\005 \002(\005\022\016\n" +
-      "\006isDead\030\006 \002(\010\022-\n\nplayerType\030\007 \002(\0162\031.Batt" +
-      "leCommon.ePlayerType\022\'\n\004camp\030\010 \002(\0162\031.Bat",
-      "tleCommon.ePlayerCamp\022\n\n\002Hp\030\t \002(\002\022\n\n\002Sp\030" +
-      "\n \002(\002\022\017\n\007quality\030\013 \001(\t\"\325\004\n\020MsgArenaRespo" +
-      "nse\022+\n\tarenaType\030\001 \002(\0162\030.ArenaService.eA" +
-      "renaType\0227\n\017arenaResultType\030\002 \001(\0162\036.Aren" +
-      "aService.eArenaResultType\022*\n\tarenaData\030\003" +
-      " \001(\0132\027.ArenaService.ArenaData\022)\n\010listInf" +
-      "o\030\004 \003(\0132\027.ArenaService.ArenaInfo\022-\n\nlist" +
-      "Record\030\005 \003(\0132\031.ArenaService.ArenaRecord\022" +
-      "\r\n\005place\030\006 \001(\005\022*\n\thurtValue\030\007 \003(\0132\027.Aren" +
-      "aService.HurtValue\022\017\n\007atkList\030\010 \003(\t\0221\n\007h",
-      "istory\030\t \001(\0132 .ArenaService.HistoryRanki" +
-      "ngRise\022\021\n\tresetCost\030\n \001(\005\022\024\n\014buyTimesCos" +
-      "t\030\013 \001(\005\022\020\n\010buyTimes\030\014 \001(\005\022\024\n\014currentScor" +
-      "e\030\r \001(\005\022\020\n\010getCount\030\016 \003(\005\0229\n\rhistoryRewa" +
-      "rd\030\017 \001(\0132\".ArenaService.ArenaHistoryResp" +
-      "onse\0228\n\020gainRewardResult\030\020 \001(\0162\036.ArenaSe" +
-      "rvice.eArenaResultType\"j\n\022HistoryRanking" +
-      "Rise\022\026\n\016historyRanking\030\001 \002(\005\022\026\n\016currentR" +
-      "anking\030\002 \002(\005\022\021\n\tgoldAward\030\003 \001(\005\022\021\n\tranki" +
-      "ngUp\030\004 \002(\005\"\204\001\n\024ArenaHistoryResponse\0226\n\tr",
-      "ewardSum\030\001 \003(\0132#.ArenaService.ArenaHisto" +
-      "ryRewardSum\0224\n\nrewardView\030\002 \003(\0132 .ArenaS" +
-      "ervice.ArenaHisRewardView\"4\n\025ArenaHistor" +
-      "yRewardSum\022\016\n\006itemId\030\001 \002(\005\022\013\n\003num\030\002 \002(\005\"" +
-      ":\n\022ArenaHisRewardView\022\020\n\010rewardId\030\001 \002(\005\022" +
-      "\022\n\ngainReward\030\002 \002(\010*\310\002\n\neArenaType\022\014\n\010GE" +
-      "T_INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HER" +
-      "O\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n" +
-      "\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025" +
-      "\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_FIGHT_FIN",
-      "ISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\022\n" +
-      "\016GET_HURT_VALUE\020\013\022\r\n\tBUY_TIMES\020\014\022\t\n\005SCOR" +
-      "E\020\r\022\016\n\nGET_REWARD\020\016\022\030\n\024HIS_RANK_REWARD_V" +
-      "IEW\020\017\022\027\n\023HIS_RANK_GET_REWARD\020\020*5\n\020eArena" +
-      "ResultType\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_F" +
-      "AIL\020\002B!\n\013com.rwprotoB\022ArenaServiceProtos"
+      ".FashionService.FashionUsed\022\013\n\003sex\030\r \001(\005" +
+      "\"\236\001\n\013ArenaRecord\022\020\n\010recordId\030\001 \002(\005\022\016\n\006us" +
+      "erId\030\002 \002(\t\022\013\n\003win\030\003 \001(\005\022\017\n\007placeUp\030\004 \001(\005" +
+      "\022\014\n\004name\030\005 \001(\t\022\021\n\theadImage\030\006 \001(\t\022\r\n\005lev" +
+      "el\030\007 \001(\005\022\014\n\004time\030\010 \001(\003\022\021\n\tchallenge\030\t \001(" +
+      "\005\"\220\002\n\017MsgArenaRequest\022+\n\tarenaType\030\001 \002(\016",
+      "2\030.ArenaService.eArenaType\022\016\n\006userId\030\002 \001" +
+      "(\t\022\017\n\007heroIds\030\003 \003(\t\022&\n\005enemy\030\004 \001(\0132\027.Are" +
+      "naService.ArenaInfo\022\013\n\003win\030\005 \001(\005\022*\n\thurt" +
+      "Value\030\006 \003(\0132\027.ArenaService.HurtValue\022\020\n\010" +
+      "recordId\030\007 \001(\005\022\021\n\tatkIdList\030\010 \003(\t\022\020\n\010rew" +
+      "ardId\030\016 \001(\005\022\027\n\017historyRewardId\030\017 \001(\005\"\354\001\n" +
+      "\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(" +
+      "\002\022\014\n\004icon\030\003 \002(\t\022\022\n\nstartlevel\030\004 \002(\005\022\r\n\005l" +
+      "evel\030\005 \002(\005\022\016\n\006isDead\030\006 \002(\010\022-\n\nplayerType" +
+      "\030\007 \002(\0162\031.BattleCommon.ePlayerType\022\'\n\004cam",
+      "p\030\010 \002(\0162\031.BattleCommon.ePlayerCamp\022\n\n\002Hp" +
+      "\030\t \002(\002\022\n\n\002Sp\030\n \002(\002\022\017\n\007quality\030\013 \001(\t\"\325\004\n\020" +
+      "MsgArenaResponse\022+\n\tarenaType\030\001 \002(\0162\030.Ar" +
+      "enaService.eArenaType\0227\n\017arenaResultType" +
+      "\030\002 \001(\0162\036.ArenaService.eArenaResultType\022*" +
+      "\n\tarenaData\030\003 \001(\0132\027.ArenaService.ArenaDa" +
+      "ta\022)\n\010listInfo\030\004 \003(\0132\027.ArenaService.Aren" +
+      "aInfo\022-\n\nlistRecord\030\005 \003(\0132\031.ArenaService" +
+      ".ArenaRecord\022\r\n\005place\030\006 \001(\005\022*\n\thurtValue" +
+      "\030\007 \003(\0132\027.ArenaService.HurtValue\022\017\n\007atkLi",
+      "st\030\010 \003(\t\0221\n\007history\030\t \001(\0132 .ArenaService" +
+      ".HistoryRankingRise\022\021\n\tresetCost\030\n \001(\005\022\024" +
+      "\n\014buyTimesCost\030\013 \001(\005\022\020\n\010buyTimes\030\014 \001(\005\022\024" +
+      "\n\014currentScore\030\r \001(\005\022\020\n\010getCount\030\016 \003(\005\0229" +
+      "\n\rhistoryReward\030\017 \001(\0132\".ArenaService.Are" +
+      "naHistoryResponse\0228\n\020gainRewardResult\030\020 " +
+      "\001(\0162\036.ArenaService.eArenaResultType\"j\n\022H" +
+      "istoryRankingRise\022\026\n\016historyRanking\030\001 \002(" +
+      "\005\022\026\n\016currentRanking\030\002 \002(\005\022\021\n\tgoldAward\030\003" +
+      " \001(\005\022\021\n\trankingUp\030\004 \002(\005\"\204\001\n\024ArenaHistory",
+      "Response\0226\n\trewardSum\030\001 \003(\0132#.ArenaServi" +
+      "ce.ArenaHistoryRewardSum\0224\n\nrewardView\030\002" +
+      " \003(\0132 .ArenaService.ArenaHisRewardView\"4" +
+      "\n\025ArenaHistoryRewardSum\022\016\n\006itemId\030\001 \002(\005\022" +
+      "\013\n\003num\030\002 \002(\005\":\n\022ArenaHisRewardView\022\020\n\010re" +
+      "wardId\030\001 \002(\005\022\022\n\ngainReward\030\002 \002(\010*\310\002\n\neAr" +
+      "enaType\022\014\n\010GET_INFO\020\000\022\020\n\014CHANGE_ENEMY\020\001\022" +
+      "\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nEN" +
+      "EMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGH" +
+      "T_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022AR",
+      "ENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tG" +
+      "ET_PLACE\020\n\022\022\n\016GET_HURT_VALUE\020\013\022\r\n\tBUY_TI" +
+      "MES\020\014\022\t\n\005SCORE\020\r\022\016\n\nGET_REWARD\020\016\022\030\n\024HIS_" +
+      "RANK_REWARD_VIEW\020\017\022\027\n\023HIS_RANK_GET_REWAR" +
+      "D\020\020*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS" +
+      "\020\001\022\016\n\nARENA_FAIL\020\002B!\n\013com.rwprotoB\022Arena" +
+      "ServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -19395,7 +19509,7 @@ public final class ArenaServiceProtos {
           internal_static_ArenaService_ArenaInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaService_ArenaInfo_descriptor,
-              new java.lang.String[] { "UserId", "Career", "Place", "State", "HeadImage", "Level", "Fighting", "Name", "HeroImages", "ModelId", "FashionUsage", });
+              new java.lang.String[] { "UserId", "Career", "Place", "State", "HeadImage", "Level", "Fighting", "Name", "HeroImages", "ModelId", "FashionUsage", "Sex", });
           internal_static_ArenaService_ArenaRecord_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaService_ArenaRecord_fieldAccessorTable = new

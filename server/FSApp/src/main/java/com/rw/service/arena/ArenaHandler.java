@@ -760,6 +760,7 @@ public class ArenaHandler {
 		result.addAllHeroImages(heroImages);
 		result.setModelId(player.getModelId());
 		// 设置时装数据
+		result.setSex(player.getSex());
 		FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(key);
 		if (fashionUsing != null){
 			result.setFashionUsage(fashionUsing);

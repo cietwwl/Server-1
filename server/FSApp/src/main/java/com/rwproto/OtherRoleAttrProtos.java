@@ -1656,6 +1656,24 @@ public final class OtherRoleAttrProtos {
      * </pre>
      */
     com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
+
+    // optional int32 job = 14;
+    /**
+     * <code>optional int32 job = 14;</code>
+     *
+     * <pre>
+     * 显示时装需要职业
+     * </pre>
+     */
+    boolean hasJob();
+    /**
+     * <code>optional int32 job = 14;</code>
+     *
+     * <pre>
+     * 显示时装需要职业
+     * </pre>
+     */
+    int getJob();
   }
   /**
    * Protobuf type {@code OtherRoleAttr}
@@ -1783,6 +1801,11 @@ public final class OtherRoleAttrProtos {
                 fashionUsage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000100;
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00000200;
+              job_ = input.readInt32();
               break;
             }
           }
@@ -2363,6 +2386,30 @@ public final class OtherRoleAttrProtos {
       return fashionUsage_;
     }
 
+    // optional int32 job = 14;
+    public static final int JOB_FIELD_NUMBER = 14;
+    private int job_;
+    /**
+     * <code>optional int32 job = 14;</code>
+     *
+     * <pre>
+     * 显示时装需要职业
+     * </pre>
+     */
+    public boolean hasJob() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 job = 14;</code>
+     *
+     * <pre>
+     * 显示时装需要职业
+     * </pre>
+     */
+    public int getJob() {
+      return job_;
+    }
+
     private void initFields() {
       heroList_ = java.util.Collections.emptyList();
       userId_ = "";
@@ -2376,6 +2423,7 @@ public final class OtherRoleAttrProtos {
       fighting_ = 0;
       headbox_ = "";
       fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      job_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2437,6 +2485,9 @@ public final class OtherRoleAttrProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeMessage(13, fashionUsage_);
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(14, job_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2493,6 +2544,10 @@ public final class OtherRoleAttrProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(13, fashionUsage_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, job_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2654,6 +2709,8 @@ public final class OtherRoleAttrProtos {
           fashionUsageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000800);
+        job_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -2749,6 +2806,10 @@ public final class OtherRoleAttrProtos {
         } else {
           result.fashionUsage_ = fashionUsageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.job_ = job_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2879,6 +2940,9 @@ public final class OtherRoleAttrProtos {
         }
         if (other.hasFashionUsage()) {
           mergeFashionUsage(other.getFashionUsage());
+        }
+        if (other.hasJob()) {
+          setJob(other.getJob());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4571,6 +4635,55 @@ public final class OtherRoleAttrProtos {
           fashionUsage_ = null;
         }
         return fashionUsageBuilder_;
+      }
+
+      // optional int32 job = 14;
+      private int job_ ;
+      /**
+       * <code>optional int32 job = 14;</code>
+       *
+       * <pre>
+       * 显示时装需要职业
+       * </pre>
+       */
+      public boolean hasJob() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 job = 14;</code>
+       *
+       * <pre>
+       * 显示时装需要职业
+       * </pre>
+       */
+      public int getJob() {
+        return job_;
+      }
+      /**
+       * <code>optional int32 job = 14;</code>
+       *
+       * <pre>
+       * 显示时装需要职业
+       * </pre>
+       */
+      public Builder setJob(int value) {
+        bitField0_ |= 0x00001000;
+        job_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 job = 14;</code>
+       *
+       * <pre>
+       * 显示时装需要职业
+       * </pre>
+       */
+      public Builder clearJob() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        job_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:OtherRoleAttr)
@@ -8307,24 +8420,24 @@ public final class OtherRoleAttrProtos {
       "Response\022\034\n\004info\030\001 \001(\0132\016.OtherRoleAttr\022\027" +
       "\n\004type\030\002 \001(\0162\t.EMsgType\"?\n\024OtherRoleAttr" +
       "Request\022\016\n\006userId\030\001 \001(\t\022\027\n\004type\030\002 \001(\0162\t." +
-      "EMsgType\"\263\002\n\rOtherRoleAttr\022\034\n\010heroList\030\001" +
+      "EMsgType\"\300\002\n\rOtherRoleAttr\022\034\n\010heroList\030\001" +
       " \003(\0132\n.OtherHero\022\016\n\006userId\030\002 \001(\t\022\020\n\010user" +
       "Name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\005\022\r\n\005level\030\005 \001(\005\022\021" +
       "\n\theadImage\030\006 \001(\t\022\022\n\ntemplateId\030\007 \001(\t\022\035\n" +
       "\tskillInfo\030\010 \003(\0132\n.SkillInfo\022*\n\tequipInf",
       "o\030\n \003(\0132\027.EquipService.EquipData\022\020\n\010figh" +
       "ting\030\013 \001(\005\022\017\n\007headbox\030\014 \001(\t\0221\n\014fashionUs" +
-      "age\030\r \001(\0132\033.FashionService.FashionUsed\"\365" +
-      "\001\n\tOtherHero\022\035\n\tskillInfo\030\001 \003(\0132\n.SkillI" +
-      "nfo\022\n\n\002id\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\014\n\004icon\030\004 " +
-      "\001(\t\022\r\n\005level\030\005 \001(\005\022\021\n\tstarLevel\030\006 \001(\005\022\021\n" +
-      "\tqualityId\030\007 \001(\t\022\020\n\010fighting\030\010 \001(\005\022\016\n\006he" +
-      "roId\030\t \001(\t\022\016\n\006modeId\030\n \001(\t\022\016\n\006career\030\013 \001" +
-      "(\005\022*\n\tequipInfo\030\014 \003(\0132\027.EquipService.Equ" +
-      "ipData\"5\n\tSkillInfo\022\n\n\002id\030\001 \001(\t\022\r\n\005level",
-      "\030\002 \001(\005\022\r\n\005order\030\003 \001(\005*%\n\010EMsgType\022\013\n\007Bas" +
-      "eMsg\020\000\022\014\n\010OtherMsg\020\001B\"\n\013com.rwprotoB\023Oth" +
-      "erRoleAttrProtos"
+      "age\030\r \001(\0132\033.FashionService.FashionUsed\022\013" +
+      "\n\003job\030\016 \001(\005\"\365\001\n\tOtherHero\022\035\n\tskillInfo\030\001" +
+      " \003(\0132\n.SkillInfo\022\n\n\002id\030\002 \001(\t\022\014\n\004name\030\003 \001" +
+      "(\t\022\014\n\004icon\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\021\n\tstarL" +
+      "evel\030\006 \001(\005\022\021\n\tqualityId\030\007 \001(\t\022\020\n\010fightin" +
+      "g\030\010 \001(\005\022\016\n\006heroId\030\t \001(\t\022\016\n\006modeId\030\n \001(\t\022" +
+      "\016\n\006career\030\013 \001(\005\022*\n\tequipInfo\030\014 \003(\0132\027.Equ" +
+      "ipService.EquipData\"5\n\tSkillInfo\022\n\n\002id\030\001",
+      " \001(\t\022\r\n\005level\030\002 \001(\005\022\r\n\005order\030\003 \001(\005*%\n\010EM" +
+      "sgType\022\013\n\007BaseMsg\020\000\022\014\n\010OtherMsg\020\001B\"\n\013com" +
+      ".rwprotoB\023OtherRoleAttrProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8348,7 +8461,7 @@ public final class OtherRoleAttrProtos {
           internal_static_OtherRoleAttr_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OtherRoleAttr_descriptor,
-              new java.lang.String[] { "HeroList", "UserId", "UserName", "Sex", "Level", "HeadImage", "TemplateId", "SkillInfo", "EquipInfo", "Fighting", "Headbox", "FashionUsage", });
+              new java.lang.String[] { "HeroList", "UserId", "UserName", "Sex", "Level", "HeadImage", "TemplateId", "SkillInfo", "EquipInfo", "Fighting", "Headbox", "FashionUsage", "Job", });
           internal_static_OtherHero_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_OtherHero_fieldAccessorTable = new

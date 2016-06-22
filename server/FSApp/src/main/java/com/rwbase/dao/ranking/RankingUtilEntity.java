@@ -101,6 +101,7 @@ public class RankingUtilEntity {
 			}
 			rankInfo.setHeadbox(levelData.getHeadbox());
 			// 设置时装数据
+			rankInfo.setSex(levelData.getSex());
 			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(levelData.getUserId());
 			if (fashionUsing != null){
 				rankInfo.setFashionUsage(fashionUsing);

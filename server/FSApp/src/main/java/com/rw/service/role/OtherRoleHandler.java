@@ -63,7 +63,8 @@ public class OtherRoleHandler {
 		if (usingFashion != null){
 			otherRoleAttr.setFashionUsage(usingFashion);
 		}
-		
+		otherRoleAttr.setJob(player.getCareer());
+		otherRoleAttr.setSex(player.getSex());
 
 		if (tableUser.getHeadImageWithDefault() == null) {
 			otherRoleAttr.setHeadImage("");
